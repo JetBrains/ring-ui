@@ -11,7 +11,6 @@ import getUID from '../global/get-uid';
 
 import Icon from '../icon/icon';
 
-import ieCompatibleInputHOC from './ie-compatible-hoc';
 import styles from './input.css';
 
 function noop() {}
@@ -226,7 +225,6 @@ export class Input extends PureComponent {
 }
 
 export default compose(
-  ieCompatibleInputHOC,
   withTheme(),
 )(Input);
 
