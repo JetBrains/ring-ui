@@ -1,5 +1,4 @@
 import angular from 'angular';
-import 'dom4';
 
 import frownIcon from '@jetbrains/icons/frown.svg';
 import permissionIcon from '@jetbrains/icons/permission.svg';

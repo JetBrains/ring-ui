@@ -418,7 +418,7 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        const addButton = instance._popup.popup.popup.query(`.${styles.button}`);
+        const addButton = instance._popup.popup.popup.querySelector(`.${styles.button}`);
 
         addButton.should.contain.text('Add Something');
       });
@@ -439,7 +439,7 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        const hint = instance._popup.popup.popup.queryAll('[data-test=ring-list-hint]');
+        const hint = instance._popup.popup.popup.querySelectorAll('[data-test=ring-list-hint]');
 
         hint.should.exist;
       });

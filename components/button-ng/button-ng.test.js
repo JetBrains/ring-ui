@@ -1,4 +1,3 @@
-import 'dom4';
 import angular from 'angular';
 import 'angular-mocks';
 
@@ -91,6 +90,6 @@ describe('Button Ng', () => {
   }
 
   function findTranscludeNode(element) {
-    return element.query('ng-transclude');
+    return element.querySelector('ng-transclude');
   }
 });

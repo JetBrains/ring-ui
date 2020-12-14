@@ -1,4 +1,3 @@
-import 'dom4';
 import {getPixelRatio} from '../global/dom';
 
 import styles from './loader.css';

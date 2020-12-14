@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers,react/no-find-dom-node */
 
-import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
@@ -248,7 +247,7 @@ describe('Query Assist', () => {
       const instance = mountQueryAssist().find('QueryAssist').instance();
 
       instance.input.should.contain(`.${LETTER_CLASS}`);
-      instance.input.queryAll(`.${LETTER_CLASS}`).
+      instance.input.querySelectorAll(`.${LETTER_CLASS}`).
         should.have.length(testQueryLength);
     });
 
@@ -309,7 +308,7 @@ describe('Query Assist', () => {
         ]
       });
 
-      const letters = wrapper.find('QueryAssist').instance().input.queryAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.find('QueryAssist').instance().input.querySelectorAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(styles['letter-text']);
       letters[1].should.have.class(styles['letter-field-value']);
@@ -330,7 +329,7 @@ describe('Query Assist', () => {
         ]
       });
 
-      const letters = wrapper.find('QueryAssist').instance().input.queryAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.find('QueryAssist').instance().input.querySelectorAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(styles['letter-text']);
       letters[1].should.have.class(styles.letterDefault);
@@ -349,7 +348,7 @@ describe('Query Assist', () => {
         ]
       });
 
-      const letters = wrapper.find('QueryAssist').instance().input.queryAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.find('QueryAssist').instance().input.querySelectorAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(styles['letter-text']);
       letters[1].should.have.class(styles.letterDefault);
@@ -478,9 +477,9 @@ describe('Query Assist', () => {
           const list = findDOMNode(instance._popup.list);
           const {length} = suggestions;
 
-          list.queryAll('[data-test~=ring-list-item]').should.have.length(length);
-          list.queryAll(`.${styles.highlight}`).should.have.length(length);
-          list.queryAll(`.${styles.service}`).should.have.length(length * TWICE);
+          list.querySelectorAll('[data-test~=ring-list-item]').should.have.length(length);
+          list.querySelectorAll(`.${styles.highlight}`).should.have.length(length);
+          list.querySelectorAll(`.${styles.service}`).should.have.length(length * TWICE);
 
           wrapper.detach();
           document.body.removeChild(container);
