@@ -129,7 +129,7 @@ export default class Item extends PureComponent {
     if (showMoreLessButton === moreLessButtonStates.MORE ||
       showMoreLessButton === moreLessButtonStates.MORE_LOADING) {
       moreLessButton = (
-        <Text comment>
+        <Text info>
           <Link
             inherit
             pseudo
@@ -142,7 +142,7 @@ export default class Item extends PureComponent {
       );
     } else if (showMoreLessButton === moreLessButtonStates.LESS) {
       moreLessButton = (
-        <Text comment>
+        <Text info>
           <Link
             inherit
             pseudo
