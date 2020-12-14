@@ -3,13 +3,9 @@ import React, {memo} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import sniffer from '../global/sniffer';
 import memoize from '../global/memoize';
 
 import styles from './icon.css';
-
-// TODO remove in 4.0
-const isIE = sniffer.browser.name === 'ie';
 
 function convertReactSVGDOMProperty(str) {
   return str.replace(/[-|:]([a-z])/g, g => g[1].toUpperCase());
@@ -31,18 +27,6 @@ function serializeAttrs(map) {
   return res;
 }
 
-function getSVGInnerHTML(svgNode) {
-  if (!isIE) {
-    return svgNode.innerHTML;
-  }
-  // IE11 doesn't support svg.innerHTML https://stackoverflow.com/questions/28129956/get-innerhtml-of-svg-tag-result-in-undefined-in-ie
-  const serializer = new XMLSerializer();
-
-  return Array.from(svgNode.childNodes).
-    map(child => serializer.serializeToString(child)).
-    join('');
-}
-
 function extractSVGProps(svgNode) {
   const map = svgNode.attributes;
   return (map.length > 0) ? serializeAttrs(map) : null;
@@ -55,7 +39,7 @@ const getSVGFromSource = memoize(src => {
   svg.remove ? svg.remove() : svgContainer.removeChild(svg);
   return {
     props: extractSVGProps(svg),
-    html: getSVGInnerHTML(svg)
+    html: svg.innerHTML
   };
 });
 
