@@ -129,7 +129,7 @@
     "react-is": "^17.0.1",
     "react-test-renderer": "^17.0.1",
     "regenerator-runtime": "^0.13.7",
-    "sinon": "^9.2.1",
+    "sinon": "^9.2.2",
     "sinon-chai": "^3.5.0",
     "storage-mock": "^1.0.3",
     "stylelint": "^13.8.0",
