@@ -27,7 +27,6 @@
     "components": "./components/"
   },
   "scripts": {
-    "postinstall": "node components/icon/generate-exports",
     "bootstrap": "lerna bootstrap",
     "component:ng": "yo @jetbrains/ring-ui:ng --path $npm_package_config_components",
     "component:react": "yo @jetbrains/ring-ui:react --path $npm_package_config_components",
