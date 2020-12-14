@@ -17,7 +17,7 @@ describe('Input', () => {
   );
 
   it('should create component', () => {
-    mountInput().should.have.type(Input);
+    mountInput().type().should.equal(Input.type);
   });
 
   it('should wrap children with div', () => {
@@ -35,6 +35,6 @@ describe('Input', () => {
   });
 
   it('should use passed className', () => {
-    shallowInput({className: 'test-class'}).should.have.className('test-class');
+    mountInput({className: 'test-class'}).should.have.className('test-class');
   });
 });
