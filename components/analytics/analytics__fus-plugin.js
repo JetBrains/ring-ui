@@ -66,6 +66,7 @@ export default class AnalyticsFUSPlugin {
       browser: AnalyticsPluginUtils.getUserAgentPresentation(),
       platform: AnalyticsPluginUtils.npeSaveLowerCase(navigator.platform),
       lang: AnalyticsPluginUtils.npeSaveLowerCase(navigator.language),
+      ['page-view-duration']: AnalyticsPluginUtils.getPageViewDurationPresentation(),
       ['pixel-ratio']: AnalyticsPluginUtils.getDevicePixelRatioPresentation(),
       screen: AnalyticsPluginUtils.getScreenWidthPresentation()
     });

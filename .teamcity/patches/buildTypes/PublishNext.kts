@@ -34,6 +34,7 @@ changeBuildType(RelativeId("PublishNext")) {
         }
         branchFilter = """
             -:<default>
+            -:refs/heads/master
             %vcs.branch.spec%
         """.trimIndent()
     }
