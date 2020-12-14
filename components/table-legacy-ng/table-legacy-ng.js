@@ -103,7 +103,7 @@ angularModule.directive('rgLegacyTableHeader',
          */
         const resizeFixedHeader = debounce(() => {
           fixedHeader.style.width = `${scrollableHeader.offsetWidth}px`;
-          const titles = fixedHeader.querySelectorAll('.ring-table__title');
+          const titles = Array.from(fixedHeader.querySelectorAll('.ring-table__title'));
 
           titles.forEach((titleElement, index) => {
             const targetHeaderTitle = scrollableHeader.
