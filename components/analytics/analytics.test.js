@@ -120,6 +120,7 @@ describe('Analytics', () => {
           path: 'issues',
           browser: sinon.match.any,
           lang: sinon.match.any,
+          pageViewDuration: sinon.match.any,
           'pixel-ratio': sinon.match.any,
           platform: sinon.match.any,
           screen: sinon.match.any
