@@ -94,7 +94,7 @@
     "chai-dom": "^1.8.2",
     "chai-enzyme": "1.0.0-beta.1",
     "cheerio": "^0.22.0",
-    "core-js": "^2.6.5",
+    "core-js": "^3.8.1",
     "enzyme": "^3.11.0",
     "eslint": "^7.15.0",
     "eslint-import-resolver-webpack": "^0.13.0",
@@ -142,7 +142,7 @@
     "yo": "^3.1.1"
   },
   "peerDependencies": {
-    "core-js": ">=2.0.0",
+    "core-js": ">=3.0.0",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
