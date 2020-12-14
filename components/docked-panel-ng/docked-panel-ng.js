@@ -1,5 +1,4 @@
 import angular from 'angular';
-import 'dom4';
 
 import scheduleRAF from '../global/schedule-raf';
 import {getDocumentScrollTop, getWindowHeight} from '../global/dom';

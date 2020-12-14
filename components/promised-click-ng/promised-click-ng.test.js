@@ -1,5 +1,4 @@
 /* global inject */
-import 'dom4';
 import 'angular';
 import 'angular-mocks';
 

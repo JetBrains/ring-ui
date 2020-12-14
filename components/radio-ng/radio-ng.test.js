@@ -1,5 +1,3 @@
-import 'dom4';
-
 import 'angular';
 import 'angular-mocks';
 
@@ -43,8 +41,8 @@ describe('Radio Ng', () => {
   });
 
   it('should have been set checked by click', () => {
-    element.query('input[value=two]').dispatchEvent(new MouseEvent('click'));
-    element.query('input[value=two]').dispatchEvent(new Event('change'));
+    element.querySelector('input[value=two]').dispatchEvent(new MouseEvent('click'));
+    element.querySelector('input[value=two]').dispatchEvent(new Event('change'));
 
     scope.radioModel.should.equal('two');
   });
@@ -52,6 +50,6 @@ describe('Radio Ng', () => {
   it('should have been set checked by ng-model', () => {
     scope.radioModel = 'two';
     scope.$digest();
-    element.query('input[value=two]').should.match('input:checked');
+    element.querySelector('input[value=two]').should.match('input:checked');
   });
 });

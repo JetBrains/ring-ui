@@ -1,5 +1,3 @@
-import 'dom4';
-
 import {
   encodeURL,
   fixUrl,
