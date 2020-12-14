@@ -39,7 +39,7 @@ Instead of utility libraries Ring UI uses new features of *ES2015* and beyond pr
 
 ### Is jQuery available?
 
-Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.com/WebReflection/dom4) (should be imported via `import 'dom4';`) and some handy helpers located in the `dom` component. `jqLite` is still available for Angular.js components, however, using it is not recommended.
+Instead of jQuery Ring UI uses modern DOM APIs and some handy helpers located in the `dom` component. `jqLite` is still available for Angular.js components, however, using it is not recommended.
 
 ### Wallaby support
 

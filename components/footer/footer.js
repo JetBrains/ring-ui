@@ -1,7 +1,6 @@
 /**
  * @name Footer
  */
-import 'dom4';
 import React, {memo, isValidElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

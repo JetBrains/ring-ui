@@ -1,4 +1,3 @@
-import 'dom4';
 import Combokeys from 'combokeys';
 
 import sniffr from '../global/sniffer';

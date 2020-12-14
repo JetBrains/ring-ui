@@ -1,5 +1,4 @@
 import angular from 'angular';
-import 'dom4';
 
 import buttonStyles from '../button/button.css';
 import {applyMethodToClasses} from '../global/dom';

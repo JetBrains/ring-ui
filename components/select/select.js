@@ -645,7 +645,7 @@ export default class Select extends Component {
 
       if (tryFocusAnchor) {
         const restoreFocusNode = this.props.targetElement ||
-          this.node.query('[data-test~=ring-select__focus]');
+          this.node.querySelector('[data-test~=ring-select__focus]');
         if (restoreFocusNode) {
           restoreFocusNode.focus();
         }

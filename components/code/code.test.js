@@ -1,4 +1,3 @@
-import 'dom4';
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
@@ -36,7 +35,7 @@ describe('Code', () => {
       code: `
         import React, {Component} from 'react';
         import ChildComponent from './child-component';
-        
+
         const MyComponent = () => (
           <div className="class">
             <ChildComponent prop="value" />
@@ -77,7 +76,7 @@ describe('Code', () => {
     const wrapper = mountCode({
       code: '"foo"'
     });
-    const token = wrapper.getDOMNode().query('.hljs-string');
+    const token = wrapper.getDOMNode().querySelector('.hljs-string');
     token.textContent.should.equal('"foo"');
   });
 
@@ -88,7 +87,7 @@ describe('Code', () => {
     wrapper.setProps({
       code: '"bar"'
     });
-    const token = wrapper.getDOMNode().query('.hljs-string');
+    const token = wrapper.getDOMNode().querySelector('.hljs-string');
     token.textContent.should.equal('"bar"');
   });
 });

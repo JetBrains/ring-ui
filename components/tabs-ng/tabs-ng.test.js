@@ -1,7 +1,6 @@
 import 'angular';
 import 'angular-route';
 import 'angular-mocks';
-import 'dom4';
 
 import styles from '../tabs/tabs.css';
 
@@ -13,8 +12,8 @@ describe('Tabs Ng', () => {
 
   function getActiveTab(element) {
     return {
-      title: element[0].query('[data-test-active="true"]'),
-      content: element[0].query('div[ng-transclude]')
+      title: element[0].querySelector('[data-test-active="true"]'),
+      content: element[0].querySelector('div[ng-transclude]')
     };
   }
 
