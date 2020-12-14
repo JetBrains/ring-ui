@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import compose from '../global/compose';
 import Theme, {withTheme} from '../global/theme';
 import Button from '../button/button';
 
@@ -224,8 +223,6 @@ export class Input extends PureComponent {
   }
 }
 
-export default compose(
-  withTheme(),
-)(Input);
+export default withTheme()(Input);
 
 export {Size, Theme};
