@@ -103,28 +103,3 @@ export default class Icon extends PureComponent {
 }
 
 export {Size};
-
-// TODO remove in 4.0
-// eslint-disable-next-line react/no-multi-comp
-export const iconHOC = deprecate((glyph, displayName) => class BoundIcon extends PureComponent {
-  // Compatibility with angular
-  static toString() {
-    return glyph;
-  }
-
-  static displayName = displayName;
-
-  static propTypes = {
-    iconRef: PropTypes.func
-  };
-
-  static Color = Color;
-  static Size = Size;
-  static isRingIcon = true;
-  static glyph = glyph;
-
-  render() {
-    const {iconRef, ...restProps} = this.props;
-    return <Icon ref={iconRef} {...restProps} glyph={glyph}/>;
-  }
-}, 'Importing icons and logos from Ring UI is deprecated. Please import them from corresponding packages: `@jetbrains/icons` and `@jetbrains/logos`.');
