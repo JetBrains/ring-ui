@@ -33,10 +33,7 @@ changeBuildType(RelativeId("PublishNext")) {
         check(branchFilter == "-:<default>") {
             "Unexpected option value: branchFilter = $branchFilter"
         }
-        branchFilter = """
-            -:<default>
-            %vcs.branch.spec%
-        """.trimIndent()
+        branchFilter = "%vcs.branch.spec%"
     }
 
     expectSteps {
