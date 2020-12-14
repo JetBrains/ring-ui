@@ -9,6 +9,11 @@ To apply the patch, change the buildType with id = 'PublishNext'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("PublishNext")) {
+    check(paused == true) {
+        "Unexpected paused: '$paused'"
+    }
+    paused = false
+
     params {
         expect {
             param("vcs.branch.spec", "+:refs/heads/(develop-2.0)")
