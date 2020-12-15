@@ -21,9 +21,7 @@ changeBuildType(RelativeId("PublishNext")) {
             param("vcs.branch.spec", "+:refs/heads/(develop-2.0)")
         }
         update {
-            param("vcs.branch.spec", """
-                +:refs/heads/(develop-4.0)
-            """.trimIndent())
+            param("vcs.branch.spec", "+:refs/heads/(develop-4.0)")
         }
     }
 
@@ -46,7 +44,7 @@ changeBuildType(RelativeId("PublishNext")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-
+                
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -55,41 +53,41 @@ changeBuildType(RelativeId("PublishNext")) {
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-
+                
                 chmod 644 ~/.ssh/config
-
+                
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-
+                
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-
+                
                 node -v
                 npm -v
-
+                
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-
+                
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-
+                
                 npm install
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm run release-ci -- %lerna.publish.options%
-
+                
                 cat package.json
-
+                
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-
+                
                 publishBuildNumber
-
+                
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
             dockerImage = "node:10.15"
