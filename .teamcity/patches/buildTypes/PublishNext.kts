@@ -115,4 +115,7 @@ changeBuildType(RelativeId("PublishNext")) {
             enabled = false
         }
     }
+
+    expectDisabledSettings()
+    updateDisabledSettings("vcsTrigger")
 }
