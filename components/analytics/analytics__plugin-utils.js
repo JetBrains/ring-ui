@@ -56,12 +56,17 @@ AnalyticsPluginUtils.getScreenWidthPresentation = () => {
 
 AnalyticsPluginUtils.npeSaveLowerCase = val => (val || 'unknown').toLowerCase();
 
-AnalyticsPluginUtils.getUserAgentPresentation = () => {
-  const name = AnalyticsPluginUtils.npeSaveLowerCase(sniffer.browser.name || 'unknown');
+AnalyticsPluginUtils.getUserAgentInfo = () => {
+  const browserName = AnalyticsPluginUtils.npeSaveLowerCase(sniffer.browser.name || 'unknown');
   const majorVersion = sniffer.browser.version[0];
-  const version = majorVersion || 'unknown';
+  const browserVersion = majorVersion || 'unknown';
 
-  return `${name}$${version}`;
+  return {browserName, browserVersion};
+};
+
+AnalyticsPluginUtils.getUserAgentPresentation = () => {
+  const {browserName, browserVersion} = AnalyticsPluginUtils.getUserAgentInfo();
+  return `${browserName}$${browserVersion}`;
 };
 
 AnalyticsPluginUtils.getDevicePixelRatioPresentation = () => {
