@@ -17,11 +17,9 @@ const scrollExpDelay = 10;
 
 export default class DatePopup extends Component {
 
-  static sameDay(next, prev, inputFormat, displayFormat) {
-    const nextMoment = parseDate(next, inputFormat, displayFormat);
-    const prevMoment = parseDate(prev, inputFormat, displayFormat);
-    if (nextMoment && prevMoment) {
-      return nextMoment.isSame(prevMoment, 'day');
+  static sameDay(next, prev) {
+    if (next && prev) {
+      return next.isSame(prev, 'day');
     }
 
     return next === prev;
@@ -35,8 +33,8 @@ export default class DatePopup extends Component {
     time: PropTypes.string,
     from: dateType,
     to: dateType,
-    displayFormat: PropTypes.string,
-    inputFormat: PropTypes.string,
+    displayFormat: PropTypes.func,
+    parseDateInput: PropTypes.func,
     onChange: PropTypes.func,
     onComplete: PropTypes.func,
     onClear: PropTypes.func,
@@ -59,9 +57,8 @@ export default class DatePopup extends Component {
     const {range, from, to, date, time, withTime} = props;
 
     if (!range) {
-      const parsedTime = this.parse(time, 'time');
       const parsedDate = this.parse(date, 'date');
-      const active = withTime && parsedDate && !parsedTime ? 'time' : 'date';
+      const active = withTime && parsedDate && !time ? 'time' : 'date';
 
       this.state = {...defaultState, active};
     } else if (from && !to) {
@@ -102,9 +99,11 @@ export default class DatePopup extends Component {
   };
 
   parse(text, type) {
-    return (type === 'time')
-      ? parseTime(text)
-      : parseDate(text, this.props.inputFormat, this.props.displayFormat);
+    if (type === 'time') {
+      return parseTime(text);
+    }
+    const date = typeof text === 'string' ? this.props.parseDateInput(text) : text;
+    return parseDate(date);
   }
 
   select(changes) {
@@ -212,13 +211,13 @@ export default class DatePopup extends Component {
 
   scheduleScroll = () => {
     const current =
-      this.state.scrollDate ||
+      this.state.scrollDate && parseDate(this.state.scrollDate) ||
       this.parse(this.props[this.state.active], 'date') ||
       moment();
     const goal = this._scrollDate;
     if (!current ||
       !goal ||
-      DatePopup.sameDay(goal, current, this.props.inputFormat, this.props.displayFormat)
+      DatePopup.sameDay(goal, current)
     ) {
       this._scrollDate = null;
       this._scrollTS = null;
@@ -273,8 +272,7 @@ export default class DatePopup extends Component {
   handleScroll = scrollDate => this.setState({scrollDate});
 
   render() {
-    const {range, hidden, withTime} = this.props;
-    const parsedTime = this.parse(this.props.time, 'time');
+    const {range, hidden, withTime, time} = this.props;
     const parsedDate = this.parse(this.props.date, 'date');
     const parsedTo = this.parse(this.props.to, 'to');
 
@@ -371,7 +369,7 @@ export default class DatePopup extends Component {
                   name={'time'}
                   key={'time'}
                   date={null}
-                  time={parsedTime}
+                  time={time}
                   active={this.state.active === 'time'}
                   hidden={hidden}
                   onActivate={this.handleActivate('time')}

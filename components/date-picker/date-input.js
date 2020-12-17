@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Input from '../input/input';
 
-import {dateType} from './consts';
+import {momentType} from './consts';
 import styles from './date-picker.css';
 
 export default class DateInput extends React.PureComponent {
@@ -13,10 +13,10 @@ export default class DateInput extends React.PureComponent {
     divider: PropTypes.bool,
     name: PropTypes.string,
     text: PropTypes.string,
-    hoverDate: dateType,
-    date: dateType,
+    hoverDate: momentType,
+    date: momentType,
     time: PropTypes.string,
-    inputFormat: PropTypes.string,
+    displayFormat: PropTypes.func,
     hidden: PropTypes.bool,
     onInput: PropTypes.func,
     onActivate: PropTypes.func,
@@ -65,18 +65,18 @@ export default class DateInput extends React.PureComponent {
       name,
       hoverDate,
       date,
-      inputFormat,
+      displayFormat,
       onActivate,
       onClear
     } = this.props;
 
     let displayText = '';
     if (active && hoverDate) {
-      displayText = hoverDate.format(inputFormat);
+      displayText = displayFormat(hoverDate.toDate());
     } else if (active && text != null) {
       displayText = text;
     } else if (date) {
-      displayText = date.format(inputFormat);
+      displayText = displayFormat(date.toDate());
     } else if (name === 'time') {
       displayText = time || '';
     }
