@@ -61,11 +61,9 @@ export default class AnalyticsFUSPlugin {
 
     this._lastPagePath = path;
 
-    const {browserName, browserVersion} = AnalyticsPluginUtils.getUserAgentInfo();
     this._processEvent('ring.page.view', 'open', {
       path,
-      browser: browserName,
-      ['browser-version']: browserVersion,
+      browser: AnalyticsPluginUtils.getUserAgentPresentation(),
       platform: AnalyticsPluginUtils.npeSaveLowerCase(navigator.platform),
       lang: AnalyticsPluginUtils.npeSaveLowerCase(navigator.language),
       ['page-view-duration']: AnalyticsPluginUtils.getPageViewDurationPresentation(),

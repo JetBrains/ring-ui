@@ -119,7 +119,6 @@ describe('Analytics', () => {
         eventData: {
           path: 'issues',
           browser: sinon.match.any,
-          ['browser-version']: sinon.match.any,
           lang: sinon.match.any,
           'page-view-duration': sinon.match.any,
           'pixel-ratio': sinon.match.any,
