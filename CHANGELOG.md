@@ -1,3 +1,11 @@
+## [4.0.0]
+
+### BREAKING CHANGES
+- `Code` no longer preloads any language highlighting. It's loaded lazily using dynamic imports instead. You can still preload the languages you need with `highlight.registerLanguage`, see https://jetbrains.github.io/ring-ui/master/index.html?path=/docs/components-code--basic. If you used the following line in your webpack config to reduce the bundle size, please remove it:
+    ```js
+    new webpack.NormalModuleReplacementPlugin(/@jetbrains\\/ring-ui\\/components\\/code\\/highlight.js$/, './highlight-lazy.js')
+    ```
+
 ## [3.1.0]
 Some of the props of `date-picker` are changed or deprecared to allow removing the dependency on `moment` package in v4:
 - passing `moment` instance as `date`, `from`, `to`, `minDate`, and `maxDate` props is deprecated. They still accept js `Date` objects, strings, and numeric timestamps

@@ -10,9 +10,7 @@ export default {
 
   parameters: {
     notes: `
-Displays a block of code. Syntax highlighting is preloaded by default for the following languages: _cpp, xml, bash, clojure, coffeescript, cs, css, markdown, dockerfile, elixir, elm, ruby, erlang, glsl, go, gradle, groovy, handlebars, haskell, ava, javascript, json, kotlin, less, livescript, lua, makefile, perl, php, powershell, python, r, rust, scala, scss, shell, sql, swift, yaml, twig, typescript_.
-
-Highlighting of other languages is loaded lazily using [dynamic imports](https://webpack.js.org/api/module-methods/#import-1).
+Displays a block of code. Syntax highlighting is loaded lazily using [dynamic imports](https://webpack.js.org/api/module-methods/#import-1).
 
 You can also preload the languages you need:
 
@@ -21,11 +19,6 @@ You can also preload the languages you need:
 \`import 1c from 'highlight.js/lib/languages/1c';\`
 
 \`highlight.registerLanguage('1c', 1c);\`
-
-To opt out of preloading default set of languages and decrease your bundle size, add following to your plugins list in webpack config:
-\`\`\`
-new webpack.NormalModuleReplacementPlugin(/@jetbrains\\/ring-ui\\/components\\/code\\/highlight.js$/, './highlight-lazy.js')
-\`\`\`
     `
   }
 };
