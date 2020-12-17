@@ -46,7 +46,20 @@ export function linear(x0, y0, a) {
   };
 }
 
+export const deprecatedPropType = replacement => (props, propName) => {
+  if (propName in props) {
+    return new Error(`"${propName}" prop is deprecated and will be removed in 4.0. ${replacement} instead. See https://github.com/JetBrains/ring-ui/blob/master/CHANGELOG.md#310 for details`);
+  }
+  return undefined;
+};
+
 export const dateType = PropTypes.oneOfType([
+  PropTypes.instanceOf(Date),
+  PropTypes.string,
+  PropTypes.number
+]);
+
+export const momentType = PropTypes.oneOfType([
   (props, propName) => {
     if (!moment.isMoment(props[propName])) {
       return new Error(
@@ -61,6 +74,7 @@ export const dateType = PropTypes.oneOfType([
 ]);
 
 const parsed = Object.create(null);
+// TODO remove in 4.0
 export function parseDate(text, ...addFormats) {
   let date;
   if (typeof text !== 'string') {
@@ -81,6 +95,7 @@ export function parseDate(text, ...addFormats) {
   return date.isValid() ? date : null;
 }
 
+// TODO remove in 4.0
 export function parseTime(time) {
   let result = null;
   if (/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
@@ -91,3 +106,7 @@ export function parseTime(time) {
 
   return result;
 }
+
+// TODO remove in 4.0
+export const applyFormat = format =>
+  (typeof format === 'function' ? format : date => moment(date).format(format));
