@@ -784,7 +784,7 @@ export default class Auth {
     try {
       await this._checkBackendsAreUp();
     } catch (backendDownErr) {
-      this._showBackendDownDialog(backendDownErr);
+      await this._showBackendDownDialog(backendDownErr);
     }
   }
 
