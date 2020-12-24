@@ -22,7 +22,7 @@ export default class Icon extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
-    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
+    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]).isRequired,
     height: PropTypes.number,
     size: PropTypes.number,
     width: PropTypes.number,
@@ -62,23 +62,12 @@ export default class Icon extends PureComponent {
     return null;
   }
 
-  getIconSource() {
-    const {glyph} = this.props;
-    return glyph?.isRingIcon ? glyph.glyph : glyph;
-  }
-
   render() {
     const {
-      className, size, color, loading, glyph, width, height, suppressSizeWarning,
+      className, size, color, loading, glyph: Glyph, width, height, suppressSizeWarning,
       ...restProps
     } = this.props;
 
-    const IconSrc = this.getIconSource();
-    if (!IconSrc) {
-      // eslint-disable-next-line no-console
-      console.warn('No icon source passed to Icon component', this.props);
-      return null;
-    }
 
     const classes = classNames(styles.icon,
       {
@@ -93,9 +82,9 @@ export default class Icon extends PureComponent {
         {...restProps}
         className={classes}
       >
-        {typeof IconSrc === 'string'
-          ? <IconSVG src={IconSrc} style={this.getStyle()}/>
-          : <IconSrc className={styles.glyph} style={this.getStyle()}/>
+        {typeof Glyph === 'string'
+          ? <IconSVG src={Glyph} style={this.getStyle()}/>
+          : <Glyph className={styles.glyph} style={this.getStyle()}/>
         }
       </span>
     );
