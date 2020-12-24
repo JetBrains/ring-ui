@@ -23,18 +23,16 @@ export default class AnalyticsFUSPlugin {
     if (!productId && !isDevelopment) {
       return;
     }
-    /* eslint-disable */
-    (function (i, s, o, g, r) {
-      i[r] = i[r] || function () {
+    ((i, s, o, g, r) => {
+      i[r] = i[r] || (() => {
         (i[r].query = i[r].query || []).push(arguments);
-      };
+      });
       const script = document.createElement(o);
       script.async = true;
       script.src = g;
       const firstScript = document.getElementsByTagName(o)[0];
       firstScript.parentNode.insertBefore(script, firstScript);
     })(window, document, 'script', '//resources.jetbrains.com/storage/fus/api/fus-reporting-api.js', 'fusra');
-    /* eslint-enable */
     /* global fusra */
     fusra('init', {
       recorderCode: productId,
