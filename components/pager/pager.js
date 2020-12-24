@@ -1,9 +1,6 @@
 /**
  * @name Pager
  */
-
-/* eslint-disable no-magic-numbers */
-
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -42,6 +39,7 @@ export default class Pager extends PureComponent {
   static defaultProps = {
     currentPage: 1,
     pageSize: 50,
+    // eslint-disable-next-line no-magic-numbers
     pageSizes: [20, 50, 100],
     visiblePagesLimit: 7,
     disablePageSizeSelector: false,
@@ -241,6 +239,7 @@ export default class Pager extends PureComponent {
     let start = 1;
     let end = totalPages;
 
+    // eslint-disable-next-line no-magic-numbers
     if (totalPages >= visiblePagesLimit + 6) {
       const leftHalfFrameSize = Math.ceil(visiblePagesLimit / 2) - 1;
       const rightHalfFrameSize = visiblePagesLimit - leftHalfFrameSize - 1;

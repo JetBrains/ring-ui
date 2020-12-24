@@ -101,8 +101,15 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
 
       rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
     },
-    // eslint-disable-next-line max-len
-    controller: function controller($q, $scope, $element, $attrs, $timeout, SelectOptions, RingMessageBundle) {
+    controller: function controller(
+      $q,
+      $scope,
+      $element,
+      $attrs,
+      $timeout,
+      SelectOptions,
+      RingMessageBundle
+    ) {
       /*eslint-disable consistent-this*/
       const ctrl = this;
       /*eslint-enable consistent-this*/
