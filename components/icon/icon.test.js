@@ -36,12 +36,12 @@ describe('Icon', () => {
       sandbox.stub(console, 'warn');
     });
 
-    it('should render nothing if null passed as glyph', () => {
+    it('should render nothing if null is passed as glyph', () => {
       const icon = renderIcon({glyph: null});
       icon.find('svg').should.be.empty;
     });
 
-    it('should render nothing if null passed as glyph', () => {
+    it('should render nothing if empty string is passed as glyph', () => {
       const icon = renderIcon({glyph: ''});
       icon.find('svg').should.be.empty;
     });

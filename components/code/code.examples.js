@@ -1,8 +1,13 @@
 import React from 'react';
+import javascript from 'highlight.js/lib/languages/javascript';
+import xml from 'highlight.js/lib/languages/xml';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Code, {code} from '@jetbrains/ring-ui/components/code/code';
+import Code, {code, highlight} from '@jetbrains/ring-ui/components/code/code';
+
+highlight.registerLanguage('javascript', javascript);
+highlight.registerLanguage('xml', xml);
 
 export default {
   title: 'Components/Code',

@@ -68,6 +68,9 @@ export default class Icon extends PureComponent {
       ...restProps
     } = this.props;
 
+    if (!Glyph) {
+      return null;
+    }
 
     const classes = classNames(styles.icon,
       {

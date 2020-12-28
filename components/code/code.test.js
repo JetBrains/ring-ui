@@ -1,7 +1,14 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
+import css from 'highlight.js/lib/languages/css';
+import javascript from 'highlight.js/lib/languages/javascript';
+import xml from 'highlight.js/lib/languages/xml';
 
-import Code from './code';
+import Code, {highlight} from './code';
+
+highlight.registerLanguage('css', css);
+highlight.registerLanguage('javascript', javascript);
+highlight.registerLanguage('xml', xml);
 
 describe('Code', () => {
   const shallowCode = props => shallow(
