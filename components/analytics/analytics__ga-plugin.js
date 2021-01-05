@@ -8,19 +8,18 @@ export default class AnalyticsGAPlugin {
     if (!gaId && !isDevelopment) {
       return;
     }
-    /* eslint-disable */
-    (function (i, s, o, g, r, a, m) {
+    ((i, s, o, g, r) => {
       i.GoogleAnalyticsObject = r;
-      i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
+      i[r] = i[r] || (() => {
+        (i[r].q = i[r].q || []).push(arguments);
+      });
+      i[r].l = 1 * new Date();
+      const a = s.createElement(o);
+      const m = s.getElementsByTagName(o)[0];
       a.async = 1;
       a.src = g;
-      m.parentNode.insertBefore(a, m)
+      m.parentNode.insertBefore(a, m);
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    /* eslint-enable */
     /**
      * UA-57284711-1 - ga key for development purpose
      */

@@ -25,7 +25,7 @@ const Filter = {
 };
 
 export default class ListUsersGroupsSource extends HubSourceUsersGroups {
-  static Filter = Filter
+  static Filter = Filter;
 
   constructor(auth, options) {
     super(auth, options);
