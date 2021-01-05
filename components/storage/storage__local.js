@@ -1,3 +1,5 @@
+import alert from '../alert-service/alert-service';
+
 /**
  * @return {LocalStorage}
  * @param {{type: string}} config Set to "session" to use sessionStorage
@@ -9,11 +11,9 @@ export default class LocalStorage {
       return await new Promise(resolver);
     } catch (e) {
       if (e && e.name === 'NS_ERROR_FILE_CORRUPTED') {
-        /* eslint-disable no-alert */
-        window.alert('Sorry, it looks like your browser storage is corrupted. ' +
+        alert.error('Sorry, it looks like your browser storage is corrupted. ' +
         'Please clear your storage by going to Tools -> Clear Recent History -> Cookies' +
         ' and setting time range to "Everything". This will remove the corrupted browser storage across all sites.');
-        /* eslint-enable no-alert */
       }
       throw e;
     }

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 const pify = require('pify');
 const {findAPortNotInUse} = pify(require('portscanner'));
 
