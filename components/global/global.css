@@ -81,7 +81,7 @@ Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
   color: inherit;
   border: 0;
 
-  background: transparent;
+  background-color: transparent;
 
   font: inherit;
 
