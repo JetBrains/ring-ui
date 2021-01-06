@@ -184,7 +184,7 @@ angularModule.directive('rgShortcutsApp', function rgShortcutsAppDirective() {
       };
 
       this.sort = () => {
-        const orderedElements = document.querySelectorAll('[rg-shortcuts]');
+        const orderedElements = Array.from(document.querySelectorAll('[rg-shortcuts]'));
 
         $scope.zones.forEach(zone => {
           zone.order = orderedElements.indexOf(zone.element);
