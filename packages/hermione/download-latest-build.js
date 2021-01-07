@@ -11,8 +11,9 @@ require('dotenv').config();
 
 const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
+const baseURL = 'https://teamcity.jetbrains.com/app/rest/';
 const teamCityClient = axios.create({
-  baseURL: 'https://teamcity.jetbrains.com/app/rest/',
+  baseURL,
   headers: {
     Authorization: `Bearer ${process.env.TEAMCITY_TOKEN}`
   }
@@ -64,8 +65,9 @@ async function ensureWriteStream(filePath) {
 
 async function downloadArtifacts(buildLocator, src, dest) {
   try {
-    console.log(`Downloading ${src}`);
-    const {data} = await teamCityClient.get(`builds/${buildLocator}/artifacts/content/${src}`, {
+    const url = `builds/${buildLocator}/artifacts/content/${src}`;
+    console.log(`Downloading ${src} from ${baseURL}${url}`);
+    const {data} = await teamCityClient.get(url, {
       responseType: 'arraybuffer'
     });
     console.log(`Unzipping ${src}`);
