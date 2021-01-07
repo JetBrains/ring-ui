@@ -102,7 +102,6 @@ class ButtonController extends RingAngularComponent {
 
   updateClasses = () => {
     const {$attrs} = this.$inject;
-    this.warnDeprecations($attrs);
 
     const theme = this.element.classList.contains(styles.light) ? Theme.LIGHT : Theme.DARK;
 
@@ -139,16 +138,6 @@ class ButtonController extends RingAngularComponent {
   };
 
   findTranscludeNode = () => this.element.querySelector('ng-transclude');
-
-  warnDeprecations = $attrs => {
-    // Deprecation fallback. Someone please remove this one day.
-    if ($attrs.mode === 'blue') {
-      this.$inject.$log.warn(
-        'Ring UI ButtonNG doesn\'t have "blue" mode anymore. Use "primary" mode instead.',
-        this.element
-      );
-    }
-  };
 
   updateIcon = () => {
     const {$attrs, $compile, $scope} = this.$inject;
