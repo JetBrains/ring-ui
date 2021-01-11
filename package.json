@@ -136,7 +136,7 @@
     "teamcity-service-messages": "^0.1.11",
     "vue": "^2.6.11",
     "wallaby-webpack": "^3.9.16",
-    "webpack": "^4.44.2",
+    "webpack": "^4.45.0",
     "webpack-cli": "^4.3.1",
     "xmlappend": "^1.0.4",
     "yo": "^3.1.1"
