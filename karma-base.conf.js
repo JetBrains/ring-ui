@@ -5,7 +5,7 @@ module.exports = config => ({
   basePath: '',
 
   // frameworks to use
-  frameworks: ['mocha'],
+  frameworks: ['mocha', 'webpack'],
 
   files: [
     'test-helpers/test-suite.js'
