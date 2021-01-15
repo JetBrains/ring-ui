@@ -33,7 +33,7 @@ export default class DatePopup extends Component {
     time: PropTypes.string,
     from: dateType,
     to: dateType,
-    render: PropTypes.func,
+    renderAfterCalendar: PropTypes.func,
     displayFormat: PropTypes.func,
     parseDateInput: PropTypes.func,
     onChange: PropTypes.func,
@@ -394,7 +394,7 @@ export default class DatePopup extends Component {
           <Years {...calendarProps}/>
         </div>
 
-        {this.props.render && this.props.render(this.state)}
+        {this.props.renderAfterCalendar && this.props.renderAfterCalendar(this.state)}
       </div>
     );
   }
