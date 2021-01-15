@@ -80,7 +80,7 @@ describe('Date Picker', () => {
     }
 
     const picker = mountDatePicker({
-      render: customComponent
+      renderAfterCalendar: customComponent
     });
     picker.simulate('click');
 
