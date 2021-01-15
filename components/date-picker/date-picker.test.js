@@ -66,4 +66,24 @@ describe('Date Picker', () => {
     picker.simulate('click');
     document.body.should.contain(`.${styles.datePopup}`);
   });
+
+  it('should display in the popup the component passed through its render prop', () => {
+    function customComponent() {
+      return (
+        <button
+          className="btn-today"
+          type="button"
+        >
+          {'Today'}
+        </button>
+      );
+    }
+
+    const picker = mountDatePicker({
+      renderAfterCalendar: customComponent
+    });
+    picker.simulate('click');
+
+    document.body.querySelector('.btn-today').should.have.text('Today');
+  });
 });
