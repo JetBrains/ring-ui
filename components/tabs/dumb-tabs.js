@@ -21,6 +21,8 @@ class Tabs extends PureComponent {
     theme: PropTypes.string,
     selected: PropTypes.string,
     className: PropTypes.string,
+    titleClassName: PropTypes.string,
+    titleActiveClassName: PropTypes.string,
     href: PropTypes.string,
     children: PropTypes.node.isRequired,
     onSelect: PropTypes.func,
@@ -41,11 +43,12 @@ class Tabs extends PureComponent {
     }
 
     const {selected} = this.props;
-    const {title, id, disabled, href} = child.props;
+    const {title, id, disabled, href, titleClassName, titleActiveClassName} = child.props;
     const key = id || String(i);
     const isSelected = key === selected;
-    const titleClasses = classNames(styles.title, {
-      [styles.selected]: isSelected
+    const titleClasses = classNames(styles.title, titleClassName, {
+      [styles.selected]: isSelected,
+      [titleActiveClassName]: isSelected
     });
 
     return (
