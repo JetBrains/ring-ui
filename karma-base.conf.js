@@ -12,7 +12,7 @@ module.exports = config => ({
   ],
 
   // test results reporter to use
-  // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
+  // possible values: 'dots', 'progress', 'junit', 'growl'
   reporters: ['progress'],
 
   // list of preprocessors
@@ -28,13 +28,6 @@ module.exports = config => ({
     },
     noInfo: true,
     quiet: true
-  },
-
-  coverageReporter: {
-    reporters: [
-      {type: 'html', dir: 'coverage/'},
-      {type: 'text-summary'}
-    ]
   },
 
   // web server port
