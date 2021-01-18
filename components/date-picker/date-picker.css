@@ -444,6 +444,8 @@
 
   position: relative;
 
+  width: 100%;
+
   height: cellSize;
   padding-left: calc(unit * 1.5);
 
