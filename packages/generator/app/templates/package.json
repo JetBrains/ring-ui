@@ -41,9 +41,9 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "redbox-react": "^1.6.0",
-    "webpack": "^4.44.2",
+    "webpack": "^4.46.0",
     "webpack-cli": "^4.3.1",
-    "webpack-dev-server": "^3.11.1"
+    "webpack-dev-server": "^3.11.2"
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "^5.3.1",
@@ -53,7 +53,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.8.2",
     "chai-enzyme": "1.0.0-beta.1",
-    "electron": "^11.1.1",
+    "electron": "^11.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.17.0",
@@ -72,7 +72,7 @@
     "minimist": "^1.2.5",
     "mocha": "^8.2.1",
     "react-test-renderer": "^16.14.0",
-    "sinon": "^9.2.2",
+    "sinon": "^9.2.3",
     "sinon-chai": "^3.5.0",
     "stylelint": "^13.8.0",
     "xvfb-maybe": "^0.2.1",
