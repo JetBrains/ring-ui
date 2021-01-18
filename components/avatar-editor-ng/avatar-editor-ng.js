@@ -6,7 +6,7 @@ import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertService from '../alert-service/alert-service';
 import IconNG from '../icon-ng/icon-ng';
 
-import '../avatar-editor/avatar-editor.scss';
+import './avatar-editor-ng.css';
 
 const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, IconNG]);
 
