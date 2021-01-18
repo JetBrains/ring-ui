@@ -11,7 +11,7 @@
     "test": "karma start",
     "lint": "eslint . && npm run stylelint",
     "stylelint": "stylelint --ignore-path .gitignore **/*.css",
-    "ci-test": "npm run lint && xvfb-maybe karma start --teamcity",
+    "ci-test": "npm run lint && xvfb-maybe karma start",
     "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
   },
   "babel": {
@@ -66,8 +66,7 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma-teamcity-reporter": "^1.1.0",
-    "karma-webpack": "^4.0.2",
-    "minimist": "^1.2.5",
+    "karma-webpack": "^5.0.0-alpha.5",
     "mocha": "^8.2.1",
     "react-test-renderer": "^16.14.0",
     "sinon": "^9.2.3",
