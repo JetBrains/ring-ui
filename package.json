@@ -134,7 +134,7 @@
     "vue": "^2.6.11",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^4.46.0",
-    "webpack-cli": "^4.3.1",
+    "webpack-cli": "^4.4.0",
     "xmlappend": "^1.0.4",
     "yo": "^3.1.1"
   },
