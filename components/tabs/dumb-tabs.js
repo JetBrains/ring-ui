@@ -46,10 +46,14 @@ class Tabs extends PureComponent {
     const {title, id, disabled, href, titleClassName, titleActiveClassName} = child.props;
     const key = id || String(i);
     const isSelected = key === selected;
-    const titleClasses = classNames(styles.title, titleClassName, {
-      [styles.selected]: isSelected,
-      [titleActiveClassName]: isSelected
-    });
+    const titleClasses = classNames(
+      styles.title,
+      titleClassName,
+      isSelected && titleActiveClassName,
+      {
+        [styles.selected]: isSelected
+      }
+    );
 
     return (
       <TabLink
