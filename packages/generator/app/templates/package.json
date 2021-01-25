@@ -69,7 +69,7 @@
     "karma-webpack": "^5.0.0-alpha.5",
     "mocha": "^8.2.1",
     "react-test-renderer": "^16.14.0",
-    "sinon": "^9.2.3",
+    "sinon": "^9.2.4",
     "sinon-chai": "^3.5.0",
     "stylelint": "^13.9.0",
     "xvfb-maybe": "^0.2.1",
