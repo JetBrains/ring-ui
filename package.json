@@ -77,7 +77,7 @@
     "@storybook/addon-storysource": "6.1.15",
     "@storybook/addons": "6.1.15",
     "@storybook/client-api": "6.1.15",
-    "@storybook/core": "6.1.14",
+    "@storybook/core": "6.1.15",
     "@storybook/html": "6.1.15",
     "@storybook/source-loader": "6.1.15",
     "@storybook/theming": "6.1.14",
