@@ -35,4 +35,16 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
+
+    requirements {
+        remove {
+            contains("docker.server.osType", "linux")
+        }
+        add {
+            contains("docker.server.osType", "linux", "RQ_1")
+        }
+    }
+
+    expectDisabledSettings()
+    updateDisabledSettings("RQ_1")
 }
