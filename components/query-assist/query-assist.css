@@ -149,6 +149,15 @@
   & .service {
     color: var(--ring-secondary-color);
   }
+
+  & .actions {
+    background-color: var(--ring-dark-selected-background-color);
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .input:focus ~ .actions {
+    background-color: var(--ring-navigation-background-color);
+  }
 }
 
 .queryAssist {
