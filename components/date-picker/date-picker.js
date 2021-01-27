@@ -124,8 +124,9 @@ export default class DatePicker extends PureComponent {
       onDateChange({from: change.from?.toDate(), to: change.to?.toDate()});
     } else if (withTime) {
       onDateChange(applyTimeInput(change.date?.toDate(), change.time));
+    } else {
+      onDateChange(change?.toDate());
     }
-    onDateChange(change?.toDate());
   };
 
   clear = () => {
@@ -254,6 +255,7 @@ export default class DatePicker extends PureComponent {
           onClear={clear ? this.clear : null}
           datePopupProps={{
             ...datePopupProps,
+            onChange: this.handleChange,
             parseDateInput: this.parse,
             displayFormat: applyFormat(displayFormat),
             displayMonthFormat: applyFormat(displayMonthFormat),

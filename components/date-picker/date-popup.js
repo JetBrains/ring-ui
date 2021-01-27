@@ -19,7 +19,7 @@ export default class DatePopup extends Component {
 
   static sameDay(next, prev) {
     if (next && prev) {
-      return next.isSame(prev, 'day');
+      return moment(next).isSame(prev, 'day');
     }
 
     return next === prev;
