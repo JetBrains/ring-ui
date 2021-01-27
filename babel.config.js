@@ -28,13 +28,7 @@ module.exports = function config(api) {
     ],
     env: {
       test: {
-        plugins: [process.env.IS_JEST
-          ? 'require-context-hook'
-          : ['babel-plugin-istanbul', {
-            exclude: [
-              '**/*.test.js'
-            ]
-          }]]
+        plugins: ['require-context-hook']
       }
     }
   };

@@ -1,6 +1,5 @@
 // Karma configuration
-
-const argv = require('minimist')(process.argv);
+const {entry, ...restWebpack} = require('./webpack.config.js')();
 
 module.exports = config => {
   config.set({
@@ -11,7 +10,7 @@ module.exports = config => {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'webpack'],
 
 
     // list of files / patterns to load in the browser
@@ -30,17 +29,17 @@ module.exports = config => {
       './test-bundler.js': ['webpack', 'sourcemap']
     },
 
-    webpack: Object.assign({}, require('./webpack.config.js')(), {
+    webpack: {
+      ...restWebpack,
       devtool: 'inline-source-map',
       mode: 'development',
-      entry: null,
       externals: {
         'react/addons': 'react',
         'react/lib/ExecutionEnvironment': 'react',
         'react/lib/ReactContext': 'react',
         'react-addons-test-utils': 'window'
       }
-    }),
+    },
 
     webpackServer: {
       noInfo: true
@@ -50,7 +49,9 @@ module.exports = config => {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: argv.teamcity ? ['progress', 'teamcity'] : ['progress'],
+    reporters: process.env.TEAMCITY_VERSION
+      ? ['progress', 'teamcity']
+      : ['progress'],
 
 
     // web server port
