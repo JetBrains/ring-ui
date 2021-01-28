@@ -339,3 +339,7 @@ export const rangeWithCustomPlaceholders = () => {
 
 rangeWithCustomPlaceholders.storyName = 'range with customized placeholders';
 
+rangeWithCustomPlaceholders.parameters = {
+  hermione: {skip: true}
+};
+
