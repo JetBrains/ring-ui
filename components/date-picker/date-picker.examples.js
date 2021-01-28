@@ -304,3 +304,38 @@ export const rangeWithMax = () => {
 };
 
 rangeWithMax.storyName = 'range with max date';
+
+export const rangeWithCustomPlaceholders = () => {
+  class DatePickerExample extends Component {
+    state = {
+      from: undefined,
+      to: undefined
+    };
+
+    setRange = ({from, to}) => {
+      this.setState({from, to});
+    };
+
+    render() {
+      return (
+        <div>
+          <DatePicker
+            from={this.state.from}
+            to={this.state.to}
+            onDateChange={this.setRange}
+            fromPlaceholder="From"
+            toPlaceholder="To"
+            rangePlaceholder="Set range"
+            clear
+            range
+          />
+        </div>
+      );
+    }
+  }
+
+  return <DatePickerExample/>;
+};
+
+rangeWithCustomPlaceholders.storyName = 'range with customized placeholders';
+
