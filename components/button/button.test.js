@@ -42,7 +42,9 @@ describe('Button', () => {
     });
 
     wrapper.hasClass(styles.withIcon).should.be.true;
-    caretDownSVG.should.include(wrapper.find('svg').html());
+    caretDownSVG.
+      replace('/>', '></path>').
+      should.include(wrapper.find('svg').html());
   });
 
   it('should set custom class', () => {

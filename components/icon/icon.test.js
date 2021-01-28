@@ -16,7 +16,9 @@ describe('Icon', () => {
 
   it('should render passed glyph', () => {
     const icon = renderIcon({glyph: expandIcon});
-    expandIcon.should.include(icon.find('svg').html());
+    expandIcon.
+      replace('/>', '></path>').
+      should.include(icon.find('svg').html());
   });
 
   it('should set compatibility mode if rendering icon without width/height', () => {
