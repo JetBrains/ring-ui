@@ -1,7 +1,7 @@
 import React from 'react';
 import {mount, render} from 'enzyme';
-import defaultIcon from '@jetbrains/icons/umbrella.svg';
-import expandIcon from '@jetbrains/icons/expand.svg';
+import defaultIcon from '@jetbrains/icons/umbrella';
+import expandIcon from '@jetbrains/icons/expand';
 
 import Icon from './icon';
 import styles from './icon.css';

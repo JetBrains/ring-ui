@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import permissionIcon from '@jetbrains/icons/permission.svg';
+import permissionIcon from '@jetbrains/icons/permission';
 
 import hubConfig from '../../.storybook/hub-config';
 

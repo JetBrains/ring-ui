@@ -1,4 +1,4 @@
-import GroupIcon from '@jetbrains/icons/group.svg';
+import GroupIcon from '@jetbrains/icons/group';
 
 import HubSourceUsersGroups from '../hub-source/hub-source__users-groups';
 

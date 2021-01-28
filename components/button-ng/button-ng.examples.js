@@ -1,7 +1,7 @@
 /* eslint-disable angular/controller-as */
 import angular from 'angular';
 
-import pencilIcon from '@jetbrains/icons/pencil.svg';
+import pencilIcon from '@jetbrains/icons/pencil';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 

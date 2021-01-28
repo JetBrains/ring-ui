@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-import frownIcon from '@jetbrains/icons/frown.svg';
-import permissionIcon from '@jetbrains/icons/permission.svg';
+import frownIcon from '@jetbrains/icons/frown';
+import permissionIcon from '@jetbrains/icons/permission';
 
 import styles from '../error-page/error-page.css';
 import ErrorMessage from '../error-message-ng/error-message-ng';

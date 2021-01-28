@@ -3,7 +3,7 @@
  */
 import React, {PureComponent} from 'react';
 import classNames from 'classnames';
-import searchIcon from '@jetbrains/icons/search.svg';
+import searchIcon from '@jetbrains/icons/search';
 import memoizeOne from 'memoize-one';
 import PropTypes from 'prop-types';
 

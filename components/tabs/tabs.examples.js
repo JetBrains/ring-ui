@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import searchIcon from '@jetbrains/icons/search.svg';
-import warningIcon from '@jetbrains/icons/warning.svg';
+import searchIcon from '@jetbrains/icons/search';
+import warningIcon from '@jetbrains/icons/warning';
 
 import reactDecorator from '../../.storybook/react-decorator';
 

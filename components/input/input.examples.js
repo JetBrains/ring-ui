@@ -1,5 +1,5 @@
 import React, {PureComponent, useRef} from 'react';
-import searchIcon from '@jetbrains/icons/search.svg';
+import searchIcon from '@jetbrains/icons/search';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
