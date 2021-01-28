@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import warningIcon from '@jetbrains/icons/warning.svg';
+import warningIcon from '@jetbrains/icons/warning';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';

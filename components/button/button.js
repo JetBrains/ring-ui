@@ -2,7 +2,7 @@ import 'focus-visible';
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import chevronDown from '@jetbrains/icons/chevron-10px.svg';
+import chevronDown from '@jetbrains/icons/chevron-10px';
 
 import Icon, {Size} from '../icon/icon';
 import Theme, {withTheme} from '../global/theme';

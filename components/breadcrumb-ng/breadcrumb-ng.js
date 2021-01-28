@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import chevronRight from '@jetbrains/icons/chevron-right.svg';
+import chevronRight from '@jetbrains/icons/chevron-right';
 
 import LinkModule from '../link-ng/link-ng';
 import IconModule from '../icon-ng/icon-ng';

@@ -12,8 +12,7 @@ exports.managerWebpack = function managerWebpack(config) {
       /\.storybook/,
       ringConfig.componentsPath,
       /@primer\/octicons/,
-      /@jetbrains\/logos/,
-      /@jetbrains\/icons/
+      /@jetbrains\/logos/
     ].concat(rule.exclude || []);
   });
 

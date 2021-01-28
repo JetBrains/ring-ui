@@ -10,7 +10,7 @@ const svgInlineLoader = {
   test: /\.svg$/,
   loader: require.resolve('svg-inline-loader'),
   options: {removeSVGTagAttrs: false},
-  include: [require('@jetbrains/icons')]
+  include: []
 };
 
 const svgLoader = {

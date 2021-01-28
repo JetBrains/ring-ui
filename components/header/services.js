@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import servicesIcon from '@jetbrains/icons/services-20px.svg';
+import servicesIcon from '@jetbrains/icons/services-20px';
 
 import Dropdown from '../dropdown/dropdown';
 import Popup from '../popup/popup';

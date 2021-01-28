@@ -4,8 +4,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import chevronLeftIcon from '@jetbrains/icons/chevron-left.svg';
-import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
+import chevronLeftIcon from '@jetbrains/icons/chevron-left';
+import chevronRightIcon from '@jetbrains/icons/chevron-right';
 
 import Button from '../button/button';
 import ButtonGroup from '../button-group/button-group';

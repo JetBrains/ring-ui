@@ -1,5 +1,5 @@
 import React from 'react';
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import checkmarkIcon from '@jetbrains/icons/checkmark';
 
 import reactDecorator from '../../.storybook/react-decorator';
 

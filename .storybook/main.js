@@ -19,8 +19,8 @@ module.exports = {
   ],
   webpackFinal(config) {
     ringConfig.loaders.cssLoader.include.push(/\.storybook/);
-    ringConfig.loaders.svgInlineLoader.include.push(/@primer\/octicons/);
-    ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
+    // ringConfig.loaders.svgInlineLoader.include.push(/@primer\/octicons/);
+    // ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
     ringConfig.loaders.babelLoader.options.plugins = [[
       'babel-plugin-react-docgen',
       {

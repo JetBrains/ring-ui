@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import gift from '@jetbrains/icons/gift.svg';
+import gift from '@jetbrains/icons/gift';
 
 import Popup from '../popup/popup';
 import Icon from '../icon/icon';
