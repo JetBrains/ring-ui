@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import closeIcon from '@jetbrains/icons/close.svg';
+import closeIcon from '@jetbrains/icons/close';
 
 import Theme, {withTheme} from '../global/theme';
 import Button from '../button/button';

@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import checkmarkIcon from '@jetbrains/icons/checkmark';
 
 import IconNG from '../icon-ng/icon-ng';
 import proxyAttrs from '../proxy-attrs/proxy-attrs';

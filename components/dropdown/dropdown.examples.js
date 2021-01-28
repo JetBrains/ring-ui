@@ -1,5 +1,5 @@
 import React from 'react';
-import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
+import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
 import reactDecorator from '../../.storybook/react-decorator';
 

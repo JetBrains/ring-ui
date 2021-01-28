@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import closeIcon from '@jetbrains/icons/close.svg';
+import closeIcon from '@jetbrains/icons/close';
 
 import Icon from '../icon/icon';
 

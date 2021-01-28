@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import searchIcon from '@jetbrains/icons/search.svg';
+import searchIcon from '@jetbrains/icons/search';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import DialogNg from '../dialog-ng/dialog-ng';

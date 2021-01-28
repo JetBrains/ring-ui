@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import pencilIcon from '@jetbrains/icons/pencil.svg';
+import pencilIcon from '@jetbrains/icons/pencil';
 
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertService from '../alert-service/alert-service';

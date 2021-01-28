@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import sortableIcon from '@jetbrains/icons/unsorted-10px.svg';
-import sortedIcon from '@jetbrains/icons/chevron-10px.svg';
+import sortableIcon from '@jetbrains/icons/unsorted-10px';
+import sortedIcon from '@jetbrains/icons/chevron-10px';
 
 import Icon from '../icon/icon';
 import dataTests from '../global/data-tests';

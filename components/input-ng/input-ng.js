@@ -4,7 +4,7 @@
 import angular from 'angular';
 
 import classNames from 'classnames';
-import closeIcon from '@jetbrains/icons/close.svg';
+import closeIcon from '@jetbrains/icons/close';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import styles from '../input/input.css';

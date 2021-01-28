@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-import chevronRight from '@jetbrains/icons/chevron-right.svg';
-import chevronLeft from '@jetbrains/icons/chevron-left.svg';
+import chevronRight from '@jetbrains/icons/chevron-right';
+import chevronLeft from '@jetbrains/icons/chevron-left';
 
 import PlaceUnder from '../place-under-ng/place-under-ng';
 import IconNG from '../icon-ng/icon-ng';

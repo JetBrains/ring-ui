@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import warningIcon from '@jetbrains/icons/warning.svg';
+import warningIcon from '@jetbrains/icons/warning';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
