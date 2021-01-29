@@ -356,22 +356,32 @@ export default class DatePopup extends Component {
             glyph={calendarIcon}
             className={styles.filterIcon}
           />
-          {names.map(name => (
-            <DateInput
-              {...this.props}
-              {...this.state}
-              divider={name === 'from' && (dates[name] != null || parsedTo != null)}
-              name={name}
-              key={name}
-              date={dates[name]}
-              active={this.state.active === name}
-              hidden={hidden}
-              onActivate={this.handleActivate(name)}
-              onInput={this.handleInput}
-              onConfirm={this.handleConfirm(name)}
-              onClear={clearable && (name === 'from' || this.isInTimeMode() ? null : this.onClear)}
-            />
-          ))}
+
+          {names.map(name => {
+            let onClear;
+
+            if (clearable && name !== 'from' && !this.isInTimeMode()) {
+              onClear = this.onClear.bind(this);
+            }
+
+            return (
+              <DateInput
+                {...this.props}
+                {...this.state}
+                divider={name === 'from' && (dates[name] != null || parsedTo != null)}
+                name={name}
+                key={name}
+                date={dates[name]}
+                active={this.state.active === name}
+                hidden={hidden}
+                onActivate={this.handleActivate(name)}
+                onInput={this.handleInput}
+                onConfirm={this.handleConfirm(name)}
+                onClear={onClear}
+              />
+            );
+          })}
+
           {
             this.isInTimeMode()
               ? (
@@ -389,7 +399,7 @@ export default class DatePopup extends Component {
                   onActivate={this.handleActivate('time')}
                   onInput={this.handleInput}
                   onConfirm={this.handleConfirm('time')}
-                  onClear={clearable && this.onClear}
+                  onClear={clearable && this.onClear || undefined}
                 />
               )
               : ('')
