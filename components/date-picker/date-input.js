@@ -19,6 +19,9 @@ export default class DateInput extends React.PureComponent {
     displayFormat: PropTypes.func,
     hidden: PropTypes.bool,
     translations: PropTypes.object,
+    fromPlaceholder: PropTypes.string,
+    toPlaceholder: PropTypes.string,
+    timePlaceholder: PropTypes.string,
     onInput: PropTypes.func,
     onActivate: PropTypes.func,
     onConfirm: PropTypes.func,
@@ -26,6 +29,9 @@ export default class DateInput extends React.PureComponent {
   };
 
   static defaultProps = {
+    fromPlaceholder: null,
+    toPlaceholder: null,
+    timePlaceholder: null,
     translations: {
       addFirstDate: 'Add first date',
       addSecondDate: 'Add second date',
@@ -68,17 +74,11 @@ export default class DateInput extends React.PureComponent {
 
   render() {
     const {
-      active,
-      divider,
-      text,
-      time,
-      name,
-      hoverDate,
-      date,
-      displayFormat,
-      translations,
-      onActivate,
-      onClear
+      active, divider, text,
+      time, name, hoverDate,
+      date, displayFormat, translations,
+      onActivate, onClear,
+      fromPlaceholder, toPlaceholder, timePlaceholder
     } = this.props;
 
     let displayText = '';
@@ -95,11 +95,11 @@ export default class DateInput extends React.PureComponent {
     const placeholder = (() => {
       switch (name) {
         case 'from':
-          return translations.addFirstDate;
+          return fromPlaceholder || translations.addFirstDate;
         case 'to':
-          return translations.addSecondDate;
+          return toPlaceholder || translations.addSecondDate;
         case 'time':
-          return translations.addTime;
+          return timePlaceholder || translations.addTime;
         default:
           return translations.selectName.replace('%name%', name);
       }
