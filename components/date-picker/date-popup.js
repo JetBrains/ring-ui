@@ -275,6 +275,16 @@ export default class DatePopup extends Component {
 
   handleScroll = scrollDate => this.setState({scrollDate});
 
+  onClear = e => {
+    this.setState({
+      active: undefined
+    });
+
+    if (this.props.onClear) {
+      this.props.onClear(e);
+    }
+  };
+
   render() {
     const {range, hidden, withTime, time} = this.props;
     const parsedDate = this.parse(this.props.date, 'date');
@@ -359,7 +369,7 @@ export default class DatePopup extends Component {
               onActivate={this.handleActivate(name)}
               onInput={this.handleInput}
               onConfirm={this.handleConfirm(name)}
-              onClear={name === 'from' || this.isInTimeMode() ? null : this.props.onClear}
+              onClear={name === 'from' || this.isInTimeMode() ? null : this.onClear}
             />
           ))}
           {
@@ -379,7 +389,7 @@ export default class DatePopup extends Component {
                   onActivate={this.handleActivate('time')}
                   onInput={this.handleInput}
                   onConfirm={this.handleConfirm('time')}
-                  onClear={this.props.onClear}
+                  onClear={this.onClear}
                 />
               )
               : ('')
