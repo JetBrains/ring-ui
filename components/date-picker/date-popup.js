@@ -280,9 +280,7 @@ export default class DatePopup extends Component {
       active: undefined
     });
 
-    if (this.props.onClear) {
-      this.props.onClear(e);
-    }
+    this.props.onClear(e);
   };
 
   render() {
@@ -345,6 +343,8 @@ export default class DatePopup extends Component {
       onScrollChange: this.scrollTo
     };
 
+    const clearable = Boolean(this.props.onClear);
+
     return (
       <div
         className={styles.datePopup}
@@ -369,7 +369,7 @@ export default class DatePopup extends Component {
               onActivate={this.handleActivate(name)}
               onInput={this.handleInput}
               onConfirm={this.handleConfirm(name)}
-              onClear={name === 'from' || this.isInTimeMode() ? null : this.onClear}
+              onClear={clearable && (name === 'from' || this.isInTimeMode() ? null : this.onClear)}
             />
           ))}
           {
@@ -389,7 +389,7 @@ export default class DatePopup extends Component {
                   onActivate={this.handleActivate('time')}
                   onInput={this.handleInput}
                   onConfirm={this.handleConfirm('time')}
-                  onClear={this.onClear}
+                  onClear={clearable && this.onClear}
                 />
               )
               : ('')
