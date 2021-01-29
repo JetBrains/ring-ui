@@ -41,7 +41,10 @@ export default class DatePopup extends Component {
     onClear: PropTypes.func,
     minDate: dateType,
     maxDate: dateType,
-    hidden: PropTypes.bool
+    hidden: PropTypes.bool,
+    fromPlaceholder: PropTypes.string,
+    toPlaceholder: PropTypes.string,
+    timePlaceholder: PropTypes.string
   };
 
   static defaultProps = {
