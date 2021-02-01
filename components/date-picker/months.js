@@ -8,7 +8,7 @@ import linearFunction from '../global/linear-function';
 import Month from './month';
 import MonthNames from './month-names';
 import styles from './date-picker.css';
-import units, {momentType, DOUBLE, HALF, WEEK, weekdays} from './consts';
+import units, {dateType, DOUBLE, HALF, WEEK, weekdays} from './consts';
 
 const {unit, cellSize, calHeight} = units;
 
@@ -110,5 +110,5 @@ export default function Months(props) {
 
 Months.propTypes = {
   onScroll: PropTypes.func,
-  scrollDate: momentType
+  scrollDate: dateType
 };

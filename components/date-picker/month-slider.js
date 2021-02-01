@@ -6,14 +6,14 @@ import moment from 'moment';
 import linearFunction from '../global/linear-function';
 
 
-import units, {momentType, yearScrollSpeed} from './consts';
+import units, {dateType, yearScrollSpeed} from './consts';
 import styles from './date-picker.css';
 
 const COVERYEARS = 3;
 
 export default class MonthSlider extends PureComponent {
   static propTypes = {
-    scrollDate: momentType,
+    scrollDate: dateType,
     onScroll: PropTypes.func,
     pxToDate: PropTypes.shape({
       x: PropTypes.func,

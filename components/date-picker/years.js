@@ -7,7 +7,7 @@ import linearFunction from '../global/linear-function';
 
 
 import styles from './date-picker.css';
-import units, {momentType, DOUBLE, HALF, yearDuration} from './consts';
+import units, {dateType, DOUBLE, HALF, yearDuration} from './consts';
 
 const {yearHeight, calHeight} = units;
 
@@ -18,7 +18,7 @@ const scrollDelay = 100;
 
 export default class Years extends PureComponent {
   static propTypes = {
-    scrollDate: momentType,
+    scrollDate: dateType,
     onScroll: PropTypes.func,
     onScrollChange: PropTypes.func
   };
