@@ -10,7 +10,7 @@ import DateInput from './date-input';
 import Months from './months';
 import Years from './years';
 import Weekdays from './weekdays';
-import {dateType, parseDate, parseTime} from './consts';
+import {dateType, parseTime} from './consts';
 import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
@@ -103,8 +103,7 @@ export default class DatePopup extends Component {
     if (type === 'time') {
       return parseTime(text);
     }
-    const date = typeof text === 'string' ? this.props.parseDateInput(text) : text;
-    return parseDate(date);
+    return this.props.parseDateInput(text);
   }
 
   select(changes) {
@@ -212,7 +211,7 @@ export default class DatePopup extends Component {
 
   scheduleScroll = () => {
     const current =
-      this.state.scrollDate && parseDate(this.state.scrollDate) ||
+      this.state.scrollDate && this.parse(this.state.scrollDate, 'date') ||
       this.parse(this.props[this.state.active], 'date') ||
       moment();
     const goal = this._scrollDate;

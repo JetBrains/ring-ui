@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import {dateType, momentType, weekdays} from './consts';
+import {dateType, weekdays} from './consts';
 import styles from './date-picker.css';
 
 let hoverTO;
@@ -90,10 +90,10 @@ export default class Day extends Component {
 }
 
 Day.propTypes = {
-  day: momentType,
-  from: momentType,
-  currentRange: PropTypes.arrayOf(momentType),
-  activeRange: PropTypes.arrayOf(momentType),
+  day: dateType,
+  from: dateType,
+  currentRange: PropTypes.arrayOf(dateType),
+  activeRange: PropTypes.arrayOf(dateType),
   empty: PropTypes.bool,
   onSelect: PropTypes.func,
   onHover: PropTypes.func,
