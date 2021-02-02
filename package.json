@@ -71,7 +71,7 @@
     "@primer/octicons": "^11.1.0",
     "@storybook/addon-a11y": "6.1.16",
     "@storybook/addon-docs": "6.1.15",
-    "@storybook/addon-essentials": "6.1.15",
+    "@storybook/addon-essentials": "6.1.16",
     "@storybook/addon-storyshots": "6.1.9",
     "@storybook/addon-storyshots-puppeteer": "6.1.9",
     "@storybook/addon-storysource": "6.1.16",
