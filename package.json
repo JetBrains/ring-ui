@@ -113,7 +113,7 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma-teamcity-reporter": "^2.0.0",
-    "karma-webpack": "^5.0.0-alpha.6",
+    "karma-webpack": "^5.0.0",
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.2",
     "merge-options": "^3.0.4",
