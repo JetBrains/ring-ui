@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import addMonths from 'date-fns/addMonths';
+import getDay from 'date-fns/getDay';
+import getDaysInMonth from 'date-fns/getDaysInMonth';
+import set from 'date-fns/set';
+import startOfHour from 'date-fns/startOfHour';
+import startOfMonth from 'date-fns/startOfMonth';
+import subMonths from 'date-fns/subMonths';
+import endOfMonth from 'date-fns/endOfMonth';
 
 import scheduleRAF from '../global/schedule-raf';
 import linearFunction from '../global/linear-function';
@@ -21,39 +28,31 @@ const PADDING = 2;
 const MONTHSBACK = 2;
 
 function monthHeight(date) {
-  const monthStart = moment(date).startOf('month');
-  const daysSinceLastFriday = (monthStart.day() + FridayToSunday) % WEEK;
+  const monthStart = startOfMonth(date);
+  const daysSinceLastFriday = (getDay(monthStart) + FridayToSunday) % WEEK;
   const monthLines =
-    daysSinceLastFriday + monthStart.daysInMonth() > FIVELINES ? TALLMONTH : SHORTMONTH;
+    daysSinceLastFriday + getDaysInMonth(monthStart) > FIVELINES ? TALLMONTH : SHORTMONTH;
   return monthLines * cellSize + unit * PADDING;
 }
 
 // in milliseconds per pixel
 function scrollSpeed(date) {
-  const monthStart = moment(date).startOf('month');
-  const monthEnd = moment(date).endOf('month');
+  const monthStart = startOfMonth(date);
+  const monthEnd = endOfMonth(date);
   return (monthEnd - monthStart) / monthHeight(monthStart);
 }
 
 const scrollSchedule = scheduleRAF();
 let dy = 0;
 export default function Months(props) {
-  const scrollDate = moment(props.scrollDate);
-  const monthStart = scrollDate.
-    clone().
-    date(1).
-    // prevent switching from april to march because of daylight saving time
-    hours(1).
-    startOf('hour');
+  const {scrollDate} = props;
+  // prevent switching from april to march because of daylight saving time
+  const monthStart = startOfHour(set(scrollDate, {date: 1, hours: 1}));
 
-  let month = monthStart.
-    clone().
-    subtract(MONTHSBACK, 'months');
+  let month = subMonths(monthStart, MONTHSBACK);
   const months = [month];
   for (let i = 0; i < MONTHSBACK * DOUBLE; i++) {
-    month = month.
-      clone().
-      add(1, 'month');
+    month = addMonths(month, 1);
     months.push(month);
   }
 

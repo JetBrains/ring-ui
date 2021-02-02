@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import moment from 'moment';
+import addDays from 'date-fns/addDays';
+import format from 'date-fns/format';
+import getDay from 'date-fns/getDay';
+import getDate from 'date-fns/getDate';
+import isAfter from 'date-fns/isAfter';
+import isBefore from 'date-fns/isBefore';
+import isSameDay from 'date-fns/isSameDay';
+import isToday from 'date-fns/isToday';
+import startOfDay from 'date-fns/startOfDay';
 
 import {dateType, weekdays} from './consts';
 import styles from './date-picker.css';
@@ -23,14 +31,17 @@ export default class Day extends Component {
     hoverTO = window.setTimeout(this.props.onHover, 0);
   };
 
-  isDay = date => this.props.day.isSame(date, 'day');
+  isDay = date => isSameDay(this.props.day, date);
 
   is = name => this.props[name] && this.isDay(this.props[name]);
 
-  inRange = range => range && this.props.day.isBetween(...range, 'days');
+  inRange = range => range &&
+    isAfter(startOfDay(this.props.day), startOfDay(range[0])) &&
+    isBefore(startOfDay(this.props.day), startOfDay(range[1]));
 
-  isDisabled = date => (this.props.minDate && date.isBefore(this.props.minDate, 'day')) ||
-    (this.props.maxDate && date.isAfter(this.props.maxDate, 'day'));
+  isDisabled = date =>
+    (this.props.minDate && isBefore(startOfDay(date), startOfDay(this.props.minDate))) ||
+    (this.props.maxDate && isAfter(startOfDay(date), startOfDay(this.props.maxDate)));
 
   render() {
     const {
@@ -44,7 +55,7 @@ export default class Day extends Component {
     const reverse = activeRange && activeRange[1] === from;
 
     function makeSpreadRange(range) {
-      return range && [range[0], range[1].clone().add(1, 'days')];
+      return range && [range[0], addDays(range[1], 1)];
     }
 
     const spreadRange = makeSpreadRange(currentRange);
@@ -55,11 +66,11 @@ export default class Day extends Component {
         type="button"
         className={classNames(
           styles.day,
-          styles[day.format('dddd')],
+          styles[format(day, 'EEEE')],
           {
             [styles.current]: ['date', 'from', 'to'].some(this.is),
             [styles.active]: !disabled && this.is('activeDate'),
-            [styles.weekend]: [weekdays.SA, weekdays.SU].includes(day.day()),
+            [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day)),
             [styles.empty]: empty,
             [styles.from]: (currentRange && this.isDay(currentRange[0]) && !reverse ||
               activeRange && this.isDay(activeRange[0])),
@@ -67,7 +78,7 @@ export default class Day extends Component {
               activeRange && this.isDay(activeRange[1]),
             [styles.between]: this.inRange(currentRange),
             [styles.activeBetween]: !disabled && this.inRange(activeRange),
-            [styles.first]: day.date() === 1,
+            [styles.first]: getDate(day) === 1,
             [styles.spread]: this.inRange(spreadRange),
             [styles.activeSpread]: !disabled && this.inRange(activeSpreadRange),
             [styles.disabled]: disabled
@@ -81,8 +92,8 @@ export default class Day extends Component {
         disabled={disabled}
       >
         {empty || (
-          <span className={classNames({[styles.today]: day.isSame(moment(), 'day')})}>
-            {day.format('D')}</span>
+          <span className={classNames({[styles.today]: isToday(day)})}>
+            {format(day, 'd')}</span>
         )}
       </button>
     );
