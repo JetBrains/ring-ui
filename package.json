@@ -192,7 +192,7 @@
     "react-waypoint": "^9.0.3",
     "remark-breaks": "^2.0.1",
     "remark-gfm": "^1.0.0",
-    "sass": "^1.32.5",
+    "sass": "^1.32.6",
     "sass-loader": "^10.1.1",
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
