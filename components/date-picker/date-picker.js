@@ -1,10 +1,13 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import moment from 'moment';
 import formatDate from 'date-fns/format';
+import isSameDay from 'date-fns/isSameDay';
+import isSameMonth from 'date-fns/isSameMonth';
+import isSameYear from 'date-fns/isSameYear';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
+import set from 'date-fns/set';
 
 import memoize from '../global/memoize';
 import rerenderHOC from '../global/rerender-hoc';
@@ -13,7 +16,7 @@ import Popup from '../popup/popup';
 import Dropdown, {Anchor} from '../dropdown/dropdown';
 
 import DatePopup from './date-popup';
-import {dateType, deprecatedPropType, parseTime} from './consts';
+import {dateType, deprecatedPropType} from './consts';
 import styles from './date-picker.css';
 import formats from './formats';
 
@@ -66,7 +69,6 @@ export default class DatePicker extends PureComponent {
     className: PropTypes.string,
     popupClassName: PropTypes.string,
     date: dateType,
-    time: deprecatedPropType('Pass time as a part of "date"'),
     withTime: PropTypes.bool,
     range: PropTypes.bool,
     from: dateType,
@@ -81,9 +83,9 @@ export default class DatePicker extends PureComponent {
     datePlaceholder: PropTypes.string,
     dateTimePlaceholder: PropTypes.string,
     rangePlaceholder: PropTypes.string,
-    onChange: deprecatedPropType('Use "onDateChange"'),
-    // TODO: Rename to onChange in 4.0, remove the alias in 5.0
-    onDateChange: PropTypes.func,
+    onChange: PropTypes.func,
+    // TODO: Remove in 5.0
+    onDateChange: deprecatedPropType('Use "onChange"'),
     dropdownProps: PropTypes.object,
     disabled: PropTypes.bool,
     minDate: dateType,
@@ -99,23 +101,18 @@ export default class DatePicker extends PureComponent {
     to: null,
     clear: false,
     displayFormat: date => (date ? formatDate(date, 'd MMM yyyy') : ''),
-    displayMonthFormat: date => (date ? formatDate(date, 'y MMM') : ''),
-    displayDayFormat: date => (date ? formatDate(date, 'y') : ''),
+    displayMonthFormat: date => (date ? formatDate(date, 'd MMM') : ''),
+    displayDayFormat: date => (date ? formatDate(date, 'd') : ''),
     displayTimeFormat: date => (date ? formatDate(date, 'HH:mm') : ''),
     datePlaceholder: 'Set a date',
     dateTimePlaceholder: 'Set date and time',
     rangePlaceholder: 'Set a period',
     minDate: null,
     maxDate: null,
-    onDateChange() {},
+    onChange() {},
     applyTimeInput(date, timeString) {
-      const [hours, minutes] = timeString.split(':');
-      const result = new Date(date.getTime());
-      if (minutes != null) {
-        result.setHours(hours);
-        result.setMinutes(minutes);
-      }
-      return result;
+      const [hours, minutes] = timeString?.split(':') ?? [];
+      return minutes != null ? set(date, {hours, minutes}) : date;
     },
     parseDateInput(string) {
       if (!string) {
@@ -133,16 +130,12 @@ export default class DatePicker extends PureComponent {
   };
 
   handleChange = change => {
-    const {onChange, onDateChange, range, withTime, applyTimeInput} = this.props;
-    if (onChange != null) {
-      onChange(change);
-    }
-    if (range) {
-      onDateChange({from: change.from?.toDate(), to: change.to?.toDate()});
-    } else if (withTime) {
-      onDateChange(applyTimeInput(change.date?.toDate(), change.time));
-    } else {
-      onDateChange(change?.toDate());
+    const {onChange, onDateChange, withTime, applyTimeInput} = this.props;
+    const adjustedChange =
+      withTime && change.date != null ? applyTimeInput(change.date, change.time) : change;
+    onChange(adjustedChange);
+    if (onDateChange != null) {
+      onDateChange(adjustedChange);
     }
   };
 
@@ -177,11 +170,9 @@ export default class DatePicker extends PureComponent {
   });
 
   formatTime() {
-    const {time, displayTimeFormat} = this.props;
+    const {displayTimeFormat} = this.props;
     const date = this.parse(this.props.date);
-    if (time != null) {
-      return parseTime(time);
-    } else if (date != null) {
+    if (date != null) {
       return displayTimeFormat(date);
     }
     return null;
@@ -219,11 +210,11 @@ export default class DatePicker extends PureComponent {
       text = `${displayFormat(from)} —`;
     } else if (!from) {
       text = `— ${displayFormat(to)}`;
-    } else if (!moment(from).isSame(to, 'year')) {
+    } else if (!isSameYear(from, to)) {
       text = `${displayFormat(from)} — ${displayFormat(to)}`;
-    } else if (!moment(from).isSame(to, 'month')) {
+    } else if (!isSameMonth(from, to)) {
       text = `${displayMonthFormat(from)} — ${displayFormat(to)}`;
-    } else if (!moment(from).isSame(to, 'day')) {
+    } else if (!isSameDay(from, to)) {
       text = `${displayDayFormat(from)} — ${displayFormat(to)}`;
     } else {
       text = `${displayFormat(to)}`;

@@ -1,4 +1,9 @@
 import React from 'react';
+import addDays from 'date-fns/addDays';
+import endOfMonth from 'date-fns/endOfMonth';
+import format from 'date-fns/format';
+import getDay from 'date-fns/getDay';
+import setDay from 'date-fns/setDay';
 
 import Day from './day';
 import {dateType, WEEK, weekdays} from './consts';
@@ -6,27 +11,21 @@ import styles from './date-picker.css';
 
 export default function Month(props) {
   const start = props.month;
-  const end = start.
-    clone().
-    endOf('month');
+  const end = endOfMonth(start);
 
   // pad with empty cells starting from last friday
-  const weekday = start.day();
-  let day = start.
-    clone().
-    weekday(weekday >= weekdays.FR ? weekdays.FR : weekdays.FR - WEEK);
+  const weekday = getDay(start);
+  let day = setDay(start, weekday >= weekdays.FR ? weekdays.FR : weekdays.FR - WEEK);
   const days = [];
   while (day < end) {
     days.push(day);
-    day = day.
-      clone().
-      add(1, 'day');
+    day = addDays(day, 1);
   }
 
   return (
     <div className={styles.month}>
       <span className={styles.monthTitle}>
-        {props.month.format('MMMM')}
+        {format(props.month, 'MMMM')}
       </span>
       {days.map(date => (
         <Day

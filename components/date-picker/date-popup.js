@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import isAfter from 'date-fns/isAfter';
+import isBefore from 'date-fns/isBefore';
+import isSameDay from 'date-fns/isSameDay';
+import startOfDay from 'date-fns/startOfDay';
 import calendarIcon from '@jetbrains/icons/calendar';
 
 import Icon from '../icon/icon';
@@ -19,7 +22,7 @@ export default class DatePopup extends Component {
 
   static sameDay(next, prev) {
     if (next && prev) {
-      return moment(next).isSame(prev, 'day');
+      return isSameDay(next, prev);
     }
 
     return next === prev;
@@ -151,7 +154,7 @@ export default class DatePopup extends Component {
       let complete = false;
 
       // end is before beginning
-      if (from && to && from.isAfter(to, 'days')) {
+      if (from && to && isAfter(startOfDay(from), startOfDay(to))) {
         // ignore the old end when beginning is changed
         if (changes.from) {
           to = null;
@@ -202,8 +205,8 @@ export default class DatePopup extends Component {
 
     if (parsedText) {
       return (!(
-        minDate && parsedText.isBefore(minDate) ||
-        maxDate && parsedText.isAfter(maxDate)
+        minDate && isBefore(parsedText, minDate) ||
+        maxDate && isAfter(parsedText, maxDate)
       ));
     }
     return false;
@@ -213,7 +216,7 @@ export default class DatePopup extends Component {
     const current =
       this.state.scrollDate && this.parse(this.state.scrollDate, 'date') ||
       this.parse(this.props[this.state.active], 'date') ||
-      moment();
+      new Date();
     const goal = this._scrollDate;
     if (!current ||
       !goal ||
@@ -226,12 +229,12 @@ export default class DatePopup extends Component {
 
     if (this._scrollTS) {
       const diff = goal - current;
-      const dt = moment() - this._scrollTS;
+      const dt = Date.now() - this._scrollTS;
       const next = goal - diff * (Math.E ** (-dt / scrollExpDelay));
       this.setState({scrollDate: next});
     }
 
-    this._scrollTS = moment();
+    this._scrollTS = Date.now();
     window.requestAnimationFrame(this.scheduleScroll);
   };
 
@@ -294,7 +297,7 @@ export default class DatePopup extends Component {
     if (range && activeDate) {
       switch (this.state.active) {
         case 'from':
-          if (dates.to && !activeDate.isAfter(dates.to, 'days')) {
+          if (dates.to && isAfter(startOfDay(activeDate), startOfDay(dates.to))) {
             activeRange = [activeDate, dates.to];
           }
 
@@ -303,7 +306,7 @@ export default class DatePopup extends Component {
           if (!dates.from) {
             break;
           }
-          if (activeDate.isBefore(dates.from, 'days')) {
+          if (isBefore(startOfDay(activeDate), startOfDay(dates.from))) {
             activeRange = [activeDate, dates.from];
           } else {
             activeRange = [dates.from, activeDate];
@@ -316,8 +319,8 @@ export default class DatePopup extends Component {
     }
 
     const scrollDate = withTime && !range
-      ? this.state.scrollDate || dates.date || moment()
-      : this.state.scrollDate || dates[this.state.active] || moment();
+      ? this.state.scrollDate || dates.date || new Date()
+      : this.state.scrollDate || dates[this.state.active] || new Date();
 
     const calendarProps = {
       ...this.props,

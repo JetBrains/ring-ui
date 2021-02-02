@@ -72,11 +72,11 @@ export default class DateInput extends React.PureComponent {
 
     let displayText = '';
     if (active && hoverDate) {
-      displayText = displayFormat(hoverDate.toDate());
+      displayText = displayFormat(hoverDate);
     } else if (active && text != null) {
       displayText = text;
     } else if (date) {
-      displayText = displayFormat(date.toDate?.() ?? date);
+      displayText = displayFormat(date);
     } else if (name === 'time') {
       displayText = time || '';
     }
@@ -103,6 +103,7 @@ export default class DateInput extends React.PureComponent {
 
     return (
       <Input
+        autoComplete="off"
         borderless
         data-name={name}
         inputRef={this.inputRef}
