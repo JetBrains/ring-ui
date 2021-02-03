@@ -118,3 +118,63 @@
   font-weight: normal;
   line-height: 19px; /* prevent jumps in Firefox */
 }
+
+.autoCollapse {
+  position: relative;
+
+  display: inline-flex;
+  visibility: hidden;
+  overflow: visible;
+
+  max-width: 100%;
+}
+
+.autoCollapse.adjusted {
+  visibility: visible;
+}
+
+.autoCollapse .title {
+  flex-shrink: 0;
+}
+
+.measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  overflow: hidden;
+
+  height: 0;
+  margin: 0;
+
+  opacity: 0;
+}
+
+.morePopup {
+  display: flex;
+  flex-direction: column;
+}
+
+.collapsed.collapsed {
+  width: 100%;
+
+  border-bottom: none;
+  box-shadow: none;
+
+  &:hover {
+    box-shadow: none;
+  }
+}
+
+.collapsed.collapsed[disabled] {
+  color: var(--ring-disabled-color);
+}
+
+.collapsed .visible,
+.collapsed .hidden {
+  text-align: left;
+}
+
+.chevron {
+  padding-left: 4px;
+}
