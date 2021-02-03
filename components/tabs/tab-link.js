@@ -5,9 +5,9 @@ import Link from '../link/link';
 
 import styles from './tabs.css';
 
-function TabLink({isSelected, title, ...restProps}) {
+function TabLink({isSelected, title, collapsed, ...restProps}) {
   const renderedTitle = typeof title === 'function'
-    ? title(isSelected)
+    ? title(isSelected, collapsed)
     : title;
 
   return (
@@ -25,6 +25,7 @@ function TabLink({isSelected, title, ...restProps}) {
 
 TabLink.propTypes = {
   isSelected: PropTypes.bool,
+  collapsed: PropTypes.bool,
   title: PropTypes.oneOfType([PropTypes.func, PropTypes.string, PropTypes.node])
 };
 
