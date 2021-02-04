@@ -17,8 +17,13 @@ exports.managerWebpack = function managerWebpack(config) {
   });
 
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);
-  ringConfig.loaders.svgInlineLoader.include.push(/@primer\/octicons/);
-  ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
+
+  ringConfig.config.module.rules.push({
+    test: /\.svg$/,
+    loader: require.resolve('svg-inline-loader'),
+    options: {removeSVGTagAttrs: false},
+    include: [/@primer\/octicons/, /@jetbrains\/logos/]
+  });
 
   const serverUri = pkgConfig.hub;
   const clientId = pkgConfig.clientId;
