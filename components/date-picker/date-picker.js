@@ -117,7 +117,6 @@ export default class DatePicker extends PureComponent {
       setDateTime: 'Set date and time',
       setPeriod: 'Set a period'
     },
-    onDateChange() {},
     applyTimeInput(date, timeString) {
       const [hours, minutes] = timeString?.split(':') ?? [];
       return minutes != null ? set(date, {hours, minutes}) : date;
