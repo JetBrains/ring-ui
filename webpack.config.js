@@ -6,13 +6,6 @@ function loadersObjectToArray(loaders) {
   return Object.keys(loaders).map(name => loaders[name]);
 }
 
-const svgInlineLoader = {
-  test: /\.svg$/,
-  loader: require.resolve('svg-inline-loader'),
-  options: {removeSVGTagAttrs: false},
-  include: []
-};
-
 const svgLoader = {
   test: /\.svg$/,
   loader: require.resolve('url-loader'),
@@ -112,7 +105,6 @@ const gifLoader = {
 };
 
 const loaders = {
-  svgInlineLoader,
   svgLoader,
   cssLoader,
   externalCssLoader,
@@ -133,5 +125,10 @@ module.exports = {
 
   componentsPath,
 
-  loaders
+  loaders: {
+    ...loaders,
+    get svgInlineLoader() {
+      throw new Error('***Ring UI embedded "svgInlineLoader" removed in 4.0. Please install and use own instance if you need it.***');
+    }
+  }
 };

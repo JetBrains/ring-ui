@@ -128,6 +128,7 @@
     "sinon-chai": "^3.5.0",
     "storage-mock": "^1.0.3",
     "stylelint": "^13.9.0",
+    "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.11",
     "vue": "^2.6.11",
     "wallaby-webpack": "^3.9.16",
@@ -194,7 +195,6 @@
     "simply-uuid": "^1.0.1",
     "sniffr": "^1.2.0",
     "style-loader": "~2.0.0",
-    "svg-inline-loader": "^0.8.2",
     "url-loader": "^4.1.1",
     "util-deprecate": "^1.0.2"
   },
