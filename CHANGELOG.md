@@ -6,6 +6,7 @@
     new webpack.NormalModuleReplacementPlugin(/@jetbrains\\/ring-ui\\/components\\/code\\/highlight.js$/, './highlight-lazy.js')
     ```
 - `date-picker` has migrated from `moment` to `date-fns`. All the props deprecated in 3.1.0 are now removed. `onDateChange` is renamed back to `onChange` and will be removed in 5.0.
+- `svg-inline-loader` is not used by Ring UI anymore. Concider installing and using own instance if needed.
 
 ## [3.1.0]
 Some of the props of `date-picker` are changed or deprecared to allow removing the dependency on `moment` package in v4:
