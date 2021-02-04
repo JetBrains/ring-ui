@@ -39,9 +39,16 @@ export default class Day extends Component {
     isAfter(startOfDay(this.props.day), startOfDay(range[0])) &&
     isBefore(startOfDay(this.props.day), startOfDay(range[1]));
 
-  isDisabled = date =>
-    (this.props.minDate && isBefore(startOfDay(date), startOfDay(this.props.minDate))) ||
-    (this.props.maxDate && isAfter(startOfDay(date), startOfDay(this.props.maxDate)));
+  isDisabled = date => {
+    const min = this.parse(this.props.minDate);
+    const max = this.parse(this.props.maxDate);
+    return (this.props.minDate && isBefore(startOfDay(date), startOfDay(min))) ||
+      (this.props.maxDate && isAfter(startOfDay(date), startOfDay(max)));
+  };
+
+  parse(text) {
+    return this.props.parseDateInput(text);
+  }
 
   render() {
     const {
@@ -107,6 +114,7 @@ Day.propTypes = {
   activeRange: PropTypes.arrayOf(dateType),
   empty: PropTypes.bool,
   onSelect: PropTypes.func,
+  parseDateInput: PropTypes.func,
   onHover: PropTypes.func,
   minDate: dateType,
   maxDate: dateType
