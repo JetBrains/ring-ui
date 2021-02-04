@@ -322,7 +322,7 @@ export const rangeWithCustomPlaceholders = () => {
           <DatePicker
             from={this.state.from}
             to={this.state.to}
-            onDateChange={this.setRange}
+            onChange={this.setRange}
             fromPlaceholder="From"
             toPlaceholder="To"
             rangePlaceholder="Set range"
