@@ -79,7 +79,7 @@
     "@storybook/client-api": "6.1.16",
     "@storybook/core": "6.1.16",
     "@storybook/html": "6.1.16",
-    "@storybook/source-loader": "6.1.16",
+    "@storybook/source-loader": "6.1.17",
     "@storybook/theming": "6.1.17",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "angular": "^1.8.2",
