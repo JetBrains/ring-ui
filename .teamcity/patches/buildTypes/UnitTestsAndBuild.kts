@@ -17,12 +17,11 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
-                
+
                 npm install
-                npm run postinstall
                 npm run test-ci
                 npm run build
             """.trimIndent()
