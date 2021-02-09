@@ -1,4 +1,4 @@
-@import "../global/global";
+@import "../global/variables.css";
 
 .ring-permission-hide {
   display: none !important;
