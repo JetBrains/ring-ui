@@ -56,14 +56,18 @@ export default class Code extends PureComponent {
   }
 
   async highlight() {
+    const codeRef = this.codeRef;
+    if (codeRef == null) {
+      return;
+    }
     const {language, inline, replacer} = this.props;
     if (!inline) {
       if (language != null && highlight.getLanguage(language) == null) {
         await registerLanguage(language);
       }
-      highlight.highlightBlock(this.codeRef);
+      highlight.highlightBlock(codeRef);
     }
-    replacer(this.codeRef);
+    replacer(codeRef);
   }
 
   get codeRef() {
