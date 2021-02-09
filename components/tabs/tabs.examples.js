@@ -47,6 +47,87 @@ export const basic = () => <BasicDemo/>;
 
 basic.storyName = 'basic';
 
+
+const autocollapseData = [
+  {
+    id: 'first',
+    title: 'First tab',
+    content: 'First tab content'
+  },
+  {
+    id: 'second',
+    title: 'Second tab',
+    content: 'Second tab content'
+  },
+  {
+    id: 'third',
+    title: 'Third tab',
+    content: 'Third tab content'
+  },
+  {
+    id: 'fourth',
+    title: 'Fourth tab (Link)',
+    href: '/',
+    content: 'Fourth tab content'
+  },
+  {
+    id: 'disabled1',
+    title: 'Disabled tab',
+    content: 'Disabled tab content',
+    disabled: true
+  },
+  {
+    id: 'fifth',
+    title: 'Fifth tab (Always hidden)',
+    alwaysHidden: true,
+    href: '/',
+    content: 'Hidden tab content'
+  }
+];
+
+const AutoCollapseDemo = () => {
+  const [selected, setSelected] = React.useState('first');
+  const [tabs, setTabs] = React.useState(autocollapseData.map(item => {
+    const {content, ...tabProps} = item;
+
+    return <Tab key={item.id} {...tabProps}>{content}</Tab>;
+  }));
+
+  const addTab = React.useCallback(() => {
+    setTabs(state => {
+      const newTab = (
+        <Tab
+          id={String(state.length)}
+          key={state.length}
+          title={`Example ${state.length + 1}`}
+        >{`Example ${state.length + 1} tab content`}</Tab>
+      );
+
+      return [
+        ...state,
+        newTab
+      ];
+    });
+  }, []);
+
+  return (
+    <>
+      <Button onClick={addTab} title={'Add tab'} style={{margin: '10px 0'}}>{'Add tab'}</Button>
+      <Tabs
+        selected={selected}
+        onSelect={setSelected}
+        autoCollapse
+      >
+        {tabs}
+      </Tabs>
+    </>
+  );
+};
+export const autoCollapseDemo = () => <AutoCollapseDemo/>;
+
+autoCollapseDemo.storyName = 'Auto collapsing';
+
+
 class DarkDemo extends Component {
   state = {selected: 'first'};
 
