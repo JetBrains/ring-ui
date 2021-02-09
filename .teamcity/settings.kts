@@ -848,14 +848,6 @@ object Publish : BuildType({
             compareTo = value()
             param("anchorBuild", "lastSuccessful")
         }
-        failOnText {
-            id = "BUILD_EXT_180"
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "cannot run in wd"
-            failureMessage = "Failed to generate icons.js"
-            reverse = false
-            stopBuildOnFailure = true
-        }
     }
 
     features {
@@ -997,14 +989,6 @@ object PublishCanary : BuildType({
             comparison = BuildFailureOnMetric.MetricComparison.MORE
             compareTo = value()
             param("anchorBuild", "lastSuccessful")
-        }
-        failOnText {
-            id = "BUILD_EXT_180"
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "cannot run in wd"
-            failureMessage = "Failed to generate icons.js"
-            reverse = false
-            stopBuildOnFailure = true
         }
     }
 
