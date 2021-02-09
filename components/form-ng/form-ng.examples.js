@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '@jetbrains/ring-ui/components/form/form.scss';
+import '@jetbrains/ring-ui/components/form/form.css';
 
 import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
 import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
