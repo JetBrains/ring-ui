@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import Popup from '../popup/popup';
 
-import './tooltip-ng.scss';
+import './tooltip-ng.css';
 
 /**
  * @name Tooltip Ng
