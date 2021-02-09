@@ -3,7 +3,7 @@
  */
 import angular from 'angular';
 import '../form/form.css';
-import './save-field-ng.scss';
+import './save-field-ng.css';
 
 import '../loader-inline/loader-inline';
 import ButtonSet from '../button-set-ng/button-set-ng';
