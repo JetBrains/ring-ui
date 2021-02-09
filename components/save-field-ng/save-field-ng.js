@@ -2,7 +2,7 @@
  * @name Save Field Ng
  */
 import angular from 'angular';
-import '../form/form.scss';
+import '../form/form.css';
 import './save-field-ng.scss';
 
 import '../loader-inline/loader-inline';
