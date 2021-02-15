@@ -10,7 +10,6 @@ import parse from 'date-fns/parse';
 import set from 'date-fns/set';
 
 import memoize from '../global/memoize';
-import rerenderHOC from '../global/rerender-hoc';
 
 import Popup from '../popup/popup';
 import Dropdown, {Anchor} from '../dropdown/dropdown';
@@ -282,6 +281,3 @@ export default class DatePicker extends PureComponent {
     );
   }
 }
-
-export const RerenderableDatePicker = rerenderHOC(DatePicker);
-

@@ -340,5 +340,5 @@ export default class TagsInput extends PureComponent {
   }
 }
 
-export const RerenderableTagsInput = rerenderHOC(TagsInput, {captureNode: false});
+export const RerenderableTagsInput = rerenderHOC(TagsInput);
 
