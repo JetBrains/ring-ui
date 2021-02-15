@@ -1,0 +1,27 @@
+$ring-unit: 8px;
+
+.ring-table__toolbar {
+  background: inherit;
+}
+
+.ring-table__toolbar-controls {
+  position: relative;
+
+  display: block;
+
+  min-height: calc($ring-unit * 3);
+
+  padding: calc($ring-unit * 2) calc($ring-unit * 4);
+
+  white-space: initial;
+
+  background: inherit;
+
+  &.ring-table__toolbar-controls_fixed {
+    position: fixed;
+    z-index: calc(var(--ring-fixed-z-index) + 1);
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+}
