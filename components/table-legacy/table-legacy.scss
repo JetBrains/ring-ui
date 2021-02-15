@@ -1,5 +1,6 @@
-@import "../global/global";
 @import "./table-legacy__toolbar";
+
+$ring-unit: 8px;
 
 .ring-table {
   width: 100%;
@@ -194,13 +195,17 @@
 }
 
 .ring-table__column_limited {
-  @include ring-ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   max-width: 50*$ring-unit;
 }
 
 .ring-table__column_unlimited {
-  @include ring-ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   width: 100%;
   max-width: 1px;
