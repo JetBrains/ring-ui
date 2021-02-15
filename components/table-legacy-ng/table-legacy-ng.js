@@ -11,7 +11,7 @@ import SelectionNavigateActions from './table-legacy-ng__selection-navigate-acti
 import TableToolbar from './table-legacy-ng__toolbar';
 import TablePager from './table-legacy-ng__pager';
 
-import '../table-legacy/table-legacy.scss';
+import '../table-legacy/table-legacy.css';
 
 /**
  * @name Table Legacy Ng

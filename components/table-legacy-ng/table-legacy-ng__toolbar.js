@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 import {getDocumentScrollTop} from '../global/dom';
-import '../table-legacy/table-legacy__toolbar.scss';
+import '../table-legacy/table-legacy__toolbar.css';
 import scheduleRAF from '../global/schedule-raf';
 
 const angularModule = angular.module('Ring.table-legacy.toolbar', []);
