@@ -7,7 +7,7 @@ $ring-unit: 8px;
 .ring-island {
   @include ring-font;
 
-  min-width: $ring-unit*25 - 2;
+  min-width: calc($ring-unit * 25 - 2);
 
   border: 1px solid;
   border-color: var(--ring-line-color);
@@ -33,37 +33,41 @@ $ring-unit: 8px;
 }
 
 .ring-island__header {
-  min-height: $ring-unit*3 - 2;
-  line-height: $ring-unit*3 - 2;
+  min-height: calc($ring-unit * 3 - 2);
 
   border-bottom: 1px solid var(--ring-line-color);
   border-top-left-radius: var(--ring-border-radius);
   border-top-right-radius: var(--ring-border-radius);
 
   background-color: var(--ring-content-background-color);
+
+  line-height: calc($ring-unit * 3 - 2);
 }
 
 .ring-island__header-btn,
 .ring-island__header-button {
-  font-size: var(--ring-font-size-smaller);
   float: right;
 
-  padding: 0 $ring-unit*2 - 1; // -1 to account for border
+  padding: 0 calc($ring-unit * 2 - 1);
 
-  cursor: pointer;
   user-select: none;
 
-  color: #6D6D6D;
-  border-left: 1px solid #B4B4B4;
-  text-shadow: #FFF 0 0 1px;
+  color: #6d6d6d;
+  border-left: 1px solid #b4b4b4;
+  text-shadow: #fff 0 0 1px;
+
+  font-size: var(--ring-font-size-smaller);
+  // -1 to account for border
+
+  cursor: pointer;
 
   &:hover {
-    background: #E1E1E1 linear-gradient(to top, #E1E1E1, #FFF);
+    background: #e1e1e1 linear-gradient(to top, #e1e1e1, #fff);
   }
 
   &:active {
-    background: #E4E4E4 none;
-    box-shadow: 0 0 4px 0 #D3D3D3 inset;
+    background: #e4e4e4 none;
+    box-shadow: 0 0 4px 0 #d3d3d3 inset;
   }
 
   &:last-child {
@@ -75,11 +79,11 @@ $ring-unit: 8px;
   display: block;
   float: left;
 
-  font-weight: bold;
+  padding: 0 calc($ring-unit * 4);
 
-  padding: 0 $ring-unit*4;
+  font-weight: bold;
 }
 
 .ring-island__content {
-  margin: $ring-unit*2 $ring-unit*4;
+  margin: calc($ring-unit * 2) calc($ring-unit * 4);
 }
