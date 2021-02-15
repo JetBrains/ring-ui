@@ -1278,4 +1278,4 @@ export default class Select extends Component {
   }
 }
 
-export const RerenderableSelect = rerenderHOC(Select, {captureNode: false});
+export const RerenderableSelect = rerenderHOC(Select);
