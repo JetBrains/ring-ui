@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './island-legacy.scss';
+import './island-legacy.css';
 
 export default class Header extends PureComponent {
   static propTypes = {
