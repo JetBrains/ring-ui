@@ -98,7 +98,7 @@
 
     content: '—';
 
-    line-height: calc(4 * unit - 3px);
+    line-height: calc(4 * unit - 2px);
   }
 }
 
