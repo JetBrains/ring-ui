@@ -7,6 +7,10 @@
     ```
 - `date-picker` has migrated from `moment` to `date-fns`. All the props deprecated in 3.1.0 are now removed. `onDateChange` is renamed back to `onChange` and will be removed in 5.0.
 - `svg-inline-loader` is not used by Ring UI anymore. Consider installing and using own instance if needed.
+- `SASS` files are rewritten to `CSS`. If your project imports Ring UI's SCSS files, check same folder for new CSS options.
+- `palette.scss` is not more available. This file contained styles for YouTrack's color fields palette, 
+  which we don't think should a part of generic components library. In case this palette is needed for the project,
+  we think it is better to have it local copy. You can get [it here](https://github.com/JetBrains/ring-ui/blob/73f26fe136b00bbf7cf54082c58e2c5d6c4c495d/components/palette/palette.scss)
 
 ## [3.1.0]
 Some of the props of `date-picker` are changed or deprecared to allow removing the dependency on `moment` package in v4:
