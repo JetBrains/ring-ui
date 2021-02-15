@@ -1,0 +1,88 @@
+/**
+ * @name Palette
+ */
+
+$ring-palette-white-text: #FFF;
+$ring-palette-grey-text: #444;
+
+$ring-palette-array: // [(background, text)]
+
+  // No color
+  transparent $ring-palette-grey-text,
+
+  // Brightness 1
+  #E6E6E6	#888888,
+  #E6F6CF	#4DA400,
+  #D8F7F3	#45818E,
+  #E0F1FB	#3D85C6,
+  #FCE5F1	#DC5766,
+  #FFEE9C	#B45F06,
+  #F7E9C1	#B45F06,
+
+  // Brightness 2
+  #BABABA $ring-palette-grey-text,
+  #B7E281 $ring-palette-grey-text,
+  #92E1D5 $ring-palette-grey-text,
+  #A6E0FC $ring-palette-grey-text,
+  #FFC8EA $ring-palette-grey-text,
+  #FED74A $ring-palette-grey-text,
+  #E0C378 $ring-palette-grey-text,
+
+  // Brightness 3
+  #878787 $ring-palette-white-text,
+  #7DBD36 $ring-palette-white-text,
+  #25BEB2 $ring-palette-white-text,
+  #42A3DF $ring-palette-white-text,
+  #FF7BC3 $ring-palette-white-text,
+  #FF7123 $ring-palette-white-text,
+  #CE6700 $ring-palette-white-text,
+
+  // Brightness 4
+  #4D4D4D $ring-palette-white-text,
+  #409600 $ring-palette-white-text,
+  #2F9890 $ring-palette-white-text,
+  #0070E4 $ring-palette-white-text,
+  #DC0083 $ring-palette-white-text,
+  #E30000 $ring-palette-white-text,
+  #8D5100 $ring-palette-white-text,
+
+  // Brightness 5
+  #1A1A1A $ring-palette-white-text,
+  #246512 $ring-palette-white-text,
+  #00665E $ring-palette-white-text,
+  #0050A1 $ring-palette-white-text,
+  #900052 $ring-palette-white-text,
+  #8E1600 $ring-palette-white-text,
+  #553000 $ring-palette-white-text;
+
+@mixin ring-add-palette-colors {
+  $i: 0;
+  $brightness: 0;
+
+  @each $color in $ring-palette-array {
+    $background: nth($color, 1);
+    $text: nth($color, 2);
+
+    &_color-#{$i} {
+      background-color: $background;
+      color: $text;
+    }
+
+    @if $i > 0 {
+      $tone: ($i - 1) % 7;
+      &_tone-#{$tone}-#{$brightness} {
+        background-color: $background;
+        color: $text;
+      }
+
+      @if $tone == 6 {
+        $brightness: $brightness + 1;
+      }
+    }
+    $i: $i + 1;
+  }
+}
+
+.ring-palette {
+  @include ring-add-palette-colors();
+}
