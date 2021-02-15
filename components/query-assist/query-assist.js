@@ -938,4 +938,4 @@ export default class QueryAssist extends Component {
   }
 }
 
-export const RerenderableQueryAssist = rerenderHOC(QueryAssist, {captureNode: false});
+export const RerenderableQueryAssist = rerenderHOC(QueryAssist);
