@@ -12,9 +12,6 @@
 - `SASS` files are rewritten to `CSS`. If your project imports Ring UI's SCSS files, check same folder for new CSS options.
 - `global.scss` is not more available. If you use variables or mixins from this file, please consider having own copy.
   Old version can be found [here](https://github.com/JetBrains/ring-ui/blob/4ec18fa1bb/components/global/global.scss).
-- `palette.scss` is not more available. This file contained styles for YouTrack's color fields palette, 
-  which we don't think should a part of generic components library. In case this palette is needed for the project,
-  we think it is better to have it local copy. You can get [it here](https://github.com/JetBrains/ring-ui/blob/73f26fe136b00bbf7cf54082c58e2c5d6c4c495d/components/palette/palette.scss)
 
 ## [3.1.0]
 Some of the props of `date-picker` are changed or deprecared to allow removing the dependency on `moment` package in v4:

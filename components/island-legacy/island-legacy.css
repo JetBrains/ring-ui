@@ -5,7 +5,10 @@ $ring-unit: 8px;
  */
 
 .ring-island {
-  @include ring-font;
+  color: var(--ring-text-color);
+
+  font-size: var(--ring-font-size);
+  font-family: var(--ring-font-family);
 
   min-width: calc($ring-unit * 25 - 2);
 
