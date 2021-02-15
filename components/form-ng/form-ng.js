@@ -3,7 +3,7 @@ import angular from 'angular';
 import AngularElastic from '@jetbrains/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
-import '../input/input.scss';
+import '../input/input-legacy.css';
 import '../error-bubble/error-bubble.css';
 
 /**
