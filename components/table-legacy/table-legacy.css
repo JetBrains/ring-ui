@@ -1,49 +1,56 @@
 @import "./table-legacy__toolbar.css";
 
-$ring-unit: 8px;
+@value unit from "../global/global.css";
 
 .ring-table {
   width: 100%;
+
   border-spacing: 0;
+
   border-collapse: collapse;
   background-color: transparent;
+
   font-size: var(--ring-font-size);
 }
 
 .ring-table__header {
   display: table-row;
+
   background-color: var(--ring-sidebar-background-color);
 }
 
 .ring-table__header-checkbox {
-  display: inline-block;
   position: relative;
   top: 1px;
   left: -2px;
+
+  display: inline-block;
 }
 
 .ring-table__title {
-  display: table-cell;
   position: relative;
-  padding: 0 $ring-unit;
+
+  display: table-cell;
+
+  padding: 0 unit;
 
   text-align: left;
-  line-height: 23px;
   white-space: nowrap;
-  font-size: var(--ring-font-size-smaller);
-  font-weight: normal;
 
   color: var(--ring-text-color);
   border-top: 1px solid var(--ring-sidebar-background-color);
   border-bottom: 1px solid var(--ring-line-color);
 
+  font-size: var(--ring-font-size-smaller);
+  font-weight: normal;
+  line-height: 23px;
 
   &.ring-table__title_active {
     font-weight: bold;
   }
 
   &:first-child {
-    padding-left: calc($ring-unit * 4);
+    padding-left: calc(unit * 4);
   }
 
   /* Have to emulate right border because of Fx weird bug —
@@ -51,46 +58,52 @@ $ring-unit: 8px;
   *  Removing border-collapse: collapse from .ring-table helps too,
   *  but to implement nested items markup without it is next to impossible.
   **/
-  &:after {
-    content: normal;
-    display: block;
+  &::after {
     position: absolute;
     top: -1px;
-    bottom: 0;
-    width: 1px;
     right: 0;
+    bottom: 0;
+
+    display: block;
+
+    width: 1px;
+
+    content: normal;
 
     background-color: var(--ring-sidebar-background-color);
   }
 }
 
-.ring-table__title_border:after {
+.ring-table__title_border::after {
   content: '';
 }
 
 .ring-table__title_nested {
-  padding-left: calc($ring-unit * 5);
+  padding-left: calc(unit * 5);
 
-// fix header checkbox position in nested table
+  /* fix header checkbox position in nested table */
   .ring-table__header-checkbox {
     left: -26px;
   }
 }
 
 .ring-table__toggle {
-  display: inline-block;
   position: relative;
   top: 9px;
+
+  display: inline-block;
+
   width: 12px;
   height: 9px;
 
-  margin-left: calc($ring-unit * 2);
+  margin-left: calc(unit * 2);
   padding-bottom: 21px;
 
-  color: var(--ring-line-color);
-  font-size: 14px;
-
   cursor: pointer;
+
+  color: var(--ring-line-color);
+
+  font-size: 14px;
 
   &:hover {
     color: var(--ring-text-color);
@@ -107,6 +120,7 @@ $ring-unit: 8px;
 
 .ring-table__column-inline-avatar {
   display: inline-block;
+
   vertical-align: middle;
 }
 
@@ -115,49 +129,54 @@ $ring-unit: 8px;
 }
 
 .ring-table__column_selector {
-  min-width: calc(3 * $ring-unit);
+  min-width: calc(3 * unit);
   padding: 0 !important;
+
   text-align: center;
 }
 
 .ring-table__selector {
   display: inline-block;
-  margin: 0 0 0 calc($ring-unit / 2);
+
+  margin: 0 0 0 calc(unit / 2);
 }
 
 .ring-table__column {
   display: table-cell;
+
+  padding: calc(unit - 2) unit;
+
+  vertical-align: middle;
+  white-space: nowrap;
+
+  border-collapse: collapse;
   border-width: 1px;
   border-color: var(--ring-sidebar-background-color);
   border-top-style: solid;
   border-bottom-style: solid;
-  border-collapse: collapse;
 
-  padding: calc($ring-unit - 2) $ring-unit;
-  vertical-align: middle;
-  white-space: nowrap;
-
-// Avoid vertical gaps in the middle of the table
+  /* Avoid vertical gaps in the middle of the table */
   &:last-child {
     width: 100%;
   }
 
   &:first-child {
-    padding-left: calc(4 * $ring-unit);
+    padding-left: calc(4 * unit);
   }
 
   &.ring-table__column_gap {
-    background-color: var(--ring-line-color);
     border-bottom-color: transparent !important;
+    background-color: var(--ring-line-color);
   }
 
-// Combined class is required here for specificity
+  /* Combined class is required here for specificity */
   &.ring-table__column_toggle {
-    width: calc($ring-unit * 2);
+    width: calc(unit * 2);
     padding: 0;
 
-    vertical-align: top;
     text-align: right;
+
+    vertical-align: top;
   }
 
   &_right {
@@ -182,8 +201,9 @@ $ring-unit: 8px;
 }
 
 .ring-table__column_gap {
+  padding-left: calc(unit * 2) !important;
+
   border-right-style: solid;
-  padding-left: calc($ring-unit * 2) !important;
 }
 
 .ring-table__column-title {
@@ -191,39 +211,42 @@ $ring-unit: 8px;
 }
 
 .ring-table__column_wide {
-  min-width: calc(10 * $ring-unit);
+  min-width: calc(10 * unit);
 }
 
 .ring-table__column_limited {
   overflow: hidden;
+
+  max-width: calc(50 * unit);
+
   white-space: nowrap;
   text-overflow: ellipsis;
-
-  max-width: calc(50 * $ring-unit);
 }
 
 .ring-table__column_unlimited {
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 
   width: 100%;
   max-width: 1px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .ring-table__column_narrow {
-  min-width: calc(3 * $ring-unit);
+  min-width: calc(3 * unit);
   padding: 0 !important;
 }
 
-.ring-table__column-list:not(:last-child):after {
+.ring-table__column-list:not(:last-child)::after {
   content: ', ';
 }
 
 .ring-table__row {
   display: table-row;
+
   width: 100%;
-  height: calc(5 * $ring-unit);
+  height: calc(5 * unit);
 
   &.ring-table__row_ghost {
     background-color: var(--ring-content-background-color);
@@ -239,7 +262,6 @@ $ring-unit: 8px;
     .ring-table__column_gap {
       background-color: var(--ring-line-color);
     }
-
   }
 
   &.ring-table__row_unselectable:hover {
@@ -276,42 +298,48 @@ $ring-unit: 8px;
 }
 
 .ring-table__description {
-  margin-left: $ring-unit;
-  font-size: var(--ring-font-size-smaller);
+  margin-left: unit;
+
   color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
 }
 
 .ring-table__avatar {
-  width: calc(3 * $ring-unit);
-  height: calc(3 * $ring-unit + 3); // If avatar is missing
+  width: calc(3 * unit);
+  height: calc(3 * unit + 3); /* If avatar is missing */
 }
 
 .ring-table__avatar-img {
-  width: calc(3 * $ring-unit);
-  height: calc(3 * $ring-unit);
+  width: calc(3 * unit);
+  height: calc(3 * unit);
 }
 
 .ring-table__header_sticky {
   position: fixed;
-  display: none;
-  top: 0;
-  width: auto;
 
-// Set z-index to avoid overlaying icons in rows and fixed header
+  /* Set z-index to avoid overlaying icons in rows and fixed header */
+
   z-index: var(--ring-fixed-z-index);
+  top: 0;
+
+  display: none;
+
+  width: auto;
 }
 
 .table__pager {
-  padding: calc(4 * $ring-unit) calc(4 * $ring-unit);
+  padding: calc(4 * unit) calc(4 * unit);
 }
 
 .table__pager-links {
-  margin-bottom: calc(2 * $ring-unit);
+  margin-bottom: calc(2 * unit);
 }
 
 .table__pager-link {
   display: inline-block;
-  margin-right: calc(4 * $ring-unit);
+
+  margin-right: calc(4 * unit);
 
   &_disabled {
     color: var(--ring-secondary-color);
@@ -319,6 +347,6 @@ $ring-unit: 8px;
 }
 
 .table__pager-select {
-  float: right;
   display: inline-block;
+  float: right;
 }
