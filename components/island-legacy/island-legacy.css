@@ -4,6 +4,14 @@
  * @name Island Legacy
  */
 
+:root {
+  --button-text-color: #6d6d6d;
+  --border-left-color: #b4b4b4;
+  --hover-background-color: #e1e1e1;
+  --active-background-color: #e4e4e4;
+  --box-shadow-color: #d3d3d3;
+}
+
 .ring-island {
   min-width: calc(unit * 25 - 2);
 
@@ -60,19 +68,20 @@
 
   user-select: none;
 
-  color: #6d6d6d;
-  border-left: 1px solid #b4b4b4;
-  text-shadow: #fff 0 0 1px;
+  color: var(--button-text-color);
+
+  border-left: 1px solid var(--border-left-color);
+  text-shadow: var(--ring-dark-text-color) 0 0 1px;
 
   font-size: var(--ring-font-size-smaller);
 
   &:hover {
-    background: #e1e1e1 linear-gradient(to top, #e1e1e1, #fff);
+    background: var(--hover-background-color) linear-gradient(to top, var(--hover-background-color), var(--ring-content-background-color));
   }
 
   &:active {
-    background: #e4e4e4 none;
-    box-shadow: 0 0 4px 0 #d3d3d3 inset;
+    background: var(--active-background-color) none;
+    box-shadow: 0 0 4px 0 var(--box-shadow-color) inset;
   }
 
   &:last-child {
