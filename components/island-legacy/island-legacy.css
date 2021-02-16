@@ -1,11 +1,11 @@
-$ring-unit: 8px;
+@value unit from "../global/global.css";
 
 /**
  * @name Island Legacy
  */
 
 .ring-island {
-  min-width: calc($ring-unit * 25 - 2);
+  min-width: calc(unit * 25 - 2);
 
   color: var(--ring-text-color);
 
@@ -37,7 +37,7 @@ $ring-unit: 8px;
 }
 
 .ring-island__header {
-  min-height: calc($ring-unit * 3 - 2);
+  min-height: calc(unit * 3 - 2);
 
   border-bottom: 1px solid var(--ring-line-color);
   border-top-left-radius: var(--ring-border-radius);
@@ -45,14 +45,14 @@ $ring-unit: 8px;
 
   background-color: var(--ring-content-background-color);
 
-  line-height: calc($ring-unit * 3 - 2);
+  line-height: calc(unit * 3 - 2);
 }
 
 .ring-island__header-btn,
 .ring-island__header-button {
   float: right;
 
-  padding: 0 calc($ring-unit * 2 - 1);
+  padding: 0 calc(unit * 2 - 1);
 
   /* -1 to account for border */
 
@@ -84,11 +84,11 @@ $ring-unit: 8px;
   display: block;
   float: left;
 
-  padding: 0 calc($ring-unit * 4);
+  padding: 0 calc(unit * 4);
 
   font-weight: bold;
 }
 
 .ring-island__content {
-  margin: calc($ring-unit * 2) calc($ring-unit * 4);
+  margin: calc(unit * 2) calc(unit * 4);
 }
