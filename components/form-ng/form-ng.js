@@ -4,7 +4,7 @@ import AngularElastic from '@jetbrains/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import '../input/input-legacy.css';
-import '../error-bubble/error-bubble.css';
+import '../error-bubble/error-bubble-legacy.css';
 
 /**
  * @name Form Ng
