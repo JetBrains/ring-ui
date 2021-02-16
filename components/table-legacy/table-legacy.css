@@ -257,7 +257,7 @@ $ring-unit: 8px;
   &.ring-table__row_active {
     .ring-table__column {
       border-color: var(--ring-main-color);
-      border-top-style: double; // Using double to override border-top-color because of border collapsed
+      border-top-style: double; /* Using double to override border-top-color because of border collapsed */
     }
 
     .ring-table__column_gap {
