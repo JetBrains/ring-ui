@@ -15,48 +15,48 @@
 
 /* XS */
 
-.ring-input-size_xs.ring-input-size_xs {
+:global(.ring-input-size_xs.ring-input-size_xs) {
   display: inline-block;
 
   width: var(--ring-input-xs);
 }
 
-.ring-input-size_xs.ring-input-size_xs ~ .ring-error-bubble {
+:global(.ring-input-size_xs.ring-input-size_xs ~ .ring-error-bubble) {
   left: calc(var(--ring-input-xs) + 2);
 }
 
 /* S */
 
-.ring-input-size_s.ring-input-size_s {
+:global(.ring-input-size_s.ring-input-size_s) {
   display: inline-block;
 
   width: var(--ring-input-s);
 }
 
-.ring-input-size_s.ring-input-size_s ~ .ring-error-bubble {
+:global(.ring-input-size_s.ring-input-size_s ~ .ring-error-bubble) {
   left: calc(var(--ring-input-s) + 2);
 }
 
 /* M */
 
-.ring-input-size_md.ring-input-size_md {
+:global(.ring-input-size_md.ring-input-size_md) {
   display: inline-block;
 
   width: var(--ring-input-m);
 }
 
-.ring-input-size_md.ring-input-size_md ~ .ring-error-bubble {
+:global(.ring-input-size_md.ring-input-size_md ~ .ring-error-bubble) {
   left: calc(var(--ring-input-m) + 2);
 }
 
 /* L */
 
-.ring-input-size_l.ring-input-size_l {
+:global(.ring-input-size_l.ring-input-size_l) {
   display: inline-block;
 
   width: var(--ring-input-l);
 }
 
-.ring-input-size_l.ring-input-size_l ~ .ring-error-bubble {
+:global(.ring-input-size_l.ring-input-size_l ~ .ring-error-bubble) {
   left: calc(var(--ring-input-l) + 2);
 }
