@@ -1,10 +1,10 @@
 @value unit from "../global/global.css";
 
-.ring-table__toolbar {
+:global(.ring-table__toolbar) {
   background: inherit;
 }
 
-.ring-table__toolbar-controls {
+:global(.ring-table__toolbar-controls) {
   position: relative;
 
   display: block;
