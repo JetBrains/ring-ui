@@ -2,7 +2,7 @@
 
 @value unit from "../global/global.css";
 
-.errorBubblePopup {
+:global(.errorBubblePopup) {
   overflow: visible;
 
   margin-left: 2px;
@@ -12,11 +12,11 @@
   box-shadow: none;
 }
 
-.errorBubbleWrapper {
+:global(.errorBubbleWrapper) {
   display: inline-block;
 }
 
-.errorBubble {
+:global(.errorBubble) {
   box-sizing: border-box;
   min-height: calc(unit * 3);
   padding-right: calc(unit * 2);
@@ -36,7 +36,7 @@
   line-height: 22px;
 }
 
-.errorBubble::before {
+:global(.errorBubble::before) {
   position: absolute;
   top: unit;
   left: -4px;
