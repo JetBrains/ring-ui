@@ -12,7 +12,7 @@
   }
 }
 
-.ring-sidebar {
+:global(.ring-sidebar) {
   position: fixed;
   z-index: 4;
 
@@ -37,7 +37,7 @@
   background: var(--ring-content-background-color);
 }
 
-.ring-sidebar_active {
+:global(.ring-sidebar_active) {
   right: 0;
 
   visibility: visible;
@@ -48,16 +48,16 @@
   box-shadow: -1px 0 2px 0 rgba(0, 42, 76, 0.15);
 }
 
-.ring-sidebar_active .ring-sidebar__i {
+:global(.ring-sidebar_active .ring-sidebar__i) {
   transition: 0.5s ease-in;
   transform: rotate(180deg);
 }
 
-.ring-sidebar__toggle-icon {
+:global(.ring-sidebar__toggle-icon) {
   color: var(--ring-icon-secondary-color);
 }
 
-.ring-sidebar__avatar {
+:global(.ring-sidebar__avatar) {
   float: left;
 
   width: calc(6 * unit);
@@ -66,7 +66,7 @@
   padding: 0 calc(2 * unit) 0 calc(4 * unit);
 }
 
-.ring-sidebar__title {
+:global(.ring-sidebar__title) {
   margin: 0;
   padding-left: calc(4 * unit);
 
@@ -79,7 +79,7 @@
   line-height: 28px;
 }
 
-.ring-sidebar__title .tag-flag {
+:global(.ring-sidebar__title .tag-flag) {
   vertical-align: bottom;
 }
 
@@ -87,14 +87,14 @@
   margin-bottom: 42px;
 }
 
-.ring-sidebar__section {
+:global(.ring-sidebar__section) {
   position: relative;
 
   margin-top: calc(3 * unit);
   padding: 0 calc(2 * unit) 0 calc(4 * unit);
 }
 
-.ring-sidebar__section-title {
+:global(.ring-sidebar__section-title) {
   display: inline-block;
 
   color: var(--ring-text-color);
@@ -103,24 +103,24 @@
   font-weight: bold;
 }
 
-.ring-sidebar__section-text {
+:global(.ring-sidebar__section-text) {
   color: var(--ring-text-color);
 
   font-size: var(--ring-font-size);
   line-height: calc(3 * unit);
 }
 
-.ring-sidebar__section-text_multiline {
+:global(.ring-sidebar__section-text_multiline) {
   padding: 4px 0 5px;
 
   line-height: normal;
 }
 
-.ring-sidebar__section-roster {
+:global(.ring-sidebar__section-roster) {
   margin-top: unit;
 }
 
-.ring-sidebar__section-icon {
+:global(.ring-sidebar__section-icon) {
   position: absolute;
   left: 0;
 
@@ -135,19 +135,19 @@
   font-size: 12px;
 }
 
-.ring-sidebar__empty {
+:global(.ring-sidebar__empty) {
   margin-top: calc(unit * 4);
 
   text-align: center;
 }
 
-.ring-sidebar__empty-icon {
+:global(.ring-sidebar__empty-icon) {
   color: var(--ring-disabled-color);
 
   font-size: 100px;
 }
 
-.ring-sidebar__empty-description {
+:global(.ring-sidebar__empty-description) {
   margin-top: calc(unit * 2);
   padding-top: 4px;
 

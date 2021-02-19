@@ -2,14 +2,14 @@
 
 @value unit from "../global/global.css";
 
-.ring-save-field {
+:global(.ring-save-field) {
   display: inline-block;
 
   font-size: 0;
   line-height: 0;
 }
 
-.ring-save-field .ring-save-field__button {
+:global(.ring-save-field .ring-save-field__button) {
   margin-left: unit;
 
   vertical-align: top;
