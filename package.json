@@ -202,7 +202,7 @@
     "svg-inline-loader": "^0.8.2",
     "url-loader": "^4.1.1",
     "util-deprecate": "^1.0.2",
-    "whatwg-fetch": "^3.5.0"
+    "whatwg-fetch": "^3.6.1"
   },
   "engines": {
     "node": ">=7.4"
