@@ -1,6 +1,8 @@
 import jsx from 'rollup-plugin-jsx';
 import {babel} from '@rollup/plugin-babel';
-import embedCSS from 'rollup-plugin-embed-css';
+import embedCSS, {embedCSSPlugin} from 'rollup-plugin-embed-css';
+import cjs from 'rollup-plugin-commonjs';
+import postcss from 'rollup-plugin-postcss';
 
 /*export default {
   input: 'components/badge/badge.js',
@@ -15,7 +17,9 @@ export default {
     'react',
     'prop-types',
     'core-js',
-    // path.resolve( __dirname, 'src/some-local-file-that-should-not-be-bundled.js' ),
+
+    'classnames',
+
     /node_modules/
   ],
   input: 'components/badge/badge.js',
@@ -33,6 +37,21 @@ export default {
     jsx({
       factory: 'React.createElement'
     }),
-    embedCSS({})
+    embedCSS(),
+    embedCSSPlugin(),
+    postcss({
+      plugins: []
+    }),
+    cjs({
+      exclude: 'node_modules/process-es6/**',
+      include: [
+        // 'node_modules/create-react-class/**',
+        'node_modules/classnames/**'
+        // 'node_modules/object-assign/**',
+        // 'node_modules/react/**',
+        // 'node_modules/react-dom/**',
+        // 'node_modules/prop-types/**'
+      ]
+    })
   ]
 };
