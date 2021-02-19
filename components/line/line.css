@@ -2,7 +2,7 @@
 
 @value unit from "../global/global.css";
 
-.ring-line {
+:global(.ring-line) {
   display: block;
 
   width: 100%;
@@ -11,6 +11,6 @@
   background-color: var(--ring-line-color);
 }
 
-.ring-line_separated {
+:global(.ring-line_separated) {
   margin: calc(unit * 2) 0;
 }

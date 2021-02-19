@@ -2,14 +2,14 @@
 
 @value unit from "../global/global.css";
 
-.ring-tooltip-ng {
+:global(.ring-tooltip-ng) {
   max-width: calc(unit * 50);
   padding: unit;
 
   text-align: left;
 }
 
-.ring-tooltip-ng__hint-icon {
+:global(.ring-tooltip-ng__hint-icon) {
   position: relative;
   top: -2px;
 
@@ -20,6 +20,6 @@
   color: var(--ring-icon-color);
 }
 
-.ring-tooltip-ng_open .ring-tooltip-ng__hint-icon {
+:global(.ring-tooltip-ng_open .ring-tooltip-ng__hint-icon) {
   color: var(--ring-link-hover-color);
 }

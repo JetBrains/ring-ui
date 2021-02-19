@@ -2,27 +2,27 @@
 
 @value unit from "../global/global.css";
 
-.shortcuts-hint {
+:global(.shortcuts-hint) {
   width: 900px;
   margin-bottom: calc(unit * 2);
 }
 
-.shortcuts-hint__dialog {
+:global(.shortcuts-hint__dialog) {
   width: auto;
 }
 
-.shortcuts-hint__popup-header {
+:global(.shortcuts-hint__popup-header) {
   padding-left: unit;
 }
 
-.shortcuts-hint__columns {
+:global(.shortcuts-hint__columns) {
   margin-top: calc(unit * 3);
   columns: 2 auto;
 
   line-height: 20px;
 }
 
-.shortcuts-hint__table {
+:global(.shortcuts-hint__table) {
   display: table;
 
   border-spacing: 0 unit;
@@ -30,15 +30,15 @@
   border-collapse: separate;
 }
 
-.shortcuts-hint__shortcuts-column {
+:global(.shortcuts-hint__shortcuts-column) {
   min-width: calc(unit * 4);
 }
 
-.shortcuts-hint__shortcut-block {
+:global(.shortcuts-hint__shortcut-block) {
   display: table-row-group;
 }
 
-.shortcuts-hint__shortcut-block:not(:first-child)::before {
+:global(.shortcuts-hint__shortcut-block:not(:first-child)::before) {
   display: block;
 
   height: calc(unit / 2);
@@ -46,13 +46,13 @@
   content: '';
 }
 
-.shortcuts-hint__search-input-wrapper {
+:global(.shortcuts-hint__search-input-wrapper) {
   position: relative;
 
   width: calc(unit * 30);
 }
 
-.shortcuts-hint__search-icon {
+:global(.shortcuts-hint__search-icon) {
   position: absolute;
   top: 18px;
   right: 0;
@@ -67,15 +67,15 @@
   color: var(--ring-disabled-color);
 }
 
-.shortcuts-hint__table-row {
+:global(.shortcuts-hint__table-row) {
   display: table-row;
 }
 
-.shortcuts-hint__table-title {
+:global(.shortcuts-hint__table-title) {
   display: table-row;
 }
 
-.shortcuts-hint__shortcut-cell {
+:global(.shortcuts-hint__shortcut-cell) {
   display: table-cell;
 
   max-width: calc(unit * 22);
@@ -84,7 +84,7 @@
   text-align: right;
 }
 
-.shortcuts-hint__shortcut {
+:global(.shortcuts-hint__shortcut) {
   white-space: nowrap;
 
   color: var(--ring-secondary-color);
@@ -92,13 +92,13 @@
   font-family: monospace;
 }
 
-.shortcuts-hint__hint {
+:global(.shortcuts-hint__hint) {
   display: table-cell;
 
   padding-left: unit;
 }
 
-.shortcuts-hint__shortcuts-title {
+:global(.shortcuts-hint__shortcuts-title) {
   display: table-cell;
 
   padding-left: unit;
@@ -111,6 +111,6 @@
   font-size: 12px;
 }
 
-.shortcuts-hint__key-spacer {
+:global(.shortcuts-hint__key-spacer) {
   padding: 0 unit;
 }
