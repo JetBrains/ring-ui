@@ -22,7 +22,7 @@
 }
 
 :global(.ring-input-size_xs.ring-input-size_xs ~ .ring-error-bubble) {
-  left: calc(var(--ring-input-xs) + 2);
+  left: calc(var(--ring-input-xs) + 2px);
 }
 
 /* S */
@@ -34,7 +34,7 @@
 }
 
 :global(.ring-input-size_s.ring-input-size_s ~ .ring-error-bubble) {
-  left: calc(var(--ring-input-s) + 2);
+  left: calc(var(--ring-input-s) + 2px);
 }
 
 /* M */
@@ -46,7 +46,7 @@
 }
 
 :global(.ring-input-size_md.ring-input-size_md ~ .ring-error-bubble) {
-  left: calc(var(--ring-input-m) + 2);
+  left: calc(var(--ring-input-m) + 2px);
 }
 
 /* L */
@@ -58,5 +58,5 @@
 }
 
 :global(.ring-input-size_l.ring-input-size_l ~ .ring-error-bubble) {
-  left: calc(var(--ring-input-l) + 2);
+  left: calc(var(--ring-input-l) + 2px);
 }
