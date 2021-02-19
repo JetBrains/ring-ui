@@ -197,7 +197,7 @@
 
 :global(.ring-form__info) {
   width: calc(85 * unit);
-  margin-bottom: calc(-1 * unit + 2);
+  margin-bottom: calc(-1 * unit + 2px);
   margin-left: calc(20 * unit);
 
   line-height: 20px;
