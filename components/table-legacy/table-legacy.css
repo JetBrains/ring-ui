@@ -144,7 +144,7 @@
 :global(.ring-table__column) {
   display: table-cell;
 
-  padding: calc(unit - 2) unit;
+  padding: calc(unit - 2px) unit;
 
   vertical-align: middle;
   white-space: nowrap;
@@ -305,7 +305,7 @@
 
 :global(.ring-table__avatar) {
   width: calc(3 * unit);
-  height: calc(3 * unit + 3); /* If avatar is missing */
+  height: calc(3 * unit + 3px); /* If avatar is missing */
 }
 
 :global(.ring-table__avatar-img) {
