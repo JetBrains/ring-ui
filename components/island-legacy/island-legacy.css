@@ -5,7 +5,7 @@
  */
 
 :global(.ring-island) {
-  min-width: calc(unit * 25 - 2);
+  min-width: calc(unit * 25 - 2px);
 
   color: var(--ring-text-color);
 
@@ -37,7 +37,7 @@
 }
 
 :global(.ring-island__header) {
-  min-height: calc(unit * 3 - 2);
+  min-height: calc(unit * 3 - 2px);
 
   border-bottom: 1px solid var(--ring-line-color);
   border-top-left-radius: var(--ring-border-radius);
@@ -45,14 +45,14 @@
 
   background-color: var(--ring-content-background-color);
 
-  line-height: calc(unit * 3 - 2);
+  line-height: calc(unit * 3 - 2px);
 }
 
-:global(.ring-island__header-btn,
-.ring-island__header-button) {
+:global(.ring-island__header-btn),
+:global(.ring-island__header-button) {
   float: right;
 
-  padding: 0 calc(unit * 2 - 1);
+  padding: 0 calc(unit * 2 - 1px);
 
   /* -1 to account for border */
 
@@ -68,19 +68,19 @@
   font-size: var(--ring-font-size-smaller);
 }
 
-:global(.ring-island__header-btn,
-.ring-island__header-button:hover) {
+:global(.ring-island__header-btn),
+:global(.ring-island__header-button:hover) {
   background: var(--ring-hover-background-color) linear-gradient(to top, var(--ring-hover-background-color), var(--ring-content-background-color));
 }
 
-:global(.ring-island__header-btn,
-.ring-island__header-button:active) {
+:global(.ring-island__header-btn),
+:global(.ring-island__header-button:active) {
   background: var(--ring-content-background-color) none;
   box-shadow: 0 0 4px 0 var(--ring-content-background-color) inset;
 }
 
-:global(.ring-island__header-btn,
-.ring-island__header-button:last-child) {
+:global(.ring-island__header-btn),
+:global(.ring-island__header-button:last-child) {
   border-top-right-radius: 3px;
 }
 
