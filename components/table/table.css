@@ -56,7 +56,7 @@
   cursor: pointer;
 }
 
-.headerCell.sorter {
+.headerCell .sorter {
   position: absolute;
 
   display: none;
