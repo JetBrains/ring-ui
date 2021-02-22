@@ -15,27 +15,6 @@ const svgLoader = {
   include: componentsPath
 };
 
-const scssLoader = {
-  test: /\.scss$/,
-  include: componentsPath,
-  use: [
-    require.resolve('style-loader'),
-    require.resolve('css-loader'),
-    {
-      loader: require.resolve('postcss-loader')
-    },
-    {
-      loader: require.resolve('sass-loader'),
-      options: {
-        sassOptions: {
-          outputStyle: 'expanded'
-        },
-        implementation: require('sass') // Dart implementation of SASS compiler
-      }
-    }
-  ]
-};
-
 const cssLoader = {
   test: /\.css$/,
   include: componentsPath,
@@ -108,7 +87,6 @@ const loaders = {
   svgLoader,
   cssLoader,
   externalCssLoader,
-  scssLoader,
   babelLoader,
   vfileLoader,
   htmlLoader,
@@ -129,6 +107,9 @@ module.exports = {
     ...loaders,
     get svgInlineLoader() {
       throw new Error('***Ring UI embedded "svgInlineLoader" removed in 4.0. Please install and use own instance if you need it.***');
+    },
+    get scssLoader() {
+      throw new Error('***Ring UI embedded "scssLoader" removed in 4.0. Please install and use own instance if you need it.***');
     }
   }
 };
