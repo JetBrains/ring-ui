@@ -569,7 +569,12 @@ export default class QueryAssist extends Component {
       }
     }, CLOSE_POPUP_TIMEOUT);
 
-    dataPromise.then(() => window.clearTimeout(timeout));
+    dataPromise.
+      then(() => window.clearTimeout(timeout)).
+      catch(() => {
+        window.clearTimeout(timeout);
+        this.setState({loading: false});
+      });
 
     return dataPromise;
   }
