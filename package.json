@@ -27,7 +27,7 @@
     "components": "./components/"
   },
   "scripts": {
-    "postinstall": "node components/icon/generate-exports",
+    "postinstall": "node components/icon/generate-exports && husky install",
     "bootstrap": "lerna bootstrap",
     "component:ng": "yo @jetbrains/ring-ui:ng --path $npm_package_config_components",
     "component:react": "yo @jetbrains/ring-ui:react --path $npm_package_config_components",
@@ -56,7 +56,9 @@
     "test-ci": "karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
     "prerelease-ci": "git pull",
-    "release-ci": "lerna publish --yes"
+    "release-ci": "lerna publish --yes",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "repository": {
     "type": "git",
@@ -118,6 +120,7 @@
     "lint-staged": "^10.5.4",
     "merge-options": "^3.0.4",
     "mocha": "^8.3.0",
+    "pinst": "^2.1.4",
     "process": "^0.11.10",
     "puppeteer": "^7.1.0",
     "raw-loader": "^4.0.2",
@@ -206,10 +209,5 @@
   },
   "engines": {
     "node": ">=7.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lerna bootstrap && lint-staged"
-    }
   }
 }
