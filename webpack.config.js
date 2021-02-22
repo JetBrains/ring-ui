@@ -6,15 +6,6 @@ function loadersObjectToArray(loaders) {
   return Object.keys(loaders).map(name => loaders[name]);
 }
 
-const svgLoader = {
-  test: /\.svg$/,
-  loader: require.resolve('url-loader'),
-  options: {
-    limit: 10000
-  },
-  include: componentsPath
-};
-
 const cssLoader = {
   test: /\.css$/,
   include: componentsPath,
@@ -84,7 +75,6 @@ const gifLoader = {
 };
 
 const loaders = {
-  svgLoader,
   cssLoader,
   externalCssLoader,
   babelLoader,
@@ -110,6 +100,9 @@ module.exports = {
     },
     get scssLoader() {
       throw new Error('***Ring UI embedded "scssLoader" removed in 4.0. Please install and use own instance if you need it.***');
+    },
+    get svgLoader() {
+      throw new Error('***Ring UI embedded "svgLoader" removed in 4.0. Please install and use own instance if you need it.***');
     }
   }
 };
