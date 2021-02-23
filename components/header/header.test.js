@@ -11,7 +11,7 @@ describe('Header', () => {
     mountHeader().type().should.equal(Header.type);
   });
 
-  it('should wrap children with руфвук', () => {
+  it('should wrap children with header', () => {
     getHeaderDiv().should.exist;
   });
 
