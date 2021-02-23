@@ -1,7 +1,7 @@
 {
   "packages": [
-    "components/*",
     "packages/*",
+    ".storybook/custom-header",
     "."
   ],
   "npmClient": "npm",
