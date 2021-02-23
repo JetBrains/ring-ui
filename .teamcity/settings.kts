@@ -1355,12 +1355,15 @@ object UnitTestsAndBuild : BuildType({
                 node -v
                 npm -v
 
+                apt update
+                apt install g++ gcc make python -y
                 npm install
                 npm run postinstall
+                npm run bootstrap
                 npm run test-ci
                 npm run build
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer"
+            dockerImage = "buildkite/puppeteer:5.2.1"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
