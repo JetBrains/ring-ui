@@ -1,8 +1,6 @@
 import {babel} from '@rollup/plugin-babel';
-// import embedCSS, {embedCSSPlugin} from 'rollup-plugin-embed-css';
 import postcss from 'rollup-plugin-postcss';
 
-// import cjs from 'rollup-plugin-commonjs';
 import globals from 'rollup-plugin-node-globals';
 import replace from '@rollup/plugin-replace';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
@@ -46,23 +44,23 @@ export default {
       }
     }),
 
-    /*cjs({
-      exclude: [
-        'node_modules/process-es6/!**'
-      ],
-      include: [
-        'node_modules/create-react-class/!**',
-        'node_modules/fbjs/!**',
-        'node_modules/object-assign/!**',
-        'node_modules/react/!**',
-        'node_modules/react-dom/!**',
-        'node_modules/prop-types/!**'
-      ]
-    }),*/
-
     postcss({
-      extensions: ['.css'],
-      extract: true
+      // extensions: ['.css'],
+      config: {
+        ctx: {
+          isRollup: true
+        }
+      },
+      // extract: true,
+      // inject: true,
+      inject: cssVariableName =>
+        `import styleInject from 'style-inject';\nstyleInject(${cssVariableName});`,
+      // extract: path.resolve('build/my-custom-file-name.css'),
+      modules: true
+      // namedExports: true
+      /*processor: css => postcss([autoprefixer])
+        .process(css)
+        .then(result => result.css)*/
     }),
 
     globals(),
@@ -74,30 +72,5 @@ export default {
       browser: true
       // main: true
     })
-
-
-    /*babel({
-      babelHelpers: 'bundled'
-    }),
-    // jsx({
-    //   factory: 'React.createElement'
-    // }),
-    // embedCSS(),
-    // embedCSSPlugin(),
-    postcss({
-      extensions: ['.css'],
-      extract: true
-    })
-    cjs({
-      exclude: 'node_modules/process-es6/!**',
-      include: [
-        // 'node_modules/create-react-class/!**',
-        'node_modules/classnames/!**'
-        // 'node_modules/object-assign/!**',
-        // 'node_modules/react/!**',
-        // 'node_modules/react-dom/!**',
-        // 'node_modules/prop-types/!**'
-      ]
-    })*/
   ]
 };
