@@ -10,11 +10,16 @@ import browserslist from 'browserslist';
 export default {
   external: [
     'react',
+    'react-dom',
     'prop-types',
     'classnames',
+    'style-inject',
     /node_modules/
   ],
-  input: 'components/badge/badge.js',
+  input: [
+    'components/alert/alert.js',
+    'components/badge/badge.js'
+  ],
 
   output: {
     dir: 'build',
@@ -55,7 +60,6 @@ export default {
       // inject: true,
       inject: cssVariableName =>
         `import styleInject from 'style-inject';\nstyleInject(${cssVariableName});`,
-      // extract: path.resolve('build/my-custom-file-name.css'),
       modules: true
       // namedExports: true
       /*processor: css => postcss([autoprefixer])
