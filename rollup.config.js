@@ -1,9 +1,9 @@
 import {babel} from '@rollup/plugin-babel';
 import postcss from 'rollup-plugin-postcss';
-
 import globals from 'rollup-plugin-node-globals';
 import replace from '@rollup/plugin-replace';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
+import clear from 'rollup-plugin-clear';
 import browserslist from 'browserslist';
 
 
@@ -14,6 +14,9 @@ export default {
     'prop-types',
     'classnames',
     'style-inject',
+    'conic-gradient',
+    'util-deprecate',
+    /@jetbrains\/icons\//,
     /node_modules/
   ],
   input: [
@@ -27,6 +30,10 @@ export default {
   },
 
   plugins: [
+    clear({
+      targets: ['build']
+    }),
+
     babel({
       babelHelpers: 'bundled',
 
@@ -50,21 +57,14 @@ export default {
     }),
 
     postcss({
-      // extensions: ['.css'],
       config: {
         ctx: {
           isRollup: true
         }
       },
-      // extract: true,
-      // inject: true,
       inject: cssVariableName =>
         `import styleInject from 'style-inject';\nstyleInject(${cssVariableName});`,
       modules: true
-      // namedExports: true
-      /*processor: css => postcss([autoprefixer])
-        .process(css)
-        .then(result => result.css)*/
     }),
 
     globals(),
