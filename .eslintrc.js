@@ -18,6 +18,8 @@ module.exports = {
       devDependencies: [
         'webpack-test.config.js',
         'wallaby.config.js',
+        'rollup.config.js',
+        '*webpack.config.js',
         'karma-*.conf.js',
         '**/*.test.js',
         '**/*.examples.js',
