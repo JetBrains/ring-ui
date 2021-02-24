@@ -1,8 +1,8 @@
-const scssRE = /\.scss$/;
 const EMBRACED_STAGE = 3; // See https://cssdb.org/#staging-process
 
-module.exports = ctx => {
-  const commonPlugins = [
+module.exports = () => {
+  const plugins = [
+    require('postcss-modules-values-replace')(),
     require('postcss-preset-env')({
       stage: EMBRACED_STAGE,
       features: {
@@ -14,10 +14,6 @@ module.exports = ctx => {
     require('@jetbrains/postcss-require-hover')(),
     require('postcss-calc')({mediaQueries: true})
   ];
-
-  const plugins = scssRE.test(ctx.file.basename)
-    ? commonPlugins
-    : [require('postcss-modules-values-replace')(), ...commonPlugins];
 
   return {plugins};
 };
