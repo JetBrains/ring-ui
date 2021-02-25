@@ -40,10 +40,10 @@ export default {
     'components/button-set/button-set.js',
     'components/button-toolbar/button-toolbar.js',
     'components/caret/caret.js',
-    'components/checkbox/checkbox.js'
+    'components/checkbox/checkbox.js',
     // 'components/code/code.js',
-    // 'components/confirm/confirm.js',
-    // 'components/confirm-service/confirm-service.js',
+    'components/confirm/confirm.js',
+    'components/confirm-service/confirm-service.js'
     // 'components/content-layout/content-layout.js',
   ],
 
