@@ -12,7 +12,7 @@ import PopupMenu, {ListProps} from '../popup-menu/popup-menu';
 import Dropdown from '../dropdown/dropdown';
 
 import Link from '../link/link';
-import Icon from '../icon';
+import Icon from '../icon/icon';
 
 import styles from './tabs.css';
 import getTabTitles from './collapsible-tab';
