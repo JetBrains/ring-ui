@@ -2,7 +2,7 @@ import {babel} from '@rollup/plugin-babel';
 import postcss from 'rollup-plugin-postcss';
 import globals from 'rollup-plugin-node-globals';
 import replace from '@rollup/plugin-replace';
-import {nodeResolve} from '@rollup/plugin-node-resolve';
+// import {nodeResolve} from '@rollup/plugin-node-resolve';
 import clear from 'rollup-plugin-clear';
 import browserslist from 'browserslist';
 
@@ -10,9 +10,16 @@ import browserslist from 'browserslist';
 export default {
   external: [
     'react',
-    'react-dom',
+    /react-dom/,
+    /react-virtualized/,
+    'react-waypoint',
+    'react-markdown',
+    'react-movable',
     'prop-types',
     'classnames',
+    'fastdom',
+    'remark-breaks',
+    'remark-gfm',
     'style-inject',
     'conic-gradient',
     'util-deprecate',
@@ -24,6 +31,9 @@ export default {
     'combokeys',
     'sniffr',
     'scrollbar-width',
+    'memoize-one',
+    'just-debounce-it',
+    /date-fns/,
     /@jetbrains\/icons\//
   ],
   input: [
@@ -41,10 +51,66 @@ export default {
     'components/button-toolbar/button-toolbar.js',
     'components/caret/caret.js',
     'components/checkbox/checkbox.js',
-    // 'components/code/code.js',
+
+    // 'components/code/code.js', // highlight.js import
+
     'components/confirm/confirm.js',
-    'components/confirm-service/confirm-service.js'
-    // 'components/content-layout/content-layout.js',
+    'components/confirm-service/confirm-service.js',
+    'components/content-layout/content-layout.js',
+    'components/contenteditable/contenteditable.js',
+    'components/data-list/data-list.js',
+    'components/date-picker/date-picker.js',
+    'components/dialog/dialog.js',
+    'components/dropdown/dropdown.js',
+    'components/error-bubble/error-bubble.js',
+    'components/error-message/error-message.js',
+    'components/footer/footer.js',
+    'components/grid/grid.js',
+    'components/group/group.js',
+    'components/header/header.js',
+    'components/heading/heading.js',
+    'components/http/http.js',
+    'components/hub-source/hub-source.js',
+    'components/icon/icon.js',
+    'components/input/input.js',
+    'components/island/island.js',
+    'components/link/link.js',
+    'components/list/list.js',
+    'components/loader/loader.js',
+    'components/loader/loader.js',
+    'components/loader-inline/loader-inline.js',
+    'components/loader-screen/loader-screen.js',
+    'components/login-dialog/login-dialog.js',
+
+    // 'components/markdown/markdown.js', // uses code.js that fails
+
+    'components/message/message.js',
+    'components/old-browsers-message/old-browsers-message.js',
+    'components/pager/pager.js',
+    'components/panel/panel.js',
+    'components/permissions/permissions.js',
+    'components/popup/popup.js',
+    'components/popup-menu/popup-menu.js',
+    'components/progress-bar/progress-bar.js',
+    'components/proxy-attrs/proxy-attrs.js',
+    'components/query-assist/query-assist.js',
+    'components/radio/radio.js',
+    'components/select/select.js',
+    'components/shortcuts/shortcuts.js',
+    'components/storage/storage.js',
+    'components/tab-trap/tab-trap.js',
+    'components/table/table.js',
+
+    // 'components/tabs/tabs.js', // circular dependency
+
+    'components/tag/tag.js',
+    'components/tags-input/tags-input.js',
+    'components/tags-list/tags-list.js',
+    'components/text/text.js',
+    'components/toggle/toggle.js',
+    'components/tooltip/tooltip.js',
+    // 'components/user-agreement/user-agreement.js', // uses markdown that uses code that fails
+    'components/user-card/user-card.js'
   ],
 
   output: {
@@ -64,7 +130,7 @@ export default {
         ['@jetbrains/babel-preset-jetbrains', {
           useBuiltIns: 'entry',
           // useBuiltIns: 'usage',
-          corejs: '2'
+          corejs: '3'
         }]
       ],
       plugins: [
@@ -94,10 +160,10 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify('development'),
       preventAssignment: true
-    }),
-    nodeResolve({
-      browser: true
-      // main: true
     })
+    /*nodeResolve({
+      browser: false
+      // main: true
+    })*/
   ]
 };
