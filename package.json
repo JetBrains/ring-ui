@@ -145,7 +145,6 @@
     "sinon": "^9.2.4",
     "sinon-chai": "^3.5.0",
     "storage-mock": "^1.0.3",
-    "style-inject": "^0.3.0",
     "stylelint": "^13.11.0",
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.11",
@@ -209,6 +208,7 @@
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
     "sniffr": "^1.2.0",
+    "style-inject": "^0.3.0",
     "style-loader": "~2.0.0",
     "util-deprecate": "^1.0.2"
   },
