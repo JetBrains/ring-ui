@@ -16,7 +16,7 @@ import Icon from '../icon/icon';
 
 import styles from './tabs.css';
 import getTabTitles from './collapsible-tab';
-import {CustomItem} from './dumb-tabs';
+import {CustomItem} from './custom-item';
 
 
 export const AnchorLink = ({
