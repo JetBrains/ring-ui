@@ -16,12 +16,35 @@ export default {
     'style-inject',
     'conic-gradient',
     'util-deprecate',
-    /@jetbrains\/icons\//,
-    /node_modules/
+    'focus-visible',
+    'deep-equal',
+    'simply-uuid',
+    'es6-error',
+    'element-resize-detector',
+    'combokeys',
+    'sniffr',
+    'scrollbar-width',
+    /@jetbrains\/icons\//
   ],
   input: [
     'components/alert/alert.js',
-    'components/badge/badge.js'
+    'components/alert-service/alert-service.js',
+    'components/analytics/analytics.js',
+    'components/auth/auth.js',
+    'components/auth-dialog/auth-dialog.js',
+    'components/auth-dialog-service/auth-dialog-service.js',
+    'components/avatar/avatar.js',
+    'components/badge/badge.js',
+    'components/button/button.js',
+    'components/button-group/button-group.js',
+    'components/button-set/button-set.js',
+    'components/button-toolbar/button-toolbar.js',
+    'components/caret/caret.js',
+    'components/checkbox/checkbox.js'
+    // 'components/code/code.js',
+    // 'components/confirm/confirm.js',
+    // 'components/confirm-service/confirm-service.js',
+    // 'components/content-layout/content-layout.js',
   ],
 
   output: {
