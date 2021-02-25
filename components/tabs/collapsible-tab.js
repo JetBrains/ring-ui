@@ -4,9 +4,9 @@ import classNames from 'classnames';
 
 import PropTypes from 'prop-types';
 
-import {CustomItem} from './dumb-tabs';
 import styles from './tabs.css';
 import TabLink from './tab-link';
+import {CustomItem} from './custom-item';
 
 function noop() {}
 

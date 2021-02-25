@@ -5,6 +5,7 @@ import replace from '@rollup/plugin-replace';
 // import {nodeResolve} from '@rollup/plugin-node-resolve';
 import clear from 'rollup-plugin-clear';
 import browserslist from 'browserslist';
+import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 
 
 export default {
@@ -34,10 +35,11 @@ export default {
     'memoize-one',
     'just-debounce-it',
     /date-fns/,
+    /highlight\.js/,
     /@jetbrains\/icons\//
   ],
   input: [
-    'components/alert/alert.js',
+    /*'components/alert/alert.js',
     'components/alert-service/alert-service.js',
     'components/analytics/analytics.js',
     'components/auth/auth.js',
@@ -50,11 +52,11 @@ export default {
     'components/button-set/button-set.js',
     'components/button-toolbar/button-toolbar.js',
     'components/caret/caret.js',
-    'components/checkbox/checkbox.js',
+    'components/checkbox/checkbox.js',*/
 
     // 'components/code/code.js', // highlight.js import
 
-    'components/confirm/confirm.js',
+    /*'components/confirm/confirm.js',
     'components/confirm-service/confirm-service.js',
     'components/content-layout/content-layout.js',
     'components/contenteditable/contenteditable.js',
@@ -80,11 +82,11 @@ export default {
     'components/loader/loader.js',
     'components/loader-inline/loader-inline.js',
     'components/loader-screen/loader-screen.js',
-    'components/login-dialog/login-dialog.js',
+    'components/login-dialog/login-dialog.js',*/
 
     // 'components/markdown/markdown.js', // uses code.js that fails
 
-    'components/message/message.js',
+    /*'components/message/message.js',
     'components/old-browsers-message/old-browsers-message.js',
     'components/pager/pager.js',
     'components/panel/panel.js',
@@ -99,18 +101,20 @@ export default {
     'components/shortcuts/shortcuts.js',
     'components/storage/storage.js',
     'components/tab-trap/tab-trap.js',
-    'components/table/table.js',
+    'components/table/table.js',*/
 
-    // 'components/tabs/tabs.js', // circular dependency
+    'components/tabs/tabs.js' // circular dependency
 
-    'components/tag/tag.js',
+    /*'components/tag/tag.js',
     'components/tags-input/tags-input.js',
     'components/tags-list/tags-list.js',
     'components/text/text.js',
     'components/toggle/toggle.js',
-    'components/tooltip/tooltip.js',
+    'components/tooltip/tooltip.js',*/
+
     // 'components/user-agreement/user-agreement.js', // uses markdown that uses code that fails
-    'components/user-card/user-card.js'
+
+    // 'components/user-card/user-card.js'
   ],
 
   output: {
@@ -160,7 +164,9 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify('development'),
       preventAssignment: true
-    })
+    }),
+
+    dynamicImportVars()
     /*nodeResolve({
       browser: false
       // main: true
