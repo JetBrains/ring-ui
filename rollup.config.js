@@ -3,9 +3,10 @@ import postcss from 'rollup-plugin-postcss';
 import globals from 'rollup-plugin-node-globals';
 import replace from '@rollup/plugin-replace';
 import clear from 'rollup-plugin-clear';
-import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 import browserslist from 'browserslist';
 
+
+const TARGET_DIR = 'dist';
 
 export default {
   external: [
@@ -116,13 +117,13 @@ export default {
   ],
 
   output: {
-    dir: 'build',
+    dir: TARGET_DIR,
     format: 'esm'
   },
 
   plugins: [
     clear({
-      targets: ['build']
+      targets: [TARGET_DIR]
     }),
 
     babel({
@@ -153,8 +154,10 @@ export default {
           isRollup: true
         }
       },
+
       inject: cssVariableName =>
         `import styleInject from 'style-inject';\nstyleInject(${cssVariableName});`,
+
       modules: true
     }),
 
@@ -162,8 +165,6 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify('development'),
       preventAssignment: true
-    }),
-
-    dynamicImportVars()
+    })
   ]
 };
