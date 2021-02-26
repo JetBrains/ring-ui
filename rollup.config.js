@@ -10,12 +10,7 @@ const TARGET_DIR = 'dist';
 
 export default {
   external: [
-    'react',
-    /react-dom/,
-    /react-virtualized/,
-    'react-waypoint',
-    'react-markdown',
-    'react-movable',
+    /^react(?:-\w+)?/,
     'prop-types',
     'classnames',
     'fastdom',
@@ -155,6 +150,8 @@ export default {
         }
       },
 
+      // If we don't specify the package name ('style-inject') manually, it is going to be put in
+      // by rollup postcss plugin as a relative path to node_modules/
       inject: cssVariableName =>
         `import styleInject from 'style-inject';\nstyleInject(${cssVariableName});`,
 
