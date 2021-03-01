@@ -15,7 +15,8 @@ Thumbs.db
 # Generated dirs
 build
 coverage
-# dist
+dist
+storybook
 html-report
 node_modules
 test_gen

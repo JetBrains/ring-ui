@@ -98,6 +98,7 @@ export default {
     'components/storage/storage.js',
     'components/tab-trap/tab-trap.js',
     'components/table/table.js',
+    'components/table/selection.js',
     'components/tabs/tabs.js',
     'components/tag/tag.js',
     'components/tags-input/tags-input.js',
