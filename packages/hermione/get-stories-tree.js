@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import loadFramework from '@storybook/addon-storyshots/dist/frameworks/frameworkLoader';
+import loadFramework from '@storybook/addon-storyshots/dist/ts3.9/frameworks/frameworkLoader';
 
 test('Get stories tree', () => {
   const {storybook} = loadFramework({framework: 'html'});
