@@ -2,7 +2,7 @@ import { d as _defineProperty, _ as _inherits, a as _createSuper, b as _classCal
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { f as focusSensorHOC, d as disableHoverHOC, s as selectionShortcutsHOC } from './disable-hover-hoc-7059240f.js';
+import { f as focusSensorHOC, d as disableHoverHOC, s as selectionShortcutsHOC } from './disable-hover-hoc-d1dd9fb0.js';
 import { g as getUID } from './get-uid-bf3ab014.js';
 import Shortcuts from './shortcuts.js';
 import Loader from './loader.js';
@@ -14,6 +14,7 @@ import LoaderInline from './loader-inline.js';
 import { B as Button } from './button-c0bc1992.js';
 import Checkbox from './checkbox.js';
 import styleInject from 'style-inject';
+import './selection.js';
 import 'combokeys';
 import './sniffer-c9d1f40e.js';
 import 'sniffr';
