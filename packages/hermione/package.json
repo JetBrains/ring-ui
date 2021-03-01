@@ -6,8 +6,8 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
-    "postinstall": "npx npm-force-resolutions",
+    "preinstall": "npx npm-force-resolutions@0.0.7",
+    "postinstall": "npx npm-force-resolutions@0.0.7",
     "pregui": "kill-port 8000",
     "gather": "npm run hermione -- --update-refs",
     "gui": "npm run hermione gui",
@@ -18,14 +18,14 @@
   },
   "devDependencies": {
     "@jetbrains/hermione-teamcity-reporter": "^1.1.2",
-    "@storybook/addon-storyshots": "^6.1.9",
+    "@storybook/addon-storyshots": "^6.1.20",
     "axios": "^0.21.1",
     "browserstack-local": "^1.4.8",
     "dotenv": "^8.2.0",
     "filenamify": "^4.2.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^9.1.0",
-    "hermione": "^3.10.4",
+    "hermione": "^3.11.0",
     "html-reporter": "^5.16.4",
     "http-server": "^0.12.3",
     "ip": "^1.1.5",
@@ -39,9 +39,9 @@
     "yauzl": "^2.10.0"
   },
   "resolutions": {
-    "lodash": "^4.17.13",
-    "mocha": "^7.1.1",
-    "extend": "^3.0.0",
-    "minimist": "^1.2.3"
+    "lodash": "4.17.21",
+    "mocha": "7.2.0",
+    "extend": "3.0.2",
+    "minimist": "1.2.5"
   }
 }
