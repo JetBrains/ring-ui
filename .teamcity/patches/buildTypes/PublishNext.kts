@@ -23,7 +23,10 @@ changeBuildType(RelativeId("PublishNext")) {
             param("vcs.branch.spec", "+:refs/heads/(develop-2.0)")
         }
         update {
-            param("vcs.branch.spec", "+:refs/heads/(develop-4.0)")
+            param("vcs.branch.spec", """
+                +:refs/heads/(develop-4.0)
+                +:refs/heads/(feature/4.0/rollup)
+            """.trimIndent())
         }
     }
 
@@ -36,6 +39,7 @@ changeBuildType(RelativeId("PublishNext")) {
             -:<default>
             -:refs/heads/master
             +:develop-4.0
+            +:refs/heads/feature/4.0/rollup
         """.trimIndent()
     }
 
