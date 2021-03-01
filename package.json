@@ -69,7 +69,7 @@
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^2.0.136",
     "@jetbrains/stylelint-config": "^2.0.1",
-    "@primer/octicons": "^12.0.0",
+    "@primer/octicons": "^12.1.0",
     "@storybook/addon-a11y": "6.1.20",
     "@storybook/addon-docs": "6.1.20",
     "@storybook/addon-essentials": "6.1.20",
@@ -103,7 +103,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
-    "events": "^3.2.0",
+    "events": "^3.3.0",
     "html-loader-jest": "^0.2.1",
     "husky": "^5.1.1",
     "identity-obj-proxy": "^3.0.0",
@@ -145,7 +145,7 @@
     "react-dom": ">=16.8.0"
   },
   "dependencies": {
-    "@babel/core": "^7.13.1",
+    "@babel/core": "^7.13.8",
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.2.3",
     "@jetbrains/icons": "^3.13.1",
