@@ -39,6 +39,7 @@ changeBuildType(RelativeId("PublishNext")) {
             -:<default>
             -:refs/heads/master
             +:develop-4.0
+            +:refs/heads/feature/4.0/rollup
         """.trimIndent()
     }
 
