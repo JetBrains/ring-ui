@@ -30,8 +30,8 @@ export default {
     'memoize-one',
     'just-debounce-it',
     /date-fns/,
-    /highlight\.js/,
-    /@jetbrains\/icons\//
+    /^highlight\.js/,
+    /^@jetbrains\/icons\//
   ],
 
   input: [
