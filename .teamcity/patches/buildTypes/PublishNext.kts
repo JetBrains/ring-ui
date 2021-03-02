@@ -19,14 +19,8 @@ changeBuildType(RelativeId("PublishNext")) {
     paused = false
 
     params {
-        expect {
+        remove {
             param("vcs.branch.spec", "+:refs/heads/(develop-2.0)")
-        }
-        update {
-            param("vcs.branch.spec", """
-                +:refs/heads/(develop-4.0)
-                +:refs/heads/(feature/4.0/rollup)
-            """.trimIndent())
         }
     }
 
