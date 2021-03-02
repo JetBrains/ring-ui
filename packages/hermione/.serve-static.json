@@ -5,5 +5,5 @@
   "script": "http-server",
   "sourceDir": "./node_modules/.bin/",
   "workingDir": ".",
-  "args": ["../../dist/", "-p 9999"]
+  "args": ["../../storybook-dist/", "-p 9999"]
 }

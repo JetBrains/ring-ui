@@ -17,7 +17,7 @@ changeBuildType(RelativeId("PublishToGitHubPages")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
                 cat << EOT >> ~/.ssh/config
@@ -25,14 +25,14 @@ changeBuildType(RelativeId("PublishToGitHubPages")) {
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                
+
                 # GitHub authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                
-                npx gh-pages --dist dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
+
+                npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
             """.trimIndent()
             dockerImage = "node:latest"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
@@ -44,10 +44,10 @@ changeBuildType(RelativeId("PublishToGitHubPages")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
-                
+
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
                 cat << EOT >> ~/.ssh/config
@@ -55,14 +55,14 @@ changeBuildType(RelativeId("PublishToGitHubPages")) {
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                
+
                 # GitHub authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                
-                npx gh-pages --dist dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
+
+                npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
             """.trimIndent()
             dockerImage = "node:14"
         }
