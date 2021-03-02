@@ -67,7 +67,7 @@ project {
             id = "PROJECT_EXT_121"
             type = "ReportTab"
             param("buildTypeId", "JetBrainsUi_RingUi_Deploy")
-            param("startPage", "dist.zip!index.html")
+            param("startPage", "storybook-dist.zip!index.html")
             param("revisionRuleName", "lastSuccessful")
             param("title", "Storybook")
             param("type", "ProjectReportTab")
@@ -82,14 +82,14 @@ project {
         feature {
             id = "PROJECT_EXT_123"
             type = "ReportTab"
-            param("startPage", "dist.zip!index.html")
+            param("startPage", "storybook-dist.zip!index.html")
             param("title", "Storybook")
             param("type", "BuildReportTab")
         }
         feature {
           id = "PROJECT_EXT_124"
           type = "ReportTab"
-          param("startPage", "dist.zip!index.html")
+          param("startPage", "storybook-dist.zip!index.html")
           param("title", "Storybook")
           param("type", "BuildReportTab")
         }
@@ -214,7 +214,7 @@ object Deploy : BuildType({
     allowExternalStatus = true
     artifactRules = """
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
-        dist => dist.zip
+        storybook-dist => storybook-dist.zip
     """.trimIndent()
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
 
@@ -443,7 +443,7 @@ object GeminiTests : BuildType({
 
             artifacts {
                 cleanDestination = true
-                artifactRules = "dist.zip!**=>dist"
+                artifactRules = "storybook-dist.zip!**=>storybook-dist"
             }
         }
     }
@@ -458,7 +458,7 @@ object A11yAudit : BuildType({
     name = "Accessibility Audit"
 
     allowExternalStatus = true
-    artifactRules = "dist => dist.zip"
+    artifactRules = "storybook-dist => storybook-dist.zip"
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
 
     params {
@@ -505,7 +505,7 @@ object A11yAudit : BuildType({
 
             artifacts {
                 cleanDestination = true
-                artifactRules = "dist.zip!**=>dist"
+                artifactRules = "storybook-dist.zip!**=>storybook-dist"
             }
         }
     }
@@ -1197,7 +1197,7 @@ object PublishToGitHubPages : BuildType({
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
 
-                npx gh-pages --dist dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
+                npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
             """.trimIndent()
             dockerImage = "node:latest"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
@@ -1270,7 +1270,7 @@ object PublishToGitHubPages : BuildType({
 
             artifacts {
                 cleanDestination = true
-                artifactRules = "dist.zip!**=>dist"
+                artifactRules = "storybook-dist.zip!**=>storybook-dist"
             }
         }
     }
@@ -1285,7 +1285,7 @@ object UnitTestsAndBuild : BuildType({
 
     allowExternalStatus = true
     artifactRules = """
-        dist => dist.zip
+        storybook-dist => storybook-dist.zip
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogsssssssssssssssssssss
         coverage => coverage.zip
         lerna-debug.log

@@ -12,7 +12,7 @@
     "gather": "npm run hermione -- --update-refs",
     "gui": "npm run hermione gui",
     "hermione": "node hermione-local.js",
-    "serve": "http-server ../../dist/ -p 9999",
+    "serve": "http-server ../../storybook-dist/ -p 9999",
     "test": "npm run hermione",
     "test-ci": "node hermione-ci.js --teamcity"
   },

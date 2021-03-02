@@ -66,6 +66,7 @@ export default {
     'components/grid/grid.js',
     'components/group/group.js',
     'components/header/header.js',
+    'components/header/logo.js',
     'components/heading/heading.js',
     'components/http/http.js',
     'components/hub-source/hub-source.js',
