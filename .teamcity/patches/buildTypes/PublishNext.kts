@@ -19,8 +19,15 @@ changeBuildType(RelativeId("PublishNext")) {
     paused = false
 
     params {
-        remove {
+        expect {
             param("vcs.branch.spec", "+:refs/heads/(develop-2.0)")
+        }
+        update {
+            param("vcs.branch.spec", """
+                +:refs/heads/*
+                -:refs/heads/gh-pages
+                -:refs/heads/master
+            """.trimIndent())
         }
     }
 
