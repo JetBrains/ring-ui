@@ -1,5 +1,5 @@
 import {babel} from '@rollup/plugin-babel';
-import postcss from 'rollup-plugin-postcss';
+import styles from 'rollup-plugin-styles';
 import globals from 'rollup-plugin-node-globals';
 import replace from '@rollup/plugin-replace';
 import clear from 'rollup-plugin-clear';
@@ -115,7 +115,8 @@ export default {
 
   output: {
     dir: TARGET_DIR,
-    format: 'esm'
+    format: 'esm',
+    assetFileNames: '[name][extname]'
   },
 
   plugins: [
@@ -145,19 +146,14 @@ export default {
       }
     }),
 
-    postcss({
-      config: {
-        ctx: {
-          isRollup: true
-        }
-      },
+    styles({
+      modules: true,
 
-      // If we don't specify the package name ('style-inject') manually, it is going to be put in
-      // by rollup postcss plugin as a relative path to node_modules/
-      inject: cssVariableName =>
-        `import styleInject from 'style-inject';\nstyleInject(${cssVariableName});`,
+      mode: ['extract', 'style.css'],
 
-      modules: true
+      config: true,
+
+      minimize: true
     }),
 
     globals(),
