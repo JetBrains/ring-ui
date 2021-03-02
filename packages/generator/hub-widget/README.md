@@ -18,7 +18,7 @@
     - `npm start` to run a local development server
     - `npm run lint` to lint your code (JS and CSS)
     - `npm run stylelint` to lint CSS only
-    - `npm run build` to generate a production bundle (will be available under `storybook-dist`)
+    - `npm run build` to generate a production bundle (will be available under `dist`)
     - `npm run create-component` to create a new component template with styles and tests
     - `npm run ci-test` to launch karma tests and report the results to TeamCity
 
