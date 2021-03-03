@@ -7,6 +7,7 @@
   "files": [
     "babel.config.js",
     "components",
+    "dist",
     "postcss.config.js",
     "webpack.config.js",
     "jslint-xml.js"
