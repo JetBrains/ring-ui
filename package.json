@@ -79,7 +79,7 @@
     "@storybook/addon-storysource": "6.2.0-beta.9",
     "@storybook/addons": "6.2.0-beta.9",
     "@storybook/client-api": "6.2.0-beta.9",
-    "@storybook/core": "6.2.0-beta.8",
+    "@storybook/core": "6.2.0-beta.9",
     "@storybook/html": "6.2.0-beta.5",
     "@storybook/source-loader": "6.2.0-beta.9",
     "@storybook/theming": "6.2.0-beta.9",
