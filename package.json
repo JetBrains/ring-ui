@@ -76,7 +76,7 @@
     "@storybook/addon-essentials": "6.2.0-beta.5",
     "@storybook/addon-storyshots": "6.2.0-beta.5",
     "@storybook/addon-storyshots-puppeteer": "6.2.0-beta.5",
-    "@storybook/addon-storysource": "6.2.0-beta.9",
+    "@storybook/addon-storysource": "6.2.0-beta.10",
     "@storybook/addons": "6.2.0-beta.9",
     "@storybook/client-api": "6.2.0-beta.9",
     "@storybook/core": "6.2.0-beta.9",
