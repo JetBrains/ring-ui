@@ -69,11 +69,11 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma-teamcity-reporter": "^1.1.0",
     "karma-webpack": "^5.0.0",
-    "mocha": "^8.3.0",
+    "mocha": "^8.3.1",
     "react-test-renderer": "^17.0.1",
     "sinon": "^9.2.4",
     "sinon-chai": "^3.5.0",
-    "stylelint": "^13.11.0",
+    "stylelint": "^13.12.0",
     "svg-inline-loader": "^0.8.2",
     "xvfb-maybe": "^0.2.1",
     "yo": "^3.1.1"
