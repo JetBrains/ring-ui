@@ -26,7 +26,7 @@
     "portscanner": "^2.2.0",
     "read-pkg-up": "^7.0.1",
     "title-case": "^3.0.3",
-    "yeoman-generator": "^4.13.0",
+    "yeoman-generator": "^5.1.0",
     "yeoman-option-or-prompt": "^2.0.1"
   }
 }
