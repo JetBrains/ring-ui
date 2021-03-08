@@ -25,6 +25,13 @@ module.exports = {
       }
     ]];
 
+    ringConfig.config.module.rules.push({
+      test: /\.svg$/,
+      loader: require.resolve('svg-inline-loader'),
+      options: {removeSVGTagAttrs: false},
+      include: [/@primer\/octicons/, /@jetbrains\/logos/]
+    });
+
     config.module.rules = [
       ...ringConfig.config.module.rules,
       config.module.rules.find(rule =>
