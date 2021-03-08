@@ -24,8 +24,9 @@ changeBuildType(RelativeId("PublishNext")) {
         }
         update {
             param("vcs.branch.spec", """
-                +:refs/heads/(develop-4.0)
-                +:refs/heads/(feature/4.0/rollup)
+                +:refs/heads/*
+                -:refs/heads/gh-pages
+                -:refs/heads/master
             """.trimIndent())
         }
     }
@@ -36,10 +37,9 @@ changeBuildType(RelativeId("PublishNext")) {
             "Unexpected option value: branchFilter = $branchFilter"
         }
         branchFilter = """
+            +:*
             -:<default>
             -:refs/heads/master
-            +:develop-4.0
-            +:refs/heads/feature/4.0/rollup
         """.trimIndent()
     }
 
