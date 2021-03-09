@@ -72,7 +72,7 @@
     "@jetbrains/stylelint-config": "^2.0.1",
     "@primer/octicons": "^12.1.0",
     "@storybook/addon-a11y": "6.2.0-beta.11",
-    "@storybook/addon-docs": "6.2.0-beta.10",
+    "@storybook/addon-docs": "6.2.0-beta.11",
     "@storybook/addon-essentials": "6.2.0-beta.11",
     "@storybook/addon-storyshots": "6.2.0-beta.5",
     "@storybook/addon-storyshots-puppeteer": "6.2.0-beta.5",
