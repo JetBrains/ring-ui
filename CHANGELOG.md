@@ -7,6 +7,7 @@
     ```
 - `date-picker` has migrated from `moment` to `date-fns`. All the props deprecated in 3.1.0 are now removed. `onDateChange` is renamed back to `onChange` and will be removed in 5.0.
 - `svg-inline-loader` is not used by Ring UI anymore. Consider installing and using own instance if needed.
+- `@jetbrains/generator-ring-ui` requires `yo` v4 (currently in beta)
 
 #### Moving away from SASS
 - `SASS` files are rewritten to `CSS`. If your project imports Ring UI's SCSS files, check same folder for new CSS options.
