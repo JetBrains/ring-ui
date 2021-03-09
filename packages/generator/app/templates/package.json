@@ -76,7 +76,7 @@
     "stylelint": "^13.12.0",
     "svg-inline-loader": "^0.8.2",
     "xvfb-maybe": "^0.2.1",
-    "yo": "^3.1.1"
+    "yo": "^4.0.0-beta.0"
   },
   "engines": {
     "node": ">=8.0.0"
