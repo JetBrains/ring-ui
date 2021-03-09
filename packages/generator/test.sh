@@ -21,6 +21,7 @@ function test {
   cd test_gen
   npm link @jetbrains/generator-ring-ui
   ../../../node_modules/.bin/yo --no-insight @jetbrains/ring-ui:$1 my-app --widget-name=widget --widget-description=description --widget-author=author
+  npm install
   npm link @jetbrains/generator-ring-ui
   copyRingUI
   npm run create-component my-component

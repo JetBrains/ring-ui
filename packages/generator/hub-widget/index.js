@@ -149,11 +149,4 @@ module.exports = class HubWidgetGenerator extends Generator {
     this._copyTemplate('eslintrc', '.eslintrc');
     this._copyTemplate('src/eslintrc', 'src/.eslintrc');
   }
-
-  install() {
-    this.installDependencies({
-      bower: false,
-      skipInstall: this.options['skip-install']
-    });
-  }
 };
