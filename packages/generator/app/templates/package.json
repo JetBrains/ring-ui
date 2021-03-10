@@ -49,7 +49,7 @@
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.3",
     "chai-as-promised": "^7.1.1",
-    "chai-dom": "^1.8.2",
+    "chai-dom": "^1.9.0",
     "chai-enzyme": "1.0.0-beta.1",
     "electron": "^11.3.0",
     "enzyme": "^3.11.0",
