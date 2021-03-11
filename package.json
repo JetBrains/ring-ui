@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "3.1.10",
+  "version": "3.1.11",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -68,7 +68,7 @@
   "devDependencies": {
     "@babel/cli": "^7.13.10",
     "@jetbrains/eslint-config": "^5.3.1",
-    "@jetbrains/generator-ring-ui": "^2.0.136",
+    "@jetbrains/generator-ring-ui": "^2.0.137",
     "@jetbrains/stylelint-config": "^2.0.1",
     "@primer/octicons": "^12.1.0",
     "@storybook/addon-a11y": "6.2.0-beta.11",
@@ -182,7 +182,7 @@
     "just-debounce-it": "^1.1.0",
     "memoize-one": "^5.1.1",
     "moment": "^2.29.1",
-    "postcss": "^8.2.7",
+    "postcss": "^8.2.8",
     "postcss-calc": "^8.0.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
