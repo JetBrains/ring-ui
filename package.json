@@ -119,7 +119,7 @@
     "lerna": "^4.0.0",
     "lint-staged": "^10.5.4",
     "merge-options": "^3.0.4",
-    "mocha": "^8.3.1",
+    "mocha": "^8.3.2",
     "pinst": "^2.1.6",
     "process": "^0.11.10",
     "puppeteer": "^8.0.0",
