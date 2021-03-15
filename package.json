@@ -90,7 +90,7 @@
     "babel-eslint": "^10.1.0",
     "babel-plugin-react-docgen": "^4.2.1",
     "babel-plugin-require-context-hook": "^1.0.0",
-    "chai": "^4.3.3",
+    "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.9.0",
     "chai-enzyme": "1.0.0-beta.1",
