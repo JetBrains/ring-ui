@@ -8,6 +8,7 @@ const loaders = require('./webpack.config').loaders;
 const helpersPath = path.join(__dirname, 'test-helpers');
 
 loaders.babelLoader.include.push(helpersPath);
+loaders.babelLoader.sideEffects = true;
 
 config.mode = 'development';
 

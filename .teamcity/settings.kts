@@ -1,11 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.Swabra
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.merge
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.sshAgent
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.swabra
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.investigationsAutoAssigner
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnText
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
@@ -177,7 +172,8 @@ object AllChecks : BuildType({
 
     features {
         merge {
-            branchFilter = "+:dependencies.io-*"
+            branchFilter = "+:dependabot/*"
+            mergePolicy = AutoMerge.MergePolicy.FAST_FORWARD
             destinationBranch = "master"
         }
         commitStatusPublisher {
@@ -344,7 +340,7 @@ object GeminiTests : BuildType({
         packages/hermione/*.log
     """.trimIndent()
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
-    maxRunningBuilds = 2
+    maxRunningBuilds = 1
 
     params {
         param("vcs.branch.spec", """
@@ -353,8 +349,8 @@ object GeminiTests : BuildType({
             -:refs/heads/(gh-pages)
         """.trimIndent())
         param("github.com.builduser.name", "")
-        password("env.BROWSERSTACK_KEY", "credentialsJSON:af3ef3c7-cc5c-4703-bdfa-76073b0dac40", display = ParameterDisplay.HIDDEN)
-        param("env.BROWSERSTACK_NAME", "jetbrainsuiteam1")
+        password("env.BROWSERSTACK_KEY", "credentialsJSON:080a4e07-08b0-4450-8347-ddd8760b4f42", display = ParameterDisplay.HIDDEN)
+        param("env.BROWSERSTACK_NAME", "sadf7")
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:175b3950-943c-4803-99c4-56d5f6ac422a")
@@ -778,6 +774,7 @@ object Publish : BuildType({
 
                 node -v
                 npm -v
+                npm whoami
 
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
@@ -791,6 +788,7 @@ object Publish : BuildType({
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
+                npm whoami
                 npm run release-ci -- %lerna.publish.options%
 
                 cat package.json
@@ -804,7 +802,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:lts"
+            dockerImage = "node:12"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -945,7 +943,7 @@ object PublishCanary : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:lts"
+            dockerImage = "node:12"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1019,19 +1017,27 @@ object PublishCanary : BuildType({
 object PublishNext : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
     name = "Publish @next"
-    paused = true
+    paused = false
 
     allowExternalStatus = true
 
     params {
         param("lerna.publish.options", "--cd-version prerelease --preid beta --npm-tag next")
-        param("vcs.branch.spec", "+:refs/heads/(develop-2.0)")
+        param("vcs.branch.spec", """
+            +:refs/heads/*
+            -:refs/heads/gh-pages
+            -:refs/heads/master
+        """.trimIndent())
     }
 
     vcs {
         root(DslContext.settingsRoot)
 
-        branchFilter = "-:<default>"
+        branchFilter = """
+            +:*
+            -:<default>
+            -:refs/heads/master
+        """.trimIndent()
     }
 
     steps {
@@ -1087,14 +1093,18 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:10.15"
+            dockerImage = "node:12"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
     }
 
     triggers {
+        vcs {
+            enabled = false
+        }
         retryBuild {
+            enabled = false
             id = "retryBuildTrigger"
             delaySeconds = 60
         }
@@ -1183,6 +1193,9 @@ object PublishToGitHubPages : BuildType({
                 #!/bin/bash
                 set -e -x
 
+                node -v
+                npm -v
+
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
                 cat << EOT >> ~/.ssh/config
@@ -1199,7 +1212,7 @@ object PublishToGitHubPages : BuildType({
 
                 npx gh-pages --dist dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
             """.trimIndent()
-            dockerImage = "node:latest"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -1276,7 +1289,7 @@ object PublishToGitHubPages : BuildType({
     }
 
     requirements {
-        contains("system.agent.name", "ubuntu-16.04")
+        contains("system.agent.name", "Ubuntu")
     }
 })
 
@@ -1326,11 +1339,15 @@ object UnitTestsAndBuild : BuildType({
                 node -v
                 npm -v
 
+                apt update
+                apt install g++ gcc make python -y
                 npm install
+                npm run bootstrap
                 npm run test-ci
                 npm run build
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer"
+            dockerImage = "buildkite/puppeteer:5.2.1"
+            dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
 
@@ -1422,10 +1439,6 @@ object UnitTestsAndBuild : BuildType({
           excludeUsers = "npmjs-buildserver"
           assignOnSecondFailure = true
         }
-    }
-
-    requirements {
-      contains("docker.server.osType", "linux")
     }
 })
 
