@@ -144,7 +144,8 @@
   "peerDependencies": {
     "core-js": ">=3.0.0",
     "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react-dom": ">=16.8.0",
+    "webpack": "^5.24.4"
   },
   "dependencies": {
     "@babel/core": "^7.13.10",
