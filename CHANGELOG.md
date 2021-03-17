@@ -1,6 +1,7 @@
 ## [4.0.0]
 
 ### BREAKING CHANGES
+- `WebPack 4` is no longer supported. Please upgrade your project to use `WebPack@>=5`.
 - `Code` no longer preloads any language highlighting. It's loaded lazily using dynamic imports instead. You can still preload the languages you need with `highlight.registerLanguage`, see https://jetbrains.github.io/ring-ui/master/index.html?path=/docs/components-code--basic. If you used the following line in your webpack config to reduce the bundle size, please remove it:
     ```js
     new webpack.NormalModuleReplacementPlugin(/@jetbrains\\/ring-ui\\/components\\/code\\/highlight.js$/, './highlight-lazy.js')
