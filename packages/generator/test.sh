@@ -24,7 +24,7 @@ function test {
   npm install
   npm link @jetbrains/generator-ring-ui
   copyRingUI
-  npm run create-component my-component
+  npm run create-component -- --componentName=my-component
   npm run ci-test
   npm run build
   cd ..
