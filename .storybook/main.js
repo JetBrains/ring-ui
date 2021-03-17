@@ -17,6 +17,9 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y'
   ],
+  core: {
+    builder: 'webpack5'
+  },
   webpackFinal(config) {
     ringConfig.loaders.cssLoader.include.push(/\.storybook/);
     ringConfig.loaders.babelLoader.options.plugins = [[
@@ -44,7 +47,7 @@ module.exports = {
       },
       {
         test: /\.examples\.js$/,
-        loaders: [require.resolve('@storybook/source-loader')],
+        loader: require.resolve('@storybook/source-loader'),
         enforce: 'pre'
       }
     ];
@@ -56,10 +59,6 @@ module.exports = {
     config.plugins.push(new webpack.DefinePlugin({hubConfig}));
 
     config.resolve.alias['@jetbrains/ring-ui'] = path.resolve(__dirname, '..');
-    config.node = {
-      Buffer: false,
-      process: false
-    };
 
     return config;
   }

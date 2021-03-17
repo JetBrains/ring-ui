@@ -1,0 +1,16 @@
+{
+  "name": "@ring-ui/storybook-header",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "custom-header.js",
+  "author": "",
+  "dependencies": {
+    "@jetbrains/logos": "^1.4.10",
+    "@primer/octicons": "^12.1.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "webpack": "^4.46.0"
+  }
+}
