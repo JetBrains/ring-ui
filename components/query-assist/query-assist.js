@@ -302,7 +302,9 @@ export default class QueryAssist extends Component {
         ? this.immediateState.caret
         : queryLength;
     if (params.fromContentEditable) {
-      this.immediateState.selection = this.state.query && this.state.query.length;
+      this.immediateState.selection = this.immediateState.selection
+        ? this.immediateState.selection
+        : this.state.query && this.state.query.length;
     }
     if (this.immediateState.focus && !this.props.disabled) {
       if (Number.isInteger(this.immediateState.selection) && this.immediateState.selection > -1) {

@@ -1,8 +1,8 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.AutoMerge
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.merge
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -11,16 +11,15 @@ To apply the patch, change the buildType with id = 'AllChecks'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("AllChecks")) {
-    features {
-        val feature1 = find<AutoMerge> {
-            merge {
-                branchFilter = "+:dependencies.io-*"
-                destinationBranch = "master"
+    triggers {
+        val trigger1 = find<VcsTrigger> {
+            vcs {
+                quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
+                triggerRules = "-:user=npmjs-buildserver:**"
             }
         }
-        feature1.apply {
-            branchFilter = "+:dependabot/*"
-            mergePolicy = AutoMerge.MergePolicy.FAST_FORWARD
+        trigger1.apply {
+            quietPeriodMode = VcsTrigger.QuietPeriodMode.DO_NOT_USE
         }
     }
 }
