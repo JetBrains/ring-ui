@@ -8,7 +8,7 @@ const isDeprecatedCoreJS = coreJsVersion.startsWith('2');
 module.exports = function config(api) {
   api.cache(true);
 
-  if (isDeprecatedCoreJS && api.env() === 'development') {
+  if (isDeprecatedCoreJS) {
     // eslint-disable-next-line no-console
     console.log(`Compiling Ring UI with deprecated Core JS version "${coreJsVersion}". Consider updating to 3rd.`);
   }
