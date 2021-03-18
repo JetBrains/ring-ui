@@ -41,11 +41,20 @@
 
   line-height: calc(unit * 4);
 
-  &:hover:not(.selected),
-  &:active:not(.selected) {
-    color: var(--ring-link-hover-color);
-    outline-style: none;
-    box-shadow: inset 0 -1px 0 0 var(--ring-link-hover-color);
+  &:hover,
+  &:active {
+    &.selected,
+    &.collapsed {
+      color: inherit;
+      box-shadow: selected-line-shadow var(--ring-text-color);
+    }
+
+    &:not(.selected),
+    &:not(.collapsed) {
+      color: var(--ring-link-hover-color);
+      outline-style: none;
+      box-shadow: inset 0 -1px 0 0 var(--ring-link-hover-color);
+    }
   }
 
   &:global(.focus-visible) {
@@ -119,18 +128,23 @@
   line-height: 19px; /* prevent jumps in Firefox */
 }
 
+.autoCollapseContainer {
+  position: relative;
+}
+
 .autoCollapse {
   position: relative;
 
   display: inline-flex;
   visibility: hidden;
-  overflow: visible;
+  overflow: hidden;
 
   max-width: 100%;
 }
 
 .autoCollapse.adjusted {
   visibility: visible;
+  overflow: visible;
 }
 
 .autoCollapse .title {
@@ -146,6 +160,8 @@
 
   height: 0;
   margin: 0;
+
+  pointer-events: none;
 
   opacity: 0;
 }
@@ -177,4 +193,12 @@
 
 .chevron {
   padding-left: 4px;
+}
+
+.morePopupBeforeEnd.morePopupBeforeEnd.morePopupBeforeEnd {
+  padding: 0;
+}
+
+.morePopupBeforeEnd ~ div {
+  display: none;
 }

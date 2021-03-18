@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 import VirtualizedList from 'react-virtualized/dist/es/List';
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import checkmarkIcon from '@jetbrains/icons/checkmark';
 
 import getUID from '../global/get-uid';
 import Icon from '../icon/icon';

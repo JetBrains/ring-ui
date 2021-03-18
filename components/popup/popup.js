@@ -6,7 +6,6 @@ import React, {PureComponent} from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import 'dom4';
 
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';

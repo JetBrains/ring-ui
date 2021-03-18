@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
-import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
-import dragIcon from '@jetbrains/icons/drag.svg';
+import chevronRightIcon from '@jetbrains/icons/chevron-right';
+import chevronDownIcon from '@jetbrains/icons/chevron-down';
+import dragIcon from '@jetbrains/icons/drag';
 
 import Checkbox from '../checkbox/checkbox';
 import Button from '../button/button';

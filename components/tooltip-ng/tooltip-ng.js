@@ -1,13 +1,12 @@
 import angular from 'angular';
 
-import 'dom4';
 import {createElement} from 'react';
 import {render} from 'react-dom';
 import classNames from 'classnames';
 
 import Popup from '../popup/popup';
 
-import './tooltip-ng.scss';
+import './tooltip-ng.css';
 
 /**
  * @name Tooltip Ng

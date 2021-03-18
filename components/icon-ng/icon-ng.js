@@ -1,5 +1,4 @@
 import angular from 'angular';
-import 'dom4';
 
 import {Color} from '../icon/icon__constants';
 import TemplateNg from '../template-ng/template-ng';

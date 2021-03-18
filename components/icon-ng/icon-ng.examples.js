@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
-import warningIcon from '@jetbrains/icons/warning.svg';
+import checkmarkIcon from '@jetbrains/icons/checkmark';
+import warningIcon from '@jetbrains/icons/warning';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 

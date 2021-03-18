@@ -1,5 +1,4 @@
 import angular from 'angular';
-import 'dom4';
 
 import {getStyles} from '../global/dom';
 import shortcutsInstance from '../shortcuts/core';
@@ -185,7 +184,7 @@ angularModule.directive('rgShortcutsApp', function rgShortcutsAppDirective() {
       };
 
       this.sort = () => {
-        const orderedElements = document.queryAll('[rg-shortcuts]');
+        const orderedElements = Array.from(document.querySelectorAll('[rg-shortcuts]'));
 
         $scope.zones.forEach(zone => {
           zone.order = orderedElements.indexOf(zone.element);

@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import highlight from 'highlight.js/lib/core';
 
 import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
@@ -8,9 +9,6 @@ import memoize from '../global/memoize';
 
 import styles from './code.css';
 import highlightStyles from './highlight.css';
-
-// TODO remove in 4.0
-import highlight from './highlight';
 
 function noop() {}
 

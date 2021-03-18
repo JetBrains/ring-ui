@@ -1,5 +1,5 @@
 import React from 'react';
-import warningIcon from '@jetbrains/icons/warning.svg';
+import warningIcon from '@jetbrains/icons/warning';
 
 import hubConfig from '../../.storybook/hub-config';
 

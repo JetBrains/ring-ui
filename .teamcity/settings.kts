@@ -846,14 +846,6 @@ object Publish : BuildType({
             compareTo = value()
             param("anchorBuild", "lastSuccessful")
         }
-        failOnText {
-            id = "BUILD_EXT_180"
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "cannot run in wd"
-            failureMessage = "Failed to generate icons.js"
-            reverse = false
-            stopBuildOnFailure = true
-        }
     }
 
     features {
@@ -995,14 +987,6 @@ object PublishCanary : BuildType({
             comparison = BuildFailureOnMetric.MetricComparison.MORE
             compareTo = value()
             param("anchorBuild", "lastSuccessful")
-        }
-        failOnText {
-            id = "BUILD_EXT_180"
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "cannot run in wd"
-            failureMessage = "Failed to generate icons.js"
-            reverse = false
-            stopBuildOnFailure = true
         }
     }
 
@@ -1358,7 +1342,6 @@ object UnitTestsAndBuild : BuildType({
                 apt update
                 apt install g++ gcc make python -y
                 npm install
-                npm run postinstall
                 npm run bootstrap
                 npm run test-ci
                 npm run build

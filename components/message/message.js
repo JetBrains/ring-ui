@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import gift from '@jetbrains/icons/gift.svg';
+import gift from '@jetbrains/icons/gift';
 
 import Popup from '../popup/popup';
 import Icon from '../icon/icon';
@@ -40,6 +40,7 @@ export default class Message extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    tailClassName: PropTypes.string,
     title: PropTypes.string.isRequired,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     directions: PropTypes.arrayOf(PropTypes.string),
@@ -106,6 +107,7 @@ export default class Message extends Component {
     const {
       children,
       className,
+      tailClassName,
       title,
       icon,
       popupProps,
@@ -115,6 +117,7 @@ export default class Message extends Component {
       translations
     } = this.props;
     const classes = classNames(styles.message, className);
+    const tailClasses = classNames(styles.tail, tailClassName);
     const popupDirections = this.props.direction
       ? [this.props.direction]
       : this.props.directions;
@@ -132,7 +135,7 @@ export default class Message extends Component {
         {...popupProps}
       >
         {direction && (
-          <div className={styles.tail} style={getTailOffsets(this.getTailOffset())[direction]}/>
+          <div className={tailClasses} style={getTailOffsets(this.getTailOffset())[direction]}/>
         )}
 
         {icon && <Icon className={styles.icon} glyph={icon}/>}

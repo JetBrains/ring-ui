@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
-import searchIcon from '@jetbrains/icons/search.svg';
-import closeIcon from '@jetbrains/icons/close.svg';
+import searchIcon from '@jetbrains/icons/search';
+import closeIcon from '@jetbrains/icons/close';
 
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
@@ -945,4 +945,4 @@ export default class QueryAssist extends Component {
   }
 }
 
-export const RerenderableQueryAssist = rerenderHOC(QueryAssist, {captureNode: false});
+export const RerenderableQueryAssist = rerenderHOC(QueryAssist);

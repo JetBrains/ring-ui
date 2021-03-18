@@ -1,15 +1,14 @@
 import angular from 'angular';
-import 'dom4';
 
-import frownIcon from '@jetbrains/icons/frown.svg';
-import permissionIcon from '@jetbrains/icons/permission.svg';
+import frownIcon from '@jetbrains/icons/frown';
+import permissionIcon from '@jetbrains/icons/permission';
 
-import '../error-page/error-page.scss';
+import styles from '../error-page/error-page.css';
 import ErrorMessage from '../error-message-ng/error-message-ng';
 import Permissions from '../permissions-ng/permissions-ng';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
-import styles from './error-page-ng.css';
+import overrideStyles from './error-page-ng.css';
 
 /**
  * @name Error Page Ng
@@ -120,13 +119,13 @@ angularModule.directive('rgErrorPageBackground', function rgErrorPageBackgroundD
 
     link: function link(scope, iElement) {
       const element = iElement[0];
-      element.classList.add('error-page');
+      element.classList.add(styles.errorPage);
 
       scope.$watch('applicationError', newValue => {
         if (newValue) {
-          element.classList.add('error-page_enabled');
+          element.classList.add(styles.enabled);
         } else {
-          element.classList.remove('error-page_enabled');
+          element.classList.remove(styles.enabled);
         }
       });
     }
@@ -219,7 +218,7 @@ angularModule.directive('rgErrorPage', [
             scope.links = errorPageConfiguration.links;
 
             const template = `
-              <div class="${styles.errorPageNg}">
+              <div class="${overrideStyles.errorPageNg}">
                 <rg-error-message
                   code="{{ error.status }}"
                   message="{{ error.title }}"

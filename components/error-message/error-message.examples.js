@@ -1,5 +1,5 @@
 import React from 'react';
-import frownIcon from '@jetbrains/icons/frown.svg';
+import frownIcon from '@jetbrains/icons/frown';
 
 import reactDecorator from '../../.storybook/react-decorator';
 

@@ -25,7 +25,6 @@ module.exports = {
         '.storybook/**',
         'packages/hermione/**',
         '**/.hermione.conf.js',
-        '**/generate-exports.js',
         'report-metadata.js',
         'security-audit-ci.js'
       ],

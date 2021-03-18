@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import frownIcon from '@jetbrains/icons/frown.svg';
+import frownIcon from '@jetbrains/icons/frown';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 

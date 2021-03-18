@@ -1,0 +1,62 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+
+:root {
+  --ring-input-xs: 50px;
+  --ring-input-s: 100px;
+  --ring-input-m: 200px;
+  --ring-input-l: 400px;
+}
+
+/**
+ * @name Input Sizes
+ */
+
+/* XS */
+
+:global(.ring-input-size_xs.ring-input-size_xs) {
+  display: inline-block;
+
+  width: var(--ring-input-xs);
+}
+
+:global(.ring-input-size_xs.ring-input-size_xs ~ .ring-error-bubble) {
+  left: calc(var(--ring-input-xs) + 2px);
+}
+
+/* S */
+
+:global(.ring-input-size_s.ring-input-size_s) {
+  display: inline-block;
+
+  width: var(--ring-input-s);
+}
+
+:global(.ring-input-size_s.ring-input-size_s ~ .ring-error-bubble) {
+  left: calc(var(--ring-input-s) + 2px);
+}
+
+/* M */
+
+:global(.ring-input-size_md.ring-input-size_md) {
+  display: inline-block;
+
+  width: var(--ring-input-m);
+}
+
+:global(.ring-input-size_md.ring-input-size_md ~ .ring-error-bubble) {
+  left: calc(var(--ring-input-m) + 2px);
+}
+
+/* L */
+
+:global(.ring-input-size_l.ring-input-size_l) {
+  display: inline-block;
+
+  width: var(--ring-input-l);
+}
+
+:global(.ring-input-size_l.ring-input-size_l ~ .ring-error-bubble) {
+  left: calc(var(--ring-input-l) + 2px);
+}

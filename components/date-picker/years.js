@@ -1,13 +1,20 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import moment from 'moment';
+import addYears from 'date-fns/addYears';
+import getYear from 'date-fns/getYear';
+import format from 'date-fns/format';
+import isSameYear from 'date-fns/isSameYear';
+import isThisYear from 'date-fns/isThisYear';
+import setYear from 'date-fns/setYear';
+import startOfYear from 'date-fns/startOfYear';
+import subYears from 'date-fns/subYears';
 
 import linearFunction from '../global/linear-function';
 
 
 import styles from './date-picker.css';
-import units, {momentType, DOUBLE, HALF, yearDuration} from './consts';
+import units, {dateType, DOUBLE, HALF, yearDuration} from './consts';
 
 const {yearHeight, calHeight} = units;
 
@@ -18,7 +25,7 @@ const scrollDelay = 100;
 
 export default class Years extends PureComponent {
   static propTypes = {
-    scrollDate: momentType,
+    scrollDate: dateType,
     onScroll: PropTypes.func,
     onScrollChange: PropTypes.func
   };
@@ -38,23 +45,18 @@ export default class Years extends PureComponent {
     this.setState({scrollDate: null});
 
     this.props.onScroll(
-      moment(this.props.scrollDate).
-        year(moment(date).year())
+      setYear(this.props.scrollDate, getYear(date))
     );
   }
 
   render() {
     const {onScrollChange, scrollDate} = this.props;
-    const date = moment(this.state.scrollDate || scrollDate);
-    const yearStart = date.clone().startOf('year');
-    let year = yearStart.
-      clone().
-      subtract(YEARSBACK, 'years');
+    const date = this.state.scrollDate || scrollDate;
+    const yearStart = startOfYear(date);
+    let year = subYears(yearStart, YEARSBACK);
     const years = [year];
     for (let i = 0; i < YEARSBACK * DOUBLE; i++) {
-      year = year.
-        clone().
-        add(1, 'year');
+      year = addYears(year, 1);
       years.push(year);
     }
 
@@ -90,18 +92,17 @@ export default class Years extends PureComponent {
             className={classNames(
               styles.year,
               {
-                [styles.currentYear]: item.isSame(date, 'year'),
-                [styles.today]: item.isSame(moment(), 'year')
+                [styles.currentYear]: isSameYear(item, date),
+                [styles.today]: isThisYear(item)
               }
             )}
             onClick={function handleClick() {
               onScrollChange(
-                moment(scrollDate).
-                  year(moment(item).year())
+                setYear(scrollDate, getYear(item))
               );
             }}
           >
-            {item.format('YYYY')}
+            {format(item, 'yyyy')}
           </button>
         ))}
       </div>

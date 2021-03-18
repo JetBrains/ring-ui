@@ -4,7 +4,6 @@
 
 import angular from 'angular';
 
-import 'dom4';
 import debounce from 'just-debounce-it';
 import createResizeDetector from 'element-resize-detector';
 
@@ -48,7 +47,8 @@ angularModule.factory('getClosestElementWithCommonParent',
     return function getClosestElementWithCommonParent(currentElement, selector) {
       const parent = currentElement.parentNode;
       if (parent) {
-        return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
+        return parent.querySelector(selector) ||
+          getClosestElementWithCommonParent(parent, selector);
       } else {
         return null;
       }

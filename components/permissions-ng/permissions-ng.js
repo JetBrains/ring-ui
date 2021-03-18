@@ -2,13 +2,12 @@
  * @name Permissions Ng
  */
 import angular from 'angular';
-import 'dom4';
 
 import '../auth-ng/auth-ng';
 import Permissions from '../permissions/permissions';
 import PermissionCache from '../permissions/permissions__cache';
 
-import './permissions-ng.scss';
+import './permissions-ng.css';
 
 function registerPermission(element) {
   const somePermissionsCtrl = element.controller('rgSomePermissions');

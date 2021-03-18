@@ -3,8 +3,8 @@ import angular from 'angular';
 import AngularElastic from '@jetbrains/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
-import '../input/input.scss';
-import '../error-bubble/error-bubble.scss';
+import '../input/input-legacy.css';
+import '../error-bubble/error-bubble-legacy.css';
 
 /**
  * @name Form Ng
