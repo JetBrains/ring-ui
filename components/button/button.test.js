@@ -1,6 +1,6 @@
 import React from 'react';
 import {mount, render} from 'enzyme';
-import caretDownSVG from '@jetbrains/icons/caret-down-10px.svg';
+import caretDownSVG from '@jetbrains/icons/caret-down-10px';
 
 import Button from './button';
 import styles from './button.css';
@@ -42,7 +42,9 @@ describe('Button', () => {
     });
 
     wrapper.hasClass(styles.withIcon).should.be.true;
-    caretDownSVG.should.include(wrapper.find('svg').html());
+    caretDownSVG.
+      replace('/>', '></path>').
+      should.include(wrapper.find('svg').html());
   });
 
   it('should set custom class', () => {

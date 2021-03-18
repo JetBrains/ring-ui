@@ -6,8 +6,8 @@ import Select from '@jetbrains/ring-ui/components/select/select';
 
 import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
 import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
-import '@jetbrains/ring-ui/components/form/form.scss';
-import '@jetbrains/ring-ui/components/input-size/input-size.scss';
+import '@jetbrains/ring-ui/components/form/form.css';
+import '@jetbrains/ring-ui/components/input-size/input-size.css';
 
 import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
 

@@ -1,8 +1,7 @@
 import angular from 'angular';
-import 'dom4';
 
 import {getDocumentScrollTop} from '../global/dom';
-import '../table-legacy/table-legacy__toolbar.scss';
+import '../table-legacy/table-legacy__toolbar.css';
 import scheduleRAF from '../global/schedule-raf';
 
 const angularModule = angular.module('Ring.table-legacy.toolbar', []);
@@ -22,7 +21,7 @@ angularModule.directive('rgLegacyTableToolbar', function rgLegacyTableToolbarDir
        * Use plain DOM functions without any jquery. Should work with IE8+
        */
       const element = iElement[0];
-      const controlsContainer = element.query('.ring-table__toolbar-controls');
+      const controlsContainer = element.querySelector('.ring-table__toolbar-controls');
       let savedToolbarTop;
 
       const toolbarScrollListener = () => scheduleScrollListener(() => {

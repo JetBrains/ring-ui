@@ -1,0 +1,94 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+
+/*
+Input
+
+ Markup:
+ <input class="{$modifiers} ring-input" type="text" placeholder="placeholder">
+
+ :disabled            - Disabled state, also available as the `.ring-input_disabled` class name.
+ :active              - Active state, also available as the `.ring-input_active` class name.
+ :focus               - Focus state, also available as the `.ring-input_focus` class name.
+ .ring-input_correct  - The entered value is correct.
+ .ring-input_error    - The entered value is incorrect.
+ */
+
+:global(.ring-input) {
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(3 * unit);
+  margin: 0;
+  padding-right: calc(unit / 2);
+  padding-bottom: 3px;
+  padding-left: calc(unit / 2);
+
+  color: var(--ring-text-color);
+
+  border: 1px solid var(--ring-borders-color);
+  border-radius: 0;
+  background-color: var(--ring-content-background-color);
+
+  font-family: var(--ring-font-family);
+
+  font-size: var(--ring-font-size);
+
+  line-height: 20px;
+  appearance: none;
+}
+
+:global(.ring-input:active,
+.ring-input:focus,
+.ring-input_active,
+.ring-input_focus) {
+  border-color: var(--ring-main-color);
+  outline: 0;
+}
+
+:global(.ring-input_correct) {
+  border-color: var(--ring-success-color);
+}
+
+:global(.ring-input_error) {
+  border-color: var(--ring-error-color);
+}
+
+:global(.ring-input_no-resize) {
+  resize: none;
+}
+
+:global(.ring-input_filter-popup) {
+  width: 100%;
+  min-width: 200px;
+}
+
+:global(.ring-input_material) {
+  padding-right: 0;
+  padding-left: 0;
+
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+:global(.ring-input.ring-input:disabled,
+.ring-input.ring-input[disabled],
+.ring-input.ring-input_disabled) {
+  color: var(--ring-disabled-color);
+  border-color: var(--ring-border-disabled-color);
+  background-color: var(--ring-sidebar-background-color);
+}
+
+:global(textarea.ring-input) {
+  height: auto;
+  min-height: calc(8 * unit);
+
+  resize: vertical;
+  vertical-align: top;
+}
+
+/* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
+:global(textarea.ring-input::placeholder) {
+  color: var(--ring-disabled-color);
+}

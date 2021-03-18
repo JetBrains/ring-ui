@@ -1,4 +1,3 @@
-import 'dom4';
 import {
   getDocumentScrollLeft,
   getDocumentScrollTop,

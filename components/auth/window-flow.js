@@ -1,10 +1,6 @@
-import sniffer from '../global/sniffer';
-
 import AuthResponseParser from './response-parser';
 
 const NAVBAR_HEIGHT = 50;
-// TODO remove in 4.0
-const isEdge = sniffer.browser.name === 'edge';
 const CLOSED_CHECK_INTERVAL = 200;
 
 export default class WindowFlow {
@@ -28,19 +24,11 @@ export default class WindowFlow {
     const top = (window.screen.height - height - NAVBAR_HEIGHT) / screenHalves;
     const left = (window.screen.width - width) / screenHalves;
 
-    const loginWindow = window.open(
-      isEdge ? null : url,
+    return window.open(
+      url,
       'HubLoginWindow',
       `height=${height}, width=${width}, left=${left}, top=${top}`
     );
-
-    if (isEdge) {
-      setTimeout(() => {
-        loginWindow.location = url;
-      }, 0);
-    }
-
-    return loginWindow;
   }
 
   /**

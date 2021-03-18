@@ -1,6 +1,5 @@
 import angular from 'angular';
 import 'angular-mocks';
-import 'dom4';
 
 import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {mount, render} from 'enzyme';
-import defaultIcon from '@jetbrains/icons/umbrella.svg';
-import expandIcon from '@jetbrains/icons/expand.svg';
+import defaultIcon from '@jetbrains/icons/umbrella';
+import expandIcon from '@jetbrains/icons/expand';
 
 import Icon from './icon';
 import styles from './icon.css';
@@ -16,7 +16,9 @@ describe('Icon', () => {
 
   it('should render passed glyph', () => {
     const icon = renderIcon({glyph: expandIcon});
-    expandIcon.should.include(icon.find('svg').html());
+    expandIcon.
+      replace('/>', '></path>').
+      should.include(icon.find('svg').html());
   });
 
   it('should set compatibility mode if rendering icon without width/height', () => {
@@ -33,15 +35,15 @@ describe('Icon', () => {
 
   describe('fault tolerance', () => {
     beforeEach(() => {
-      sandbox.stub(console, 'warn');
+      sandbox.stub(console, 'error');
     });
 
-    it('should render nothing if null passed as glyph', () => {
+    it('should render nothing if null is passed as glyph', () => {
       const icon = renderIcon({glyph: null});
       icon.find('svg').should.be.empty;
     });
 
-    it('should render nothing if null passed as glyph', () => {
+    it('should render nothing if empty string is passed as glyph', () => {
       const icon = renderIcon({glyph: ''});
       icon.find('svg').should.be.empty;
     });

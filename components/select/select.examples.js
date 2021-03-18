@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import warningIcon from '@jetbrains/icons/warning.svg';
+import warningIcon from '@jetbrains/icons/warning';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
@@ -11,7 +11,7 @@ import List from '@jetbrains/ring-ui/components/list/list';
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
 import Source from '@jetbrains/ring-ui/components/list/list__users-groups-source';
-import '@jetbrains/ring-ui/components/input-size/input-size.scss';
+import '@jetbrains/ring-ui/components/input-size/input-size.css';
 
 import Select from '@jetbrains/ring-ui/components/select/select';
 import Input from '@jetbrains/ring-ui/components/input/input';

@@ -2,248 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import chevronDownIcon from '@jetbrains/icons/chevron-10px.svg';
-
 import fastdom from 'fastdom';
 
-import Dropdown from '../dropdown/dropdown';
-
-import Link from '../link/link';
-
-import PopupMenu, {ListProps} from '../popup-menu/popup-menu';
-
-import Icon from '../icon/icon';
-
-import {Directions} from '../popup/popup.consts';
-
 import styles from './tabs.css';
-import TabLink from './tab-link';
-import {CustomItem} from './dumb-tabs';
-
-const TabTitle = React.memo(({
-  selected,
-  child,
-  handleSelect,
-  collapsed = false,
-  tabIndex
-}) => {
-  if (child == null || typeof child !== 'object' || child.type === CustomItem) {
-    return child;
-  }
-
-  const {
-    title,
-    disabled,
-    href,
-    className,
-    activeClassName,
-    collapsedClassName,
-    collapsedActiveClassName
-  } = child.props;
-
-  const titleClasses = classNames(styles.title, className, {
-    [styles.selected]: selected,
-    [styles.collapsed]: collapsed,
-    [activeClassName]: selected,
-    [collapsedClassName]: collapsed,
-    [collapsedActiveClassName]: collapsed && selected
-  });
-
-  return (
-    <TabLink
-      title={title}
-      isSelected={selected}
-      active
-      href={href}
-      innerClassName={titleClasses}
-      className={titleClasses}
-      disabled={disabled}
-      onPlainLeftClick={handleSelect}
-      tabIndex={tabIndex}
-      collapsed={collapsed}
-    />
-  );
-});
-
-TabTitle.propTypes = {
-  child: PropTypes.element,
-  handleSelect: PropTypes.func,
-  selected: PropTypes.bool,
-  collapsed: PropTypes.bool,
-  tabIndex: PropTypes.number
-};
-
-function noop() {}
-
-const getTabTitles = ({
-  items,
-  selected = 0,
-  collapsed,
-  onSelect = noop,
-  ...props
-}) => items.map((tab, index) => {
-  const key = tab.props.id || String(index);
-  const isSelected = selected === key;
-
-  return (
-    <TabTitle
-      key={key}
-      handleSelect={onSelect(key)}
-      selected={isSelected}
-      child={tab}
-      index={index}
-      collapsed={collapsed}
-      disabled={tab.props.disabled}
-      {...props}
-    />
-  );
-});
+import {FakeMoreButton, MoreButton} from './collapsible-more';
+import getTabTitles from './collapsible-tab';
 
 const DEFAULT_DEBOUNCE_INTERVAL = 100;
 const MEASURE_TOLERANCE = 0.5;
-
-const AnchorLink = ({
-  hasActiveChildren,
-  moreClassName,
-  moreActiveClassName,
-  ...restProps
-}) => {
-  const classnames = classNames(
-    styles.title,
-    hasActiveChildren && styles.selected,
-    hasActiveChildren && moreActiveClassName,
-    moreClassName
-  );
-  return (
-    <Link
-      icon={chevronDownIcon}
-      title={'More'}
-      innerClassName={classnames}
-      className={classnames}
-      {...restProps}
-    >
-      {'More'}
-      <Icon
-        glyph={chevronDownIcon}
-        className={styles.chevron}
-      /></Link>
-  );
-};
-
-AnchorLink.propTypes = {
-  hasActiveChildren: PropTypes.bool,
-  moreClassName: PropTypes.string,
-  moreActiveClassName: PropTypes.string
-};
-
-const morePopupDirections = [
-  Directions.BOTTOM_CENTER,
-  Directions.BOTTOM_LEFT,
-  Directions.BOTTOM_RIGHT
-];
-const MoreButton = React.memo(({
-  items,
-  selected,
-  onSelect,
-  moreClassName,
-  moreActiveClassName,
-  morePopupClassName
-}) => {
-  const onSelectHandler = React.useCallback(item => {
-    if (item.disabled) {
-      return;
-    }
-
-    const cb = onSelect(item.key);
-    cb();
-  }, [onSelect]);
-
-  const hasActiveChild = React.useMemo(() =>
-    items.some(item => item.props.alwaysHidden && item.props.id === selected),
-  [items, selected]
-  );
-
-  const data = React.useMemo(() =>
-    getTabTitles({
-      items,
-      selected,
-      onSelect,
-      collapsed: true
-    }).map(tab => ({
-      template: tab,
-      key: tab.key,
-      rgItemType: ListProps.Type.CUSTOM,
-      className: styles.popupMenuItem,
-      disabled: tab.props.disabled
-    })), [items, onSelect, selected]);
-
-  const popupAnchor = React.useMemo(() => (
-    <AnchorLink
-      moreClassName={moreClassName}
-      moreActiveClassName={moreActiveClassName}
-      hasActiveChildren={hasActiveChild}
-    />
-  ), [hasActiveChild, moreActiveClassName, moreClassName]);
-
-  const popup = React.useMemo(() => (
-    <PopupMenu
-      directions={morePopupDirections}
-      className={morePopupClassName}
-      data={data}
-      onSelect={onSelectHandler}
-    />
-  ), [data, morePopupClassName, onSelectHandler]);
-
-  if (items.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className={classNames(styles.title, moreClassName, hasActiveChild && moreActiveClassName)}>
-      <Dropdown
-        hoverMode
-        anchor={popupAnchor}
-      >
-        {popup}
-      </Dropdown>
-    </div>
-  );
-});
-
-MoreButton.propTypes = {
-  children: PropTypes.node,
-  items: PropTypes.array,
-  selected: PropTypes.string,
-  onSelect: PropTypes.func,
-  toMeasure: PropTypes.bool,
-  moreClassName: PropTypes.string,
-  moreActiveClassName: PropTypes.string,
-  morePopupClassName: PropTypes.string
-};
-
-MoreButton.displayName = 'MoreButton';
-
-const FakeMoreButton = React.memo(({
-  moreClassName,
-  moreActiveClassName,
-  hasActiveChildren
-}) => (
-  <div className={classNames(styles.moreButton, styles.title)}>
-    <AnchorLink
-      moreClassName={moreClassName}
-      moreActiveClassName={moreActiveClassName}
-      hasActiveChildren={hasActiveChildren}
-      tabIndex={-1}
-      disabled
-    />
-  </div>
-));
-FakeMoreButton.propTypes = {
-  moreClassName: PropTypes.string,
-  moreActiveClassName: PropTypes.string,
-  hasActiveChildren: PropTypes.bool
-};
-FakeMoreButton.displayName = 'FakeMoreButton';
 
 const DEFAULT_STATE = {
   lastVisibleIndex: null,
@@ -332,16 +98,18 @@ const useAdjustHandler = ({
       lastVisibleIndex: tabsToRender.length - 1
     });
   }
-
 }, [children, dispatch, elements.lastVisibleIndex, elements.sizes, selectedIndex]);
 
-export const TabAutocollapseTitles = ({
+export const CollapsibleTabs = ({
   children,
   selected,
   onSelect,
   moreClassName,
   moreActiveClassName,
-  morePopupClassName
+  morePopupClassName,
+  morePopupBeforeEnd,
+  morePopupItemClassName,
+  initialVisibleItems
 }) => {
   const [elements, dispatch] = React.useReducer(visibilityReducer, DEFAULT_STATE);
   const [preparedElements, setPreparedElements] = React.useState({visible: [], hidden: []});
@@ -352,11 +120,30 @@ export const TabAutocollapseTitles = ({
     filter(tab => tab.props.alwaysHidden !== true).
     findIndex(tab => tab.props.id === selected) ?? null, [children, selected]);
 
-  const visibleElements = React.useMemo(() => getTabTitles({
-    items: preparedElements.ready ? preparedElements.visible : children,
-    selected,
-    onSelect
-  }), [children, preparedElements.ready, preparedElements.visible, onSelect, selected]);
+  const visibleElements = React.useMemo(() => {
+    let items;
+
+    if (preparedElements.ready) {
+      items = preparedElements.visible;
+    } else {
+      items = initialVisibleItems
+        ? children.filter(item => item.props.alwaysHidden !== true).slice(0, initialVisibleItems)
+        : [];
+    }
+
+    return getTabTitles({
+      items,
+      selected,
+      onSelect
+    });
+  }, [
+    initialVisibleItems,
+    children,
+    preparedElements.ready,
+    preparedElements.visible,
+    onSelect,
+    selected
+  ]);
 
   const adjustTabs = useAdjustHandler({
     dispatch,
@@ -476,20 +263,25 @@ export const TabAutocollapseTitles = ({
     };
   }, [adjustTabs]);
 
+  const isAdjusted = (elements.lastVisibleIndex !== null &&
+    preparedElements.ready === true) || initialVisibleItems;
+
   const className = classNames(
     styles.titles,
     styles.autoCollapse,
-    elements.lastVisibleIndex !== null && preparedElements.ready === true && styles.adjusted
+    isAdjusted && styles.adjusted
   );
 
   return (
-    <>
+    <div className={styles.autoCollapseContainer}>
       <div className={className}>
         {visibleElements}
         <MoreButton
           moreClassName={moreClassName}
           moreActiveClassName={moreActiveClassName}
           morePopupClassName={morePopupClassName}
+          morePopupBeforeEnd={morePopupBeforeEnd}
+          morePopupItemClassName={morePopupItemClassName}
           items={preparedElements.hidden}
           selected={selected}
           onSelect={onSelect}
@@ -507,17 +299,20 @@ export const TabAutocollapseTitles = ({
           moreActiveClassName={moreActiveClassName}
         />
       </div>
-    </>
+    </div>
   );
 };
 
-TabAutocollapseTitles.propTypes = {
+CollapsibleTabs.propTypes = {
   children: PropTypes.node.isRequired,
   selected: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   moreClassName: PropTypes.string,
   moreActiveClassName: PropTypes.string,
-  morePopupClassName: PropTypes.string
+  morePopupClassName: PropTypes.string,
+  morePopupItemClassName: PropTypes.string,
+  initialVisibleItems: PropTypes.number,
+  morePopupBeforeEnd: PropTypes.element
 };
 
-export default React.memo(TabAutocollapseTitles);
+export default React.memo(CollapsibleTabs);

@@ -1,7 +1,3 @@
-import deprecate from 'util-deprecate';
-
-import sniffer from './sniffer';
-
 /**
  * @description Provides a set of utilities for URL manipulation.
  */
@@ -98,33 +94,6 @@ export function joinBaseURLAndPath(baseUrl, path) {
 
   return baseUrl + path;
 }
-
-/**
- * Resolve URL for SVG icons
- * @param {string} relUrl The value of xlink:href
- * @param {Function} baseURIGetter a function that returns base URI
- * @param {Function} absoluteURLGetter a function that returns absolute URI of current page
- * @return {string} The URL relative to base URL for current page
- */
-// TODO remove in 4.0
-export const resolveRelativeURL = deprecate(function resolveRelativeURL(
-  relUrl,
-  baseURIGetter = getBaseURI,
-  absoluteURLGetter = getAbsoluteURL
-) {
-  if (baseURIGetter() &&
-    (
-      sniffer.browser.name === 'firefox' ||
-      sniffer.browser.name === 'edge' ||
-      // eslint-disable-next-line no-magic-numbers
-      sniffer.browser.name === 'chrome' && sniffer.browser.version[0] >= 49
-    )
-  ) {
-    return absoluteURLGetter() + relUrl;
-  }
-
-  return String(relUrl);
-}, 'resolveRelativeURL is deprecated');
 
 /**
  * Parses a queryString into an object.

@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import checkmarkIcon from '@jetbrains/icons/checkmark';
 
 import IconNG from '../icon-ng/icon-ng';
 import proxyAttrs from '../proxy-attrs/proxy-attrs';
@@ -43,7 +43,7 @@ angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
     `),
     link: function link(scope, iElement) {
       scope.checkmarkIcon = checkmarkIcon;
-      const input = iElement[0].query('input[type="checkbox"]');
+      const input = iElement[0].querySelector('input[type="checkbox"]');
 
       const id = CHECKBOX_ID_PREFIX + idCounter++;
       iElement[0].setAttribute('for', id);

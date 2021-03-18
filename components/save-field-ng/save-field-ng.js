@@ -2,9 +2,8 @@
  * @name Save Field Ng
  */
 import angular from 'angular';
-import 'dom4';
-import '../form/form.scss';
-import './save-field-ng.scss';
+import '../form/form.css';
+import './save-field-ng.css';
 
 import '../loader-inline/loader-inline';
 import ButtonSet from '../button-set-ng/button-set-ng';

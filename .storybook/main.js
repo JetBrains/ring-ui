@@ -22,14 +22,19 @@ module.exports = {
   },
   webpackFinal(config) {
     ringConfig.loaders.cssLoader.include.push(/\.storybook/);
-    ringConfig.loaders.svgInlineLoader.include.push(/@primer\/octicons/);
-    ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
     ringConfig.loaders.babelLoader.options.plugins = [[
       'babel-plugin-react-docgen',
       {
         DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES'
       }
     ]];
+
+    ringConfig.config.module.rules.push({
+      test: /\.svg$/,
+      loader: require.resolve('svg-inline-loader'),
+      options: {removeSVGTagAttrs: false},
+      include: [/@primer\/octicons/, /@jetbrains\/logos/]
+    });
 
     config.module.rules = [
       ...ringConfig.config.module.rules,

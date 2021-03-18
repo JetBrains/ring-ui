@@ -1,4 +1,3 @@
-import 'dom4';
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 

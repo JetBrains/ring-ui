@@ -7,15 +7,6 @@ updates:
     time: "10:00"
   open-pull-requests-limit: 10
   versioning-strategy: increase
-  ignore:
-  - dependency-name: core-js
-    versions:
-    - ">= 3.a"
-    - "< 4"
-  - dependency-name: dom4
-    versions:
-    - "< 3"
-    - ">= 2.a"
 - package-ecosystem: npm
   directory: "/packages/generator/app/templates"
   schedule:

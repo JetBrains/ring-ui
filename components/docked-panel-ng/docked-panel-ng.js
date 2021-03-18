@@ -1,10 +1,9 @@
 import angular from 'angular';
-import 'dom4';
 
 import scheduleRAF from '../global/schedule-raf';
 import {getDocumentScrollTop, getWindowHeight} from '../global/dom';
 
-import './docked-panel-ng.scss';
+import styles from './docked-panel-ng.css';
 
 const scheduleAction = scheduleRAF();
 
@@ -18,8 +17,8 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
   return {
     link: function link(scope, element, attrs) {
       const TOGGLE_GAP = 8;
-      const CSS_CLASS_NAME = 'ring-docked-panel';
-      const DOCKED_CSS_CLASS_NAME = 'ring-docked-panel_fixed';
+      const CSS_CLASS_NAME = styles.dockedPanel;
+      const DOCKED_CSS_CLASS_NAME = styles.fixed;
       const dockedPanelClass = attrs.rgDockedPanelClass || '';
       const config = attrs.rgDockedPanelConfig ? $parse(attrs.rgDockedPanelConfig)(scope) : null;
       let initialPanelPos;

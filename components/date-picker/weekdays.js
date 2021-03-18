@@ -1,13 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
+import getDay from 'date-fns/getDay';
+import format from 'date-fns/format';
+import setDay from 'date-fns/setDay';
+import startOfDay from 'date-fns/startOfDay';
 
 import {weekdays} from './consts';
 import styles from './date-picker.css';
 
 export default function Weekdays() {
   const days = Object.keys(weekdays).
-    map(key => moment().day(weekdays[key]).startOf('day'));
+    map(key => startOfDay(setDay(new Date(), weekdays[key])));
 
   return (
     <div className={styles.weekdays}>
@@ -16,12 +19,12 @@ export default function Weekdays() {
           className={classNames(
             styles.weekday,
             {
-              [styles.weekend]: [weekdays.SA, weekdays.SU].includes(day.day())
+              [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day))
             }
           )}
           key={+day}
         >
-          {day.format('dd')}
+          {format(day, 'EEEEEE')}
         </span>
       ))}
     </div>

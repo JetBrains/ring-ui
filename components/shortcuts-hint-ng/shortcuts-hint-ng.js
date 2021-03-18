@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import searchIcon from '@jetbrains/icons/search.svg';
+import searchIcon from '@jetbrains/icons/search';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import DialogNg from '../dialog-ng/dialog-ng';
@@ -11,7 +11,7 @@ import InputNg from '../input-ng/input-ng';
 import {getShortcutTitle} from '../shortcuts/shortcut-title';
 
 import HintPopupTpl from './shortcuts-hint-ng.html';
-import './shortcuts-hint-ng.scss';
+import './shortcuts-hint-ng.css';
 
 /**
  * @name Shortcuts Ng Hint Popup

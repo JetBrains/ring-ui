@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import searchIcon from '@jetbrains/icons/search.svg';
-import warningIcon from '@jetbrains/icons/warning.svg';
+import searchIcon from '@jetbrains/icons/search';
+import warningIcon from '@jetbrains/icons/warning';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -82,6 +82,12 @@ const autocollapseData = [
     alwaysHidden: true,
     href: '/',
     content: 'Hidden tab content'
+  },
+  {
+    id: 'custom',
+    alwaysHidden: true,
+    custom: true,
+    content: <Button text style={{padding: 0}}>Custom Item</Button>
   }
 ];
 
@@ -89,8 +95,9 @@ const AutoCollapseDemo = () => {
   const [selected, setSelected] = React.useState('first');
   const [tabs, setTabs] = React.useState(autocollapseData.map(item => {
     const {content, ...tabProps} = item;
+    const Host = item.custom === true ? CustomItem : Tab;
 
-    return <Tab key={item.id} {...tabProps}>{content}</Tab>;
+    return <Host key={item.id} {...tabProps}>{content}</Host>;
   }));
 
   const addTab = React.useCallback(() => {
@@ -110,13 +117,18 @@ const AutoCollapseDemo = () => {
     });
   }, []);
 
+  const selectHandler = React.useCallback(key => {
+    setSelected(key);
+  }, []);
+
   return (
     <>
       <Button onClick={addTab} title={'Add tab'} style={{margin: '10px 0'}}>{'Add tab'}</Button>
       <Tabs
         selected={selected}
-        onSelect={setSelected}
+        onSelect={selectHandler}
         autoCollapse
+        initialVisibleItems={3}
       >
         {tabs}
       </Tabs>

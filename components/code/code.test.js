@@ -1,8 +1,14 @@
-import 'dom4';
 import React from 'react';
 import {shallow, mount} from 'enzyme';
+import css from 'highlight.js/lib/languages/css';
+import javascript from 'highlight.js/lib/languages/javascript';
+import xml from 'highlight.js/lib/languages/xml';
 
-import Code from './code';
+import Code, {highlight} from './code';
+
+highlight.registerLanguage('css', css);
+highlight.registerLanguage('javascript', javascript);
+highlight.registerLanguage('xml', xml);
 
 describe('Code', () => {
   const shallowCode = props => shallow(
@@ -36,7 +42,7 @@ describe('Code', () => {
       code: `
         import React, {Component} from 'react';
         import ChildComponent from './child-component';
-        
+
         const MyComponent = () => (
           <div className="class">
             <ChildComponent prop="value" />
@@ -77,7 +83,7 @@ describe('Code', () => {
     const wrapper = mountCode({
       code: '"foo"'
     });
-    const token = wrapper.getDOMNode().query('.hljs-string');
+    const token = wrapper.getDOMNode().querySelector('.hljs-string');
     token.textContent.should.equal('"foo"');
   });
 
@@ -88,7 +94,7 @@ describe('Code', () => {
     wrapper.setProps({
       code: '"bar"'
     });
-    const token = wrapper.getDOMNode().query('.hljs-string');
+    const token = wrapper.getDOMNode().querySelector('.hljs-string');
     token.textContent.should.equal('"bar"');
   });
 });

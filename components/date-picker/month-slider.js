@@ -1,19 +1,21 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import moment from 'moment';
+import addYears from 'date-fns/addYears';
+import startOfDay from 'date-fns/startOfDay';
+import subYears from 'date-fns/subYears';
 
 import linearFunction from '../global/linear-function';
 
 
-import units, {momentType, yearScrollSpeed} from './consts';
+import units, {dateType, yearScrollSpeed} from './consts';
 import styles from './date-picker.css';
 
 const COVERYEARS = 3;
 
 export default class MonthSlider extends PureComponent {
   static propTypes = {
-    scrollDate: momentType,
+    scrollDate: dateType,
     onScroll: PropTypes.func,
     pxToDate: PropTypes.shape({
       x: PropTypes.func,
@@ -50,14 +52,10 @@ export default class MonthSlider extends PureComponent {
   };
 
   render() {
-    let year = moment(this.props.scrollDate).
-      startOf('day').
-      subtract(1, 'year');
+    let year = subYears(startOfDay(this.props.scrollDate), 1);
     const years = [year];
     for (let i = 0; i <= COVERYEARS; i++) {
-      year = year.
-        clone().
-        add(1, 'year');
+      year = addYears(year, 1);
       years.push(year);
     }
 

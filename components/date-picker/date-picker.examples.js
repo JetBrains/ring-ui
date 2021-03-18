@@ -10,7 +10,7 @@ export default {
 
   parameters: {
     notes:
-      'Allows picking a date or a date range. Uses [moment.js](http://momentjs.com/) under the hood. You may want to either [bundle only the needed locales](https://webpack.js.org/plugins/context-replacement-plugin/#newcontentresource-newcontentrecursive-newcontentregexp) or even to [ignore all of them](https://webpack.js.org/plugins/ignore-plugin/#ignore-moment-locales).',
+      'Allows picking a date or a date range. Uses [date-fns](https://date-fns.org) under the hood.',
 
     hermione: {
       actions: [
@@ -36,7 +36,7 @@ export const singleDate = () => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} onDateChange={this.setDate}/>
+          <DatePicker date={this.state.date} onChange={this.setDate}/>
         </div>
       );
     }
@@ -62,7 +62,7 @@ export const singleDateAndTime = () => {
         <div>
           <DatePicker
             date={this.state.date}
-            onDateChange={this.setDate}
+            onChange={this.setDate}
             withTime
             clear
           />
@@ -94,7 +94,7 @@ export const range = () => {
     render() {
       return (
         <div>
-          <DatePicker from={this.state.from} to={this.state.to} onDateChange={this.setRange} range/>
+          <DatePicker from={this.state.from} to={this.state.to} onChange={this.setRange} range/>
         </div>
       );
     }
@@ -115,7 +115,7 @@ export const clearable = () => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} onDateChange={this.setDate} clear/>
+          <DatePicker date={this.state.date} onChange={this.setDate} clear/>
         </div>
       );
     }
@@ -139,7 +139,7 @@ export const singleWithMinMax = () => {
         <div>
           <DatePicker
             date={this.state.date}
-            onDateChange={this.setDate}
+            onChange={this.setDate}
             clear
             minDate="25 January 2018"
             maxDate="5 February 2018"
@@ -167,7 +167,7 @@ export const singleWithMin = () => {
         <div>
           <DatePicker
             date={this.state.date}
-            onDateChange={this.setDate}
+            onChange={this.setDate}
             clear
             minDate="25 January 2018"
           />
@@ -194,7 +194,7 @@ export const singleWithMax = () => {
         <div>
           <DatePicker
             date={this.state.date}
-            onDateChange={this.setDate}
+            onChange={this.setDate}
             clear
             maxDate="5 February 2018"
           />
@@ -225,7 +225,7 @@ export const rangeWithMinMax = () => {
           <DatePicker
             from={this.state.from}
             to={this.state.to}
-            onDateChange={this.setRange}
+            onChange={this.setRange}
             clear
             minDate="25 January 2018"
             maxDate="5 February 2018"
@@ -258,7 +258,7 @@ export const rangeWithMin = () => {
           <DatePicker
             from={this.state.from}
             to={this.state.to}
-            onDateChange={this.setRange}
+            onChange={this.setRange}
             clear
             minDate="25 January 2018"
             range
@@ -290,7 +290,7 @@ export const rangeWithMax = () => {
           <DatePicker
             from={this.state.from}
             to={this.state.to}
-            onDateChange={this.setRange}
+            onChange={this.setRange}
             clear
             maxDate="5 February 2018"
             range
@@ -322,7 +322,7 @@ export const rangeWithCustomPlaceholders = () => {
           <DatePicker
             from={this.state.from}
             to={this.state.to}
-            onDateChange={this.setRange}
+            onChange={this.setRange}
             fromPlaceholder="From"
             toPlaceholder="To"
             rangePlaceholder="Set range"

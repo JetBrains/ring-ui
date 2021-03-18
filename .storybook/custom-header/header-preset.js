@@ -10,16 +10,11 @@ exports.managerWebpack = function managerWebpack(config) {
   config.module.rules.forEach(rule => {
     rule.exclude = [
       /\.storybook/,
-      ringConfig.componentsPath,
-      /@primer\/octicons/,
-      /@jetbrains\/logos/,
-      /@jetbrains\/icons/
+      ringConfig.componentsPath
     ].concat(rule.exclude || []);
   });
 
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);
-  ringConfig.loaders.svgInlineLoader.include.push(/@primer\/octicons/);
-  ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
 
   const serverUri = pkgConfig.hub;
   const clientId = pkgConfig.clientId;
