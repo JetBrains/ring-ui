@@ -1,7 +1,6 @@
 import angular from 'angular';
 
 import classNames from 'classnames';
-import 'dom4';
 
 import styles from '../button-group/button-group.css';
 

@@ -1,18 +1,18 @@
 import React from 'react';
-import searchIcon from '@jetbrains/icons/search.svg';
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
-import pencilIcon from '@jetbrains/icons/pencil.svg';
-import add10pxIcon from '@jetbrains/icons/add-10px.svg';
-import add20pxIcon from '@jetbrains/icons/add-20px.svg';
-import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
-import starFilledIcon from '@jetbrains/icons/star-filled.svg';
-import okIcon from '@jetbrains/icons/ok.svg';
+import searchIcon from '@jetbrains/icons/search';
+import checkmarkIcon from '@jetbrains/icons/checkmark';
+import pencilIcon from '@jetbrains/icons/pencil';
+import add10pxIcon from '@jetbrains/icons/add-10px';
+import add20pxIcon from '@jetbrains/icons/add-20px';
+import chevronDownIcon from '@jetbrains/icons/chevron-down';
+import starFilledIcon from '@jetbrains/icons/star-filled';
+import okIcon from '@jetbrains/icons/ok';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
-const allIcons = require.context('../../node_modules/@jetbrains/icons', false, /\.svg$/);
+const allIcons = require.context('../../node_modules/@jetbrains/icons', false, /\.js$/);
 const allLogos = require.context('../../node_modules/@jetbrains/logos', true, /\.svg$/);
 
 export default {
@@ -90,9 +90,13 @@ inText.parameters = {
 
 export const allIconsList = () => (
   <div className="icon-example__container">
-    {allIcons.keys().map(key => (
-      <Icon glyph={allIcons(key)} key={key} title={key.slice(2)} className="ring-icon"/>
-    ))}
+    {allIcons.keys().filter(key => !key.includes('index.js')).map(key => {
+      const iconName = key.replace('./', '').replace('.js', '');
+
+      return (
+        <Icon glyph={allIcons(key)} key={key} title={iconName} className="ring-icon"/>
+      );
+    })}
   </div>
 );
 

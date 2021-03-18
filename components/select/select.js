@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import chevronDownIcon from '@jetbrains/icons/chevron-10px.svg';
-import closeIcon from '@jetbrains/icons/close.svg';
+import chevronDownIcon from '@jetbrains/icons/chevron-10px';
+import closeIcon from '@jetbrains/icons/close';
 import deepEqual from 'deep-equal';
 
 import {Anchor} from '../dropdown/dropdown';
@@ -645,7 +645,7 @@ export default class Select extends Component {
 
       if (tryFocusAnchor) {
         const restoreFocusNode = this.props.targetElement ||
-          this.node.query('[data-test~=ring-select__focus]');
+          this.node.querySelector('[data-test~=ring-select__focus]');
         if (restoreFocusNode) {
           restoreFocusNode.focus();
         }
@@ -1278,4 +1278,4 @@ export default class Select extends Component {
   }
 }
 
-export const RerenderableSelect = rerenderHOC(Select, {captureNode: false});
+export const RerenderableSelect = rerenderHOC(Select);

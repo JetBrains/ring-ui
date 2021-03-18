@@ -2,9 +2,9 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '@jetbrains/ring-ui/components/input/input.scss';
-import '@jetbrains/ring-ui/components/form/form.scss';
-import '@jetbrains/ring-ui/components/input-size/input-size.scss';
+import '@jetbrains/ring-ui/components/input/input-legacy.css';
+import '@jetbrains/ring-ui/components/form/form.css';
+import '@jetbrains/ring-ui/components/input-size/input-size.css';
 
 import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
 import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';

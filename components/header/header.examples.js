@@ -1,11 +1,11 @@
 import React from 'react';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
-import addIcon from '@jetbrains/icons/add-20px.svg';
-import giftIcon from '@jetbrains/icons/gift-20px.svg';
-import helpIcon from '@jetbrains/icons/help-20px.svg';
-import searchIcon from '@jetbrains/icons/search-20px.svg';
-import settingsIcon from '@jetbrains/icons/settings-20px.svg';
+import addIcon from '@jetbrains/icons/add-20px';
+import giftIcon from '@jetbrains/icons/gift-20px';
+import helpIcon from '@jetbrains/icons/help-20px';
+import searchIcon from '@jetbrains/icons/search-20px';
+import settingsIcon from '@jetbrains/icons/settings-20px';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';

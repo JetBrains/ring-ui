@@ -1,12 +1,11 @@
-import 'dom4';
 import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import exceptionIcon from '@jetbrains/icons/exception.svg';
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
-import warningIcon from '@jetbrains/icons/warning.svg';
-import closeIcon from '@jetbrains/icons/close.svg';
+import exceptionIcon from '@jetbrains/icons/exception';
+import checkmarkIcon from '@jetbrains/icons/checkmark';
+import warningIcon from '@jetbrains/icons/warning';
+import closeIcon from '@jetbrains/icons/close';
 
 import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';

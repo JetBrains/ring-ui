@@ -1,49 +1,19 @@
 const path = require('path');
 
-const deprecate = require('util-deprecate');
+(function checkWebpack() {
+  const webpackVersion = require('webpack').version;
+  const isObsoleteWebpack = webpackVersion.startsWith('4');
+  if (isObsoleteWebpack) {
+    // eslint-disable-next-line no-console
+    console.log(`[WARN]: RingUI is used with Webpack@"${webpackVersion}". Ring UI requires Webpack@>=5`);
+  }
+}());
 
 const componentsPath = [path.join(__dirname, 'components')];
 
 function loadersObjectToArray(loaders) {
   return Object.keys(loaders).map(name => loaders[name]);
 }
-
-const svgInlineLoader = {
-  test: /\.svg$/,
-  loader: require.resolve('svg-inline-loader'),
-  options: {removeSVGTagAttrs: false},
-  include: [require('@jetbrains/icons')]
-};
-
-const svgLoader = {
-  test: /\.svg$/,
-  loader: require.resolve('url-loader'),
-  options: {
-    limit: 10000
-  },
-  include: componentsPath
-};
-
-const scssLoader = {
-  test: /\.scss$/,
-  include: componentsPath,
-  use: [
-    require.resolve('style-loader'),
-    require.resolve('css-loader'),
-    {
-      loader: require.resolve('postcss-loader')
-    },
-    {
-      loader: require.resolve('sass-loader'),
-      options: {
-        sassOptions: {
-          outputStyle: 'expanded'
-        },
-        implementation: require('sass') // Dart implementation of SASS compiler
-      }
-    }
-  ]
-};
 
 const cssLoader = {
   test: /\.css$/,
@@ -92,16 +62,6 @@ const babelLoader = {
   }
 };
 
-// TODO remove in 4.0
-const whatwgLoader = {
-  test: require.resolve('whatwg-fetch'),
-  loader: require.resolve('imports-loader')
-};
-const getWhatwgLoader = deprecate(() => whatwgLoader, `***
-  DEPRECATION: Ring UI's whatwgLoader is about to be removed from webpack.config – there are no more browsers we support that doesn't have Fetch API embedded.
-  Looks like your webpack config is patching it. The simplest fix is to remove any usages of it.
-***`);
-
 const vfileLoader = {
   test: /node_modules\/vfile\/core\.js/,
   loader: require.resolve('imports-loader'),
@@ -124,11 +84,8 @@ const gifLoader = {
 };
 
 const loaders = {
-  svgInlineLoader,
-  svgLoader,
   cssLoader,
   externalCssLoader,
-  scssLoader,
   babelLoader,
   vfileLoader,
   htmlLoader,
@@ -147,8 +104,14 @@ module.exports = {
 
   loaders: {
     ...loaders,
-    get whatwgLoader() {
-      return getWhatwgLoader();
+    get svgInlineLoader() {
+      throw new Error('***Ring UI embedded "svgInlineLoader" removed in 4.0. Please install and use own instance if you need it.***');
+    },
+    get scssLoader() {
+      throw new Error('***Ring UI embedded "scssLoader" removed in 4.0. Please install and use own instance if you need it.***');
+    },
+    get svgLoader() {
+      throw new Error('***Ring UI embedded "svgLoader" removed in 4.0. Please install and use own instance if you need it.***');
     }
   }
 };

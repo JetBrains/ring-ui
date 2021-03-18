@@ -1,3 +1,20 @@
+## [4.0.0]
+
+### BREAKING CHANGES
+- `WebPack 4` is no longer supported. Please upgrade your project to use `WebPack@>=5`.
+- `Code` no longer preloads any language highlighting. It's loaded lazily using dynamic imports instead. You can still preload the languages you need with `highlight.registerLanguage`, see https://jetbrains.github.io/ring-ui/master/index.html?path=/docs/components-code--basic. If you used the following line in your webpack config to reduce the bundle size, please remove it:
+    ```js
+    new webpack.NormalModuleReplacementPlugin(/@jetbrains\\/ring-ui\\/components\\/code\\/highlight.js$/, './highlight-lazy.js')
+    ```
+- `date-picker` has migrated from `moment` to `date-fns`. All the props deprecated in 3.1.0 are now removed. `onDateChange` is renamed back to `onChange` and will be removed in 5.0.
+- `svg-inline-loader` is not used by Ring UI anymore. Consider installing and using own instance if needed.
+- `@jetbrains/generator-ring-ui` requires `yo` v4 (currently in beta)
+
+#### Moving away from SASS
+- `SASS` files are rewritten to `CSS`. If your project imports Ring UI's SCSS files, check same folder for new CSS options.
+- `global.scss` is not more available. If you use variables or mixins from this file, please consider having own copy.
+  Old version can be found [here](https://github.com/JetBrains/ring-ui/blob/4ec18fa1bb/components/global/global.scss).
+
 ## [3.1.0]
 Some of the props of `date-picker` are changed or deprecared to allow removing the dependency on `moment` package in v4:
 - passing `moment` instance as `date`, `from`, `to`, `minDate`, and `maxDate` props is deprecated. They still accept js `Date` objects, strings, and numeric timestamps

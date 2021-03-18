@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import moment from 'moment';
-
-import formats from './formats';
+import add from 'date-fns/add';
 
 const unit = 8; // px;
 const units = {
@@ -28,7 +26,9 @@ export const weekdays = {
 };
 export const MIDDLE_DAY = 15;
 
-export const yearDuration = +moment.duration(1, 'year');
+const durationToMillis = duration => +add(0, duration);
+
+export const yearDuration = durationToMillis({years: 1});
 export const yearScrollSpeed = yearDuration / (YEAR * units.cellSize);
 
 export const DOUBLE = 2;
@@ -59,43 +59,6 @@ export const dateType = PropTypes.oneOfType([
   PropTypes.number
 ]);
 
-export const momentType = PropTypes.oneOfType([
-  (props, propName) => {
-    if (!moment.isMoment(props[propName])) {
-      return new Error(
-        `${propName} should be a string, number, Date object or Moment object`
-      );
-    }
-    return undefined;
-  },
-  PropTypes.instanceOf(Date),
-  PropTypes.string,
-  PropTypes.number
-]);
-
-const parsed = Object.create(null);
-// TODO remove in 4.0
-export function parseDate(text, ...addFormats) {
-  let date;
-  if (typeof text !== 'string') {
-    date = moment(text);
-  } else {
-
-    const key = `${text}__${addFormats.join('__')}`;
-    if (!(key in parsed)) {
-      const extendedFormats = [
-        ...addFormats,
-        ...formats
-      ];
-      parsed[key] = moment(text, extendedFormats);
-    }
-
-    date = parsed[key];
-  }
-  return date.isValid() ? date : null;
-}
-
-// TODO remove in 4.0
 export function parseTime(time) {
   let result = null;
   if (/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
@@ -106,7 +69,3 @@ export function parseTime(time) {
 
   return result;
 }
-
-// TODO remove in 4.0
-export const applyFormat = format =>
-  (typeof format === 'function' ? format : date => moment(date).format(format));

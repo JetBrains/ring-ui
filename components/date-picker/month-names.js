@@ -1,20 +1,23 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import moment from 'moment';
+import endOfMonth from 'date-fns/endOfMonth';
+import format from 'date-fns/format';
+import isThisMonth from 'date-fns/isThisMonth';
+import set from 'date-fns/set';
+import startOfDay from 'date-fns/startOfDay';
+import startOfYear from 'date-fns/startOfYear';
 
 import linearFunction from '../global/linear-function';
 
 import MonthSlider from './month-slider';
-import {HALF, YEAR, MIDDLE_DAY, yearScrollSpeed, momentType} from './consts';
+import {HALF, YEAR, MIDDLE_DAY, yearScrollSpeed, dateType} from './consts';
 import styles from './date-picker.css';
 
 class MonthName extends PureComponent {
   handleClick = () => {
-    const end = this.props.month.
-      clone().
-      endOf('month');
-    this.props.onScrollChange((this.props.month + end) * HALF);
+    const end = endOfMonth(this.props.month);
+    this.props.onScrollChange((+this.props.month + +end) * HALF);
   };
 
   render() {
@@ -26,38 +29,33 @@ class MonthName extends PureComponent {
         className={classNames(
           styles.monthName,
           {
-            [styles.today]: month.isSame(moment(), 'month')
+            [styles.today]: isThisMonth(month)
           }
         )}
         onClick={this.handleClick}
       >
-        {month.format('MMM')}
+        {format(month, 'MMM')}
       </button>
     );
   }
 }
 
 MonthName.propTypes = {
-  month: momentType,
+  month: dateType,
   onScrollChange: PropTypes.func
 };
 
 export default function MonthNames(props) {
-  const scrollDate = moment(props.scrollDate);
+  const {scrollDate} = props;
   const months = [];
   for (let i = 0; i < YEAR; i++) {
-    months.push(
-      scrollDate.
-        clone().
-        month(i).
-        date(MIDDLE_DAY).
-        startOf('day')
-    );
+    const middleDay = set(scrollDate, {month: i, date: MIDDLE_DAY});
+    months.push(startOfDay(middleDay));
   }
 
   const pxToDate = linearFunction(
     0,
-    moment(props.scrollDate).startOf('year'),
+    startOfYear(scrollDate),
     yearScrollSpeed
   );
 
@@ -97,7 +95,7 @@ export default function MonthNames(props) {
 }
 
 MonthNames.propTypes = {
-  scrollDate: momentType,
+  scrollDate: dateType,
   onScrollChange: PropTypes.func,
-  currentRange: PropTypes.arrayOf(momentType)
+  currentRange: PropTypes.arrayOf(dateType)
 };

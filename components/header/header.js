@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import compose from '../global/compose';
-import rerenderHOC from '../global/rerender-hoc';
 import Theme, {withTheme} from '../global/theme';
 
 import styles from './header.css';
@@ -45,8 +44,7 @@ class Header extends Component {
 
 export default withTheme(Theme.DARK)(Header);
 export const RerenderableHeader = compose(
-  withTheme(Theme.DARK),
-  rerenderHOC
+  withTheme(Theme.DARK)
 )(Header);
 export {default as Logo} from './logo';
 export {default as Tray} from './tray';

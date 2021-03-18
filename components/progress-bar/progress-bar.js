@@ -23,14 +23,6 @@ export default class ProgressBar extends PureComponent {
   }
 
   static propTypes = {
-    // TODO Remove in 4.0
-    // Obsolete prop, should be replaced with theme
-    light(props, propName) {
-      if (propName in props) {
-        return new Error(`"${propName}" prop is deprecated. Use "theme" instead`);
-      }
-      return undefined;
-    },
     theme: PropTypes.string,
 
     /**
@@ -78,13 +70,12 @@ export default class ProgressBar extends PureComponent {
   };
 
   render() {
-    const {theme, light, className, global, max, value, ...otherProps} = this.props;
-    const themeFallback = light ? Theme.DARK : theme;
+    const {theme, className, global, max, value, ...otherProps} = this.props;
 
     const width = value ? `${ProgressBar.toPercent(value, max)}%` : null;
     const classes = classNames(styles.progressBar, className, {
-      [styles.light]: themeFallback === Theme.LIGHT,
-      [styles.dark]: themeFallback === Theme.DARK,
+      [styles.light]: theme === Theme.LIGHT,
+      [styles.dark]: theme === Theme.DARK,
       [styles.globalMode]: global
     });
 

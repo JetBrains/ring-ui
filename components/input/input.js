@@ -1,9 +1,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import closeIcon from '@jetbrains/icons/close.svg';
+import closeIcon from '@jetbrains/icons/close';
 
-import compose from '../global/compose';
 import Theme, {withTheme} from '../global/theme';
 import Button from '../button/button';
 
@@ -11,7 +10,6 @@ import getUID from '../global/get-uid';
 
 import Icon from '../icon/icon';
 
-import ieCompatibleInputHOC from './ie-compatible-hoc';
 import styles from './input.css';
 
 function noop() {}
@@ -225,9 +223,6 @@ export class Input extends PureComponent {
   }
 }
 
-export default compose(
-  ieCompatibleInputHOC,
-  withTheme(),
-)(Input);
+export default withTheme()(Input);
 
 export {Size, Theme};

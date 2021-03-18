@@ -22,7 +22,7 @@ export default class Icon extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
-    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
+    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]).isRequired,
     height: PropTypes.number,
     size: PropTypes.number,
     width: PropTypes.number,
@@ -62,21 +62,13 @@ export default class Icon extends PureComponent {
     return null;
   }
 
-  getIconSource() {
-    const {glyph} = this.props;
-    return glyph?.isRingIcon ? glyph.glyph : glyph;
-  }
-
   render() {
     const {
-      className, size, color, loading, glyph, width, height, suppressSizeWarning,
+      className, size, color, loading, glyph: Glyph, width, height, suppressSizeWarning,
       ...restProps
     } = this.props;
 
-    const IconSrc = this.getIconSource();
-    if (!IconSrc) {
-      // eslint-disable-next-line no-console
-      console.warn('No icon source passed to Icon component', this.props);
+    if (!Glyph) {
       return null;
     }
 
@@ -93,9 +85,9 @@ export default class Icon extends PureComponent {
         {...restProps}
         className={classes}
       >
-        {typeof IconSrc === 'string'
-          ? <IconSVG src={IconSrc} style={this.getStyle()}/>
-          : <IconSrc className={styles.glyph} style={this.getStyle()}/>
+        {typeof Glyph === 'string'
+          ? <IconSVG src={Glyph} style={this.getStyle()}/>
+          : <Glyph className={styles.glyph} style={this.getStyle()}/>
         }
       </span>
     );
@@ -103,28 +95,3 @@ export default class Icon extends PureComponent {
 }
 
 export {Size};
-
-// TODO remove in 4.0
-// eslint-disable-next-line react/no-multi-comp
-export const iconHOC = deprecate((glyph, displayName) => class BoundIcon extends PureComponent {
-  // Compatibility with angular
-  static toString() {
-    return glyph;
-  }
-
-  static displayName = displayName;
-
-  static propTypes = {
-    iconRef: PropTypes.func
-  };
-
-  static Color = Color;
-  static Size = Size;
-  static isRingIcon = true;
-  static glyph = glyph;
-
-  render() {
-    const {iconRef, ...restProps} = this.props;
-    return <Icon ref={iconRef} {...restProps} glyph={glyph}/>;
-  }
-}, 'Importing icons and logos from Ring UI is deprecated. Please import them from corresponding packages: `@jetbrains/icons` and `@jetbrains/logos`.');

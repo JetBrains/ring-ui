@@ -2,7 +2,7 @@ import 'focus-visible';
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import chevronDown from '@jetbrains/icons/chevron-10px.svg';
+import chevronDown from '@jetbrains/icons/chevron-10px';
 
 import Icon, {Size} from '../icon/icon';
 import Theme, {withTheme} from '../global/theme';
@@ -25,13 +25,6 @@ class Button extends PureComponent {
     delayed: PropTypes.bool,
     loader: PropTypes.bool,
     primary: PropTypes.bool,
-    // TODO Remove in 4.0
-    blue(props, propName) {
-      if (propName in props) {
-        return new Error(`"${propName}" prop is deprecated. Use "primary" instead`);
-      }
-      return undefined;
-    },
     short: PropTypes.bool,
     text: PropTypes.bool,
     inline: PropTypes.bool,
@@ -59,7 +52,6 @@ class Button extends PureComponent {
       // Modifiers
       theme,
       active,
-      blue,
       danger,
       delayed,
       loader,
@@ -80,7 +72,7 @@ class Button extends PureComponent {
     } = this.props;
 
     const classes = getButtonClasses({className, active, danger, delayed, icon, theme, loader,
-      primary: primary || blue, short, text, inline});
+      primary, short, text, inline});
 
     const content = (
       <span className={styles.content}>

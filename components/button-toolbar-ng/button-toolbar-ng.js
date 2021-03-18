@@ -1,5 +1,4 @@
 import angular from 'angular';
-import 'dom4';
 
 import styles from '../button-toolbar/button-toolbar.css';
 

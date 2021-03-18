@@ -10,7 +10,7 @@ import dataTests from '../global/data-tests';
 import styles from './tabs.css';
 
 import TabLink from './tab-link';
-import AutocollapseTabs from './tab-autocollapse-titles';
+import CollapsibleTabs from './collapsible-tabs';
 
 export const CustomItem = ({children}) => children;
 CustomItem.propTypes = {
@@ -23,9 +23,6 @@ class Tabs extends PureComponent {
     selected: PropTypes.string,
     className: PropTypes.string,
     href: PropTypes.string,
-    moreClassName: PropTypes.string,
-    moreActiveClassName: PropTypes.string,
-    morePopupClassName: PropTypes.string,
     children: PropTypes.node.isRequired,
     onSelect: PropTypes.func,
     'data-test': PropTypes.string,
@@ -74,7 +71,16 @@ class Tabs extends PureComponent {
   };
 
   render() {
-    const {className, children, selected, theme, autoCollapse, 'data-test': dataTest} = this.props;
+    const {
+      className,
+      children,
+      selected,
+      theme,
+      autoCollapse,
+      'data-test': dataTest,
+      ...restProps
+    } = this.props;
+
     const classes = classNames(styles.tabs, className, styles[theme]);
     const childrenArray = React.Children.toArray(children).filter(Boolean);
 
@@ -82,13 +88,11 @@ class Tabs extends PureComponent {
       <div className={classes} data-test={dataTests('ring-dumb-tabs', dataTest)}>
         {autoCollapse === true
           ? (
-            <AutocollapseTabs
+            <CollapsibleTabs
+              {...restProps}
               onSelect={this.handleSelect}
               selected={selected}
-              moreClassName={this.props.moreClassName}
-              moreActiveClassName={this.props.moreActiveClassName}
-              morePopupClassName={this.props.morePopupClassName}
-            >{childrenArray}</AutocollapseTabs>
+            >{childrenArray}</CollapsibleTabs>
           )
           : (
             <div className={styles.titles}>

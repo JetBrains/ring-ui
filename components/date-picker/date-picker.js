@@ -1,16 +1,23 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import moment from 'moment';
+import formatDate from 'date-fns/format';
+import isSameDay from 'date-fns/isSameDay';
+import isSameMonth from 'date-fns/isSameMonth';
+import isSameYear from 'date-fns/isSameYear';
+import isValid from 'date-fns/isValid';
+import parse from 'date-fns/parse';
+import set from 'date-fns/set';
 
-import rerenderHOC from '../global/rerender-hoc';
+import memoize from '../global/memoize';
 
 import Popup from '../popup/popup';
 import Dropdown, {Anchor} from '../dropdown/dropdown';
 
 import DatePopup from './date-popup';
-import {applyFormat, dateType, deprecatedPropType, parseDate, parseTime} from './consts';
+import {dateType, deprecatedPropType} from './consts';
 import styles from './date-picker.css';
+import formats from './formats';
 import DateInput from './date-input';
 
 const PopupComponent = ({
@@ -62,7 +69,6 @@ export default class DatePicker extends PureComponent {
     className: PropTypes.string,
     popupClassName: PropTypes.string,
     date: dateType,
-    time: deprecatedPropType('Pass time as a part of "date"'),
     withTime: PropTypes.bool,
     range: PropTypes.bool,
     from: dateType,
@@ -72,15 +78,14 @@ export default class DatePicker extends PureComponent {
     displayMonthFormat: PropTypes.func,
     displayDayFormat: PropTypes.func,
     displayTimeFormat: PropTypes.func,
-    inputFormat: deprecatedPropType('Use "parseDateInput"'),
     parseDateInput: PropTypes.func,
     applyTimeInput: PropTypes.func,
     datePlaceholder: PropTypes.string,
     dateTimePlaceholder: PropTypes.string,
     rangePlaceholder: PropTypes.string,
-    onChange: deprecatedPropType('Use "onDateChange"'),
-    // TODO: Rename to onChange in 4.0, remove the alias in 5.0
-    onDateChange: PropTypes.func,
+    onChange: PropTypes.func,
+    // TODO: Remove in 5.0
+    onDateChange: deprecatedPropType('Use "onChange"'),
     dropdownProps: PropTypes.object,
     disabled: PropTypes.bool,
     minDate: dateType,
@@ -96,43 +101,47 @@ export default class DatePicker extends PureComponent {
     from: null,
     to: null,
     clear: false,
-    datePlaceholder: null,
-    dateTimePlaceholder: null,
-    rangePlaceholder: null,
-    displayFormat: applyFormat('D MMM YYYY'),
-    displayMonthFormat: applyFormat('D MMM'),
-    displayDayFormat: applyFormat('D'),
-    displayTimeFormat: applyFormat('HH:mm'),
+    displayFormat: date => (date ? formatDate(date, 'd MMM yyyy') : ''),
+    displayMonthFormat: date => (date ? formatDate(date, 'd MMM') : ''),
+    displayDayFormat: date => (date ? formatDate(date, 'd') : ''),
+    displayTimeFormat: date => (date ? formatDate(date, 'HH:mm') : ''),
+    datePlaceholder: 'Set a date',
+    dateTimePlaceholder: 'Set date and time',
+    rangePlaceholder: 'Set a period',
     minDate: null,
     maxDate: null,
+    onChange() {},
     translations: {
       setDate: 'Set a date',
       setDateTime: 'Set date and time',
       setPeriod: 'Set a period'
     },
-    onDateChange() {},
     applyTimeInput(date, timeString) {
-      const [hours, minutes] = timeString.split(':');
-      const result = new Date(date.getTime());
-      if (minutes != null) {
-        result.setHours(hours);
-        result.setMinutes(minutes);
+      const [hours, minutes] = timeString?.split(':') ?? [];
+      return minutes != null ? set(date, {hours, minutes}) : date;
+    },
+    parseDateInput(string) {
+      if (!string) {
+        return null;
       }
-      return result;
+      const today = new Date();
+      for (const format of formats) {
+        const date = parse(string, format, today);
+        if (isValid(date)) {
+          return date;
+        }
+      }
+      return null;
     }
   };
 
   handleChange = change => {
-    const {onChange, onDateChange, range, withTime, applyTimeInput} = this.props;
-    if (onChange != null) {
-      onChange(change);
-    }
-    if (range) {
-      onDateChange({from: change.from?.toDate(), to: change.to?.toDate()});
-    } else if (withTime) {
-      onDateChange(applyTimeInput(change.date?.toDate(), change.time));
-    } else {
-      onDateChange(change?.toDate());
+    const {onChange, onDateChange, withTime, applyTimeInput} = this.props;
+    const adjustedChange =
+      withTime && change.date != null ? applyTimeInput(change.date, change.time) : change;
+    onChange(adjustedChange);
+    if (onDateChange != null) {
+      onDateChange(adjustedChange);
     }
   };
 
@@ -153,29 +162,23 @@ export default class DatePicker extends PureComponent {
     this.popup._onCloseAttempt();
   };
 
-  // TODO Remove in 4.0
-  parse = dateString => {
-    const {parseDateInput, displayFormat, inputFormat} = this.props;
+  parse = memoize(date => {
+    const {parseDateInput} = this.props;
 
-    if (parseDateInput != null) {
-      return parseDateInput(dateString);
+    if (date instanceof Date) {
+      return date;
+    }
+    if (typeof date === 'number') {
+      return new Date(date);
     }
 
-    const date = parseDate(
-      dateString,
-      inputFormat || 'D MMM YYYY',
-      typeof displayFormat === 'string' ? displayFormat : 'D MMM YYYY',
-    );
-
-    return date?.toDate();
-  };
+    return parseDateInput(date);
+  });
 
   formatTime() {
-    const {time, displayTimeFormat} = this.props;
+    const {displayTimeFormat} = this.props;
     const date = this.parse(this.props.date);
-    if (time != null) {
-      return parseTime(time);
-    } else if (date != null) {
+    if (date != null) {
       return displayTimeFormat(date);
     }
     return null;
@@ -188,12 +191,11 @@ export default class DatePicker extends PureComponent {
       dateTimePlaceholder,
       rangePlaceholder,
       withTime,
+      displayFormat,
+      displayMonthFormat,
+      displayDayFormat,
       translations
     } = this.props;
-
-    const displayFormat = applyFormat(this.props.displayFormat);
-    const displayMonthFormat = applyFormat(this.props.displayMonthFormat);
-    const displayDayFormat = applyFormat(this.props.displayDayFormat);
 
     const date = this.parse(this.props.date);
     const from = this.parse(this.props.from);
@@ -215,11 +217,11 @@ export default class DatePicker extends PureComponent {
       text = `${displayFormat(from)} —`;
     } else if (!from) {
       text = `— ${displayFormat(to)}`;
-    } else if (!moment(from).isSame(to, 'year')) {
+    } else if (!isSameYear(from, to)) {
       text = `${displayFormat(from)} — ${displayFormat(to)}`;
-    } else if (!moment(from).isSame(to, 'month')) {
+    } else if (!isSameMonth(from, to)) {
       text = `${displayMonthFormat(from)} — ${displayFormat(to)}`;
-    } else if (!moment(from).isSame(to, 'day')) {
+    } else if (!isSameDay(from, to)) {
       text = `${displayDayFormat(from)} — ${displayFormat(to)}`;
     } else {
       text = `${displayFormat(to)}`;
@@ -240,9 +242,6 @@ export default class DatePicker extends PureComponent {
       popupClassName,
       clear,
       dropdownProps,
-      displayFormat,
-      displayMonthFormat,
-      displayDayFormat,
       translations,
       ...datePopupProps
     } = this.props;
@@ -274,9 +273,6 @@ export default class DatePicker extends PureComponent {
             ...datePopupProps,
             onChange: this.handleChange,
             parseDateInput: this.parse,
-            displayFormat: applyFormat(displayFormat),
-            displayMonthFormat: applyFormat(displayMonthFormat),
-            displayDayFormat: applyFormat(displayDayFormat),
             time: this.formatTime()
           }}
           onComplete={this.closePopup}
@@ -285,6 +281,3 @@ export default class DatePicker extends PureComponent {
     );
   }
 }
-
-export const RerenderableDatePicker = rerenderHOC(DatePicker);
-
