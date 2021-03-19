@@ -11,7 +11,7 @@
     "test": "karma start",
     "lint": "eslint . && npm run stylelint",
     "stylelint": "stylelint --ignore-path .gitignore **/*.css",
-    "ci-test": "npm run lint && xvfb-maybe karma start",
+    "ci-test": "npm run lint && karma start",
     "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
   },
   "babel": {
@@ -53,7 +53,6 @@
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.9.0",
     "chai-enzyme": "1.0.0-beta.1",
-    "electron": "^11.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.22.0",
@@ -64,18 +63,18 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "karma": "^6.2.0",
     "karma-chai-plugins": "^0.9.0",
-    "karma-electron": "^6.3.3",
+    "karma-chrome-launcher": "^3.1.0",
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma-teamcity-reporter": "^1.1.0",
     "karma-webpack": "^5.0.0",
     "mocha": "^8.3.2",
+    "puppeteer": "^8.0.0",
     "react-test-renderer": "^17.0.1",
     "sinon": "^9.2.4",
     "sinon-chai": "^3.5.0",
     "stylelint": "^13.12.0",
     "svg-inline-loader": "^0.8.2",
-    "xvfb-maybe": "^0.2.1",
     "yo": "^4.0.0-beta.0"
   },
   "engines": {
