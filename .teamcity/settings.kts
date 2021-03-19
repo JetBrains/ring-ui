@@ -241,7 +241,7 @@ object Deploy : BuildType({
                 npm run bootstrap
                 npm run build
             """.trimIndent()
-            dockerImage = "huston007/node-electron:latest"
+            dockerImage = "node:latest"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -639,7 +639,7 @@ object GeneratorE2eTest : BuildType({
     }
 
     params {
-        param("env.ELECTRON_ENABLE_LOGGING", "false")
+      param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "")
     }
 
     steps {
@@ -652,11 +652,15 @@ object GeneratorE2eTest : BuildType({
                 node -v
                 npm -v
 
-                useradd user -m
+                apt update
+                apt install g++ gcc make python -y
+                npm install
+                npm run bootstrap
 
-                su user -c "npm install && npm run bootstrap && npm run test-generator-e2e"
+                useradd user -m
+                su user -c "npm run test-generator-e2e"
             """.trimIndent()
-            dockerImage = "huston007/node-electron"
+            dockerImage = "buildkite/puppeteer:5.2.1"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -1320,7 +1324,6 @@ object UnitTestsAndBuild : BuildType({
         param("env.GIT_COMMITTER_NAME", "")
         param("env.GIT_AUTHOR_EMAIL", "")
         param("npmjs.com.auth.key", "credentialsJSON:075c2e9e-0e12-4b18-9ec2-cb2f366d424e")
-        param("env.ELECTRON_ENABLE_LOGGING", "false")
     }
 
     vcs {
