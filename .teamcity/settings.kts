@@ -162,7 +162,7 @@ object AllChecks : BuildType({
 
     triggers {
         vcs {
-            quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
+            quietPeriodMode = VcsTrigger.QuietPeriodMode.DO_NOT_USE
             triggerRules = "-:user=npmjs-buildserver:**"
         }
         retryBuild {
