@@ -682,7 +682,11 @@ export default class Select extends Component {
             onClick={this.addHandler}
             data-test="ring-select-toolbar-button"
           >
-            {prefix ? `${prefix} ${label}` : label}
+            {
+              prefix
+                ? `${prefix} <span data-test="ring-select-toolbar-button-label">${label}</span>`
+                : label
+            }
           </Button>
         )}
         {hint && (
