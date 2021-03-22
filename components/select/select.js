@@ -143,13 +143,23 @@ function getListItems(props, state, rawFilterString, data = props.data) {
     (add && filterString && !exactMatch) ||
     (add && add.alwaysVisible)
   ) {
-    if (!(add.regexp && !add.regexp.test(filterString)) &&
+    if (
+      !(add.regexp && !add.regexp.test(filterString)) &&
       !(add.minlength && filterString.length < +add.minlength) ||
-      add.alwaysVisible) {
+      add.alwaysVisible
+    ) {
+      let label;
+
+      if (add.label) {
+        label = (typeof add.label === 'function') ? add.label(filterString) : add.label;
+
+      } else {
+        label = filterString;
+      }
 
       addButton = {
         prefix: add.prefix,
-        label: add.label || filterString,
+        label,
         delayed: add.hasOwnProperty('delayed') ? add.delayed : true
       };
     }
@@ -682,11 +692,7 @@ export default class Select extends Component {
             onClick={this.addHandler}
             data-test="ring-select-toolbar-button"
           >
-            {
-              prefix
-                ? `${prefix} <span data-test="ring-select-toolbar-button-label">${label}</span>`
-                : label
-            }
+            {prefix ? `${prefix} ${label}` : label}
           </Button>
         )}
         {hint && (
