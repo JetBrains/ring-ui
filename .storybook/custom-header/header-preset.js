@@ -10,20 +10,11 @@ exports.managerWebpack = function managerWebpack(config) {
   config.module.rules.forEach(rule => {
     rule.exclude = [
       /\.storybook/,
-      ringConfig.componentsPath,
-      /@primer\/octicons/,
-      /@jetbrains\/logos/
+      ringConfig.componentsPath
     ].concat(rule.exclude || []);
   });
 
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);
-
-  ringConfig.config.module.rules.push({
-    test: /\.svg$/,
-    loader: require.resolve('svg-inline-loader'),
-    options: {removeSVGTagAttrs: false},
-    include: [/@primer\/octicons/, /@jetbrains\/logos/]
-  });
 
   const serverUri = pkgConfig.hub;
   const clientId = pkgConfig.clientId;
@@ -45,10 +36,6 @@ exports.managerWebpack = function managerWebpack(config) {
     plugins: [
       ...config.plugins,
       new webpack.DefinePlugin({hubConfig})
-    ],
-    node: {
-      Buffer: false,
-      process: false
-    }
+    ]
   };
 };

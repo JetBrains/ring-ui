@@ -1,12 +1,28 @@
 ## [4.0.0]
 
 ### BREAKING CHANGES
+- `WebPack 4` is no longer supported. Please upgrade your project to use `WebPack@>=5`.
 - `Code` no longer preloads any language highlighting. It's loaded lazily using dynamic imports instead. You can still preload the languages you need with `highlight.registerLanguage`, see https://jetbrains.github.io/ring-ui/master/index.html?path=/docs/components-code--basic. If you used the following line in your webpack config to reduce the bundle size, please remove it:
     ```js
     new webpack.NormalModuleReplacementPlugin(/@jetbrains\\/ring-ui\\/components\\/code\\/highlight.js$/, './highlight-lazy.js')
     ```
 - `date-picker` has migrated from `moment` to `date-fns`. All the props deprecated in 3.1.0 are now removed. `onDateChange` is renamed back to `onChange` and will be removed in 5.0.
-- `svg-inline-loader` is not used by Ring UI anymore. Consider installing and using own instance if needed.
+- `svg-inline-loader` is not used by Ring UI anymore. Consider installing and using own instance if needed:
+  1. `npm install svg-inline-loader -D`
+  2. Configure loader like this: 
+  ```js
+  {
+    test: /\.svg$/,
+    loader: require.resolve('svg-inline-loader'),
+    options: {removeSVGTagAttrs: false},
+    include: [require('@jetbrains/icons')]
+  }
+  ```
+  Also, Ring UI now imports ["js" versions of](https://github.com/JetBrains/icons/blob/master/CHANGELOG.md#3130-2021-01-27) `@jetbrains/icons`, so you may also want to.
+- `rerenderHOC` has no `captureNode` option anymore and is not in charge of capturing reference for wrapped component node. 
+  Component must capture and store own node in `this.node` property. 
+  See [commit](https://github.com/JetBrains/ring-ui/commit/885c49d90bc00241921da121602817eca43022d2) for more details.
+- `@jetbrains/generator-ring-ui` requires `yo` v4 (currently in beta)
 
 #### Moving away from SASS
 - `SASS` files are rewritten to `CSS`. If your project imports Ring UI's SCSS files, check same folder for new CSS options.
