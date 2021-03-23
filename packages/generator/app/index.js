@@ -104,11 +104,4 @@ module.exports = class AppGenerator extends Generator {
       this.props
     );
   }
-
-  install() {
-    this.installDependencies({
-      bower: false,
-      skipInstall: this.options['skip-install']
-    });
-  }
 };

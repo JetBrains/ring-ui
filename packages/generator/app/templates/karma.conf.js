@@ -1,4 +1,6 @@
 // Karma configuration
+process.env.CHROME_BIN = require('puppeteer').executablePath();
+
 const {entry, ...restWebpack} = require('./webpack.config.js')();
 
 module.exports = config => {
@@ -72,18 +74,12 @@ module.exports = config => {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['CustomElectron'],
+    browsers: [process.env.TEAMCITY_VERSION ? 'ChromeHeadlessNoSandbox' : 'ChromeHeadless'],
 
     customLaunchers: {
-      CustomElectron: {
-        base: 'Electron',
-        browserWindowOptions: {
-          show: false,
-          skipTaskbar: true,
-          height: 1024,
-          width: 768
-        },
-        flags: ['--no-sandbox', '--disable-gpu', '--headless']
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-setuid-sandbox']
       }
     },
 

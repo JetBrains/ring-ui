@@ -423,6 +423,20 @@ describe('Select', () => {
         addButton.should.contain.text('Add Something');
       });
 
+      it('Should process filterValue into a label at the "Add" button if "add.label" prop is a function', () => {
+        const wrapper = mountSelect({
+          add: {
+            label: value => `--${value}--`
+          }
+        });
+        const instance = wrapper.instance();
+        instance.filterValue = sandbox.stub().returns('test');
+        instance._showPopup();
+        const addButton = instance._popup.popup.popup.querySelector(`.${styles.button}`);
+
+        addButton.should.contain.text('--test--');
+      });
+
       it('Should add hint if specified', () => {
         const wrapper = mountSelect({
           hint: 'blah blah'

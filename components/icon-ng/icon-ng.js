@@ -64,6 +64,9 @@ angularModule.directive('rgIcon', function rgIconDirective() {
 
       scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
         const svgNode = iElement[0].querySelector('svg');
+        if (!svgNode) {
+          return;
+        }
 
         if (size && !width && !height) {
           const sizeString = `${size}px`;
