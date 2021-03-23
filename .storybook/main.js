@@ -17,13 +17,24 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y'
   ],
+  core: {
+    builder: 'webpack5'
+  },
   webpackFinal(config) {
+    ringConfig.loaders.cssLoader.include.push(/\.storybook/);
     ringConfig.loaders.babelLoader.options.plugins = [[
       'babel-plugin-react-docgen',
       {
         DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES'
       }
     ]];
+
+    ringConfig.config.module.rules.push({
+      test: /\.svg$/,
+      loader: require.resolve('svg-inline-loader'),
+      options: {removeSVGTagAttrs: false},
+      include: [/@primer\/octicons/, /@jetbrains\/logos/]
+    });
 
     config.module.rules = [
       ...ringConfig.config.module.rules,
@@ -36,7 +47,7 @@ module.exports = {
       },
       {
         test: /\.examples\.js$/,
-        loaders: [require.resolve('@storybook/source-loader')],
+        loader: require.resolve('@storybook/source-loader'),
         enforce: 'pre'
       }
     ];
@@ -48,10 +59,6 @@ module.exports = {
     config.plugins.push(new webpack.DefinePlugin({hubConfig}));
 
     config.resolve.alias['@jetbrains/ring-ui'] = path.resolve(__dirname, '..');
-    config.node = {
-      Buffer: false,
-      process: false
-    };
 
     return config;
   }

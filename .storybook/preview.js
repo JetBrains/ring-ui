@@ -1,4 +1,4 @@
-import {parameters as docsReactParameters} from '@storybook/addon-docs/dist/frameworks/react/config';
+import {parameters as docsReactParameters} from '@storybook/addon-docs/dist/cjs/frameworks/react/config';
 
 // eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';

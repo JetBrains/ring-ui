@@ -1,5 +1,14 @@
 const path = require('path');
 
+(function checkWebpack() {
+  const webpackVersion = require('webpack').version;
+  const isObsoleteWebpack = webpackVersion.startsWith('4');
+  if (isObsoleteWebpack) {
+    // eslint-disable-next-line no-console
+    console.log(`[WARN]: RingUI is used with Webpack@"${webpackVersion}". Ring UI requires Webpack@>=5`);
+  }
+}());
+
 const componentsPath = [path.join(__dirname, 'components')];
 
 function loadersObjectToArray(loaders) {
