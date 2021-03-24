@@ -33,7 +33,7 @@
     "kill-port": "^1.6.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-redux": "^7.2.2",
+    "react-redux": "^7.2.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "yauzl": "^2.10.0"
