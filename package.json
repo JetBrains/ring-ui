@@ -81,7 +81,7 @@
     "@storybook/core": "6.2.0-rc.9",
     "@storybook/html": "6.2.0-rc.8",
     "@storybook/source-loader": "6.2.0-rc.9",
-    "@storybook/theming": "6.2.0-rc.8",
+    "@storybook/theming": "6.2.0-rc.9",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.0",
     "angular": "^1.8.2",
     "angular-mocks": "^1.8.2",
