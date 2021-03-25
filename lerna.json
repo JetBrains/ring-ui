@@ -12,7 +12,8 @@
     },
     "publish": {
       "ignoreChanges": [
-        "@ring-ui/hermione"
+        "@ring-ui/hermione",
+        "@ring-ui/storybook-header"
       ]
     }
   }
