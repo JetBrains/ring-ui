@@ -22,6 +22,7 @@ create(DslContext.projectId, BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
     id("PublishHotfixRelease")
     name = "Publish @hotfix (release-*)"
+    paused = true
 
     allowExternalStatus = true
 
