@@ -25,6 +25,13 @@ export default class IFrameFlow {
       {nonRedirect: false}
     );
 
+    const renderFallbackLink = () => (
+      <Link
+        href={authRequest.url}
+        target="_self"
+      >{this._translations.nothingHappensLink}</Link>
+    );
+
     return new Promise((resolve, reject) => {
       this.hideDialog = loginDialogService({
         url: authRequest.url,
@@ -34,14 +41,7 @@ export default class IFrameFlow {
           cleanUp();
           this.stop();
         },
-        renderFallbackLink() {
-          return (
-            <Link
-              href={authRequest.url}
-              target="_self"
-            >{this._translations.nothingHappensLink}</Link>
-          );
-        }
+        renderFallbackLink
       });
 
       this.reject = reject;
