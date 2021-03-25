@@ -79,7 +79,7 @@
     "@storybook/builder-webpack5": "6.2.0-beta.1",
     "@storybook/client-api": "6.2.0-rc.9",
     "@storybook/core": "6.2.0-rc.9",
-    "@storybook/html": "6.2.0-rc.8",
+    "@storybook/html": "6.2.0-rc.9",
     "@storybook/source-loader": "6.2.0-rc.9",
     "@storybook/theming": "6.2.0-rc.9",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.0",
