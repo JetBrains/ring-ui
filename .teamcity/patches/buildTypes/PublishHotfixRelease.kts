@@ -27,7 +27,7 @@ create(DslContext.projectId, BuildType({
     allowExternalStatus = true
 
     params {
-        param("lerna.publish.options", "--cd-version patch")
+        param("lerna.publish.options", "--cd-version patch --preid hotfix --npm-tag hotfix")
         param("vcs.branch.spec", "+:refs/heads/(release-*)")
     }
 
