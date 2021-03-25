@@ -28,7 +28,7 @@ create(DslContext.projectId, BuildType({
 
     params {
         param("lerna.publish.options", "--cd-version patch")
-        param("vcs.branch.spec", "+:refs/heads/(master)")
+        param("vcs.branch.spec", "+:refs/heads/(release-*)")
     }
 
     vcs {
