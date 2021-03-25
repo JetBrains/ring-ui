@@ -7,7 +7,7 @@ require('dotenv').config();
 const baseUrl = `http://${ip.address()}:9999/`;
 
 const gridUrl = process.env.SELENIUM_GRID ||
-  `https://${process.env.BROWSERSTACK_NAME}:${process.env.BROWSERSTACK_KEY}@hub-cloud.browserstack.com/wd/hub`;
+  `https://${process.env.BROWSERSTACK_NAME}:${process.env.BROWSERSTACK_KEY}@hub-cloud.browserstack.com:443/wd/hub`;
 // Supports Firefox
 const windowSize = '1024x1000';
 const os = 'Windows';
@@ -68,6 +68,9 @@ module.exports = {
         os: 'OS X',
         os_version: 'Catalina',
         maxDuration
+      },
+      sessionEnvFlags: {
+        isW3C: true
       },
       sessionsPerBrowser: 4
     }
