@@ -48,7 +48,7 @@ export function linear(x0, y0, a) {
 
 export const deprecatedPropType = replacement => (props, propName) => {
   if (propName in props) {
-    return new Error(`"${propName}" prop is deprecated and will be removed in 4.0. ${replacement} instead. See https://github.com/JetBrains/ring-ui/blob/master/CHANGELOG.md#310 for details`);
+    return new Error(`"${propName}" prop is deprecated and will be removed in 5.0. ${replacement} instead. See https://github.com/JetBrains/ring-ui/blob/master/CHANGELOG.md#310 for details`);
   }
   return undefined;
 };
