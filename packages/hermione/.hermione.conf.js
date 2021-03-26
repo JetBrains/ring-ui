@@ -59,6 +59,7 @@ module.exports = {
       sessionsPerBrowser: 4
     },
     firefox: {
+      httpTimeout: 300000,
       resetCursor: false, // Prevents grid failure on performing "moveto" command
       screenshotDelay: 500, // Wait while macOS scrollbars disappear
       desiredCapabilities: {
