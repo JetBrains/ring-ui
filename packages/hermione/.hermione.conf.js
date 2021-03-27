@@ -45,6 +45,7 @@ module.exports = {
   // See all platforms here https://www.browserstack.com/automate/capabilities
   browsers: {
     chrome: {
+      httpTimeout: 300000,
       desiredCapabilities: {
         browser: 'Chrome',
         pageLoadStrategy: 'normal',
