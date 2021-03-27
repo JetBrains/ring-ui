@@ -77,7 +77,7 @@
     "@storybook/addon-storysource": "6.2.0-rc.9",
     "@storybook/addons": "6.2.0-rc.10",
     "@storybook/builder-webpack5": "6.2.0-beta.1",
-    "@storybook/client-api": "6.2.0-rc.9",
+    "@storybook/client-api": "6.2.0-rc.10",
     "@storybook/core": "6.2.0-rc.10",
     "@storybook/html": "6.2.0-rc.10",
     "@storybook/source-loader": "6.2.0-rc.10",
