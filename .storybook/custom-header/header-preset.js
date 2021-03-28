@@ -4,17 +4,16 @@
 const webpack = require('webpack');
 
 const pkgConfig = require('../../package.json').config;
-const ringConfig = require('../../webpack.config');
+const ringConfig = require('../../webpack.config').createConfig();
 
 exports.managerWebpack = function managerWebpack(config) {
+  ringConfig.componentsPath.push(/\.storybook/);
   config.module.rules.forEach(rule => {
-    rule.exclude = [
-      /\.storybook/,
-      ringConfig.componentsPath
-    ].concat(rule.exclude || []);
+    rule.exclude = ringConfig.componentsPath.concat(rule.exclude || []);
   });
-
-  ringConfig.loaders.cssLoader.include.push(/\.storybook/);
+  // eslint-disable-next-line no-magic-numbers
+  ringConfig.loaders.cssLoader.use[2].loader =
+    require.resolve('postcss-loader');
 
   const serverUri = pkgConfig.hub;
   const clientId = pkgConfig.clientId;
@@ -30,7 +29,13 @@ exports.managerWebpack = function managerWebpack(config) {
       ...config.module,
       rules: [
         ...config.module.rules,
-        ...ringConfig.config.module.rules
+        ...ringConfig.config.module.rules,
+        {
+          test: /\.svg$/,
+          loader: require.resolve('svg-inline-loader'),
+          options: {removeSVGTagAttrs: false},
+          include: [/@primer\/octicons/, /@jetbrains\/logos/]
+        }
       ]
     },
     plugins: [

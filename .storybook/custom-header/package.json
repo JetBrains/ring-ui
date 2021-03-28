@@ -8,6 +8,7 @@
   "dependencies": {
     "@jetbrains/logos": "^1.4.13",
     "@primer/octicons": "^12.1.0",
+    "postcss-loader": "^4.2.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
