@@ -36,7 +36,10 @@ function createConfig() {
         }
       },
       {
-        loader: require.resolve('postcss-loader')
+        loader: require.resolve('postcss-loader'),
+        options: {
+          implementation: require('postcss')
+        }
       }
     ]
   };
