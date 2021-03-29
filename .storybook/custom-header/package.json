@@ -1,7 +1,7 @@
 {
   "name": "@ring-ui/storybook-header",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "custom-header.js",
   "author": "",
