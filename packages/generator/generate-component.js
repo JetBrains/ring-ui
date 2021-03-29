@@ -5,7 +5,6 @@ const Generator = require('yeoman-generator');
 const green = require('chalk').green;
 const changeCase = require('change-case');
 const {titleCase} = require('title-case');
-const readPkgUp = require('read-pkg-up');
 
 const RING_UI_PACKAGE = '@jetbrains/ring-ui';
 const RING_UI_CLASS_PREFIX = 'ring-';
@@ -26,7 +25,8 @@ module.exports = params => class ComponentGenerator extends Generator {
   }
 
   async prompting() {
-    const pkgFile = readPkgUp();
+    const {readPackageUpAsync} = await import('read-pkg-up');
+    const pkgFile = await readPackageUpAsync();
     const promptParams = [{
       type: 'input',
       name: 'componentName',
