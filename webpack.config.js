@@ -66,15 +66,6 @@ function createConfig() {
     }
   };
 
-  const vfileLoader = {
-    test: /node_modules\/vfile\/core\.js/,
-    loader: require.resolve('imports-loader'),
-    options: {
-      type: 'commonjs',
-      imports: ['single process/browser process']
-    }
-  };
-
   const htmlLoader = {
     test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
     include: componentsPath,
@@ -91,7 +82,6 @@ function createConfig() {
     cssLoader,
     externalCssLoader,
     babelLoader,
-    vfileLoader,
     htmlLoader,
     gifLoader
   };
@@ -124,6 +114,9 @@ module.exports = {
     },
     get svgLoader() {
       throw new Error('***Ring UI embedded "svgLoader" removed in 4.0. Please install and use own instance if you need it.***');
+    },
+    get vfileLoader() {
+      throw new Error('***Ring UI embedded "vfileLoader" removed in 4.0. Please install and use own instance if you need it.***');
     }
   }
 };
