@@ -17,6 +17,9 @@
     "url": "ssh://github.com/JetBrains/ring-ui.git",
     "directory": "packages/generator"
   },
+  "engines": {
+    "node": ">=12.10.0"
+  },
   "dependencies": {
     "chalk": "^4.1.0",
     "change-case": "^4.1.2",
@@ -24,7 +27,7 @@
     "package-json": "^6.5.0",
     "pify": "^5.0.0",
     "portscanner": "^2.2.0",
-    "read-pkg-up": "^7.0.1",
+    "read-pkg-up": "^8.0.0",
     "title-case": "^3.0.3",
     "yeoman-generator": "^5.1.0",
     "yeoman-option-or-prompt": "^2.0.1"
