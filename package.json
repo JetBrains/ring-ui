@@ -78,7 +78,7 @@
     "@storybook/addons": "6.2.0-rc.11",
     "@storybook/builder-webpack5": "6.2.0-rc.11",
     "@storybook/client-api": "6.2.0-rc.11",
-    "@storybook/core": "6.2.0-rc.11",
+    "@storybook/core": "6.2.0-rc.12",
     "@storybook/html": "6.2.0-rc.11",
     "@storybook/source-loader": "6.2.0-rc.11",
     "@storybook/theming": "6.2.0-rc.11",
