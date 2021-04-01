@@ -47,7 +47,7 @@ project {
     buildType(AllChecks)
     buildType(PublishToGitHubPages)
     buildType(GeneratorE2eTest)
-    buildType(PublishCanary)
+    buildType(PublishHotfixRelease)
 
     params {
         param("vcs.branch.spec", """
@@ -144,7 +144,7 @@ project {
             param("multi", "true")
         }
     }
-    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, PublishCanary, AllChecks)
+    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, PublishHotfixRelease, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, AllChecks)
 }
 
 object AllChecks : BuildType({
@@ -241,7 +241,7 @@ object Deploy : BuildType({
                 npm run bootstrap
                 npm run build
             """.trimIndent()
-            dockerImage = "node:latest"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -376,7 +376,7 @@ object GeminiTests : BuildType({
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
-            dockerImage = "node:10"
+            dockerImage = "node:14"
             dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -487,7 +487,7 @@ object A11yAudit : BuildType({
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer"
+            dockerImage = "buildkite/puppeteer:8.0.0"
         }
     }
 
@@ -547,7 +547,7 @@ object ConsoleErrors : BuildType({
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
-            dockerImage = "node:lts"
+            dockerImage = "node:14"
         }
     }
 
@@ -610,7 +610,7 @@ object SecurityAudit : BuildType({
                 npm install
                 node security-audit-ci.js
             """.trimIndent()
-            dockerImage = "node:lts"
+            dockerImage = "node:14"
         }
     }
 
@@ -660,7 +660,7 @@ object GeneratorE2eTest : BuildType({
                 useradd user -m
                 su user -c "npm run test-generator-e2e"
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer:5.2.1"
+            dockerImage = "buildkite/puppeteer:8.0.0"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -806,7 +806,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:12"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -875,19 +875,15 @@ object Publish : BuildType({
     }
 })
 
-object PublishCanary : BuildType({
+object PublishHotfixRelease : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
-    name = "Publish @canary"
-
+    name = "Publish @hotfix (release-*)"
     paused = true
     allowExternalStatus = true
 
     params {
-        param("lerna.publish.options", "--cd-version prerelease --preid beta --npm-tag canary")
-        param("vcs.branch.spec", """
-            -:refs/heads/(master)
-            +:refs/heads/(develop-*)
-        """.trimIndent())
+        param("lerna.publish.options", "--cd-version patch --preid hotfix --npm-tag hotfix")
+        param("vcs.branch.spec", "+:refs/heads/(release-*)")
     }
 
     vcs {
@@ -921,6 +917,7 @@ object PublishCanary : BuildType({
 
                 node -v
                 npm -v
+                npm whoami
 
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
@@ -934,6 +931,7 @@ object PublishCanary : BuildType({
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
+                npm whoami
                 npm run release-ci -- %lerna.publish.options%
 
                 cat package.json
@@ -947,7 +945,7 @@ object PublishCanary : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:12"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -956,7 +954,6 @@ object PublishCanary : BuildType({
     triggers {
         retryBuild {
             id = "retryBuildTrigger"
-            enabled = false
             delaySeconds = 60
         }
     }
@@ -1011,17 +1008,16 @@ object PublishCanary : BuildType({
 
     dependencies {
         snapshot(GeminiTests) {
-            onDependencyCancel = FailureAction.ADD_PROBLEM
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
         }
     }
-
-    disableSettings("vcsTrigger")
 })
 
 object PublishNext : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
     name = "Publish @next"
-    paused = false
+    paused = true
 
     allowExternalStatus = true
 
@@ -1097,7 +1093,7 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:12"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1349,7 +1345,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run test-ci
                 npm run build
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer:5.2.1"
+            dockerImage = "buildkite/puppeteer:8.0.0"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
@@ -1471,7 +1467,7 @@ object UnpublishSpecificVersion : BuildType({
 
                 npm unpublish %env.PACKAGE_NAME%@%env.PACKAGE_VERSION%
             """.trimIndent()
-            dockerImage = "node:8"
+            dockerImage = "node:14"
         }
     }
 
