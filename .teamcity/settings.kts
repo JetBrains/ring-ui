@@ -241,7 +241,7 @@ object Deploy : BuildType({
                 npm run bootstrap
                 npm run build
             """.trimIndent()
-            dockerImage = "node:latest"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -376,7 +376,7 @@ object GeminiTests : BuildType({
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
-            dockerImage = "node:10"
+            dockerImage = "node:14"
             dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -487,7 +487,7 @@ object A11yAudit : BuildType({
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer"
+            dockerImage = "buildkite/puppeteer:8.0.0"
         }
     }
 
@@ -547,7 +547,7 @@ object ConsoleErrors : BuildType({
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
-            dockerImage = "node:lts"
+            dockerImage = "node:14"
         }
     }
 
@@ -610,7 +610,7 @@ object SecurityAudit : BuildType({
                 npm install
                 node security-audit-ci.js
             """.trimIndent()
-            dockerImage = "node:lts"
+            dockerImage = "node:14"
         }
     }
 
@@ -660,7 +660,7 @@ object GeneratorE2eTest : BuildType({
                 useradd user -m
                 su user -c "npm run test-generator-e2e"
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer:5.2.1"
+            dockerImage = "buildkite/puppeteer:8.0.0"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -806,7 +806,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:12"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -947,7 +947,7 @@ object PublishCanary : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:12"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1097,7 +1097,7 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:12"
+            dockerImage = "node:14"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1349,7 +1349,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run test-ci
                 npm run build
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer:5.2.1"
+            dockerImage = "buildkite/puppeteer:8.0.0"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
@@ -1471,7 +1471,7 @@ object UnpublishSpecificVersion : BuildType({
 
                 npm unpublish %env.PACKAGE_NAME%@%env.PACKAGE_VERSION%
             """.trimIndent()
-            dockerImage = "node:8"
+            dockerImage = "node:14"
         }
     }
 
