@@ -148,7 +148,7 @@
     "webpack": "^5.28.0"
   },
   "dependencies": {
-    "@babel/core": "^7.13.13",
+    "@babel/core": "^7.13.14",
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.2.3",
     "@jetbrains/icons": "^3.14.1",
