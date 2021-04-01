@@ -47,7 +47,7 @@ project {
     buildType(AllChecks)
     buildType(PublishToGitHubPages)
     buildType(GeneratorE2eTest)
-    buildType(PublishCanary)
+    buildType(PublishHotfixRelease)
 
     params {
         param("vcs.branch.spec", """
@@ -144,7 +144,7 @@ project {
             param("multi", "true")
         }
     }
-    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, PublishCanary, AllChecks)
+    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, PublishHotfixRelease, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, AllChecks)
 }
 
 object AllChecks : BuildType({
@@ -875,19 +875,15 @@ object Publish : BuildType({
     }
 })
 
-object PublishCanary : BuildType({
+object PublishHotfixRelease : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
-    name = "Publish @canary"
-
+    name = "Publish @hotfix (release-*)"
     paused = true
     allowExternalStatus = true
 
     params {
-        param("lerna.publish.options", "--cd-version prerelease --preid beta --npm-tag canary")
-        param("vcs.branch.spec", """
-            -:refs/heads/(master)
-            +:refs/heads/(develop-*)
-        """.trimIndent())
+        param("lerna.publish.options", "--cd-version patch --preid hotfix --npm-tag hotfix")
+        param("vcs.branch.spec", "+:refs/heads/(release-*)")
     }
 
     vcs {
@@ -921,6 +917,7 @@ object PublishCanary : BuildType({
 
                 node -v
                 npm -v
+                npm whoami
 
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
@@ -934,6 +931,7 @@ object PublishCanary : BuildType({
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
+                npm whoami
                 npm run release-ci -- %lerna.publish.options%
 
                 cat package.json
@@ -956,7 +954,6 @@ object PublishCanary : BuildType({
     triggers {
         retryBuild {
             id = "retryBuildTrigger"
-            enabled = false
             delaySeconds = 60
         }
     }
@@ -1011,17 +1008,16 @@ object PublishCanary : BuildType({
 
     dependencies {
         snapshot(GeminiTests) {
-            onDependencyCancel = FailureAction.ADD_PROBLEM
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
         }
     }
-
-    disableSettings("vcsTrigger")
 })
 
 object PublishNext : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
     name = "Publish @next"
-    paused = false
+    paused = true
 
     allowExternalStatus = true
 
