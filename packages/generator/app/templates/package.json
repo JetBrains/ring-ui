@@ -29,7 +29,7 @@
     "@babel/core": "^7.13.14",
     "@jetbrains/babel-preset-jetbrains": "^2.2.3",
     "babel-loader": "^8.2.2",
-    "classnames": "^2.3.0",
+    "classnames": "^2.3.1",
     "copy-webpack-plugin": "^8.1.0",
     "core-js": "^3.10.0",
     "css-loader": "^5.2.0",
