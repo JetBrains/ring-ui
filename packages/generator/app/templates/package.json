@@ -31,7 +31,7 @@
     "babel-loader": "^8.2.2",
     "classnames": "^2.3.1",
     "copy-webpack-plugin": "^8.1.1",
-    "core-js": "^3.10.0",
+    "core-js": "^3.10.1",
     "css-loader": "^5.2.0",
     "html-webpack-plugin": "^4.5.2",
     "postcss-import": "^14.0.1",
