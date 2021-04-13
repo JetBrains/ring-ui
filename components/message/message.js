@@ -83,7 +83,7 @@ export default class Message extends Component {
   getTailOffset() {
     const DEFAULT_OFFSET = 32;
     const {popupProps} = this.props;
-    if ('tailOffset' in this.props) {
+    if (this.props.tailOffset != null) {
       return this.props.tailOffset;
     }
 
