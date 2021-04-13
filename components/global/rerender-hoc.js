@@ -9,6 +9,7 @@ import {render} from 'react-dom';
  */
 export default function rerenderHOC(ComposedComponent, {captureNode} = {captureNode: false}) {
   if (captureNode) {
+    // TODO remove in 5.0
     throw new Error('rerenderHOC: captureNode={true} is deprecated. Wrapped component must have "node" property captured itself');
   }
 

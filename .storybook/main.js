@@ -2,7 +2,7 @@ const path = require('path');
 
 const webpack = require('webpack');
 
-const ringConfig = require('../webpack.config');
+const ringConfig = require('../webpack.config').createConfig();
 const pkgConfig = require('../package.json').config;
 
 module.exports = {
@@ -21,20 +21,13 @@ module.exports = {
     builder: 'webpack5'
   },
   webpackFinal(config) {
-    ringConfig.loaders.cssLoader.include.push(/\.storybook/);
+    ringConfig.componentsPath.push(/\.storybook/);
     ringConfig.loaders.babelLoader.options.plugins = [[
       'babel-plugin-react-docgen',
       {
         DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES'
       }
     ]];
-
-    ringConfig.config.module.rules.push({
-      test: /\.svg$/,
-      loader: require.resolve('svg-inline-loader'),
-      options: {removeSVGTagAttrs: false},
-      include: [/@primer\/octicons/, /@jetbrains\/logos/]
-    });
 
     config.module.rules = [
       ...ringConfig.config.module.rules,
@@ -49,6 +42,12 @@ module.exports = {
         test: /\.examples\.js$/,
         loader: require.resolve('@storybook/source-loader'),
         enforce: 'pre'
+      },
+      {
+        test: /\.svg$/,
+        loader: require.resolve('svg-inline-loader'),
+        options: {removeSVGTagAttrs: false},
+        include: [/@primer\/octicons/, /@jetbrains\/logos/]
       }
     ];
 

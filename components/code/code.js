@@ -65,7 +65,7 @@ export default class Code extends PureComponent {
       if (language != null && highlight.getLanguage(language) == null) {
         await registerLanguage(language);
       }
-      highlight.highlightBlock(codeRef);
+      highlight.highlightElement(codeRef);
     }
     replacer(codeRef);
   }
