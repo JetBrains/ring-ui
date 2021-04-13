@@ -9,30 +9,10 @@ import browserslist from 'browserslist';
 const TARGET_DIR = 'dist';
 
 export default {
-  external: [
-    /^react(?:-\w+)?/,
-    'prop-types',
-    'classnames',
-    'fastdom',
-    'remark-breaks',
-    'remark-gfm',
-    'style-inject',
-    'conic-gradient',
-    'util-deprecate',
-    'focus-visible',
-    'deep-equal',
-    'simply-uuid',
-    'es6-error',
-    'element-resize-detector',
-    'combokeys',
-    'sniffr',
-    'scrollbar-width',
-    'memoize-one',
-    'just-debounce-it',
-    /date-fns/,
-    /^highlight\.js/,
-    /^@jetbrains\/icons\//
-  ],
+  external: id => {
+    const isInternal = id.startsWith('.') || id.startsWith('/');
+    return !isInternal;
+  },
 
   input: [
     'components/alert/alert.js',
@@ -158,7 +138,7 @@ export default {
 
     globals(),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify('production'),
       preventAssignment: true
     })
   ]
