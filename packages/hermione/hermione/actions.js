@@ -4,22 +4,32 @@ module.exports = {
   async capture(browser, {name, selector}) {
     const selectors = Array.isArray(selector) ? selector : [selector];
     await Promise.all(
-      selectors.map(
-        selectorString => browser.waitForVisible(selectorString, TIMEOUT)
-      )
+      selectors.map(async selectorString => {
+        const element = await browser.$(selectorString);
+        return element.waitForDisplayed({timeout: TIMEOUT});
+      })
     );
     await browser.assertView(name.toLowerCase(), selector);
   },
-  click: (browser, {selector}) => browser.click(selector),
+  click: async (browser, {selector}) => {
+    const element = await browser.$(selector);
+    return element.click();
+  },
   executeJS: (browser, {script}) => browser.execute(script),
   focus: (browser, {selector}) =>
     browser.execute(`document.querySelector('${selector}').focus()`),
-  mouseMove: (browser, {selector, x, y}) => browser.moveTo(selector, x, y),
+  mouseMove: async (browser, {selector, x, y}) => {
+    const element = await browser.$(selector);
+    return element.moveTo({xOffset: x, yOffset: y});
+  },
   mouseEvent: (browser, {selector, eventname}) =>
     browser.execute(
       `document.querySelector('${selector}').dispatchEvent(new MouseEvent('${eventname}'))`
     ),
-  sendKeys: (browser, {selector, value}) => browser.addValue(selector, value),
+  sendKeys: async (browser, {selector, value}) => {
+    const element = await browser.$(selector);
+    return element.addValue(value);
+  },
   scroll: (browser, {selector, x, y}) =>
     browser.execute(
       `var element = document.querySelector('${selector}');
@@ -28,8 +38,10 @@ module.exports = {
     ),
   setWindowSize: (browser, {width, height}) =>
     browser.setWindowSize(width, height),
-  waitForElementToShow: (browser, {timeout, selector, hidden}) =>
-    browser.waitForVisible(selector, timeout, hidden),
+  waitForElementToShow: async (browser, {timeout, selector, hidden}) => {
+    const element = await browser.$(selector);
+    return element.waitForDisplayed({timeout, reverse: hidden});
+  },
   waitForJSCondition: (browser, {condition}) =>
     browser.waitUntil(() => browser.execute(condition)),
   wait: (_, {delay}) => new Promise(resolve => setTimeout(resolve, delay))
