@@ -77,7 +77,7 @@
     "@storybook/addon-storysource": "6.2.8",
     "@storybook/addons": "6.2.8",
     "@storybook/builder-webpack5": "6.2.8",
-    "@storybook/client-api": "6.2.7",
+    "@storybook/client-api": "6.2.8",
     "@storybook/core": "6.2.8",
     "@storybook/html": "6.2.8",
     "@storybook/source-loader": "6.2.8",
