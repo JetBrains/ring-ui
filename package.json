@@ -65,7 +65,7 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
-    "@babel/cli": "^7.13.14",
+    "@babel/cli": "^7.13.16",
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^4.0.1",
     "@jetbrains/stylelint-config": "^2.0.1",
@@ -164,7 +164,7 @@
     "combokeys": "^3.0.1",
     "compile-code-loader": "^1.0.0",
     "conic-gradient": "^1.0.0",
-    "css-loader": "^5.2.2",
+    "css-loader": "^5.2.4",
     "date-fns": "^2.21.1",
     "deep-equal": "^2.0.4",
     "element-resize-detector": "^1.2.2",
