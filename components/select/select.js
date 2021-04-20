@@ -1128,6 +1128,12 @@ export default class Select extends Component {
             placeholder={this.props.inputPlaceholder}
             onKeyDown={this.props.onKeyDown}
             data-test="ring-select__focus"
+            enableShortcuts={shortcutsEnabled
+              ? Object.keys({
+                ...this.getShortcutsMap(),
+                ...this._popup?.list?.shortcutsMap
+              })
+              : undefined}
           />
           {this.props.type === Type.INPUT && iconsNode}
           {this._renderPopup()}
