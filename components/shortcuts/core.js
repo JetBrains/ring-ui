@@ -190,9 +190,9 @@ class Shortcuts {
     if (
       element === document ||
       element.matches(this.ALLOW_SHORTCUTS_SELECTOR) ||
-      element.closest(this.ALLOW_SHORTCUTS_SELECTOR) ||
-      element.dataset.enabledShortcuts != null &&
-      element.dataset.enabledShortcuts.split(',').includes(key)
+      (element.dataset.enabledShortcuts != null
+        ? element.dataset.enabledShortcuts.split(',').includes(key)
+        : element.closest(this.ALLOW_SHORTCUTS_SELECTOR) != null)
     ) {
       return false;
     }
