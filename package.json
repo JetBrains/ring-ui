@@ -122,7 +122,7 @@
     "mocha": "^8.3.2",
     "pinst": "^2.1.6",
     "process": "^0.11.10",
-    "puppeteer": "^8.0.0",
+    "puppeteer": "^9.0.0",
     "raw-loader": "^4.0.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
