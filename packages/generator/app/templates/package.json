@@ -26,7 +26,7 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "^7.13.15",
+    "@babel/core": "^7.13.16",
     "@jetbrains/babel-preset-jetbrains": "^2.2.3",
     "babel-loader": "^8.2.2",
     "classnames": "^2.3.1",
