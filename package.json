@@ -139,7 +139,7 @@
     "webpack": "^5.31.2",
     "webpack-cli": "^4.6.0",
     "xmlappend": "^1.0.4",
-    "yo": "^4.0.0-beta.0"
+    "yo": "^4.0.0"
   },
   "peerDependencies": {
     "core-js": ">=3.0.0",
