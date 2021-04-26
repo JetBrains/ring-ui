@@ -96,7 +96,9 @@ export default {
   output: {
     dir: TARGET_DIR,
     format: 'esm',
-    assetFileNames: '[name][extname]'
+    entryFileNames: '[name].js', // exposed components
+    chunkFileNames: '_helpers/[name].js',
+    assetFileNames: '[name][extname]' // effective for css styles
   },
 
   plugins: [
