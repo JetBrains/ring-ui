@@ -75,6 +75,7 @@ export default class Avatar extends PureComponent {
       return (
         <span
           {...restProps}
+          data-test="avatar"
           className={classNames(styles.avatar, styles.empty, this.props.className)}
           style={styleObj}
         />
@@ -115,6 +116,7 @@ export default class Avatar extends PureComponent {
           />
           <img
             {...restProps}
+            data-test="avatar"
             onError={this.handleError}
             onLoad={this.handleSuccess}
             className={classNames(styles.subavatar)}
@@ -128,6 +130,7 @@ export default class Avatar extends PureComponent {
       return (
         <img
           {...restProps}
+          data-test="avatar"
           onError={this.handleError}
           onLoad={this.handleSuccess}
           className={classNames(styles.avatar, this.props.className)}
