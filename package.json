@@ -202,6 +202,7 @@
     "util-deprecate": "^1.0.2"
   },
   "engines": {
-    "node": ">=7.4"
+    "node": ">=7.4",
+    "npm": "^6.0.0"
   }
 }
