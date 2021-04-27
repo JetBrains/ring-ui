@@ -1,41 +1,34 @@
 import React from 'react';
-import {shallow, mount, render} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
 import Badge from './badge';
 import style from './badge.css';
 
 describe('Badge', () => {
-  const shallowBadge = (params, content) => shallow(<Badge {...params}>{content}</Badge>);
-  const mountBadge = (params, content) => mount(<Badge {...params}>{content}</Badge>);
-  const renderBadge = (params, content) => render(<Badge {...params}>{content}</Badge>);
-
-  it('should create component', () => {
-    mountBadge().should.have.type(Badge);
-  });
-
   it('should render span with badge class', () => {
-    const wrapper = shallowBadge();
-    wrapper.should.have.tagName('span');
-    wrapper.should.have.className(style.badge);
+    render(<Badge/>);
+    const element = screen.getByTestId('ring-badge');
+    element.should.have.tagName('span');
+    element.should.have.class(style.badge);
   });
 
   it('should use passed className', () => {
-    shallowBadge({className: 'test-class'}).should.have.className('test-class');
-  });
-
-  it('should have default data-test', () => {
-    shallowBadge({}).should.have.attr('data-test', 'ring-badge');
+    render(<Badge className="test-class"/>);
+    screen.getByTestId('ring-badge').should.have.class('test-class');
   });
 
   it('should use passed data-test', () => {
-    shallowBadge({['data-test']: 'foo'}).should.have.attr('data-test', 'ring-badge foo');
+    render(<Badge data-test="foo"/>);
+    screen.getByTestId('foo', {exact: false}).should.exist;
   });
 
   it('should render children', () => {
-    renderBadge({}, 'foo').should.have.text('foo');
+    render(<Badge>{'foo'}</Badge>);
+    screen.getByText('foo').should.exist;
   });
 
   it('should render valid badge', () => {
-    shallowBadge({valid: true}, 'foo').should.have.className(style.valid);
+    render(<Badge valid/>);
+    screen.getByTestId('ring-badge').should.have.class(style.valid);
   });
 });
