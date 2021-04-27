@@ -1,65 +1,64 @@
 import React from 'react';
-import {mount, render} from 'enzyme';
+import {render, screen} from '@testing-library/react';
+
 import caretDownSVG from '@jetbrains/icons/caret-down-10px';
 
 import Button from './button';
 import styles from './button.css';
 
 describe('Button', () => {
-  const mountButton = props => mount(<Button {...props}/>);
-  const getButtonOutput = props => mountButton(props).find('button');
-  const renderButton = props => render(<Button {...props}/>);
-
   it('should create component', () => {
-    mountButton().type().should.equal(Button.type);
+    render(<Button/>);
+    screen.getByRole('button').should.exist;
   });
 
   it('should set _default modifier', () => {
-    getButtonOutput().hasClass(styles.button).should.be.true;
+    render(<Button/>);
+    screen.getByRole('button').className.should.include(styles.button);
   });
 
   it('should set modifiers', () => {
-    const wrapper = getButtonOutput({
-      active: true,
-      danger: true,
-      delayed: true,
-      loader: true,
-      primary: true,
-      short: true
-    });
+    render(
+      <Button
+        active
+        danger
+        delayed
+        loader
+        primary
+        short
+      />
+    );
 
-    wrapper.hasClass(styles.active).should.be.true;
-    wrapper.hasClass(styles.danger).should.be.true;
-    wrapper.hasClass(styles.delayed).should.be.true;
-    wrapper.hasClass(styles.loader).should.be.true;
-    wrapper.hasClass(styles.primary).should.be.true;
-    wrapper.hasClass(styles.short).should.be.true;
+    const className = screen.getByRole('button').className;
+    className.should.include(styles.active);
+    className.should.include(styles.danger);
+    className.should.include(styles.delayed);
+    className.should.include(styles.loader);
+    className.should.include(styles.primary);
+    className.should.include(styles.short);
   });
 
   it('should add icon', () => {
-    const wrapper = renderButton({
-      icon: caretDownSVG
-    });
+    render(<Button icon={caretDownSVG}/>);
 
-    wrapper.hasClass(styles.withIcon).should.be.true;
+    const element = screen.getByRole('button');
+    element.should.have.class(styles.withIcon);
     caretDownSVG.
       replace('/>', '></path>').
-      should.include(wrapper.find('svg').html());
+      should.include(element.querySelector('svg').innerHTML);
   });
 
   it('should set custom class', () => {
     const CUSTOM_CLASS = 'test';
 
-    const wrapper = getButtonOutput({
-      className: CUSTOM_CLASS
-    });
+    render(<Button className={CUSTOM_CLASS}/>);
 
-    wrapper.hasClass(CUSTOM_CLASS).should.be.true;
+    screen.getByRole('button').should.have.class(CUSTOM_CLASS);
   });
 
   it('should render link instead of button if href specified', () => {
-    const linkButton = mountButton({href: 'http://www.jetbrains.com'}).find('a');
-    linkButton.should.exist;
-    linkButton.should.have.attr('href', 'http://www.jetbrains.com');
+    render(<Button href="http://www.jetbrains.com"/>);
+
+    screen.getByRole('link').should.have.attr('href', 'http://www.jetbrains.com');
   });
 });
