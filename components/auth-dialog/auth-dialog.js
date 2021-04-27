@@ -6,6 +6,8 @@ import {Content} from '../island/island';
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
 
+import {H2} from '../heading/heading';
+
 import styles from './auth-dialog.css';
 
 /**
@@ -84,7 +86,7 @@ export default class AuthDialog extends Component {
                 src={serviceImage}
               />
             )}
-            <div className={styles.title}>{title}</div>
+            <H2 className={styles.title}>{title}</H2>
             {errorMessage && (
               <div className={styles.error}>{errorMessage}</div>
             )}
