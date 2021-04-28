@@ -32,31 +32,33 @@ describe('Popup', () => {
     onCloseAttempt.should.have.been.called;
   });
 
-  describe('close by click', () => {
-    const click = document.createEvent('MouseEvent');
-    click.initEvent('click', true, false);
+  describe('close by pointer down', () => {
+    const downEvent = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: false
+    });
     let clock;
 
     beforeEach(() => {
       clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
     });
 
-    it('should attempt to close by click outside the element', () => {
+    it('should attempt to close by pointer down outside the element', () => {
       const onCloseAttempt = sandbox.stub();
       mountPopup({onCloseAttempt});
 
       clock.tick();
-      document.body.dispatchEvent(click);
+      document.body.dispatchEvent(downEvent);
       onCloseAttempt.should.have.been.called;
     });
 
-    it('should pass event to onCloseAttempt callback when closing by clicking by document', () => {
+    it('should pass event to onCloseAttempt callback when closing by document pointer down event', () => {
       const onCloseAttempt = sandbox.stub();
       mountPopup({onCloseAttempt});
 
       clock.tick();
-      document.body.dispatchEvent(click);
-      onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'click'}));
+      document.body.dispatchEvent(downEvent);
+      onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'pointerdown'}));
     });
 
     it('should not close popup if popup hidden', () => {
@@ -67,11 +69,11 @@ describe('Popup', () => {
       });
 
       clock.tick();
-      document.body.dispatchEvent(click);
+      document.body.dispatchEvent(downEvent);
       onCloseAttempt.should.not.have.been.called;
     });
 
-    it('should be closed by click outside the element after show', () => {
+    it('should be closed by pointer down event outside the element after show', () => {
       const onCloseAttempt = sandbox.stub();
       const wrapper = mountPopup({
         onCloseAttempt
@@ -79,17 +81,17 @@ describe('Popup', () => {
 
       wrapper.setProps({hidden: false}, () => {
         clock.tick();
-        document.body.dispatchEvent(click);
+        document.body.dispatchEvent(downEvent);
         onCloseAttempt.should.have.been.called;
       });
     });
 
-    it('shouldn\'t be closed by click inside the element', () => {
+    it('shouldn\'t be closed by pointer down event inside the element', () => {
       const onCloseAttempt = sandbox.stub();
       const instance = mountPopup({onCloseAttempt}).instance();
 
       clock.tick();
-      instance.popup.dispatchEvent(click);
+      instance.popup.dispatchEvent(downEvent);
       onCloseAttempt.should.not.have.been.called;
     });
   });
