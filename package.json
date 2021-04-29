@@ -196,7 +196,7 @@
     "react-markdown": "^5.0.3",
     "react-movable": "^2.5.3",
     "react-virtualized": "^9.22.3",
-    "react-waypoint": "^9.0.3",
+    "react-waypoint": "^10.1.0",
     "remark-breaks": "^2.0.2",
     "remark-gfm": "^1.0.0",
     "scrollbar-width": "^3.1.1",
