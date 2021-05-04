@@ -69,7 +69,7 @@
     "karma-teamcity-reporter": "^1.1.0",
     "karma-webpack": "^5.0.0",
     "mocha": "^8.3.2",
-    "puppeteer": "^9.0.0",
+    "puppeteer": "^9.1.0",
     "react-test-renderer": "^17.0.2",
     "sinon": "^10.0.1",
     "sinon-chai": "^3.6.0",
