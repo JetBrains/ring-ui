@@ -274,6 +274,7 @@ export default class SelectPopup extends PureComponent {
 
             data-test-custom="ring-select-popup-filter-input"
             listId={this.props.listId}
+            enableShortcuts={Object.keys(this.popupFilterShortcuts.map)}
           />
         </div>
       );
