@@ -140,7 +140,7 @@
     "teamcity-service-messages": "^0.1.11",
     "terser-webpack-plugin": "^5.1.1",
     "wallaby-webpack": "^3.9.16",
-    "webpack": "^5.31.2",
+    "webpack": "^5.36.2",
     "webpack-cli": "^4.6.0",
     "xmlappend": "^1.0.4",
     "yo": "^4.1.0"
@@ -149,7 +149,7 @@
     "core-js": ">=3.0.0",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
-    "webpack": "^5.31.2"
+    "webpack": "^5.36.2"
   },
   "dependencies": {
     "@babel/core": "^7.14.0",
