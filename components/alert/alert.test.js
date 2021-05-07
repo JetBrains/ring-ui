@@ -1,86 +1,59 @@
 import React from 'react';
-import {shallow, mount, render} from 'enzyme';
+import {render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import Alert from './alert';
 import styles from './alert.css';
 
+const TIMEOUT = 100;
 const TICK = 500;
 
 describe('Alert', () => {
-  const mountAlert = props => mount(<Alert {...props}/>);
-  const shallowAlert = props => shallow(<Alert {...props}/>);
-  const renderAlert = props => render(<Alert {...props}/>);
-
-  let clock;
-  beforeEach(() => {
-    clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
-  });
-
-  it('should render', () => {
-    mountAlert({}).should.have.type(Alert);
-  });
-
   it('should render text', () => {
-    const alertComponent = renderAlert({
-      children: 'Test message',
-      type: Alert.Type.MESSAGE
-    });
-    alertComponent.should.have.text('Test message');
+    render(<Alert type={Alert.Type.MESSAGE}>{'Test message'}</Alert>);
+    screen.getByText('Test message').should.exist;
   });
 
   it('should transfer className', () => {
-    shallowAlert({className: 'foo'}).should.have.className('foo');
+    render(<Alert className="foo"/>);
+    screen.getByTestId('alert').should.have.class('foo');
   });
 
   it('should render component', () => {
-    const alertComponent = renderAlert({
-      children: <div>{'foo'}</div>,
-      type: Alert.Type.MESSAGE
-    });
-    alertComponent.should.have.text('foo');
+    render(<Alert type={Alert.Type.MESSAGE}><div>{'foo'}</div></Alert>);
+    screen.getByText('foo').should.exist;
   });
 
   it('should render an error', () => {
-    const alertComponent = shallowAlert({
-      children: 'Test',
-      type: Alert.Type.ERROR
-    });
-    alertComponent.should.have.className(styles.error);
+    render(<Alert type={Alert.Type.ERROR}>{'Test'}</Alert>);
+    screen.getByTestId('alert').should.have.class(styles.error);
   });
 
   it('should be closeable if by default', () => {
-    const alertComponent = shallowAlert({children: 'Test element'});
+    render(<Alert>{'Test element'}</Alert>);
 
-    alertComponent.should.have.descendants('button[data-test="alert-close"]');
+    screen.getByRole('button', {name: 'close alert'}).should.exist;
   });
 
   it('should be not closeable if defined', () => {
-    const alertComponent = shallowAlert({
-      children: 'Test element',
-      closeable: false
-    });
+    render(<Alert closeable={false}>{'Test element'}</Alert>);
 
-    alertComponent.should.not.have.descendants('button[data-test="alert-close"]');
+    should.not.exist(screen.queryByRole('button', {name: 'close alert'}));
   });
 
   it('should call onCloseRequest on click by close button', () => {
     const closeSpy = sandbox.spy();
-    const alertComponent = shallowAlert({
-      children: 'Test element',
-      onCloseRequest: closeSpy
-    });
-    const closeElement = alertComponent.find('button[data-test="alert-close"]');
-    closeElement.simulate('click');
+    render(<Alert onCloseRequest={closeSpy}>{'Test element'}</Alert>);
+    const closeElement = screen.queryByRole('button', {name: 'close alert'});
+    userEvent.click(closeElement);
     closeSpy.should.have.been.called;
   });
 
   it('should call onCloseRequest on timeout', () => {
+    const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
     const closeSpy = sandbox.spy();
-    mountAlert({
-      children: 'Test element',
-      timeout: 100,
-      onCloseRequest: closeSpy
-    });
+    render(<Alert timeout={TIMEOUT} onCloseRequest={closeSpy}>{'Test element'}</Alert>);
+
     clock.tick(TICK);
 
     closeSpy.should.have.been.called;

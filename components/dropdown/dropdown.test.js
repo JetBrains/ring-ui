@@ -76,11 +76,11 @@ describe('Dropdown', () => {
     popup.isVisible().should.be.false;
   });
 
-  it('should hide popup on outside click', done => {
+  it('should hide popup on outside pointer down event', done => {
     mountDropdown();
     Simulate.click(anchor);
     setTimeout(() => {
-      document.dispatchEvent(new Event('click'));
+      document.dispatchEvent(new PointerEvent('pointerdown'));
       popup.isVisible().should.be.false;
       done();
     }, 0);

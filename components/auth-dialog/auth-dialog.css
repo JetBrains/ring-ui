@@ -28,14 +28,13 @@
   margin-top: calc(unit * 4);
 }
 
-.title {
+.title.title {
+  margin-top: 0;
   margin-bottom: unit;
 
   text-align: center;
 
-  font-size: 24px;
   font-weight: 100;
-  line-height: 28px;
 }
 
 .logo {
