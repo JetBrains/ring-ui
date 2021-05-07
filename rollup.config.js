@@ -5,7 +5,6 @@ import styles from 'rollup-plugin-styles';
 import globals from 'rollup-plugin-node-globals';
 import replace from '@rollup/plugin-replace';
 import clear from 'rollup-plugin-clear';
-import browserslist from 'browserslist';
 import glob from 'glob';
 
 
@@ -53,27 +52,7 @@ export default {
       targets: [TARGET_DIR]
     }),
 
-    babel({
-      babelHelpers: 'bundled',
-
-      presets: [
-        ['@jetbrains/babel-preset-jetbrains', {
-          useBuiltIns: 'entry',
-          // useBuiltIns: 'usage',
-          corejs: '3'
-        }]
-      ],
-      plugins: [
-        ['babel-plugin-transform-define', {
-          SUPPORTED_BROWSERS: browserslist()
-        }]
-      ],
-      env: {
-        test: {
-          plugins: ['require-context-hook']
-        }
-      }
-    }),
+    babel({babelHelpers: 'bundled'}),
 
     styles({
       modules: true,
