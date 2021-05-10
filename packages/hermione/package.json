@@ -42,6 +42,8 @@
     "lodash": "4.17.21",
     "mocha": "7.2.0",
     "extend": "3.0.2",
-    "minimist": "1.2.5"
+    "minimist": "1.2.5",
+    "immer": "8.0.4",
+    "axios": "0.21.1"
   }
 }
