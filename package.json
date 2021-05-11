@@ -66,6 +66,7 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "@babel/cli": "^7.13.16",
+    "@babel/eslint-parser": "^7.13.14",
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^4.0.6",
     "@jetbrains/stylelint-config": "^2.0.1",
@@ -90,7 +91,6 @@
     "angular": "^1.8.2",
     "angular-mocks": "^1.8.2",
     "angular-route": "^1.8.2",
-    "babel-eslint": "^10.1.0",
     "babel-plugin-react-docgen": "^4.2.1",
     "babel-plugin-require-context-hook": "^1.0.0",
     "chai": "^4.3.4",
