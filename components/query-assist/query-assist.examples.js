@@ -22,9 +22,6 @@ export default {
     framework: 'react'
   },
   args: {
-    // https://github.com/storybookjs/storybook/issues/12635#issuecomment-703392498
-    theme: undefined,
-    translations: undefined,
     placeholder: 'placeholder',
     glass: true,
     clear: true,
