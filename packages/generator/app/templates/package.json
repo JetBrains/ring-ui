@@ -34,7 +34,7 @@
     "core-js": "^3.12.1",
     "css-loader": "^5.2.4",
     "html-webpack-plugin": "^4.5.2",
-    "postcss-import": "^14.0.1",
+    "postcss-import": "^14.0.2",
     "postcss-loader": "^4.2.0",
     "postcss-preset-env": "^6.7.0",
     "prop-types": "^15.7.2",
