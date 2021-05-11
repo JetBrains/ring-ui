@@ -14,17 +14,6 @@
     "ci-test": "npm run lint && karma start",
     "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
   },
-  "babel": {
-    "presets": [
-      [
-        "@jetbrains/jetbrains",
-        {
-          "useBuiltIns": "usage",
-          "corejs": "3"
-        }
-      ]
-    ]
-  },
   "dependencies": {
     "@babel/core": "^7.14.0",
     "@jetbrains/babel-preset-jetbrains": "^2.2.3",
@@ -46,10 +35,10 @@
     "webpack-dev-server": "^3.11.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/stylelint-config": "^2.0.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
-    "babel-eslint": "^10.1.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.9.0",
