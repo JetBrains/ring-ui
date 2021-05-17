@@ -85,7 +85,7 @@
     "@storybook/theming": "6.2.9",
     "@testing-library/dom": "^7.31.0",
     "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.6",
+    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^13.1.9",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
     "angular": "^1.8.2",
