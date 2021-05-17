@@ -274,7 +274,7 @@ export const CollapsibleTabs = ({
 
   return (
     <div className={styles.autoCollapseContainer}>
-      <div className={className}>
+      <div className={classNames(className, styles.rendered)}>
         {visibleElements}
         <MoreButton
           moreClassName={moreClassName}
