@@ -142,13 +142,13 @@
   max-width: 100%;
 }
 
-.autoCollapse.adjusted {
-  visibility: visible;
-  overflow: visible;
-}
-
 .autoCollapse .title {
   flex-shrink: 0;
+}
+
+.rendered.adjusted {
+  visibility: visible;
+  overflow: visible;
 }
 
 .measure {
