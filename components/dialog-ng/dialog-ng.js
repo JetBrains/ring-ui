@@ -10,7 +10,7 @@ import shortcuts from '../shortcuts/core';
 import RingButton from '../button-ng/button-ng';
 import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
-import ScrollPreventer from '../dialog/dialog__body-scroll-preventer';
+import scrollPreventerFactory from '../dialog/dialog__body-scroll-preventer';
 import '../form/form.css';
 import dialogStyles from '../dialog/dialog.css';
 import islandStyles from '../island/island.css';
@@ -36,6 +36,7 @@ class DialogController extends RingAngularComponent {
     this.styles = styles;
     this.dialogStyles = dialogStyles;
     this.islandStyles = islandStyles;
+    this.scrollPreventer = scrollPreventerFactory();
 
     this.$inject.$q((resolve, reject) => {
       this.resolve = resolve;
@@ -134,7 +135,7 @@ class DialogController extends RingAngularComponent {
     const {$q, $scope} = this.$inject;
 
     if (!this.inSidebar) {
-      ScrollPreventer.prevent();
+      this.scrollPreventer.prevent();
       if (config && config.trapFocus === true) {
         this.focusTrap.activate();
       }
@@ -195,7 +196,7 @@ class DialogController extends RingAngularComponent {
 
   hide = () => {
     if (!this.inSidebar) {
-      ScrollPreventer.reset();
+      this.scrollPreventer.reset();
     }
 
     this.active = false;
