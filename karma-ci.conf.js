@@ -1,6 +1,6 @@
 const mergeOptions = require('merge-options');
 
-const generateConfig = require('./karma-base.conf.js');
+const generateConfig = require('./karma-base.conf');
 
 module.exports = config => {
   const configCIDev = mergeOptions(generateConfig(config), {
