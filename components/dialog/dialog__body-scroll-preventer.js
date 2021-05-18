@@ -2,38 +2,58 @@ import scrollbarWidth from 'scrollbar-width';
 
 import styles from './dialog.css';
 
-let isPrevented = false;
+const isPrevented = new Set();
 let previousDocumentWidth = null;
 
-export default {
-  prevent() {
-    if (isPrevented) {
-      return;
-    }
-    isPrevented = true;
-    const documentHasScroll = document.documentElement.scrollHeight > window.innerHeight ||
-      getComputedStyle(document.documentElement).overflowY === 'scroll';
-    document.documentElement.classList.add(styles.documentWithoutScroll);
+const prevent = key => {
+  if (isPrevented.has(key)) {
+    return;
+  }
 
-    const scrollWidth = scrollbarWidth();
+  isPrevented.add(key);
 
-    if (documentHasScroll && scrollWidth > 0) {
-      previousDocumentWidth = document.documentElement.style.width;
-      document.documentElement.style.width = `calc(100% - ${scrollWidth}px)`;
-    }
-  },
+  if (isPrevented.size > 1) {
+    return;
+  }
 
-  reset() {
-    if (!isPrevented) {
-      return;
-    }
-    isPrevented = false;
+  const documentHasScroll = document.documentElement.scrollHeight > window.innerHeight ||
+    getComputedStyle(document.documentElement).overflowY === 'scroll';
+  document.documentElement.classList.add(styles.documentWithoutScroll);
 
-    document.documentElement.classList.remove(styles.documentWithoutScroll);
+  const scrollWidth = scrollbarWidth();
 
-    if (previousDocumentWidth !== null) {
-      document.documentElement.style.width = previousDocumentWidth;
-      previousDocumentWidth = null;
-    }
+  if (documentHasScroll && scrollWidth > 0) {
+    previousDocumentWidth = document.documentElement.style.width;
+    document.documentElement.style.width = `calc(100% - ${scrollWidth}px)`;
   }
 };
+
+const reset = key => {
+  if (isPrevented.size === 0) {
+    return;
+  }
+
+  isPrevented.delete(key);
+
+  if (isPrevented.size > 0) {
+    return;
+  }
+
+  document.documentElement.classList.remove(styles.documentWithoutScroll);
+
+  if (previousDocumentWidth !== null) {
+    document.documentElement.style.width = previousDocumentWidth;
+    previousDocumentWidth = null;
+  }
+};
+
+const preventerFactory = key => {
+  const preventerKey = key || Math.random();
+
+  return {
+    prevent: () => prevent(preventerKey),
+    reset: () => reset(preventerKey)
+  };
+};
+
+export default preventerFactory;
