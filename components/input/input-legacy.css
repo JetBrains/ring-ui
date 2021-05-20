@@ -38,10 +38,10 @@ Input
   appearance: none;
 }
 
-:global(.ring-input:active,
-.ring-input:focus,
-.ring-input_active,
-.ring-input_focus) {
+:global(.ring-input:active),
+:global(.ring-input:focus),
+:global(.ring-input_active),
+:global(.ring-input_focus) {
   border-color: var(--ring-main-color);
   outline: 0;
 }
@@ -72,9 +72,9 @@ Input
   border-left: 0;
 }
 
-:global(.ring-input.ring-input:disabled,
-.ring-input.ring-input[disabled],
-.ring-input.ring-input_disabled) {
+:global(.ring-input.ring-input:disabled),
+:global(.ring-input.ring-input[disabled]),
+:global(.ring-input.ring-input_disabled) {
   color: var(--ring-disabled-color);
   border-color: var(--ring-border-disabled-color);
   background-color: var(--ring-sidebar-background-color);
