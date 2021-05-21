@@ -10,9 +10,9 @@ export default class AnalyticsGAPlugin {
     }
     ((i, s, o, g, r) => {
       i.GoogleAnalyticsObject = r;
-      i[r] = i[r] || (() => {
+      i[r] = i[r] || function addArgumentsToQueueForWaitingTheScriptLoading() {
         (i[r].q = i[r].q || []).push(arguments);
-      });
+      };
       i[r].l = 1 * new Date();
       const a = s.createElement(o);
       const m = s.getElementsByTagName(o)[0];
