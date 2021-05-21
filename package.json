@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "4.0.9",
+  "version": "4.0.10",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -185,7 +185,7 @@
     "interpolate-loader": "^2.0.1",
     "just-debounce-it": "^1.5.0",
     "memoize-one": "^5.2.1",
-    "postcss": "^8.2.15",
+    "postcss": "^8.3.0",
     "postcss-calc": "^8.0.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
