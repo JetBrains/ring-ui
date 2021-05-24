@@ -10,7 +10,6 @@ import getUID from '../global/get-uid';
 import style from './table.css';
 import HeaderCell from './header-cell';
 
-const waypointChild = <tr data-test="ring-table-header-row"/>;
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -122,6 +121,12 @@ export default class Header extends PureComponent {
     const {fixed, widths, headerWidth} = this.state;
 
     const regularCells = this.createCells();
+
+    const waypointChild = (
+      <tr data-test="ring-table-header-row">
+        {regularCells.map((c, i) => <td key={i}></td>)}
+      </tr>
+    );
 
     return (
       <thead id={this.id} data-test="ring-table-header" className={style.tableHead}>
