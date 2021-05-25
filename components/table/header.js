@@ -124,7 +124,10 @@ export default class Header extends PureComponent {
 
     const waypointChild = (
       <tr data-test="ring-table-header-row">
-        {regularCells.map(c => <td key={c}/>)}
+        {/*Since we need to keep the exact amount of columns in each row, we need to present them even being empty*/}
+        {/*regularCells doesn't provide any other information than a list of components. Hence using array indexes as keys looks like a sane idea*/}
+        {/*eslint-disable-next-line react/no-array-index-key*/}
+        {regularCells.map((c, i) => <td key={i}/>)}
       </tr>
     );
 
