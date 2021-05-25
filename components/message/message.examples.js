@@ -19,8 +19,6 @@ export default {
     framework: 'react'
   },
   args: {
-    // https://github.com/storybookjs/storybook/issues/12635#issuecomment-703392498
-    ...Message.defaultProps,
     title: 'This is title',
     direction: Directions.TOP_RIGHT,
     children: 'This is long long long long long long long long long long long long long long long long long long description'

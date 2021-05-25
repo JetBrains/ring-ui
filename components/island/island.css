@@ -41,10 +41,14 @@
   display: block;
   float: left;
 
+  margin: 0;
+
   transform-origin: 0 50%;
   word-break: break-word;
 
   color: var(--ring-heading-color);
+
+  font-size: inherit;
 
   font-weight: bold;
 }

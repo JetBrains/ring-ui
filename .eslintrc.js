@@ -2,7 +2,7 @@
 const {error, ignore} = require('@jetbrains/eslint-config/consts');
 
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   extends: [
     '@jetbrains',
     '@jetbrains/eslint-config/es6',

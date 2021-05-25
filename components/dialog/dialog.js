@@ -13,7 +13,7 @@ import Button from '../button/button';
 
 import {PopupTarget} from '../popup/popup.target';
 
-import ScrollPreventer from './dialog__body-scroll-preventer';
+import scrollPreventerFactory from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
 
 /**
@@ -72,16 +72,18 @@ export default class Dialog extends PureComponent {
   }
 
   componentWillUnmount() {
-    ScrollPreventer.reset();
+    this.scrollPreventer.reset();
   }
+
+  scrollPreventer = scrollPreventerFactory(getUID('preventer-'));
 
   uid = getUID('dialog-');
 
   toggleScrollPreventer() {
     if (this.props.show) {
-      ScrollPreventer.prevent();
+      this.scrollPreventer.prevent();
     } else {
-      ScrollPreventer.reset();
+      this.scrollPreventer.reset();
     }
   }
 
