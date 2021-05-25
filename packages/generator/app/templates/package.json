@@ -19,7 +19,7 @@
     "@jetbrains/babel-preset-jetbrains": "^2.2.3",
     "babel-loader": "^8.2.2",
     "classnames": "^2.3.1",
-    "copy-webpack-plugin": "^8.1.1",
+    "copy-webpack-plugin": "^9.0.0",
     "core-js": "^3.12.1",
     "css-loader": "^5.2.6",
     "html-webpack-plugin": "^4.5.2",
