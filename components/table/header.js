@@ -124,7 +124,7 @@ export default class Header extends PureComponent {
 
     const waypointChild = (
       <tr data-test="ring-table-header-row">
-        {regularCells.map((c, i) => <td key={i}></td>)}
+        {regularCells.map(c => <td key={c}/>)}
       </tr>
     );
 
