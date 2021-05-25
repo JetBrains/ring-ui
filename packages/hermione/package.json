@@ -18,10 +18,10 @@
   },
   "devDependencies": {
     "@jetbrains/hermione-teamcity-reporter": "^1.1.2",
-    "@storybook/addon-storyshots": "^6.2.0-beta.5",
+    "@storybook/addon-storyshots": "^6.2.9",
     "axios": "^0.21.1",
     "browserstack-local": "^1.4.8",
-    "dotenv": "^9.0.0",
+    "dotenv": "^9.0.2",
     "filenamify": "^4.3.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^10.0.0",
@@ -42,6 +42,8 @@
     "lodash": "4.17.21",
     "mocha": "7.2.0",
     "extend": "3.0.2",
-    "minimist": "1.2.5"
+    "minimist": "1.2.5",
+    "immer": "8.0.4",
+    "axios": "0.21.1"
   }
 }

@@ -28,12 +28,20 @@ export default class UserAgreement extends PureComponent {
     onDecline: PropTypes.func,
     onClose: PropTypes.func,
     onRemindLater: PropTypes.func,
-    translations: PropTypes.object,
+    translations: PropTypes.shape({
+      userAgreement: PropTypes.string.isRequired,
+      accept: PropTypes.string.isRequired,
+      decline: PropTypes.string.isRequired,
+      close: PropTypes.string.isRequired,
+      scrollToAccept: PropTypes.string.isRequired,
+      remindLater: PropTypes.string.isRequired
+    }),
     className: PropTypes.string
   };
 
   static defaultProps = {
     translations: {
+      userAgreement: 'User Agreement',
       accept: 'Accept',
       decline: 'Decline',
       close: 'Close',
@@ -75,9 +83,8 @@ export default class UserAgreement extends PureComponent {
         autoFocusFirst={false}
         data-test="user-agreement"
       >
-        <Header>&nbsp;</Header>
+        <Header>{translations.userAgreement}</Header>
         <Content
-          scrollableWrapperClassName={style.scrollableWrapper}
           fade
           onScrollToBottom={this.onScrollToBottom}
         >

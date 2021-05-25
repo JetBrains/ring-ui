@@ -1,7 +1,7 @@
 // Karma configuration
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 
-const {entry, ...restWebpack} = require('./webpack.config.js')();
+const {entry, ...restWebpack} = require('./webpack.config')();
 
 module.exports = config => {
   config.set({

@@ -75,12 +75,12 @@ class Header extends Component {
       >
         {wrapWithTitle &&
         (
-          <div
+          <h2
             className={styles.title}
             style={titleStyle}
           >
             {children}
-          </div>
+          </h2>
         )}
 
         {!wrapWithTitle && children}
