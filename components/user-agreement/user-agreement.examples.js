@@ -27,8 +27,6 @@ export const dialog = args => (
 );
 
 dialog.args = {
-  // https://github.com/storybookjs/storybook/issues/12635#issuecomment-703392498
-  translations: UserAgreement.defaultProps.translations,
   show: true,
   text,
   onRemindLater: null

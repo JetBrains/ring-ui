@@ -24,9 +24,9 @@ export default class AnalyticsFUSPlugin {
       return;
     }
     ((i, s, o, g, r) => {
-      i[r] = i[r] || (() => {
+      i[r] = i[r] || function addArgumentsToQueueForWaitingTheScriptLoading() {
         (i[r].query = i[r].query || []).push(arguments);
-      });
+      };
       const script = document.createElement(o);
       script.async = true;
       script.src = g;
