@@ -21,7 +21,7 @@
     "classnames": "^2.3.1",
     "copy-webpack-plugin": "^8.1.1",
     "core-js": "^3.12.1",
-    "css-loader": "^5.2.5",
+    "css-loader": "^5.2.6",
     "html-webpack-plugin": "^4.5.2",
     "postcss-import": "^14.0.2",
     "postcss-loader": "^4.3.0",
