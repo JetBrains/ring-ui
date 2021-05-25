@@ -10,7 +10,6 @@ import getUID from '../global/get-uid';
 import style from './table.css';
 import HeaderCell from './header-cell';
 
-const waypointChild = <tr data-test="ring-table-header-row"/>;
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -122,6 +121,15 @@ export default class Header extends PureComponent {
     const {fixed, widths, headerWidth} = this.state;
 
     const regularCells = this.createCells();
+
+    const waypointChild = (
+      <tr data-test="ring-table-header-row">
+        {/*Since we need to keep the exact amount of columns in each row, we need to present them even being empty*/}
+        {/*regularCells doesn't provide any other information than a list of components. Hence using array indexes as keys looks like a sane idea*/}
+        {/*eslint-disable-next-line react/no-array-index-key*/}
+        {regularCells.map((c, i) => <td key={i}/>)}
+      </tr>
+    );
 
     return (
       <thead id={this.id} data-test="ring-table-header" className={style.tableHead}>
