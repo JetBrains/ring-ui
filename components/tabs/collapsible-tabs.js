@@ -199,7 +199,7 @@ export const CollapsibleTabs = ({
   // Initial measure for tabs and more button sizes
   React.useEffect(() => {
     if (measureRef.current == null) {
-      return;
+      return undefined;
     }
 
     const measureTask = fastdom.measure(() => {
@@ -220,10 +220,8 @@ export const CollapsibleTabs = ({
         return width + +marginLeft.replace('px', '') + +marginRight.replace('px', '');
       });
 
-      // eslint-disable-next-line no-param-reassign
-      const newSummaryWidth = tabsWidth.reduce((acc, curr) => (acc += curr), 0);
-      // eslint-disable-next-line no-param-reassign
-      const oldSummaryWidth = elements.sizes.tabs.reduce((acc, curr) => (acc += curr), 0);
+      const newSummaryWidth = tabsWidth.reduce((acc, curr) => (acc + curr), 0);
+      const oldSummaryWidth = elements.sizes.tabs.reduce((acc, curr) => (acc + curr), 0);
 
       if (elements.sizes.more !== moreButtonWidth || newSummaryWidth !== oldSummaryWidth) {
         fastdom.mutate(() =>
@@ -232,7 +230,6 @@ export const CollapsibleTabs = ({
       }
     });
 
-    // eslint-disable-next-line consistent-return
     return () => {
       fastdom.clear(measureTask);
     };
@@ -244,7 +241,7 @@ export const CollapsibleTabs = ({
     let resizeObserver = null;
 
     if (measureRef.current === null) {
-      return;
+      return undefined;
     }
 
     resizeObserver = new ResizeObserver(entries => {
@@ -256,7 +253,6 @@ export const CollapsibleTabs = ({
 
     resizeObserver.observe(measureRef.current);
 
-    // eslint-disable-next-line consistent-return
     return () => {
       fastdom.clear(measureTask);
       resizeObserver.disconnect();
