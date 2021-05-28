@@ -10,7 +10,7 @@ import shortcuts from '../shortcuts/core';
 import RingButton from '../button-ng/button-ng';
 import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
-import scrollPreventerFactory from '../dialog/dialog__body-scroll-preventer';
+import {preventerFactory as scrollPreventerFactory} from '../dialog/dialog__body-scroll-preventer';
 import '../form/form.css';
 import dialogStyles from '../dialog/dialog.css';
 import islandStyles from '../island/island.css';
