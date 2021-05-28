@@ -1,7 +1,6 @@
-/* eslint-disable no-magic-numbers,react/no-find-dom-node */
+/* eslint-disable no-magic-numbers */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
 import {mount} from 'enzyme';
 
@@ -474,7 +473,7 @@ describe('Query Assist', () => {
 
       instance.requestData().
         then(() => {
-          const list = findDOMNode(instance._popup.list);
+          const list = instance._popup.list.container;
           const {length} = suggestions;
 
           list.querySelectorAll('[data-test~=ring-list-item]').should.have.length(length);
@@ -598,7 +597,7 @@ describe('Query Assist', () => {
         onApply
       }).find('QueryAssist').instance();
 
-      Simulate.click(findDOMNode(instance.glass));
+      Simulate.click(instance.glass.buttonRef.current);
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength
@@ -612,7 +611,7 @@ describe('Query Assist', () => {
         onClear
       }).find('QueryAssist').instance();
 
-      Simulate.click(findDOMNode(instance.clear));
+      Simulate.click(instance.clear.buttonRef.current);
       onClear.should.have.been.calledWithExactly();
     });
   });
