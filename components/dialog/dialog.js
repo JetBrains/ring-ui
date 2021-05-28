@@ -13,7 +13,7 @@ import Button from '../button/button';
 
 import {PopupTarget} from '../popup/popup.target';
 
-import scrollPreventerFactory from './dialog__body-scroll-preventer';
+import {preventerFactory as scrollPreventerFactory} from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
 
 /**
