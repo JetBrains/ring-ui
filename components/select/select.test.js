@@ -1,6 +1,5 @@
-/* eslint-disable no-magic-numbers, react/no-find-dom-node */
+/* eslint-disable no-magic-numbers*/
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
@@ -212,7 +211,7 @@ describe('Select', () => {
     const instance = wrapper.instance();
     instance._showPopup();
 
-    Simulate.mouseDown(findDOMNode(instance._popup.list));
+    Simulate.mouseDown(instance._popup.list.container);
     Simulate.blur(instance.filter);
     sandbox.clock.tick();
     instance._popup.props.hidden.should.be.false;
@@ -623,7 +622,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
       instance._showPopup();
       instance.filterValue('test');
-      findDOMNode(instance._popup.filter).value.should.equal('test');
+      instance._popup.filter.value.should.equal('test');
     });
 
     it('Should set target input value in input mode', () => {
@@ -642,7 +641,7 @@ describe('Select', () => {
       instance._showPopup();
       instance._hidePopup();
       instance._showPopup();
-      findDOMNode(instance._popup.filter).value.should.equal('');
+      instance._popup.filter.value.should.equal('');
     });
   });
 
