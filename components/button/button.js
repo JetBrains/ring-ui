@@ -39,6 +39,7 @@ class Button extends PureComponent {
     iconSuppressSizeWarning: PropTypes.bool,
 
     className: PropTypes.string,
+    htmlType: PropTypes.string,
 
     children: PropTypes.node,
     onClick: PropTypes.func
@@ -70,6 +71,7 @@ class Button extends PureComponent {
       iconSuppressSizeWarning,
       className,
       children,
+      htmlType,
       ...props
     } = this.props;
 
@@ -102,11 +104,13 @@ class Button extends PureComponent {
     const isLink = !!props.href;
 
     const Tag = isLink ? ClickableLink : 'button';
+    const buttonType = htmlType || 'button';
+
     return (
       <Tag
         ref={this.buttonRef}
         tabIndex={loader ? -1 : 0}
-        type={isLink ? null : 'button'}
+        type={isLink ? null : buttonType}
         {...props}
         className={classes}
       >
