@@ -153,7 +153,7 @@
   "dependencies": {
     "@babel/core": "^7.14.3",
     "@jetbrains/angular-elastic": "^2.5.1",
-    "@jetbrains/babel-preset-jetbrains": "^2.2.3",
+    "@jetbrains/babel-preset-jetbrains": "^2.2.4",
     "@jetbrains/icons": "^3.14.1",
     "@jetbrains/logos": "^1.4.16",
     "@jetbrains/postcss-require-hover": "^0.1.2",
