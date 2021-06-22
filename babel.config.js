@@ -11,7 +11,7 @@ module.exports = function config(api) {
 
   if (isDeprecatedCoreJS) {
     // TODO remove in 5.0
-    deprecate(`Compiling Ring UI with deprecated Core JS version "${coreJsVersion}". Consider updating to 3rd.`)();
+    deprecate(() => null, `Compiling Ring UI with deprecated Core JS version "${coreJsVersion}". Consider updating to 3rd.`)();
   }
 
   return {
