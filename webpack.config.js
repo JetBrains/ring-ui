@@ -7,7 +7,7 @@ const deprecate = require('util-deprecate');
   const isObsoleteWebpack = webpackVersion.startsWith('4');
   if (isObsoleteWebpack) {
     // TODO remove in 5.0
-    deprecate(`[WARN]: RingUI is used with Webpack@"${webpackVersion}". Ring UI requires Webpack@>=5`)();
+    deprecate(() => null, `[WARN]: RingUI is used with Webpack@"${webpackVersion}". Ring UI requires Webpack@>=5`)();
   }
 }());
 
