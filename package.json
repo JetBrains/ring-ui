@@ -81,7 +81,7 @@
     "@storybook/client-api": "6.3.0",
     "@storybook/core": "6.2.9",
     "@storybook/html": "6.2.9",
-    "@storybook/source-loader": "6.2.9",
+    "@storybook/source-loader": "6.3.0",
     "@storybook/theming": "6.2.9",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/react": "^11.2.7",
