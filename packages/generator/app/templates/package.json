@@ -22,7 +22,7 @@
     "copy-webpack-plugin": "^9.0.0",
     "core-js": "^3.15.1",
     "css-loader": "^5.2.6",
-    "html-webpack-plugin": "^4.5.2",
+    "html-webpack-plugin": "^5.3.2",
     "postcss-import": "^14.0.2",
     "postcss-loader": "^6.1.0",
     "postcss-preset-env": "^6.7.0",
