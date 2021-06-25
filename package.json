@@ -155,7 +155,7 @@
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.2.5",
     "@jetbrains/icons": "^3.14.1",
-    "@jetbrains/logos": "^1.4.16",
+    "@jetbrains/logos": "^1.4.17",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@ungap/url-search-params": "^0.2.2",
     "angular-sanitize": "^1.8.2",
