@@ -6,7 +6,7 @@
   "main": "custom-header.js",
   "author": "",
   "dependencies": {
-    "@jetbrains/logos": "^1.4.16",
+    "@jetbrains/logos": "^1.4.17",
     "@primer/octicons": "^14.2.2",
     "postcss-loader": "^4.2.0",
     "prop-types": "^15.7.2",
