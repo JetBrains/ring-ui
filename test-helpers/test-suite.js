@@ -1,4 +1,4 @@
-import {configure} from '@testing-library/dom';
+import {configure} from '@testing-library/react';
 
 import './mocha-globals';
 import './enzyme-configuration';
