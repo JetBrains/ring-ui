@@ -20,5 +20,6 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!react-virtualized)'
   ],
-  restoreMocks: true
+  restoreMocks: true,
+  testEnvironment: 'jsdom'
 };
