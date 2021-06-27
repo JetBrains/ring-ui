@@ -111,7 +111,7 @@
     "husky": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
     "imports-loader": "^3.0.0",
-    "jest": "~26.6.3",
+    "jest": "~27.0.5",
     "jest-teamcity": "^1.9.0",
     "karma": "^6.3.4",
     "karma-chrome-launcher": "3.1.0",
