@@ -995,6 +995,7 @@ export default class Select extends Component {
           type="button"
           className={styles.selectedIcon}
           key="selected"
+          disabled={this.props.disabled}
           onClick={this._clickHandler}
           style={{backgroundImage: `url(${selected.icon})`}}
         />
@@ -1008,6 +1009,7 @@ export default class Select extends Component {
           data-test="ring-clear-select"
           className={styles.clearIcon}
           key="close"
+          disabled={this.props.disabled}
           onClick={this.clear}
           icon={closeIcon}
         />
@@ -1022,6 +1024,7 @@ export default class Select extends Component {
           iconClassName={styles.chevronIcon}
           icon={chevronDownIcon}
           key="hide"
+          disabled={this.props.disabled}
           onClick={this._clickHandler}
         />
       );
