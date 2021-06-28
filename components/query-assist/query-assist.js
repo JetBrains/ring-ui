@@ -831,7 +831,7 @@ export default class QueryAssist extends Component {
   }
 
   render() {
-    const {theme, glass, 'data-test': dataTest, useCustomItemRender} = this.props;
+    const {theme, glass, 'data-test': dataTest, className, useCustomItemRender} = this.props;
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderLoader = this.props.loader !== false && this.state.loading;
     const renderGlass = glass && !renderLoader;
@@ -849,7 +849,7 @@ export default class QueryAssist extends Component {
     return (
       <div
         data-test={dataTests('ring-query-assist', dataTest)}
-        className={classNames(styles.queryAssist, styles[theme])}
+        className={classNames(className, styles.queryAssist, styles[theme])}
         role="presentation"
         ref={this.nodeRef}
       >
