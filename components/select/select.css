@@ -158,8 +158,14 @@
   }
 }
 
+.buttonContainer {
+  position: relative;
+}
+
 .buttonValue {
   composes: ellipsis from "../global/global.css";
+
+  display: block;
 
   width: 100%;
 
@@ -170,12 +176,6 @@
 .buttonValueOpen {
   border-color: var(--ring-selected-background-color);
   background-color: var(--ring-selected-background-color);
-
-  & .icons {
-    transition: none;
-
-    color: var(--ring-main-color);
-  }
 }
 
 .label {
@@ -189,7 +189,8 @@
 .value:focus,
 .value:focus + .icons,
 .open,
-.open + .icons {
+.open + .icons,
+.buttonValueOpen + .icons {
   transition: none;
 
   color: var(--ring-main-color);
