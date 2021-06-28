@@ -61,7 +61,7 @@
   }
 
   @nest .buttonMode & {
-    top: -5px;
+    top: -4px;
     right: unit;
   }
 }
