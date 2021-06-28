@@ -6,7 +6,7 @@ import styles from './dialog.css';
 
 describe('Dialog', () => {
   const children = <div/>;
-  const mountDialog = props => mount(<Dialog {...props} trapFocus={false}/>);
+  const mountDialog = props => mount(<Dialog label="Dialog" {...props} trapFocus={false}/>);
 
   it('should create component', () => {
     mountDialog({show: true, children}).should.have.type(Dialog);
