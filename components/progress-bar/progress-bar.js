@@ -23,6 +23,7 @@ export default class ProgressBar extends PureComponent {
   }
 
   static propTypes = {
+    label: PropTypes.string.isRequired,
     theme: PropTypes.string,
 
     /**
@@ -70,7 +71,7 @@ export default class ProgressBar extends PureComponent {
   };
 
   render() {
-    const {theme, className, global, max, value, ...otherProps} = this.props;
+    const {theme, className, global, max, value, label, ...otherProps} = this.props;
 
     const width = value ? `${ProgressBar.toPercent(value, max)}%` : null;
     const classes = classNames(styles.progressBar, className, {
@@ -89,6 +90,7 @@ export default class ProgressBar extends PureComponent {
           className={styles.line}
           ref={this.progressbarRef}
           role="progressbar"
+          aria-label={label}
           aria-valuenow={value}
           aria-valuemin={0}
           aria-valuemax={max}

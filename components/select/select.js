@@ -12,14 +12,12 @@ import List, {ActiveItemContext} from '../list/list';
 import Input, {Size} from '../input/input';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
-import buttonStyles from '../button/button.css';
 import dataTests from '../global/data-tests';
 import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
-import Theme, {ThemeContext} from '../global/theme';
+import Theme from '../global/theme';
 import memoize from '../global/memoize';
-import getEventKey from '../global/get-event-key';
 
 import SelectPopup from './select__popup';
 import styles from './select.css';
@@ -743,13 +741,6 @@ export default class Select extends Component {
     }
   };
 
-  _selectButtonKeyboardHack = event => {
-    const key = getEventKey(event);
-    if (key === 'Enter' || key === ' ') {
-      this._clickHandler();
-    }
-  };
-
   _filterChangeHandler = e => {
     this._setFilter(e.target.value, e);
   };
@@ -1152,33 +1143,26 @@ export default class Select extends Component {
                 scope={this.shortcutsScope}
               />
             )}
-            <ThemeContext.Consumer>
-              {contextTheme => (
-                <div
-                  {...ariaProps}
-                  id={this.props.id}
-                  onClick={this._clickHandler}
-                  onKeyPress={this._selectButtonKeyboardHack}
-                  className={classNames(
-                    buttonStyles.button,
-                    buttonStyles[this.props.theme || contextTheme || Theme.LIGHT],
-                    styles.buttonValue,
-                    {
-                      [styles.buttonValueOpen]: this.state.showPopup
-                    })
-                  }
-                  role="button"
-                  tabIndex={0}
-                  disabled={this.props.disabled}
-                  style={style}
-                  data-test="ring-select__button ring-select__focus"
-                >
-                  {this._getAvatar()}
-                  {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
-                  {iconsNode}
-                </div>
-              )}
-            </ThemeContext.Consumer>
+            <div className={styles.buttonContainer}>
+              <Button
+                {...ariaProps}
+                id={this.props.id}
+                onClick={this._clickHandler}
+                className={classNames(
+                  styles.buttonValue,
+                  {
+                    [styles.buttonValueOpen]: this.state.showPopup
+                  })
+                }
+                disabled={this.props.disabled}
+                style={style}
+                data-test="ring-select__button ring-select__focus"
+              >
+                {this._getAvatar()}
+                {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
+              </Button>
+              {iconsNode}
+            </div>
             {this._renderPopup()}
           </div>
         );

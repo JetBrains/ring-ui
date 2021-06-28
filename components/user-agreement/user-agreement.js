@@ -76,6 +76,7 @@ export default class UserAgreement extends PureComponent {
 
     return (
       <Dialog
+        label={translations.userAgreement}
         show={show}
         className={classNames(style.agreementDialog, className)}
         contentClassName={style.dialogContent}
