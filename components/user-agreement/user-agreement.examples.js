@@ -38,8 +38,8 @@ dialog.storyName = 'dialog';
 
 function noop() {}
 export const service = ({
-  onGetUserAgreemen,
-  onGetUserConsent,
+  onGetUserAgreement = noop,
+  onGetUserConsent = noop,
   onSetUserConsent = noop,
   onAccept,
   onDecline,
@@ -59,7 +59,7 @@ export const service = ({
 
   const agreementService = new UserAgreementService({
     getUserAgreement: () => {
-      onGetUserAgreemen(fakeUserAgreement);
+      onGetUserAgreement(fakeUserAgreement);
       return fakeUserAgreement;
     },
     getUserConsent: () => {
@@ -93,7 +93,7 @@ export const service = ({
 };
 
 service.argTypes = {
-  onGetUserAgreemen: {},
+  onGetUserAgreement: {},
   onGetUserConsent: {},
   onSetUserConsent: {},
   onAccept: {},
