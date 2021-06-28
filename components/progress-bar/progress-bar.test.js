@@ -7,8 +7,9 @@ import ProgressBar from './progress-bar';
 import styles from './progress-bar.css';
 
 describe('Progress Bar', () => {
-  const shallowProgressBar = props => shallow(<ProgressBar {...props}/>);
-  const mountProgressBar = props => mount(<ProgressBar {...props}/>).find('ProgressBar');
+  const shallowProgressBar = props => shallow(<ProgressBar label="Progress" {...props}/>);
+  const mountProgressBar = props =>
+    mount(<ProgressBar label="Progress" {...props}/>).find('ProgressBar');
 
   it('should create component', () => {
     shallowProgressBar().should.exist;
