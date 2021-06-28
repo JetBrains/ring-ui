@@ -71,7 +71,7 @@
     "@jetbrains/generator-ring-ui": "^4.0.14",
     "@jetbrains/stylelint-config": "^2.0.1",
     "@storybook/addon-a11y": "6.3.0",
-    "@storybook/addon-docs": "6.2.9",
+    "@storybook/addon-docs": "6.3.1",
     "@storybook/addon-essentials": "6.2.9",
     "@storybook/addon-storyshots": "6.2.9",
     "@storybook/addon-storyshots-puppeteer": "6.2.9",
