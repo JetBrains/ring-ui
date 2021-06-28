@@ -116,7 +116,7 @@ export const autoOpenInADialog = () => {
   return (
     <>
       <Button>Button</Button>
-      <Dialog show trapFocus autoFocusFirst={false}>
+      <Dialog label="Tags" show trapFocus autoFocusFirst={false}>
         <Content>
           <TagsInput tags={tags} dataSource={dataSource} autoOpen/>
         </Content>

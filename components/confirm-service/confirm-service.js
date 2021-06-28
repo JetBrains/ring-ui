@@ -38,20 +38,20 @@ export default function confirm({
           renderConfirm({...props, inProgress: true});
           return Promise.resolve(onBeforeConfirm()).
             then(() => {
-              renderConfirm({show: false});
+              renderConfirm({...props, show: false});
               resolve();
             }).
             catch(err => {
-              renderConfirm({show: false});
+              renderConfirm({...props, show: false});
               reject(err);
             });
         }
-        renderConfirm({show: false});
+        renderConfirm({...props, show: false});
         return resolve();
       },
 
       onReject: () => {
-        renderConfirm({show: false});
+        renderConfirm({...props, show: false});
         reject(new Error('Confirm(@jetbrains/ring-ui): null exception'));
       }
     };
@@ -61,5 +61,5 @@ export default function confirm({
 }
 
 export function hideConfirm() {
-  renderConfirm({show: false});
+  renderConfirm({text: '', show: false});
 }
