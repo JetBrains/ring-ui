@@ -77,7 +77,8 @@ basic.args = {
   focus: true,
   hint: 'lol',
   hintOnSelection: 'lol selected',
-  popupClassName: 'test'
+  popupClassName: 'test',
+  className: 'custom-class'
 };
 
 export const noAuth = args => <QueryAssist {...args}/>;

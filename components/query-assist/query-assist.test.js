@@ -242,6 +242,12 @@ describe('Query Assist', () => {
   describe('rendering', () => {
     const LETTER_CLASS = styles.letter;
 
+    it('should pass className', () => {
+      const instance = mountQueryAssist({className: 'test-class'}).find('QueryAssist').instance();
+
+      instance.node.className.should.contain('test-class');
+    });
+
     it('should render letters', () => {
       const instance = mountQueryAssist().find('QueryAssist').instance();
 
