@@ -34,6 +34,9 @@ dialog.args = {
 dialog.argTypes = {
   onRemindLater: {}
 };
+dialog.parameters = {
+  actions: {argTypesRegex: '^on(?!RemindLater).*'}
+};
 dialog.storyName = 'dialog';
 
 function noop() {}
