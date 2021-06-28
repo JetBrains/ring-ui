@@ -176,7 +176,7 @@
   top: 1px;
   left: 1px;
 
-  overflow: hidden;
+  overflow: auto;
 
   box-sizing: border-box;
 
@@ -193,6 +193,8 @@
   background: transparent;
 
   line-height: 16px;
+
+  scrollbar-width: none;
 
   &:active,
   &:focus {
@@ -325,4 +327,8 @@
 .input:focus ~ .focusUnderline,
 .input:active ~ .focusUnderline {
   width: 100%;
+}
+
+.input::-webkit-scrollbar {
+  display: none;
 }
