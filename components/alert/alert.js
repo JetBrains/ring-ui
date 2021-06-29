@@ -82,6 +82,7 @@ export default class Alert extends PureComponent {
     children: PropTypes.node,
     className: PropTypes.string,
     captionClassName: PropTypes.string,
+    closeButtonClassName: PropTypes.string,
     'data-test': PropTypes.string
   };
 
@@ -189,7 +190,7 @@ export default class Alert extends PureComponent {
   };
 
   render() {
-    const {type, inline, isClosing, isShaking,
+    const {type, inline, isClosing, isShaking, closeButtonClassName,
       showWithAnimation, className, 'data-test': dataTest} = this.props;
 
     const classes = classNames(className, {
@@ -218,7 +219,7 @@ export default class Alert extends PureComponent {
             ? (
               <button
                 type="button"
-                className={styles.close}
+                className={classNames(styles.close, closeButtonClassName)}
                 data-test="alert-close"
                 aria-label="close alert"
                 onClick={this.closeRequest}
