@@ -203,7 +203,7 @@ export default class QueryAssist extends Component {
 
     this.setupRequestHandler(this.props.delay);
 
-    if (this.props.autoOpen) {
+    if (this.props.autoOpen && query.length > 0) {
       this.requestHandler().
         catch(noop);
     } else {
@@ -245,7 +245,7 @@ export default class QueryAssist extends Component {
     if (typeof query === 'string' && queryChanged && query !== this.immediateState.query) {
       this.immediateState.query = query;
 
-      if (query && prevProps.autoOpen) {
+      if (query && prevProps.autoOpen && query.length > 0) {
         this.requestData();
       } else if (query) {
         this.requestStyleRanges();
@@ -370,7 +370,9 @@ export default class QueryAssist extends Component {
 
     this.immediateState = props;
     this.props.onChange(props);
-    this.requestData();
+    if (props.query.length > 0) {
+      this.requestData();
+    }
   };
 
   // It's necessary to prevent new element creation before any other hooks
@@ -426,7 +428,13 @@ export default class QueryAssist extends Component {
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
       this.immediateState.caret = caret;
       this.scrollInput();
-      this.requestData();
+      if (this.immediateState.query.length > 0) {
+        this.requestData();
+      }
+    }
+
+    if (this.immediateState.query.length < 1) {
+      this.setState({showPopup: false});
     }
   };
 
@@ -437,7 +445,7 @@ export default class QueryAssist extends Component {
     caret = 0,
     styleRanges,
     suggestions = []
-  }) => new Promise((resolve, reject) => {
+  }, afterCompletion = false) => new Promise((resolve, reject) => {
     if (
       query === this.getQuery() &&
       (caret === this.immediateState.caret ||
@@ -454,7 +462,7 @@ export default class QueryAssist extends Component {
         placeholderEnabled: !query,
         query,
         suggestions,
-        showPopup: !!suggestions.length
+        showPopup: !!suggestions.length && !afterCompletion
       };
 
       this.immediateState.suggestionsQuery = query;
@@ -526,7 +534,7 @@ export default class QueryAssist extends Component {
     }
 
     this.closePopup();
-    this.requestData();
+    this.requestData(true);
   };
 
   requestStyleRanges = () => {
@@ -541,7 +549,7 @@ export default class QueryAssist extends Component {
       catch(noop);
   };
 
-  requestHandler = () => {
+  requestHandler = (afterCompletion = false) => {
     if (this.props.disabled) {
       return Promise.reject(new Error('QueryAssist(@jetbrains/ring-ui): null exception'));
     }
@@ -549,7 +557,7 @@ export default class QueryAssist extends Component {
     const {query, caret} = this.immediateState;
 
     return this.sendRequest({query, caret}).
-      then(this.handleResponse).
+      then(data => this.handleResponse(data, afterCompletion)).
       catch(noop);
   };
 
