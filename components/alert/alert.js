@@ -100,8 +100,7 @@ export default class Alert extends PureComponent {
   };
 
   state = {
-    height: null,
-    isClosing: false
+    height: null
   };
 
   componentDidMount() {
@@ -128,10 +127,8 @@ export default class Alert extends PureComponent {
   };
 
   startCloseAnimation = () => {
-    if (!this.state.isClosing) {
-      const height = getRect(this.node).height;
-      this.setState({height, isClosing: true});
-    }
+    const height = getRect(this.node).height;
+    this.setState({height});
   };
 
   _close() {
