@@ -559,6 +559,12 @@ export default class Auth {
       onCancel
     });
 
+    if (error) {
+      // We need to see full error in console for investigation
+      // eslint-disable-next-line no-console
+      console.error('RingUI Auth error', error);
+    }
+
     const stopTokenListening = this._storage.onTokenChange(token => {
       if (token) {
         closeDialog();
