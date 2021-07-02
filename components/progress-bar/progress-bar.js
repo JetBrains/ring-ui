@@ -23,7 +23,7 @@ export default class ProgressBar extends PureComponent {
   }
 
   static propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     theme: PropTypes.string,
 
     /**
@@ -59,7 +59,8 @@ export default class ProgressBar extends PureComponent {
   static defaultProps = {
     max: 1.0,
     value: 0,
-    theme: Theme.LIGHT
+    theme: Theme.LIGHT,
+    label: 'Progress'
   };
 
   progressbarWrapperRef = el => {
