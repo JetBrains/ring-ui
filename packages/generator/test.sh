@@ -2,9 +2,6 @@
 
 set -e -x
 
-cd ../..
-npm link
-cd packages/generator
 npm link
 
 # We have to copy instead of linking because of possible different versions of dependencies like Webpack
