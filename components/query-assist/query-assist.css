@@ -229,8 +229,12 @@
   }
 
   &.inputDisabled {
-    color: var(--ring-disabled-color);
     border-color: var(--ring-line-color);
+    box-shadow: 0 0 0 1px var(--ring-line-color);
+  }
+
+  &.inputDisabled span > span {
+    color: var(--ring-disabled-color);
   }
 }
 
