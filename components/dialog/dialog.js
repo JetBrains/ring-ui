@@ -24,7 +24,7 @@ function noop() {}
 
 export default class Dialog extends PureComponent {
   static propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     className: PropTypes.string,
     contentClassName: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -48,6 +48,7 @@ export default class Dialog extends PureComponent {
   };
 
   static defaultProps = {
+    label: 'Dialog',
     onOverlayClick: noop,
     onEscPress: noop,
     onCloseClick: noop,
