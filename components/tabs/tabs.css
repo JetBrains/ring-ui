@@ -115,6 +115,7 @@
 .hidden {
   visibility: hidden;
 
+  font-family: monospace;
   font-weight: bold;
 }
 

@@ -30,6 +30,9 @@ class BasicDemo extends Component {
         <Tab id="second" title="Second tab">
           Second tab content
         </Tab>
+        <Tab id="tab" title="태그 및 저장된 검색">
+          Tab content
+        </Tab>
         <Tab id="third" title="Third tab">
           Third tab content
         </Tab>
