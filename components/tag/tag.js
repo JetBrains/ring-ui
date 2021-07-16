@@ -29,7 +29,8 @@ export default class Tag extends PureComponent {
     textColor: PropTypes.string,
 
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
+    render: PropTypes.func
   };
 
   static defaultProps = {
@@ -37,7 +38,8 @@ export default class Tag extends PureComponent {
     onClick: () => {},
     readOnly: false,
     disabled: false,
-    focused: false
+    focused: false,
+    render: props => <button type="button" {...props}/>
   };
 
   state = {
@@ -155,23 +157,24 @@ export default class Tag extends PureComponent {
       this.props.className
     );
 
-    const {backgroundColor, textColor} = this.props;
+    const {backgroundColor, textColor, render} = this.props;
 
     return (
       <span className={styles.container}>
-        <button
-          type="button"
-          data-test="ring-tag"
-          className={classes}
-          ref={this.tagRef}
-          onClick={this.props.onClick}
-          style={{backgroundColor, color: textColor}}
-        >
-          {this.renderAvatar()}
-          {this.renderCustomIcon()}
-          {this.renderImage()}
-          <span className={styles.content}>{this.props.children}</span>
-        </button>
+        {render({
+          'data-test': 'ring-tag',
+          className: classes,
+          ref: this.tagRef,
+          onClick: this.props.onClick,
+          style: {backgroundColor, color: textColor},
+          children: (
+            <>
+              {this.renderAvatar()}
+              {this.renderCustomIcon()}
+              {this.renderImage()}
+              <span className={styles.content}>{this.props.children}</span>
+            </>)
+        })}
         {this.renderRemoveIcon()}
       </span>
     );
