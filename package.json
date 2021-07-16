@@ -87,7 +87,7 @@
     "@storybook/theming": "6.3.4",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.1.9",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.2",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "angular": "^1.8.2",
     "angular-mocks": "^1.8.2",
     "angular-route": "^1.8.2",
