@@ -36,6 +36,9 @@ export const demo = () => {
           <Tag avatar={avatarUrl} readOnly={false}>
             With avatar
           </Tag>
+          <Tag render={({children, ...restProps}) => <a href="/" {...restProps}>{children}</a>}>
+            With custom render
+          </Tag>
         </div>
       );
     }
