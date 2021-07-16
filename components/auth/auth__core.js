@@ -556,16 +556,10 @@ export default class Auth {
       loginToCaption: translations.loginTo,
       confirmLabel: translations.login,
       cancelLabel: cancelable ? translations.cancel : translations.postpone,
-      errorMessage: error && error.toString ? error.toString() : null,
+      errorMessage: this._extractErrorMessage(error, true),
       onConfirm,
       onCancel
     });
-
-    if (error) {
-      // We need to see full error in console for investigation
-      // eslint-disable-next-line no-console
-      console.error('RingUI Auth error', error);
-    }
 
     const stopTokenListening = this._storage.onTokenChange(token => {
       if (token) {
@@ -607,6 +601,29 @@ export default class Auth {
         onPostpone();
       }
     });
+  }
+
+  _extractErrorMessage(error, logError = false) {
+    if (!error) {
+      return null;
+    }
+    if (logError) {
+      // eslint-disable-next-line no-console
+      console.error('RingUI Auth error', error);
+    }
+
+    try {
+      // We've got some error from this list
+      // https://www.jetbrains.com/help/youtrack/devportal/OAuth-2.0-Errors.html
+      if (typeof error.code === 'string') {
+        const readableCode = error.code.split('_').join(' ');
+        return `Authorization error: ${readableCode}`;
+      }
+    } catch {
+      // noop
+    }
+
+    return error.toString ? error.toString() : null;
   }
 
   _showBackendDownDialog(backendError) {
