@@ -152,7 +152,7 @@
     "webpack": "^5.45.1"
   },
   "dependencies": {
-    "@babel/core": "^7.14.6",
+    "@babel/core": "^7.14.8",
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.2.5",
     "@jetbrains/icons": "^3.14.1",
