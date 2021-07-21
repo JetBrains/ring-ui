@@ -15,7 +15,7 @@
     "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
   },
   "dependencies": {
-    "@babel/core": "^7.14.6",
+    "@babel/core": "^7.14.8",
     "@jetbrains/babel-preset-jetbrains": "^2.2.5",
     "babel-loader": "^8.2.2",
     "classnames": "^2.3.1",
