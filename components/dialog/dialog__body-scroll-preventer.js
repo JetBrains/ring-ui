@@ -47,7 +47,7 @@ const reset = key => {
   }
 };
 
-const preventerFactory = key => {
+export const preventerFactory = key => {
   const preventerKey = key || Math.random();
 
   return {
@@ -56,4 +56,4 @@ const preventerFactory = key => {
   };
 };
 
-export default preventerFactory;
+export default preventerFactory('default-preventer');

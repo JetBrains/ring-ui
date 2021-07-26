@@ -55,6 +55,7 @@ export const basic = ({onAction}) => {
           </Group>
 
           <Dialog
+            label="Dialog"
             show={show}
             onCloseAttempt={this.cancelDialog}
             trapFocus
@@ -124,6 +125,7 @@ export const withScroll = ({onAction}) => {
           </div>
 
           <Dialog
+            label="Dialog"
             show={this.state.show}
             onCloseAttempt={this.cancelDialog}
             trapFocus
@@ -167,7 +169,7 @@ export const WithOverflowScrollOnHtml = () => {
     <div className="container">
       <div>Scroll down</div>
       <Button className="button" onClick={() => setOpen(true)}>Show dialog</Button>
-      <Dialog show={open} onCloseAttempt={() => setOpen(false)}>
+      <Dialog label="Dialog" show={open} onCloseAttempt={() => setOpen(false)}>
         <Header>Dialog title</Header>
       </Dialog>
     </div>

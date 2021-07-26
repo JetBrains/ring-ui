@@ -17,7 +17,8 @@ export default class ListLink extends PureComponent {
     description: PropTypes.string,
     label: PropTypes.oneOfType([
       PropTypes.element,
-      PropTypes.string
+      PropTypes.string,
+      PropTypes.func
     ]),
     rgItemType: PropTypes.number,
     scrolling: PropTypes.bool,

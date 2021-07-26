@@ -5,7 +5,7 @@ const Theme = {
   DARK: 'dark'
 };
 
-export const ThemeContext = createContext();
+export const ThemeContext = createContext(null);
 
 const getDisplayName = Component => (typeof Component === 'string' ? Component : (Component.name ?? Component.displayName ?? 'Component'));
 

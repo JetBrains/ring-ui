@@ -37,7 +37,7 @@ const webpackConfig = () => ({
         include: componentsPath,
         use: [
           'style-loader',
-          {loader: 'css-loader'},
+          {loader: 'css-loader', options: {modules: true}},
           {loader: 'postcss-loader'}
         ]
       },

@@ -1,6 +1,7 @@
 /**
  * Storybook preset that patches manager's webpack config to enable loading Ring UI components
  */
+// eslint-disable-next-line import/order
 const webpack = require('webpack');
 
 const pkgConfig = require('../../package.json').config;
@@ -8,12 +9,17 @@ const ringConfig = require('../../webpack.config').createConfig();
 
 exports.managerWebpack = function managerWebpack(config) {
   ringConfig.componentsPath.push(/\.storybook/);
+  const svgLoader = {
+    test: /\.svg$/,
+    loader: require.resolve('svg-inline-loader'),
+    options: {removeSVGTagAttrs: false},
+    include: [/@primer\/octicons/, /@jetbrains\/logos/]
+  };
   config.module.rules.forEach(rule => {
-    rule.exclude = ringConfig.componentsPath.concat(rule.exclude || []);
+    rule.exclude = ringConfig.componentsPath.
+      concat(rule.exclude || []).
+      concat(svgLoader.include);
   });
-  // eslint-disable-next-line no-magic-numbers
-  ringConfig.loaders.cssLoader.use[2].loader =
-    require.resolve('postcss-loader');
 
   const serverUri = pkgConfig.hub;
   const clientId = pkgConfig.clientId;
@@ -30,12 +36,7 @@ exports.managerWebpack = function managerWebpack(config) {
       rules: [
         ...config.module.rules,
         ...ringConfig.config.module.rules,
-        {
-          test: /\.svg$/,
-          loader: require.resolve('svg-inline-loader'),
-          options: {removeSVGTagAttrs: false},
-          include: [/@primer\/octicons/, /@jetbrains\/logos/]
-        }
+        svgLoader
       ]
     },
     plugins: [

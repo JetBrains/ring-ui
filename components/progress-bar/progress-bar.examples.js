@@ -35,15 +35,15 @@ export const basic = () => {
       return (
         <div>
           <div style={{height: '25px', paddingTop: '25px'}}>
-            <ProgressBar value={value} style={{width: 288}}/>
+            <ProgressBar label="Progress" value={value} style={{width: 288}}/>
           </div>
 
           <div style={{height: '25px', paddingTop: '25px', background: '#000'}}>
-            <ProgressBar value={value} theme={Theme.DARK} style={{width: 288}}/>
+            <ProgressBar label="Progress" value={value} theme={Theme.DARK} style={{width: 288}}/>
           </div>
 
           <div style={{height: '25px', paddingTop: '25px', background: '#F0F0F0'}}>
-            <ProgressBar value={value} style={{width: 288}}/>
+            <ProgressBar label="Progress" value={value} style={{width: 288}}/>
           </div>
         </div>
       );
