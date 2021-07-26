@@ -2,7 +2,6 @@ import path from 'path';
 
 import {babel} from '@rollup/plugin-babel';
 import styles from 'rollup-plugin-styles';
-import globals from 'rollup-plugin-node-globals';
 import replace from '@rollup/plugin-replace';
 import clear from 'rollup-plugin-clear';
 import glob from 'glob';
@@ -64,7 +63,6 @@ export default {
       minimize: true
     }),
 
-    globals(),
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
       preventAssignment: true
