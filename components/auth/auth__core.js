@@ -231,7 +231,7 @@ export default class Auth {
    * that should be restored after returning back from auth server.
    */
   async init() {
-    this._storage.onTokenChange(token => {
+    this._storage.onTokenChange(async token => {
       const isGuest = this.user ? this.user.guest : false;
 
       if (isGuest && !token) {
@@ -241,7 +241,13 @@ export default class Auth {
       if (!token) {
         this.logout();
       } else {
-        this._detectUserChange(token.accessToken);
+        try {
+          await this._detectUserChange(token.accessToken);
+        } catch (error) {
+          if (this._canShowDialogs()) {
+            this._showAuthDialog({nonInteractive: true, error});
+          }
+        }
       }
     });
 
@@ -466,35 +472,31 @@ export default class Auth {
   async _detectUserChange(accessToken) {
     const windowWasOpen = this._isLoginWindowOpen;
 
-    try {
-      const user = await this.getUser(accessToken);
-      const onApply = () => {
-        this.user = user;
-        this.listeners.trigger(USER_CHANGED_EVENT, user);
-      };
+    const user = await this.getUser(accessToken);
+    const onApply = () => {
+      this.user = user;
+      this.listeners.trigger(USER_CHANGED_EVENT, user);
+    };
 
-      if (user && this.user && this.user.id !== user.id) {
-        if (!this._canShowDialogs() || this.user.guest || windowWasOpen) {
-          onApply();
-          return;
-        }
-        if (user.guest) {
-          this._showAuthDialog({nonInteractive: true});
-          return;
-        }
-
-        await this._showUserChangedDialog({
-          newUser: user,
-          onApply,
-          onPostpone: () => {
-            this.listeners.trigger(USER_CHANGE_POSTPONED_EVENT);
-            this.config.onPostponeChangedUser(this.user, user);
-          }
-        });
-
+    if (user && this.user && this.user.id !== user.id) {
+      if (!this._canShowDialogs() || this.user.guest || windowWasOpen) {
+        onApply();
+        return;
       }
-    } catch (e) {
-      // noop
+      if (user.guest) {
+        this._showAuthDialog({nonInteractive: true});
+        return;
+      }
+
+      await this._showUserChangedDialog({
+        newUser: user,
+        onApply,
+        onPostpone: () => {
+          this.listeners.trigger(USER_CHANGE_POSTPONED_EVENT);
+          this.config.onPostponeChangedUser(this.user, user);
+        }
+      });
+
     }
   }
 
@@ -554,7 +556,7 @@ export default class Auth {
       loginToCaption: translations.loginTo,
       confirmLabel: translations.login,
       cancelLabel: cancelable ? translations.cancel : translations.postpone,
-      errorMessage: error && error.toString ? error.toString() : null,
+      errorMessage: this._extractErrorMessage(error, true),
       onConfirm,
       onCancel
     });
@@ -599,6 +601,29 @@ export default class Auth {
         onPostpone();
       }
     });
+  }
+
+  _extractErrorMessage(error, logError = false) {
+    if (!error) {
+      return null;
+    }
+    if (logError) {
+      // eslint-disable-next-line no-console
+      console.error('RingUI Auth error', error);
+    }
+
+    try {
+      // We've got some error from this list
+      // https://www.jetbrains.com/help/youtrack/devportal/OAuth-2.0-Errors.html
+      if (typeof error.code === 'string') {
+        const readableCode = error.code.split('_').join(' ');
+        return `Authorization error: ${readableCode}`;
+      }
+    } catch {
+      // noop
+    }
+
+    return error.toString ? error.toString() : null;
   }
 
   _showBackendDownDialog(backendError) {

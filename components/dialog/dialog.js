@@ -13,7 +13,7 @@ import Button from '../button/button';
 
 import {PopupTarget} from '../popup/popup.target';
 
-import scrollPreventerFactory from './dialog__body-scroll-preventer';
+import {preventerFactory as scrollPreventerFactory} from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
 
 /**
@@ -24,6 +24,7 @@ function noop() {}
 
 export default class Dialog extends PureComponent {
   static propTypes = {
+    label: PropTypes.string,
     className: PropTypes.string,
     contentClassName: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -47,6 +48,7 @@ export default class Dialog extends PureComponent {
   };
 
   static defaultProps = {
+    label: 'Dialog',
     onOverlayClick: noop,
     onEscPress: noop,
     onCloseClick: noop,
@@ -117,7 +119,7 @@ export default class Dialog extends PureComponent {
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
-      portalTarget, ...restProps} = this.props;
+      portalTarget, label, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -150,6 +152,7 @@ export default class Dialog extends PureComponent {
                   className={classNames(styles.content, contentClassName)}
                   data-test="ring-dialog"
                   role="dialog"
+                  aria-label={label}
                 >
                   {children}
                   {showCloseButton &&

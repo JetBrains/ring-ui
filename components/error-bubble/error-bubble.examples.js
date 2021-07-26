@@ -57,7 +57,7 @@ export const inDialogForm = () => {
       const {value} = this.state;
 
       return (
-        <Dialog show>
+        <Dialog label="Dialog" show>
           <Header>Dialog example</Header>
           <Content>
             <form className="ring-form">

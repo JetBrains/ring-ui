@@ -7,7 +7,7 @@ const tsm = require('teamcity-service-messages');
 const MIN_LEVEL = process.env.SEVERITY_LEVEL || 'moderate';
 
 try {
-  execSync(`npm audit --audit-level ${MIN_LEVEL}`);
+  execSync(`npm audit --production --audit-level ${MIN_LEVEL}`);
   process.exit(0);
 } catch (e) {
   writeFileSync(
@@ -28,7 +28,7 @@ ${e.stdout.toString().replace(/.\[\d+m/g, '')}
 }
 
 try {
-  execSync(`npm audit --audit-level ${MIN_LEVEL} --json`);
+  execSync(`npm audit --production --audit-level ${MIN_LEVEL} --json`);
 } catch (e) {
   const {advisories} = JSON.parse(e.stdout.toString());
 

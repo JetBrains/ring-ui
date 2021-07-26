@@ -64,6 +64,7 @@ export default class Confirm extends PureComponent {
 
     return (
       <Dialog
+        label={text || description}
         className={className}
         onEscPress={this.onEscPress}
         show={show}
