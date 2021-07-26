@@ -1,5 +1,5 @@
 import 'focus-visible';
-import React, {PureComponent} from 'react';
+import React, {createRef, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px';
@@ -46,6 +46,8 @@ class Button extends PureComponent {
 
   static IconSize = Size;
   static Theme = Theme;
+
+  buttonRef = createRef();
 
   render() {
     const {
@@ -102,6 +104,7 @@ class Button extends PureComponent {
     const Tag = isLink ? ClickableLink : 'button';
     return (
       <Tag
+        ref={this.buttonRef}
         tabIndex={loader ? -1 : 0}
         type={isLink ? null : 'button'}
         {...props}

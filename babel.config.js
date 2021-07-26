@@ -1,4 +1,5 @@
 const browserslist = require('browserslist');
+const deprecate = require('util-deprecate');
 
 const coreJsVersion = process.env.RING_UI_COREJS_VERSION ||
   require('core-js/package.json').version;
@@ -9,8 +10,8 @@ module.exports = function config(api) {
   api.cache(true);
 
   if (isDeprecatedCoreJS) {
-    // eslint-disable-next-line no-console
-    console.log(`Compiling Ring UI with deprecated Core JS version "${coreJsVersion}". Consider updating to 3rd.`);
+    // TODO remove in 5.0
+    deprecate(() => null, `Compiling Ring UI with deprecated Core JS version "${coreJsVersion}". Consider updating to 3rd.`)();
   }
 
   return {

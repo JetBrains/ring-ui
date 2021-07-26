@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import React, {PureComponent} from 'react';
 import {render} from 'react-dom';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';

@@ -40,8 +40,10 @@ export const basic = args => (
 
 basic.storyName = 'basic';
 basic.args = {
-  tailOffset: 32,
-  onDismiss: null
+  tailOffset: 32
+};
+basic.parameters = {
+  actions: {argTypesRegex: '^onClose$'}
 };
 
 export const withOnDissmiss = args => (
@@ -69,7 +71,8 @@ export const wishNarrowAnchor = args => (
 
 wishNarrowAnchor.storyName = 'with narrow anchor';
 wishNarrowAnchor.args = {
-  popupProps: {left: -8},
-  onClose: null,
-  onDismiss: null
+  popupProps: {left: -8}
+};
+wishNarrowAnchor.parameters = {
+  actions: {argTypesRegex: null}
 };

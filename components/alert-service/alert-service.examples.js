@@ -2,6 +2,8 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
+import styles from './alert-service.examples.css';
+
 import Button from '@jetbrains/ring-ui/components/button/button';
 import ButtonToolbar from '@jetbrains/ring-ui/components/button-toolbar/button-toolbar';
 
@@ -26,12 +28,28 @@ export const alertService = () => {
       setTimeout(() => {
         alert.message('A initial message', MSG_TIMEOUT);
         alert.error('Error message');
+        this.showCustomMessage();
       });
     }
 
     componentWillUnmount() {
       alert._getShowingAlerts().forEach(item => alert.removeWithoutAnimation(item.key));
     }
+
+    showCustomMessage = () => {
+      this.lastKey = alert.addAlert(
+        <div className={styles.customAlert}>
+          <h1>Hello!</h1>
+          <p>{'This is a custom message'}</p>
+        </div>,
+        null,
+        0,
+        {
+          className: styles.customAlert,
+          closeButtonClassName: styles.closeButton
+        }
+      );
+    };
 
     showError = () => {
       this.lastKey = alert.error('Something wrong happened');
@@ -58,6 +76,9 @@ export const alertService = () => {
           <Button onClick={this.showError}>Show error</Button>
           <Button onClick={this.showMessage} primary>
             Show message
+          </Button>
+          <Button onClick={this.showCustomMessage}>
+            Show custom message
           </Button>
           <Button onClick={this.showRandomWarning}>Show warning</Button>
           <Button onClick={this.removeLastAlert}>Remove last alert</Button>

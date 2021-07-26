@@ -17,9 +17,9 @@
 
   background: inherit;
 
-  &.ring-table__toolbar-controls_fixed {
+  &:global(.ring-table__toolbar-controls_fixed) {
     position: fixed;
-    z-index: calc(var(--ring-fixed-z-index) + 1px);
+    z-index: calc(var(--ring-fixed-z-index) + 1);
     top: 0;
     right: 0;
     left: 0;

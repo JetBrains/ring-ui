@@ -70,6 +70,7 @@ export default class AuthDialog extends Component {
 
     return (
       <Dialog
+        label={title}
         data-test="ring-auth-dialog"
         className={className}
         contentClassName={classNames(className, styles.dialog)}

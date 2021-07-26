@@ -82,6 +82,7 @@ export default class Alert extends PureComponent {
     children: PropTypes.node,
     className: PropTypes.string,
     captionClassName: PropTypes.string,
+    closeButtonClassName: PropTypes.string,
     'data-test': PropTypes.string
   };
 
@@ -121,12 +122,17 @@ export default class Alert extends PureComponent {
   static Type = Type;
 
   closeRequest = (...args) => {
-    const height = getRect(this.node).height;
-    this.setState({height});
+    this.startCloseAnimation();
     return this.props.onCloseRequest(...args);
   };
 
+  startCloseAnimation = () => {
+    const height = getRect(this.node).height;
+    this.setState({height});
+  };
+
   _close() {
+    this.startCloseAnimation();
     setTimeout(() => {
       this.props.onClose();
     }, ANIMATION_TIME);
@@ -189,7 +195,7 @@ export default class Alert extends PureComponent {
   };
 
   render() {
-    const {type, inline, isClosing, isShaking,
+    const {type, inline, isClosing, isShaking, closeButtonClassName,
       showWithAnimation, className, 'data-test': dataTest} = this.props;
 
     const classes = classNames(className, {
@@ -218,7 +224,7 @@ export default class Alert extends PureComponent {
             ? (
               <button
                 type="button"
-                className={styles.close}
+                className={classNames(styles.close, closeButtonClassName)}
                 data-test="alert-close"
                 aria-label="close alert"
                 onClick={this.closeRequest}
