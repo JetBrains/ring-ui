@@ -1,4 +1,3 @@
-/* eslint-disable import/order */
 import React, {PureComponent} from 'react';
 import {render} from 'react-dom';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
@@ -20,7 +19,7 @@ import authDialogService from '../../components/auth-dialog-service/auth-dialog-
 import Version from './version';
 import styles from './header-styles.css';
 
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-unresolved,import/extensions */
 import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
 import upsourceLogo from '!file-loader?publicPath=./!@jetbrains/logos/upsource/upsource.svg';
 import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';

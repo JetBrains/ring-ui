@@ -1,7 +1,6 @@
 /**
  * Storybook preset that patches manager's webpack config to enable loading Ring UI components
  */
-// eslint-disable-next-line import/order
 const webpack = require('webpack');
 
 const pkgConfig = require('../../package.json').config;
