@@ -1343,6 +1343,10 @@ object UnitTestsAndBuild : BuildType({
                 apt install g++ gcc make python -y
                 npm install
                 npm run bootstrap
+
+                # Debugging
+                npm ls eslint-plugin-import
+
                 npm run test-ci
                 npm run build
                 npm run build-examples
