@@ -1301,6 +1301,7 @@ object UnitTestsAndBuild : BuildType({
         dist => dist.zip
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogsssssssssssssssssssss
         coverage => coverage.zip
+        npm-ls.log
         lerna-debug.log
     """.trimIndent()
 
@@ -1344,7 +1345,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run bootstrap
 
                 # Debugging
-                npm ls eslint-plugin-import
+                npm ls > npm-ls.log
 
                 npm run test-ci
                 npm run build
