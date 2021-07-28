@@ -66,6 +66,11 @@
   }
 }
 
+.title.titleLegacy {
+  display: inline-flex;
+  flex-direction: column;
+}
+
 .title + .title {
   margin-left: calc(unit * 3);
 }
