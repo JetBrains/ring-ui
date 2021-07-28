@@ -112,10 +112,32 @@
   text-align: center;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
 .hidden {
+  display: flex;
+  visibility: hidden;
+}
+
+.hiddenBold {
+  display: flex;
   visibility: hidden;
 
+  height: 0;
+
   font-weight: bold;
+}
+
+.hiddenRegular {
+  display: flex;
+  visibility: hidden;
+
+  height: 0;
+
+  font-weight: normal;
 }
 
 .tabCounter {
