@@ -13,11 +13,13 @@ function TabLink({isSelected, title, collapsed, ...restProps}) {
   return (
     <Link {...restProps}>
       {() => (
-        <>
+        <div className={styles.container}>
           <span className={styles.visible}>{renderedTitle}</span>
           {/* hack for preserving constant tab width*/}
           <span className={styles.hidden}>{renderedTitle}</span>
-        </>
+          <span className={styles.hiddenBold}>{renderedTitle}</span>
+          <span className={styles.hiddenRegular}>{renderedTitle}</span>
+        </div>
       )}
     </Link>
   );
