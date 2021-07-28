@@ -161,7 +161,7 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
       // I think this bug depends on the frequency of addTab calls (actually on digests)
       // and ng-class detection of added and removed classes becomes broken.
       // @maxim.erekhinskiy
-      $scope.tabClass = pane => className(styles.title, {
+      $scope.tabClass = pane => className(styles.title, styles.titleLegacy, {
         [styles.selected]: pane.selected
       });
 
