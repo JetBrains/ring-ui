@@ -1345,7 +1345,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run bootstrap
 
                 # Debugging
-                npm ls > npm-ls.log
+                npm ls > npm-ls.log || true
 
                 npm run test-ci
                 npm run build
