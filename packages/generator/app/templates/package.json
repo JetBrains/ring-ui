@@ -64,7 +64,7 @@
     "sinon-chai": "^3.7.0",
     "stylelint": "^13.13.1",
     "svg-inline-loader": "^0.8.2",
-    "yo": "^4.2.0"
+    "yo": "^4.3.0"
   },
   "engines": {
     "node": ">=8.0.0"
