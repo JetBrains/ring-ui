@@ -100,7 +100,7 @@
     "cheerio": "^0.22.0",
     "core-js": "^3.16.0",
     "enzyme": "^3.11.0",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-import-resolver-webpack": "^0.13.1",
     "eslint-plugin-angular": "^4.0.1",
     "eslint-plugin-bdd": "^2.1.1",
