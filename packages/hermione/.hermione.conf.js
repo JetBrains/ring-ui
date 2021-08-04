@@ -10,6 +10,8 @@ const gridUrl = process.env.SELENIUM_GRID ||
   `https://${process.env.BROWSERSTACK_NAME}:${process.env.BROWSERSTACK_KEY}@hub-cloud.browserstack.com:443/wd/hub`;
 // Supports Firefox
 const windowSize = '1024x1000';
+const os = 'Windows';
+const os_version = '10';
 const maxDuration = 3600;
 const isTeamCity = process.argv.indexOf('--teamcity') !== -1;
 
@@ -47,12 +49,12 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Chrome',
         pageLoadStrategy: 'normal',
-        browser_version: '92.0',
+        browser_version: '89.0',
         chromeOptions: {
           excludeSwitches: ['enable-automation']
         },
-        os: 'Windows',
-        os_version: '10',
+        os,
+        os_version,
         maxDuration
       },
       sessionsPerBrowser: 4
@@ -64,7 +66,7 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Firefox',
         pageLoadStrategy: 'normal',
-        browser_version: '90.0',
+        browser_version: '87.0',
         os: 'OS X',
         os_version: 'Catalina',
         maxDuration
