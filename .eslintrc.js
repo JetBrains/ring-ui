@@ -9,7 +9,8 @@ module.exports = {
     '@jetbrains/eslint-config/browser',
     '@jetbrains/eslint-config/react',
     '@jetbrains/eslint-config/angular',
-    '@jetbrains/eslint-config/test'
+    '@jetbrains/eslint-config/test',
+    'plugin:import/typescript'
   ],
   rules: {
     'valid-jsdoc': ignore,
@@ -22,7 +23,11 @@ module.exports = {
         '*webpack.config.js',
         'karma-*.conf.js',
         '**/*.test.js',
+        '**/*.test.ts',
+        '**/*.test.tsx',
         '**/*.examples.js',
+        '**/*.examples.ts',
+        '**/*.examples.tsx',
         '**/.eslintrc.js',
         '.storybook/**',
         'packages/hermione/**',
@@ -32,6 +37,7 @@ module.exports = {
       ],
       peerDependencies: true
     }],
+    'import/extensions': [error, 'always', {js: 'never', ts: 'never', tsx: 'never'}],
     camelcase: [error, {
       allow: ['^UNSAFE_']
     }],
@@ -43,8 +49,24 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: ['plugin:@typescript-eslint/recommended'],
+      rules: {
+        '@typescript-eslint/no-var-requires': ignore,
+        '@typescript-eslint/explicit-module-boundary-types': ignore,
+        '@typescript-eslint/no-empty-function': ignore,
+        'no-use-before-define': ignore,
+        '@typescript-eslint/no-use-before-define': [error, 'nofunc'],
+        'no-shadow': ignore,
+        '@typescript-eslint/no-shadow': error,
+        'react/prop-types': ignore
+      }
+    },
+    {
       files: [
-        'components/**/*.js'
+        'components/**/*'
       ],
       env: {
         browser: true,
@@ -74,13 +96,17 @@ module.exports = {
         'import/no-unused-modules': ignore
       },
       settings: {
-        'import/resolver': 'webpack',
+        'import/resolver': {
+          webpack: {
+            config: './eslint.webpack.config.js'
+          }
+        },
         'import/core-modules': ['angular']
       }
     },
     {
       files: [
-        '**/*.test.js'
+        '**/*.test.*'
       ],
       env: {
         mocha: true,
@@ -97,7 +123,7 @@ module.exports = {
     },
     {
       files: [
-        '**/*.examples.js'
+        '**/*.examples.*'
       ],
       env: {
         browser: true,
@@ -105,13 +131,6 @@ module.exports = {
       },
       globals: {
         sandbox: false
-      },
-      settings: {
-        'import/resolver': {
-          webpack: {
-            config: './eslint.webpack.config.js'
-          }
-        }
       },
       rules: {
         'react/no-multi-comp': ignore,
