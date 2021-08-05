@@ -1348,6 +1348,7 @@ object UnitTestsAndBuild : BuildType({
                 # Debugging
                 npm ls > npm-ls.log || true
 
+                npm run typecheck-ci
                 npm run test-ci
                 npm run build
                 npm run build-examples
