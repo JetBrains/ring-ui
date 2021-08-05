@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Link from '@jetbrains/ring-ui/components/link/link';
 import Button from '@jetbrains/ring-ui/components/button/button';
-import Alert, {Container} from '@jetbrains/ring-ui/components/alert/alert';
+import Alert, {AlertProps, Container} from '@jetbrains/ring-ui/components/alert/alert';
 
 export default {
   title: 'Components/Alert',
@@ -56,8 +56,15 @@ export const simple = () => {
 
 simple.storyName = 'simple';
 
+interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
+  key: string | number,
+  message: ReactNode
+}
+interface AlertContainerState {
+  alerts: Array<AlertItem>
+}
 export const alertContainer = () => {
-  class AlertContainerDemo extends React.Component {
+  class AlertContainerDemo extends React.Component<Record<string, never>, AlertContainerState> {
     state = {
       alerts: [
         {type: Alert.Type.ERROR, key: 0, message: 'Test error', isClosing: false},
@@ -91,14 +98,14 @@ export const alertContainer = () => {
       }));
     };
 
-    onCloseAlert = closedAlert => {
+    onCloseAlert = (closedAlert: AlertItem) => {
       this.setState(prevState => ({
         ...prevState,
         alerts: prevState.alerts.filter(alert => alert !== closedAlert)
       }));
     };
 
-    onCloseAlertClick = alert => {
+    onCloseAlertClick = (alert: AlertItem) => {
       const alertToClose = this.state.alerts.filter(it => alert.key === it.key)[0];
       alertToClose.isClosing = true;
       this.setState(prevState => ({
