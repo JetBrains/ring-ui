@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactNode} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -24,19 +24,19 @@ export const ANIMATION_TIME = 500;
  * List of available alert types.
  * @enum {string}
  */
-const Type = {
-  ERROR: 'error',
-  MESSAGE: 'message',
-  SUCCESS: 'success',
-  WARNING: 'warning',
-  LOADING: 'loading'
-};
+enum Type {
+  ERROR= 'error',
+  MESSAGE= 'message',
+  SUCCESS= 'success',
+  WARNING= 'warning',
+  LOADING= 'loading'
+}
 
 /**
  * Lookup table of alert type to icon modifier.
  * @type {Object.<Type, string>}
  */
-const TypeToIcon = {
+const TypeToIcon: Partial<Record<Type, string>> = {
   [Type.ERROR]: exceptionIcon,
   [Type.SUCCESS]: checkmarkIcon,
   [Type.WARNING]: warningIcon
@@ -46,11 +46,32 @@ const TypeToIcon = {
  * Lookup table of alert type to icon color.
  * @type {Object.<Type, Icon.Color>}
  */
-const TypeToIconColor = {
+const TypeToIconColor: Partial<Record<Type, string>> = {
   [Type.ERROR]: Icon.Color.RED,
   [Type.SUCCESS]: Icon.Color.GREEN,
   [Type.WARNING]: Icon.Color.WHITE
 };
+
+export interface AlertProps {
+  timeout: number
+  onCloseRequest: ((event: React.MouseEvent<HTMLElement>) => void)
+  onClose: (() => void)
+  isShaking: boolean
+  isClosing: boolean
+  inline: boolean
+  showWithAnimation: boolean
+  closeable: boolean
+  type: Type
+  children?: ReactNode
+  className?: string | null | undefined
+  captionClassName?: string | null | undefined
+  closeButtonClassName?: string | null | undefined
+  'data-test'?: string | null | undefined
+}
+
+interface State {
+  height: number | null
+}
 
 /**
  * @constructor
@@ -60,7 +81,7 @@ const TypeToIconColor = {
 /**
  * **Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
  */
-export default class Alert extends PureComponent {
+export default class Alert extends PureComponent<AlertProps, State> {
   static propTypes = {
     timeout: PropTypes.number,
     /**
@@ -105,7 +126,7 @@ export default class Alert extends PureComponent {
 
   componentDidMount() {
     if (this.props.timeout > 0) {
-      this.hideTimeout = setTimeout(this.closeRequest, this.props.timeout);
+      this.hideTimeout = window.setTimeout(this.closeRequest, this.props.timeout);
     }
   }
 
@@ -119,11 +140,14 @@ export default class Alert extends PureComponent {
     clearTimeout(this.hideTimeout);
   }
 
+  node?: HTMLDivElement | null;
+  hideTimeout?: number;
+
   static Type = Type;
 
-  closeRequest = (...args) => {
+  closeRequest = (event: React.MouseEvent<HTMLElement>) => {
     this.startCloseAnimation();
-    return this.props.onCloseRequest(...args);
+    return this.props.onCloseRequest(event);
   };
 
   startCloseAnimation = () => {
@@ -142,8 +166,8 @@ export default class Alert extends PureComponent {
    * @param {SyntheticEvent} evt
    * @private
    */
-  _handleCaptionsLinksClick = evt => {
-    if (evt.target.matches('a')) {
+  _handleCaptionsLinksClick = (evt: React.MouseEvent<HTMLSpanElement>) => {
+    if (evt.target instanceof Element && evt.target.matches('a')) {
       this.closeRequest(evt);
     }
   };
@@ -190,7 +214,7 @@ export default class Alert extends PureComponent {
     return '';
   }
 
-  storeAlertRef = node => {
+  storeAlertRef = (node: HTMLDivElement | null) => {
     this.node = node;
   };
 
@@ -207,7 +231,8 @@ export default class Alert extends PureComponent {
       [styles.animationShaking]: isShaking
     });
 
-    const style = this.state.height ? {marginBottom: -this.state.height} : null;
+    const height = this.state.height;
+    const style = height ? {marginBottom: -height} : undefined;
 
     return (
       <div

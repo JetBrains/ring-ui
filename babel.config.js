@@ -17,6 +17,7 @@ module.exports = function config(api) {
   return {
     presets: [
       ['@jetbrains/babel-preset-jetbrains', {
+        typeScript: true,
         angular: true,
         useBuiltIns: 'usage',
         corejs: isDeprecatedCoreJS ? '2' : '3'
