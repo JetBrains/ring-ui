@@ -1,18 +1,22 @@
-import React, {PureComponent} from 'react';
+import React, {HTMLAttributes, PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Theme, {withTheme} from '../global/theme';
+import Theme, {ThemeProps, withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './loader-inline.css';
 import injectStyles from './inject-styles';
 
+export interface LoaderInlineProps extends ThemeProps, HTMLAttributes<HTMLDivElement> {
+  'data-test'?: string | null | undefined
+}
+
 /**
  * @name Loader Inline
  */
 
-class LoaderInline extends PureComponent {
+class LoaderInline extends PureComponent<LoaderInlineProps> {
   static propTypes = {
     theme: PropTypes.oneOf(Object.values(Theme)),
     className: PropTypes.string,
