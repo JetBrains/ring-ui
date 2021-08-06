@@ -12,6 +12,20 @@ chai.use(chaiDOM);
 chai.use(sinonChai);
 chai.use(chaiEnzyme());
 
+const windowExtension = {
+  sinon,
+  sandbox: sinon.createSandbox(),
+  chai,
+  should: chai.should()
+};
+
+type WindowExtension = typeof windowExtension;
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface Window extends WindowExtension {}
+}
+
 Object.assign(window, {
   sinon,
   sandbox: sinon.createSandbox(),
@@ -23,7 +37,7 @@ afterEach(function restoreSandbox() {
   window.sandbox.restore();
 
   Array.from(document.body.children).forEach(child => {
-    if (child._reactRootContainer) {
+    if ('_reactRootContainer' in child) {
       unmountComponentAtNode(child);
     }
   });
