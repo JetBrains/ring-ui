@@ -3,7 +3,7 @@ declare module '*.css' {
   export default styles;
 }
 
-declare module '@jetbrains/icons/*' {
-  declare const source: string;
-  export = source;
+declare module '*.svg' {
+  const source: string;
+  export default source;
 }

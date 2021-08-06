@@ -1,4 +1,4 @@
-import React, {Children, cloneElement, PureComponent} from 'react';
+import React, {Children, cloneElement, PureComponent, HTMLAttributes, isValidElement} from 'react';
 import {createPortal} from 'react-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -11,7 +11,9 @@ import styles from './container.css';
  * @extends {PureComponent}
  */
 
-export default class Alerts extends PureComponent {
+export type AlertContainerProps = HTMLAttributes<HTMLDivElement>
+
+export default class Alerts extends PureComponent<AlertContainerProps> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string
@@ -34,6 +36,10 @@ export default class Alerts extends PureComponent {
         {...restProps}
       >
         {Children.map(children, child => {
+          if (!isValidElement(child)) {
+            return child;
+          }
+
           const alertClassNames = classNames(styles.alertInContainer, child.props.className);
 
           return cloneElement(child, {
