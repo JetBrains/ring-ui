@@ -14,7 +14,7 @@ module.exports = {
     '<rootDir>/test-helpers/resize-observer-mock.js'
   ],
   transform: {
-    '^.+\\.js$': 'babel-jest'
+    '^.+\\.[jt]sx?$': 'babel-jest'
   },
   transformIgnorePatterns: [],
   restoreMocks: true,
