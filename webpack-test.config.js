@@ -12,10 +12,8 @@ loaders.babelLoader.sideEffects = true;
 
 config.mode = 'development';
 
-config.resolve = {
-  alias: {
-    '@jetbrains/ring-ui': __dirname
-  }
+config.resolve.alias = {
+  '@jetbrains/ring-ui': __dirname
 };
 
 config.output = {
