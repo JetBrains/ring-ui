@@ -214,10 +214,11 @@ export default class Row extends PureComponent {
       const getDataTest = column.getDataTest || (() => column.id);
       const value = getValue(item, column);
       const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
+      const showMetaColumn = draggable || selectable || showDisabledSelection || !!level;
 
       return (
         <Cell key={column.id} className={cellClasses} data-test={getDataTest(item, column)}>
-          {index === 0 && (draggable || selectable || showDisabledSelection) && metaColumn}
+          {index === 0 && (showMetaColumn) && metaColumn}
           {value}
         </Cell>
       );
