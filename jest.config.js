@@ -17,9 +17,7 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
     '^.+\\.html?$': 'html-loader-jest'
   },
-  transformIgnorePatterns: [
-    'node_modules/(?!react-virtualized)'
-  ],
+  transformIgnorePatterns: [],
   restoreMocks: true,
   testEnvironment: 'jsdom'
 };
