@@ -483,7 +483,9 @@ describe('Query Assist', () => {
     });
 
     it('should show popup with proper suggestions', done => {
-      const wrapper = mountQueryAssist({}, {});
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      const wrapper = mountQueryAssist({}, {attachTo: container});
       const instance = wrapper.find('QueryAssist').instance();
 
       const TWICE = 2;
@@ -497,6 +499,8 @@ describe('Query Assist', () => {
           list.querySelectorAll(`.${styles.highlight}`).should.have.length(length);
           list.querySelectorAll(`.${styles.service}`).should.have.length(length * TWICE);
 
+          wrapper.detach();
+          document.body.removeChild(container);
           done();
         }).catch(done);
     });
