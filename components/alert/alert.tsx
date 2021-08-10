@@ -24,7 +24,7 @@ export const ANIMATION_TIME = 500;
  * List of available alert types.
  * @enum {string}
  */
-enum Type {
+export enum AlertType {
   ERROR= 'error',
   MESSAGE= 'message',
   SUCCESS= 'success',
@@ -34,34 +34,34 @@ enum Type {
 
 /**
  * Lookup table of alert type to icon modifier.
- * @type {Object.<Type, string>}
+ * @type {Object.<AlertType, string>}
  */
-const TypeToIcon: Partial<Record<Type, string>> = {
-  [Type.ERROR]: exceptionIcon,
-  [Type.SUCCESS]: checkmarkIcon,
-  [Type.WARNING]: warningIcon
+const TypeToIcon: Partial<Record<AlertType, string>> = {
+  [AlertType.ERROR]: exceptionIcon,
+  [AlertType.SUCCESS]: checkmarkIcon,
+  [AlertType.WARNING]: warningIcon
 };
 
 /**
  * Lookup table of alert type to icon color.
- * @type {Object.<Type, Icon.Color>}
+ * @type {Object.<AlertType, Icon.Color>}
  */
-const TypeToIconColor: Partial<Record<Type, string>> = {
-  [Type.ERROR]: Icon.Color.RED,
-  [Type.SUCCESS]: Icon.Color.GREEN,
-  [Type.WARNING]: Icon.Color.WHITE
+const TypeToIconColor: Partial<Record<AlertType, string>> = {
+  [AlertType.ERROR]: Icon.Color.RED,
+  [AlertType.SUCCESS]: Icon.Color.GREEN,
+  [AlertType.WARNING]: Icon.Color.WHITE
 };
 
 export interface AlertProps {
   timeout: number
-  onCloseRequest: ((event: React.MouseEvent<HTMLElement>) => void)
+  onCloseRequest: ((event?: React.MouseEvent<HTMLElement>) => void)
   onClose: (() => void)
   isShaking: boolean
   isClosing: boolean
   inline: boolean
   showWithAnimation: boolean
   closeable: boolean
-  type: Type
+  type: AlertType
   children?: ReactNode
   className?: string | null | undefined
   captionClassName?: string | null | undefined
@@ -98,7 +98,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
     inline: PropTypes.bool,
     showWithAnimation: PropTypes.bool,
     closeable: PropTypes.bool,
-    type: PropTypes.oneOf(Object.values(Type)),
+    type: PropTypes.oneOf(Object.values(AlertType)),
 
     children: PropTypes.node,
     className: PropTypes.string,
@@ -111,7 +111,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
   static defaultProps = {
     closeable: true,
     showWithAnimation: true,
-    type: Type.MESSAGE,
+    type: AlertType.MESSAGE,
     inline: true,
     isClosing: false,
     isShaking: false,
@@ -143,7 +143,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
   node?: HTMLDivElement | null;
   hideTimeout?: number;
 
-  static Type = Type;
+  static Type = AlertType;
 
   closeRequest = (event: React.MouseEvent<HTMLElement>) => {
     this.startCloseAnimation();
@@ -205,7 +205,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
           color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
         />
       );
-    } else if (this.props.type === Type.LOADING) {
+    } else if (this.props.type === AlertType.LOADING) {
       return (
         <Loader className={styles.loader} theme={Loader.Theme.DARK}/>
       );
