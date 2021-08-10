@@ -36,13 +36,15 @@ export const alertService = () => {
       alert._getShowingAlerts().forEach(item => alert.removeWithoutAnimation(item.key));
     }
 
+    lastKey?: string | number;
+
     showCustomMessage = () => {
       this.lastKey = alert.addAlert(
         <div className={styles.customAlert}>
           <h1>Hello!</h1>
           <p>{'This is a custom message'}</p>
         </div>,
-        null,
+        undefined,
         0,
         {
           className: styles.customAlert,

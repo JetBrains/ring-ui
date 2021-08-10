@@ -38,11 +38,11 @@ describe('Alert', () => {
   it('should be not closeable if defined', () => {
     render(<Alert closeable={false}>{'Test element'}</Alert>);
 
-    window.should.not.exist(screen.queryByRole('button', {name: 'close alert'}));
+    should.not.exist(screen.queryByRole('button', {name: 'close alert'}));
   });
 
   it('should call onCloseRequest on click by close button', () => {
-    const closeSpy = window.sandbox.spy();
+    const closeSpy = sandbox.spy();
     render(<Alert onCloseRequest={closeSpy}>{'Test element'}</Alert>);
     const closeElement = screen.queryByRole('button', {name: 'close alert'});
     if (closeElement != null) {
@@ -52,8 +52,8 @@ describe('Alert', () => {
   });
 
   it('should call onCloseRequest on timeout', () => {
-    const clock = window.sandbox.useFakeTimers({toFake: ['setTimeout']});
-    const closeSpy = window.sandbox.spy();
+    const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+    const closeSpy = sandbox.spy();
     render(<Alert timeout={TIMEOUT} onCloseRequest={closeSpy}>{'Test element'}</Alert>);
 
     clock.tick(TICK);

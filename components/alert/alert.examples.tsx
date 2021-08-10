@@ -1,10 +1,11 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Link from '@jetbrains/ring-ui/components/link/link';
 import Button from '@jetbrains/ring-ui/components/button/button';
-import Alert, {AlertProps, Container} from '@jetbrains/ring-ui/components/alert/alert';
+import Alert, {Container} from '@jetbrains/ring-ui/components/alert/alert';
+import {AlertItem} from '@jetbrains/ring-ui/components/alert-service/alert-service';
 
 export default {
   title: 'Components/Alert',
@@ -56,10 +57,6 @@ export const simple = () => {
 
 simple.storyName = 'simple';
 
-interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
-  key: string | number,
-  message: ReactNode
-}
 interface AlertContainerState {
   alerts: Array<AlertItem>
 }
