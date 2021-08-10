@@ -155,7 +155,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
     this.setState({height});
   };
 
-  _close() {
+  private _close() {
     this.startCloseAnimation();
     setTimeout(() => {
       this.props.onClose();
@@ -166,7 +166,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
    * @param {SyntheticEvent} evt
    * @private
    */
-  _handleCaptionsLinksClick = (evt: React.MouseEvent<HTMLSpanElement>) => {
+  private _handleCaptionsLinksClick = (evt: React.MouseEvent<HTMLSpanElement>) => {
     if (evt.target instanceof Element && evt.target.matches('a')) {
       this.closeRequest(evt);
     }
@@ -175,7 +175,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
   /**
    * @private
    */
-  _getCaption() {
+  private _getCaption() {
     return (
       <span
         className={classNames(styles.caption, this.props.captionClassName, {
@@ -194,7 +194,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
    * @private
    * @return {XML|string}
    */
-  _getIcon() {
+  private _getIcon() {
     const glyph = TypeToIcon[this.props.type];
 
     if (glyph) {
