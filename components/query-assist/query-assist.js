@@ -193,7 +193,6 @@ export default class QueryAssist extends Component {
   };
 
   componentDidMount() {
-    this._pushHistory(this.state);
     const query = this.props.query || '';
 
     this.immediateState = {
@@ -212,6 +211,7 @@ export default class QueryAssist extends Component {
     }
 
     this.setCaretPosition();
+    this._pushHistory(this.state);
   }
 
   shouldComponentUpdate(props, state) {
