@@ -1,9 +1,19 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {render} from 'react-dom';
 
 import getUID from '../global/get-uid';
 
-import Alert, {ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';
+import Alert, {
+  AlertProps,
+  AlertType,
+  ANIMATION_TIME,
+  Container as AlertContainer
+} from '../alert/alert';
+
+export interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
+  key: string | number,
+  message: ReactNode
+}
 
 /**
  * @name Alert Service
@@ -12,14 +22,14 @@ import Alert, {ANIMATION_TIME, Container as AlertContainer} from '../alert/alert
 class AlertService {
   defaultTimeout = 0;
   // This alerts are stored in inverse order (last shown is first in array)
-  showingAlerts = [];
+  showingAlerts: AlertItem[] = [];
   containerElement = document.createElement('div');
 
   _getShowingAlerts() {
     return [...this.showingAlerts];
   }
 
-  renderAlertContainer(alerts) {
+  renderAlertContainer(alerts: readonly AlertItem[]) {
     if (alerts.length === 0) {
       return <span/>;
     }
@@ -46,16 +56,16 @@ class AlertService {
     render(this.renderAlertContainer(this.showingAlerts), this.containerElement);
   }
 
-  findSameAlert(message, type) {
+  findSameAlert(message: ReactNode, type: AlertType | undefined) {
     return this.showingAlerts.filter(it => it.type === type && it.message === message)[0];
   }
 
-  startAlertClosing(alert) {
+  startAlertClosing(alert: AlertItem) {
     alert.isClosing = true;
     this.renderAlerts();
   }
 
-  remove(key) {
+  remove(key: string | number | undefined) {
     const alertToClose = this.showingAlerts.filter(alert => alert.key === key)[0];
     if (!alertToClose) {
       return;
@@ -63,12 +73,12 @@ class AlertService {
     this.startAlertClosing(alertToClose);
   }
 
-  removeWithoutAnimation(key) {
+  removeWithoutAnimation(key: string | number) {
     this.showingAlerts = this.showingAlerts.filter(alert => alert.key !== key);
     this.renderAlerts();
   }
 
-  stopShakingWhenAnimationDone(shakingAlert) {
+  stopShakingWhenAnimationDone(shakingAlert: AlertItem) {
     setTimeout(() => {
       shakingAlert.showWithAnimation = false;
       shakingAlert.isShaking = false;
@@ -76,7 +86,12 @@ class AlertService {
     }, ANIMATION_TIME);
   }
 
-  addAlert(message, type, timeout = this.defaultTimeout, options = {}) {
+  addAlert(
+    message: ReactNode,
+    type?: AlertType | undefined,
+    timeout: number = this.defaultTimeout,
+    options: Partial<AlertItem> = {}
+  ) {
     const {onCloseRequest, onClose, ...restOptions} = options;
     const sameAlert = this.findSameAlert(message, type);
     if (sameAlert) {
@@ -108,27 +123,27 @@ class AlertService {
     return alert.key;
   }
 
-  setDefaultTimeout(timeout) {
+  setDefaultTimeout(timeout: number) {
     this.defaultTimeout = timeout;
   }
 
-  error(message, timeout) {
+  error(message: ReactNode, timeout?: number) {
     return this.addAlert(message, Alert.Type.ERROR, timeout);
   }
 
-  message(message, timeout) {
+  message(message: ReactNode, timeout?: number) {
     return this.addAlert(message, Alert.Type.MESSAGE, timeout);
   }
 
-  warning(message, timeout) {
+  warning(message: ReactNode, timeout?: number) {
     return this.addAlert(message, Alert.Type.WARNING, timeout);
   }
 
-  successMessage(message, timeout) {
+  successMessage(message: ReactNode, timeout?: number) {
     return this.addAlert(message, Alert.Type.SUCCESS, timeout);
   }
 
-  loadingMessage(message, timeout) {
+  loadingMessage(message: ReactNode, timeout?: number) {
     return this.addAlert(message, Alert.Type.LOADING, timeout);
   }
 }

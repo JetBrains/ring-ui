@@ -1,3 +1,5 @@
+import * as Sinon from 'sinon';
+
 import Alert from '../alert/alert';
 
 import alert from './alert-service';
@@ -7,8 +9,8 @@ const BIG_TICK = 2000;
 const ALERT_SHOW_TIME = 100;
 
 describe('Alert Service', () => {
-  let alertKey;
-  let clock;
+  let alertKey: string | number;
+  let clock: Sinon.SinonFakeTimers;
 
   beforeEach(() => {
     clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
@@ -23,25 +25,25 @@ describe('Alert Service', () => {
     alertKey = alert.message('foo');
     const alertItem = alert._getShowingAlerts()[0];
 
-    alertItem.message.should.equal('foo');
-    alertItem.type.should.equal(Alert.Type.MESSAGE);
-    alertItem.timeout.should.equal(0);
-    alertItem.isClosing.should.be.false;
+    'foo'.should.equal(alertItem.message);
+    Alert.Type.MESSAGE.should.equal(alertItem.type);
+    (0).should.equal(alertItem.timeout);
+    false.should.equal(alertItem.isClosing);
   });
 
   it('Should show message', () => {
     alertKey = alert.message('foo');
-    alert._getShowingAlerts()[0].type.should.equal(Alert.Type.MESSAGE);
+    Alert.Type.MESSAGE.should.equal(alert._getShowingAlerts()[0].type);
   });
 
   it('Should show error', () => {
     alertKey = alert.error('foo');
-    alert._getShowingAlerts()[0].type.should.equal(Alert.Type.ERROR);
+    Alert.Type.ERROR.should.equal(alert._getShowingAlerts()[0].type);
   });
 
   it('Should show warning', () => {
     alertKey = alert.warning('foo');
-    alert._getShowingAlerts()[0].type.should.equal(Alert.Type.WARNING);
+    Alert.Type.WARNING.should.equal(alert._getShowingAlerts()[0].type);
   });
 
   it('Should join same alerts and shake', () => {
@@ -49,7 +51,7 @@ describe('Alert Service', () => {
     alertKey = alert.message('foo');
 
     alert._getShowingAlerts().length.should.equal(1);
-    alert._getShowingAlerts()[0].isShaking.should.be.true;
+    true.should.equal(alert._getShowingAlerts()[0].isShaking);
   });
 
   it('Should remove alert after timeout', () => {
@@ -73,7 +75,7 @@ describe('Alert Service', () => {
   it('should remove alert after animation', () => {
     alertKey = alert.message('foo');
     alert.remove(alertKey);
-    alert._getShowingAlerts().filter(it => it.key === alertKey)[0].isClosing.should.be.true;
+    true.should.equal(alert._getShowingAlerts().filter(it => it.key === alertKey)[0].isClosing);
     clock.tick(SMALL_TICK);
 
     alert._getShowingAlerts().length.should.equal(0);
