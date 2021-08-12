@@ -30,7 +30,7 @@ const ngModelStateField = 'query';
 function noop() {}
 
 function cleanText(text) {
-  return text.trim().replace(/([\n\r])+/g, ' ');
+  return text.replace(/([\n\r])+/g, ' ');
 }
 
 /**
