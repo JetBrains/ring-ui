@@ -39,7 +39,7 @@ export default class AnalyticsFUSPlugin {
       recorderVersion,
       productCode: productId,
       productBuild,
-      internal: true,
+      internal: isDevelopment,
       groups,
       useForSubdomains: true
     });
