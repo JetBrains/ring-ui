@@ -421,7 +421,7 @@ export default class QueryAssist extends Component {
     if (queryIsSet && !queryIsSame) {
       this.historyStack.unshift({
         query: state.query,
-        caret: this.caret?.getPosition({ avoidFocus: true }) ?? -1
+        caret: this.caret?.getPosition({avoidFocus: true}) ?? -1
       });
     }
   }
