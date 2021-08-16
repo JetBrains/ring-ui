@@ -14,7 +14,10 @@ export default {
   argTypes: {onAnalytics: {}}
 };
 
-export const Analytics = ({onAnalytics}) => {
+interface AnalyticsProps {
+  onAnalytics: (message: string, category: string, action: string) => void
+}
+export const Analytics = ({onAnalytics}: AnalyticsProps) => {
   const node = document.createElement('div');
 
   node.innerHTML = `
@@ -38,7 +41,7 @@ export const Analytics = ({onAnalytics}) => {
 
   analytics.config([customPlugin]);
 
-  node.querySelector('#click-me').addEventListener('click', event => {
+  node.querySelector('#click-me')?.addEventListener('click', event => {
     analytics.trackEvent('test-category', 'test-action');
     event.preventDefault();
   });

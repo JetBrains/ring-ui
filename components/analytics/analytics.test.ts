@@ -1,9 +1,10 @@
-import analytics from './analytics';
+import * as Sinon from 'sinon';
+
+import analytics, {Analytics} from './analytics';
 import AnalyticsGAPlugin from './analytics__ga-plugin';
 import AnalyticsFUSPlugin from './analytics__fus-plugin';
-import AnalyticsCustomPlugin from './analytics__custom-plugin';
+import AnalyticsCustomPlugin, {AnalyticsCustomPluginData} from './analytics__custom-plugin';
 
-const Analytics = analytics.constructor;
 const TICK_INTERVAL = 10500;
 const MAX_PACK_SIZE = 100;
 const FLUSH_INTERVAL = 10000;
@@ -22,7 +23,7 @@ describe('Analytics', () => {
   });
 
   describe('ga plugin', () => {
-    let gaPlugin;
+    let gaPlugin: AnalyticsGAPlugin;
 
     beforeEach(() => {
       Reflect.deleteProperty(window, 'ga');
@@ -40,7 +41,7 @@ describe('Analytics', () => {
 
     it('should send pageview event', () => {
       const rememberGA = window.ga;
-      window.ga = sandbox.spy();
+      window.ga = sandbox.spy() as unknown as UniversalAnalytics.ga;
       gaPlugin.trackPageView('some-path');
 
       window.ga.should.have.been.calledWith('send', 'pageview', 'some-path');
@@ -50,7 +51,7 @@ describe('Analytics', () => {
 
     it('should send action event', () => {
       const rememberGA = window.ga;
-      window.ga = sandbox.spy();
+      window.ga = sandbox.spy() as unknown as UniversalAnalytics.ga;
       gaPlugin.trackEvent('some-category', 'some-action');
 
       window.ga.should.calledWith('send', 'event', {
@@ -63,7 +64,7 @@ describe('Analytics', () => {
   });
 
   describe('ga plugin with no key and in non-development mode', () => {
-    let gaPlugin;
+    let gaPlugin: AnalyticsGAPlugin;
 
     beforeEach(() => {
       Reflect.deleteProperty(window, 'ga');
@@ -78,7 +79,7 @@ describe('Analytics', () => {
   });
 
   describe('fus plugin', () => {
-    let fusPlugin;
+    let fusPlugin: AnalyticsFUSPlugin;
 
     beforeEach(() => {
       Reflect.deleteProperty(window, 'fus');
@@ -99,7 +100,7 @@ describe('Analytics', () => {
     });
 
     it('should init fus', () => {
-      window.fusra.should.exist;
+      should.exist(window.fusra);
     });
 
     it('should export interface', () => {
@@ -157,9 +158,9 @@ describe('Analytics', () => {
   });
 
   describe('tracking events', () => {
-    let send;
-    let clock;
-    let analyticsInstance;
+    let send: (data: AnalyticsCustomPluginData[]) => void;
+    let clock: Sinon.SinonFakeTimers;
+    let analyticsInstance: Analytics;
     beforeEach(() => {
       send = sandbox.spy();
       clock = sandbox.useFakeTimers({toFake: ['setInterval']});
@@ -168,7 +169,7 @@ describe('Analytics', () => {
 
     describe('#enabled', () => {
 
-      let customPlugin;
+      let customPlugin: AnalyticsCustomPlugin;
       beforeEach(() => {
         customPlugin = new AnalyticsCustomPlugin(send);
         analyticsInstance.config([customPlugin]);
@@ -276,11 +277,12 @@ describe('Analytics', () => {
               param4: 'fourth',
               param5: 'should-be-ignored'
             };
-            const trackedProperties = ['param1', 'param2', 'param3', 'param4'];
+            const trackedProperties: (keyof typeof entity)[] =
+              ['param1', 'param2', 'param3', 'param4'];
             analyticsInstance.trackEntityProperties('sample-entity', entity, trackedProperties);
             clock.tick(TICK_INTERVAL);
 
-            const trackedData = [];
+            const trackedData: AnalyticsCustomPluginData[] = [];
             trackedProperties.forEach(it => {
               trackedData.push({
                 category: 'sample-entity',
