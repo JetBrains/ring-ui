@@ -1,4 +1,46 @@
 import AnalyticsPluginUtils from './analytics__plugin-utils';
+import {AnalyticsPlugin} from './analytics';
+
+export interface AnalyticsFUSPluginGroup {
+  id: string
+  version: string
+  baseline: string
+}
+
+export interface AnalyticsFUSPluginConfig {
+  productId?: string | undefined
+  productBuild?: string | undefined
+  recorderVersion?: number | string | undefined
+  isDevelopment?: boolean | undefined
+  groups?: readonly AnalyticsFUSPluginGroup[] | undefined
+}
+
+interface FusraInitParams {
+  recorderCode?: string | undefined,
+  recorderVersion: number | string,
+  productCode?: string | undefined,
+  productBuild?: string | undefined,
+  internal: boolean,
+  eventCountDelay?: number | undefined,
+  reportingFrequency?: number | undefined,
+  groups?: readonly AnalyticsFUSPluginGroup[] | undefined,
+  useForSubdomains?: boolean | undefined
+}
+interface FusraEventParams {
+  groupId: string,
+  groupVersion?: number | string | undefined,
+  eventData?: Record<string, unknown> | undefined,
+  eventId: string
+}
+declare global {
+  interface Window {
+    fusra?: {
+      (method: 'init', params: FusraInitParams): void
+      (method: 'event', params: FusraEventParams): void
+      query?: ['init' | 'event', FusraInitParams | FusraEventParams][]
+    }
+  }
+}
 
 /**
  * @name AnalyticsFUSPlugin
@@ -12,29 +54,34 @@ import AnalyticsPluginUtils from './analytics__plugin-utils';
  * }} config
  * @constructor
  */
-export default class AnalyticsFUSPlugin {
+export default class AnalyticsFUSPlugin implements AnalyticsPlugin {
+  private _recorderVersion?: number | string;
+  private _lastPagePath?: string;
+  private _groups: readonly AnalyticsFUSPluginGroup[] | undefined;
   constructor({
     productId,
     productBuild,
     recorderVersion = '1',
     isDevelopment = false,
     groups = []
-  }) {
+  }: AnalyticsFUSPluginConfig) {
     if (!productId && !isDevelopment) {
       return;
     }
-    ((i, s, o, g, r) => {
-      i[r] = i[r] || function addArgumentsToQueueForWaitingTheScriptLoading() {
-        (i[r].query = i[r].query || []).push(arguments);
+    ((i, s, o: 'script', g, r: 'fusra') => {
+      i[r] = i[r] || function addArgumentsToQueueForWaitingTheScriptLoading(...args) {
+        const fn = i[r];
+        if (fn != null) {
+          (fn.query = fn.query || []).push(args);
+        }
       };
       const script = document.createElement(o);
       script.async = true;
       script.src = g;
       const firstScript = document.getElementsByTagName(o)[0];
-      firstScript.parentNode.insertBefore(script, firstScript);
+      firstScript.parentNode?.insertBefore(script, firstScript);
     })(window, document, 'script', '//resources.jetbrains.com/storage/fus/api/fus-reporting-api.js', 'fusra');
-    /* global fusra */
-    fusra('init', {
+    window.fusra?.('init', {
       recorderCode: productId,
       recorderVersion,
       productCode: productId,
@@ -48,11 +95,11 @@ export default class AnalyticsFUSPlugin {
     this._groups = groups;
   }
 
-  trackEvent(category, action, additionalInfo) {
+  trackEvent(category: string, action: string, additionalInfo?: Record<string, unknown>) {
     this._processEvent(category, action, additionalInfo);
   }
 
-  trackPageView(path) {
+  trackPageView(path: string) {
     if (this._lastPagePath === path) {
       return;
     }
@@ -74,7 +121,11 @@ export default class AnalyticsFUSPlugin {
     return false;
   }
 
-  _processEvent(category, action, additionalInfo) {
+  private _processEvent(
+    category: string,
+    action: string,
+    additionalInfo: Record<string, unknown> | undefined
+  ) {
     const groupId = category.replace(/[-]/g, '.');
 
     const group = (this._groups || []).filter(
@@ -82,7 +133,7 @@ export default class AnalyticsFUSPlugin {
     )[0];
 
     if (group && window.fusra) {
-      fusra('event', {
+      window.fusra('event', {
         groupId,
         groupVersion: group.version || this._recorderVersion,
         eventId: action,

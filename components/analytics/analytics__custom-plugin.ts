@@ -1,10 +1,38 @@
 import AnalyticsPluginUtils from './analytics__plugin-utils';
+import {AnalyticsPlugin} from './analytics';
 
 const DEFAULT_FLUSH_INTERVAL = 10000;
 const DEFAULT_FLUSH_MAX_PACK_SIZE = 100;
 
-export default class AnalyticsCustomPlugin {
-  constructor(send, isDevelopment, flushInterval, flushingAllowedChecker) {
+export interface AnalyticsCustomPluginData {
+  category: string
+  action: string
+}
+
+export interface AnalyticsCustomPluginConfig {
+  send: (data: AnalyticsCustomPluginData[]) => void
+  isDevelopment?: boolean | undefined
+  flushInterval?: number | undefined
+  flushingAllowedChecker?: (() => boolean) | undefined
+  flushMaxPackSize?: number | undefined
+}
+
+export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
+  _data: AnalyticsCustomPluginData[];
+  private _flush?: () => void;
+  private _isDevelopment?: boolean | undefined;
+  private _flushInterval?: number;
+  private _flushMaxPackSize?: number;
+  private _lastPagePath?: string;
+  private _hasSendSchedule?: boolean;
+  private _lastPageViewTime?: number;
+
+  constructor(
+    send: AnalyticsCustomPluginConfig['send'],
+    isDevelopment?: AnalyticsCustomPluginConfig['isDevelopment'],
+    flushInterval?: AnalyticsCustomPluginConfig['flushInterval'],
+    flushingAllowedChecker?: AnalyticsCustomPluginConfig['flushingAllowedChecker']
+  ) {
     this._data = [];
     this.config({
       send,
@@ -22,11 +50,10 @@ export default class AnalyticsCustomPlugin {
    * @property {function} config.flushingAllowedChecker
    * @property {number} config.flushMaxPackSize
    */
-  config(config) {
-    let checkFlushingAllowed = config.flushingAllowedChecker;
-    if (typeof checkFlushingAllowed !== 'function') {
-      checkFlushingAllowed = () => true;
-    }
+  config(config: AnalyticsCustomPluginConfig) {
+    const checkFlushingAllowed = typeof config.flushingAllowedChecker === 'function'
+      ? config.flushingAllowedChecker
+      : () => true;
 
     this._flush = () => {
       if (this._data.length > 0 && checkFlushingAllowed()) {
@@ -40,11 +67,11 @@ export default class AnalyticsCustomPlugin {
     this._flushMaxPackSize = config.flushMaxPackSize || DEFAULT_FLUSH_MAX_PACK_SIZE;
   }
 
-  trackEvent(category, action) {
+  trackEvent(category: string, action: string) {
     this._processEvent(category, action);
   }
 
-  trackPageView(path) {
+  trackPageView(path: string) {
     if (this._lastPagePath === path) {
       return;
     }
@@ -73,17 +100,19 @@ export default class AnalyticsCustomPlugin {
     );
   }
 
-  _initSendSchedule() {
+  private _initSendSchedule() {
     window.addEventListener('beforeunload', () => {
       this._trackPageViewAdditionalInfo();
-      return this._flush();
+      return this._flush?.();
     });
 
-    setInterval(this._flush, this._flushInterval);
+    if (this._flush != null) {
+      setInterval(this._flush, this._flushInterval);
+    }
     this._hasSendSchedule = true;
   }
 
-  _processEvent(rawCategory, rawAction) {
+  private _processEvent(rawCategory: string, rawAction: string) {
     if (!this._hasSendSchedule && this._flush) {
       this._initSendSchedule();
     }
@@ -95,7 +124,7 @@ export default class AnalyticsCustomPlugin {
     this._addDataToFlushingPack({category, action});
   }
 
-  _trackPageViewAdditionalInfo(newPagePath) {
+  private _trackPageViewAdditionalInfo(newPagePath?: string) {
     const currentTime = (new Date()).getTime();
     if (this._lastPagePath) {
       if (this._lastPageViewTime) {
@@ -108,11 +137,11 @@ export default class AnalyticsCustomPlugin {
     this._lastPagePath = newPagePath;
   }
 
-  _addDataToFlushingPack(sendingData) {
+  private _addDataToFlushingPack(sendingData: AnalyticsCustomPluginData) {
     this._data.push(sendingData);
 
-    if (this._data.length >= this._flushMaxPackSize) {
-      this._flush();
+    if (this._flushMaxPackSize != null && this._data.length >= this._flushMaxPackSize) {
+      this._flush?.();
     }
   }
 

@@ -1,24 +1,32 @@
+import {AnalyticsPlugin} from './analytics';
+
+declare global {
+  interface Window {
+    'GoogleAnalyticsObject': string
+  }
+}
+
 /**
  *
  * @param {string?} gaId Google Analytics ID (should be undefined in development)
  * @constructor
  */
-export default class AnalyticsGAPlugin {
-  constructor(gaId, isDevelopment, domain) {
+export default class AnalyticsGAPlugin implements AnalyticsPlugin {
+  constructor(gaId?: string | undefined, isDevelopment?: boolean | undefined, domain?: string) {
     if (!gaId && !isDevelopment) {
       return;
     }
-    ((i, s, o, g, r) => {
+    ((i, s, o: 'script', g, r: 'ga') => {
       i.GoogleAnalyticsObject = r;
-      i[r] = i[r] || function addArgumentsToQueueForWaitingTheScriptLoading() {
-        (i[r].q = i[r].q || []).push(arguments);
+      i[r] = i[r] || function addArgumentsToQueueForWaitingTheScriptLoading(...args) {
+        (i[r].q = i[r].q || []).push(args);
       };
-      i[r].l = 1 * new Date();
+      i[r].l = Number(new Date());
       const a = s.createElement(o);
       const m = s.getElementsByTagName(o)[0];
-      a.async = 1;
+      a.async = true;
       a.src = g;
-      m.parentNode.insertBefore(a, m);
+      m.parentNode?.insertBefore(a, m);
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
     /**
      * UA-57284711-1 - ga key for development purpose
@@ -31,8 +39,8 @@ export default class AnalyticsGAPlugin {
     ga('set', 'allowAdFeatures', false);
   }
 
-  trackEvent(category, action) {
-    if (window.ga) {
+  trackEvent(category: string, action: string) {
+    if (window.ga != null) {
       const eventOptions = {
         eventCategory: category,
         eventAction: action
@@ -41,8 +49,8 @@ export default class AnalyticsGAPlugin {
     }
   }
 
-  trackPageView(path) {
-    if (window.ga) {
+  trackPageView(path: string) {
+    if (window.ga != null) {
       ga('send', 'pageview', path);
     }
   }
