@@ -1,16 +1,32 @@
+type Serializable = string | number | boolean | null | undefined | {
+  [K in string | number]?: Serializable
+}
+
+export interface AnalyticsPlugin {
+  serializeAdditionalInfo: boolean
+  trackEvent(
+    category: string,
+    action: string,
+    additionalData?: Record<string, unknown> | undefined
+  ): void
+  trackPageView(path: string): void
+}
+
 /**
  * @name Analytics
  */
-class Analytics {
+export class Analytics {
+  private _plugins: readonly AnalyticsPlugin[];
+
   constructor() {
     this._plugins = [];
   }
 
-  config(plugins) {
+  config(plugins: readonly AnalyticsPlugin[]) {
     this._plugins = plugins;
   }
 
-  track(rawTrackingData, /* optional */ additionalData) {
+  track(rawTrackingData: string, additionalData?: Record<string, unknown> | undefined) {
     if (!rawTrackingData) {
       return;
     }
@@ -29,13 +45,17 @@ class Analytics {
     this.trackEvent(category, subcategory, additionalData);
   }
 
-  trackPageView(path) {
+  trackPageView(path: string) {
     this._plugins.forEach(plugin => {
       plugin.trackPageView(path);
     });
   }
 
-  trackEvent(category, action, /* optional */ additionalData) {
+  trackEvent(
+    category: string,
+    action: string,
+    additionalData?: Record<string, unknown> | undefined
+  ) {
     const subaction = additionalData ? action + this._buildSuffix(additionalData) : null;
     this._plugins.forEach(plugin => {
       if (plugin.serializeAdditionalInfo) {
@@ -49,12 +69,21 @@ class Analytics {
     });
   }
 
-  trackShortcutEvent(category, action, /* optional */ additionalData) {
+  trackShortcutEvent(
+    category: string,
+    action: string,
+    additionalData?: Record<string, unknown> | undefined
+  ) {
     this.trackEvent(category, action, additionalData);
     this.trackEvent('ring-shortcut', `${category}$${action}`, additionalData);
   }
 
-  trackEntityProperties(entityName, entity, propertiesNames, /* optional */ additionalData) {
+  trackEntityProperties(
+    entityName: string,
+    entity: Serializable,
+    propertiesNames: readonly string[],
+    additionalData?: Record<string, unknown> | undefined
+  ) {
     for (let i = 0; i < propertiesNames.length; ++i) {
       const keys = propertiesNames[i].split('.');
       let value = entity;
@@ -64,7 +93,7 @@ class Analytics {
       }
 
       for (let j = 0; j < keys.length; ++j) {
-        if (value.hasOwnProperty(keys[j])) {
+        if (typeof value === 'object' && value != null && value.hasOwnProperty(keys[j])) {
           value = value[keys[j]];
         } else {
           value = 'no-value';
@@ -81,7 +110,7 @@ class Analytics {
     }
   }
 
-  _buildSuffix(additionalData) {
+  private _buildSuffix(additionalData: Record<string, unknown> | undefined) {
     if (!additionalData) {
       return '';
     }
