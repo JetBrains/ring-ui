@@ -129,7 +129,7 @@
   }
 }
 
-.weekdays.weekdays {
+.weekdays {
   height: calc(unit * 4);
   padding: 5px calc(unit * 2) 0;
 
@@ -149,7 +149,7 @@
   color: var(--ring-error-color);
 }
 
-.calendar.calendar {
+.calendar {
   position: relative;
 
   overflow: hidden;
@@ -168,7 +168,7 @@
   left: 0;
 }
 
-.days.days {
+.days {
   position: relative;
   left: 0;
 }
@@ -189,7 +189,7 @@
   line-height: cellSize;
 }
 
-.monthTitle.monthTitle {
+.monthTitle {
   /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
 
   width: calc(unit * 12);
@@ -268,11 +268,11 @@
   border-radius: 0 var(--ring-border-radius) var(--ring-border-radius) 0;
 }
 
-.from.to.from.to {
+.from.to {
   border-radius: var(--ring-border-radius);
 }
 
-.Monday.Monday {
+.Monday {
   position: relative;
 
   &::before,
@@ -314,7 +314,7 @@
   }
 }
 
-.first.first {
+.first {
   position: relative;
 
   &::before,
@@ -363,16 +363,16 @@
   }
 }
 
-.Friday.Friday,
-.Saturday.Saturday,
-.Sunday.Sunday {
+.Friday,
+.Saturday,
+.Sunday {
   &::before,
   &::after {
     height: calc(unit * 5);
   }
 }
 
-.spread.spread {
+.spread {
   &::before,
   &::after,
   & + .Tuesday::before {
@@ -382,7 +382,7 @@
   }
 }
 
-.activeSpread.activeSpread {
+.activeSpread {
   &::before,
   &::after,
   & + .Tuesday::before {
@@ -428,7 +428,7 @@
   left: 2px;
 }
 
-.monthNames.monthNames {
+.monthNames {
   position: absolute;
   top: 0;
   right: 0;
@@ -480,13 +480,13 @@
   opacity: 0.3;
 }
 
-.dragging.dragging {
+.dragging {
   cursor: grabbing;
 
   opacity: 0.35;
 }
 
-.range.range {
+.range {
   position: absolute;
   left: 0;
 
@@ -495,7 +495,7 @@
   background-color: var(--ring-main-color);
 }
 
-.years.years {
+.years {
   position: absolute;
   top: 0;
   right: 0;
@@ -527,7 +527,7 @@
   line-height: yearHeight;
 }
 
-.currentYear.currentYear {
+.currentYear {
   cursor: auto;
   transition: none;
 
