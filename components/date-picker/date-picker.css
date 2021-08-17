@@ -527,7 +527,7 @@
   line-height: yearHeight;
 }
 
-.currentYear {
+.currentYear.currentYear {
   cursor: auto;
   transition: none;
 
