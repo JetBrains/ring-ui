@@ -21,7 +21,7 @@
     "node": ">=12.10.0"
   },
   "dependencies": {
-    "chalk": "^4.1.1",
+    "chalk": "^4.1.2",
     "change-case": "^4.1.2",
     "ora": "^5.4.1",
     "package-json": "^7.0.0",
@@ -29,7 +29,7 @@
     "portscanner": "^2.2.0",
     "read-pkg-up": "^8.0.0",
     "title-case": "^3.0.3",
-    "yeoman-generator": "^5.4.0",
+    "yeoman-generator": "^5.4.1",
     "yeoman-option-or-prompt": "^2.0.1"
   }
 }
