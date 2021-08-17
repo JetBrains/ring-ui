@@ -129,14 +129,14 @@
   }
 }
 
-.weekdays {
+.weekdays.weekdays {
   height: calc(unit * 4);
   padding: 5px calc(unit * 2) 0;
 
   color: var(--ring-secondary-color);
 }
 
-.weekday {
+.weekday.weekday {
   display: inline-block;
 
   width: cellSize;
@@ -145,11 +145,11 @@
   text-transform: capitalize;
 }
 
-.weekend {
+.weekend.weekend {
   color: var(--ring-error-color);
 }
 
-.calendar {
+.calendar.calendar {
   position: relative;
 
   overflow: hidden;
@@ -160,7 +160,7 @@
   box-shadow: 0 -1px var(--ring-line-color);
 }
 
-.months {
+.months.months {
   position: absolute;
   top: 0;
   right: yearWidth;
@@ -168,12 +168,12 @@
   left: 0;
 }
 
-.days {
+.days.days {
   position: relative;
   left: 0;
 }
 
-.month {
+.month.month {
   display: flex;
   flex-wrap: wrap;
 
@@ -181,7 +181,7 @@
   margin: calc(unit * 2);
 }
 
-.month > * {
+.month.month > * {
   flex-shrink: 0;
 
   height: cellSize;
@@ -189,7 +189,7 @@
   line-height: cellSize;
 }
 
-.monthTitle {
+.monthTitle.monthTitle {
   /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
 
   width: calc(unit * 12);
@@ -209,7 +209,9 @@
 
 .day {
   composes: resetButton;
+}
 
+.day.day {
   position: relative;
 
   flex-basis: cellSize;
@@ -226,25 +228,25 @@
   }
 }
 
-.between {
+.between.between {
   transition: none;
 
   background-color: var(--ring-selected-background-color);
 }
 
-.activeBetween {
+.activeBetween.activeBetween {
   transition: none;
 
   background-color: var(--ring-date-picker-hover-color);
 }
 
-.current {
+.current.current {
   color: var(--ring-dark-text-color);
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-main-color);
 }
 
-.active {
+.active.active {
   transition: none;
 
   color: var(--ring-link-hover-color);
@@ -252,25 +254,25 @@
   background-color: var(--ring-date-picker-hover-color);
 }
 
-.disabled {
+.disabled.disabled {
   cursor: not-allowed;
 
   color: var(--ring-disabled-color);
 }
 
-.from {
+.from.from {
   border-radius: var(--ring-border-radius) 0 0 var(--ring-border-radius);
 }
 
-.to {
+.to.to {
   border-radius: 0 var(--ring-border-radius) var(--ring-border-radius) 0;
 }
 
-.from.to {
+.from.to.from.to {
   border-radius: var(--ring-border-radius);
 }
 
-.Monday {
+.Monday.Monday {
   position: relative;
 
   &::before,
@@ -312,7 +314,7 @@
   }
 }
 
-.first {
+.first.first {
   position: relative;
 
   &::before,
@@ -361,16 +363,16 @@
   }
 }
 
-.Friday,
-.Saturday,
-.Sunday {
+.Friday.Friday,
+.Saturday.Saturday,
+.Sunday.Sunday {
   &::before,
   &::after {
     height: calc(unit * 5);
   }
 }
 
-.spread {
+.spread.spread {
   &::before,
   &::after,
   & + .Tuesday::before {
@@ -380,7 +382,7 @@
   }
 }
 
-.activeSpread {
+.activeSpread.activeSpread {
   &::before,
   &::after,
   & + .Tuesday::before {
@@ -390,13 +392,13 @@
   }
 }
 
-.empty {
+.empty.empty {
   pointer-events: none;
 
   opacity: 0;
 }
 
-.today {
+.today.today {
   position: relative;
 
   font-weight: bold;
@@ -426,7 +428,7 @@
   left: 2px;
 }
 
-.monthNames {
+.monthNames.monthNames {
   position: absolute;
   top: 0;
   right: 0;
@@ -441,7 +443,9 @@
 .monthName {
   composes: hoverable;
   composes: resetButton;
+}
 
+.monthName.monthName {
   position: relative;
 
   width: 100%;
@@ -454,7 +458,9 @@
 
 .monthSlider {
   composes: resetButton;
+}
 
+.monthSlider.monthSlider {
   position: absolute;
   z-index: var(--ring-fixed-z-index);
   right: 0;
@@ -480,7 +486,7 @@
   opacity: 0.35;
 }
 
-.range {
+.range.range {
   position: absolute;
   left: 0;
 
@@ -489,7 +495,7 @@
   background-color: var(--ring-main-color);
 }
 
-.years {
+.years.years {
   position: absolute;
   top: 0;
   right: 0;
@@ -505,7 +511,9 @@
 .year {
   composes: hoverable;
   composes: resetButton;
+}
 
+.year.year {
   position: relative;
 
   width: 100%;
@@ -519,7 +527,7 @@
   line-height: yearHeight;
 }
 
-.currentYear {
+.currentYear.currentYear {
   cursor: auto;
   transition: none;
 
