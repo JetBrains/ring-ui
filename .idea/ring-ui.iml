@@ -14,6 +14,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/generator/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/packages/hermione/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/storybook-dist" />
     </content>
     <content url="file://$MODULE_DIR$/node_modules" />
     <orderEntry type="inheritedJdk" />

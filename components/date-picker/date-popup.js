@@ -278,10 +278,21 @@ export default class DatePopup extends Component {
   handleScroll = scrollDate => this.setState({scrollDate});
 
   onClear = e => {
-    this.setState({
-      active: undefined
-    });
+    let changes;
 
+    if (this.props.range) {
+      changes = {
+        from: null,
+        to: null
+      };
+
+    } else {
+      changes = {
+        date: null
+      };
+    }
+
+    this.select(changes);
     this.props.onClear(e);
   };
 

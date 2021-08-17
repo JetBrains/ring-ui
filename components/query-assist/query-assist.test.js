@@ -256,6 +256,19 @@ describe('Query Assist', () => {
         should.have.length(testQueryLength);
     });
 
+    it('should support undo', done => {
+      const instance = mountQueryAssist().find('QueryAssist').instance();
+
+      instance.setState({query: 'newQuery'}, () => {
+        simulateCombo('meta+z');
+
+        setTimeout(() => {
+          instance.state.query.should.equal(testQuery);
+          done();
+        });
+      });
+    });
+
 
     it('should render nothing on empty query', () => {
       const instance = mountQueryAssist({
@@ -563,6 +576,20 @@ describe('Query Assist', () => {
         simulateCombo('down down down tab');
 
         instance.input.should.have.text(getSuggestionText(suggestions[2]));
+      });
+    });
+
+    it('should undo last applied completion', () => {
+      const instance = mountQueryAssist({
+        query: completeQuery,
+        caret: middleCaret
+      }).find('QueryAssist').instance();
+
+      return instance.requestData().then(() => {
+        simulateCombo('down down down tab');
+        instance.input.should.not.have.text(completeQuery);
+        simulateCombo('meta+z');
+        instance.input.should.have.text(completeQuery);
       });
     });
   });

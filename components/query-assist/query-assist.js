@@ -30,7 +30,7 @@ const ngModelStateField = 'query';
 function noop() {}
 
 function cleanText(text) {
-  return text.trim().replace(/([\n\r])+/g, ' ');
+  return text.replace(/([\n\r])+/g, ' ');
 }
 
 /**
@@ -211,6 +211,7 @@ export default class QueryAssist extends Component {
     }
 
     this.setCaretPosition();
+    this._pushHistory(this.state);
   }
 
   shouldComponentUpdate(props, state) {
@@ -257,6 +258,8 @@ export default class QueryAssist extends Component {
   static Theme = Theme;
 
   ngModelStateField = ngModelStateField;
+  // An array of {query: string; caret: number}[]
+  historyStack = [];
 
   handleFocusChange = e => {
     // otherwise it's blur and false
@@ -402,6 +405,38 @@ export default class QueryAssist extends Component {
     }
 
     return true;
+  };
+
+  setState = (state, resolve) => {
+    super.setState(state, () => {
+      this._pushHistory(state);
+      resolve?.();
+    });
+  };
+
+  _pushHistory(state) {
+    const queryIsSet = 'query' in state;
+    const queryIsSame = this.historyStack[0]?.query === state.query;
+
+    if (queryIsSet && !queryIsSame) {
+      this.historyStack.unshift({
+        query: state.query,
+        caret: this.caret?.getPosition({avoidFocus: true}) ?? -1
+      });
+    }
+  }
+
+  undo = e => {
+    // eslint-disable-next-line no-unused-vars
+    const [current, previous] = this.historyStack.splice(0, 2);
+    if (!previous) {
+      return;
+    }
+
+    this.setState({query: previous.query}, () => {
+      this.caret.setPosition(previous.caret);
+      this.handleInput(e);
+    });
   };
 
   handlePaste = e => {
@@ -809,6 +844,7 @@ export default class QueryAssist extends Component {
     'ctrl+enter': this.handleComplete,
     'ctrl+space': this.handleCtrlSpace,
     tab: this.handleTab,
+    'meta+z': this.undo,
     right: noop,
     left: noop,
     space: noop,
