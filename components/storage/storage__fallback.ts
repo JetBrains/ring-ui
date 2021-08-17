@@ -1,10 +1,15 @@
 import deepEqual from 'deep-equal';
 
+import {Storage, StorageConfig} from './storage';
+
 const DEFAULT_CHECK_DELAY = 3000;
 const COOKIE_EXPIRES = 365;
 const QUOTA = 4093;
 // eslint-disable-next-line no-magic-numbers
 const SECONDS_IN_DAY = 24 * 60 * 60 * 1000;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Data = Record<string, any>
 
 /**
  * @prop {string} cookieName
@@ -15,7 +20,7 @@ const SECONDS_IN_DAY = 24 * 60 * 60 * 1000;
  * @return {FallbackStorage}
  * @constructor
  */
-export default class FallbackStorage {
+export default class FallbackStorage implements Storage {
   static DEFAULT_COOKIE_NAME = 'localStorage';
   static DEFAULT_SESSION_COOKIE_NAME = 'sessionStorage';
   static DEFAULT_CHECK_DELAY = DEFAULT_CHECK_DELAY;
@@ -34,14 +39,14 @@ export default class FallbackStorage {
    * @param {number} days
    * @private
    */
-  static _createCookie(name, value, days) {
+  private static _createCookie(name: string, value: string, days: number | null) {
     let date;
     let expires;
 
     if (days) {
       date = new Date();
       date.setTime(date.getTime() + (days * SECONDS_IN_DAY));
-      expires = `; expires=${date.toGMTString()}`;
+      expires = `; expires=${date.toUTCString()}`;
     } else {
       expires = ';';
     }
@@ -55,7 +60,7 @@ export default class FallbackStorage {
    * @return {string}
    * @private
    */
-  static _readCookie(name) {
+  private static _readCookie(name: string) {
     const nameEQ = `${name}=`;
     const cookies = document.cookie.split(';');
 
@@ -74,27 +79,34 @@ export default class FallbackStorage {
     return undefined;
   }
 
-  constructor(config = {}) {
+  cookieName: string;
+  checkDelay: number;
+  expires: number | null;
+  constructor(config: StorageConfig = {}) {
     const session = config.type === 'session';
 
     this.cookieName = config.cookieName ||
       (
         session
-          ? this.constructor.DEFAULT_SESSION_COOKIE_NAME
-          : this.constructor.DEFAULT_COOKIE_NAME
+          ? FallbackStorage.DEFAULT_SESSION_COOKIE_NAME
+          : FallbackStorage.DEFAULT_COOKIE_NAME
       );
-    this.checkDelay = config.checkDelay || this.constructor.DEFAULT_CHECK_DELAY;
-    this.expires = session ? this.constructor.COOKIE_EXPIRES : null;
+    this.checkDelay = config.checkDelay || FallbackStorage.DEFAULT_CHECK_DELAY;
+    this.expires = session ? FallbackStorage.COOKIE_EXPIRES : null;
   }
 
   /**
    * @return {Promise}
    * @private
    */
-  _read() {
-    return new Promise(resolve => {
+  private _read(): Promise<Data> {
+    return new Promise<Data>((resolve, reject) => {
       const rawData = FallbackStorage._readCookie(this.cookieName);
-      resolve(JSON.parse(decodeURIComponent(rawData)));
+      if (rawData != null) {
+        resolve(JSON.parse(decodeURIComponent(rawData)));
+      } else {
+        reject();
+      }
     }).catch(() => ({}));
   }
 
@@ -103,7 +115,7 @@ export default class FallbackStorage {
    * @return {Promise}
    * @private
    */
-  _write(data) {
+  private _write(data: Data) {
     return new Promise(resolve => {
       const stringData = encodeURIComponent(JSON.stringify(data));
       FallbackStorage.
@@ -116,7 +128,7 @@ export default class FallbackStorage {
    * @param {string} key
    * @return {Promise}
    */
-  get(key) {
+  get(key: string) {
     return this._read().then(data => data[key] || null);
   }
 
@@ -125,7 +137,7 @@ export default class FallbackStorage {
    * @param {object} value
    * @return {Promise}
    */
-  set(key, value) {
+  set<T>(key: string, value: T) {
     return this._read().then(data => {
       if (key) {
         if (value != null) {
@@ -143,7 +155,7 @@ export default class FallbackStorage {
    * @param {string} key
    * @return {Promise}
    */
-  remove(key) {
+  remove(key: string) {
     return this.set(key, null);
   }
 
@@ -152,7 +164,7 @@ export default class FallbackStorage {
    * @param {function(string, value)} callback
    * @return {Promise}
    */
-  each(callback) {
+  each<R>(callback: <T>(item: string, value: T) => R) {
     if (typeof callback !== 'function') {
       return Promise.reject(new Error('Callback is not a function'));
     }
@@ -173,10 +185,10 @@ export default class FallbackStorage {
    * @param {Function} callback
    * @return {Function}
    */
-  on(key, callback) {
+  on<T>(key: string, callback: (value: T | null) => void) {
     let stop = false;
 
-    const checkForChange = oldValue => {
+    const checkForChange = (oldValue: T | null) => {
       this.get(key).then(newValue => {
         if (stop) {
           return;

@@ -1,23 +1,28 @@
-/* eslint-disable import/no-duplicates */
-import Storage from './storage__local';
+import {Storage} from './storage';
+import LocalStorage from './storage__local';
 import FallbackStorage from './storage__fallback';
 
-import MockedStorage from 'imports-loader?imports=default|storage-mock|window!./storage__local';
+// eslint-disable-next-line import/no-commonjs
+const MockedStorage: typeof LocalStorage = require('imports-loader?imports=default|storage-mock|window!./storage__local').default;
 
 function noop() {}
 
-function testStorage(storage) {
+type Circular = {
+  circular?: Circular
+}
+
+function testStorage(storage: Storage) {
   describe('set', () => {
     it('should be fulfilled', () => storage.set('empty', {}).should.be.fulfilled);
 
     it('should correctly set url incompatible characters', async () => {
       await storage.set('test;', 'value;');
       const value = await storage.get('test;');
-      value.should.equal('value;');
+      'value;'.should.equal(value);
     });
 
     it('should fail on wrong input (e.g. on circular objects)', () => {
-      const circular = {};
+      const circular: Circular = {};
       circular.circular = circular;
 
       return storage.set('circular', circular).should.be.rejected;
@@ -30,13 +35,13 @@ function testStorage(storage) {
     it('should get items', async () => {
       await storage.set('test2', test);
       const value = await storage.get('test2');
-      value.should.deep.equal(test);
+      test.should.deep.equal(value);
     });
 
     it('should not return same objects', async () => {
       await storage.set('test', test);
       const value = await storage.get('test');
-      value.should.not.equal(test);
+      test.should.not.equal(value);
     });
 
     it('should return null when there is no item', () => storage.get('test').should.become(null));
@@ -91,14 +96,15 @@ function testStorage(storage) {
 
     it('should fail on wrong callback', async () => {
       await storage.set('test', '');
+      // @ts-expect-error testing a wrong usage
       storage.each().should.be.rejected;
     });
   });
 }
 
-function testStorageEvents(storage) {
+function testStorageEvents(storage: Storage) {
   describe('events', () => {
-    let stop;
+    let stop: () => void;
 
     afterEach(() => {
       stop();
@@ -136,7 +142,7 @@ function testStorageEvents(storage) {
       // Set test value and wait for it
       storage.set(testEvent, testValue);
 
-      const disposer = await new Promise(resolve => {
+      const disposer: () => void = await new Promise(resolve => {
         const stopSetListening = storage.on(testEvent, () => {
           resolve(stopSetListening);
         });
@@ -187,8 +193,8 @@ describe('Storage', () => {
       sessionStorage.clear();
     });
 
-    const storage = new Storage();
-    const storageSession = new Storage({
+    const storage = new LocalStorage();
+    const storageSession = new LocalStorage({
       type: 'session'
     });
 
