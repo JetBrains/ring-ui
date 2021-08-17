@@ -1,12 +1,17 @@
 import alert from '../alert-service/alert-service';
 
+import {Storage, StorageConfig} from './storage';
+
 /**
  * @return {LocalStorage}
  * @param {{type: string}} config Set to "session" to use sessionStorage
  * @constructor
  */
-export default class LocalStorage {
-  static async safePromise(resolver) {
+export default class LocalStorage implements Storage {
+  static async safePromise<T>(resolver: (
+    resolve: (value: T | PromiseLike<T>) => void,
+    reject: (reason?: unknown) => void
+  ) => void) {
     try {
       return await new Promise(resolver);
     } catch (e) {
@@ -19,7 +24,8 @@ export default class LocalStorage {
     }
   }
 
-  constructor(config = {}) {
+  storageType: 'sessionStorage' | 'localStorage';
+  constructor(config: StorageConfig = {}) {
     this.storageType = config.type === 'session' ? 'sessionStorage' : 'localStorage';
   }
 
@@ -27,12 +33,16 @@ export default class LocalStorage {
    * @param {string} name
    * @return {Promise}
    */
-  get(name) {
-    return this.constructor.safePromise(resolve => {
+  get<T>(name: string) {
+    return LocalStorage.safePromise<T | null>(resolve => {
       const value = window[this.storageType].getItem(name);
-      try {
-        resolve(JSON.parse(value));
-      } catch (e) {
+      if (value != null) {
+        try {
+          resolve(JSON.parse(value));
+        } catch (e) {
+          resolve(value as unknown as T);
+        }
+      } else {
         resolve(value);
       }
     });
@@ -43,8 +53,8 @@ export default class LocalStorage {
    * @param {object} value
    * @return {Promise}
    */
-  set(name, value) {
-    return this.constructor.safePromise(resolve => {
+  set<T>(name: string, value: T) {
+    return LocalStorage.safePromise<T>(resolve => {
       window[this.storageType].setItem(name, JSON.stringify(value));
       resolve(value);
     });
@@ -54,10 +64,10 @@ export default class LocalStorage {
    * @param {string} name
    * @return {Promise}
    */
-  remove(name) {
+  remove(name: string) {
     const storageType = this.storageType;
 
-    return this.constructor.safePromise(resolve => {
+    return LocalStorage.safePromise<void>(resolve => {
       if (window[storageType].hasOwnProperty(name)) {
         window[storageType].removeItem(name);
       }
@@ -67,21 +77,23 @@ export default class LocalStorage {
 
   /**
    * @param callback
-   * @return {Promise}
+   * @return {Promise}s
    */
-  each(callback) {
+  each<R>(callback: <T>(item: string, value: T) => R) {
     const storageType = this.storageType;
 
-    return this.constructor.safePromise(resolve => {
+    return LocalStorage.safePromise<R[]>(resolve => {
       const promises = [];
 
       for (const item in window[storageType]) {
         if (window[storageType].hasOwnProperty(item)) {
           let value = window[storageType].getItem(item);
-          try {
-            value = JSON.parse(value);
-          } catch (e) {
-            // Do nothing
+          if (value != null) {
+            try {
+              value = JSON.parse(value);
+            } catch (e) {
+              // Do nothing
+            }
           }
 
           promises.push(Promise.resolve(callback(item, value)));
@@ -97,12 +109,16 @@ export default class LocalStorage {
    * @param {Function} callback
    * @return {Function}
    */
-  on(name, callback) {
-    function handleStorage(e) {
+  on<T>(name: string, callback: (value: T | null) => void) {
+    function handleStorage(e: StorageEvent) {
       if (e.key === name) {
-        try {
-          callback(JSON.parse(e.newValue));
-        } catch (err) {
+        if (e.newValue != null) {
+          try {
+            callback(JSON.parse(e.newValue));
+          } catch (err) {
+            callback(e.newValue as unknown as T);
+          }
+        } else {
           callback(e.newValue);
         }
       }
