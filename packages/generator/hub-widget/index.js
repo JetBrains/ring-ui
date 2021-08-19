@@ -27,8 +27,7 @@ const INDENT = 2;
 const additionalDevServerOptions = `
     headers: {
       'Access-Control-Allow-Origin': '*'
-    },
-    disableHostCheck: true,`;
+    },`;
 
 const additionalWebpackPlugins = `,
     new (require('copy-webpack-plugin'))({patterns: ['manifest.json']}, {})

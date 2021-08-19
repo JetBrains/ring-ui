@@ -12,7 +12,7 @@
     "lint": "eslint . && npm run stylelint",
     "stylelint": "stylelint --ignore-path .gitignore **/*.css",
     "ci-test": "npm run lint && karma start",
-    "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
+    "start": "webpack serve --mode=development --history-api-fallback --hot --color --port <%= port %>"
   },
   "dependencies": {
     "@babel/core": "^7.15.0",
