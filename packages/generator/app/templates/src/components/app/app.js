@@ -1,6 +1,5 @@
 import React from 'react';
 import {render} from 'react-dom';
-import RedBox from 'redbox-react';
 
 import AppRoot from './app-root';
 import './app.css';
@@ -20,7 +19,7 @@ if (module.hot) {
   const renderAppHot = renderApp;
   const renderError = error => {
     render(
-      <RedBox error={error}/>,
+      <pre style={{color: 'red'}}>${error.toString()}</pre>,
       rootEl
     );
   };
