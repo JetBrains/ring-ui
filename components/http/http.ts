@@ -1,5 +1,6 @@
 import ExtendableError from 'es6-error';
 
+import Auth from '../auth/auth';
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
 
 /**
@@ -10,7 +11,7 @@ const TOKEN_TYPE = 'Bearer';
 const STATUS_OK_IF_MORE_THAN = 200;
 const STATUS_BAD_IF_MORE_THAN = 300;
 
-export const defaultFetchConfig = {
+export const defaultFetchConfig: RequestInit = {
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'
@@ -18,8 +19,13 @@ export const defaultFetchConfig = {
   credentials: 'same-origin'
 };
 
+export interface HTTPErrorData {
+  error?: string
+}
 export class HTTPError extends ExtendableError {
-  constructor(response, data = {}) {
+  data: HTTPErrorData;
+  status: number | undefined;
+  constructor(response: Partial<Response>, data: HTTPErrorData = {}) {
     super(`${response.status} ${response.statusText || ''}`);
     this.data = data;
     this.status = response.status;
@@ -30,11 +36,33 @@ export const CODE = {
   UNAUTHORIZED: 401
 };
 
-export default class HTTP {
-  baseUrl = null;
-  _requestsMeta = new WeakMap();
+export interface FetchParams<T = unknown> extends Omit<RequestInit, 'body'> {
+  body?: T
+  query?: Record<string, unknown> | undefined
+}
 
-  constructor(auth, baseUrl, fetchConfig = {}) {
+export type RequestParams =
+  | FetchParams & {
+    sendRawBody?: false
+  }
+  | FetchParams<BodyInit | null> & {
+    sendRawBody: true
+  }
+
+export interface HTTPAuth {
+  requestToken(): Promise<string | null> | string | null
+  forceTokenUpdate(): Promise<string | null>
+}
+
+export default class HTTP implements Partial<HTTPAuth> {
+  baseUrl: string | null | undefined = null;
+  _requestsMeta = new WeakMap<object, Partial<Response>>();
+  fetchConfig: RequestInit;
+  requestToken?: () => Promise<string | null> | string | null;
+  shouldRefreshToken?: (error: string) => boolean;
+  forceTokenUpdate?: () => Promise<string | null>;
+
+  constructor(auth: HTTPAuth, baseUrl?: string | null | undefined, fetchConfig: RequestInit = {}) {
     if (auth) {
       this.setAuth(auth);
     }
@@ -52,26 +80,30 @@ export default class HTTP {
     };
   }
 
-  setAuth = auth => {
+  setAuth = (auth: HTTPAuth) => {
     this.requestToken = () => auth.requestToken();
-    this.shouldRefreshToken = auth.constructor.shouldRefreshToken;
+    this.shouldRefreshToken = (auth.constructor as typeof Auth).shouldRefreshToken;
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
   };
 
-  setBaseUrl = baseUrl => {
+  setBaseUrl = (baseUrl: string | null | undefined) => {
     this.baseUrl = baseUrl;
   };
 
-  _fetch(...args) {
+  _fetch(...args: Parameters<typeof fetch>): Promise<Response> | Partial<Response> {
     return fetch(...args);
   }
 
-  _makeRequestUrl(url, queryObject) {
+  private _makeRequestUrl(url: string, queryObject: Record<string, unknown>) {
     const urlWithQuery = encodeURL(url, queryObject);
     return joinBaseURLAndPath(this.baseUrl, urlWithQuery);
   }
 
-  _performRequest(url, token, params = {}) {
+  private _performRequest(
+    url: string,
+    token?: string | null | boolean,
+    params: RequestParams = {}
+  ) {
     const {headers, body, query = {}, sendRawBody, ...fetchConfig} = params;
 
     const combinedHeaders = {
@@ -80,11 +112,20 @@ export default class HTTP {
       ...headers
     };
 
-    Object.keys(combinedHeaders).forEach(key => {
-      if (combinedHeaders[key] === null || combinedHeaders[key] === undefined) {
+    Object.entries(combinedHeaders).forEach(([key, header]) => {
+      if (header === null || header === undefined) {
         Reflect.deleteProperty(combinedHeaders, key);
       }
     });
+
+    let bodyToSend: BodyInit | null | undefined;
+    if (params.sendRawBody) {
+      bodyToSend = params.body;
+    } else {
+      bodyToSend = params.body === null || params.body === undefined || params.body === ''
+        ? params.body
+        : JSON.stringify(body);
+    }
 
     return this._fetch(
       this._makeRequestUrl(url, query),
@@ -92,25 +133,25 @@ export default class HTTP {
         ...this.fetchConfig,
         headers: combinedHeaders,
         ...fetchConfig,
-        body: body && !sendRawBody ? JSON.stringify(body) : body
+        body: bodyToSend
       }
     );
   }
 
-  _storeRequestMeta(parsedResponse, rawResponse) {
+  private _storeRequestMeta(parsedResponse: object, rawResponse: Partial<Response>) {
     const {headers, ok, redirected, status, statusText, type, url} = rawResponse;
     this._requestsMeta.
       set(parsedResponse, {headers, ok, redirected, status, statusText, type, url});
   }
 
-  async _processResponse(response) {
-    const contentType = response.headers.get('content-type');
+  private async _processResponse(response: Partial<Response>) {
+    const contentType = response.headers?.get('content-type');
     const isJson = contentType && contentType.indexOf('application/json') !== -1;
 
-    if (HTTP._isErrorStatus(response.status)) {
+    if (response.status != null && HTTP._isErrorStatus(response.status)) {
       let resJson;
       try {
-        resJson = await (isJson ? response.json() : response.text());
+        resJson = await (isJson ? response.json?.() : response.text?.());
       } catch (err) {
         // noop
       }
@@ -119,7 +160,7 @@ export default class HTTP {
     }
 
     try {
-      const parsedResponse = await (isJson ? response.json() : {data: await response.text()});
+      const parsedResponse = await (isJson ? response.json?.() : {data: await response.text?.()});
       this._storeRequestMeta(parsedResponse, response);
       return parsedResponse;
     } catch (err) {
@@ -127,32 +168,32 @@ export default class HTTP {
     }
   }
 
-  static _isErrorStatus(status) {
+  private static _isErrorStatus(status: number) {
     return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
   }
 
-  fetch = async (url, params = {}) => {
+  fetch = async (url: string, params: FetchParams = {}) => {
     const {body, query = {}, ...fetchConfig} = params;
 
     const response = await this._fetch(
       this._makeRequestUrl(url, query),
       {
         ...fetchConfig,
-        body: body ? JSON.stringify(body) : body
+        body: body !== null && body !== undefined && body !== '' ? JSON.stringify(body) : body
       }
     );
 
     return this._processResponse(response);
   };
 
-  async authorizedFetch(...args) {
+  async authorizedFetch(...args: Parameters<HTTP['_performRequest']>) {
     const response = await this._performRequest(...args);
 
     return this._processResponse(response);
   }
 
-  request = async (url, params) => {
-    let token = await this.requestToken();
+  request = async (url: string, params?: RequestParams) => {
+    let token = await this.requestToken?.();
     let response = await this._performRequest(url, token, params);
 
     try {
@@ -164,11 +205,11 @@ export default class HTTP {
       }
 
       const shouldRefreshToken = error.data.error !== undefined
-        ? this.shouldRefreshToken(error.data.error)
+        ? this.shouldRefreshToken?.(error.data.error)
         : false;
 
       if (shouldRefreshToken) {
-        token = await this.forceTokenUpdate();
+        token = await this.forceTokenUpdate?.();
         response = await this._performRequest(url, token, params);
 
         return this._processResponse(response);
@@ -178,16 +219,16 @@ export default class HTTP {
     }
   };
 
-  getMetaForResponse = response => this._requestsMeta.get(response);
+  getMetaForResponse = (response: object) => this._requestsMeta.get(response);
 
-  get = (url, params) => (
+  get = (url: string, params?: RequestParams) => (
     this.request(url, {
       method: 'GET',
       ...params
     })
   );
 
-  post = (url, params) => (
+  post = (url: string, params?: RequestParams) => (
     this.request(url, {
       method: 'POST',
       ...params

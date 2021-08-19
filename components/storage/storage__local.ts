@@ -1,13 +1,13 @@
 import alert from '../alert-service/alert-service';
 
-import {Storage, StorageConfig} from './storage';
+import {StorageInterface, StorageConfig} from './storage';
 
 /**
  * @return {LocalStorage}
  * @param {{type: string}} config Set to "session" to use sessionStorage
  * @constructor
  */
-export default class LocalStorage implements Storage {
+export default class LocalStorage implements StorageInterface {
   static async safePromise<T>(resolver: (
     resolve: (value: T | PromiseLike<T>) => void,
     reject: (reason?: unknown) => void
@@ -40,7 +40,7 @@ export default class LocalStorage implements Storage {
         try {
           resolve(JSON.parse(value));
         } catch (e) {
-          resolve(value as unknown as T);
+          resolve(value as never);
         }
       } else {
         resolve(value);
@@ -79,7 +79,7 @@ export default class LocalStorage implements Storage {
    * @param callback
    * @return {Promise}s
    */
-  each<R>(callback: <T>(item: string, value: T) => R) {
+  each<T, R>(callback: (item: string, value: T | null) => R | Promise<R>) {
     const storageType = this.storageType;
 
     return LocalStorage.safePromise<R[]>(resolve => {
@@ -87,16 +87,17 @@ export default class LocalStorage implements Storage {
 
       for (const item in window[storageType]) {
         if (window[storageType].hasOwnProperty(item)) {
-          let value = window[storageType].getItem(item);
+          const value = window[storageType].getItem(item);
+          let resolvedValue: T | null = null;
           if (value != null) {
             try {
-              value = JSON.parse(value);
+              resolvedValue = JSON.parse(value);
             } catch (e) {
-              // Do nothing
+              resolvedValue = value as never;
             }
           }
 
-          promises.push(Promise.resolve(callback(item, value)));
+          promises.push(Promise.resolve(callback(item, resolvedValue)));
         }
       }
 
@@ -116,7 +117,7 @@ export default class LocalStorage implements Storage {
           try {
             callback(JSON.parse(e.newValue));
           } catch (err) {
-            callback(e.newValue as unknown as T);
+            callback(e.newValue as never);
           }
         } else {
           callback(e.newValue);
