@@ -1,13 +1,20 @@
-
-import HTTP from './http';
+import HTTP, {FetchParams} from './http';
 
 const authMock = {
   requestToken: () => 'mock token',
   shouldRefreshToken: () => false,
-  forceTokenUpdate: async () => {}
+  forceTokenUpdate: () => Promise.resolve(null)
 };
 
+export interface HTTPMockRequest {
+  url: string,
+  params: FetchParams
+}
+
 export default class HTTPMock extends HTTP {
+  defaultResponse: unknown;
+  requests: HTTPMockRequest[];
+  responsesByUrlMap: Map<string | RegExp, unknown>;
   constructor() {
     super(authMock);
 
@@ -16,31 +23,31 @@ export default class HTTPMock extends HTTP {
     this.responsesByUrlMap = new Map();
   }
 
-  _fetch(url, params) {
+  _fetch(url: string, params: RequestInit) {
     this.requests = [...this.requests, {
       url,
       params: {
         ...params,
-        body: params.body ? JSON.parse(params.body) : params.body
+        body: typeof params.body === 'string' ? JSON.parse(params.body) : params.body
       }
     }];
 
     return {
       status: 200,
       headers: new Headers({'content-type': 'application/json'}),
-      json: () => (this._getResponseForUrl(url) || this.defaultResponse)
+      json: () => Promise.resolve((this._getResponseForUrl(url) || this.defaultResponse))
     };
   }
 
-  respondDefault(response) {
+  respondDefault(response: unknown) {
     this.defaultResponse = response;
   }
 
-  respondForUrl(url, response) {
+  respondForUrl(url: string | RegExp, response: unknown) {
     this.responsesByUrlMap.set(url, response);
   }
 
-  _getResponseForUrl(urlToMatch) {
+  _getResponseForUrl(urlToMatch: string) {
     const urls = this.responsesByUrlMap.keys();
 
     for (const url of urls) {
@@ -48,7 +55,7 @@ export default class HTTPMock extends HTTP {
         return this.responsesByUrlMap.get(url);
       }
 
-      if (url.test && url.test(urlToMatch)) {
+      if (url instanceof RegExp && url.test(urlToMatch)) {
         return this.responsesByUrlMap.get(url);
       }
     }
@@ -56,7 +63,7 @@ export default class HTTPMock extends HTTP {
     return null;
   }
 
-  getRequestsByUrlPart(url) {
+  getRequestsByUrlPart(url: string) {
     return this.requests.filter(it => it.url.indexOf(url) !== -1);
   }
 }

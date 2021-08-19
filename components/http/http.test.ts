@@ -1,15 +1,25 @@
-import HTTP, {defaultFetchConfig} from './http';
+import * as Sinon from 'sinon';
+
+import HTTP, {defaultFetchConfig, HTTPAuth} from './http';
 
 const OK = 200;
 const METHOD_NOT_ALLOWED = 405;
 
+
 describe('HTTP', () => {
   const FAKE_TOKEN = 'fake-token';
-  let fakeAuth;
-  let http;
-  let fetchResult;
+  class FakeAuth implements HTTPAuth {
+    static shouldRefreshToken = sandbox.stub().returns(false);
+    requestToken = sandbox.stub().returns(FAKE_TOKEN);
+    forceTokenUpdate = sandbox.stub()
+  }
+  let fakeAuth: FakeAuth;
+  let http: HTTP;
+  let fetchResult: {
+    isResponseOk: boolean
+  };
 
-  function mockFetch(httpInstance) {
+  function mockFetch(httpInstance: HTTP) {
     sandbox.stub(httpInstance, '_fetch').resolves({
       status: OK,
       headers: new Headers({'content-type': 'application/json'}),
@@ -18,13 +28,7 @@ describe('HTTP', () => {
   }
 
   beforeEach(function beforeEach() {
-    fakeAuth = {
-      constructor: {
-        shouldRefreshToken: sandbox.stub().returns(false)
-      },
-      requestToken: sandbox.stub().returns(FAKE_TOKEN),
-      forceTokenUpdate: sandbox.stub()
-    };
+    fakeAuth = new FakeAuth();
 
     fetchResult = {
       isResponseOk: true
@@ -38,12 +42,12 @@ describe('HTTP', () => {
   it('should export http service', () => http.should.exist);
 
   it('should read token and perform authorized fetch', async () => {
-    await http.request('testurl', {foo: 'bar'});
+    await http.request('testurl', {cache: 'default'});
 
     fakeAuth.requestToken.should.have.been.called;
 
     http._fetch.should.have.been.calledWith('testurl', {
-      foo: 'bar',
+      cache: 'default',
       headers: {
         ...defaultFetchConfig.headers,
         Authorization: `Bearer ${FAKE_TOKEN}`
@@ -54,12 +58,12 @@ describe('HTTP', () => {
   });
 
   it('should perform unauthorized fetch', async () => {
-    await http.fetch('testurl', {foo: 'bar'});
+    await http.fetch('testurl', {cache: 'default'});
 
     fakeAuth.requestToken.should.not.have.been.called;
 
     http._fetch.should.have.been.calledWith('testurl', {
-      foo: 'bar',
+      cache: 'default',
       body: undefined
     });
   });
@@ -70,7 +74,7 @@ describe('HTTP', () => {
   });
 
   it('should perform request and return text result if no "application/json" header', async () => {
-    http._fetch.resolves({
+    (http._fetch as Sinon.SinonStub).resolves({
       status: OK,
       headers: new Headers({'content-type': 'text/html'}),
       json: () => sandbox.spy(),
@@ -85,12 +89,12 @@ describe('HTTP', () => {
     const res = await http.request('testurl');
 
     const meta = http.getMetaForResponse(res);
-    meta.status.should.equal(OK);
-    meta.headers.get('content-type').should.equal('application/json');
+    OK.should.equal(meta?.status);
+    'application/json'.should.equal(meta?.headers?.get('content-type'));
   });
 
   it('should allow to get meta information of string response', async () => {
-    http._fetch.resolves({
+    (http._fetch as Sinon.SinonStub).resolves({
       status: OK,
       headers: new Headers({'content-type': 'text/html'}),
       json: () => sandbox.spy(),
@@ -99,8 +103,8 @@ describe('HTTP', () => {
     const res = await http.request('testurl');
 
     const meta = http.getMetaForResponse(res);
-    meta.status.should.equal(OK);
-    meta.headers.get('content-type').should.equal('text/html');
+    OK.should.equal(meta?.status);
+    'text/html'.should.equal(meta?.headers?.get('content-type'));
   });
 
 
@@ -138,7 +142,7 @@ describe('HTTP', () => {
   });
 
   it('should throw if response status is not OK', async () => {
-    http._fetch.resolves({
+    (http._fetch as Sinon.SinonStub).resolves({
       status: METHOD_NOT_ALLOWED,
       json: () => fetchResult
     });
@@ -150,9 +154,9 @@ describe('HTTP', () => {
   });
 
   it('should refresh token and request again if invalid token error returned', async () => {
-    fakeAuth.constructor.shouldRefreshToken.returns(true);
+    (fakeAuth.constructor as typeof FakeAuth).shouldRefreshToken.returns(true);
 
-    http._fetch.
+    (http._fetch as Sinon.SinonStub).
       onFirstCall().resolves({
         status: METHOD_NOT_ALLOWED,
         json: () => ({error: 'invalid_token'}),

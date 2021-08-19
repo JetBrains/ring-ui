@@ -25,7 +25,10 @@ export const basic = () => {
 
     const user = await http.get(`${hubConfig.serverUri}/api/rest/users/me?fields=name,login`);
 
-    node.querySelector('#output').innerText = JSON.stringify(user);
+    const output = node.querySelector<HTMLElement>('#output');
+    if (output != null) {
+      output.innerText = JSON.stringify(user);
+    }
   }());
 
   return node;
