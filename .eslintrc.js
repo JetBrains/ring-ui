@@ -62,6 +62,13 @@ module.exports = {
         '@typescript-eslint/no-use-before-define': [error, 'nofunc'],
         'no-shadow': ignore,
         '@typescript-eslint/no-shadow': error,
+        '@typescript-eslint/no-unused-vars': [error, {
+          ignoreRestSiblings: true
+        }],
+        '@typescript-eslint/ban-types': [error, {
+          extendDefaults: true,
+          types: {object: false}
+        }],
         'react/prop-types': ignore
       }
     },

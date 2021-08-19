@@ -41,7 +41,7 @@ describe('Analytics', () => {
 
     it('should send pageview event', () => {
       const rememberGA = window.ga;
-      window.ga = sandbox.spy() as unknown as UniversalAnalytics.ga;
+      window.ga = sandbox.spy() as never;
       gaPlugin.trackPageView('some-path');
 
       window.ga.should.have.been.calledWith('send', 'pageview', 'some-path');
@@ -51,7 +51,7 @@ describe('Analytics', () => {
 
     it('should send action event', () => {
       const rememberGA = window.ga;
-      window.ga = sandbox.spy() as unknown as UniversalAnalytics.ga;
+      window.ga = sandbox.spy() as never;
       gaPlugin.trackEvent('some-category', 'some-action');
 
       window.ga.should.calledWith('send', 'event', {
