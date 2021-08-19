@@ -1,6 +1,6 @@
 import deepEqual from 'deep-equal';
 
-import {Storage, StorageConfig} from './storage';
+import {StorageInterface, StorageConfig} from './storage';
 
 const DEFAULT_CHECK_DELAY = 3000;
 const COOKIE_EXPIRES = 365;
@@ -20,7 +20,7 @@ type Data = Record<string, any>
  * @return {FallbackStorage}
  * @constructor
  */
-export default class FallbackStorage implements Storage {
+export default class FallbackStorage implements StorageInterface {
   static DEFAULT_COOKIE_NAME = 'localStorage';
   static DEFAULT_SESSION_COOKIE_NAME = 'sessionStorage';
   static DEFAULT_CHECK_DELAY = DEFAULT_CHECK_DELAY;
@@ -137,26 +137,26 @@ export default class FallbackStorage implements Storage {
    * @param {object} value
    * @return {Promise}
    */
-  set<T>(key: string, value: T) {
-    return this._read().then(data => {
-      if (key) {
-        if (value != null) {
-          data[key] = value;
-        } else {
-          Reflect.deleteProperty(data, key);
-        }
+  async set<T>(key: string, value: T) {
+    const data = await this._read();
+    if (key) {
+      if (value != null) {
+        data[key] = value;
+      } else {
+        Reflect.deleteProperty(data, key);
       }
+    }
 
-      return this._write(data);
-    });
+    await this._write(data);
+    return value;
   }
 
   /**
    * @param {string} key
    * @return {Promise}
    */
-  remove(key: string) {
-    return this.set(key, null);
+  async remove(key: string) {
+    await this.set(key, null);
   }
 
   /**
@@ -164,7 +164,7 @@ export default class FallbackStorage implements Storage {
    * @param {function(string, value)} callback
    * @return {Promise}
    */
-  each<R>(callback: <T>(item: string, value: T) => R) {
+  each<T, R>(callback: (item: string, value: T) => R | Promise<R>) {
     if (typeof callback !== 'function') {
       return Promise.reject(new Error('Callback is not a function'));
     }
