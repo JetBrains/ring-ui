@@ -19,7 +19,7 @@ if (module.hot) {
   const renderAppHot = renderApp;
   const renderError = error => {
     render(
-      <pre style={{color: 'red'}}>${error.toString()}</pre>,
+      <pre style={{color: 'red'}}>{error.toString()}</pre>,
       rootEl
     );
   };
