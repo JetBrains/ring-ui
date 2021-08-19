@@ -28,7 +28,7 @@ const additionalDevServerOptions = `
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
-    allowedHosts: 'all',`;
+    allowedHosts: 'all'`;
 
 const additionalWebpackPlugins = `,
     new (require('copy-webpack-plugin'))({patterns: ['manifest.json']}, {})
