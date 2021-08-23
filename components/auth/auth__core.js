@@ -736,11 +736,10 @@ export default class Auth {
   }
 
   async switchUser() {
-    if (this.config.embeddedLogin) {
-      await this._runEmbeddedLogin();
+    if (!this.config.embeddedLogin) {
+      throw new Error('Auth: switchUser only supported for "embeddedLogin" mode');
     }
-
-    throw new Error('Auth: switchUser only supported for "embeddedLogin" mode');
+    await this._runEmbeddedLogin();
   }
 
   /**
