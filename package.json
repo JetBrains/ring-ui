@@ -159,7 +159,6 @@
     "@jetbrains/logos": "^1.4.17",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@ungap/url-search-params": "^0.2.2",
-    "angular-sanitize": "^1.8.2",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-define": "^2.0.0",
     "browserslist": "^4.16.6",
