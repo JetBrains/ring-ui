@@ -1,12 +1,20 @@
 import AuthResponseParser from './response-parser';
+import {LoginFlow} from "./auth__core";
+import AuthRequestBuilder from "./request-builder";
+import AuthStorage from "./storage";
 
 const NAVBAR_HEIGHT = 50;
 const CLOSED_CHECK_INTERVAL = 200;
 
-export default class WindowFlow {
-  _timeoutId = null;
+export default class WindowFlow implements LoginFlow {
+  private _timeoutId: number | undefined = undefined;
+  private _requestBuilder: AuthRequestBuilder;
+  private _storage: AuthStorage;
+  reject?: (reason: unknown) => void;
+  private _loginWindow?: Window | null;
+  private _promise?: Promise<string> | null;
 
-  constructor(requestBuilder, storage) {
+  constructor(requestBuilder: AuthRequestBuilder, storage: AuthStorage) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
     this._reset();
@@ -17,7 +25,7 @@ export default class WindowFlow {
    * @param {string} url
    * @private
    */
-  _openWindow(url) {
+  private _openWindow(url: string) {
     const height = 700;
     const width = 750;
     const screenHalves = 2;
@@ -34,7 +42,7 @@ export default class WindowFlow {
   /**
    * Initiates authorization in window
    */
-  async _load() {
+  private async _load(): Promise<string> {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
       // eslint-disable-next-line camelcase
       {request_credentials: 'required', auth_mode: 'bypass_to_login'},
@@ -43,7 +51,7 @@ export default class WindowFlow {
 
     return new Promise((resolve, reject) => {
       this.reject = reject;
-      let cleanRun;
+      let cleanRun: boolean;
 
       const cleanUp = () => {
         if (cleanRun) {
@@ -55,7 +63,7 @@ export default class WindowFlow {
         removeTokenListener();
         /* eslint-enable no-use-before-define */
 
-        this._loginWindow.close();
+        this._loginWindow?.close();
         clearTimeout(this._timeoutId);
       };
 
@@ -73,10 +81,10 @@ export default class WindowFlow {
         }
       });
 
-      if (this._loginWindow === null || this._loginWindow.closed === true) {
+      if (this._loginWindow == null || this._loginWindow.closed) {
         this._loginWindow = this._openWindow(authRequest.url);
       } else {
-        this._loginWindow.location = authRequest.url;
+        this._loginWindow.location.href = authRequest.url;
       }
 
       this.checkIsClosed();
@@ -84,11 +92,11 @@ export default class WindowFlow {
   }
 
   checkIsClosed = () => {
-    if (this._loginWindow.closed) {
+    if (this._loginWindow?.closed) {
       this.stop();
       return;
     }
-    this._timeoutId = setTimeout(this.checkIsClosed, CLOSED_CHECK_INTERVAL);
+    this._timeoutId = window.setTimeout(this.checkIsClosed, CLOSED_CHECK_INTERVAL);
   };
 
   _reset = () => {
@@ -98,7 +106,7 @@ export default class WindowFlow {
   };
 
   stop() {
-    if (this._loginWindow !== null) {
+    if (this._loginWindow != null) {
       this._loginWindow.close();
     }
     if (this.reject) {
@@ -107,8 +115,8 @@ export default class WindowFlow {
     this._reset();
   }
 
-  authorize() {
-    if (this._promise !== null && this._loginWindow !== null && this._loginWindow.closed !== true) {
+  authorize(): Promise<string> {
+    if (this._promise != null && this._loginWindow != null && !this._loginWindow.closed) {
       this._loginWindow.focus();
 
       return this._promise;

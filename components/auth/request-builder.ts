@@ -2,7 +2,20 @@ import uuid from 'simply-uuid';
 
 import {encodeURL} from '../global/url';
 
+import AuthStorage, {AuthState} from './storage';
+
+export interface AuthRequestBuilderConfig {
+  authorization: string
+  redirectUri?: string | null | undefined
+  requestCredentials?: string | null | undefined
+  clientId?: string | null | undefined
+  scopes: readonly string[]
+  redirect?: boolean | null | undefined
+}
+
 export default class AuthRequestBuilder {
+  config: AuthRequestBuilderConfig;
+  storage: AuthStorage;
   /**
    * @param {{
    *   authorization: string,
@@ -13,7 +26,7 @@ export default class AuthRequestBuilder {
    * }} config
    * @param {AuthStorage} storage
    */
-  constructor(config, storage) {
+  constructor(config: AuthRequestBuilderConfig, storage: AuthStorage) {
     this.config = config;
     this.storage = storage;
   }
@@ -21,7 +34,7 @@ export default class AuthRequestBuilder {
   /**
    * @return {string} random string used for state
    */
-  static _uuid = uuid.generate;
+  private static _uuid = uuid.generate;
 
   /**
    * Save state and build an auth server redirect URL.
@@ -30,7 +43,10 @@ export default class AuthRequestBuilder {
    * @param {object=} extraState additional state parameters to save
    * @return {Promise.<string>} promise that is resolved to authURL
    */
-  async prepareAuthRequest(extraParams, extraState) {
+  async prepareAuthRequest(
+    extraParams?: Record<string, unknown> | null | undefined,
+    extraState?: Partial<AuthState>
+  ) {
     const stateId = AuthRequestBuilder._uuid();
     const scopes = this.config.scopes.map(scope => encodeURIComponent(scope));
 
@@ -65,7 +81,7 @@ export default class AuthRequestBuilder {
    * @return {Promise}
    * @private
    */
-  _saveState(id, storedState) {
+  private _saveState(id: string, storedState: AuthState) {
     return this.storage.saveState(id, storedState);
   }
 }
