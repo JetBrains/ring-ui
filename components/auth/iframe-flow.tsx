@@ -4,11 +4,24 @@ import loginDialogService from '../login-dialog/service';
 import Link from '../link/link';
 
 import AuthResponseParser from './response-parser';
+import {AuthTranslations, LoginFlow} from './auth__core';
+import AuthRequestBuilder from './request-builder';
+import AuthStorage from './storage';
 
-export default class IFrameFlow {
-  hideDialog = null;
+export default class IFrameFlow implements LoginFlow {
+  hideDialog: (() => void) | null = null;
+  private _requestBuilder: AuthRequestBuilder;
+  private _storage: AuthStorage;
+  private _translations: AuthTranslations;
+  reject?: (reason: unknown) => void;
+  private _promise?: Promise<string> | null;
+  private _loginWindow?: Window;
 
-  constructor(requestBuilder, storage, translations) {
+  constructor(
+    requestBuilder: AuthRequestBuilder,
+    storage: AuthStorage,
+    translations: AuthTranslations
+  ) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
     this._translations = translations;
@@ -18,7 +31,7 @@ export default class IFrameFlow {
   /**
    * Initiates authorization in window
    */
-  async _load() {
+  private async _load(): Promise<string> {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
       // eslint-disable-next-line camelcase
       {request_credentials: 'required', auth_mode: 'bypass_to_login'},
@@ -37,7 +50,7 @@ export default class IFrameFlow {
         url: authRequest.url,
         loader: true,
         onCancel: () => {
-          // eslint-disable-next-line no-use-before-define
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           cleanUp();
           this.stop();
         },
@@ -48,7 +61,7 @@ export default class IFrameFlow {
 
       const removeTokenListener = this._storage.onTokenChange(token => {
         if (token) {
-          // eslint-disable-next-line no-use-before-define
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           cleanUp();
           resolve(token.accessToken);
         }
@@ -56,14 +69,14 @@ export default class IFrameFlow {
 
       const removeStateListener = this._storage.onStateChange(authRequest.stateId, state => {
         if (state && state.error) {
-          // eslint-disable-next-line no-use-before-define
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           cleanUp();
           reject(new AuthResponseParser.AuthError(state));
         }
       });
 
       const cleanUp = () => {
-        this.hideDialog();
+        this.hideDialog?.();
         removeStateListener();
         removeTokenListener();
       };
@@ -85,8 +98,8 @@ export default class IFrameFlow {
     this._reset();
   }
 
-  authorize() {
-    if (this._promise !== null && this._loginWindow !== null && this._loginWindow.closed !== true) {
+  authorize(): Promise<string> {
+    if (this._promise != null && this._loginWindow != null && !this._loginWindow.closed) {
       return this._promise;
     }
 

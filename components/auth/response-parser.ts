@@ -2,6 +2,31 @@ import ExtendableError from 'es6-error';
 
 import {parseQueryString} from '../global/url';
 
+export interface AuthResponse {
+  accessToken?: string
+  state?: string
+  // eslint-disable-next-line camelcase
+  token_type?: string
+  expiresIn?: string
+  scope?: string
+  error?: string | Error
+  errorDescription?: string
+  errorUri?: string
+}
+
+export class AuthError extends ExtendableError {
+  code: string | Error | undefined;
+  uri: string | undefined;
+  stateId: string | undefined;
+  // Supports weird IE 11 failing test issue
+  constructor(authResponse: AuthResponse = {}) {
+    super(authResponse.errorDescription);
+    this.code = authResponse.error;
+    this.uri = authResponse.errorUri;
+    this.stateId = authResponse.state;
+  }
+}
+
 /**
  * @typedef {Object} AuthResponse
  * @property {?string} accessToken
@@ -13,21 +38,14 @@ import {parseQueryString} from '../global/url';
  */
 
 export default class AuthResponseParser {
+  private readonly _authResponse: AuthResponse;
   constructor() {
     this._authResponse = this.readAuthResponseFromURL();
   }
 
-  static AuthError = class AuthError extends ExtendableError {
-    // Supports weird IE 11 failing test issue
-    constructor(authResponse = {}) {
-      super(authResponse.errorDescription);
-      this.code = authResponse.error;
-      this.uri = authResponse.errorUri;
-      this.stateId = authResponse.state;
-    }
-  };
+  static AuthError = AuthError;
 
-  static convertKey(key) {
+  static convertKey(key: string) {
     return key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
   }
 
@@ -53,7 +71,9 @@ export default class AuthResponseParser {
    * @throws {Error} if the auth server returned an error
    * @return {?AuthResponse}
    */
-  validateAuthResponse(authResponse) {
+  validateAuthResponse(
+    authResponse: AuthResponse
+  ): AuthResponse & Required<Pick<AuthResponse, 'accessToken'>> | null {
 
     // Check for errors
     if (authResponse.error) {
@@ -65,7 +85,7 @@ export default class AuthResponseParser {
       return null;
     }
 
-    return authResponse;
+    return {...authResponse, accessToken: authResponse.accessToken};
   }
 
   /**
@@ -74,8 +94,8 @@ export default class AuthResponseParser {
    *
    * @return {AuthResponse}
    */
-  readAuthResponseFromURL() {
-    const authResponse = {};
+  readAuthResponseFromURL(): AuthResponse {
+    const authResponse: Record<string, string> = {};
     const rawAuthResponse = parseQueryString(this.getHash());
     Object.keys(rawAuthResponse).forEach(key => {
       if (key.indexOf('_') !== -1) {

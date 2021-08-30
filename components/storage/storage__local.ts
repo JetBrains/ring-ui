@@ -7,7 +7,7 @@ import {StorageInterface, StorageConfig} from './storage';
  * @param {{type: string}} config Set to "session" to use sessionStorage
  * @constructor
  */
-export default class LocalStorage implements StorageInterface {
+export default class LocalStorage<T> implements StorageInterface<T> {
   static async safePromise<T>(resolver: (
     resolve: (value: T | PromiseLike<T>) => void,
     reject: (reason?: unknown) => void
@@ -33,7 +33,7 @@ export default class LocalStorage implements StorageInterface {
    * @param {string} name
    * @return {Promise}
    */
-  get<T>(name: string) {
+  get(name: string) {
     return LocalStorage.safePromise<T | null>(resolve => {
       const value = window[this.storageType].getItem(name);
       if (value != null) {
@@ -53,7 +53,7 @@ export default class LocalStorage implements StorageInterface {
    * @param {object} value
    * @return {Promise}
    */
-  set<T>(name: string, value: T) {
+  set(name: string, value: T) {
     return LocalStorage.safePromise<T>(resolve => {
       window[this.storageType].setItem(name, JSON.stringify(value));
       resolve(value);
@@ -79,7 +79,7 @@ export default class LocalStorage implements StorageInterface {
    * @param callback
    * @return {Promise}s
    */
-  each<T, R>(callback: (item: string, value: T | null) => R | Promise<R>) {
+  each<R>(callback: (item: string, value: T | null) => R | Promise<R>) {
     const storageType = this.storageType;
 
     return LocalStorage.safePromise<R[]>(resolve => {
@@ -110,7 +110,7 @@ export default class LocalStorage implements StorageInterface {
    * @param {Function} callback
    * @return {Function}
    */
-  on<T>(name: string, callback: (value: T | null) => void) {
+  on(name: string, callback: (value: T | null) => void) {
     function handleStorage(e: StorageEvent) {
       if (e.key === name) {
         if (e.newValue != null) {
