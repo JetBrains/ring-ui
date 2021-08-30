@@ -18,7 +18,10 @@ export default {
   }
 };
 
-export const basic = ({onAuthLog}) => {
+interface BasicProps {
+  onAuthLog: (...args: unknown[]) => void
+}
+export const basic = ({onAuthLog}: BasicProps) => {
   const auth = new Auth(hubConfig);
   auth.setAuthDialogService(authDialogService);
 
@@ -42,7 +45,7 @@ export const basic = ({onAuthLog}) => {
 
     const forceUpdateLink = node.querySelector('#force-update');
 
-    forceUpdateLink.addEventListener('click', async () => {
+    forceUpdateLink?.addEventListener('click', async () => {
       const newToken = await auth.forceTokenUpdate();
       onAuthLog('Token has been refreshed:', newToken);
     });
@@ -54,7 +57,11 @@ export const basic = ({onAuthLog}) => {
 basic.storyName = 'basic';
 basic.argTypes = {onAuthLog: {}};
 
-export const inIFrame = ({onAuth, onAuthError}) => {
+interface InIframeProps {
+  onAuth: (...args: unknown[]) => void
+  onAuthError: (...args: unknown[]) => void
+}
+export const inIFrame = ({onAuth, onAuthError}: InIframeProps) => {
   const node = document.createElement('div');
 
   const auth = new Auth({
@@ -81,7 +88,10 @@ export const inIFrame = ({onAuth, onAuthError}) => {
 inIFrame.storyName = 'in IFrame';
 inIFrame.argTypes = {onAuth: {}, onAuthError: {}};
 
-export const landingPage = ({onAuthLog}) => {
+interface LandingPageProps {
+  onAuthLog: (...args: unknown[]) => void
+}
+export const landingPage = ({onAuthLog}: LandingPageProps) => {
   const node = document.createElement('div');
   node.innerHTML = `
       <div id="example">
@@ -101,14 +111,17 @@ export const landingPage = ({onAuthLog}) => {
     const user = await auth.requestUser();
     onAuthLog('Logged in as:', user.name);
 
-    node.querySelector('#open-link').href = LandingEntryFileName;
+    const openLink = node.querySelector<HTMLAnchorElement>('#open-link');
+    if (openLink != null) {
+      openLink.href = LandingEntryFileName;
+    }
 
-    node.querySelector('#force-update').addEventListener('click', async () => {
+    node.querySelector('#force-update')?.addEventListener('click', async () => {
       const newToken = await auth.forceTokenUpdate();
       onAuthLog('New token:', newToken);
     });
 
-    node.querySelector('#log-out').addEventListener('click', () => {
+    node.querySelector('#log-out')?.addEventListener('click', () => {
       auth.login();
     });
   }

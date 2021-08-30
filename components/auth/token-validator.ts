@@ -2,8 +2,36 @@ import ExtendableError from 'es6-error';
 
 import {CODE} from '../http/http';
 
+import AuthStorage, {StoredToken} from './storage';
+
+export interface TokenValidatorConfig {
+  scope: string[]
+  optionalScopes?: readonly string[] | null | undefined
+}
+
+interface ParsedResponse {
+  error?: string
+}
+
+export class TokenValidationError extends ExtendableError {
+  cause: Error | undefined;
+  authRedirect: true;
+  constructor(message: string, cause?: Error) {
+    super(message);
+    this.cause = cause;
+    this.authRedirect = true;
+  }
+}
+
 export default class TokenValidator {
-  constructor(config, getUser, storage) {
+  private _getUser: (accessToken: string) => Promise<void>;
+  private _config: TokenValidatorConfig;
+  private _storage: AuthStorage;
+  constructor(
+    config: TokenValidatorConfig,
+    getUser: (accessToken: string) => Promise<void>,
+    storage: AuthStorage
+  ) {
     this._getUser = getUser;
     this._config = config;
     this._storage = storage;
@@ -32,13 +60,7 @@ export default class TokenValidator {
    * @param {string} message Error message
    * @param {Error=} cause Error that caused this error
    */
-  static TokenValidationError = class TokenValidationError extends ExtendableError {
-    constructor(message, cause) {
-      super(message);
-      this.cause = cause;
-      this.authRedirect = true;
-    }
-  };
+  static TokenValidationError = TokenValidationError;
 
   /**
    * Check token validity against all conditions.
@@ -72,7 +94,7 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  static _validateExistence(storedToken) {
+  private static _validateExistence(storedToken: StoredToken | null) {
     if (!storedToken || !storedToken.accessToken) {
       throw new TokenValidator.TokenValidationError('Token not found');
     }
@@ -84,7 +106,7 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  static _validateExpiration({expires, lifeTime}) {
+  private static _validateExpiration({expires, lifeTime}: StoredToken) {
     const REFRESH_BEFORE_RATIO = 6;
     const refreshBefore = lifeTime
       ? Math.ceil(lifeTime / REFRESH_BEFORE_RATIO)
@@ -101,7 +123,7 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  _validateScopes(storedToken) {
+  private _validateScopes(storedToken: StoredToken) {
     const {scope, optionalScopes} = this._config;
     const requiredScopes = optionalScopes
       ? scope.filter(scopeId => !optionalScopes.includes(scopeId))
@@ -118,7 +140,7 @@ export default class TokenValidator {
    * @param {string} error
    * @return {boolean}
    */
-  static shouldRefreshToken(error) {
+  static shouldRefreshToken(error: string | undefined) {
     return error === 'invalid_grant' ||
       error === 'invalid_request' ||
       error === 'invalid_token';
@@ -130,12 +152,12 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  async _validateAgainstUser(storedToken) {
+  private async _validateAgainstUser(storedToken: StoredToken) {
     try {
       return await this._getUser(storedToken.accessToken);
     } catch (errorResponse) {
 
-      let response = {};
+      let response: ParsedResponse = {};
       try {
         response = await errorResponse.response.json();
       } catch (e) {
@@ -169,8 +191,11 @@ export default class TokenValidator {
    * have {authRedirect: true}.
    * @private
    */
-  async _getValidatedToken(validators) {
+  private async _getValidatedToken(validators: ((token: StoredToken) => void | Promise<void>)[]) {
     const storedToken = await this._storage.getToken();
+    if (storedToken == null) {
+      throw new TokenValidator.TokenValidationError('Token not found');
+    }
 
     for (let i = 0; i < validators.length; i++) {
       await validators[i](storedToken);
