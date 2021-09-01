@@ -6,3 +6,5 @@ declare global {
   const sandbox: Sinon.SinonSandbox;
   const should: Chai.Should;
 }
+
+export type Stub<T> = Sinon.SinonStub<Parameters<T>, ReturnType<T>>

@@ -3,7 +3,7 @@ import AuthResponseParser from './response-parser';
 describe('Auth', () => {
   describe('AuthResponseParser', () => {
     describe('getAuthResponseFromURL', () => {
-      let location;
+      let location: string | null;
       beforeEach(function beforeEach() {
         sandbox.stub(AuthResponseParser.prototype, 'getLocation').callsFake(() => location);
       });
@@ -25,7 +25,9 @@ describe('Auth', () => {
           '&state=xyz&token_type=example&expires_in=3600';
 
         const parser = new AuthResponseParser();
-        parser.getAuthResponseFromURL().should.be.deep.equal({
+        const response = parser.getAuthResponseFromURL();
+        should.exist(response);
+        response?.should.be.deep.equal({
           accessToken: '2YotnFZFEjr1zCsicMWpAA',
           state: 'xyz',
           tokenType: 'example',
@@ -60,7 +62,9 @@ describe('Auth', () => {
       it('should return correct for value with hashes', () => {
         location = 'http://localhost:8080/hub#access_token=#2YotnFZFEjr1zCsicMWpAA#';
         const parser = new AuthResponseParser();
-        parser.getAuthResponseFromURL().should.be.deep.
+        const response = parser.getAuthResponseFromURL();
+        should.exist(response);
+        response?.should.be.deep.
           equal({accessToken: '#2YotnFZFEjr1zCsicMWpAA#'});
       });
 

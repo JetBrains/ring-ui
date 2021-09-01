@@ -7,7 +7,7 @@ import {StorageInterface, StorageConfig} from './storage';
  * @param {{type: string}} config Set to "session" to use sessionStorage
  * @constructor
  */
-export default class LocalStorage<T> implements StorageInterface<T> {
+export default class LocalStorage implements StorageInterface {
   static async safePromise<T>(resolver: (
     resolve: (value: T | PromiseLike<T>) => void,
     reject: (reason?: unknown) => void
@@ -33,7 +33,7 @@ export default class LocalStorage<T> implements StorageInterface<T> {
    * @param {string} name
    * @return {Promise}
    */
-  get(name: string) {
+  get<T>(name: string) {
     return LocalStorage.safePromise<T | null>(resolve => {
       const value = window[this.storageType].getItem(name);
       if (value != null) {
@@ -53,7 +53,7 @@ export default class LocalStorage<T> implements StorageInterface<T> {
    * @param {object} value
    * @return {Promise}
    */
-  set(name: string, value: T) {
+  set<T>(name: string, value: T) {
     return LocalStorage.safePromise<T>(resolve => {
       window[this.storageType].setItem(name, JSON.stringify(value));
       resolve(value);
@@ -79,7 +79,7 @@ export default class LocalStorage<T> implements StorageInterface<T> {
    * @param callback
    * @return {Promise}s
    */
-  each<R>(callback: (item: string, value: T | null) => R | Promise<R>) {
+  each<R>(callback: (item: string, value: unknown) => R | Promise<R>) {
     const storageType = this.storageType;
 
     return LocalStorage.safePromise<R[]>(resolve => {
@@ -88,12 +88,12 @@ export default class LocalStorage<T> implements StorageInterface<T> {
       for (const item in window[storageType]) {
         if (window[storageType].hasOwnProperty(item)) {
           const value = window[storageType].getItem(item);
-          let resolvedValue: T | null = null;
+          let resolvedValue: unknown = null;
           if (value != null) {
             try {
               resolvedValue = JSON.parse(value);
             } catch (e) {
-              resolvedValue = value as never;
+              resolvedValue = value;
             }
           }
 
@@ -110,7 +110,7 @@ export default class LocalStorage<T> implements StorageInterface<T> {
    * @param {Function} callback
    * @return {Function}
    */
-  on(name: string, callback: (value: T | null) => void) {
+  on<T>(name: string, callback: (value: T | null) => void) {
     function handleStorage(e: StorageEvent) {
       if (e.key === name) {
         if (e.newValue != null) {

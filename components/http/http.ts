@@ -62,7 +62,7 @@ export default class HTTP implements Partial<HTTPAuth> {
   shouldRefreshToken?: (error: string) => boolean;
   forceTokenUpdate?: () => Promise<string | null>;
 
-  constructor(auth: HTTPAuth, baseUrl?: string | null | undefined, fetchConfig: RequestInit = {}) {
+  constructor(auth?: HTTPAuth, baseUrl?: string | null | undefined, fetchConfig: RequestInit = {}) {
     if (auth) {
       this.setAuth(auth);
     }
