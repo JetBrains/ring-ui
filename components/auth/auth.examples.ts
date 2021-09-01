@@ -39,7 +39,7 @@ export const basic = ({onAuthLog}: BasicProps) => {
       onAuthLog('User profile data:', data);
     } catch (e) {
       if (!(e instanceof Error)) {
-        throw e
+        throw e;
       }
       onAuthLog('error', e.toString());
       // eslint-disable-next-line no-console
@@ -82,7 +82,7 @@ export const inIFrame = ({onAuth, onAuthError}: InIframeProps) => {
       node.innerHTML = JSON.stringify(data);
     } catch (e) {
       if (!(e instanceof Error)) {
-        throw e
+        throw e;
       }
       onAuthError('Failed', e.toString());
     }

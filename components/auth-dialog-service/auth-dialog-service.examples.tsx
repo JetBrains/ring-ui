@@ -5,7 +5,6 @@ import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
-import HTTP from '@jetbrains/ring-ui/components/http/http';
 import Button from '@jetbrains/ring-ui/components/button/button';
 
 import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
@@ -21,17 +20,22 @@ export default {
   }
 };
 
-export const authDialogService = ({onConfirm, onCancel}) => {
-  const auth = new Auth(hubConfig);
-  const http = new HTTP(auth, auth.getAPIPath());
+interface AuthDialogServiceArgs {
+  onConfirm: () => void
+  onCancel: () => void
+}
 
-  class AuthDialogDemo extends React.Component {
+interface AuthDialogDemoState {
+  serviceDetails: unknown
+}
+export const authDialogService = ({onConfirm, onCancel}: AuthDialogServiceArgs) => {
+  const auth = new Auth(hubConfig);
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  class AuthDialogDemo extends React.Component<{}, AuthDialogDemoState> {
     componentDidMount() {
       auth.init();
-      http.get('services/0-0-0-0-0?fields=name,iconUrl').then(serviceDetails => {
-        this.setState({serviceDetails});
-        this.showAuthDialog();
-      });
+      this.showAuthDialog();
     }
 
     componentWillUnmount() {
@@ -40,11 +44,9 @@ export const authDialogService = ({onConfirm, onCancel}) => {
       }
     }
 
+    hideAuthDialog?: () => void;
     showAuthDialog = () => {
-      const {serviceDetails} = this.state;
-
       this.hideAuthDialog = showAuthDialog({
-        serviceDetails,
         errorMessage: 'Error message',
         onConfirm,
         onCancel

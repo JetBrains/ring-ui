@@ -369,7 +369,7 @@ export default class Auth implements HTTPAuth {
           await this._detectUserChange(token.accessToken);
         } catch (error) {
           if (!(error instanceof Error)) {
-            throw error
+            throw error;
           }
           if (this._canShowDialogs()) {
             this._showAuthDialog({nonInteractive: true, error});

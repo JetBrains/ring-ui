@@ -1,12 +1,13 @@
 import HTTP from '../http/http';
 import LocalStorage from '../storage/storage__local';
 
+import {Stub} from '../../test-helpers/globals';
+
 import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT} from './auth';
 import AuthRequestBuilder from './request-builder';
 import AuthResponseParser, {AuthError} from './response-parser';
 import BackgroundFlow from './background-flow';
 import TokenValidator, {TokenValidationError} from './token-validator';
-import {Stub} from "../../test-helpers/globals";
 
 // eslint-disable-next-line import/no-commonjs
 const MockedStorage: typeof LocalStorage = require('imports-loader?imports=default|storage-mock|window!../storage/storage__local').default;
