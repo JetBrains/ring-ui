@@ -46,7 +46,7 @@ const Heading = HeadingMemo as ComponentType<HeadingProps> & {Levels: typeof Lev
 Heading.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  level: PropTypes.oneOf([Levels.H1, Levels.H2, Levels.H3])
+  level: PropTypes.oneOf([Levels.H1, Levels.H2, Levels.H3, Levels.H4])
 };
 
 Heading.Levels = Levels;
