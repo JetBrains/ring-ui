@@ -39,21 +39,25 @@ describe('Avatar', () => {
 
   it('should not append params when data:uri is passed', () => {
     render(<Avatar url={dataURI}/>);
-    screen.getByAltText('User avatar').src.should.not.match(/dpr=|size=/);
+    const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
+    avatar.src.should.not.match(/dpr=|size=/);
   });
 
   it('should append params when http:uri is passed', () => {
     render(<Avatar url="http://"/>);
-    screen.getByAltText('User avatar').src.should.match(/dpr=|size=/);
+    const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
+    avatar.src.should.match(/dpr=|size=/);
   });
 
   it('should set size 20 as default', () => {
     render(<Avatar url="http://"/>);
-    screen.getByAltText('User avatar').src.should.match(/size=20/);
+    const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
+    avatar.src.should.match(/size=20/);
   });
 
   it('should set proper dpr', () => {
     render(<Avatar url="http://"/>);
-    screen.getByAltText('User avatar').src.should.match(new RegExp(`dpr=${getPixelRatio()}`));
+    const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
+    avatar.src.should.match(new RegExp(`dpr=${getPixelRatio()}`));
   });
 });
