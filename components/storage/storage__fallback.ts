@@ -5,7 +5,7 @@ import {StorageInterface, StorageConfig} from './storage';
 const DEFAULT_CHECK_DELAY = 3000;
 const COOKIE_EXPIRES = 365;
 const QUOTA = 4093;
-// eslint-disable-next-line no-magic-numbers
+// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 const SECONDS_IN_DAY = 24 * 60 * 60 * 1000;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

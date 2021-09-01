@@ -51,7 +51,7 @@ export default class TokenValidator {
   /**
    * @const {number}
    */
-  // eslint-disable-next-line no-magic-numbers
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   static DEFAULT_REFRESH_BEFORE = 10 * 60; // 20 min in s
 
   /**
@@ -155,7 +155,8 @@ export default class TokenValidator {
   async _validateAgainstUser(storedToken: StoredToken) {
     try {
       return await this._getUser(storedToken.accessToken);
-    } catch (errorResponse) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (errorResponse: any) {
 
       let response: ParsedResponse = {};
       try {

@@ -48,7 +48,7 @@ const AnalyticsPluginUtils = {
     /**
      * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
      */
-    // eslint-disable-next-line no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     const sizes = [0, 768, 992, 1200];
     for (let i = 1; i < sizes.length; ++i) {
       if (window.innerWidth < sizes[i]) {
