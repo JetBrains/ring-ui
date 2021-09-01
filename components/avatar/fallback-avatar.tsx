@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import getUID from '../global/get-uid';
 
+import {Size} from './avatar';
+
 const colorPairs = [
   ['#60A800', '#D5CA00'],
   ['#21D370', '#03E9E1'],
@@ -27,7 +29,21 @@ const colorPairs = [
   ['#FF7500', '#FFCA00']
 ];
 
-const Sizes = {
+interface Position {
+  x: number
+  y: number
+}
+
+interface SizesEntry {
+  radius: number
+  text: Position
+  fontSize: string
+  textAnchor?: string
+  underscore?: Position
+  letterSpacing?: number
+}
+
+const Sizes: Record<number, SizesEntry> = {
   18: {
     radius: 2,
     text: {x: 9, y: 13},
@@ -58,7 +74,7 @@ const Sizes = {
 
 const sizeKeys = Object.keys(Sizes).map(Number);
 
-function extractLetters(name) {
+function extractLetters(name: string) {
   const names = name.split(/[\s._]+/).filter(Boolean);
   if (names.length >= 2) {
     return names[0][0].toUpperCase() + names[1][0].toUpperCase();
@@ -75,7 +91,7 @@ function extractLetters(name) {
 
 // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0#gistcomment-2775538
 const BASE = 32;
-function hashCode(s) {
+function hashCode(s: string) {
   let h = 0;
   for (let i = 0; i < s.length; i++) {
     h = Math.imul(BASE - 1, h) + s.charCodeAt(i) | 0;
@@ -84,7 +100,13 @@ function hashCode(s) {
   return h;
 }
 
-export default function FallbackAvatar({username, size, round}) {
+export interface FallbackAvatarProps {
+  username: string
+  size: Size
+  round: boolean | null | undefined
+}
+
+export default function FallbackAvatar({username, size, round}: FallbackAvatarProps) {
   const hash = Math.abs(hashCode(username.toLowerCase()));
   const [fromColor, toColor] = colorPairs[hash % colorPairs.length];
   const possibleSizeKeys = sizeKeys.filter(key => key >= size);
