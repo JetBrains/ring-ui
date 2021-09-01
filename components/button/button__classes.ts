@@ -4,9 +4,22 @@ import Theme from '../global/theme';
 
 import styles from './button.css';
 
-export function getButtonClasses(
-  {className, active, disabled, loader, primary, short, text, inline, danger, delayed, icon, theme}
-) {
+import {ButtonProps} from '@jetbrains/ring-ui/components/button/button';
+
+export function getButtonClasses({
+  className,
+  active,
+  disabled,
+  loader,
+  primary,
+  short,
+  text,
+  inline,
+  danger,
+  delayed,
+  icon,
+  theme
+}: ButtonProps) {
   const withNormalIcon = icon && !active && !danger && !primary && !disabled;
 
   return classNames(
