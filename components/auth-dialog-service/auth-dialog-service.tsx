@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import AuthDialog from '../auth-dialog/auth-dialog';
+import AuthDialog, {AuthDialogProps} from '../auth-dialog/auth-dialog';
 
 /**
  * @name Auth Dialog Service
@@ -9,14 +9,16 @@ import AuthDialog from '../auth-dialog/auth-dialog';
 
 const containerElement = document.createElement('div');
 
+type AuthDialogAttributes = JSX.LibraryManagedAttributes<typeof AuthDialog, AuthDialogProps>
+
 /**
  * Renders AuthDialog into virtual node to skip maintaining container
  */
-function renderAuthDialog(props) {
+function renderAuthDialog(props: AuthDialogAttributes) {
   render(<AuthDialog {...props}/>, containerElement);
 }
 
-export default function showAuthDialog(props = {}) {
+export default function showAuthDialog(props: AuthDialogAttributes = {}) {
   renderAuthDialog({
     ...props,
     show: true
