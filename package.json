@@ -14,7 +14,7 @@
   ],
   "main": "components/index.js",
   "lint-staged": {
-    "*.js": [
+    "*.{js,ts,tsx}": [
       "npm run lint:js -- --fix"
     ],
     "*.css": [
