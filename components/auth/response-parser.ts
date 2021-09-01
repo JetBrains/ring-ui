@@ -12,6 +12,7 @@ export interface AuthResponse {
   error?: string | Error
   errorDescription?: string
   errorUri?: string
+  restoreAuthState?: string
 }
 
 export class AuthError extends ExtendableError {
@@ -38,7 +39,7 @@ export class AuthError extends ExtendableError {
  */
 
 export default class AuthResponseParser {
-  private readonly _authResponse: AuthResponse;
+  readonly _authResponse: AuthResponse;
   constructor() {
     this._authResponse = this.readAuthResponseFromURL();
   }
@@ -73,7 +74,7 @@ export default class AuthResponseParser {
    */
   validateAuthResponse(
     authResponse: AuthResponse
-  ): AuthResponse & Required<Pick<AuthResponse, 'accessToken'>> | null {
+  ): AuthResponse | null {
 
     // Check for errors
     if (authResponse.error) {
@@ -123,7 +124,7 @@ export default class AuthResponseParser {
    * Current page location.
    * @return {string}
    */
-  getLocation() {
+  getLocation(): string | null {
     return window.location.toString();
   }
 }

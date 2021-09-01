@@ -65,7 +65,7 @@ class AlertService {
     this.renderAlerts();
   }
 
-  remove(key: string | number | undefined) {
+  remove(key: string | number | null | undefined) {
     const alertToClose = this.showingAlerts.filter(alert => alert.key === key)[0];
     if (!alertToClose) {
       return;

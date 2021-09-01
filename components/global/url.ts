@@ -49,7 +49,7 @@ export function getAbsoluteBaseURL() {
  * @param {string} url URL to extract origin from
  * @returns {string|undefined} origin
  */
-export function getOrigin(url) {
+export function getOrigin(url: string) {
   const matches = url.match(ORIGIN_PATTERN);
 
   if (matches) {
@@ -75,7 +75,7 @@ export function getAbsoluteURL() {
  * @param {Function} baseURIGetter a function that returns base URI
  * @return {string} fixed URL
  */
-export function fixUrl(url, baseURIGetter = getBaseURI) {
+export function fixUrl(url: string, baseURIGetter = getBaseURI) {
   if (url.indexOf('http://') === -1 && url.indexOf('https://') === -1 && url.indexOf('/') !== 0) {
     const baseUrl = baseURIGetter();
 
@@ -87,7 +87,7 @@ export function fixUrl(url, baseURIGetter = getBaseURI) {
   return url;
 }
 
-export function joinBaseURLAndPath(baseUrl, path) {
+export function joinBaseURLAndPath(baseUrl: string | null | undefined, path: string) {
   if (!baseUrl || path.indexOf('http://') !== -1 || path.indexOf('https://') !== -1) {
     return path;
   }
@@ -104,7 +104,7 @@ export function joinBaseURLAndPath(baseUrl, path) {
  * @param {string} queryString query parameter string to parse
  * @return {AuthResponse} object with query parameters map
  */
-export function parseQueryString(queryString) {
+export function parseQueryString(queryString: string | null | undefined) {
   if (queryString == null) {
     return {};
   }
@@ -112,9 +112,9 @@ export function parseQueryString(queryString) {
   const queryParameterPairRE = /([^&;=]+)=?([^&;]*)/g;
   const FIRST_PAIR_ELEMENT = 1;
   const SECOND_PAIR_ELEMENT = 2;
-  const urlParams = {};
+  const urlParams: Record<string, string> = {};
 
-  function decode(s) {
+  function decode(s: string) {
     return decodeURIComponent(s.replace(/\+/g, ' '));
   }
 
@@ -127,9 +127,9 @@ export function parseQueryString(queryString) {
   return urlParams;
 }
 
-function customEncodeURIComponent(str) {
+function customEncodeURIComponent(str: unknown) {
   const commaRE = /%2C/g;
-  return encodeURIComponent(str).replace(commaRE, ',');
+  return encodeURIComponent(String(str)).replace(commaRE, ',');
 }
 
 /**
@@ -139,7 +139,7 @@ function customEncodeURIComponent(str) {
  * @param {Object} params parameters to add
  * @returns {string} encoded URL
  */
-export function encodeURL(url, params) {
+export function encodeURL(url: string, params: Record<string, unknown>) {
   const equalsSign = '=';
   const firstSeparator = (url.indexOf('?') === -1) ? '?' : '&';
 
@@ -157,6 +157,6 @@ export function encodeURL(url, params) {
   return res;
 }
 
-export function isDataURI(uri) {
+export function isDataURI(uri: string) {
   return uri.indexOf('data:') === 0;
 }

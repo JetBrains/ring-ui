@@ -1,11 +1,15 @@
 /* eslint-disable no-magic-numbers */
+import {Stub} from '../../test-helpers/globals';
+
 import HTTP from '../http/http';
+import LocalStorage from '../storage/storage__local';
 
 import Auth from './auth';
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
 
-import MockedStorage from 'imports-loader?imports=default|storage-mock|window!../storage/storage__local';
+// eslint-disable-next-line import/no-commonjs
+const MockedStorage: typeof LocalStorage = require('imports-loader?imports=default|storage-mock|window!../storage/storage__local').default;
 
 describe('Auth', () => {
   describe('TokenValidator', () => {
@@ -13,7 +17,7 @@ describe('Auth', () => {
       storage: MockedStorage
     });
     const http = new HTTP();
-    const getUser = token => http.authorizedFetch(Auth.API_PROFILE_PATH, token);
+    const getUser = (token: string) => http.authorizedFetch(Auth.API_PROFILE_PATH, token);
     const tokenValidator = new TokenValidator({
       scope: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
@@ -22,13 +26,14 @@ describe('Auth', () => {
     const expires = TokenValidator._epoch() + lifeTime;
 
     describe('getValidatedToken', () => {
+      let getToken: Stub<AuthStorage['getToken']>;
       beforeEach(function beforeEach() {
-        sandbox.stub(AuthStorage.prototype, 'getToken');
+        getToken = sandbox.stub(AuthStorage.prototype, 'getToken');
       });
 
       it('should resolve access token when it is valid', () => {
 
-        AuthStorage.prototype.getToken.returns(Promise.resolve({
+        getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires,
           lifeTime,
@@ -40,7 +45,7 @@ describe('Auth', () => {
       });
 
       it('should resolve access token when token is given for all required scopes', () => {
-        AuthStorage.prototype.getToken.returns(Promise.resolve({
+        getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires,
           lifeTime,
@@ -52,7 +57,8 @@ describe('Auth', () => {
       });
 
       it('should reject if accessToken is empty', () => {
-        AuthStorage.prototype.getToken.returns(Promise.resolve({
+        // @ts-expect-error testing a wrong usage
+        getToken.returns(Promise.resolve({
           accessToken: null,
           expires,
           lifeTime,
@@ -64,13 +70,13 @@ describe('Auth', () => {
       });
 
       it('should reject if there is no token stored', () => {
-        AuthStorage.prototype.getToken.returns(Promise.resolve(null));
+        getToken.returns(Promise.resolve(null));
         return tokenValidator.validateTokenLocally().
           should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token not found');
       });
 
       it('should reject if token is about to be expired (<1/6 lifeTime left)', () => {
-        AuthStorage.prototype.getToken.returns(Promise.resolve({
+        getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires: TokenValidator._epoch() + (lifeTime / 6) - 1,
           lifeTime,
@@ -82,7 +88,7 @@ describe('Auth', () => {
 
       it('should reject if short-life token is about to be expired (<1/6 lifeTime left)', () => {
         const minimalLifeTime = 60 * 5;
-        AuthStorage.prototype.getToken.returns(Promise.resolve({
+        getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires: TokenValidator._epoch() + (minimalLifeTime / 6) - 1,
           lifeTime: minimalLifeTime,
@@ -93,7 +99,7 @@ describe('Auth', () => {
       });
 
       it('should reject if token is about to be expired but lifeTime is not set and default time used', () => {
-        AuthStorage.prototype.getToken.returns(Promise.resolve({
+        getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires: TokenValidator._epoch() + 5 * 60,
           scopes: ['0-0-0-0-0']
@@ -103,7 +109,7 @@ describe('Auth', () => {
       });
 
       it('should reject if token scopes don\'t match required scopes', () => {
-        AuthStorage.prototype.getToken.returns(Promise.resolve({
+        getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires,
           lifeTime,
@@ -118,22 +124,23 @@ describe('Auth', () => {
     });
 
     describe('validateAgainstUser', () => {
+      let authorizedFetch: Stub<HTTP['authorizedFetch']>;
       beforeEach(function beforeEach() {
-        sandbox.stub(HTTP.prototype, 'authorizedFetch');
+        authorizedFetch = sandbox.stub(HTTP.prototype, 'authorizedFetch');
       });
 
       it('should resolve to access token when user is returned', async () => {
         const token = {accessToken: 'token'};
-        HTTP.prototype.authorizedFetch.returns(Promise.resolve({login: 'user'}));
+        authorizedFetch.returns(Promise.resolve({login: 'user'}));
         const promise = tokenValidator._validateAgainstUser(token);
         promise.should.be.fulfilled;
         await promise;
-        HTTP.prototype.authorizedFetch.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
+        authorizedFetch.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
       });
 
       it('should reject with redirect if 401 response received', () => {
         const token = {accessToken: 'token'};
-        HTTP.prototype.authorizedFetch.returns(Promise.reject({
+        authorizedFetch.returns(Promise.reject({
           status: 401,
           response: {
             json() {
@@ -147,7 +154,7 @@ describe('Auth', () => {
 
       it('should reject with redirect if invalid_grant response received', () => {
         const token = {accessToken: 'token'};
-        HTTP.prototype.authorizedFetch.returns(Promise.reject({
+        authorizedFetch.returns(Promise.reject({
           response: {
             json() {
               return Promise.resolve({error: 'invalid_grant'});
@@ -160,7 +167,7 @@ describe('Auth', () => {
 
       it('should reject with redirect if invalid_request response received', () => {
         const token = {accessToken: 'token'};
-        HTTP.prototype.authorizedFetch.returns(Promise.reject({
+        authorizedFetch.returns(Promise.reject({
           response: {
             json() {
               return Promise.resolve({error: 'invalid_request'});
@@ -173,7 +180,7 @@ describe('Auth', () => {
 
       it('should reject with redirect if 401 response without json received', () => {
         const token = {accessToken: 'token'};
-        HTTP.prototype.authorizedFetch.returns(Promise.reject({
+        authorizedFetch.returns(Promise.reject({
           status: 401,
           message: '403 Forbidden',
           response: {

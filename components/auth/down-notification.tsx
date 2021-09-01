@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
 import alertService from '../alert-service/alert-service';
@@ -8,9 +8,9 @@ import Group from '../group/group';
 
 import styles from './down-notification.css';
 
-let key = null;
+let key: string | number | null = null;
 
-function renderAlert(message, type = Alert.Type.WARNING) {
+function renderAlert(message: ReactNode, type = Alert.Type.WARNING) {
   const existingAlert = alertService.showingAlerts.filter(alert => alert.key === key)[0];
 
   if (!existingAlert) {
@@ -22,7 +22,17 @@ function renderAlert(message, type = Alert.Type.WARNING) {
   }
 }
 
-function Message({translations, onCheckAgain}) {
+export interface BackendDownTranslations {
+  backendIsNotAvailable: string
+  checkAgain: string
+  errorMessage: string
+}
+export interface BackendDownMessageProps {
+  translations: BackendDownTranslations
+  onCheckAgain: (e: React.MouseEvent) => void
+}
+
+function Message({translations, onCheckAgain}: BackendDownMessageProps) {
   const {backendIsNotAvailable, checkAgain, errorMessage} = translations;
 
   return (
@@ -44,8 +54,13 @@ Message.propTypes = {
   onCheckAgain: PropTypes.func
 };
 
-export default function onBackendDown({onCheckAgain, translations}) {
-  async function checkAgainWithoutClosing(e) {
+export interface OnBackendDownParams {
+  translations: BackendDownTranslations
+  onCheckAgain: () => void
+}
+
+export default function onBackendDown({onCheckAgain, translations}: OnBackendDownParams) {
+  async function checkAgainWithoutClosing(e: React.MouseEvent) {
     // Alert has weird behaviour of handling clicks by "a" tags
     e.stopPropagation();
     try {
