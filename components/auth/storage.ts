@@ -24,19 +24,16 @@ const UPDATE_USER_TIMEOUT = 1000;
 
 export interface StoredToken {
   accessToken: string
-  scopes: string[]
-  expires: number
-  lifeTime: number
+  scopes?: string[]
+  expires?: number
+  lifeTime?: number
 }
 
 export interface AuthState extends AuthResponse {
-  restoreLocation: string
-  scopes: string[]
+  restoreLocation?: string
+  scopes?: string[]
   nonRedirect?: boolean | null | undefined
-}
-
-export interface StoredAuthState extends AuthState {
-  created: number
+  created?: number
 }
 
 export interface AuthStorageConfig {
@@ -55,12 +52,7 @@ interface StateRemovalResult {
   size: number
 }
 
-export interface AuthMessage {
-  userID: string | undefined,
-  serviceID: string
-}
-
-export default class AuthStorage {
+export default class AuthStorage<M = unknown> {
   messagePrefix: string;
   stateKeyPrefix: string;
   tokenKey: string;
@@ -68,10 +60,10 @@ export default class AuthStorage {
   stateTTL: number;
   stateQuota: number;
   private _lastMessage: unknown;
-  private _stateStorage: StorageInterface<StoredAuthState>;
-  private _tokenStorage: StorageInterface<StoredToken>;
-  _messagesStorage: StorageInterface<AuthMessage>;
-  private _currentUserStorage: StorageInterface<AuthUser>;
+  _stateStorage: StorageInterface;
+  _tokenStorage: StorageInterface;
+  _messagesStorage: StorageInterface;
+  private _currentUserStorage: StorageInterface;
   /**
    * Custom storage for Auth
    * @param {{stateKeyPrefix: string, tokenKey: string, onTokenRemove: Function}} config
@@ -130,11 +122,11 @@ export default class AuthStorage {
    * @param {function(string)} fn State change listener
    * @return {function()} remove listener function
    */
-  onMessage(key: string, fn: (message: AuthMessage | null) => void) {
-    return this._messagesStorage.on(this.messagePrefix + key, message => fn(message));
+  onMessage(key: string, fn: (message: M | null) => void) {
+    return this._messagesStorage.on<M>(this.messagePrefix + key, message => fn(message));
   }
 
-  sendMessage(key: string, message: AuthMessage | null = null) {
+  sendMessage(key: string, message: M | null = null) {
     this._lastMessage = message;
     this._messagesStorage.set(this.messagePrefix + key, message);
   }
@@ -147,14 +139,14 @@ export default class AuthStorage {
    * @param {boolean=} dontCleanAndRetryOnFail If falsy then remove all stored states and try again to save state
    */
   async saveState(id: string, state: AuthState, dontCleanAndRetryOnFail?: boolean): Promise<void> {
-    const storedState = {...state, created: Date.now()};
+    state.created = Date.now();
 
     try {
-      await this._stateStorage.set(this.stateKeyPrefix + id, storedState);
+      await this._stateStorage.set(this.stateKeyPrefix + id, state);
     } catch (e) {
       if (!dontCleanAndRetryOnFail) {
         await this.cleanStates();
-        return this.saveState(id, storedState, true);
+        return this.saveState(id, state, true);
       } else {
         throw e;
       }
@@ -171,8 +163,8 @@ export default class AuthStorage {
     const now = Date.now();
 
     const removalResult = await this._stateStorage.each<StateRemovalResult | void>(
-      (key, state) => {
-        if (state == null) {
+      (key, value) => {
+        if (value == null) {
           return undefined;
         }
 
@@ -183,14 +175,16 @@ export default class AuthStorage {
 
         if (key.indexOf(this.stateKeyPrefix) === 0) {
         // Clean old states
-          if (state.created + this.stateTTL < now) {
+          const state = value as AuthState;
+          const created = state.created ?? Date.now();
+          if (created + this.stateTTL < now) {
             return this._stateStorage.remove(key);
           }
 
           // Data to clean up due quota
           return {
             key,
-            created: state.created,
+            created,
             size: JSON.stringify(state).length
           };
         }
@@ -227,9 +221,9 @@ export default class AuthStorage {
    * @param {string} id unique state identifier
    * @return {Promise.<StoredState>}
    */
-  async getState(id: string): Promise<StoredAuthState | null> {
+  async getState(id: string): Promise<AuthState | null> {
     try {
-      const result = await this._stateStorage.get(this.stateKeyPrefix + id);
+      const result = await this._stateStorage.get<AuthState>(this.stateKeyPrefix + id);
       await this.cleanStates(id);
       return result;
     } catch (e) {
@@ -266,7 +260,7 @@ export default class AuthStorage {
    * @return {Promise.<object>>} promise that is resolved to stored current user
    */
   async getCachedUser(loadUser: () => Promise<AuthUser | null>): Promise<AuthUser | null> {
-    const user = await this._currentUserStorage.get(this.userKey);
+    const user = await this._currentUserStorage.get<AuthUser>(this.userKey);
     const loadAndCache = () => loadUser().then(response => {
       this._currentUserStorage.set(this.userKey, response);
       return response;

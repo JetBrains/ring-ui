@@ -15,7 +15,7 @@ export interface AuthRequestBuilderConfig {
 
 export default class AuthRequestBuilder {
   config: AuthRequestBuilderConfig;
-  storage: AuthStorage;
+  storage: AuthStorage | undefined;
   /**
    * @param {{
    *   authorization: string,
@@ -26,7 +26,7 @@ export default class AuthRequestBuilder {
    * }} config
    * @param {AuthStorage} storage
    */
-  constructor(config: AuthRequestBuilderConfig, storage: AuthStorage) {
+  constructor(config: AuthRequestBuilderConfig, storage?: AuthStorage) {
     this.config = config;
     this.storage = storage;
   }
@@ -34,7 +34,7 @@ export default class AuthRequestBuilder {
   /**
    * @return {string} random string used for state
    */
-  private static _uuid = uuid.generate;
+  static _uuid = uuid.generate;
 
   /**
    * Save state and build an auth server redirect URL.
@@ -81,7 +81,7 @@ export default class AuthRequestBuilder {
    * @return {Promise}
    * @private
    */
-  private _saveState(id: string, storedState: AuthState) {
-    return this.storage.saveState(id, storedState);
+  _saveState(id: string, storedState: AuthState) {
+    return this.storage?.saveState(id, storedState);
   }
 }

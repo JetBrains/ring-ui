@@ -129,7 +129,7 @@ export default class TokenValidator {
       ? scope.filter(scopeId => !optionalScopes.includes(scopeId))
       : scope;
 
-    const hasAllScopes = requiredScopes.every(scopeId => storedToken.scopes.includes(scopeId));
+    const hasAllScopes = requiredScopes.every(scopeId => storedToken.scopes?.includes(scopeId));
     if (!hasAllScopes) {
       throw new TokenValidator.TokenValidationError('Token doesn\'t match required scopes');
     }
@@ -152,7 +152,7 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  private async _validateAgainstUser(storedToken: StoredToken) {
+  async _validateAgainstUser(storedToken: StoredToken) {
     try {
       return await this._getUser(storedToken.accessToken);
     } catch (errorResponse) {
@@ -191,7 +191,7 @@ export default class TokenValidator {
    * have {authRedirect: true}.
    * @private
    */
-  private async _getValidatedToken(validators: ((token: StoredToken) => void | Promise<void>)[]) {
+  async _getValidatedToken(validators: ((token: StoredToken) => void | Promise<void>)[]) {
     const storedToken = await this._storage.getToken();
     if (storedToken == null) {
       throw new TokenValidator.TokenValidationError('Token not found');

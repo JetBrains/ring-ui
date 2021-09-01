@@ -43,4 +43,3 @@ Auth.DEFAULT_CONFIG = {
 
 export * from './auth__core';
 export default Auth;
-export {AuthMessage} from "@jetbrains/ring-ui/components/auth/storage";

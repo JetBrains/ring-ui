@@ -1,7 +1,10 @@
+import LocalStorage from '../storage/storage__local';
+
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
 
-import MockedStorage from 'imports-loader?imports=default|storage-mock|window!../storage/storage__local';
+// eslint-disable-next-line import/no-commonjs
+const MockedStorage: typeof LocalStorage = require('imports-loader?imports=default|storage-mock|window!../storage/storage__local').default;
 
 const TICK = 100;
 
@@ -32,7 +35,8 @@ describe('Auth', () => {
       it('should be get as it was saved', async () => {
         await authStorage.saveState(stateId, state);
         const newState = await authStorage.getState(stateId);
-        newState.should.deep.equal(state);
+        should.exist(newState);
+        newState?.should.deep.equal(state);
       });
 
       it('should be null if wasn\'t set', () => {
@@ -132,7 +136,7 @@ describe('Auth', () => {
     });
 
     describe('events', () => {
-      let mockedAuthStorage;
+      let mockedAuthStorage: AuthStorage;
 
       beforeEach(() => {
         mockedAuthStorage = new AuthStorage({

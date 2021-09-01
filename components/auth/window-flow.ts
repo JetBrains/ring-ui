@@ -1,7 +1,7 @@
 import AuthResponseParser from './response-parser';
-import {LoginFlow} from "./auth__core";
-import AuthRequestBuilder from "./request-builder";
-import AuthStorage from "./storage";
+import {LoginFlow} from './auth__core';
+import AuthRequestBuilder from './request-builder';
+import AuthStorage from './storage';
 
 const NAVBAR_HEIGHT = 50;
 const CLOSED_CHECK_INTERVAL = 200;
@@ -58,10 +58,10 @@ export default class WindowFlow implements LoginFlow {
           return;
         }
         cleanRun = true;
-        /* eslint-disable no-use-before-define */
+        /* eslint-disable @typescript-eslint/no-use-before-define */
         removeStateListener();
         removeTokenListener();
-        /* eslint-enable no-use-before-define */
+        /* eslint-enable @typescript-eslint/no-use-before-define */
 
         this._loginWindow?.close();
         clearTimeout(this._timeoutId);
