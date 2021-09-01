@@ -15,7 +15,7 @@ export default class LocalStorage implements StorageInterface {
     try {
       return await new Promise(resolver);
     } catch (e) {
-      if (e && e.name === 'NS_ERROR_FILE_CORRUPTED') {
+      if (e instanceof Error && e.name === 'NS_ERROR_FILE_CORRUPTED') {
         alert.error('Sorry, it looks like your browser storage is corrupted. ' +
         'Please clear your storage by going to Tools -> Clear Recent History -> Cookies' +
         ' and setting time range to "Everything". This will remove the corrupted browser storage across all sites.');

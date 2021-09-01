@@ -14,7 +14,23 @@ import styles from './auth-dialog.css';
  * @name Auth Dialog
  */
 
-export default class AuthDialog extends Component {
+export interface AuthDialogProps {
+  className?: string | null | undefined
+  title?: string | null | undefined
+  errorMessage?: string | null | undefined
+  serviceImage?: string | null | undefined
+  serviceName?: string | null | undefined
+  loginCaption: string
+  loginToCaption: string
+  show: boolean
+  cancelOnEsc: boolean
+  confirmLabel: string
+  cancelLabel: string
+  onConfirm: () => void
+  onCancel: () => void
+}
+
+export default class AuthDialog extends Component<AuthDialogProps> {
   static propTypes = {
     className: PropTypes.string,
     title: PropTypes.string,
@@ -66,7 +82,7 @@ export default class AuthDialog extends Component {
     } = this.props;
 
     const defaultTitle = serviceName ? loginToCaption : loginCaption;
-    const title = (this.props.title || defaultTitle).replace('%serviceName%', serviceName);
+    const title = (this.props.title || defaultTitle).replace('%serviceName%', serviceName ?? '');
 
     return (
       <Dialog
