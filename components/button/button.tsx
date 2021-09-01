@@ -1,15 +1,44 @@
 import 'focus-visible';
-import React, {createRef, PureComponent} from 'react';
+import React, {createRef, PureComponent, ButtonHTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px';
 
 import Icon, {Size} from '../icon/icon';
-import Theme, {withTheme} from '../global/theme';
-import ClickableLink from '../link/clickableLink';
+import Theme, {ThemeProps, withTheme} from '../global/theme';
+import ClickableLink, {ClickableLinkProps} from '../link/clickableLink';
 
 import styles from './button.css';
 import {getButtonClasses} from './button__classes';
+
+export interface ButtonBaseProps extends ThemeProps {
+  active?: boolean | null | undefined
+  danger?: boolean | null | undefined
+  delayed?: boolean | null | undefined
+  loader?: boolean | null | undefined
+  primary?: boolean | null | undefined
+  short?: boolean | null | undefined
+  text?: boolean | null | undefined
+  inline?: boolean | null | undefined
+  dropdown?: boolean | null | undefined
+  disabled?: boolean | undefined
+  icon?: string | Icon | null | undefined
+  iconSize?: Size | null | undefined
+  iconClassName?: string | null | undefined
+  iconSuppressSizeWarning?: boolean | null | undefined
+}
+
+export interface ButtonButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    ButtonBaseProps {
+  href?: undefined
+}
+
+export interface ButtonLinkProps extends ClickableLinkProps, ButtonBaseProps {
+  href: string
+}
+
+export type ButtonProps = ButtonButtonProps | ButtonLinkProps
 
 /**
  * @name Button
@@ -17,7 +46,7 @@ import {getButtonClasses} from './button__classes';
 /**
  * A component for displaying variously styled buttons.
  */
-class Button extends PureComponent {
+class Button extends PureComponent<ButtonProps> {
   static propTypes = {
     theme: PropTypes.oneOf(['light', 'dark']),
     active: PropTypes.bool,
@@ -47,7 +76,7 @@ class Button extends PureComponent {
   static IconSize = Size;
   static Theme = Theme;
 
-  buttonRef = createRef();
+  buttonRef = createRef<HTMLButtonElement>();
 
   render() {
     const {
@@ -99,21 +128,29 @@ class Button extends PureComponent {
         )}
       </span>
     );
-    const isLink = !!props.href;
-
-    const Tag = isLink ? ClickableLink : 'button';
-    return (
-      <Tag
-        ref={this.buttonRef}
-        tabIndex={loader ? -1 : 0}
-        type={isLink ? null : 'button'}
-        {...props}
-        className={classes}
-      >
+    const commonProps = {
+      tabIndex: loader ? -1 : 0,
+      ...props,
+      className: classes,
+      children: <>
         {loader && !text && !icon && <div className={styles.loaderBackground}/>}
         {content}
-      </Tag>
-    );
+      </>
+    };
+
+    return commonProps.href != null
+      ? (
+        <ClickableLink
+          {...commonProps}
+        />
+      )
+      : (
+        <button
+          ref={this.buttonRef}
+          type="button"
+          {...commonProps}
+        />
+      );
   }
 }
 
