@@ -50,29 +50,6 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/*.ts', '**/*.tsx'],
-      parser: '@typescript-eslint/parser',
-      plugins: ['@typescript-eslint'],
-      extends: ['plugin:@typescript-eslint/recommended'],
-      rules: {
-        '@typescript-eslint/no-var-requires': ignore,
-        '@typescript-eslint/explicit-module-boundary-types': ignore,
-        '@typescript-eslint/no-empty-function': ignore,
-        'no-use-before-define': ignore,
-        '@typescript-eslint/no-use-before-define': [error, 'nofunc'],
-        'no-shadow': ignore,
-        '@typescript-eslint/no-shadow': error,
-        '@typescript-eslint/no-unused-vars': [error, {
-          ignoreRestSiblings: true
-        }],
-        '@typescript-eslint/ban-types': [error, {
-          extendDefaults: true,
-          types: {object: false}
-        }],
-        'react/prop-types': ignore
-      }
-    },
-    {
       files: [
         'components/**/*'
       ],
@@ -110,6 +87,34 @@ module.exports = {
           }
         },
         'import/core-modules': ['angular']
+      }
+    },
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: ['plugin:@typescript-eslint/recommended'],
+      rules: {
+        '@typescript-eslint/no-var-requires': ignore,
+        '@typescript-eslint/explicit-module-boundary-types': ignore,
+        '@typescript-eslint/no-empty-function': ignore,
+        'no-use-before-define': ignore,
+        '@typescript-eslint/no-use-before-define': [error, 'nofunc'],
+        'no-shadow': ignore,
+        '@typescript-eslint/no-shadow': error,
+        '@typescript-eslint/no-unused-vars': [error, {
+          ignoreRestSiblings: true
+        }],
+        '@typescript-eslint/ban-types': [error, {
+          extendDefaults: true,
+          types: {object: false}
+        }],
+        'no-magic-numbers': ignore,
+        '@typescript-eslint/no-magic-numbers': [error, {
+          ignore: [-1, 0, 1, 2],
+          ignoreEnums: true
+        }],
+        'react/prop-types': ignore
       }
     },
     {

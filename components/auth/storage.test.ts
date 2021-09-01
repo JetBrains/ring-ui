@@ -106,7 +106,7 @@ describe('Auth', () => {
     const token = {
       accessToken: 'silver-bullet',
       scopes: ['0-0-0-0-0'],
-      // eslint-disable-next-line no-magic-numbers
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
       expires: TokenValidator._epoch() + 40 * 60
     };
 

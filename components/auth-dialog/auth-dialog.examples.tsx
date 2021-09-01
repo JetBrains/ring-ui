@@ -20,7 +20,11 @@ export default {
   }
 };
 
-export const authDialog = ({onConfirm, onCancel}) => {
+interface AuthDialogArgs {
+  onConfirm: () => void
+  onCancel: () => void
+}
+export const authDialog = ({onConfirm, onCancel}: AuthDialogArgs) => {
   class AuthDialogDemo extends React.Component {
     state = {
       confirm: {
@@ -39,14 +43,20 @@ export const authDialog = ({onConfirm, onCancel}) => {
     };
 
     showAuthDialog = () =>
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         this.setState({
           confirm: {
             show: true,
             errorMessage: 'Authorization is required',
             serviceName: 'YouTrack',
-            onConfirm: () => this.hideAuthDialog() || resolve(),
-            onCancel: () => this.hideAuthDialog() || reject()
+            onConfirm: () => {
+              this.hideAuthDialog();
+              resolve();
+            },
+            onCancel: () => {
+              this.hideAuthDialog();
+              reject();
+            }
           }
         });
       }).

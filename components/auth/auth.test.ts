@@ -5,7 +5,7 @@ import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT} from './auth';
 import AuthRequestBuilder from './request-builder';
 import AuthResponseParser, {AuthError} from './response-parser';
 import BackgroundFlow from './background-flow';
-import TokenValidator from './token-validator';
+import TokenValidator, {TokenValidationError} from './token-validator';
 import {Stub} from "../../test-helpers/globals";
 
 // eslint-disable-next-line import/no-commonjs
@@ -218,7 +218,8 @@ describe('Auth', () => {
       });
       try {
         await auth.init();
-      } catch (reject) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (reject: any) {
         Auth.prototype._redirectCurrentPage.
           should.be.calledWith('api/rest/oauth2/auth?response_type=token' +
           '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
@@ -318,7 +319,7 @@ describe('Auth', () => {
 
     beforeEach(() => {
       _getValidatedToken = sandbox.stub(TokenValidator.prototype, '_getValidatedToken').
-        returns(Promise.reject({authRedirect: true}));
+        returns(Promise.reject(new TokenValidationError('error')));
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       sandbox.stub(Auth.prototype, 'getUser');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
@@ -382,7 +383,8 @@ describe('Auth', () => {
 
       try {
         await auth.init();
-      } catch (reject) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (reject: any) {
         // Background loading
         BackgroundFlow.prototype._redirectFrame.should.have.been.
           calledWithMatch(
@@ -411,7 +413,8 @@ describe('Auth', () => {
 
       try {
         await auth.init();
-      } catch (reject) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (reject: any) {
         // Background loading
         BackgroundFlow.prototype._redirectFrame.should.have.been.
           calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
@@ -522,7 +525,8 @@ describe('Auth', () => {
 
       try {
         await auth.requestToken();
-      } catch (reject) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (reject: any) {
         BackgroundFlow.prototype._redirectFrame.should.have.been.
           calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
