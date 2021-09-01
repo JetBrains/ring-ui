@@ -1,15 +1,10 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import Heading, {H2} from './heading';
 
 describe('Heading', () => {
   const shallowHeading = props => shallow(<Heading {...props}/>);
-  const mountHeading = props => mount(<Heading {...props}/>);
-
-  it('should create component', () => {
-    mountHeading().should.have.type(Heading.type);
-  });
 
   it('should wrap children with h1 by default', () => {
     shallowHeading().should.have.tagName('h1');

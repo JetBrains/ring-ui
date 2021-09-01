@@ -81,7 +81,8 @@ describe('Auth', () => {
 
         try {
           parser.getAuthResponseFromURL();
-        } catch (e) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (e: any) {
           e.should.have.property('message', 'Logged in user is banned');
           e.should.have.property('code', 'access_denied');
           e.should.have.property('stateId', 'unique');

@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import {Stub} from '../../test-helpers/globals';
 
 import HTTP from '../http/http';

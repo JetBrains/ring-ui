@@ -38,6 +38,9 @@ export const basic = ({onAuthLog}: BasicProps) => {
       const data = await auth.requestUser();
       onAuthLog('User profile data:', data);
     } catch (e) {
+      if (!(e instanceof Error)) {
+        throw e
+      }
       onAuthLog('error', e.toString());
       // eslint-disable-next-line no-console
       console.error('Auth error', e);
@@ -78,6 +81,9 @@ export const inIFrame = ({onAuth, onAuthError}: InIframeProps) => {
       const data = await auth.requestUser();
       node.innerHTML = JSON.stringify(data);
     } catch (e) {
+      if (!(e instanceof Error)) {
+        throw e
+      }
       onAuthError('Failed', e.toString());
     }
   })();
