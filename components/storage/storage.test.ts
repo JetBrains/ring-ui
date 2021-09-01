@@ -11,7 +11,7 @@ type Circular = {
   circular?: Circular
 }
 
-function testStorage(storage: StorageInterface<unknown>) {
+function testStorage(storage: StorageInterface) {
   describe('set', () => {
     it('should be fulfilled', () => storage.set('empty', {}).should.be.fulfilled);
 
@@ -102,7 +102,7 @@ function testStorage(storage: StorageInterface<unknown>) {
   });
 }
 
-function testStorageEvents(storage: StorageInterface<unknown>) {
+function testStorageEvents(storage: StorageInterface) {
   describe('events', () => {
     let stop: () => void;
 

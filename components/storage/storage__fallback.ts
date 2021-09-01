@@ -20,7 +20,7 @@ type Data = Record<string, any>
  * @return {FallbackStorage}
  * @constructor
  */
-export default class FallbackStorage<T> implements StorageInterface<T> {
+export default class FallbackStorage implements StorageInterface {
   static DEFAULT_COOKIE_NAME = 'localStorage';
   static DEFAULT_SESSION_COOKIE_NAME = 'sessionStorage';
   static DEFAULT_CHECK_DELAY = DEFAULT_CHECK_DELAY;
@@ -137,7 +137,7 @@ export default class FallbackStorage<T> implements StorageInterface<T> {
    * @param {object} value
    * @return {Promise}
    */
-  async set(key: string, value: T | null) {
+  async set<T>(key: string, value: T | null) {
     const data = await this._read();
     if (key) {
       if (value != null) {
@@ -164,7 +164,7 @@ export default class FallbackStorage<T> implements StorageInterface<T> {
    * @param {function(string, value)} callback
    * @return {Promise}
    */
-  each<R>(callback: (item: string, value: T) => R | Promise<R>) {
+  each<R>(callback: (item: string, value: unknown) => R | Promise<R>) {
     if (typeof callback !== 'function') {
       return Promise.reject(new Error('Callback is not a function'));
     }
@@ -185,7 +185,7 @@ export default class FallbackStorage<T> implements StorageInterface<T> {
    * @param {Function} callback
    * @return {Function}
    */
-  on(key: string, callback: (value: T | null) => void) {
+  on<T>(key: string, callback: (value: T | null) => void) {
     let stop = false;
 
     const checkForChange = (oldValue: T | null) => {

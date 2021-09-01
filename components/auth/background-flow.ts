@@ -1,9 +1,15 @@
 import AuthResponseParser from './response-parser';
+import AuthRequestBuilder from './request-builder';
+import AuthStorage from './storage';
 
 export const HUB_AUTH_PAGE_OPENED = 'HUB_AUTH_PAGE_OPENED';
 
 export default class BackgroundFlow {
-  constructor(requestBuilder, storage, timeout) {
+  _requestBuilder: AuthRequestBuilder;
+  _storage: AuthStorage;
+  _timeout: number;
+  private _promise?: Promise<string> | null;
+  constructor(requestBuilder: AuthRequestBuilder, storage: AuthStorage, timeout: number) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
     this._timeout = timeout;
@@ -14,7 +20,7 @@ export default class BackgroundFlow {
    * @return {HTMLIFrameElement}
    * @private
    */
-  _createHiddenFrame() {
+  private _createHiddenFrame() {
     const iframe = document.createElement('iframe');
 
     iframe.style.border = iframe.style.width = iframe.style.height = '0px';
@@ -32,7 +38,7 @@ export default class BackgroundFlow {
    * @param {string} url
    * @private
    */
-  _redirectFrame(iframe, url) {
+  _redirectFrame(iframe: HTMLIFrameElement, url: string) {
     iframe.src = `${url}&rnd=${Math.random()}`;
   }
 
@@ -42,13 +48,13 @@ export default class BackgroundFlow {
    * @return {Promise.<string>} promise that is resolved to access the token when it is loaded in a background iframe. The
    * promise is rejected if no token was received after {@link BackgroundToken.BACKGROUND_TIMEOUT} ms.
    */
-  async _load() {
+  private async _load() {
     const authRequest = await this._requestBuilder.
       // eslint-disable-next-line camelcase
       prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
 
-    return new Promise((resolve, reject) => {
-      function onMessage(e) {
+    return new Promise<string>((resolve, reject) => {
+      function onMessage(e: MessageEvent) {
         if (e.data === HUB_AUTH_PAGE_OPENED) {
           reject(new Error('Failed to obtain/refresh token in background'));
           cleanUp();
@@ -59,7 +65,7 @@ export default class BackgroundFlow {
 
       const iframe = this._createHiddenFrame();
 
-      let cleanRun;
+      let cleanRun: boolean;
 
       const timeout = setTimeout(() => {
         reject(new Error('Failed to refresh authorization'));

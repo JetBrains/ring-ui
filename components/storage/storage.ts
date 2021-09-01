@@ -7,16 +7,16 @@ export interface StorageConfig {
   checkDelay?: number | null | undefined
 }
 
-export interface StorageInterface<T> {
-  get(name: string): Promise<T | null>
-  set(name: string, value: T | null): Promise<T | null>
+export interface StorageInterface {
+  get<T>(name: string): Promise<T | null>
+  set<T>(name: string, value: T | null): Promise<T | null>
   remove(name: string): Promise<void>
-  each<R>(callback: (item: string, value: T | null) => R | Promise<R>): Promise<R[]>
-  on(name: string, callback: (value: T | null) => void): () => void
+  each<R>(callback: (item: string, value: unknown) => R | Promise<R>): Promise<R[]>
+  on<T>(name: string, callback: (value: T | null) => void): () => void
 }
 
 export interface StorageClass {
-  new <T>(config?: StorageConfig | undefined): StorageInterface<T>
+  new (config?: StorageConfig | undefined): StorageInterface
   QUOTA?: number
 }
 
