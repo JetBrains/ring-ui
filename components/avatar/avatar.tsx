@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -12,18 +12,29 @@ import FallbackAvatar from './fallback-avatar';
  * @name Avatar
  */
 
-export const Size = {
-  Size18: 18,
-  Size20: 20,
-  Size24: 24,
-  Size28: 28,
-  Size32: 32,
-  Size40: 40,
-  Size48: 48,
-  Size56: 56
-};
+export enum Size {
+  Size18 = 18,
+  Size20 = 20,
+  Size24 = 24,
+  Size28 = 28,
+  Size32 = 32,
+  Size40 = 40,
+  Size48 = 48,
+  Size56 = 56
+}
 
-export default class Avatar extends PureComponent {
+export interface AvatarProps extends HTMLAttributes<HTMLElement> {
+  dpr: number
+  size: Size
+  subavatarSize: number
+  url?: string | null | undefined
+  round?: boolean | null | undefined
+  subavatar?: string | null | undefined
+  username?: string | null | undefined
+  skipParams?: boolean | null | undefined
+}
+
+export default class Avatar extends PureComponent<AvatarProps> {
   static propTypes = {
     dpr: PropTypes.number,
     className: PropTypes.string,
