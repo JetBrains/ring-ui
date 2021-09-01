@@ -1,4 +1,5 @@
 @import "../global/variables.css";
+@import "../button/button.css";
 
 @value unit from "../global/global.css";
 @value iconOffset: calc(unit * 3 - 2px);
