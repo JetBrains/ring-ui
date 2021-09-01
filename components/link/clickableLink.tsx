@@ -1,12 +1,21 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, AnchorHTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 
 const LEFT_BUTTON = 0;
 // Cmd/Ctrl/Shift/Alt + Click should trigger default browser behaviour. Same applies to non-left clicks
-const isPlainLeftClick = e =>
+const isPlainLeftClick = (e: React.MouseEvent) =>
   e.button === LEFT_BUTTON && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey;
 
-export default class ClickableLink extends PureComponent {
+export interface ClickableLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  onConditionalClick?:
+    | ((isPlainLeft: boolean, e: React.MouseEvent<HTMLAnchorElement>) => void)
+    | null
+    | undefined
+  onPlainLeftClick?: ((e: React.MouseEvent<HTMLAnchorElement>) => void) | null | undefined
+  activeClassName?: string | null | undefined
+}
+
+export default class ClickableLink extends PureComponent<ClickableLinkProps> {
   static propTypes = {
     onClick: PropTypes.func,
     onPlainLeftClick: PropTypes.func,
@@ -16,7 +25,7 @@ export default class ClickableLink extends PureComponent {
     children: PropTypes.node.isRequired
   };
 
-  onClick = e => {
+  onClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const {onClick, onConditionalClick, onPlainLeftClick} = this.props;
 
     const isPlainLeft = isPlainLeftClick(e);

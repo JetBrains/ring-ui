@@ -152,6 +152,7 @@ module.exports = {
         'react/no-this-in-sfc': ignore,
         'react/prop-types': ignore,
         'no-magic-numbers': ignore,
+        '@typescript-eslint/no-magic-numbers': ignore,
         'angular/no-controller': ignore,
         'angular/di-unused': ignore
       }

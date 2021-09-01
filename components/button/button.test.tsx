@@ -45,7 +45,7 @@ describe('Button', () => {
     element.should.have.class(styles.withIcon);
     caretDownSVG.
       replace('/>', '></path>').
-      should.include(element.querySelector('svg').innerHTML);
+      should.include(element.querySelector('svg')?.innerHTML);
   });
 
   it('should set custom class', () => {

@@ -8,7 +8,7 @@ import Loader from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
 
 import Theme, {ThemeContext} from '@jetbrains/ring-ui/components/global/theme';
 
-import Button from '@jetbrains/ring-ui/components/button/button';
+import Button, {ButtonProps} from '@jetbrains/ring-ui/components/button/button';
 
 export default {
   title: 'Components/Button',
@@ -25,7 +25,7 @@ export default {
   }
 };
 
-export const single = args => <Button {...args}/>;
+export const single = (args: ButtonProps) => <Button {...args}/>;
 single.args = {children: 'Label'};
 single.parameters = {hermione: {skip: true}};
 
@@ -189,10 +189,10 @@ export const longAction = () => {
     };
 
     sleep = () => {
-      const date = new Date();
+      const date = Date.now();
       let curDate;
       do {
-        curDate = new Date();
+        curDate = Date.now();
       } while (curDate - date < 2000);
 
       this.setState({loading: false});
