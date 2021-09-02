@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Checkbox from '@jetbrains/ring-ui/components/checkbox/checkbox';
+import Checkbox, {CheckboxProps} from '@jetbrains/ring-ui/components/checkbox/checkbox';
 
 export default {
   title: 'Components/Checkbox',
@@ -14,7 +14,7 @@ export default {
   }
 };
 
-export const controls = args => <Checkbox {...args}/>;
+export const controls = (args: CheckboxProps) => <Checkbox {...args}/>;
 controls.args = {label: 'label'};
 controls.parameters = {hermione: {skip: true}};
 

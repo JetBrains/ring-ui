@@ -11,3 +11,9 @@ declare module '*.svg' {
 declare module 'simply-uuid' {
   export function generate(): string;
 }
+
+declare module 'highlight.js/lib/core.js' {
+  import hljs from 'highlight.js';
+
+  export default hljs;
+}

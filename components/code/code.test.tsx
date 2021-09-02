@@ -4,21 +4,23 @@ import css from 'highlight.js/lib/languages/css';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 
-import Code, {highlight} from './code';
+import Code, {CodeProps, highlight} from './code';
 
 highlight.registerLanguage('css', css);
 highlight.registerLanguage('javascript', javascript);
 highlight.registerLanguage('xml', xml);
 
+type CodeAttributes = JSX.LibraryManagedAttributes<typeof Code, CodeProps>
+
 describe('Code', () => {
-  const shallowCode = props => shallow(
+  const shallowCode = (props?: Omit<CodeAttributes, 'code'> & Partial<Pick<CodeAttributes, 'code'>>) => shallow(
     <Code
       code=""
       {...props}
     />,
     {disableLifecycleMethods: true}
   );
-  const mountCode = props => mount(
+  const mountCode = (props?: CodeAttributes) => mount(
     <Code
       code=""
       {...props}
@@ -84,7 +86,8 @@ describe('Code', () => {
       code: '"foo"'
     });
     const token = wrapper.getDOMNode().querySelector('.hljs-string');
-    token.textContent.should.equal('"foo"');
+    should.exist(token?.textContent);
+    token?.textContent?.should.equal('"foo"');
   });
 
   it('should parse and highlight the code after props update', () => {
@@ -95,6 +98,7 @@ describe('Code', () => {
       code: '"bar"'
     });
     const token = wrapper.getDOMNode().querySelector('.hljs-string');
-    token.textContent.should.equal('"bar"');
+    should.exist(token?.textContent);
+    token?.textContent?.should.equal('"bar"');
   });
 });

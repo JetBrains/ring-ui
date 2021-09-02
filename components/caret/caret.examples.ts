@@ -25,11 +25,12 @@ export const basic = () => {
 <div><a href="" id="cursor-action" class="ring-link">Set caret position</a></div>
     `;
 
-  const caret = new Caret(node.querySelector('#test-input'));
+  const input = node.querySelector<HTMLElement>('#test-input');
+  const caret = input && new Caret(input);
 
-  node.querySelector('#cursor-action').addEventListener('click', event => {
-    caret.focus();
-    caret.setPosition(4);
+  node.querySelector('#cursor-action')?.addEventListener('click', event => {
+    caret?.focus();
+    caret?.setPosition(4);
     event.preventDefault();
   });
 
