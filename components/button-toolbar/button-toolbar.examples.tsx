@@ -24,7 +24,7 @@ export const buttonToolbar = () => (
     <ButtonGroup>
       <Button>Button one</Button>
       <Button>Button two</Button>
-      <Button disabled="disabled">Button three</Button>
+      <Button disabled>Button three</Button>
     </ButtonGroup>
     <Button>Another action</Button>
   </ButtonToolbar>
