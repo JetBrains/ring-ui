@@ -2,11 +2,13 @@ import React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
-import Checkbox from './checkbox';
+import Checkbox, {CheckboxProps} from './checkbox';
+
+type CheckboxAttributes = JSX.LibraryManagedAttributes<typeof Checkbox, CheckboxProps>
 
 describe('Checkbox', () => {
-  const shallowCheckbox = props => shallow(<Checkbox {...props}/>);
-  const mountCheckbox = props => mount(<Checkbox {...props}/>);
+  const shallowCheckbox = (props?: CheckboxAttributes) => shallow(<Checkbox {...props}/>);
+  const mountCheckbox = (props?: CheckboxAttributes) => mount<Checkbox>(<Checkbox {...props}/>);
 
   it('should create component', () => {
     shallowCheckbox().should.exist;
@@ -14,20 +16,22 @@ describe('Checkbox', () => {
 
   it('should render checkbox', () => {
     const checkbox = mountCheckbox().instance();
-    checkbox.input.should.have.property('type', 'checkbox');
+    should.exist(checkbox.input);
+    checkbox.input?.should.have.property('type', 'checkbox');
   });
 
   it('should set name', () => {
     const checkbox = mountCheckbox({name: 'test'}).instance();
 
-    checkbox.input.should.have.property('name', 'test');
+    should.exist(checkbox.input);
+    checkbox.input?.should.have.property('name', 'test');
   });
 
   it('should call handler for click event', () => {
     const clickHandler = sandbox.stub();
 
     const checkbox = mountCheckbox({onClick: clickHandler}).instance();
-    Simulate.click(checkbox.input);
+    checkbox.input && Simulate.click(checkbox.input);
 
     clickHandler.should.have.been.called;
   });
@@ -53,7 +57,8 @@ describe('Checkbox', () => {
   it('should check control', () => {
     const checkbox = mountCheckbox({defaultChecked: true}).instance();
 
-    checkbox.input.should.be.checked;
+    should.exist(checkbox.input);
+    checkbox.input?.should.be.checked;
   });
 
   it('should be disabled', () => {
@@ -61,18 +66,20 @@ describe('Checkbox', () => {
       disabled: true
     }).instance();
 
-    checkbox.input.should.be.disabled;
+    should.exist(checkbox.input);
+    checkbox.input?.should.be.disabled;
   });
 
   it('should check control on change event', () => {
     const eventMock = {
       target: {
         checked: true
-      }
+      } as HTMLInputElement
     };
     const checkbox = mountCheckbox().instance();
 
-    Simulate.change(checkbox.input, eventMock);
-    checkbox.input.should.be.checked;
+    should.exist(checkbox.input);
+    checkbox.input && Simulate.change(checkbox.input, eventMock);
+    checkbox.input?.should.be.checked;
   });
 });
