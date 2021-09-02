@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, Ref} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import highlight from 'highlight.js/lib/core';
@@ -12,7 +12,7 @@ import highlightStyles from './highlight.css';
 
 function noop() {}
 
-const registerLanguage = memoize(async language => {
+const registerLanguage = memoize(async (language: string) => {
   const languageExports = await import(
     /* webpackChunkName: "highlight-[request]" */
     `highlight.js/lib/languages/${language}`
@@ -20,11 +20,21 @@ const registerLanguage = memoize(async language => {
   highlight.registerLanguage(language, languageExports.default);
 });
 
+export interface CodeProps {
+  code: string
+  inline: boolean
+  softWrap: boolean
+  replacer: ((element: HTMLElement | null) => void)
+  className?: string | null | undefined
+  language?: string | null | undefined
+  codeRef?: Ref<HTMLElement> | null | undefined
+}
+
 /**
  * @name Code
  */
 
-export default class Code extends PureComponent {
+export default class Code extends PureComponent<CodeProps> {
   static propTypes = {
     className: PropTypes.string,
     code: PropTypes.string.isRequired,
@@ -52,6 +62,8 @@ export default class Code extends PureComponent {
     this.highlight();
   }
 
+  code?: HTMLElement | null;
+
   async highlight() {
     const codeRef = this.codeRef;
     if (codeRef == null) {
@@ -62,6 +74,7 @@ export default class Code extends PureComponent {
       if (language != null && highlight.getLanguage(language) == null) {
         await registerLanguage(language);
       }
+      // @ts-expect-error https://github.com/highlightjs/highlight.js/issues/2945
       highlight.highlightElement(codeRef);
     }
     replacer(codeRef);
@@ -69,21 +82,18 @@ export default class Code extends PureComponent {
 
   get codeRef() {
     const {codeRef} = this.props;
-    return !codeRef || this.isFunctionCodeRef ? this.code : codeRef.current;
-  }
-
-  get isFunctionCodeRef() {
-    return typeof (this.props.codeRef) === 'function';
+    return !codeRef || typeof codeRef === 'function' ? this.code : codeRef.current;
   }
 
   get initCodeRef() {
     const {codeRef} = this.props;
-    if (codeRef && !this.isFunctionCodeRef) {
+    const isFunctionCodeRef = typeof codeRef === 'function';
+    if (codeRef && !isFunctionCodeRef) {
       return codeRef;
     }
-    return ref => {
+    return (ref: HTMLElement | null) => {
       this.code = ref;
-      if (this.isFunctionCodeRef) {
+      if (isFunctionCodeRef) {
         codeRef(this.code);
       }
     };
@@ -113,6 +123,6 @@ export default class Code extends PureComponent {
   }
 }
 
-const code = trivialTemplateTag(source => <Code code={source}/>);
+const code = trivialTemplateTag((source: string) => <Code code={source}/>);
 
 export {code, highlight};

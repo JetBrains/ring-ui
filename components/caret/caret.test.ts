@@ -1,15 +1,15 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 
 import Caret from './caret';
 
 describe('Caret', () => {
-  let target;
-  let caret;
+  let target: HTMLElement;
+  let caret: Caret;
   beforeEach(() => {
     target = document.createElement('div');
     target.innerHTML = 'target = document.createElement(textarea)';
     target.style.font = '12px/14px Arial';
-    target.contentEditable = true;
+    target.contentEditable = 'true';
 
     document.body.appendChild(target);
 
@@ -17,20 +17,19 @@ describe('Caret', () => {
   });
 
   afterEach(() => {
-    window.getSelection().removeAllRanges();
+    window.getSelection()?.removeAllRanges();
     // document.body.removeChild(target);
-    target = null;
   });
 
   describe('getPosition', () => {
     it('Default position should be 0', () => {
-      window.getSelection().removeAllRanges();
+      window.getSelection()?.removeAllRanges();
 
       caret.getPosition().should.equal(0);
     });
 
     it('Should get correct positions', () => {
-      window.getSelection().collapse(target.firstChild, 10);
+      window.getSelection()?.collapse(target.firstChild, 10);
 
       caret.getPosition().should.equal(10);
     });
@@ -49,7 +48,7 @@ describe('Caret', () => {
 
     it('Should get correct position with simple deep markup', () => {
       target.innerHTML = '<span>foo<span>test<span>hello</span></span><span>123</span></span>';
-      window.getSelection().collapse(target.children[0].children[0].children[0].firstChild,
+      window.getSelection()?.collapse(target.children[0].children[0].children[0].firstChild,
         2);
       caret.getPosition().should.equal(9);
     });
@@ -57,7 +56,7 @@ describe('Caret', () => {
     it('Should get correct position with difficult deep markup 2', () => {
       target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
         '</span><span>span3</span>';
-      window.getSelection().collapse(target.children[1].children[0].firstChild, 4);
+      window.getSelection()?.collapse(target.children[1].children[0].firstChild, 4);
       caret.getPosition().should.equal(20);
     });
 
@@ -65,10 +64,13 @@ describe('Caret', () => {
       target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
         '</span><span>span3</span>';
       const range = new Range();
-      range.setStart(target.children[1].children[0].firstChild, 1);
-      range.setEnd(target.children[1].children[0].firstChild, 4);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
+      const node = target.children[1].children[0].firstChild;
+      if (node != null) {
+        range.setStart(node, 1);
+        range.setEnd(node, 4);
+      }
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
       caret.getPosition().should.deep.equal({startOffset: 17, endOffset: 20, position: 20});
     });
 
@@ -78,8 +80,8 @@ describe('Caret', () => {
       const range = new Range();
       range.setStart(target.children[0].childNodes[0], 0);
       range.setEnd(target.children[0].childNodes[0], 5);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
       caret.getPosition().should.deep.equal({startOffset: 0, endOffset: 5, position: 5});
     });
 
@@ -87,10 +89,12 @@ describe('Caret', () => {
       target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
         '</span><span>span3</span>';
       const range = new Range();
-      range.setStart(target.children[0].children[0].firstChild, 1);
-      range.setEnd(target.children[1].children[0].firstChild, 4);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
+      const startNode = target.children[0].children[0].firstChild;
+      startNode && range.setStart(startNode, 1);
+      const endNode = target.children[1].children[0].firstChild;
+      endNode && range.setEnd(endNode, 4);
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
       caret.getPosition().should.deep.equal({startOffset: 6, endOffset: 20, position: 20});
     });
 
@@ -99,9 +103,10 @@ describe('Caret', () => {
         '</span><span>span3</span>';
       const range = new Range();
       range.setStart(target.children[0].childNodes[0], 0);
-      range.setEnd(target.children[2].firstChild, 5);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
+      const endNode = target.children[2].firstChild;
+      endNode && range.setEnd(endNode, 5);
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
       caret.getPosition().should.deep.equal({startOffset: 0, endOffset: 27, position: 27});
     });
   });
@@ -122,13 +127,13 @@ describe('Caret', () => {
 
   describe('getOffset', () => {
     it('Should get correct zero offset', () => {
-      window.getSelection().collapse(target.firstChild, 0);
+      window.getSelection()?.collapse(target.firstChild, 0);
 
       caret.getOffset().should.equal(0);
     });
 
     it('Should get correct offset', () => {
-      window.getSelection().collapse(target.firstChild, 10);
+      window.getSelection()?.collapse(target.firstChild, 10);
 
       // Test caret offset should be about 50px (browsers have some small differences)
       caret.getOffset().should.be.closeTo(50, 15);

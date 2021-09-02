@@ -1,5 +1,15 @@
 import {getRect} from '../global/dom';
 
+export interface PositionParams {
+  avoidFocus?: boolean | null | undefined
+}
+
+export interface Position {
+  startOffset: number
+  endOffset: number
+  position: number
+}
+
 /**
  * @name Caret
  */
@@ -18,11 +28,13 @@ export default class Caret {
    * @param value {*}
    * @return {*}
    */
-  static normalizeNewlines(value) {
+  static normalizeNewlines(value: string | undefined) {
     return typeof value === 'string' ? value.replace(this.returnRE, '') : value;
   }
 
-  constructor(target) {
+  target: HTMLElement | HTMLInputElement;
+
+  constructor(target: HTMLElement) {
     this.target = target;
   }
 
@@ -43,12 +55,12 @@ export default class Caret {
    * Get absolute caret position index
    * @return {number}
    */
-  getAbsolutePosition(node) {
-    let _curNode = node;
+  getAbsolutePosition(node: Node) {
+    let _curNode: Node | null = node;
     let curPos = 0;
-    while (_curNode !== this.target) {
+    while (_curNode != null && _curNode !== this.target) {
       while (_curNode.previousSibling) {
-        curPos += _curNode.previousSibling.textContent.length;
+        curPos += _curNode.previousSibling.textContent?.length ?? 0;
         _curNode = _curNode.previousSibling;
       }
       _curNode = _curNode.parentNode;
@@ -62,7 +74,7 @@ export default class Caret {
    * @param {boolean} params.avoidFocus
    * @return {number}
    */
-  getPosition(params = {}) {
+  getPosition(params: PositionParams = {}): number | Position {
     if (this.isContentEditable()) {
       if (!params.avoidFocus) {
         this.focus();
@@ -70,7 +82,7 @@ export default class Caret {
 
       const selection = window.getSelection();
 
-      if (!selection.rangeCount) {
+      if (!selection?.rangeCount) {
         return 0;
       }
 
@@ -81,11 +93,13 @@ export default class Caret {
       range2.setEnd(range1.endContainer, range1.endOffset);
       const _curNode = range1.startContainer;
       if (this.target === _curNode) {
-        return range1.startOffset === 0 ? 0 : _curNode.textContent.length;
+        return range1.startOffset === 0 || _curNode.textContent == null
+          ? 0
+          : _curNode.textContent.length;
       } else if (!this.target.contains(_curNode)) {
         return -1;
       } else if (!_curNode) {
-        return this.target.selectionStart;
+        return 'selectionStart' in this.target && this.target.selectionStart || -1;
       }
       const curPos = this.getAbsolutePosition(_curNode);
       if (range1.startContainer === range1.endContainer) {
@@ -104,7 +118,7 @@ export default class Caret {
       }
     }
 
-    return this.target.selectionStart;
+    return 'selectionStart' in this.target && this.target.selectionStart || -1;
   }
 
   /**
@@ -113,7 +127,7 @@ export default class Caret {
    * @param {number} position
    * @return {{_correctedPosition: number, _curNode: Node}}
    */
-  getRelativePosition(curNode, position) {
+  getRelativePosition(curNode: Node, position: number) {
     let curPos = 0;
     let _curNode = curNode;
     const nodeTypeText = 3;
@@ -131,11 +145,11 @@ export default class Caret {
     if (_curNode && _curNode.nodeType !== undefined) {
       while (curPos < position && _curNode.nodeType !== nodeTypeText) {
         i++;
-        if (_curNode.childNodes[i] !== null && _curNode.childNodes[i]) {
-          curPos += _curNode.childNodes[i].textContent.length;
+        if (_curNode.childNodes[i] != null) {
+          curPos += _curNode.childNodes[i].textContent?.length ?? 0;
           if (curPos >= position) {
             _curNode = _curNode.childNodes[i];
-            curPos -= _curNode.textContent.length;
+            curPos -= _curNode.textContent?.length ?? 0;
             i = -1;
           }
         } else {
@@ -152,12 +166,12 @@ export default class Caret {
    * @param  {number} position
    * @return {number}
    */
-  setPosition(position) {
+  setPosition(position?: Position | number) {
     const isContentEditable = this.isContentEditable();
     let correctedPosition;
-    let curNode = this.target && this.target.childNodes[0];
+    let curNode: Node = this.target && this.target.childNodes[0];
     if (position !== undefined) {
-      if (position.startOffset !== undefined) {
+      if (typeof position === 'object') {
         const range = new Range();
         const start = this.getRelativePosition(curNode, position.startOffset);
         range.setStart(start._curNode, start._correctedPosition);
@@ -167,8 +181,8 @@ export default class Caret {
       } else if (position === -1) {
         const value = isContentEditable
           ? this.target.textContent
-          : this.constructor.normalizeNewlines(this.target.value);
-        correctedPosition = value.length;
+          : Caret.normalizeNewlines('value' in this.target ? this.target.value : undefined);
+        correctedPosition = value?.length ?? 0;
       } else {
         const {_curNode, _correctedPosition} = this.getRelativePosition(curNode, position);
         curNode = _curNode;
@@ -181,16 +195,16 @@ export default class Caret {
 
       try {
         if (correctedPosition instanceof Range) {
-          window.getSelection().removeAllRanges();
-          window.getSelection().addRange(correctedPosition);
+          window.getSelection()?.removeAllRanges();
+          window.getSelection()?.addRange(correctedPosition);
         } else {
-          window.getSelection().collapse(curNode || this.target, correctedPosition);
+          window.getSelection()?.collapse(curNode || this.target, correctedPosition);
         }
       } catch (e) {
         // Do nothing
       }
 
-    } else {
+    } else if ('setSelectionRange' in this.target && typeof correctedPosition === 'number') {
       this.target.setSelectionRange(correctedPosition, correctedPosition);
     }
 
@@ -207,8 +221,8 @@ export default class Caret {
 
     try {
       // Both statements may throw
-      range = window.getSelection().getRangeAt(0).cloneRange();
-      range.setStart(range.startContainer, range.startOffset - 1);
+      range = window.getSelection()?.getRangeAt(0).cloneRange();
+      range?.setStart(range.startContainer, range.startOffset - 1);
     } catch (e) {
       return offset;
     }
@@ -217,7 +231,7 @@ export default class Caret {
       offset =
         getRect(range).right -
         getRect(this.target).left -
-        (range.startContainer.offsetLeft || 0);
+        (range.startContainer instanceof HTMLElement && range.startContainer.offsetLeft || 0);
     }
 
     return offset;

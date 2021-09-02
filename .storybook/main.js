@@ -9,7 +9,7 @@ module.exports = {
   stories: [
     // Make welcome stories default
     '../components/welcome.examples.js',
-    '../components/**/*.examples.js'
+    '../components/**/*.examples.{js,ts,tsx}'
   ],
   presets: [require.resolve('./custom-header/header-preset')],
   addons: [
