@@ -26,7 +26,7 @@ const angularModule = angular.module(
 
 class DialogController extends RingAngularComponent {
   static $inject = ['$scope', '$q', 'dialog', '$element', 'dialogInSidebar', '$compile',
-    '$injector', '$controller', 'rgCompiler'];
+    '$injector', '$controller', 'rgCompiler', '$sce'];
 
   constructor(...args) {
     super(...args);
@@ -271,7 +271,7 @@ class DialogController extends RingAngularComponent {
         }];
         this.serverErrorFields.push(errorField);
       } else {
-        this.error = this.getErrorMessage(errorResponse);
+        this.error = this.$inject.$sce.trustAsHtml(this.getErrorMessage(errorResponse));
       }
     };
 
