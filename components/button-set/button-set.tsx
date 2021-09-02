@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, HTMLAttributes} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,7 @@ import styles from './button-set.css';
 /**
  * @name Button Set
  */
-export default class ButtonSet extends PureComponent {
+export default class ButtonSet extends PureComponent<HTMLAttributes<HTMLElement>> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string
