@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 import {shallow, mount} from 'enzyme';
 
 import ButtonToolbar from './button-toolbar';
 
 describe('Button Toolbar', () => {
-  const shallowButtonToolbar = params => shallow(<ButtonToolbar {...params}/>);
-  const mountButtonToolbar = params => mount(<ButtonToolbar {...params}/>);
+  const shallowButtonToolbar = (params?: HTMLAttributes<HTMLElement>) =>
+    shallow(<ButtonToolbar {...params}/>);
+  const mountButtonToolbar = (params?: HTMLAttributes<HTMLElement>) =>
+    mount(<ButtonToolbar {...params}/>);
 
   it('should create component', () => {
     mountButtonToolbar().should.have.type(ButtonToolbar);

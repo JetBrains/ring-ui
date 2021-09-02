@@ -1,10 +1,10 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import styles from './button-group.css';
 
-export default class Caption extends PureComponent {
+export default class Caption extends PureComponent<HTMLAttributes<HTMLElement>> {
   static propTypes = {
     className: PropTypes.node
   };
