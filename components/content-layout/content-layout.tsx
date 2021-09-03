@@ -1,15 +1,20 @@
-import React, {cloneElement, Component} from 'react';
+import React, {cloneElement, Component, HTMLAttributes, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Sidebar from './sidebar';
+import Sidebar, {SidebarProps} from './sidebar';
 import styles from './content-layout.css';
+
+export interface ContentLayoutProps extends HTMLAttributes<HTMLElement> {
+  responsive: boolean
+  contentClassName?: string | null | undefined
+}
 
 /**
  * @name Content Layout
  */
 
-export default class ContentLayout extends Component {
+export default class ContentLayout extends Component<ContentLayoutProps> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -21,9 +26,11 @@ export default class ContentLayout extends Component {
     responsive: true
   };
 
-  state = {};
+  state = {
+    contentNode: null
+  };
 
-  saveContentNode = contentNode => {
+  saveContentNode = (contentNode: HTMLElement | null) => {
     this.setState({contentNode});
   };
 
@@ -37,7 +44,10 @@ export default class ContentLayout extends Component {
     const contentClasses = classNames(styles.contentLayoutContent, contentClassName);
 
     const childrenArray = React.Children.toArray(children);
-    const sidebarChild = childrenArray.filter(child => child && child.type === Sidebar)[0];
+    const sidebarChild = childrenArray.filter(
+      (child): child is ReactElement<SidebarProps, typeof Sidebar> =>
+        child != null && typeof child === 'object' && 'type' in child && child.type === Sidebar
+    )[0];
 
     const sidebar = sidebarChild && cloneElement(sidebarChild, {
       contentNode: this.state.contentNode
