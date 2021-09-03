@@ -18,7 +18,11 @@ export default {
   }
 };
 
-export const confirmService = ({onConfirm, onCancel}) => {
+interface ConfirmServiceArgs {
+  onConfirm: () => void
+  onCancel: () => void
+}
+export const confirmService = ({onConfirm, onCancel}: ConfirmServiceArgs) => {
   class ConfirmDemo extends React.Component {
     componentDidMount() {
       this.showConfirm();

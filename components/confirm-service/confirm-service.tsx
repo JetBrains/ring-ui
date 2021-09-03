@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {render} from 'react-dom';
 
-import Confirm from '../confirm/confirm';
+import Confirm, {ConfirmAttributes} from '../confirm/confirm';
 
 /**
  * @name Confirm Service
@@ -12,8 +12,17 @@ export const containerElement = document.createElement('div');
 /**
  * Renders Confirm into virtual node to skip maintaining container
  */
-function renderConfirm(props) {
+function renderConfirm(props: ConfirmAttributes) {
   render(<Confirm {...props}/>, containerElement);
+}
+
+export interface ConfirmServiceParams {
+  text?: string | undefined
+  description?: ReactNode
+  cancelIsDefault?: boolean | undefined
+  confirmLabel?: string | undefined
+  rejectLabel?: string | undefined
+  onBeforeConfirm?: (() => void) | undefined
 }
 
 export default function confirm({
@@ -23,8 +32,8 @@ export default function confirm({
   rejectLabel = 'Cancel',
   cancelIsDefault,
   onBeforeConfirm
-}) {
-  return new Promise((resolve, reject) => {
+}: ConfirmServiceParams) {
+  return new Promise<void>((resolve, reject) => {
     const props = {
       text,
       description,
