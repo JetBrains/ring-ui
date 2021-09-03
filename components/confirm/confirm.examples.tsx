@@ -17,7 +17,11 @@ export default {
   }
 };
 
-export const confirm = ({onConfirm, onCancel}) => {
+interface ConfirmArgs {
+  onConfirm: () => void
+  onCancel: () => void
+}
+export const confirm = ({onConfirm, onCancel}: ConfirmArgs) => {
   class ConfirmDemo extends React.Component {
     state = {
       confirm: {
@@ -39,14 +43,20 @@ export const confirm = ({onConfirm, onCancel}) => {
     };
 
     showConfirm = () =>
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         this.setState({
           confirm: {
             show: true,
             text: 'Do you really wish to proceed?',
             description: 'A description of an action that is about to take place.',
-            onConfirm: () => this.hideConfirm() || resolve(),
-            onReject: () => this.hideConfirm() || reject()
+            onConfirm: () => {
+              this.hideConfirm();
+              resolve();
+            },
+            onReject: () => {
+              this.hideConfirm();
+              reject();
+            }
           }
         });
       }).
@@ -54,13 +64,19 @@ export const confirm = ({onConfirm, onCancel}) => {
         catch(onCancel);
 
     showWithAnotherText = () =>
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         this.setState({
           confirm: {
             show: true,
             text: 'There is another question',
-            onConfirm: () => this.hideConfirm() || resolve(),
-            onReject: () => this.hideConfirm() || reject()
+            onConfirm: () => {
+              this.hideConfirm();
+              resolve();
+            },
+            onReject: () => {
+              this.hideConfirm();
+              reject();
+            }
           }
         });
       }).
@@ -76,7 +92,7 @@ export const confirm = ({onConfirm, onCancel}) => {
             show={this.state.confirm.show}
             text={this.state.confirm.text}
             description={this.state.confirm.description}
-            inProgress={this.state.inProgress}
+            inProgress={this.state.confirm.inProgress}
             confirmLabel="OK"
             rejectLabel="Cancel"
             onConfirm={this.state.confirm.onConfirm}

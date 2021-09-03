@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
 import Dialog from '../dialog/dialog';
@@ -8,11 +8,25 @@ import Panel from '../panel/panel';
 
 import styles from './confirm.css';
 
+export interface ConfirmProps {
+  text: string
+  description: ReactNode
+  show: boolean
+  rejectOnEsc: boolean
+  inProgress: boolean
+  cancelIsDefault: boolean
+  confirmLabel: string
+  rejectLabel: string
+  onConfirm: ((event: React.MouseEvent<HTMLButtonElement>) => void)
+  onReject: ((event?: React.MouseEvent<HTMLButtonElement>) => void)
+  className?: string | null | undefined
+}
+
 /**
  * @name Confirm
  */
 
-export default class Confirm extends PureComponent {
+export default class Confirm extends PureComponent<ConfirmProps> {
   static propTypes = {
     className: PropTypes.string,
     text: PropTypes.string,
@@ -99,3 +113,4 @@ export default class Confirm extends PureComponent {
   }
 }
 
+export type ConfirmAttributes = JSX.LibraryManagedAttributes<typeof Confirm, ConfirmProps>

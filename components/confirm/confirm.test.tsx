@@ -1,14 +1,14 @@
 import React from 'react';
-import {mount} from 'enzyme';
+import {mount, ReactWrapper} from 'enzyme';
 
 import islandStyles from '../island/island.css';
 
-import Confirm from './confirm';
+import Confirm, {ConfirmAttributes} from './confirm';
 
 describe('Confirm', () => {
   const defaultProps = {show: true, text: 'Foo'};
-  let wrapper;
-  const mountConfirm = props => {
+  let wrapper: ReactWrapper;
+  const mountConfirm = (props: ConfirmAttributes) => {
     wrapper = mount(<Confirm {...props}/>);
     return wrapper;
   };
@@ -23,6 +23,8 @@ describe('Confirm', () => {
 
   it('should render confirm', () => {
     mountConfirm(defaultProps);
-    getContainer().should.contain(`.${islandStyles.title}`);
+    const container = getContainer();
+    should.exist(container);
+    container?.should.contain(`.${islandStyles.title}`);
   });
 });
