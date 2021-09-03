@@ -1,13 +1,18 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import ContentLayout from './content-layout';
+import ContentLayout, {ContentLayoutProps} from './content-layout';
 import Sidebar from './sidebar';
 import styles from './content-layout.css';
 
+type ContentLayoutAttributes =
+  JSX.LibraryManagedAttributes<typeof ContentLayout, ContentLayoutProps>
+
 describe('Content Layout', () => {
-  const shallowContentLayout = params => shallow(<ContentLayout {...params}/>);
-  const mountContentLayout = params => mount(<ContentLayout {...params}/>);
+  const shallowContentLayout = (params?: ContentLayoutAttributes) =>
+    shallow(<ContentLayout {...params}/>);
+  const mountContentLayout = (params?: ContentLayoutAttributes) =>
+    mount(<ContentLayout {...params}/>);
 
   it('should create component', () => {
     mountContentLayout().should.have.type(ContentLayout);

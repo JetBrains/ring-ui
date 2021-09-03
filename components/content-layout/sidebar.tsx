@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Waypoint} from 'react-waypoint';
@@ -8,7 +8,14 @@ import styles from './content-layout.css';
 const ABOVE = 'above';
 const INSIDE = 'inside';
 
-export default class Sidebar extends Component {
+export interface SidebarProps extends HTMLAttributes<HTMLElement> {
+  right?: boolean | null | undefined
+  containerClassName?: string | null | undefined
+  fixedClassName?: string | null | undefined
+  contentNode?: HTMLElement | null | undefined
+}
+
+export default class Sidebar extends Component<SidebarProps> {
   static propTypes = {
     right: PropTypes.bool,
     children: PropTypes.node,
@@ -20,14 +27,17 @@ export default class Sidebar extends Component {
 
   state = {
     topIsOutside: true,
-    bottomIsOutside: true
+    bottomIsOutside: true,
+    sidebarVisibleHeight: undefined
   };
 
-  handleTopWaypoint = ({currentPosition}) => {
+  sidebarNode?: HTMLElement | null;
+
+  handleTopWaypoint = ({currentPosition}: Waypoint.CallbackArgs) => {
     this.setState({topIsOutside: currentPosition === ABOVE});
   };
 
-  handleBottomWaypoint = ({currentPosition, waypointTop}) => {
+  handleBottomWaypoint = ({currentPosition, waypointTop}: Waypoint.CallbackArgs) => {
     this.setState({
       sidebarVisibleHeight: waypointTop,
       bottomIsOutside: currentPosition !== INSIDE
@@ -48,7 +58,7 @@ export default class Sidebar extends Component {
     return !bottomIsOutside && topIsOutside && this.shouldUseFixation();
   }
 
-  sidebarRef = node => {
+  sidebarRef = (node: HTMLElement | null) => {
     this.sidebarNode = node;
   };
 
@@ -68,11 +78,11 @@ export default class Sidebar extends Component {
       [styles.sidebarRight]: right,
       [styles.sidebarFixedTop]: shouldFixateTop,
       [styles.sidebarFixedBottom]: shouldFixateBottom,
-      [fixedClassName]: shouldFixateTop || shouldFixateBottom
+      [fixedClassName ?? '']: shouldFixateTop || shouldFixateBottom
     });
 
     const style = {
-      maxHeight: shouldFixateBottom && sidebarVisibleHeight ? `${sidebarVisibleHeight}px` : null
+      maxHeight: shouldFixateBottom && sidebarVisibleHeight ? `${sidebarVisibleHeight}px` : undefined
     };
 
     return (
