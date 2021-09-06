@@ -10,7 +10,7 @@ import IconNg from '../icon-ng/icon-ng';
 import InputNg from '../input-ng/input-ng';
 import {getShortcutTitle} from '../shortcuts/shortcut-title';
 
-import HintPopupTpl from './shortcuts-hint-ng.html';
+import HintPopupTpl from './shortcuts-hint-ng__template';
 import './shortcuts-hint-ng.css';
 
 /**
