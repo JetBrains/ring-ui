@@ -3,6 +3,8 @@
  */
 import angular from 'angular';
 
+import buttonSetStyles from '../button-set/button-set.css';
+
 const angularModule = angular.module('Ring.button-set', []);
 
 function rgButtonSet() {
@@ -11,7 +13,7 @@ function rgButtonSet() {
     replace: true,
     scope: false,
     transclude: true,
-    template: require('./button-set-ng.html')
+    template: `<div class="${buttonSetStyles.buttonSet}" ng-transclude></div>`
   };
 }
 

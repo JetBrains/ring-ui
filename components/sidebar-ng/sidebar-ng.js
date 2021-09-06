@@ -10,6 +10,10 @@ import ButtonNG from '../button-ng/button-ng';
 
 import '../sidebar/sidebar.css';
 
+import template from './sidebar-ng__template';
+
+import buttonTemplate from './sidebar-ng__button-template';
+
 /**
  * @name Sidebar Ng
  */
@@ -66,7 +70,7 @@ function rgSidebarDirective() {
       topOffset: '=?',
       dialogIsActive: '=?'
     },
-    template: require('./sidebar-ng.html'),
+    template,
     controllerAs: 'sidebar'
   };
 }
@@ -85,7 +89,7 @@ function rgSidebarToggleButtonDirective() {
       model: '=',
       dialogIsActive: '=?'
     },
-    template: require('./sidebar-ng__button.html'),
+    template: buttonTemplate,
     controllerAs: 'button'
   };
 }

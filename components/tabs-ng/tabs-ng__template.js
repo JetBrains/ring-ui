@@ -1,4 +1,4 @@
-<div
+export default `<div
   ng-class=":: [styles.tabs, styles[theme]]"
   rg-shortcuts="ring-tabs"
   shortcuts-map="keyMap"
@@ -35,4 +35,4 @@
 
   <div ng-transclude></div>
 
-</div>
+</div>`;
