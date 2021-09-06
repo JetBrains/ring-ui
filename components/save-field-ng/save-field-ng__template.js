@@ -1,4 +1,4 @@
-<div class="ring-save-field" ng-form="saveFieldForm" rg-shortcuts="ring-save-field" shortcuts-map="keyMap" shortcuts-focus="focus">
+export default `<div class="ring-save-field" ng-form="saveFieldForm" rg-shortcuts="ring-save-field" shortcuts-map="keyMap" shortcuts-focus="focus">
   <span class="ring-save-field__transclude-placeholder" ng-transclude=""></span>
 
   <rg-button
@@ -29,4 +29,4 @@
   >
     {{wording.saved}}
   </rg-button>
-</div>
+</div>`;

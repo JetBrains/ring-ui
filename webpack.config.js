@@ -68,12 +68,6 @@ function createConfig() {
     }
   };
 
-  const htmlLoader = {
-    test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
-    include: componentsPath,
-    loader: require.resolve('html-loader')
-  };
-
   const gifLoader = {
     test: /\.gif$/,
     include: componentsPath,
@@ -84,7 +78,6 @@ function createConfig() {
     cssLoader,
     externalCssLoader,
     babelLoader,
-    htmlLoader,
     gifLoader
   };
 
@@ -119,6 +112,15 @@ module.exports = {
     },
     get vfileLoader() {
       throw new Error('***Ring UI embedded "vfileLoader" removed in 4.0. Please install and use own instance if you need it.***');
+    },
+    get htmlLoader() {
+      // eslint-disable-next-line no-console
+      console.warn('RingUI\'s "loaders.htmlLoader" is deprecated and will be removed soon. Please don\'t use it in your build');
+      return {
+        test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
+        include: componentsPath,
+        loader: require.resolve('html-loader')
+      };
     }
   }
 };

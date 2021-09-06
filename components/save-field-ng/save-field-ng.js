@@ -13,6 +13,8 @@ import Shortcuts from '../shortcuts-ng/shortcuts-ng';
 import Button from '../button-ng/button-ng';
 import PromisedClick from '../promised-click-ng/promised-click-ng';
 
+import template from './save-field-ng__template';
+
 const angularModule = angular.module('Ring.save-field', [
   MessageBundle,
 
@@ -64,7 +66,7 @@ angularModule.directive(
     return {
       require: 'rgSaveField',
       transclude: true,
-      template: require('./save-field-ng.html'),
+      template,
       scope: {
         api: '=?',
         value: '=',

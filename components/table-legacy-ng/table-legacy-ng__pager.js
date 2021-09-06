@@ -7,7 +7,13 @@ const angularModule = angular.module('Ring.table-legacy.pager', [MessageBundle, 
 angularModule.directive('rgLegacyTablePager', function rgLegacyTablePagerDirective() {
   return {
     restrict: 'E',
-    template: require('./table-legacy-ng__pager.html'),
+    template: `<rg-pager
+  total="pagerCtrl.total"
+  current-page="pagerCtrl.getPage()"
+  page-size="pagerCtrl.top"
+  on-page-change="pagerCtrl.onPageChange"
+  disable-page-size-selector="true"
+></rg-pager>`,
     scope: {},
     bindToController: {
       skip: '=',

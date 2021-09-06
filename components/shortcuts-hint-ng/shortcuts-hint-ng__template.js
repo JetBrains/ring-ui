@@ -1,4 +1,4 @@
-<div class="shortcuts-hint">
+export default `<div class="shortcuts-hint">
 
   <div class="shortcuts-hint__search-input-wrapper">
     <rg-input
@@ -45,4 +45,4 @@
 
   <div rg-template="hintPopupCtrl.tailTemplate"></div>
 
-</div>
+</div>`;

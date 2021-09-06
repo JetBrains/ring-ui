@@ -26,7 +26,7 @@ angularModule.directive('rgLegacyTable', function rgLegacyTableDirective() {
   return {
     restrict: 'E',
     transclude: true,
-    template: require('./table-legacy-ng.html'),
+    template: '<div><table class="ring-table" ng-transclude></table></div>',
     controllerAs: 'ctrl',
 
     /**
@@ -79,7 +79,10 @@ angularModule.directive('rgLegacyTableHeader',
 
     return {
       restrict: 'E',
-      template: require('./table-legacy-ng__header.html'),
+      template: `<thead>
+  <tr class="ring-table__header" ng-transclude></tr>
+  <tr class="ring-table__header ring-table__header_sticky" rg-place-under="{{stickToSelector}}" ng-transclude></tr>
+</thead>`,
       transclude: true,
       replace: true,
       link: function link(scope, iElement, iAttrs) {
@@ -156,7 +159,18 @@ angularModule.directive('rgLegacyTableBody', function rgLegacyTableBodyDirective
 
 angularModule.directive('rgLegacyTableRow', function rgLegacyTableRowDirective() {
   return {
-    template: require('./table-legacy-ng__row.html'),
+    template: `<tr ng-click="rowCtrl.setActiveItem(rowCtrl.rowItem)"
+  ng-mouseover="rowCtrl.onMouseOver(rowCtrl.rowItem)"
+  ng-mouseout="rowCtrl.onMouseOut(rowCtrl.rowItem)"
+  class="ring-table__row" ng-class="{
+    'ring-table__row_active': rowCtrl.rowItem.active,
+    'ring-table__row_checked': rowCtrl.rowItem.checked,
+    'ring-table__row_active-checked': rowCtrl.rowItem.active && !rowCtrl.hasCheckedItems(),
+    'ring-table__row_implicit': rowCtrl.rowItem.implicit,
+    'ring-table__row_expanded': rowCtrl.rowItem.expanded,
+    'ring-table__row_unselectable': rowCtrl.rowItem.unselectable
+    }" ng-transclude>
+</tr>`,
     restrict: 'E',
     transclude: true,
     replace: true,
@@ -333,7 +347,15 @@ angularModule.directive('rgLegacyTableTitle', function rgLegacyTableTitleDirecti
     transclude: true,
     replace: true,
     scope: true,
-    template: require('./table-legacy-ng__title.html'),
+    template: `<th class="ring-table__title"
+    ng-class="{
+    'ring-table__title_border': isBorder,
+    'ring-table__title_active': isActive,
+    'ring-table__column_snuggle-right': isPullRight,
+    'ring-table__column_snuggle-left': isPullLeft,
+    'ring-table__column_align-right' : isAlignRight
+    }" ng-transclude>
+</th>`,
 
     link: function link(scope, iElement, iAttrs) {
       /**
@@ -362,7 +384,18 @@ angularModule.directive('rgLegacyTableColumn', function rgLegacyTableColumnDirec
     transclude: true,
     replace: true,
     scope: true,
-    template: require('./table-legacy-ng__column.html'),
+    template: `<td class="ring-table__column"
+    ng-class="{
+    'ring-table__column_limited': isLimited,
+    'ring-table__column_unlimited': isUnlimited,
+    'ring-table__column_right': isAlignRight,
+    'ring-table__avatar': isAvatar,
+    'ring-table__column_wide': isWide,
+    'ring-table__column_gray': isGray,
+    'ring-table__column_snuggle-right': isPullRight,
+    'ring-table__column_snuggle-left': isPullLeft
+    }" ng-transclude>
+</td>`,
 
     link: function link(scope, iElement, iAttrs) {
       const element = iElement[0];
