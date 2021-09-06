@@ -137,7 +137,8 @@
   line-height: compensated;
 }
 
-@nest .table:not(.disabledHover) &:hover .row {
+/* stylelint-disable-next-line selector-max-specificity */
+.table:not(.disabledHover) .row:hover {
   background-color: var(--ring-hover-background-color);
 }
 
