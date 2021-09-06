@@ -16,7 +16,9 @@ class <%= ngComponentName %>Component extends RingAngularComponent {
     name: '@'
   };
 
-  static template = require('./<%= paramCaseNameSuffix %>.html');
+  static template = `<div ng-class="$ctrl.styles.<%= camelCaseName %>">
+  {{$ctrl.name}}
+</div>`;
 
   constructor(...args) {
     super(...args);

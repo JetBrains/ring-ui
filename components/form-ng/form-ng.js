@@ -54,7 +54,9 @@ angularModule.directive('rgErrorBubble', function rgErrorBubbleDirective(getForm
     },
 
     replace: true,
-    template: require('./form-ng__error-bubble.html'),
+    template: `<div class="ring-error-bubble" ng-class="{ active: active, 'ring-error-bubble_material': material }" ng-style="style">
+  <div ng-repeat="errorMessage in getFormErrorMessages(errorBubble().$error)">{{ errorMessage }}</div>
+</div>`,
 
     link: function link(scope, iElement, iAttrs) {
       scope.style = {};

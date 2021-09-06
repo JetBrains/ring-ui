@@ -4,8 +4,6 @@ import RingAngularComponent from '../global/ring-angular-component';
 import styles from '../footer/footer.css';
 import {copyright} from '../footer/footer';
 
-import template from './footer-ng.html';
-
 /**
  * @name Footer Ng
  */
@@ -22,7 +20,19 @@ class rgFooterComponent extends RingAngularComponent {
     right: '?rgFooterRight'
   };
 
-  static template = template;
+  static template = `<footer ng-class=":: $ctrl.styles.footer" data-test="ring-footer">
+  <div ng-class=":: $ctrl.styles.columnLeft">
+    <div ng-transclude="left" ng-class=":: $ctrl.styles.columnItem"></div>
+  </div>
+
+  <div ng-class=":: $ctrl.styles.columnCenter">
+    <div ng-transclude="center" ng-class=":: $ctrl.styles.columnItem"></div>
+  </div>
+
+  <div ng-class=":: $ctrl.styles.columnRight">
+    <div ng-transclude="right" ng-class=":: $ctrl.styles.columnItem"></div>
+  </div>
+</footer>`;
 }
 
 class rgFooterLineComponent extends RingAngularComponent {
