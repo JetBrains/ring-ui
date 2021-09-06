@@ -1,4 +1,4 @@
-<span>
+export default `<span>
   <rg-button
     ng-click="button.model = !button.model"
     ng-disabled="button.dialogIsActive"
@@ -15,4 +15,4 @@
 
     <span ng-transclude></span>
   </rg-button>
-</span>
+</span>`;

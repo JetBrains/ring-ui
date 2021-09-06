@@ -5,6 +5,8 @@ import className from 'classnames';
 import styles from '../tabs/tabs.css';
 import Theme from '../global/theme';
 
+import template from './tabs-ng__template';
+
 /**
  * @name Tabs Ng
  */
@@ -15,7 +17,7 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
   return {
     restrict: 'E',
     transclude: true,
-    template: require('./tabs-ng.html'),
+    template,
     replace: true,
 
     scope: {

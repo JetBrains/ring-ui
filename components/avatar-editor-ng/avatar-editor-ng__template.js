@@ -1,4 +1,4 @@
-<div>
+export default `<div>
   <div ng-click="!ngDisabled && controls.select()" class="ring-avatar-editor__frame" ng-class="{
         'ring-avatar-editor_controlled': controlled,
         'ring-avatar-editor': !ngDisabled
@@ -25,4 +25,4 @@
   >
     <span translate>{{ getDeleteLabel() }}</span>
   </rg-button>
-</div>
+</div>`;

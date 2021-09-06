@@ -14,7 +14,7 @@ function noop() {}
 
 const registerLanguage = memoize(async language => {
   const languageExports = await import(
-    /* webpackChunkName: "highlight-[request]", webpackPrefetch: true */
+    /* webpackChunkName: "highlight-[request]" */
     `highlight.js/lib/languages/${language}`
   );
   highlight.registerLanguage(language, languageExports.default);
