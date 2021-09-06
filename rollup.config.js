@@ -14,12 +14,7 @@ const files = glob.sync(
       '**/__mocks__/**',
       'components/*-ng/*',
       'components/**/*.test.js',
-      'components/**/*.examples.js',
-
-      // highlight.js import does not allow to build these files:
-      'components/code/**',
-      'components/markdown/**',
-      'components/user-agreement/**'
+      'components/**/*.examples.js'
     ]
   }
 );
