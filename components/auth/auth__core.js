@@ -615,7 +615,7 @@ export default class Auth {
     try {
       // We've got some error from this list
       // https://www.jetbrains.com/help/youtrack/devportal/OAuth-2.0-Errors.html
-      if (typeof error.code === 'string') {
+      if (error.code && typeof error.code.code === 'string') {
         const readableCode = error.code.split('_').join(' ');
         return `Authorization error: ${readableCode}`;
       }
@@ -736,11 +736,10 @@ export default class Auth {
   }
 
   async switchUser() {
-    if (this.config.embeddedLogin) {
-      await this._runEmbeddedLogin();
+    if (!this.config.embeddedLogin) {
+      throw new Error('Auth: switchUser only supported for "embeddedLogin" mode');
     }
-
-    throw new Error('Auth: switchUser only supported for "embeddedLogin" mode');
+    await this._runEmbeddedLogin();
   }
 
   /**

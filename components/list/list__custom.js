@@ -24,6 +24,8 @@ export default class ListCustom extends PureComponent {
     onMouseOver: PropTypes.func,
     onMouseUp: PropTypes.func,
     onCheckboxChange: PropTypes.func,
+    role: PropTypes.string,
+    tagName: PropTypes.string,
     'data-test': PropTypes.string
   };
 
@@ -51,6 +53,8 @@ export default class ListCustom extends PureComponent {
       onCheckboxChange,
       onMouseOver,
       onMouseUp,
+      role,
+      tagName,
       ...restProps
     } = this.props;
     const classes = classNames(styles.item, className, {
@@ -65,9 +69,11 @@ export default class ListCustom extends PureComponent {
     }, restProps['data-test']);
 
     const content = (typeof template === 'function') ? template(this.props) : template;
+    const TagName = tagName || 'span';
+
     return (
-      <span
-        role="button"
+      <TagName
+        role={role || 'button'}
         tabIndex={tabIndex}
         onClick={onClick}
         onKeyPress={this.handleKeyPress}
@@ -78,7 +84,7 @@ export default class ListCustom extends PureComponent {
         data-test={dataTest}
       >
         {content}
-      </span>
+      </TagName>
     );
   }
 }
