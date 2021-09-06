@@ -12,7 +12,6 @@ const files = glob.sync(
   {
     ignore: [
       '**/__mocks__/**',
-      'components/*-ng/*',
       'components/**/*.test.js',
       'components/**/*.examples.js'
     ]
