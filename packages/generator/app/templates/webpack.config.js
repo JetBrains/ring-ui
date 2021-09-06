@@ -59,13 +59,6 @@ const webpackConfig = () => ({
     ]
   },
   devServer: {<%- additionalDevServerOptions %>
-    stats: {
-      assets: false,
-      children: false,
-      chunks: false,
-      hash: false,
-      version: false
-    }
   },
   plugins: [
     new HtmlWebpackPlugin({
