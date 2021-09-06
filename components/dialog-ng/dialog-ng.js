@@ -14,6 +14,7 @@ import dialogStyles from '../dialog/dialog.css';
 import islandStyles from '../island/island.css';
 
 import styles from './dialog-ng.css';
+import dialogTemplate from './dialog-ng__template';
 
 /**
  * @name Dialog Ng
@@ -489,7 +490,7 @@ function rgDialogDirective($timeout) {
       active: '=?'
     },
     replace: true,
-    template: require('./dialog-ng.html'),
+    template: dialogTemplate,
     controllerAs: 'dialog',
     link
   };

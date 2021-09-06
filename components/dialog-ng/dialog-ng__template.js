@@ -1,4 +1,4 @@
-<div
+export default `<div
   ng-show="dialog.active"
   ng-class="[!dialog.inSidebar && dialog.dialogStyles.container]"
   ng-click="dialog.handleClick($event)"
@@ -66,4 +66,4 @@
       <div tabindex="-1" ng-show="false" data-anchor="focus-trap-fallback"></div>
     </div>
   </div>
-</div>
+</div>`;
