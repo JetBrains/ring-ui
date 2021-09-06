@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import angularSanitize from 'angular-sanitize';
-
 import {createFocusTrap} from 'focus-trap';
 
 import {getRect, getStyles} from '../global/dom';
@@ -23,12 +21,12 @@ import styles from './dialog-ng.css';
 
 const angularModule = angular.module(
   'Ring.dialog',
-  [angularSanitize, RingButton, PromisedClickNg, rgCompilerModuleName]
+  [RingButton, PromisedClickNg, rgCompilerModuleName]
 );
 
 class DialogController extends RingAngularComponent {
   static $inject = ['$scope', '$q', 'dialog', '$element', 'dialogInSidebar', '$compile',
-    '$injector', '$controller', 'rgCompiler'];
+    '$injector', '$controller', 'rgCompiler', '$sce'];
 
   constructor(...args) {
     super(...args);
@@ -273,7 +271,7 @@ class DialogController extends RingAngularComponent {
         }];
         this.serverErrorFields.push(errorField);
       } else {
-        this.error = this.getErrorMessage(errorResponse);
+        this.error = this.$inject.$sce.trustAsHtml(this.getErrorMessage(errorResponse));
       }
     };
 
