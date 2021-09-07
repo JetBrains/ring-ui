@@ -1,7 +1,6 @@
 {
   "packages": [
     "packages/*",
-    ".storybook/custom-header",
     "."
   ],
   "npmClient": "npm",
@@ -12,8 +11,7 @@
     },
     "publish": {
       "ignoreChanges": [
-        "@ring-ui/hermione",
-        "@ring-ui/storybook-header"
+        "@ring-ui/hermione"
       ]
     }
   }
