@@ -616,7 +616,7 @@ export default class Auth {
       // We've got some error from this list
       // https://www.jetbrains.com/help/youtrack/devportal/OAuth-2.0-Errors.html
       if (error.code && typeof error.code.code === 'string') {
-        const readableCode = error.code.split('_').join(' ');
+        const readableCode = error.code.code.split('_').join(' ');
         return `Authorization error: ${readableCode}`;
       }
     } catch {
