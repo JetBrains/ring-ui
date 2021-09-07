@@ -19,7 +19,7 @@
   "devDependencies": {
     "@jetbrains/hermione-teamcity-reporter": "^1.1.2",
     "@storybook/addon-storyshots": "^6.3.2",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "browserstack-local": "^1.4.8",
     "dotenv": "^10.0.0",
     "filenamify": "^4.3.0",
@@ -33,7 +33,7 @@
     "kill-port": "^1.6.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-redux": "^7.2.4",
+    "react-redux": "^7.2.5",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
     "yauzl": "^2.10.0"
@@ -44,6 +44,6 @@
     "extend": "3.0.2",
     "minimist": "1.2.5",
     "immer": "8.0.4",
-    "axios": "0.21.1"
+    "axios": "0.21.4"
   }
 }
