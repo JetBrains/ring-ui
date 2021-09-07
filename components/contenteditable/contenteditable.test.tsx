@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import ContentEditable from './contenteditable';
+import ContentEditable, {ContentEditableProps} from './contenteditable';
 
 describe('ContentEditable', () => {
   const stub = sandbox.stub();
@@ -18,11 +18,12 @@ describe('ContentEditable', () => {
       <b>{'bold'}</b>
     </ContentEditable>
   );
-  const shallowContentEditable = (props = defaultProps) => shallow(
-    <ContentEditable {...props}>
-      <b>{'bold'}</b>
-    </ContentEditable>
-  );
+  const shallowContentEditable = (props: Omit<ContentEditableProps, 'children'> = defaultProps) =>
+    shallow(
+      <ContentEditable {...props}>
+        <b>{'bold'}</b>
+      </ContentEditable>
+    );
 
   it('should create component', () => {
     mountContentEditable().should.have.type(ContentEditable);
