@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, HTMLAttributes, Ref, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import {renderToStaticMarkup} from 'react-dom/server';
 
@@ -7,6 +7,13 @@ import {renderToStaticMarkup} from 'react-dom/server';
  */
 
 function noop() {}
+
+export interface ContentEditableBaseProps extends HTMLAttributes<HTMLElement> {
+  disabled: boolean
+  onComponentUpdate: ((prevProps: ContentEditableBaseProps) => void)
+  inputRef?: Ref<HTMLDivElement> | null | undefined
+  __html: string
+}
 
 const commonPropTypes = {
   disabled: PropTypes.bool,
@@ -17,7 +24,7 @@ const commonPropTypes = {
   inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
 };
 
-class ContentEditableBase extends Component {
+class ContentEditableBase extends Component<ContentEditableBaseProps> {
   static propTypes = {
     ...commonPropTypes,
     __html: PropTypes.string
@@ -30,13 +37,13 @@ class ContentEditableBase extends Component {
     onComponentUpdate: noop
   };
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: ContentEditableBaseProps) {
     return nextProps.disabled !== this.props.disabled ||
       nextProps.__html !== this.props.__html;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    this.props.onComponentUpdate(prevProps, prevState);
+  componentDidUpdate(prevProps: ContentEditableBaseProps) {
+    this.props.onComponentUpdate(prevProps);
   }
 
   render() {
@@ -46,9 +53,11 @@ class ContentEditableBase extends Component {
       <div
         {...props}
         ref={inputRef}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         disabled={disabled}
         role="textbox"
-        tabIndex={disabled ? null : tabIndex}
+        tabIndex={disabled ? undefined : tabIndex}
         contentEditable={!this.props.disabled}
         dangerouslySetInnerHTML={{__html}}
       />
@@ -56,7 +65,14 @@ class ContentEditableBase extends Component {
   }
 }
 
-const ContentEditable = ({children, ...props}) =>
+type ContentEditableBaseAttrs =
+  JSX.LibraryManagedAttributes<typeof ContentEditableBase, ContentEditableBaseProps>
+
+export interface ContentEditableProps extends Omit<ContentEditableBaseAttrs, '__html'> {
+  children: ReactElement
+}
+
+const ContentEditable = ({children, ...props}: ContentEditableProps) =>
   <ContentEditableBase {...props} __html={renderToStaticMarkup(children)}/>;
 ContentEditable.propTypes = {
   ...commonPropTypes,
