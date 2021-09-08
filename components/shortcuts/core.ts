@@ -2,6 +2,29 @@ import Combokeys from 'combokeys';
 
 import sniffr from '../global/sniffer';
 
+export interface ShortcutsScopeOptions {
+  modal?: boolean | null | undefined
+}
+
+export interface ShortcutsScope {
+  scopeId: string
+  options: ShortcutsScopeOptions
+}
+
+type ShortcutsHandler = (e: KeyboardEvent, key: string, scopeId: string) => boolean | void
+
+export interface ShortcutsOptions {
+  scope?: string | null | undefined
+  type?: string | undefined
+}
+
+export interface ShortcutsParams extends ShortcutsOptions{
+  key: string | string[],
+  handler: ShortcutsHandler
+}
+
+export type ShortcutsMap = Record<string, ShortcutsHandler>
+
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
   ROOT_SCOPE = {
@@ -9,24 +32,26 @@ class Shortcuts {
     options: {}
   };
 
-  _scopes = {};
+  _scopes: Record<string, Record<string, ShortcutsHandler> | null> = {};
+
+  private _scopeChain: ShortcutsScope[] = [];
 
   combokeys = new Combokeys(document.documentElement);
-  trigger = combo => this.combokeys.trigger(combo);
+  trigger = (combo: string) => this.combokeys.trigger(combo);
 
   constructor() {
     this.setFilter();
     this.setScope();
   }
 
-  _dispatcher = (e, key) => {
+  private _dispatcher = (e: KeyboardEvent, key?: string) => {
     let currentScope;
 
     for (let i = this._scopeChain.length - 1; i >= 0; i--) {
       const scopeInChain = this._scopeChain[i];
       currentScope = this._scopes[scopeInChain.scopeId];
 
-      if (currentScope && currentScope[key]) {
+      if (currentScope && key != null && currentScope[key]) {
         const ret = currentScope[key](e, key, scopeInChain.scopeId);
 
         // Fall down in chain when returning true
@@ -51,7 +76,7 @@ class Shortcuts {
    * @param params.scope {string} Scope (optional)
    * @param params.type {string} Event type, will be passed to Combokeys (optional)
    */
-  bind(params) {
+  bind(params: ShortcutsParams) {
     if (!(params instanceof Object) || typeof params.handler !== 'function') {
       throw new Error('Shortcut handler should exist');
     }
@@ -72,10 +97,11 @@ class Shortcuts {
       throw new Error('Shortcut key should exist');
     }
 
-    if (!this._scopes[params.scope]) {
-      this._scopes[params.scope] = {};
+    let scope = this._scopes[params.scope];
+    if (!scope) {
+      scope = this._scopes[params.scope] = {};
     }
-    this._scopes[params.scope][params.key] = params.handler;
+    scope[params.key] = params.handler;
 
     this.combokeys.bind(params.key, this._dispatcher, this._getKeyboardEventType(params));
   }
@@ -87,7 +113,7 @@ class Shortcuts {
    * @options.scope {string} Scope (optional)
    * @options.type {string} Event type, will be passed to Combokeys (optional)
    */
-  bindMap(map, options) {
+  bindMap(map: ShortcutsMap, options?: ShortcutsOptions) {
     if (!(map instanceof Object)) {
       throw new Error('Shortcuts map shouldn\'t be empty');
     }
@@ -99,7 +125,7 @@ class Shortcuts {
     }
   }
 
-  unbindScope(scope) {
+  unbindScope(scope: string) {
     this._scopes[scope] = null;
   }
 
@@ -107,7 +133,7 @@ class Shortcuts {
     return this._scopeChain.slice(1);
   }
 
-  hasScope(scopeId) {
+  hasScope(scopeId: string) {
     return this.indexOfScope(scopeId) !== -1;
   }
 
@@ -118,7 +144,7 @@ class Shortcuts {
    * @param options.modal whether keys should fall through this scope or not.
    * Useful for modals or overlays
    */
-  pushScope(scopeId, options = {}) {
+  pushScope(scopeId: string, options: ShortcutsScopeOptions = {}) {
     if (scopeId) {
       const position = this.indexOfScope(scopeId);
 
@@ -130,7 +156,7 @@ class Shortcuts {
     }
   }
 
-  popScope(scopeId) {
+  popScope(scopeId: string) {
     if (scopeId) {
       const position = this.indexOfScope(scopeId);
 
@@ -142,7 +168,7 @@ class Shortcuts {
     return undefined;
   }
 
-  spliceScope(scopeId) {
+  spliceScope(scopeId: string) {
     if (scopeId) {
       const position = this.indexOfScope(scopeId);
 
@@ -152,9 +178,9 @@ class Shortcuts {
     }
   }
 
-  setScope(scope) {
+  setScope(scope?: ShortcutsScope | string | (ShortcutsScope | string)[] | null | undefined) {
     if (scope) {
-      let scopeChain;
+      let scopeChain: (ShortcutsScope | string)[];
 
       if (typeof scope === 'string' || (!Array.isArray(scope) && typeof scope === 'object' && scope !== null)) {
         scopeChain = [scope];
@@ -166,29 +192,31 @@ class Shortcuts {
         return;
       }
 
-      scopeChain = scopeChain.map(scopeItem => {
+      const scopes = scopeChain.map(scopeItem => {
         const isScopeId = typeof scopeItem === 'string';
         return isScopeId ? this.wrapScope(scopeItem) : scopeItem;
       });
 
-      this._scopeChain = [this.ROOT_SCOPE].concat(scopeChain);
+      this._scopeChain = [this.ROOT_SCOPE].concat(scopes);
     } else {
       this._scopeChain = [this.ROOT_SCOPE];
     }
   }
 
-  wrapScope(scopeId, options = {}) {
+  wrapScope(scopeId: string, options: ShortcutsScopeOptions = {}) {
     return {scopeId, options};
   }
 
-  hasKey(key, scope) {
-    return !!(this._scopes[scope] && this._scopes[scope][key]);
+  hasKey(key: string, scope: string) {
+    return !!(this._scopes[scope]?.[key]);
   }
 
-  _defaultFilter = (e, element, key) => {
+  private _defaultFilter = (e: Event, element: Element | Document, key?: string): boolean => {
     // if the element or its parents have the class "ring-js-shortcuts" then no need to stop
     if (
       element === document ||
+      !(element instanceof HTMLElement) ||
+      key == null ||
       element.matches(this.ALLOW_SHORTCUTS_SELECTOR) ||
       (element.dataset.enabledShortcuts != null
         ? element.dataset.enabledShortcuts.split(',').includes(key)
@@ -198,12 +226,12 @@ class Shortcuts {
     }
 
     // stop for input, select, and textarea
-    return element.matches('input,select,textarea') || (element.contentEditable && element.contentEditable === 'true');
+    return element.matches('input,select,textarea') || (element.contentEditable === 'true');
   };
 
-  _getKeyboardEventType(params) {
+  private _getKeyboardEventType(params: ShortcutsParams) {
     if (!params.type && sniffr.os.name === 'windows') {
-      const isSystemShortcut = params.key.match(/ctrl/i) && params.key.match(/shift/i) && params.key.match(/[0-9]/);
+      const isSystemShortcut = typeof params.key === 'string' && params.key.match(/ctrl/i) && params.key.match(/shift/i) && params.key.match(/[0-9]/);
       /**
        * Windows system shortcuts (ctrl+shift+[0-9] are caught by the OS on 'keydown', so let's use 'keyup'
        */
@@ -214,11 +242,11 @@ class Shortcuts {
     return params.type;
   }
 
-  setFilter(fn) {
+  setFilter(fn?: (e: Event, element: Element, key?: string) => boolean) {
     this.combokeys.stopCallback = typeof fn === 'function' ? fn : this._defaultFilter;
   }
 
-  indexOfScope(scopeId) {
+  indexOfScope(scopeId: string) {
     return this._scopeChain.findIndex(scope => scope.scopeId === scopeId);
   }
 

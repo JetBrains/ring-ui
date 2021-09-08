@@ -182,6 +182,7 @@
     "@jetbrains/icons": "^3.18.0",
     "@jetbrains/logos": "^1.4.27",
     "@jetbrains/postcss-require-hover": "^0.1.2",
+    "@types/combokeys": "^2.4.6",
     "@types/deep-equal": "^1.0.1",
     "@types/google.analytics": "0.0.42",
     "@types/prop-types": "^15.7.4",
