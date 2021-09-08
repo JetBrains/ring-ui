@@ -16,7 +16,7 @@ export interface AuthResponse {
 }
 
 export class AuthError extends ExtendableError {
-  code: string | Error | undefined;
+  code: string | Error | AuthError | undefined;
   uri: string | undefined;
   stateId: string | undefined;
   // Supports weird IE 11 failing test issue
