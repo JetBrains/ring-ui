@@ -1,6 +1,6 @@
 import sniffer from '../global/sniffer';
 
-const macSymbolsMap = {
+const macSymbolsMap: Record<string, string> = {
   enter: '⏎',
   shift: '⇧',
   meta: '⌘',
@@ -22,7 +22,7 @@ const macSymbolsMap = {
   down: '↓'
 };
 
-const winSymbolsMap = {
+const winSymbolsMap: Record<string, string> = {
   enter: 'Enter',
   shift: 'Shift',
   meta: 'Ctrl',
@@ -44,7 +44,7 @@ const winSymbolsMap = {
   down: '↓'
 };
 
-export function getShortcutTitle(shortcut) {
+export function getShortcutTitle(shortcut: string) {
   const MAC_OS = sniffer.os.name === 'macos';
   const KEY_SEPARATOR = MAC_OS ? '' : '+';
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;

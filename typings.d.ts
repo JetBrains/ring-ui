@@ -17,3 +17,13 @@ declare module 'highlight.js/lib/core.js' {
 
   export default hljs;
 }
+
+declare module 'combokeys/test/lib/key-event' {
+  export function simulate(
+    charCode: number,
+    keyCode: number,
+    modifiers?: ('shift' | 'ctrl' | 'alt' | 'meta')[],
+    element?: Element,
+    repeat?: number
+  ): void;
+}

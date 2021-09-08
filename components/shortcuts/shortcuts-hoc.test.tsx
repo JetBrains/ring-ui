@@ -3,26 +3,33 @@ import {shallow, mount} from 'enzyme';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
 
-import shortcutsHOC from './shortcuts-hoc';
+import shortcutsHOC, {ShortcutsHOCOptions} from './shortcuts-hoc';
+
+import {ShortcutsMap} from '@jetbrains/ring-ui/components/shortcuts/core';
+
+interface FactoryProps {
+  options: ShortcutsHOCOptions
+  map: ShortcutsMap
+}
 
 describe('ShortcutsHOC', () => {
   describe('default', () => {
     const InputWithShortcuts = shortcutsHOC('input');
 
-    const createShortcutsMap = () => ({
+    const createShortcutsMap = (): FactoryProps => ({
       options: {},
       map: {enter: sandbox.spy()}
     });
 
-    const factory = shortcuts => (
+    const factory = (shortcuts: FactoryProps) => (
       <InputWithShortcuts
         rgShortcutsOptions={shortcuts.options}
         rgShortcutsMap={shortcuts.map}
       />
     );
 
-    const shallowInputWithShortcuts = shortcuts => shallow(factory(shortcuts));
-    const mountInputWithShortcuts = shortcuts => mount(factory(shortcuts));
+    const shallowInputWithShortcuts = (shortcuts: FactoryProps) => shallow(factory(shortcuts));
+    const mountInputWithShortcuts = (shortcuts: FactoryProps) => mount(factory(shortcuts));
 
     it('should initialize', () => {
       const shortcuts = createShortcutsMap();
