@@ -4,10 +4,13 @@ import {shallow, mount} from 'enzyme';
 import simulateCombo from '../../test-helpers/simulate-combo';
 import getUID from '../global/get-uid';
 
-import Shortcuts from './shortcuts';
+import Shortcuts, {ShortcutsProps} from './shortcuts';
+
+type ShortcutsAttrs = JSX.LibraryManagedAttributes<typeof Shortcuts, ShortcutsProps>
+type FactoryProps = Omit<ShortcutsAttrs, 'map' | 'scope'>
 
 describe('ShortcutsComponent', () => {
-  const factory = props => (
+  const factory = (props?: FactoryProps) => (
     <Shortcuts
       map={{enter: sandbox.spy()}}
       scope={getUID('shortcuts-test-')}
@@ -15,8 +18,8 @@ describe('ShortcutsComponent', () => {
     />
   );
 
-  const shallowShortcuts = props => shallow(factory(props));
-  const mountShortcuts = props => mount(factory(props));
+  const shallowShortcuts = (props?: FactoryProps) => shallow(factory(props));
+  const mountShortcuts = (props?: FactoryProps) => mount(factory(props));
 
 
   it('should initialize', () => {

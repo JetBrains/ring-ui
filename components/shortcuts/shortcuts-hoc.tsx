@@ -1,13 +1,23 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import PropTypes from 'prop-types';
 
 import getUID from '../global/get-uid';
 
 import Shortcuts from './shortcuts';
+import {ShortcutsMap, ShortcutsScopeOptions} from './core';
 
-export default function shortcutsHOC(ComposedComponent) {
+export interface ShortcutsHOCOptions extends ShortcutsScopeOptions {
+  disabled?: boolean | null | undefined
+}
 
-  return class WithShortcuts extends React.Component {
+export interface ShortcutsHOCProps {
+  rgShortcutsOptions: ShortcutsHOCOptions
+  rgShortcutsMap: ShortcutsMap
+}
+
+export default function shortcutsHOC<P>(ComposedComponent: ComponentType<P> | string) {
+
+  return class WithShortcuts extends React.Component<P & ShortcutsHOCProps> {
     static propTypes = {
       rgShortcutsOptions: PropTypes.object,
       rgShortcutsMap: PropTypes.object
@@ -25,7 +35,7 @@ export default function shortcutsHOC(ComposedComponent) {
           options={rgShortcutsOptions}
           disabled={rgShortcutsOptions.disabled}
         >
-          <ComposedComponent {...props}/>
+          <ComposedComponent {...props as P}/>
         </Shortcuts>
       );
     }
