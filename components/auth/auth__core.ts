@@ -760,7 +760,7 @@ export default class Auth implements HTTPAuth {
     try {
       // We've got some error from this list
       // https://www.jetbrains.com/help/youtrack/devportal/OAuth-2.0-Errors.html
-      if (error.code && typeof error.code.code === 'string') {
+      if ('code' in error && error.code && typeof error.code === 'object' && 'code' in error.code && typeof error.code.code === 'string') {
         const readableCode = error.code.code.split('_').join(' ');
         return `Authorization error: ${readableCode}`;
       }
