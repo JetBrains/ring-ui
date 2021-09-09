@@ -22,6 +22,7 @@ export default class PopupMenu extends Popup {
   static defaultProps = {
     ...List.defaultProps,
     ...Popup.defaultProps,
+    ariaLabel: 'Popup menu',
     renderOptimization: false,
     closeOnSelect: false
   };
