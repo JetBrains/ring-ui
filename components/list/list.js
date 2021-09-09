@@ -612,6 +612,7 @@ export default class List extends Component {
           <div ref={registerChild}>
             <VirtualizedList
               aria-label={this.props.ariaLabel}
+              role={this.props.role}
               ref={this.virtualizedListRef}
               className="ring-list__i"
               autoHeight={autoHeight}
@@ -681,6 +682,7 @@ export default class List extends Component {
       >
         <div
           aria-label={this.props.ariaLabel}
+          role={this.props.role}
           style={maxHeight
             ? {maxHeight: this.getVisibleListHeight(this.props)}
             : null
@@ -726,7 +728,6 @@ export default class List extends Component {
         <div
           id={this.props.id}
           ref={this.containerRef}
-          role={this.props.role}
           tabIndex={-1}
           className={classes}
           onMouseOut={this.props.onMouseOut}
