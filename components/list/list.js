@@ -492,10 +492,7 @@ export default class List extends Component {
 
       // Hack around SelectNG implementation
       const {selectedLabel, originalModel, ...cleanedProps} = item;
-      const itemProps = Object.assign({
-        rgItemType: DEFAULT_ITEM_TYPE,
-        role: 'listitem'
-      }, cleanedProps);
+      const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, cleanedProps);
 
       if (itemProps.url) {
         itemProps.href = itemProps.url;
