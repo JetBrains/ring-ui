@@ -159,7 +159,7 @@ export default class ListItem extends PureComponent {
         <button
           id={this.id}
           type="button"
-          role={role || 'button'}
+          role={role}
           tabIndex={tabIndex}
           onClick={onClick}
           onMouseOver={onMouseOver}
