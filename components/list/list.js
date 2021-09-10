@@ -570,7 +570,11 @@ export default class List extends Component {
           )}
         </CellMeasurer>
       )
-      : cloneElement(el, {key: itemKey});
+      : (
+        <div role="row" id={itemId} key={itemKey}>
+          {cloneElement(el)}
+        </div>
+      );
   };
 
   addItemDataTestToProp = props => {
