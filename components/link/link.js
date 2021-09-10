@@ -39,6 +39,7 @@ export function linkHOC(ComposedComponent) {
   return class Link extends Component {
     static propTypes = {
       className: PropTypes.string,
+      role: PropTypes.string,
       innerClassName: PropTypes.string,
       active: PropTypes.bool,
       inherit: PropTypes.bool,
@@ -70,6 +71,7 @@ export function linkHOC(ComposedComponent) {
         className,
         'data-test': dataTest,
         href,
+        role,
         innerClassName, children, onPlainLeftClick, onClick,
         ...props
       } = this.props;
@@ -92,6 +94,7 @@ export function linkHOC(ComposedComponent) {
         return (
           <button
             type="button"
+            role={role || 'button'}
             {...props}
             className={classes}
             onClick={onClick || onPlainLeftClick}
@@ -104,6 +107,7 @@ export function linkHOC(ComposedComponent) {
         <ComposedComponent
           {...props}
           href={href}
+          role={role || 'link'}
           className={classes}
           onClick={onClick}
           onPlainLeftClick={onPlainLeftClick}

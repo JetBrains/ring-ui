@@ -80,6 +80,7 @@ export default class List extends Component {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
+    role: PropTypes.string,
     hint: PropTypes.node,
     hintOnSelection: PropTypes.string,
     data: PropTypes.array,
@@ -119,6 +120,7 @@ export default class List extends Component {
     shortcuts: false,
     renderOptimization: true,
     disableMoveDownOverflow: false,
+    role: 'group',
     ariaLabel: 'List'
   };
 
@@ -610,6 +612,7 @@ export default class List extends Component {
           <div ref={registerChild}>
             <VirtualizedList
               aria-label={this.props.ariaLabel}
+              role={this.props.role}
               ref={this.virtualizedListRef}
               className="ring-list__i"
               autoHeight={autoHeight}
@@ -679,6 +682,7 @@ export default class List extends Component {
       >
         <div
           aria-label={this.props.ariaLabel}
+          role={this.props.role}
           style={maxHeight
             ? {maxHeight: this.getVisibleListHeight(this.props)}
             : null
@@ -724,6 +728,7 @@ export default class List extends Component {
         <div
           id={this.props.id}
           ref={this.containerRef}
+          tabIndex={-1}
           className={classes}
           onMouseOut={this.props.onMouseOut}
           onBlur={this.props.onMouseOut}
