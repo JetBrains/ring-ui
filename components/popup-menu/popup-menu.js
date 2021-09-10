@@ -26,14 +26,6 @@ export default class PopupMenu extends Popup {
     closeOnSelect: false
   };
 
-  static getDerivedStateFromProps(props) {
-    return {
-      data: (props.data || []).map(dataItem => ({
-        role: 'menuitem', ...dataItem
-      }))
-    };
-  }
-
   onSelect = (item, event) => {
     if (this.props.closeOnSelect) {
       this._onCloseAttempt(event);
@@ -47,14 +39,12 @@ export default class PopupMenu extends Popup {
 
   /** @override */
   getInternalContent() {
-    const {className, data, ...props} = this.props;
+    const {className, ...props} = this.props;
 
     return (
       <div>
         <List
-          role="menu"
           ref={this.listRef}
-          data={this.state.data}
           {...props}
           maxHeight={this.popup && this.popup.style.maxHeight}
           shortcuts={this.shouldUseShortcuts()}

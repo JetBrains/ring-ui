@@ -61,7 +61,6 @@ export default class ListItem extends PureComponent {
     onMouseOver: PropTypes.func,
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
-    role: PropTypes.string,
     'data-test': PropTypes.string
   };
 
@@ -98,7 +97,6 @@ export default class ListItem extends PureComponent {
       onMouseUp,
       rightNodes,
       leftNodes,
-      role,
       ...restProps
     } = this.props;
 
@@ -159,7 +157,6 @@ export default class ListItem extends PureComponent {
         <button
           id={this.id}
           type="button"
-          role={role}
           tabIndex={tabIndex}
           onClick={onClick}
           onMouseOver={onMouseOver}
