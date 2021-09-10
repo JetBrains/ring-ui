@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactNode, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
@@ -9,49 +9,53 @@ import LoaderInline from '../loader-inline/loader-inline';
 
 import Button from '../button/button';
 
+import Selection, {SelectionItem} from '../table/selection';
+
 import Title from './title';
 
 import styles from './data-list.css';
 
-export const moreLessButtonStates = {
-  UNUSED: 0,
-  MORE: 1,
-  MORE_LOADING: 2,
-  LESS: 3
-};
+export enum moreLessButtonStates {
+  UNUSED,
+  MORE,
+  MORE_LOADING,
+  LESS,
+}
 
 const ITEM_LEFT_OFFSET = 32;
 const LIST_LEFT_OFFSET = 24;
 
+export interface BaseFormattedItem<T> {
+  items?: readonly T[]
+  title?: ReactNode
+  collapsible?: boolean | null | undefined
+  collapsed?: boolean | null | undefined
+  onCollapse?: () => void
+  onExpand?: () => void
+  selectable?: boolean | undefined
+}
 
-export default class Item extends PureComponent {
-  static propTypes = {
-    item: PropTypes.object,
-    title: PropTypes.node,
-    items: PropTypes.array,
-    className: PropTypes.string,
-    level: PropTypes.number,
-    parentShift: PropTypes.number,
+export interface FormattedItem<T> extends BaseFormattedItem<T> {
+  key?: string | null | undefined
+  id?: string | number | null | undefined
+}
 
-    itemFormatter: PropTypes.func,
+export interface ItemProps<T extends SelectionItem> extends BaseFormattedItem<T> {
+  item: T
+  onFocus: (item: T) => void
+  onSelect: (item: T, selected: boolean) => void
+  itemFormatter: (item: T) => FormattedItem<T>
+  level: number
+  parentShift: number
+  showMoreLessButton: moreLessButtonStates
+  onItemMoreLess: (item: T, more: boolean) => void
+  className?: string | null | undefined
+  showFocus?: boolean | undefined
+  selection: Selection<T>
+  selected?: boolean | undefined
+}
 
-    collapsible: PropTypes.bool,
-    collapsed: PropTypes.bool,
-    onCollapse: PropTypes.func,
-    onExpand: PropTypes.func,
-
-    showFocus: PropTypes.bool,
-    onFocus: PropTypes.func,
-
-    selection: PropTypes.object,
-    selectable: PropTypes.bool,
-    selected: PropTypes.bool,
-    onSelect: PropTypes.func,
-
-    showMoreLessButton: PropTypes.number,
-    onItemMoreLess: PropTypes.func
-  };
-
+export default class Item<T extends SelectionItem> extends PureComponent<ItemProps<T>> {
   static defaultProps = {
     items: [],
     level: 0,
@@ -76,12 +80,12 @@ export default class Item extends PureComponent {
     onFocus(item);
   };
 
-  onSelect = selected => {
+  onSelect = (selected: boolean) => {
     const {onSelect, item} = this.props;
     onSelect(item, selected);
   };
 
-  renderItem = (model, parentShift) => {
+  renderItem = (model: T, parentShift: number) => {
     const {
       onFocus, onSelect, selection, level,
       itemFormatter
@@ -105,7 +109,6 @@ export default class Item extends PureComponent {
         onCollapse={item.onCollapse}
         onExpand={item.onExpand}
 
-        focused={selection.isFocused(model)}
         showFocus={selection.isFocused(model)}
         onFocus={onFocus}
 
@@ -179,7 +182,7 @@ export default class Item extends PureComponent {
       }
     }
 
-    const itemIsEmpty = !items.length || (collapsible && collapsed);
+    const itemIsEmpty = !items?.length || (collapsible && collapsed);
     const offset = level * LIST_LEFT_OFFSET + ITEM_LEFT_OFFSET + parentShift;
 
     return (
@@ -212,3 +215,31 @@ export default class Item extends PureComponent {
     );
   }
 }
+
+type ItemAttrs<T extends SelectionItem> = JSX.LibraryManagedAttributes<typeof Item, ItemProps<T>>
+(Item as ComponentType<ItemAttrs<SelectionItem>>).propTypes = {
+  item: PropTypes.shape({id: PropTypes.string.isRequired}).isRequired,
+  title: PropTypes.node,
+  items: PropTypes.array,
+  className: PropTypes.string,
+  level: PropTypes.number,
+  parentShift: PropTypes.number,
+
+  itemFormatter: PropTypes.func.isRequired,
+
+  collapsible: PropTypes.bool,
+  collapsed: PropTypes.bool,
+  onCollapse: PropTypes.func.isRequired,
+  onExpand: PropTypes.func.isRequired,
+
+  showFocus: PropTypes.bool,
+  onFocus: PropTypes.func.isRequired,
+
+  selection: PropTypes.instanceOf(Selection).isRequired,
+  selectable: PropTypes.bool,
+  selected: PropTypes.bool,
+  onSelect: PropTypes.func.isRequired,
+
+  showMoreLessButton: PropTypes.number,
+  onItemMoreLess: PropTypes.func
+};
