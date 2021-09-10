@@ -80,7 +80,6 @@ export default class List extends Component {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
-    role: PropTypes.string,
     hint: PropTypes.node,
     hintOnSelection: PropTypes.string,
     data: PropTypes.array,
@@ -120,7 +119,6 @@ export default class List extends Component {
     shortcuts: false,
     renderOptimization: true,
     disableMoveDownOverflow: false,
-    role: 'list',
     ariaLabel: 'List'
   };
 
@@ -492,10 +490,7 @@ export default class List extends Component {
 
       // Hack around SelectNG implementation
       const {selectedLabel, originalModel, ...cleanedProps} = item;
-      const itemProps = Object.assign({
-        rgItemType: DEFAULT_ITEM_TYPE,
-        role: 'listitem'
-      }, cleanedProps);
+      const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, cleanedProps);
 
       if (itemProps.url) {
         itemProps.href = itemProps.url;
@@ -729,8 +724,6 @@ export default class List extends Component {
         <div
           id={this.props.id}
           ref={this.containerRef}
-          role={this.props.role}
-          tabIndex={-1}
           className={classes}
           onMouseOut={this.props.onMouseOut}
           onBlur={this.props.onMouseOut}
