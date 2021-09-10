@@ -1,4 +1,30 @@
-export default class Selection {
+export interface SelectionItem {
+  id: string | number
+}
+
+export interface TableSelectionConfig<T extends SelectionItem> {
+  data?: readonly T[] | undefined
+  selected?: Set<T> | undefined
+  focused?: T | null | undefined
+  getKey?: ((item: T) => string | number) | undefined
+  isItemSelectable?: ((item: T) => boolean | undefined) | undefined
+  getChildren?: ((item: T) => readonly T[]) | undefined
+}
+
+export interface CloneWithConfig<T> {
+  data?: readonly T[] | null | undefined
+  selected?: Set<T> | readonly T[] | null | undefined
+  focused?: T | null | undefined
+}
+
+export default class Selection<T extends SelectionItem> {
+  private _rawData: readonly T[];
+  protected _getChildren: ((item: T) => readonly T[]);
+  protected _data: Set<T>;
+  protected _selected: Set<T>;
+  protected _focused: T | null;
+  private _getKey: (item: T) => string | number;
+  protected _isItemSelectable: (item: T) => boolean | undefined;
   constructor({
     data = [],
     selected = new Set(),
@@ -6,7 +32,7 @@ export default class Selection {
     getKey = item => item.id,
     getChildren = () => [],
     isItemSelectable = () => true
-  } = {}) {
+  }: TableSelectionConfig<T> = {}) {
     this._rawData = data;
     this._getChildren = getChildren;
 
@@ -18,15 +44,15 @@ export default class Selection {
     this._isItemSelectable = isItemSelectable;
   }
 
-  _buildData(data) {
+  protected _buildData(data: readonly T[] | null | undefined) {
     return new Set(data);
   }
 
-  _buildSelected(data, selected) {
+  protected _buildSelected(data: Set<T>, selected: Set<T>) {
     return new Set(selected);
   }
 
-  cloneWith({data, selected, focused}) {
+  cloneWith({data, selected, focused}: CloneWithConfig<T>) {
     const newData = data || this._rawData;
 
     let newSelected;
@@ -47,7 +73,7 @@ export default class Selection {
 
     const newFocused = focused === undefined ? this._focused : focused;
 
-    return new this.constructor({
+    return new (this.constructor as typeof Selection)({
       data: newData,
       selected: newSelected,
       focused: (data && !focused) ? cloneFocus() : newFocused,
@@ -57,7 +83,7 @@ export default class Selection {
     });
   }
 
-  focus(value) {
+  focus(value: T | null | undefined) {
     return this.cloneWith({focused: value});
   }
 
@@ -157,12 +183,12 @@ export default class Selection {
     return this.resetFocus().resetSelection();
   }
 
-  isFocused(value) {
+  isFocused(value: T | null) {
     return this._focused === value;
   }
 
-  isSelected(value) {
-    return this._selected.has(value);
+  isSelected(value: T | null) {
+    return value != null && this._selected.has(value);
   }
 
   getFocused() {

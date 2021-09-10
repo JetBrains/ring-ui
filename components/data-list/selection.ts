@@ -1,12 +1,11 @@
-import TableSelection from '../table/selection';
+import TableSelection, {CloneWithConfig, SelectionItem} from '../table/selection';
 
-
-export default class Selection extends TableSelection {
-  _buildData(data) {
+export default class Selection<T extends SelectionItem> extends TableSelection<T> {
+  protected _buildData(data: T[]) {
     return new Set(this._getDescendants(data));
   }
 
-  _buildSelected(data, selected) {
+  protected _buildSelected(data: Set<T>, selected: Set<T>) {
     const _selected = new Set(selected);
 
     [...data].forEach(item => {
@@ -18,8 +17,8 @@ export default class Selection extends TableSelection {
     return _selected;
   }
 
-  _getDescendants(items) {
-    let result = [];
+  private _getDescendants(items: readonly T[]) {
+    let result: T[] = [];
 
     items.forEach(item => {
       result.push(item);
@@ -29,8 +28,8 @@ export default class Selection extends TableSelection {
     return result;
   }
 
-  _getAncestors(item) {
-    let result = [];
+  private _getAncestors(item: T) {
+    let result: T[] = [];
 
     const parent = [...this._data].find(it => this._getChildren(it).includes(item));
     if (parent) {
@@ -40,17 +39,17 @@ export default class Selection extends TableSelection {
     return result;
   }
 
-  _selectDescendants(item, selected) {
+  private _selectDescendants(item: T, selected: Set<T>) {
     this._getDescendants(this._getChildren(item)).
       forEach(it => selected.add(it));
   }
 
-  _deselectDescendants(item, selected) {
+  private _deselectDescendants(item: T, selected: Set<T>) {
     this._getDescendants(this._getChildren(item)).
       forEach(it => selected.delete(it));
   }
 
-  _selectAncestors(item, selected) {
+  private _selectAncestors(item: T, selected: Set<T>) {
     this._getAncestors(item).forEach(ancestor => {
       const groupIsSelected = this._getChildren(ancestor).
         filter(it => this._isItemSelectable(it)).
@@ -62,11 +61,11 @@ export default class Selection extends TableSelection {
     });
   }
 
-  _deselectAncestors(item, selected) {
+  private _deselectAncestors(item: T, selected: Set<T>) {
     this._getAncestors(item).forEach(it => selected.delete(it));
   }
 
-  select(value = this._focused) {
+  select(value = this._focused): Selection<T> {
     if (!value || !this._isItemSelectable(value)) {
       return this;
     }
@@ -78,6 +77,18 @@ export default class Selection extends TableSelection {
     this._selectAncestors(value, selected);
 
     return this.cloneWith({selected});
+  }
+
+  focus(value: T | null | undefined) {
+    return super.focus(value) as Selection<T>;
+  }
+
+  resetSelection() {
+    return super.resetSelection() as Selection<T>;
+  }
+
+  cloneWith(config: CloneWithConfig<T>): Selection<T> {
+    return super.cloneWith(config) as Selection<T>;
   }
 
   deselect(value = this._focused) {

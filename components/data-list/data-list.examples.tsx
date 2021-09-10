@@ -4,8 +4,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import DataList from '@jetbrains/ring-ui/components/data-list/data-list';
 import Selection from '@jetbrains/ring-ui/components/data-list/selection';
-import {moreLessButtonStates} from '@jetbrains/ring-ui/components/data-list/item';
-import mock, {moreItems} from '@jetbrains/ring-ui/components/data-list/data-list.mock';
+import TableSelection from '@jetbrains/ring-ui/components/table/selection';
+import {FormattedItem, moreLessButtonStates} from '@jetbrains/ring-ui/components/data-list/item';
+import mock, {Item, moreItems} from '@jetbrains/ring-ui/components/data-list/data-list.mock';
 
 export default {
   title: 'Components/DataList',
@@ -21,10 +22,10 @@ export const basic = () => {
     // state uses getChildren
     // eslint-disable-next-line react/sort-comp
     expandedItems = new Set();
-    isItemCollapsible = item => item.collapsible && item.items && item.id > 10;
-    isItemCollapsed = item => !this.expandedItems.has(item.id);
+    isItemCollapsible = (item: Item) => item.collapsible && item.items && item.id > 10;
+    isItemCollapsed = (item: Item) => !this.expandedItems.has(item.id);
 
-    getChildren = item => {
+    getChildren = (item: Item) => {
       const collapsible = this.isItemCollapsible(item);
       const collapsed = this.isItemCollapsed(item);
       return (collapsible && collapsed) || !item.items ? [] : item.items;
@@ -42,8 +43,8 @@ export const basic = () => {
     moreExpandableItems = new Set([mock[0].id]);
     moreExpandedItems = new Set();
 
-    itemMoreLessState = item => {
-      if (this.moreExpandableItems.has(item.id)) {
+    itemMoreLessState = (item: FormattedItem<Item>) => {
+      if (item.id != null && this.moreExpandableItems.has(item.id)) {
         return this.moreExpandedItems.has(item.id)
           ? moreLessButtonStates.LESS
           : moreLessButtonStates.MORE;
@@ -52,12 +53,14 @@ export const basic = () => {
       }
     };
 
-    onItemMoreLess = (item, more) => {
+    onItemMoreLess = (item: Item, more: boolean) => {
       if (more) {
         this.moreExpandedItems.add(item.id);
+        item.items ??= [];
         item.items = item.items.concat([...moreItems]);
       } else {
         this.moreExpandedItems.delete(item.id);
+        item.items ??= [];
         item.items = item.items.slice(0, item.items.length - moreItems.length);
       }
 
@@ -65,11 +68,11 @@ export const basic = () => {
       this.setState({data: [...data]});
     };
 
-    onSelect = selection => {
+    onSelect = (selection: TableSelection<Item>) => {
       this.setState({selection});
     };
 
-    itemFormatter = item => {
+    itemFormatter = (item: Item): FormattedItem<Item> => {
       const items = this.getChildren(item);
       const collapsible = this.isItemCollapsible(item);
       const collapsed = this.isItemCollapsed(item);
@@ -98,7 +101,7 @@ export const basic = () => {
 
     render() {
       return (
-        <DataList
+        <DataList<Item>
           data={this.state.data}
           selection={this.state.selection}
           onSelect={this.onSelect}
