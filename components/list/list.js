@@ -120,7 +120,7 @@ export default class List extends Component {
     shortcuts: false,
     renderOptimization: true,
     disableMoveDownOverflow: false,
-    role: 'group',
+    role: 'list',
     ariaLabel: 'List'
   };
 
