@@ -1,10 +1,18 @@
 /* eslint-disable react/jsx-no-literals */
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import Link from '../link/link';
 import Badge from '../badge/badge';
+import {SelectionItem} from '../table/selection';
 
-export default [
+export interface Item extends SelectionItem {
+  title: ReactNode
+  collapsible?: boolean,
+  selectable?: boolean,
+  items?: Item[]
+}
+
+const items: Item[] = [
   {
     id: 1,
     title: <span><strong>Assigner</strong> in 60 projects</span>,
@@ -246,3 +254,4 @@ export const moreItems = [
     )
   }
 ];
+export default items;

@@ -1,18 +1,31 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 
-import Selection from './selection';
+import {ShortcutsMap} from '../shortcuts/core';
 
-export default function selectionShortcutsHOC(ComposedComponent) {
-  return class SelectionShortcuts extends PureComponent {
-    static propTypes = {
-      ...ComposedComponent.propTypes,
-      selection: PropTypes.instanceOf(Selection).isRequired,
-      selectable: PropTypes.bool,
-      onSelect: PropTypes.func,
-      shortcuts: PropTypes.object
-    };
+import Selection, {SelectionItem} from './selection';
 
+export interface SelectionShortcutsProps<T extends SelectionItem> {
+  selection: Selection<T>
+  selectable?: boolean | undefined
+  onSelect?: ((selection: Selection<T>) => void) | undefined
+  shortcuts?: ShortcutsMap | undefined
+}
+
+export interface SelectionShortcutsAddProps<T extends SelectionItem> {
+  selection: Selection<T>
+  selectable: boolean
+  onSelect: (selection: Selection<T>) => void
+  shortcutsMap: ShortcutsMap
+}
+
+export default function selectionShortcutsHOC<
+  T extends SelectionItem,
+  P extends SelectionShortcutsAddProps<T>
+>(ComposedComponent: ComponentType<P>) {
+  class SelectionShortcuts extends PureComponent<
+    Omit<P, keyof SelectionShortcutsAddProps<T>> & SelectionShortcutsProps<T>
+  > {
     static defaultProps = {
       ...ComposedComponent.defaultProps,
       selectable: true,
@@ -25,7 +38,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       const newSelection = selection.moveUp();
 
       if (newSelection) {
-        onSelect(newSelection);
+        onSelect?.(newSelection);
       }
 
       return false;
@@ -36,12 +49,13 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       const newSelection = selection.moveDown();
 
       if (newSelection) {
-        onSelect(newSelection);
+        onSelect?.(newSelection);
       }
 
       return false;
     };
 
+    shiftSelectionMode?: 'deletion' | 'addition';
     onShiftKeyDown = () => {
       const {selection} = this.props;
 
@@ -52,7 +66,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       }
     };
 
-    shiftSelect = selection => {
+    shiftSelect = (selection: Selection<T>) => {
       if (this.shiftSelectionMode === 'addition') {
         return selection.select();
       } else {
@@ -60,7 +74,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       }
     };
 
-    onShiftUpPress = e => {
+    onShiftUpPress = (e: KeyboardEvent) => {
       e.preventDefault();
       const {selectable, selection, onSelect} = this.props;
 
@@ -72,13 +86,13 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       const newMovedSelection = newSelection.moveUp();
 
       if (newMovedSelection) {
-        onSelect(newMovedSelection);
+        onSelect?.(newMovedSelection);
       } else {
-        onSelect(newSelection);
+        onSelect?.(newSelection);
       }
     };
 
-    onShiftDownPress = e => {
+    onShiftDownPress = (e: KeyboardEvent) => {
       e.preventDefault();
       const {selectable, selection, onSelect} = this.props;
 
@@ -90,9 +104,9 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       const newMovedSelection = newSelection.moveDown();
 
       if (newMovedSelection) {
-        onSelect(newMovedSelection);
+        onSelect?.(newMovedSelection);
       } else {
-        onSelect(newSelection);
+        onSelect?.(newSelection);
       }
     };
 
@@ -101,7 +115,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
 
       const newSelection = selection.moveStart();
       if (newSelection) {
-        onSelect(newSelection);
+        onSelect?.(newSelection);
       }
 
       return false;
@@ -112,7 +126,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
 
       const newSelection = selection.moveEnd();
       if (newSelection) {
-        onSelect(newSelection);
+        onSelect?.(newSelection);
       }
 
       return false;
@@ -125,14 +139,14 @@ export default function selectionShortcutsHOC(ComposedComponent) {
         return true;
       }
 
-      onSelect(selection.toggleSelection());
+      onSelect?.(selection.toggleSelection());
       return false;
     };
 
     onEscPress = () => {
       const {selection, onSelect} = this.props;
 
-      onSelect(selection.reset());
+      onSelect?.(selection.reset());
       //this.restoreFocusWithoutScroll();
     };
 
@@ -143,7 +157,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
         return true;
       }
 
-      onSelect(selection.selectAll());
+      onSelect?.(selection.selectAll());
       return false;
     };
 
@@ -162,10 +176,10 @@ export default function selectionShortcutsHOC(ComposedComponent) {
     };
 
     render() {
-      const {selection, selectable, onSelect} = this.props;
+      const {selection, selectable, onSelect, shortcuts, ...restProps} = this.props;
       return (
         <ComposedComponent
-          {...this.props}
+          {...restProps as P}
           selection={selection}
           selectable={selectable}
           onSelect={onSelect}
@@ -173,5 +187,13 @@ export default function selectionShortcutsHOC(ComposedComponent) {
         />
       );
     }
+  }
+  (SelectionShortcuts as ComponentType<unknown>).propTypes = {
+    ...ComposedComponent.propTypes,
+    selection: PropTypes.instanceOf(Selection).isRequired,
+    selectable: PropTypes.bool,
+    onSelect: PropTypes.func,
+    shortcuts: PropTypes.object
   };
+  return SelectionShortcuts;
 }
