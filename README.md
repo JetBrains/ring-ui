@@ -7,27 +7,28 @@ This collection of UI components aims to provide all the necessary building bloc
 
 ## Installation
 
-There are three ways of installing and using RingUI. Choose **one** that suits your needs best:
+`npm install @jetbrains/ring-ui`
 
 ### Quick start (importing components as ES modules)
 
 The easiest way is to import necessary components as ES modules:
-```javascript
-import Icon from "@jetbrains/ring-ui/dist/icon"
-import Logo from "@jetbrains/ring-ui/dist/logo"
-import Input from "@jetbrains/ring-ui/dist/input"
-import Select from "@jetbrains/ring-ui/dist/select"
-import Toggle from "@jetbrains/ring-ui/dist/toggle"
-import { Tabs, Tab } from "@jetbrains/ring-ui/dist/tabs"
+```js
+// You need to import RingUI styles once
+import '@jetbrains/ring-ui/dist/style.css';
 
-import "@jetbrains/ring-ui/dist/style.css"
+import alertService from '@jetbrains/ring-ui/dist/alert-service/alert-service';
+import Button from '@jetbrains/ring-ui/dist/button/button';
 
 ...
 
-<Select
-  className="select-field"
-  size="FULL"
-/>
+export const Demo = () => {
+  return (
+    <Button onClick={() => alertService.successMessage('Hello world')}>
+      Click me
+    </Button>
+  );
+};
+
 ```
 
 The bundle size will depend on the amount of components you imported.
