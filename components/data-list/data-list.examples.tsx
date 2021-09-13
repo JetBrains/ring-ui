@@ -101,7 +101,7 @@ export const basic = () => {
 
     render() {
       return (
-        <DataList<Item>
+        <DataList
           data={this.state.data}
           selection={this.state.selection}
           onSelect={this.onSelect}
