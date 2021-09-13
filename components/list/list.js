@@ -683,6 +683,7 @@ export default class List extends Component {
       >
         <div
           aria-label={this.props.ariaLabel}
+          role="grid"
           style={maxHeight
             ? {maxHeight: this.getVisibleListHeight(this.props)}
             : null
