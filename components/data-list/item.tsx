@@ -231,8 +231,8 @@ type ItemAttrs<T extends SelectionItem> = JSX.LibraryManagedAttributes<typeof It
 
   collapsible: PropTypes.bool,
   collapsed: PropTypes.bool,
-  onCollapse: PropTypes.func.isRequired,
-  onExpand: PropTypes.func.isRequired,
+  onCollapse: PropTypes.func,
+  onExpand: PropTypes.func,
 
   showFocus: PropTypes.bool,
   onFocus: PropTypes.func.isRequired,
