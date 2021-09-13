@@ -139,10 +139,10 @@ export default function focusSensorHOC<
   }
   (FocusSensor as ComponentType<unknown>).propTypes = {
     ...extractPropTypes(ComposedComponent),
-    focused: PropTypes.bool.isRequired,
-    autofocus: PropTypes.bool.isRequired,
-    onFocus: PropTypes.func.isRequired,
-    onBlur: PropTypes.func.isRequired,
+    focused: PropTypes.bool,
+    autofocus: PropTypes.bool,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     innerRef: PropTypes.oneOfType([PropTypes.func, refObject(PropTypes.instanceOf(HTMLElement))])
   };
   return FocusSensor;
