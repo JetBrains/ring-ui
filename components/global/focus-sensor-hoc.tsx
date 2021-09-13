@@ -20,6 +20,17 @@ export interface FocusSensorAddProps<T extends HTMLElement> {
   onFocusRestore: () => void
 }
 
+function extractPropTypes<
+  T extends HTMLElement,
+  P extends FocusSensorAddProps<T>
+>({propTypes}: ComponentType<P>) {
+  if (propTypes == null) {
+    return propTypes;
+  }
+  const {innerRef, focused, onFocusReset, onFocusRestore, ...restPropTypes} = propTypes;
+  return restPropTypes;
+}
+
 export default function focusSensorHOC<
   T extends HTMLElement,
   P extends FocusSensorAddProps<T>,
@@ -127,7 +138,7 @@ export default function focusSensorHOC<
     }
   }
   (FocusSensor as ComponentType<unknown>).propTypes = {
-    ...ComposedComponent.propTypes,
+    ...extractPropTypes(ComposedComponent),
     focused: PropTypes.bool.isRequired,
     autofocus: PropTypes.bool.isRequired,
     onFocus: PropTypes.func.isRequired,
