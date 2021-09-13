@@ -61,7 +61,6 @@ export const withCustomAnchorAndPopupAndContentAccessibilityHandling = () => {
             return (
               <Button
                 {...anchorAriaProps}
-                has-popup="true"
                 delayed
               >Edit</Button>
             );
