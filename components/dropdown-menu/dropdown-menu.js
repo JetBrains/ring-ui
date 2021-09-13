@@ -11,9 +11,8 @@ const {children, ...dropdownPropTypes} = Dropdown.propTypes || {};
 const {
   id: idPropType,
   data: dataPropType,
-  ariaLabel: ariaLabelPropType,
-  ...menuPropTypes
-} = Dropdown.propTypes || {};
+  ariaLabel: ariaLabelPropType
+} = PopupMenu.propTypes || {};
 
 const defaultAriaLabel = 'Dropdown menu';
 
@@ -57,7 +56,7 @@ DropdownAnchorWrapper.propTypes = {
 };
 
 const DropdownMenu = React.forwardRef(function DropdownMenu(
-  {id, anchor, ariaLabel, data, menuExtendedProps, ...restDropdownProps},
+  {id, anchor, ariaLabel, data, menuProps, ...restDropdownProps},
   forwardedRef
 ) {
   const listId = useMemo(() => id || getUID('dropdown-menu-list'), [id]);
@@ -88,7 +87,7 @@ const DropdownMenu = React.forwardRef(function DropdownMenu(
           closeOnSelect
           activateFirstItem
           data={data}
-          {...menuExtendedProps}
+          {...menuProps}
         />
       </Dropdown>
     </ActiveItemContext.Provider>
@@ -99,7 +98,7 @@ DropdownMenu.propTypes = {
   id: idPropType,
   data: dataPropType,
   ariaLabel: ariaLabelPropType,
-  menuExtendedProps: menuPropTypes,
+  menuProps: PropTypes.object,
   ...dropdownPropTypes
 };
 
