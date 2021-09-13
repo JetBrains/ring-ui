@@ -19,6 +19,17 @@ export interface SelectionShortcutsAddProps<T extends SelectionItem> {
   shortcutsMap: ShortcutsMap
 }
 
+function extractPropTypes<
+  T extends SelectionItem,
+  P extends SelectionShortcutsAddProps<T>
+>({propTypes}: ComponentType<P>) {
+  if (propTypes == null) {
+    return propTypes;
+  }
+  const {selection, selectable, onSelect, shortcutsMap, ...restPropTypes} = propTypes;
+  return restPropTypes;
+}
+
 export default function selectionShortcutsHOC<
   T extends SelectionItem,
   P extends SelectionShortcutsAddProps<T>
@@ -189,7 +200,7 @@ export default function selectionShortcutsHOC<
     }
   }
   (SelectionShortcuts as ComponentType<unknown>).propTypes = {
-    ...ComposedComponent.propTypes,
+    ...extractPropTypes<T, P>(ComposedComponent),
     selection: PropTypes.instanceOf(Selection).isRequired,
     selectable: PropTypes.bool,
     onSelect: PropTypes.func,
