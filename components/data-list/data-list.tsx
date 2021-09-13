@@ -190,7 +190,7 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
   itemFormatter: PropTypes.func.isRequired,
 
   onItemMoreLess: PropTypes.func,
-  itemMoreLessState: PropTypes.func.isRequired,
+  itemMoreLessState: PropTypes.func,
   onSelect: PropTypes.func.isRequired,
 
   remoteSelection: PropTypes.bool
@@ -200,14 +200,19 @@ type FocusableProps<T extends SelectionItem> = DataListBaseProps<T> &
   FocusSensorProps<HTMLDivElement> & SelectionShortcutsAddProps<T>
 export type DataListContainerProps<T extends SelectionItem> = DataListBaseProps<T> &
   FocusSensorProps<HTMLDivElement> & SelectionShortcutsProps<T>
+const getContainer = <T extends SelectionItem>() => disableHoverHOC(
+  selectionShortcutsHOC<T, FocusableProps<T>>(
+    focusSensorHOC<HTMLDivElement, DataListProps<T>>(DataList)
+  )
+);
+
 // eslint-disable-next-line react/no-multi-comp
 export default class DataListContainer<
   T extends SelectionItem
 > extends Component<DataListContainerProps<T>> {
+  static propTypes = getContainer().propTypes;
   // https://stackoverflow.com/a/53882322/6304152
-  DataList = disableHoverHOC(selectionShortcutsHOC<T, FocusableProps<T>>(
-    focusSensorHOC<HTMLDivElement, DataListProps<T>>(DataList))
-  );
+  DataList = getContainer<T>();
 
   render() {
     return <this.DataList {...this.props}/>;
