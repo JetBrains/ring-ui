@@ -572,7 +572,7 @@ export default class List extends Component {
       )
       : (
         <div role="row" id={itemId} key={itemKey}>
-          {cloneElement(el)}
+          <div role="cell">{cloneElement(el)}</div>
         </div>
       );
   };
