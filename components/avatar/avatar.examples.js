@@ -21,7 +21,8 @@ export const avatar = () => {
         {Object.keys(Size).map(size => (
           <div className="avatar-demo" key={size}>
             <Avatar size={Size[size]} url={avatarDataUri}/>
-            <Avatar size={Size[size]} url={avatarDataUri} round/>
+            <Avatar size={Size[size]} username="Jet Brains"/>
+            <Avatar size={Size[size]} username="Jet Brains" round/>
             <Avatar size={Size[size]}/>
           </div>
         ))}
@@ -38,7 +39,7 @@ avatar.parameters = {
   .avatar-demo {
     display: flex;
     justify-content: space-between;
-    width: 200px;
+    width: 240px;
     margin-bottom: 16px;
   }
 </style>`
