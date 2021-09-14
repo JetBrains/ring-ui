@@ -20,7 +20,7 @@ export default {
         }
       ]
     },
-    a11y: {element: '*[data-test~=ring-popup]'}
+    a11y: {element: '*[data-test~=ring-dropdown]'}
   }
 };
 
