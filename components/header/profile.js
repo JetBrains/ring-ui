@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import Avatar, {Size} from '../avatar/avatar';
 import Button from '../button/button';
-import Dropdown from '../dropdown/dropdown';
+import DropdownMenu from '../dropdown-menu/dropdown-menu';
 import PopupMenu from '../popup-menu/popup-menu';
 
 import styles from './header.css';
@@ -162,21 +162,20 @@ export default class Profile extends PureComponent {
     ].filter(it => !!it);
 
     return (
-      <Dropdown
+      <DropdownMenu
         {...props}
         title={user.name}
         anchor={anchor}
+        data={renderPopupItems(items)}
         data-test="ring-profile"
         className={classNames(styles.profile, className)}
-      >
-        <PopupMenu
-          closeOnSelect={closeOnSelect}
-          data={renderPopupItems(items)}
-          left={-2}
-          top={-8}
-          sidePadding={32}
-        />
-      </Dropdown>
+        menuProps={{
+          closeOnSelect,
+          left: -2,
+          top: -8,
+          sidePadding: 32
+        }}
+      />
     );
   }
 }
