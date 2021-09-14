@@ -6,6 +6,7 @@ import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
 
 import styles from './avatar.css';
+import FallbackAvatar from './fallback-avatar';
 
 /**
  * @name Avatar
@@ -30,7 +31,8 @@ export default class Avatar extends PureComponent {
     url: PropTypes.string,
     round: PropTypes.bool,
     subavatar: PropTypes.string,
-    subavatarSize: PropTypes.number
+    subavatarSize: PropTypes.number,
+    username: PropTypes.string
   };
 
   static defaultProps = {
@@ -53,7 +55,17 @@ export default class Avatar extends PureComponent {
   };
 
   render() {
-    const {size, url, dpr, style, round, subavatar, subavatarSize, ...restProps} = this.props;
+    const {
+      size,
+      url,
+      dpr,
+      style,
+      round,
+      subavatar,
+      subavatarSize,
+      username,
+      ...restProps
+    } = this.props;
     const sizeString = `${size}px`;
     const subavatarSizeString = `${subavatarSize}px`;
     const borderRadius = size <= Size.Size18 ? 'var(--ring-border-radius-small)' : 'var(--ring-border-radius)';
@@ -76,9 +88,19 @@ export default class Avatar extends PureComponent {
         <span
           {...restProps}
           data-test="avatar"
-          className={classNames(styles.avatar, styles.empty, this.props.className)}
+          className={
+            classNames(styles.avatar, this.props.className, {[styles.empty]: username == null})
+          }
           style={styleObj}
-        />
+        >{
+            username != null && (
+              <FallbackAvatar
+                size={size}
+                round={round}
+                username={username}
+              />
+            )
+          }</span>
       );
     }
 
