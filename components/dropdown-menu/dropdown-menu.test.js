@@ -41,7 +41,7 @@ describe('Dropdown Menu', () => {
   };
 
   it('should create component', () => {
-    shallowDropdownMenu().should.exist;
+    shallowDropdownMenu({anchor: 'Anchor text'}).should.exist;
   });
 
   it('should open List', async () => {
