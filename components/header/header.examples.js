@@ -13,8 +13,7 @@ import hubConfig from '../../.storybook/hub-config';
 import Link from '@jetbrains/ring-ui/components/link/link';
 
 
-import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
-import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
+import DropdownMenu from '@jetbrains/ring-ui/components/dropdown-menu/dropdown-menu';
 import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 
 import Theme from '@jetbrains/ring-ui/components/global/theme';
@@ -77,13 +76,13 @@ export const header = ({isCompact, ...args}) => {
             <TrayIcon title="Help" icon={helpIcon}/>
             <TrayIcon title="What's new" icon={giftIcon}/>
             <TrayIcon title="Search" icon={searchIcon}/>
-            <Dropdown
-              anchor={({active}) => (
-                <TrayIcon title="Settings" active={active} icon={settingsIcon}/>
+            <DropdownMenu
+              data={[{label: 'Test'}, {label: 'Test2'}]}
+              anchor={({active, pinned, ...ariaProps}) => (
+                <TrayIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps}/>
               )}
-            >
-              <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
-            </Dropdown>
+              menuProps={{top: -12}}
+            />
             <SmartServices auth={auth}/>
             <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
           </Tray>

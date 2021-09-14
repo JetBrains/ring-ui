@@ -39,7 +39,7 @@ function DropdownAnchorWrapper({anchor, pinned, active, activeListItemId, listId
   if (typeof anchor === 'function') {
     return anchor(anchorProps);
   }
-  if (typeof anchor?.type !== 'string' && !Array.isArray(anchor)) {
+  if (!Array.isArray(anchor)) {
     return cloneElement(anchor, anchorProps);
   }
   return (
