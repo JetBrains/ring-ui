@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 .avatar {
+  display: inline-block;
   object-fit: cover;
   object-position: center;
 
