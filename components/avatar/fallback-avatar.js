@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
+
+import getUID from '../global/get-uid';
 
 const colorPairs = [
   ['#60A800', '#D5CA00'],
@@ -91,17 +93,18 @@ export default function FallbackAvatar({username, size, round}) {
     : Math.max(...sizeKeys);
   const sizes = Sizes[sizeKey];
   const radius = round ? '50%' : sizes.radius;
+  const gradientId = useMemo(() => getUID('gradient-'), []);
   return (
     <svg viewBox={`0 0 ${sizeKey} ${sizeKey}`} xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
           <stop stopColor={fromColor} offset="0"/>
           <stop stopColor={toColor} offset="1"/>
         </linearGradient>
       </defs>
       <g>
         <rect
-          fill="url(#gradient)"
+          fill={`url(#${gradientId})`}
           x="0"
           y="0"
           width={sizeKey}
