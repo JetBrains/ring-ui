@@ -1,8 +1,5 @@
 const Generator = require('yeoman-generator');
 const {paramCase, camelCase} = require('change-case');
-// We have to use deprecated npm-latest-version package
-// because there's no .npmrc in target folder on generator start
-const ora = require('ora');
 
 const getFreePort = require('./get-free-port');
 const getLatestVersions = require('./get-latest-versions');
@@ -38,7 +35,8 @@ module.exports = class AppGenerator extends Generator {
         default: this.appname
       }]);
 
-    prompt.then(() => {
+    prompt.then(async () => {
+      const {default: ora} = await import('ora');
       spinner = ora('Getting info').start();
     });
 
