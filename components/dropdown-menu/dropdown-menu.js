@@ -17,11 +17,11 @@ const {
 const defaultAriaLabel = 'Dropdown menu';
 
 function DropdownAnchorWrapper({anchor, pinned, active, activeListItemId, listId, ...restProps}) {
-  const anchorAriaProps = useMemo(() => (
-    active && activeListItemId
-      ? {'aria-owns': listId, 'aria-activedescendant': activeListItemId}
-      : {}
-  ), [active, activeListItemId, listId]);
+  const anchorAriaProps = useMemo(() => ({
+    ...(listId ? {'aria-haspopup': 'true'} : {}),
+    ...(activeListItemId ? {'aria-activedescendant': activeListItemId, 'aria-owns': listId} : {}),
+    ...(active ? {'aria-expanded': 'true'} : {})
+  }), [active, activeListItemId, listId]);
 
   const anchorProps = useMemo(
     () => ({active, pinned, ...restProps, ...anchorAriaProps}),
