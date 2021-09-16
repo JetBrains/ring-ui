@@ -40,7 +40,7 @@ function DropdownAnchorWrapper({anchor, pinned, active, activeListItemId, listId
     return anchor(anchorProps);
   }
   if (!Array.isArray(anchor)) {
-    return cloneElement(anchor, anchorProps);
+    return cloneElement(anchor, typeof anchor.type === 'string' ? anchorAriaProps : anchorProps);
   }
   return (
     <div {...anchorAriaProps}>{anchor}</div>
