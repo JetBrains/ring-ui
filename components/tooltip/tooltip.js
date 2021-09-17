@@ -133,11 +133,16 @@ export default class Tooltip extends Component {
     const {children, 'data-test': dataTest,
       title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props;
 
+    const ariaProps = typeof title === 'string'
+      ? {'aria-label': title, role: 'contentinfo'}
+      : {};
+
     const {onNestedTooltipShow, onNestedTooltipHide} = this;
 
     return (
       <TooltipContext.Provider value={{onNestedTooltipShow, onNestedTooltipHide}}>
         <span
+          {...ariaProps}
           {...restProps}
           ref={this.containerRef}
           data-test={dataTests('ring-tooltip', dataTest)}
