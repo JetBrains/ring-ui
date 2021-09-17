@@ -133,8 +133,8 @@ export default class Tooltip extends Component {
     const {children, 'data-test': dataTest,
       title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props;
 
-    const ariaProps = typeof title === 'string'
-      ? {'aria-label': title, role: 'contentinfo'}
+    const ariaProps = typeof title === 'string' && !!title
+      ? {'aria-label': title, role: 'tooltip'}
       : {};
 
     const {onNestedTooltipShow, onNestedTooltipHide} = this;
