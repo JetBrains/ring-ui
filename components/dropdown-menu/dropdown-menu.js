@@ -29,11 +29,15 @@ function DropdownAnchorWrapper({anchor, pinned, active, activeListItemId, listId
     [pinned, active, restProps, anchorAriaProps]
   );
 
+  const anchorComponentProps = useMemo(
+    () => ({...anchorProps, pinned: `${anchorProps.pinned}`}),
+    [anchorProps]
+  );
+
   if (typeof anchor === 'string') {
     return (
       <Anchor
-        {...anchorProps}
-        pinned={`${pinned}`}
+        {...anchorComponentProps}
       >{anchor}</Anchor>
     );
   }
@@ -41,7 +45,10 @@ function DropdownAnchorWrapper({anchor, pinned, active, activeListItemId, listId
     return anchor(({active, pinned, ...restProps}), anchorAriaProps);
   }
   if (!Array.isArray(anchor)) {
-    return cloneElement(anchor, typeof anchor.type === 'string' ? anchorAriaProps : anchorProps);
+    return cloneElement(
+      anchor,
+      typeof anchor.type === 'string' ? anchorAriaProps : anchorComponentProps
+    );
   }
   return (
     <div {...anchorAriaProps}>{anchor}</div>
