@@ -186,7 +186,7 @@
     "@types/deep-equal": "^1.0.1",
     "@types/google.analytics": "0.0.42",
     "@types/prop-types": "^15.7.4",
-    "@types/react": "^17.0.16",
+    "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
     "@types/util-deprecate": "^1.0.0",
     "@ungap/url-search-params": "^0.2.2",
