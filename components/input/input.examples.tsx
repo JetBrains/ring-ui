@@ -6,7 +6,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Button from '@jetbrains/ring-ui/components/button/button';
 import Text from '@jetbrains/ring-ui/components/text/text';
 
-import Input, {Size, Theme} from '@jetbrains/ring-ui/components/input/input';
+import Input, {ContainerProps, InputSpecificProps, Size, Theme} from '@jetbrains/ring-ui/components/input/input';
 
 export default {
   title: 'Components/Input',
@@ -18,12 +18,12 @@ export default {
 };
 
 export const basic = () => {
-  class ClearableInput extends PureComponent {
+  class ClearableInput extends PureComponent<ContainerProps<InputSpecificProps>> {
     state = {
       text: this.props.defaultValue
     };
 
-    setText = e => {
+    setText = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         text: e.target.value
       });
@@ -112,7 +112,7 @@ basic.parameters = {
 };
 
 function SelectAll() {
-  const ref = useRef();
+  const ref = useRef<HTMLInputElement>(null);
 
   function select() {
     if (ref.current != null) {
