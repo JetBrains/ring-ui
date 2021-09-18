@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow, mount} from 'enzyme';
 
 import Input from './input';
 
 describe('Input', () => {
-  let input;
-  const inputRef = el => {
+  let input: HTMLElement | null;
+  const inputRef = (el: HTMLElement | null) => {
     input = el;
   };
-  const shallowInput = props => shallow(<Input {...props}/>);
-  const mountInput = props => mount(
+  const shallowInput = (props?: ComponentProps<typeof Input>) => shallow(<Input {...props}/>);
+  const mountInput = (props?: ComponentProps<typeof Input>) => mount(
     <Input
       inputRef={inputRef}
       {...props}
@@ -26,12 +26,14 @@ describe('Input', () => {
 
   it('should create input by default', () => {
     mountInput();
-    input.should.match('input');
+    should.exist(input);
+    input?.should.match('input');
   });
 
   it('should create textarea with multiline option', () => {
     mountInput({multiline: true});
-    input.should.match('textarea');
+    should.exist(input);
+    input?.should.match('textarea');
   });
 
   it('should use passed className', () => {

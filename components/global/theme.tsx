@@ -34,19 +34,21 @@ type AnyComponentType<T, P> =
 
 export const withTheme = (defaultTheme = Theme.LIGHT) =>
   <T, P extends ThemeProps, S>(ComposedComponent: AnyComponentType<T, P> & S) => {
+    type Attributes = JSX.LibraryManagedAttributes<typeof ComposedComponent, P>
+    type Props = Omit<Attributes, keyof ThemeProps> & ThemeOuterProps
     // eslint-disable-next-line react/display-name
-    const WithTheme = memo(forwardRef<T, Omit<P, keyof ThemeProps> & ThemeOuterProps>(
+    const WithTheme = memo(forwardRef<T, Props>(
       ({theme, ...restProps}, ref) => (
         <ThemeContext.Consumer>
           {contextTheme => {
             const usedTheme = theme || contextTheme || defaultTheme;
-            const Component: AnyComponentType<T, P> = ComposedComponent;
+            const Component = ComposedComponent as ComponentType<Attributes>;
             return (
               <ThemeContext.Provider value={usedTheme}>
                 <Component
                   ref={ref}
                   // https://github.com/Microsoft/TypeScript/issues/28938#issuecomment-450636046
-                  {...restProps as P}
+                  {...restProps as Attributes}
                   theme={usedTheme}
                 />
               </ThemeContext.Provider>
@@ -55,7 +57,10 @@ export const withTheme = (defaultTheme = Theme.LIGHT) =>
         </ThemeContext.Consumer>
       )));
     const WithThemeAndStatics: typeof WithTheme & {[K in keyof S]: S[K]} =
-      Object.assign(WithTheme, ComposedComponent, {displayName: `withTheme(${getDisplayName(ComposedComponent)})`});
+      Object.assign(WithTheme, ComposedComponent, {
+        displayName: `withTheme(${getDisplayName(ComposedComponent)})`,
+        propTypes: null
+      });
     return WithThemeAndStatics;
   };
 
