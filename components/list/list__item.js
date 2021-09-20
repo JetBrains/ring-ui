@@ -35,6 +35,8 @@ export default class ListItem extends PureComponent {
       PropTypes.element,
       PropTypes.array
     ]),
+    showGeneratedAvatar: PropTypes.bool,
+    username: PropTypes.string,
     avatar: PropTypes.string,
     subavatar: PropTypes.string,
     glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
@@ -97,11 +99,14 @@ export default class ListItem extends PureComponent {
       onMouseUp,
       rightNodes,
       leftNodes,
+      showGeneratedAvatar,
+      username,
       ...restProps
     } = this.props;
 
     const checkable = checkbox !== undefined;
-    const hasLeftNodes = leftNodes || glyph || avatar;
+    const shouldShowGeneratedAvatar = showGeneratedAvatar && username != null;
+    const hasLeftNodes = leftNodes || glyph || avatar || shouldShowGeneratedAvatar;
     const showCheckbox = checkable && (checkbox || !hasLeftNodes || (hover && !disabled));
 
     const classes = classNames(styles.item, globalStyles.resetButton, className, {
@@ -177,12 +182,13 @@ export default class ListItem extends PureComponent {
                     size={this.props.iconSize}
                   />
                 )}
-                {avatar && (
+                {(avatar || shouldShowGeneratedAvatar) && (
                   <Avatar
                     className={styles.avatar}
                     url={avatar}
                     size={AvatarSize.Size20}
                     subavatar={subavatar}
+                    username={username}
                   />
                 )}
               </div>
