@@ -2,9 +2,11 @@
  * @name DOM
  */
 
+import {PropertiesHyphen} from 'csstype';
+
 export const getStyles = window.getComputedStyle.bind(window);
 
-export function isMounted(node) {
+export function isMounted(node: Node | Range | null | undefined) {
   if (node === document) {
     return true;
   }
@@ -12,10 +14,19 @@ export function isMounted(node) {
   return node instanceof Node && document.documentElement.contains(node.parentNode);
 }
 
-const rectStub = {top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0};
+export interface Rect {
+  top: number
+  right: number
+  bottom: number
+  left: number
+  width: number
+  height: number
+}
 
-export function getRect(node) {
-  if (node instanceof Range || isMounted(node)) {
+const rectStub: Rect = {top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0};
+
+export function getRect(node: Element | Range | null | undefined): Rect {
+  if (node instanceof Range || node != null && isMounted(node)) {
     const {top, right, bottom, left, width, height} = node.getBoundingClientRect();
     return {top, right, bottom, left, width, height};
   } else {
@@ -35,7 +46,7 @@ export function getWindowWidth() {
   return window.innerWidth;
 }
 
-export function isNodeInVisiblePartOfPage(node) {
+export function isNodeInVisiblePartOfPage(node: Element | Range) {
   const {top, bottom, left, right} = getRect(node);
   return !(bottom < 0 || right < 0 || getWindowHeight() - top < 0 || getWindowWidth() - left < 0);
 }
@@ -50,7 +61,7 @@ export function getDocumentScrollLeft() {
     document.body.scrollLeft;
 }
 
-export const applyMethodToClasses = method => (classList, classes = '') => {
+export const applyMethodToClasses = (method: 'add' | 'remove') => (classList: DOMTokenList, classes = '') => {
   classes.
     split(/\s+/g).
     filter(className => !!className).
@@ -59,10 +70,10 @@ export const applyMethodToClasses = method => (classList, classes = '') => {
 
 export const addClasses = applyMethodToClasses('add');
 export const removeClasses = applyMethodToClasses('remove');
-export const toggleClasses = (classList, classes) =>
+export const toggleClasses = (classList: DOMTokenList, classes: Record<string, boolean>) =>
   Object.entries(classes).forEach(([className, on]) => classList.toggle(className, on));
 
-export function setRootStyleProperties(properties = {}) {
+export function setRootStyleProperties(properties: PropertiesHyphen = {}) {
   const rootStyle = document.documentElement.style;
 
   Object.entries(properties).forEach(([key, value]) => {
@@ -70,7 +81,9 @@ export function setRootStyleProperties(properties = {}) {
   });
 }
 
-export function resetRootStyleProperties(properties = {}) {
+export function resetRootStyleProperties(
+  properties: Partial<Record<keyof PropertiesHyphen, unknown>> = {}
+) {
   const rootStyle = document.documentElement.style;
 
   Object.keys(properties).
@@ -78,16 +91,42 @@ export function resetRootStyleProperties(properties = {}) {
 }
 
 export class Listeners {
-  _all = new Set();
+  private _all = new Set<() => void>();
 
-  add(el, event, handler, useCapture) {
+  add<K extends keyof HTMLElementEventMap>(
+    el: HTMLElement,
+    event: K,
+    handler: (this: HTMLElement, ev: HTMLElementEventMap[K]) => void,
+    useCapture?: boolean,
+  ): () => void
+
+  add<K extends keyof WindowEventMap>(
+    el: Window,
+    event: K,
+    handler: (this: Window, ev: WindowEventMap[K]) => void,
+    useCapture?: boolean,
+  ): () => void
+
+  add<K extends keyof DocumentEventMap>(
+    el: Document,
+    event: K,
+    handler: (this: Window, ev: DocumentEventMap[K]) => void,
+    useCapture?: boolean,
+  ): () => void
+
+  add(
+    el: HTMLElement | Window | Document,
+    event: string,
+    handler: (e: Event) => void,
+    useCapture?: boolean,
+  ) {
     el.addEventListener(event, handler, useCapture);
     const dispatchFn = () => el.removeEventListener(event, handler, useCapture);
     this._all.add(dispatchFn);
     return dispatchFn;
   }
 
-  remove(fn) {
+  remove(fn: () => void) {
     fn();
     this._all.delete(fn);
   }
@@ -98,7 +137,7 @@ export class Listeners {
 }
 
 // Synthetic events from Combokeys#trigger are plain objects
-export function preventDefault(e) {
+export function preventDefault(e: Event) {
   if (e.preventDefault) {
     e.preventDefault();
   }
