@@ -53,6 +53,12 @@ export const withAFilterAndTags = args => <Select {...args}/>;
       label: 'With avatar',
       key: 5,
       avatar: avatarUrl
+    },
+    {
+      label: 'With generated avatar',
+      showGeneratedAvatar: true,
+      username: 'With generated avatar',
+      key: 6
     }
   ];
 
