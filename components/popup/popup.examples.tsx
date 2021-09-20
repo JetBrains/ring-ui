@@ -14,6 +14,12 @@ export default {
   }
 };
 
+interface PopupDemoState {
+  topLeft?: boolean
+  topRight?: boolean
+  bottomLeft?: boolean
+  bottomRight?: boolean
+}
 export const basic = () => {
   const {Directions} = Popup.PopupProps;
 
@@ -24,8 +30,8 @@ export const basic = () => {
     bottomRight: Directions.TOP_LEFT
   };
 
-  const directionKeys = Object.keys(directionMap);
-  const initialState = directionKeys.reduce((acc, key) => {
+  const directionKeys = Object.keys(directionMap) as (keyof typeof directionMap)[];
+  const initialState = directionKeys.reduce((acc: PopupDemoState, key) => {
     acc[key] = true;
     return acc;
   }, {});
@@ -33,7 +39,7 @@ export const basic = () => {
   class PopupDemo extends Component {
     state = initialState;
 
-    renderPopup = key => (
+    renderPopup = (key: keyof PopupDemoState) => (
       <div className={classNames('anchor', key)} key={key}>
         <Popup
           hidden={!this.state[key]}

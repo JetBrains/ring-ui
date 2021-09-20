@@ -1,15 +1,18 @@
+import * as Sinon from 'sinon';
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
 import {getRect, getStyles} from '../global/dom';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
-import Popup from './popup';
+import Popup, {PopupProps} from './popup';
 import {MinWidth} from './popup.consts';
 
 describe('Popup', () => {
-  const shallowPopup = props => shallow(<Popup {...{children: '', ...props}}/>);
-  const mountPopup = props => mount(<Popup {...{children: '', ...props}}/>);
+  const shallowPopup = (props?: Partial<PopupProps>) =>
+    shallow(<Popup {...{children: '', ...props}}/>);
+  const mountPopup = (props?: Partial<PopupProps>) =>
+    mount<Popup>(<Popup {...{children: '', ...props}}/>);
 
   it('should create component', () => {
     const popup = shallowPopup();
@@ -20,7 +23,7 @@ describe('Popup', () => {
     const targetNode = document.createElement('div');
     const instance = mountPopup({target: targetNode}).instance();
     const popupElement = instance.popup;
-    targetNode.contains(popupElement).should.be.true;
+    (popupElement != null && targetNode.contains(popupElement)).should.be.true;
   });
 
   it('should attempt to close by pressing esc', () => {
@@ -37,7 +40,7 @@ describe('Popup', () => {
       bubbles: true,
       cancelable: false
     });
-    let clock;
+    let clock: Sinon.SinonFakeTimers;
 
     beforeEach(() => {
       clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
@@ -47,7 +50,7 @@ describe('Popup', () => {
       const onCloseAttempt = sandbox.stub();
       mountPopup({onCloseAttempt});
 
-      clock.tick();
+      clock.tick(0);
       document.body.dispatchEvent(downEvent);
       onCloseAttempt.should.have.been.called;
     });
@@ -56,7 +59,7 @@ describe('Popup', () => {
       const onCloseAttempt = sandbox.stub();
       mountPopup({onCloseAttempt});
 
-      clock.tick();
+      clock.tick(0);
       document.body.dispatchEvent(downEvent);
       onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'pointerdown'}));
     });
@@ -68,7 +71,7 @@ describe('Popup', () => {
         onCloseAttempt
       });
 
-      clock.tick();
+      clock.tick(0);
       document.body.dispatchEvent(downEvent);
       onCloseAttempt.should.not.have.been.called;
     });
@@ -80,7 +83,7 @@ describe('Popup', () => {
       });
 
       wrapper.setProps({hidden: false}, () => {
-        clock.tick();
+        clock.tick(0);
         document.body.dispatchEvent(downEvent);
         onCloseAttempt.should.have.been.called;
       });
@@ -90,16 +93,19 @@ describe('Popup', () => {
       const onCloseAttempt = sandbox.stub();
       const instance = mountPopup({onCloseAttempt}).instance();
 
-      clock.tick();
-      instance.popup.dispatchEvent(downEvent);
+      clock.tick(0);
+      instance.popup?.dispatchEvent(downEvent);
       onCloseAttempt.should.not.have.been.called;
     });
   });
 
   describe('positioning', () => {
-    let element;
+    let element: HTMLElement;
     beforeEach(() => {
-      sandbox.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
+      sandbox.stub(window, 'requestAnimationFrame').callsFake(cb => {
+        cb(0);
+        return 0;
+      });
     });
 
     afterEach(() => {
@@ -121,7 +127,8 @@ describe('Popup', () => {
         anchorElement: element
       }).instance();
 
-      const popupElement = instance.popup;
+      should.exist(instance.popup);
+      const popupElement = instance.popup as HTMLElement;
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).
@@ -146,7 +153,8 @@ describe('Popup', () => {
         children: <div style={{height: '300px'}}>{'foo'}</div>
       }).instance();
 
-      getStyles(instance.popup).top.should.equal(`${SIDE_PADDING}px`);
+      should.exist(instance.popup);
+      getStyles(instance.popup as HTMLElement).top.should.equal(`${SIDE_PADDING}px`);
     });
 
     it('bottom-right corner', () => {
@@ -162,7 +170,8 @@ describe('Popup', () => {
         anchorElement: element
       }).instance();
 
-      const popupElement = instance.popup;
+      should.exist(instance.popup);
+      const popupElement = instance.popup as HTMLElement;
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).
@@ -187,7 +196,8 @@ describe('Popup', () => {
         top: OFFSET
       }).instance();
 
-      const popupElement = instance.popup;
+      should.exist(instance.popup);
+      const popupElement = instance.popup as HTMLElement;
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).
@@ -207,8 +217,9 @@ describe('Popup', () => {
         hidden: false
       }).instance();
 
-      // eslint-disable-next-line no-magic-numbers
-      parseInt(getStyles(instance.popup).minWidth, 10).should.equal(70);
+      should.exist(instance.popup);
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      parseInt(getStyles(instance.popup as HTMLElement).minWidth, 10).should.equal(70);
       element.remove();
     });
 
@@ -222,7 +233,9 @@ describe('Popup', () => {
         minWidth: WIDTH, hidden: false, anchorElement: element
       }).instance();
 
-      parseInt(instance.popup.style.minWidth, 10).should.equal(WIDTH);
+      should.exist(instance.popup);
+      const popupElement = instance.popup as HTMLElement;
+      parseInt(popupElement.style.minWidth, 10).should.equal(WIDTH);
     });
 
     it('Should use width of anchor if it is bigger than minWidth', () => {
@@ -236,7 +249,9 @@ describe('Popup', () => {
         minWidth: 20, hidden: false, anchorElement: element
       }).instance();
 
-      parseInt(instance.popup.style.minWidth, 10).should.equal(WIDTH);
+      should.exist(instance.popup);
+      const popupElement = instance.popup as HTMLElement;
+      parseInt(popupElement.style.minWidth, 10).should.equal(WIDTH);
     });
   });
 });
