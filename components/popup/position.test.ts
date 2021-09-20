@@ -1,6 +1,14 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import {Rect} from '../global/dom';
+
 import {maxHeightForDirection} from './position';
 import {Directions} from './popup.consts';
+
+interface NodeData {
+  scrollTop?: number
+  scrollHeight?: number
+  getBoundingClientRect?: () => Rect
+}
 
 describe('position', () => {
   describe('maxHeightForDirection', () => {
@@ -95,15 +103,18 @@ describe('position', () => {
 
     it('should cover all defined directions', () => {
       const anchorNode = createNode();
-      Object.keys(Directions).forEach(key => {
-        maxHeightForDirection(Directions[key], anchorNode).
-          should.not.be.undefined;
+      Object.values(Directions).forEach(value => {
+        should.exist(maxHeightForDirection(value, anchorNode));
       });
     });
   });
 
 
-  function checkMaxHeight(anchorNode, containerNode, [topMaxHeight, bottomMaxHeight]) {
+  function checkMaxHeight(
+    anchorNode: Element,
+    containerNode: Element,
+    [topMaxHeight, bottomMaxHeight]: [number, number]
+  ) {
     const expectedValues = [
       topMaxHeight,
       bottomMaxHeight,
@@ -138,18 +149,18 @@ describe('position', () => {
       ]
     ].forEach((directions, i) => {
       directions.forEach(d => {
-        maxHeightForDirection(d, anchorNode, containerNode).
-          should.
-          be.
-          equal(expectedValues[i]);
+        const maxHeight = maxHeightForDirection(d, anchorNode, containerNode);
+        should.exist(maxHeight);
+        maxHeight?.should.be.equal(expectedValues[i]);
       });
     });
   }
 
 
-  function createNode(data, domRect = {}) {
+  function createNode(data?: NodeData, domRect: Partial<Rect> = {}) {
     if (
       domRect.hasOwnProperty('height') &&
+      data != null &&
       !data.hasOwnProperty('scrollHeight')) {
       data.scrollHeight = domRect.height;
     }
@@ -158,23 +169,23 @@ describe('position', () => {
       scrollTop: 0,
       getBoundingClientRect: sandbox.stub().returns(domRect),
       ...data
-    };
+    } as Element;
   }
 
 
-  function createClientRectMock(data = {}) {
+  function createClientRectMock(data: Partial<Rect> = {}) {
     if (
-      data.hasOwnProperty('left') &&
-      data.hasOwnProperty('width') &&
-      !data.hasOwnProperty('right')
+      data.left != null &&
+      data.width != null &&
+      data.right == null
     ) {
       data.right = data.left + data.width;
     }
 
     if (
-      data.hasOwnProperty('top') &&
-      data.hasOwnProperty('height') &&
-      !data.hasOwnProperty('bottom')
+      data.top != null &&
+      data.height != null &&
+      data.bottom == null
     ) {
       data.bottom = data.top + data.height;
     }

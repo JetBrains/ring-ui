@@ -2,7 +2,7 @@
  * @name Popup
  */
 
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactNode, CSSProperties, SyntheticEvent} from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -15,7 +15,7 @@ import dataTests from '../global/data-tests';
 
 import TabTrap from '../tab-trap/tab-trap';
 
-import position, {positionPropKeys} from './position';
+import position, {PositionStyles} from './position';
 import styles from './popup.css';
 import {
   DEFAULT_DIRECTIONS,
@@ -29,16 +29,66 @@ import {PopupTargetContext, PopupTarget} from './popup.target';
 
 export {PopupTargetContext, PopupTarget};
 
-const stop = e => e.stopPropagation();
+const stop = (e: SyntheticEvent) => e.stopPropagation();
 
-export const getPopupContainer = target => (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
+export const getPopupContainer = (target: string | Element) => (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
+
+export interface PopupProps {
+  hidden: boolean
+  onOutsideClick: (e: PointerEvent) => void
+  onEscPress: (e: KeyboardEvent) => void
+  // onCloseAttempt is a common callback for ESC pressing and outside clicking.
+  // Use it if you don't need different behaviors for this cases.
+  onCloseAttempt: (e: Event, isEsc: boolean) => void
+  dontCloseOnAnchorClick: boolean
+  shortcuts: boolean
+  keepMounted: boolean, // pass this prop to preserve the popup's DOM state while hidde
+  directions: Directions[]
+  autoPositioning: boolean
+  autoCorrectTopOverflow: boolean
+  left: number
+  top: number
+  sidePadding: number
+
+  attached: boolean // Popup adjacent to an input, without upper border and shado
+  // set to true whenever popup contains focusable and scrollable content
+  trapFocus: boolean
+  autoFocusFirst: boolean
+  offset: number
+  legacy: boolean
+  children: ReactNode
+
+  anchorElement?: HTMLElement | null | undefined
+  target?: string | Element | null | undefined
+  className?: string | null | undefined
+  style?: CSSProperties | undefined
+  'data-test'?: string | null | undefined
+  client?: boolean | null | undefined // true means that it's never used in SSR
+
+  maxHeight?: number | 'screen' | null | undefined
+  minWidth?: number | 'target' | null | undefined
+
+  onMouseDown?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined
+  onMouseUp?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined
+  onMouseOver?: ((e: React.SyntheticEvent<HTMLElement>) => void) | undefined
+  onMouseOut?: ((e: React.SyntheticEvent<HTMLElement>) => void) | undefined
+  onContextMenu?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined
+  onDirectionChange?: ((direction: Directions) => void) | null | undefined
+  onShow?: (() => void) | null | undefined
+}
+
+interface PopupState {
+  display: Display
+  client?: boolean
+  direction?: Directions
+}
 
 /**
  * @constructor
  * @name Popup
  * @extends {ReactComponent}
  */
-export default class Popup extends PureComponent {
+export default class Popup extends PureComponent<PopupProps, PopupState> {
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
     target: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Element)]),
@@ -104,7 +154,7 @@ export default class Popup extends PureComponent {
     legacy: false
   };
 
-  state = {
+  state: PopupState = {
     display: Display.SHOWING
   };
 
@@ -118,7 +168,7 @@ export default class Popup extends PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
     const {hidden} = this.props;
     if (this.props !== prevProps) {
 
@@ -144,6 +194,12 @@ export default class Popup extends PureComponent {
     this.popup = null;
   }
 
+  popup?: HTMLElement | null;
+  node?: HTMLElement | null;
+  parent?: HTMLElement | null;
+  container?: HTMLElement | null;
+  ringPopupTarget?: string | Element;
+
   shouldUseShortcuts() {
     const {shortcuts, hidden} = this.props;
     return shortcuts && !hidden;
@@ -152,7 +208,7 @@ export default class Popup extends PureComponent {
   listeners = new Listeners();
   redrawScheduler = scheduleRAF(true);
   uid = getUID('popup-');
-  calculateDisplay = prevState => ({
+  calculateDisplay = (prevState: PopupState) => ({
     ...prevState,
     display: this.props.hidden
       ? Display.SHOWING
@@ -166,7 +222,7 @@ export default class Popup extends PureComponent {
     MaxHeight
   };
 
-  portalRef = el => {
+  portalRef = (el: HTMLElement | null) => {
     this.node = el;
     this.parent = el && el.parentElement;
     if (el && this.getContainer()) {
@@ -174,12 +230,12 @@ export default class Popup extends PureComponent {
     }
   };
 
-  popupRef = el => {
+  popupRef = (el: HTMLElement | null) => {
     this.popup = el;
     this._redraw();
   };
 
-  containerRef = el => {
+  containerRef = (el: HTMLElement | null) => {
     this.container = el;
   };
 
@@ -189,21 +245,36 @@ export default class Popup extends PureComponent {
   }
 
   position() {
-    const positionProps = positionPropKeys.reduce((acc, key) => {
-      acc[key] = this.props[key];
-      return acc;
-    }, {});
+    const {
+      directions,
+      autoPositioning,
+      autoCorrectTopOverflow,
+      sidePadding,
+      top,
+      left,
+      offset,
+      maxHeight,
+      minWidth
+    } = this.props;
     const container = this.getContainer();
 
     return position({
       popup: this.popup,
       container: container && getStyles(container).position !== 'static' ? container : null,
       anchor: this._getAnchor(),
-      ...positionProps
+      directions,
+      autoPositioning,
+      autoCorrectTopOverflow,
+      sidePadding,
+      top,
+      left,
+      offset,
+      maxHeight,
+      minWidth
     });
   }
 
-  _updateDirection = newDirection => {
+  private _updateDirection = (newDirection: Directions) => {
     if (this.state.direction !== newDirection) {
       this.setState({direction: newDirection});
       if (this.props.onDirectionChange) {
@@ -212,40 +283,44 @@ export default class Popup extends PureComponent {
     }
   };
 
-  _updatePosition = () => {
-    if (this.popup) {
-      this.popup.style.position = 'absolute';
+  private _updatePosition = () => {
+    const popup = this.popup;
+    if (popup) {
+      popup.style.position = 'absolute';
       if (this.isVisible()) {
         const {styles: style, direction} = this.position();
-        Object.keys(style).forEach(key => {
-          const value = style[key];
+        Object.entries(style).forEach(([key, value]) => {
+          const propKey = key as keyof PositionStyles;
           if (typeof value === 'number') {
-            this.popup.style[key] = `${value}px`;
+            popup.style[propKey] = `${value}px`;
           } else {
-            this.popup.style[key] = value.toString();
+            popup.style[propKey] = value.toString();
           }
         });
-        this._updateDirection(direction);
+        if (direction != null) {
+          this._updateDirection(direction);
+        }
       }
       this.setState(this.calculateDisplay);
     }
   };
 
-  _redraw = () => {
+  private _redraw = () => {
     if (this.isVisible()) {
       this.redrawScheduler(this._updatePosition);
     }
   };
 
-  _getAnchor() {
+  private _getAnchor() {
     return this.props.anchorElement || this.parent;
   }
 
+  private _listenersEnabled?: boolean;
   /**
    * @param {boolean} enable
    * @private
    */
-  _setListenersEnabled(enable) {
+  private _setListenersEnabled(enable: boolean) {
     if (enable && !this._listenersEnabled) {
       setTimeout(() => {
         this._listenersEnabled = true;
@@ -276,11 +351,11 @@ export default class Popup extends PureComponent {
     return !this.props.hidden;
   }
 
-  _onCloseAttempt(evt, isEsc) {
+  private _onCloseAttempt(evt: Event, isEsc: boolean) {
     this.props.onCloseAttempt(evt, isEsc);
   }
 
-  _onEscPress = evt => {
+  private _onEscPress = (evt: KeyboardEvent) => {
     this.props.onEscPress(evt);
     this._onCloseAttempt(evt, true);
   };
@@ -289,14 +364,14 @@ export default class Popup extends PureComponent {
    * @param {jQuery.Event} evt
    * @private
    */
-  _onDocumentClick = evt => {
+  private _onDocumentClick = (evt: PointerEvent) => {
     if (
-      this.container && this.container.contains(evt.target) ||
+      this.container && evt.target instanceof Node && this.container.contains(evt.target) ||
       !this._listenersEnabled ||
       (
         this.props.dontCloseOnAnchorClick &&
-        this._getAnchor() &&
-        this._getAnchor().contains(evt.target)
+        evt.target instanceof Node &&
+        this._getAnchor()?.contains(evt.target)
       )
     ) {
       return;
