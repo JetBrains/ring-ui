@@ -33,7 +33,8 @@ export default class Avatar extends PureComponent {
     round: PropTypes.bool,
     subavatar: PropTypes.string,
     subavatarSize: PropTypes.number,
-    username: PropTypes.string
+    username: PropTypes.string,
+    skipParams: PropTypes.bool
   };
 
   static defaultProps = {
@@ -65,6 +66,7 @@ export default class Avatar extends PureComponent {
       subavatar,
       subavatarSize,
       username,
+      skipParams,
       ...restProps
     } = this.props;
     const sizeString = `${size}px`;
@@ -106,7 +108,7 @@ export default class Avatar extends PureComponent {
     }
 
     let src = url;
-    if (!isDataURI(url)) {
+    if (!skipParams && !isDataURI(url)) {
       const [urlStart, query] = url.split('?');
       const queryParams = {
         ...parseQueryString(query),
@@ -125,7 +127,7 @@ export default class Avatar extends PureComponent {
         subavatarSizeString
       };
 
-      subavatarSrc = encodeURL(urlStart, queryParams);
+      subavatarSrc = skipParams ? subavatar : encodeURL(urlStart, queryParams);
       return (
         <div>
           <img
