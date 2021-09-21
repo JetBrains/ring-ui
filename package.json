@@ -70,7 +70,7 @@
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^4.0.36",
     "@jetbrains/stylelint-config": "^2.0.1",
-    "@primer/octicons": "^15.1.0",
+    "@primer/octicons": "^15.2.0",
     "@storybook/addon-a11y": "6.3.8",
     "@storybook/addon-docs": "6.3.8",
     "@storybook/addon-essentials": "6.3.8",
