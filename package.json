@@ -199,7 +199,7 @@
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
     "sniffr": "^1.2.0",
-    "style-loader": "~3.2.1",
+    "style-loader": "~3.3.0",
     "url-loader": "^4.1.1",
     "util-deprecate": "^1.0.2"
   },
