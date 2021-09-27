@@ -260,7 +260,7 @@ export class Input extends PureComponent<InputProps> {
 
 (Input as ComponentType<unknown>).propTypes = {
   value: PropTypes.string,
-  theme: PropTypes.oneOf(Object.values(Theme)).isRequired,
+  theme: PropTypes.oneOf(Object.values(Theme)),
   className: PropTypes.string,
   inputClassName: PropTypes.string,
   size: PropTypes.oneOf(Object.values(Size)).isRequired,
@@ -274,8 +274,8 @@ export class Input extends PureComponent<InputProps> {
   onClear: PropTypes.func,
   inputRef: PropTypes.oneOfType([
     PropTypes.func,
-    refObject(PropTypes.instanceOf(HTMLInputElement).isRequired),
-    refObject(PropTypes.instanceOf(HTMLTextAreaElement).isRequired)
+    refObject(PropTypes.instanceOf(HTMLInputElement)),
+    refObject(PropTypes.instanceOf(HTMLTextAreaElement))
   ]),
   children: PropTypes.string,
   enableShortcuts: PropTypes.oneOfType([

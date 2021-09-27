@@ -74,4 +74,6 @@ class Toggle extends PureComponent {
     );
   }
 }
-export default withTheme()(Toggle);
+const ThemedToggle = withTheme()(Toggle);
+ThemedToggle.propTypes = Toggle.propTypes;
+export default ThemedToggle;
