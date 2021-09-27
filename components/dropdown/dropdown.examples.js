@@ -9,7 +9,7 @@ import Popup from '@jetbrains/ring-ui/components/popup/popup';
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
 import Button from '@jetbrains/ring-ui/components/button/button';
 import Link from '@jetbrains/ring-ui/components/link/link';
-import {Input} from '@jetbrains/ring-ui/components/input/input';
+import Input from '@jetbrains/ring-ui/components/input/input';
 import getUID from '@jetbrains/ring-ui/components/global/get-uid';
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
 

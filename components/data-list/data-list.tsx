@@ -173,7 +173,7 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
   }
 }
 
-(DataList as ComponentType<DataListProps<SelectionItem>>).propTypes = {
+(DataList as ComponentType<unknown>).propTypes = {
   className: PropTypes.string,
   data: PropTypes.array.isRequired,
   loading: PropTypes.bool,
@@ -183,7 +183,7 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
   selectable: PropTypes.bool.isRequired,
   shortcutsMap: PropTypes.shape({}).isRequired,
   innerRef: PropTypes.oneOfType([
-    refObject(PropTypes.instanceOf(HTMLDivElement).isRequired),
+    refObject(PropTypes.instanceOf(HTMLDivElement)),
     PropTypes.func
   ]),
 

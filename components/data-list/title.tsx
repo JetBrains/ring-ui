@@ -1,4 +1,4 @@
-import React, {PureComponent, ReactNode} from 'react';
+import React, {PureComponent, ReactNode, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -23,24 +23,6 @@ export interface TitleProps extends FocusSensorAddProps<HTMLDivElement> {
 }
 
 class Title extends PureComponent<TitleProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    title: PropTypes.node,
-    offset: PropTypes.number,
-    selectable: PropTypes.bool,
-    selected: PropTypes.bool,
-    onSelect: PropTypes.func.isRequired,
-    showFocus: PropTypes.bool,
-    collapserExpander: PropTypes.node,
-    innerRef: PropTypes.oneOfType([
-      refObject(PropTypes.instanceOf(HTMLDivElement)),
-      PropTypes.func
-    ]),
-
-    // focusSensorHOC
-    onFocusRestore: PropTypes.func.isRequired
-  };
-
   static defaultProps = {
     selectable: false,
     selected: false,
@@ -107,5 +89,23 @@ class Title extends PureComponent<TitleProps> {
     );
   }
 }
+
+(Title as ComponentType<unknown>).propTypes = {
+  className: PropTypes.string,
+  title: PropTypes.node,
+  offset: PropTypes.number,
+  selectable: PropTypes.bool,
+  selected: PropTypes.bool,
+  onSelect: PropTypes.func.isRequired,
+  showFocus: PropTypes.bool,
+  collapserExpander: PropTypes.node,
+  innerRef: PropTypes.oneOfType([
+    refObject(PropTypes.instanceOf(HTMLDivElement)),
+    PropTypes.func
+  ]),
+
+  // focusSensorHOC
+  onFocusRestore: PropTypes.func.isRequired
+};
 
 export default focusSensorHOC(Title);
