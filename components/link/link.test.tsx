@@ -1,15 +1,17 @@
-import React from 'react';
-import {shallow, mount} from 'enzyme';
+import React, {ComponentType} from 'react';
+import {shallow, mount, ShallowWrapper} from 'enzyme';
 
-import Link, {linkHOC} from './link';
-import ClickableLink from './clickableLink';
+import Link, {linkHOC, LinkProps} from './link';
+import ClickableLink, {ClickableLinkProps} from './clickableLink';
 import styles from './link.css';
 
 function noop() {}
 
 describe('Link', () => {
-  const shallowLink = props => shallow(<Link {...props}/>);
-  const mountLink = props => mount(<Link {...props}/>);
+  const shallowLink = (props?: Partial<LinkProps<ClickableLinkProps>>) =>
+    shallow(<Link {...{children: '', ...props}}/>);
+  const mountLink = (props?: Partial<LinkProps<ClickableLinkProps>>) =>
+    mount(<Link {...{children: '', ...props}}/>);
 
   it('should create component', () => {
     mountLink().should.have.type(Link);
@@ -42,13 +44,13 @@ describe('Link', () => {
 
   describe('linkHOC', () => {
     it('should wrap with new component', () => {
-      const CustomComponent = () => {};
+      const CustomComponent = () => null;
 
       linkHOC(CustomComponent).should.not.equal(CustomComponent);
     });
 
     it('should pass activeClassName to wrapped component', () => {
-      const CustomComponent = () => <span/>;
+      const CustomComponent: ComponentType<ClickableLinkProps> = () => <span/>;
       const CustomLink = linkHOC(CustomComponent);
       mount(<CustomLink>{noop}</CustomLink>).should.containMatchingElement(
         <CustomComponent activeClassName={styles.active}/>
@@ -56,7 +58,7 @@ describe('Link', () => {
     });
 
     it('should pass custom props to wrapped component', () => {
-      const CustomComponent = () => <span/>;
+      const CustomComponent: ComponentType<ClickableLinkProps & {custom: string}> = () => <span/>;
       const CustomLink = linkHOC(CustomComponent);
 
       mount(<CustomLink custom="test">{noop}</CustomLink>).should.containMatchingElement(
@@ -68,7 +70,7 @@ describe('Link', () => {
       const CustomComponent = 'a';
       const CustomLink = linkHOC(CustomComponent);
 
-      shallow(<CustomLink/>).should.not.have.prop('activeClassName');
+      shallow(<CustomLink>{''}</CustomLink>).should.not.have.prop('activeClassName');
     });
   });
 
@@ -84,12 +86,13 @@ describe('Link', () => {
         RIGHT: 2
       };
 
-      let onClick;
-      let onConditionalClick;
-      let onPlainLeftClick;
-      let wrapper;
+      let onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+      let onConditionalClick:
+        (isPlainLeft: boolean, e: React.MouseEvent<HTMLAnchorElement>) => void;
+      let onPlainLeftClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+      let wrapper: ShallowWrapper;
 
-      const makeEvent = e => ({
+      const makeEvent = (e: Partial<MouseEvent>) => ({
         ...e,
         preventDefault: sandbox.spy()
       });
