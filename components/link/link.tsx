@@ -1,12 +1,19 @@
 import 'focus-visible';
-import React, {Component, memo} from 'react';
+import React, {
+  Component,
+  memo,
+  ReactNode,
+  ComponentType,
+  HTMLAttributes,
+  MouseEventHandler
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import memoize from '../global/memoize';
 import dataTests from '../global/data-tests';
 
-import ClickableLink from './clickableLink';
+import ClickableLink, {ClickableLinkProps} from './clickableLink';
 import styles from './link.css';
 
 /**
@@ -15,28 +22,49 @@ import styles from './link.css';
 
 let isCompatibilityMode = false;
 
-export function setCompatibilityMode(isEnabled) {
+export function setCompatibilityMode(isEnabled: boolean) {
   isCompatibilityMode = isEnabled;
 }
 
-const makeWrapText = memoize(innerClassName => {
-  const WrapText = memo(function WrapText({className, children}) {
+export interface WrapTextProps {
+  children: ReactNode
+  className?: string | null | undefined
+}
+
+const makeWrapText = memoize((innerClassName: string | null | undefined) => {
+  function WrapText({className, children}: WrapTextProps) {
     const classes = classNames(styles.inner, className, innerClassName);
     return <span className={classes}>{children}</span>;
-  });
+  }
 
   WrapText.propTypes = {
     className: PropTypes.string,
     children: PropTypes.node
   };
 
-  return WrapText;
+  return memo(WrapText);
 });
 
-export function linkHOC(ComposedComponent) {
+type ChildrenFunction = (WrapText: ComponentType<WrapTextProps>) => ReactNode
+
+export interface LinkBaseProps {
+  active?: boolean | null | undefined
+  inherit?: boolean | null | undefined
+  pseudo?: boolean | null | undefined
+  hover?: boolean | null | undefined
+  innerClassName?: string | null | undefined
+  'data-test'?: string | null | undefined
+  children: ReactNode | ChildrenFunction,
+}
+
+export type LinkProps<P extends ClickableLinkProps> = Omit<P, keyof LinkBaseProps> & LinkBaseProps
+
+export function linkHOC<P extends ClickableLinkProps>(
+  ComposedComponent: ComponentType<P> | string
+) {
   const isCustom = typeof ComposedComponent !== 'string' && ComposedComponent !== ClickableLink;
 
-  return class Link extends Component {
+  return class Link extends Component<LinkProps<P>> {
     static propTypes = {
       className: PropTypes.string,
       innerClassName: PropTypes.string,
@@ -57,7 +85,7 @@ export function linkHOC(ComposedComponent) {
       const WrapText = makeWrapText(innerClassName);
 
       return typeof children === 'function'
-        ? children(WrapText)
+        ? (children as ChildrenFunction)(WrapText)
         : <WrapText>{children}</WrapText>;
     }
 
@@ -71,7 +99,7 @@ export function linkHOC(ComposedComponent) {
         'data-test': dataTest,
         href,
         innerClassName, children, onPlainLeftClick, onClick,
-        ...props
+        ...restProps
       } = this.props;
       const useButton = pseudo || !isCustom && href == null;
 
@@ -84,17 +112,18 @@ export function linkHOC(ComposedComponent) {
         [styles.text]: typeof children !== 'function'
       });
 
+      let props = restProps;
       if (isCustom && !props.activeClassName) {
-        props.activeClassName = styles.active;
+        props = {...props, activeClassName: styles.active};
       }
 
       if (useButton) {
         return (
           <button
             type="button"
-            {...props}
+            {...props as HTMLAttributes<HTMLElement>}
             className={classes}
-            onClick={onClick || onPlainLeftClick}
+            onClick={(onClick || onPlainLeftClick) as MouseEventHandler}
             data-test={dataTests('ring-link', dataTest)}
           >{this.getChildren()}</button>
         );
@@ -102,7 +131,7 @@ export function linkHOC(ComposedComponent) {
 
       return (
         <ComposedComponent
-          {...props}
+          {...props as P}
           href={href}
           className={classes}
           onClick={onClick}

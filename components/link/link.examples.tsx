@@ -8,6 +8,7 @@ import Icon from '@jetbrains/ring-ui/components/icon/icon';
 import Toggle from '@jetbrains/ring-ui/components/toggle/toggle';
 
 import Link, {linkHOC, setCompatibilityMode} from '@jetbrains/ring-ui/components/link/link';
+import {ClickableLinkProps} from '@jetbrains/ring-ui/components/link/clickableLink';
 
 export default {
   title: 'Components/Link',
@@ -18,13 +19,19 @@ export default {
   }
 };
 
+interface CustomComponentProps extends ClickableLinkProps {
+  active?: boolean
+}
+interface LinkDemoState {
+  compatibility: boolean
+}
 export const allVariants = () => {
-  class CustomComponent extends React.Component {
+  class CustomComponent extends React.Component<CustomComponentProps> {
     render() {
       const {active, activeClassName, onPlainLeftClick, className, href, children,
         ...props} = this.props;
       const classes = classNames(className, {
-        [activeClassName]: active
+        [activeClassName ?? '']: active
       });
       return <a href={href} {...props} className={classes}>{children}</a>;
     }
@@ -32,7 +39,7 @@ export const allVariants = () => {
 
   const CustomLink = linkHOC(CustomComponent);
 
-  class LinkDemo extends React.Component {
+  class LinkDemo extends React.Component<unknown, LinkDemoState> {
     state = {compatibility: false};
 
     changeCompatibility = () => this.setState(({compatibility}) => {
