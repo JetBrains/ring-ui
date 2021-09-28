@@ -3,12 +3,12 @@ import {mount, render} from 'enzyme';
 import defaultIcon from '@jetbrains/icons/umbrella';
 import expandIcon from '@jetbrains/icons/expand';
 
-import Icon from './icon';
+import Icon, {IconAttrs} from './icon';
 import styles from './icon.css';
 
 describe('Icon', () => {
-  const mountIcon = props => mount(<Icon glyph={defaultIcon} {...props}/>);
-  const renderIcon = props => render(<Icon glyph={defaultIcon} {...props}/>);
+  const mountIcon = (props?: IconAttrs) => mount(<Icon glyph={defaultIcon} {...props}/>);
+  const renderIcon = (props?: IconAttrs) => render(<Icon glyph={defaultIcon} {...props}/>);
 
   it('should create component', () => {
     mountIcon().should.have.type(Icon);
