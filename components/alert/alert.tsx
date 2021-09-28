@@ -7,7 +7,7 @@ import checkmarkIcon from '@jetbrains/icons/checkmark';
 import warningIcon from '@jetbrains/icons/warning';
 import closeIcon from '@jetbrains/icons/close';
 
-import Icon from '../icon/icon';
+import Icon, {Color} from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
@@ -46,10 +46,10 @@ const TypeToIcon: Partial<Record<AlertType, string>> = {
  * Lookup table of alert type to icon color.
  * @type {Object.<AlertType, Icon.Color>}
  */
-const TypeToIconColor: Partial<Record<AlertType, string>> = {
-  [AlertType.ERROR]: Icon.Color.RED,
-  [AlertType.SUCCESS]: Icon.Color.GREEN,
-  [AlertType.WARNING]: Icon.Color.WHITE
+const TypeToIconColor: Partial<Record<AlertType, Color>> = {
+  [AlertType.ERROR]: Color.RED,
+  [AlertType.SUCCESS]: Color.GREEN,
+  [AlertType.WARNING]: Color.WHITE
 };
 
 export interface AlertProps {
@@ -202,7 +202,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
         <Icon
           glyph={glyph}
           className={styles.icon}
-          color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
+          color={TypeToIconColor[this.props.type] || Color.DEFAULT}
         />
       );
     } else if (this.props.type === AlertType.LOADING) {

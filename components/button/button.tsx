@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px';
 
-import Icon, {Size} from '../icon/icon';
+import Icon, {IconType, Size} from '../icon/icon';
 import Theme, {ThemeProps, withTheme} from '../global/theme';
 import ClickableLink, {ClickableLinkProps} from '../link/clickableLink';
 
@@ -22,7 +22,7 @@ export interface ButtonBaseProps extends ThemeProps {
   inline?: boolean | null | undefined
   dropdown?: boolean | null | undefined
   disabled?: boolean | undefined
-  icon?: string | Icon | null | undefined
+  icon?: string | IconType | null | undefined
   iconSize?: Size | null | undefined
   iconClassName?: string | null | undefined
   iconSuppressSizeWarning?: boolean | null | undefined

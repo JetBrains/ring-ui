@@ -2,7 +2,7 @@
  * @name Icon
  */
 
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ComponentType, SVGAttributes, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
@@ -18,7 +18,19 @@ const warnSize = deprecate(
 We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.'`
 );
 
-export default class Icon extends PureComponent {
+export type IconType = ComponentType<SVGAttributes<SVGSVGElement>>
+
+export interface IconProps extends HTMLAttributes<HTMLElement> {
+  color: Color
+  glyph: string | IconType | null
+  height?: number | undefined
+  size?: Size | null | undefined
+  width?: number | undefined
+  loading?: boolean | null | undefined
+  suppressSizeWarning?: boolean | null | undefined
+}
+
+export default class Icon extends PureComponent<IconProps> {
   static propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
@@ -59,7 +71,7 @@ export default class Icon extends PureComponent {
         height: size
       };
     }
-    return null;
+    return undefined;
   }
 
   render() {
@@ -94,4 +106,6 @@ export default class Icon extends PureComponent {
   }
 }
 
-export {Size};
+export type IconAttrs = JSX.LibraryManagedAttributes<typeof Icon, IconProps>
+
+export {Color, Size};
