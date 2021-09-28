@@ -1,5 +1,5 @@
 // Inspired by https://github.com/sairion/svg-inline-react
-import React, {memo} from 'react';
+import React, {memo, SVGAttributes} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -7,12 +7,12 @@ import memoize from '../global/memoize';
 
 import styles from './icon.css';
 
-function convertReactSVGDOMProperty(str) {
+function convertReactSVGDOMProperty(str: string) {
   return str.replace(/[-|:]([a-z])/g, g => g[1].toUpperCase());
 }
 
-function serializeAttrs(map) {
-  const res = {};
+function serializeAttrs(map: NamedNodeMap) {
+  const res: Record<string, string> = {};
   for (let i = 0; i < map.length; i++) {
     const key = map[i].name;
     let prop = key;
@@ -27,15 +27,15 @@ function serializeAttrs(map) {
   return res;
 }
 
-function extractSVGProps(svgNode) {
+function extractSVGProps(svgNode: Element) {
   const map = svgNode.attributes;
   return (map.length > 0) ? serializeAttrs(map) : null;
 }
 
-const getSVGFromSource = memoize(src => {
+const getSVGFromSource = memoize((src: string) => {
   const svgContainer = document.createElement('div');
   svgContainer.innerHTML = src;
-  const svg = svgContainer.firstElementChild;
+  const svg = svgContainer.firstElementChild as Element;
   svg.remove ? svg.remove() : svgContainer.removeChild(svg);
   return {
     props: extractSVGProps(svg),
@@ -43,13 +43,17 @@ const getSVGFromSource = memoize(src => {
   };
 });
 
-function isCompatibilityMode(iconSrc) {
+function isCompatibilityMode(iconSrc: string) {
   const hasWidth = /width="[\d\.]+"/ig.test(iconSrc);
   const hasHeight = /height="[\d\.]+"/ig.test(iconSrc);
   return !hasWidth || !hasHeight;
 }
 
-function IconSVG({src, className, ...rest}) {
+export interface IconSVGProps extends SVGAttributes<SVGSVGElement> {
+  src: string,
+}
+
+function IconSVG({src, className, ...rest}: IconSVGProps) {
   const glyphClasses = classNames(styles.glyph, {
     [styles.compatibilityMode]: isCompatibilityMode(src)
   }, className);
