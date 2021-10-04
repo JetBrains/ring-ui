@@ -203,7 +203,8 @@ describe('Auth', () => {
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
+        waitForRedirectTimeout: 0
       });
       try {
         await auth.init();
@@ -226,7 +227,8 @@ describe('Auth', () => {
       auth = new Auth({
         serverUri: '',
         redirect: true,
-        cleanHash: true
+        cleanHash: true,
+        waitForRedirectTimeout: 0
       });
 
       try {
@@ -245,7 +247,8 @@ describe('Auth', () => {
         auth = new Auth({
           serverUri: '',
           redirect: true,
-          cleanHash: true
+          cleanHash: true,
+          waitForRedirectTimeout: 0
         });
 
         try {
@@ -265,7 +268,8 @@ describe('Auth', () => {
       auth = new Auth({
         serverUri: '',
         redirect: true,
-        cleanHash: false
+        cleanHash: false,
+        waitForRedirectTimeout: 0
       });
 
       try {
@@ -284,7 +288,8 @@ describe('Auth', () => {
         serverUri: '',
         redirect: true,
         redirectUri: 'http://localhost:8080/hub',
-        requestCredentials: 'skip'
+        requestCredentials: 'skip',
+        waitForRedirectTimeout: 0
       });
       try {
         await auth.init();
@@ -313,7 +318,8 @@ describe('Auth', () => {
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
+        waitForRedirectTimeout: 0
       });
 
       auth._storage._tokenStorage = auth._storage._stateStorage =
@@ -330,7 +336,8 @@ describe('Auth', () => {
         auth._storage.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
-          scopes: ['0-0-0-0-0']
+          scopes: ['0-0-0-0-0'],
+          waitForRedirectTimeout: 0
         });
       });
 
