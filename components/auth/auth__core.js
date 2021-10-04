@@ -14,6 +14,7 @@ export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
 export const DEFAULT_BACKGROUND_TIMEOUT = 10 * 1000;
 const DEFAULT_BACKEND_CHECK_TIMEOUT = 10 * 1000;
 const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
+const DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT = 5 * 1000;
 /* eslint-enable no-magic-numbers */
 
 export const USER_CHANGED_EVENT = 'userChange';
@@ -46,6 +47,7 @@ const DEFAULT_CONFIG = {
   onBackendDown: () => {},
 
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
+  waitForRedirectTimeout: DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT,
   translations: {
     login: 'Log in',
     loginTo: 'Log in to %serviceName%',
@@ -310,6 +312,11 @@ export default class Auth {
   async sendRedirect(error) {
     const authRequest = await this._requestBuilder.prepareAuthRequest();
     this._redirectCurrentPage(authRequest.url);
+
+    // HUB-10867 Since we already redirecting the page, there is no actual need to throw an error
+    // and scare user with flashing error
+    // But let's keep it just in case redirect was not successful
+    await new Promise(resolve => setTimeout(resolve, this.config.waitForRedirectTimeout));
 
     throw error;
   }
