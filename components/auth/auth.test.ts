@@ -3,7 +3,7 @@ import LocalStorage from '../storage/storage__local';
 
 import {Stub} from '../../test-helpers/globals';
 
-import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT} from './auth';
+import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT, AuthUser} from './auth';
 import AuthRequestBuilder from './request-builder';
 import AuthResponseParser, {AuthError} from './response-parser';
 import BackgroundFlow from './background-flow';
@@ -489,7 +489,7 @@ describe('Auth', () => {
     });
 
     it('should show userchanged overlay if token was changed', async () => {
-      auth.user = {id: 'initUser'};
+      auth.user = {id: 'initUser'} as AuthUser;
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage?.saveToken({
           accessToken: 'token',
@@ -512,7 +512,7 @@ describe('Auth', () => {
     });
 
     it('should reload page if user change was applied', () => {
-      auth.user = {id: 'initUser'};
+      auth.user = {id: 'initUser'} as AuthUser;
       auth.listeners.trigger(USER_CHANGED_EVENT);
       Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
     });
@@ -577,7 +577,7 @@ describe('Auth', () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
-      auth.user = {name: 'existingUser'};
+      auth.user = {name: 'existingUser'} as AuthUser;
 
       const user = await auth.requestUser();
       Auth.prototype.getUser.should.not.have.been.called;
@@ -627,7 +627,7 @@ describe('Auth', () => {
     });
 
     it('should not return existing user', async () => {
-      auth.user = {name: 'existingUser'};
+      auth.user = {name: 'existingUser'} as AuthUser;
 
       const user = await auth.getUser();
 
@@ -682,7 +682,7 @@ describe('Auth', () => {
       const APIuser = {name: 'APIuser'};
       sandbox.stub(Auth.prototype, 'getUser').resolves(APIuser);
 
-      auth.user = {name: 'existingUser'};
+      auth.user = {name: 'existingUser'} as AuthUser;
 
       await auth.login();
 

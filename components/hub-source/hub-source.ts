@@ -1,4 +1,21 @@
-const defaultOptions = {
+import Auth from '../auth/auth';
+import HTTP from '../http/http';
+
+export interface Item {
+  name: string
+}
+
+export type Response<I extends Item, U extends string> = Partial<Record<U, I[]>> & {
+  total: number
+}
+
+export interface HubSourceOptions {
+  searchMax: number
+  searchSideThreshold: number
+  queryFormatter: (query: string) => string
+}
+
+const defaultOptions: HubSourceOptions = {
   searchMax: 20,
   searchSideThreshold: 100,
   queryFormatter: query => `${query} or ${query}*`
@@ -10,10 +27,16 @@ const defaultOptions = {
  * of cached results to greatly increase search speed. Useful for completion and
  * select data source.
  */
-export default class HubSource {
+export default class HubSource<I extends Item, U extends string> {
   static TOP_ALL = -1;
+  http: HTTP;
+  relativeUrl: U;
+  options: HubSourceOptions;
+  storedData: Response<I, U> | null;
+  isClientSideSearch: boolean | null;
+  filterFn: (item: I) => boolean;
 
-  constructor(auth, relativeUrl, options) {
+  constructor(auth: Auth, relativeUrl: U, options?: Partial<HubSourceOptions>) {
     this.http = auth.http;
     this.relativeUrl = relativeUrl;
     this.options = Object.assign({}, defaultOptions, options);
@@ -21,14 +44,14 @@ export default class HubSource {
 
     this.storedData = null;
     this.isClientSideSearch = null;
-    this.filterFn = null;
+    this.filterFn = () => true;
   }
 
-  makeRequest(queryParams) {
+  makeRequest(queryParams?: Record<string, unknown>) {
     return this.http.get(this.relativeUrl, {query: queryParams});
   }
 
-  async makeCachedRequest(params) {
+  async makeCachedRequest(params?: Record<string, unknown>) {
     if (this.storedData) {
       return this.storedData;
     }
@@ -37,26 +60,26 @@ export default class HubSource {
     return res;
   }
 
-  static mergeParams(params, toMerge) {
+  static mergeParams(params?: Record<string, unknown>, toMerge?: Record<string, unknown>) {
     return Object.assign({}, params, toMerge);
   }
 
-  checkIsClientSideSearch(res) {
+  checkIsClientSideSearch(res: Response<I, U>) {
     return res.total <= this.options.searchSideThreshold;
   }
 
-  getDefaultFilterFn(query) {
+  getDefaultFilterFn(query?: string) {
     if (!query) {
       return () => true;
     }
-    return it => it.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    return (it: I) => it.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
   }
 
-  formatQuery(query) {
+  formatQuery(query?: string) {
     return query ? this.options.queryFormatter(query) : '';
   }
 
-  static validateInputParams(params) {
+  static validateInputParams(params: Record<string, unknown>) {
     if (params.top) {
       throw new Error('HubSource: params.top should not be filled, configure "options.searchMax" instead');
     }
@@ -65,8 +88,8 @@ export default class HubSource {
     }
   }
 
-  processResults(res) {
-    const items = res[this.relativeUrl] || [];
+  processResults(res: Response<I, U>) {
+    const items: I[] = res[this.relativeUrl] || [];
 
     if (this.isClientSideSearch) {
       return items.
@@ -76,7 +99,7 @@ export default class HubSource {
     return items;
   }
 
-  async sideDetectionRequest(params, query) {
+  async sideDetectionRequest(params?: Record<string, unknown>, query?: string) {
     const res = await this.makeCachedRequest(HubSource.mergeParams(params, {
       $top: this.options.searchSideThreshold
     }));
@@ -89,18 +112,20 @@ export default class HubSource {
     return res;
   }
 
-  doClientSideSearch(params) {
-    return this.makeCachedRequest(HubSource.mergeParams(params, {$top: this.constructor.TOP_ALL}));
+  doClientSideSearch(params?: Record<string, unknown>) {
+    return this.makeCachedRequest(HubSource.mergeParams(params, {
+      $top: (this.constructor as typeof HubSource).TOP_ALL
+    }));
   }
 
-  doServerSideSearch(params, query) {
+  doServerSideSearch(params?: Record<string, unknown>, query?: string) {
     return this.makeRequest(HubSource.mergeParams(params, {
       query: this.formatQuery(query),
       $top: this.options.searchMax
     }));
   }
 
-  getValueFromSuitableSource(query, params) {
+  getValueFromSuitableSource(query?: string, params?: Record<string, unknown>) {
     if (this.isClientSideSearch === null) {
       return this.sideDetectionRequest(params, query);
     }
@@ -112,7 +137,7 @@ export default class HubSource {
     return this.doServerSideSearch(params, query);
   }
 
-  async get(query, params, filterFn) {
+  async get(query: string, params: Record<string, unknown>, filterFn?: (item: I) => boolean) {
     HubSource.validateInputParams(params);
 
     this.filterFn = filterFn || this.getDefaultFilterFn(query);

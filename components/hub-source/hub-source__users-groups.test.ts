@@ -1,19 +1,19 @@
+import HTTP from '../http/http';
+import Auth from '../auth/auth';
+
 import HubSourceUsersGroups from './hub-source__users-groups';
 
 const SEARCH_THRESHOLD = 123;
 
 describe('Hub Users Groups Source', () => {
-  let httpMock;
-  let fakeAuth;
+  let httpMock: HTTP;
+  let fakeAuth: Auth;
 
   beforeEach(() => {
-    httpMock = {
-      get: sandbox.stub().returns(Promise.resolve({}))
-    };
-    fakeAuth = {
-      requestToken: sandbox.stub().returns(Promise.resolve('testToken')),
-      http: httpMock
-    };
+    const get: HTTP['get'] = sandbox.stub().returns(Promise.resolve({}));
+    httpMock = {get} as HTTP;
+    const requestToken: Auth['requestToken'] = sandbox.stub().returns(Promise.resolve('testToken'));
+    fakeAuth = {requestToken, http: httpMock} as Auth;
   });
 
   it('Should pass searchSideThreshold to HubSource', () => {

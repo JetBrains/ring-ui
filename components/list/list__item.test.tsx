@@ -5,11 +5,14 @@ import Icon from '../icon/icon';
 import Checkbox from '../checkbox/checkbox';
 
 import ListItem from './list__item';
+import {ListDataItemProps} from './consts';
 
 
 describe('ListItem', () => {
-  const shallowListItem = props => shallow(<ListItem {...props}/>);
-  const mountListItem = props => mount(<ListItem {...props}/>);
+  const shallowListItem = (props?: Partial<ListDataItemProps>) =>
+    shallow(<ListItem {...props as ListDataItemProps}/>);
+  const mountListItem = (props?: Partial<ListDataItemProps>) =>
+    mount(<ListItem {...props as ListDataItemProps}/>);
 
 
   it('should create component', () => {
@@ -45,8 +48,9 @@ describe('ListItem', () => {
 
 
   it('should render checkbox icon', () => {
-    shallowListItem({checkbox: true}).
-      find(Checkbox).prop('checked').should.be.true;
+    const checked = shallowListItem({checkbox: true}).
+      find(Checkbox).prop('checked');
+    true.should.equal(checked);
 
     shallowListItem({checkbox: undefined}).
       find(Checkbox).length.should.equal(0);

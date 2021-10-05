@@ -1,20 +1,20 @@
+import HTTP from '../http/http';
+import Auth from '../auth/auth';
+
 import HubSource from './hub-source';
 
 describe('Hub Source', () => {
-  let httpMock;
-  let fakeAuth;
+  let httpMock: HTTP;
+  let fakeAuth: Auth;
   beforeEach(() => {
-    httpMock = {
-      get: sandbox.stub().returns(Promise.resolve({}))
-    };
-    fakeAuth = {
-      requestToken: sandbox.stub().returns(Promise.resolve('testToken')),
-      http: httpMock
-    };
+    const get: HTTP['get'] = sandbox.stub().returns(Promise.resolve({}));
+    httpMock = {get} as HTTP;
+    const requestToken: Auth['requestToken'] = sandbox.stub().returns(Promise.resolve('testToken'));
+    fakeAuth = {requestToken, http: httpMock} as Auth;
   });
 
   it('Should initialize', () => {
-    const source = new HubSource(fakeAuth);
+    const source = new HubSource(fakeAuth, '');
     source.should.exist;
   });
 
@@ -31,7 +31,7 @@ describe('Hub Source', () => {
 
   it('Should not make cached request if data is already requested', async () => {
     const source = new HubSource(fakeAuth, 'test');
-    source.storedData = {};
+    source.storedData = {total: 0};
 
     await source.makeCachedRequest({test: 'foo'});
     httpMock.get.should.not.have.been.called;
@@ -60,7 +60,7 @@ describe('Hub Source', () => {
     source.filterFn = source.getDefaultFilterFn('testQuery');
 
     const res = source.
-      processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}]});
+      processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}], total: 2});
 
     res.should.deep.equal([{name: 'contain testQuery'}]);
   });
@@ -71,7 +71,7 @@ describe('Hub Source', () => {
     source.filterFn = source.getDefaultFilterFn('testQuery');
 
     const res = source.
-      processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}]});
+      processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}], total: 2});
 
     res.should.deep.equal([{name: 'not test query'}, {name: 'contain testQuery'}]);
   });
@@ -81,7 +81,7 @@ describe('Hub Source', () => {
     source.isClientSideSearch = false;
     source.filterFn = source.getDefaultFilterFn('testQuery');
 
-    const res = source.processResults({});
+    const res = source.processResults({total: 0});
 
     res.should.deep.equal([]);
   });
@@ -93,7 +93,7 @@ describe('Hub Source', () => {
     const source = new HubSource(fakeAuth, 'testItems', {searchSideThreshold: 15});
 
     await source.sideDetectionRequest({});
-    source.isClientSideSearch.should.be.true;
+    true.should.equal(source.isClientSideSearch);
   });
 
   it('Should detect server-side filtering if total is smaller than threshold', async () => {
@@ -103,7 +103,7 @@ describe('Hub Source', () => {
     const source = new HubSource(fakeAuth, 'testItems', {searchSideThreshold: 15});
 
     await source.sideDetectionRequest({});
-    source.isClientSideSearch.should.be.false;
+    false.should.equal(source.isClientSideSearch);
   });
 
   it('Should do cached request and filter on client-side', async () => {
