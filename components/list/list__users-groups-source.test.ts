@@ -1,12 +1,13 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import Auth from '../auth/auth';
+
 import ListUsersGroupsSource from './list__users-groups-source';
 
 describe('List Users Groups Source', () => {
-  let fakeAuth;
+  let fakeAuth: Auth;
   beforeEach(() => {
-    fakeAuth = {
-      requestToken: sandbox.stub().returns(Promise.resolve('testToken'))
-    };
+    const requestToken: Auth['requestToken'] = sandbox.stub().returns(Promise.resolve('testToken'));
+    fakeAuth = {requestToken} as Auth;
   });
 
   it('Should convert users to list model', async () => {
@@ -49,6 +50,7 @@ describe('List Users Groups Source', () => {
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
       name: 'test user',
+      login: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
@@ -83,6 +85,7 @@ describe('List Users Groups Source', () => {
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
       name: 'test user',
+      login: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
@@ -102,7 +105,7 @@ describe('List Users Groups Source', () => {
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([]));
 
     sandbox.stub(source, 'getGroups').
-      returns(Promise.resolve([{id: 1, name: 'test group'}]));
+      returns(Promise.resolve([{id: 1, name: 'test group', userCount: 0}]));
 
     const dataForList = await source.getForList();
     dataForList[0].description.should.equal('No users');
@@ -114,6 +117,7 @@ describe('List Users Groups Source', () => {
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
       name: 'test user',
+      login: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 

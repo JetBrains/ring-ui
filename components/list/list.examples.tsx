@@ -1,5 +1,6 @@
 import React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
+import {Story} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -11,9 +12,10 @@ import Code from '@jetbrains/ring-ui/components/code/code';
 import ContentLayout, {Sidebar} from '@jetbrains/ring-ui/components/content-layout/content-layout';
 
 
-import List from '@jetbrains/ring-ui/components/list/list';
+import List, {ListAttrs} from '@jetbrains/ring-ui/components/list/list';
 import Source from '@jetbrains/ring-ui/components/list/list__users-groups-source';
 import styles from '@jetbrains/ring-ui/components/list/list.examples.css';
+import {ListDataItem} from '@jetbrains/ring-ui/components/list/consts';
 
 const FLAG_EN_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAKCAMAAACKYC6uAAAAB3RJTUUH3AIcDR8UFn+EAwAAAAlwSFlzAAAewQAAHsEBw2lUUwAAAARnQU1BAACxjwv8YQUAAAHgUExURf///9LAwLxiY51KVk1Pew0uch0pcImTtOBwdeVzeKasyEZQjDZHfWh3mK2xtq2Dg5NKT3OEqbi9xsWMjLBGS35YcCY8enWCptZkaOFtcaKpx1xsoa24ys++vrlyc5ZcZVJVdFRsoVFnlpqtv8i4ubpiZJ1jcamsvcRTWtFbYtPZ5+Tv9+/Q0Mp9gZqAkU1kjCtDc+vT2NW7wsClrMSnqsGgo8KSlMylpbM5Qr5FTfDOzvnb3O7JzOPCxcazuLafpbCYnddxeNZqcsBOVagsNZ0XIZsRG5wRHKUbJbErNcA8Rs5PWNRdZdFdZcNSWrFDSqg8Q6dFTN12fdFja7lGTqYnMZwTHZoOGJ4THagfKbUvOcRFTtBUXdRcZc5bY8BPV69BSJeCh8CrsOzY3ubFx86ipcmpqsWhoZ8iK6MjLNKnqdyoqurKzfXb3ObM09rAx82zuA4jTkRafrWhseadoefDwsHL05+ot6cuNqcoMKKjtKhwftmDhvTj49Hi8XWLuE5mnCkuSnJASa1sbsjS4lFglW13mbE6P64rMGNtkCA3do9thtNxdvK6u+ns846fxGwrL3pSUpCSlnF/nGp7rldgmoiQrrhHS68vM2hvkAUTXBAwdGRrlcR6huyWmPzp6TUvvy8AAAABdFJOUwBA5thmAAAAtUlEQVR42gGqAFX/AJCRkpOUlZaXmJmam5ydnp8AgYKDfYSFhoeIiYqLjI2OjwBxcnN0dXZ3eHl6e3x9fn+AAGFiY2RlZmdoaWprbG1ub3AAUVJTVFVWV1hZWltcXV5fYABBQkNERUZHSElKS0xNTk9QADEyMzQ1Njc4OTo7PD0+P0AAISIjJCUmJygpKissLS4vMAAREhMUFRYXGBkaGxwdHh8gAAECAwQFBgcICQoLDA0ODxAO4zIu3IgQpAAAAABJRU5ErkJggg==';
@@ -29,7 +31,7 @@ export default {
   }
 };
 
-export const basic = args => <List {...args}/>;
+export const basic: Story<ListAttrs> = args => <List {...args}/>;
 
 basic.storyName = 'basic';
 basic.args = {
@@ -45,7 +47,7 @@ basic.args = {
   ]
 };
 
-export const withAHintBelow = args => <List {...args}/>;
+export const withAHintBelow: Story<ListAttrs> = args => <List {...args}/>;
 
 withAHintBelow.storyName = 'with a hint below';
 withAHintBelow.args = {
@@ -66,7 +68,7 @@ withAHintBelow.args = {
   ]
 };
 
-export const longList = args => <List {...args}/>;
+export const longList: Story<ListAttrs> = args => <List {...args}/>;
 
 longList.storyName = 'long list';
 longList.parameters = {hermione: {skip: true}};
@@ -74,13 +76,13 @@ longList.args = {
   maxHeight: 400,
   compact: true,
   shortcuts: true,
-  data: Array(1000).fill().map((_, i) => ({
+  data: Array(1000).fill(undefined).map((_, i) => ({
     label: `Item ${i}`,
     rgItemType: List.ListProps.Type.ITEM
   }))
 };
 
-export const list2 = args => <List {...args}/>;
+export const list2: Story<ListAttrs> = args => <List {...args}/>;
 
 list2.storyName = 'list #2';
 list2.args = {
@@ -132,7 +134,7 @@ list2.args = {
   ]
 };
 
-export const withItemIcons = args => <List {...args}/>;
+export const withItemIcons: Story<ListAttrs> = args => <List {...args}/>;
 
 withItemIcons.storyName = 'with item icons';
 withItemIcons.args = {
@@ -181,22 +183,27 @@ withItemIcons.args = {
   ]
 };
 
-export const withDeprecatedItemTypeParameter = args => <List {...args}/>;
+export const withDeprecatedItemTypeParameter: Story<ListAttrs> = args => <List {...args}/>;
 
 withDeprecatedItemTypeParameter.storyName = 'with deprecated item.type parameter';
 withDeprecatedItemTypeParameter.parameters = {hermione: {skip: true}};
 withDeprecatedItemTypeParameter.args = {
   shortcuts: true,
   data: [
+    // @ts-expect-error testing a wrong usage
     {label: 'One', type: List.ListProps.Type.ITEM},
+    // @ts-expect-error testing a wrong usage
     {label: 'Two', type: List.ListProps.Type.ITEM},
+    // @ts-expect-error testing a wrong usage
     {label: 'Three', type: List.ListProps.Type.ITEM},
+    // @ts-expect-error testing a wrong usage
     {label: 'Four', type: List.ListProps.Type.ITEM},
+    // @ts-expect-error testing a wrong usage
     {label: 'Five', type: List.ListProps.Type.ITEM}
   ]
 };
 
-export const withCustomItems = args => <List {...args}/>;
+export const withCustomItems: Story<ListAttrs> = args => <List {...args}/>;
 
 withCustomItems.storyName = 'with custom items';
 withCustomItems.args = {
@@ -241,7 +248,7 @@ class UserList extends React.Component {
     this.setState({listData});
   }
 
-  handleSelect = selected => this.setState({selected});
+  handleSelect = (selected: ListDataItem) => this.setState({selected});
 
   render() {
     const {listData, selected} = this.state;
@@ -251,7 +258,7 @@ class UserList extends React.Component {
           <Sidebar>
             <List
               className="list"
-              data={this.state.listData}
+              data={listData}
               shortcuts
               onSelect={this.handleSelect}
             />

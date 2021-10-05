@@ -1,10 +1,21 @@
 import GroupIcon from '@jetbrains/icons/group';
 
-import HubSourceUsersGroups from '../hub-source/hub-source__users-groups';
+import Auth, {AuthUser} from '../auth/auth';
+import HubSourceUsersGroups, {
+  HubSourceUsersGroupsOptions, UserGroup
+} from '../hub-source/hub-source__users-groups';
 
 import List from './list';
 
-const defaultOptions = {
+interface ListUsersGroupsSourceOptions extends Partial<HubSourceUsersGroupsOptions> {
+  GroupsTitle: string
+  NoGroupsTitle: string
+  UsersTitle: string
+  NoUsersTitle: string
+  getPluralForUserCount: (count: number) => string
+}
+
+const defaultOptions: ListUsersGroupsSourceOptions = {
   GroupsTitle: 'Groups',
   NoGroupsTitle: 'No groups',
 
@@ -12,38 +23,39 @@ const defaultOptions = {
   NoUsersTitle: 'No users',
 
   getPluralForUserCount: count => {
-    // eslint-disable-next-line no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     const plural = count % 10 !== 1 || count % 100 === 11;
     return `${count} member${plural ? 's' : ''}`;
   }
 };
 
-const Filter = {
-  ALL: 0,
-  USERS: 1,
-  GROUPS: 2
-};
+enum Filter {
+  ALL = 0,
+  USERS = 1,
+  GROUPS = 2
+}
 
 export default class ListUsersGroupsSource extends HubSourceUsersGroups {
   static Filter = Filter;
+  listSourceOptions: ListUsersGroupsSourceOptions;
 
-  constructor(auth, options) {
+  constructor(auth: Auth, options?: Partial<ListUsersGroupsSourceOptions>) {
     super(auth, options);
 
     this.listSourceOptions = Object.assign({}, defaultOptions, options);
   }
 
-  getGroupsSectionTitle(groups) {
+  getGroupsSectionTitle(groups: UserGroup[]) {
     return groups.length
       ? this.listSourceOptions.GroupsTitle
       : this.listSourceOptions.NoGroupsTitle;
   }
 
-  getUsersSectionTitle(users) {
+  getUsersSectionTitle(users: AuthUser[]) {
     return users.length ? this.listSourceOptions.UsersTitle : this.listSourceOptions.NoUsersTitle;
   }
 
-  async getForList(query, filter = Filter.ALL) {
+  async getForList(query?: string, filter = Filter.ALL) {
     const [users, groups] = await this.getUserAndGroups(query);
     const items = [];
 
@@ -60,7 +72,7 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
         ...user,
         key: user.id,
         label: user.name,
-        avatar: user.profile ? user.profile.avatar.url : null,
+        avatar: user.profile ? user.profile.avatar?.url : null,
         description: user.login
       }));
     }
