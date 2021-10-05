@@ -28,12 +28,17 @@ function noop() {}
 
 export interface AuthUser {
   guest?: boolean
-  id?: string
-  name?: string
-  login?: string
+  id: number | string
+  name: string
+  login: string
+  banned?: boolean
+  banReason?: string
   profile?: {
     avatar?: {
       url?: string
+    }
+    email?: {
+      email?: string
     }
   }
 }
@@ -159,7 +164,7 @@ interface AuthDialogParams {
 }
 
 interface UserChange {
-  userID: string | null | undefined,
+  userID: number | string | null | undefined,
   serviceID: string
 }
 
@@ -187,7 +192,7 @@ export default class Auth implements HTTPAuth {
 
   config: AuthConfig;
   listeners = new Listeners<AuthPayloadMap>();
-  http: HTTP | null = null;
+  http: HTTP;
   private _service: Partial<AuthService> = {};
   readonly _storage: AuthStorage<number> | null = null;
   private _responseParser = new AuthResponseParser();
@@ -318,7 +323,7 @@ export default class Auth implements HTTPAuth {
     this._postponed = postponed;
   }
 
-  private _updateDomainUser(userID: string | null | undefined) {
+  private _updateDomainUser(userID: number | string | null | undefined) {
     this._domainStorage.sendMessage(DOMAIN_USER_CHANGED_EVENT, {
       userID,
       serviceID: this.config.clientId
@@ -556,7 +561,7 @@ export default class Auth implements HTTPAuth {
       return;
     }
     try {
-      const {serviceName, iconUrl: serviceImage} = await this.http?.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
+      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
       this.setCurrentService({serviceImage, serviceName});
     } catch (e) {
       // noop
@@ -573,14 +578,14 @@ export default class Auth implements HTTPAuth {
   getUser(accessToken?: string | null | undefined) {
     if (this.config.cacheCurrentUser) {
       return this._storage?.getCachedUser(
-        async () => (await this.http?.authorizedFetch(
+        () => this.http.authorizedFetch(
           Auth.API_PROFILE_PATH,
           accessToken,
           this.config.userParams
-        )) ?? null
+        )
       );
     } else {
-      return this.http?.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+      return this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
     }
   }
 
@@ -937,7 +942,7 @@ export default class Auth implements HTTPAuth {
     const {backendCheckTimeout} = this.config;
     return Promise.all([
       promiseWithTimeout(
-        this.http?.fetch('settings/public?fields=id'),
+        this.http.fetch('settings/public?fields=id'),
         backendCheckTimeout,
         {error: new Error('The authorization server is taking too long to respond. Please try again later.')}
       ),

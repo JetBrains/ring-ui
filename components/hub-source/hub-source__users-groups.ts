@@ -1,12 +1,30 @@
-import HubSource from './hub-source';
+import Auth, {AuthUser} from '../auth/auth';
 
-const defaultOptions = {
+import HubSource, {Item} from './hub-source';
+
+export interface HubSourceUsersGroupsOptions {
+  searchMax: number
+  searchSideThreshold: number
+}
+
+const defaultOptions: HubSourceUsersGroupsOptions = {
   searchMax: 20,
   searchSideThreshold: 200
 };
 
+export interface UserGroup extends Item {
+  id: number,
+  total?: number,
+  userCount: number,
+  iconUrl?: string
+}
+
 export default class HubSourceUsersGroups {
-  constructor(auth, options) {
+  auth: Auth;
+  options: HubSourceUsersGroupsOptions;
+  usersSource: HubSource<AuthUser, 'users'>;
+  groupsSource: HubSource<UserGroup, 'usergroups'>;
+  constructor(auth: Auth, options?: Partial<HubSourceUsersGroupsOptions>) {
     this.auth = auth;
     this.options = Object.assign({}, defaultOptions, options);
 
@@ -21,20 +39,20 @@ export default class HubSourceUsersGroups {
     });
   }
 
-  static wrapMultiwordQuery(query) {
+  static wrapMultiwordQuery(query?: string) {
     if (query && query.indexOf(' ') !== -1) {
       return `{${query}}`;
     }
     return query;
   }
 
-  createUsersFilterFn(query) {
+  createUsersFilterFn(query?: string) {
     if (!query) {
       return () => true;
     }
     const normalizedQuery = query.toLowerCase();
 
-    return it => (
+    return (it: AuthUser) => (
       it.name.toLowerCase().indexOf(normalizedQuery) !== -1 ||
       it.login.toLowerCase().indexOf(normalizedQuery) !== -1
     );
@@ -54,7 +72,7 @@ export default class HubSourceUsersGroups {
     });
   }
 
-  getUserAndGroups(query) {
+  getUserAndGroups(query?: string) {
     return Promise.all([this.getUsers(query), this.getGroups(query)]);
   }
 }

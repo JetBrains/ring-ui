@@ -1,28 +1,26 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
-import VirtualizedList from 'react-virtualized/dist/es/List';
+import {shallow, mount, ReactWrapper} from 'enzyme';
+import VirtualizedList, {ListRowProps} from 'react-virtualized/dist/es/List';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 
 import getUID from '../global/get-uid';
 import Icon from '../icon/icon';
 
-import List from './list';
+import List, {ListAttrs, ListProps, ListState} from './list';
 import ListItem from './list__item';
 import ListCustom from './list__custom';
 import ListLink from './list__link';
 import ListTitle from './list__title';
 import ListSeparator from './list__separator';
 import styles from './list.css';
+import {Type} from './consts';
 
 describe('List', () => {
-  const Type = List.ListProps.Type;
-
-
-  const shallowList = props => shallow(<List {...props}/>);
-  const mountList = props => mount(<List {...props}/>);
+  const shallowList = (props: ListAttrs) => shallow<List>(<List {...props}/>);
+  const mountList = (props: ListAttrs) => mount<List>(<List {...props}/>);
 
   describe('virtualized', () => {
-    function createItemMock(itemType) {
+    function createItemMock(itemType: Type) {
       return {
         rgItemType: itemType,
         label: getUID('list-test-')
@@ -57,7 +55,7 @@ describe('List', () => {
       const style = {
         top: -1000
       };
-      const parent = {};
+      const parent = {} as ListRowProps['parent'];
 
       shallow(
         instance.renderItem({index: 0, style, parent}),
@@ -149,10 +147,13 @@ describe('List', () => {
   });
 
   describe('should track activeIndex', () => {
-    let wrapper;
-    let instance;
+    let wrapper: ReactWrapper<ListProps, ListState, List>;
+    let instance: List;
     beforeEach(() => {
-      sandbox.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
+      sandbox.stub(window, 'requestAnimationFrame').callsFake(cb => {
+        cb(0);
+        return 0;
+      });
       wrapper = mountList({
         data: [{key: 0}, {key: 1}, {key: 2}],
         activeIndex: 0,
@@ -163,13 +164,13 @@ describe('List', () => {
 
     it('should set activeIndex from props', () => {
       wrapper.should.have.state('activeIndex', 0);
-      wrapper.state('activeItem').key.should.equal(0);
+      (0).should.equal(wrapper.state('activeItem')?.key);
     });
 
     it('should activate item', () => {
       instance.hoverHandler(1)();
       wrapper.should.have.state('activeIndex', 1);
-      wrapper.state('activeItem').key.should.equal(1);
+      (1).should.equal(wrapper.state('activeItem')?.key);
     });
 
     it('should reset activeIndex when it\'s changed in props', () => {
@@ -179,7 +180,7 @@ describe('List', () => {
         activeIndex
       });
       wrapper.should.have.state('activeIndex', activeIndex);
-      wrapper.state('activeItem').key.should.equal(activeIndex);
+      activeIndex.should.equal(wrapper.state('activeItem')?.key);
     });
 
     it('should reset activeIndex when data changed', () => {
@@ -197,12 +198,12 @@ describe('List', () => {
         activeIndex: 0
       });
       wrapper.should.have.state('activeIndex', 1);
-      wrapper.state('activeItem').key.should.equal(1);
+      (1).should.equal(wrapper.state('activeItem')?.key);
     });
   });
 
   describe('should render items', () => {
-    const mountFirstItem = instance =>
+    const mountFirstItem = (instance: List) =>
       mount(instance.renderItem({index: 1}));
 
     it('should render for empty element', () => {
@@ -298,7 +299,7 @@ describe('List', () => {
     it('should not render icon if not provided', () => {
       const instance = shallowList({
         data: [
-          {label: 'Hello!', type: List.ListProps.Type.ITEM}
+          {label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
@@ -309,18 +310,20 @@ describe('List', () => {
     it('should render icon if provided', () => {
       const instance = shallowList({
         data: [
-          {label: 'Hello!', icon: 'http://some.url/', type: List.ListProps.Type.ITEM}
+          {label: 'Hello!', icon: 'http://some.url/', rgItemType: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
       const icon = mountFirstItem(instance).find(`.${styles.icon}`);
-      icon.prop('style').backgroundImage.should.contain('http://some.url');
+      const backgroundImage = icon.prop('style')?.backgroundImage;
+      should.exist(backgroundImage);
+      backgroundImage?.should.contain('http://some.url');
     });
 
     it('should not render glyph if not provided', () => {
       const instance = shallowList({
         data: [
-          {label: 'Hello!', type: List.ListProps.Type.ITEM}
+          {label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
@@ -330,7 +333,7 @@ describe('List', () => {
     it('should render glyph if provided', () => {
       const instance = shallowList({
         data: [
-          {label: 'Hello!', glyph: checkmarkIcon, type: List.ListProps.Type.ITEM}
+          {label: 'Hello!', glyph: checkmarkIcon, rgItemType: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
@@ -341,6 +344,7 @@ describe('List', () => {
       (() => {
         const instance = shallowList({
           data: [
+            // @ts-expect-error testing a wrong usage
             {label: 'Hello!', rgItemType: 'none'}
           ]
         }).instance();

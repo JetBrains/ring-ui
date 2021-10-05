@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, SyntheticEvent, ReactNode, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,34 +6,10 @@ import dataTests from '../global/data-tests';
 import getEventKey from '../global/get-event-key';
 
 import styles from './list.css';
+import {ListDataItemProps} from './consts';
 
-export default class ListCustom extends PureComponent {
-  static propTypes = {
-    scrolling: PropTypes.bool,
-    hover: PropTypes.bool,
-    className: PropTypes.string,
-    disabled: PropTypes.bool,
-    rgItemType: PropTypes.number,
-    tabIndex: PropTypes.number,
-    template: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.element,
-      PropTypes.string
-    ]),
-    onClick: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onMouseUp: PropTypes.func,
-    onCheckboxChange: PropTypes.func,
-    role: PropTypes.string,
-    tagName: PropTypes.string,
-    'data-test': PropTypes.string
-  };
-
-  static defaultProps = {
-    hover: false
-  };
-
-  handleKeyPress = event => {
+export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
+  handleKeyPress = (event: SyntheticEvent) => {
     const key = getEventKey(event);
     if (key === 'Enter' || key === ' ') {
       this.props.onClick(event);
@@ -68,8 +44,10 @@ export default class ListCustom extends PureComponent {
       'ring-list-item-action': !disabled
     }, restProps['data-test']);
 
-    const content = (typeof template === 'function') ? template(this.props) : template;
-    const TagName = tagName || 'span';
+    const content: ReactNode = (typeof template === 'function')
+      ? template(this.props as ListDataItemProps<T>)
+      : template;
+    const TagName: keyof JSX.IntrinsicElements = tagName || 'span';
 
     return (
       <TagName
@@ -88,3 +66,24 @@ export default class ListCustom extends PureComponent {
     );
   }
 }
+
+(ListCustom as ComponentType<unknown>).propTypes = {
+  scrolling: PropTypes.bool.isRequired,
+  hover: PropTypes.bool.isRequired,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  rgItemType: PropTypes.number,
+  tabIndex: PropTypes.number.isRequired,
+  template: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.string
+  ]),
+  onClick: PropTypes.func.isRequired,
+  onMouseOver: PropTypes.func.isRequired,
+  onMouseUp: PropTypes.func,
+  onCheckboxChange: PropTypes.func.isRequired,
+  role: PropTypes.string,
+  tagName: PropTypes.string,
+  'data-test': PropTypes.string
+};
