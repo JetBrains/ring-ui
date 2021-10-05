@@ -1,5 +1,5 @@
 import 'focus-visible';
-import React, {createRef, PureComponent, ButtonHTMLAttributes} from 'react';
+import React, {createRef, PureComponent, ButtonHTMLAttributes, ComponentPropsWithRef} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px';
@@ -156,4 +156,10 @@ class Button extends PureComponent<ButtonProps> {
 
 export {Size as IconSize};
 
-export default withTheme()(Button);
+const ThemedButton = withTheme()(Button);
+
+export type ButtonAttrs = ComponentPropsWithRef<typeof ThemedButton>
+
+export default ThemedButton;
+
+

@@ -5,11 +5,11 @@ import classNames from 'classnames';
 
 import Icon from '../icon/icon';
 
-import Button from '../button/button';
+import Button, {ButtonAttrs} from '../button/button';
 
 import styles from './dropdown.css';
 
-const Anchor = ({children, className, ...restProps}) => (
+const Anchor = ({children, className, ...restProps}: ButtonAttrs) => (
   <Button
     data-test-ring-dropdown-anchor
     text

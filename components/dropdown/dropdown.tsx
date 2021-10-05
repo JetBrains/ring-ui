@@ -1,17 +1,49 @@
-import React, {cloneElement, Component} from 'react';
+import React, {
+  cloneElement,
+  Component,
+  HTMLAttributes,
+  ReactNode,
+  ReactElement,
+  ReactNodeArray
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
+import {PopupAttrs} from '../popup/popup';
 
 import Anchor from './anchor';
 import styles from './dropdown.css';
+
+interface AnchorProps {
+  active: boolean
+  pinned: boolean
+}
+
+export interface DropdownProps extends HTMLAttributes<HTMLElement> {
+  anchor: ReactElement | ReactNodeArray | string | ((props: AnchorProps) => ReactNode)
+  children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode)
+  initShown: boolean
+  clickMode: boolean
+  hoverMode: boolean
+  hoverShowTimeOut: number
+  hoverHideTimeOut: number
+  onShow: (() => void)
+  onHide: (() => void)
+  activeClassName?: string | null | undefined
+  'data-test'?: string | null | undefined
+}
+
+interface DropdownState {
+  show: boolean,
+  pinned: boolean
+}
 
 /**
  * @name Dropdown
  */
 
-export default class Dropdown extends Component {
+export default class Dropdown extends Component<DropdownProps, DropdownState> {
   static propTypes = {
     /**
      * Can be string, React element, or a function accepting an object with {active, pinned} properties and returning a React element
@@ -79,26 +111,28 @@ export default class Dropdown extends Component {
     this._toggle(false, nextPinned);
   };
 
-  onMouseEnter = event => {
-    this._clearTimer();
-    this.props.onMouseEnter(event);
+  hoverTimer?: number | null;
 
-    this.hoverTimer = setTimeout(() => {
+  onMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    this._clearTimer();
+    this.props.onMouseEnter?.(event);
+
+    this.hoverTimer = window.setTimeout(() => {
       if (!this.state.show) {
         this._toggle(true);
       }
     }, this.props.hoverShowTimeOut);
   };
 
-  onMouseLeave = event => {
-    this.props.onMouseLeave(event);
+  onMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
+    this.props.onMouseLeave?.(event);
     if (this.state.pinned) {
       return;
     }
 
     this._clearTimer();
 
-    this.hoverTimer = setTimeout(() => {
+    this.hoverTimer = window.setTimeout(() => {
       if (this.state.show) {
         this._toggle(false);
       }
@@ -113,7 +147,7 @@ export default class Dropdown extends Component {
     this._toggle(show);
   }
 
-  _toggle(show, pinned = this.state.pinned) {
+  _toggle(show: boolean, pinned = this.state.pinned) {
     this.setState({show, pinned}, () => (show ? this.props.onShow() : this.props.onHide()));
   }
 
@@ -133,7 +167,7 @@ export default class Dropdown extends Component {
     } = this.props;
 
     const classes = classNames(styles.dropdown, className, {
-      [activeClassName]: activeClassName != null && show
+      [activeClassName ?? '']: activeClassName != null && show
     });
 
     let anchorElement;
@@ -149,7 +183,7 @@ export default class Dropdown extends Component {
         break;
 
       default:
-        if (typeof anchor.type === 'string' || Array.isArray(anchor)) {
+        if (Array.isArray(anchor) || typeof anchor.type === 'string') {
           anchorElement = anchor;
         } else {
           anchorElement = cloneElement(anchor, {active});
@@ -176,10 +210,14 @@ export default class Dropdown extends Component {
         className={classes}
       >
         {anchorElement}
-        {typeof children === 'function' ? children(childProps) : cloneElement(children, childProps)}
+        {typeof children === 'function'
+          ? children(childProps)
+          : cloneElement(children as ReactElement<PopupAttrs>, childProps)}
       </div>
     );
   }
 }
+
+export type DropdownAttrs = JSX.LibraryManagedAttributes<typeof Dropdown, DropdownProps>
 
 export {Anchor};
