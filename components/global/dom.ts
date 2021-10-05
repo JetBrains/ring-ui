@@ -2,6 +2,7 @@
  * @name DOM
  */
 
+import {SyntheticEvent} from 'react';
 import {PropertiesHyphen} from 'csstype';
 
 export const getStyles = window.getComputedStyle.bind(window);
@@ -137,7 +138,7 @@ export class Listeners {
 }
 
 // Synthetic events from Combokeys#trigger are plain objects
-export function preventDefault(e: Event) {
+export function preventDefault(e: Event | SyntheticEvent) {
   if (e.preventDefault) {
     e.preventDefault();
   }

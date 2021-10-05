@@ -1,20 +1,21 @@
 import HTTP from '../http/http';
+import Auth, {AuthUser} from '../auth/auth';
 
 const DEFAULT_FIELDS = 'id,name,login,banned,banReason,profile(email/email,avatar/url)';
 
-export function convertUserForCard(hubUser, serverUri = '') {
+export function convertUserForCard(hubUser: AuthUser, serverUri = '') {
   return {
     name: hubUser.name,
     login: hubUser.login,
     banned: hubUser.banned,
     banReason: hubUser.banReason,
-    email: hubUser.profile.email && hubUser.profile.email.email,
-    avatarUrl: hubUser.profile.avatar.url,
+    email: hubUser.profile?.email?.email,
+    avatarUrl: hubUser.profile?.avatar?.url,
     href: `${serverUri}users/${hubUser.id}`
   };
 }
 
-export function createHubUserCardSource(auth, userId, fields = DEFAULT_FIELDS) {
+export function createHubUserCardSource(auth: Auth, userId: string, fields = DEFAULT_FIELDS) {
   const http = new HTTP(auth);
 
   return async function getHubUser() {

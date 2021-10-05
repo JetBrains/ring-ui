@@ -1,23 +1,11 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import styles from './list.css';
+import {ListDataItemProps} from './consts';
 
-export default class ListTitle extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    description: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.string
-    ]),
-    label: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.string
-    ]),
-    isFirst: PropTypes.bool
-  };
-
+export default class ListTitle<T> extends PureComponent<ListDataItemProps<T>> {
   render() {
     const {className, description, label, isFirst} = this.props;
 
@@ -42,3 +30,16 @@ export default class ListTitle extends PureComponent {
     );
   }
 }
+
+(ListTitle as ComponentType<ListDataItemProps>).propTypes = {
+  className: PropTypes.string,
+  description: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ]),
+  label: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ]),
+  isFirst: PropTypes.bool
+};

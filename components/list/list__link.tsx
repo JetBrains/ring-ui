@@ -1,4 +1,4 @@
-import React, {Component, PureComponent} from 'react';
+import React, {Component, PureComponent, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -7,31 +7,13 @@ import dataTests from '../global/data-tests';
 
 import styles from './list.css';
 
+import {ListDataItemProps} from './consts';
+
 /**
  * @constructor
  * @extends {ReactComponent}
  */
-export default class ListLink extends PureComponent {
-  static propTypes = {
-    ...Link.propTypes,
-    description: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.string,
-      PropTypes.func
-    ]),
-    rgItemType: PropTypes.number,
-    scrolling: PropTypes.bool,
-    url: PropTypes.string,
-    LinkComponent: PropTypes.oneOfType([
-      PropTypes.instanceOf(Component),
-      PropTypes.func,
-      PropTypes.string
-    ]),
-    onCheckboxChange: PropTypes.func,
-    compact: PropTypes.bool
-  };
-
+export default class ListLink<T> extends PureComponent<ListDataItemProps<T>> {
   render() {
     const {
       scrolling,
@@ -70,3 +52,23 @@ export default class ListLink extends PureComponent {
     );
   }
 }
+
+(ListLink as ComponentType<unknown>).propTypes = {
+  ...Link.propTypes,
+  description: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string,
+    PropTypes.func
+  ]),
+  rgItemType: PropTypes.number,
+  scrolling: PropTypes.bool.isRequired,
+  url: PropTypes.string,
+  LinkComponent: PropTypes.oneOfType([
+    PropTypes.instanceOf(Component),
+    PropTypes.func,
+    PropTypes.string
+  ]),
+  onCheckboxChange: PropTypes.func.isRequired,
+  compact: PropTypes.bool
+};
