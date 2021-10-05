@@ -5,13 +5,13 @@ import {shallow, mount} from 'enzyme';
 import {getRect, getStyles} from '../global/dom';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
-import Popup, {PopupProps} from './popup';
+import Popup, {PopupAttrs} from './popup';
 import {MinWidth} from './popup.consts';
 
 describe('Popup', () => {
-  const shallowPopup = (props?: Partial<PopupProps>) =>
+  const shallowPopup = (props?: Partial<PopupAttrs>) =>
     shallow(<Popup {...{children: '', ...props}}/>);
-  const mountPopup = (props?: Partial<PopupProps>) =>
+  const mountPopup = (props?: Partial<PopupAttrs>) =>
     mount<Popup>(<Popup {...{children: '', ...props}}/>);
 
   it('should create component', () => {
