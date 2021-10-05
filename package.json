@@ -167,7 +167,7 @@
     "compile-code-loader": "^1.0.0",
     "conic-gradient": "^1.0.0",
     "css-loader": "^6.3.0",
-    "date-fns": "^2.24.0",
+    "date-fns": "^2.25.0",
     "deep-equal": "^2.0.4",
     "element-resize-detector": "^1.2.3",
     "es6-error": "^4.1.1",
