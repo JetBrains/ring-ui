@@ -92,7 +92,7 @@ export interface ListProps<T = unknown> {
     | ((
     item: ListDataItem<T>,
     event: Event | SyntheticEvent,
-    params: SelectHandlerParams,
+    params?: SelectHandlerParams,
   ) => void)
   onScrollToBottom: () => void
   onResize: (info: Size) => void
@@ -153,10 +153,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     hint: PropTypes.node,
     hintOnSelection: PropTypes.string,
     data: PropTypes.array,
-    maxHeight: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
+    maxHeight: PropTypes.number,
     activeIndex: PropTypes.number,
     restoreActiveIndex: PropTypes.bool,
     activateSingleItem: PropTypes.bool,

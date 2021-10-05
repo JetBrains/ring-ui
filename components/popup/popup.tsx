@@ -33,13 +33,13 @@ const stop = (e: SyntheticEvent) => e.stopPropagation();
 
 export const getPopupContainer = (target: string | Element) => (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
 
-export interface PopupProps {
+export interface BasePopupProps {
   hidden: boolean
   onOutsideClick: (e: PointerEvent) => void
   onEscPress: (e: KeyboardEvent) => void
   // onCloseAttempt is a common callback for ESC pressing and outside clicking.
   // Use it if you don't need different behaviors for this cases.
-  onCloseAttempt: (e: Event, isEsc: boolean) => void
+  onCloseAttempt: (e: Event | SyntheticEvent, isEsc: boolean | undefined) => void
   dontCloseOnAnchorClick: boolean
   shortcuts: boolean
   keepMounted: boolean, // pass this prop to preserve the popup's DOM state while hidde
@@ -56,7 +56,6 @@ export interface PopupProps {
   autoFocusFirst: boolean
   offset: number
   legacy: boolean
-  children: ReactNode
 
   anchorElement?: HTMLElement | null | undefined
   target?: string | Element | null | undefined
@@ -77,6 +76,10 @@ export interface PopupProps {
   onShow?: (() => void) | null | undefined
 }
 
+export interface PopupProps extends BasePopupProps {
+  children: ReactNode
+}
+
 interface PopupState {
   display: Display
   client?: boolean
@@ -88,7 +91,9 @@ interface PopupState {
  * @name Popup
  * @extends {ReactComponent}
  */
-export default class Popup extends PureComponent<PopupProps, PopupState> {
+export default class Popup<
+  P extends BasePopupProps = PopupProps
+> extends PureComponent<P, PopupState> {
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
     target: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Element)]),
@@ -168,7 +173,7 @@ export default class Popup extends PureComponent<PopupProps, PopupState> {
     }
   }
 
-  componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
+  componentDidUpdate(prevProps: BasePopupProps, prevState: PopupState) {
     const {hidden} = this.props;
     if (this.props !== prevProps) {
 
@@ -351,7 +356,7 @@ export default class Popup extends PureComponent<PopupProps, PopupState> {
     return !this.props.hidden;
   }
 
-  private _onCloseAttempt(evt: Event, isEsc: boolean) {
+  protected _onCloseAttempt(evt: Event | SyntheticEvent, isEsc?: boolean) {
     this.props.onCloseAttempt(evt, isEsc);
   }
 
@@ -468,3 +473,5 @@ export default class Popup extends PureComponent<PopupProps, PopupState> {
     );
   }
 }
+
+export type PopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, PopupProps>
