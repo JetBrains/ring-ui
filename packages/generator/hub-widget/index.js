@@ -3,7 +3,6 @@ const path = require('path');
 const Generator = require('yeoman-generator');
 const optionOrPrompt = require('yeoman-option-or-prompt');
 const {paramCase, camelCase} = require('change-case');
-const ora = require('ora');
 
 const getFreePort = require('../app/get-free-port');
 const getLatestVersions = require('../app/get-latest-versions');
@@ -57,7 +56,8 @@ module.exports = class HubWidgetGenerator extends Generator {
         message: 'Widget author name, i.e. "Alice <alice@example.com>"',
         default: ''
       }
-    ]).then(answers => {
+    ]).then(async answers => {
+      const {default: ora} = await import('ora');
       spinner = ora('Getting info').start();
       return answers;
     });

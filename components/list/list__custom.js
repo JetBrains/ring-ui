@@ -30,8 +30,7 @@ export default class ListCustom extends PureComponent {
   };
 
   static defaultProps = {
-    hover: false,
-    role: 'button'
+    hover: false
   };
 
   handleKeyPress = event => {
@@ -74,7 +73,7 @@ export default class ListCustom extends PureComponent {
 
     return (
       <TagName
-        role={role}
+        role={role || 'button'}
         tabIndex={tabIndex}
         onClick={onClick}
         onKeyPress={this.handleKeyPress}
