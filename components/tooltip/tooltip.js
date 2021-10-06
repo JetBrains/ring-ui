@@ -20,7 +20,7 @@ export default class Tooltip extends Component {
     delay: PropTypes.number,
     selfOverflowOnly: PropTypes.bool,
     popupProps: PropTypes.object,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    title: PropTypes.node,
     children: PropTypes.node,
     'data-test': PropTypes.string
   };
@@ -133,15 +133,20 @@ export default class Tooltip extends Component {
     const {children, 'data-test': dataTest,
       title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props;
 
+    const ariaProps = typeof title === 'string' && !!title
+      ? {'aria-label': title, role: 'tooltip'}
+      : {};
+
     const {onNestedTooltipShow, onNestedTooltipHide} = this;
 
     return (
       <TooltipContext.Provider value={{onNestedTooltipShow, onNestedTooltipHide}}>
         <span
+          {...ariaProps}
           {...restProps}
           ref={this.containerRef}
           data-test={dataTests('ring-tooltip', dataTest)}
-          data-test-title={title}
+          data-test-title={typeof title === 'string' ? title : undefined}
         >
           {children}
           <Popup
