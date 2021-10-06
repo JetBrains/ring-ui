@@ -6,6 +6,7 @@ import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
 
 import styles from './avatar.css';
+import FallbackAvatar from './fallback-avatar';
 
 /**
  * @name Avatar
@@ -15,6 +16,7 @@ export const Size = {
   Size18: 18,
   Size20: 20,
   Size24: 24,
+  Size28: 28,
   Size32: 32,
   Size40: 40,
   Size48: 48,
@@ -30,7 +32,9 @@ export default class Avatar extends PureComponent {
     url: PropTypes.string,
     round: PropTypes.bool,
     subavatar: PropTypes.string,
-    subavatarSize: PropTypes.number
+    subavatarSize: PropTypes.number,
+    username: PropTypes.string,
+    skipParams: PropTypes.bool
   };
 
   static defaultProps = {
@@ -53,7 +57,18 @@ export default class Avatar extends PureComponent {
   };
 
   render() {
-    const {size, url, dpr, style, round, subavatar, subavatarSize, ...restProps} = this.props;
+    const {
+      size,
+      url,
+      dpr,
+      style,
+      round,
+      subavatar,
+      subavatarSize,
+      username,
+      skipParams,
+      ...restProps
+    } = this.props;
     const sizeString = `${size}px`;
     const subavatarSizeString = `${subavatarSize}px`;
     const borderRadius = size <= Size.Size18 ? 'var(--ring-border-radius-small)' : 'var(--ring-border-radius)';
@@ -76,14 +91,24 @@ export default class Avatar extends PureComponent {
         <span
           {...restProps}
           data-test="avatar"
-          className={classNames(styles.avatar, styles.empty, this.props.className)}
+          className={
+            classNames(styles.avatar, this.props.className, {[styles.empty]: username == null})
+          }
           style={styleObj}
-        />
+        >{
+            username != null && (
+              <FallbackAvatar
+                size={size}
+                round={round}
+                username={username}
+              />
+            )
+          }</span>
       );
     }
 
     let src = url;
-    if (!isDataURI(url)) {
+    if (!skipParams && !isDataURI(url)) {
       const [urlStart, query] = url.split('?');
       const queryParams = {
         ...parseQueryString(query),
@@ -102,7 +127,7 @@ export default class Avatar extends PureComponent {
         subavatarSizeString
       };
 
-      subavatarSrc = encodeURL(urlStart, queryParams);
+      subavatarSrc = skipParams ? subavatar : encodeURL(urlStart, queryParams);
       return (
         <div>
           <img

@@ -33,6 +33,7 @@ export default class Pager extends PureComponent {
     className: PropTypes.string,
     translations: PropTypes.object,
     loader: PropTypes.bool,
+    loaderNavigation: PropTypes.bool,
     hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
   };
 
@@ -53,6 +54,7 @@ export default class Pager extends PureComponent {
       previousPage: 'Previous'
     },
     loader: false,
+    loaderNavigation: false,
     onPageSizeChange: () => {},
     onLoadPage: () => {}
   };
@@ -109,7 +111,7 @@ export default class Pager extends PureComponent {
         href={this.generateHref(page)}
         key={key}
         active={active}
-        disabled={this.props.loader && !active}
+        disabled={this.props.loader && !active && !this.props.loaderNavigation}
         loader={this.props.loader && active}
         {...this.getClickProps(this.handlePageChange(page))}
       >
@@ -187,7 +189,7 @@ export default class Pager extends PureComponent {
 
     return (
       <div className={style.links}>
-        {prevLinkAvailable && !this.props.loader
+        {prevLinkAvailable && (!this.props.loader || this.props.loaderNavigation)
           ? (
             <Link
               href={prevLinkHref}
@@ -202,7 +204,7 @@ export default class Pager extends PureComponent {
           )
         }
 
-        {nextLinkAvailable && !this.props.loader
+        {nextLinkAvailable && (!this.props.loader || this.props.loaderNavigation)
           ? (
             <Link
               href={nextLinkHref}

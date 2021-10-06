@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Dropdown from '../../components/dropdown/dropdown';
-import PopupMenu from '../../components/popup-menu/popup-menu';
+import DropdownMenu from '../../components/dropdown-menu/dropdown-menu';
 
 import branches from '../branches.json';
 
@@ -15,7 +14,7 @@ function currentPath() {
 
 const HOST = 'https://jetbrains.github.io/ring-ui';
 
-const rgItemType = PopupMenu.ListProps.Type.LINK;
+const rgItemType = DropdownMenu.ListProps.Type.LINK;
 
 const branchesArr = Object.keys(branches).map(version => ({
   version,
@@ -25,24 +24,22 @@ const branchesArr = Object.keys(branches).map(version => ({
 }));
 
 const Version = ({version}) => (
-  <Dropdown
+  <DropdownMenu
     anchor={version}
     className={styles.version}
-  >
-    <PopupMenu
-      data={branchesArr.map(branch => {
-        const active = branch.versionRE.test(version);
-        return {
-          rgItemType,
-          active,
-          href: `${HOST}/${branch.path}/${currentPath()}`,
-          label: active ? version : branch.version
-        };
-      })}
-      top={-16}
-      left={-16}
-    />
-  </Dropdown>
+    data={branchesArr.map(branch => {
+      const active = branch.versionRE.test(version);
+      return {
+        rgItemType,
+        active,
+        href: `${HOST}/${branch.path}/${currentPath()}`,
+        label: active ? version : branch.version
+      };
+    })}
+    menuProps={{
+      top: -16, left: -16
+    }}
+  />
 );
 
 Version.propTypes = {

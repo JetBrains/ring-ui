@@ -3,12 +3,14 @@ import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
+import {ActiveItemContext} from '../list/list';
+
 import Popup from '@jetbrains/ring-ui/components/popup/popup';
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
 import Button from '@jetbrains/ring-ui/components/button/button';
 import Link from '@jetbrains/ring-ui/components/link/link';
 import {Input} from '@jetbrains/ring-ui/components/input/input';
-
+import getUID from '@jetbrains/ring-ui/components/global/get-uid';
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
 
 export default {
@@ -44,6 +46,39 @@ export const withCustomAnchorAndPopup = () => (
     <PopupMenu closeOnSelect data={['Cut', 'Copy', 'Paste'].map(label => ({label}))}/>
   </Dropdown>
 );
+
+export const withCustomAnchorAndPopupAndContentAccessibilityHandling = () => {
+  const listId = getUID('popup-menu-list-id');
+
+  return (
+    <ActiveItemContext.Provider>
+      <Dropdown anchor={({active}) => (
+        <ActiveItemContext.ValueContext.Consumer>
+          {activeItemId => {
+            const anchorAriaProps = active && activeItemId
+              ? {'aria-owns': listId, 'aria-activedescendant': activeItemId}
+              : {};
+            return (
+              <Button
+                {...anchorAriaProps}
+                delayed
+              >Edit</Button>
+            );
+          }}
+        </ActiveItemContext.ValueContext.Consumer>
+      )}
+      >
+        <PopupMenu
+          id={listId}
+          ariaLabel="My options menu"
+          closeOnSelect
+          activateFirstItem
+          data={['Cut', 'Copy', 'Paste'].map(label => ({label, key: label.toLowerCase()}))}
+        />
+      </Dropdown>
+    </ActiveItemContext.Provider>
+  );
+};
 
 withCustomAnchorAndPopup.storyName = 'with custom anchor and popup';
 
