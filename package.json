@@ -80,7 +80,7 @@
     "@storybook/addons": "6.3.9",
     "@storybook/builder-webpack5": "6.3.9",
     "@storybook/client-api": "6.3.9",
-    "@storybook/core": "6.3.8",
+    "@storybook/core": "6.3.9",
     "@storybook/html": "6.3.8",
     "@storybook/manager-webpack5": "^6.3.9",
     "@storybook/source-loader": "6.3.9",
