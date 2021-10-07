@@ -71,7 +71,7 @@
     "@jetbrains/generator-ring-ui": "^4.0.39",
     "@jetbrains/stylelint-config": "^2.0.1",
     "@primer/octicons": "^16.0.0",
-    "@storybook/addon-a11y": "6.3.9",
+    "@storybook/addon-a11y": "6.3.10",
     "@storybook/addon-docs": "6.3.9",
     "@storybook/addon-essentials": "6.3.9",
     "@storybook/addon-storyshots": "6.3.2",
