@@ -34,7 +34,7 @@
     "webpack-dev-server": "^4.3.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.15.7",
+    "@babel/eslint-parser": "^7.15.8",
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/stylelint-config": "^2.0.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
