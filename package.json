@@ -140,7 +140,7 @@
     "terser-webpack-plugin": "^5.2.4",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.57.1",
-    "webpack-cli": "^4.8.0",
+    "webpack-cli": "^4.9.0",
     "xmlappend": "^1.0.4",
     "yo": "^4.3.0"
   },
