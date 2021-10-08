@@ -8,7 +8,7 @@ import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
 import Shortcuts from '../shortcuts/shortcuts';
-import TabTrap from '../tab-trap/tab-trap';
+import TabTrap, {TabTrapProps} from '../tab-trap/tab-trap';
 import Button from '../button/button';
 
 import {PopupTarget} from '../popup/popup.target';
@@ -16,13 +16,28 @@ import {PopupTarget} from '../popup/popup.target';
 import {preventerFactory as scrollPreventerFactory} from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
 
+export interface DialogProps extends Partial<TabTrapProps> {
+  show: boolean
+  label: string
+  onOverlayClick: (event: React.MouseEvent<HTMLElement>) => void
+  onEscPress: (event: KeyboardEvent) => void
+  onCloseClick: (event: React.MouseEvent<HTMLElement>) => void
+  onCloseAttempt: (event: React.MouseEvent<HTMLElement> | KeyboardEvent) => void
+  showCloseButton: boolean
+  closeButtonInside: boolean
+  trapFocus: boolean
+  contentClassName?: string | null | undefined
+  portalTarget?: Element | null | undefined
+  'data-test'?: string | null | undefined
+}
+
 /**
  * @name Dialog
  */
 
 function noop() {}
 
-export default class Dialog extends PureComponent {
+export default class Dialog extends PureComponent<DialogProps> {
   static propTypes = {
     label: PropTypes.string,
     className: PropTypes.string,
@@ -67,7 +82,7 @@ export default class Dialog extends PureComponent {
     this.toggleScrollPreventer();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: DialogProps) {
     if (prevProps.show !== this.props.show) {
       this.toggleScrollPreventer();
     }
@@ -89,18 +104,18 @@ export default class Dialog extends PureComponent {
     }
   }
 
-  handleClick = event => {
+  handleClick = (event: React.MouseEvent<HTMLElement>) => {
     this.props.onOverlayClick(event);
     this.props.onCloseAttempt(event);
   };
 
-  onCloseClick = event => {
+  onCloseClick = (event: React.MouseEvent<HTMLElement>) => {
     this.props.onCloseClick(event);
     this.props.onCloseAttempt(event);
   };
 
   getShortcutsMap = () => {
-    const onEscape = event => {
+    const onEscape = (event: KeyboardEvent) => {
       if (this.props.show) {
         this.props.onEscPress(event);
         this.props.onCloseAttempt(event);
@@ -112,7 +127,8 @@ export default class Dialog extends PureComponent {
     };
   };
 
-  dialogRef = tabTrap => {
+  dialog?: HTMLElement | null;
+  dialogRef = (tabTrap: TabTrap | null) => {
     this.dialog = tabTrap && tabTrap.node;
   };
 
@@ -181,3 +197,5 @@ export default class Dialog extends PureComponent {
     );
   }
 }
+
+export type DialogAttrs = JSX.LibraryManagedAttributes<typeof Dialog, DialogProps>

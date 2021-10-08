@@ -15,7 +15,7 @@ import styles from './auth-dialog.css';
  */
 
 export interface AuthDialogProps {
-  className?: string | null | undefined
+  className?: string | undefined
   title?: string | null | undefined
   errorMessage?: string | null | undefined
   serviceImage?: string | null | undefined

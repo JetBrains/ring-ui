@@ -83,6 +83,7 @@ export interface ListDataItemAddProps {
   onClick: (e: SyntheticEvent) => void
   onCheckboxChange: (e: React.ChangeEvent) => void
   isFirst?: boolean
+  'data-test'?: string | null | undefined
 }
 
 export type ListDataItemProps<T = unknown> =
