@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import createResizeDetector from 'element-resize-detector';
@@ -12,7 +12,18 @@ const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
 const END_DISTANCE = 16;
 
-class Content extends Component {
+export interface IslandContentProps extends Omit<HTMLAttributes<HTMLElement>, 'onScroll'> {
+  fade?: boolean | null | undefined
+  onScrollToBottom?: (() => void) | null | undefined
+  scrollableWrapperClassName?: string | null | undefined
+}
+
+export interface IslandContentInnerProps extends IslandContentProps {
+  onScroll: (node: HTMLElement) => void
+  bottomBorder: boolean
+}
+
+class Content extends Component<IslandContentInnerProps> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -45,7 +56,8 @@ class Content extends Component {
 
   resizeDetector = createResizeDetector({strategy: 'scroll'});
 
-  setWrapper = node => {
+  wrapperNode?: HTMLElement | null;
+  setWrapper = (node: HTMLElement | null) => {
     if (!node) {
       return;
     }
@@ -63,18 +75,21 @@ class Content extends Component {
     const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - END_DISTANCE;
 
     if (scrolledToBottom) {
-      this.props.onScrollToBottom();
+      this.props.onScrollToBottom?.();
     }
 
     this.setState({scrolledToTop, scrolledToBottom});
   });
 
   onScroll = () => {
-    this.props.onScroll(this.scrollableNode);
+    if (this.scrollableNode != null) {
+      this.props.onScroll(this.scrollableNode);
+    }
     this.calculateScrollPosition();
   };
 
-  setScrollableNodeAndCalculatePosition = node => {
+  scrollableNode?: HTMLElement | null;
+  setScrollableNodeAndCalculatePosition = (node: HTMLElement | null) => {
     if (!node) {
       return;
     }
@@ -129,7 +144,7 @@ class Content extends Component {
   }
 }
 
-const ContentWrapper = props => (
+const ContentWrapper = (props: IslandContentProps) => (
   <ScrollHandlerContext.Consumer>
     {onScroll => {
       const addProps = onScroll != null ? {onScroll, bottomBorder: true} : {};

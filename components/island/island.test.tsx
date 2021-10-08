@@ -1,13 +1,13 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import Island, {AdaptiveIsland, Content, Header} from './island';
+import Island, {AdaptiveIsland, Content, Header, IslandProps} from './island';
 
 const LINE_HEIGHT = '28px';
 
 describe('Island', () => {
-  const shallowIsland = params => shallow(<Island {...params}/>);
-  const mountIsland = params => mount(<Island {...params}/>);
+  const shallowIsland = (params?: IslandProps) => shallow(<Island {...params}/>);
+  const mountIsland = (params?: IslandProps) => mount(<Island {...params}/>);
 
   it('should create Island component', () => {
     mountIsland().should.have.type(Island);
@@ -31,7 +31,7 @@ describe('Island', () => {
     });
 
     it('should change header size if content is scrolled', () => {
-      const wrapper = mount(
+      const wrapper = mount<InstanceType<typeof AdaptiveIsland>>(
         <AdaptiveIsland>
           <Header/>
           <Content/>
@@ -40,7 +40,7 @@ describe('Island', () => {
 
       const headerNode = wrapper.find('[data-test="ring-island-header"]');
 
-      wrapper.instance().onContentScroll({scrollTop: 10});
+      wrapper.instance().onContentScroll({scrollTop: 10} as Element);
       headerNode.should.have.style('line-height', LINE_HEIGHT);
     });
   });
