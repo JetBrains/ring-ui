@@ -14,16 +14,20 @@ import linearFunction from '../global/linear-function';
 
 
 import styles from './date-picker.css';
-import units, {dateType, DOUBLE, HALF, yearDuration} from './consts';
+import units, {CalendarProps, dateType, DOUBLE, HALF, yearDuration} from './consts';
 
 const {yearHeight, calHeight} = units;
 
-let scrollTO;
+let scrollTO: number | null;
 
 const YEARSBACK = 5;
 const scrollDelay = 100;
 
-export default class Years extends PureComponent {
+interface YearsState {
+  scrollDate: Date | null
+}
+
+export default class Years extends PureComponent<CalendarProps> {
   static propTypes = {
     scrollDate: dateType,
     onScroll: PropTypes.func,
@@ -32,11 +36,12 @@ export default class Years extends PureComponent {
 
   state = {scrollDate: null};
 
-  componentDidUpdate(prevProps, prevState) {
-    this.stoppedScrolling = prevState.scrollDate && !this.state.scrollDate;
+  componentDidUpdate(prevProps: CalendarProps, prevState: YearsState) {
+    this.stoppedScrolling = prevState.scrollDate != null && !this.state.scrollDate;
   }
 
-  setYear(date) {
+  stoppedScrolling?: boolean;
+  setYear(date: number) {
     if (scrollTO) {
       window.clearTimeout(scrollTO);
       scrollTO = null;
@@ -45,7 +50,7 @@ export default class Years extends PureComponent {
     this.setState({scrollDate: null});
 
     this.props.onScroll(
-      setYear(this.props.scrollDate, getYear(date))
+      Number(setYear(this.props.scrollDate, getYear(date)))
     );
   }
 
@@ -60,11 +65,11 @@ export default class Years extends PureComponent {
       years.push(year);
     }
 
-    const pxToDate = linearFunction(0, years[0], yearDuration / yearHeight);
+    const pxToDate = linearFunction(0, Number(years[0]), yearDuration / yearHeight);
 
-    const handleWheel = e => {
+    const handleWheel = (e: React.WheelEvent) => {
       e.preventDefault();
-      const newScrollDate = linearFunction(0, date, yearDuration / yearHeight).
+      const newScrollDate = linearFunction(0, Number(date), yearDuration / yearHeight).
         y(e.deltaY);
       this.setState({
         scrollDate: newScrollDate
@@ -82,7 +87,7 @@ export default class Years extends PureComponent {
 
         style={{
           transition: this.stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
-          top: Math.floor(calHeight * HALF - pxToDate.x(date))
+          top: Math.floor(calHeight * HALF - pxToDate.x(Number(date)))
         }}
       >
         {years.map(item => (
@@ -98,7 +103,7 @@ export default class Years extends PureComponent {
             )}
             onClick={function handleClick() {
               onScrollChange(
-                setYear(scrollDate, getYear(item))
+                Number(setYear(scrollDate, getYear(item)))
               );
             }}
           >

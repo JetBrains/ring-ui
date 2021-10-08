@@ -11,11 +11,29 @@ import isSameDay from 'date-fns/isSameDay';
 import isToday from 'date-fns/isToday';
 import startOfDay from 'date-fns/startOfDay';
 
-import {dateType, weekdays} from './consts';
+import {MonthsProps, dateType, weekdays} from './consts';
 import styles from './date-picker.css';
 
-let hoverTO;
-export default class Day extends Component {
+export interface DayProps extends MonthsProps {
+  day: Date
+  empty: boolean
+}
+
+let hoverTO: number | null;
+export default class Day extends Component<DayProps> {
+  static propTypes = {
+    day: dateType,
+    from: dateType,
+    currentRange: PropTypes.arrayOf(dateType),
+    activeRange: PropTypes.arrayOf(dateType),
+    empty: PropTypes.bool,
+    onSelect: PropTypes.func,
+    parseDateInput: PropTypes.func,
+    onHover: PropTypes.func,
+    minDate: dateType,
+    maxDate: dateType
+  };
+
   handleClick = () => this.props.onSelect(this.props.day);
 
   handleMouseOver = () => {
@@ -31,22 +49,25 @@ export default class Day extends Component {
     hoverTO = window.setTimeout(this.props.onHover, 0);
   };
 
-  isDay = date => isSameDay(this.props.day, date);
+  isDay = (date: Date) => isSameDay(this.props.day, date);
 
-  is = name => this.props[name] && this.isDay(this.props[name]);
+  is = (name: 'date' | 'from' | 'to' | 'activeDate') => {
+    const value = this.props[name];
+    return value != null && this.isDay(value);
+  };
 
-  inRange = range => range &&
+  inRange = (range: [Date, Date] | null) => range &&
     isAfter(startOfDay(this.props.day), startOfDay(range[0])) &&
     isBefore(startOfDay(this.props.day), startOfDay(range[1]));
 
-  isDisabled = date => {
+  isDisabled = (date: Date) => {
     const min = this.parse(this.props.minDate);
     const max = this.parse(this.props.maxDate);
-    return (this.props.minDate && isBefore(startOfDay(date), startOfDay(min))) ||
-      (this.props.maxDate && isAfter(startOfDay(date), startOfDay(max)));
+    return (min != null && isBefore(startOfDay(date), startOfDay(min))) ||
+      (max != null && isAfter(startOfDay(date), startOfDay(max)));
   };
 
-  parse(text) {
+  parse(text: string | null | undefined) {
     return this.props.parseDateInput(text);
   }
 
@@ -61,7 +82,7 @@ export default class Day extends Component {
 
     const reverse = activeRange && activeRange[1] === from;
 
-    function makeSpreadRange(range) {
+    function makeSpreadRange(range: [Date, Date] | null): [Date, Date] | null {
       return range && [range[0], addDays(range[1], 1)];
     }
 
@@ -75,7 +96,7 @@ export default class Day extends Component {
           styles.day,
           styles[format(day, 'EEEE')],
           {
-            [styles.current]: ['date', 'from', 'to'].some(this.is),
+            [styles.current]: (['date', 'from', 'to'] as const).some(this.is),
             [styles.active]: !disabled && this.is('activeDate'),
             [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day)),
             [styles.empty]: empty,
@@ -106,16 +127,3 @@ export default class Day extends Component {
     );
   }
 }
-
-Day.propTypes = {
-  day: dateType,
-  from: dateType,
-  currentRange: PropTypes.arrayOf(dateType),
-  activeRange: PropTypes.arrayOf(dateType),
-  empty: PropTypes.bool,
-  onSelect: PropTypes.func,
-  parseDateInput: PropTypes.func,
-  onHover: PropTypes.func,
-  minDate: dateType,
-  maxDate: dateType
-};
