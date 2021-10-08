@@ -4,10 +4,26 @@ import PropTypes from 'prop-types';
 
 import Input from '../input/input';
 
-import {dateType} from './consts';
+import {DatePopupBaseProps, dateType, Field} from './consts';
 import styles from './date-picker.css';
 
-export default class DateInput extends React.PureComponent {
+export interface UpdateInputConfig {
+  active: boolean
+  text: string | null
+}
+
+export interface DateInputProps extends DatePopupBaseProps, UpdateInputConfig {
+  divider: boolean
+  name: Field
+  hoverDate: Date | null
+  date: Date | null | undefined
+  time?: string | null | undefined
+  onInput: (value: string, name: Field) => void
+  onActivate: () => void
+  onConfirm: () => void
+}
+
+export default class DateInput extends React.PureComponent<DateInputProps> {
   static propTypes = {
     active: PropTypes.bool,
     divider: PropTypes.bool,
@@ -41,19 +57,20 @@ export default class DateInput extends React.PureComponent {
     }
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: DateInputProps) {
     const {hidden, text, active} = this.props;
     if (!hidden && prevProps.hidden || text !== prevProps.text || active !== prevProps.active) {
       this.updateInput({text, active});
     }
   }
 
-  inputRef = el => {
+  input?: HTMLInputElement | null;
+  inputRef = (el: HTMLInputElement | null) => {
     this.input = el;
     this.updateInput(this.props);
   };
 
-  updateInput({text, active}) {
+  updateInput({text, active}: UpdateInputConfig) {
     const el = this.input;
     if (!el) {
       return;
@@ -69,9 +86,10 @@ export default class DateInput extends React.PureComponent {
     }
   }
 
-  handleChange = e => this.props.onInput(e.target.value, e.target.dataset.name);
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    this.props.onInput(e.currentTarget.value, e.currentTarget.dataset.name as Field);
 
-  handleKeyDown = e => e.key === 'Enter' && this.props.onConfirm();
+  handleKeyDown = (e: React.KeyboardEvent) => e.key === 'Enter' && this.props.onConfirm();
 
   render() {
     const {

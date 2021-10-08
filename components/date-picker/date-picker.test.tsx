@@ -1,13 +1,13 @@
 import React from 'react';
 import {mount, shallow, render} from 'enzyme';
 
-import DatePicker from './date-picker';
+import DatePicker, {DatePickerAttrs} from './date-picker';
 import styles from './date-picker.css';
 
 describe('Date Picker', () => {
-  const shallowDatePicker = params => shallow(<DatePicker {...params}/>);
-  const mountDatePicker = params => mount(<DatePicker {...params}/>);
-  const renderDatePicker = params => render(<DatePicker {...params}/>);
+  const shallowDatePicker = (params?: DatePickerAttrs) => shallow(<DatePicker {...params}/>);
+  const mountDatePicker = (params?: DatePickerAttrs) => mount(<DatePicker {...params}/>);
+  const renderDatePicker = (params?: DatePickerAttrs) => render(<DatePicker {...params}/>);
 
   it('should create component', () => {
     mountDatePicker().should.have.type(DatePicker);
@@ -84,6 +84,8 @@ describe('Date Picker', () => {
     });
     picker.simulate('click');
 
-    document.body.querySelector('.btn-today').should.have.text('Today');
+    const today = document.body.querySelector('.btn-today');
+    should.exist(today);
+    today?.should.have.text('Today');
   });
 });
