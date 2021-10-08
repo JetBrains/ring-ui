@@ -15,7 +15,7 @@ import linearFunction from '../global/linear-function';
 import Month from './month';
 import MonthNames from './month-names';
 import styles from './date-picker.css';
-import units, {dateType, DOUBLE, HALF, WEEK, weekdays} from './consts';
+import units, {dateType, DOUBLE, HALF, MonthsProps, WEEK, weekdays} from './consts';
 
 const {unit, cellSize, calHeight} = units;
 
@@ -27,7 +27,7 @@ const PADDING = 2;
 
 const MONTHSBACK = 2;
 
-function monthHeight(date) {
+function monthHeight(date: Date | number) {
   const monthStart = startOfMonth(date);
   const daysSinceLastFriday = (getDay(monthStart) + FridayToSunday) % WEEK;
   const monthLines =
@@ -36,15 +36,15 @@ function monthHeight(date) {
 }
 
 // in milliseconds per pixel
-function scrollSpeed(date) {
+function scrollSpeed(date: Date | number) {
   const monthStart = startOfMonth(date);
   const monthEnd = endOfMonth(date);
-  return (monthEnd - monthStart) / monthHeight(monthStart);
+  return (Number(monthEnd) - Number(monthStart)) / monthHeight(monthStart);
 }
 
 const scrollSchedule = scheduleRAF();
 let dy = 0;
-export default function Months(props) {
+export default function Months(props: MonthsProps) {
   const {scrollDate} = props;
   // prevent switching from april to march because of daylight saving time
   const monthStart = startOfHour(set(scrollDate, {date: 1, hours: 1}));
@@ -57,8 +57,8 @@ export default function Months(props) {
   }
 
   const currentSpeed = scrollSpeed(scrollDate);
-  const pxToDate = linearFunction(0, scrollDate, currentSpeed);
-  const offset = pxToDate.x(monthStart); // is a negative number
+  const pxToDate = linearFunction(0, Number(scrollDate), currentSpeed);
+  const offset = pxToDate.x(Number(monthStart)); // is a negative number
   const bottomOffset = monthHeight(scrollDate) + offset;
 
   return (

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import reactDecorator from '../../.storybook/react-decorator';
 
 import DatePicker from '@jetbrains/ring-ui/components/date-picker/date-picker';
+import {DatePickerChange} from '@jetbrains/ring-ui/components/date-picker/consts';
 
 export default {
   title: 'Components/Date Picker',
@@ -29,7 +30,7 @@ export const singleDate = () => {
   class DatePickerExample extends Component {
     state = {date: '01.01.18'};
 
-    setDate = date => {
+    setDate = (date: Date | null | undefined) => {
       this.setState({date});
     };
 
@@ -53,7 +54,7 @@ export const singleDateAndTime = () => {
       date: '8 January 2020, 9:45'
     };
 
-    setDate = date => {
+    setDate = (date: Date | null | undefined) => {
       this.setState({date});
     };
 
@@ -87,7 +88,7 @@ export const range = () => {
       to: '15 February 2018'
     };
 
-    setRange = ({from, to}) => {
+    setRange = ({from, to}: DatePickerChange) => {
       this.setState({from, to});
     };
 
@@ -108,7 +109,7 @@ export const clearable = () => {
   class DatePickerExample extends Component {
     state = {date: '01.01.18'};
 
-    setDate = date => {
+    setDate = (date: Date | null | undefined) => {
       this.setState({date});
     };
 
@@ -130,7 +131,7 @@ export const singleWithMinMax = () => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
-    setDate = date => {
+    setDate = (date: Date | null | undefined) => {
       this.setState({date});
     };
 
@@ -158,7 +159,7 @@ export const singleWithMin = () => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
-    setDate = date => {
+    setDate = (date: Date | null | undefined) => {
       this.setState({date});
     };
 
@@ -185,7 +186,7 @@ export const singleWithMax = () => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
-    setDate = date => {
+    setDate = (date: Date | null | undefined) => {
       this.setState({date});
     };
 
@@ -215,7 +216,7 @@ export const rangeWithMinMax = () => {
       to: '4 February 2018'
     };
 
-    setRange = ({from, to}) => {
+    setRange = ({from, to}: DatePickerChange) => {
       this.setState({from, to});
     };
 
@@ -248,7 +249,7 @@ export const rangeWithMin = () => {
       to: '4 February 2018'
     };
 
-    setRange = ({from, to}) => {
+    setRange = ({from, to}: DatePickerChange) => {
       this.setState({from, to});
     };
 
@@ -280,7 +281,7 @@ export const rangeWithMax = () => {
       to: '4 February 2018'
     };
 
-    setRange = ({from, to}) => {
+    setRange = ({from, to}: DatePickerChange) => {
       this.setState({from, to});
     };
 
@@ -312,7 +313,7 @@ export const rangeWithCustomPlaceholders = () => {
       to: undefined
     };
 
-    setRange = ({from, to}) => {
+    setRange = ({from, to}: DatePickerChange) => {
       this.setState({from, to});
     };
 

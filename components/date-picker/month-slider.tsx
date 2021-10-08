@@ -5,15 +5,23 @@ import addYears from 'date-fns/addYears';
 import startOfDay from 'date-fns/startOfDay';
 import subYears from 'date-fns/subYears';
 
-import linearFunction from '../global/linear-function';
+import linearFunction, {LinearFunction} from '../global/linear-function';
 
 
-import units, {dateType, yearScrollSpeed} from './consts';
+import units, {MonthsProps, dateType, yearScrollSpeed} from './consts';
 import styles from './date-picker.css';
 
 const COVERYEARS = 3;
 
-export default class MonthSlider extends PureComponent {
+export interface MonthSliderProps extends MonthsProps {
+  pxToDate: LinearFunction
+}
+
+interface MonthSliderState {
+  dragging: boolean
+}
+
+export default class MonthSlider extends PureComponent<MonthSliderProps> {
   static propTypes = {
     scrollDate: dateType,
     onScroll: PropTypes.func,
@@ -27,7 +35,7 @@ export default class MonthSlider extends PureComponent {
     dragging: false
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: MonthSliderProps, prevState: MonthSliderState) {
     if (this.state.dragging && !prevState.dragging) {
       window.addEventListener('mousemove', this.onMouseMove);
       window.addEventListener('mouseup', this.onMouseUp);
@@ -45,9 +53,9 @@ export default class MonthSlider extends PureComponent {
     this.setState({dragging: false});
   };
 
-  onMouseMove = e => {
+  onMouseMove = (e: MouseEvent) => {
     this.props.onScroll(
-      linearFunction(0, this.props.scrollDate, yearScrollSpeed).y(e.movementY)
+      linearFunction(0, Number(this.props.scrollDate), yearScrollSpeed).y(e.movementY)
     );
   };
 
@@ -72,7 +80,7 @@ export default class MonthSlider extends PureComponent {
             key={+date}
             className={classes}
             style={{
-              top: Math.floor(this.props.pxToDate.x(date) - units.cellSize)
+              top: Math.floor(this.props.pxToDate.x(Number(date)) - units.cellSize)
             }}
             onMouseDown={this.onMouseDown}
           />
