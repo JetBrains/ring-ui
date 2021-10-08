@@ -11,10 +11,21 @@ import startOfYear from 'date-fns/startOfYear';
 import linearFunction from '../global/linear-function';
 
 import MonthSlider from './month-slider';
-import {HALF, YEAR, MIDDLE_DAY, yearScrollSpeed, dateType} from './consts';
+import {HALF, YEAR, MIDDLE_DAY, yearScrollSpeed, dateType, MonthsProps} from './consts';
 import styles from './date-picker.css';
 
-class MonthName extends PureComponent {
+interface MonthNameProps {
+  month: Date
+  onScrollChange: (to: number) => void
+}
+
+class MonthName extends PureComponent<MonthNameProps> {
+  static propTypes = {
+    month: dateType,
+    onScrollChange: PropTypes.func
+    locale: PropTypes.string
+  };
+
   handleClick = () => {
     const end = endOfMonth(this.props.month);
     this.props.onScrollChange((+this.props.month + +end) * HALF);
@@ -40,13 +51,7 @@ class MonthName extends PureComponent {
   }
 }
 
-MonthName.propTypes = {
-  month: dateType,
-  onScrollChange: PropTypes.func,
-  locale: PropTypes.string
-};
-
-export default function MonthNames(props) {
+export default function MonthNames(props: MonthsProps) {
   const {scrollDate, locale} = props;
   const months = [];
   for (let i = 0; i < YEAR; i++) {
@@ -56,7 +61,7 @@ export default function MonthNames(props) {
 
   const pxToDate = linearFunction(
     0,
-    startOfYear(scrollDate),
+    Number(startOfYear(scrollDate)),
     yearScrollSpeed
   );
 
@@ -64,7 +69,7 @@ export default function MonthNames(props) {
   let bottom = 0;
   if (props.currentRange) {
     [top, bottom] = props.currentRange.
-      map(date => Math.floor(pxToDate.x(date)));
+      map(date => Math.floor(pxToDate.x(Number(date))));
   }
 
   return (

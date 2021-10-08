@@ -39,7 +39,7 @@ export interface BasePopupProps {
   onEscPress: (e: KeyboardEvent) => void
   // onCloseAttempt is a common callback for ESC pressing and outside clicking.
   // Use it if you don't need different behaviors for this cases.
-  onCloseAttempt: (e: Event | SyntheticEvent, isEsc?: boolean | undefined) => void
+  onCloseAttempt: (e?: Event | SyntheticEvent, isEsc?: boolean | undefined) => void
   dontCloseOnAnchorClick: boolean
   shortcuts: boolean
   keepMounted: boolean, // pass this prop to preserve the popup's DOM state while hidde
@@ -356,7 +356,7 @@ export default class Popup<
     return !this.props.hidden;
   }
 
-  protected _onCloseAttempt(evt: Event | SyntheticEvent, isEsc?: boolean) {
+  _onCloseAttempt(evt?: Event | SyntheticEvent, isEsc?: boolean) {
     this.props.onCloseAttempt(evt, isEsc);
   }
 

@@ -11,8 +11,8 @@ import {weekdays} from './consts';
 import styles from './date-picker.css';
 
 export default function Weekdays(props) {
-  const days = Object.keys(weekdays).
-    map(key => startOfDay(setDay(new Date(), weekdays[key])));
+  const days = Object.values(weekdays).
+    map(value => startOfDay(setDay(new Date(), value)));
 
   const {locale} = props;
 

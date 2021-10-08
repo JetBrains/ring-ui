@@ -8,10 +8,14 @@ import setDay from 'date-fns/setDay';
 import PropTypes from 'prop-types';
 
 import Day from './day';
-import {dateType, WEEK, weekdays} from './consts';
+import {MonthsProps, dateType, WEEK, weekdays} from './consts';
 import styles from './date-picker.css';
 
-export default function Month(props) {
+export interface MonthProps extends MonthsProps {
+  month: Date
+}
+
+export default function Month(props: MonthProps) {
   const start = props.month;
   const end = endOfMonth(start);
   const {locale} = props;

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, Ref} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import formatDate from 'date-fns/format';
@@ -11,24 +11,32 @@ import set from 'date-fns/set';
 
 import memoize from '../global/memoize';
 
-import Popup from '../popup/popup';
-import Dropdown, {Anchor} from '../dropdown/dropdown';
+import Popup, {PopupAttrs} from '../popup/popup';
+import Dropdown, {Anchor, DropdownAttrs} from '../dropdown/dropdown';
 
-import DatePopup from './date-popup';
-import {dateType, deprecatedPropType} from './consts';
+import DatePopup, {DatePopupProps} from './date-popup';
+import {DateInputTranslations, DatePickerChange, dateType} from './consts';
 import styles from './date-picker.css';
 import formats from './formats';
 import DateInput from './date-input';
 
+interface PopupComponentProps extends Partial<PopupAttrs> {
+  hidden?: boolean
+  popupRef: Ref<Popup>
+  datePopupProps: Omit<DatePopupProps, 'onComplete' | 'hidden'>
+  onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
+  onComplete: () => void
+}
+
 const PopupComponent = ({
-  hidden,
+  hidden = false,
   className,
   popupRef,
   onClear,
   datePopupProps,
   onComplete,
   ...restProps
-}) => (
+}: PopupComponentProps) => (
   <Popup
     hidden={hidden}
     keepMounted
@@ -44,7 +52,7 @@ const PopupComponent = ({
   >
     <DatePopup
       onClear={onClear}
-      {...datePopupProps}
+      {...datePopupProps as DatePopupProps}
       onComplete={onComplete}
       hidden={hidden}
     />
@@ -60,11 +68,34 @@ PopupComponent.propTypes = {
   onComplete: PropTypes.func
 };
 
+export interface DatePickerTranslations extends Partial<DateInputTranslations> {
+  setDate: string
+  setDateTime: string
+  setPeriod: string
+}
+
+export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateInput' | 'onComplete' | 'hidden'> & {
+  className: string
+  clear: boolean
+  popupClassName?: string | null | undefined
+  dropdownProps?: DropdownAttrs
+  translations: DatePickerTranslations
+  displayMonthFormat: (date: Date) => string
+  displayDayFormat: (date: Date) => string
+  displayTimeFormat: (date: Date) => string
+  applyTimeInput: (date: Date, time: string | null | undefined) => Date
+  datePlaceholder: string
+  dateTimePlaceholder: string
+  rangePlaceholder: string
+  disabled?: boolean | null | undefined
+  parseDateInput: (input: string | null | undefined) => Date | null
+}
+
 /**
  * @name Date Picker
  */
 
-export default class DatePicker extends PureComponent {
+export default class DatePicker extends PureComponent<DatePickerProps> {
   static propTypes = {
     className: PropTypes.string,
     popupClassName: PropTypes.string,
@@ -84,8 +115,6 @@ export default class DatePicker extends PureComponent {
     dateTimePlaceholder: PropTypes.string,
     rangePlaceholder: PropTypes.string,
     onChange: PropTypes.func,
-    // TODO: Remove in 5.0
-    onDateChange: deprecatedPropType('Use "onChange"'),
     dropdownProps: PropTypes.object,
     disabled: PropTypes.bool,
     minDate: dateType,
@@ -94,7 +123,7 @@ export default class DatePicker extends PureComponent {
     locale: PropTypes.object
   };
 
-  static defaultProps = {
+  static defaultProps: DatePickerProps = {
     className: '',
     date: null,
     withTime: false,
@@ -118,7 +147,7 @@ export default class DatePicker extends PureComponent {
       setPeriod: 'Set a period'
     },
     applyTimeInput(date, timeString) {
-      const [hours, minutes] = timeString?.split(':') ?? [];
+      const [hours, minutes] = timeString?.split(':').map(Number) ?? [];
       return minutes != null ? set(date, {hours, minutes}) : date;
     },
     parseDateInput(string) {
@@ -136,14 +165,13 @@ export default class DatePicker extends PureComponent {
     }
   };
 
-  handleChange = change => {
-    const {onChange, onDateChange, withTime, applyTimeInput} = this.props;
+  handleChange = (change: DatePickerChange | Date | null | undefined) => {
+    const {onChange, withTime, applyTimeInput} = this.props;
     const adjustedChange =
-      withTime && change.date != null ? applyTimeInput(change.date, change.time) : change;
-    onChange(adjustedChange);
-    if (onDateChange != null) {
-      onDateChange(adjustedChange);
-    }
+      withTime && !(change instanceof Date) && change?.date != null
+        ? applyTimeInput(change.date, change.time)
+        : change;
+    onChange(adjustedChange as Date & DatePickerChange);
   };
 
   clear = () => {
@@ -155,15 +183,16 @@ export default class DatePicker extends PureComponent {
     this.handleChange(change);
   };
 
-  popupRef = el => {
+  popup?: Popup | null;
+  popupRef = (el: Popup | null) => {
     this.popup = el;
   };
 
   closePopup = () => {
-    this.popup._onCloseAttempt();
+    this.popup?._onCloseAttempt();
   };
 
-  parse = memoize(date => {
+  parse = memoize((date: Date | number | string | null | undefined) => {
     const {parseDateInput} = this.props;
 
     if (date instanceof Date) {
@@ -204,32 +233,31 @@ export default class DatePicker extends PureComponent {
     const to = this.parse(this.props.to);
     const time = this.formatTime();
 
-    let text;
     if (!range && !withTime) {
-      text = date ? displayFormat(date, locale) : datePlaceholder || translations.setDate;
+      return date ? displayFormat(date, locale) : datePlaceholder || translations.setDate;
     } else if (!range && withTime) {
       if (!date && !time) {
-        text = dateTimePlaceholder || translations.setDateTime;
+        return dateTimePlaceholder || translations.setDateTime;
       } else {
-        text = `${date && displayFormat(date, locale) || '—'}, ${time || '—'}`;
+        return `${date && displayFormat(date, locale) || '—'}, ${time || '—'}`;
       }
-    } else if (!from && !to) {
-      text = rangePlaceholder || translations.setPeriod;
-    } else if (!to) {
-      text = `${displayFormat(from, locale)} —`;
-    } else if (!from) {
-      text = `— ${displayFormat(to, locale)}`;
-    } else if (!isSameYear(from, to)) {
-      text = `${displayFormat(from, locale)} — ${displayFormat(to, locale)}`;
-    } else if (!isSameMonth(from, to)) {
-      text = `${displayMonthFormat(from, locale)} — ${displayFormat(to, locale)}`;
-    } else if (!isSameDay(from, to)) {
-      text = `${displayDayFormat(from, locale)} — ${displayFormat(to, locale)}`;
+    } else if (from && to) {
+      if (!isSameYear(from, to)) {
+        return `${displayFormat(from, locale)} — ${displayFormat(to, locale)}`;
+      } else if (!isSameMonth(from, to)) {
+        return `${displayMonthFormat(from, locale)} — ${displayFormat(to, locale)}`;
+      } else if (!isSameDay(from, to)) {
+        return `${displayDayFormat(from, locale)} — ${displayFormat(to, locale)}`;
+      } else {
+        return `${displayFormat(to, locale)}`;
+      }
+    } else if (from) {
+      return `${displayFormat(from, locale)} —`;
+    } else if (to) {
+      return `— ${displayFormat(to, locale)}`;
     } else {
-      text = `${displayFormat(to, locale)}`;
+      return rangePlaceholder || translations.setPeriod;
     }
-
-    return text;
   };
 
   render() {
@@ -253,14 +281,6 @@ export default class DatePicker extends PureComponent {
       className
     );
 
-    // We want to provide translations further down to DateInput.
-    // Yet we should pass at least DateInput default translations not to have them empty.
-    datePopupProps.translations = Object.assign(
-      {},
-      DateInput.defaultProps.translations,
-      translations
-    );
-
     return (
       <Dropdown
         className={classes}
@@ -273,6 +293,13 @@ export default class DatePicker extends PureComponent {
           onClear={clear ? this.clear : null}
           datePopupProps={{
             ...datePopupProps,
+            // We want to provide translations further down to DateInput.
+            // Yet we should pass at least DateInput default translations not to have them empty.
+            translations: Object.assign(
+              {},
+              DateInput.defaultProps.translations,
+              translations
+            ),
             onChange: this.handleChange,
             parseDateInput: this.parse,
             time: this.formatTime()
@@ -283,3 +310,5 @@ export default class DatePicker extends PureComponent {
     );
   }
 }
+
+export type DatePickerAttrs = JSX.LibraryManagedAttributes<typeof DatePicker, DatePickerProps>
