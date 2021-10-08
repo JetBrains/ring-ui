@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -8,11 +8,17 @@ import adaptiveIslandHOC from './adaptive-island-hoc';
 
 import styles from './island.css';
 
+export interface IslandProps extends HTMLAttributes<HTMLElement> {
+  narrow?: boolean | null | undefined
+  withoutPaddings?: boolean | null | undefined
+  'data-test'?: string | null | undefined
+}
+
 /**
  * @name Island
  */
 
-export default class Island extends Component {
+export default class Island extends Component<IslandProps> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
