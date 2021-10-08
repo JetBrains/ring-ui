@@ -19,7 +19,7 @@ export interface ConfirmProps {
   rejectLabel: string
   onConfirm: ((event: React.MouseEvent<HTMLButtonElement>) => void)
   onReject: ((event?: React.MouseEvent<HTMLButtonElement>) => void)
-  className?: string | null | undefined
+  className?: string | undefined
 }
 
 /**
@@ -78,7 +78,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
 
     return (
       <Dialog
-        label={text || description}
+        label={text || (typeof description === 'string' ? description : undefined)}
         className={className}
         onEscPress={this.onEscPress}
         show={show}

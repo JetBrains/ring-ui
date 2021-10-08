@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 
 import {isNodeInVisiblePartOfPage} from '../global/dom';
@@ -7,11 +7,19 @@ import styles from './tab-trap.css';
 
 export const FOCUSABLE_ELEMENTS = 'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';
 
+export interface TabTrapProps extends HTMLAttributes<HTMLElement> {
+  children: ReactNode
+  trapDisabled: boolean
+  autoFocusFirst: boolean
+  focusBackOnClose: boolean
+  focusBackOnExit: boolean
+}
+
 /**
  * @name TabTrap
  */
 
-export default class TabTrap extends Component {
+export default class TabTrap extends Component<TabTrapProps> {
   static propTypes = {
     children: PropTypes.node.isRequired,
     trapDisabled: PropTypes.bool,
@@ -37,7 +45,7 @@ export default class TabTrap extends Component {
       (!this.node || !this.node.contains(this.previousFocusedNode))
     ) {
       this.trapWithoutFocus = true;
-      this.trapButtonNode.focus();
+      this.trapButtonNode?.focus();
     }
   }
 
@@ -47,10 +55,13 @@ export default class TabTrap extends Component {
     }
   }
 
+  previousFocusedNode?: Element | null;
+  trapWithoutFocus?: boolean;
+
   restoreFocus = () => {
     const {previousFocusedNode} = this;
     if (
-      previousFocusedNode &&
+      previousFocusedNode instanceof HTMLElement &&
       previousFocusedNode.focus &&
       isNodeInVisiblePartOfPage(previousFocusedNode)
     ) {
@@ -58,7 +69,8 @@ export default class TabTrap extends Component {
     }
   };
 
-  containerRef = node => {
+  node?: HTMLElement | null;
+  containerRef = (node: HTMLElement | null) => {
     if (!node) {
       return;
     }
@@ -71,7 +83,7 @@ export default class TabTrap extends Component {
       return;
     }
 
-    const tabables = [...node.querySelectorAll(FOCUSABLE_ELEMENTS)].
+    const tabables = [...node.querySelectorAll<HTMLElement>(FOCUSABLE_ELEMENTS)].
       filter(item => item.tabIndex >= 0);
 
     const toBeFocused = first ? tabables[0] : tabables[tabables.length - 1];
@@ -85,13 +97,14 @@ export default class TabTrap extends Component {
 
   focusLast = () => this.focusElement(false);
 
-  focusLastIfEnabled = event => {
+  focusLastIfEnabled = (event: React.FocusEvent) => {
     if (this.trapWithoutFocus) {
       return;
     }
     if (this.props.focusBackOnExit) {
       const prevFocused = event.nativeEvent.relatedTarget;
-      if (prevFocused != null && this.node != null && this.node.contains(prevFocused)) {
+      if (prevFocused != null && this.node != null && prevFocused instanceof Element &&
+        this.node.contains(prevFocused)) {
         this.restoreFocus();
       }
     } else {
@@ -99,7 +112,7 @@ export default class TabTrap extends Component {
     }
   };
 
-  handleBlurIfWithoutFocus = event => {
+  handleBlurIfWithoutFocus = (event: React.FocusEvent) => {
     if (!this.trapWithoutFocus) {
       return;
     }
@@ -110,14 +123,15 @@ export default class TabTrap extends Component {
       return;
     }
 
-    if (this.node.contains(newFocused)) {
+    if (newFocused instanceof Element && this.node?.contains(newFocused)) {
       return;
     }
 
     this.focusLast();
   };
 
-  trapButtonRef = node => {
+  trapButtonNode?: HTMLElement | null;
+  trapButtonRef = (node: HTMLElement | null) => {
     if (!node) {
       return;
     }

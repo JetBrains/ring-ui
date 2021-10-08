@@ -27,3 +27,9 @@ declare module 'combokeys/test/lib/key-event' {
     repeat?: number
   ): void;
 }
+
+declare module 'scrollbar-width' {
+  export default function getScrollbarWidth(
+    recalculate?: boolean
+  ): number | null;
+}
