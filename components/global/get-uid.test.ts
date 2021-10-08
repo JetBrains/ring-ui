@@ -2,6 +2,7 @@ import getUID from './get-uid';
 
 describe('getUid', () => {
   it('should throw an exception if the "name" argument isn\'t passed', () => {
+    // @ts-expect-error testing a wrong usage
     () => getUID().should.throw(Error);
   });
 

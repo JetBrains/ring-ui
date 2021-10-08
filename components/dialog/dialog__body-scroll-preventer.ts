@@ -3,9 +3,9 @@ import scrollbarWidth from 'scrollbar-width';
 import styles from './dialog.css';
 
 const isPrevented = new Set();
-let previousDocumentWidth = null;
+let previousDocumentWidth: string | null = null;
 
-const prevent = key => {
+const prevent = (key: string | number) => {
   if (isPrevented.has(key)) {
     return;
   }
@@ -22,13 +22,13 @@ const prevent = key => {
 
   const scrollWidth = scrollbarWidth();
 
-  if (documentHasScroll && scrollWidth > 0) {
+  if (documentHasScroll && scrollWidth != null && scrollWidth > 0) {
     previousDocumentWidth = document.documentElement.style.width;
     document.documentElement.style.width = `calc(100% - ${scrollWidth}px)`;
   }
 };
 
-const reset = key => {
+const reset = (key: string | number) => {
   if (isPrevented.size === 0) {
     return;
   }
@@ -47,7 +47,7 @@ const reset = key => {
   }
 };
 
-export const preventerFactory = key => {
+export const preventerFactory = (key: string | number) => {
   const preventerKey = key || Math.random();
 
   return {

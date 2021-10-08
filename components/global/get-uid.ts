@@ -1,6 +1,6 @@
-const idCounters = {};
+const idCounters: Record<string, number> = {};
 
-export default function getUID(name) {
+export default function getUID(name: string) {
   if (!name) {
     throw Error('Argument "name" is required in getUID()');
   }

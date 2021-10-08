@@ -1,5 +1,6 @@
 import React from 'react';
 import {useState} from '@storybook/client-api';
+import type {Story} from '@storybook/react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -23,7 +24,11 @@ export default {
   }
 };
 
-export const basic = ({onAction}) => {
+interface Args {
+  onAction(action: string): void
+}
+
+export const basic: Story<Args> = ({onAction}) => {
   class DialogDemo extends React.Component {
     state = {
       show: true,
@@ -102,7 +107,7 @@ unknown printer took a galley of type and scrambled it to make a type specimen
 book. It has survived not only five centuries, but also the leap into electronic
 typesetting, remaining essentially unchanged.`;
 
-export const withScroll = ({onAction}) => {
+export const withScroll: Story<Args> = ({onAction}) => {
   class DialogDemo extends React.Component {
     state = {
       show: true
