@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -10,12 +10,16 @@ import {PhaseContext} from './adaptive-island-hoc';
 const Start = {
   FONT_SIZE: 24,
   LINE_HEIGHT: 28,
-  PADDING: 16
+  PADDING: 16,
+  X: 0,
+  Y: 0,
+  SPACING: 0
 };
 
 const End = {
   FONT_SIZE: 13,
   LINE_HEIGHT: 28,
+  PADDING: 0,
 
   // Compensation
   X: 0.4,
@@ -25,7 +29,13 @@ const End = {
 
 const BORDER_APPEAR_PHASE = 0.5;
 
-class Header extends Component {
+export interface IslandHeaderProps extends HTMLAttributes<HTMLElement> {
+  wrapWithTitle?: boolean | undefined
+  border?: boolean | null | undefined
+  phase?: number | undefined
+}
+
+class Header extends Component<IslandHeaderProps> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -38,12 +48,12 @@ class Header extends Component {
     wrapWithTitle: true
   };
 
-  style(name) {
-    return interpolateLinear(Start[name] || 0, End[name] || 0, this.props.phase);
+  style(name: keyof typeof Start) {
+    return interpolateLinear(Start[name], End[name], this.props.phase ?? 0);
   }
 
   render() {
-    const {children, className, wrapWithTitle, border, phase, ...restProps} = this.props;
+    const {children, className, wrapWithTitle, border, phase = 0, ...restProps} = this.props;
     const classes = classNames(styles.header, className, {
       [styles.withBottomBorder]: border || phase >= BORDER_APPEAR_PHASE
     });
@@ -54,7 +64,7 @@ class Header extends Component {
         lineHeight: `${this.style('LINE_HEIGHT')}px`, // need to append px because number is a valid line-height value
         paddingTop: this.style('PADDING')
       }
-      : null;
+      : undefined;
 
     const scaleFont = phase != null && this.style('FONT_SIZE') / Start.FONT_SIZE;
 
@@ -64,7 +74,7 @@ class Header extends Component {
         transform: `translate(${this.style('X')}px, ${this.style('Y')}px) scale(${scaleFont})`,
         letterSpacing: this.style('SPACING')
       }
-      : null;
+      : undefined;
 
     return (
       <div
@@ -90,7 +100,7 @@ class Header extends Component {
   }
 }
 
-const HeaderWrapper = props => (
+const HeaderWrapper = (props: IslandHeaderProps) => (
   <PhaseContext.Consumer>
     {phase => {
       const addProps = phase != null ? {phase} : {};
