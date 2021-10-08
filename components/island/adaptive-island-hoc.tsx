@@ -1,23 +1,25 @@
-import React, {Component, createContext} from 'react';
+import React, {Component, ComponentType, createContext} from 'react';
 
 import {interpolateLinear} from '../global/linear-function';
 
 const TITLE_RESIZE_END = 20;
 const TITLE_RESIZE_THRESHOLD = 36;
 
-export const PhaseContext = createContext();
-export const ScrollHandlerContext = createContext();
+export const PhaseContext = createContext<number | null>(null);
 
-export default function adaptiveIslandHOC(ComposedComponent) {
+type ScrollHandler = (element: Element) => void
+export const ScrollHandlerContext = createContext<ScrollHandler>(() => {});
 
-  return class AdaptiveIsland extends Component {
+export default function adaptiveIslandHOC<P>(ComposedComponent: ComponentType<P>) {
+
+  return class AdaptiveIsland extends Component<P> {
     static propTypes = ComposedComponent.propTypes;
 
     state = {
       phase: 0
     };
 
-    onContentScroll = ({scrollTop, scrollHeight, clientHeight}) => {
+    onContentScroll = ({scrollTop, scrollHeight, clientHeight}: Element) => {
       if (scrollHeight - clientHeight >=
         interpolateLinear(TITLE_RESIZE_THRESHOLD, TITLE_RESIZE_END, this.state.phase)) {
         const phase = Math.min(1, scrollTop / TITLE_RESIZE_END);
