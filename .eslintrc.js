@@ -131,7 +131,8 @@ module.exports = {
       rules: {
         'new-cap': [error, {
           capIsNewExceptionPattern: '^.*\.UNSAFE_'
-        }]
+        }],
+        '@typescript-eslint/no-non-null-assertion': ignore
       }
     },
     {

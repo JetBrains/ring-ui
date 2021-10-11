@@ -1,11 +1,20 @@
-import React, {createContext, memo, useContext, useEffect, useState} from 'react';
+import React, {createContext, memo, useContext, useEffect, useState, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
-export default function createStatefulContext(initialValue, name = '') {
-  const ValueContext = createContext(initialValue);
-  const UpdateContext = createContext(() => {});
+type Update<T> = (value: T) => void
+export interface ProviderProps {
+  children: ReactNode
+}
+export interface UpdaterProps<T> {
+  value: T
+  skipUpdate?: boolean
+}
 
-  function Provider({children}) {
+export default function createStatefulContext<T>(initialValue: T, name = '') {
+  const ValueContext = createContext(initialValue);
+  const UpdateContext = createContext<Update<T>>(() => {});
+
+  function Provider({children}: ProviderProps) {
     const [value, update] = useState(initialValue);
     return (
       <ValueContext.Provider value={value}>
@@ -20,7 +29,7 @@ export default function createStatefulContext(initialValue, name = '') {
   };
   Provider.displayName = `${name}Provider`;
 
-  function useUpdate(value, skipUpdate) {
+  function useUpdate(value: T, skipUpdate?: boolean) {
     const update = useContext(UpdateContext);
     useEffect(() => {
       if (!skipUpdate) {
@@ -29,7 +38,7 @@ export default function createStatefulContext(initialValue, name = '') {
     }, [update, value, skipUpdate]);
   }
 
-  function Updater({value, skipUpdate}) {
+  function Updater({value, skipUpdate}: UpdaterProps<T>) {
     useUpdate(value, skipUpdate);
 
     return null;
