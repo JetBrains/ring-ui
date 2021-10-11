@@ -1,11 +1,22 @@
-import React, {useMemo, cloneElement} from 'react';
+import React, {
+  useMemo,
+  cloneElement,
+  ComponentType,
+  ReactElement,
+  ReactNodeArray,
+  HTMLAttributes,
+  SyntheticEvent,
+  Ref
+} from 'react';
 import PropTypes from 'prop-types';
 
-import List, {ActiveItemContext} from '../list/list';
-import Dropdown from '../dropdown/dropdown';
-import PopupMenu from '../popup-menu/popup-menu';
+import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
+import Dropdown, {AnchorProps, DropdownAttrs} from '../dropdown/dropdown';
+import PopupMenu, {PopupMenuProps} from '../popup-menu/popup-menu';
 import getUID from '../global/get-uid';
 import Anchor from '../dropdown/anchor';
+
+import {ListDataItem} from '@jetbrains/ring-ui/components/list/consts';
 
 const {children, ...dropdownPropTypes} = Dropdown.propTypes || {};
 const {
@@ -13,15 +24,29 @@ const {
   data: dataPropType,
   ariaLabel: ariaLabelPropType,
   onSelect: onSelectPropType
-} = PopupMenu.propTypes || {};
+} = (PopupMenu as ComponentType<PopupMenuProps>).propTypes || {};
 
 const defaultAriaLabel = 'Dropdown menu';
 
-function DropdownAnchorWrapper({anchor, pinned, active, activeListItemId, listId, ...restProps}) {
+export interface DropdownAnchorWrapperProps extends AnchorProps {
+  anchor: ReactElement | ReactNodeArray | string
+    | ((props: AnchorProps, ariaProps: HTMLAttributes<HTMLElement>) => ReactElement | null)
+  activeListItemId?: string | null | undefined
+  listId?: string | undefined
+}
+
+function DropdownAnchorWrapper({
+  anchor,
+  pinned,
+  active,
+  activeListItemId,
+  listId,
+  ...restProps
+}: DropdownAnchorWrapperProps) {
   const anchorAriaProps = useMemo(() => ({
-    ...(listId ? {'aria-haspopup': 'true'} : {}),
+    ...(listId ? {'aria-haspopup': true} : {}),
     ...(activeListItemId ? {'aria-activedescendant': activeListItemId, 'aria-owns': listId} : {}),
-    ...(active ? {'aria-expanded': 'true'} : {})
+    ...(active ? {'aria-expanded': true} : {})
   }), [active, activeListItemId, listId]);
 
   const anchorProps = useMemo(
@@ -55,6 +80,20 @@ function DropdownAnchorWrapper({anchor, pinned, active, activeListItemId, listId
   );
 }
 
+export interface DropdownMenuProps<T = unknown> extends
+  Omit<DropdownAttrs, 'anchor' | 'onSelect' | 'children'> {
+  anchor: ReactElement | ReactNodeArray | string
+    | ((props: AnchorProps, ariaProps: HTMLAttributes<HTMLElement>) => ReactElement | null)
+  data?: readonly ListDataItem<T>[] | undefined
+  ariaLabel?: string | null | undefined
+  onSelect?: ((
+    item: ListDataItem<T>,
+    event: Event | SyntheticEvent,
+    params?: SelectHandlerParams,
+  ) => void) | undefined
+  menuProps?: PopupMenuProps<T> | null | undefined
+}
+
 DropdownAnchorWrapper.propTypes = {
   anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.func]).isRequired,
   pinned: PropTypes.bool,
@@ -63,9 +102,9 @@ DropdownAnchorWrapper.propTypes = {
   listId: PropTypes.string
 };
 
-const DropdownMenu = React.forwardRef(function DropdownMenu(
-  {id, anchor, ariaLabel, data, onSelect, menuProps, ...restDropdownProps},
-  forwardedRef
+const DropdownMenu = React.forwardRef(function DropdownMenu<T = unknown>(
+  {id, anchor, ariaLabel, data, onSelect, menuProps, ...restDropdownProps}: DropdownMenuProps<T>,
+  forwardedRef: Ref<PopupMenu<T>>
 ) {
   const listId = useMemo(() => id || getUID('dropdown-menu-list'), [id]);
 
@@ -101,9 +140,9 @@ const DropdownMenu = React.forwardRef(function DropdownMenu(
       </Dropdown>
     </ActiveItemContext.Provider>
   );
-});
+}) as <T = unknown>(props: DropdownMenuProps<T> & { ref?: Ref<PopupMenu> }) => ReactElement | null;
 
-DropdownMenu.propTypes = {
+(DropdownMenu as ComponentType<unknown>).propTypes = {
   id: idPropType,
   data: dataPropType,
   ariaLabel: ariaLabelPropType,
@@ -112,6 +151,4 @@ DropdownMenu.propTypes = {
   ...dropdownPropTypes
 };
 
-DropdownMenu.ListProps = List.ListProps;
-
-export default DropdownMenu;
+export default Object.assign(DropdownMenu, {ListProps: List.ListProps});

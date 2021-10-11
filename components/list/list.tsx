@@ -117,7 +117,7 @@ export interface ListProps<T = unknown> {
 const shouldActivateFirstItem = (props: ListProps) => props.activateFirstItem ||
     props.activateSingleItem && props.data.length === 1;
 
-export const ActiveItemContext = createStatefulContext(undefined, 'ActiveItem');
+export const ActiveItemContext = createStatefulContext<string | undefined>(undefined, 'ActiveItem');
 
 export interface ListState<T = unknown> {
   activeIndex: number | null

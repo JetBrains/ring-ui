@@ -15,7 +15,7 @@ import {PopupAttrs} from '../popup/popup';
 import Anchor from './anchor';
 import styles from './dropdown.css';
 
-interface AnchorProps {
+export interface AnchorProps {
   active: boolean
   pinned: boolean
 }
