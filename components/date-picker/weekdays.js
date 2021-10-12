@@ -8,9 +8,11 @@ import startOfDay from 'date-fns/startOfDay';
 import {weekdays} from './consts';
 import styles from './date-picker.css';
 
-export default function Weekdays() {
+export default function Weekdays(props) {
   const days = Object.keys(weekdays).
     map(key => startOfDay(setDay(new Date(), weekdays[key])));
+
+  const {locale} = props;
 
   return (
     <div className={styles.weekdays}>
@@ -24,7 +26,7 @@ export default function Weekdays() {
           )}
           key={+day}
         >
-          {format(day, 'EEEEEE')}
+          {format(day, 'EEEEEE', {locale})}
         </span>
       ))}
     </div>

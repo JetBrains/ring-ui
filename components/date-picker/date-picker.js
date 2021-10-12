@@ -90,7 +90,8 @@ export default class DatePicker extends PureComponent {
     disabled: PropTypes.bool,
     minDate: dateType,
     maxDate: dateType,
-    translations: PropTypes.object
+    translations: PropTypes.object,
+    language: PropTypes.string
   };
 
   static defaultProps = {

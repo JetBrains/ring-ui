@@ -18,6 +18,19 @@ import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
 
+import deLocale from 'date-fns/locale/de';
+import ruLocale from 'date-fns/locale/ru';
+import esLocale from 'date-fns/locale/es';
+import frLocale from 'date-fns/locale/fr';
+
+const localeMap = {
+  de: deLocale,
+  ru: ruLocale,
+  es: esLocale,
+  fr: frLocale
+};
+
+
 export default class DatePopup extends Component {
 
   static sameDay(next, prev) {
@@ -47,7 +60,8 @@ export default class DatePopup extends Component {
     hidden: PropTypes.bool,
     fromPlaceholder: PropTypes.string,
     toPlaceholder: PropTypes.string,
-    timePlaceholder: PropTypes.string
+    timePlaceholder: PropTypes.string,
+    language: PropTypes.string
   };
 
   static defaultProps = {
@@ -297,7 +311,7 @@ export default class DatePopup extends Component {
   };
 
   render() {
-    const {range, hidden, withTime, time} = this.props;
+    const {range, hidden, withTime, time, language} = this.props;
     const parsedDate = this.parse(this.props.date, 'date');
     const parsedTo = this.parse(this.props.to, 'to');
 
@@ -357,6 +371,8 @@ export default class DatePopup extends Component {
     };
 
     const clearable = Boolean(this.props.onClear);
+
+    const locale = language in localeMap ? localeMap[language] : undefined;
 
     return (
       <div
@@ -418,7 +434,7 @@ export default class DatePopup extends Component {
               : ('')
           }
         </div>
-        <Weekdays/>
+        <Weekdays locale={locale}/>
         <div
           className={styles.calendar}
         >
@@ -426,6 +442,7 @@ export default class DatePopup extends Component {
             {...calendarProps}
             onHover={this.hoverHandler}
             onSelect={this.selectHandler}
+            locale={locale}
           />
           <Years {...calendarProps}/>
         </div>

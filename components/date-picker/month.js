@@ -12,6 +12,7 @@ import styles from './date-picker.css';
 export default function Month(props) {
   const start = props.month;
   const end = endOfMonth(start);
+  const {locale} = props;
 
   // pad with empty cells starting from last friday
   const weekday = getDay(start);
@@ -25,7 +26,7 @@ export default function Month(props) {
   return (
     <div className={styles.month}>
       <span className={styles.monthTitle}>
-        {format(props.month, 'MMMM')}
+        {format(props.month, 'LLLL', {locale})}
       </span>
       {days.map(date => (
         <Day
