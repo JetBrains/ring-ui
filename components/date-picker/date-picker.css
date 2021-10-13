@@ -198,9 +198,9 @@
 
   text-align: left;
 
-  font-weight: bold;
-
   text-transform: capitalize;
+
+  font-weight: bold;
 
   @supports (flex-basis: 1px) {
     flex-basis: calc(unit * 12);
@@ -451,9 +451,9 @@
   height: cellSize;
   padding-left: calc(unit * 1.5);
 
-  line-height: cellSize;
-
   text-transform: capitalize;
+
+  line-height: cellSize;
 }
 
 .monthSlider {
