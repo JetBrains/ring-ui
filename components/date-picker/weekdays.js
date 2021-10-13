@@ -5,6 +5,8 @@ import format from 'date-fns/format';
 import setDay from 'date-fns/setDay';
 import startOfDay from 'date-fns/startOfDay';
 
+import PropTypes from 'prop-types';
+
 import {weekdays} from './consts';
 import styles from './date-picker.css';
 
@@ -32,3 +34,7 @@ export default function Weekdays(props) {
     </div>
   );
 }
+
+Weekdays.propTypes = {
+  locale: PropTypes.string
+};

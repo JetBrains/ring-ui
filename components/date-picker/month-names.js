@@ -42,7 +42,8 @@ class MonthName extends PureComponent {
 
 MonthName.propTypes = {
   month: dateType,
-  onScrollChange: PropTypes.func
+  onScrollChange: PropTypes.func,
+  locale: PropTypes.string
 };
 
 export default function MonthNames(props) {
@@ -98,5 +99,6 @@ export default function MonthNames(props) {
 MonthNames.propTypes = {
   scrollDate: dateType,
   onScrollChange: PropTypes.func,
-  currentRange: PropTypes.arrayOf(dateType)
+  currentRange: PropTypes.arrayOf(dateType),
+  locale: PropTypes.string
 };

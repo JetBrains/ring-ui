@@ -6,6 +6,11 @@ import isSameDay from 'date-fns/isSameDay';
 import startOfDay from 'date-fns/startOfDay';
 import calendarIcon from '@jetbrains/icons/calendar';
 
+import deLocale from 'date-fns/locale/de';
+import ruLocale from 'date-fns/locale/ru';
+import esLocale from 'date-fns/locale/es';
+import frLocale from 'date-fns/locale/fr';
+
 import Icon from '../icon/icon';
 import memoize from '../global/memoize';
 
@@ -17,11 +22,6 @@ import {dateType, parseTime} from './consts';
 import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
-
-import deLocale from 'date-fns/locale/de';
-import ruLocale from 'date-fns/locale/ru';
-import esLocale from 'date-fns/locale/es';
-import frLocale from 'date-fns/locale/fr';
 
 const localeMap = {
   de: deLocale,

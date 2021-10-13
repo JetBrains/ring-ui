@@ -5,6 +5,8 @@ import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import setDay from 'date-fns/setDay';
 
+import PropTypes from 'prop-types';
+
 import Day from './day';
 import {dateType, WEEK, weekdays} from './consts';
 import styles from './date-picker.css';
@@ -41,5 +43,6 @@ export default function Month(props) {
 }
 
 Month.propTypes = {
-  month: dateType
+  month: dateType,
+  locale: PropTypes.string
 };
