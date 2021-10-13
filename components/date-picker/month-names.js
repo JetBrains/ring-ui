@@ -34,7 +34,7 @@ class MonthName extends PureComponent {
         )}
         onClick={this.handleClick}
       >
-        {format(month, 'MMM', {locale})}
+        {format(month, 'LLL', {locale})}
       </button>
     );
   }
