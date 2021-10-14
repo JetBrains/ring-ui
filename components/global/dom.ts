@@ -3,7 +3,7 @@
  */
 
 import {SyntheticEvent} from 'react';
-import {PropertiesHyphen} from 'csstype';
+import type {PropertiesHyphen} from 'csstype';
 
 export const getStyles = window.getComputedStyle.bind(window);
 

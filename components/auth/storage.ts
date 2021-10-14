@@ -27,6 +27,7 @@ export interface StoredToken {
   scopes?: string[]
   expires?: number
   lifeTime?: number
+  waitForRedirectTimeout?: number
 }
 
 export interface AuthState extends AuthResponse {

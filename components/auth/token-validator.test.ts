@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import {Stub} from '../../test-helpers/globals';
+import type {Stub} from '../../test-helpers/globals.d';
 
 import HTTP from '../http/http';
 import LocalStorage from '../storage/storage__local';
