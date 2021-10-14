@@ -211,7 +211,7 @@ export default class DatePicker extends PureComponent {
       language
     } = this.props;
 
-    const locale = language in localeMap ? localeMap[language] : undefined;
+    const locale = localeMap[language];
 
     const date = this.parse(this.props.date);
     const from = this.parse(this.props.from);

@@ -360,7 +360,7 @@ export default class DatePopup extends Component {
 
     const clearable = Boolean(this.props.onClear);
 
-    const locale = language in localeMap ? localeMap[language] : undefined;
+    const locale = localeMap[language];
 
     return (
       <div
