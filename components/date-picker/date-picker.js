@@ -9,6 +9,11 @@ import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 import set from 'date-fns/set';
 
+import deLocale from 'date-fns/locale/de';
+import ruLocale from 'date-fns/locale/ru';
+import esLocale from 'date-fns/locale/es';
+import frLocale from 'date-fns/locale/fr';
+
 import memoize from '../global/memoize';
 
 import Popup from '../popup/popup';
@@ -19,6 +24,13 @@ import {dateType, deprecatedPropType} from './consts';
 import styles from './date-picker.css';
 import formats from './formats';
 import DateInput from './date-input';
+
+export const localeMap = {
+  de: deLocale,
+  ru: ruLocale,
+  es: esLocale,
+  fr: frLocale
+};
 
 const PopupComponent = ({
   hidden,
@@ -195,8 +207,11 @@ export default class DatePicker extends PureComponent {
       displayFormat,
       displayMonthFormat,
       displayDayFormat,
-      translations
+      translations,
+      language
     } = this.props;
+
+    const locale = language in localeMap ? localeMap[language] : undefined;
 
     const date = this.parse(this.props.date);
     const from = this.parse(this.props.from);
@@ -205,27 +220,27 @@ export default class DatePicker extends PureComponent {
 
     let text;
     if (!range && !withTime) {
-      text = date ? displayFormat(date) : datePlaceholder || translations.setDate;
+      text = date ? displayFormat(date, locale) : datePlaceholder || translations.setDate;
     } else if (!range && withTime) {
       if (!date && !time) {
         text = dateTimePlaceholder || translations.setDateTime;
       } else {
-        text = `${date && displayFormat(date) || '—'}, ${time || '—'}`;
+        text = `${date && displayFormat(date, locale) || '—'}, ${time || '—'}`;
       }
     } else if (!from && !to) {
       text = rangePlaceholder || translations.setPeriod;
     } else if (!to) {
-      text = `${displayFormat(from)} —`;
+      text = `${displayFormat(from, locale)} —`;
     } else if (!from) {
-      text = `— ${displayFormat(to)}`;
+      text = `— ${displayFormat(to, locale)}`;
     } else if (!isSameYear(from, to)) {
-      text = `${displayFormat(from)} — ${displayFormat(to)}`;
+      text = `${displayFormat(from, locale)} — ${displayFormat(to, locale)}`;
     } else if (!isSameMonth(from, to)) {
-      text = `${displayMonthFormat(from)} — ${displayFormat(to)}`;
+      text = `${displayMonthFormat(from, locale)} — ${displayFormat(to, locale)}`;
     } else if (!isSameDay(from, to)) {
-      text = `${displayDayFormat(from)} — ${displayFormat(to)}`;
+      text = `${displayDayFormat(from, locale)} — ${displayFormat(to, locale)}`;
     } else {
-      text = `${displayFormat(to)}`;
+      text = `${displayFormat(to, locale)}`;
     }
 
     return text;

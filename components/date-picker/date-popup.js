@@ -6,11 +6,6 @@ import isSameDay from 'date-fns/isSameDay';
 import startOfDay from 'date-fns/startOfDay';
 import calendarIcon from '@jetbrains/icons/calendar';
 
-import deLocale from 'date-fns/locale/de';
-import ruLocale from 'date-fns/locale/ru';
-import esLocale from 'date-fns/locale/es';
-import frLocale from 'date-fns/locale/fr';
-
 import Icon from '../icon/icon';
 import memoize from '../global/memoize';
 
@@ -20,16 +15,9 @@ import Years from './years';
 import Weekdays from './weekdays';
 import {dateType, parseTime} from './consts';
 import styles from './date-picker.css';
+import {localeMap} from './date-picker';
 
 const scrollExpDelay = 10;
-
-const localeMap = {
-  de: deLocale,
-  ru: ruLocale,
-  es: esLocale,
-  fr: frLocale
-};
-
 
 export default class DatePopup extends Component {
 
