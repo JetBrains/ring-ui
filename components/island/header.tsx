@@ -53,9 +53,9 @@ class Header extends Component<IslandHeaderProps> {
   }
 
   render() {
-    const {children, className, wrapWithTitle, border, phase = 0, ...restProps} = this.props;
+    const {children, className, wrapWithTitle, border, phase, ...restProps} = this.props;
     const classes = classNames(styles.header, className, {
-      [styles.withBottomBorder]: border || phase >= BORDER_APPEAR_PHASE
+      [styles.withBottomBorder]: border || phase != null && phase >= BORDER_APPEAR_PHASE
     });
 
 
