@@ -9,19 +9,6 @@ import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 import set from 'date-fns/set';
 
-import deLocale from 'date-fns/locale/de';
-import ruLocale from 'date-fns/locale/ru';
-import esLocale from 'date-fns/locale/es';
-import frLocale from 'date-fns/locale/fr';
-import csLocale from 'date-fns/locale/cs';
-import heLocale from 'date-fns/locale/he';
-import huLocale from 'date-fns/locale/hu';
-import jaLocale from 'date-fns/locale/ja';
-import koLocale from 'date-fns/locale/ko';
-import zhLocale from 'date-fns/locale/zh-CN';
-import ptLocale from 'date-fns/locale/pt';
-import plLocale from 'date-fns/locale/pl';
-
 import memoize from '../global/memoize';
 
 import Popup from '../popup/popup';
@@ -32,21 +19,6 @@ import {dateType, deprecatedPropType} from './consts';
 import styles from './date-picker.css';
 import formats from './formats';
 import DateInput from './date-input';
-
-export const localeMap = {
-  de: deLocale,
-  ru: ruLocale,
-  es: esLocale,
-  fr: frLocale,
-  cs: csLocale,
-  he: heLocale,
-  hu: huLocale,
-  ja: jaLocale,
-  ko: koLocale,
-  zh: zhLocale,
-  pt: ptLocale,
-  pl: plLocale
-};
 
 const PopupComponent = ({
   hidden,
@@ -119,7 +91,7 @@ export default class DatePicker extends PureComponent {
     minDate: dateType,
     maxDate: dateType,
     translations: PropTypes.object,
-    language: PropTypes.string
+    locale: PropTypes.object
   };
 
   static defaultProps = {
@@ -224,10 +196,8 @@ export default class DatePicker extends PureComponent {
       displayMonthFormat,
       displayDayFormat,
       translations,
-      language
+      locale
     } = this.props;
-
-    const locale = localeMap[language];
 
     const date = this.parse(this.props.date);
     const from = this.parse(this.props.from);

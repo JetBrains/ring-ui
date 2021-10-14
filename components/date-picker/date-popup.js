@@ -15,7 +15,6 @@ import Years from './years';
 import Weekdays from './weekdays';
 import {dateType, parseTime} from './consts';
 import styles from './date-picker.css';
-import {localeMap} from './date-picker';
 
 const scrollExpDelay = 10;
 
@@ -49,7 +48,7 @@ export default class DatePopup extends Component {
     fromPlaceholder: PropTypes.string,
     toPlaceholder: PropTypes.string,
     timePlaceholder: PropTypes.string,
-    language: PropTypes.string
+    locale: PropTypes.object
   };
 
   static defaultProps = {
@@ -299,7 +298,7 @@ export default class DatePopup extends Component {
   };
 
   render() {
-    const {range, hidden, withTime, time, language} = this.props;
+    const {range, hidden, withTime, time, locale} = this.props;
     const parsedDate = this.parse(this.props.date, 'date');
     const parsedTo = this.parse(this.props.to, 'to');
 
@@ -359,8 +358,6 @@ export default class DatePopup extends Component {
     };
 
     const clearable = Boolean(this.props.onClear);
-
-    const locale = localeMap[language];
 
     return (
       <div
