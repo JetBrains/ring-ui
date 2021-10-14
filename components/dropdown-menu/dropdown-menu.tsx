@@ -16,7 +16,9 @@ import PopupMenu, {PopupMenuProps} from '../popup-menu/popup-menu';
 import getUID from '../global/get-uid';
 import Anchor from '../dropdown/anchor';
 
-import {ListDataItem} from '@jetbrains/ring-ui/components/list/consts';
+import {isArray} from '../global/typescript-utils';
+
+import {ListDataItem} from '../list/consts';
 
 const {children, ...dropdownPropTypes} = Dropdown.propTypes || {};
 const {
@@ -69,7 +71,7 @@ function DropdownAnchorWrapper({
   if (typeof anchor === 'function') {
     return anchor(({active, pinned, ...restProps}), anchorAriaProps);
   }
-  if (!Array.isArray(anchor)) {
+  if (!isArray(anchor)) {
     return cloneElement(
       anchor,
       typeof anchor.type === 'string' ? anchorAriaProps : anchorComponentProps
