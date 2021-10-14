@@ -21,7 +21,7 @@ class MonthName extends PureComponent {
   };
 
   render() {
-    const {month} = this.props;
+    const {month, locale} = this.props;
 
     return (
       <button
@@ -34,7 +34,7 @@ class MonthName extends PureComponent {
         )}
         onClick={this.handleClick}
       >
-        {format(month, 'MMM')}
+        {format(month, 'LLL', {locale})}
       </button>
     );
   }
@@ -42,11 +42,12 @@ class MonthName extends PureComponent {
 
 MonthName.propTypes = {
   month: dateType,
-  onScrollChange: PropTypes.func
+  onScrollChange: PropTypes.func,
+  locale: PropTypes.string
 };
 
 export default function MonthNames(props) {
-  const {scrollDate} = props;
+  const {scrollDate, locale} = props;
   const months = [];
   for (let i = 0; i < YEAR; i++) {
     const middleDay = set(scrollDate, {month: i, date: MIDDLE_DAY});
@@ -73,6 +74,7 @@ export default function MonthNames(props) {
           key={+month}
           month={month}
           onScrollChange={props.onScrollChange}
+          locale={locale}
         />
       ))}
       {props.currentRange &&
@@ -97,5 +99,6 @@ export default function MonthNames(props) {
 MonthNames.propTypes = {
   scrollDate: dateType,
   onScrollChange: PropTypes.func,
-  currentRange: PropTypes.arrayOf(dateType)
+  currentRange: PropTypes.arrayOf(dateType),
+  locale: PropTypes.string
 };

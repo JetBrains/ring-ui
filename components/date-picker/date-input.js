@@ -25,7 +25,8 @@ export default class DateInput extends React.PureComponent {
     onInput: PropTypes.func,
     onActivate: PropTypes.func,
     onConfirm: PropTypes.func,
-    onClear: PropTypes.func
+    onClear: PropTypes.func,
+    locale: PropTypes.object
   };
 
   static defaultProps = {
@@ -78,16 +79,16 @@ export default class DateInput extends React.PureComponent {
       time, name, hoverDate,
       date, displayFormat, translations,
       onActivate, onClear,
-      fromPlaceholder, toPlaceholder, timePlaceholder
+      fromPlaceholder, toPlaceholder, timePlaceholder, locale
     } = this.props;
 
     let displayText = '';
     if (active && hoverDate) {
-      displayText = displayFormat(hoverDate);
+      displayText = displayFormat(hoverDate, locale);
     } else if (active && text != null) {
       displayText = text;
     } else if (date) {
-      displayText = displayFormat(date);
+      displayText = displayFormat(date, locale);
     } else if (name === 'time') {
       displayText = time || '';
     }
