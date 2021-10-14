@@ -10,10 +10,6 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/generator/test_gen" />
       <excludeFolder url="file://$MODULE_DIR$/packages/hermione/html-report" />
       <excludeFolder url="file://$MODULE_DIR$/.husky/_" />
-      <excludeFolder url="file://$MODULE_DIR$/.storybook/custom-header/node_modules" />
-      <excludeFolder url="file://$MODULE_DIR$/packages/generator/node_modules" />
-      <excludeFolder url="file://$MODULE_DIR$/packages/hermione/node_modules" />
-      <excludeFolder url="file://$MODULE_DIR$/node_modules" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
