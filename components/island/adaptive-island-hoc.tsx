@@ -8,7 +8,7 @@ const TITLE_RESIZE_THRESHOLD = 36;
 export const PhaseContext = createContext<number | null>(null);
 
 type ScrollHandler = (element: Element) => void
-export const ScrollHandlerContext = createContext<ScrollHandler>(() => {});
+export const ScrollHandlerContext = createContext<ScrollHandler | null>(null);
 
 export default function adaptiveIslandHOC<P>(ComposedComponent: ComponentType<P>) {
 
