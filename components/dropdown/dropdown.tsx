@@ -12,6 +12,8 @@ import classNames from 'classnames';
 import dataTests from '../global/data-tests';
 import {PopupAttrs} from '../popup/popup';
 
+import {isArray} from '../global/typescript-utils';
+
 import Anchor from './anchor';
 import styles from './dropdown.css';
 
@@ -183,7 +185,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
         break;
 
       default:
-        if (Array.isArray(anchor) || typeof anchor.type === 'string') {
+        if (isArray(anchor) || typeof anchor.type === 'string') {
           anchorElement = anchor;
         } else {
           anchorElement = cloneElement(anchor, {active});
