@@ -100,6 +100,7 @@ export interface AuthConfig extends TokenValidatorConfig {
   defaultExpiresIn: number
   translations: AuthTranslations
   userParams?: RequestParams | undefined
+  waitForRedirectTimeout: number
 }
 
 const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
