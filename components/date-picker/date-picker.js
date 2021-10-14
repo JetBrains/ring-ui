@@ -90,7 +90,8 @@ export default class DatePicker extends PureComponent {
     disabled: PropTypes.bool,
     minDate: dateType,
     maxDate: dateType,
-    translations: PropTypes.object
+    translations: PropTypes.object,
+    locale: PropTypes.object
   };
 
   static defaultProps = {
@@ -101,10 +102,10 @@ export default class DatePicker extends PureComponent {
     from: null,
     to: null,
     clear: false,
-    displayFormat: date => (date ? formatDate(date, 'd MMM yyyy') : ''),
-    displayMonthFormat: date => (date ? formatDate(date, 'd MMM') : ''),
-    displayDayFormat: date => (date ? formatDate(date, 'd') : ''),
-    displayTimeFormat: date => (date ? formatDate(date, 'HH:mm') : ''),
+    displayFormat: (date, locale) => (date ? formatDate(date, 'd MMM yyyy', {locale}) : ''),
+    displayMonthFormat: (date, locale) => (date ? formatDate(date, 'd MMM', {locale}) : ''),
+    displayDayFormat: (date, locale) => (date ? formatDate(date, 'd', {locale}) : ''),
+    displayTimeFormat: (date, locale) => (date ? formatDate(date, 'HH:mm', {locale}) : ''),
     datePlaceholder: 'Set a date',
     dateTimePlaceholder: 'Set date and time',
     rangePlaceholder: 'Set a period',
@@ -194,7 +195,8 @@ export default class DatePicker extends PureComponent {
       displayFormat,
       displayMonthFormat,
       displayDayFormat,
-      translations
+      translations,
+      locale
     } = this.props;
 
     const date = this.parse(this.props.date);
@@ -204,27 +206,27 @@ export default class DatePicker extends PureComponent {
 
     let text;
     if (!range && !withTime) {
-      text = date ? displayFormat(date) : datePlaceholder || translations.setDate;
+      text = date ? displayFormat(date, locale) : datePlaceholder || translations.setDate;
     } else if (!range && withTime) {
       if (!date && !time) {
         text = dateTimePlaceholder || translations.setDateTime;
       } else {
-        text = `${date && displayFormat(date) || '—'}, ${time || '—'}`;
+        text = `${date && displayFormat(date, locale) || '—'}, ${time || '—'}`;
       }
     } else if (!from && !to) {
       text = rangePlaceholder || translations.setPeriod;
     } else if (!to) {
-      text = `${displayFormat(from)} —`;
+      text = `${displayFormat(from, locale)} —`;
     } else if (!from) {
-      text = `— ${displayFormat(to)}`;
+      text = `— ${displayFormat(to, locale)}`;
     } else if (!isSameYear(from, to)) {
-      text = `${displayFormat(from)} — ${displayFormat(to)}`;
+      text = `${displayFormat(from, locale)} — ${displayFormat(to, locale)}`;
     } else if (!isSameMonth(from, to)) {
-      text = `${displayMonthFormat(from)} — ${displayFormat(to)}`;
+      text = `${displayMonthFormat(from, locale)} — ${displayFormat(to, locale)}`;
     } else if (!isSameDay(from, to)) {
-      text = `${displayDayFormat(from)} — ${displayFormat(to)}`;
+      text = `${displayDayFormat(from, locale)} — ${displayFormat(to, locale)}`;
     } else {
-      text = `${displayFormat(to)}`;
+      text = `${displayFormat(to, locale)}`;
     }
 
     return text;

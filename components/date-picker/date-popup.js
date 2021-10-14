@@ -47,7 +47,8 @@ export default class DatePopup extends Component {
     hidden: PropTypes.bool,
     fromPlaceholder: PropTypes.string,
     toPlaceholder: PropTypes.string,
-    timePlaceholder: PropTypes.string
+    timePlaceholder: PropTypes.string,
+    locale: PropTypes.object
   };
 
   static defaultProps = {
@@ -297,7 +298,7 @@ export default class DatePopup extends Component {
   };
 
   render() {
-    const {range, hidden, withTime, time} = this.props;
+    const {range, hidden, withTime, time, locale} = this.props;
     const parsedDate = this.parse(this.props.date, 'date');
     const parsedTo = this.parse(this.props.to, 'to');
 
@@ -391,6 +392,7 @@ export default class DatePopup extends Component {
                 onInput={this.handleInput}
                 onConfirm={this.handleConfirm(name)}
                 onClear={onClear}
+                locale={locale}
               />
             );
           })}
@@ -413,12 +415,13 @@ export default class DatePopup extends Component {
                   onInput={this.handleInput}
                   onConfirm={this.handleConfirm('time')}
                   onClear={clearable && this.onClear || undefined}
+                  locale={locale}
                 />
               )
               : ('')
           }
         </div>
-        <Weekdays/>
+        <Weekdays locale={locale}/>
         <div
           className={styles.calendar}
         >
@@ -426,6 +429,7 @@ export default class DatePopup extends Component {
             {...calendarProps}
             onHover={this.hoverHandler}
             onSelect={this.selectHandler}
+            locale={locale}
           />
           <Years {...calendarProps}/>
         </div>
