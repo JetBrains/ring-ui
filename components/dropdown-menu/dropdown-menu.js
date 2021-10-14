@@ -93,7 +93,6 @@ const DropdownMenu = React.forwardRef(function DropdownMenu(
           id={listId}
           ariaLabel={ariaLabel || defaultAriaLabel}
           closeOnSelect
-          activateFirstItem
           data={data}
           onSelect={onSelect}
           {...menuProps}
