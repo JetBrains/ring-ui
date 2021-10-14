@@ -66,8 +66,7 @@ describe('Dropdown Menu', () => {
   it('should add accessibility attributes to anchor', async () => {
     const wrapper = await mountAndWaitForMenuContent({
       anchor: 'Anchor text',
-      data: [{key: 'key1'}, {key: 'key2'}],
-      menuProps: {activateFirstItem: true}
+      data: [{key: 'key1'}, {key: 'key2'}]
     });
 
     const anchorProps = wrapper.update().find(Anchor).props();
