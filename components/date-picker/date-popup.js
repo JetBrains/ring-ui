@@ -407,6 +407,7 @@ export default class DatePopup extends Component {
                 onInput={this.handleInput}
                 onConfirm={this.handleConfirm(name)}
                 onClear={onClear}
+                locale={locale}
               />
             );
           })}
@@ -429,6 +430,7 @@ export default class DatePopup extends Component {
                   onInput={this.handleInput}
                   onConfirm={this.handleConfirm('time')}
                   onClear={clearable && this.onClear || undefined}
+                  locale={locale}
                 />
               )
               : ('')
