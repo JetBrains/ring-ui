@@ -1,4 +1,6 @@
-export default {
+import type {RingCSSProperties} from './variables.d';
+
+const variables: RingCSSProperties = {
   '--ring-line-color': '#475159',
   '--ring-borders-color': '#406380',
   '--ring-icon-color': '#80929d',
@@ -53,3 +55,5 @@ export default {
   '--ring-code-addition-color': '#447152',
   '--ring-code-deletion-color': '#656e76'
 };
+
+export default variables;

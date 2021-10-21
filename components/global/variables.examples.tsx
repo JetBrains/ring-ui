@@ -17,11 +17,11 @@ function getDarkThemeStyle() {
     join('; ');
 }
 
-function getValue(propName) {
+function getValue(propName: string) {
   return getComputedStyle(document.body).getPropertyValue(propName).toUpperCase();
 }
 
-function renderColorItem(propName, isDark = propName.includes('-dark-')) {
+function renderColorItem(propName: string, isDark = propName.includes('-dark-')) {
   return `
     <div class="color-item ${isDark ? 'dark-background' : ''}">
       <div class="color-square" style="background-color: var(${propName})"></div>

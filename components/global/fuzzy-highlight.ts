@@ -2,10 +2,10 @@
 
 const marker = '**';
 
-export default function fuzzyHighlight(needle, haystack, caseSensitive = false) {
+export default function fuzzyHighlight(needle: string, haystack: string, caseSensitive = false) {
   const ndl = caseSensitive ? needle : needle.toLowerCase();
   const hstck = caseSensitive ? haystack : haystack.toLowerCase();
-  const result = (matched, highlight = haystack) => ({matched, highlight});
+  const result = (matched: boolean, highlight = haystack) => ({matched, highlight});
   const hlen = hstck.length;
   const nlen = ndl.length;
   if (nlen > hlen) {
