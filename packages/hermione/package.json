@@ -27,7 +27,7 @@
     "fs-extra": "^10.0.0",
     "hermione": "^4.6.4",
     "html-reporter": "^7.3.1",
-    "http-server": "^13.0.2",
+    "http-server": "^14.0.0",
     "ip": "^1.1.5",
     "jest": "^27.3.1",
     "kill-port": "^1.6.1",
