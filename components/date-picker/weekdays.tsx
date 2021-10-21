@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import type {Locale} from 'date-fns';
 import getDay from 'date-fns/getDay';
 import format from 'date-fns/format';
 import setDay from 'date-fns/setDay';
@@ -10,7 +11,11 @@ import PropTypes from 'prop-types';
 import {weekdays} from './consts';
 import styles from './date-picker.css';
 
-export default function Weekdays(props) {
+interface WeekdaysProps {
+  locale: Locale | undefined
+}
+
+export default function Weekdays(props: WeekdaysProps) {
   const days = Object.values(weekdays).
     map(value => startOfDay(setDay(new Date(), value)));
 
