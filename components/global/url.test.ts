@@ -10,8 +10,8 @@ import {
 
 describe('Url', () => {
   describe('fixUrl', () => {
-    let baseTag;
-    let baseUrl;
+    let baseTag: Element;
+    let baseUrl: string | undefined;
 
     beforeEach(() => {
       baseTag = document.createElement('base');
@@ -56,7 +56,7 @@ describe('Url', () => {
 
   describe('getOrigin', () => {
     it('should return origin for absolute URIs', () => {
-      getOrigin('https://secure:433/path?q=p#hash').should.equal('https://secure:433');
+      getOrigin('https://secure:433/path?q=p#hash')!.should.equal('https://secure:433');
     });
 
     it('should return undefined for relative URLs', () => {

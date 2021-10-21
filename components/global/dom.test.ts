@@ -1,12 +1,12 @@
 import {getRect, getStyles, isMounted} from './dom';
 
-const nodes = [];
+const nodes: Node[] = [];
 
 function create(tag = 'div') {
   return document.createElement(tag);
 }
 
-function attach(node) {
+function attach<T extends Node>(node: T) {
   nodes.push(node);
   return document.body.insertBefore(node, document.body.firstChild);
 }

@@ -1,18 +1,46 @@
-import React, {PureComponent} from 'react';
+import React, {
+  HTMLAttributes,
+  PureComponent,
+  ReactNode,
+  RefCallback
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close';
 
-import Icon from '../icon/icon';
+import Icon, {IconType} from '../icon/icon';
 import Button from '../button/button';
 
 import styles from './tag.css';
+
+export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
+  ref: RefCallback<HTMLElement>
+  'data-test': string
+}
+
+export interface TagProps {
+  onRemove: () => void
+  onClick: (event: React.MouseEvent<HTMLElement>) => void
+  readOnly: boolean
+  disabled: boolean
+  focused: boolean
+  render: (props: TagRenderProps) => ReactNode
+  children?: ReactNode
+  className?: string | null | undefined
+  rgTagIcon?: string | IconType | null | undefined
+  icon?: string | undefined
+  avatar?: string | null | undefined
+  rgTagTitle?: string | undefined
+  angled?: boolean | null | undefined
+  textColor?: string | undefined
+  backgroundColor?: string | undefined
+}
 
 /**
  * @name Tag
  */
 
-export default class Tag extends PureComponent {
+export default class Tag extends PureComponent<TagProps> {
   static propTypes = {
     onRemove: PropTypes.func,
     onClick: PropTypes.func,
@@ -33,7 +61,7 @@ export default class Tag extends PureComponent {
     render: PropTypes.func
   };
 
-  static defaultProps = {
+  static defaultProps: TagProps = {
     onRemove: () => {},
     onClick: () => {},
     readOnly: false,
@@ -46,13 +74,13 @@ export default class Tag extends PureComponent {
     focused: false
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: TagProps) {
     if (this.props.focused !== prevProps.focused) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({focused: this.props.focused});
     }
     if (this.state.focused) {
-      this.tagNode.focus();
+      this.tagNode?.focus();
     }
     this.setDocumentClickListener(this.state.focused);
   }
@@ -62,17 +90,18 @@ export default class Tag extends PureComponent {
     this.setState({focused: false});
   }
 
-  onDocumentClick = event => {
+  onDocumentClick = (event: MouseEvent) => {
     if (this.tagNode) {
       this.setState({focused: this.tagNode === event.target});
     }
   };
 
-  tagRef = el => {
+  tagNode?: HTMLElement | null;
+  tagRef = (el: HTMLElement | null) => {
     this.tagNode = el;
   };
 
-  setDocumentClickListener(setListener) {
+  setDocumentClickListener(setListener: boolean) {
     if (setListener) {
       document.addEventListener('click', this.onDocumentClick);
     } else {
@@ -93,7 +122,7 @@ export default class Tag extends PureComponent {
     return null;
   }
 
-  _renderImageElement(avatarSrc) {
+  private _renderImageElement(avatarSrc?: string) {
     const classes = classNames({
       [styles.customIcon]: this.props.icon,
       [styles.avatarIcon]: avatarSrc
@@ -180,3 +209,5 @@ export default class Tag extends PureComponent {
     );
   }
 }
+
+export type TagAttrs = JSX.LibraryManagedAttributes<typeof Tag, TagProps>
