@@ -3,9 +3,9 @@ export type Handler<PM extends Record<string, [unknown, unknown]>, E extends key
   (data: PM[E][0]) => PM[E][1] | Promise<PM[E][1]>
 
 export default class Listeners<
-  PM extends Record<string, [unknown, unknown]> = Record<string, [void, void]>
+  PM extends Record<string, [unknown, unknown]> = Record<string, [void, unknown]>
 > {
-  private _all = new Map<keyof PM, Set<Handler<PM, keyof PM>>>();
+  _all = new Map<keyof PM, Set<Handler<PM, keyof PM>>>();
 
   trigger<E extends keyof PM>(
     ...[event, data]: PM[E][0] extends void ? [E] : [E, PM[E][0]]

@@ -1,13 +1,15 @@
+import {Stub} from '../../test-helpers/globals.d';
+
 import Listeners from './listeners';
 
 describe('Listeners', () => {
-  let listeners;
-  let stub;
-  let secondStub;
+  let listeners: Listeners;
+  let stub: Stub<() => Promise<string>>;
+  let secondStub: Stub<() => string>;
   beforeEach(() => {
     listeners = new Listeners();
-    stub = sandbox.stub().returns(Promise.resolve('result 1'));
-    secondStub = sandbox.stub().returns('result 2');
+    stub = sandbox.stub<[]>().returns(Promise.resolve('result 1'));
+    secondStub = sandbox.stub<[]>().returns('result 2');
   });
 
   it('should construct empty mao', () => {
@@ -17,7 +19,7 @@ describe('Listeners', () => {
   it('should add handler', () => {
     listeners.add('test', stub);
     listeners._all.size.should.equal(1);
-    listeners._all.get('test').size.should.equal(1);
+    listeners._all.get('test')!.size.should.equal(1);
   });
 
   it('should trigger handler', () => {
@@ -64,7 +66,7 @@ describe('Listeners', () => {
     listeners.remove('test', secondStub);
 
     listeners._all.size.should.equal(1);
-    listeners._all.get('test').size.should.equal(1);
+    listeners._all.get('test')!.size.should.equal(1);
   });
 
   it('should remove all', () => {
