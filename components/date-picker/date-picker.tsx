@@ -1,6 +1,7 @@
 import React, {PureComponent, Ref} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import type {Locale} from 'date-fns';
 import formatDate from 'date-fns/format';
 import isSameDay from 'date-fns/isSameDay';
 import isSameMonth from 'date-fns/isSameMonth';
@@ -80,9 +81,9 @@ export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateIn
   popupClassName?: string | null | undefined
   dropdownProps?: DropdownAttrs
   translations: DatePickerTranslations
-  displayMonthFormat: (date: Date) => string
-  displayDayFormat: (date: Date) => string
-  displayTimeFormat: (date: Date) => string
+  displayMonthFormat: (date: Date, locale: Locale | undefined) => string
+  displayDayFormat: (date: Date, locale: Locale | undefined) => string
+  displayTimeFormat: (date: Date, locale: Locale | undefined) => string
   applyTimeInput: (date: Date, time: string | null | undefined) => Date
   datePlaceholder: string
   dateTimePlaceholder: string
@@ -206,10 +207,10 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   });
 
   formatTime() {
-    const {displayTimeFormat} = this.props;
+    const {displayTimeFormat, locale} = this.props;
     const date = this.parse(this.props.date);
     if (date != null) {
-      return displayTimeFormat(date);
+      return displayTimeFormat(date, locale);
     }
     return null;
   }

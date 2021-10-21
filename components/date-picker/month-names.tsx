@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import type {Locale} from 'date-fns';
 import endOfMonth from 'date-fns/endOfMonth';
 import format from 'date-fns/format';
 import isThisMonth from 'date-fns/isThisMonth';
@@ -17,12 +18,13 @@ import styles from './date-picker.css';
 interface MonthNameProps {
   month: Date
   onScrollChange: (to: number) => void
+  locale: Locale | undefined
 }
 
 class MonthName extends PureComponent<MonthNameProps> {
   static propTypes = {
     month: dateType,
-    onScrollChange: PropTypes.func
+    onScrollChange: PropTypes.func,
     locale: PropTypes.string
   };
 
