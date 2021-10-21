@@ -321,8 +321,8 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
   };
 
   render() {
-    const {range, hidden, withTime} = this.props;
-    const {from, to, date, time, locale, ...restProps} = this.props;
+    const {range, hidden, withTime, locale} = this.props;
+    const {from, to, date, time, ...restProps} = this.props;
     const parsedDate = this.parse(this.props.date, 'date');
     const parsedTo = this.parse(this.props.to, 'to');
 

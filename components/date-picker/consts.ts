@@ -1,7 +1,7 @@
 import {ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import add from 'date-fns/add';
-import type {Duration} from 'date-fns';
+import type {Duration, Locale} from 'date-fns';
 
 const unit = 8; // px;
 const units = {
@@ -103,8 +103,9 @@ export interface DatePopupBaseProps {
   toPlaceholder?: string | null | undefined
   timePlaceholder?: string | null | undefined
   hidden: boolean
+  locale?: Locale | undefined
   parseDateInput: (text: Date | number | string | null | undefined) => Date | null
-  displayFormat: (date: Date) => string
+  displayFormat: (date: Date, locale: Locale | undefined) => string
   onComplete: () => void
   onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
   renderAfterCalendar?: ((state: DatePopupState) => ReactNode) | undefined
