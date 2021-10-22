@@ -1,11 +1,11 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import Text from './text';
+import Text, {TextProps} from './text';
 
 describe('Text', () => {
-  const shallowText = props => shallow(<Text {...props}/>);
-  const mountText = props => mount(<Text {...props}/>);
+  const shallowText = (props?: TextProps) => shallow(<Text {...props}/>);
+  const mountText = (props?: TextProps) => mount(<Text {...props}/>);
 
   it('should create component', () => {
     mountText().should.have.type(Text);
