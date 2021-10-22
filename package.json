@@ -109,7 +109,7 @@
     "eslint-plugin-react": "^7.26.1",
     "events": "^3.3.0",
     "html-webpack-plugin": "^5.4.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "identity-obj-proxy": "^3.0.0",
     "imports-loader": "^3.0.0",
     "jest": "~27.3.1",
