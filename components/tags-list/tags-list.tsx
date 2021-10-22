@@ -1,25 +1,35 @@
-import React, {Component} from 'react';
+import React, {Component, ComponentType, HTMLAttributes, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Tag from '../tag/tag';
+import Tag, {TagAttrs} from '../tag/tag';
 
 function noop() {}
+
+export interface TagType extends TagAttrs {
+  label?: ReactNode
+}
+
+export interface TagsListProps<T extends TagType> extends HTMLAttributes<HTMLElement> {
+  tags: readonly T[]
+  customTagComponent: ComponentType<TagAttrs>
+  canNotBeEmpty: boolean
+  disabled: boolean
+  handleClick: (tag: T) => (e: React.MouseEvent<HTMLElement>) => void
+  handleRemove: (tag: T) => () => void
+  activeIndex?: number | null | undefined
+  tagClassName?: string | null | undefined
+}
 
 /**
  * @name Tags List
  */
 
-export default class TagsList extends Component {
+export default class TagsList<T extends TagType> extends Component<TagsListProps<T>> {
   static propTypes = {
     children: PropTypes.node,
     tags: PropTypes.array,
-    customTagComponent: (props, propName, componentName) => {
-      if (props[propName] && !props[propName].prototype instanceof Component) {
-        return new Error(`Invalid prop ${propName} supplied to ${componentName}. Validation failed.`);
-      }
-      return null;
-    },
+    customTagComponent: PropTypes.elementType,
     activeIndex: PropTypes.number,
     canNotBeEmpty: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -37,7 +47,7 @@ export default class TagsList extends Component {
     handleRemove: noop
   };
 
-  renderTag(tag, focusTag) {
+  renderTag(tag: T, focusTag: boolean) {
     const TagComponent = this.props.customTagComponent || Tag;
     const readOnly = this.props.disabled || tag.readOnly ||
       (this.props.canNotBeEmpty && this.props.tags.length === 1);
@@ -91,3 +101,6 @@ export default class TagsList extends Component {
     );
   }
 }
+
+export type TagsListAttrs<T extends TagType = TagType> =
+  JSX.LibraryManagedAttributes<typeof TagsList, TagsListProps<T>>

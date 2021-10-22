@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {shallow, render} from 'enzyme';
 
-import TagsList from './tags-list';
+import TagsList, {TagsListAttrs} from './tags-list';
 
 describe('Tags List', () => {
   let tagsList;
   const tagsMock = [{key: 1, label: 'test1'}];
-  const shallowTagsList = props => shallow(<TagsList tags={tagsMock} {...props}/>);
-  const renderTagsList = props => render(<TagsList tags={tagsMock} {...props}/>);
+  const shallowTagsList = (props?: Partial<TagsListAttrs>) =>
+    shallow(<TagsList tags={tagsMock} {...props}/>);
+  const renderTagsList = (props?: Partial<TagsListAttrs>) =>
+    render(<TagsList tags={tagsMock} {...props}/>);
 
   describe('DOM', () => {
     it('should render tags list', () => {
