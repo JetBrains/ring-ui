@@ -5,14 +5,12 @@
   ],
   "npmClient": "npm",
   "version": "independent",
+  "ignoreChanges": [
+    "packages/hermione/**"
+  ],
   "command": {
     "init": {
       "exact": true
-    },
-    "publish": {
-      "ignoreChanges": [
-        "@ring-ui/hermione"
-      ]
     }
   }
 }
