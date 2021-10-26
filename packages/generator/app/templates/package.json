@@ -61,7 +61,7 @@
     "react-test-renderer": "^17.0.2",
     "sinon": "^11.1.2",
     "sinon-chai": "^3.7.0",
-    "stylelint": "^13.13.1",
+    "stylelint": "^14.0.0",
     "svg-inline-loader": "^0.8.2",
     "yo": "^4.3.0"
   },
