@@ -78,7 +78,7 @@ export default class DatePopup extends Component {
 
   componentDidMount() {
     if (this.componentRef.current) {
-      this.componentRef.current.addEventListener('wheel', this.handleWheel);
+      this.componentRef.current.addEventListener('wheel', this.handleWheel, {passive: true});
     }
   }
 
