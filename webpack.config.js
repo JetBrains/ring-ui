@@ -32,7 +32,7 @@ function createConfig() {
         loader: require.resolve('css-loader'),
         options: {
           modules: {
-            localIdentName: '[local]_[hash:3]'
+            localIdentName: '[local]_[hash:4]'
           },
           importLoaders: 1
         }
