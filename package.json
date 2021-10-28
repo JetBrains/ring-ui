@@ -166,7 +166,7 @@
     "combokeys": "^3.0.1",
     "compile-code-loader": "^1.0.0",
     "conic-gradient": "^1.0.0",
-    "css-loader": "^6.4.0",
+    "css-loader": "^6.5.0",
     "date-fns": "^2.25.0",
     "deep-equal": "^2.0.4",
     "element-resize-detector": "^1.2.3",
