@@ -96,7 +96,7 @@
   display: block;
   clear: both;
 
-  content: '';
+  content: "";
 }
 
 :global(.ring-form__group_united) {
@@ -167,7 +167,7 @@
 
   height: calc(unit * 3);
 
-  content: '';
+  content: "";
   vertical-align: middle;
 }
 

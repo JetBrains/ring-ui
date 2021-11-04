@@ -1,7 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value alert from './alert.css';
+@value alert from "./alert.css";
 
 .alertContainer {
   position: fixed;
