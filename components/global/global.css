@@ -11,7 +11,7 @@ Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
     display: block;
     clear: both;
 
-    content: '';
+    content: "";
   }
 }
 

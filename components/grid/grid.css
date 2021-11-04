@@ -1,23 +1,24 @@
 @import "../global/variables.css";
 
-@value unit, breakpoint-small, breakpoint-middle, breakpoint-large, large-screen-media, middle-screen-media, small-screen-media from '../global/global.css';
+@value unit, breakpoint-small, breakpoint-middle, breakpoint-large  from "../global/global.css";
+@value large-screen-media, middle-screen-media, small-screen-media from "../global/global.css";
 @value gutterWidth: (unit*2);
 @value gutterCompensation: calc(gutterWidth / -2);
 @value outerMargin: calc(unit*2);
 @value containerSmall: calc(breakpoint-small + gutterWidth);
 @value containerMedium: calc(breakpoint-middle + gutterWidth);
 @value containerLarge: calc(breakpoint-large + gutterWidth);
-@value width-1: 8.33333333%;
-@value width-2: 16.66666667%;
+@value width-1: 8.3333%;
+@value width-2: 16.6667%;
 @value width-3: 25%;
-@value width-4: 33.33333333%;
-@value width-5: 41.66666667%;
+@value width-4: 33.3333%;
+@value width-5: 41.6667%;
 @value width-6: 50%;
-@value width-7: 58.33333333%;
-@value width-8: 66.66666667%;
+@value width-7: 58.3333%;
+@value width-8: 66.6667%;
 @value width-9: 75%;
-@value width-10: 83.33333333%;
-@value width-11: 91.66666667%;
+@value width-10: 83.3333%;
+@value width-11: 91.6667%;
 @value width-12: 100%;
 
 .container-fluid,
