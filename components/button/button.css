@@ -451,7 +451,7 @@
     width: calc(100% + loaderWidth);
     height: 100%;
 
-    content: '';
+    content: "";
     animation: progress 1s linear infinite;
 
     background-repeat: repeat;
@@ -460,7 +460,7 @@
 }
 
 .delayed .content::after {
-  content: '…';
+  content: "…";
 }
 
 .short {

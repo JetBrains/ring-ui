@@ -43,7 +43,7 @@
 
   height: calc(unit / 2);
 
-  content: '';
+  content: "";
 }
 
 :global(.shortcuts-hint__search-input-wrapper) {

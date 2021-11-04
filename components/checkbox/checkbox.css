@@ -89,7 +89,7 @@
   /* stylelint-disable-next-line selector-max-specificity */
   &:checked + .cell,
   &:indeterminate[checked] + .cell,
-  &:indeterminate[data-checked=true] + .cell {
+  &:indeterminate[data-checked="true"] + .cell {
     border-color: var(--ring-border-hover-color);
     background-color: var(--ring-selected-background-color);
   }

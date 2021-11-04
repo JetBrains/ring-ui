@@ -70,7 +70,9 @@
 
 :global(.ring-island__header-btn),
 :global(.ring-island__header-button:hover) {
-  background: var(--ring-hover-background-color) linear-gradient(to top, var(--ring-hover-background-color), var(--ring-content-background-color));
+  background:
+    var(--ring-hover-background-color)
+    linear-gradient(to top, var(--ring-hover-background-color), var(--ring-content-background-color));
 }
 
 :global(.ring-island__header-btn),
