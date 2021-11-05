@@ -96,7 +96,7 @@
     position: absolute;
     right: unit;
 
-    content: '—';
+    content: "—";
 
     line-height: calc(4 * unit - 2px);
   }
@@ -123,7 +123,7 @@
     position: absolute;
     left: calc(-1 * unit);
 
-    content: ',';
+    content: ",";
 
     line-height: calc(4 * unit - 3px);
   }
@@ -282,7 +282,7 @@
     width: calc(unit * 2);
     height: 100%;
 
-    content: '';
+    content: "";
     transition: background-color var(--ring-ease);
   }
 
@@ -325,7 +325,7 @@
     width: calc(unit * 23);
     height: calc(unit * 8);
 
-    content: '';
+    content: "";
     transition: background-color var(--ring-ease);
   }
 
@@ -357,7 +357,7 @@
       width: calc(unit * 2);
       height: 100%;
 
-      content: '';
+      content: "";
       transition: background-color var(--ring-ease);
     }
   }
@@ -409,7 +409,7 @@
   top: 0;
   left: calc(unit * 0.5);
 
-  content: '•';
+  content: "•";
 
   font-size: var(--ring-font-size-smaller);
 }
