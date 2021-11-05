@@ -36,7 +36,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.0",
     "@jetbrains/eslint-config": "^5.3.1",
-    "@jetbrains/stylelint-config": "^2.0.1",
+    "@jetbrains/stylelint-config": "^3.0.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
