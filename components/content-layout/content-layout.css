@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit, extra-small-screen-media, small-screen-media from '../global/global.css';
+@value unit, extra-small-screen-media, small-screen-media from "../global/global.css";
 @value sidebarWidth: calc(unit * 30);
 
 .contentLayout {

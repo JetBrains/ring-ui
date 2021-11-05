@@ -75,7 +75,7 @@
 }
 
 :global(.ring-table__title_border::after) {
-  content: '';
+  content: "";
 }
 
 :global(.ring-table__title_nested) {
@@ -239,7 +239,7 @@
 }
 
 :global(.ring-table__column-list:not(:last-child)::after) {
-  content: ', ';
+  content: ", ";
 }
 
 :global(.ring-table__row) {

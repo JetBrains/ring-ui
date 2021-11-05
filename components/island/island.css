@@ -96,12 +96,13 @@
   width: 100%;
   height: calc(unit * 3);
 
-  content: '';
+  content: "";
 
   pointer-events: none;
 
   opacity: 0.8;
-  background: linear-gradient(to top, gradientStart, gradientStop); /* stylelint-disable-line function-linear-gradient-no-nonstandard-direction */
+
+  background: linear-gradient(to top, gradientStart, gradientStop);
 }
 
 .contentWithTopFade:first-child::before {
@@ -119,7 +120,7 @@
   width: 100%;
   height: calc(unit * 3);
 
-  content: '';
+  content: "";
   pointer-events: none;
 
   opacity: 0.8;
