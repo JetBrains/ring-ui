@@ -69,7 +69,7 @@
     "@babel/eslint-parser": "^7.16.0",
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^4.0.44",
-    "@jetbrains/stylelint-config": "^3.0.1",
+    "@jetbrains/stylelint-config": "^3.0.2",
     "@primer/octicons": "^16.1.1",
     "@storybook/addon-a11y": "6.3.12",
     "@storybook/addon-docs": "6.3.12",
