@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, ComponentType, RefCallback} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Input from '../input/input';
+import Input, {InputAttrs} from '../input/input';
 import sniffr from '../global/sniffer';
 import {ActiveItemContext} from '../list/list';
 
@@ -10,15 +10,12 @@ import styles from './select-popup.css';
 
 function noop() {}
 
-export default class SelectFilter extends Component {
-  static propTypes = {
-    placeholder: PropTypes.string,
-    className: PropTypes.string,
-    inputRef: PropTypes.func,
-    listId: PropTypes.string,
-    activeItemId: PropTypes.string
-  };
+type SelectFilterProps = InputAttrs & {
+  inputRef: RefCallback<HTMLInputElement | HTMLTextAreaElement>
+  listId?: string | undefined
+}
 
+export default class SelectFilter extends Component<SelectFilterProps> {
   static defaultProps = {
     placeholder: 'Filter items',
     inputRef: noop
@@ -41,7 +38,8 @@ export default class SelectFilter extends Component {
     }
   }
 
-  inputRef = el => {
+  input?: HTMLInputElement | HTMLTextAreaElement | null;
+  inputRef = (el: HTMLInputElement | HTMLTextAreaElement | null) => {
     this.input = el;
     this.props.inputRef(el);
   };
@@ -68,3 +66,11 @@ export default class SelectFilter extends Component {
     );
   }
 }
+
+(SelectFilter as ComponentType<unknown>).propTypes = {
+  placeholder: PropTypes.string,
+  className: PropTypes.string,
+  inputRef: PropTypes.func,
+  listId: PropTypes.string,
+  activeItemId: PropTypes.string
+};

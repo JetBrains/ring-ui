@@ -7,7 +7,8 @@ import React, {
   ReactNode,
   ExoticComponent,
   PropsWithoutRef,
-  RefAttributes
+  RefAttributes,
+  ComponentProps
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -301,6 +302,8 @@ type Container =
 
 const ThemedInput: Container & {type: Container} =
   withTheme()<Input, InputProps, typeof Input>(Input);
+
+export type InputAttrs = ComponentProps<typeof ThemedInput>;
 
 export default ThemedInput;
 

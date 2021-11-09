@@ -43,7 +43,7 @@ export interface BasePopupProps {
   dontCloseOnAnchorClick: boolean
   shortcuts: boolean
   keepMounted: boolean, // pass this prop to preserve the popup's DOM state while hidde
-  directions: Directions[]
+  directions: readonly Directions[]
   autoPositioning: boolean
   autoCorrectTopOverflow: boolean
   left: number

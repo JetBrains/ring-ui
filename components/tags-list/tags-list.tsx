@@ -6,7 +6,7 @@ import Tag, {TagAttrs} from '../tag/tag';
 
 function noop() {}
 
-export interface TagType extends TagAttrs {
+export interface TagType extends Omit<TagAttrs, 'onClick'> {
   label?: ReactNode
 }
 
@@ -16,7 +16,7 @@ export interface TagsListProps<T extends TagType> extends HTMLAttributes<HTMLEle
   canNotBeEmpty: boolean
   disabled: boolean
   handleClick: (tag: T) => (e: React.MouseEvent<HTMLElement>) => void
-  handleRemove: (tag: T) => () => void
+  handleRemove: (tag: T) => (e: React.MouseEvent<HTMLElement>) => void
   activeIndex?: number | null | undefined
   tagClassName?: string | null | undefined
 }

@@ -1,15 +1,15 @@
-import React, {ComponentProps} from 'react';
+import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import Input from './input';
+import Input, {InputAttrs} from './input';
 
 describe('Input', () => {
   let input: HTMLElement | null;
   const inputRef = (el: HTMLElement | null) => {
     input = el;
   };
-  const shallowInput = (props?: ComponentProps<typeof Input>) => shallow(<Input {...props}/>);
-  const mountInput = (props?: ComponentProps<typeof Input>) => mount(
+  const shallowInput = (props?: InputAttrs) => shallow(<Input {...props}/>);
+  const mountInput = (props?: InputAttrs) => mount(
     <Input
       inputRef={inputRef}
       {...props}
