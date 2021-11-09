@@ -1,13 +1,13 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import React from 'react';
 import {shallow, mount, render} from 'enzyme';
 
-import Footer from './footer';
+import Footer, {FooterProps} from './footer';
 
 describe('Footer', () => {
-  const shallowFooter = props => shallow(<Footer {...props}/>);
-  const mountFooter = props => mount(<Footer {...props}/>);
-  const renderFooter = props => render(<Footer {...props}/>);
+  const shallowFooter = (props?: FooterProps) => shallow(<Footer {...props}/>);
+  const mountFooter = (props?: FooterProps) => mount(<Footer {...props}/>);
+  const renderFooter = (props?: FooterProps) => render(<Footer {...props}/>);
 
   it('should create component', () => {
     shallowFooter().should.exist;
