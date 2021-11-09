@@ -10,7 +10,8 @@
     "dist",
     "postcss.config.js",
     "webpack.config.js",
-    "jslint-xml.js"
+    "jslint-xml.js",
+    "typings.d.ts"
   ],
   "main": "components/index.js",
   "lint-staged": {

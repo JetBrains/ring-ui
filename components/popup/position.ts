@@ -75,7 +75,7 @@ export interface PositionAttrs {
   popup: Element | null | undefined
   anchor: Element | null | undefined
   container: Element | null
-  directions: Directions[]
+  directions: readonly Directions[]
   autoPositioning: boolean
   sidePadding: number
   top: number
@@ -189,7 +189,7 @@ function handleTopOffScreen({
 export function maxHeightForDirection(
   direction: Directions,
   anchorNode: Element,
-  containerNode?: Element
+  containerNode?: Element | null
 ) {
   const container = containerNode || document.documentElement;
   const domRect = anchorNode.getBoundingClientRect();
