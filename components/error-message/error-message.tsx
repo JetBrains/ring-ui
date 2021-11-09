@@ -1,18 +1,26 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Icon from '../icon/icon';
+import Icon, {IconType} from '../icon/icon';
 import {Size} from '../icon/icon__constants';
 
 import styles from './error-message.css';
 
+export interface ErrorMessageProps {
+  children?: ReactNode
+  icon?: string | IconType | null | undefined
+  code?: string | null | undefined
+  message?: string | null | undefined
+  description?: string | null | undefined
+  className?: string | null | undefined
+}
 
 /**
  * @name Error Message
  */
 
-export default class ErrorMessage extends Component {
+export default class ErrorMessage extends Component<ErrorMessageProps> {
   static propTypes = {
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     code: PropTypes.string,
