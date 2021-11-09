@@ -1,16 +1,26 @@
-/* eslint-disable no-magic-numbers*/
+/* eslint-disable @typescript-eslint/no-magic-numbers*/
 import React from 'react';
 import {Simulate} from 'react-dom/test-utils';
-import {shallow, mount} from 'enzyme';
+import {shallow, mount, ReactWrapper, ShallowWrapper} from 'enzyme';
+
+import Sinon from 'sinon';
 
 import List from '../list/list';
 import Input from '../input/input';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
-import Select from './select';
+import Select, {
+  MultipleSelectAttrs,
+  SelectAttrs,
+  SelectItem,
+  SelectState,
+  SingleSelectAttrs
+} from './select';
 import styles from './select.css';
 
-function simulateInput(target, value) {
+import {Tags} from './select__popup';
+
+function simulateInput(target: HTMLInputElement, value: string) {
   target.value = value;
 
   Simulate.change(target, {target});
@@ -19,11 +29,11 @@ function simulateInput(target, value) {
 const selectedIconSelector = `.${styles.selectedIcon.split(/\s/)[0]}`;
 
 describe('Select', () => {
-  const testData = [
-    {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
-    {key: 2, label: 'test2', type: List.ListProps.Type.ITEM},
-    {key: 3, label: 'test3', type: List.ListProps.Type.ITEM},
-    {key: 4, label: 'four4', selectedLabel: '', type: List.ListProps.Type.ITEM}
+  const testData: SelectItem[] = [
+    {key: 1, label: 'first1', rgItemType: List.ListProps.Type.ITEM},
+    {key: 2, label: 'test2', rgItemType: List.ListProps.Type.ITEM},
+    {key: 3, label: 'test3', rgItemType: List.ListProps.Type.ITEM},
+    {key: 4, label: 'four4', selectedLabel: '', rgItemType: List.ListProps.Type.ITEM}
   ];
 
   const defaultProps = () => ({
@@ -36,11 +46,14 @@ describe('Select', () => {
     filter: true
   });
 
-  let mountWrapper;
-  const shallowSelect = props => shallow(<Select {...defaultProps()} {...props}/>);
-  const mountSelect = props => {
-    mountWrapper = mount(<Select {...defaultProps()} {...props}/>);
-    return mountWrapper;
+  let mountWrapper: ReactWrapper<SingleSelectAttrs, SelectState, Select> |
+    ReactWrapper<MultipleSelectAttrs, SelectState, Select> | null;
+  const shallowSelect = (props?: SingleSelectAttrs) =>
+    shallow<Select, SelectAttrs>(<Select {...defaultProps()} {...props}/>);
+  const mountSelect = (props?: SingleSelectAttrs) => {
+    const wrapper = mount<Select, SingleSelectAttrs>(<Select {...defaultProps()} {...props}/>);
+    mountWrapper = wrapper;
+    return wrapper;
   };
 
   afterEach(() => {
@@ -76,7 +89,7 @@ describe('Select', () => {
   it('Should compute selected index', () => {
     const instance = shallowSelect().instance();
     const selectedIndex = instance._getSelectedIndex(testData[2], testData);
-    selectedIndex.should.equal(2);
+    selectedIndex!.should.equal(2);
   });
 
   it('should update rendered data if props change', () => {
@@ -93,13 +106,13 @@ describe('Select', () => {
     });
     const instance = wrapper.instance();
     const selectedLabel = instance._getSelectedString();
-    selectedLabel.should.equal('testLabel');
+    selectedLabel!.should.equal('testLabel');
   });
 
   it('Should use label for select button title', () => {
     const instance = shallowSelect().instance();
     const selectedLabel = instance._getSelectedString();
-    selectedLabel.should.equal('first1');
+    selectedLabel!.should.equal('first1');
   });
 
   it('Should clear selected on clearing', () => {
@@ -113,15 +126,15 @@ describe('Select', () => {
     const wrapper = mountSelect();
     const instance = wrapper.instance();
     instance.clear();
-    wrapper.prop('onChange').should.be.calledOnce;
-    wrapper.prop('onChange').should.be.called.calledWith(null);
+    wrapper.prop('onChange')!.should.be.calledOnce;
+    wrapper.prop('onChange')!.should.be.called.calledWith(null);
   });
 
   it('Should pass selected item and event to onChange', () => {
     const wrapper = mountSelect();
     const instance = wrapper.instance();
-    instance._listSelectHandler({item: 'foo'}, {nativeEvent: 'foo'});
-    wrapper.prop('onChange').should.be.called.calledWith({item: 'foo'}, {nativeEvent: 'foo'});
+    instance._listSelectHandler({key: 'foo'}, {type: 'click'} as Event);
+    wrapper.prop('onChange')!.should.be.called.calledWith({key: 'foo'}, {type: 'click'});
   });
 
   it('Should clear selected when rerendering with no selected item', () => {
@@ -175,23 +188,23 @@ describe('Select', () => {
     const wrapper = mountSelect({onAdd: sandbox.spy()});
     const instance = wrapper.instance();
     instance.addHandler();
-    wrapper.prop('onAdd').should.be.calledOnce;
+    wrapper.prop('onAdd')!.should.be.calledOnce;
   });
 
   it('Should call onFocus on input focus', () => {
     const wrapper = mountSelect({type: Select.Type.INPUT});
     const instance = wrapper.instance();
 
-    Simulate.focus(instance.filter);
-    wrapper.prop('onFocus').should.be.called;
+    Simulate.focus(instance.filter!);
+    wrapper.prop('onFocus')!.should.be.called;
   });
 
   it('Should call onBlur on input blur', () => {
     const wrapper = mountSelect({type: Select.Type.INPUT});
     const instance = wrapper.instance();
 
-    Simulate.blur(instance.filter);
-    wrapper.prop('onBlur').should.be.called;
+    Simulate.blur(instance.filter!);
+    wrapper.prop('onBlur')!.should.be.called;
   });
 
   it('Should close popup if input lost focus in INPUT mode', () => {
@@ -200,9 +213,9 @@ describe('Select', () => {
     const instance = wrapper.instance();
     instance._showPopup();
 
-    Simulate.blur(instance.filter);
-    sandbox.clock.tick();
-    instance._popup.props.hidden.should.be.true;
+    Simulate.blur(instance.filter!);
+    sandbox.clock.tick(0);
+    instance._popup!.props.hidden!.should.be.true;
   });
 
   it('Should not close popup while clicking on popup in INPUT mode', () => {
@@ -211,15 +224,15 @@ describe('Select', () => {
     const instance = wrapper.instance();
     instance._showPopup();
 
-    Simulate.mouseDown(instance._popup.list.container);
-    Simulate.blur(instance.filter);
-    sandbox.clock.tick();
-    instance._popup.props.hidden.should.be.false;
+    Simulate.mouseDown(instance._popup!.list!.container!);
+    Simulate.blur(instance.filter!);
+    sandbox.clock.tick(0);
+    instance._popup!.props.hidden!.should.be.false;
   });
 
   describe('Derived state', () => {
 
-    let wrapper;
+    let wrapper: ShallowWrapper<SelectAttrs, SelectState, Select>;
     beforeEach(() => {
       wrapper = shallowSelect();
     });
@@ -248,7 +261,7 @@ describe('Select', () => {
 
     it('Should reset selection when toggling multiple state', () => {
       wrapper.setProps({multiple: true});
-      wrapper.state().selected.should.deep.equal([]);
+      wrapper.state().selected!.should.deep.equal([]);
 
       wrapper.setProps({multiple: false});
       should.equal(wrapper.state().selected, null);
@@ -258,7 +271,7 @@ describe('Select', () => {
       const {selected} = wrapper.state();
       wrapper.setProps({multiple: false});
 
-      wrapper.state().selected.should.equal(selected);
+      wrapper.state().selected!.should.equal(selected);
     });
 
     it('Should update selected index for select', () => {
@@ -269,7 +282,7 @@ describe('Select', () => {
         data: [createItem(), selectedItem]
       });
 
-      wrapper.state().selectedIndex.should.equal(1);
+      wrapper.state().selectedIndex!.should.equal(1);
     });
 
     it('Should update selected index for multiple select if selected is changed', () => {
@@ -281,7 +294,7 @@ describe('Select', () => {
         data: [createItem(), selectedItem]
       });
 
-      wrapper.state().selectedIndex.should.equal(1);
+      wrapper.state().selectedIndex!.should.equal(1);
     });
 
     it('Should update selected index for multiple select if selected is changed but count of element is the same', () => {
@@ -298,13 +311,14 @@ describe('Select', () => {
         selected: [firstItem]
       });
 
-      wrapper.state().selectedIndex.should.equal(0);
+      wrapper.state().selectedIndex!.should.equal(0);
     });
 
-    function createItem() {
-      createItem.key = (createItem.key || 0) + 1;
+    function createItem(): SelectItem {
+      createItem.key += 1;
       return {key: createItem.key};
     }
+    createItem.key = 0;
   });
 
   describe('DOM', () => {
@@ -318,14 +332,14 @@ describe('Select', () => {
         disabled: true
       });
       wrapper.should.have.className(styles.disabled);
-      wrapper.instance().button.should.have.attr('disabled');
+      wrapper.instance().button!.should.have.attr('disabled');
     });
 
     it('Should not disable select button if not needed', () => {
       const wrapper = mountSelect({
         disabled: false
       });
-      wrapper.instance().button.should.not.have.attr('disabled');
+      wrapper.instance().button!.should.not.have.attr('disabled');
     });
 
     it('Should place input inside in INPUT mode', () => {
@@ -350,7 +364,7 @@ describe('Select', () => {
     });
 
     it('Should not display selected item icon if it is not provided', () => {
-      const wrapper = shallowSelect({selected: {key: 1, label: 'test', icon: null}});
+      const wrapper = shallowSelect({selected: {key: 1, label: 'test', icon: undefined}});
       wrapper.should.not.have.descendants(selectedIconSelector);
     });
 
@@ -362,7 +376,7 @@ describe('Select', () => {
           icon: 'http://fake.image/'
         }
       });
-      const icon = wrapper.find(selectedIconSelector).getDOMNode();
+      const icon = wrapper.find(selectedIconSelector).getDOMNode<HTMLElement>();
       icon.style.backgroundImage.should.contain('http://fake.image/');
     });
 
@@ -386,7 +400,7 @@ describe('Select', () => {
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('');
         instance._showPopup();
-        instance._popup.popup.popup.should.not.contain('.ring-select__button');
+        instance._popup!.popup!.popup!.should.not.contain('.ring-select__button');
       });
 
       it('Should add "Add" button if enabled and filter query not empty', () => {
@@ -394,7 +408,7 @@ describe('Select', () => {
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('test');
         instance._showPopup();
-        instance._popup.popup.popup.should.contain(`.${styles.button}`);
+        instance._popup!.popup!.popup!.should.contain(`.${styles.button}`);
       });
 
       it('Should add "Add" button if alwaysVisible is set', () => {
@@ -405,7 +419,7 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        instance._popup.popup.popup.should.contain(`.${styles.button}`);
+        instance._popup!.popup!.popup!.should.contain(`.${styles.button}`);
       });
 
       it('Should place label instead filterValue to "Add" button if alwaysVisible is set', () => {
@@ -417,9 +431,9 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        const addButton = instance._popup.popup.popup.querySelector(`.${styles.button}`);
+        const addButton = instance._popup!.popup!.popup!.querySelector(`.${styles.button}`);
 
-        addButton.should.contain.text('Add Something');
+        addButton!.should.contain.text('Add Something');
       });
 
       it('Should process filterValue into a label at the "Add" button if "add.label" prop is a function', () => {
@@ -431,9 +445,9 @@ describe('Select', () => {
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('test');
         instance._showPopup();
-        const addButton = instance._popup.popup.popup.querySelector(`.${styles.button}`);
+        const addButton = instance._popup!.popup!.popup!.querySelector(`.${styles.button}`);
 
-        addButton.should.contain.text('--test--');
+        addButton!.should.contain.text('--test--');
       });
 
       it('Should add hint if specified', () => {
@@ -442,7 +456,7 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        instance._popup.popup.popup.should.contain('[data-test=ring-list-hint]');
+        instance._popup!.popup!.popup!.should.contain('[data-test=ring-list-hint]');
       });
 
       it('Hint should be placed under "add" button', () => {
@@ -452,7 +466,7 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        const hint = instance._popup.popup.popup.querySelectorAll('[data-test=ring-list-hint]');
+        const hint = instance._popup!.popup!.popup!.querySelectorAll('[data-test=ring-list-hint]');
 
         hint.should.exist;
       });
@@ -465,7 +479,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
       const filtered = instance.getListItems('test3');
       filtered.length.should.equal(1);
-      filtered[0].label.should.equal('test3');
+      filtered[0].label!.should.equal('test3');
     });
 
     it('Should filter items by part of label', () => {
@@ -477,7 +491,7 @@ describe('Select', () => {
 
     it('Should not filter separators', () => {
       const separators = [{
-        type: List.ListProps.Type.SEPARATOR,
+        rgItemType: List.ListProps.Type.SEPARATOR,
         key: 1,
         description: 'test'
       }];
@@ -490,7 +504,7 @@ describe('Select', () => {
 
     it('Should not filter hints', () => {
       const hints = [{
-        type: List.ListProps.Type.HINT,
+        rgItemType: List.ListProps.Type.HINT,
         key: 1,
         description: 'test'
       }];
@@ -503,7 +517,7 @@ describe('Select', () => {
 
     it('Should filter custom items with label', () => {
       const customItems = [{
-        type: List.ListProps.Type.CUSTOM,
+        rgItemType: List.ListProps.Type.CUSTOM,
         key: 1,
         label: 'bar',
         template: <div/>
@@ -551,7 +565,7 @@ describe('Select', () => {
 
       instance.getListItems('foo');
 
-      wrapper.state().addButton.label.should.equal('foo');
+      wrapper.state().addButton!.label.should.equal('foo');
     });
   });
 
@@ -563,15 +577,15 @@ describe('Select', () => {
         focused: true,
         showPopup: true
       });
-      simulateInput(instance._popup.filter, 'a');
-      wrapper.prop('onFilter').should.be.called;
+      simulateInput(instance._popup!.filter!, 'a');
+      wrapper.prop('onFilter')!.should.be.called;
     });
 
     it('Should save input changes', () => {
       const wrapper = mountSelect();
       const instance = wrapper.instance();
       wrapper.setState({showPopup: true});
-      simulateInput(instance._popup.filter, 'a');
+      simulateInput(instance._popup!.filter!, 'a');
       wrapper.should.have.state('filterValue', 'a');
     });
 
@@ -580,7 +594,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
       instance._showPopup = sandbox.spy();
       wrapper.setState({focused: true});
-      simulateInput(instance.filter, 'a');
+      simulateInput(instance.filter!, 'a');
       instance._showPopup.should.be.called;
     });
 
@@ -588,9 +602,9 @@ describe('Select', () => {
       const wrapper = mountSelect({type: Select.Type.MATERIAL});
       const instance = wrapper.instance();
       wrapper.setState({showPopup: true});
-      simulateInput(instance._popup.filter, 'a');
+      simulateInput(instance._popup!.filter!, 'a');
 
-      wrapper.prop('onFilter').should.be.called;
+      wrapper.prop('onFilter')!.should.be.called;
     });
 
     it('Should not open popup on input changes if not in focus', () => {
@@ -598,7 +612,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
 
       instance._showPopup = sandbox.spy();
-      simulateInput(instance.filter, 'a');
+      simulateInput(instance.filter!, 'a');
       instance._showPopup.should.not.be.called;
     });
 
@@ -613,7 +627,7 @@ describe('Select', () => {
       const wrapper = mountSelect({filter: false, type: Select.Type.INPUT});
       const instance = wrapper.instance();
       wrapper.setState({focused: true});
-      simulateInput(instance.filter, 'test input');
+      simulateInput(instance.filter!, 'test input');
       instance.filterValue().should.equal('test input');
     });
 
@@ -622,7 +636,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
       instance._showPopup();
       instance.filterValue('test');
-      instance._popup.filter.value.should.equal('test');
+      instance._popup!.filter!.value.should.equal('test');
     });
 
     it('Should set target input value in input mode', () => {
@@ -631,7 +645,7 @@ describe('Select', () => {
 
       wrapper.setState({focused: true});
       instance.filterValue('test');
-      instance.filter.value.should.equal('test');
+      instance.filter!.value.should.equal('test');
     });
 
     it('Should clear filter value when closing', () => {
@@ -641,29 +655,32 @@ describe('Select', () => {
       instance._showPopup();
       instance._hidePopup();
       instance._showPopup();
-      instance._popup.filter.value.should.equal('');
+      instance._popup!.filter!.value.should.equal('');
     });
   });
 
-  describe('Multiple', () => {
-    const defaultPropsMultiple = () => ({
-      data: testData,
-      selected: testData.slice(0, 2),
-      filter: true,
-      multiple: true,
-      onChange: sandbox.spy()
-    });
+  const defaultPropsMultiple = (): MultipleSelectAttrs => ({
+    data: testData,
+    selected: testData.slice(0, 2),
+    filter: true,
+    multiple: true,
+    onChange: sandbox.spy()
+  });
 
-    const shallowSelectMultiple = props => shallow(
+  const shallowSelectMultiple = (props?: MultipleSelectAttrs) => shallow<Select>(
+    <Select {...defaultPropsMultiple()} {...props}/>
+  );
+  const mountSelectMultiple = (
+    props?: MultipleSelectAttrs
+  ): ReactWrapper<MultipleSelectAttrs, SelectState, Select> => {
+    const wrapper = mount<Select, MultipleSelectAttrs>(
       <Select {...defaultPropsMultiple()} {...props}/>
     );
-    const mountSelectMultiple = props => {
-      mountWrapper = mount(
-        <Select {...defaultPropsMultiple()} {...props}/>
-      );
-      return mountWrapper;
-    };
+    mountWrapper = wrapper;
+    return wrapper;
+  };
 
+  describe('Multiple', () => {
     it('Should fill multipleMap on initialization', () => {
       const wrapper = mountSelectMultiple();
       wrapper.state().multipleMap.should.deep.equal({1: true, 2: true});
@@ -679,7 +696,7 @@ describe('Select', () => {
       const wrapper = shallowSelectMultiple();
       const instance = wrapper.instance();
       const selectedLabel = instance._getSelectedString();
-      selectedLabel.should.equal('first1, test2');
+      selectedLabel!.should.equal('first1, test2');
     });
 
     it('Should skip empty labels', () => {
@@ -688,7 +705,7 @@ describe('Select', () => {
       });
       const instance = wrapper.instance();
       const selectedLabel = instance._getSelectedString();
-      selectedLabel.should.equal('test3');
+      selectedLabel!.should.equal('test3');
     });
 
     it('Should detect selection is empty according on not empty array', () => {
@@ -707,7 +724,7 @@ describe('Select', () => {
       const wrapper = shallowSelectMultiple();
       const instance = wrapper.instance();
       instance.clear();
-      wrapper.state('selected').length.should.equal(0);
+      (wrapper.state('selected') as SelectItem[]).length.should.equal(0);
     });
 
     it('Should not draw "clear" button if multiple and nothing selected', () => {
@@ -720,26 +737,26 @@ describe('Select', () => {
       const wrapper = mountSelectMultiple();
       const instance = wrapper.instance();
       instance.clear();
-      wrapper.prop('onChange').should.be.calledOnce;
-      wrapper.prop('onChange').should.be.called.calledWith([]);
+      wrapper.prop('onChange')!.should.be.calledOnce;
+      wrapper.prop('onChange')!.should.be.called.calledWith([]);
     });
 
     it('Should clear selected when rerendering with no selected item in multiple mode', () => {
       const wrapper = shallowSelectMultiple();
       wrapper.setProps({selected: null});
-      wrapper.state('selected').should.deep.equal([]);
+      wrapper.state('selected')!.should.deep.equal([]);
     });
 
     it('Should update selected checkboxes on selected update', () => {
       const wrapper = shallowSelectMultiple();
       const instance = wrapper.instance();
       wrapper.setProps({selected: []});
-      instance.getListItems(instance.filterValue())[0].checkbox.should.be.false;
+      instance.getListItems(instance.filterValue())[0].checkbox!.should.be.false;
     });
 
     describe('On selecting', () => {
-      let wrapper;
-      let instance;
+      let wrapper: ReactWrapper<MultipleSelectAttrs, SelectState, Select>;
+      let instance: Select;
       beforeEach(() => {
         wrapper = mountSelectMultiple();
         instance = wrapper.instance();
@@ -753,36 +770,24 @@ describe('Select', () => {
       it('Should select just picked item on selecting by clicking item', () => {
         const lengthBefore = testData.slice(0, 2).length;
         instance._listSelectHandler(testData[3]);
-        wrapper.state('selected').length.should.equal(lengthBefore + 1);
+        (wrapper.state('selected') as SelectItem[]).length.should.equal(lengthBefore + 1);
       });
 
       it('Should add item to selection on clicking by checkbox', () => {
         const lengthBefore = testData.slice(0, 2).length;
-        instance._listSelectHandler(testData[3], {
-          originalEvent: {
-            target: {
-              matches: () => true
-            }
-          }
-        });
-        wrapper.state('selected').length.should.equal(lengthBefore + 1);
+        instance._listSelectHandler(testData[3], {} as Event);
+        (wrapper.state('selected') as SelectItem[]).length.should.equal(lengthBefore + 1);
       });
 
       it('Should close popup on selecting by item', () => {
         instance._hidePopup = sandbox.spy();
-        instance._listSelectHandler(testData[3], {
-          originalEvent: {
-            target: {
-              matches: () => false
-            }
-          }
-        });
+        instance._listSelectHandler(testData[3], {} as Event);
         instance._hidePopup.should.have.been.called;
       });
 
       it('Should not close popup on selecting by checkbox', () => {
         instance._hidePopup = sandbox.spy();
-        instance._listSelectHandler(testData[3], {}, {tryKeepOpen: true});
+        instance._listSelectHandler(testData[3], {} as Event, {tryKeepOpen: true});
         instance._hidePopup.should.not.be.called;
       });
     });
@@ -793,7 +798,7 @@ describe('Select', () => {
         const instance = wrapper.instance();
         const lengthBefore = testData.slice(0, 2).length;
         instance._listSelectHandler(testData[0]);
-        wrapper.state('selected').length.should.equal(lengthBefore - 1);
+        (wrapper.state('selected') as SelectItem[]).length.should.equal(lengthBefore - 1);
       });
 
       it('Should call onDeselect on deselecting item', () => {
@@ -802,7 +807,7 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._listSelectHandler(testData[0]);
-        wrapper.prop('onDeselect').should.be.calledWith(testData[0]);
+        wrapper.prop('onDeselect')!.should.be.calledWith(testData[0]);
       });
     });
 
@@ -845,7 +850,7 @@ describe('Select', () => {
       instance._listSelectHandler({
         key: 1,
         label: 'test',
-        type: List.ListProps.Type.CUSTOM
+        rgItemType: List.ListProps.Type.CUSTOM
       });
 
       instance.setState.should.be.called;
@@ -864,7 +869,7 @@ describe('Select', () => {
       });
       const instance = wrapper.instance();
       instance._listSelectHandler(testData[1]);
-      wrapper.prop('onSelect').should.be.calledOnce;
+      wrapper.prop('onSelect')!.should.be.calledOnce;
     });
 
     it('Should set call onChange on selecting', () => {
@@ -873,7 +878,7 @@ describe('Select', () => {
       });
       const instance = wrapper.instance();
       instance._listSelectHandler(testData[1]);
-      wrapper.prop('onChange').should.be.calledOnce;
+      wrapper.prop('onChange')!.should.be.calledOnce;
     });
 
     it('Should hide popup on selecting', () => {
@@ -887,7 +892,7 @@ describe('Select', () => {
 
   describe('On select all', () => {
     it('Should react on select all action', () => {
-      const wrapper = shallowSelect();
+      const wrapper = shallowSelectMultiple();
       const instance = wrapper.instance();
       instance.setState = sandbox.spy();
 
@@ -897,7 +902,7 @@ describe('Select', () => {
     });
 
     it('Should react on select all action with false flag', () => {
-      const wrapper = shallowSelect();
+      const wrapper = shallowSelectMultiple();
       const instance = wrapper.instance();
       instance.setState = sandbox.spy();
 
@@ -907,57 +912,53 @@ describe('Select', () => {
     });
 
     it('Should set selected on selecting all', () => {
-      const wrapper = mountSelect({
+      const wrapper = mountSelectMultiple({
         onSelect: sandbox.spy(),
-        multiple: true,
         selected: [],
         data: testData
       });
       const instance = wrapper.instance();
       instance._listSelectAllHandler();
-      wrapper.state().selected.should.be.eql(testData);
+      wrapper.state().selected!.should.be.eql(testData);
     });
 
     it('Should set call onSelect on selecting', () => {
-      const wrapper = mountSelect({
+      const wrapper = mountSelectMultiple({
         onSelect: sandbox.spy(),
-        multiple: true,
         selected: [testData[0]],
         data: testData
       });
       const instance = wrapper.instance();
       instance._listSelectAllHandler();
-      wrapper.prop('onSelect').should.be.calledThrice;
+      wrapper.prop('onSelect')!.should.be.calledThrice;
     });
 
     it('Should set call onDeselect on call handler with false flag', () => {
-      const wrapper = mountSelect({
+      const wrapper = mountSelectMultiple({
         onDeselect: sandbox.spy(),
-        multiple: true,
         selected: [testData[0], testData[1], testData[2]],
         data: testData
       });
       const instance = wrapper.instance();
       instance._listSelectAllHandler(false);
-      wrapper.prop('onDeselect').should.be.calledThrice;
+      wrapper.prop('onDeselect')!.should.be.calledThrice;
     });
 
     it('Should set call onChange on selecting', () => {
-      const wrapper = mountSelect({
+      const wrapper = mountSelectMultiple({
         onChange: sandbox.spy(),
-        multiple: true,
         selected: [testData[0]],
         data: testData
       });
       const instance = wrapper.instance();
-      instance._listSelectAllHandler(testData[1]);
-      wrapper.prop('onChange').should.be.calledOnce;
+      instance._listSelectAllHandler();
+      wrapper.prop('onChange')!.should.be.calledOnce;
     });
   });
 
   describe('Popup', () => {
-    let container;
-    const mountSelectToContainer = props => {
+    let container: HTMLElement | null;
+    const mountSelectToContainer = (props: SelectAttrs) => {
       mountWrapper = mount(
         <Select {...props}/>,
         {
@@ -971,25 +972,23 @@ describe('Select', () => {
     });
 
     afterEach(() => {
-      document.body.removeChild(container);
+      document.body.removeChild(container!);
       container = null;
     });
 
     it('Should pass loading message and indicator to popup if loading', () => {
       const wrapper = mountSelect({loading: true, loadingMessage: 'test message'});
       const instance = wrapper.instance();
-      instance._popup.rerender = sandbox.stub();
       instance._showPopup();
-      instance._popup.props.message.should.equal('test message');
-      instance._popup.props.loading.should.be.true;
+      instance._popup!.props.message!.should.equal('test message');
+      instance._popup!.props.loading.should.be.true;
     });
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', () => {
       const wrapper = mountSelect({data: [], notFoundMessage: 'test not found'});
       const instance = wrapper.instance();
-      instance._popup.rerender = sandbox.stub();
       instance._showPopup();
-      instance._popup.props.message.should.equal('test not found');
+      instance._popup!.props.message!.should.equal('test not found');
     });
 
     describe('filter focusing', () => {
@@ -1000,23 +999,23 @@ describe('Select', () => {
       });
 
       it('Should focus the filter on opening', done => {
-        const instance = mountWrapper.instance();
+        const instance = mountWrapper!.instance();
         instance._showPopup();
         // Can't use fake timers here, as Popup redraws by requestAnimationFrame.
         // Stabbing it isn't possible either, as it hangs IE11
         setTimeout(() => {
-          instance._popup.filter.should.equal(document.activeElement);
+          instance._popup!.filter!.should.equal(document.activeElement);
           done();
         }, SHOW_TIMEOUT);
       });
 
       it('Should focus the filter on second opening', done => {
-        const instance = mountWrapper.instance();
+        const instance = mountWrapper!.instance();
         instance._showPopup();
         instance._hidePopup();
         instance._showPopup();
         setTimeout(() => {
-          instance._popup.filter.should.equal(document.activeElement);
+          instance._popup!.filter!.should.equal(document.activeElement);
           done();
         }, SHOW_TIMEOUT);
       });
@@ -1027,16 +1026,16 @@ describe('Select', () => {
         data: testData,
         filter: true
       });
-      const instance = mountWrapper.instance();
+      const instance = mountWrapper!.instance();
 
       instance._showPopup();
       instance._hidePopup(true);
-      document.activeElement.should.equal(instance.button);
+      document.activeElement!.should.equal(instance.button);
     });
 
     describe('Focus after close', () => {
-      let instance;
-      let targetInput;
+      let instance: Select;
+      let targetInput: HTMLElement | null;
       beforeEach(() => {
         targetInput = document.createElement('input');
         document.body.appendChild(targetInput);
@@ -1046,37 +1045,37 @@ describe('Select', () => {
           filter: true,
           targetElement: targetInput
         });
-        instance = mountWrapper.instance();
+        instance = mountWrapper!.instance();
 
         instance._showPopup();
       });
 
       afterEach(() => {
-        document.body.removeChild(targetInput);
+        document.body.removeChild(targetInput!);
         targetInput = null;
       });
 
       it('Should restore focus on provided target element after closing popup', () => {
         instance._hidePopup(true);
 
-        targetInput.should.equal(document.activeElement);
+        targetInput!.should.equal(document.activeElement);
       });
 
       it('Should restore focus on provided target element after closing popup with keyboard', () => {
         simulateCombo('esc');
-        targetInput.should.equal(document.activeElement);
+        targetInput!.should.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
         Simulate.click(document.body);
 
-        targetInput.should.not.equal(document.activeElement);
+        targetInput!.should.not.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup', () => {
         instance._hidePopup();
 
-        targetInput.should.not.equal(document.activeElement);
+        targetInput!.should.not.equal(document.activeElement);
       });
     });
 
@@ -1097,28 +1096,29 @@ describe('Select', () => {
           onClick: () => {}
         }
       };
-      instance = shallowSelect({
-        selected: [{}, {}],
+      instance = shallowSelectMultiple({
+        selected: [{key: 0}, {key: 1}],
         tags: tagsMock
       }).instance();
 
-      const resetOption = instance._getResetOption();
+      const resetOption = instance._getResetOption()!;
 
-      resetOption.rgItemType.should.be.equal(List.ListProps.Type.CUSTOM);
-      resetOption.glyph.should.be.equal(tagsMock.reset.glyph);
-      resetOption.onClick.should.be.an.instanceof(Function);
+      resetOption.rgItemType!.should.be.equal(List.ListProps.Type.CUSTOM);
+      resetOption.glyph!.should.be.equal(tagsMock.reset.glyph);
+      resetOption.onClick!.should.be.an.instanceof(Function);
     });
 
     it('should not create tags reset option if it is not provided', () => {
-      instance = shallowSelect({
-        select: [{}, {}]
+      instance = shallowSelectMultiple({
+        selected: [{key: 0}, {key: 1}]
       }).instance();
 
       should.not.exist(instance._getResetOption());
     });
 
     it('should not create tags reset option without selected elements', () => {
-      instance = shallowSelect({
+      instance = shallowSelectMultiple({
+        selected: [],
         tags: {reset: {}}
       }).instance();
 
@@ -1132,7 +1132,7 @@ describe('Select', () => {
 
     it('should prepend reset option', () => {
       instance = getInstance();
-      const newShownData = instance._prependResetOption([{}]);
+      const newShownData = instance._prependResetOption([{key: 0}]);
 
       newShownData.length.should.be.equal(4);
     });
@@ -1140,7 +1140,7 @@ describe('Select', () => {
     it('should prepend reset option with separator', () => {
       instance = getInstance(true);
 
-      const newShownData = instance._prependResetOption([{}]);
+      const newShownData = instance._prependResetOption([{key: 0}]);
 
       newShownData.length.should.be.equal(5);
     });
@@ -1153,16 +1153,16 @@ describe('Select', () => {
       newShownData.length.should.be.equal(0);
     });
 
-    function getInstance(resetWithSeparator, selected) {
-      const resetMock = {
+    function getInstance(resetWithSeparator?: boolean, selected?: SelectItem[]) {
+      const resetMock: Tags = {
         reset: {}
       };
       if (resetWithSeparator) {
-        resetMock.reset.separator = true;
+        resetMock.reset!.separator = true;
       }
 
-      return shallowSelect({
-        selected: selected || [{}, {}],
+      return shallowSelectMultiple({
+        selected: selected || [{key: 0}, {key: 1}],
         tags: resetMock
       }).instance();
     }
@@ -1170,7 +1170,7 @@ describe('Select', () => {
 
 
   describe('_redrawPopup', () => {
-    let clock;
+    let clock: Sinon.SinonFakeTimers;
 
     beforeEach(() => {
       clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
@@ -1181,20 +1181,19 @@ describe('Select', () => {
       sandbox.stub(instance, '_showPopup');
       instance._redrawPopup();
 
-      clock.tick();
+      clock.tick(0);
       instance._showPopup.should.not.have.been.called;
     });
 
     it('should redraw a popup in multiselect mode', () => {
-      const instance = shallowSelect({
-        multiple: true,
+      const instance = shallowSelectMultiple({
         selected: testData.slice(1)
       }).instance();
 
       sandbox.stub(instance, '_showPopup');
       instance._redrawPopup();
 
-      clock.tick();
+      clock.tick(0);
       instance._showPopup.should.have.been.called;
     });
   });

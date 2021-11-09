@@ -19,7 +19,7 @@ export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
 }
 
 export interface TagProps {
-  onRemove: () => void
+  onRemove: (event: React.MouseEvent<HTMLElement>) => void
   onClick: (event: React.MouseEvent<HTMLElement>) => void
   readOnly: boolean
   disabled: boolean

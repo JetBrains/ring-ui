@@ -11,7 +11,7 @@ export interface ShortcutsScope {
   options: ShortcutsScopeOptions
 }
 
-type ShortcutsHandler = (e: KeyboardEvent, key: string, scopeId: string) => boolean | void
+type ShortcutsHandler = (e: KeyboardEvent, key: string, scopeId: string) => boolean | null | void
 
 export interface ShortcutsOptions {
   scope?: string | null | undefined

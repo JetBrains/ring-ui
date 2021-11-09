@@ -46,7 +46,7 @@ export type ListDataItem<T = unknown> =
   avatar?: string | null | undefined
   subavatar?: string | null | undefined
   glyph?: IconType | string | null | undefined
-  icon?: string | null | undefined
+  icon?: string | undefined
   iconSize?: Size | null | undefined
   rightGlyph?: IconType | string | null | undefined
   title?: string | null | undefined
@@ -57,7 +57,7 @@ export type ListDataItem<T = unknown> =
   rightNodes?: ReactNode
   leftNodes?: ReactNode
   tagName?: keyof JSX.IntrinsicElements | null | undefined
-  selectedLabel?: never,
+  selectedLabel?: string | null | undefined,
   originalModel?: never
   LinkComponent?: ComponentType<LinkProps<ClickableLinkProps>> | string | null | undefined
   template?: ReactNode | ((props: ListDataItemProps<T>) => ReactNode)

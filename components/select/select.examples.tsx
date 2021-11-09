@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode, SyntheticEvent} from 'react';
 import PropTypes from 'prop-types';
 import warningIcon from '@jetbrains/icons/warning';
+
+import {Story} from '@storybook/react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
@@ -13,8 +15,12 @@ import Auth from '@jetbrains/ring-ui/components/auth/auth';
 import Source from '@jetbrains/ring-ui/components/list/list__users-groups-source';
 import '@jetbrains/ring-ui/components/input-size/input-size.css';
 
-import Select from '@jetbrains/ring-ui/components/select/select';
-import Input from '@jetbrains/ring-ui/components/input/input';
+import Select, {
+  SelectAttrs,
+  SelectItem,
+  SingleSelectAttrs
+} from '@jetbrains/ring-ui/components/select/select';
+import Input, {ContainerProps, InputSpecificProps} from '@jetbrains/ring-ui/components/input/input';
 
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
@@ -35,8 +41,8 @@ export default {
   }
 };
 
-export const withAFilterAndTags = args => <Select {...args}/>;
-export const withAvatars = args => <Select {...args}/>;
+export const withAFilterAndTags: Story<SelectAttrs> = args => <Select {...args}/>;
+export const withAvatars: Story<SelectAttrs> = args => <Select {...args}/>;
 
 {
   const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
@@ -89,23 +95,29 @@ export const withAvatars = args => <Select {...args}/>;
 withAFilterAndTags.storyName = 'with a filter and tags';
 withAFilterAndTags.parameters = {hermione: {skip: true}};
 
-class Stateful extends Component {
+type StatefulProps = SingleSelectAttrs & {
+  text?: ReactNode
+}
+interface StatefulState {
+  selected: SelectItem | null | undefined
+}
+class Stateful extends Component<StatefulProps, StatefulState> {
   static propTypes = {
     data: PropTypes.arrayOf(Object)
   };
 
-  constructor(props) {
+  constructor(props: StatefulProps) {
     super(props);
-    this.state = {selected: props.data[0]};
+    this.state = {selected: props.data?.[0]};
   }
 
   clearSelection = () => {
     this.setState({selected: null});
   };
 
-  onSelect = option => {
+  onSelect = (option: SelectItem | null) => {
     this.setState({selected: option});
-    this.props.onSelect(option);
+    this.props.onSelect?.(option);
   };
 
   render() {
@@ -129,7 +141,7 @@ class Stateful extends Component {
   }
 }
 
-export const withAFilter = args => <Stateful {...args}/>;
+export const withAFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
 
 withAFilter.args = {
   selectedLabel: 'Option',
@@ -171,7 +183,7 @@ withAFilter.parameters = {
       `
 };
 
-export const buttonModeWithAFilter = args => <Stateful {...args}/>;
+export const buttonModeWithAFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
 
 buttonModeWithAFilter.args = {
   type: Select.Type.BUTTON,
@@ -206,11 +218,10 @@ buttonModeWithAFilter.parameters = {
       `
 };
 
-export const inlineWithAFilter = args => <Stateful {...args}/>;
+export const inlineWithAFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
 
 inlineWithAFilter.args = {
   text: 'Selected option is ',
-  key: 'select',
   type: Select.Type.INLINE,
   filter: true,
   clear: true,
@@ -248,11 +259,10 @@ inlineWithAFilter.parameters = {
       `
 };
 
-export const inlineOpensToLeft = args => <Stateful {...args}/>;
+export const inlineOpensToLeft: Story<StatefulProps> = args => <Stateful {...args}/>;
 
 inlineOpensToLeft.args = {
   text: 'Selected option is ',
-  key: 'select',
   type: Select.Type.INLINE,
   filter: true,
   clear: true,
@@ -288,7 +298,7 @@ inlineOpensToLeft.parameters = {
       `
 };
 
-export const withDisabledMoveOverflow = args => <Stateful {...args}/>;
+export const withDisabledMoveOverflow: Story<StatefulProps> = args => <Stateful {...args}/>;
 
 withDisabledMoveOverflow.args = {
   selectedLabel: 'Option',
@@ -327,7 +337,7 @@ withDisabledMoveOverflow.parameters = {
 
 const alwaysTrue = () => true;
 
-class WithServerSideFiltering extends Component {
+class WithServerSideFiltering extends Component<SelectAttrs> {
   state = {
     users: [],
     request: null
@@ -348,8 +358,8 @@ class WithServerSideFiltering extends Component {
     await this.loadData();
   };
 
-  loadData = async query => {
-    this.props.onFilter(query);
+  loadData = async (query = '') => {
+    this.props.onFilter?.(query);
     const request = this.source.getForList(query);
     this.setState({request});
 
@@ -390,7 +400,7 @@ withServerSideFiltering.args = {
 withServerSideFiltering.storyName = 'with server-side filtering';
 withServerSideFiltering.parameters = {hermione: {skip: true}};
 
-export const withFuzzySearchFilter = args => <Stateful {...args}/>;
+export const withFuzzySearchFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
 
 withFuzzySearchFilter.args = {
   selectedLabel: 'Option',
@@ -423,12 +433,13 @@ withFuzzySearchFilter.parameters = {
       `
 };
 
-export const withALargeDataset = args => <Select {...args}/>;
+export const withALargeDataset: Story<SelectAttrs> = args => <Select {...args}/>;
 
 withALargeDataset.storyName = 'with a large dataset';
 withALargeDataset.parameters = {hermione: {skip: true}};
 
-export const withALargeDatasetAndDisabledScrollToActiveItem = args => <Select {...args}/>;
+export const withALargeDatasetAndDisabledScrollToActiveItem: Story<SelectAttrs> = args =>
+  <Select {...args}/>;
 
 withALargeDatasetAndDisabledScrollToActiveItem.storyName = 'with a large dataset and disabled scroll to active item';
 
@@ -470,7 +481,7 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
   };
 }
 
-export const multipleWithADescription = args => <Select {...args}/>;
+export const multipleWithADescription: Story<SelectAttrs> = args => <Select {...args}/>;
 
 {
   const deFlag =
@@ -536,7 +547,7 @@ disabled.parameters = {
       `
 };
 
-export const inputBased = args => <Select {...args}/>;
+export const inputBased: Story<SelectAttrs> = args => <Select {...args}/>;
 
 inputBased.storyName = 'input-based';
 
@@ -553,7 +564,7 @@ inputBased.parameters = {
   }
 };
 
-export const inputBasedInSuggestOnlyMode = args => <Select {...args}/>;
+export const inputBasedInSuggestOnlyMode: Story<SelectAttrs> = args => <Select {...args}/>;
 
 inputBasedInSuggestOnlyMode.storyName = 'input-based in suggest-only mode';
 inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
@@ -577,7 +588,7 @@ inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
   };
 }
 
-export const withSubLevelsForListElement = args => <Select {...args}/>;
+export const withSubLevelsForListElement: Story<SelectAttrs> = args => <Select {...args}/>;
 
 withSubLevelsForListElement.args = {
   filter: true,
@@ -593,7 +604,8 @@ withSubLevelsForListElement.args = {
 withSubLevelsForListElement.storyName = 'with sub levels for list element';
 withSubLevelsForListElement.parameters = {hermione: {skip: true}};
 
-export const withDefaultFilterModeAndALoadingIndicator = args => <Select {...args}/>;
+export const withDefaultFilterModeAndALoadingIndicator: Story<SelectAttrs> = args =>
+  <Select {...args}/>;
 {
   const data = [
     {label: 'One', key: '1'},
@@ -612,7 +624,8 @@ export const withDefaultFilterModeAndALoadingIndicator = args => <Select {...arg
 withDefaultFilterModeAndALoadingIndicator.storyName = 'with default filter mode and a loading indicator';
 withDefaultFilterModeAndALoadingIndicator.parameters = {hermione: {skip: true}};
 
-export const withACustomizedFilterAndAnAddItemButton = args => <Select {...args}/>;
+export const withACustomizedFilterAndAnAddItemButton: Story<SelectAttrs> = args =>
+  <Select {...args}/>;
 {
   const data = [...Array(100)].map((elem, idx) => ({
     label: `Item long long long long long long long long label ${idx}`,
@@ -636,7 +649,7 @@ export const withACustomizedFilterAndAnAddItemButton = args => <Select {...args}
 withACustomizedFilterAndAnAddItemButton.storyName = "with a customized filter and an 'Add item' button";
 withACustomizedFilterAndAnAddItemButton.parameters = {hermione: {skip: true}};
 
-export const withCustomItemsAndAnAddItemButton = args => <Select {...args}/>;
+export const withCustomItemsAndAnAddItemButton: Story<SelectAttrs> = args => <Select {...args}/>;
 withCustomItemsAndAnAddItemButton.args = {
   data: [...Array(100)].map((elem, idx) => {
     const label = `Label ${idx}`;
@@ -671,7 +684,7 @@ withCustomItemsAndAnAddItemButton.parameters = {
       `
 };
 
-export const withAnAlwaysVisibleAddItemButton = args => <Select {...args}/>;
+export const withAnAlwaysVisibleAddItemButton: Story<SelectAttrs> = args => <Select {...args}/>;
 withAnAlwaysVisibleAddItemButton.args = {
   data: [...Array(10)].map((elem, idx) => ({
     key: idx,
@@ -690,7 +703,7 @@ withAnAlwaysVisibleAddItemButton.args = {
 withAnAlwaysVisibleAddItemButton.storyName = "with an always visible 'Add item' button";
 withAnAlwaysVisibleAddItemButton.parameters = {hermione: {skip: true}};
 
-export const multipleWithCustomView = args => <Select {...args}/>;
+export const multipleWithCustomView: Story<SelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -714,7 +727,7 @@ export const multipleWithCustomView = args => <Select {...args}/>;
 multipleWithCustomView.storyName = 'multiple with custom view';
 multipleWithCustomView.parameters = {hermione: {skip: true}};
 
-export const asADropdownWithoutFilter = args => <Select {...args}/>;
+export const asADropdownWithoutFilter: Story<SelectAttrs> = args => <Select {...args}/>;
 asADropdownWithoutFilter.args = {
   data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
@@ -736,13 +749,21 @@ asADropdownWithoutFilter.args = {
 asADropdownWithoutFilter.storyName = 'as a dropdown without filter';
 asADropdownWithoutFilter.parameters = {hermione: {skip: true}};
 
-const DemoComponent = ({onChange, ...restProps}) => {
-  const [inputValue, setInputValue] = React.useState('');
-  const selectRef = React.useRef(null);
+interface DemoComponentItem {
+  label: string
+}
 
-  const onInputChange = React.useCallback(e => {
-    onChange(e);
-    setInputValue(e.target.value);
+type DemoComponentProps = Omit<SingleSelectAttrs<DemoComponentItem>, 'onChange'> & {
+  onChange: (e: SyntheticEvent) => void
+}
+
+const DemoComponent = ({onChange, ...restProps}: DemoComponentProps) => {
+  const [inputValue, setInputValue] = React.useState('');
+  const selectRef = React.useRef<Select<DemoComponentItem>>(null);
+
+  const onInputChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange?.(e);
+    setInputValue(e.currentTarget.value);
     if (selectRef.current) {
       selectRef.current._filterChangeHandler(e);
     }
@@ -752,17 +773,22 @@ const DemoComponent = ({onChange, ...restProps}) => {
     <Select
       {...restProps}
       ref={selectRef}
-      onChange={item => setInputValue(item.label)}
+      onChange={(item: SelectItem<DemoComponentItem> | null) => setInputValue(item?.label ?? '')}
       customAnchor={({wrapperProps, buttonProps, popup}) => (
         <span {...wrapperProps}>
-          <Input value={inputValue} label="Custom" onChange={onInputChange} {...buttonProps}/>
+          <Input
+            value={inputValue}
+            label="Custom"
+            onChange={onInputChange}
+            {...(buttonProps as ContainerProps<InputSpecificProps>)}
+          />
           {popup}
         </span>
       )}
     />
   );
 };
-export const withCustomInputAnchor = args => <DemoComponent {...args}/>;
+export const withCustomInputAnchor: Story<DemoComponentProps> = args => <DemoComponent {...args}/>;
 withCustomInputAnchor.args = {
   data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
@@ -775,7 +801,7 @@ withCustomInputAnchor.args = {
 withCustomInputAnchor.storyName = 'with custom input anchor';
 withCustomInputAnchor.parameters = {hermione: {skip: true}};
 
-export const withRenderOptimization = args => <Select {...args}/>;
+export const withRenderOptimization: Story<SelectAttrs> = args => <Select {...args}/>;
 withRenderOptimization.args = {
   data: [...Array(1000)].map((item, idx) => ({
     label: `Label ${idx}`,
@@ -788,7 +814,7 @@ withRenderOptimization.args = {
 withRenderOptimization.storyName = 'with render optimization';
 withRenderOptimization.parameters = {hermione: {skip: true}};
 
-export const fitsToScreen = args => (
+export const fitsToScreen: Story<SelectAttrs> = args => (
   <div className="demo">
     <Select {...args}/>
   </div>
@@ -825,8 +851,17 @@ fitsToScreen.parameters = {
       `
 };
 
-class WithFilteredFields extends Component {
-  constructor(props) {
+interface WithFilteredFieldsState {
+  data: SelectItem[]
+  filtersData: SelectItem[]
+  filteredData: SelectItem[]
+  selectedDataKey: string | number | null,
+  selectedFilterKey: string | number | undefined
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+class WithFilteredFields extends Component<{}, WithFilteredFieldsState> {
+  constructor(props: never) {
     super(props);
 
     const data = [...Array(100)].map((item, idx) => {
@@ -854,22 +889,24 @@ class WithFilteredFields extends Component {
     };
   }
 
-  handleFilterSelect = selected => {
+  handleFilterSelect = (selected: SelectItem | null) => {
     const {data} = this.state;
 
     const filteredData =
-      selected.label === 'Show all'
+      selected?.label === 'Show all'
         ? [...data]
-        : data.filter(item => !!(item.key % 2) === (selected.label === 'Show odd'));
+        : data.filter(item => !!(Number(item.key) % 2) === (selected?.label === 'Show odd'));
 
     this.setState({
       filteredData,
-      selectedFilterKey: selected.key,
+      selectedFilterKey: selected?.key,
       selectedDataKey: null
     });
   };
 
-  handleDataSelect = selected => this.setState({selectedDataKey: selected && selected.key});
+  handleDataSelect = (selected: SelectItem | null) => this.setState({
+    selectedDataKey: selected && selected.key
+  });
 
   render() {
     const {filteredData, filtersData, selectedFilterKey, selectedDataKey} = this.state;
@@ -917,7 +954,7 @@ withFilteredFields.parameters = {
       `
 };
 
-export const multipleWithSelectAll = args => <Select {...args}/>;
+export const multipleWithSelectAll: Story<SelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -938,7 +975,7 @@ export const multipleWithSelectAll = args => <Select {...args}/>;
 multipleWithSelectAll.storyName = 'multiple with select all';
 multipleWithSelectAll.parameters = {hermione: {skip: true}};
 
-export const multipleWithSelectAllAndDisabledItem = args => <Select {...args}/>;
+export const multipleWithSelectAllAndDisabledItem: Story<SelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -962,7 +999,7 @@ multipleWithSelectAllAndDisabledItem.storyName = 'multiple with select all and d
 multipleWithSelectAllAndDisabledItem.parameters = {hermione: {skip: true}};
 
 
-export const multipleWithLimit = args => <Select {...args}/>;
+export const multipleWithLimit: Story<SelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -986,7 +1023,7 @@ export const multipleWithLimit = args => <Select {...args}/>;
 multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {hermione: {skip: true}};
 
-export const selectInPopup = args => (
+export const selectInPopup: Story<SelectAttrs> = args => (
   <Dropdown
     anchor="Open dropdown"
   >

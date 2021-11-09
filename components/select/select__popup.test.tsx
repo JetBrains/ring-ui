@@ -7,10 +7,12 @@ import getUID from '../global/get-uid';
 import List from '../list/list';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
-import SelectPopup from './select__popup';
+import SelectPopup, {SelectPopupAttrs} from './select__popup';
+
+import {ListDataItem} from '@jetbrains/ring-ui/components/list/consts';
 
 describe('SelectPopup', () => {
-  const factory = props => (
+  const factory = (props?: SelectPopupAttrs) => (
     <SelectPopup
       filter
       onSelect={sandbox.spy()}
@@ -20,8 +22,8 @@ describe('SelectPopup', () => {
       {...props}
     />
   );
-  const shallowSelectPopup = props => shallow(factory(props));
-  const mountSelectPopup = props => mount(factory(props));
+  const shallowSelectPopup = (props?: SelectPopupAttrs) => shallow<SelectPopup>(factory(props));
+  const mountSelectPopup = (props?: SelectPopupAttrs) => mount<SelectPopup>(factory(props));
 
   describe('hidden', () => {
     describe('filter', () => {
@@ -39,19 +41,19 @@ describe('SelectPopup', () => {
 
 
   describe('visible', () => {
-    function createListItemMock(itemLabel, id) {
-      const key = id || getUID('popup-test-');
-      const label = itemLabel || getUID('popup-label-');
+    function createListItemMock(): ListDataItem {
+      const key = getUID('popup-test-');
+      const label = getUID('popup-label-');
 
       return {
         key,
         label,
-        type: List.ListProps.Type.ITEM
+        rgItemType: List.ListProps.Type.ITEM
       };
     }
 
 
-    let testData;
+    let testData: ListDataItem[];
     beforeEach(() => {
       testData = [
         createListItemMock(),
@@ -68,7 +70,7 @@ describe('SelectPopup', () => {
     it('should call close handler when user press tab', () => {
       const wrapper = mountSelectPopup({data: testData});
       wrapper.setProps({hidden: false});
-      wrapper.instance().list.state.activeItem = {};
+      wrapper.instance().list!.state.activeItem = {};
 
       simulateCombo('tab');
 
@@ -93,7 +95,7 @@ describe('SelectPopup', () => {
         wrapper.setProps({hidden: false});
         const firstItem = testData[0];
 
-        wrapper.instance().list.getSelected().should.be.equal(firstItem);
+        wrapper.instance().list!.getSelected()!.should.be.equal(firstItem);
       });
 
 
@@ -104,7 +106,7 @@ describe('SelectPopup', () => {
 
         simulateCombo('up');
 
-        wrapper.instance().list.getSelected().should.be.equal(lastItem);
+        wrapper.instance().list!.getSelected()!.should.be.equal(lastItem);
       });
 
 
@@ -120,7 +122,7 @@ describe('SelectPopup', () => {
     });
 
     describe('filter', () => {
-      function expectPopupFilterShortcutsDisabled(fn, value) {
+      function expectPopupFilterShortcutsDisabled(fn: (...args: never[]) => void, value: boolean) {
         fn.should.be.calledWith({
           popupFilterShortcutsOptions: {
             modal: true,
@@ -135,7 +137,7 @@ describe('SelectPopup', () => {
         const instance = wrapper.instance();
         sandbox.spy(instance, 'setState');
 
-        Simulate.focus(instance.filter);
+        Simulate.focus(instance.filter as HTMLInputElement);
 
         expectPopupFilterShortcutsDisabled(instance.setState, false);
       });
@@ -147,7 +149,7 @@ describe('SelectPopup', () => {
         const instance = wrapper.instance();
         sandbox.spy(instance, 'setState');
 
-        Simulate.blur(instance.filter);
+        Simulate.blur(instance.filter as HTMLInputElement);
 
         expectPopupFilterShortcutsDisabled(instance.setState, true);
       });

@@ -33,3 +33,57 @@ declare module 'scrollbar-width' {
     recalculate?: boolean
   ): number | null;
 }
+
+declare module 'sniffr' {
+  enum Browser {
+    FIREFOX = 'firefox',
+    CHROME = 'chrome',
+    IE = 'ie',
+    SAFARI = 'safari',
+    EDGE = 'edge',
+    ANDROID = 'com.android.browser',
+    OPERA = 'opera',
+    OPERA_MINI = 'opera.mini',
+    BLACKBERRY = 'blackberry',
+    ICEWEASEL = 'iceweasel',
+  }
+
+  enum OS {
+    LINUX = 'linux',
+    MACOS = 'macos',
+    WINDOWS = 'windows',
+    IOS = 'ios',
+    OPENBSD = 'openbsd',
+    ANDROID = 'android',
+    FIREFOXOS = 'firefoxos',
+    WINDOWS_PHONE = 'windows.phone',
+    WINDOWS_MOBILE = 'windows.mobile',
+    BLACKBERRYOS = 'blackberryos',
+  }
+
+  enum Device {
+    IPAD = 'ipad',
+    IPHONE = 'iphone',
+    LUMIA = 'lumia',
+    HTC = 'htc',
+    NEXUS = 'nexus',
+    GALAXY_NEXUS = 'galaxy.nexus',
+    NOKIA = 'nokia',
+    GALAXY = 'galaxy',
+    XBOX = 'xbox',
+    BLACKBERRY = 'blackberry',
+  }
+
+  export interface SnifferProperty<T extends string> {
+    name: T | 'Unknown'
+    version: string[]
+    versionString: string
+  }
+
+  export default class Sniffer {
+    os: SnifferProperty<OS>;
+    device: SnifferProperty<Device>;
+    browser: SnifferProperty<Browser>;
+    sniff(userAgentString?: string): this
+  }
+}
