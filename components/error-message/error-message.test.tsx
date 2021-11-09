@@ -1,11 +1,11 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import ErrorMessage from './error-message';
+import ErrorMessage, {ErrorMessageProps} from './error-message';
 
 describe('Error Message', () => {
-  const shallowErrorMessage = props => shallow(<ErrorMessage {...props}/>);
-  const mountErrorMessage = props => mount(<ErrorMessage {...props}/>);
+  const shallowErrorMessage = (props?: ErrorMessageProps) => shallow(<ErrorMessage {...props}/>);
+  const mountErrorMessage = (props?: ErrorMessageProps) => mount(<ErrorMessage {...props}/>);
 
   it('should create component', () => {
     mountErrorMessage().should.have.type(ErrorMessage);
