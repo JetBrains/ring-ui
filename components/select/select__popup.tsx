@@ -1,18 +1,18 @@
 /**
  * @description Displays a popup with select's options.
  */
-import React, {PureComponent} from 'react';
+import React, {ComponentType, CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search';
 import memoizeOne from 'memoize-one';
 import PropTypes from 'prop-types';
 
-import Icon from '../icon/icon';
+import Icon, {IconType} from '../icon/icon';
 
 import Popup, {getPopupContainer} from '../popup/popup';
-import {maxHeightForDirection} from '../popup/position';
+import {Directions, maxHeightForDirection} from '../popup/position';
 import {PopupTargetContext} from '../popup/popup.target';
-import List from '../list/list';
+import List, {SelectHandlerParams} from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 import {getStyles} from '../global/dom';
@@ -26,8 +26,13 @@ import Text from '../text/text';
 
 import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 
+import {ListDataItem} from '../list/consts';
+
 import SelectFilter from './select__filter';
 import styles from './select-popup.css';
+
+import {ShortcutsMap} from '@jetbrains/ring-ui/components/shortcuts/core';
+import {SelectItem} from '@jetbrains/ring-ui/components/select/select';
 
 const INPUT_MARGIN_COMPENSATION = -14;
 const FILTER_HEIGHT = 35;
@@ -37,53 +42,76 @@ function noop() {}
 
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
-export default class SelectPopup extends PureComponent {
-  static propTypes = {
-    activeIndex: PropTypes.number,
-    anchorElement: PropTypes.instanceOf(HTMLElement),
-    className: PropTypes.string,
-    compact: PropTypes.bool,
-    data: PropTypes.array,
-    dir: PropTypes.oneOf(['ltr', 'rtl']),
-    directions: PropTypes.array,
-    disabled: PropTypes.bool,
-    disableMoveOverflow: PropTypes.bool,
-    disableScrollToActive: PropTypes.bool,
-    filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
-      value: PropTypes.string,
-      placeholder: PropTypes.string
-    })]),
-    filterValue: PropTypes.string,
-    hidden: PropTypes.bool,
-    isInputMode: PropTypes.bool,
-    listId: PropTypes.string,
-    maxHeight: PropTypes.number,
-    message: PropTypes.string,
-    minWidth: PropTypes.number,
-    multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
-      label: PropTypes.string,
-      limit: PropTypes.number,
-      selectAll: PropTypes.bool
-    })]),
-    left: PropTypes.bool,
-    loading: PropTypes.bool,
-    onClear: PropTypes.func,
-    onCloseAttempt: PropTypes.func,
-    onEmptyPopupEnter: PropTypes.func,
-    onFilter: PropTypes.func,
-    onLoadMore: PropTypes.func,
-    onSelect: PropTypes.func,
-    onSelectAll: PropTypes.func,
-    renderOptimization: PropTypes.bool,
-    ringPopupTarget: PropTypes.string,
-    selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    style: PropTypes.object,
-    tags: PropTypes.object,
-    toolbar: PropTypes.node,
-    top: PropTypes.number
-  };
+export type FilterFn<T> = (
+  itemToCheck: SelectItem<T>,
+  checkString: string,
+  data: readonly SelectItem<T>[]
+) => boolean
 
-  static defaultProps = {
+export interface Filter<T> {
+  fn?: FilterFn<T> | null | undefined
+  fuzzy?: boolean | null | undefined
+  value?: string | null | undefined
+  placeholder?: string | undefined
+}
+
+export interface Multiple {
+  label?: string | null | undefined
+  limit?: number | null | undefined
+  selectAll?: boolean | null | undefined
+  removeSelectedItems?: boolean | null | undefined
+}
+
+export interface TagsReset {
+  separator?: boolean | null | undefined
+  label?: string | number | null | undefined
+  glyph?: IconType | string | null | undefined
+}
+
+export interface Tags {
+  reset?: TagsReset | null | undefined
+}
+
+export interface SelectPopupProps<T = unknown> {
+  data: readonly ListDataItem<T>[]
+  activeIndex: number | null
+  toolbar: ReactNode
+  filter: boolean | Filter<T>
+  message: string | null
+  anchorElement: HTMLElement | null
+  maxHeight: number
+  minWidth: number
+  loading: boolean
+  onSelect: (item: ListDataItem<T>, event: Event, params?: SelectHandlerParams,) => void
+  onCloseAttempt: (e?: Event | SyntheticEvent, isEsc?: boolean | undefined) => void
+  onFilter: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onClear: (e: React.MouseEvent<HTMLButtonElement>) => void
+  onLoadMore: () => void
+  ringPopupTarget: string | null
+  onSelectAll: (isSelectAll: boolean) => void
+  onEmptyPopupEnter: (e: KeyboardEvent) => void
+  className?: string | null | undefined
+  compact?: boolean | null | undefined
+  dir?: 'ltr' | 'rtl' | undefined
+  directions?: readonly Directions[] | undefined
+  disabled?: boolean | undefined
+  disableMoveOverflow?: boolean | null | undefined
+  disableScrollToActive?: boolean | null | undefined
+  filterValue?: string | undefined
+  hidden?: boolean | null | undefined
+  isInputMode?: boolean | undefined
+  listId?: string | undefined
+  left?: number | undefined
+  renderOptimization?: boolean | undefined
+  style?: CSSProperties | undefined
+  top?: number | undefined
+  multiple: boolean | Multiple
+  selected: ListDataItem<T> | readonly ListDataItem<T>[] | null
+  tags: Tags | boolean | null
+}
+
+export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupProps<T>> {
+  static defaultProps: SelectPopupProps = {
     data: [],
     activeIndex: null,
     toolbar: null,
@@ -123,16 +151,19 @@ export default class SelectPopup extends PureComponent {
   }
 
   isClickingPopup = false; // This flag is set to true while an item in the popup is being clicked
+  filter?: HTMLInputElement | null;
   focusFilter() {
-    setTimeout(() => this.filter.focus());
+    setTimeout(() => this.filter?.focus());
   }
 
-  isEventTargetFilter(event) {
-    return event.target && event.target.matches('input,textarea');
+  isEventTargetFilter(event: Event) {
+    return event.target instanceof Element && event.target.matches('input,textarea');
   }
 
-  handleNavigation(navigateLeft) {
-    if (this.isEventTargetFilter(event) && this.caret.getPosition() > 0) {
+  caret?: Caret | null;
+  handleNavigation(event: Event, navigateLeft?: boolean) {
+    if (this.isEventTargetFilter(event) && this.caret != null && this.caret.getPosition() > 0 ||
+      !Array.isArray(this.props.selected)) {
       return;
     }
 
@@ -155,7 +186,10 @@ export default class SelectPopup extends PureComponent {
     });
   }
 
-  removeTag(tag, event) {
+  removeTag(tag?: ListDataItem<T>, event?: SyntheticEvent) {
+    if (!Array.isArray(this.props.selected)) {
+      return;
+    }
     const _tag = tag || this.props.selected.slice(0)[this.props.selected.length - 1];
     if (_tag) {
       this.onListSelect(_tag, event, {tryKeepOpen: true});
@@ -167,14 +201,14 @@ export default class SelectPopup extends PureComponent {
   }
 
   removeSelectedTag() {
-    if (this.state.tagsActiveIndex != null) {
+    if (Array.isArray(this.props.selected) && this.state.tagsActiveIndex != null) {
       this.removeTag(this.props.selected[this.state.tagsActiveIndex]);
       return false;
     }
     return true;
   }
 
-  handleBackspace(event) {
+  handleBackspace(event: Event) {
     if (!this.props.tags) {
       return true;
     }
@@ -183,7 +217,8 @@ export default class SelectPopup extends PureComponent {
       this.removeSelectedTag();
       return false;
     }
-    if (!event.target.value) {
+    if ((event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) &&
+      !event.target.value) {
       this.removeTag();
       return false;
     }
@@ -201,7 +236,7 @@ export default class SelectPopup extends PureComponent {
     }
   };
 
-  _togglePopupFilterShortcuts(shortcutsDisabled) {
+  private _togglePopupFilterShortcuts(shortcutsDisabled: boolean) {
     this.setState({
       popupFilterShortcutsOptions: {
         modal: true,
@@ -218,18 +253,22 @@ export default class SelectPopup extends PureComponent {
     this.isClickingPopup = false;
   };
 
+  popup?: Popup | null;
   isVisible() {
     return this.popup && this.popup.isVisible();
   }
 
-  onListSelect = (selected, event, opts) => {
+  onListSelect = (
+    selected: ListDataItem<T>,
+    event?: Event | SyntheticEvent,
+    opts?: SelectHandlerParams
+  ) => {
     const getSelectItemEvent = () => {
-      let customEvent;
-      if (document.createEvent) {
-        customEvent = document.createEvent('Event');
-        customEvent.initEvent('select', true, false);
-      }
-      if (event && event.persist) {
+      const customEvent: Event & {
+        originalEvent?: Event | SyntheticEvent
+      } = document.createEvent('Event');
+      customEvent.initEvent('select', true, false);
+      if (event && 'persist' in event) {
         event.persist();
       }
       customEvent.originalEvent = event;
@@ -239,11 +278,11 @@ export default class SelectPopup extends PureComponent {
     this.props.onSelect(selected, getSelectItemEvent(), opts);
   };
 
-  tabPress = event => {
+  tabPress = (event: Event) => {
     this.props.onCloseAttempt(event, true);
   };
 
-  onClickHandler = () => this.filter.focus();
+  onClickHandler = () => this.filter?.focus();
 
   getFilter() {
     if (this.props.filter || this.props.tags) {
@@ -259,14 +298,16 @@ export default class SelectPopup extends PureComponent {
           />
           <FilterWithShortcuts
             rgShortcutsOptions={this.state.popupFilterShortcutsOptions}
-            rgShortcutsMap={this.popupFilterShortcuts.map}
+            rgShortcutsMap={this.popupFilterShortcutsMap}
 
             value={this.props.filterValue}
             inputRef={this.filterRef}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.onFilterFocus}
             className="ring-js-shortcuts"
-            placeholder={this.props.filter.placeholder}
+            placeholder={typeof this.props.filter === 'object'
+              ? this.props.filter.placeholder
+              : undefined}
 
             onChange={this.props.onFilter}
             onClick={this.onClickHandler}
@@ -274,7 +315,7 @@ export default class SelectPopup extends PureComponent {
 
             data-test-custom="ring-select-popup-filter-input"
             listId={this.props.listId}
-            enableShortcuts={Object.keys(this.popupFilterShortcuts.map)}
+            enableShortcuts={Object.keys(this.popupFilterShortcutsMap)}
           />
         </div>
       );
@@ -283,18 +324,21 @@ export default class SelectPopup extends PureComponent {
     return null;
   }
 
-  handleRemoveTag = memoize(tag => event => this.removeTag(tag, event));
+  handleRemoveTag = memoize((tag: ListDataItem<T>) => (event: SyntheticEvent) =>
+    this.removeTag(tag, event));
 
-  handleTagClick = memoize(tag => () => {
-    this.setState({
-      tagsActiveIndex: this.props.selected.indexOf(tag)
-    });
+  handleTagClick = memoize((tag: ListDataItem<T>) => () => {
+    if (Array.isArray(this.props.selected)) {
+      this.setState({
+        tagsActiveIndex: this.props.selected.indexOf(tag)
+      });
+    }
   });
 
   getTags() {
-    return (
+    return Array.isArray(this.props.selected) && (
       <div>
-        <TagsList
+        <TagsList<ListDataItem<T>>
           tags={this.props.selected}
           activeIndex={this.state.tagsActiveIndex}
           handleRemove={this.handleRemoveTag}
@@ -344,7 +388,7 @@ export default class SelectPopup extends PureComponent {
     this.forceUpdate();
   };
 
-  getList(ringPopupTarget) {
+  getList(ringPopupTarget: string | undefined) {
     if (this.props.data.length) {
       let {maxHeight} = this.props;
 
@@ -386,13 +430,17 @@ export default class SelectPopup extends PureComponent {
     return null;
   }
 
-  handleSelectAll = () => this.props.onSelectAll(
-    this.props.data.filter(item => !item.disabled).length !== this.props.selected.length
-  );
+  handleSelectAll = () => {
+    if (Array.isArray(this.props.selected)) {
+      this.props.onSelectAll(
+        this.props.data.filter(item => !item.disabled).length !== this.props.selected.length
+      );
+    }
+  };
 
   getSelectAll = () => {
     const activeFilters = this.props.data.filter(item => !item.disabled);
-    return (
+    return Array.isArray(this.props.selected) && (
       <div className={styles.selectAll}>
         {
           activeFilters.length === 0
@@ -421,7 +469,7 @@ export default class SelectPopup extends PureComponent {
   // inside `render` function which can be called N times
   // and should be fast as possible.
   // Cache invalidates each time hidden or userDefinedMaxHeight changes
-  _adjustListMaxHeight = memoizeOne((hidden, userDefinedMaxHeight, ringPopupTarget) => {
+  private _adjustListMaxHeight = memoizeOne((hidden, userDefinedMaxHeight, ringPopupTarget) => {
     if (hidden) {
       return userDefinedMaxHeight;
     }
@@ -437,29 +485,32 @@ export default class SelectPopup extends PureComponent {
     // render the list would be a better way
     const anchorNode = this.props.anchorElement;
     const containerNode = getPopupContainer(ringPopupTarget) || document.documentElement;
-    return Math.min(
-      directions.reduce((maxHeight, direction) => (
-        Math.max(maxHeight, maxHeightForDirection(
-          direction,
-          anchorNode,
-          getStyles(containerNode).position !== 'static' ? containerNode : null
-        ))
-      ), minMaxHeight),
-      userDefinedMaxHeight
-    );
+    return anchorNode != null
+      ? Math.min(
+        directions.reduce((maxHeight, direction) => (
+          Math.max(maxHeight, maxHeightForDirection(
+            direction,
+            anchorNode,
+            getStyles(containerNode).position !== 'static' ? containerNode : null
+          ) ?? 0)
+        ), minMaxHeight),
+        userDefinedMaxHeight
+      )
+      : userDefinedMaxHeight;
   });
 
-  popupRef = el => {
+  popupRef = (el: Popup | null) => {
     this.popup = el;
   };
 
-  listRef = el => {
+  list?: List<T> | null;
+  listRef = (el: List<T> | null) => {
     this.list = el;
   };
 
-  filterRef = el => {
+  filterRef = (el: HTMLInputElement | null) => {
     this.filter = el;
-    this.caret = new Caret(this.filter);
+    this.caret = el && new Caret(el);
   };
 
   shortcutsScope = getUID('select-popup-');
@@ -467,22 +518,20 @@ export default class SelectPopup extends PureComponent {
     tab: this.tabPress
   };
 
-  popupFilterShortcuts = {
-    map: {
-      up: event => (this.list && this.list.upHandler(event)),
-      down: event => (this.list && this.list.downHandler(event)),
-      home: event => (this.list && this.list.homeHandler(event)),
-      end: event => (this.list && this.list.endHandler(event)),
-      enter: event => (this.list
-        ? this.list.enterHandler(event)
-        : this.props.onEmptyPopupEnter(event)),
-      esc: event => this.props.onCloseAttempt(event, true),
-      tab: event => this.tabPress(event),
-      backspace: event => this.handleBackspace(event),
-      del: () => this.removeSelectedTag(),
-      left: () => this.handleNavigation(true),
-      right: () => this.handleNavigation()
-    }
+  popupFilterShortcutsMap: ShortcutsMap = {
+    up: event => (this.list && this.list.upHandler(event)),
+    down: event => (this.list && this.list.downHandler(event)),
+    home: event => (this.list && this.list.homeHandler(event)),
+    end: event => (this.list && this.list.endHandler(event)),
+    enter: event => (this.list
+      ? this.list.enterHandler(event)
+      : this.props.onEmptyPopupEnter(event)),
+    esc: event => this.props.onCloseAttempt(event, true),
+    tab: event => this.tabPress(event),
+    backspace: event => this.handleBackspace(event),
+    del: () => this.removeSelectedTag(),
+    left: event => this.handleNavigation(event, true),
+    right: event => this.handleNavigation(event)
   };
 
   render() {
@@ -508,8 +557,8 @@ export default class SelectPopup extends PureComponent {
       <PopupTargetContext.Consumer>
         {ringPopupTarget => {
           const filterWithTags = this.getFilterWithTags();
-          const selectAll = multiple && !multiple.limit && multiple.selectAll &&
-            this.getSelectAll();
+          const selectAll = multiple && typeof multiple === 'object' && !multiple.limit &&
+            multiple.selectAll && this.getSelectAll();
           const list = this.getList(this.props.ringPopupTarget || ringPopupTarget);
           const bottomLine = this.getBottomLine();
           const hasContent = filterWithTags || selectAll || list || bottomLine || toolbar;
@@ -525,7 +574,7 @@ export default class SelectPopup extends PureComponent {
               minWidth={minWidth}
               onCloseAttempt={onCloseAttempt}
               directions={directions}
-              top={top || (isInputMode ? INPUT_MARGIN_COMPENSATION : null)}
+              top={top || (isInputMode ? INPUT_MARGIN_COMPENSATION : undefined)}
               left={left}
               onMouseDown={this.mouseDownHandler}
               target={this.props.ringPopupTarget}
@@ -554,3 +603,51 @@ export default class SelectPopup extends PureComponent {
     );
   }
 }
+
+(SelectPopup as ComponentType<unknown>).propTypes = {
+  activeIndex: PropTypes.number,
+  anchorElement: PropTypes.instanceOf(HTMLElement),
+  className: PropTypes.string,
+  compact: PropTypes.bool,
+  data: PropTypes.array,
+  dir: PropTypes.oneOf(['ltr', 'rtl']),
+  directions: PropTypes.array,
+  disabled: PropTypes.bool,
+  disableMoveOverflow: PropTypes.bool,
+  disableScrollToActive: PropTypes.bool,
+  filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
+    value: PropTypes.string,
+    placeholder: PropTypes.string
+  })]),
+  filterValue: PropTypes.string,
+  hidden: PropTypes.bool,
+  isInputMode: PropTypes.bool,
+  listId: PropTypes.string,
+  maxHeight: PropTypes.number,
+  message: PropTypes.string,
+  minWidth: PropTypes.number,
+  multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
+    label: PropTypes.string,
+    limit: PropTypes.number,
+    selectAll: PropTypes.bool
+  })]),
+  left: PropTypes.number,
+  loading: PropTypes.bool,
+  onClear: PropTypes.func,
+  onCloseAttempt: PropTypes.func,
+  onEmptyPopupEnter: PropTypes.func,
+  onFilter: PropTypes.func,
+  onLoadMore: PropTypes.func,
+  onSelect: PropTypes.func,
+  onSelectAll: PropTypes.func,
+  renderOptimization: PropTypes.bool,
+  ringPopupTarget: PropTypes.string,
+  selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.object,
+  tags: PropTypes.object,
+  toolbar: PropTypes.node,
+  top: PropTypes.number
+};
+
+export type SelectPopupAttrs<T = unknown> =
+  JSX.LibraryManagedAttributes<typeof SelectPopup, SelectPopupProps<T>>

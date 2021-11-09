@@ -60,7 +60,7 @@ const warnEmptyKey = deprecate(
  * @param {Type} listItemType
  * @param {Object} item list item
  */
-function isItemType(listItemType: Type, item: ListDataItem) {
+function isItemType<T>(listItemType: Type, item: ListDataItem<T>) {
   let type = item.rgItemType;
   if (type == null) {
     type = DEFAULT_ITEM_TYPE;
@@ -79,7 +79,7 @@ function isActivatable<T>(item: ListDataItem<T> | null) {
 }
 
 export interface SelectHandlerParams {
-  tryKeepOpen: boolean
+  tryKeepOpen?: boolean
 }
 
 export interface ListProps<T = unknown> {
@@ -88,12 +88,8 @@ export interface ListProps<T = unknown> {
   activateSingleItem: boolean
   activateFirstItem: boolean
   onMouseOut: (e: SyntheticEvent) => void
-  onSelect:
-    | ((
-    item: ListDataItem<T>,
-    event: Event | SyntheticEvent,
-    params?: SelectHandlerParams,
-  ) => void)
+  onSelect: (item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) =>
+    void
   onScrollToBottom: () => void
   onResize: (info: Size) => void
   shortcuts: boolean
@@ -462,13 +458,13 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     this.setState({scrolling: true}, this.scrollEndHandler);
   };
 
-  enterHandler = (event: KeyboardEvent, shortcut: string) => {
+  enterHandler = (event: KeyboardEvent, shortcut?: string) => {
     if (this.state.activeIndex !== null) {
       const item = this.props.data[this.state.activeIndex];
       this.selectHandler(this.state.activeIndex)(event);
 
       if (item.href && !event.defaultPrevented) {
-        if (['command+enter', 'ctrl+enter'].includes(shortcut)) {
+        if (shortcut != null && ['command+enter', 'ctrl+enter'].includes(shortcut)) {
           window.open(item.href, '_blank');
         } else if (shortcut === 'shift+enter') {
           window.open(item.href);
