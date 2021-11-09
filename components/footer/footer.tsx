@@ -1,7 +1,13 @@
 /**
  * @name Footer
  */
-import React, {memo, isValidElement} from 'react';
+import React, {
+  memo,
+  isValidElement,
+  ReactNode,
+  ComponentType,
+  HTMLAttributeAnchorTarget, ReactChild
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -9,7 +15,14 @@ import Link from '../link/link';
 
 import styles from './footer.css';
 
-const FooterColumn = memo(function FooterColumn({position, children}) {
+type Position = 'left' | 'center' | 'right'
+
+interface FooterColumnProps {
+  position: Position
+  children: ReactNode
+}
+
+const FooterColumn = memo(function FooterColumn({position, children}: FooterColumnProps) {
   const classes = classNames({
     [styles.columnLeft]: position === 'left',
     [styles.columnCenter]: position === 'center',
@@ -23,8 +36,8 @@ const FooterColumn = memo(function FooterColumn({position, children}) {
     </div>
   );
 });
-FooterColumn.propTypes = {
-  position: PropTypes.string,
+(FooterColumn as ComponentType<FooterColumnProps>).propTypes = {
+  position: PropTypes.oneOf(['left', 'center', 'right'] as const).isRequired,
   children: PropTypes.node
 };
 
@@ -33,7 +46,7 @@ FooterColumn.propTypes = {
  * @param year {int}
  * @returns {string}
  */
-export function copyright(year) {
+export function copyright(year: number) {
   const currentYear = (new Date()).getUTCFullYear();
   const ndash = '–';
   let ret = 'Copyright © ';
@@ -47,15 +60,29 @@ export function copyright(year) {
   return ret;
 }
 
+export interface FooterLinkItem {
+  copyright?: number | null | undefined
+  label?: string | null | undefined
+  url?: string | null | undefined
+  target?: HTMLAttributeAnchorTarget | undefined
+  title?: string | undefined
+}
+
+type FooterItem = FooterLinkItem | ReactChild
+
+interface FooterLineProps {
+  item: FooterItem | readonly FooterItem[]
+}
+
 /**
  * @constructor
  * @extends {ReactComponent}
  */
-const FooterLine = memo(function FooterLine(props) {
+const FooterLine = memo(function FooterLine(props: FooterLineProps) {
   const items = Array.isArray(props.item) ? props.item : [props.item];
 
-  function renderItem(item) {
-    if (isValidElement(item)) {
+  function renderItem(item: FooterItem) {
+    if (isValidElement(item) || typeof item !== 'object') {
       return item;
     }
 
@@ -81,7 +108,7 @@ const FooterLine = memo(function FooterLine(props) {
     </li>
   );
 });
-FooterLine.propTypes = {
+(FooterLine as unknown as ComponentType<unknown>).propTypes = {
   item: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array,
@@ -89,8 +116,18 @@ FooterLine.propTypes = {
   ])
 };
 
-const Footer = memo(function Footer({floating, className, left, center, right}) {
-  function content(elements, position) {
+type FooterItems = readonly (FooterItem | readonly FooterItem[])[]
+
+export interface FooterProps {
+  className?: string | null | undefined
+  floating?: boolean | null | undefined
+  left?: FooterItems | null | undefined
+  center?: FooterItems | null | undefined
+  right?: FooterItems | null | undefined
+}
+
+const Footer = memo(function Footer({floating, className, left, center, right}: FooterProps) {
+  function content(elements: FooterItems | null | undefined, position: Position) {
     if (!elements) {
       return false;
     }
@@ -128,7 +165,7 @@ const Footer = memo(function Footer({floating, className, left, center, right}) 
       }</footer>
   );
 });
-Footer.propTypes = {
+(Footer as ComponentType<FooterProps>).propTypes = {
   className: PropTypes.string,
   floating: PropTypes.bool,
   left: PropTypes.array,
