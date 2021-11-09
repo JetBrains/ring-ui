@@ -1,19 +1,20 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import Input from '../input/input';
+import Input, {InputAttrs} from '../input/input';
 
-import ErrorBubble from './error-bubble';
+import ErrorBubble, {ErrorBubbleProps} from './error-bubble';
 
 const ERROR_BUBBLE_SELECTOR = '[data-test="ring-error-bubble"]';
 
 describe('Error Bubble', () => {
-  const shallowErrorBubble = params => shallow(
-    <ErrorBubble {...params}>
-      <Input/>
-    </ErrorBubble>
-  );
-  const mountErrorBubble = params => mount(
+  const shallowErrorBubble = (params?: Partial<ErrorBubbleProps<Omit<InputAttrs, 'ref'>>>) =>
+    shallow(
+      <ErrorBubble {...params}>
+        <Input/>
+      </ErrorBubble>
+    );
+  const mountErrorBubble = (params?: Partial<ErrorBubbleProps<Omit<InputAttrs, 'ref'>>>) => mount(
     <ErrorBubble {...params}>
       <Input/>
     </ErrorBubble>

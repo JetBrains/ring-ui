@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Select from '@jetbrains/ring-ui/components/select/select';
+import Select, {SingleSelectAttrs} from '@jetbrains/ring-ui/components/select/select';
 
 import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
 import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
@@ -29,15 +29,15 @@ export const basic = () => {
       const {value} = this.state;
 
       return (
-        <ErrorBubble
+        <ErrorBubble<SingleSelectAttrs>
           error={value ? null : 'Value is required'}
           onSelect={selected => this.setState({value: selected})}
-          placeholder="enter something"
+          inputPlaceholder="enter something"
         >
           <Select
             type={Select.Type.BUTTON}
             size={Select.Size.M}
-            data={[{label: 'One'}, {label: 'Two'}]}
+            data={[{key: 0, label: 'One'}, {key: 1, label: 'Two'}]}
           />
         </ErrorBubble>
       );
@@ -64,16 +64,16 @@ export const inDialogForm = () => {
               <div className="ring-form__group">
                 <label htmlFor="select" className="ring-form__label">Field name</label>
                 <div className="ring-form__control ring-form__control_small">
-                  <ErrorBubble
+                  <ErrorBubble<SingleSelectAttrs>
                     error={value ? null : 'Value is required'}
                     onSelect={selected => this.setState({value: selected})}
-                    placeholder="enter something"
+                    inputPlaceholder="enter something"
                   >
                     <Select
                       id="select"
                       type={Select.Type.BUTTON}
                       size={Select.Size.M}
-                      data={[{label: 'One'}, {label: 'Two'}]}
+                      data={[{key: 0, label: 'One'}, {key: 1, label: 'Two'}]}
                     />
                   </ErrorBubble>
                 </div>
