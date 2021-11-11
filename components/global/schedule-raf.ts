@@ -1,11 +1,11 @@
-export default function scheduleRAF(trailingCall) {
-  let scheduledCb;
-  let RAF;
+export default function scheduleRAF(trailingCall?: boolean) {
+  let scheduledCb: (() => void) | null;
+  let RAF: number | null;
   let trailingCallScheduled = false;
 
   function doSchedule() {
     RAF = window.requestAnimationFrame(() => {
-      scheduledCb();
+      scheduledCb?.();
       if (trailingCallScheduled) {
         trailingCallScheduled = false;
         doSchedule();
@@ -16,7 +16,7 @@ export default function scheduleRAF(trailingCall) {
     });
   }
 
-  return function schedule(cb) {
+  return function schedule(cb: () => void) {
     scheduledCb = cb;
     if (!RAF) {
       doSchedule();
