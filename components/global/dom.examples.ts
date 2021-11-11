@@ -19,16 +19,20 @@ export const basic = () => {
 
   function calc() {
     const rectTarget = node.querySelector('#rect-target');
-    rectTarget.innerHTML = `
+    if (rectTarget != null) {
+      rectTarget.innerHTML = `
         Element min-width = ${getStyles(rectTarget).minWidth} <br/>
         Element rect = ${JSON.stringify(getRect(rectTarget))} <br/>
       `;
+    }
 
     const report = node.querySelector('#report');
-    report.innerHTML = `
+    if (report != null) {
+      report.innerHTML = `
        Pixel ratio = ${getPixelRatio()} <br/>
        Window height = ${getWindowHeight()} <br/>
       `;
+    }
   }
 
   setTimeout(calc);
