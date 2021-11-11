@@ -2,11 +2,11 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Icon, {Size} from '../icon/icon';
+import Icon, {IconAttrs, Size} from '../icon/icon';
 
 import styles from './header.css';
 
-export default class Logo extends PureComponent {
+export default class Logo extends PureComponent<IconAttrs> {
   static propTypes = {
     className: PropTypes.string
   };

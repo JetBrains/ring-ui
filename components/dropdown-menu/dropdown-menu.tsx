@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 
 import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
 import Dropdown, {AnchorProps, DropdownAttrs} from '../dropdown/dropdown';
-import PopupMenu, {PopupMenuProps} from '../popup-menu/popup-menu';
+import PopupMenu, {PopupMenuAttrs, PopupMenuProps} from '../popup-menu/popup-menu';
 import getUID from '../global/get-uid';
 import Anchor from '../dropdown/anchor';
 
@@ -93,7 +93,7 @@ export interface DropdownMenuProps<T = unknown> extends
     event: Event | SyntheticEvent,
     params?: SelectHandlerParams,
   ) => void) | undefined
-  menuProps?: PopupMenuProps<T> | null | undefined
+  menuProps?: PopupMenuAttrs<T> | null | undefined
 }
 
 DropdownAnchorWrapper.propTypes = {

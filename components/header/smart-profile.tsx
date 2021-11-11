@@ -4,15 +4,29 @@ import PropTypes from 'prop-types';
 import Auth, {
   USER_CHANGED_EVENT,
   LOGOUT_POSTPONED_EVENT,
-  USER_CHANGE_POSTPONED_EVENT
+  USER_CHANGE_POSTPONED_EVENT, AuthUser
 } from '../auth/auth';
 import alertService from '../alert-service/alert-service';
 
-import Profile from './profile';
+import Profile, {ProfileAttrs} from './profile';
+
+import {Size} from '@jetbrains/ring-ui/components/avatar/avatar';
 
 const CERTIFICATE_MISMATCH_HEADER = 'x-client-certificate-token-mismatch';
 
-export default class SmartProfile extends PureComponent {
+export interface SmartProfileProps extends ProfileAttrs {
+  auth: Auth
+}
+
+interface SmartProfileState {
+  user: AuthUser | null | undefined | void,
+  size: Size,
+  isLogoutPostponed: boolean,
+  isUserChangePostponed: boolean
+  loading?: boolean
+}
+
+export default class SmartProfile extends PureComponent<SmartProfileProps, SmartProfileState> {
   static propTypes = {
     auth: PropTypes.instanceOf(Auth).isRequired,
     className: PropTypes.string,
@@ -22,7 +36,7 @@ export default class SmartProfile extends PureComponent {
     round: Profile.propTypes.round
   };
 
-  state = {
+  state: SmartProfileState = {
     user: null,
     size: Profile.defaultProps.size,
     isLogoutPostponed: false,
@@ -87,7 +101,7 @@ export default class SmartProfile extends PureComponent {
     }
   }
 
-  checkUserCertificateMismatch(user) {
+  checkUserCertificateMismatch(user: AuthUser) {
     const {auth, translations} = this.props;
     const userMeta = auth.http.getMetaForResponse(user);
     if (userMeta?.headers?.has(CERTIFICATE_MISMATCH_HEADER)) {
