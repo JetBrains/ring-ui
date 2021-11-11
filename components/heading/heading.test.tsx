@@ -1,10 +1,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Heading, {H2} from './heading';
+import Heading, {H2, HeadingProps} from './heading';
 
 describe('Heading', () => {
-  const shallowHeading = props => shallow(<Heading {...props}/>);
+  const shallowHeading = (props?: HeadingProps) => shallow(<Heading {...props}/>);
 
   it('should wrap children with h1 by default', () => {
     shallowHeading().should.have.tagName('h1');
