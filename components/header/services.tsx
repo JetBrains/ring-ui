@@ -1,16 +1,16 @@
-import React, {PureComponent} from 'react';
+import React, {HTMLAttributes, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import servicesIcon from '@jetbrains/icons/services-20px';
 
-import Dropdown from '../dropdown/dropdown';
+import Dropdown, {AnchorProps} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
 
 import TrayIcon from './tray-icon';
-import ServicesLink from './services-link';
+import ServicesLink, {Service} from './services-link';
 import styles from './services.css';
 
-const makeAnchor = loading => {
-  const Anchor = ({active}) => (
+const makeAnchor = (loading: boolean | null | undefined) => {
+  const Anchor = ({active}: AnchorProps) => (
     <TrayIcon
       loader={loading}
       active={active}
@@ -26,15 +26,14 @@ const makeAnchor = loading => {
   return Anchor;
 };
 
-export default class Services extends PureComponent {
-  static sort = (a, b) => {
-    const aApplicationName = a.applicationName || '';
-    const bApplicationName = b.applicationName || '';
+export interface ServicesProps extends HTMLAttributes<HTMLElement> {
+  clientId?: string | null | undefined
+  initShown?: boolean | undefined
+  loading?: boolean | null | undefined
+  services?: Service[] | null | undefined
+}
 
-    return aApplicationName.localeCompare(bApplicationName) ||
-      a.name.localeCompare(b.name);
-  };
-
+export default class Services extends PureComponent<ServicesProps> {
   static propTypes = {
     className: PropTypes.string,
     clientId: PropTypes.string,
@@ -44,9 +43,17 @@ export default class Services extends PureComponent {
     services: PropTypes.arrayOf(ServicesLink.propTypes.service)
   };
 
+  static sort = (a: Service, b: Service) => {
+    const aApplicationName = a.applicationName || '';
+    const bApplicationName = b.applicationName || '';
+
+    return aApplicationName.localeCompare(bApplicationName) ||
+      a.name.localeCompare(b.name);
+  };
+
   static Link = ServicesLink;
 
-  serviceIsActive = service => service.id === this.props.clientId;
+  serviceIsActive = (service: Service) => service.id === this.props.clientId;
 
   render() {
     const {clientId, loading, services, initShown, ...props} = this.props;

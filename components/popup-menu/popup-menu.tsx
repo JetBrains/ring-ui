@@ -1,11 +1,12 @@
 import React, {SyntheticEvent, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 
-import Popup, {BasePopupProps} from '../popup/popup';
+import Popup, {BasePopupProps, PopupProps} from '../popup/popup';
 import List, {ListProps as ListPropsType} from '../list/list';
 import {ListDataItem} from '../list/consts';
 
-const {children, ...popupPropTypes} = Popup.propTypes || {};
+const {children, ...popupPropTypes} =
+  (Popup as unknown as ComponentType<PopupProps>).propTypes || {};
 
 export interface PopupMenuProps<T = unknown> extends
   Omit<ListPropsType<T>, 'maxHeight' | 'hidden'>, Omit<BasePopupProps, 'onMouseOut'> {

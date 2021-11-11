@@ -1,11 +1,23 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-import Link from '../link/link';
+import Link, {LinkProps} from '../link/link';
 
 import styles from './services.css';
 
-export default class ServicesLink extends PureComponent {
+export interface Service {
+  id: string
+  applicationName: string
+  iconUrl?: string | null | undefined
+  homeUrl: string
+  name: string
+}
+
+export interface ServicesLinkProps extends Partial<LinkProps> {
+  service: Service
+}
+
+export default class ServicesLink extends PureComponent<ServicesLinkProps> {
   static propTypes = {
     isActive: PropTypes.bool,
     service: PropTypes.shape({

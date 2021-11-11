@@ -7,10 +7,12 @@ import helpIcon from '@jetbrains/icons/help-20px';
 import searchIcon from '@jetbrains/icons/search-20px';
 import settingsIcon from '@jetbrains/icons/settings-20px';
 
+import {Story} from '@storybook/react';
+
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
-import Link from '@jetbrains/ring-ui/components/link/link';
+import Link, {LinkProps} from '@jetbrains/ring-ui/components/link/link';
 
 
 import DropdownMenu from '@jetbrains/ring-ui/components/dropdown-menu/dropdown-menu';
@@ -20,7 +22,7 @@ import Theme from '@jetbrains/ring-ui/components/global/theme';
 
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
 
-import Header from '@jetbrains/ring-ui/components/header/header';
+import Header, {HeaderAttrs} from '@jetbrains/ring-ui/components/header/header';
 import Logo from '@jetbrains/ring-ui/components/header/logo';
 
 import Tray from '@jetbrains/ring-ui/components/header/tray';
@@ -47,7 +49,11 @@ export default {
   }
 };
 
-export const header = ({isCompact, ...args}) => {
+interface HeaderArgs extends HeaderAttrs {
+  isCompact: boolean
+}
+
+export const header: Story<HeaderArgs> = ({isCompact, ...args}) => {
   class HeaderDemo extends React.Component {
     render() {
       const auth = new Auth(hubConfig);
@@ -56,7 +62,7 @@ export const header = ({isCompact, ...args}) => {
         auth.init();
       }
 
-      const Comp = props => <a {...props}>This is component</a>;
+      const Comp = (props: LinkProps) => <a {...props}>This is component</a>;
       return (
         <Header {...args} className={isCompact ? 'compactHeader' : ''}>
           <a title="Hub" href="/">
@@ -95,7 +101,7 @@ export const header = ({isCompact, ...args}) => {
 };
 
 header.storyName = 'Header';
-header.notes = 'See available presentation options in knobs panel';
+header.parameters = {notes: 'See available presentation options in knobs panel'};
 header.args = {isCompact: false, theme: Theme.DARK};
 
 header.parameters = {
