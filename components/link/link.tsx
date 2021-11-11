@@ -57,7 +57,8 @@ export interface LinkBaseProps {
   children: ReactNode | ChildrenFunction,
 }
 
-export type LinkProps<P extends ClickableLinkProps> = Omit<P, keyof LinkBaseProps> & LinkBaseProps
+export type LinkProps<P extends ClickableLinkProps = ClickableLinkProps> =
+  Omit<P, keyof LinkBaseProps> & LinkBaseProps
 
 export function linkHOC<P extends ClickableLinkProps>(
   ComposedComponent: ComponentType<P> | string

@@ -1,7 +1,6 @@
 import React, {ComponentType, ReactNode, SyntheticEvent} from 'react';
 
 import {LinkProps} from '../link/link';
-import {ClickableLinkProps} from '../link/clickableLink';
 import {IconType, Size} from '../icon/icon';
 
 /**
@@ -32,7 +31,7 @@ export enum Dimension {
 export const DEFAULT_ITEM_TYPE = Type.ITEM;
 
 export type ListDataItem<T = unknown> =
-  T & Partial<Omit<LinkProps<ClickableLinkProps>, 'onClick' | 'onMouseUp'>> & {
+  T & Partial<Omit<LinkProps, 'onClick' | 'onMouseUp'>> & {
   rgItemType?: Type | null | undefined
   key?: string | number | null | undefined
   disabled?: boolean | undefined
@@ -59,7 +58,7 @@ export type ListDataItem<T = unknown> =
   tagName?: keyof JSX.IntrinsicElements | null | undefined
   selectedLabel?: string | null | undefined,
   originalModel?: never
-  LinkComponent?: ComponentType<LinkProps<ClickableLinkProps>> | string | null | undefined
+  LinkComponent?: ComponentType<LinkProps> | string | null | undefined
   template?: ReactNode | ((props: ListDataItemProps<T>) => ReactNode)
   onClick?:
     | ((item: ListDataItem<T>, event: Event | SyntheticEvent) => void)

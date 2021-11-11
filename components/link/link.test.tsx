@@ -8,9 +8,9 @@ import styles from './link.css';
 function noop() {}
 
 describe('Link', () => {
-  const shallowLink = (props?: Partial<LinkProps<ClickableLinkProps>>) =>
+  const shallowLink = (props?: Partial<LinkProps>) =>
     shallow(<Link {...{children: '', ...props}}/>);
-  const mountLink = (props?: Partial<LinkProps<ClickableLinkProps>>) =>
+  const mountLink = (props?: Partial<LinkProps>) =>
     mount(<Link {...{children: '', ...props}}/>);
 
   it('should create component', () => {

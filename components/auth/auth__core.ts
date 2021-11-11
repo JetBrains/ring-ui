@@ -1001,7 +1001,7 @@ export default class Auth implements HTTPAuth {
     this._redirectCurrentPage(window.location.href);
   }
 
-  private _canShowDialogs() {
+  _canShowDialogs() {
     return this.config.embeddedLogin && this._authDialogService;
   }
 
