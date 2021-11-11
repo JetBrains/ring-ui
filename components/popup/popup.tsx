@@ -2,7 +2,7 @@
  * @name Popup
  */
 
-import React, {PureComponent, ReactNode, CSSProperties, SyntheticEvent} from 'react';
+import React, {PureComponent, ReactNode, CSSProperties, SyntheticEvent, ComponentType} from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -94,47 +94,6 @@ interface PopupState {
 export default class Popup<
   P extends BasePopupProps = PopupProps
 > extends PureComponent<P, PopupState> {
-  static propTypes = {
-    anchorElement: PropTypes.instanceOf(Node),
-    target: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Element)]),
-    className: PropTypes.string,
-    style: PropTypes.object,
-    hidden: PropTypes.bool.isRequired,
-    onOutsideClick: PropTypes.func,
-    onEscPress: PropTypes.func,
-    // onCloseAttempt is a common callback for ESC pressing and outside clicking.
-    // Use it if you don't need different behaviors for this cases.
-    onCloseAttempt: PropTypes.func,
-    children: PropTypes.node.isRequired,
-    dontCloseOnAnchorClick: PropTypes.bool,
-    shortcuts: PropTypes.bool,
-    keepMounted: PropTypes.bool, // pass this prop to preserve the popup's DOM state while hidden
-    'data-test': PropTypes.string,
-    client: PropTypes.bool, // true means that it's never used in SSR
-
-    directions: PropTypes.arrayOf(PropTypes.string),
-    autoPositioning: PropTypes.bool,
-    autoCorrectTopOverflow: PropTypes.bool,
-    left: PropTypes.number,
-    top: PropTypes.number,
-    maxHeight: PropTypes.number,
-    minWidth: PropTypes.number,
-    sidePadding: PropTypes.number,
-
-    attached: PropTypes.bool, // Popup adjacent to an input, without upper border and shadow
-
-    onMouseDown: PropTypes.func,
-    onMouseUp: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onMouseOut: PropTypes.func,
-    onContextMenu: PropTypes.func,
-    onDirectionChange: PropTypes.func,
-    onShow: PropTypes.func,
-    // set to true whenever popup contains focusable and scrollable content
-    trapFocus: PropTypes.bool,
-    autoFocusFirst: PropTypes.bool
-  };
-
   static defaultProps = {
     shortcuts: true,
     hidden: false,
@@ -473,5 +432,46 @@ export default class Popup<
     );
   }
 }
+
+(Popup as ComponentType<unknown>).propTypes = {
+  anchorElement: PropTypes.instanceOf(Node),
+  target: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Element)]),
+  className: PropTypes.string,
+  style: PropTypes.object,
+  hidden: PropTypes.bool.isRequired,
+  onOutsideClick: PropTypes.func,
+  onEscPress: PropTypes.func,
+  // onCloseAttempt is a common callback for ESC pressing and outside clicking.
+  // Use it if you don't need different behaviors for this cases.
+  onCloseAttempt: PropTypes.func,
+  children: PropTypes.node.isRequired,
+  dontCloseOnAnchorClick: PropTypes.bool,
+  shortcuts: PropTypes.bool,
+  keepMounted: PropTypes.bool, // pass this prop to preserve the popup's DOM state while hidden
+  'data-test': PropTypes.string,
+  client: PropTypes.bool, // true means that it's never used in SSR
+
+  directions: PropTypes.arrayOf(PropTypes.string),
+  autoPositioning: PropTypes.bool,
+  autoCorrectTopOverflow: PropTypes.bool,
+  left: PropTypes.number,
+  top: PropTypes.number,
+  maxHeight: PropTypes.number,
+  minWidth: PropTypes.number,
+  sidePadding: PropTypes.number,
+
+  attached: PropTypes.bool, // Popup adjacent to an input, without upper border and shadow
+
+  onMouseDown: PropTypes.func,
+  onMouseUp: PropTypes.func,
+  onMouseOver: PropTypes.func,
+  onMouseOut: PropTypes.func,
+  onContextMenu: PropTypes.func,
+  onDirectionChange: PropTypes.func,
+  onShow: PropTypes.func,
+  // set to true whenever popup contains focusable and scrollable content
+  trapFocus: PropTypes.bool,
+  autoFocusFirst: PropTypes.bool
+};
 
 export type PopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, PopupProps>

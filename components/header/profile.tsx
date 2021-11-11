@@ -1,4 +1,10 @@
-import React, {Component, PureComponent} from 'react';
+import React, {
+  Component,
+  ComponentType,
+  HTMLAttributes,
+  PureComponent,
+  ReactNode
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -7,11 +13,48 @@ import Button from '../button/button';
 import DropdownMenu from '../dropdown-menu/dropdown-menu';
 import PopupMenu from '../popup-menu/popup-menu';
 
+import {ListDataItem} from '../list/consts';
+import {AuthUser} from '../auth/auth';
+
 import styles from './header.css';
+
+import {isTruthy} from '@jetbrains/ring-ui/components/global/typescript-utils';
+import {LinkProps} from '@jetbrains/ring-ui/components/link/link';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
-export default class Profile extends PureComponent {
+export interface ProfileTranslations {
+  applyChangedUser?: string | null | undefined
+  login?: string | null | undefined
+  profile?: string | null | undefined
+  switchUser?: string | null | undefined
+  logout?: string | null | undefined
+  certificateMismatch?: string | null | undefined
+}
+
+export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+  closeOnSelect: boolean
+  renderPopupItems: (items: ListDataItem[]) => readonly ListDataItem[]
+  translations: ProfileTranslations
+  size: Size
+  renderGuest: (props: ProfileProps) => ReactNode
+  hasUpdates?: boolean | null | undefined
+  loading?: boolean | undefined
+  onLogin?: (() => void) | undefined
+  onLogout?: (() => void) | null | undefined
+  onSwitchUser?: (() => void) | null | undefined
+  profileUrl?: string | undefined
+  LinkComponent?: ComponentType<LinkProps> | null | undefined
+  user?: AuthUser | null | undefined | void
+  round?: boolean | null | undefined
+  showLogIn?: boolean | null | undefined
+  showLogOut?: boolean | null | undefined
+  showSwitchUser?: boolean | null | undefined
+  showApplyChangedUser?: boolean | null | undefined
+  onRevertPostponement?: (() => void) | null | undefined
+}
+
+export default class Profile extends PureComponent<ProfileProps> {
   static propTypes = {
     className: PropTypes.string,
     closeOnSelect: PropTypes.bool,
@@ -49,7 +92,7 @@ export default class Profile extends PureComponent {
     renderGuest: PropTypes.func
   };
 
-  static defaultProps = {
+  static defaultProps: ProfileProps = {
     closeOnSelect: true,
     renderPopupItems: items => items,
     translations: {},
@@ -159,7 +202,7 @@ export default class Profile extends PureComponent {
 
         onClick: onLogout
       }
-    ].filter(it => !!it);
+    ].filter(isTruthy);
 
     return (
       <DropdownMenu
@@ -179,3 +222,5 @@ export default class Profile extends PureComponent {
     );
   }
 }
+
+export type ProfileAttrs = JSX.LibraryManagedAttributes<typeof Profile, ProfileProps>

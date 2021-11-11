@@ -1,11 +1,11 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
-import Header from './header';
+import Header, {HeaderAttrs} from './header';
 
 describe('Header', () => {
-  const mountHeader = props => mount(<Header {...props}/>);
-  const getHeaderDiv = props => mountHeader(props).find('header');
+  const mountHeader = (props?: HeaderAttrs) => mount(<Header {...props}/>);
+  const getHeaderDiv = (props?: HeaderAttrs) => mountHeader(props).find('header');
 
   it('should create component', () => {
     mountHeader().type().should.equal(Header.type);

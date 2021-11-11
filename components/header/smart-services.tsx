@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 
 import Auth from '../auth/auth';
@@ -8,7 +8,11 @@ import Services from './services';
 
 function noop() {}
 
-export default class SmartServices extends Component {
+export interface SmartServicesProps extends HTMLAttributes<HTMLElement> {
+  auth: Auth
+}
+
+export default class SmartServices extends Component<SmartServicesProps> {
   static propTypes = {
     auth: PropTypes.instanceOf(Auth).isRequired
   };
@@ -24,7 +28,7 @@ export default class SmartServices extends Component {
 
     this.http = new HTTP(auth, auth.getAPIPath());
 
-    this.getServices(SmartServices.countFields).then(services => {
+    this.getServices(SmartServices.countFields)?.then(services => {
       if (!services.length) {
         this.setState({visible: false});
       }
@@ -34,6 +38,8 @@ export default class SmartServices extends Component {
   static allFields = 'id,name,applicationName,homeUrl,iconUrl';
   static countFields = 'key';
 
+  http?: HTTP;
+
   stopLoading = () => {
     this.setState({loading: false});
   };
@@ -41,14 +47,14 @@ export default class SmartServices extends Component {
   getServicesContent = () => {
     this.setState({loading: true});
 
-    this.getServices(SmartServices.allFields).then(services => {
+    this.getServices(SmartServices.allFields)?.then(services => {
       this.setState({services});
       this.stopLoading();
     }).catch(this.stopLoading);
   };
 
-  getServices(fields) {
-    return this.http.get(`services/header?fields=${fields}`);
+  getServices(fields: string) {
+    return this.http?.get(`services/header?fields=${fields}`);
   }
 
   render() {

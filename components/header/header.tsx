@@ -1,11 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component, ComponentPropsWithRef, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import compose from '../global/compose';
-import Theme, {withTheme} from '../global/theme';
+import Theme, {ThemeProps, withTheme} from '../global/theme';
 
 import styles from './header.css';
+
+interface HeaderProps extends HTMLAttributes<HTMLElement>, ThemeProps {
+  spaced: boolean
+}
 
 /**
  * @name Header
@@ -13,7 +16,7 @@ import styles from './header.css';
 /**
  * Displays a configurable page header. See available presentation options in the knobs panel.
  */
-class Header extends Component {
+class Header extends Component<HeaderProps> {
   static propTypes = {
     theme: PropTypes.oneOf(['light', 'dark']),
     className: PropTypes.string,
@@ -42,10 +45,9 @@ class Header extends Component {
   }
 }
 
-export default withTheme(Theme.DARK)(Header);
-export const RerenderableHeader = compose(
-  withTheme(Theme.DARK)
-)(Header);
+const ThemedHeader = withTheme(Theme.DARK)(Header);
+export type HeaderAttrs = ComponentPropsWithRef<typeof ThemedHeader>;
+export default ThemedHeader;
 export {default as Logo} from './logo';
 export {default as Tray} from './tray';
 export {default as TrayIcon} from './tray-icon';
