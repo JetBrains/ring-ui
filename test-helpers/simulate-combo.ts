@@ -1,6 +1,6 @@
 import shortcuts from '../components/shortcuts/core';
 
-export default function simulateCombo(input) {
+export default function simulateCombo(input: string) {
   const combos = input.split(/\s+/g);
   combos.forEach(combo => shortcuts.trigger(combo));
   if (combos.length > 1) {

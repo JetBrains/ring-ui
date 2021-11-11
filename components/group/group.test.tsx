@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 import {shallow, mount} from 'enzyme';
 
 import Group from './group';
 
 describe('Group', () => {
-  const shallowGroup = props => shallow(<Group {...props}/>);
-  const mountGroup = props => mount(<Group {...props}/>);
+  const shallowGroup = (props?: HTMLAttributes<HTMLDivElement>) => shallow(<Group {...props}/>);
+  const mountGroup = (props?: HTMLAttributes<HTMLDivElement>) => mount(<Group {...props}/>);
 
   it('should create component', () => {
     mountGroup().should.have.type(Group);
