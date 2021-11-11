@@ -1,4 +1,4 @@
-export default function normalizeIndent(string) {
+export default function normalizeIndent(string: string) {
   const nonemptyRE = /\S/;
   const indentRE = /^\s*/;
 
@@ -24,7 +24,7 @@ export default function normalizeIndent(string) {
 
   const indents = lines.
     filter(line => nonemptyRE.test(line)).
-    map(line => line.match(indentRE)[0].length);
+    map(line => line.match(indentRE)?.[0].length ?? 0);
 
   const minIndent = Math.min(...indents);
 

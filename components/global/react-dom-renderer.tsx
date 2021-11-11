@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-export default class Renderer extends Component {
+export interface RendererProps {
+  className?: string | undefined
+  nodes: readonly Node[]
+}
+
+export default class Renderer extends Component<RendererProps> {
   static propTypes = {
     className: PropTypes.string,
     nodes: PropTypes.array
@@ -18,7 +23,8 @@ export default class Renderer extends Component {
     this.node.appendChild(fragment);
   }
 
-  nodeRef = node => {
+  node?: HTMLElement | null;
+  nodeRef = (node: HTMLElement | null) => {
     this.node = node;
   };
 

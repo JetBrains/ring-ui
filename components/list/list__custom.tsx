@@ -1,4 +1,4 @@
-import React, {PureComponent, SyntheticEvent, ReactNode, ComponentType} from 'react';
+import React, {PureComponent, ReactNode, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -9,7 +9,7 @@ import styles from './list.css';
 import {ListDataItemProps} from './consts';
 
 export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
-  handleKeyPress = (event: SyntheticEvent) => {
+  handleKeyPress = (event: React.KeyboardEvent) => {
     const key = getEventKey(event);
     if (key === 'Enter' || key === ' ') {
       this.props.onClick(event);

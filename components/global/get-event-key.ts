@@ -1,6 +1,7 @@
 // react-dom getEventKey function extracted
+import React from 'react';
 
-const normalizeKey = {
+const normalizeKey: Record<string, string> = {
   Esc: 'Escape',
   Spacebar: ' ',
   Left: 'ArrowLeft',
@@ -15,7 +16,7 @@ const normalizeKey = {
   MozPrintableKey: 'Unidentified'
 };
 
-const translateToKey = {
+const translateToKey: Record<number, string> = {
   8: 'Backspace',
   9: 'Tab',
   12: 'Clear',
@@ -57,7 +58,7 @@ const translateToKey = {
 const ENTER = 13;
 const SPACE = 32;
 
-function getEventCharCode(nativeEvent) {
+function getEventCharCode(nativeEvent: KeyboardEvent | React.KeyboardEvent) {
   let charCode;
   const keyCode = nativeEvent.keyCode;
 
@@ -82,7 +83,7 @@ function getEventCharCode(nativeEvent) {
 }
 
 
-export default function getEventKey(nativeEvent) {
+export default function getEventKey(nativeEvent: KeyboardEvent | React.KeyboardEvent) {
   if (nativeEvent.key) {
     // Normalize inconsistent values reported by browsers due to
     // implementations of a working draft specification.
