@@ -16,10 +16,10 @@ import PopupMenu from '../popup-menu/popup-menu';
 import {ListDataItem} from '../list/consts';
 import {AuthUser} from '../auth/auth';
 
-import styles from './header.css';
+import {isTruthy} from '../global/typescript-utils';
+import {LinkProps} from '../link/link';
 
-import {isTruthy} from '@jetbrains/ring-ui/components/global/typescript-utils';
-import {LinkProps} from '@jetbrains/ring-ui/components/link/link';
+import styles from './header.css';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
