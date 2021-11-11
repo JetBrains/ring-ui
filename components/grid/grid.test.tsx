@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 import {shallow, mount} from 'enzyme';
 
 import styles from './grid.css';
 import {Col, Grid, Row} from './grid';
+import {RowProps} from './row';
+import {ColProps} from './col';
 
 describe('Grid', () => {
-  const shallowGrid = props => shallow(<Grid {...props}/>);
-  const mountGrid = props => mount(<Grid {...props}/>);
+  const shallowGrid = (props?: HTMLAttributes<HTMLDivElement>) => shallow(<Grid {...props}/>);
+  const mountGrid = (props?: HTMLAttributes<HTMLDivElement>) => mount(<Grid {...props}/>);
 
   it('should create component', () => {
     mountGrid().should.have.type(Grid);
@@ -22,8 +24,8 @@ describe('Grid', () => {
 });
 
 describe('Row', () => {
-  const shallowRow = props => shallow(<Row {...props}/>);
-  const mountRow = props => mount(<Row {...props}/>);
+  const shallowRow = (props?: RowProps) => shallow(<Row {...props}/>);
+  const mountRow = (props?: RowProps) => mount(<Row {...props}/>);
 
   it('should create component', () => {
     mountRow().should.have.type(Row);
@@ -47,8 +49,8 @@ describe('Row', () => {
 });
 
 describe('Col', () => {
-  const shallowCol = props => shallow(<Col {...props}/>);
-  const mountCol = props => mount(<Col {...props}/>);
+  const shallowCol = (props?: ColProps) => shallow(<Col {...props}/>);
+  const mountCol = (props?: ColProps) => mount(<Col {...props}/>);
 
   it('should create component', () => {
     mountCol().should.have.type(Col);
