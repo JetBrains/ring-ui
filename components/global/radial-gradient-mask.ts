@@ -3,7 +3,7 @@ import type {PropertiesHyphen} from 'csstype';
 import getUID from './get-uid';
 import supportsCss from './supports-css';
 
-const radialGradient = (length: number, stops: Record<string, string>) =>
+const radialGradient = (length: string, stops: Record<string, string>) =>
   `radial-gradient(${length}, ${Object.entries(stops).map(entry => entry.join(' ')).join(', ')})`;
 
 export interface RadialGradientMask {
@@ -13,7 +13,7 @@ export interface RadialGradientMask {
   svgDefs?: string
 }
 
-export default (length: number, stops: Record<string, string>): RadialGradientMask => {
+export default (length: string, stops: Record<string, string>): RadialGradientMask => {
   for (const prefix of ['', '-webkit-']) {
     const property = `${prefix}mask-image`;
     const declaration = `${property}: radial-gradient(black, white)`;
