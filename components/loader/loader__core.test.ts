@@ -1,13 +1,13 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 
-import LoaderCore from './loader__core';
+import LoaderCore, {LoaderCoreProps} from './loader__core';
 
 describe('Loader', () => {
   function noop() {}
 
-  let createLoader;
+  let createLoader: (props: Partial<LoaderCoreProps>) => void;
   let loaderContainer;
-  let loader;
+  let loader: LoaderCore;
 
   beforeEach(() => {
     sandbox.stub(LoaderCore.prototype, 'loop').callsFake(() => {});
@@ -61,22 +61,18 @@ describe('Loader', () => {
 
   it('Should scale canvas on HDPI devices to make visible image size the same as on normal screens', () => {
     sandbox.stub(LoaderCore, 'getPixelRatio').returns(2);
+    sandbox.spy(CanvasRenderingContext2D.prototype, 'scale');
     createLoader({size: 42});
-    sandbox.spy(loader.ctx, 'scale');
 
-    loader.setCanvasSize();
-
-    loader.ctx.scale.should.have.been.calledWith(2, 2);
+    loader.ctx!.scale.should.have.been.calledWith(2, 2);
   });
 
   it('Should scale canvas on zoomed out devices to avoid image cropping', () => {
     sandbox.stub(LoaderCore, 'getPixelRatio').returns(0.5);
+    sandbox.spy(CanvasRenderingContext2D.prototype, 'scale');
     createLoader({size: 42});
-    sandbox.spy(loader.ctx, 'scale');
 
-    loader.setCanvasSize();
-
-    loader.ctx.scale.should.have.been.calledWith(0.5, 0.5);
+    loader.ctx!.scale.should.have.been.calledWith(0.5, 0.5);
   });
 
   it('Should start loop on constructing', () => {
@@ -215,11 +211,11 @@ describe('Loader', () => {
   });
 
   it('Should clear canvas before rendering new frame', () => {
-    sandbox.spy(loader.ctx, 'clearRect');
+    sandbox.spy(loader.ctx!, 'clearRect');
 
     loader.draw();
 
-    loader.ctx.clearRect.should.have.been.called;
+    loader.ctx!.clearRect.should.have.been.called;
   });
 
   it('Should call draw for each particle', () => {

@@ -1,8 +1,10 @@
 import React from 'react';
 
+import {Story} from '@storybook/react';
+
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Loader from '@jetbrains/ring-ui/components/loader/loader';
+import Loader, {LoaderProps} from '@jetbrains/ring-ui/components/loader/loader';
 
 export default {
   title: 'Components/Loader',
@@ -16,7 +18,7 @@ export default {
   }
 };
 
-export const basic = args => <Loader {...args}/>;
+export const basic: Story<LoaderProps> = args => <Loader {...args}/>;
 
 basic.storyName = 'Loader';
 basic.args = {message: 'Loading...'};
