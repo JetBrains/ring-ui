@@ -10,7 +10,7 @@ const IMAGE_SIZE = 32;
 
 export default memoize(() => {
   const mask = radialGradientMask(styles.unit, {
-    /* eslint-disable no-magic-numbers */
+    /* eslint-disable @typescript-eslint/no-magic-numbers */
     transparent: `${23 / 32 * 100}%`,
     white: `${25 / 32 * 100}%`
     /* eslint-enable */
