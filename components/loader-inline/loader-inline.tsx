@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, PureComponent} from 'react';
+import React, {ComponentPropsWithRef, HTMLAttributes, PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -58,4 +58,6 @@ class LoaderInline extends PureComponent<LoaderInlineProps> {
   }
 }
 
-export default withTheme()(LoaderInline);
+const ThemedLoaderInline = withTheme()(LoaderInline);
+export type LoaderInlineAtrrs = ComponentPropsWithRef<typeof ThemedLoaderInline>;
+export default ThemedLoaderInline;
