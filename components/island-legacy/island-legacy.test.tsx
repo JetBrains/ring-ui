@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 import {shallow, mount} from 'enzyme';
 
 import Island from './island-legacy';
 
 describe('Island Legacy', () => {
-  const shallowIsland = params => shallow(<Island {...params}/>);
-  const mountIsland = params => mount(<Island {...params}/>);
+  const shallowIsland = (params?: HTMLAttributes<HTMLElement>) => shallow(<Island {...params}/>);
+  const mountIsland = (params?: HTMLAttributes<HTMLElement>) => mount(<Island {...params}/>);
 
   it('should create component', () => {
     mountIsland().should.have.type(Island);
