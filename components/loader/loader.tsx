@@ -1,9 +1,13 @@
-import React, {PureComponent} from 'react';
+import React, {HTMLAttributes, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import dataTests from '../global/data-tests';
 
-import LoaderCore from './loader__core';
+import LoaderCore, {LoaderCoreProps} from './loader__core';
+
+export interface LoaderProps extends Partial<LoaderCoreProps>, HTMLAttributes<HTMLElement> {
+  'data-test'?: string | null | undefined
+}
 
 /**
  * @name Loader
@@ -11,7 +15,7 @@ import LoaderCore from './loader__core';
 /**
  * Displays a large animated loader with an optional caption. Typical use cases: page loading animation, major action animation.
  */
-export default class Loader extends PureComponent {
+export default class Loader extends PureComponent<LoaderProps> {
   static propTypes = {
     className: PropTypes.string,
     size: PropTypes.number,
@@ -22,7 +26,7 @@ export default class Loader extends PureComponent {
     deterministic: PropTypes.bool
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: LoaderProps) {
     if (this.loader) {
       if (!prevProps.stop && this.props.stop) {
         this.loader.stopAnimation();
@@ -33,10 +37,11 @@ export default class Loader extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.loader.destroy();
+    this.loader?.destroy();
   }
 
-  initLoader = el => {
+  loader?: LoaderCore;
+  initLoader = (el: Node | null) => {
     if (el) {
       this.loader = new LoaderCore(el, this.props);
     }
