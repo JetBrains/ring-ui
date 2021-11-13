@@ -1,23 +1,23 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import gift from '@jetbrains/icons/gift';
 
-import Popup from '../popup/popup';
-import Icon from '../icon/icon';
-import Button from '../button/button';
+import Popup, {PopupAttrs} from '../popup/popup';
+import {Directions} from '../popup/popup.consts';
+import Icon, {IconType} from '../icon/icon';
+import Button, {ButtonAttrs} from '../button/button';
 
 import styles from './message.css';
+
 
 /**
   * @name Message
   */
 
-const {Directions} = Popup.PopupProps;
-
 const UNIT = 8;
 
-const getTailOffsets = offset => ({
+const getTailOffsets = (offset: number) => ({
   [Directions.BOTTOM_RIGHT]: {top: 0, left: offset - UNIT, transform: 'rotate(180deg)'},
   [Directions.BOTTOM_LEFT]: {top: 0, right: offset - UNIT, transform: 'rotate(180deg)'},
   [Directions.BOTTOM_CENTER]: {top: 0, left: offset - UNIT, transform: 'rotate(180deg)'},
@@ -32,11 +32,35 @@ const getTailOffsets = offset => ({
   [Directions.LEFT_CENTER]: {top: offset, right: -UNIT, transform: 'rotate(-90deg)'}
 });
 
+export interface MessageTranslations {
+  gotIt: string
+  dismiss: string
+}
+
+export interface MessageProps {
+  icon: string | IconType | null
+  directions: readonly Directions[]
+  translations: MessageTranslations
+  title?: string | null | undefined
+  children?: ReactNode
+  className?: string | null | undefined
+  tailClassName?: string | null | undefined
+  direction?: Directions | null | undefined
+  popupProps?: Partial<PopupAttrs> | null | undefined
+  buttonProps?: ButtonAttrs | null | undefined
+  tailOffset?: number | null | undefined
+  onClose?: (() => void) | undefined
+  onDismiss?: (() => void) | null | undefined
+}
+
+interface MessageState {
+  direction?: Directions
+}
 
 /**
  * Displays a popup containing a message.
  */
-export default class Message extends Component {
+export default class Message extends Component<MessageProps> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -67,15 +91,17 @@ export default class Message extends Component {
     }
   };
 
-  state = {};
+  state: MessageState = {};
 
   static Directions = Directions;
   static PopupProps = Popup.PopupProps;
 
-  _onDirectionChange = direction =>
+  private _onDirectionChange = (direction: Directions) =>
     this.setState({direction});
 
-  popupRef = el => {
+  popup?: Popup | null;
+  node?: HTMLElement | null;
+  popupRef = (el: Popup | null) => {
     this.popup = el;
     this.node = this.popup?.node;
   };
@@ -94,8 +120,8 @@ export default class Message extends Component {
 
     const offset = Math.floor(anchor.offsetWidth / 2);
 
-    const isOpenedToRight = [Directions.TOP_RIGHT, Directions.BOTTOM_RIGHT].
-      includes(this.state.direction);
+    const isOpenedToRight = this.state.direction != null &&
+      [Directions.TOP_RIGHT, Directions.BOTTOM_RIGHT].includes(this.state.direction);
     if (popupProps?.left && isOpenedToRight) {
       return offset - popupProps?.left;
     }
@@ -154,3 +180,5 @@ export default class Message extends Component {
     );
   }
 }
+
+export type MessageAttrs = JSX.LibraryManagedAttributes<typeof Message, MessageProps>
