@@ -9,7 +9,7 @@ import styles from './heading.css';
  * @name Heading
  */
 
-enum Levels {
+export enum Levels {
   H1 = 1,
   H2 = 2,
   H3 = 3,
