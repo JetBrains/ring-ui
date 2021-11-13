@@ -1,12 +1,14 @@
 import React from 'react';
 import searchIcon from '@jetbrains/icons/search';
 
+import {Story} from '@storybook/react';
+
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Popup from '@jetbrains/ring-ui/components/popup/popup';
 import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
-import Message from '@jetbrains/ring-ui/components/message/message';
+import Message, {MessageAttrs} from '@jetbrains/ring-ui/components/message/message';
 
 const {Directions} = Popup.PopupProps;
 
@@ -29,7 +31,7 @@ export default {
   }
 };
 
-export const basic = args => (
+export const basic: Story<MessageAttrs> = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
@@ -46,7 +48,7 @@ basic.parameters = {
   actions: {argTypesRegex: '^onClose$'}
 };
 
-export const withOnDissmiss = args => (
+export const withOnDissmiss: Story<MessageAttrs> = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
@@ -60,7 +62,7 @@ withOnDissmiss.args = {
   tailOffset: 32
 };
 
-export const wishNarrowAnchor = args => (
+export const wishNarrowAnchor: Story<MessageAttrs> = args => (
   <div style={{padding: 200}}>
     <span>
       <Icon glyph={searchIcon}/>
