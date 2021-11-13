@@ -3,11 +3,11 @@ import {shallow, mount} from 'enzyme';
 
 import Popup from '../popup/popup';
 
-import Message from './message';
+import Message, {MessageAttrs} from './message';
 
 describe('Message', () => {
-  const shallowMessage = props => shallow(<Message {...props}/>);
-  const mountMessage = props => mount(<Message {...props}/>);
+  const shallowMessage = (props: MessageAttrs) => shallow(<Message {...props}/>);
+  const mountMessage = (props: MessageAttrs) => mount(<Message {...props}/>);
 
   it('should create component', () => {
     mountMessage({title: 'foo'}).should.have.type(Message);
