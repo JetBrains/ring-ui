@@ -4,16 +4,16 @@ import {shallow, mount} from 'enzyme';
 import Code from '../code/code';
 import Link from '../link/link';
 
-import Markdown from './markdown';
+import Markdown, {MarkdownProps} from './markdown';
 
 describe('Markdown', () => {
-  const shallowMarkdown = props => shallow(
+  const shallowMarkdown = (props?: Partial<MarkdownProps>) => shallow(
     <Markdown
       source=""
       {...props}
     />
   );
-  const mountMarkdown = props => mount(
+  const mountMarkdown = (props?: Partial<MarkdownProps>) => mount(
     <Markdown
       source=""
       {...props}
