@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown, {ReactMarkdownProps} from 'react-markdown';
 import classNames from 'classnames';
 import RemarkBreaks from 'remark-breaks';
 import RemarkGFM from 'remark-gfm';
@@ -13,11 +13,18 @@ import Link from './link';
 import Heading from './heading';
 import styles from './markdown.css';
 
+export interface BaseMarkdownProps {
+  source: string
+  inline?: boolean | null | undefined
+}
+
+export type MarkdownProps = ReactMarkdownProps & BaseMarkdownProps
+
 /**
   * @name Markdown
 */
 
-export default class Markdown extends PureComponent {
+export default class Markdown extends PureComponent<MarkdownProps> {
   static propTypes = {
     inline: PropTypes.bool,
     source: PropTypes.string,
@@ -38,7 +45,7 @@ export default class Markdown extends PureComponent {
       <ReactMarkdown
         className={classes}
         source={normalizeIndent(source)}
-        plugins={[RemarkBreaks, RemarkGFM, ...plugins]}
+        plugins={[RemarkBreaks, RemarkGFM, ...plugins] as ReactMarkdownProps['plugins']}
         renderers={{
           link: Link,
           linkReference: Link,
