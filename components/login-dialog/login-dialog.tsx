@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
 import Dialog from '../dialog/dialog';
@@ -14,11 +14,23 @@ const HUB_AUTH_PAGE_LOGIN_DIMENSIONS = 'HUB_AUTH_PAGE_LOGIN_DIMENSIONS';
 const DEFAULT_HEIGHT = 517;
 const DEFAULT_WIDTH = 333;
 const DEFAULT_SHOW_FALLBACK_TIMEOUT = 5000;
+
+export interface LoginDialogProps {
+  onCancel: () => void
+  show: boolean,
+  url: string,
+  renderFallbackLink: (loggingIn: boolean) => ReactNode,
+  showFallbackTimeout: number,
+  className?: string | undefined,
+  loader?: boolean | null | undefined,
+  loadingMessage?: string | null | undefined,
+}
+
 /**
  * @name Login Dialog
  */
 
-export default class LoginDialog extends Component {
+export default class LoginDialog extends Component<LoginDialogProps> {
   static propTypes = {
     show: PropTypes.bool,
     className: PropTypes.string,
@@ -54,14 +66,15 @@ export default class LoginDialog extends Component {
     window.removeEventListener('message', this.onMessage);
   }
 
+  showFallbackTimout?: number;
   startFallbackCountdown() {
-    this.showFallbackTimout = setTimeout(
+    this.showFallbackTimout = window.setTimeout(
       () => this.setState({showFallbackLink: true}),
       this.props.showFallbackTimeout
     );
   }
 
-  onMessage = event => {
+  onMessage = (event: MessageEvent) => {
     const {data} = event;
     if (!data) {
       return;
@@ -123,3 +136,4 @@ export default class LoginDialog extends Component {
   }
 }
 
+export type LoginDialogAttrs = JSX.LibraryManagedAttributes<typeof LoginDialog, LoginDialogProps>
