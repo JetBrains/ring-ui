@@ -487,7 +487,7 @@ object A11yAudit : BuildType({
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer:8.0.0"
+            dockerImage = "satantime/puppeteer-node:14.18"
         }
     }
 
@@ -660,7 +660,7 @@ object GeneratorE2eTest : BuildType({
                 useradd user -m
                 su user -c "npm run test-generator-e2e"
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer:8.0.0"
+            dockerImage = "satantime/puppeteer-node:14.18"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -1350,7 +1350,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run test-ci
                 npm run build
             """.trimIndent()
-            dockerImage = "buildkite/puppeteer:8.0.0"
+            dockerImage = "satantime/puppeteer-node:14.18"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
