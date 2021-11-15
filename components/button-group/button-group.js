@@ -12,7 +12,7 @@ export default class ButtonGroup extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string
-  }
+  };
 
   render() {
     const {className} = this.props;
