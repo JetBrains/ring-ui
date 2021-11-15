@@ -4,17 +4,17 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import Pager from '@jetbrains/ring-ui/components/pager/pager';
 
-function getDataFromUrl(name, defaultValue) {
+function getDataFromUrl(name: string, defaultValue: number) {
   const params = new URLSearchParams(location.search);
   const value = params.get(name);
   return value ? parseInt(value, 10) : defaultValue;
 }
 
-function hrefGenerator(linkPageNumber, pageSize) {
+function hrefGenerator(linkPageNumber: number, pageSize?: number) {
   const params = new URLSearchParams(location.search);
-  params.set('page', linkPageNumber);
+  params.set('page', String(linkPageNumber));
   if (pageSize) {
-    params.set('pageSize', pageSize);
+    params.set('pageSize', String(linkPageNumber));
   }
   return `${location.pathname}?${params}`;
 }
@@ -193,6 +193,12 @@ export const openTotal = () => {
 openTotal.storyName = 'open total';
 
 export const openTotalAndHistorySupport = () => {
+  interface PagerDemoState {
+    total: number
+    currentPage: number
+    pageSize: number
+  }
+
   class PagerDemo extends Component {
     state = {
       total: 999,
@@ -226,7 +232,9 @@ export const openTotalAndHistorySupport = () => {
       }
     };
 
-    handlePageChange(update) {
+    handlePageChange(
+      update: Partial<PagerDemoState> | ((prevState: PagerDemoState) => Partial<PagerDemoState>)
+    ) {
       this.setState(update, () =>
         history.pushState(
           this.state,
