@@ -7,7 +7,7 @@ import styles from './button-group.css';
 export default class Caption extends PureComponent {
   static propTypes = {
     className: PropTypes.node
-  }
+  };
 
   render() {
     const {className} = this.props;

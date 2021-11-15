@@ -54,7 +54,7 @@ export default class Permissions {
         query
       }
     })
-  )
+  );
 
   /**
    * Returns function, which cuts off prefix from server-side permission name
