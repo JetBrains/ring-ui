@@ -3,13 +3,14 @@ import {shallow, mount} from 'enzyme';
 
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 
-import Pager from './pager';
+import Pager, {PagerAttrs} from './pager';
 import styles from './pager.css';
 
 describe('Pager', () => {
   const props = {total: 100, currentPage: 1, onPageChange: () => {}};
-  const shallowPager = params => shallow(<Pager {...{...props, ...params}}/>);
-  const mountPager = params => mount(<Pager {...{...props, ...params}}/>);
+  const shallowPager = (params?: Partial<PagerAttrs>) =>
+    shallow(<Pager {...{...props, ...params}}/>);
+  const mountPager = (params?: Partial<PagerAttrs>) => mount(<Pager {...{...props, ...params}}/>);
 
   it('should create component', () => {
     mountPager().should.have.type(Pager);
