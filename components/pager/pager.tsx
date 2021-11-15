@@ -1,7 +1,7 @@
 /**
  * @name Pager
  */
-import React, {PureComponent} from 'react';
+import React, {ComponentType, PureComponent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronLeftIcon from '@jetbrains/icons/chevron-left';
@@ -10,14 +10,45 @@ import chevronRightIcon from '@jetbrains/icons/chevron-right';
 import Button from '../button/button';
 import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
-import Select from '../select/select';
+import Select, {SelectItem} from '../select/select';
 import memoize from '../global/memoize';
-import Link from '../link/link';
+import Link, {WrapTextProps} from '../link/link';
 import Icon from '../icon/icon';
 
 import style from './pager.css';
 
-export default class Pager extends PureComponent {
+export interface PagerTranslations {
+  perPage: 'per page',
+  firstPage: 'First page',
+  lastPage: 'Last page',
+  nextPage: 'Next page',
+  previousPage: 'Previous'
+}
+
+export interface PagerProps {
+  total: number
+  currentPage: number
+  pageSize: number
+  pageSizes: readonly number[]
+  visiblePagesLimit: number
+  disablePageSizeSelector: boolean
+  openTotal: boolean
+  canLoadLastPageWithOpenTotal: boolean
+  translations: PagerTranslations
+  loader: boolean
+  loaderNavigation: boolean
+  onPageSizeChange: (size: number) => void
+  onLoadPage: (nextPage: number) => void
+  onPageChange?: ((prevPage: number, event?: React.MouseEvent) => void) | null | undefined
+  className?: string | null | undefined
+  hrefFunc?: ((page: number, pageSize: number | undefined) => string) | undefined
+}
+
+interface PagerSizeItem {
+  key: number
+}
+
+export default class Pager extends PureComponent<PagerProps> {
   static propTypes = {
     total: PropTypes.number.isRequired,
     currentPage: PropTypes.number,
@@ -40,7 +71,7 @@ export default class Pager extends PureComponent {
   static defaultProps = {
     currentPage: 1,
     pageSize: 50,
-    // eslint-disable-next-line no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     pageSizes: [20, 50, 100],
     visiblePagesLimit: 7,
     disablePageSizeSelector: false,
@@ -61,7 +92,7 @@ export default class Pager extends PureComponent {
 
   getSelectOptions() {
     const {pageSize, pageSizes} = this.props;
-    const data = pageSizes.map(size => ({
+    const data: SelectItem<PagerSizeItem>[] = pageSizes.map(size => ({
       key: size,
       label: `${size} ${this.props.translations.perPage}`
     }));
@@ -74,15 +105,17 @@ export default class Pager extends PureComponent {
     return Math.ceil(total / pageSize);
   }
 
-  handlePageSizeChange = item => {
-    this.props.onPageSizeChange(item.key);
+  handlePageSizeChange = (item: PagerSizeItem | null) => {
+    if (item != null) {
+      this.props.onPageSizeChange(item.key);
+    }
   };
 
   handlePrevClick = () => {
     const {currentPage} = this.props;
     if (currentPage !== 1) {
       const prevPage = currentPage - 1;
-      this.props.onPageChange(prevPage);
+      this.props.onPageChange?.(prevPage);
     }
   };
 
@@ -91,21 +124,21 @@ export default class Pager extends PureComponent {
     const nextPage = currentPage + 1;
     const total = this.getTotal();
     if (currentPage !== total) {
-      this.props.onPageChange(nextPage);
+      this.props.onPageChange?.(nextPage);
     } else if (this.props.openTotal) {
       onLoadPage(nextPage);
     }
   };
 
-  handlePageChange = memoize(i => event => {
-    this.props.onPageChange(i, event);
+  handlePageChange = memoize((i: number) => (event: React.MouseEvent) => {
+    this.props.onPageChange?.(i, event);
   });
 
-  handleLoadMore = memoize(i => () => {
+  handleLoadMore = memoize((i: number) => () => {
     this.props.onLoadPage(i);
   });
 
-  getButton(page, content, key, active) {
+  getButton(page: number, content: ReactNode, key?: number, active?: boolean) {
     return (
       <Button
         href={this.generateHref(page)}
@@ -120,7 +153,7 @@ export default class Pager extends PureComponent {
     );
   }
 
-  getClickProps(onClick) {
+  getClickProps(onClick: (e: React.MouseEvent) => void) {
     const {hrefFunc, onPageChange} = this.props;
 
     if (!onPageChange) {
@@ -168,12 +201,12 @@ export default class Pager extends PureComponent {
 
     const nextText = this.props.translations.nextPage;
 
-    const nextLinkContent = WrapText => [
+    const nextLinkContent = (WrapText: ComponentType<WrapTextProps>) => [
       <span key="text"><WrapText>{nextText}</WrapText></span>,
       nextIcon
     ];
 
-    const prevLinkContent = WrapText => [
+    const prevLinkContent = (WrapText: ComponentType<WrapTextProps>) => [
       prevIcon,
       <span key="text"><WrapText>{prevText}</WrapText></span>
     ];
@@ -222,7 +255,7 @@ export default class Pager extends PureComponent {
     );
   }
 
-  generateHref(page) {
+  generateHref(page: number) {
     if (this.props.hrefFunc === undefined) {
       return undefined;
     }
@@ -241,7 +274,7 @@ export default class Pager extends PureComponent {
     let start = 1;
     let end = totalPages;
 
-    // eslint-disable-next-line no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     if (totalPages >= visiblePagesLimit + 6) {
       const leftHalfFrameSize = Math.ceil(visiblePagesLimit / 2) - 1;
       const rightHalfFrameSize = visiblePagesLimit - leftHalfFrameSize - 1;
@@ -335,3 +368,5 @@ export default class Pager extends PureComponent {
     );
   }
 }
+
+export type PagerAttrs = JSX.LibraryManagedAttributes<typeof Pager, PagerProps>
