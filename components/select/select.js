@@ -522,10 +522,6 @@ export default class Select extends Component {
     return getSelectedIndex(selected, data, this.props.multiple);
   }
 
-  popupRef = el => {
-    this._popup = el;
-  };
-
   _getResetOption() {
     const isOptionsSelected = this.state.selected && this.state.selected.length;
     const hasTagsResetProp = this.props.tags && this.props.tags.reset;
