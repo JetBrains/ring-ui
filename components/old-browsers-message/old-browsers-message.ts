@@ -12,15 +12,15 @@ import {isBrowserInWhiteList} from './white-list';
 
 let smileChanges = 0;
 const MAX_SMILE_CHANGES = 50;
-let previousWindowErrorHandler;
+let previousWindowErrorHandler: OnErrorEventHandler;
 
-function changeSmileClickListener(event) {
+function changeSmileClickListener(event: Event) {
   const eyes = ['O', 'o', '-', '>', '<'];
-  const target = event.target || event.srcElement;
+  const target = (event.target || event.srcElement) as HTMLElement;
 
   smileChanges++;
 
-  function rand(min, max) {
+  function rand(min: number, max: number) {
     return Math.round((Math.random() * (max - min))) + min;
   }
 
@@ -39,18 +39,20 @@ function changeSmileClickListener(event) {
   target.innerHTML = getRandomSmile();
 }
 
-function attachSmileClickListener(smileNode) {
+function attachSmileClickListener(smileNode: Node) {
   if (smileNode.addEventListener) {
     smileNode.addEventListener('click', changeSmileClickListener);
-  } else if (smileNode.attachEvent) {
-    smileNode.attachEvent('onclick', changeSmileClickListener);
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+  } else if ((smileNode as any).attachEvent) {
+    (smileNode as any).attachEvent('onclick', changeSmileClickListener);
+    /* eslint-enable */
   }
 }
 
 /**
  * Listens to unhandled errors and displays passed node
  */
-function startOldBrowsersDetector(onOldBrowserDetected) {
+function startOldBrowsersDetector(onOldBrowserDetected?: () => void) {
   previousWindowErrorHandler = window.onerror;
 
   window.onerror = function oldBrowsersMessageShower(errorMsg, url, lineNumber) {
@@ -78,12 +80,14 @@ startOldBrowsersDetector(() => {
   const errorMessage = document.getElementById('ring-old-browsers-message__error-message');
   const smileNode = document.getElementById('ring-old-browsers-message__smile');
 
-  if (isBrowserInWhiteList()) {
-    browserMessage.style.display = 'none';
-    errorMessage.style.display = 'block';
-  } else {
-    browserMessage.style.display = 'block';
-    errorMessage.style.display = 'none';
+  if (browserMessage != null && errorMessage != null) {
+    if (isBrowserInWhiteList()) {
+      browserMessage.style.display = 'none';
+      errorMessage.style.display = 'block';
+    } else {
+      browserMessage.style.display = 'block';
+      errorMessage.style.display = 'none';
+    }
   }
 
   if (oldBrowsersMessageContainer) {
