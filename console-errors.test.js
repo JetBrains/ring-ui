@@ -3,7 +3,7 @@ import {act} from 'react-dom/test-utils';
 
 jest.mock('./components/loader/loader__core', () => (
   class FakeLoader {
-    updateMessage = jest.fn()
+    updateMessage = jest.fn();
   }
 ));
 jest.mock('./components/old-browsers-message/old-browsers-message');
