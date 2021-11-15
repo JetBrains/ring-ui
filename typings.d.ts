@@ -76,7 +76,7 @@ declare module 'sniffr' {
 
   export interface SnifferProperty<T extends string> {
     name: T | 'Unknown'
-    version: string[]
+    version: number[]
     versionString: string
   }
 

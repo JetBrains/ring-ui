@@ -16,6 +16,7 @@ Once loaded, it attaches a global error handler. When your app finishes loading 
 
 export const basic = () => {
   function triggerGlobalError() {
+    // @ts-expect-error testing a runtime error
     Object.unknownMethodToTriggerOldBrowsersMessage();
     setTimeout(stop);
   }
