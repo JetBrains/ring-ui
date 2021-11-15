@@ -180,7 +180,7 @@
     "highlight.js": "^10.7.2",
     "html-loader": "^3.0.1",
     "interpolate-loader": "^2.0.1",
-    "just-debounce-it": "^3.0.0",
+    "just-debounce-it": "^3.0.1",
     "memoize-one": "^6.0.0",
     "postcss": "^8.3.11",
     "postcss-calc": "^8.0.0",
