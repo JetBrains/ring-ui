@@ -166,7 +166,7 @@ class ButtonController extends RingAngularComponent {
     }
 
     $compile(icon)($scope);
-  }
+  };
 }
 
 function changeTheme(element, data) {
