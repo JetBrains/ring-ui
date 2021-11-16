@@ -50,7 +50,9 @@ export default {
     babel({babelHelpers: 'bundled'}),
 
     styles({
-      modules: true,
+      modules: {
+        localIdentName: 'ring_[local]_[hash:4]'
+      },
 
       mode: ['extract', 'style.css'],
 
