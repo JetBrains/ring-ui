@@ -192,5 +192,5 @@ export default class HTTP {
       method: 'POST',
       ...params
     })
-  )
+  );
 }

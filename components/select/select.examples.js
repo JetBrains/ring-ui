@@ -36,6 +36,7 @@ export default {
 };
 
 export const withAFilterAndTags = args => <Select {...args}/>;
+export const withAvatars = args => <Select {...args}/>;
 
 {
   const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
@@ -76,6 +77,12 @@ export const withAFilterAndTags = args => <Select {...args}/>;
     },
     data: tags,
     selected: [tags[0]]
+  };
+
+  withAvatars.args = {
+    data: tags,
+    selected: tags[4],
+    type: Select.Type.BUTTON
   };
 }
 

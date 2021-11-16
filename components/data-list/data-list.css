@@ -1,7 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value height, compensate from '../table/table.css';
+@value height, compensate from "../table/table.css";
 
 .dataListWrapper {
   position: relative;

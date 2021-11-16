@@ -70,6 +70,11 @@ export default class TagsInput extends PureComponent {
     placeholder: 'Select an option'
   };
 
+  constructor(props) {
+    super(props);
+    this.ngModelStateField = TagsInput.ngModelStateField;
+  }
+
   state = {
     tags: [],
     prevTags: null,
@@ -101,8 +106,6 @@ export default class TagsInput extends PureComponent {
   nodeRef = node => {
     this.node = node;
   };
-
-  ngModelStateField = TagsInput.ngModelStateField;
 
   getInputNode() {
     if (!this.input) {
