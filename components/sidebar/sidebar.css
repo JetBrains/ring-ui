@@ -63,6 +63,7 @@
   width: calc(6 * unit);
   height: calc(6 * unit);
   object-fit: contain;
+
   padding: 0 calc(2 * unit) 0 calc(4 * unit);
 }
 

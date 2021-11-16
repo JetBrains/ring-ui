@@ -61,7 +61,7 @@
     bottom: 0;
     left: 0;
 
-    content: '';
+    content: "";
     animation: progress-bar 2500ms linear infinite;
 
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0));

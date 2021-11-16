@@ -46,7 +46,7 @@
   width: unit;
   height: unit;
 
-  content: '';
+  content: "";
   transform: rotate(45deg);
 
   border: 1px solid var(--ring-popup-border-color);

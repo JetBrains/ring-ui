@@ -364,7 +364,7 @@ class DialogService extends RingAngularComponent {
 
   unregister = () => {
     Reflect.deleteProperty(this, 'ctrl');
-  }
+  };
 }
 
 class DialogInSidebarService extends DialogService {

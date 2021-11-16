@@ -152,7 +152,7 @@
     width: unit;
     height: unit;
 
-    content: '';
+    content: "";
 
     border: 1px solid var(--ring-dark-text-color);
     border-radius: 50%;
