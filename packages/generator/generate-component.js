@@ -25,8 +25,8 @@ module.exports = params => class ComponentGenerator extends Generator {
   }
 
   async prompting() {
-    const {readPackageUpAsync} = await import('read-pkg-up');
-    const pkgFile = await readPackageUpAsync();
+    const {readPackageUp} = await import('read-pkg-up');
+    const pkgFile = await readPackageUp();
     const promptParams = [{
       type: 'input',
       name: 'componentName',

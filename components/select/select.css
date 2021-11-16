@@ -248,3 +248,7 @@
 
   color: inherit;
 }
+
+.avatar {
+  vertical-align: -6px;
+}

@@ -220,6 +220,7 @@ export default class Select extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    buttonClassName: PropTypes.string,
     id: PropTypes.string,
     multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     allowAny: PropTypes.bool,
@@ -520,10 +521,6 @@ export default class Select extends Component {
   _getSelectedIndex(selected, data) {
     return getSelectedIndex(selected, data, this.props.multiple);
   }
-
-  popupRef = el => {
-    this._popup = el;
-  };
 
   _getResetOption() {
     const isOptionsSelected = this.state.selected && this.state.selected.length;
@@ -1034,10 +1031,12 @@ export default class Select extends Component {
   }
 
   _getAvatar() {
-    return this.state.selected && this.state.selected.avatar && (
+    return this.state.selected &&
+      (this.state.selected.avatar || this.state.selected.showGeneratedAvatar) && (
       <Avatar
         className={styles.avatar}
         url={this.state.selected.avatar}
+        username={this.state.selected.username}
         size={AvatarSize.Size20}
       />
     );
@@ -1152,6 +1151,7 @@ export default class Select extends Component {
                 id={this.props.id}
                 onClick={this._clickHandler}
                 className={classNames(
+                  this.props.buttonClassName,
                   styles.buttonValue,
                   {
                     [styles.buttonValueOpen]: this.state.showPopup
@@ -1192,7 +1192,7 @@ export default class Select extends Component {
               onClick={this._clickHandler}
               type="button"
               disabled={this.props.disabled}
-              className={classNames(styles.value, {
+              className={classNames(this.props.buttonClassName, styles.value, {
                 [styles.open]: this.state.showPopup,
                 [styles.label]: this._selectionIsEmpty()
               })}

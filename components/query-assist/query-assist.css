@@ -161,7 +161,7 @@
 }
 
 .queryAssist {
-  composes: font from '../global/global.css';
+  composes: font from "../global/global.css";
 
   position: relative;
 

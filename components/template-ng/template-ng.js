@@ -39,7 +39,7 @@ class RgTemplateController extends RingAngularComponent {
     if (rgTemplateClass) {
       this.$inject.$element.contents().addClass(rgTemplateClass);
     }
-  }
+  };
 
   cleanup() {
     if (this.currentScope) {
