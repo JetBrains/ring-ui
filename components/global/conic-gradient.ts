@@ -12,7 +12,7 @@ export interface ConicGradientConfig {
 
 declare class ConicGradient {
   constructor(config: ConicGradientConfig)
-  svg: string
+  svg: string;
 }
 
 const conicGradient = memoize(({stops, size}: ConicGradientConfig) => (
