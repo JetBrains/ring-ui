@@ -1,13 +1,17 @@
-import PermissionCache from './permissions__cache';
+import PermissionCache, {Project} from './permissions__cache';
 
 describe('PermissionCache', () => {
-  function createProject(id) {
+  function createProject(id: string) {
     return {
       id
     };
   }
 
-  function createPermission(key, projects, isGlobal) {
+  function createPermission(
+    key: string,
+    projects?: readonly Project[] | null | undefined,
+    isGlobal?: boolean | null | undefined
+  ) {
     return {
       permission: {key}, projects, global: isGlobal
     };
@@ -40,7 +44,7 @@ describe('PermissionCache', () => {
     const permissions = [createPermission('A')];
     const permissionCache = new PermissionCache(permissions);
 
-    permissionCache.get().should.be.equal(permissions);
+    permissionCache.get()!.should.be.equal(permissions);
   });
 
 
@@ -66,7 +70,7 @@ describe('PermissionCache', () => {
 
   it('should allow pass name converter', () => {
     const permissions = [createPermission('A')];
-    const nameConverter = key => `#${key}`;
+    const nameConverter = (key: string) => `#${key}`;
 
     const permissionCache = new PermissionCache(permissions, nameConverter);
 
