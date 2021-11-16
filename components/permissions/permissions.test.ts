@@ -1,14 +1,14 @@
 import Auth from '../auth/auth';
 
 import Permissions from './permissions';
-import PermissionCache from './permissions__cache';
+import PermissionCache, {Project} from './permissions__cache';
 
 describe('Permissions', () => {
   /**
    * @param id
    * @returns {{id: *}}
    */
-  function createProject(id) {
+  function createProject(id: string) {
     return {
       id
     };
@@ -20,7 +20,11 @@ describe('Permissions', () => {
    * @param {boolean=} isGlobal
    * @returns {{permission: {key: *}, projects: *, global: *}}
    */
-  function createPermission(key, projects, isGlobal) {
+  function createPermission(
+    key: string,
+    projects?: readonly Project[] | null | undefined,
+    isGlobal?: boolean | null | undefined
+  ) {
     return {
       permission: {key}, projects, global: isGlobal
     };
@@ -67,15 +71,15 @@ describe('Permissions', () => {
 
     permissions.set(permissionsData);
 
-    permissions.get().should.equal(permissionsData);
+    permissions.get()!.should.equal(permissionsData);
   });
 
 
   describe('cacheControl', () => {
 
-    let auth;
+    let auth: Auth;
     let permissionsData;
-    let permissions;
+    let permissions: Permissions;
     beforeEach(() => {
       auth = createAuthMock();
       permissionsData = [createPermission('A')];
@@ -152,12 +156,12 @@ describe('Permissions', () => {
     });
 
     it('should build query if one service provided', () => {
-      new Permissions(auth, {services: ['0-0-0-0-2']}).query.
+      new Permissions(auth, {services: ['0-0-0-0-2']}).query!.
         should.equal('service:{0-0-0-0-2}');
     });
 
     it('should build query if several services provided', () => {
-      new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query.
+      new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query!.
         should.equal('service:{0-0-0-0-0} or service:{0-0-0-0-2}');
     });
 
@@ -167,22 +171,23 @@ describe('Permissions', () => {
 
     it('should create namesConverter for prefix', () => {
       const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.'});
-      permissions.namesConverter.should.not.equal(undefined);
-      permissions.namesConverter('jetbrains.jetpass.project-read').
+      permissions.namesConverter!.should.not.equal(undefined);
+      permissions.namesConverter!('jetbrains.jetpass.project-read').
         should.equal('project-read');
     });
 
     it('should require auth', () => {
+      // @ts-expect-error testing a wrong usage
       () => new Permissions().should.throw(Error, 'Parameter auth is required');
     });
 
     describe('construction with defined namesConverter', () => {
-      function converter(input) {
+      function converter(input: string) {
         return input.toLowerCase();
       }
 
       it('should pass permission names converter', () => {
-        new Permissions(auth, {namesConverter: converter}).namesConverter.
+        new Permissions(auth, {namesConverter: converter}).namesConverter!.
           should.equal(converter);
       });
 
@@ -192,8 +197,8 @@ describe('Permissions', () => {
           prefix: 'jetbrains.jetpass.'
         };
         const permissions = new Permissions(auth, args);
-        permissions.namesConverter.should.not.equal(undefined);
-        permissions.namesConverter('jetbrains.jetpass.project-read').
+        permissions.namesConverter!.should.not.equal(undefined);
+        permissions.namesConverter!('jetbrains.jetpass.project-read').
           should.equal('project-read');
       });
     });
@@ -203,8 +208,8 @@ describe('Permissions', () => {
     it('should reload permissions', () => {
       const auth = createAuthMock();
       const permissions = new Permissions(auth);
-      sandbox.stub(permissions, 'load').returns(Promise.resolve({}));
-      permissions._promise = Promise.resolve(permissions);
+      sandbox.stub(permissions, 'load').returns(Promise.resolve({} as PermissionCache));
+      permissions._promise = Promise.resolve({} as PermissionCache);
 
       permissions.reload();
 
@@ -322,7 +327,7 @@ describe('Permissions', () => {
     });
 
     describe('cache with defined permissions converter', () => {
-      function namesConverter(key) {
+      function namesConverter(key: string) {
         const splitKey = key.split('.');
         return splitKey[splitKey.length - 1].toLowerCase().replace(/_/g, '-');
       }
@@ -365,7 +370,7 @@ describe('Permissions', () => {
     const permissionKeysDefaultConverter = Permissions.
       getDefaultNamesConverter('jetbrains.jetpass.');
 
-    function permissionKeysTestConverter(key) {
+    function permissionKeysTestConverter(key: string) {
       if (key === 'not-defined-key') {
         return undefined;
       }
@@ -393,42 +398,42 @@ describe('Permissions', () => {
     );
 
     it('should bind variable to true for given permission', () => {
-      const scope = {};
+      const scope: {canReadProject?: boolean} = {};
       return permissions.bindVariable(scope, 'canReadProject', 'project-read').
         then(() => {
-          scope.canReadProject.should.be.true;
+          scope.canReadProject!.should.be.true;
         });
     });
 
     it('should bind variable to true for given permission in project', () => {
-      const scope = {};
+      const scope: {canUpdateProject?: boolean} = {};
       return permissions.bindVariable(scope, 'canUpdateProject', 'project-update', '123').
         then(() => {
-          scope.canUpdateProject.should.be.true;
+          scope.canUpdateProject!.should.be.true;
         });
     });
 
     it('should bind variable to false for absent permission', () => {
-      const scope = {};
+      const scope: {canReadRole?: boolean} = {};
       return permissions.bindVariable(scope, 'canReadRole', 'role-read').
         then(() => {
-          scope.canReadRole.should.be.false;
+          scope.canReadRole!.should.be.false;
         });
     });
 
     it('should bind variable to false for absent permission in project', () => {
-      const scope = {};
+      const scope: {canUpdateProject?: boolean} = {};
       return permissions.bindVariable(scope, 'canUpdateProject', 'project-update', '456').
         then(() => {
-          scope.canUpdateProject.should.be.false;
+          scope.canUpdateProject!.should.be.false;
         });
     });
 
     it('permission cache should not contain permissions with key undefined', () => {
-      const scope = {};
+      const scope: {canUpdateSomething?: boolean} = {};
       return permissions.bindVariable(scope, 'canUpdateSomething', 'undefined').
         then(() => {
-          scope.canUpdateSomething.should.be.false;
+          scope.canUpdateSomething!.should.be.false;
         });
     });
   });

@@ -1,4 +1,23 @@
-import PermissionCache from './permissions__cache';
+import Auth from '../auth/auth__core';
+
+import PermissionCache, {Permission} from './permissions__cache';
+
+export interface PermissionsConfig {
+  prefix?: string | null | undefined
+  namesConverter?: ((name: string) => string) | null | undefined
+  services?: readonly string[] | null | undefined
+  datasource?: ((query: string | undefined) => Promise<readonly Permission[] | null | undefined>)
+    | null | undefined
+}
+
+interface PermissionsCacheControl {
+  NO_CACHE?: boolean | null | undefined
+  NO_STORE?: boolean | null | undefined
+}
+
+export interface PermissionsLoadOptions {
+  cacheControl?: PermissionsCacheControl | null | undefined
+}
 
 /**
  * <code>
@@ -30,7 +49,16 @@ export default class Permissions {
    */
   static API_PERMISSION_CACHE_PATH = 'permissions/cache';
 
-  constructor(auth, config = {}) {
+  query: string | undefined;
+  namesConverter: ((name: string) => string) | null | undefined;
+  private _auth: Auth;
+  private _datasource: (query: string | undefined) =>
+    Promise<readonly Permission[] | null | undefined>;
+
+  _promise: Promise<PermissionCache> | null;
+  private _subscribed: boolean;
+  private _permissionCache: PermissionCache;
+  constructor(auth: Auth, config: PermissionsConfig = {}) {
     this.query = Permissions.getPermissionQuery(config.services);
     this.namesConverter = config.prefix
       ? Permissions.getDefaultNamesConverter(config.prefix)
@@ -47,7 +75,7 @@ export default class Permissions {
     this._permissionCache = new PermissionCache(null, this.namesConverter);
   }
 
-  _defaultDatasource = query => (
+  private _defaultDatasource = (query: string | undefined) => (
     this._auth.http.get(Permissions.API_PERMISSION_CACHE_PATH, {
       query: {
         fields: 'permission/key,global,projects(id)',
@@ -62,8 +90,8 @@ export default class Permissions {
    * @param {string} prefix
    * @returns {Function}
    */
-  static getDefaultNamesConverter(prefix) {
-    return storedName => {
+  static getDefaultNamesConverter(prefix: string) {
+    return (storedName: string) => {
       if (storedName.indexOf(prefix) !== 0) {
         return storedName;
       } else {
@@ -72,14 +100,14 @@ export default class Permissions {
     };
   }
 
-  static getPermissionQuery(services) {
+  static getPermissionQuery(services?: readonly string[] | null | undefined) {
     if (!services || !services.length) {
       return undefined;
     }
     return services.map(service => `service:{${service}}`).join(' or ');
   }
 
-  set(cachedPermissions) {
+  set(cachedPermissions?: readonly Permission[] | null | undefined) {
     this._permissionCache.set(cachedPermissions);
     this._setCache(Promise.resolve(this._permissionCache));
     return this._permissionCache;
@@ -89,16 +117,15 @@ export default class Permissions {
     return this._permissionCache.get();
   }
 
-  _setCache(value) {
+  private _setCache(value: Promise<PermissionCache> | null) {
     this._promise = value;
-    return value;
   }
 
-  _getCache() {
+  private _getCache() {
     return this._promise;
   }
 
-  _resetCache() {
+  private _resetCache() {
     this._setCache(null);
   }
 
@@ -107,7 +134,7 @@ export default class Permissions {
    * @param {object?} options
    * @return {Promise.<Permissions>} promise that is resolved when the permissions are loaded
    */
-  load(options) {
+  load(options?: PermissionsLoadOptions | null | undefined): Promise<PermissionCache> {
     if (this._subscribed === false) {
       this._auth.addListener('userChange', () => {
         this.reload();
@@ -115,8 +142,9 @@ export default class Permissions {
       this._subscribed = true;
     }
 
-    if (!hasCacheControl('NO_CACHE', options) && this._getCache()) {
-      return this._getCache();
+    const cache = this._getCache();
+    if (!hasCacheControl('NO_CACHE', options) && cache) {
+      return cache;
     }
 
     if (hasCacheControl('NO_STORE', options)) {
@@ -124,12 +152,15 @@ export default class Permissions {
         then(cachedPermissions => new PermissionCache(cachedPermissions, this.namesConverter));
     }
 
-    return this._setCache(
-      this._loadPermissions().
-        then(cachedPermissions => this.set(cachedPermissions))
-    );
+    const permissions = this._loadPermissions().
+      then(cachedPermissions => this.set(cachedPermissions));
+    this._setCache(permissions);
+    return permissions;
 
-    function hasCacheControl(value, _options) {
+    function hasCacheControl(
+      value: keyof PermissionsCacheControl,
+      _options: PermissionsLoadOptions | null | undefined
+    ) {
       if (_options && _options.cacheControl) {
         return _options.cacheControl[value];
       }
@@ -160,7 +191,7 @@ export default class Permissions {
    *
    * @return {Promise.<boolean>}
    */
-  check(permissions, projectId) {
+  check(permissions?: string | null | undefined, projectId?: string | null | undefined) {
     return this.load().then(permissionCache => permissionCache.has(permissions, projectId));
   }
 
@@ -181,7 +212,12 @@ export default class Permissions {
    *
    * @return {Promise.<boolean>}
    */
-  bindVariable(object, propertyName, permissions, projectId) {
+  bindVariable<K extends string>(
+    object: {[key in K]?: boolean},
+    propertyName: K,
+    permissions?: string | null | undefined,
+    projectId?: string | null | undefined
+  ) {
     object[propertyName] = false;
 
     return this.check(permissions, projectId).
