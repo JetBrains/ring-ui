@@ -1,3 +1,22 @@
+export interface PermissionType {
+  key: string
+}
+
+export interface Project {
+  id: string
+}
+
+export interface Permission {
+  permission: PermissionType
+  global?: boolean | null | undefined
+  projects?: readonly Project[] | null | undefined
+}
+
+interface PermissionCacheItem {
+  global: boolean | null | undefined
+  projectIdSet: Record<string, boolean> | null
+}
+
 /**
  * Converts an array of cached permissions to a a map of a permission key
  * to the respective cached permission.
@@ -21,8 +40,8 @@ export default class PermissionCache {
    * @return {object} a set of project ids
    * @private
    */
-  static _toProjectIdSet(projects) {
-    let projectIdSet = null;
+  private static _toProjectIdSet(projects: readonly Project[] | null | undefined) {
+    let projectIdSet: Record<string, boolean> | null = null;
 
     if (projects) {
       projectIdSet = {};
@@ -34,19 +53,30 @@ export default class PermissionCache {
     return projectIdSet;
   }
 
-  constructor(permissions, namesConverter) {
+  namesConverter: (name: string) => string | null | undefined;
+  constructor(
+    permissions?: readonly Permission[] | null | undefined,
+    namesConverter?: ((name: string) => string | null | undefined) | null | undefined
+  ) {
     this.namesConverter = namesConverter || (key => key);
     this.set(permissions);
   }
 
-  set(permissions) {
-    const permissionCache = (permissions || []).reduce((_permissionCache, permission) => {
+  private _permissions?: readonly Permission[] | null;
+  permissionCache?: Record<string, PermissionCacheItem>;
+  set(permissions?: readonly Permission[] | null | undefined) {
+    const permissionCache = (permissions || []).reduce((
+      _permissionCache: Record<string, PermissionCacheItem>,
+      permission
+    ) => {
       const key = this.namesConverter(permission.permission.key);
 
       if (key) {
         _permissionCache[key] = {
           global: permission.global,
-          projectIdSet: this.constructor._toProjectIdSet(permission.projects)
+          projectIdSet: (this.constructor as typeof PermissionCache)._toProjectIdSet(
+            permission.projects
+          )
         };
       }
 
@@ -72,7 +102,7 @@ export default class PermissionCache {
    *
    * @return {boolean}
    */
-  has(permissions, projectId) {
+  has(permissions?: string | null | undefined, projectId?: string | null | undefined) {
     const lexems = this.lex(permissions);
     if (lexems.length === 0) {
       return true;
@@ -91,7 +121,7 @@ export default class PermissionCache {
    * @param {string} query
    * @return {string[]}
    */
-  lex(query) {
+  lex(query?: string | null | undefined) {
     const lexems = [];
 
     if (query) {
@@ -150,7 +180,7 @@ export default class PermissionCache {
    * @param {string=} projectId
    * @return {boolean}
    */
-  or(lexems, projectId) {
+  or(lexems: string[], projectId?: string | null | undefined) {
     let result = this.and(lexems, projectId);
 
     while (lexems.length > 0 && lexems[0] !== ')') {
@@ -169,7 +199,7 @@ export default class PermissionCache {
    * @param {string=} projectId
    * @return {boolean}
    */
-  and(lexems, projectId) {
+  and(lexems: string[], projectId?: string | null | undefined) {
     let result = this.not(lexems, projectId);
 
     while (lexems.length > 0 && lexems[0] !== ')' && lexems[0] !== '|') {
@@ -189,7 +219,7 @@ export default class PermissionCache {
    * @param {string=} projectId
    * @return {boolean}
    */
-  not(lexems, projectId) {
+  not(lexems: string[], projectId?: string | null | undefined) {
     let notCounter = 0;
 
     while (lexems.length > 0 && lexems[0] === '!') {
@@ -207,7 +237,7 @@ export default class PermissionCache {
    * @param {string=} projectId
    * @return {boolean}
    */
-  term(lexems, projectId) {
+  term(lexems: string[], projectId?: string | null | undefined): boolean {
     if (lexems.length === 0) {
       throw new Error('Operand was expected');
     }
@@ -223,7 +253,7 @@ export default class PermissionCache {
         throw new Error('Operator \')\' was expected');
       }
     } else {
-      result = this.testPermission(t, projectId);
+      result = t != null && this.testPermission(t, projectId);
     }
 
     return result;
@@ -234,10 +264,11 @@ export default class PermissionCache {
    * @param {string=} projectId
    * @return {boolean}
    */
-  testPermission(permissionName, projectId) {
+  testPermission(permissionName: string, projectId?: string | null | undefined) {
     const permissionCache = this.permissionCache;
-    const cachedPermission = permissionCache[permissionName] ||
-      permissionCache[this.namesConverter(permissionName)];
+    const convertedName = this.namesConverter(permissionName);
+    const cachedPermission = permissionCache?.[permissionName] ||
+      convertedName && permissionCache?.[convertedName];
 
     // Hasn't the permission in any project
     if (!cachedPermission) {
@@ -251,7 +282,7 @@ export default class PermissionCache {
 
     if (projectId) {
       // if projectId is specified check that the permission is given in the project
-      return cachedPermission.projectIdSet && (projectId in cachedPermission.projectIdSet);
+      return cachedPermission.projectIdSet != null && (projectId in cachedPermission.projectIdSet);
     } else {
       return true;
     }
