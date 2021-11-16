@@ -51,7 +51,7 @@ export default {
 
     styles({
       modules: {
-        localIdentName: 'ring_[local]_[hash:4]'
+        generateScopedName: '[local]_rui_[hash:4]'
       },
 
       mode: ['extract', 'style.css'],
