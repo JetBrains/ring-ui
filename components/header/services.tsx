@@ -34,6 +34,14 @@ export interface ServicesProps extends HTMLAttributes<HTMLElement> {
 }
 
 export default class Services extends PureComponent<ServicesProps> {
+  static sort = (a: Service, b: Service) => {
+    const aApplicationName = a.applicationName || '';
+    const bApplicationName = b.applicationName || '';
+
+    return aApplicationName.localeCompare(bApplicationName) ||
+      a.name.localeCompare(b.name);
+  };
+
   static propTypes = {
     className: PropTypes.string,
     clientId: PropTypes.string,
@@ -41,14 +49,6 @@ export default class Services extends PureComponent<ServicesProps> {
     loading: PropTypes.bool,
     onClick: PropTypes.func,
     services: PropTypes.arrayOf(ServicesLink.propTypes.service)
-  };
-
-  static sort = (a: Service, b: Service) => {
-    const aApplicationName = a.applicationName || '';
-    const bApplicationName = b.applicationName || '';
-
-    return aApplicationName.localeCompare(bApplicationName) ||
-      a.name.localeCompare(b.name);
   };
 
   static Link = ServicesLink;

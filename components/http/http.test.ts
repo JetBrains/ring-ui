@@ -11,7 +11,7 @@ describe('HTTP', () => {
   class FakeAuth implements HTTPAuth {
     static shouldRefreshToken = sandbox.stub().returns(false);
     requestToken = sandbox.stub().returns(FAKE_TOKEN);
-    forceTokenUpdate = sandbox.stub()
+    forceTokenUpdate = sandbox.stub();
   }
   let fakeAuth: FakeAuth;
   let http: HTTP;
