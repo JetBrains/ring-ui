@@ -5,7 +5,6 @@ import {parseQueryString} from '../global/url';
 export interface AuthResponse {
   accessToken?: string
   state?: string
-  // eslint-disable-next-line camelcase
   token_type?: string
   expiresIn?: string
   scope?: string
