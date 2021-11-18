@@ -14,7 +14,11 @@ export default {
 };
 
 export const basic = () => {
-  class ProgressBarDemo extends Component {
+  interface ProgressBarDemoState {
+    value: number
+  }
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  class ProgressBarDemo extends Component<{}, ProgressBarDemoState> {
     state = {
       value: disableAnimations ? 0.5 : 0
     };
