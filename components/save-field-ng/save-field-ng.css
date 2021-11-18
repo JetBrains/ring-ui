@@ -4,9 +4,6 @@
 
 :global(.ring-save-field) {
   display: inline-block;
-
-  font-size: 0;
-  line-height: 0;
 }
 
 :global(.ring-save-field .ring-save-field__button) {
