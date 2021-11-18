@@ -3,13 +3,14 @@ import {shallow, mount} from 'enzyme';
 
 import Theme from '../global/theme';
 
-import ProgressBar from './progress-bar';
+import ProgressBar, {ProgressBarAttrs} from './progress-bar';
 import styles from './progress-bar.css';
 
 describe('Progress Bar', () => {
-  const shallowProgressBar = props => shallow(<ProgressBar label="Progress" {...props}/>);
-  const mountProgressBar = props =>
-    mount(<ProgressBar label="Progress" {...props}/>).find('ProgressBar');
+  const shallowProgressBar = (props?: ProgressBarAttrs) => shallow(
+    <ProgressBar label="Progress" {...props}/>);
+  const mountProgressBar = (props?: ProgressBarAttrs) =>
+    mount(<ProgressBar label="Progress" {...props}/>).find<ProgressBar>(ProgressBar);
 
   it('should create component', () => {
     shallowProgressBar().should.exist;
@@ -47,14 +48,14 @@ describe('Progress Bar', () => {
         className: 'test-class'
       });
 
-      wrapper.instance().progressbarWrapper.should.have.class('test-class');
+      wrapper.instance().progressbarWrapper!.should.have.class('test-class');
     });
 
     it('should set light modifier', () => {
       const wrapper = mountProgressBar({
         theme: Theme.DARK
       });
-      wrapper.instance().progressbarWrapper.
+      wrapper.instance().progressbarWrapper!.
         should.have.class(styles.dark);
     });
 
@@ -63,7 +64,7 @@ describe('Progress Bar', () => {
         global: true
       });
 
-      wrapper.instance().progressbarWrapper.
+      wrapper.instance().progressbarWrapper!.
         should.have.class(styles.globalMode);
     });
   });
@@ -75,7 +76,7 @@ describe('Progress Bar', () => {
   describe('#render', () => {
     it('should set min value to equal zero', () => {
       const wrapper = mountProgressBar();
-      wrapper.instance().progressbar.should.have.attr('aria-valuemin', '0');
+      wrapper.instance().progressbar!.should.have.attr('aria-valuemin', '0');
     });
 
     it('should update max value in DOM', () => {
@@ -83,7 +84,7 @@ describe('Progress Bar', () => {
         max: 100
       });
 
-      wrapper.instance().progressbar.should.have.attr('aria-valuemax', '100');
+      wrapper.instance().progressbar!.should.have.attr('aria-valuemax', '100');
     });
 
     it('should update progress value in DOM', () => {
@@ -91,8 +92,8 @@ describe('Progress Bar', () => {
         value: 0.5
       });
 
-      wrapper.instance().progressbar.should.have.attr('aria-valuenow', '0.5');
-      wrapper.instance().progressbar.should.have.attr('style').match(/width: 50%;/);
+      wrapper.instance().progressbar!.should.have.attr('aria-valuenow', '0.5');
+      wrapper.instance().progressbar!.should.have.attr('style').match(/width: 50%;/);
     });
 
     it('should set width equal 100% if progress value more than max value', () => {
@@ -101,14 +102,14 @@ describe('Progress Bar', () => {
         value: 10
       });
 
-      wrapper.instance().progressbar.should.have.attr('style').match(/width: 100%;/);
+      wrapper.instance().progressbar!.should.have.attr('style').match(/width: 100%;/);
     });
 
     it('should not set style if value is not a number', () => {
       const wrapper = mountProgressBar({
-        value: null
+        value: undefined
       });
-      wrapper.instance().progressbar.should.not.have.attr('style');
+      wrapper.instance().progressbar!.should.not.have.attr('style');
     });
   });
 });
