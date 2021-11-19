@@ -10,13 +10,13 @@ import TabLink from './tab-link';
 
 function noop() {}
 
-const TabTitle = React.memo(({
+const TabTitle = React.memo(function TabTitle({
   selected,
   child,
   handleSelect = noop,
   collapsed = false,
   tabIndex
-}) => {
+}) {
   if (child == null || typeof child !== 'object' || child.type === CustomItem) {
     return child;
   }
