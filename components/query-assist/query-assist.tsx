@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ComponentRef, ReactNode, SyntheticEvent} from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
@@ -9,7 +9,7 @@ import closeIcon from '@jetbrains/icons/close';
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
 import {getRect, preventDefault} from '../global/dom';
-import Caret from '../caret/caret';
+import Caret, {Position} from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
@@ -18,9 +18,14 @@ import rerenderHOC from '../global/rerender-hoc';
 import Theme from '../global/theme';
 import Button from '../button/button';
 
-import QueryAssistSuggestions from './query-assist__suggestions';
+import QueryAssistSuggestions, {
+  QueryAssistSuggestion,
+  SuggestionItem
+} from './query-assist__suggestions';
 
 import styles from './query-assist.css';
+
+import {ShortcutsMap} from '@jetbrains/ring-ui/components/shortcuts/core';
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
@@ -29,8 +34,96 @@ const ngModelStateField = 'query';
 
 function noop() {}
 
-function cleanText(text) {
+function cleanText(text: string) {
   return text.replace(/([\n\r])+/g, ' ');
+}
+
+export interface QueryAssistTranslations {
+  searchTitle: string
+  clearTitle: string
+}
+
+export interface FocusChange {
+  focus: boolean
+}
+
+export interface QueryAssistChange {
+  query: string
+  caret: number
+  focus?: boolean
+  selection?: Position | number | null
+  dirty?: boolean
+  suggestionsQuery?: string
+}
+
+export interface QueryAssistResponse {
+  query?: string | undefined
+  caret?: number | undefined
+  styleRanges?: readonly StyleRange[] | undefined
+  suggestions?: readonly QueryAssistSuggestion[] | undefined
+}
+
+export interface QueryAssistRequestParams {
+  query: string
+  caret: number
+  omitSuggestions?: boolean
+}
+
+export interface QueryAssistProps {
+  theme: Theme
+  onApply: (change: QueryAssistChange) => void
+  onChange: (change: QueryAssistChange) => void
+  onApplySuggestion: (suggestion: QueryAssistSuggestion, change: QueryAssistChange) => void
+  onClear: () => void
+  onFocusChange: (change: FocusChange) => void
+  translations: QueryAssistTranslations
+  autoOpen?: boolean | null | undefined
+  caret?: number | null | undefined
+  clear?: boolean | null | undefined
+  className?: string | null | undefined
+  popupClassName?: string | null | undefined
+  dataSource: (params: QueryAssistRequestParams) => Promise<QueryAssistResponse> |
+    QueryAssistResponse
+  delay?: number | null | undefined
+  disabled?: boolean | undefined
+  focus?: boolean | null | undefined
+  hint?: string | null | undefined
+  hintOnSelection?: string | null | undefined
+  glass?: boolean | null | undefined
+  loader?: boolean | null | undefined
+  placeholder?: string | null | undefined
+  query?: string | null | undefined
+  useCustomItemRender?: boolean | null | undefined
+  actions?: ReactNode[] | null | undefined
+  'data-test'?: string | null | undefined
+}
+
+interface StyleRange {
+  style: string
+  start: number
+  length: number
+}
+
+interface QueryAssistState {
+  dirty: boolean | undefined
+  query: string | null | undefined
+  placeholderEnabled: boolean
+  shortcuts?: boolean
+  suggestions: readonly QueryAssistSuggestion[]
+  showPopup: boolean
+  prevQuery?: string | null | undefined
+  loading?: boolean
+  styleRanges?: readonly StyleRange[]
+}
+
+interface CaretPositionParams {
+  fromContentEditable?: boolean | null | undefined
+  forceSetCaret?: boolean | null | undefined
+}
+
+interface HistoryEntry {
+  query: string | null | undefined
+  caret: Position | number
 }
 
 /**
@@ -72,7 +165,7 @@ function cleanText(text) {
  + __group__ \`string=\` Group title. Options with the same title are grouped under it
  + __icon__ \`string=\` Icon URI, Data URI is possible
  */
-export default class QueryAssist extends Component {
+export default class QueryAssist extends Component<QueryAssistProps> {
   static propTypes = {
     theme: PropTypes.string,
     /**
@@ -174,8 +267,8 @@ export default class QueryAssist extends Component {
     }
   };
 
-  static getDerivedStateFromProps({query}, {prevQuery}) {
-    const nextState = {prevQuery: query};
+  static getDerivedStateFromProps({query}: QueryAssistProps, {prevQuery}: QueryAssistState) {
+    const nextState: Partial<QueryAssistState> = {prevQuery: query};
     if (typeof query === 'string' && query !== prevQuery) {
       nextState.query = query;
       nextState.placeholderEnabled = !query;
@@ -183,7 +276,21 @@ export default class QueryAssist extends Component {
     return nextState;
   }
 
-  state = {
+  constructor(props: QueryAssistProps) {
+    super(props);
+
+    const query = props.query || '';
+
+    this.immediateState = {
+      query,
+      caret: typeof props.caret === 'number' && Number.isFinite(props.caret)
+        ? props.caret
+        : query.length,
+      focus: Boolean(props.autoOpen || props.focus)
+    };
+  }
+
+  state: QueryAssistState = {
     dirty: !this.props.query,
     query: this.props.query,
     placeholderEnabled: !this.props.query,
@@ -197,7 +304,9 @@ export default class QueryAssist extends Component {
 
     this.immediateState = {
       query,
-      caret: Number.isFinite(this.props.caret) ? this.props.caret : query.length,
+      caret: typeof this.props.caret === 'number' && Number.isFinite(this.props.caret)
+        ? this.props.caret
+        : query.length,
       focus: Boolean(this.props.autoOpen || this.props.focus)
     };
 
@@ -214,7 +323,7 @@ export default class QueryAssist extends Component {
     this._pushHistory(this.state);
   }
 
-  shouldComponentUpdate(props, state) {
+  shouldComponentUpdate(props: QueryAssistProps, state: QueryAssistState) {
     return state.query !== this.state.query ||
       state.dirty !== this.state.dirty ||
       state.loading !== this.state.loading ||
@@ -231,7 +340,7 @@ export default class QueryAssist extends Component {
       props.glass !== this.props.glass;
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: QueryAssistProps) {
     const {caret, delay, query} = this.props;
     const queryChanged = query !== prevProps.query;
 
@@ -247,7 +356,7 @@ export default class QueryAssist extends Component {
       this.immediateState.query = query;
 
       if (query && prevProps.autoOpen && query.length > 0) {
-        this.requestData();
+        this.requestData?.();
       } else if (query) {
         this.requestStyleRanges();
       }
@@ -257,11 +366,14 @@ export default class QueryAssist extends Component {
   static ngModelStateField = ngModelStateField;
   static Theme = Theme;
 
+  immediateState: QueryAssistChange;
+  requestData?: (afterCompletion?: boolean) => void;
   ngModelStateField = ngModelStateField;
   // An array of {query: string; caret: number}[]
-  historyStack = [];
+  historyStack: HistoryEntry[] = [];
+  mouseIsDownOnPopup?: boolean;
 
-  handleFocusChange = e => {
+  handleFocusChange = (e: SyntheticEvent) => {
     // otherwise it's blur and false
     const focus = e.type === 'focus';
     this.immediateState.focus = focus;
@@ -281,14 +393,15 @@ export default class QueryAssist extends Component {
       this.props.onFocusChange({focus});
     }
 
-    this.setState({shortcuts: !!focus});
+    this.setState({shortcuts: focus});
   };
 
-  nodeRef = node => {
+  node?: HTMLElement | null;
+  nodeRef = (node: HTMLElement | null) => {
     this.node = node;
   };
 
-  updateFocus({focus, caret}) {
+  updateFocus({focus, caret}: QueryAssistProps) {
     const isCaretChanged = caret !== this.props.caret;
     const isFocusChanged = focus !== this.props.focus;
 
@@ -298,41 +411,44 @@ export default class QueryAssist extends Component {
     }
   }
 
-  setCaretPosition = (params = {}) => {
-    const queryLength = this.immediateState.query != null && this.immediateState.query.length;
+  setCaretPosition = (params: CaretPositionParams = {}) => {
+    const queryLength = this.immediateState.query != null ? this.immediateState.query.length : 0;
     const newCaretPosition =
-      this.immediateState.caret < queryLength
-        ? this.immediateState.caret
-        : queryLength;
+       this.immediateState.caret < queryLength
+         ? this.immediateState.caret
+         : queryLength;
     if (params.fromContentEditable) {
       this.immediateState.selection = this.immediateState.selection
         ? this.immediateState.selection
-        : this.state.query && this.state.query.length;
+        : this.state.query && this.state.query.length || null;
     }
     if (this.immediateState.focus && !this.props.disabled) {
-      if (Number.isInteger(this.immediateState.selection) && this.immediateState.selection > -1) {
+      if (typeof this.immediateState.selection === 'number' &&
+        Number.isInteger(this.immediateState.selection) && this.immediateState.selection > -1) {
         // Set to end of field value if newCaretPosition is inappropriate
-        this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
+        this.caret?.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
         this.scrollInput();
-      } else if (this.immediateState.selection && this.immediateState.selection.startOffset !==
-        undefined) {
-        this.caret.setPosition(this.immediateState.selection);
+      } else if (this.immediateState.selection &&
+        typeof this.immediateState.selection === 'object' &&
+        this.immediateState.selection.startOffset !== undefined) {
+        this.caret?.setPosition(this.immediateState.selection);
       } else if (!this.immediateState.selection || params.forceSetCaret) {
-        this.caret.setPosition(-1);
+        this.caret?.setPosition(-1);
       }
     }
   };
 
   scrollInput() {
-    const caretOffset = this.caret.getOffset();
+    const caretOffset = this.caret?.getOffset();
 
-    if (this.input.clientWidth !== this.input.scrollWidth && caretOffset > this.input.clientWidth) {
+    if (this.input?.clientWidth !== this.input?.scrollWidth && caretOffset != null &&
+      this.input?.clientWidth != null && caretOffset > this.input.clientWidth) {
       this.input.scrollLeft += caretOffset;
     }
   }
 
   getQuery() {
-    return this.input.textContent.replace(/\s/g, ' ');
+    return this.input?.textContent?.replace(/\s/g, ' ') ?? '';
   }
 
   isRenderingGlassOrLoader() {
@@ -350,15 +466,16 @@ export default class QueryAssist extends Component {
     }
   };
 
-  handleInput = e => {
+  isComposing?: boolean;
+  handleInput = (e: Event | SyntheticEvent) => {
     this.togglePlaceholder();
-    const currentCaret = this.caret.getPosition();
+    const currentCaret = this.caret?.getPosition();
     const props = {
       dirty: true,
       query: this.getQuery(),
-      caret: Number.isInteger(currentCaret)
+      caret: typeof currentCaret === 'number'
         ? currentCaret
-        : currentCaret.position,
+        : currentCaret?.position ?? 0,
       focus: true
     };
 
@@ -374,18 +491,18 @@ export default class QueryAssist extends Component {
     this.immediateState = props;
     this.props.onChange(props);
     if (props.query.length > 0) {
-      this.requestData();
+      this.requestData?.();
     }
   };
 
   // It's necessary to prevent new element creation before any other hooks
-  handleEnter = e => {
+  handleEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       preventDefault(e);
     }
   };
 
-  handleTab = e => {
+  handleTab = (e: Event) => {
     const list = this._popup && this._popup.list;
     const suggestion = list && (list.getSelected() || list.getFirst());
 
@@ -407,14 +524,14 @@ export default class QueryAssist extends Component {
     return true;
   };
 
-  setState = (state, resolve) => {
+  setState = (state: Partial<QueryAssistState>, resolve?: () => void) => {
     super.setState(state, () => {
       this._pushHistory(state);
       resolve?.();
     });
   };
 
-  _pushHistory(state) {
+  private _pushHistory(state: Partial<QueryAssistState>) {
     const queryIsSet = 'query' in state;
     const queryIsSame = this.historyStack[0]?.query === state.query;
 
@@ -426,20 +543,20 @@ export default class QueryAssist extends Component {
     }
   }
 
-  undo = e => {
-    // eslint-disable-next-line no-unused-vars
-    const [current, previous] = this.historyStack.splice(0, 2);
+  undo = (e: Event) => {
+
+    const previous = this.historyStack.splice(0, 2)[1];
     if (!previous) {
       return;
     }
 
     this.setState({query: previous.query}, () => {
-      this.caret.setPosition(previous.caret);
+      this.caret?.setPosition(previous.caret);
       this.handleInput(e);
     });
   };
 
-  handlePaste = e => {
+  handlePaste = (e: React.ClipboardEvent) => {
     const INSERT_COMMAND = 'insertText';
     if (e.clipboardData && document.queryCommandSupported(INSERT_COMMAND)) {
       preventDefault(e);
@@ -449,22 +566,22 @@ export default class QueryAssist extends Component {
     }
   };
 
-  handleCaretMove = e => {
+  handleCaretMove = (e: Event | SyntheticEvent) => {
     if (this.isComposing) {
       return;
     }
 
-    const currentCaret = this.caret.getPosition();
-    const caret = Number.isInteger(currentCaret)
+    const currentCaret = this.caret?.getPosition();
+    const caret = typeof currentCaret === 'number'
       ? currentCaret
-      : currentCaret.position;
+      : currentCaret?.position ?? 0;
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
       this.immediateState.caret = caret;
       this.scrollInput();
       if (this.immediateState.query.length > 0) {
-        this.requestData();
+        this.requestData?.();
       }
     }
 
@@ -473,14 +590,15 @@ export default class QueryAssist extends Component {
     }
   };
 
-  handleStyleRangesResponse = ({suggestions, ...restProps}) => this.handleResponse(restProps);
+  handleStyleRangesResponse = ({suggestions, ...restProps}: QueryAssistResponse) =>
+    this.handleResponse(restProps);
 
   handleResponse = ({
     query = '',
     caret = 0,
     styleRanges,
     suggestions = []
-  }, afterCompletion = false) => new Promise((resolve, reject) => {
+  }: QueryAssistResponse, afterCompletion = false) => new Promise<void>((resolve, reject) => {
     if (
       query === this.getQuery() &&
       (caret === this.immediateState.caret ||
@@ -491,7 +609,7 @@ export default class QueryAssist extends Component {
         return;
       }
 
-      const state = {
+      const state: QueryAssistState = {
         dirty: this.immediateState.dirty,
         loading: false,
         placeholderEnabled: !query,
@@ -507,7 +625,7 @@ export default class QueryAssist extends Component {
         state.styleRanges = styleRanges;
       }
 
-      this.immediateState.selection = this.caret.getPosition({avoidFocus: true});
+      this.immediateState.selection = this.caret?.getPosition({avoidFocus: true});
       this.setState(state, resolve);
     } else {
       reject(new Error('Current and response queries mismatch'));
@@ -524,7 +642,7 @@ export default class QueryAssist extends Component {
     return this.props.onApply(this.immediateState);
   };
 
-  handleComplete = (data, replace) => {
+  handleComplete = (data?: SuggestionItem, replace?: boolean) => {
     if (!data || !data.data) {
       this.handleApply();
 
@@ -538,13 +656,13 @@ export default class QueryAssist extends Component {
     const suffix = suggestion.suffix || '';
 
     const state = {
-      caret: suggestion.caret,
-      selection: suggestion.caret,
+      caret: suggestion.caret ?? 0,
+      selection: suggestion.caret ?? 0,
       query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
     };
 
     if (typeof replace === 'boolean' && replace) {
-      state.query += this.immediateState.query.substr(suggestion.completionEnd);
+      state.query += this.immediateState.query.substr(suggestion.completionEnd ?? 0);
     } else {
       state.query += this.immediateState.query.substr(this.immediateState.caret);
     }
@@ -569,7 +687,7 @@ export default class QueryAssist extends Component {
     }
 
     this.closePopup();
-    this.requestData(true);
+    this.requestData?.(true);
   };
 
   requestStyleRanges = () => {
@@ -596,7 +714,7 @@ export default class QueryAssist extends Component {
       catch(noop);
   };
 
-  sendRequest(params) {
+  sendRequest(params: QueryAssistRequestParams) {
     const value = this.props.dataSource(params);
     const dataPromise = Promise.resolve(value);
     const CLOSE_POPUP_TIMEOUT = 500;
@@ -624,7 +742,7 @@ export default class QueryAssist extends Component {
     return dataPromise;
   }
 
-  getPopupOffset(suggestions) {
+  getPopupOffset(suggestions: readonly QueryAssistSuggestion[]) {
     const ICON_SPACING = 12;
     const minOffset = this.isRenderingGlassOrLoader() ? ICON_SPACING : 0;
 
@@ -640,16 +758,17 @@ export default class QueryAssist extends Component {
       suggestion.completionStart !== suggestion.completionEnd &&
       suggestion.completionStart;
 
-    const inputChildren = this.input.firstChild && this.input.firstChild.children;
+    const inputChildren = this.input.firstChild instanceof Element &&
+      this.input.firstChild.children;
     const completionStartNode = inputChildren &&
-      Number.isInteger(completionStart) &&
+      typeof completionStart === 'number' &&
       inputChildren[Math.min(completionStart, inputChildren.length - 1)];
 
     let offset = completionStartNode &&
       (getRect(completionStartNode).right - getRect(this.input).left);
 
     if (!offset) {
-      const caret = this.caret.getOffset();
+      const caret = this.caret?.getOffset() ?? 0;
 
       // Do not compensate caret in the beginning of field
       if (caret === 0) {
@@ -663,19 +782,19 @@ export default class QueryAssist extends Component {
     return result < minOffset ? minOffset : result;
   }
 
-  handleCtrlSpace = e => {
+  handleCtrlSpace = (e: Event) => {
     preventDefault(e);
 
     if (!this.state.showPopup) {
-      this.requestData();
+      this.requestData?.();
     }
   };
 
-  trackPopupMouseState = e => {
+  trackPopupMouseState = (e: SyntheticEvent) => {
     this.mouseIsDownOnPopup = e.type === 'mousedown';
   };
 
-  trackCompositionState = e => {
+  trackCompositionState = (e: SyntheticEvent) => {
     this.isComposing = e.type !== 'compositionend';
   };
 
@@ -706,9 +825,9 @@ export default class QueryAssist extends Component {
   };
 
   blurInput() {
-    this.immediateState.selection = {};
+    this.immediateState.selection = null;
     if (!this.props.focus) {
-      this.caret.target.blur();
+      this.caret?.target.blur();
     }
   }
 
@@ -717,7 +836,7 @@ export default class QueryAssist extends Component {
    * instance of the delayed function. This may help reduce the load on the server
    * when the user quickly inputs data.
    */
-  setupRequestHandler(delay) {
+  setupRequestHandler(delay?: number | null) {
     const needDelay = typeof delay === 'number';
     const hasDelay = this.requestData !== this.requestHandler;
 
@@ -730,7 +849,7 @@ export default class QueryAssist extends Component {
     }
   }
 
-  _renderSuggestion(suggestion) {
+  private _renderSuggestion(suggestion: QueryAssistSuggestion) {
     const {ITEM} = PopupMenu.ListProps.Type;
     const {description, icon, group} = suggestion;
     const key = QueryAssistSuggestions.createKey(suggestion);
@@ -757,7 +876,7 @@ export default class QueryAssist extends Component {
 
   renderQuery() {
     const {dirty, styleRanges, query} = this.state;
-    const classes = [];
+    const classes: string[] = [];
     const LETTER_CLASS = 'letter';
     const LETTER_DEFAULT_CLASS = styles.letterDefault;
 
@@ -774,7 +893,7 @@ export default class QueryAssist extends Component {
       });
     }
 
-    return Array.from(query).map((letter, index, letters) => {
+    return query && Array.from(query).map((letter, index, letters) => {
       const className = classNames(styles.letter, classes[index] || LETTER_DEFAULT_CLASS);
 
       const dataTest = (letters.length - 1 === index)
@@ -793,7 +912,7 @@ export default class QueryAssist extends Component {
     });
   }
 
-  setFocus(focus) {
+  setFocus(focus: boolean | null | undefined) {
     this.setState({shortcuts: !!focus});
 
     const isComponentFocused = Boolean(this.immediateState.focus);
@@ -807,7 +926,9 @@ export default class QueryAssist extends Component {
     }
   }
 
-  inputRef = node => {
+  input?: HTMLElement | null;
+  caret?: Caret;
+  inputRef = (node: HTMLElement | null) => {
     if (!node) {
       return;
     }
@@ -816,32 +937,37 @@ export default class QueryAssist extends Component {
     this.caret = new Caret(this.input);
   };
 
-  popupRef = node => {
+  _popup?: PopupMenu<SuggestionItem> | null;
+  popupRef = (node: PopupMenu<SuggestionItem> | null) => {
     this._popup = node;
   };
 
-  placeholderRef = node => {
+  placeholder?: HTMLElement | null;
+  placeholderRef = (node: HTMLElement | null) => {
     this.placeholder = node;
   };
 
-  glassRef = node => {
+  glass?: ComponentRef<typeof Button> | null;
+  glassRef = (node: ComponentRef<typeof Button> | null) => {
     this.glass = node;
   };
 
-  loaderRef = node => {
+  loader?: HTMLElement | null;
+  loaderRef = (node: HTMLElement | null) => {
     this.loader = node;
   };
 
-  clearRef = node => {
+  clear?: ComponentRef<typeof Button> | null;
+  clearRef = (node: ComponentRef<typeof Button> | null) => {
     this.clear = node;
   };
 
   shortcutsScope = getUID('ring-query-assist-');
-  shortcutsMap = {
+  shortcutsMap: ShortcutsMap = {
     del: noop,
-    enter: this.handleComplete,
-    'command+enter': this.handleComplete,
-    'ctrl+enter': this.handleComplete,
+    enter: () => this.handleComplete(),
+    'command+enter': () => this.handleComplete(),
+    'ctrl+enter': () => this.handleComplete(),
     'ctrl+space': this.handleCtrlSpace,
     tab: this.handleTab,
     'meta+z': this.undo,
@@ -853,7 +979,7 @@ export default class QueryAssist extends Component {
   };
 
   renderActions() {
-    const actions = [].concat(this.props.actions || []);
+    const actions = [...(this.props.actions || [])];
     const renderClear = this.props.clear && !!this.state.query;
 
     if (renderClear) {
@@ -982,11 +1108,13 @@ export default class QueryAssist extends Component {
           maxHeight={PopupMenu.PopupProps.MaxHeight.SCREEN}
           onMouseDown={this.trackPopupMouseState}
           onMouseUp={this.trackPopupMouseState}
-          onSelect={this.handleComplete}
+          onSelect={item => this.handleComplete(item)}
         />
       </div>
     );
   }
 }
+
+export type QueryAssistAttrs = JSX.LibraryManagedAttributes<typeof QueryAssist, QueryAssistProps>;
 
 export const RerenderableQueryAssist = rerenderHOC(QueryAssist);
