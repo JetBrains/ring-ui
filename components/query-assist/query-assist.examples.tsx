@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import permissionIcon from '@jetbrains/icons/permission';
 
+import {Story} from '@storybook/react';
+
 import hubConfig from '../../.storybook/hub-config';
 
 import reactDecorator from '../../.storybook/react-decorator';
@@ -11,7 +13,11 @@ import List from '@jetbrains/ring-ui/components/list/list';
 import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
 
-import QueryAssist from '@jetbrains/ring-ui/components/query-assist/query-assist';
+import QueryAssist, {
+  QueryAssistAttrs,
+  QueryAssistRequestParams
+} from '@jetbrains/ring-ui/components/query-assist/query-assist';
+import {QueryAssistSuggestion} from '@jetbrains/ring-ui/components/query-assist/query-assist__suggestions';
 
 export default {
   title: 'Components/Query Assist',
@@ -35,8 +41,8 @@ export default {
 };
 
 class Basic extends Component {
-  constructor() {
-    super();
+  constructor(props: QueryAssistAttrs) {
+    super(props);
     this.auth.init().then(() => this.setState({authReady: true}));
   }
 
@@ -44,7 +50,7 @@ class Basic extends Component {
   auth = new Auth(hubConfig);
   http = new HTTP(this.auth, this.auth.getAPIPath());
 
-  dataSource = props => {
+  dataSource = (props: QueryAssistRequestParams) => {
     const params = {
       query: {
         ...props,
@@ -68,7 +74,7 @@ class Basic extends Component {
     );
   }
 }
-export const basic = args => <Basic {...args}/>;
+export const basic: Story<QueryAssistAttrs> = args => <Basic {...args}/>;
 
 basic.storyName = 'basic';
 basic.parameters = {hermione: {skip: true}};
@@ -81,7 +87,7 @@ basic.args = {
   className: 'custom-class'
 };
 
-export const noAuth = args => <QueryAssist {...args}/>;
+export const noAuth: Story<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
 
 noAuth.storyName = 'no auth';
 noAuth.args = {
@@ -149,14 +155,14 @@ noAuth.parameters = {
   }
 };
 
-const template = item =>
+const template = (item: QueryAssistSuggestion) =>
   React.createElement(
     'span',
     null,
     `My name is ${item.description}, my ${item.prefix} is ${item.option}`
   );
 
-export const withCustomRenderer = args => <QueryAssist {...args}/>;
+export const withCustomRenderer: Story<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
 
 withCustomRenderer.args = {
   useCustomItemRender: true,
@@ -182,18 +188,18 @@ withCustomRenderer.args = {
         description: 'Lenni Joy',
         group: 'Names'
       }
-    ].map(i => {
-      i.rgItemType = List.ListProps.Type.CUSTOM;
-      i.template = template(i);
-      i.data = i;
-      return i;
-    })
+    ].map(i => ({
+      ...i,
+      rgItemType: List.ListProps.Type.CUSTOM,
+      template: template(i),
+      data: i
+    }))
   })
 };
 withCustomRenderer.storyName = 'with custom renderer';
 withCustomRenderer.parameters = {hermione: {skip: true}};
 
-export const darkThemeNoAuth = args => (
+export const darkThemeNoAuth: Story<QueryAssistAttrs> = args => (
   <div style={{background: '#000', padding: '24px', margin: '-16px', paddingBottom: 0}}>
     <QueryAssist {...args}/>
   </div>
@@ -257,16 +263,17 @@ darkThemeNoAuth.parameters = {
 };
 
 class QueryAssistExample extends Component {
-  constructor() {
-    super();
+  constructor(props: QueryAssistAttrs) {
+    super(props);
     const auth = new Auth(hubConfig);
     this.http = new HTTP(auth, auth.getAPIPath());
     auth.init().then(() => this.setState({authReady: true}));
   }
 
   state = {authReady: false};
+  http: HTTP;
 
-  dataSource = props => {
+  dataSource = (props: QueryAssistRequestParams) => {
     const params = {
       query: {
         ...props,
@@ -291,7 +298,7 @@ class QueryAssistExample extends Component {
   }
 }
 
-export const withCustomActions = args => <QueryAssistExample {...args}/>;
+export const withCustomActions: Story<QueryAssistAttrs> = args => <QueryAssistExample {...args}/>;
 
 withCustomActions.args = {
   query: 'test',

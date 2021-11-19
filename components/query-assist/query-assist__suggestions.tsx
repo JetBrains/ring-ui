@@ -4,8 +4,28 @@ import List from '../list/list';
 
 import styles from './query-assist.css';
 
+import {ListDataItem} from '@jetbrains/ring-ui/components/list/consts';
+
 const ICON_ID_LENGTH = 44;
 
+export interface QueryAssistSuggestion {
+  description: string
+  group: string
+  icon?: string | undefined
+  option: string
+  prefix?: string | undefined
+  suffix?: string | undefined
+  className?: string | undefined
+  matchingStart?: number
+  matchingEnd?: number
+  caret?: number
+  completionStart?: number
+  completionEnd?: number
+}
+
+export interface SuggestionItem {
+  data?: QueryAssistSuggestion
+}
 
 export default class QueryAssistSuggestions {
 
@@ -13,7 +33,7 @@ export default class QueryAssistSuggestions {
   * Pay attention that this method produces not a 100% unique key.
   * Consider to use a unique identifier provided by a server.
    */
-  static createKey(suggestion) {
+  static createKey(suggestion: QueryAssistSuggestion) {
     const {
       description,
       group,
@@ -27,11 +47,11 @@ export default class QueryAssistSuggestions {
       (icon ? icon.substring(icon.length - ICON_ID_LENGTH) : '');
   }
 
-  static renderLabel(suggestion) {
+  static renderLabel(suggestion: QueryAssistSuggestion) {
     const {
       className,
-      matchingStart,
-      matchingEnd,
+      matchingStart = 0,
+      matchingEnd = 0,
       option,
       prefix = '',
       suffix = ''
@@ -63,7 +83,7 @@ export default class QueryAssistSuggestions {
     );
   }
 
-  static renderGroupSeparator(suggestion, prevSuggestion) {
+  static renderGroupSeparator(suggestion: QueryAssistSuggestion, prevSuggestion: string) {
     const {group, option} = suggestion;
     const {SEPARATOR} = List.ListProps.Type;
 
@@ -78,8 +98,11 @@ export default class QueryAssistSuggestions {
     return null;
   }
 
-  static renderList(suggestions, suggestionRenderer) {
-    const renderedSuggestions = [];
+  static renderList(
+    suggestions: readonly QueryAssistSuggestion[],
+    suggestionRenderer: (suggestion: QueryAssistSuggestion) => ListDataItem<SuggestionItem>
+  ) {
+    const renderedSuggestions: ListDataItem<SuggestionItem>[] = [];
 
     suggestions.forEach((suggestion, index, arr) => {
       const prevSuggestionGroup = arr[index - 1] && arr[index - 1].group;
