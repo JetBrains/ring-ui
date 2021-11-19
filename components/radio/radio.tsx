@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import getUID from '../global/get-uid';
 
-import RadioItem, {RadioContext} from './radio__item';
+import RadioItem, {RadioContext, RadioProps} from './radio__item';
 
 /**
  * @name Radio
  */
 
-export default class Radio extends Component {
+export default class Radio extends Component<RadioProps> {
   static propTypes = {
     name: PropTypes.string,
     disabled: PropTypes.bool,
