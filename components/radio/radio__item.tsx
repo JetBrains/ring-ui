@@ -1,4 +1,9 @@
-import React, {Component, createContext, forwardRef} from 'react';
+import React, {
+  Component,
+  createContext,
+  forwardRef,
+  InputHTMLAttributes
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,9 +11,14 @@ import getUID from '../global/get-uid';
 
 import styles from './radio.css';
 
-export const RadioContext = createContext({});
+export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  value?: string | undefined
+  onChange?: ((value: string) => void) | null | undefined
+}
 
-export class Radio extends Component {
+export const RadioContext = createContext<RadioProps>({});
+
+export class Radio extends Component<InputHTMLAttributes<HTMLInputElement>> {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
@@ -20,11 +30,13 @@ export class Radio extends Component {
 
   uid = getUID('ring-radio-item-');
 
-  inputRef = el => {
+  input?: HTMLElement | null;
+  inputRef = (el: HTMLElement | null) => {
     this.input = el;
   };
 
-  labelRef = el => {
+  label?: HTMLElement | null;
+  labelRef = (el: HTMLElement | null) => {
     this.label = el;
   };
 
@@ -36,7 +48,6 @@ export class Radio extends Component {
     return (
       <label ref={this.labelRef} className={classes} htmlFor={this.uid}>
         <input
-          name={name}
           id={this.uid}
           {...restProps}
           ref={this.inputRef}
@@ -50,7 +61,12 @@ export class Radio extends Component {
   }
 }
 
-const RadioItem = forwardRef(function RadioItem(props, ref) {
+export interface RadioItemProps extends InputHTMLAttributes<HTMLInputElement> {
+  value: string
+}
+
+const RadioItem = forwardRef<Radio, RadioItemProps>(function RadioItem(
+  props, ref) {
   return (
     <RadioContext.Consumer>
       {({value, onChange, ...restContext}) => (
@@ -58,12 +74,12 @@ const RadioItem = forwardRef(function RadioItem(props, ref) {
           ref={ref}
           {...restContext}
           checked={value != null ? value === props.value : undefined}
-          onChange={onChange && (() => onChange(props.value))}
+          onChange={onChange != null ? () => onChange(props.value) : undefined}
           {...props}
         />
       )}
     </RadioContext.Consumer>
   );
 });
-RadioItem.propTypes = Radio.propTypes;
+RadioItem.propTypes = Radio.propTypes as (typeof RadioItem)['propTypes'];
 export default RadioItem;
