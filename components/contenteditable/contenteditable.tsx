@@ -68,12 +68,10 @@ class ContentEditableBase extends Component<ContentEditableBaseProps> {
 type ContentEditableBaseAttrs =
   JSX.LibraryManagedAttributes<typeof ContentEditableBase, ContentEditableBaseProps>
 
-export interface ContentEditableProps extends Omit<ContentEditableBaseAttrs, '__html'> {
-  children: ReactElement
-}
+export type ContentEditableProps = Omit<ContentEditableBaseAttrs, '__html'>
 
 const ContentEditable = ({children, ...props}: ContentEditableProps) =>
-  <ContentEditableBase {...props} __html={renderToStaticMarkup(children)}/>;
+  <ContentEditableBase {...props} __html={renderToStaticMarkup(children as ReactElement)}/>;
 ContentEditable.propTypes = {
   ...commonPropTypes,
   children: PropTypes.node
