@@ -30,20 +30,14 @@ function extractPropTypes<
   return restPropTypes;
 }
 
+type Props<T extends SelectionItem, P> = Omit<P, keyof SelectionShortcutsAddProps<T>> &
+  SelectionShortcutsProps<T>
+
 export default function selectionShortcutsHOC<
   T extends SelectionItem,
   P extends SelectionShortcutsAddProps<T>
->(ComposedComponent: ComponentType<P>) {
-  class SelectionShortcuts extends PureComponent<
-    Omit<P, keyof SelectionShortcutsAddProps<T>> & SelectionShortcutsProps<T>
-  > {
-    static defaultProps = {
-      ...ComposedComponent.defaultProps,
-      selectable: true,
-      onSelect: () => {},
-      shortcuts: {}
-    };
-
+>(ComposedComponent: ComponentType<P>): ComponentType<Props<T, P>> {
+  class SelectionShortcuts extends PureComponent<Props<T, P>> {
     onUpPress = () => {
       const {selection, onSelect} = this.props;
       const newSelection = selection.moveUp();
@@ -205,6 +199,12 @@ export default function selectionShortcutsHOC<
     selectable: PropTypes.bool,
     onSelect: PropTypes.func,
     shortcuts: PropTypes.object
+  };
+  (SelectionShortcuts as ComponentType<unknown>).defaultProps = {
+    ...ComposedComponent.defaultProps,
+    selectable: true,
+    onSelect: () => {},
+    shortcuts: {}
   };
   return SelectionShortcuts;
 }
