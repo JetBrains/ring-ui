@@ -3,20 +3,48 @@
 
 [![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
-This collection of UI components aims to provide all of the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
+This collection of UI components aims to provide all the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 
-## Quick start
+## Installation
+
+`npm install @jetbrains/ring-ui`
+
+### Quick start (importing components as ES modules)
+
+The easiest way is to import necessary components as ES modules:
+```js
+// You need to import RingUI styles once
+import '@jetbrains/ring-ui/dist/style.css';
+
+import alertService from '@jetbrains/ring-ui/dist/alert-service/alert-service';
+import Button from '@jetbrains/ring-ui/dist/button/button';
+
+...
+
+export const Demo = () => {
+  return (
+    <Button onClick={() => alertService.successMessage('Hello world')}>
+      Click me
+    </Button>
+  );
+};
+
+```
+
+The bundle size will depend on the amount of components you imported.
+
+### Generating app
 
 1. Install Yeoman and Ring UI generator: `npm install -g yo@next-4 @jetbrains/generator-ring-ui`
 2. Go to the root directory of your project (create one if necessary), run `yo @jetbrains/ring-ui` and enter the name of the project. Then run `npm install` to install all the necessary npm dependencies.
 3. Your project is ready to be developed. The following commands are available:
-   - `npm start` to run a local development server
-   - `npm test` to launch karma tests
-   - `npm run lint` to lint your code
-   - `npm run build` to build a production bundle
-   - `npm run create-component` to create a new component template with styles and tests
+  - `npm start` to run a local development server
+  - `npm test` to launch karma tests
+  - `npm run lint` to lint your code
+  - `npm run build` to build a production bundle
+  - `npm run create-component` to create a new component template with styles and tests
 
-## Not-so-quick start
+### Webpack injection
 
 In case boilerplate generators are not your thing and you prefer to understand the inner workings a bit better.
 
@@ -52,6 +80,18 @@ In case boilerplate generators are not your thing and you prefer to understand t
    
    module.exports = webpackConfig;
    ```
+
+### Yeoman scaffolding
+
+1. Install Yeoman and Ring UI generator: `npm install -g yo @jetbrains/generator-ring-ui`
+2. Go to the root directory of your project (create one if necessary) and run `yo @jetbrains/ring-ui`. After you enter the name of the project all the necessary npm dependencies will be installed.
+3. Your project is ready to be developed. The following commands are available:
+  - `npm start` to run a local development server
+  - `npm test` to launch karma tests
+  - `npm run lint` to lint your code
+  - `npm run build` to build a production bundle
+  - `npm run create-component` to create a new component template with styles and tests
+
 
 ## Contributing
 
