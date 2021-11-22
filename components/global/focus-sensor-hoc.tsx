@@ -31,21 +31,14 @@ function extractPropTypes<
   return restPropTypes;
 }
 
+type RestProps<P, T extends HTMLElement> = Omit<P, keyof FocusSensorAddProps<T>>
+type Props<P, T extends HTMLElement> = RestProps<P, T> & FocusSensorProps<T>
+
 export default function focusSensorHOC<
   T extends HTMLElement,
   P extends FocusSensorAddProps<T>,
->(ComposedComponent: ComponentType<P>) {
-  type RestProps = Omit<P, keyof FocusSensorAddProps<T>>
-  type Props = RestProps & FocusSensorProps<T>
-  class FocusSensor extends Component<Props> {
-    static defaultProps = {
-      ...ComposedComponent.defaultProps,
-      focused: false,
-      autofocus: false,
-      onFocus: () => {},
-      onBlur: () => {}
-    };
-
+>(ComposedComponent: ComponentType<P>): ComponentType<Props<P, T>> {
+  class FocusSensor extends Component<Props<P, T>> {
     state = {
       focused: this.props.focused
     };
@@ -66,7 +59,7 @@ export default function focusSensorHOC<
       }
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props<P, T>) {
       const {focused} = this.props;
       if (focused && !prevProps.focused) {
         this.onFocusRestore();
@@ -144,6 +137,13 @@ export default function focusSensorHOC<
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     innerRef: PropTypes.oneOfType([PropTypes.func, refObject(PropTypes.instanceOf(HTMLElement))])
+  };
+  (FocusSensor as ComponentType<unknown>).defaultProps = {
+    ...ComposedComponent.defaultProps,
+    focused: false,
+    autofocus: false,
+    onFocus: () => {},
+    onBlur: () => {}
   };
   return FocusSensor;
 }
