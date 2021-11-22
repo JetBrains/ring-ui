@@ -11,11 +11,8 @@ import styles from './tabs.css';
 
 import TabLink from './tab-link';
 import CollapsibleTabs from './collapsible-tabs';
+import {CustomItem} from './custom-item';
 
-export const CustomItem = ({children}) => children;
-CustomItem.propTypes = {
-  children: PropTypes.node.isRequired
-};
 
 class Tabs extends PureComponent {
   static propTypes = {

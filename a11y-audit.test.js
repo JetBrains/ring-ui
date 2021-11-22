@@ -7,7 +7,7 @@ import {axeTest} from '@storybook/addon-storyshots-puppeteer';
 const isTeamCity = process.env.TEAMCITY_VERSION != null;
 
 const test = axeTest({
-  storybookUrl: isTeamCity ? `file://${path.resolve(__dirname, 'dist')}` : 'http://localhost:9999?block-auth',
+  storybookUrl: isTeamCity ? `file://${path.resolve(__dirname, 'storybook-dist')}` : 'http://localhost:9999?block-auth',
   customizePage: page => page.setViewport({width: 1000, height: 600}),
   testTimeout: 20000
 });
@@ -23,7 +23,7 @@ initStoryshots({
   test: Object.assign(async (...args) => {
     const {story} = args[0];
     if (isTeamCity) {
-      metadataMessages.push({testName: `${path.basename(__filename)}: ${suite}: ${story.kind}: ${story.name}`, type: 'artifact', value: `dist.zip!/index.html?path=/story/${story.id}`});
+      metadataMessages.push({testName: `${path.basename(__filename)}: ${suite}: ${story.kind}: ${story.name}`, type: 'artifact', value: `storybook-dist.zip!/index.html?path=/story/${story.id}`});
     }
     await test(...args);
   }, test)

@@ -17,6 +17,7 @@ Thumbs.db
 build
 coverage
 dist
+storybook-dist
 html-report
 node_modules
 test_gen
