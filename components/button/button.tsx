@@ -46,7 +46,7 @@ export type ButtonProps = ButtonButtonProps | ButtonLinkProps
 /**
  * A component for displaying variously styled buttons.
  */
-class Button extends PureComponent<ButtonProps> {
+export class Button extends PureComponent<ButtonProps> {
   static propTypes = {
     theme: PropTypes.oneOf(['light', 'dark']),
     active: PropTypes.bool,

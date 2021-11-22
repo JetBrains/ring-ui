@@ -3,24 +3,28 @@ import path from 'path';
 import {babel} from '@rollup/plugin-babel';
 import styles from 'rollup-plugin-styles';
 import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
 import clear from 'rollup-plugin-clear';
 import glob from 'glob';
 
 
 const files = glob.sync(
-  'components/**/*.js',
+  'components/**/*.{js,ts,tsx}',
   {
     ignore: [
       '**/__mocks__/**',
       'components/error-page/*', // TODO Error page does not work because of importing GIF file
       'components/error-page-ng/*',
-      'components/**/*.test.js',
-      'components/**/*.examples.js'
+      'components/**/*.test.{js,ts,tsx}',
+      'components/**/*.examples.{js,ts,tsx}'
     ]
   }
 );
 
 const TARGET_DIR = 'dist';
+
+const extensions = ['.ts', '.tsx', '.js'];
 
 export default {
   external: id => {
@@ -47,7 +51,11 @@ export default {
       targets: [TARGET_DIR]
     }),
 
-    babel({babelHelpers: 'bundled'}),
+    resolve({extensions}),
+
+    babel({babelHelpers: 'bundled', extensions}),
+
+    typescript({declaration: true, declarationDir: TARGET_DIR, include: files.filter(name => /\.tsx?$/.test(name)).concat('typings.d.ts')}),
 
     // NOTE: styles plugin runs 2 times. First time it applies all the PostCSS transforms
     styles({
