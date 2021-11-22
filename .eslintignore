@@ -1,5 +1,6 @@
 coverage
 dist
+storybook-dist
 docs
 html-report
 node_modules

@@ -1,3 +1,16 @@
+## [4.1.0]
+
+### Pre-built version
+
+Ring UI now comes with pre-built version in `@jetbrains/ring-ui/dist` directory. 
+This addresses the following issues:
+
+* does not require using specific bundler (WebPack) anymore
+* does not require dealing with Ring UI building configuration
+* decreases your project build time
+
+See "README.md" for quick start with pre-built version
+
 ## [4.0.0]
 
 ### BREAKING CHANGES

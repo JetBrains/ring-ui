@@ -136,7 +136,7 @@
   color: var(--ring-secondary-color);
 }
 
-.weekday {
+.weekday.weekday {
   display: inline-block;
 
   width: cellSize;
@@ -145,7 +145,7 @@
   text-transform: capitalize;
 }
 
-.weekend {
+.weekend.weekend {
   color: var(--ring-error-color);
 }
 
@@ -160,7 +160,7 @@
   box-shadow: 0 -1px var(--ring-line-color);
 }
 
-.months {
+.months.months {
   position: absolute;
   top: 0;
   right: yearWidth;
@@ -173,7 +173,7 @@
   left: 0;
 }
 
-.month {
+.month.month {
   display: flex;
   flex-wrap: wrap;
 
@@ -181,7 +181,7 @@
   margin: calc(unit * 2);
 }
 
-.month > * {
+.month.month > * {
   flex-shrink: 0;
 
   height: cellSize;
@@ -211,7 +211,9 @@
 
 .day {
   composes: resetButton;
+}
 
+.day.day {
   position: relative;
 
   flex-basis: cellSize;
@@ -228,25 +230,25 @@
   }
 }
 
-.between {
+.between.between {
   transition: none;
 
   background-color: var(--ring-selected-background-color);
 }
 
-.activeBetween {
+.activeBetween.activeBetween {
   transition: none;
 
   background-color: var(--ring-date-picker-hover-color);
 }
 
-.current {
+.current.current {
   color: var(--ring-dark-text-color);
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-main-color);
 }
 
-.active {
+.active.active {
   transition: none;
 
   color: var(--ring-link-hover-color);
@@ -254,17 +256,17 @@
   background-color: var(--ring-date-picker-hover-color);
 }
 
-.disabled {
+.disabled.disabled {
   cursor: not-allowed;
 
   color: var(--ring-disabled-color);
 }
 
-.from {
+.from.from {
   border-radius: var(--ring-border-radius) 0 0 var(--ring-border-radius);
 }
 
-.to {
+.to.to {
   border-radius: 0 var(--ring-border-radius) var(--ring-border-radius) 0;
 }
 
@@ -392,13 +394,13 @@
   }
 }
 
-.empty {
+.empty.empty {
   pointer-events: none;
 
   opacity: 0;
 }
 
-.today {
+.today.today {
   position: relative;
 
   font-weight: bold;
@@ -443,7 +445,9 @@
 .monthName {
   composes: hoverable;
   composes: resetButton;
+}
 
+.monthName.monthName {
   position: relative;
 
   width: 100%;
@@ -458,7 +462,9 @@
 
 .monthSlider {
   composes: resetButton;
+}
 
+.monthSlider.monthSlider {
   position: absolute;
   z-index: var(--ring-fixed-z-index);
   right: 0;
@@ -478,7 +484,7 @@
   opacity: 0.3;
 }
 
-.dragging.dragging {
+.dragging {
   cursor: grabbing;
 
   opacity: 0.35;
@@ -509,7 +515,9 @@
 .year {
   composes: hoverable;
   composes: resetButton;
+}
 
+.year.year {
   position: relative;
 
   width: 100%;
@@ -523,7 +531,7 @@
   line-height: yearHeight;
 }
 
-.currentYear {
+.currentYear.currentYear {
   cursor: auto;
   transition: none;
 
