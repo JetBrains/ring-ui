@@ -44,9 +44,10 @@ The bundle size will depend on the amount of components you imported.
   - `npm run build` to build a production bundle
   - `npm run create-component` to create a new component template with styles and tests
 
-### Webpack injection
+### Building Ring UI from source via Webpack
 
-In case boilerplate generators are not your thing and you prefer to understand the inner workings a bit better.
+In case you have complex build, and you want to compile RingUI sources together with your sources
+in a same build process, you can use the following configuration:
 
 1. Install Ring UI with `npm install @jetbrains/ring-ui --save-exact` 
 
