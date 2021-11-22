@@ -1,4 +1,4 @@
-import type {RingCSSProperties} from './variables.d';
+import type {RingCSSProperties} from './variables';
 
 const variables: RingCSSProperties = {
   '--ring-line-color': '#475159',
