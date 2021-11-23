@@ -112,7 +112,7 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.27.1",
     "events": "^3.3.0",
-    "glob": "^7.1.6",
+    "glob": "^7.2.0",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^7.0.4",
     "identity-obj-proxy": "^3.0.0",
