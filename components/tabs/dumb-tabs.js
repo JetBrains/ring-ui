@@ -13,6 +13,7 @@ import TabLink from './tab-link';
 import CollapsibleTabs from './collapsible-tabs';
 import {CustomItem} from './custom-item';
 
+export {CustomItem};
 
 class Tabs extends PureComponent {
   static propTypes = {
