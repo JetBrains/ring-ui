@@ -158,6 +158,11 @@
     "react-dom": ">=16.8.0",
     "webpack": "^5.64.2"
   },
+  "peerDependenciesMeta": {
+    "webpack": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@jetbrains/angular-elastic": "^2.5.1",
