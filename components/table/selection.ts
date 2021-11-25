@@ -1,5 +1,6 @@
 export interface SelectionItem {
   id: string | number
+  [key: string]: unknown
 }
 
 export interface TableSelectionConfig<T extends SelectionItem> {
@@ -199,7 +200,7 @@ export default class Selection<T extends SelectionItem> {
     return new Set(this._selected);
   }
 
-  getActive() {
+  getActive(): Set<T> {
     if (this._selected.size) {
       return new Set(this._selected);
     } else if (this._focused) {

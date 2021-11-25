@@ -1,16 +1,20 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-import Table from './table';
-import Selection from './selection';
+import Table, {TableAttrs} from './table';
+import Selection, {SelectionItem} from './selection';
 
 const {
   selection: __selection__,
   onSelect: __onSelect__,
   ...restPropTypes
-} = Table.propTypes;
+} = Table.propTypes ?? {};
 
-class SmartTable extends PureComponent {
+export interface SmartTableProps<T extends SelectionItem> extends
+  Omit<TableAttrs<T>, 'selection' | 'onSelect'> {
+  onSelectionChange: (selection: Selection<T>) => void
+}
+class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<T>> {
   static propTypes = {
     onSelectionChange: PropTypes.func,
     isItemSelectable: PropTypes.func,
@@ -28,7 +32,7 @@ class SmartTable extends PureComponent {
     })
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: SmartTableProps<T>) {
     const {data, isItemSelectable} = nextProps;
     if (this.props.data !== data || this.props.isItemSelectable !== isItemSelectable) {
       const selection = new Selection({data, isItemSelectable});
@@ -36,7 +40,7 @@ class SmartTable extends PureComponent {
     }
   }
 
-  onSelect = selection => {
+  onSelect = (selection: Selection<T>) => {
     this.setState({selection});
     this.props.onSelectionChange(selection);
   };

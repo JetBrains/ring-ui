@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, TdHTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,7 +6,11 @@ import dataTests from '../global/data-tests';
 
 import style from './table.css';
 
-export default class Cell extends PureComponent {
+export interface CellProps extends TdHTMLAttributes<HTMLTableDataCellElement> {
+  'data-test'?: string | null | undefined
+}
+
+export default class Cell extends PureComponent<CellProps> {
   static propTypes = {
     children: PropTypes.any,
     className: PropTypes.string,
