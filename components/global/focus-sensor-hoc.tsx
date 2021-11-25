@@ -5,7 +5,7 @@ import composeRefs from './composeRefs';
 
 import {refObject} from '@jetbrains/ring-ui/components/global/prop-types';
 
-export interface FocusSensorProps<T extends HTMLElement> {
+export interface FocusSensorOuterProps<T extends HTMLElement> {
   focused?: boolean | undefined
   autofocus?: boolean | undefined
   onFocus?: (() => void) | undefined
@@ -32,13 +32,20 @@ function extractPropTypes<
 }
 
 type RestProps<P, T extends HTMLElement> = Omit<P, keyof FocusSensorAddProps<T>>
-type Props<P, T extends HTMLElement> = RestProps<P, T> & FocusSensorProps<T>
+export type FocusSensorProps<
+  P extends FocusSensorAddProps<T>,
+  T extends HTMLElement,
+  C extends ComponentType<P>
+> = RestProps<JSX.LibraryManagedAttributes<C, P>, T> & FocusSensorOuterProps<T>
 
 export default function focusSensorHOC<
   T extends HTMLElement,
   P extends FocusSensorAddProps<T>,
->(ComposedComponent: ComponentType<P>): ComponentType<Props<P, T>> {
-  class FocusSensor extends Component<Props<P, T>> {
+  C extends ComponentType<P>
+>(
+  ComposedComponent: C
+): ComponentType<FocusSensorProps<P, T, typeof ComposedComponent>> {
+  class FocusSensor extends Component<FocusSensorProps<P, T, typeof ComposedComponent>> {
     state = {
       focused: this.props.focused
     };
@@ -59,7 +66,7 @@ export default function focusSensorHOC<
       }
     }
 
-    componentDidUpdate(prevProps: Props<P, T>) {
+    componentDidUpdate(prevProps: FocusSensorProps<P, T, typeof ComposedComponent>) {
       const {focused} = this.props;
       if (focused && !prevProps.focused) {
         this.onFocusRestore();
@@ -121,7 +128,7 @@ export default function focusSensorHOC<
       const {autofocus, focused, onFocus, onBlur, innerRef, ...rest} = this.props;
       return (
         <ComposedComponent
-          {...rest as P}
+          {...rest as JSX.LibraryManagedAttributes<C, P>}
           innerRef={composeRefs(innerRef, this.onRefUpdate)}
           focused={this.state.focused}
           onFocusReset={this.onFocusReset}

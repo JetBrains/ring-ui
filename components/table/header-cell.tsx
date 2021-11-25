@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactNode, SyntheticEvent, ThHTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import sortableIcon from '@jetbrains/icons/unsorted-10px';
@@ -9,7 +9,32 @@ import dataTests from '../global/data-tests';
 
 import style from './table.css';
 
-export default class HeaderCell extends PureComponent {
+export interface Column<T = never> {
+  id: string
+  sortable?: boolean | null | undefined
+  className?: string | null | undefined
+  headerClassName?: string | null | undefined
+  rightAlign?: boolean | null | undefined
+  getHeaderValue?: (() => ReactNode) | null | undefined
+  title?: ReactNode
+  getValue?: ((item: T, column: Column) => ReactNode) | null | undefined
+  getDataTest?: ((item: T, column: Column) => string) | null | undefined
+}
+
+export interface SortParams {
+  column: Column
+  order: boolean
+}
+
+export interface HeaderCellProps extends ThHTMLAttributes<HTMLTableHeaderCellElement> {
+  column: Column
+  onSort: (params: SortParams) => void
+  sortKey?: string | null | undefined
+  sortOrder?: boolean | null | undefined
+  'data-test'?: string | null | undefined
+}
+
+export default class HeaderCell extends PureComponent<HeaderCellProps> {
   static propTypes = {
     children: PropTypes.any,
     className: PropTypes.string,
@@ -24,6 +49,8 @@ export default class HeaderCell extends PureComponent {
     onSort: () => {}
   };
 
+  sortable?: boolean;
+  sorted?: boolean;
   onClick = () => {
     if (this.sortable) {
       const {column, onSort, sortOrder} = this.props;
@@ -31,7 +58,7 @@ export default class HeaderCell extends PureComponent {
     }
   };
 
-  onChildrenClick(e) {
+  onChildrenClick(e: SyntheticEvent) {
     e.stopPropagation();
   }
 

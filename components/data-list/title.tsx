@@ -108,4 +108,4 @@ class Title extends PureComponent<TitleProps> {
   onFocusRestore: PropTypes.func.isRequired
 };
 
-export default focusSensorHOC(Title);
+export default focusSensorHOC<HTMLDivElement, TitleProps, typeof Title>(Title);
