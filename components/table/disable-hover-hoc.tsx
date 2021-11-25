@@ -1,7 +1,15 @@
 import React, {PureComponent, ComponentType} from 'react';
 
-export default function disableHoverHOC<P>(ComposedComponent: ComponentType<P>) {
-  return class DisableHover extends PureComponent<P> {
+export interface DisableHoverAddProps {
+  disabledHover: boolean
+}
+
+export type DisableHoverProps<P extends DisableHoverAddProps> = Omit<P, keyof DisableHoverAddProps>
+
+export default function disableHoverHOC<P extends DisableHoverAddProps>(
+  ComposedComponent: ComponentType<P>
+) {
+  return class DisableHover extends PureComponent<DisableHoverProps<P>> {
     static propTypes = ComposedComponent.propTypes;
     static defaultProps = ComposedComponent.defaultProps;
 
@@ -35,7 +43,7 @@ export default function disableHoverHOC<P>(ComposedComponent: ComponentType<P>) 
     render() {
       return (
         <ComposedComponent
-          {...this.props}
+          {...this.props as P}
           disabledHover={this.state.disabledHover}
         />
       );

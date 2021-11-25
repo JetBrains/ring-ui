@@ -5,7 +5,7 @@ import {ShortcutsMap} from '../shortcuts/core';
 
 import Selection, {SelectionItem} from './selection';
 
-export interface SelectionShortcutsProps<T extends SelectionItem> {
+export interface SelectionShortcutsOuterProps<T extends SelectionItem> {
   selection: Selection<T>
   selectable?: boolean | undefined
   onSelect?: ((selection: Selection<T>) => void) | undefined
@@ -30,14 +30,14 @@ function extractPropTypes<
   return restPropTypes;
 }
 
-type Props<T extends SelectionItem, P> = Omit<P, keyof SelectionShortcutsAddProps<T>> &
-  SelectionShortcutsProps<T>
+export type SelectionShortcutsProps<T extends SelectionItem, P> =
+  Omit<P, keyof SelectionShortcutsAddProps<T>> & SelectionShortcutsOuterProps<T>
 
 export default function selectionShortcutsHOC<
   T extends SelectionItem,
   P extends SelectionShortcutsAddProps<T>
->(ComposedComponent: ComponentType<P>): ComponentType<Props<T, P>> {
-  class SelectionShortcuts extends PureComponent<Props<T, P>> {
+>(ComposedComponent: ComponentType<P>): ComponentType<SelectionShortcutsProps<T, P>> {
+  class SelectionShortcuts extends PureComponent<SelectionShortcutsProps<T, P>> {
     onUpPress = () => {
       const {selection, onSelect} = this.props;
       const newSelection = selection.moveUp();

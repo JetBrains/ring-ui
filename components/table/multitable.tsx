@@ -1,12 +1,19 @@
-import React, {PureComponent, Children, cloneElement} from 'react';
+import React, {PureComponent, Children, cloneElement, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 
-export default class MultiTable extends PureComponent {
+import {TableAttrs} from '@jetbrains/ring-ui/components/table/table';
+import {SelectionItem} from '@jetbrains/ring-ui/components/table/selection';
+
+export interface MultiTableProps {
+  children: ReactElement<TableAttrs<SelectionItem>>[]
+}
+
+export default class MultiTable extends PureComponent<MultiTableProps> {
   static propTypes = {
     children: PropTypes.any.isRequired
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: MultiTableProps) {
     if (prevProps.children) {
       const prevSelections = prevProps.children.map(element => element.props.selection);
       const prevFocusedIndex = prevSelections.findIndex(selection => selection.getFocused());
@@ -16,7 +23,7 @@ export default class MultiTable extends PureComponent {
       const currentFocused = currentSelections.filter(selection => selection.getFocused());
 
       if (currentFocused.includes(prevFocused)) {
-        prevProps.children[prevFocusedIndex].props.onSelect(prevFocused.resetFocus());
+        prevProps.children[prevFocusedIndex].props.onSelect?.(prevFocused.resetFocus());
       }
     }
   }
@@ -30,12 +37,12 @@ export default class MultiTable extends PureComponent {
 
     let newSelection = currentTable.selection.moveUp();
     if (newSelection) {
-      currentTable.onSelect(newSelection);
+      currentTable.onSelect?.(newSelection);
     } else if (prevTable) {
-      currentTable.onSelect(currentTable.selection.resetFocus());
+      currentTable.onSelect?.(currentTable.selection.resetFocus());
       newSelection = prevTable.selection.moveUp();
       if (newSelection) {
-        prevTable.onSelect(newSelection);
+        prevTable.onSelect?.(newSelection);
       }
     }
 
@@ -51,12 +58,12 @@ export default class MultiTable extends PureComponent {
 
     let newSelection = currentTable.selection.moveDown();
     if (newSelection) {
-      currentTable.onSelect(newSelection);
+      currentTable.onSelect?.(newSelection);
     } else if (nextTable) {
-      currentTable.onSelect(currentTable.selection.resetFocus());
+      currentTable.onSelect?.(currentTable.selection.resetFocus());
       newSelection = nextTable.selection.moveDown();
       if (newSelection) {
-        nextTable.onSelect(newSelection);
+        nextTable.onSelect?.(newSelection);
       }
     }
 
@@ -65,14 +72,14 @@ export default class MultiTable extends PureComponent {
 
   onEscPress = () => {
     const {children} = this.props;
-    Children.forEach(children, ({props: {selection, onSelect}}) => {
+    Children.forEach<ReactElement>(children, ({props: {selection, onSelect}}) => {
       onSelect(selection.reset());
     });
   };
 
   onCmdAPress = () => {
     const {children} = this.props;
-    Children.forEach(children, ({props: {selection, onSelect}}) => {
+    Children.forEach<ReactElement>(children, ({props: {selection, onSelect}}) => {
       onSelect(selection.selectAll());
     });
     return false;
@@ -89,7 +96,7 @@ export default class MultiTable extends PureComponent {
   render() {
     return (
       <div data-test="ring-multitable">{
-        Children.map(this.props.children, child => {
+        Children.map<ReactElement, ReactElement>(this.props.children, child => {
           const props = {shortcuts: this.shortcuts};
           return cloneElement(child, props);
         })
