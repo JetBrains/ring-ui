@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {ComponentType, HTMLAttributes, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
@@ -13,10 +13,18 @@ import dataTests from '../global/data-tests';
 import getUID from '../global/get-uid';
 import composeRefs from '../global/composeRefs';
 
+import {FocusSensorAddProps} from '../global/focus-sensor-hoc';
+
 import Cell from './cell';
 import style from './table.css';
 
-const DragHandle = ({alwaysShowDragHandle}) => {
+import {Column} from './header-cell';
+import {SelectionItem} from './selection';
+
+interface DragHandleProps {
+  alwaysShowDragHandle: boolean
+}
+const DragHandle = ({alwaysShowDragHandle}: DragHandleProps) => {
   const classes = classNames(style.dragHandle, {
     [style.visibleDragHandle]: alwaysShowDragHandle
   });
@@ -34,36 +42,33 @@ DragHandle.propTypes = {
   alwaysShowDragHandle: PropTypes.bool
 };
 
-export default class Row extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    item: PropTypes.object.isRequired,
-    columns: PropTypes.array.isRequired,
-    selectable: PropTypes.bool,
-    showFocus: PropTypes.bool,
-    draggable: PropTypes.bool,
-    alwaysShowDragHandle: PropTypes.bool,
-    selected: PropTypes.bool,
-    onHover: PropTypes.func,
-    onSelect: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-    onClick: PropTypes.func,
-    onFocusRestore: PropTypes.func,
-    level: PropTypes.number,
-    collapsible: PropTypes.bool,
-    parentCollapsible: PropTypes.bool,
-    collapsed: PropTypes.bool,
-    onCollapse: PropTypes.func,
-    onExpand: PropTypes.func,
-    showDisabledSelection: PropTypes.bool,
-    checkboxTooltip: PropTypes.string,
-    innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    focused: PropTypes.bool,
-    autofocus: PropTypes.bool,
-    onFocusReset: PropTypes.func,
-    'data-test': PropTypes.string
-  };
-
+export interface RowProps<T extends SelectionItem> extends Omit<
+  HTMLAttributes<HTMLTableRowElement>,
+  'onClick' | 'onDoubleClick' | 'onSelect'
+>, FocusSensorAddProps<HTMLTableRowElement> {
+  item: T
+  columns: readonly Column<T>[]
+  selectable: boolean
+  showFocus: boolean
+  draggable: boolean
+  alwaysShowDragHandle: boolean
+  selected: boolean
+  onHover: (item: T) => void
+  onSelect: (item: T, selected: boolean) => void
+  onDoubleClick: (item: T) => void
+  onClick: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void
+  level: number
+  collapsible: boolean
+  parentCollapsible: boolean
+  collapsed: boolean
+  onCollapse: (item: T) => void
+  onExpand: (item: T) => void
+  showDisabledSelection?: boolean | null | undefined
+  checkboxTooltip?: string | undefined
+  autofocus?: boolean | null | undefined
+  'data-test'?: string | null | undefined
+}
+export default class Row<T extends SelectionItem> extends PureComponent<RowProps<T>> {
   static defaultProps = {
     selectable: true,
     showFocus: false,
@@ -74,7 +79,6 @@ export default class Row extends PureComponent {
     onSelect: () => {},
     onDoubleClick: () => {},
     onClick: () => {},
-    onFocusRestore: () => {},
     level: 0,
     collapsible: false,
     parentCollapsible: false,
@@ -90,7 +94,7 @@ export default class Row extends PureComponent {
     onHover(item);
   };
 
-  onClick = e => {
+  onClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
     const {item} = this.props;
 
     this.props.onClick(item, e);
@@ -120,7 +124,8 @@ export default class Row extends PureComponent {
     this.props.onDoubleClick(item);
   };
 
-  rowRef = el => {
+  row?: HTMLElement | null;
+  rowRef = (el: HTMLElement | null) => {
     this.row = el;
   };
 
@@ -129,7 +134,7 @@ export default class Row extends PureComponent {
       item, columns, selectable, selected,
       showFocus, draggable, alwaysShowDragHandle, level,
       collapsible, parentCollapsible, collapsed,
-      onCollapse, onExpand, showDisabledSelection,
+      onCollapse, onExpand, showDisabledSelection, onSelect,
       checkboxTooltip, innerRef, focused, autofocus, onFocusReset,
       onFocusRestore, onHover, className, 'data-test': dataTest, ...restProps
     } = this.props;
@@ -169,7 +174,7 @@ export default class Row extends PureComponent {
                 checked={selected}
                 onFocus={this.onCheckboxFocus}
                 onChange={this.onCheckboxChange}
-                tabIndex="-1"
+                tabIndex={-1}
               />
             </Tooltip>
           )
@@ -229,7 +234,7 @@ export default class Row extends PureComponent {
         id={this.id}
         ref={composeRefs(this.rowRef, innerRef)}
         className={classes}
-        tabIndex="0"
+        tabIndex={0}
         data-test={dataTests('ring-table-row', dataTest)}
         {...testAttrs}
         {...restProps}
@@ -240,3 +245,32 @@ export default class Row extends PureComponent {
     );
   }
 }
+
+(Row as ComponentType<unknown>).propTypes = {
+  className: PropTypes.string,
+  item: PropTypes.object.isRequired,
+  columns: PropTypes.array.isRequired,
+  selectable: PropTypes.bool,
+  showFocus: PropTypes.bool,
+  draggable: PropTypes.bool,
+  alwaysShowDragHandle: PropTypes.bool,
+  selected: PropTypes.bool,
+  onHover: PropTypes.func,
+  onSelect: PropTypes.func,
+  onDoubleClick: PropTypes.func,
+  onClick: PropTypes.func,
+  onFocusRestore: PropTypes.func,
+  level: PropTypes.number,
+  collapsible: PropTypes.bool,
+  parentCollapsible: PropTypes.bool,
+  collapsed: PropTypes.bool,
+  onCollapse: PropTypes.func,
+  onExpand: PropTypes.func,
+  showDisabledSelection: PropTypes.bool,
+  checkboxTooltip: PropTypes.string,
+  innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  focused: PropTypes.bool,
+  autofocus: PropTypes.bool,
+  onFocusReset: PropTypes.func,
+  'data-test': PropTypes.string
+};

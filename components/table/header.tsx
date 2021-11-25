@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {ChangeEventHandler, PureComponent, SyntheticEvent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Waypoint} from 'react-waypoint';
@@ -8,10 +8,24 @@ import Checkbox from '../checkbox/checkbox';
 import getUID from '../global/get-uid';
 
 import style from './table.css';
-import HeaderCell from './header-cell';
+import HeaderCell, {Column, SortParams} from './header-cell';
 
+export interface HeaderProps {
+  columns: readonly Column[]
+  selectable: boolean
+  draggable: boolean
+  checked: boolean
+  sticky: boolean
+  topStickOffset: string
+  onSort: (params: SortParams) => void
+  onCheckboxChange: ChangeEventHandler<HTMLInputElement>
+  sortKey: string
+  sortOrder: boolean
+  caption?: string | null | undefined
+  checkboxDisabled?: boolean | undefined
+}
 
-export default class Header extends PureComponent {
+export default class Header extends PureComponent<HeaderProps> {
   static propTypes = {
     caption: PropTypes.string,
     selectable: PropTypes.bool,
@@ -41,17 +55,18 @@ export default class Header extends PureComponent {
 
   state = {
     fixed: false,
-    headerWidth: null,
+    headerWidth: undefined,
     widths: []
   };
 
   id = getUID('table-header-');
 
-  onCheckboxFocus = event => {
-    event.target.blur();
+  onCheckboxFocus = (event: SyntheticEvent<HTMLElement>) => {
+    event.currentTarget.blur();
   };
 
-  storeColumnsRowNode = node => {
+  private _columnsRowNode?: HTMLElement | null;
+  storeColumnsRowNode = (node: HTMLElement | null) => {
     if (node) {
       this._columnsRowNode = node;
       this.calculateColumnsWidths(node);
@@ -63,7 +78,7 @@ export default class Header extends PureComponent {
     this.setState({fixed: false});
   };
 
-  onScrollOut = ({currentPosition}) => {
+  onScrollOut = ({currentPosition}: Waypoint.CallbackArgs) => {
     if (currentPosition !== 'above') {
       return;
     }
@@ -71,10 +86,11 @@ export default class Header extends PureComponent {
     this.setState({fixed: true});
   };
 
-  calculateColumnsWidths(columnsRowNode) {
+  calculateColumnsWidths(columnsRowNode: HTMLElement | null | undefined) {
     this.setState({
-      headerWidth: columnsRowNode.clientWidth,
-      widths: [...columnsRowNode.childNodes].map(column => column.clientWidth)
+      headerWidth: columnsRowNode?.clientWidth,
+      widths: [...columnsRowNode?.childNodes ?? []].map(column =>
+        (column instanceof Element ? column.clientWidth : 0))
     });
   }
 
@@ -102,7 +118,7 @@ export default class Header extends PureComponent {
     );
 
     return columns.map((column, index) => {
-      const columnStyle = widths[index] ? {width: widths[index]} : null;
+      const columnStyle = widths[index] ? {width: widths[index]} : undefined;
       const props = {column, onSort, sortKey, sortOrder, style: columnStyle};
       return (
         <HeaderCell
@@ -176,3 +192,5 @@ export default class Header extends PureComponent {
     );
   }
 }
+
+export type HeaderAttrs = JSX.LibraryManagedAttributes<typeof Header, HeaderProps>

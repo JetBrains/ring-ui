@@ -6,12 +6,15 @@ import React, {PureComponent, Component, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import focusSensorHOC, {FocusSensorAddProps, FocusSensorProps} from '../global/focus-sensor-hoc';
+import focusSensorHOC, {
+  FocusSensorAddProps,
+  FocusSensorOuterProps
+} from '../global/focus-sensor-hoc';
 import selectionShortcutsHOC, {
   SelectionShortcutsAddProps,
-  SelectionShortcutsProps
+  SelectionShortcutsOuterProps
 } from '../table/selection-shortcuts-hoc';
-import disableHoverHOC from '../table/disable-hover-hoc';
+import disableHoverHOC, {DisableHoverAddProps} from '../table/disable-hover-hoc';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
@@ -39,7 +42,7 @@ export interface DataListBaseProps<
 }
 
 type DataListProps<T extends SelectionItem> = DataListBaseProps<T> &
-  FocusSensorAddProps<HTMLDivElement> & SelectionShortcutsAddProps<T>
+  DisableHoverAddProps & FocusSensorAddProps<HTMLDivElement> & SelectionShortcutsAddProps<T>
 
 class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> {
   static defaultProps = {
@@ -197,12 +200,12 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
 };
 
 type FocusableProps<T extends SelectionItem> = DataListBaseProps<T> &
-  FocusSensorProps<HTMLDivElement> & SelectionShortcutsAddProps<T>
+  DisableHoverAddProps & FocusSensorOuterProps<HTMLDivElement> & SelectionShortcutsAddProps<T>
 export type DataListContainerProps<T extends SelectionItem> = DataListBaseProps<T> &
-  FocusSensorProps<HTMLDivElement> & SelectionShortcutsProps<T>
+  FocusSensorOuterProps<HTMLDivElement> & SelectionShortcutsOuterProps<T>
 const getContainer = <T extends SelectionItem>() => disableHoverHOC(
   selectionShortcutsHOC<T, FocusableProps<T>>(
-    focusSensorHOC<HTMLDivElement, DataListProps<T>>(DataList)
+    focusSensorHOC<HTMLDivElement, DataListProps<T>, typeof DataList>(DataList)
   )
 );
 

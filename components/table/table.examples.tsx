@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import {Story} from '@storybook/react';
+
 import reactDecorator from '../../.storybook/react-decorator';
 
 import {Grid, Row, Col} from '@jetbrains/ring-ui/components/grid/grid';
@@ -7,11 +9,12 @@ import Link from '@jetbrains/ring-ui/components/link/link';
 import Pager from '@jetbrains/ring-ui/components/pager/pager';
 import Button from '@jetbrains/ring-ui/components/button/button';
 
-import Table, {Table as BaseTable} from '@jetbrains/ring-ui/components/table/table';
+import Table, {Table as BaseTable, TableAttrs} from '@jetbrains/ring-ui/components/table/table';
 import MultiTable from '@jetbrains/ring-ui/components/table/multitable';
-import Selection from '@jetbrains/ring-ui/components/table/selection';
+import Selection, {SelectionItem} from '@jetbrains/ring-ui/components/table/selection';
 import mock from '@jetbrains/ring-ui/components/table/table.examples.json';
 import {continents, countries} from '@jetbrains/ring-ui/components/table/table.examples2.json';
+import {SortParams} from '@jetbrains/ring-ui/components/table/header-cell';
 
 export default {
   title: 'Components/Table',
@@ -31,8 +34,26 @@ export default {
 
 const PAGE_SIZE = 7;
 const TOTAL = mock.length;
-class BasicDemo extends Component {
-  state = {
+interface Item extends SelectionItem {
+  country: string
+  city: string
+  url: string
+  children?: Item[]
+}
+interface BasicDemoProps extends TableAttrs<Item> {
+  withCaption: boolean
+}
+interface BasicDemoState {
+  data: Item[]
+  selection: Selection<Item>
+  page: number
+  pageSize: number
+  total: number
+  sortKey: string
+  sortOrder: boolean
+}
+class BasicDemo extends Component<BasicDemoProps, BasicDemoState> {
+  state: BasicDemoState = {
     data: [],
     selection: new Selection(),
     page: 1,
@@ -46,7 +67,7 @@ class BasicDemo extends Component {
     this.loadPage();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: BasicDemoProps, prevState: BasicDemoState) {
     const {page, sortKey, sortOrder} = this.state;
     if (
       page !== prevState.page ||
@@ -57,24 +78,25 @@ class BasicDemo extends Component {
     }
   }
 
-  onSort = event => {
-    this.props.onSort(event);
+  onSort = (event: SortParams) => {
+    this.props.onSort?.(event);
     this.setState({sortKey: event.column.id, sortOrder: event.order});
   };
 
-  onPageChange = page => {
+  onPageChange = (page: number) => {
     this.setState({page});
   };
 
-  isItemSelectable(item) {
+  isItemSelectable(item: Item) {
     return item.id !== 14;
   }
 
   loadPage = () => {
     const {page, pageSize, sortKey, sortOrder} = this.state;
 
-    let data = [...mock];
-    data.sort((a, b) => a[sortKey].localeCompare(b[sortKey]) * (sortOrder ? 1 : -1));
+    let data: Item[] = [...mock];
+    data.sort((a, b) =>
+      String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
     data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
 
     const selection = new Selection({data, isItemSelectable: this.isItemSelectable});
@@ -101,11 +123,11 @@ class BasicDemo extends Component {
           data={data}
           selection={selection}
           onSelect={newSelection => {
-            onSelect(newSelection);
+            onSelect?.(newSelection);
             this.setState({selection: newSelection});
           }}
           onReorder={event => {
-            onReorder(event);
+            onReorder?.(event);
             this.setState({data: event.data});
           }}
           onSort={this.onSort}
@@ -113,7 +135,7 @@ class BasicDemo extends Component {
           sortOrder={sortOrder}
           caption={withCaption ? 'Countries' : undefined}
           isItemSelectable={this.isItemSelectable}
-          getItemDataTest={it => it.country}
+          getItemDataTest={it => String(it.country)}
         />
 
         <Grid>
@@ -188,7 +210,7 @@ class BasicDemo extends Component {
     );
   }
 }
-export const basic = args => <BasicDemo {...args}/>;
+export const basic: Story<BasicDemoProps> = args => <BasicDemo {...args}/>;
 basic.args = {
   columns: [
     {
@@ -301,8 +323,7 @@ class MultiTableDemo extends Component {
 export const multiTable = () => <MultiTableDemo/>;
 multiTable.storyName = 'multi table';
 
-
-class EmptyTableDemo extends Component {
+class EmptyTableDemo extends Component<TableAttrs<SelectionItem>> {
   state = {
     selection: new Selection({})
   };
@@ -315,7 +336,7 @@ class EmptyTableDemo extends Component {
         {...restProps}
         selection={this.state.selection}
         onSelect={selection => {
-          onSelect(selection);
+          onSelect?.(selection);
           this.setState({selection});
         }}
       />
@@ -323,7 +344,7 @@ class EmptyTableDemo extends Component {
   }
 }
 
-export const emptyTable = args => <EmptyTableDemo {...args}/>;
+export const emptyTable: Story<TableAttrs<SelectionItem>> = args => <EmptyTableDemo {...args}/>;
 emptyTable.args = {
   data: [],
   columns: [
