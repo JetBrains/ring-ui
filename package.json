@@ -195,7 +195,7 @@
     "interpolate-loader": "^2.0.1",
     "just-debounce-it": "^3.0.1",
     "memoize-one": "^6.0.0",
-    "postcss": "^8.3.11",
+    "postcss": "^8.4.1",
     "postcss-calc": "^8.0.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
