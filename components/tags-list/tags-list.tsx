@@ -8,6 +8,7 @@ function noop() {}
 
 export interface TagType extends Omit<TagAttrs, 'onClick'> {
   label?: ReactNode
+  key?: string | number | null | undefined
 }
 
 export interface TagsListProps<T extends TagType> extends HTMLAttributes<HTMLElement> {
