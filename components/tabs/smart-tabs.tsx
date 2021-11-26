@@ -1,11 +1,17 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 
 import dataTests from '../global/data-tests';
 
-import Tabs from './dumb-tabs';
+import Tabs, {TabsAttrs} from './dumb-tabs';
 
-export default class SmartTabs extends PureComponent {
+import {TabProps} from './tab';
+
+export interface SmartTabsProps extends TabsAttrs {
+  children: ReactElement<TabProps>[]
+  initSelected?: string | null | undefined
+}
+export default class SmartTabs extends PureComponent<SmartTabsProps> {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     initSelected: PropTypes.string,
@@ -16,7 +22,7 @@ export default class SmartTabs extends PureComponent {
     selected: this.props.initSelected || this.props.children[0].props.id || '0'
   };
 
-  handleSelect = selected => this.setState({selected});
+  handleSelect = (selected: string) => this.setState({selected});
 
   render() {
     const {children, initSelected, 'data-test': dataTest, ...restProps} = this.props;

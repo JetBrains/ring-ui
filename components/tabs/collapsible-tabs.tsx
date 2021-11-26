@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -8,98 +8,31 @@ import styles from './tabs.css';
 import {FakeMoreButton, MoreButton} from './collapsible-more';
 import getTabTitles from './collapsible-tab';
 
+import {TabProps} from './tab';
+
 const DEFAULT_DEBOUNCE_INTERVAL = 100;
 const MEASURE_TOLERANCE = 0.5;
 
-const DEFAULT_STATE = {
-  lastVisibleIndex: null,
-  sizes: {tabs: [], more: null}
-};
-
-const ACTIONS = {
-  MEASURE_TABS: 'MEASURE_TABS',
-  DEFINE_LAST_VISIBLE_INDEX: 'DEFINE_LAST_VISIBLE_INDEX'
-};
-
-function visibilityReducer(state, action) {
-  switch (action.type) {
-    case ACTIONS.MEASURE_TABS: {
-      const {more, tabs} = action;
-      return {
-        ...state,
-        sizes: {
-          more,
-          tabs
-        }
-      };
-    }
-    case ACTIONS.DEFINE_LAST_VISIBLE_INDEX: {
-      const {lastVisibleIndex} = action;
-      return {
-        ...state,
-        lastVisibleIndex
-      };
-    }
-    default:
-      throw new Error();
-  }
+export interface CollapsibleTabsProps {
+  children: ReactElement<TabProps>[]
+  selected?: string | undefined
+  onSelect: (key: string) => () => void
+  moreClassName?: string | null | undefined
+  moreActiveClassName?: string | null | undefined
+  morePopupClassName?: string | null | undefined
+  morePopupItemClassName?: string | undefined
+  initialVisibleItems?: number | null | undefined
+  morePopupBeforeEnd?: ReactNode
 }
-
-const useAdjustHandler = ({
-  elements, children, selectedIndex, dispatch
-}) => React.useCallback(entry => {
-  const containerWidth = entry.contentRect.width;
-
-  const {tabs: tabsSizes, more = 0} = elements.sizes;
-
-  let renderMore = children.some(tab => tab.props.alwaysHidden);
-
-  const tabsToRender = [];
-  let filledWidth = renderMore ? more ?? 0 : 0;
-
-  for (let i = 0; i < tabsSizes.length; i++) {
-    if (filledWidth + tabsSizes[i] < containerWidth + MEASURE_TOLERANCE) {
-      filledWidth += tabsSizes[i];
-      tabsToRender.push(tabsSizes[i]);
-    } else {
-      break;
-    }
-  }
-
-  if (tabsToRender.length < tabsSizes.length && !renderMore) {
-    for (let i = tabsToRender.length - 1; i >= 0; i--) {
-      if (filledWidth + more < containerWidth + MEASURE_TOLERANCE) {
-        filledWidth += more;
-        renderMore = true;
-        break;
-      } else {
-        filledWidth -= tabsToRender[i];
-        tabsToRender.pop();
-      }
-    }
-  }
-
-  if (selectedIndex > tabsToRender.length - 1) {
-    const selectedWidth = tabsSizes[selectedIndex];
-    for (let i = tabsToRender.length - 1; i >= 0; i--) {
-      if (filledWidth + selectedWidth < containerWidth + MEASURE_TOLERANCE) {
-        filledWidth += selectedWidth;
-        break;
-      } else {
-        filledWidth -= tabsToRender[i];
-        tabsToRender.pop();
-      }
-    }
-  }
-
-  if (elements.lastVisibleIndex !== tabsToRender.length - 1) {
-    dispatch({
-      type: ACTIONS.DEFINE_LAST_VISIBLE_INDEX,
-      lastVisibleIndex: tabsToRender.length - 1
-    });
-  }
-}, [children, dispatch, elements.lastVisibleIndex, elements.sizes, selectedIndex]);
-
+interface Sizes {
+  tabs: number[]
+  more: number | undefined
+}
+interface PreparedElements {
+  visible: ReactElement<TabProps>[]
+  hidden: ReactElement<TabProps>[]
+  ready?: boolean
+}
 export const CollapsibleTabs = ({
   children,
   selected,
@@ -110,11 +43,16 @@ export const CollapsibleTabs = ({
   morePopupBeforeEnd,
   morePopupItemClassName,
   initialVisibleItems
-}) => {
-  const [elements, dispatch] = React.useReducer(visibilityReducer, DEFAULT_STATE);
-  const [preparedElements, setPreparedElements] = React.useState({visible: [], hidden: []});
+}: CollapsibleTabsProps) => {
+  const [sizes, setSizes] = React.useState<Sizes>({tabs: [], more: undefined});
+  const [lastVisibleIndex, setLastVisibleIndex] = React.useState<number | null>(null);
+  const elements = {sizes, lastVisibleIndex};
+  const [preparedElements, setPreparedElements] = React.useState<PreparedElements>({
+    visible: [],
+    hidden: []
+  });
 
-  const measureRef = React.useRef(null);
+  const measureRef = React.useRef<HTMLDivElement>(null);
 
   const selectedIndex = React.useMemo(() => children.
     filter(tab => tab.props.alwaysHidden !== true).
@@ -145,17 +83,60 @@ export const CollapsibleTabs = ({
     selected
   ]);
 
-  const adjustTabs = useAdjustHandler({
-    dispatch,
-    elements,
-    children,
-    selectedIndex
-  });
+  const adjustTabs = React.useCallback(entry => {
+    const containerWidth = entry.contentRect.width;
+
+    const {tabs: tabsSizes, more = 0} = elements.sizes;
+
+    let renderMore = children.some(tab => tab.props.alwaysHidden);
+
+    const tabsToRender: number[] = [];
+    let filledWidth = renderMore ? more ?? 0 : 0;
+
+    for (let i = 0; i < tabsSizes.length; i++) {
+      if (filledWidth + tabsSizes[i] < containerWidth + MEASURE_TOLERANCE) {
+        filledWidth += tabsSizes[i];
+        tabsToRender.push(tabsSizes[i]);
+      } else {
+        break;
+      }
+    }
+
+    if (tabsToRender.length < tabsSizes.length && !renderMore) {
+      for (let i = tabsToRender.length - 1; i >= 0; i--) {
+        if (filledWidth + more < containerWidth + MEASURE_TOLERANCE) {
+          filledWidth += more;
+          renderMore = true;
+          break;
+        } else {
+          filledWidth -= tabsToRender[i];
+          tabsToRender.pop();
+        }
+      }
+    }
+
+    if (selectedIndex > tabsToRender.length - 1) {
+      const selectedWidth = tabsSizes[selectedIndex];
+      for (let i = tabsToRender.length - 1; i >= 0; i--) {
+        if (filledWidth + selectedWidth < containerWidth + MEASURE_TOLERANCE) {
+          filledWidth += selectedWidth;
+          break;
+        } else {
+          filledWidth -= tabsToRender[i];
+          tabsToRender.pop();
+        }
+      }
+    }
+
+    if (elements.lastVisibleIndex !== tabsToRender.length - 1) {
+      setLastVisibleIndex(tabsToRender.length - 1);
+    }
+  }, [children, elements.lastVisibleIndex, elements.sizes, selectedIndex]);
 
   // Prepare list of visible and hidden elements
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      const res = children.reduce((accumulator, tab) => {
+      const res = children.reduce((accumulator: PreparedElements, tab) => {
         if (tab.props.alwaysHidden !== true &&
           accumulator.visible.length - 1 < (elements.lastVisibleIndex ?? 0)) {
           accumulator.visible.push(tab);
@@ -169,7 +150,9 @@ export const CollapsibleTabs = ({
       if (selectedIndex > (elements.lastVisibleIndex ?? 0)) {
         const selectedItem =
           children.find(tab => !tab.props.alwaysHidden && tab.props.id === selected);
-        res.visible.push(selectedItem);
+        if (selectedItem != null) {
+          res.visible.push(selectedItem);
+        }
       }
 
       const allVisibleTheSame = res.visible.length === preparedElements.visible.length &&
@@ -204,8 +187,8 @@ export const CollapsibleTabs = ({
 
     const measureTask = fastdom.measure(() => {
       const container = measureRef.current;
-      const descendants = [...container.children];
-      const moreButton = descendants.pop();
+      const descendants = [...container?.children ?? []];
+      const moreButton = descendants.pop() as HTMLElement;
 
       let moreButtonWidth = moreButton.offsetWidth;
       const {
@@ -225,7 +208,7 @@ export const CollapsibleTabs = ({
 
       if (elements.sizes.more !== moreButtonWidth || newSummaryWidth !== oldSummaryWidth) {
         fastdom.mutate(() =>
-          dispatch({type: ACTIONS.MEASURE_TABS, more: moreButtonWidth, tabs: tabsWidth})
+          setSizes({more: moreButtonWidth, tabs: tabsWidth})
         );
       }
     });
@@ -237,14 +220,12 @@ export const CollapsibleTabs = ({
 
   // Start observers to listen resizing and mutation
   React.useEffect(() => {
-    let measureTask = null;
-    let resizeObserver = null;
-
     if (measureRef.current === null) {
       return undefined;
     }
 
-    resizeObserver = new ResizeObserver(entries => {
+    let measureTask = () => {};
+    const resizeObserver = new ResizeObserver(entries => {
       entries.forEach(entry => {
         fastdom.clear(measureTask);
         measureTask = fastdom.mutate(() => adjustTabs(entry));
