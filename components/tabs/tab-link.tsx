@@ -1,11 +1,16 @@
-import React, {memo} from 'react';
+import React, {memo, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
-import Link from '../link/link';
+import Link, {LinkProps} from '../link/link';
 
 import styles from './tabs.css';
 
-function TabLink({isSelected, title, collapsed, ...restProps}) {
+export interface TabLinkProps extends Omit<LinkProps, 'title' | 'children'> {
+  isSelected: boolean
+  collapsed?: boolean
+  title: ReactNode | ((isSelected: boolean, collapsed: boolean | undefined) => ReactNode)
+}
+function TabLink({isSelected, title, collapsed, ...restProps}: TabLinkProps) {
   const renderedTitle = typeof title === 'function'
     ? title(isSelected, collapsed)
     : title;

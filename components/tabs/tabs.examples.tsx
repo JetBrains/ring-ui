@@ -5,7 +5,7 @@ import warningIcon from '@jetbrains/icons/warning';
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '@jetbrains/ring-ui/components/button/button';
-import Icon from '@jetbrains/ring-ui/components/icon/icon';
+import Icon, {IconProps} from '@jetbrains/ring-ui/components/icon/icon';
 
 import {Tabs, Tab, SmartTabs, CustomItem} from '@jetbrains/ring-ui/components/tabs/tabs';
 
@@ -200,7 +200,7 @@ export const smart = () => (
 );
 smart.storyName = 'smart';
 
-function Title({glyph, title, children, className}) {
+function Title({glyph, title, children, className}: Partial<IconProps>) {
   return (
     <span className={className}>
       <Icon glyph={glyph} title={title} className="icon"/>
