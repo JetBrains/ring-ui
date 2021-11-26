@@ -1,5 +1,3 @@
-const green = require('chalk').green;
-
 const generateComponent = require('../generate-component');
 
 module.exports = generateComponent({
@@ -9,6 +7,6 @@ module.exports = generateComponent({
     '%s.css',
     '%s.test.js'
   ],
-  promptMessage: `What's your component name is any case, ${green('my component')} for example. Ng suffix will be added automatically.`,
+  promptMessage: import('chalk').then(({default: chalk}) => `What's your component name is any case, ${chalk.green('my component')} for example. Ng suffix will be added automatically.`),
   type: 'angular'
 });
