@@ -7,9 +7,10 @@ import getUID from '../global/get-uid';
 import List from '../list/list';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
+import {ListDataItem} from '../list/consts';
+
 import SelectPopup, {SelectPopupAttrs} from './select__popup';
 
-import {ListDataItem} from '@jetbrains/ring-ui/components/list/consts';
 
 describe('SelectPopup', () => {
   const factory = (props?: SelectPopupAttrs) => (

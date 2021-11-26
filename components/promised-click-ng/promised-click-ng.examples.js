@@ -2,9 +2,9 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
+import ButtonNG from '../button-ng/button-ng';
 
-import PromisedClickNG from '@jetbrains/ring-ui/components/promised-click-ng/promised-click-ng';
+import PromisedClickNG from './promised-click-ng';
 
 export default {
   title: 'Legacy Angular/Promised Click Ng',

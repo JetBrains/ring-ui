@@ -2,10 +2,10 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
-import ButtonGroupNg from '@jetbrains/ring-ui/components/button-group-ng/button-group-ng';
+import ButtonNG from '../button-ng/button-ng';
+import ButtonGroupNg from '../button-group-ng/button-group-ng';
 
-import ButtonToolbarNG from '@jetbrains/ring-ui/components/button-toolbar-ng/button-toolbar-ng';
+import ButtonToolbarNG from './button-toolbar-ng';
 
 export default {
   title: 'Legacy Angular/Button Toolbar Ng',

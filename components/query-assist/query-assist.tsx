@@ -18,6 +18,8 @@ import rerenderHOC from '../global/rerender-hoc';
 import Theme from '../global/theme';
 import Button from '../button/button';
 
+import {ShortcutsMap} from '../shortcuts/core';
+
 import QueryAssistSuggestions, {
   QueryAssistSuggestion,
   SuggestionItem
@@ -25,7 +27,6 @@ import QueryAssistSuggestions, {
 
 import styles from './query-assist.css';
 
-import {ShortcutsMap} from '@jetbrains/ring-ui/components/shortcuts/core';
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;

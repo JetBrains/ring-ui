@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import LoaderInlineNg from '@jetbrains/ring-ui/components/loader-inline-ng/loader-inline-ng';
+import LoaderInlineNg from './loader-inline-ng';
 
 export default {
   title: 'Legacy Angular/Loader Inline Ng',

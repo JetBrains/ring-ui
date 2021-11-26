@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Input from '@jetbrains/ring-ui/components/input/input';
-import Button from '@jetbrains/ring-ui/components/button/button';
-import Link from '@jetbrains/ring-ui/components/link/link';
-import Group from '@jetbrains/ring-ui/components/group/group';
+import Input from '../input/input';
+import Button from '../button/button';
+import Link from '../link/link';
+import Group from '../group/group';
 
-import TabTrap from '@jetbrains/ring-ui/components/tab-trap/tab-trap';
+import TabTrap from './tab-trap';
 
 export default {
   title: 'Components/TabTrap',

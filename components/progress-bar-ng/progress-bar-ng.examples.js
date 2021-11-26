@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import RingProgressBar from '@jetbrains/ring-ui/components/progress-bar-ng/progress-bar-ng';
+import RingProgressBar from './progress-bar-ng';
 
 const disableAnimations = window.location.search.includes('block-animations');
 

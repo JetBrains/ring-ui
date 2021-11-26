@@ -1,9 +1,10 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
+import List from '../list/list';
+
 import PopupMenu, {PopupMenuAttrs} from './popup-menu';
 
-import List from '@jetbrains/ring-ui/components/list/list';
 
 describe('Popup Menu', () => {
   const shallowPopupMenu = (props?: PopupMenuAttrs) => shallow(<PopupMenu {...props}/>);

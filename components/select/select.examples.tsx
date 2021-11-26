@@ -7,20 +7,21 @@ import {Story} from '@storybook/react';
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
-import Link from '@jetbrains/ring-ui/components/link/link';
-import Popup from '@jetbrains/ring-ui/components/popup/popup';
-import List from '@jetbrains/ring-ui/components/list/list';
-import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
-import Auth from '@jetbrains/ring-ui/components/auth/auth';
-import Source from '@jetbrains/ring-ui/components/list/list__users-groups-source';
-import '@jetbrains/ring-ui/components/input-size/input-size.css';
+import Link from '../link/link';
+import Popup from '../popup/popup';
+import List from '../list/list';
+import Dropdown from '../dropdown/dropdown';
+import Auth from '../auth/auth';
+import Source from '../list/list__users-groups-source';
+import '../input-size/input-size.css';
+
+import Input, {ContainerProps, InputSpecificProps} from '../input/input';
 
 import Select, {
   SelectAttrs,
   SelectItem,
   SingleSelectAttrs
-} from '@jetbrains/ring-ui/components/select/select';
-import Input, {ContainerProps, InputSpecificProps} from '@jetbrains/ring-ui/components/input/input';
+} from './select';
 
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';

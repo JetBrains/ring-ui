@@ -4,7 +4,7 @@ import {Story} from '@storybook/react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Loader, {LoaderProps} from '@jetbrains/ring-ui/components/loader/loader';
+import Loader, {LoaderProps} from './loader';
 
 export default {
   title: 'Components/Loader',

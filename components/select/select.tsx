@@ -33,10 +33,11 @@ import {ListDataItem} from '../list/consts';
 
 import {Directions} from '../popup/popup.consts';
 
+import {isArray} from '../global/typescript-utils';
+
 import SelectPopup, {Filter, FilterFn, Multiple, Tags} from './select__popup';
 import styles from './select.css';
 
-import {isArray} from '@jetbrains/ring-ui/components/global/typescript-utils';
 
 /**
  * @name Select

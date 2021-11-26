@@ -2,10 +2,10 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import TabsNG from '@jetbrains/ring-ui/components/tabs-ng/tabs-ng';
-import DialogNG from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
+import TabsNG from '../tabs-ng/tabs-ng';
+import DialogNG from '../dialog-ng/dialog-ng';
 
-import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
+import SelectNG from './select-ng';
 
 export default {
   title: 'Legacy Angular/Select Ng',

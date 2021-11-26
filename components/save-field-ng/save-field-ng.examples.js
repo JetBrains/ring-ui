@@ -4,9 +4,9 @@ import angular from 'angular';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
-import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
+import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 
-import SaveFieldNG from '@jetbrains/ring-ui/components/save-field-ng/save-field-ng';
+import SaveFieldNG from './save-field-ng';
 
 export default {
   title: 'Legacy Angular/Save Field Ng',

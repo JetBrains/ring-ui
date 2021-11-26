@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ShortcutsHintNg from '@jetbrains/ring-ui/components/shortcuts-hint-ng/shortcuts-hint-ng';
+import ShortcutsHintNg from './shortcuts-hint-ng';
 
 export default {
   title: 'Legacy Angular/ShortcutsHint Ng',

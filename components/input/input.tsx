@@ -22,9 +22,10 @@ import getUID from '../global/get-uid';
 
 import Icon from '../icon/icon';
 
+import composeRefs from '../global/composeRefs';
+
 import styles from './input.css';
 
-import composeRefs from '@jetbrains/ring-ui/components/global/composeRefs';
 
 function noop() {}
 

@@ -2,9 +2,9 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import LinkNG from '@jetbrains/ring-ui/components/link-ng/link-ng';
+import LinkNG from '../link-ng/link-ng';
 
-import AnalyticsNG from '@jetbrains/ring-ui/components/analytics-ng/analytics-ng';
+import AnalyticsNG from './analytics-ng';
 
 export default {
   title: 'Legacy Angular/Analytics Ng',

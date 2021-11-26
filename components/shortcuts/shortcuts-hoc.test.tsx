@@ -3,9 +3,10 @@ import {shallow, mount} from 'enzyme';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
 
+import {ShortcutsMap} from './core';
+
 import shortcutsHOC, {ShortcutsHOCOptions} from './shortcuts-hoc';
 
-import {ShortcutsMap} from '@jetbrains/ring-ui/components/shortcuts/core';
 
 interface FactoryProps {
   options: ShortcutsHOCOptions

@@ -1,8 +1,8 @@
 import React, {PureComponent, Children, cloneElement, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 
-import {TableAttrs} from '@jetbrains/ring-ui/components/table/table';
-import {SelectionItem} from '@jetbrains/ring-ui/components/table/selection';
+import {TableAttrs} from './table';
+import {SelectionItem} from './selection';
 
 export interface MultiTableProps {
   children: ReactElement<TableAttrs<SelectionItem>>[]

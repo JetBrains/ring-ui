@@ -2,9 +2,9 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
+import ButtonNG from '../button-ng/button-ng';
 
-import ButtonSetNG from '@jetbrains/ring-ui/components/button-set-ng/button-set-ng';
+import ButtonSetNG from './button-set-ng';
 
 export default {
   title: 'Legacy Angular/Button Set Ng',

@@ -28,11 +28,12 @@ import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 
 import {ListDataItem} from '../list/consts';
 
+import {ShortcutsMap} from '../shortcuts/core';
+
 import SelectFilter from './select__filter';
 import styles from './select-popup.css';
 
-import {ShortcutsMap} from '@jetbrains/ring-ui/components/shortcuts/core';
-import {SelectItem} from '@jetbrains/ring-ui/components/select/select';
+import {SelectItem} from './select';
 
 const INPUT_MARGIN_COMPENSATION = -14;
 const FILTER_HEIGHT = 35;

@@ -7,17 +7,17 @@ import hubConfig from '../../.storybook/hub-config';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Auth from '@jetbrains/ring-ui/components/auth/auth';
-import HTTP from '@jetbrains/ring-ui/components/http/http';
-import List from '@jetbrains/ring-ui/components/list/list';
-import Icon from '@jetbrains/ring-ui/components/icon/icon';
+import Auth from '../auth/auth';
+import HTTP from '../http/http';
+import List from '../list/list';
+import Icon from '../icon/icon';
 
 
 import QueryAssist, {
   QueryAssistAttrs,
   QueryAssistRequestParams
-} from '@jetbrains/ring-ui/components/query-assist/query-assist';
-import {QueryAssistSuggestion} from '@jetbrains/ring-ui/components/query-assist/query-assist__suggestions';
+} from './query-assist';
+import {QueryAssistSuggestion} from './query-assist__suggestions';
 
 export default {
   title: 'Components/Query Assist',

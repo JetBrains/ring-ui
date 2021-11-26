@@ -2,12 +2,13 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
+
+import Button from '../button/button';
+import ButtonToolbar from '../button-toolbar/button-toolbar';
+
+import alert from './alert-service';
+
 import styles from './alert-service.examples.css';
-
-import Button from '@jetbrains/ring-ui/components/button/button';
-import ButtonToolbar from '@jetbrains/ring-ui/components/button-toolbar/button-toolbar';
-
-import alert from '@jetbrains/ring-ui/components/alert-service/alert-service';
 
 export default {
   title: 'Services/Alert Service',

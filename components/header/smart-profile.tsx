@@ -8,9 +8,10 @@ import Auth, {
 } from '../auth/auth';
 import alertService from '../alert-service/alert-service';
 
+import {Size} from '../avatar/avatar';
+
 import Profile, {ProfileAttrs} from './profile';
 
-import {Size} from '@jetbrains/ring-ui/components/avatar/avatar';
 
 const CERTIFICATE_MISMATCH_HEADER = 'x-client-certificate-token-mismatch';
 

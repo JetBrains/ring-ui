@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import DropdownMenu from '@jetbrains/ring-ui/components/dropdown-menu/dropdown-menu';
+import DropdownMenu from './dropdown-menu';
 
 export default {
   title: 'Components/DropdownMenu',

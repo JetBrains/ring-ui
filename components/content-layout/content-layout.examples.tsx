@@ -2,8 +2,8 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import ContentLayout from '@jetbrains/ring-ui/components/content-layout/content-layout';
-import Sidebar from '@jetbrains/ring-ui/components/content-layout/sidebar';
+import ContentLayout from './content-layout';
+import Sidebar from './sidebar';
 
 export default {
   title: 'Components/Content Layout',

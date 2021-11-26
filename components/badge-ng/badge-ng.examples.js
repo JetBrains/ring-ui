@@ -2,9 +2,9 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import GroupNG from '@jetbrains/ring-ui/components/group-ng/group-ng';
+import GroupNG from '../group-ng/group-ng';
 
-import BadgeNG from '@jetbrains/ring-ui/components/badge-ng/badge-ng';
+import BadgeNG from './badge-ng';
 
 export default {
   title: 'Legacy Angular/Badge Ng',

@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import TemplateNG from '@jetbrains/ring-ui/components/template-ng/template-ng';
+import TemplateNG from './template-ng';
 
 export default {
   title: 'Legacy Angular/Template Ng',

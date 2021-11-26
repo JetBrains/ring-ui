@@ -2,9 +2,9 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import {getDocumentScrollTop} from '@jetbrains/ring-ui/components/global/dom';
+import {getDocumentScrollTop} from '../global/dom';
 
-import RingPlaceUnder from '@jetbrains/ring-ui/components/place-under-ng/place-under-ng';
+import RingPlaceUnder from './place-under-ng';
 
 export default {
   title: 'Legacy Angular/Place Under Ng',

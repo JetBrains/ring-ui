@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Island, {AdaptiveIsland, Header, Content} from '@jetbrains/ring-ui/components/island/island';
+import Island, {AdaptiveIsland, Header, Content} from './island';
 
 export default {
   title: 'Components/Island',

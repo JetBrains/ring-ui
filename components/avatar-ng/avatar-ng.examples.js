@@ -2,11 +2,11 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import {Size as AvatarSize} from '@jetbrains/ring-ui/components/avatar/avatar';
+import {Size as AvatarSize} from '../avatar/avatar';
 
-import {avatarDataUri} from '@jetbrains/ring-ui/components/avatar/avatar-example-datauri';
+import {avatarDataUri} from '../avatar/avatar-example-datauri';
 
-import AvatarNG from '@jetbrains/ring-ui/components/avatar-ng/avatar-ng';
+import AvatarNG from './avatar-ng';
 
 export default {
   title: 'Legacy Angular/Avatar Ng',

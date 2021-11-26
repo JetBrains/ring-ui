@@ -2,10 +2,10 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '@jetbrains/ring-ui/components/link/link__legacy.css';
-import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
+import '../link/link__legacy.css';
+import SelectNG from '../select-ng/select-ng';
 
-import SidebarNG from '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng';
+import SidebarNG from './sidebar-ng';
 
 export default {
   title: 'Legacy Angular/Sidebar Ng',

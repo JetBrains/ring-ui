@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import LoaderScreen from '@jetbrains/ring-ui/components/loader-screen-ng/loader-screen-ng';
+import LoaderScreen from './loader-screen-ng';
 
 export default {
   title: 'Legacy Angular/Loader Screen Ng',
