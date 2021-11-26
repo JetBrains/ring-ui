@@ -4,9 +4,9 @@ import warningIcon from '@jetbrains/icons/warning';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
+import IconNG from '../icon-ng/icon-ng';
 
-import TooltipNG from '@jetbrains/ring-ui/components/tooltip-ng/tooltip-ng';
+import TooltipNG from './tooltip-ng';
 
 export default {
   title: 'Legacy Angular/Tooltip Ng',

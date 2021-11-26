@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import ContentEditable from '@jetbrains/ring-ui/components/contenteditable/contenteditable';
+import ContentEditable from './contenteditable';
 
 export default {
   title: 'Components/ContentEditable',

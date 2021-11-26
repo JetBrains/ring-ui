@@ -3,12 +3,12 @@ import React from 'react';
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
-import Auth from '@jetbrains/ring-ui/components/auth/auth';
-import {createHubUserCardSource} from '@jetbrains/ring-ui/components/hub-source/hub-source__user';
+import Auth from '../auth/auth';
+import {createHubUserCardSource} from '../hub-source/hub-source__user';
 
-import {avatarDataUri} from '@jetbrains/ring-ui/components/avatar/avatar-example-datauri';
+import {avatarDataUri} from '../avatar/avatar-example-datauri';
 
-import {UserCard, UserCardTooltip, SmartUserCardTooltip} from '@jetbrains/ring-ui/components/user-card/user-card';
+import {UserCard, UserCardTooltip, SmartUserCardTooltip} from './user-card';
 
 export default {
   title: 'Components/User Card',

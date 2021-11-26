@@ -2,10 +2,10 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import Selection from '@jetbrains/ring-ui/components/data-list/selection';
-import data from '@jetbrains/ring-ui/components/data-list/data-list.mock';
+import Selection from '../data-list/selection';
+import data from '../data-list/data-list.mock';
 
-import RingDataList from '@jetbrains/ring-ui/components/data-list-ng/data-list-ng';
+import RingDataList from './data-list-ng';
 
 export default {
   title: 'Legacy Angular/DataList Ng',

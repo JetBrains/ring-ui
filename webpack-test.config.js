@@ -12,10 +12,6 @@ loaders.babelLoader.sideEffects = true;
 
 config.mode = 'development';
 
-config.resolve.alias = {
-  '@jetbrains/ring-ui': __dirname
-};
-
 config.output = {
   devtoolModuleFilenameTemplate: '/[absolute-resource-path]' // For some reason slash in the beginning is required
 };

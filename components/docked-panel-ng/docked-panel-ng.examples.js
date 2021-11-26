@@ -2,10 +2,10 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import PanelNG from '@jetbrains/ring-ui/components/panel-ng/panel-ng';
-import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
+import PanelNG from '../panel-ng/panel-ng';
+import ButtonNG from '../button-ng/button-ng';
 
-import DockedPanelNG from '@jetbrains/ring-ui/components/docked-panel-ng/docked-panel-ng';
+import DockedPanelNG from './docked-panel-ng';
 
 export default {
   title: 'Legacy Angular/Docked Panel Ng',

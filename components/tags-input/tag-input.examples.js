@@ -5,11 +5,11 @@ import frownIcon from '@jetbrains/icons/frown';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '@jetbrains/ring-ui/components/button/button';
-import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
-import {Content} from '@jetbrains/ring-ui/components/island/island';
+import Button from '../button/button';
+import Dialog from '../dialog/dialog';
+import {Content} from '../island/island';
 
-import TagsInput from '@jetbrains/ring-ui/components/tags-input/tags-input';
+import TagsInput from './tags-input';
 
 export default {
   title: 'Components/Tags Input',

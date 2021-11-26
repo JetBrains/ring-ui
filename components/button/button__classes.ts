@@ -2,9 +2,10 @@ import classNames from 'classnames';
 
 import Theme from '../global/theme';
 
+import {ButtonProps} from './button';
+
 import styles from './button.css';
 
-import {ButtonProps} from '@jetbrains/ring-ui/components/button/button';
 
 export function getButtonClasses({
   className,

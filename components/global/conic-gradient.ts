@@ -1,9 +1,10 @@
 import 'conic-gradient';
 
+import {RadialGradientMask} from './radial-gradient-mask';
+
 import memoize from './memoize';
 import supportsCss from './supports-css';
 
-import {RadialGradientMask} from '@jetbrains/ring-ui/components/global/radial-gradient-mask';
 
 export interface ConicGradientConfig {
   stops: string

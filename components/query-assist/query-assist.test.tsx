@@ -7,6 +7,8 @@ import {mount, MountRendererProps} from 'enzyme';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
 
+import {QueryAssistSuggestion} from './query-assist__suggestions';
+
 import QueryAssist, {
   QueryAssistAttrs,
   QueryAssistChange,
@@ -14,7 +16,6 @@ import QueryAssist, {
 } from './query-assist';
 import styles from './query-assist.css';
 
-import {QueryAssistSuggestion} from '@jetbrains/ring-ui/components/query-assist/query-assist__suggestions';
 
 describe('Query Assist', () => {
   const testQuery = 'oooooooooooo';

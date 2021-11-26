@@ -2,9 +2,9 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
+import ButtonNG from '../button-ng/button-ng';
 
-import GroupNG from '@jetbrains/ring-ui/components/group-ng/group-ng';
+import GroupNG from './group-ng';
 
 export default {
   title: 'Legacy Angular/Group Ng',

@@ -4,17 +4,17 @@ import {Story} from '@storybook/react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import {Grid, Row, Col} from '@jetbrains/ring-ui/components/grid/grid';
-import Link from '@jetbrains/ring-ui/components/link/link';
-import Pager from '@jetbrains/ring-ui/components/pager/pager';
-import Button from '@jetbrains/ring-ui/components/button/button';
+import {Grid, Row, Col} from '../grid/grid';
+import Link from '../link/link';
+import Pager from '../pager/pager';
+import Button from '../button/button';
 
-import Table, {Table as BaseTable, TableAttrs} from '@jetbrains/ring-ui/components/table/table';
-import MultiTable from '@jetbrains/ring-ui/components/table/multitable';
-import Selection, {SelectionItem} from '@jetbrains/ring-ui/components/table/selection';
-import mock from '@jetbrains/ring-ui/components/table/table.examples.json';
-import {continents, countries} from '@jetbrains/ring-ui/components/table/table.examples2.json';
-import {SortParams} from '@jetbrains/ring-ui/components/table/header-cell';
+import Table, {Table as BaseTable, TableAttrs} from './table';
+import MultiTable from './multitable';
+import Selection, {SelectionItem} from './selection';
+import mock from './table.examples.json';
+import {continents, countries} from './table.examples2.json';
+import {SortParams} from './header-cell';
 
 export default {
   title: 'Components/Table',

@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import RingTabs from '@jetbrains/ring-ui/components/tabs-ng/tabs-ng';
+import RingTabs from './tabs-ng';
 
 export default {
   title: 'Legacy Angular/Tabs Ng',

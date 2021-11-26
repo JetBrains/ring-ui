@@ -2,8 +2,8 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Avatar, {Size} from '@jetbrains/ring-ui/components/avatar/avatar';
-import {avatarDataUri} from '@jetbrains/ring-ui/components/avatar/avatar-example-datauri';
+import Avatar, {Size} from './avatar';
+import {avatarDataUri} from './avatar-example-datauri';
 
 export default {
   title: 'Components/Avatar',

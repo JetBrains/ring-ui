@@ -5,10 +5,10 @@ import {Story} from '@storybook/react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Popup from '@jetbrains/ring-ui/components/popup/popup';
-import Icon from '@jetbrains/ring-ui/components/icon/icon';
+import Popup from '../popup/popup';
+import Icon from '../icon/icon';
 
-import Message, {MessageAttrs} from '@jetbrains/ring-ui/components/message/message';
+import Message, {MessageAttrs} from './message';
 
 const {Directions} = Popup.PopupProps;
 

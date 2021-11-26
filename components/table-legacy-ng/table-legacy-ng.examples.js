@@ -2,11 +2,11 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
-import SidebarNG from '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng';
-import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
+import SelectNG from '../select-ng/select-ng';
+import SidebarNG from '../sidebar-ng/sidebar-ng';
+import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 
-import TableNG from '@jetbrains/ring-ui/components/table-legacy-ng/table-legacy-ng';
+import TableNG from './table-legacy-ng';
 
 export default {
   title: 'Legacy Angular/TableLegacy Ng',

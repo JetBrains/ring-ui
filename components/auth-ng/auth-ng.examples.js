@@ -3,7 +3,7 @@ import angular from 'angular';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
-import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
+import AuthNG from './auth-ng';
 
 export default {
   title: 'Legacy Angular/Auth Ng',

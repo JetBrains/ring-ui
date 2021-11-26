@@ -10,7 +10,7 @@ import okIcon from '@jetbrains/icons/ok';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Icon from '@jetbrains/ring-ui/components/icon/icon';
+import Icon from './icon';
 
 const allIcons = require.context('../../node_modules/@jetbrains/icons', false, /\.js$/);
 const allLogos = require.context('../../node_modules/@jetbrains/logos', true, /\.svg$/);

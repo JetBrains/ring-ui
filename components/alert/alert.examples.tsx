@@ -2,10 +2,12 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Link from '@jetbrains/ring-ui/components/link/link';
-import Button from '@jetbrains/ring-ui/components/button/button';
-import Alert, {Container} from '@jetbrains/ring-ui/components/alert/alert';
-import {AlertItem} from '@jetbrains/ring-ui/components/alert-service/alert-service';
+import Link from '../link/link';
+import Button from '../button/button';
+
+import {AlertItem} from '../alert-service/alert-service';
+
+import Alert, {Container} from './alert';
 
 export default {
   title: 'Components/Alert',
