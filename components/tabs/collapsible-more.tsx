@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ComponentType, ReactElement, ReactNode} from 'react';
 
 import classNames from 'classnames';
 
@@ -11,20 +11,26 @@ import PopupMenu, {ListProps} from '../popup-menu/popup-menu';
 
 import Dropdown from '../dropdown/dropdown';
 
-import Link from '../link/link';
+import Link, {LinkProps} from '../link/link';
 import Icon from '../icon/icon';
+import {ListDataItem} from '../list/consts';
 
 import styles from './tabs.css';
 import getTabTitles from './collapsible-tab';
 import {CustomItem} from './custom-item';
+import {TabProps} from './tab';
 
-
+export interface FakeMoreButtonProps {
+  hasActiveChildren: boolean
+  moreClassName?: string | null | undefined
+  moreActiveClassName?: string | null | undefined
+}
 export const AnchorLink = ({
   hasActiveChildren,
   moreClassName,
   moreActiveClassName,
   ...restProps
-}) => {
+}: Omit<LinkProps, 'children'> & FakeMoreButtonProps) => {
   const classnames = classNames(
     styles.title,
     hasActiveChildren && styles.selected,
@@ -57,6 +63,16 @@ const morePopupDirections = [
   Directions.BOTTOM_LEFT,
   Directions.BOTTOM_RIGHT
 ];
+export interface MoreButtonProps {
+  items: ReactElement<TabProps>[]
+  selected?: string | undefined
+  onSelect: (key: string) => () => void
+  moreClassName?: string | null | undefined
+  moreActiveClassName?: string | null | undefined
+  morePopupClassName?: string | null | undefined
+  morePopupItemClassName?: string | undefined
+  morePopupBeforeEnd: ReactNode
+}
 export const MoreButton = React.memo(({
   items,
   selected,
@@ -66,7 +82,7 @@ export const MoreButton = React.memo(({
   morePopupClassName,
   morePopupItemClassName,
   morePopupBeforeEnd
-}) => {
+}: MoreButtonProps) => {
   const onSelectHandler = React.useCallback(listItem => {
     if (listItem.disabled === true || listItem.custom === true) {
       return;
@@ -82,7 +98,7 @@ export const MoreButton = React.memo(({
   );
 
   const data = React.useMemo(() => {
-    const popupItems = getTabTitles({
+    const popupItems: ListDataItem[] = getTabTitles({
       items,
       selected,
       collapsed: true
@@ -145,7 +161,7 @@ export const MoreButton = React.memo(({
   );
 });
 
-MoreButton.propTypes = {
+(MoreButton as unknown as ComponentType<unknown>).propTypes = {
   children: PropTypes.node,
   items: PropTypes.array,
   selected: PropTypes.string,
@@ -164,7 +180,7 @@ export const FakeMoreButton = React.memo(({
   moreClassName,
   moreActiveClassName,
   hasActiveChildren
-}) => (
+}: FakeMoreButtonProps) => (
   <div className={classNames(styles.moreButton, styles.title)}>
     <AnchorLink
       moreClassName={moreClassName}
@@ -175,7 +191,7 @@ export const FakeMoreButton = React.memo(({
     />
   </div>
 ));
-FakeMoreButton.propTypes = {
+(FakeMoreButton as unknown as ComponentType<unknown>).propTypes = {
   moreClassName: PropTypes.string,
   moreActiveClassName: PropTypes.string,
   hasActiveChildren: PropTypes.bool

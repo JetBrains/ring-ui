@@ -13,6 +13,7 @@ export interface ClickableLinkProps extends AnchorHTMLAttributes<HTMLAnchorEleme
     | undefined
   onPlainLeftClick?: ((e: React.MouseEvent<HTMLAnchorElement>) => void) | null | undefined
   activeClassName?: string | null | undefined
+  disabled?: boolean | undefined
 }
 
 export default class ClickableLink extends PureComponent<ClickableLinkProps> {

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,7 +6,20 @@ import dataTests from '../global/data-tests';
 
 import styles from './tabs.css';
 
-export default class Tab extends PureComponent {
+export interface TabProps {
+  title?: ReactNode | ((isSelected: boolean, collapsed: boolean | undefined) => ReactNode)
+  id?: string | null | undefined
+  className?: string | null | undefined
+  children?: ReactNode
+  'data-test'?: string | null | undefined
+  alwaysHidden?: boolean | null | undefined
+  disabled?: boolean | undefined
+  href?: string | undefined
+  activeClassName?: string | null | undefined
+  collapsedClassName?: string | null | undefined
+  collapsedActiveClassName?: string | null | undefined
+}
+export default class Tab extends PureComponent<TabProps> {
   static propTypes = {
     title: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     id: PropTypes.string,
