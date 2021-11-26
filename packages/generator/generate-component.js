@@ -2,7 +2,6 @@ const format = require('util').format;
 const path = require('path');
 
 const Generator = require('yeoman-generator');
-const green = require('chalk').green;
 const changeCase = require('change-case');
 const {titleCase} = require('title-case');
 
@@ -27,10 +26,11 @@ module.exports = params => class ComponentGenerator extends Generator {
   async prompting() {
     const {readPackageUp} = await import('read-pkg-up');
     const pkgFile = await readPackageUp();
+    const {default: chalk} = await import('chalk');
     const promptParams = [{
       type: 'input',
       name: 'componentName',
-      message: params.promptMessage || `What's your component name is any case, ${green('my component')} for example`,
+      message: await params.promptMessage || `What's your component name is any case, ${chalk.green('my component')} for example`,
       default: this.appname
     }];
 
