@@ -1,21 +1,30 @@
-import React, {PureComponent} from 'react';
+import React, {ComponentPropsWithRef, PureComponent, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import memoize from '../global/memoize';
 
-import Theme, {withTheme} from '../global/theme';
+import Theme, {ThemeProps, withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './tabs.css';
 
 import TabLink from './tab-link';
-import CollapsibleTabs from './collapsible-tabs';
+import CollapsibleTabs, {CollapsibleTabsProps} from './collapsible-tabs';
 import {CustomItem} from './custom-item';
+
+import {TabProps} from './tab';
 
 export {CustomItem};
 
-class Tabs extends PureComponent {
+export interface TabsProps extends ThemeProps, Omit<CollapsibleTabsProps, 'onSelect'> {
+  onSelect: (key: string) => void
+  className?: string | null | undefined
+  autoCollapse?: boolean | null | undefined
+  'data-test'?: string | null | undefined
+}
+
+class Tabs extends PureComponent<TabsProps> {
   static propTypes = {
     theme: PropTypes.string,
     selected: PropTypes.string,
@@ -33,9 +42,9 @@ class Tabs extends PureComponent {
 
   static Theme = Theme;
 
-  handleSelect = memoize(key => () => this.props.onSelect(key));
+  handleSelect = memoize((key: string) => () => this.props.onSelect(key));
 
-  getTabTitle = (child, i) => {
+  getTabTitle = (child: ReactElement<TabProps>, i: number) => {
     if (child == null || typeof child !== 'object' || child.type === CustomItem) {
       return child;
     }
@@ -80,7 +89,8 @@ class Tabs extends PureComponent {
     } = this.props;
 
     const classes = classNames(styles.tabs, className, styles[theme]);
-    const childrenArray = React.Children.toArray(children).filter(Boolean);
+    const childrenArray = React.Children.toArray(children).
+      filter(Boolean) as ReactElement<TabProps>[];
 
     return (
       <div className={classes} data-test={dataTests('ring-dumb-tabs', dataTest)}>
@@ -104,4 +114,6 @@ class Tabs extends PureComponent {
     );
   }
 }
-export default withTheme()(Tabs);
+const ThemedTabs = withTheme()(Tabs);
+export type TabsAttrs = ComponentPropsWithRef<typeof ThemedTabs>
+export default ThemedTabs;
