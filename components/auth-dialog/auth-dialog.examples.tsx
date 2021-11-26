@@ -2,9 +2,9 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '@jetbrains/ring-ui/components/button/button';
+import Button from '../button/button';
 
-import AuthDialog from '@jetbrains/ring-ui/components/auth-dialog/auth-dialog';
+import AuthDialog from './auth-dialog';
 
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 

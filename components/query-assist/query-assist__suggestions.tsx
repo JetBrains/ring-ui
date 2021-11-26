@@ -2,9 +2,10 @@ import React from 'react';
 
 import List from '../list/list';
 
+import {ListDataItem} from '../list/consts';
+
 import styles from './query-assist.css';
 
-import {ListDataItem} from '@jetbrains/ring-ui/components/list/consts';
 
 const ICON_ID_LENGTH = 44;
 

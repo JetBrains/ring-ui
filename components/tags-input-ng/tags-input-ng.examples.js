@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import TagsInputNG from '@jetbrains/ring-ui/components/tags-input-ng/tags-input-ng';
+import TagsInputNG from './tags-input-ng';
 
 export default {
   title: 'Legacy Angular/Tags Input Ng',

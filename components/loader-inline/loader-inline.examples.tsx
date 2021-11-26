@@ -2,8 +2,8 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import LoaderInline from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
-import injectStyles from '@jetbrains/ring-ui/components/loader-inline/inject-styles';
+import LoaderInline from './loader-inline';
+import injectStyles from './inject-styles';
 
 export default {
   title: 'Components/Inline Loader',

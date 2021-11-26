@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import LoaderNg from '@jetbrains/ring-ui/components/loader-ng/loader-ng';
+import LoaderNg from './loader-ng';
 
 export default {
   title: 'Legacy Angular/Loader Ng',

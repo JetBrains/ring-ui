@@ -3,9 +3,9 @@ import frownIcon from '@jetbrains/icons/frown';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Link from '@jetbrains/ring-ui/components/link/link';
+import Link from '../link/link';
 
-import ErrorMessage from '@jetbrains/ring-ui/components/error-message/error-message';
+import ErrorMessage from './error-message';
 
 export default {
   title: 'Components/Error Message',

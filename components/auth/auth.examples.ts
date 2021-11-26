@@ -1,13 +1,13 @@
 import hubConfig from '../../.storybook/hub-config';
 
-import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
+import authDialogService from '../auth-dialog-service/auth-dialog-service';
 
 
-import Auth from '@jetbrains/ring-ui/components/auth/auth';
-import IFrameFlow from '@jetbrains/ring-ui/components/auth/iframe-flow';
-import LandingEntryFileName from '@jetbrains/ring-ui/components/auth/landing-entry';
+import Auth from './auth';
+import IFrameFlow from './iframe-flow';
+import LandingEntryFileName from './landing-entry';
 
-import '@jetbrains/ring-ui/components/link/link__legacy.css';
+import '../link/link__legacy.css';
 
 export default {
   title: 'Utilities/Auth',

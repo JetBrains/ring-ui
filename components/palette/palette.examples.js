@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '@jetbrains/ring-ui/components/palette/palette.css';
+import './palette.css';
 
 export default {
   title: 'Style-only/Color fields palette',

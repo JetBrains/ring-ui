@@ -1,5 +1,5 @@
-import '@jetbrains/ring-ui/components/old-browsers-message/old-browsers-message.css';
-import {stop} from '@jetbrains/ring-ui/components/old-browsers-message/old-browsers-message';
+import './old-browsers-message.css';
+import {stop} from './old-browsers-message';
 
 export default {
   title: 'Style-only/Old Browsers Message',

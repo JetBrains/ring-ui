@@ -1,9 +1,10 @@
 import React, {Component, ComponentType, Ref} from 'react';
 import PropTypes from 'prop-types';
 
+import {refObject} from './prop-types';
+
 import composeRefs from './composeRefs';
 
-import {refObject} from '@jetbrains/ring-ui/components/global/prop-types';
 
 export interface FocusSensorOuterProps<T extends HTMLElement> {
   focused?: boolean | undefined

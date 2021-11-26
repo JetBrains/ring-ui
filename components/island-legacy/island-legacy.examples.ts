@@ -1,4 +1,4 @@
-import '@jetbrains/ring-ui/components/island-legacy/island-legacy.css';
+import './island-legacy.css';
 
 export default {
   title: 'Style-only/Island',

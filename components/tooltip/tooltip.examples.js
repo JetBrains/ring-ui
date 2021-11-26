@@ -2,9 +2,9 @@ import React, {Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '@jetbrains/ring-ui/components/button/button';
+import Button from '../button/button';
 
-import Tooltip from '@jetbrains/ring-ui/components/tooltip/tooltip';
+import Tooltip from './tooltip';
 
 export default {
   title: 'Components/Tooltip',

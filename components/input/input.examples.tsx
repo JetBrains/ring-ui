@@ -3,10 +3,10 @@ import searchIcon from '@jetbrains/icons/search';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '@jetbrains/ring-ui/components/button/button';
-import Text from '@jetbrains/ring-ui/components/text/text';
+import Button from '../button/button';
+import Text from '../text/text';
 
-import Input, {ContainerProps, InputSpecificProps, Size, Theme} from '@jetbrains/ring-ui/components/input/input';
+import Input, {ContainerProps, InputSpecificProps, Size, Theme} from './input';
 
 export default {
   title: 'Components/Input',

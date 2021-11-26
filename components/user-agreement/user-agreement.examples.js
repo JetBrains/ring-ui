@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import alert from '@jetbrains/ring-ui/components/alert-service/alert-service';
+import alert from '../alert-service/alert-service';
 
-import UserAgreement from '@jetbrains/ring-ui/components/user-agreement/user-agreement';
-import UserAgreementService from '@jetbrains/ring-ui/components/user-agreement/service';
-import text from '@jetbrains/ring-ui/components/user-agreement/toolbox.eula';
+import UserAgreement from './user-agreement';
+import UserAgreementService from './service';
+import text from './toolbox.eula';
 
 export default {
   title: 'Components/User Agreement',

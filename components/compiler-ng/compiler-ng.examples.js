@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import CompilerNG from '@jetbrains/ring-ui/components/compiler-ng/compiler-ng';
+import CompilerNG from './compiler-ng';
 
 export default {
   title: 'Legacy Angular/Compiler Ng',

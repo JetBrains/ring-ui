@@ -1,7 +1,7 @@
-import linkStyles from '@jetbrains/ring-ui/components/link/link.css';
+import linkStyles from '../link/link.css';
 
-import analytics from '@jetbrains/ring-ui/components/analytics/analytics';
-import AnalyticsCustomPlugin from '@jetbrains/ring-ui/components/analytics/analytics__custom-plugin';
+import analytics from './analytics';
+import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
 export default {
   title: 'Components/Analytics',

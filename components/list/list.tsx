@@ -29,6 +29,8 @@ import Shortcuts from '../shortcuts/shortcuts';
 
 import createStatefulContext from '../global/create-stateful-context';
 
+import {ShortcutsMap} from '../shortcuts/core';
+
 import ListLink from './list__link';
 import ListItem from './list__item';
 import ListCustom from './list__custom';
@@ -44,7 +46,6 @@ import {
 
 import styles from './list.css';
 
-import {ShortcutsMap} from '@jetbrains/ring-ui/components/shortcuts/core';
 
 const scheduleScrollListener = scheduleRAF();
 const scheduleHoverListener = scheduleRAF();

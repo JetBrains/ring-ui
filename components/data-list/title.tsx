@@ -7,9 +7,10 @@ import Checkbox from '../checkbox/checkbox';
 
 import getUID from '../global/get-uid';
 
+import {refObject} from '../global/prop-types';
+
 import styles from './data-list.css';
 
-import {refObject} from '@jetbrains/ring-ui/components/global/prop-types';
 
 export interface TitleProps extends FocusSensorAddProps<HTMLDivElement> {
   onSelect: (selected: boolean) => void

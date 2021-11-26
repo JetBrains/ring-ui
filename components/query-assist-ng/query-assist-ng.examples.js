@@ -4,9 +4,9 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import hubConfig from '../../.storybook/hub-config';
 
-import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
+import AuthNG from '../auth-ng/auth-ng';
 
-import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
+import QueryAssistNG from './query-assist-ng';
 
 export default {
   title: 'Legacy Angular/Query Assist Ng',

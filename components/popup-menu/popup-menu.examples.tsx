@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import PopupMenu, {ListProps} from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
+import PopupMenu, {ListProps} from './popup-menu';
 
 export default {
   title: 'Components/PopupMenu',

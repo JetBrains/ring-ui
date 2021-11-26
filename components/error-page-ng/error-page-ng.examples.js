@@ -4,9 +4,9 @@ import AngularRoute from 'angular-route';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import authMock from '@jetbrains/ring-ui/components/auth-ng/auth-ng.mock';
+import authMock from '../auth-ng/auth-ng.mock';
 
-import ErrorPageNG from '@jetbrains/ring-ui/components/error-page-ng/error-page-ng';
+import ErrorPageNG from './error-page-ng';
 
 export default {
   title: 'Legacy Angular/Error Page Ng',
