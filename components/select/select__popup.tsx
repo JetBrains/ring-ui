@@ -49,7 +49,7 @@ export type FilterFn<T> = (
   data: readonly SelectItem<T>[]
 ) => boolean
 
-export interface Filter<T> {
+export interface Filter<T = unknown> {
   fn?: FilterFn<T> | null | undefined
   fuzzy?: boolean | null | undefined
   value?: string | null | undefined
