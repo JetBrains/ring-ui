@@ -1,5 +1,3 @@
-const path = require('path');
-
 const webpack = require('webpack');
 
 const ringConfig = require('../webpack.config').createConfig();
@@ -56,8 +54,6 @@ module.exports = {
     const hubConfig = JSON.stringify({serverUri, clientId});
 
     config.plugins.push(new webpack.DefinePlugin({hubConfig}));
-
-    config.resolve.alias['@jetbrains/ring-ui'] = path.resolve(__dirname, '..');
 
     return config;
   }

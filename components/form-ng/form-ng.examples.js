@@ -2,15 +2,15 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '@jetbrains/ring-ui/components/form/form.css';
+import '../form/form.css';
 
-import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
-import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
-import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
+import ButtonNG from '../button-ng/button-ng';
+import SelectNG from '../select-ng/select-ng';
+import CheckboxNG from '../checkbox-ng/checkbox-ng';
 
-import InputNG from '@jetbrains/ring-ui/components/input-ng/input-ng';
+import InputNG from '../input-ng/input-ng';
 
-import FormNG from '@jetbrains/ring-ui/components/form-ng/form-ng';
+import FormNG from './form-ng';
 
 export default {
   title: 'Legacy Angular/Form Ng',

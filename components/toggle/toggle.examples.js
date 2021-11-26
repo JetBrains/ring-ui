@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Toggle, {Size} from '@jetbrains/ring-ui/components/toggle/toggle';
+import Toggle, {Size} from './toggle';
 
 export default {
   title: 'Components/Toggle',

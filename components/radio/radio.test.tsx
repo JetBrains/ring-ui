@@ -2,9 +2,10 @@ import React, {ComponentRef, Ref} from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
+import {RadioProps} from './radio__item';
+
 import Radio from './radio';
 
-import {RadioProps} from '@jetbrains/ring-ui/components/radio/radio__item';
 
 describe('Radio', () => {
   const factory = (

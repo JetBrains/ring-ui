@@ -1,8 +1,8 @@
 import hubConfig from '../../.storybook/hub-config';
 
-import Auth from '@jetbrains/ring-ui/components/auth/auth';
+import Auth from '../auth/auth';
 
-import HTTP from '@jetbrains/ring-ui/components/http/http';
+import HTTP from './http';
 
 export default {
   title: 'Utilities/HTTP service',

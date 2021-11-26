@@ -4,10 +4,10 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import hubConfig from '../../.storybook/hub-config';
 
-import Auth from '@jetbrains/ring-ui/components/auth/auth';
-import Button from '@jetbrains/ring-ui/components/button/button';
+import Auth from '../auth/auth';
+import Button from '../button/button';
 
-import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
+import showAuthDialog from './auth-dialog-service';
 
 export default {
   title: 'Services/Auth Dialog Service',

@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Markdown, {md} from '@jetbrains/ring-ui/components/markdown/markdown';
+import Markdown, {md} from './markdown';
 
 export default {
   title: 'Components/Markdown',
@@ -101,7 +101,7 @@ export const taggedTemplate = () =>
     \`\`\`js
     import React from 'react';
 
-    import {md} from '@jetbrains/ring-ui/components/markdown/markdown';
+    import {md} from '../markdown/markdown';
 
     const MarkdownHeader = ({children}) => md\`#\${children}\`;
     \`\`\`

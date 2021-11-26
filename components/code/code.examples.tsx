@@ -4,7 +4,7 @@ import xml from 'highlight.js/lib/languages/xml';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Code, {code, highlight} from '@jetbrains/ring-ui/components/code/code';
+import Code, {code, highlight} from './code';
 
 highlight.registerLanguage('javascript', javascript);
 highlight.registerLanguage('xml', xml);
@@ -19,7 +19,7 @@ Displays a block of code. Syntax highlighting is loaded lazily using [dynamic im
 
 You can also preload the languages you need:
 
-\`import {highlight} from '@jetbrains/ring-ui/components/code/code'\`
+\`import {highlight} from '../code/code'\`
 
 \`import 1c from 'highlight.js/lib/languages/1c';\`
 
@@ -80,7 +80,7 @@ export const lazy = () => (
 export const taggedTemplate = () =>
   code`
       import React from 'react';
-      import {code} from '@jetbrains/ring-ui/components/code/code';
+      import {code} from '../code/code';
 
       const el = code\`some('js')\`;
     `;

@@ -2,9 +2,9 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '@jetbrains/ring-ui/components/button/button';
+import Button from '../button/button';
 
-import Confirm from '@jetbrains/ring-ui/components/confirm/confirm';
+import Confirm from './confirm';
 
 export default {
   title: 'Components/Confirm',

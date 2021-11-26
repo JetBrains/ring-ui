@@ -2,11 +2,11 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '@jetbrains/ring-ui/components/input/input-legacy.css';
-import '@jetbrains/ring-ui/components/form/form.css';
-import '@jetbrains/ring-ui/components/input-size/input-size.css';
+import '../input/input-legacy.css';
+import './form.css';
+import '../input-size/input-size.css';
 
-import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
+import ButtonNG from '../button-ng/button-ng';
 
 export default {
   title: 'Style-only/Form',

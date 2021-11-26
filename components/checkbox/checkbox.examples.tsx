@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Checkbox, {CheckboxProps} from '@jetbrains/ring-ui/components/checkbox/checkbox';
+import Checkbox, {CheckboxProps} from './checkbox';
 
 export default {
   title: 'Components/Checkbox',

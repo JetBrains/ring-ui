@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import RingPager from '@jetbrains/ring-ui/components/pager-ng/pager-ng';
+import RingPager from './pager-ng';
 
 export default {
   title: 'Legacy Angular/Pager Ng',

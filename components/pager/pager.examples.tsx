@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Pager from '@jetbrains/ring-ui/components/pager/pager';
+import Pager from './pager';
 
 function getDataFromUrl(name: string, defaultValue: number) {
   const params = new URLSearchParams(location.search);

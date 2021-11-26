@@ -21,12 +21,13 @@ import Loader from '../loader/loader';
 
 import {SelectionItem} from '../table/selection';
 
+import {refObject} from '../global/prop-types';
+
 import Item, {FormattedItem, moreLessButtonStates} from './item';
 
 import styles from './data-list.css';
 import Selection from './selection';
 
-import {refObject} from '@jetbrains/ring-ui/components/global/prop-types';
 
 export interface DataListBaseProps<
   T extends SelectionItem

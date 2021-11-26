@@ -6,7 +6,7 @@ import Changelog from '../CHANGELOG.md';
 
 import reactDecorator from '../.storybook/react-decorator';
 
-import Markdown from '@jetbrains/ring-ui/components/markdown/markdown';
+import Markdown from './markdown/markdown';
 
 import License from 'raw-loader!../LICENSE.txt';
 

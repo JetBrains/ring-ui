@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '@jetbrains/ring-ui/components/button/button';
+import Button from '../button/button';
 
-import Panel from '@jetbrains/ring-ui/components/panel/panel';
+import Panel from './panel';
 
 export default {
   title: 'Components/Panel',

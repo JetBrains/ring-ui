@@ -1,5 +1,5 @@
-import '@jetbrains/ring-ui/components/link/link__legacy.css';
-import Caret from '@jetbrains/ring-ui/components/caret/caret';
+import '../link/link__legacy.css';
+import Caret from './caret';
 
 export default {
   title: 'Utilities/Caret',

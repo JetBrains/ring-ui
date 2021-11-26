@@ -4,10 +4,10 @@ import warningIcon from '@jetbrains/icons/warning';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '@jetbrains/ring-ui/components/button/button';
-import Icon, {IconProps} from '@jetbrains/ring-ui/components/icon/icon';
+import Button from '../button/button';
+import Icon, {IconProps} from '../icon/icon';
 
-import {Tabs, Tab, SmartTabs, CustomItem} from '@jetbrains/ring-ui/components/tabs/tabs';
+import {Tabs, Tab, SmartTabs, CustomItem} from './tabs';
 
 export default {
   title: 'Components/Tabs',

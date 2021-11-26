@@ -4,14 +4,14 @@ import type {Story} from '@storybook/react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
-import Button from '@jetbrains/ring-ui/components/button/button';
-import Input from '@jetbrains/ring-ui/components/input/input';
-import Group from '@jetbrains/ring-ui/components/group/group';
-import Toggle from '@jetbrains/ring-ui/components/toggle/toggle';
-import Panel from '@jetbrains/ring-ui/components/panel/panel';
+import {Header, Content} from '../island/island';
+import Button from '../button/button';
+import Input from '../input/input';
+import Group from '../group/group';
+import Toggle from '../toggle/toggle';
+import Panel from '../panel/panel';
 
-import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
+import Dialog from './dialog';
 
 export default {
   title: 'Components/Dialog',

@@ -1,9 +1,9 @@
 import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import '@jetbrains/ring-ui/components/link/link__legacy.css';
+import '../link/link__legacy.css';
 
-import FooterNG from '@jetbrains/ring-ui/components/footer-ng/footer-ng';
+import FooterNG from './footer-ng';
 
 export default {
   title: 'Legacy Angular/Footer Ng',
