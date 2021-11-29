@@ -98,31 +98,31 @@ export class Listeners {
     el: HTMLElement,
     event: K,
     handler: (this: HTMLElement, ev: HTMLElementEventMap[K]) => void,
-    useCapture?: boolean,
+    options?: boolean | AddEventListenerOptions,
   ): () => void
 
   add<K extends keyof WindowEventMap>(
     el: Window,
     event: K,
     handler: (this: Window, ev: WindowEventMap[K]) => void,
-    useCapture?: boolean,
+    options?: boolean | AddEventListenerOptions,
   ): () => void
 
   add<K extends keyof DocumentEventMap>(
     el: Document,
     event: K,
     handler: (this: Window, ev: DocumentEventMap[K]) => void,
-    useCapture?: boolean,
+    options?: boolean | AddEventListenerOptions,
   ): () => void
 
   add(
     el: HTMLElement | Window | Document,
     event: string,
     handler: (e: Event) => void,
-    useCapture?: boolean,
+    options?: boolean | AddEventListenerOptions,
   ) {
-    el.addEventListener(event, handler, useCapture);
-    const dispatchFn = () => el.removeEventListener(event, handler, useCapture);
+    el.addEventListener(event, handler, options);
+    const dispatchFn = () => el.removeEventListener(event, handler, options);
     this._all.add(dispatchFn);
     return dispatchFn;
   }
