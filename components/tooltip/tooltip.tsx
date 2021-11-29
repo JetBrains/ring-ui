@@ -1,7 +1,7 @@
-import React, {Component, createContext} from 'react';
+import React, {AllHTMLAttributes, Component, createContext, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
-import Popup from '../popup/popup';
+import Popup, {PopupAttrs} from '../popup/popup';
 import {Listeners} from '../global/dom';
 import dataTests from '../global/data-tests';
 import scheduleRAF from '../global/schedule-raf';
@@ -10,12 +10,24 @@ import styles from './tooltip.css';
 
 const scheduleScroll = scheduleRAF();
 
-const TooltipContext = createContext();
+interface Context {
+  onNestedTooltipShow: () => void
+  onNestedTooltipHide: () => void
+}
 
+const TooltipContext = createContext<Context | undefined>(undefined);
+
+export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, 'title'> {
+  delay?: number | null | undefined
+  selfOverflowOnly?: boolean | null | undefined
+  popupProps?: Partial<PopupAttrs> | null | undefined
+  title?: ReactNode | null | undefined
+  'data-test'?: string | null | undefined
+}
 /**
  * @name Tooltip
  */
-export default class Tooltip extends Component {
+export default class Tooltip extends Component<TooltipProps> {
   static propTypes = {
     delay: PropTypes.number,
     selfOverflowOnly: PropTypes.bool,
@@ -42,7 +54,7 @@ export default class Tooltip extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: TooltipProps) {
     if (!prevProps.title && this.props.title) {
       this.addListeners();
     } else if (prevProps.title && !this.props.title) {
@@ -58,8 +70,11 @@ export default class Tooltip extends Component {
   static PopupProps = Popup.PopupProps;
   static contextType = TooltipContext;
 
+  declare context: React.ContextType<typeof TooltipContext>;
+  timeout?: number;
   listeners = new Listeners();
-  containerRef = el => {
+  containerNode?: HTMLElement | null;
+  containerRef = (el: HTMLElement | null) => {
     this.containerNode = el;
   };
 
@@ -71,7 +86,7 @@ export default class Tooltip extends Component {
     }
 
     if (delay) {
-      this.timeout = setTimeout(this.showPopup, delay);
+      this.timeout = window.setTimeout(this.showPopup, delay);
     } else {
       this.showPopup();
     }
@@ -112,12 +127,15 @@ export default class Tooltip extends Component {
   };
 
   addListeners() {
-    this.listeners.add(this.containerNode, 'mouseover', this.tryToShowPopup);
-    this.listeners.add(this.containerNode, 'mouseout', this.hidePopup);
+    if (this.containerNode != null) {
+      this.listeners.add(this.containerNode, 'mouseover', this.tryToShowPopup);
+      this.listeners.add(this.containerNode, 'mouseout', this.hidePopup);
+    }
     this.listeners.add(document, 'scroll', () => scheduleScroll(this.hidePopup), {passive: true});
   }
 
-  popupRef = el => {
+  popup?: Popup | null;
+  popupRef = (el: Popup | null) => {
     this.popup = el;
   };
 
@@ -166,3 +184,4 @@ export default class Tooltip extends Component {
     );
   }
 }
+export type TooltipAttrs = JSX.LibraryManagedAttributes<typeof Tooltip, TooltipProps>
