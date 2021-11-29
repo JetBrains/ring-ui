@@ -1,8 +1,8 @@
-import React, {PureComponent} from 'react';
+import React, {ComponentPropsWithRef, InputHTMLAttributes, PureComponent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {withTheme} from '../global/theme';
+import {ThemeProps, withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './toggle.css';
@@ -16,7 +16,14 @@ export const Size = {
   * @name Toggle
   */
 
-class Toggle extends PureComponent {
+export interface ToggleProps extends ThemeProps,
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+  pale?: boolean | null | undefined
+  leftLabel?: ReactNode
+  'data-test'?: string | null | undefined
+  size?: string | null | undefined
+}
+class Toggle extends PureComponent<ToggleProps> {
   static propTypes = {
     children: PropTypes.node,
     name: PropTypes.string,
@@ -76,4 +83,5 @@ class Toggle extends PureComponent {
 }
 const ThemedToggle = withTheme()(Toggle);
 ThemedToggle.propTypes = Toggle.propTypes;
+export type ToggleAttrs = ComponentPropsWithRef<typeof ThemedToggle>
 export default ThemedToggle;
