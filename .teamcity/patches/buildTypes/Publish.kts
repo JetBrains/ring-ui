@@ -13,6 +13,14 @@ To apply the patch, change the buildType with id = 'Publish'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("Publish")) {
+    check(artifactRules == "") {
+        "Unexpected option value: artifactRules = $artifactRules"
+    }
+    artifactRules = """
+        %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
+        dist=>dist.zip
+    """.trimIndent()
+
     expectSteps {
         script {
             name = "Publish"
