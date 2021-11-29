@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {CSSProperties, Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -44,7 +44,7 @@ export const displayedWhenNecessary = () => {
     'sit populo semper civibus. Tamquam dolorem qui ea, nec no dolor vidisse conceptam, ' +
     'an est ponderum eloquentiam.';
 
-  const overflowStyles = {
+  const overflowStyles: CSSProperties = {
     display: 'block',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
