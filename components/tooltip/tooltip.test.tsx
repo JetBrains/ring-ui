@@ -6,16 +6,17 @@ import {mount, render} from 'enzyme';
 
 import Popup from '../popup/popup';
 
-import Tooltip from './tooltip';
+import Tooltip, {TooltipAttrs} from './tooltip';
 
 describe('Tooltip', () => {
-  const defaultProps = {
+  const defaultProps: TooltipAttrs = {
     title: 'test tooltip',
     className: 'test-class',
     children: 'test elem'
   };
-  const mountTooltip = props => mount(<Tooltip {...defaultProps} {...props}/>);
-  const renderTooltip = props => render(<Tooltip {...defaultProps} {...props}/>);
+  const mountTooltip = (props?: TooltipAttrs) =>
+    mount<Tooltip>(<Tooltip {...defaultProps} {...props}/>);
+  const renderTooltip = (props?: TooltipAttrs) => render(<Tooltip {...defaultProps} {...props}/>);
 
   it('should create component', () => {
     mountTooltip().should.have.type(Tooltip);
@@ -66,7 +67,7 @@ describe('Tooltip', () => {
       const instance = wrapper.instance();
       instance.tryToShowPopup();
 
-      isCompositeComponentWithType(instance.popup, Popup).should.be.true;
+      isCompositeComponentWithType(instance.popup!, Popup).should.be.true;
     });
 
     it('should not render popup when empty title is provided', () => {
@@ -76,7 +77,7 @@ describe('Tooltip', () => {
       const instance = wrapper.instance();
 
       instance.tryToShowPopup();
-      instance.popup.isVisible().should.be.false;
+      instance.popup!.isVisible().should.be.false;
     });
 
     it('should render with delay when provided', () => {
@@ -88,11 +89,12 @@ describe('Tooltip', () => {
 
       instance.tryToShowPopup();
 
-      instance.popup.isVisible().should.be.false;
+      instance.popup!.isVisible().should.be.false;
 
-      // eslint-disable-next-line no-magic-numbers
+
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
       clock.tick(200);
-      instance.popup.isVisible().should.be.true;
+      instance.popup!.isVisible().should.be.true;
     });
 
     it('should pass custom props to popup', () => {
@@ -104,7 +106,7 @@ describe('Tooltip', () => {
       const instance = wrapper.instance();
 
       instance.tryToShowPopup();
-      instance.popup.popup.should.have.class('tooltip-test-popup');
+      instance.popup!.popup!.should.have.class('tooltip-test-popup');
     });
 
     it('should close popup on unmount', () => {
@@ -122,7 +124,7 @@ describe('Tooltip', () => {
       instance.tryToShowPopup();
       wrapper.simulate('click');
 
-      instance.popup.isVisible().should.be.true;
+      instance.popup!.isVisible().should.be.true;
     });
   });
 });
