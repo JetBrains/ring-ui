@@ -76,7 +76,7 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-replace": "^3.0.0",
     "@storybook/addon-a11y": "6.4.0",
-    "@storybook/addon-docs": "6.3.12",
+    "@storybook/addon-docs": "6.4.0",
     "@storybook/addon-essentials": "6.3.12",
     "@storybook/addon-storyshots": "6.3.2",
     "@storybook/addon-storyshots-puppeteer": "6.3.2",
