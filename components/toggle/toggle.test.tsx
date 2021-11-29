@@ -1,12 +1,12 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
-import Toggle from './toggle';
+import Toggle, {ToggleAttrs} from './toggle';
 import styles from './toggle.css';
 
 describe('Toggle', () => {
-  const mountToggle = props => mount(<Toggle {...props}/>);
-  const getToggleLabel = props => mountToggle(props).find('label');
+  const mountToggle = (props?: ToggleAttrs) => mount(<Toggle {...props}/>);
+  const getToggleLabel = (props?: ToggleAttrs) => mountToggle(props).find('label');
 
   it('should create component', () => {
     mountToggle().type().should.equal(Toggle.type);
