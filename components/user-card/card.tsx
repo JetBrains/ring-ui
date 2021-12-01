@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {HTMLAttributes, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -8,7 +8,27 @@ import badgeStyles from '../badge/badge.css';
 
 import styles from './user-card.css';
 
-export default class UserCard extends PureComponent {
+export interface UserCardUser {
+  name: string
+  login: string
+  avatarUrl?: string | null | undefined
+  email?: string | null | undefined
+  href?: string | null | undefined
+  online?: boolean | null | undefined
+  banned?: boolean | null | undefined
+  banReason?: string | undefined
+}
+export interface UserCardWording {
+  banned: string
+  online: string
+  offline: string
+}
+export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
+  user: UserCardUser
+  wording: UserCardWording
+  'data-test'?: string | null | undefined
+}
+export default class UserCard extends PureComponent<UserCardProps> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -96,3 +116,4 @@ export default class UserCard extends PureComponent {
     );
   }
 }
+export type UserCardAttrs = JSX.LibraryManagedAttributes<typeof UserCard, UserCardProps>

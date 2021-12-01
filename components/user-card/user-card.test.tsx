@@ -2,6 +2,9 @@ import React from 'react';
 import {shallow, mount} from 'enzyme';
 
 import {SmartUserCardTooltip, UserCard, UserCardTooltip} from './user-card';
+import {UserCardAttrs} from './card';
+import {UserCardTooltipAttrs} from './tooltip';
+import {SmartUserCardTooltipProps} from './smart-user-card-tooltip';
 
 describe('UserCard', () => {
   const fakeUser = {
@@ -13,10 +16,11 @@ describe('UserCard', () => {
   };
 
   describe('Card', () => {
-    const shallowCard = props => shallow(
+    const shallowCard = (props?: Partial<UserCardAttrs>) => shallow(
       <UserCard user={fakeUser} {...props}/>
     );
-    const mountCard = props => mount(<UserCard user={fakeUser} {...props}/>);
+    const mountCard = (props?: Partial<UserCardAttrs>) =>
+      mount(<UserCard user={fakeUser} {...props}/>);
 
     it('should create component', () => {
       mountCard().should.have.type(UserCard);
@@ -48,7 +52,7 @@ describe('UserCard', () => {
   describe('UserCardTooltip', () => {
     const anchor = <span data-test="anchor">{'foo'}</span>;
 
-    const mountTooltip = props => mount(
+    const mountTooltip = (props?: UserCardTooltipAttrs) => mount(
       <UserCardTooltip user={fakeUser} {...props}>
         {anchor}
       </UserCardTooltip>
@@ -61,7 +65,7 @@ describe('UserCard', () => {
     });
 
     it('should allow to render multiple children', () => {
-      const tooltip = props => mount(
+      const tooltip = (props?: UserCardTooltipAttrs) => mount(
         <UserCardTooltip user={fakeUser} {...props}>
           <span data-test="anchor">{'foo'}</span>
           <span data-test="anchor">{'foo'}</span>
@@ -80,7 +84,7 @@ describe('UserCard', () => {
       return fakeUser;
     }
 
-    const mountTooltip = props => mount(
+    const mountTooltip = (props?: SmartUserCardTooltipProps) => mount<SmartUserCardTooltip>(
       <SmartUserCardTooltip userDataSource={userSource} {...props}>
         {anchor}
       </SmartUserCardTooltip>
@@ -88,7 +92,7 @@ describe('UserCard', () => {
 
     it('should load user on hover', () => {
       const wrapper = mountTooltip();
-      sandbox.stub(wrapper.instance(), 'loadUser').callsFake(() => {});
+      sandbox.stub(wrapper.instance(), 'loadUser').callsFake(async () => {});
 
       // Force the component and wrapper to update so that the stub is used https://github.com/airbnb/enzyme/issues/586
       wrapper.instance().forceUpdate();

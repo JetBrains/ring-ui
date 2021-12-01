@@ -1,16 +1,23 @@
-import React, {Component} from 'react';
+import React, {Component, ReactElement, ReactNode} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Dropdown from '../dropdown/dropdown';
+import Dropdown, {DropdownAttrs} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
 
-import UserCard from './card';
+import UserCard, {UserCardAttrs, UserCardUser} from './card';
 import styles from './user-card.css';
 
 const DEFAULT_TIMEOUT = 300;
 
-export default class UserCardTooltip extends Component {
+export interface UserCardTooltipProps extends Omit<UserCardAttrs, 'user'> {
+  user?: UserCardUser | null | undefined
+  children: ReactElement | readonly ReactElement[] | string
+  dropdownProps: Partial<DropdownAttrs>
+  renderUserCard: (props: UserCardTooltipProps) => ReactNode
+  renderNoUser: () => ReactNode
+}
+export default class UserCardTooltip extends Component<UserCardTooltipProps> {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
@@ -21,12 +28,13 @@ export default class UserCardTooltip extends Component {
   };
 
   static defaultProps = {
-    renderUserCard: props => {
+    renderUserCard: (props: UserCardTooltipProps) => {
       const {className,
-        children, renderUserCard, renderNoUser, dropdownProps, ...restProps} = props;
+        children, renderUserCard, renderNoUser, dropdownProps, user, ...restProps} = props;
 
-      return (
+      return user && (
         <UserCard
+          user={user}
           {...restProps}
           className={classNames(styles.userCardSpaced, className)}
         />
@@ -56,3 +64,5 @@ export default class UserCardTooltip extends Component {
     );
   }
 }
+export type UserCardTooltipAttrs =
+  JSX.LibraryManagedAttributes<typeof UserCardTooltip, UserCardTooltipProps>

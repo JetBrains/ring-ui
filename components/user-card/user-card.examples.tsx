@@ -73,6 +73,9 @@ export const hubUserCard = () => {
 
   const waitForAuthAndGetUser = async () => {
     await auth.init();
+    if (auth.user == null) {
+      return null;
+    }
     const userSource = createHubUserCardSource(auth, auth.user.id);
     return userSource();
   };

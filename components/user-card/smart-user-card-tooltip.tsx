@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 
 import LoaderInline from '../loader-inline/loader-inline';
 
-import UserCardTooltip from './tooltip';
+import UserCardTooltip, {UserCardTooltipAttrs} from './tooltip';
 import styles from './user-card.css';
+import {UserCardUser} from './card';
 
-export default class SmartUserCardTooltip extends Component {
+export interface SmartUserCardTooltipProps extends UserCardTooltipAttrs {
+  userDataSource: () => Promise<UserCardUser | null | undefined> | UserCardUser | null | undefined
+}
+export default class SmartUserCardTooltip extends Component<SmartUserCardTooltipProps> {
   static propTypes = {
     children: PropTypes.node,
     userDataSource: PropTypes.func
