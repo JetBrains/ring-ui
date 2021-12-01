@@ -14,7 +14,7 @@ export default {
 
     hermione: {
       actions: [
-        {type: 'click', selector: 'button'},
+        {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
         {
           type: 'capture',
           name: 'datePickerPopup',
