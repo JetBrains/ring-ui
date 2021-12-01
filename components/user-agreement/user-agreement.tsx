@@ -16,10 +16,30 @@ import style from './user-agreement.css';
 
 function noop() {}
 
+export interface UserAgreementTranslations {
+  userAgreement: string
+  accept: string
+  decline: string
+  close: string
+  scrollToAccept: string
+  remindLater: string
+}
+
+export interface UserAgreementProps {
+  text: string
+  translations: UserAgreementTranslations
+  show: boolean
+  onAccept: () => void
+  onDecline: () => void
+  onClose: () => void
+  preview?: boolean | null | undefined
+  onRemindLater?: (() => void) | null | undefined
+  className?: string | null | undefined
+}
 /**
  * A component that displays a user agreement dialog.
  */
-export default class UserAgreement extends PureComponent {
+export default class UserAgreement extends PureComponent<UserAgreementProps> {
   static propTypes = {
     show: PropTypes.bool,
     preview: PropTypes.bool,
@@ -89,7 +109,7 @@ export default class UserAgreement extends PureComponent {
           fade
           onScrollToBottom={this.onScrollToBottom}
         >
-          <Markdown source={text} tabindex={-1}/>
+          <Markdown source={text}/>
         </Content>
         {!preview && (
           <Panel>
@@ -122,3 +142,5 @@ export default class UserAgreement extends PureComponent {
     );
   }
 }
+export type UserAgreementAttrs =
+  JSX.LibraryManagedAttributes<typeof UserAgreement, UserAgreementProps>

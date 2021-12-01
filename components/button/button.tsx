@@ -35,6 +35,7 @@ export interface ButtonButtonProps
 }
 
 export interface ButtonLinkProps extends ClickableLinkProps, ButtonBaseProps {
+  autoFocus?: never
   href: string
 }
 
