@@ -11,6 +11,7 @@ import styles from './dropdown.css';
 
 const Anchor = ({children, className, ...restProps}) => (
   <Button
+    data-test-ring-dropdown-anchor
     text
     className={classNames(styles.anchor, className)}
     {...restProps}
