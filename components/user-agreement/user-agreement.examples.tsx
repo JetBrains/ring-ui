@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 
+import {Story} from '@storybook/react';
+
 import reactDecorator from '../../.storybook/react-decorator';
 
 import alert from '../alert-service/alert-service';
 
-import UserAgreement from './user-agreement';
-import UserAgreementService from './service';
+import UserAgreement, {UserAgreementAttrs} from './user-agreement';
+import UserAgreementService, {Agreement, Consent, ConsentResponse} from './service';
 import text from './toolbox.eula';
 
 export default {
@@ -20,7 +22,7 @@ export default {
   }
 };
 
-export const dialog = args => (
+export const dialog: Story<UserAgreementAttrs> = args => (
   <div>
     <UserAgreement {...args}/>
   </div>
@@ -40,7 +42,16 @@ dialog.parameters = {
 dialog.storyName = 'dialog';
 
 function noop() {}
-export const service = ({
+interface ServiceArgs {
+  onGetUserAgreement?: ((agreement: Agreement) => void) | undefined
+  onGetUserConsent?: ((response: ConsentResponse) => void) | undefined
+  onSetUserConsent?: ((consent: Consent) => void) | undefined
+  onAccept?: (() => void) | null | undefined
+  onDecline?: (() => void) | null | undefined
+  onDialogShow?: (() => void) | null | undefined
+  onDialogHide?: (() => void) | null | undefined
+}
+export const service: Story<ServiceArgs> = ({
   onGetUserAgreement = noop,
   onGetUserConsent = noop,
   onSetUserConsent = noop,
@@ -49,15 +60,19 @@ export const service = ({
   onDialogShow,
   onDialogHide
 }) => {
-  const fakeUserAgreement = {
+  const fakeUserAgreement: Agreement = {
     enabled: true,
     majorVersion: 1.0,
     text
   };
 
-  const fakeUserConsent = {
-    guest: true,
+  const fakeUserConsent: Consent = {
     accepted: false
+  };
+
+  const fakeUserConsentResponse: ConsentResponse = {
+    guest: true,
+    endUserAgreementConsent: fakeUserConsent
   };
 
   const agreementService = new UserAgreementService({
@@ -66,10 +81,13 @@ export const service = ({
       return fakeUserAgreement;
     },
     getUserConsent: () => {
-      onGetUserConsent(fakeUserConsent);
+      onGetUserConsent(fakeUserConsentResponse);
+      return fakeUserConsentResponse;
+    },
+    setUserConsent: () => {
+      onSetUserConsent(fakeUserConsent);
       return fakeUserConsent;
     },
-    setUserConsent: onSetUserConsent,
     onAccept,
     onDecline,
     onDialogShow,
