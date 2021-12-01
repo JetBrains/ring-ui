@@ -1,9 +1,10 @@
 import HTTP from '../http/http';
 import Auth, {AuthUser} from '../auth/auth';
+import {UserCardUser} from '../user-card/card';
 
 const DEFAULT_FIELDS = 'id,name,login,banned,banReason,profile(email/email,avatar/url)';
 
-export function convertUserForCard(hubUser: AuthUser, serverUri = '') {
+export function convertUserForCard(hubUser: AuthUser, serverUri = ''): UserCardUser {
   return {
     name: hubUser.name,
     login: hubUser.login,
@@ -15,7 +16,11 @@ export function convertUserForCard(hubUser: AuthUser, serverUri = '') {
   };
 }
 
-export function createHubUserCardSource(auth: Auth, userId: string, fields = DEFAULT_FIELDS) {
+export function createHubUserCardSource(
+  auth: Auth,
+  userId: string | number,
+  fields = DEFAULT_FIELDS
+) {
   const http = new HTTP(auth);
 
   return async function getHubUser() {
