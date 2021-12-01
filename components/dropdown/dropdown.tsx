@@ -3,8 +3,7 @@ import React, {
   Component,
   HTMLAttributes,
   ReactNode,
-  ReactElement,
-  ReactNodeArray
+  ReactElement
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -23,7 +22,7 @@ export interface AnchorProps {
 }
 
 export interface DropdownProps extends HTMLAttributes<HTMLElement> {
-  anchor: ReactElement | ReactNodeArray | string | ((props: AnchorProps) => ReactNode)
+  anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode)
   children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode)
   initShown: boolean
   clickMode: boolean
