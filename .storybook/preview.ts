@@ -5,6 +5,9 @@ import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ic
 
 import URLSearchParams from '@ungap/url-search-params';
 
+import {Component} from '@storybook/addon-docs';
+import {Parameters} from '@storybook/react';
+
 import styles from './preview.css';
 import stylesDecorator from './styles-decorator';
 
@@ -17,7 +20,7 @@ export const parameters = {
   docs: {
     ...docsReactParameters.docs,
     inlineStories: false,
-    extractComponentDescription: (component, {notes}) =>
+    extractComponentDescription: (component: Component, {notes}: Parameters) =>
       notes ?? component?.__docgenInfo?.description
   },
   a11y: {

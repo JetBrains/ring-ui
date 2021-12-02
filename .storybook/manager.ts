@@ -1,14 +1,14 @@
 import {addons} from '@storybook/addons';
-import {create} from '@storybook/theming/create';
+import {create} from '@storybook/theming';
 import {paramCase} from 'change-case';
 import '../components/global/variables.css';
 
 // Proxy support is more or less the same as one of CSS custom properties
-const variables = window.Proxy
+const variables: Record<string, string> = window.Proxy
   ? new Proxy(
     {},
     {
-      get: (_, prop) => getComputedStyle(document.documentElement).getPropertyValue(`--ring-${paramCase(prop)}`).trim()
+      get: (_, prop) => getComputedStyle(document.documentElement).getPropertyValue(`--ring-${paramCase(prop as string)}`).trim()
     },
   )
   : {};
@@ -23,7 +23,7 @@ const theme = variablesSupported
     // UI
     appBg: variables.sidebarBackgroundColor,
     appBorderColor: variables.lineColor,
-    appBorderRadius: variables.borderRadius,
+    appBorderRadius: parseInt(variables.borderRadius, 10),
 
     // Typography
     fontBase: variables.fontFamily,
