@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {useEffect} from '@storybook/client-api';
 
+import {StoryContext} from '@storybook/html';
+
 import {injectStyleSheet} from '../components/global/inject-styles';
 
-const stylesDecorator = (story, context) => {
+const stylesDecorator = (story: () => string | Node, context: StoryContext) => {
   const storyStyles = context.parameters?.storyStyles;
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import styles from './services.css';
 
 export interface Service {
   id: string
-  applicationName: string
+  applicationName?: string | null | undefined
   iconUrl?: string | null | undefined
   homeUrl: string
   name: string

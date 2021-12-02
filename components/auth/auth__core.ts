@@ -360,7 +360,7 @@ export default class Auth implements HTTPAuth {
    * @return {Promise.<string>} absolute URL promise that is resolved to a URL
    * that should be restored after returning back from auth server.
    */
-  async init() {
+  async init(): Promise<string | null | undefined> {
     this._storage?.onTokenChange(async token => {
       const isGuest = this.user ? this.user.guest : false;
 
@@ -441,7 +441,7 @@ export default class Auth implements HTTPAuth {
     }
   }
 
-  async sendRedirect(error: Error) {
+  async sendRedirect(error: Error): Promise<undefined> {
     const authRequest = await this._requestBuilder?.prepareAuthRequest();
     if (authRequest != null) {
       this._redirectCurrentPage(authRequest.url);
@@ -455,7 +455,7 @@ export default class Auth implements HTTPAuth {
     throw error;
   }
 
-  async handleInitError(error: Error | AuthError) {
+  async handleInitError(error: Error | AuthError): Promise<undefined> {
     if ('stateId' in error && error.stateId) {
       try {
         const state = await this._storage?.getState(error.stateId);
@@ -475,7 +475,7 @@ export default class Auth implements HTTPAuth {
     throw error;
   }
 
-  async handleInitValidationError(error: Error | TokenValidationError) {
+  async handleInitValidationError(error: Error | TokenValidationError): Promise<undefined> {
     // Redirect flow
     if ('authRedirect' in error && error.authRedirect && this.config.redirect) {
       return this.sendRedirect(error);

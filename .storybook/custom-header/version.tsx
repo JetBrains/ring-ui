@@ -16,14 +16,17 @@ const HOST = 'https://jetbrains.github.io/ring-ui';
 
 const rgItemType = DropdownMenu.ListProps.Type.LINK;
 
-const branchesArr = Object.keys(branches).map(version => ({
+const branchesArr = Object.entries(branches).map(([version, branch]) => ({
   version,
-  path: branches[version],
+  path: branch,
   // /^0\.1\.\d+$/
   versionRE: new RegExp(`^${version.replace(/\./g, '\\.').replace(/\*/g, '\\d+')}$`)
 }));
 
-const Version = ({version}) => (
+interface VersionProps {
+  version: string
+}
+const Version = ({version}: VersionProps) => (
   <DropdownMenu
     anchor={version}
     className={styles.version}

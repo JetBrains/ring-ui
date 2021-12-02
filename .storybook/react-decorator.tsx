@@ -2,8 +2,9 @@
 import React, {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
 import {useEffect, useMemo} from '@storybook/client-api';
+import {Story, StoryContext} from '@storybook/react';
 
-const reactDecorator = (story, context) => {
+const reactDecorator = (StoryFn: Story, context: StoryContext) => {
   const node = useMemo(
     () => document.createElement('div'),
     [context.kind, context.name]
@@ -11,7 +12,7 @@ const reactDecorator = (story, context) => {
   useEffect(() => () => ReactDOM.unmountComponentAtNode(node), [node]);
   ReactDOM.render((
     <StrictMode>
-      {story()}
+      <StoryFn/>
     </StrictMode>
   ), node);
   return node;
