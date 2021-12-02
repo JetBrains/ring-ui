@@ -1,4 +1,7 @@
-/* global hubConfig */
+declare const hubConfig: {
+  serverUri: string
+  clientId: string
+};
 const {serverUri, clientId} = hubConfig;
 
 const RING_UI_BASE = '/ring-ui/';
