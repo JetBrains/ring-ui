@@ -101,7 +101,7 @@ export const taggedTemplate = () =>
     \`\`\`js
     import React from 'react';
 
-    import {md} from '../markdown/markdown';
+    import {md} from '@jetbrains/ring-ui/components/markdown/markdown';
 
     const MarkdownHeader = ({children}) => md\`#\${children}\`;
     \`\`\`
