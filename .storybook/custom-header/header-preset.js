@@ -28,7 +28,7 @@ exports.managerWebpack = function managerWebpack(config) {
     ...config,
     entry: [
       ...config.entry,
-      require.resolve('./custom-header')
+      require.resolve('./custom-header.tsx')
     ],
     module: {
       ...config.module,
