@@ -1,11 +1,11 @@
 @import "../global/variables.css";
 
-@value unit, resetButton from "../global/global.css";
+@value unit from "../global/global.css";
 @value background-color: var(--ring-tag-background-color);
 @value max-height: 20px;
 
 .tag {
-  composes: resetButton;
+  composes: resetButton from "../global/global.css";
 
   position: relative;
   z-index: 1;
