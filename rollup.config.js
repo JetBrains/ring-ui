@@ -49,15 +49,21 @@ export default {
 
     babel({babelHelpers: 'bundled'}),
 
+    // NOTE: styles plugin runs 2 times. First time it applies all the PostCSS transforms
+    styles({
+      mode: 'emit',
+      config: true,
+      minimize: false
+    }),
+
+    // Second time it applies CSS Modules, extraction and minification. See why https://youtrack.jetbrains.com/issue/RG-2171#focus=Comments-27-5632562.0-0
     styles({
       modules: {
-        generateScopedName: '[local]_rui_[hash:4]'
+        generateScopedName: '[local]_rui_[hash:4]',
+        mode: 'local'
       },
-
       mode: ['extract', 'style.css'],
-
       config: true,
-
       minimize: true
     }),
 
