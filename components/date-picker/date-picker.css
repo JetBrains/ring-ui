@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit, resetButton from "../global/global.css";
+@value unit from "../global/global.css";
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
 @value calWidth: calc(unit * 37);
@@ -210,7 +210,7 @@
 }
 
 .day {
-  composes: resetButton;
+  composes: resetButton from "../global/global.css";
 }
 
 .day.day {
@@ -444,7 +444,7 @@
 
 .monthName {
   composes: hoverable;
-  composes: resetButton;
+  composes: resetButton from "../global/global.css";
 }
 
 .monthName.monthName {
@@ -461,7 +461,7 @@
 }
 
 .monthSlider {
-  composes: resetButton;
+  composes: resetButton from "../global/global.css";
 }
 
 .monthSlider.monthSlider {
@@ -514,7 +514,7 @@
 
 .year {
   composes: hoverable;
-  composes: resetButton;
+  composes: resetButton from "../global/global.css";
 }
 
 .year.year {

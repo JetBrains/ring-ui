@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit, resetButton from "../global/global.css";
+@value unit from "../global/global.css";
 @value overInputZIndex: 2;
 @value inputGap: calc(unit * 3);
 
@@ -239,7 +239,7 @@
 }
 
 .placeholder {
-  composes: resetButton;
+  composes: resetButton from "../global/global.css";
 
   position: absolute;
   top: 3px;

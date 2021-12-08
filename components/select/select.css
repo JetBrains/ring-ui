@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit, resetButton from "../global/global.css";
+@value unit from "../global/global.css";
 
 .select {
   position: relative;
@@ -67,7 +67,7 @@
 }
 
 .selectedIcon {
-  composes: resetButton;
+  composes: resetButton from "../global/global.css";
 
   display: inline-block;
 

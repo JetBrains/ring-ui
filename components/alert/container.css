@@ -1,7 +1,6 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value alert from "./alert.css";
 
 .alertContainer {
   position: fixed;
@@ -18,7 +17,7 @@
 }
 
 .alertInContainer {
-  composes: alert;
+  composes: alert from "./alert.css";
 
   min-width: calc(unit * 30);
   max-width: calc(unit * 50);
