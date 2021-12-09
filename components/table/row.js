@@ -85,9 +85,9 @@ export default class Row extends PureComponent {
 
   id = getUID('table-row-');
 
-  onMouseEnter = () => {
+  onMouseEnter = (e) => {
     const {item, onHover} = this.props;
-    onHover(item);
+    onHover(item, e);
   };
 
   onClick = e => {
