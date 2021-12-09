@@ -84,7 +84,7 @@
     "@storybook/addons": "6.4.8",
     "@storybook/builder-webpack5": "6.4.8",
     "@storybook/client-api": "6.4.8",
-    "@storybook/core": "6.4.4",
+    "@storybook/core": "6.4.9",
     "@storybook/html": "6.4.5",
     "@storybook/manager-webpack5": "^6.4.5",
     "@storybook/source-loader": "6.4.9",
