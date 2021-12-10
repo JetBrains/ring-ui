@@ -72,5 +72,5 @@
     "forceConsistentCasingInFileNames": true,        /* Disallow inconsistently-cased references to the same file. */
     "resolveJsonModule": true
   },
-  "include": ["components", "test-helpers", ".storybook/**/*", "typings.d.ts"]
+  "include": ["src", "test-helpers", ".storybook/**/*", "typings.d.ts"]
 }

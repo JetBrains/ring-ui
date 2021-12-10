@@ -1,5 +1,6 @@
 coverage
 dist
+components
 storybook-dist
 docs
 html-report
