@@ -13,7 +13,7 @@
     "jslint-xml.js",
     "typings.d.ts"
   ],
-  "main": "components/index.js",
+  "main": "src/index.js",
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "npm run lint:js -- --fix"
@@ -35,13 +35,16 @@
     "console-errors": "jest console-errors.test.js --watchAll",
     "console-errors-ci": "jest console-errors.test.js --reporters=jest-teamcity",
     "test": "karma start",
+    "pretest-generator-e2e": "npm run prebuild",
     "test-generator-e2e": "npm --prefix packages/generator test",
     "hermione-gui": "npm --prefix packages/hermione run gui",
     "hermione-test": "npm --prefix packages/hermione run test",
     "hermione-test-ci": "npm --prefix packages/hermione run test-ci",
     "hermione-gather": "npm --prefix packages/hermione run gather",
     "build-examples": "./node_modules/@storybook/html/bin/build.js --quiet -c .storybook -o storybook-dist",
+    "prebuild": "tsc --project tsconfig-build.json && cpy '**/*' '!**/*.ts' '!**/*.tsx' ../components --parents --cwd=src/",
     "build": "./node_modules/.bin/rollup -c",
+    "postbuild": "cpy '**/*.d.ts' ../dist --parents --cwd=components/",
     "serve": "npm --prefix packages/hermione run serve",
     "start": "./node_modules/@storybook/html/bin/index.js -p 9999",
     "storybook-debug": "node --inspect-brk node_modules/@storybook/html/bin -p 9999",
@@ -75,7 +78,6 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-replace": "^3.0.0",
-    "@rollup/plugin-typescript": "^8.3.0",
     "@storybook/addon-a11y": "6.4.8",
     "@storybook/addon-docs": "6.4.9",
     "@storybook/addon-essentials": "6.4.8",
@@ -201,6 +203,7 @@
     "combokeys": "^3.0.1",
     "compile-code-loader": "^1.0.0",
     "conic-gradient": "^1.0.0",
+    "cpy-cli": "^3.1.1",
     "css-loader": "^6.5.1",
     "csstype": "^3.0.9",
     "date-fns": "^2.27.0",

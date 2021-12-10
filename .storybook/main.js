@@ -1,3 +1,5 @@
+const path = require('path');
+
 const webpack = require('webpack');
 
 const ringConfig = require('../webpack.config').createConfig();
@@ -6,8 +8,8 @@ const pkgConfig = require('../package.json').config;
 module.exports = {
   stories: [
     // Make welcome stories default
-    '../components/welcome.examples.js',
-    '../components/**/*.examples.{js,ts,tsx}'
+    '../src/welcome.examples.js',
+    '../src/**/*.examples.{js,ts,tsx}'
   ],
   presets: [require.resolve('./custom-header/header-preset')],
   addons: [
@@ -19,7 +21,10 @@ module.exports = {
     builder: 'webpack5'
   },
   webpackFinal(config) {
-    ringConfig.componentsPath.push(/\.storybook/);
+    ringConfig.componentsPath.push(
+      __dirname,
+      path.resolve(__dirname, '../src')
+    );
     ringConfig.loaders.babelLoader.options.plugins = [[
       'babel-plugin-react-docgen',
       {

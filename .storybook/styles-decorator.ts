@@ -3,7 +3,7 @@ import {useEffect} from '@storybook/client-api';
 
 import {StoryContext} from '@storybook/html';
 
-import {injectStyleSheet} from '../components/global/inject-styles';
+import {injectStyleSheet} from '../src/global/inject-styles';
 
 const stylesDecorator = (story: () => string | Node, context: StoryContext) => {
   const storyStyles = context.parameters?.storyStyles;

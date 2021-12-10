@@ -1,7 +1,7 @@
 import {addons} from '@storybook/addons';
 import {create} from '@storybook/theming';
 import {paramCase} from 'change-case';
-import '../components/global/variables.css';
+import '../src/global/variables.css';
 
 // Proxy support is more or less the same as one of CSS custom properties
 const variables: Record<string, string> = window.Proxy
