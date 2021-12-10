@@ -29,7 +29,7 @@
     "html-reporter": "^8.0.1",
     "http-server": "^14.0.0",
     "ip": "^1.1.5",
-    "jest": "^27.3.1",
+    "jest": "^27.4.4",
     "kill-port": "^1.6.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
