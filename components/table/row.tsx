@@ -53,7 +53,7 @@ export interface RowProps<T extends SelectionItem> extends Omit<
   draggable: boolean
   alwaysShowDragHandle: boolean
   selected: boolean
-  onHover: (item: T) => void
+  onHover: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void
   onSelect: (item: T, selected: boolean) => void
   onDoubleClick: (item: T) => void
   onClick: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void
@@ -89,7 +89,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
 
   id = getUID('table-row-');
 
-  onMouseEnter = e => {
+  onMouseEnter = (e: React.MouseEvent<HTMLTableRowElement>) => {
     const {item, onHover} = this.props;
     onHover(item, e);
   };
