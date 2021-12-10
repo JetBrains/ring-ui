@@ -1,13 +1,18 @@
 /**
  * Storybook preset that patches manager's webpack config to enable loading Ring UI components
  */
+const path = require('path');
+
 const webpack = require('webpack');
 
 const pkgConfig = require('../../package.json').config;
 const ringConfig = require('../../webpack.config').createConfig();
 
 exports.managerWebpack = function managerWebpack(config) {
-  ringConfig.componentsPath.push(/\.storybook/);
+  ringConfig.componentsPath.push(
+    path.resolve(__dirname, '..'),
+    path.resolve(__dirname, '../../src')
+  );
   const svgLoader = {
     test: /\.svg$/,
     loader: require.resolve('svg-inline-loader'),
