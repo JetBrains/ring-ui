@@ -5,6 +5,6 @@ import './enzyme-configuration';
 
 configure({testIdAttribute: 'data-test'});
 
-const testsContext = require.context('../components', true, /\.test\.[jt]sx?$/);
+const testsContext = require.context('../src', true, /\.test\.[jt]sx?$/);
 
 testsContext.keys().forEach(testsContext);

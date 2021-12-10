@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DropdownMenu from '../../components/dropdown-menu/dropdown-menu';
+import DropdownMenu from '../../src/dropdown-menu/dropdown-menu';
 
 import branches from '../branches.json';
 

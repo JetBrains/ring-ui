@@ -51,7 +51,7 @@ module.exports = {
   overrides: [
     {
       files: [
-        'components/**/*'
+        'src/**/*'
       ],
       env: {
         browser: true,

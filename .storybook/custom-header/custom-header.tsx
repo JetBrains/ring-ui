@@ -4,17 +4,17 @@ import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
 import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
 
 import packageInfo from '../../package.json';
-import Auth from '../../components/auth/auth';
-import IFrameFlow from '../../components/auth/iframe-flow';
+import Auth from '../../src/auth/auth';
+import IFrameFlow from '../../src/auth/iframe-flow';
 import Header, {
   Tray,
   TrayIcon,
   Logo,
   SmartProfile,
   Services
-} from '../../components/header/header';
+} from '../../src/header/header';
 import hubConfig from '../hub-config';
-import authDialogService from '../../components/auth-dialog-service/auth-dialog-service';
+import authDialogService from '../../src/auth-dialog-service/auth-dialog-service';
 
 import Version from './version';
 import styles from './header-styles.css';
