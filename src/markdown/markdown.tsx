@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {ComponentType, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown, {ReactMarkdownProps} from 'react-markdown';
 import classNames from 'classnames';
@@ -25,14 +25,6 @@ export type MarkdownProps = ReactMarkdownProps & BaseMarkdownProps
 */
 
 export default class Markdown extends PureComponent<MarkdownProps> {
-  static propTypes = {
-    inline: PropTypes.bool,
-    source: PropTypes.string,
-    className: PropTypes.string,
-    renderers: PropTypes.object,
-    plugins: PropTypes.array
-  };
-
   render() {
     const {className, renderers, inline, source, plugins = [], ...restProps} = this.props;
 
@@ -59,6 +51,14 @@ export default class Markdown extends PureComponent<MarkdownProps> {
     );
   }
 }
+
+(Markdown as ComponentType<unknown>).propTypes = {
+  inline: PropTypes.bool,
+  source: PropTypes.string,
+  className: PropTypes.string,
+  renderers: PropTypes.object,
+  plugins: PropTypes.array
+};
 
 const md = trivialTemplateTag(source => <Markdown {...{source}}/>);
 
