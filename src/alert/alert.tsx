@@ -25,11 +25,11 @@ export const ANIMATION_TIME = 500;
  * @enum {string}
  */
 export enum AlertType {
-  ERROR= 'error',
-  MESSAGE= 'message',
-  SUCCESS= 'success',
-  WARNING= 'warning',
-  LOADING= 'loading'
+  ERROR = 'error',
+  MESSAGE = 'message',
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  LOADING = 'loading'
 }
 
 /**

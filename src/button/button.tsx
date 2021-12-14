@@ -1,11 +1,17 @@
 import 'focus-visible';
-import React, {createRef, PureComponent, ButtonHTMLAttributes, ComponentPropsWithRef} from 'react';
+import React, {
+  createRef,
+  PureComponent,
+  ButtonHTMLAttributes,
+  ClassAttributes,
+  ForwardRefExoticComponent
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px';
 
 import Icon, {IconType, Size} from '../icon/icon';
-import Theme, {ThemeProps, withTheme} from '../global/theme';
+import Theme, {ThemeOuterProps, ThemeProps, withTheme} from '../global/theme';
 import ClickableLink, {ClickableLinkProps} from '../link/clickableLink';
 
 import styles from './button.css';
@@ -159,8 +165,12 @@ export {Size as IconSize};
 
 const ThemedButton = withTheme()(Button);
 
-export type ButtonAttrs = ComponentPropsWithRef<typeof ThemedButton>
+export type ContainerProps<T> =
+  Omit<T, keyof ThemeProps> & ThemeOuterProps & ClassAttributes<Button>
 
-export default ThemedButton;
+export type ButtonAttrs = ContainerProps<ButtonButtonProps> | ContainerProps<ButtonLinkProps>
+
+export default ThemedButton as ForwardRefExoticComponent<ButtonAttrs> &
+  Pick<typeof Button, 'Theme' | 'IconSize'>;
 
 
