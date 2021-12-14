@@ -46,7 +46,6 @@ project {
     buildType(PublishNext)
     buildType(AllChecks)
     buildType(PublishToGitHubPages)
-    buildType(GeneratorE2eTest)
     buildType(PublishHotfixRelease)
 
     params {
@@ -144,7 +143,7 @@ project {
             param("multi", "true")
         }
     }
-    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, PublishHotfixRelease, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, AllChecks)
+    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, PublishHotfixRelease, Deploy, PublishToGitHubPages, PublishNext, UnpublishSpecificVersion, AllChecks)
 }
 
 object AllChecks : BuildType({
@@ -189,9 +188,6 @@ object AllChecks : BuildType({
 
     dependencies {
         snapshot(GeminiTests) {
-            onDependencyCancel = FailureAction.ADD_PROBLEM
-        }
-        snapshot(GeneratorE2eTest) {
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
         snapshot(A11yAudit) {
@@ -626,113 +622,6 @@ object SecurityAudit : BuildType({
     requirements {
         exists("docker.version")
         contains("docker.server.osType", "linux")
-    }
-})
-
-object GeneratorE2eTest : BuildType({
-    name = "Generator E2E test"
-
-    allowExternalStatus = true
-
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-
-    params {
-      param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "")
-    }
-
-    steps {
-        script {
-            name = "Test"
-            scriptContent = """
-                #!/bin/bash
-                set -e -x
-
-                node -v
-                npm -v
-
-                apt update
-                apt install g++ gcc make python -y
-                npm install
-                npm run bootstrap
-
-                useradd user -m
-                su user -c "npm run test-generator-e2e"
-            """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:14.18"
-            dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
-        }
-    }
-
-    triggers {
-        vcs {
-            enabled = false
-            triggerRules = "-:user=npmjs-buildserver:**"
-            branchFilter = ""
-        }
-        retryBuild {
-        }
-    }
-
-    failureConditions {
-        executionTimeoutMin = 20
-        errorMessage = true
-        failOnText {
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "ERROR:"
-            failureMessage = "console.error appeared in log"
-            reverse = false
-        }
-        failOnText {
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "WARN:"
-            failureMessage = "console.warn appeared in log"
-            reverse = false
-        }
-        failOnText {
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "LOG:"
-            failureMessage = "console.log appeared in log"
-            reverse = false
-        }
-        failOnMetricChange {
-            metric = BuildFailureOnMetric.MetricType.INSPECTION_WARN_COUNT
-            threshold = 0
-            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
-            comparison = BuildFailureOnMetric.MetricComparison.MORE
-            compareTo = value()
-            param("anchorBuild", "lastSuccessful")
-        }
-        failOnMetricChange {
-            metric = BuildFailureOnMetric.MetricType.TEST_COUNT
-            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
-            comparison = BuildFailureOnMetric.MetricComparison.LESS
-            compareTo = build {
-                buildRule = lastSuccessful()
-            }
-        }
-    }
-
-    features {
-        swabra {
-            filesCleanup = Swabra.FilesCleanup.AFTER_BUILD
-            forceCleanCheckout = true
-            verbose = true
-            paths = ".npmrc"
-        }
-        commitStatusPublisher {
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:5ffe2d7e-531e-4f6f-b1fc-a41bfea26eaa"
-                }
-            }
-        }
-    }
-
-    requirements {
-        doesNotContain("teamcity.agent.jvm.os.name", "Windows")
     }
 })
 
