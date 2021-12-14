@@ -35,8 +35,6 @@
     "console-errors": "jest console-errors.test.js --watchAll",
     "console-errors-ci": "jest console-errors.test.js --reporters=jest-teamcity",
     "test": "karma start",
-    "pretest-generator-e2e": "npm run prebuild",
-    "test-generator-e2e": "npm --prefix packages/generator test",
     "hermione-gui": "npm --prefix packages/hermione run gui",
     "hermione-test": "npm --prefix packages/hermione run test",
     "hermione-test-ci": "npm --prefix packages/hermione run test-ci",

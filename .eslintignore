@@ -6,7 +6,6 @@ docs
 html-report
 node_modules
 build
-packages/generator/**/templates
 test_gen
 !.eslintrc.js
 !.storybook
