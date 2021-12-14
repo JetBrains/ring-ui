@@ -37,17 +37,6 @@ export const Demo = () => {
 
 The bundle size will depend on the amount of components you imported.
 
-### Generating app
-
-1. Install Yeoman and Ring UI generator: `npm install -g yo@next-4 @jetbrains/generator-ring-ui`
-2. Go to the root directory of your project (create one if necessary), run `yo @jetbrains/ring-ui` and enter the name of the project. Then run `npm install` to install all the necessary npm dependencies.
-3. Your project is ready to be developed. The following commands are available:
-  - `npm start` to run a local development server
-  - `npm test` to launch karma tests
-  - `npm run lint` to lint your code
-  - `npm run build` to build a production bundle
-  - `npm run create-component` to create a new component template with styles and tests
-
 ### Building Ring UI from source via Webpack
 
 In case you have complex build, and you want to compile RingUI sources together with your sources
@@ -85,18 +74,6 @@ in a same build process, you can use the following configuration:
    
    module.exports = webpackConfig;
    ```
-
-### Yeoman scaffolding
-
-1. Install Yeoman and Ring UI generator: `npm install -g yo @jetbrains/generator-ring-ui`
-2. Go to the root directory of your project (create one if necessary) and run `yo @jetbrains/ring-ui`. After you enter the name of the project all the necessary npm dependencies will be installed.
-3. Your project is ready to be developed. The following commands are available:
-  - `npm start` to run a local development server
-  - `npm test` to launch karma tests
-  - `npm run lint` to lint your code
-  - `npm run build` to build a production bundle
-  - `npm run create-component` to create a new component template with styles and tests
-
 
 ## Contributing
 
