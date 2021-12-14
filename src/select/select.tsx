@@ -3,10 +3,9 @@ import React, {
   Component,
   ComponentType,
   CSSProperties,
-  DetailedHTMLProps,
   Fragment,
   HTMLAttributes,
-  ReactNode,
+  ReactNode, RefCallback,
   SyntheticEvent
 } from 'react';
 import classNames from 'classnames';
@@ -135,11 +134,8 @@ export interface DataTestProps {
 }
 
 export interface CustomAnchorProps {
-  wrapperProps: DetailedHTMLProps<HTMLAttributes<HTMLElement> & DataTestProps, HTMLElement>
-  buttonProps: DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement> & DataTestProps,
-    HTMLButtonElement
-  >
+  wrapperProps: HTMLAttributes<HTMLElement> & DataTestProps & {ref: RefCallback<HTMLElement>}
+  buttonProps: ButtonHTMLAttributes<HTMLButtonElement> & DataTestProps,
   popup: ReactNode
 }
 

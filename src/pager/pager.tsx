@@ -18,11 +18,11 @@ import Icon from '../icon/icon';
 import style from './pager.css';
 
 export interface PagerTranslations {
-  perPage: 'per page',
-  firstPage: 'First page',
-  lastPage: 'Last page',
-  nextPage: 'Next page',
-  previousPage: 'Previous'
+  perPage: string
+  firstPage: string
+  lastPage: string
+  nextPage: string
+  previousPage: string
 }
 
 export interface PagerProps {
@@ -49,25 +49,6 @@ interface PagerSizeItem {
 }
 
 export default class Pager extends PureComponent<PagerProps> {
-  static propTypes = {
-    total: PropTypes.number.isRequired,
-    currentPage: PropTypes.number,
-    pageSize: PropTypes.number,
-    pageSizes: PropTypes.arrayOf(PropTypes.number),
-    visiblePagesLimit: PropTypes.number,
-    disablePageSizeSelector: PropTypes.bool,
-    openTotal: PropTypes.bool,
-    canLoadLastPageWithOpenTotal: PropTypes.bool,
-    onPageChange: PropTypes.func,
-    onPageSizeChange: PropTypes.func,
-    onLoadPage: PropTypes.func,
-    className: PropTypes.string,
-    translations: PropTypes.object,
-    loader: PropTypes.bool,
-    loaderNavigation: PropTypes.bool,
-    hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
-  };
-
   static defaultProps = {
     currentPage: 1,
     pageSize: 50,
@@ -368,5 +349,24 @@ export default class Pager extends PureComponent<PagerProps> {
     );
   }
 }
+
+(Pager as ComponentType<unknown>).propTypes = {
+  total: PropTypes.number.isRequired,
+  currentPage: PropTypes.number,
+  pageSize: PropTypes.number,
+  pageSizes: PropTypes.arrayOf(PropTypes.number),
+  visiblePagesLimit: PropTypes.number,
+  disablePageSizeSelector: PropTypes.bool,
+  openTotal: PropTypes.bool,
+  canLoadLastPageWithOpenTotal: PropTypes.bool,
+  onPageChange: PropTypes.func,
+  onPageSizeChange: PropTypes.func,
+  onLoadPage: PropTypes.func,
+  className: PropTypes.string,
+  translations: PropTypes.object,
+  loader: PropTypes.bool,
+  loaderNavigation: PropTypes.bool,
+  hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
+};
 
 export type PagerAttrs = JSX.LibraryManagedAttributes<typeof Pager, PagerProps>

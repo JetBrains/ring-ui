@@ -1,4 +1,4 @@
-import React, {PureComponent, HTMLAttributes} from 'react';
+import React, {PureComponent, ImgHTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -23,7 +23,7 @@ export enum Size {
   Size56 = 56
 }
 
-export interface AvatarProps extends HTMLAttributes<HTMLElement> {
+export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
   dpr: number
   size: Size
   subavatarSize: number
