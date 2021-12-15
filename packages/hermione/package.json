@@ -22,7 +22,7 @@
     "axios": "^0.24.0",
     "browserstack-local": "^1.4.8",
     "dotenv": "^10.0.0",
-    "filenamify": "^4.3.0",
+    "filenamify": "^5.0.2",
     "font-awesome": "^4.7.0",
     "fs-extra": "^10.0.0",
     "hermione": "^4.7.5",
