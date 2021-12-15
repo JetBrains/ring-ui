@@ -144,7 +144,7 @@
     "storage-mock": "^2.1.0",
     "stylelint": "^14.1.0",
     "svg-inline-loader": "^0.8.2",
-    "teamcity-service-messages": "^0.1.11",
+    "teamcity-service-messages": "^0.1.12",
     "terser-webpack-plugin": "^5.2.5",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.65.0",
