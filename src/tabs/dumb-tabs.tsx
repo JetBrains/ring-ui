@@ -53,7 +53,7 @@ class Tabs extends PureComponent<TabsProps> {
     }
 
     const {selected} = this.props;
-    const {title, id, disabled, href, className, activeClassName} = child.props;
+    const {title, titleProps, id, disabled, href, className, activeClassName} = child.props;
     const key = id || String(i);
     const isSelected = key === selected;
     const titleClasses = classNames(
@@ -76,6 +76,7 @@ class Tabs extends PureComponent<TabsProps> {
         className={titleClasses}
         disabled={disabled}
         onPlainLeftClick={this.handleSelect(key)}
+        {...titleProps}
       />
     );
   };
