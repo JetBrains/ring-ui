@@ -19,7 +19,7 @@ export default {
   }
 };
 
-export const gettingStarted = () => <Markdown source={ReadMe}/>;
-export const contributing = () => <Markdown source={Contributing}/>;
-export const changelog = () => <Markdown source={Changelog}/>;
+export const gettingStarted = () => <Markdown>{ReadMe}</Markdown>;
+export const contributing = () => <Markdown>{Contributing}</Markdown>;
+export const changelog = () => <Markdown>{Changelog}</Markdown>;
 export const license = () => <pre>{License}</pre>;
