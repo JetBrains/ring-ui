@@ -30,7 +30,7 @@
   border-radius: var(--ring-border-radius);
 
   background: var(--ring-popup-background-color);
-  box-shadow: 0 2px 16px 0 var(--ring-popup-shadow-color);
+  box-shadow: var(--ring-popup-shadow);
 
   font-size: 12px;
   line-height: 22px;

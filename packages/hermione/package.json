@@ -6,8 +6,8 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx npm-force-resolutions@0.0.7",
-    "postinstall": "npx npm-force-resolutions@0.0.7",
+    "preinstall": "npx npm-force-resolutions@0.0.3",
+    "postinstall": "npx npm-force-resolutions@0.0.3",
     "pregui": "kill-port 8000",
     "gather": "npm run hermione -- --update-refs",
     "gui": "npm run hermione gui",
