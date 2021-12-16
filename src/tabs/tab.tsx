@@ -5,9 +5,11 @@ import classNames from 'classnames';
 import dataTests from '../global/data-tests';
 
 import styles from './tabs.css';
+import {TabLinkProps} from './tab-link';
 
 export interface TabProps {
   title?: ReactNode | ((isSelected: boolean, collapsed: boolean | undefined) => ReactNode)
+  titleProps?: Partial<TabLinkProps>
   id?: string | null | undefined
   className?: string | null | undefined
   children?: ReactNode

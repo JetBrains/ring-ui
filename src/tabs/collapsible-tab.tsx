@@ -31,6 +31,7 @@ const TabTitle = React.memo(function TabTitle({
 
   const {
     title,
+    titleProps,
     disabled,
     href,
     className,
@@ -59,6 +60,7 @@ const TabTitle = React.memo(function TabTitle({
       onPlainLeftClick={handleSelect}
       tabIndex={tabIndex}
       collapsed={collapsed}
+      {...titleProps}
     />
   );
 });
