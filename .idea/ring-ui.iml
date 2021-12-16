@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/hermione/html-report" />
       <excludeFolder url="file://$MODULE_DIR$/.husky/_" />
       <excludeFolder url="file://$MODULE_DIR$/storybook-dist" />
+      <excludeFolder url="file://$MODULE_DIR$/components" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
