@@ -22,6 +22,4 @@
   min-width: calc(unit * 30);
   max-width: calc(unit * 50);
   margin-top: 0;
-
-  box-shadow: 0 2px 8px rgba(0, 42, 76, 0.3);
 }

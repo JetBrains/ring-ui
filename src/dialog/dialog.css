@@ -54,7 +54,7 @@
 }
 
 .content.content {
-  box-shadow: 0 2px 16px var(--ring-popup-shadow-color);
+  box-shadow: var(--ring-dialog-shadow);
 }
 
 .clickableOverlay {

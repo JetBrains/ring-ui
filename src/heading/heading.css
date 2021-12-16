@@ -13,13 +13,16 @@
     margin-bottom: 8px;
 
     color: var(--ring-heading-color);
+  }
 
+  @nest h1& {
     font-size: 24px;
     line-height: 28px;
   }
 
   @nest h2& {
-    font-weight: 200;
+    font-size: 20px;
+    line-height: 24px;
   }
 
   @nest h3& {
