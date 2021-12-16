@@ -675,7 +675,7 @@ withCustomItemsAndAnAddItemButton.parameters = {
   storyStyles: `
 <style>
   .label {
-    border-radius: 3px;
+    border-radius: var(--ring-border-radius);
     color: #669ECC;
     background-color: #E5F4FF;
     padding-left: 8px;

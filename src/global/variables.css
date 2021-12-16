@@ -6,12 +6,12 @@
   /* Element */
   --ring-line-color: #dfe5eb;
   --ring-dark-line-color: #475159;
-  --ring-borders-color: #b8d1e5;
+  --ring-borders-color: #c5d1db;
   --ring-dark-borders-color: #406380;
-  --ring-icon-color: var(--ring-borders-color);
+  --ring-icon-color: #b8d1e5;
   --ring-icon-secondary-color: #999;
-  --ring-border-disabled-color: #dbdbdb;
-  --ring-icon-disabled-color: #bbb;
+  --ring-border-disabled-color: #d4d4d4;
+  --ring-icon-disabled-color: #d4d4d4;
   --ring-border-hover-color: #80c6ff;
   --ring-dark-border-hover-color: #70b1e6;
   --ring-icon-hover-color: var(--ring-link-hover-color);
@@ -21,10 +21,13 @@
   --ring-icon-warning-color: #eda200;
   --ring-icon-success-color: #59a869;
   --ring-pale-control-color: #cfdbe5;
-  --ring-popup-border-components: 0, 42, 76;
-  --ring-popup-border-color: rgba(var(--ring-popup-border-components), 0.1);
-  --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.15);
+  --ring-popup-border-components: 0, 28, 54;
+  --ring-popup-border-color: var(--ring-line-color);
+  --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.1);
+  --ring-popup-secondary-shadow-color: rgba(var(--ring-popup-border-components), 0.04);
   --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);
+  --ring-popup-shadow: 0 2px 8px var(--ring-popup-shadow-color), 0 1px 2px var(--ring-popup-secondary-shadow-color);
+  --ring-dialog-shadow: 0 4px 24px var(--ring-popup-shadow-color), 0 2px 6px var(--ring-popup-secondary-shadow-color);
   --ring-pinned-shadow-color: #737577;
 
   /* Text */
@@ -75,7 +78,7 @@
   --ring-code-deletion-color: #c8c8c8;
 
   /* Metrics */
-  --ring-border-radius: 3px;
+  --ring-border-radius: 4px;
   --ring-border-radius-small: 2px;
   --ring-font-size-larger: 14px;
   --ring-font-size: 13px;

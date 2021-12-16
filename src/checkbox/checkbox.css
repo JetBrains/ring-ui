@@ -36,7 +36,7 @@
   pointer-events: none;
 
   border: 1px solid var(--ring-borders-color);
-  border-radius: 3px;
+  border-radius: var(--ring-border-radius);
   background-color: var(--ring-content-background-color);
 }
 
