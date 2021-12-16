@@ -1,19 +1,16 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import Heading, {Levels} from '../heading/heading';
+import {HeadingProps} from 'react-markdown/lib/ast-to-react';
 
-export interface MarkdownHeadingProps {
-  level?: Levels | undefined
-  children?: ReactNode
-}
+import Heading from '../heading/heading';
 
-const MarkdownHeading = ({level, children}: MarkdownHeadingProps) =>
+const MarkdownHeading = ({level, children}: HeadingProps) =>
   <Heading level={level}>{children}</Heading>;
 
 MarkdownHeading.propTypes = {
-  level: PropTypes.number,
-  children: PropTypes.node
+  level: PropTypes.number.isRequired,
+  children: PropTypes.array.isRequired
 };
 
 export default MarkdownHeading;

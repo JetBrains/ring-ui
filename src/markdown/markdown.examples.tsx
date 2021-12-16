@@ -14,8 +14,7 @@ export default {
 };
 
 export const basic = () => (
-  <Markdown
-    source={`
+  <Markdown>{`
           # Header
 
           _Various_ types of **highlighting**
@@ -61,7 +60,7 @@ export const basic = () => (
           );
           \`\`\`
         `}
-  />
+  </Markdown>
 );
 
 basic.storyName = 'basic';

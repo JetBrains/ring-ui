@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
@@ -9,13 +10,13 @@ import Markdown, {MarkdownProps} from './markdown';
 describe('Markdown', () => {
   const shallowMarkdown = (props?: Partial<MarkdownProps>) => shallow(
     <Markdown
-      source=""
+      children=""
       {...props}
     />
   );
   const mountMarkdown = (props?: Partial<MarkdownProps>) => mount(
     <Markdown
-      source=""
+      children=""
       {...props}
     />
   );
@@ -29,18 +30,18 @@ describe('Markdown', () => {
   });
 
   it('should convert links to ring Links', () => {
-    const wrapper = mountMarkdown({source: '[link](/)'});
+    const wrapper = mountMarkdown({children: '[link](/)'});
     wrapper.should.have.descendants(Link);
   });
 
   it('should convert inline code to ring Code', () => {
-    const wrapper = mountMarkdown({source: '`some(code)`'});
+    const wrapper = mountMarkdown({children: '`some(code)`'});
     wrapper.should.have.descendants(Code);
   });
 
   it('should convert block code to ring Code', () => {
     const wrapper = mountMarkdown({
-      source: `
+      children: `
         \`\`\`
         some(code)
         \`\`\`
@@ -51,7 +52,7 @@ describe('Markdown', () => {
 
   it('should convert not finished code block to empty ring Code', () => {
     const wrapper = mountMarkdown({
-      source: `
+      children: `
         \`\`\`
       `
     });

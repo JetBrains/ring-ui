@@ -1,6 +1,6 @@
 import React, {ComponentType, PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import ReactMarkdown, {ReactMarkdownProps} from 'react-markdown';
+import ReactMarkdown, {Options} from 'react-markdown';
 import classNames from 'classnames';
 import RemarkBreaks from 'remark-breaks';
 import RemarkGFM from 'remark-gfm';
@@ -14,11 +14,10 @@ import Heading from './heading';
 import styles from './markdown.css';
 
 export interface BaseMarkdownProps {
-  source: string
   inline?: boolean | null | undefined
 }
 
-export type MarkdownProps = ReactMarkdownProps & BaseMarkdownProps
+export type MarkdownProps = Options & BaseMarkdownProps
 
 /**
   * @name Markdown
@@ -26,7 +25,7 @@ export type MarkdownProps = ReactMarkdownProps & BaseMarkdownProps
 
 export default class Markdown extends PureComponent<MarkdownProps> {
   render() {
-    const {className, renderers, inline, source, plugins = [], ...restProps} = this.props;
+    const {className, components, inline, children, plugins = [], ...restProps} = this.props;
 
     const classes = classNames(className, {
       [styles.markdown]: !inline,
@@ -36,30 +35,32 @@ export default class Markdown extends PureComponent<MarkdownProps> {
     return (
       <ReactMarkdown
         className={classes}
-        source={normalizeIndent(source)}
-        plugins={[RemarkBreaks, RemarkGFM, ...plugins] as ReactMarkdownProps['plugins']}
-        renderers={{
-          link: Link,
-          linkReference: Link,
+        plugins={[RemarkBreaks, RemarkGFM, ...plugins]}
+        components={{
+          a: Link,
           code: Code,
-          inlineCode: Code,
-          heading: Heading,
-          ...renderers
+          h1: Heading,
+          h2: Heading,
+          h3: Heading,
+          h4: Heading,
+          h5: Heading,
+          h6: Heading,
+          ...components
         }}
         {...restProps}
-      />
+      >{normalizeIndent(children)}</ReactMarkdown>
     );
   }
 }
 
 (Markdown as ComponentType<unknown>).propTypes = {
   inline: PropTypes.bool,
-  source: PropTypes.string,
+  children: PropTypes.string,
   className: PropTypes.string,
-  renderers: PropTypes.object,
+  components: PropTypes.object,
   plugins: PropTypes.array
 };
 
-const md = trivialTemplateTag(source => <Markdown {...{source}}/>);
+const md = trivialTemplateTag(source => <Markdown>{source}</Markdown>);
 
 export {md};

@@ -2,7 +2,15 @@
 
 ### BREAKING CHANGES
 - The codebase has migrated to TypeScript
-
+- `react-markdown` has been updated to v7, which affects the props of `Markdown` component. The most notable change is replacing `source` with `children`:
+  ```js
+  // before
+  <Markdown source="some markdown" />
+  
+  // after
+  <Markdown>some markdown</Markdown>
+  ```
+  See `react-markdown`'s [changelog](https://github.com/remarkjs/react-markdown/blob/main/changelog.md#600---2021-04-15) for other changes
 
 ## [4.1.0]
 
