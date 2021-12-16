@@ -109,7 +109,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
           fade
           onScrollToBottom={this.onScrollToBottom}
         >
-          <Markdown source={text}/>
+          <Markdown>{text}</Markdown>
         </Content>
         {!preview && (
           <Panel>

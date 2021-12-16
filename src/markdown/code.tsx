@@ -1,25 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {CodeProps, ComponentType} from 'react-markdown/lib/ast-to-react';
+
 import Code from '../code/code';
 
-interface MarkdownCodeProps {
-  language?: string | null | undefined
-  value?: string | null | undefined
-  inline?: boolean | undefined
+declare module 'react-markdown/lib/complex-types' {
+  interface ReactMarkdownProps {
+    language?: string
+  }
 }
 
-const MarkdownCode = ({value, language, inline}: MarkdownCodeProps) => (
+const MarkdownCode = ({children, language, inline}: CodeProps) => (
   <Code
     language={language}
-    code={value || ''}
+    code={children?.join('') || ''}
     inline={inline}
   />
 );
 
-MarkdownCode.propTypes = {
+(MarkdownCode as ComponentType<CodeProps>).propTypes = {
   language: PropTypes.string,
-  value: PropTypes.string,
+  children: PropTypes.array.isRequired,
   inline: PropTypes.bool
 };
 
