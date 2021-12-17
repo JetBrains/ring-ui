@@ -145,7 +145,7 @@
     "stylelint": "^14.1.0",
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.12",
-    "terser-webpack-plugin": "^5.2.5",
+    "terser-webpack-plugin": "^5.3.0",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1",
