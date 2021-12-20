@@ -3,6 +3,7 @@ export default `<div
   ng-class="[!dialog.inSidebar && dialog.dialogStyles.container]"
   ng-click="dialog.handleClick($event)"
   ng-attr-data-portaltarget="{{!dialog.inSidebar  ? 'dialog-ng-popup-container' : null}}"
+  ng-attr-data-test="ring-dialog-container"
 >
   <div ng-class="[dialog.dialogStyles.innerContainer]">
     <div data-anchor="dialog-container"
