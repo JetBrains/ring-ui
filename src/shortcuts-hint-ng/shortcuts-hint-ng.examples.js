@@ -10,7 +10,7 @@ export default {
 
   parameters: {
     notes: 'Displays a popup listing all registered shortcuts.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+    hermione: {captureSelector: '*[data-test~=ring-dialog-container]'}
   }
 };
 
