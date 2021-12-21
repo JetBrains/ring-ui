@@ -6,12 +6,46 @@ import React, {
   RefAttributes,
   ExoticComponent,
   PropsWithoutRef,
-  FunctionComponent
+  FunctionComponent,
+  HTMLAttributes,
+  useMemo
 } from 'react';
+import classNames from 'classnames';
+
+import {PopupTarget} from '../popup/popup.target';
+
+import styles from './variables_dark.css';
+import getUID from './get-uid';
 
 enum Theme {
   LIGHT= 'light',
   DARK= 'dark'
+}
+
+export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
+  theme: Theme
+  passToPopups?: boolean
+}
+
+export function ThemeProvider({
+  theme,
+  className,
+  passToPopups,
+  children,
+  ...restProps
+}: ThemeProviderProps) {
+  const id = useMemo(() => getUID('popups-with-theme-'), []);
+  return (
+    <div className={classNames(className, {[styles.dark]: theme === Theme.DARK})} {...restProps}>{
+      passToPopups
+        ? (
+          <PopupTarget id={id}>
+            {target => <>{children}{target}</>}
+          </PopupTarget>
+        )
+        : children}
+    </div>
+  );
 }
 
 export const ThemeContext = createContext<Theme | null>(null);

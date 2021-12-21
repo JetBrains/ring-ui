@@ -15,7 +15,7 @@
   --ring-border-hover-color: #80c6ff;
   --ring-dark-border-hover-color: #70b1e6;
   --ring-icon-hover-color: var(--ring-link-hover-color);
-  --ring-main-color: #008eff;
+  --ring-main-color: #0080e5;
   --ring-main-hover-color: #007ee5;
   --ring-icon-error-color: #db5860;
   --ring-icon-warning-color: #eda200;
@@ -60,6 +60,7 @@
   --ring-removed-background-color: #ffd5cb;
   --ring-warning-background-color: #faeccd;
   --ring-added-background-color: #bce8bb;
+  --ring-disabled-background-color: #f5f5f5;
 
   /* Code */
   --ring-code-background-color: var(--ring-content-background-color);
