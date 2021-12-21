@@ -160,10 +160,15 @@ export const autoPositioning = () => {
 autoPositioning.storyName = 'auto-positioning';
 
 autoPositioning.parameters = {
-  hermione: {captureSelector: ['.left', '.right', '.bottom', '.top']},
+  hermione: {captureSelector: 'body'},
   a11y: {element: '.left,.right,.bottom,.top'},
   storyStyles: `
 <style>
+  html, body {
+    height: 100%;
+    margin: 0 !important;
+  }
+
   .message {
     position: absolute;
 
