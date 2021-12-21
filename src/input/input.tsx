@@ -4,17 +4,12 @@ import React, {
   ComponentType,
   InputHTMLAttributes,
   TextareaHTMLAttributes,
-  ReactNode,
-  ExoticComponent,
-  PropsWithoutRef,
-  RefAttributes,
-  ComponentProps
+  ReactNode
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close';
 
-import Theme, {ThemeOuterProps, ThemeProps, withTheme} from '../global/theme';
 import {refObject} from '../global/prop-types';
 import Button from '../button/button';
 
@@ -41,17 +36,14 @@ enum Size {
   FULL = 'FULL'
 }
 
-export interface InputBaseProps extends ThemeProps {
+export interface InputBaseProps {
   size: Size
   enableShortcuts: boolean | string[]
-  renderUnderline: (underlineRef: Ref<HTMLDivElement>, errorText: ReactNode) => ReactNode
   children?: string | undefined
   inputClassName?: string | null | undefined
   label?: ReactNode
   active?: boolean | null | undefined
-  compact?: boolean | null | undefined
-  error?: string | null | undefined
-  borderless?: boolean | null | undefined
+  error?: ReactNode | null | undefined
   onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
   loading?: boolean | null | undefined
   icon?: string | ComponentType | null | undefined
@@ -78,13 +70,7 @@ export class Input extends PureComponent<InputProps> {
     size: Size.M,
     onChange: noop,
     inputRef: noop,
-    enableShortcuts: ['esc'],
-    renderUnderline: (underlineRef: Ref<HTMLDivElement>, errorText: ReactNode) => (
-      <div
-        className={styles.errorText}
-        ref={underlineRef}
-      >{errorText}</div>
-    )
+    enableShortcuts: ['esc']
   };
 
   state = {
@@ -100,7 +86,6 @@ export class Input extends PureComponent<InputProps> {
   }
 
   input?: HTMLInputElement | HTMLTextAreaElement | null;
-  underlineNode?: HTMLElement | null;
   id = getUID('ring-input-');
   getId() {
     return this.props.id || this.id;
@@ -126,12 +111,7 @@ export class Input extends PureComponent<InputProps> {
 
   adapt() {
     this.checkValue();
-    this.stretch(this.underlineNode);
   }
-
-  underlineRef = (el: HTMLDivElement | null) => {
-    this.underlineNode = el;
-  };
 
   inputRef = (el: HTMLInputElement | HTMLTextAreaElement | null) => {
     this.input = el;
@@ -158,12 +138,9 @@ export class Input extends PureComponent<InputProps> {
   render() {
     const {
       // Modifiers
-      theme,
       size,
       active,
       multiline,
-      borderless,
-      compact,
 
       // Props
       label,
@@ -179,17 +156,13 @@ export class Input extends PureComponent<InputProps> {
       id,
       placeholder,
       icon,
-      renderUnderline,
       ...restProps
     } = this.props;
 
-    const minimizeMargins = compact || borderless;
     const {empty} = this.state;
     const clearable = !!onClear;
     const classes = classNames(
-      styles.container,
       className,
-      theme && styles[theme],
       [styles[`size${size}`]],
       {
         'ring-js-shortcuts': enableShortcuts === true,
@@ -198,8 +171,7 @@ export class Input extends PureComponent<InputProps> {
         [styles.empty]: empty,
         [styles.noLabel]: !this.props.label,
         [styles.withIcon]: icon != null,
-        [styles.clearable]: clearable,
-        [styles.compact]: minimizeMargins
+        [styles.clearable]: clearable
       }
     );
 
@@ -219,42 +191,44 @@ export class Input extends PureComponent<InputProps> {
     };
 
     return (
-      <div
-        className={classes}
-        data-test="ring-input"
-      >
-        {icon && <Icon glyph={icon} className={styles.icon}/>}
-        {multiline
-          ? (
-            <textarea
-              onChange={this.handleTextareaChange}
-              rows={1}
-              {...commonProps}
-              {...restProps as TextareaHTMLAttributes<HTMLTextAreaElement>}
-            />
-          )
-          : (
-            <input
-              onChange={this.handleInputChange}
-              {...commonProps}
-              {...restProps as InputHTMLAttributes<HTMLInputElement>}
+      <div className={classes} data-test="ring-input">
+        {label && (
+          <label
+            htmlFor={this.getId()}
+            className={classNames(styles.label, {
+              [styles.disabledLabel]: disabled
+            })}
+          >{label}</label>
+        )}
+        <div className={styles.container}>
+          {icon && <Icon glyph={icon} className={styles.icon}/>}
+          {multiline
+            ? (
+              <textarea
+                onChange={this.handleTextareaChange}
+                rows={1}
+                {...commonProps}
+                {...restProps as TextareaHTMLAttributes<HTMLTextAreaElement>}
+              />
+            )
+            : (
+              <input
+                onChange={this.handleInputChange}
+                {...commonProps}
+                {...restProps as InputHTMLAttributes<HTMLInputElement>}
+              />
+            )}
+          {clearable && !disabled && (
+            <Button
+              title="Clear input"
+              data-test="ring-input-clear"
+              className={styles.clear}
+              icon={closeIcon}
+              onClick={this.clear}
             />
           )}
-        {clearable && !disabled && (
-          <Button
-            title="Clear input"
-            data-test="ring-input-clear"
-            className={styles.clear}
-            icon={closeIcon}
-            onClick={this.clear}
-          />
-        )}
-
-        {!minimizeMargins && <label htmlFor={this.getId()} className={styles.label}>{label}</label>}
-        {!borderless && <div className={styles.underline}/>}
-        {!borderless && <div className={styles.focusUnderline}/>}
-        {!minimizeMargins && <div className={styles.errorUnderline}/>}
-        {!minimizeMargins && renderUnderline(this.underlineRef, error)}
+        </div>
+        {error && <div className={styles.errorText}>{error}</div>}
       </div>
     );
   }
@@ -262,7 +236,6 @@ export class Input extends PureComponent<InputProps> {
 
 (Input as ComponentType<unknown>).propTypes = {
   value: PropTypes.string,
-  theme: PropTypes.oneOf(Object.values(Theme)),
   className: PropTypes.string,
   inputClassName: PropTypes.string,
   size: PropTypes.oneOf(Object.values(Size)).isRequired,
@@ -270,8 +243,6 @@ export class Input extends PureComponent<InputProps> {
   active: PropTypes.bool,
   error: PropTypes.string,
   multiline: PropTypes.bool,
-  borderless: PropTypes.bool,
-  compact: PropTypes.bool,
   onChange: PropTypes.func,
   onClear: PropTypes.func,
   inputRef: PropTypes.oneOfType([
@@ -287,25 +258,13 @@ export class Input extends PureComponent<InputProps> {
   disabled: PropTypes.bool,
   id: PropTypes.string,
   placeholder: PropTypes.string,
-  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-
-  renderUnderline: PropTypes.func
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
 };
 
-export type ContainerProps<P> =
-  PropsWithoutRef<
-    Omit<JSX.LibraryManagedAttributes<typeof Input, P>, keyof ThemeProps> & ThemeOuterProps
-  > & RefAttributes<Input>
+export type ContainerProps<P extends InputProps> = JSX.LibraryManagedAttributes<typeof Input, P>
 
+export type InputAttrs = ContainerProps<InputProps>;
 
-type Container =
-  ExoticComponent<ContainerProps<InputSpecificProps> | ContainerProps<TextAreaSpecificProps>>
+export default Input;
 
-const ThemedInput: Container & {type: Container} =
-  withTheme()<Input, InputProps, typeof Input>(Input);
-
-export type InputAttrs = ComponentProps<typeof ThemedInput>;
-
-export default ThemedInput;
-
-export {Size, Theme};
+export {Size};

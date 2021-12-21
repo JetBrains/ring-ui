@@ -57,7 +57,6 @@ export default class SelectFilter extends Component<SelectFilterProps> {
             aria-activedescendant={activeItemId}
             autoComplete="off"
             autoFocus
-            borderless
             inputRef={this.inputRef}
             className={classes}
           />

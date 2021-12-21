@@ -134,7 +134,6 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
     return (
       <Input
         autoComplete="off"
-        borderless
         data-name={name}
         inputRef={this.inputRef}
         className={classes}

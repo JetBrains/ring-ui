@@ -2,62 +2,68 @@
 @import "../button/button.css";
 
 @value unit from "../global/global.css";
-@value iconOffset: calc(unit * 3 - 2px);
+@value iconOffset: calc(unit * 3.5);
 
 .container {
-  composes: font-lower from  "../global/global.css";
-
   position: relative;
 
   box-sizing: border-box;
-  min-height: calc(unit * 8);
-  padding-top: calc(unit * 2);
+
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
 
   & * {
     box-sizing: border-box;
   }
 }
 
-.compact {
-  min-height: calc(unit * 4);
-  padding: 0;
-}
-
 .input {
-  width: 100%;
-  min-height: calc(unit * 4);
-  padding: 0;
+  --ring-input-padding-start: unit;
+  --ring-input-padding-end: unit;
 
-  border: none;
+  width: 100%;
+  padding-top: calc(unit / 2);
+  padding-right: var(--ring-input-padding-end);
+  padding-bottom: calc(unit / 2);
+  padding-left: var(--ring-input-padding-start);
+
+  transition: border-color var(--ring-ease);
+
+  color: var(--ring-text-color);
+  border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
   outline: none;
   background: transparent;
 
   font: inherit;
+
   caret-color: var(--ring-main-color);
 
-  @nest .clearable & {
-    padding-right: calc(unit * 3);
-
-    @nest [dir=rtl] & {
-      padding-right: 0;
-      padding-left: calc(unit * 3);
-    }
+  @nest [dir=rtl] & {
+    padding-right: var(--ring-input-padding-start);
+    padding-left: var(--ring-input-padding-end);
   }
 
-  @nest .light & {
-    color: var(--ring-text-color);
+  &:hover {
+    transition: none;
+
+    border-color: var(--ring-border-hover-color);
   }
 
-  @nest .dark & {
-    color: var(--ring-dark-text-color);
+  @nest .error & {
+    border-color: var(--ring-icon-error-color);
   }
 
-  &::placeholder {
-    color: transparent;
+  &:focus {
+    transition: none;
+
+    border-color: var(--ring-main-color);
   }
 
   &[disabled] {
     color: var(--ring-disabled-color);
+    border-color: var(--ring-border-disabled-color);
+    background-color: var(--ring-disabled-background-color);
 
     -webkit-text-fill-color: var(--ring-disabled-color); /* Required for Safari, see RG-2063 for details */
   }
@@ -73,49 +79,33 @@
       transition: background-color 50000s ease-in-out 0s;
     }
   }
-
-  /* if you need a cross, pass onClear prop */
-  &::-ms-clear {
-    display: none;
-  }
 }
 
-.withIcon .input,
-.withIcon .label {
-  padding-left: iconOffset;
-
-  @nest [dir=rtl] & {
-    padding-right: iconOffset;
-    padding-left: 0;
-  }
+.withIcon .input {
+  --ring-input-padding-start: iconOffset;
 }
 
-.icon,
-/* override Button */
-.clear.clear {
-  position: absolute;
-  top: 17px;
-
-  line-height: calc(unit * 4);
-
-  @nest .compact & {
-    top: 1px;
-  }
+.clearable .input {
+  --ring-input-padding-end: iconOffset;
 }
 
 .icon {
-  left: 0;
+  position: absolute;
+  top: 5px;
+  left: unit;
 
-  color: var(--ring-icon-color);
+  color: var(--ring-icon-secondary-color);
 
   @nest [dir=rtl] & {
-    right: 0;
+    right: unit;
     left: auto;
   }
 }
 
 .clear {
-  right: 0;
+  position: absolute;
+  top: 4px;
+  right: unit;
 
   padding-right: 0;
 
@@ -125,7 +115,7 @@
 
   @nest [dir=rtl] & {
     right: auto;
-    left: 0;
+    left: unit;
   }
 }
 
@@ -133,119 +123,31 @@ textarea.input {
   overflow: hidden;
 
   box-sizing: border-box;
-  padding-top: unit;
 
   resize: none;
 }
 
 .label {
-  position: absolute;
-  top: calc(unit * 3 - 1px);
-  left: 0;
+  display: block;
 
-  transition: transform var(--ring-fast-ease), color var(--ring-fast-ease);
-  transform-origin: top left;
-  pointer-events: none;
+  margin-bottom: calc(unit / 2);
 
-  @nest .light & {
-    color: var(--ring-secondary-color);
-  }
+  color: var(--ring-secondary-color);
 
-  @nest .dark & {
-    color: var(--ring-dark-secondary-color);
-  }
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }
 
-.input:focus ~ .label,
-.container.active > .label,
-.container:not(.empty) > .label {
-  transform: translateY(calc(unit * -2.5)) scale(calc(12 / 13));
-}
-
-.noLabel ::placeholder,
-.input:focus::placeholder {
-  transition: color var(--ring-fast-ease);
-}
-
-.light.noLabel ::placeholder,
-.light :focus::placeholder {
+.disabledLabel {
   color: var(--ring-disabled-color);
 }
 
-/* stylelint-disable-next-line selector-max-specificity */
-.dark.noLabel ::placeholder,
-/* stylelint-disable-next-line selector-max-specificity */
-.dark :focus::placeholder {
-  color: var(--ring-secondary-color);
-}
-
-.input:focus ~ .label {
-  color: var(--ring-main-color);
-}
-
-.error > :focus ~ .label {
-  color: var(--ring-error-color);
-}
-
-.underline {
-  height: 1px;
-
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-
-  @nest .light & {
-    border-color: var(--ring-borders-color);
-  }
-
-  @nest .dark & {
-    border-color: var(--ring-dark-borders-color);
-  }
-}
-
-.input[disabled] ~ .underline {
-  border-bottom-style: dashed;
-}
-
-.focusUnderline,
-.errorUnderline {
-  width: 100%;
-  height: 2px;
-
-  transform: scaleX(0);
-  transform-origin: top left;
-}
-
-.focusUnderline {
-  margin-top: -1px;
-
-  background: var(--ring-main-color);
-}
-
-.errorUnderline {
-  margin-top: -2px;
-
-  background: var(--ring-icon-error-color);
-
-  @nest .dark & {
-    background: var(--ring-error-color);
-  }
-}
-
-.input:focus ~ .focusUnderline,
-.container.active > .focusUnderline,
-.error > .errorUnderline {
-  transition: transform 0.15s ease-out;
-  transform: scaleX(1);
+.input::placeholder {
+  color: var(--ring-disabled-color);
 }
 
 .errorText {
-  overflow: hidden;
-
-  box-sizing: border-box;
-  height: 0;
-  padding: calc(unit / 2) 0 unit;
-
-  transition: height 0.3s ease-out;
+  margin-top: calc(unit / 2);
 
   color: var(--ring-error-color);
 

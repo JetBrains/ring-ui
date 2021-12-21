@@ -4,9 +4,10 @@ import searchIcon from '@jetbrains/icons/search';
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
-import Text from '../text/text';
 
-import Input, {ContainerProps, InputSpecificProps, Size, Theme} from './input';
+import Theme, {ThemeProvider} from '../global/theme';
+
+import Input, {ContainerProps, InputSpecificProps, Size} from './input';
 
 export default {
   title: 'Components/Input',
@@ -60,9 +61,7 @@ export const basic = () => {
         defaultValue="Default value"
         disabled
       />
-      <Input label="Input with icon" icon={searchIcon}/>
-      <ClearableInput placeholder="Hint" defaultValue="Borderless input" borderless/>
-      <ClearableInput placeholder="Hint" defaultValue="Compact input" compact icon={searchIcon}/>
+      <Input label="Input with icon" icon={searchIcon} defaultValue="Default value"/>
       <Input label="Disabled input" disabled defaultValue="Default value"/>
       <Input
         label="Invalid input"
@@ -71,18 +70,18 @@ export const basic = () => {
       <Input label="Error without description" error=""/>
       <Input label="Short input" size={Size.S}/>
       <Input label="Long input" size={Size.L}/>
-      <Input
-        label="Underline message"
-        renderUnderline={() => <Text info>With custom underline</Text>}
-      />
       <Input label="Autogrowing textarea" multiline/>
-      <div className="dark">
+      <ThemeProvider theme={Theme.DARK} className="dark inputs">
         <Input
           label="Input on dark background"
           placeholder="Hint on dark background"
-          theme={Theme.DARK}
         />
-      </div>
+        <Input
+          disabled
+          label="Disabled input on dark background"
+          defaultValue="Default value on dark background"
+        />
+      </ThemeProvider>
     </form>
   );
 };
@@ -100,13 +99,13 @@ basic.parameters = {
   }
 
   .inputs > div {
-    margin: 0 16px;
+    margin: 0 16px 8px;
   }
 
-  .dark {
+  .dark.dark {
     background: #000;
-    margin-left: 0;
-    padding-left: 16px;
+    margin: 0 -16px;
+    padding: 8px 16px;
   }
 </style>`
 };
