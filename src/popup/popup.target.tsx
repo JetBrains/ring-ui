@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 export const PopupTargetContext = createContext<string | undefined>(undefined);
 export interface PopupTargetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+  id: string
   children: ReactNode | ((target: ReactNode) => ReactNode)
 }
 export const PopupTarget = forwardRef(

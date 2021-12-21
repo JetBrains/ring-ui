@@ -17,7 +17,7 @@ describe('Input', () => {
   );
 
   it('should create component', () => {
-    mountInput().type().should.equal(Input.type);
+    mountInput().type().should.equal(Input);
   });
 
   it('should wrap children with div', () => {

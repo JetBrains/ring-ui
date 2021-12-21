@@ -1,4 +1,5 @@
-import darkVariables from './variables_dark';
+import darkStyles from './variables_dark.css';
+import getUID from './get-uid';
 
 export default {
   title: 'Style-only/Theme palette',
@@ -11,23 +12,20 @@ Ring UI colors are based on CSS custom properties spec. You can use them in you 
   }
 };
 
-function getDarkThemeStyle() {
-  return Object.entries(darkVariables).
-    map(([propName, val]) => `${propName}: ${val}`).
-    join('; ');
-}
-
-function getValue(propName: string) {
-  return getComputedStyle(document.body).getPropertyValue(propName).toUpperCase();
-}
-
 function renderColorItem(propName: string, isDark = propName.includes('-dark-')) {
+  const id = getUID('color-value-');
   return `
     <div class="color-item ${isDark ? 'dark-background' : ''}">
       <div class="color-square" style="background-color: var(${propName})"></div>
       <div class="color-info">
         <div>${propName}</div>
-        <div class="color-value">${getValue(propName)}</div>
+        <div class="color-value" id="${id}"></div>
+        <script>
+          {
+            const div = document.getElementById('${id}');
+            div.textContent = getComputedStyle(div).getPropertyValue('${propName}').toUpperCase();
+          }
+        </script>
       </div>
     </div>
   `;
@@ -92,6 +90,7 @@ const renderColors = () => `
       ${renderColorItem('--ring-added-background-color')}
       ${renderColorItem('--ring-tag-background-color')}
       ${renderColorItem('--ring-dark-selected-background-color')}
+      ${renderColorItem('--ring-disabled-background-color')}
     </div>
   </div>
 `;
@@ -101,7 +100,7 @@ export const basic = () => `
     <h2>Default theme</h2>
     ${renderColors()}
 
-    <div style="${getDarkThemeStyle()}">
+    <div class="${darkStyles.dark}">
       <h2>Dark theme</h2>
       ${renderColors()}
     </div>

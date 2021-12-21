@@ -1,6 +1,14 @@
 ## [5.0.0]
 
 ### BREAKING CHANGES
+- Design of some components is changed, see [RG-2156](https://youtrack.jetbrains.com/issue/RG-2156)
+- Input: removed `compact` and `renderUnderline` props
+- Components no longer accept `theme` prop, themes are managed using CSS Custom Properties instead. To apply a theme to your app or some part of it, wrap it into `ThemeProvider`:
+  ```js
+  import Theme, {ThemeProvider} from '@jetbrains/ring-ui/components/global/theme';
+
+  <ThemeProvider theme={Theme.DARK}>{children}</ThemeProvider>
+  ```
 - The codebase has migrated to TypeScript
 - `react-markdown` has been updated to v7, which affects the props of `Markdown` component. The most notable change is replacing `source` with `children`:
   ```js
