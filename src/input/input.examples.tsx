@@ -7,6 +7,8 @@ import Button from '../button/button';
 
 import Theme, {ThemeProvider} from '../global/theme';
 
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
+
 import Input, {ContainerProps, InputSpecificProps, Size} from './input';
 
 export default {
@@ -18,73 +20,72 @@ export default {
   }
 };
 
-export const basic = () => {
-  class ClearableInput extends PureComponent<ContainerProps<InputSpecificProps>> {
-    state = {
-      text: this.props.defaultValue
-    };
+class ClearableInput extends PureComponent<ContainerProps<InputSpecificProps>> {
+  state = {
+    text: this.props.defaultValue
+  };
 
-    setText = (e: React.ChangeEvent<HTMLInputElement>) => {
-      this.setState({
-        text: e.target.value
-      });
-    };
+  setText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      text: e.target.value
+    });
+  };
 
-    clear = () => {
-      this.setState({
-        text: ''
-      });
-    };
+  clear = () => {
+    this.setState({
+      text: ''
+    });
+  };
 
-    render() {
-      const {defaultValue, ...restProps} = this.props;
-      return (
-        <Input
-          value={this.state.text}
-          onChange={this.setText}
-          onClear={this.clear}
-          {...restProps}
-        />
-      );
-    }
-  }
-
-  return (
-    <form className="inputs">
-      <Input label="Labeled input"/>
-      <Input name="login" label="Label and hint" placeholder="Hint"/>
-      <Input label="Label and value" defaultValue="Default value"/>
-      <ClearableInput label="Clearable input" defaultValue="Default value"/>
-      <ClearableInput
-        placeholder="Hint"
-        label="Disabled clearable input"
-        defaultValue="Default value"
-        disabled
-      />
-      <Input label="Input with icon" icon={searchIcon} defaultValue="Default value"/>
-      <Input label="Disabled input" disabled defaultValue="Default value"/>
+  render() {
+    const {defaultValue, ...restProps} = this.props;
+    return (
       <Input
-        label="Invalid input"
-        error="Error description that wraps over lines because of being really long"
+        value={this.state.text}
+        onChange={this.setText}
+        onClear={this.clear}
+        {...restProps}
       />
-      <Input label="Error without description" error=""/>
-      <Input label="Short input" size={Size.S}/>
-      <Input label="Long input" size={Size.L}/>
-      <Input label="Autogrowing textarea" multiline/>
-      <ThemeProvider theme={Theme.DARK} className="dark inputs">
-        <Input
-          label="Input on dark background"
-          placeholder="Hint on dark background"
-        />
-        <Input
-          disabled
-          label="Disabled input on dark background"
-          defaultValue="Default value on dark background"
-        />
-      </ThemeProvider>
-    </form>
-  );
-};
+    );
+  }
+}
+const Inputs = () => (
+  <form className="inputs">
+    <Input label="Labeled input"/>
+    <Input name="login" label="Label and hint" placeholder="Hint"/>
+    <Input label="Label and value" defaultValue="Default value"/>
+    <ClearableInput label="Clearable input" defaultValue="Default value"/>
+    <ClearableInput
+      placeholder="Hint"
+      label="Disabled clearable input"
+      defaultValue="Default value"
+      disabled
+    />
+    <Input label="Input with icon" icon={searchIcon} defaultValue="Default value"/>
+    <ClearableInput placeholder="Hint" defaultValue="Borderless input" borderless/>
+    <Input label="Disabled input" disabled defaultValue="Default value"/>
+    <Input
+      label="Invalid input"
+      error="Error description that wraps over lines because of being really long"
+    />
+    <Input label="Error without description" error=""/>
+    <Input label="Short input" size={Size.S}/>
+    <Input label="Long input" size={Size.L}/>
+    <Input label="Autogrowing textarea" multiline/>
+    <ThemeProvider theme={Theme.DARK} className="dark inputs">
+      <Input
+        label="Input on dark background"
+        placeholder="Hint on dark background"
+      />
+      <Input
+        disabled
+        label="Disabled input on dark background"
+        defaultValue="Default value on dark background"
+      />
+    </ThemeProvider>
+  </form>
+);
+export const basic = () => <Inputs/>;
 
 basic.storyName = 'basic';
 
@@ -110,6 +111,13 @@ basic.parameters = {
 </style>`
 };
 
+export const heightS = () => (
+  <ControlsHeightContext.Provider value={ControlsHeight.S}>
+    <Inputs/>
+  </ControlsHeightContext.Provider>
+);
+heightS.parameters = basic.parameters;
+
 function SelectAll() {
   const ref = useRef<HTMLInputElement>(null);
 
@@ -122,7 +130,7 @@ function SelectAll() {
   return (
     <>
       <Input defaultValue="Value" inputRef={ref} label="Label"/>
-      <Button data-test-select onClick={select}>Select all</Button>
+      <Button style={{marginTop: 4}} data-test-select onClick={select}>Select all</Button>
     </>
   );
 }
