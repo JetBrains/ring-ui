@@ -19,6 +19,8 @@ import Icon from '../icon/icon';
 
 import composeRefs from '../global/composeRefs';
 
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
+
 import styles from './input.css';
 
 
@@ -44,9 +46,11 @@ export interface InputBaseProps {
   label?: ReactNode
   active?: boolean | null | undefined
   error?: ReactNode | null | undefined
+  borderless?: boolean | null | undefined
   onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
   loading?: boolean | null | undefined
   icon?: string | ComponentType | null | undefined
+  height?: ControlsHeight
 }
 
 type Override<D, S> = Omit<D, keyof S> & S
@@ -85,6 +89,7 @@ export class Input extends PureComponent<InputProps> {
     this.adapt();
   }
 
+  static contextType = ControlsHeightContext;
   input?: HTMLInputElement | HTMLTextAreaElement | null;
   id = getUID('ring-input-');
   getId() {
@@ -141,6 +146,7 @@ export class Input extends PureComponent<InputProps> {
       size,
       active,
       multiline,
+      borderless,
 
       // Props
       label,
@@ -156,6 +162,7 @@ export class Input extends PureComponent<InputProps> {
       id,
       placeholder,
       icon,
+      height,
       ...restProps
     } = this.props;
 
@@ -163,7 +170,9 @@ export class Input extends PureComponent<InputProps> {
     const clearable = !!onClear;
     const classes = classNames(
       className,
+      styles.outerContainer,
       [styles[`size${size}`]],
+      [styles[`height${height || this.context}`]],
       {
         'ring-js-shortcuts': enableShortcuts === true,
         [styles.active]: active,
@@ -171,7 +180,8 @@ export class Input extends PureComponent<InputProps> {
         [styles.empty]: empty,
         [styles.noLabel]: !this.props.label,
         [styles.withIcon]: icon != null,
-        [styles.clearable]: clearable
+        [styles.clearable]: clearable,
+        [styles.borderless]: borderless
       }
     );
 

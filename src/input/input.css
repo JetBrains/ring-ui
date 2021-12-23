@@ -2,7 +2,15 @@
 @import "../button/button.css";
 
 @value unit from "../global/global.css";
-@value iconOffset: calc(unit * 3.5);
+
+.outerContainer {
+  --ring-input-icon-offset: calc(unit * 2.5);
+  --ring-input-padding-inline: unit;
+}
+
+.borderless {
+  --ring-input-padding-inline: 0;
+}
 
 .container {
   position: relative;
@@ -18,13 +26,13 @@
 }
 
 .input {
-  --ring-input-padding-start: unit;
-  --ring-input-padding-end: unit;
+  --ring-input-padding-start: var(--ring-input-padding-inline);
+  --ring-input-padding-end: var(--ring-input-padding-inline);
 
   width: 100%;
-  padding-top: calc(unit / 2);
+  padding-top: var(--ring-input-padding-block);
   padding-right: var(--ring-input-padding-end);
-  padding-bottom: calc(unit / 2);
+  padding-bottom: var(--ring-input-padding-block);
   padding-left: var(--ring-input-padding-start);
 
   transition: border-color var(--ring-ease);
@@ -81,18 +89,22 @@
   }
 }
 
+.borderless .input {
+  border-color: transparent;
+}
+
 .withIcon .input {
-  --ring-input-padding-start: iconOffset;
+  --ring-input-padding-start: calc(var(--ring-input-padding-inline) + var(--ring-input-icon-offset));
 }
 
 .clearable .input {
-  --ring-input-padding-end: iconOffset;
+  --ring-input-padding-end: calc(var(--ring-input-padding-inline) + var(--ring-input-icon-offset));
 }
 
 .icon {
   position: absolute;
-  top: 5px;
-  left: unit;
+  top: calc(var(--ring-input-padding-block) + 1px);
+  left: var(--ring-input-padding-inline);
 
   color: var(--ring-icon-secondary-color);
 
@@ -104,8 +116,8 @@
 
 .clear {
   position: absolute;
-  top: 4px;
-  right: unit;
+  top: var(--ring-input-padding-block);
+  right: var(--ring-input-padding-inline);
 
   padding-right: 0;
 
@@ -169,4 +181,16 @@ textarea.input {
 
 .sizeFULL {
   width: 100%;
+}
+
+.heightS {
+  --ring-input-padding-block: 1px;
+}
+
+.heightM {
+  --ring-input-padding-block: 3px;
+}
+
+.heightL {
+  --ring-input-padding-block: 5px;
 }

@@ -1248,6 +1248,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             inputRef={this.filterRef}
             disabled={this.props.disabled}
             value={this.state.filterValue}
+            borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
             style={style}
             size={Size.FULL}
             onChange={this._filterChangeHandler}
