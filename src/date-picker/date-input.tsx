@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import Input from '../input/input';
 
+import {ControlsHeight} from '../global/controls-height';
+
 import {DatePopupBaseProps, dateType, Field} from './consts';
 import styles from './date-picker.css';
 
@@ -134,6 +136,8 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
     return (
       <Input
         autoComplete="off"
+        borderless
+        height={ControlsHeight.L}
         data-name={name}
         inputRef={this.inputRef}
         className={classes}
