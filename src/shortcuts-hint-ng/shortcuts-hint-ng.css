@@ -54,7 +54,7 @@
 
 :global(.shortcuts-hint__search-icon) {
   position: absolute;
-  top: 18px;
+  top: -1px;
   right: 0;
 
   width: calc(unit * 2);
