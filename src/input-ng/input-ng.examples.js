@@ -113,7 +113,7 @@ basic.parameters = {
   }
 
   .inputs rg-input {
-    margin: 0 16px;
+    margin: 4px 16px;
   }
 
   .dark {
