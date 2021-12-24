@@ -117,7 +117,7 @@
   }
 
   & .letter-field-value {
-    color: var(--ring-dark-text-color);
+    color: var(--ring-white-text-color);
   }
 
   & .letter-operator {

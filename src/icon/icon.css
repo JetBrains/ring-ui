@@ -76,7 +76,7 @@
 }
 
 .white {
-  color: var(--ring-dark-text-color);
+  color: var(--ring-white-text-color);
 }
 
 .loading {

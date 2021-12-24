@@ -5,15 +5,12 @@ export interface RingCSSProperties {
 
   /* Element */
   '--ring-line-color'?: Property.BorderColor
-  '--ring-dark-line-color'?: Property.BorderColor
   '--ring-borders-color'?: Property.BorderColor
-  '--ring-dark-borders-color'?: Property.BorderColor
   '--ring-icon-color'?: Property.Color
   '--ring-icon-secondary-color'?: Property.Color
   '--ring-border-disabled-color'?: Property.BorderColor
   '--ring-icon-disabled-color'?: Property.Color
   '--ring-border-hover-color'?: Property.BorderColor
-  '--ring-dark-border-hover-color'?: Property.BorderColor
   '--ring-icon-hover-color'?: Property.Color
   '--ring-main-color'?: Property.Color
   '--ring-main-hover-color'?: Property.Color
@@ -26,6 +23,8 @@ export interface RingCSSProperties {
   '--ring-popup-shadow-color'?: Property.Color
   '--ring-message-shadow-color'?: Property.Color
   '--ring-pinned-shadow-color'?: Property.Color
+  '--ring-button-danger-hover-color'?: Property.Color
+  '--ring-button-primary-border-color'?: Property.Color
 
   /* Text */
   '--ring-search-color'?: Property.Color
@@ -36,13 +35,10 @@ export interface RingCSSProperties {
   '--ring-warning-color'?: Property.Color
   '--ring-success-color'?: Property.Color
   '--ring-text-color'?: Property.Color
-  '--ring-dark-text-color'?: Property.Color
+  '--ring-white-text-color'?: Property.Color
   '--ring-heading-color'?: Property.Color
   '--ring-secondary-color'?: Property.Color
-  '--ring-dark-secondary-color'?: Property.Color
   '--ring-disabled-color'?: Property.Color
-  '--ring-dark-disabled-color'?: Property.Color
-  '--ring-dark-active-color'?: Property.Color
 
   /* Background */
   '--ring-content-background-color'?: Property.BackgroundColor
@@ -50,7 +46,6 @@ export interface RingCSSProperties {
   '--ring-sidebar-background-color'?: Property.BackgroundColor
   '--ring-selected-background-color'?: Property.BackgroundColor
   '--ring-hover-background-color'?: Property.BackgroundColor
-  '--ring-dark-selected-background-color'?: Property.BackgroundColor
   '--ring-message-background-color'?: Property.BackgroundColor
   '--ring-navigation-background-color'?: Property.BackgroundColor
   '--ring-tag-background-color'?: Property.BackgroundColor
@@ -58,6 +53,9 @@ export interface RingCSSProperties {
   '--ring-warning-background-color'?: Property.BackgroundColor
   '--ring-added-background-color'?: Property.BackgroundColor
   '--ring-disabled-background-color'?: Property.BackgroundColor
+  '--ring-button-danger-active-color'?: Property.BackgroundColor
+  '--ring-button-loader-background'?: Property.BackgroundColor
+  '--ring-button-primary-background-color'?: Property.BackgroundColor
 
   /* Code */
   '--ring-code-background-color'?: Property.BackgroundColor

@@ -1,7 +1,5 @@
 import classNames from 'classnames';
 
-import Theme from '../global/theme';
-
 import {ButtonProps} from './button';
 
 import styles from './button.css';
@@ -19,31 +17,21 @@ export function getButtonClasses({
   danger,
   delayed,
   icon,
-  theme
+  height
 }: ButtonProps) {
   const withNormalIcon = icon && !active && !danger && !primary && !disabled;
 
   return classNames(
     styles.button,
     className,
-    styles[theme],
+    styles[`height${height}`],
     {
       [styles.active]: active,
       [styles.danger]: danger,
       [styles.delayed]: delayed,
       [styles.withIcon]: icon,
-      [styles.withNormalIconLight]: (
-        withNormalIcon && theme === Theme.LIGHT
-      ),
-      [styles.withNormalIconDark]: (
-        withNormalIcon && theme === Theme.DARK
-      ),
-      [styles.withDangerIconLight]: (
-        icon && danger && theme === Theme.LIGHT
-      ),
-      [styles.withDangerIconDark]: (
-        icon && danger && theme === Theme.DARK
-      ),
+      [styles.withNormalIcon]: withNormalIcon,
+      [styles.withDangerIcon]: icon && danger,
       [styles.loader]: loader && !icon,
       [styles.primary]: primary,
       [styles.short]: short,

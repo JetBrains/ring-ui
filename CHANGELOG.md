@@ -1,7 +1,14 @@
 ## [5.0.0]
 
 ### BREAKING CHANGES
-- Design of some components is changed, see [RG-2156](https://youtrack.jetbrains.com/issue/RG-2156)
+- Design of some components is changed, see [RG-2156](https://youtrack.jetbrains.com/issue/RG-2156). By default, controls (buttons, inputs etc.) have 28px height. To bring back the old compact 24px height, wrap your app into `ControlsHeightContext.Provider`:
+  ```js
+  import {ControlsHeight, ControlsHeightContext} from '@jetbrains/ring-ui/components/global/controls-height';
+
+  <ControlsHeightContext.Provider value={ControlsHeight.S}>
+    <App />
+  </ControlsHeightContext.Provider>
+  ```
 - Input: removed `compact` and `renderUnderline` props
 - Components no longer accept `theme` prop, themes are managed using CSS Custom Properties instead. To apply a theme to your app or some part of it, wrap it into `ThemeProvider`:
   ```js
@@ -9,6 +16,7 @@
 
   <ThemeProvider theme={Theme.DARK}>{children}</ThemeProvider>
   ```
+- `--ring-dark-*` CSS custom properties are removed, `--ring-dark-text-color` is renamed to `--ring-white-text-color`
 - The codebase has migrated to TypeScript
 - `react-markdown` has been updated to v7, which affects the props of `Markdown` component. The most notable change is replacing `source` with `children`:
   ```js

@@ -44,6 +44,12 @@ export const buttonGroup = () => (
         <Button>3rd button</Button>
       </ButtonGroup>
     </div>
+    <div>
+      <ButtonGroup>
+        <Button primary>Primary</Button>
+        <Button primary short>...</Button>
+      </ButtonGroup>
+    </div>
   </div>
 );
 

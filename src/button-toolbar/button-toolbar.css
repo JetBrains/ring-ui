@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
+@value button from "../button/button.css";
 
 .buttonToolbar {
   display: inline-block;

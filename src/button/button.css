@@ -2,174 +2,25 @@
 
 @value unit from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
-@value height: calc(unit * 3);
+@value height: var(--ring-button-height);
 @value loaderWidth: calc(unit * 8);
 
-:root {
-  /* TODO: This colors are not ready to move to variables.css */
-  /* stylelint-disable color-no-hex */
-  --ring-button-primary-background-color: #1a98ff;
-  --ring-button-primary-border-color: #0062b2;
-  --ring-button-danger-active-color: #ffe7e8;
-  --ring-button-danger-hover-color: var(--ring-icon-error-color);
-  --ring-button-loader-background: #33a3ff;
-  --ring-button-dark-icon-color: #80929d;
-  --ring-button-dark-border-disabled-color: #333;
-  --ring-button-dark-icon-disabled-color: var(--ring-dark-disabled-color);
-  --ring-button-dark-danger-active-color: #26080a;
-  --ring-button-dark-danger-hover-color: var(--ring-error-color);
-  --ring-button-dark-active-color: #062640;
-  --ring-button-dark-loader-background: #002039;
-  /* stylelint-enable color-no-hex */
+.heightS {
+  --ring-button-height: calc(unit * 3);
+  --ring-button-font-size: var(--ring-font-size-smaller);
 }
 
-.light {
-  color: var(--ring-text-color);
-  background-color: var(--ring-content-background-color);
-  box-shadow: button-shadow var(--ring-borders-color);
-
-  &:hover {
-    box-shadow: button-shadow var(--ring-border-hover-color);
-  }
-
-  &:active,
-  &.active {
-    background-color: var(--ring-selected-background-color);
-    box-shadow: button-shadow var(--ring-border-hover-color);
-  }
-
-  &:global(.focus-visible) {
-    box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
-  }
-
-  &[disabled] {
-    box-shadow: button-shadow var(--ring-border-disabled-color);
-  }
-
-  &[disabled],
-  &[disabled].withIcon {
-    color: var(--ring-disabled-color);
-  }
-
-  &[disabled] .icon {
-    color: var(--ring-icon-disabled-color);
-  }
-
-  &.primary:active,
-  &.primary.active {
-    background-color: var(--ring-button-primary-background-color);
-    box-shadow: button-shadow var(--ring-button-primary-border-color);
-  }
-
-  &.danger:active,
-  &.danger.active {
-    background-color: var(--ring-button-danger-active-color);
-  }
-
-  &.danger:active,
-  &.danger.active,
-  &.danger:global(.focus-visible) {
-    box-shadow: button-shadow var(--ring-button-danger-hover-color);
-  }
-
-  &.withIcon {
-    color: var(--ring-secondary-color);
-  }
-
-  & .loaderBackground::before {
-    background-image:
-      linear-gradient(
-        to right,
-        var(--ring-content-background-color),
-        var(--ring-selected-background-color) 40%,
-        var(--ring-content-background-color) 80%
-      );
-  }
+.heightM {
+  --ring-button-height: calc(unit * 3.5);
+  --ring-button-font-size: var(--ring-font-size);
 }
 
-.light.danger:hover {
-  box-shadow: button-shadow var(--ring-button-danger-hover-color);
-}
-
-.dark {
-  color: var(--ring-dark-secondary-color);
-  background-color: var(--ring-navigation-background-color);
-  box-shadow: button-shadow var(--ring-dark-borders-color);
-
-  &:hover {
-    box-shadow: button-shadow var(--ring-dark-border-hover-color);
-  }
-
-  &:active,
-  &.active {
-    color: var(--ring-dark-text-color);
-    background-color: var(--ring-button-dark-active-color);
-    box-shadow: button-shadow var(--ring-dark-border-hover-color);
-  }
-
-  &:global(.focus-visible) {
-    box-shadow: button-shadow var(--ring-dark-border-hover-color), 0 0 0 1px var(--ring-dark-border-hover-color);
-  }
-
-  &[disabled] {
-    box-shadow: button-shadow var(--ring-button-dark-border-disabled-color);
-  }
-
-  &[disabled],
-  &[disabled].withIcon {
-    color: var(--ring-dark-disabled-color);
-  }
-
-  &[disabled] .icon {
-    color: var(--ring-button-dark-icon-disabled-color);
-  }
-
-  &.primary:active,
-  &.primary.active {
-    background-color: var(--ring-main-hover-color);
-    box-shadow: button-shadow var(--ring-border-hover-color);
-  }
-
-  &.danger:active,
-  &.danger.active {
-    color: var(--ring-icon-error-color);
-    background-color: var(--ring-button-dark-danger-active-color);
-  }
-
-  &.danger:active,
-  &.danger.active,
-  &.danger:global(.focus-visible) {
-    box-shadow: button-shadow var(--ring-button-dark-danger-hover-color);
-  }
-
-  &.withIcon {
-    color: var(--ring-dark-secondary-color);
-  }
-
-  & .loaderBackground::before {
-    background-image:
-      linear-gradient(
-        to right,
-        var(--ring-navigation-background-color),
-        var(--ring-button-dark-loader-background) 40%,
-        var(--ring-navigation-background-color) 80%
-      );
-  }
-
-  & .dropdownIcon {
-    color: var(--ring-dark-secondary-color);
-  }
-}
-
-.dark.danger:hover {
-  box-shadow: button-shadow var(--ring-button-dark-danger-hover-color);
+.heightL {
+  --ring-button-height: calc(unit * 4);
+  --ring-button-font-size: var(--ring-font-size);
 }
 
 .button {
-  composes: button from "../button-group/button-group.css";
-  composes: button from "../button-set/button-set.css";
-  composes: button from "../button-toolbar/button-toolbar.css";
-
   position: relative;
 
   display: inline-block;
@@ -183,25 +34,51 @@
   transition: color var(--ring-ease), background-color var(--ring-ease), box-shadow var(--ring-ease);
   text-decoration: none;
 
+  color: var(--ring-text-color);
+
   border: 0;
   border-radius: var(--ring-border-radius);
   outline: 0;
+  background-color: var(--ring-content-background-color);
+  box-shadow: button-shadow var(--ring-borders-color);
 
   font-family: var(--ring-font-family);
-  font-size: var(--ring-font-size-smaller);
+  font-size: var(--ring-button-font-size);
 
   line-height: height;
 
   &:hover {
     transition: none;
+
+    box-shadow: button-shadow var(--ring-border-hover-color);
+  }
+
+  &:active,
+  &.active {
+    background-color: var(--ring-selected-background-color);
+    box-shadow: button-shadow var(--ring-border-hover-color);
   }
 
   &:global(.focus-visible) {
     transition: none;
+
+    box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
   }
 
   &[disabled] {
     pointer-events: none;
+
+    background-color: var(--ring-disabled-background-color);
+    box-shadow: button-shadow var(--ring-border-disabled-color);
+  }
+
+  &[disabled],
+  &[disabled].withIcon {
+    color: var(--ring-disabled-color);
+  }
+
+  &[disabled] .icon {
+    color: var(--ring-icon-disabled-color);
   }
 
   &::-moz-focus-inner {
@@ -212,14 +89,27 @@
   }
 }
 
-.active {
-  composes: active from "../button-group/button-group.css";
+.withIcon {
+  color: var(--ring-secondary-color);
 }
 
 .primary {
-  color: var(--ring-dark-text-color);
+  color: var(--ring-white-text-color);
   background-color: var(--ring-main-color);
   box-shadow: none;
+
+  &:hover {
+    transition: none;
+
+    background-color: var(--ring-main-hover-color);
+    box-shadow: none;
+  }
+
+  &:active,
+  &.active {
+    background-color: var(--ring-button-primary-background-color);
+    box-shadow: button-shadow var(--ring-button-primary-border-color);
+  }
 
   &.withIcon,
   &.withIcon:active,
@@ -231,7 +121,6 @@
     transition: none;
 
     background-color: var(--ring-main-hover-color);
-    box-shadow: none;
   }
 
   &[disabled] {
@@ -240,7 +129,7 @@
   }
 
   &[disabled].loader {
-    color: var(--ring-dark-text-color);
+    color: var(--ring-white-text-color);
   }
 
   & .loaderBackground {
@@ -263,13 +152,6 @@
   }
 }
 
-.primary:hover {
-  transition: none;
-
-  background-color: var(--ring-main-hover-color);
-  box-shadow: none;
-}
-
 .danger {
   &,
   &.withIcon,
@@ -281,17 +163,21 @@
     color: var(--ring-error-color);
   }
 
+  &:active,
+  &.active {
+    background-color: var(--ring-button-danger-active-color);
+  }
+
+  &:active,
+  &.active,
+  &:global(.focus-visible),
+  &:hover {
+    box-shadow: button-shadow var(--ring-button-danger-hover-color);
+  }
+
   &:global(.focus-visible),
   &:hover {
     transition: none;
-  }
-}
-
-.dark.danger {
-  &,
-  &:active,
-  &.active {
-    color: var(--ring-icon-error-color);
   }
 }
 
@@ -380,22 +266,14 @@
   }
 }
 
-.withNormalIconLight .icon {
+.withNormalIcon .icon {
   transition: color var(--ring-ease);
 
   color: var(--ring-icon-color);
 }
 
-.withNormalIconDark .icon {
-  transition: color var(--ring-ease);
-
-  color: var(--ring-button-dark-icon-color);
-}
-
-.withNormalIconLight:active,
-.withNormalIconLight.active,
-.withNormalIconDark:active,
-.withNormalIconDark.active {
+.withNormalIcon:active,
+.withNormalIcon.active {
   color: var(--ring-main-color);
 
   & .icon {
@@ -405,23 +283,16 @@
   }
 }
 
-.withNormalIconLight:hover .icon,
-.withNormalIconDark:hover .icon,
-.withDangerIconLight:hover .icon,
-.withDangerIconDark:hover .icon {
+.withNormalIcon:hover .icon,
+.withDangerIcon:hover .icon {
   transition: none;
 
   color: inherit;
 }
 
-.withDangerIconLight .icon,
-.withDangerIconLight:active .icon {
+.withDangerIcon .icon,
+.withDangerIcon:active .icon {
   color: var(--ring-icon-error-color);
-}
-
-.withDangerIconDark .icon,
-.withDangerIconDark:active .icon {
-  color: var(--ring-error-color);
 }
 
 .loader {
@@ -453,6 +324,14 @@
 
     content: "";
     animation: progress 1s linear infinite;
+
+    background-image:
+      linear-gradient(
+        to right,
+        var(--ring-content-background-color),
+        var(--ring-selected-background-color) 40%,
+        var(--ring-content-background-color) 80%
+      );
 
     background-repeat: repeat;
     background-size: loaderWidth;

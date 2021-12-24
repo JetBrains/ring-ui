@@ -63,7 +63,7 @@
   color: var(--ring-secondary-color);
 
   border-left: 1px solid var(--ring-disabled-color);
-  text-shadow: var(--ring-dark-text-color) 0 0 1px;
+  text-shadow: var(--ring-white-text-color) 0 0 1px;
 
   font-size: var(--ring-font-size-smaller);
 }

@@ -12,10 +12,10 @@ Ring UI colors are based on CSS custom properties spec. You can use them in you 
   }
 };
 
-function renderColorItem(propName: string, isDark = propName.includes('-dark-')) {
+function renderColorItem(propName: string) {
   const id = getUID('color-value-');
   return `
-    <div class="color-item ${isDark ? 'dark-background' : ''}">
+    <div class="color-item">
       <div class="color-square" style="background-color: var(${propName})"></div>
       <div class="color-info">
         <div>${propName}</div>
@@ -52,9 +52,8 @@ const renderColors = () => `
       ${renderColorItem('--ring-popup-border-color')}
       ${renderColorItem('--ring-popup-shadow-color')}
       ${renderColorItem('--ring-message-shadow-color')}
-      ${renderColorItem('--ring-dark-line-color')}
-      ${renderColorItem('--ring-dark-borders-color')}
-      ${renderColorItem('--ring-dark-border-hover-color')}
+      ${renderColorItem('--ring-button-danger-hover-color')}
+      ${renderColorItem('--ring-button-primary-border-color')}
     </div>
 
     <h3>Text colors:</h3>
@@ -70,10 +69,7 @@ const renderColors = () => `
       ${renderColorItem('--ring-heading-color')}
       ${renderColorItem('--ring-secondary-color')}
       ${renderColorItem('--ring-disabled-color')}
-      ${renderColorItem('--ring-dark-secondary-color')}
-      ${renderColorItem('--ring-dark-text-color')}
-      ${renderColorItem('--ring-dark-disabled-color')}
-      ${renderColorItem('--ring-dark-active-color')}
+      ${renderColorItem('--ring-white-text-color')}
     </div>
 
     <h3>Background colors:</h3>
@@ -89,8 +85,10 @@ const renderColors = () => `
       ${renderColorItem('--ring-warning-background-color')}
       ${renderColorItem('--ring-added-background-color')}
       ${renderColorItem('--ring-tag-background-color')}
-      ${renderColorItem('--ring-dark-selected-background-color')}
       ${renderColorItem('--ring-disabled-background-color')}
+      ${renderColorItem('--ring-button-danger-active-color')}
+      ${renderColorItem('--ring-button-loader-background')}
+      ${renderColorItem('--ring-button-primary-background-color')}
     </div>
   </div>
 `;
@@ -124,11 +122,6 @@ basic.parameters = {
     font-family: var(--ring-font-family-monospace);
   }
 
-  .dark-background {
-    background-color: var(--ring-navigation-background-color);
-    color: var(--ring-dark-text-color);
-  }
-
   .color-square {
     width: calc(var(--ring-unit) * 4);
     height: calc(var(--ring-unit) * 4);
@@ -142,10 +135,6 @@ basic.parameters = {
   .color-value {
     font-size: var(--ring-font-size-smaller);
     color: var(--ring-secondary-color);
-  }
-
-  .dark-background .color-value {
-    color: var(--ring-dark-secondary-color);
   }
 
   .color-item {

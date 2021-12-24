@@ -2,22 +2,22 @@ import 'focus-visible';
 import React, {
   createRef,
   PureComponent,
-  ButtonHTMLAttributes,
-  ClassAttributes,
-  ForwardRefExoticComponent
+  ButtonHTMLAttributes
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px';
 
 import Icon, {IconType, Size} from '../icon/icon';
-import Theme, {ThemeOuterProps, ThemeProps, withTheme} from '../global/theme';
 import ClickableLink, {ClickableLinkProps} from '../link/clickableLink';
+
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 import styles from './button.css';
 import {getButtonClasses} from './button__classes';
 
-export interface ButtonBaseProps extends ThemeProps {
+export interface ButtonBaseProps {
+  height?: ControlsHeight
   active?: boolean | null | undefined
   danger?: boolean | null | undefined
   delayed?: boolean | null | undefined
@@ -55,7 +55,6 @@ export type ButtonProps = ButtonButtonProps | ButtonLinkProps
  */
 export class Button extends PureComponent<ButtonProps> {
   static propTypes = {
-    theme: PropTypes.oneOf(['light', 'dark']),
     active: PropTypes.bool,
     danger: PropTypes.bool,
     delayed: PropTypes.bool,
@@ -81,14 +80,13 @@ export class Button extends PureComponent<ButtonProps> {
   };
 
   static IconSize = Size;
-  static Theme = Theme;
+  static contextType = ControlsHeightContext;
 
   buttonRef = createRef<HTMLButtonElement>();
 
   render() {
     const {
       // Modifiers
-      theme,
       active,
       danger,
       delayed,
@@ -98,6 +96,7 @@ export class Button extends PureComponent<ButtonProps> {
       text,
       inline,
       dropdown,
+      height = this.context,
 
       // Props
       icon,
@@ -109,8 +108,8 @@ export class Button extends PureComponent<ButtonProps> {
       ...props
     } = this.props;
 
-    const classes = getButtonClasses({className, active, danger, delayed, icon, theme, loader,
-      primary, short, text, inline});
+    const classes = getButtonClasses({className, active, danger, delayed, icon, loader,
+      primary, short, text, inline, height});
 
     const content = (
       <span className={styles.content}>
@@ -163,14 +162,10 @@ export class Button extends PureComponent<ButtonProps> {
 
 export {Size as IconSize};
 
-const ThemedButton = withTheme()(Button);
-
-export type ContainerProps<T> =
-  Omit<T, keyof ThemeProps> & ThemeOuterProps & ClassAttributes<Button>
+export type ContainerProps<T extends ButtonProps> = JSX.LibraryManagedAttributes<typeof Button, T>
 
 export type ButtonAttrs = ContainerProps<ButtonButtonProps> | ContainerProps<ButtonLinkProps>
 
-export default ThemedButton as ForwardRefExoticComponent<ButtonAttrs> &
-  Pick<typeof Button, 'Theme' | 'IconSize'>;
+export default Button;
 
 
