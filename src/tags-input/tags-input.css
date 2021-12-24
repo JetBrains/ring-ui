@@ -1,5 +1,7 @@
 @import "../global/variables.css";
 
+@value outerContainer, container from "../input/input.css";
+
 .tagsInput {
   padding-top: 2px;
   padding-bottom: 2px;
@@ -55,12 +57,12 @@
 .tagsSelect {
   margin-bottom: -1px;
 
-  & > div {
-    min-height: 20px;
+  & .outerContainer {
+    --ring-input-padding-block: 0;
   }
 
-  & input {
-    min-height: 20px;
+  & .container {
+    line-height: calc(var(--ring-line-height) - 2px);
   }
 }
 
