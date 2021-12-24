@@ -26,7 +26,7 @@
   text-align: center;
   text-overflow: ellipsis;
 
-  color: var(--ring-dark-text-color);
+  color: var(--ring-white-text-color);
 
   line-height: initial;
 
@@ -38,7 +38,7 @@
 
   &:not(:hover),
   &:visited:not(:hover) {
-    color: var(--ring-dark-text-color);
+    color: var(--ring-white-text-color);
   }
 }
 
@@ -58,7 +58,7 @@
   composes: active;
 
   &:hover {
-    color: var(--ring-dark-text-color);
+    color: var(--ring-white-text-color);
   }
 }
 

@@ -162,7 +162,7 @@ export class Input extends PureComponent<InputProps> {
       id,
       placeholder,
       icon,
-      height,
+      height = this.context,
       ...restProps
     } = this.props;
 
@@ -172,7 +172,7 @@ export class Input extends PureComponent<InputProps> {
       className,
       styles.outerContainer,
       [styles[`size${size}`]],
-      [styles[`height${height || this.context}`]],
+      [styles[`height${height}`]],
       {
         'ring-js-shortcuts': enableShortcuts === true,
         [styles.active]: active,
