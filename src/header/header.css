@@ -10,7 +10,7 @@
 }
 
 .dark {
-  color: var(--ring-dark-text-color);
+  color: var(--ring-white-text-color);
   background-color: var(--ring-navigation-background-color);
 
   /* override link */
@@ -154,7 +154,7 @@
 
     content: "";
 
-    border: 1px solid var(--ring-dark-text-color);
+    border: 1px solid var(--ring-white-text-color);
     border-radius: 50%;
     background-color: var(--ring-link-hover-color);
   }

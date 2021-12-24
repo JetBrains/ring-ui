@@ -6,7 +6,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import Loader from '../loader-inline/loader-inline';
 
-import Theme, {ThemeContext} from '../global/theme';
+import Theme, {ThemeProvider} from '../global/theme';
+
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 import Button, {ButtonProps} from './button';
 
@@ -29,7 +31,7 @@ export const single = (args: ButtonProps) => <Button {...args}/>;
 single.args = {children: 'Label'};
 single.parameters = {hermione: {skip: true}};
 
-export const basic = () => {
+function Examples() {
   function renderButtonModifications() {
     return ['active', 'primary', 'danger', 'delayed', 'disabled', 'dropdown'].map(modifier => (
       <Button
@@ -115,44 +117,44 @@ export const basic = () => {
         {renderIconActionModifications()}
       </div>
 
-      <div className="buttons dark">
-        <ThemeContext.Provider value={Theme.DARK}>
-          <Button>Button default</Button>
+      <ThemeProvider theme={Theme.DARK} className="buttons">
+        <Button>Button default</Button>
 
-          <Button short>
-            ...
-          </Button>
+        <Button short>
+          ...
+        </Button>
 
-          <Button href="/">
-            Button link
-          </Button>
+        <Button href="/">
+          Button link
+        </Button>
 
-          <Button loader>
-            Dark loader
-          </Button>
+        <Button loader>
+          Dark loader
+        </Button>
 
-          {renderButtonModifications()}
+        {renderButtonModifications()}
 
-          <Button text>
-            Text action
-          </Button>
+        <Button text>
+          Text action
+        </Button>
 
-          {renderTextModifications()}
+        {renderTextModifications()}
 
-          <Button icon={pencilIcon}>
-            Icon action
-          </Button>
+        <Button icon={pencilIcon}>
+          Icon action
+        </Button>
 
-          {renderIconWithTextModifications()}
+        {renderIconWithTextModifications()}
 
-          <Button icon={pencilIcon} title="Icon action"/>
+        <Button icon={pencilIcon} title="Icon action"/>
 
-          {renderIconActionModifications()}
-        </ThemeContext.Provider>
-      </div>
+        {renderIconActionModifications()}
+      </ThemeProvider>
     </div>
   );
-};
+}
+
+export const basic = () => <Examples/>;
 
 basic.storyName = 'basic';
 
@@ -166,15 +168,29 @@ basic.parameters = {
   },
   storyStyles: `
 <style>
+  .buttons {
+    background: var(--ring-content-background-color);
+  }
+
   .buttons > button {
     margin: 8px;
   }
-
-  .dark {
-    background: #000;
-  }
 </style>`
 };
+
+export const heightS = () => (
+  <ControlsHeightContext.Provider value={ControlsHeight.S}>
+    <Examples/>
+  </ControlsHeightContext.Provider>
+);
+heightS.parameters = basic.parameters;
+
+export const heightL = () => (
+  <ControlsHeightContext.Provider value={ControlsHeight.L}>
+    <Examples/>
+  </ControlsHeightContext.Provider>
+);
+heightL.parameters = basic.parameters;
 
 export const longAction = () => {
   class Sleeper extends Component {

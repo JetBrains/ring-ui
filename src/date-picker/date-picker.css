@@ -243,7 +243,7 @@
 }
 
 .current.current {
-  color: var(--ring-dark-text-color);
+  color: var(--ring-white-text-color);
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-main-color);
 }

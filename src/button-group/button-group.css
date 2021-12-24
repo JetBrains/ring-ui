@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
+@value button, active, primary from "../button/button.css";
 
 :root {
   --ring-button-group-default-z-index: 0;
@@ -55,6 +56,14 @@
 .buttonGroup > :last-child .button {
   border-top-right-radius: var(--ring-border-radius);
   border-bottom-right-radius: var(--ring-border-radius);
+}
+
+.buttonGroup .primary:not(:last-child) {
+  margin-right: 1px;
+}
+
+.buttonGroup .primary:not(:first-child) {
+  margin-left: 1px;
 }
 
 .buttonGroup {

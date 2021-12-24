@@ -97,6 +97,7 @@ basic.parameters = {
     flex-flow: column wrap;
     max-height: 100vh;
     margin-top: 8px;
+    background: var(--ring-content-background-color);
   }
 
   .inputs > div {
@@ -104,7 +105,6 @@ basic.parameters = {
   }
 
   .dark.dark {
-    background: #000;
     margin: 0 -16px;
     padding: 8px 16px;
   }
