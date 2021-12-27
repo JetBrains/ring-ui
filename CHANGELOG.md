@@ -16,6 +16,7 @@
 
   <ThemeProvider theme={Theme.DARK}>{children}</ThemeProvider>
   ```
+  You can also pass `Theme.AUTO` to use the user-defined system theme.
 - `--ring-dark-*` CSS custom properties are removed, `--ring-dark-text-color` is renamed to `--ring-white-text-color`
 - The codebase has migrated to TypeScript
 - `react-markdown` has been updated to v7, which affects the props of `Markdown` component. The most notable change is replacing `source` with `children`:
