@@ -116,10 +116,14 @@
 
 .clear {
   position: absolute;
-  top: var(--ring-input-padding-block);
+  top: calc(var(--ring-input-padding-block) + 1px);
   right: var(--ring-input-padding-inline);
 
+  height: auto;
+
   padding-right: 0;
+
+  line-height: inherit;
 
   @nest .empty & {
     display: none;
