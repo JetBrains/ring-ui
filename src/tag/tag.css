@@ -108,10 +108,13 @@
 .remove {
   position: absolute;
   z-index: 1;
-  top: -1px;
+  top: 1px;
   right: 0;
 
+  height: auto;
   padding: 0 calc(unit / 2);
+
+  line-height: calc(unit * 2);
 }
 
 .removeIcon.removeIcon {
