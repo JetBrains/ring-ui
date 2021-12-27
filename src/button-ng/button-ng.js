@@ -9,6 +9,8 @@ import Theme, {applyTheme} from '../global/theme';
 import styles from '../button/button.css';
 import {getButtonClasses} from '../button/button__classes';
 
+import {ControlsHeight} from '../global/controls-height';
+
 import overrides from './button-ng.css';
 
 const {ringIconDefaultColor, iconMarginFix, transcludeSpacer} = overrides;
@@ -110,6 +112,7 @@ class ButtonController extends RingAngularComponent {
     this.element.className = classNames(
       foreignClasses,
       getButtonClasses({
+        height: ControlsHeight.S,
         className: styles.button,
         active: this.getAttrValue($attrs.active),
         disabled: this.getAttrValue($attrs.disabled),
