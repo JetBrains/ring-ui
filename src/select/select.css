@@ -39,8 +39,8 @@
 
 .icons {
   position: absolute;
-  top: -2px;
-  right: 0;
+  top: -3px;
+  right: calc(unit * 1.5);
 
   transition: color var(--ring-ease);
 
@@ -55,14 +55,7 @@
   }
 
   @nest .inputMode & {
-    top: 12px;
-
     font-size: var(--ring-font-size);
-  }
-
-  @nest .buttonMode & {
-    top: -4px;
-    right: unit;
   }
 }
 
@@ -87,10 +80,6 @@
   vertical-align: -1px;
 }
 
-.clearIcon.clearIcon > span > span {
-  color: var(--ring-icon-secondary-color);
-}
-
 .sizeS {
   width: calc(unit * 12);
 }
@@ -111,8 +100,7 @@
   max-width: 100%;
 }
 
-.buttonMode,
-.materialMode {
+.buttonMode {
   position: relative;
 
   cursor: pointer;
@@ -168,6 +156,7 @@
   display: block;
 
   width: 100%;
+  padding-left: unit;
 
   text-align: left;
   vertical-align: calc(0 - unit);
@@ -186,6 +175,7 @@
 
 .select:hover .value,
 .select:hover .icons,
+:global(.focus-visible) + .icons,
 .value:focus,
 .value:focus + .icons,
 .open,
@@ -207,23 +197,6 @@
   }
 }
 
-.selectedLabel {
-  position: absolute;
-  top: calc(unit * -1.5);
-  left: 0;
-
-  overflow: hidden;
-
-  max-width: 100%;
-
-  text-overflow: ellipsis;
-
-  color: var(--ring-secondary-color);
-
-  font-size: var(--ring-font-size-smaller);
-  line-height: var(--ring-line-height-lowest);
-}
-
 .avatar {
   margin-right: 4px;
 
@@ -236,9 +209,10 @@
 }
 
 .chevron.chevron {
-  padding: 0;
+  padding: 0 3px;
 
   transition: none;
+  vertical-align: -1px;
 
   color: inherit;
 }
@@ -249,6 +223,10 @@
   color: inherit;
 }
 
-.avatar {
+.heightS .avatar {
   vertical-align: -6px;
+}
+
+.heightS .icons {
+  top: -5px;
 }

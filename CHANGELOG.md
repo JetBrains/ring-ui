@@ -10,6 +10,7 @@
   </ControlsHeightContext.Provider>
   ```
 - Input: removed `compact` and `renderUnderline` props
+- Select: removed `Type.MATERIAL`
 - Components no longer accept `theme` prop, themes are managed using CSS Custom Properties instead. To apply a theme to your app or some part of it, wrap it into `ThemeProvider`:
   ```js
   import Theme, {ThemeProvider} from '@jetbrains/ring-ui/components/global/theme';

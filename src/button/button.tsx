@@ -17,7 +17,7 @@ import styles from './button.css';
 import {getButtonClasses} from './button__classes';
 
 export interface ButtonBaseProps {
-  height?: ControlsHeight
+  height?: ControlsHeight | undefined
   active?: boolean | null | undefined
   danger?: boolean | null | undefined
   delayed?: boolean | null | undefined

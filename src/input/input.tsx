@@ -50,7 +50,8 @@ export interface InputBaseProps {
   onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
   loading?: boolean | null | undefined
   icon?: string | ComponentType | null | undefined
-  height?: ControlsHeight
+  height?: ControlsHeight | undefined
+  afterInput?: ReactNode
 }
 
 type Override<D, S> = Omit<D, keyof S> & S
@@ -163,6 +164,7 @@ export class Input extends PureComponent<InputProps> {
       placeholder,
       icon,
       height = this.context,
+      afterInput,
       ...restProps
     } = this.props;
 
@@ -237,6 +239,7 @@ export class Input extends PureComponent<InputProps> {
               onClick={this.clear}
             />
           )}
+          {afterInput}
         </div>
         {error && <div className={styles.errorText}>{error}</div>}
       </div>
