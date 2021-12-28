@@ -62,7 +62,7 @@
   &:global(.focus-visible) {
     transition: none;
 
-    box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
+    box-shadow: button-shadow var(--ring-main-color);
   }
 
   &[disabled] {
@@ -121,6 +121,7 @@
     transition: none;
 
     background-color: var(--ring-main-hover-color);
+    box-shadow: button-shadow var(--ring-button-primary-border-color);
   }
 
   &[disabled] {
@@ -197,7 +198,7 @@
   }
 
   &:global(.focus-visible) {
-    box-shadow: inset 0 0 0 2px var(--ring-border-hover-color);
+    box-shadow: button-shadow var(--ring-main-color);
   }
 }
 

@@ -105,8 +105,7 @@
   &.focus + .cell {
     transition: background-color var(--ring-ease);
 
-    border-color: var(--ring-border-hover-color);
-    box-shadow: 0 0 0 1px var(--ring-border-hover-color);
+    border-color: var(--ring-main-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
