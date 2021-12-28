@@ -40,6 +40,7 @@ const renderColors = () => `
       ${renderColorItem('--ring-icon-color')}
       ${renderColorItem('--ring-icon-secondary-color')}
       ${renderColorItem('--ring-border-disabled-color')}
+      ${renderColorItem('--ring-border-unselected-disabled-color')}
       ${renderColorItem('--ring-icon-disabled-color')}
       ${renderColorItem('--ring-border-hover-color')}
       ${renderColorItem('--ring-icon-hover-color')}
