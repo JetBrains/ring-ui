@@ -9,9 +9,7 @@ module.exports = {
     '^@jetbrains/ring-ui(.*)$': '<rootDir>$1'
   },
   setupFiles: [
-    '<rootDir>/test-helpers/inject-hub-config.js',
-    '<rootDir>/test-helpers/register-context.js',
-    '<rootDir>/test-helpers/resize-observer-mock.js'
+    '<rootDir>/test-helpers/jest-globals.js'
   ],
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest'
