@@ -9,6 +9,7 @@ export interface RingCSSProperties {
   '--ring-icon-color'?: Property.Color
   '--ring-icon-secondary-color'?: Property.Color
   '--ring-border-disabled-color'?: Property.BorderColor
+  '--ring-border-unselected-disabled-color'?: Property.Color
   '--ring-icon-disabled-color'?: Property.Color
   '--ring-border-hover-color'?: Property.BorderColor
   '--ring-icon-hover-color'?: Property.Color

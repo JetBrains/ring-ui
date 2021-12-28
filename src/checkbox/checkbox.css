@@ -119,14 +119,20 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   &[disabled][disabled] + .cell {
-    border-color: var(--ring-line-color);
-    background-color: var(--ring-content-background-color);
+    border-color: var(--ring-border-unselected-disabled-color);
+    background-color: var(--ring-disabled-background-color);
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &[disabled]:checked + .cell,
+  &[disabled]:indeterminate + .cell {
+    border-color: var(--ring-border-disabled-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
   &[disabled]:checked + .cell .check,
   &[disabled]:indeterminate + .cell .minus {
-    opacity: 0.5;
+    color: var(--ring-border-disabled-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
