@@ -77,7 +77,6 @@ describe('Select', () => {
     Select.Type.BUTTON.should.exist;
     Select.Type.INPUT.should.exist;
     Select.Type.CUSTOM.should.exist;
-    Select.Type.MATERIAL.should.exist;
     Select.Type.INLINE.should.exist;
   });
 
@@ -332,14 +331,14 @@ describe('Select', () => {
         disabled: true
       });
       wrapper.should.have.className(styles.disabled);
-      wrapper.instance().button!.should.have.attr('disabled');
+      wrapper.find('button[data-test*="ring-select__button"]').should.have.prop('disabled');
     });
 
     it('Should not disable select button if not needed', () => {
       const wrapper = mountSelect({
         disabled: false
       });
-      wrapper.instance().button!.should.not.have.attr('disabled');
+      wrapper.find('button[data-test*="ring-select__button"]').should.have.prop('disabled');
     });
 
     it('Should place input inside in INPUT mode', () => {
@@ -599,7 +598,7 @@ describe('Select', () => {
     });
 
     it('should filter if not focused but not in input mode', () => {
-      const wrapper = mountSelect({type: Select.Type.MATERIAL});
+      const wrapper = mountSelect();
       const instance = wrapper.instance();
       wrapper.setState({showPopup: true});
       simulateInput(instance._popup!.filter!, 'a');
@@ -617,7 +616,7 @@ describe('Select', () => {
     });
 
     it('Should return empty string if not input mode and filter is disabled', () => {
-      const wrapper = shallowSelect({filter: false, type: Select.Type.MATERIAL});
+      const wrapper = shallowSelect({filter: false});
       const instance = wrapper.instance();
 
       instance.filterValue().should.equal('');
@@ -1030,7 +1029,9 @@ describe('Select', () => {
 
       instance._showPopup();
       instance._hidePopup(true);
-      document.activeElement!.should.equal(instance.button);
+      document.activeElement!.should.equal(
+        mountWrapper!.find('button[data-test*="ring-select__button"]').getDOMNode()
+      );
     });
 
     describe('Focus after close', () => {

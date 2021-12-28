@@ -17,11 +17,9 @@ import '../input-size/input-size.css';
 
 import Input, {ContainerProps, InputSpecificProps} from '../input/input';
 
-import Select, {
-  SelectAttrs,
-  SelectItem,
-  SingleSelectAttrs
-} from './select';
+import {ControlsHeight} from '../global/controls-height';
+
+import Select, {SelectAttrs, SelectItem, SingleSelectAttrs} from './select';
 
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
@@ -1059,3 +1057,7 @@ selectInPopup.parameters = {
       `
 };
 
+export const heightS = () => {
+  const data = [{label: 'One', key: 1, showGeneratedAvatar: true, username: 'User'}];
+  return <Select height={ControlsHeight.S} data={data} selected={data[0]} clear/>;
+};
