@@ -52,7 +52,7 @@
   position: relative;
 
   outline: none;
-  box-shadow: 0 0 0 2px var(--ring-border-hover-color);
+  box-shadow: 0 0 0 1px var(--ring-main-color) inset;
 }
 
 .tagAngled {
@@ -87,13 +87,11 @@
 
   &.focused,
   &:focus {
-    box-shadow: 0 0 0 1px var(--ring-border-hover-color) inset, 0 0 0 1px var(--ring-border-hover-color);
+    box-shadow: 0 0 0 1px var(--ring-main-color) inset;
   }
 
   &:focus::before {
-    box-shadow:
-      1px -1px var(--ring-border-hover-color) inset,
-      -0.8px 0.8px 0 0.5px var(--ring-border-hover-color);
+    box-shadow: 1px -1px var(--ring-main-color) inset;
   }
 }
 
