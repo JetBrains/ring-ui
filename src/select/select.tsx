@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import chevronDownIcon from '@jetbrains/icons/chevron-10px';
+import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import closeIcon from '@jetbrains/icons/close';
 import deepEqual from 'deep-equal';
 
@@ -34,6 +34,8 @@ import {Directions} from '../popup/popup.consts';
 
 import {isArray} from '../global/typescript-utils';
 
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
+
 import SelectPopup, {Filter, FilterFn, Multiple, Tags} from './select__popup';
 import styles from './select.css';
 
@@ -52,13 +54,13 @@ enum Type {
   INPUT = 'INPUT',
   CUSTOM = 'CUSTOM',
   INLINE = 'INLINE',
-  MATERIAL = 'MATERIAL',
   INPUT_WITHOUT_CONTROLS = 'INPUT_WITHOUT_CONTROLS'
 }
 
+const ICONS_OFFSET = 12;
 const ICON_WIDTH = 20;
 const getStyle = memoize((iconsLength: number) => ({
-  paddingRight: iconsLength * ICON_WIDTH
+  paddingRight: ICONS_OFFSET + iconsLength * ICON_WIDTH
 }));
 
 const isInputMode = (type: Type) => type === Type.INPUT || type === Type.INPUT_WITHOUT_CONTROLS;
@@ -171,6 +173,7 @@ export interface BaseSelectProps<T = unknown> {
   onDone: () => void
   onReset: () => void
   dir: 'ltr' | 'rtl'
+  height?: ControlsHeight | undefined
   targetElement?: HTMLElement | null | undefined
   className?: string | null | undefined
   buttonClassName?: string | null | undefined
@@ -388,7 +391,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     loadingMessage: 'Loading...',
     notFoundMessage: 'No options found',
 
-    type: Type.MATERIAL,
+    type: Type.BUTTON,
     size: Size.M,
     targetElement: null, // element to bind the popup to (select BUTTON or INPUT by default)
     hideSelected: false, // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
@@ -527,6 +530,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
   }
 
+  static contextType = ControlsHeightContext;
   static Type = Type;
   static Size = Size;
   static Theme = Theme;
@@ -1182,11 +1186,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     );
   }
 
-  button?: HTMLElement | null;
-  buttonRef = (el: HTMLElement | null) => {
-    this.button = el;
-  };
-
   filter?: HTMLInputElement | null;
   filterRef = (el: HTMLInputElement | null) => {
     this.filter = el;
@@ -1209,7 +1208,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   renderSelect(activeItemId: string | undefined) {
     const dataTest = this.props['data-test'];
     const {shortcutsEnabled} = this.state;
-    const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, {
+    const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, styles[`height${this.props.height || this.context}`], {
       [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
       [styles.disabled]: this.props.disabled
     });
@@ -1242,6 +1241,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           )}
           <Input
             {...ariaProps}
+            height={this.props.height}
             autoComplete="off"
             id={this.props.id}
             onClick={this._clickHandler}
@@ -1265,8 +1265,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                 ...this._popup?.list?.shortcutsMap
               })
               : undefined}
+            afterInput={this.props.type === Type.INPUT && iconsNode}
           />
-          {this.props.type === Type.INPUT && iconsNode}
           {this._renderPopup()}
         </div>
       );
@@ -1286,6 +1286,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             <div className={styles.buttonContainer}>
               <Button
                 {...ariaProps}
+                height={this.props.height}
                 id={this.props.id}
                 onClick={this._clickHandler}
                 className={classNames(
@@ -1308,44 +1309,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           </div>
         );
 
-      case Type.MATERIAL:
-        return (
-          <div
-            ref={this.nodeRef}
-            className={classNames(classes, styles.materialMode)}
-            data-test={dataTests('ring-select', dataTest)}
-          >
-            {shortcutsEnabled && (
-              <Shortcuts
-                map={this.getShortcutsMap()}
-                scope={this.shortcutsScope}
-              />
-            )}
-            {!this._selectionIsEmpty() && this.props.selectedLabel && (
-              <span className={styles.selectedLabel}>{this.props.selectedLabel}</span>
-            )}
-            <button
-              {...ariaProps}
-              id={this.props.id}
-              onClick={this._clickHandler}
-              type="button"
-              disabled={this.props.disabled}
-              className={classNames(this.props.buttonClassName, styles.value, {
-                [styles.open]: this.state.showPopup,
-                [styles.label]: this._selectionIsEmpty()
-              })}
-              aria-label={this._getLabel()}
-              style={style}
-              data-test="ring-select__focus"
-              ref={this.buttonRef}
-            >
-              {this._getAvatar()}
-              {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
-            </button>
-            {iconsNode}
-            {this._renderPopup()}
-          </div>
-        );
       case Type.INLINE:
         return (
           <div

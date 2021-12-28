@@ -35,7 +35,6 @@ import styles from './select-popup.css';
 
 import {SelectItem} from './select';
 
-const INPUT_MARGIN_COMPENSATION = -14;
 const FILTER_HEIGHT = 35;
 const TOOLBAR_HEIGHT = 49;
 
@@ -575,7 +574,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               minWidth={minWidth}
               onCloseAttempt={onCloseAttempt}
               directions={directions}
-              top={top || (isInputMode ? INPUT_MARGIN_COMPENSATION : undefined)}
+              top={top}
               left={left}
               onMouseDown={this.mouseDownHandler}
               target={this.props.ringPopupTarget}

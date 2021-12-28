@@ -6,7 +6,7 @@ import angular from 'angular';
 import {FOCUSABLE_ELEMENTS} from '../tab-trap/tab-trap';
 
 const angularModule = angular.module('Ring.autofocus', []);
-const RING_SELECT_SELECTOR = '[data-test=ring-select__focus]';
+const RING_SELECT_SELECTOR = '[data-test*=ring-select__focus]';
 const RING_SELECT = 'rg-select';
 
 angularModule.directive('rgAutofocus', function rgAutofocusDirective() {
