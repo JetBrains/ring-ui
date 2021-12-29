@@ -26,7 +26,7 @@
     "font-awesome": "^4.7.0",
     "fs-extra": "^10.0.0",
     "hermione": "^4.7.5",
-    "html-reporter": "^8.0.1",
+    "html-reporter": "^8.0.2",
     "http-server": "^14.0.0",
     "ip": "^1.1.5",
     "jest": "^27.4.5",
