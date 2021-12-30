@@ -9,7 +9,7 @@ describe('Toggle', () => {
   const getToggleLabel = (props?: ToggleAttrs) => mountToggle(props).find('label');
 
   it('should create component', () => {
-    mountToggle().type().should.equal(Toggle.type);
+    mountToggle().type().should.equal(Toggle);
   });
 
   it('should wrap children with label', () => {
