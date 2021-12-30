@@ -54,12 +54,13 @@ export const displayedWhenNecessary = () => {
   return (
     <Fragment>
       <div style={{paddingBottom: '200px'}}>
-        <Tooltip title={loremIpsum} selfOverflowOnly className="lorem-ipsum__text">
+        <Tooltip long title={loremIpsum} selfOverflowOnly className="lorem-ipsum__text">
           <b>{"Tooltip won't be displayed:"}</b> {loremIpsum}
         </Tooltip>
       </div>
       <div style={{paddingBottom: '200px'}}>
         <Tooltip
+          long
           title={loremIpsum}
           selfOverflowOnly
           style={overflowStyles}

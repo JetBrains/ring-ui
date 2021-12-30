@@ -8,3 +8,10 @@
 
   text-align: left;
 }
+
+.long {
+  padding: unit calc(unit * 1.5);
+
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
+}
