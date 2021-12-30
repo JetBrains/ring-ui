@@ -87,6 +87,7 @@ const renderColors = () => `
       ${renderColorItem('--ring-warning-background-color')}
       ${renderColorItem('--ring-added-background-color')}
       ${renderColorItem('--ring-tag-background-color')}
+      ${renderColorItem('--ring-tag-hover-background-color')}
       ${renderColorItem('--ring-disabled-background-color')}
       ${renderColorItem('--ring-button-danger-active-color')}
       ${renderColorItem('--ring-button-loader-background')}
