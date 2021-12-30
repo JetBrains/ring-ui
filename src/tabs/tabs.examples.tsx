@@ -7,7 +7,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
 import Icon, {IconProps} from '../icon/icon';
 
-import {Tabs, Tab, SmartTabs, CustomItem} from './tabs';
+import Theme, {ThemeProvider} from '../global/theme';
+
+import {CustomItem, SmartTabs, Tab, Tabs} from './tabs';
 
 export default {
   title: 'Components/Tabs',
@@ -145,28 +147,29 @@ class DarkDemo extends Component {
 
   render() {
     return (
-      <Tabs
-        selected={this.state.selected}
-        onSelect={selected => this.setState({selected})}
-        theme={Tabs.Theme.DARK}
-        className="dark-wrapper"
-      >
-        <Tab id="first" title="First tab">
-          First tab content
-        </Tab>
-        <Tab id="second" title="Second tab">
-          Second tab content
-        </Tab>
-        <Tab id="third" title="Third tab">
-          Third tab content
-        </Tab>
-        <Tab id="fourth" title="Fourth tab (Link)" href="/">
-          Fourth tab content
-        </Tab>
-        <Tab disabled id="disabled" title="Disabled tab">
-          Disabled tab content
-        </Tab>
-      </Tabs>
+      <ThemeProvider theme={Theme.DARK}>
+        <Tabs
+          selected={this.state.selected}
+          onSelect={selected => this.setState({selected})}
+          className="dark-wrapper"
+        >
+          <Tab id="first" title="First tab">
+            First tab content
+          </Tab>
+          <Tab id="second" title="Second tab">
+            Second tab content
+          </Tab>
+          <Tab id="third" title="Third tab">
+            Third tab content
+          </Tab>
+          <Tab id="fourth" title="Fourth tab (Link)" href="/">
+            Fourth tab content
+          </Tab>
+          <Tab disabled id="disabled" title="Disabled tab">
+            Disabled tab content
+          </Tab>
+        </Tabs>
+      </ThemeProvider>
     );
   }
 }
@@ -178,9 +181,9 @@ dark.parameters = {
   storyStyles: `
 <style>
   .dark-wrapper {
-    background: #000;
+    background: var(--ring-content-background-color);
     padding: 8px;
-    color: #fff;
+    color: var(--ring-text-color);
   }
 </style>`
 };

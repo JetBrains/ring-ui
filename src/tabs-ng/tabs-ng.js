@@ -3,7 +3,6 @@ import angular from 'angular';
 import className from 'classnames';
 
 import styles from '../tabs/tabs.css';
-import Theme from '../global/theme';
 
 import template from './tabs-ng__template';
 
@@ -24,15 +23,13 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
       tabParameter: '@',
       tabsClass: '=',
       control: '=?',
-      disableLocationChanging: '=',
-      theme: '@?'
+      disableLocationChanging: '='
     },
 
     controller: function controller($scope) {
       $scope.panes = [];
       $scope.current = null;
       $scope.styles = styles;
-      $scope.theme = $scope.theme || Theme.LIGHT;
 
       function getTabIdFromUrl() {
         return $location.search()[$scope.tabParameter];

@@ -1,5 +1,5 @@
 export default `<div
-  ng-class=":: [styles.tabs, styles[theme]]"
+  ng-class=":: styles.tabs"
   rg-shortcuts="ring-tabs"
   shortcuts-map="keyMap"
   shortcuts-focus="focus"

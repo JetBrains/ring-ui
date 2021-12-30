@@ -9,6 +9,8 @@
   --ring-border-unselected-disabled-color: #363636;
   --ring-icon-disabled-color: #444;
   --ring-border-hover-color: #70b1e6;
+  --ring-main-color: #008eff;
+  --ring-main-hover-color: #007ee5;
   --ring-icon-error-color: #c22731;
   --ring-icon-warning-color: #cc8b00;
   --ring-icon-success-color: #1c8c32;
@@ -27,6 +29,7 @@
   --ring-warning-color: #eda200;
   --ring-success-color: #59a869;
   --ring-text-color: #bbb;
+  --ring-active-text-color: #fff;
   --ring-heading-color: var(--ring-text-color);
   --ring-secondary-color: #80929d;
   --ring-disabled-color: #80929d;
