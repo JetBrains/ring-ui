@@ -51,6 +51,7 @@ export interface RingCSSProperties {
   '--ring-message-background-color'?: Property.BackgroundColor
   '--ring-navigation-background-color'?: Property.BackgroundColor
   '--ring-tag-background-color'?: Property.BackgroundColor
+  '--ring-tag-hover-background-color'?: Property.BackgroundColor
   '--ring-removed-background-color'?: Property.BackgroundColor
   '--ring-warning-background-color'?: Property.BackgroundColor
   '--ring-added-background-color'?: Property.BackgroundColor

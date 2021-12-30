@@ -14,6 +14,7 @@ import Button from '../button/button';
 import styles from './tag.css';
 
 export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
+  disabled: boolean,
   ref: RefCallback<HTMLElement>
   'data-test': string
 }
@@ -196,6 +197,7 @@ export default class Tag extends PureComponent<TagProps> {
           ref: this.tagRef,
           onClick: this.props.onClick,
           style: {backgroundColor, color: textColor},
+          disabled: this.props.disabled,
           children: (
             <>
               {this.renderAvatar()}
