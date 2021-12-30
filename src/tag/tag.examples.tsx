@@ -39,6 +39,7 @@ export const demo = () => {
           <Tag render={({children, ...restProps}) => <a href="/" {...restProps}>{children}</a>}>
             With custom render
           </Tag>
+          <Tag disabled readOnly>Disabled</Tag>
         </div>
       );
     }

@@ -43,6 +43,7 @@
   --ring-message-background-color: var(--ring-popup-background-color);
   --ring-navigation-background-color: #111314;
   --ring-tag-background-color: #3e4d59;
+  --ring-tag-hover-background-color: #333e47;
   --ring-removed-background-color: #8f5247;
   --ring-warning-background-color: #593d01;
   --ring-added-background-color: #365947;
