@@ -7,6 +7,8 @@ import getEventKey from '../global/get-event-key';
 import Select, {RerenderableSelect} from '../select/select';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
+import {ControlsHeight} from '../global/controls-height';
+
 import SelectNgOptions from './select-ng__options';
 import SelectLazy from './select-ng__lazy';
 
@@ -23,7 +25,6 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
   const types = {
     input: Select.Type.INPUT,
     button: Select.Type.BUTTON,
-    material: Select.Type.MATERIAL,
     dropdown: Select.Type.CUSTOM,
     suggest: Select.Type.INPUT
   };
@@ -417,6 +418,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           notFoundMessage: ctrl.notFoundMessage || RingMessageBundle.select_options_not_found(),
           targetElement: getType() === 'dropdown' ? element : null,
           size: getSelectSize(),
+          height: ControlsHeight.S,
           onBeforeOpen: () => {
             resetMemorizedOptions();
             ctrl.loadOptionsToSelect(ctrl.query);
