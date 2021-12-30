@@ -15,7 +15,7 @@ export default {
 
 export const basic = () => (
   <div>
-    <h1>Size 16</h1>
+    <h1>Size 14</h1>
     <div>
       <Toggle>Unchecked by default</Toggle>
     </div>
@@ -42,6 +42,34 @@ export const basic = () => (
     </div>
     <div>
       <Toggle leftLabel="With label on the left"/>
+    </div>
+    <h1>Size 16</h1>
+    <div>
+      <Toggle size={Size.Size16}>Unchecked by default</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} defaultChecked>Checked by default</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} disabled>Disabled unchecked</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} disabled defaultChecked>Disabled checked</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} pale>Pale unchecked by default</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} pale defaultChecked>Pale checked by default</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} pale disabled>Pale disabled unchecked</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} pale disabled defaultChecked>Pale disabled checked</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} leftLabel="With label on the left"/>
     </div>
     <h1>Size 20</h1>
     <div style={{lineHeight: '24px'}}>
