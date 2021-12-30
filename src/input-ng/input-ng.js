@@ -8,7 +8,6 @@ import closeIcon from '@jetbrains/icons/close';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import styles from '../input/input.css';
-import Theme from '../global/theme';
 import ButtonNg from '../button-ng/button-ng';
 
 import styleOverrides from './input-ng.css';
@@ -33,7 +32,6 @@ class RingInputComponent extends RingAngularComponent {
     label: '@',
     hint: '@',
     size: '@',
-    theme: '@',
     disabled: '@',
     active: '<',
     error: '@',
@@ -85,7 +83,6 @@ class RingInputComponent extends RingAngularComponent {
   getContainerClasses() {
     return classNames(
       styles.outerContainer,
-      styles[this.theme || Theme.LIGHT],
       this.size ? [styles[`size${this.size}`]] : null,
       styles.heightS,
       {

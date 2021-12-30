@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import RingAngularComponent from '../global/ring-angular-component';
 import {addClasses, applyMethodToClasses, removeClasses} from '../global/dom';
 import IconNG from '../icon-ng/icon-ng';
-import Theme, {applyTheme} from '../global/theme';
 import styles from '../button/button.css';
 import {getButtonClasses} from '../button/button__classes';
 
@@ -94,7 +93,6 @@ class ButtonController extends RingAngularComponent {
       this.updateClasses();
       this.updateIcon();
     });
-    $attrs.$observe('theme', this.updateClasses);
   }
 
   getAttrValue(attribute) {
@@ -104,8 +102,6 @@ class ButtonController extends RingAngularComponent {
 
   updateClasses = () => {
     const {$attrs} = this.$inject;
-
-    const theme = this.element.classList.contains(styles.light) ? Theme.LIGHT : Theme.DARK;
 
     const foreignClasses = [...this.element.classList].filter(name => !buttonClassesMap[name]);
 
@@ -123,8 +119,7 @@ class ButtonController extends RingAngularComponent {
         inline: this.getAttrValue($attrs.inline),
         danger: this.getAttrValue($attrs.danger),
         delayed: this.getAttrValue($attrs.delayed),
-        icon: $attrs.icon,
-        theme
+        icon: $attrs.icon
       }),
       {
         // Some overrides for angular buttons
@@ -172,22 +167,11 @@ class ButtonController extends RingAngularComponent {
   };
 }
 
-function changeTheme(element, data) {
-  return applyTheme({
-    element,
-    prevTheme: data.prevTheme && styles[data.prevTheme] || styles.light,
-    currentTheme: styles[data.currentTheme]
-  });
-}
-
 function createButtonDirective(tagName) {
   return () => ({
     restrict: 'E',
     transclude: true,
     replace: true,
-    require: {
-      rgThemeCtrl: '?^^rgTheme'
-    },
     template: `
   <${tagName} class="${styles.button} ${styles.light}">
   <span class="${styles.content}"
@@ -197,13 +181,7 @@ function createButtonDirective(tagName) {
   ><div class="js-button-loader"></div>
   </${tagName}>
     `,
-    controller: ButtonController,
-    link: (scope, element, attrs, {rgThemeCtrl}) => {
-      if (rgThemeCtrl) {
-        changeTheme(element[0], {currentTheme: rgThemeCtrl.theme});
-        rgThemeCtrl.on('change', (event, data) => changeTheme(element[0], data));
-      }
-    }
+    controller: ButtonController
   });
 }
 

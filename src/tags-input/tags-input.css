@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value outerContainer, container from "../input/input.css";
+@value outerContainer, container, input from "../input/input.css";
 
 .tagsInput {
   padding-top: 2px;
@@ -31,6 +31,10 @@
   pointer-events: none;
 
   color: var(--ring-disabled-color);
+
+  & .input {
+    background-color: transparent;
+  }
 
   & .underline {
     border-bottom-style: dashed;
