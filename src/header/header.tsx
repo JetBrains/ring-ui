@@ -1,12 +1,10 @@
-import React, {Component, ComponentPropsWithRef, HTMLAttributes} from 'react';
+import React, {Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Theme, {ThemeProps, withTheme} from '../global/theme';
-
 import styles from './header.css';
 
-interface HeaderProps extends HTMLAttributes<HTMLElement>, ThemeProps {
+interface HeaderProps extends HTMLAttributes<HTMLElement> {
   spaced: boolean
 }
 
@@ -18,7 +16,6 @@ interface HeaderProps extends HTMLAttributes<HTMLElement>, ThemeProps {
  */
 class Header extends Component<HeaderProps> {
   static propTypes = {
-    theme: PropTypes.oneOf(['light', 'dark']),
     className: PropTypes.string,
     children: PropTypes.node,
     spaced: PropTypes.bool
@@ -29,8 +26,8 @@ class Header extends Component<HeaderProps> {
   };
 
   render() {
-    const {children, className, spaced, theme, ...restProps} = this.props;
-    const classes = classNames(styles.header, styles[theme], className, {
+    const {children, className, spaced, ...restProps} = this.props;
+    const classes = classNames(styles.header, className, {
       [styles.headerSpaced]: spaced
     });
 
@@ -45,9 +42,8 @@ class Header extends Component<HeaderProps> {
   }
 }
 
-const ThemedHeader = withTheme(Theme.DARK)(Header);
-export type HeaderAttrs = ComponentPropsWithRef<typeof ThemedHeader>;
-export default ThemedHeader;
+export type HeaderAttrs = JSX.LibraryManagedAttributes<typeof Header, HeaderProps>;
+export default Header;
 export {default as Logo} from './logo';
 export {default as Tray} from './tray';
 export {default as TrayIcon} from './tray-icon';

@@ -1,22 +1,18 @@
 @import "../global/variables.css";
 
+@value dark from "../global/variables_dark.css";
 @value unit from "../global/global.css";
+@value active from "../link/link.css";
 @value height: calc(unit * 8);
 @value compensate: 3px;
 @value compensated: calc(height - compensate);
 
-.light {
-  background-color: transparent;
+:root {
+  --ring-header-link-color: var(--ring-link-color);
 }
 
 .dark {
-  color: var(--ring-white-text-color);
-  background-color: var(--ring-navigation-background-color);
-
-  /* override link */
-  & > a {
-    color: var(--ring-dark-secondary-color);
-  }
+  --ring-header-link-color: var(--ring-text-color);
 }
 
 .header {
@@ -27,6 +23,10 @@
   box-sizing: border-box;
   height: height;
 
+  color: var(--ring-text-color);
+
+  background-color: var(--ring-navigation-background-color);
+
   line-height: compensated;
 
   & > * {
@@ -35,6 +35,15 @@
     box-sizing: border-box;
     height: height;
     padding: 0 calc(unit * 1.5) compensate;
+  }
+
+  /* override link */
+  & > a {
+    color: var(--ring-header-link-color);
+  }
+
+  & > .active {
+    color: var(--ring-active-text-color);
   }
 }
 
