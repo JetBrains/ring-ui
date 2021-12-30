@@ -9,10 +9,10 @@
 .toggle {
   cursor: pointer;
 
-  &:hover {
-    & .switch {
-      background-color: var(--ring-border-hover-color);
-    }
+  &:hover .switch {
+    transition: none;
+
+    background-color: var(--ring-border-hover-color);
   }
 
   &.disabled {
@@ -28,35 +28,10 @@
   margin-right: calc(unit / 2);
 }
 
-.light {
-  & .switch {
-    background-color: var(--ring-icon-color);
-
-    &::before {
-      background-color: var(--ring-content-background-color);
-    }
-  }
-}
-
-.dark {
-  & .switch {
-    background-color: var(--ring-hint-color);
-
-    &::before {
-      background-color: var(--ring-navigation-background-color);
-    }
-  }
-}
-
 .switchWrapper {
   position: relative;
 
   display: inline-block;
-
-  width: calc(unit * 3);
-  height: calc(unit * 2);
-
-  vertical-align: -3px;
 }
 
 .input {
@@ -82,6 +57,8 @@
 
   transition: background-color timing-function duration;
 
+  background-color: var(--ring-icon-color);
+
   @nest .input:focus + & {
     box-shadow: inset 0 0 0 1px var(--ring-main-color);
   }
@@ -89,8 +66,6 @@
   @nest :checked:focus + & {
     box-shadow: inset 0 0 0 1px var(--ring-button-primary-border-color);
   }
-
-  border-radius: unit;
 
   &::before {
     position: absolute;
@@ -107,6 +82,7 @@
     transform: translateX(padding);
 
     border-radius: calc(unit * 0.75);
+    background-color: var(--ring-content-background-color);
   }
 }
 
@@ -114,8 +90,58 @@
   background-color: var(--ring-main-color);
 }
 
-.input:checked + ::before {
-  transform: translateX(calc(unit * 1.5 - padding));
+:checked:hover + .switch {
+  background-color: var(--ring-main-hover-color);
+}
+
+.size16 {
+  & .switchWrapper {
+    width: calc(unit * 3);
+    height: calc(unit * 2);
+
+    vertical-align: -3px;
+  }
+
+  & .switch {
+    border-radius: unit;
+
+    &::before {
+      width: calc(unit * 1.5);
+      height: calc(unit * 1.5);
+
+      border-radius: calc(unit * 0.75);
+    }
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .input:checked + ::before {
+    transform: translateX(calc(unit * 1.5 - padding));
+  }
+}
+
+.size14 {
+  & .switchWrapper {
+    width: calc(unit * 3);
+    height: 14px;
+
+    vertical-align: -2px;
+  }
+
+  & .switch {
+    border-radius: 7px;
+
+    &::before {
+      width: 10px;
+      height: 10px;
+
+      border-radius: 5px;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .input:checked + ::before {
+    transform: translateX(12px);
+  }
 }
 
 .size20 {

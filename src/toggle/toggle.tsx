@@ -1,13 +1,13 @@
-import React, {ComponentPropsWithRef, InputHTMLAttributes, PureComponent, ReactNode} from 'react';
+import React, {InputHTMLAttributes, PureComponent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {ThemeProps, withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './toggle.css';
 
 export const Size = {
+  Size14: styles.size14,
   Size16: styles.size16,
   Size20: styles.size20
 };
@@ -16,12 +16,11 @@ export const Size = {
   * @name Toggle
   */
 
-export interface ToggleProps extends ThemeProps,
-  Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface ToggleProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+  size: string
   pale?: boolean | null | undefined
   leftLabel?: ReactNode
   'data-test'?: string | null | undefined
-  size?: string | null | undefined
 }
 class Toggle extends PureComponent<ToggleProps> {
   static propTypes = {
@@ -36,20 +35,22 @@ class Toggle extends PureComponent<ToggleProps> {
     pale: PropTypes.bool,
     onChange: PropTypes.func,
     onTransitionEnd: PropTypes.func,
-    theme: PropTypes.string,
     size: PropTypes.oneOf(Object.values(Size)),
     'data-test': PropTypes.string
   };
 
+  static defaultProps = {
+    size: Size.Size14
+  };
+
   render() {
-    const {className, children, disabled, pale, title, leftLabel, theme, size = Size.Size16,
+    const {className, children, disabled, pale, title, leftLabel, size = Size.Size16,
       'data-test': dataTest, onTransitionEnd, ...restProps} = this.props;
 
     const classes = classNames(
       className,
       size,
       styles.toggle,
-      styles[theme],
       disabled && styles.disabled
     );
 
@@ -81,7 +82,5 @@ class Toggle extends PureComponent<ToggleProps> {
     );
   }
 }
-const ThemedToggle = withTheme()(Toggle);
-ThemedToggle.propTypes = Toggle.propTypes;
-export type ToggleAttrs = ComponentPropsWithRef<typeof ThemedToggle>
-export default ThemedToggle;
+export type ToggleAttrs = JSX.LibraryManagedAttributes<typeof Toggle, ToggleProps>
+export default Toggle;
