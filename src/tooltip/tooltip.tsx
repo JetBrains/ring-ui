@@ -1,6 +1,8 @@
 import React, {AllHTMLAttributes, Component, createContext, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
+import classNames from 'classnames';
+
 import Popup, {PopupAttrs} from '../popup/popup';
 import {Listeners} from '../global/dom';
 import dataTests from '../global/data-tests';
@@ -23,6 +25,7 @@ export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, '
   popupProps?: Partial<PopupAttrs> | null | undefined
   title?: ReactNode | null | undefined
   'data-test'?: string | null | undefined
+  long?: boolean | null | undefined
 }
 /**
  * @name Tooltip
@@ -149,7 +152,7 @@ export default class Tooltip extends Component<TooltipProps> {
 
   render() {
     const {children, 'data-test': dataTest,
-      title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props;
+      title, delay, selfOverflowOnly, popupProps, long, ...restProps} = this.props;
 
     const ariaProps = typeof title === 'string' && !!title
       ? {'aria-label': title, role: 'tooltip'}
@@ -172,7 +175,7 @@ export default class Tooltip extends Component<TooltipProps> {
             hidden={!this.state.showPopup || this.state.showNestedPopup}
             onCloseAttempt={this.hidePopup}
             maxHeight={400}
-            className={styles.tooltip}
+            className={classNames(styles.tooltip, {[styles.long]: long})}
             attached={false}
             top={4}
             dontCloseOnAnchorClick
