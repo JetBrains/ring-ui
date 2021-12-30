@@ -67,6 +67,7 @@ const renderColors = () => `
       ${renderColorItem('--ring-warning-color')}
       ${renderColorItem('--ring-success-color')}
       ${renderColorItem('--ring-text-color')}
+      ${renderColorItem('--ring-active-text-color')}
       ${renderColorItem('--ring-heading-color')}
       ${renderColorItem('--ring-secondary-color')}
       ${renderColorItem('--ring-disabled-color')}

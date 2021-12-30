@@ -1,10 +1,9 @@
-import React, {ComponentPropsWithRef, PureComponent, ReactElement} from 'react';
+import React, {PureComponent, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import memoize from '../global/memoize';
 
-import Theme, {ThemeProps, withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './tabs.css';
@@ -19,7 +18,7 @@ export {CustomItem};
 
 type Children = readonly Children[] | ReactElement<TabProps> | null | boolean
 
-export interface TabsProps extends ThemeProps, Omit<CollapsibleTabsProps, 'onSelect' | 'children'> {
+export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'children'> {
   children: Children
   onSelect: (key: string) => void
   className?: string | null | undefined
@@ -29,7 +28,6 @@ export interface TabsProps extends ThemeProps, Omit<CollapsibleTabsProps, 'onSel
 
 class Tabs extends PureComponent<TabsProps> {
   static propTypes = {
-    theme: PropTypes.string,
     selected: PropTypes.string,
     className: PropTypes.string,
     href: PropTypes.string,
@@ -42,8 +40,6 @@ class Tabs extends PureComponent<TabsProps> {
   static defaultProps = {
     onSelect() {}
   };
-
-  static Theme = Theme;
 
   handleSelect = memoize((key: string) => () => this.props.onSelect(key));
 
@@ -69,7 +65,6 @@ class Tabs extends PureComponent<TabsProps> {
       <TabLink
         title={title}
         isSelected={isSelected}
-        active
         key={key}
         href={href}
         innerClassName={titleClasses}
@@ -86,13 +81,12 @@ class Tabs extends PureComponent<TabsProps> {
       className,
       children,
       selected,
-      theme,
       autoCollapse,
       'data-test': dataTest,
       ...restProps
     } = this.props;
 
-    const classes = classNames(styles.tabs, className, styles[theme]);
+    const classes = classNames(styles.tabs, className);
     const childrenArray = React.Children.toArray(children).
       filter(Boolean) as ReactElement<TabProps>[];
 
@@ -118,6 +112,5 @@ class Tabs extends PureComponent<TabsProps> {
     );
   }
 }
-const ThemedTabs = withTheme()(Tabs);
-export type TabsAttrs = ComponentPropsWithRef<typeof ThemedTabs>
-export default ThemedTabs;
+export type TabsAttrs = JSX.LibraryManagedAttributes<typeof Tabs, TabsProps>
+export default Tabs;

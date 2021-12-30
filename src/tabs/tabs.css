@@ -2,7 +2,7 @@
 
 @value unit from "../global/global.css";
 @value line-shadow: inset 0 -1px 0 0;
-@value selected-line-shadow: inset 0 -3px 0 0;
+@value selected-line-shadow: inset 0 -2px 0 0;
 
 .tabs {
   composes: font from "../global/global.css";
@@ -14,12 +14,8 @@
   margin-bottom: calc(unit * 2);
 }
 
-.light .titles {
+.titles {
   box-shadow: line-shadow var(--ring-line-color);
-}
-
-.dark .titles {
-  box-shadow: line-shadow var(--ring-dark-line-color);
 }
 
 .title {
@@ -58,6 +54,7 @@
   }
 
   &:global(.focus-visible) {
+    color: var(--ring-main-color);
     box-shadow: selected-line-shadow var(--ring-main-color);
   }
 
@@ -75,36 +72,19 @@
   margin-left: calc(unit * 3);
 }
 
-.light .title {
-  &[disabled] {
-    color: var(--ring-disabled-color);
-  }
-}
-
-.dark .title {
-  color: var(--ring-dark-secondary-color);
-
-  &[disabled] {
-    color: var(--ring-text-color);
-  }
+.title[disabled] {
+  color: var(--ring-disabled-color);
 }
 
 .selected {
   cursor: default;
 
+  color: var(--ring-active-text-color);
+
   outline: none;
-  box-shadow: selected-line-shadow var(--ring-text-color);
+  box-shadow: selected-line-shadow var(--ring-main-color);
 
   font-weight: bold;
-}
-
-.dark .selected.selected {
-  color: var(--ring-white-text-color);
-  box-shadow: selected-line-shadow var(--ring-main-color);
-}
-
-.dark .title:global(.focus-visible) {
-  color: var(--ring-main-color);
 }
 
 .visible {
