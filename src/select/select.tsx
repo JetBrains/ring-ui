@@ -25,7 +25,6 @@ import dataTests from '../global/data-tests';
 import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
-import Theme from '../global/theme';
 import memoize from '../global/memoize';
 
 import {ListDataItem} from '../list/consts';
@@ -189,7 +188,6 @@ export interface BaseSelectProps<T = unknown> {
   hint?: ReactNode
   add?: Add | null | undefined
   compact?: boolean | null | undefined
-  theme?: string | null | undefined
   customAnchor?: ((props: CustomAnchorProps) => ReactNode) | null | undefined
   disableMoveOverflow?: boolean | null | undefined
   disableScrollToActive?: boolean | null | undefined
@@ -533,7 +531,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   static contextType = ControlsHeightContext;
   static Type = Type;
   static Size = Size;
-  static Theme = Theme;
 
   id = getUID('select-');
   shortcutsScope = this.id;
@@ -1438,7 +1435,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   hideArrow: PropTypes.bool,
   compact: PropTypes.bool,
   size: PropTypes.oneOf(Object.values(Size)),
-  theme: PropTypes.string,
   customAnchor: PropTypes.func,
   disableMoveOverflow: PropTypes.bool,
   disableScrollToActive: PropTypes.bool,

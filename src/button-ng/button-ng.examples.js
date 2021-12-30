@@ -9,6 +9,7 @@ import IconNG from '../icon-ng/icon-ng';
 import ThemeNG from '../theme-ng/theme-ng';
 import CheckboxNG from '../checkbox-ng/checkbox-ng';
 import Theme from '../global/theme';
+import styles from '../global/variables_dark.css';
 
 import ButtonNG from './button-ng';
 
@@ -88,9 +89,7 @@ export const basic = () => {
     <div ng-controller="testCtrl">
       <div class="buttons">${renderAllButtons()}</div>
 
-      <rg-theme theme="Theme.DARK">
-        <div class="buttons dark">${renderAllButtons()}</div>
-      </rg-theme>
+      <div class="buttons ${styles.dark}">${renderAllButtons()}</div>
     </div>
   `;
 
@@ -108,12 +107,12 @@ basic.parameters = {
   },
   storyStyles: `
 <style>
-  .buttons > button {
-    margin: 8px;
+  .buttons {
+    background-color: var(--ring-content-background-color);
   }
 
-  .dark {
-    background: #000;
+  .buttons > button {
+    margin: 8px;
   }
 </style>`
 };
