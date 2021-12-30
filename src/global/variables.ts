@@ -36,6 +36,7 @@ export interface RingCSSProperties {
   '--ring-warning-color'?: Property.Color
   '--ring-success-color'?: Property.Color
   '--ring-text-color'?: Property.Color
+  '--ring-active-text-color'?: Property.Color
   '--ring-white-text-color'?: Property.Color
   '--ring-heading-color'?: Property.Color
   '--ring-secondary-color'?: Property.Color

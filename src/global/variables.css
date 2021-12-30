@@ -42,6 +42,7 @@
   --ring-warning-color: #cc8b00;
   --ring-success-color: #1b8833;
   --ring-text-color: #1f2326;
+  --ring-active-text-color: var(--ring-text-color);
   --ring-white-text-color: #fff;
   --ring-heading-color: var(--ring-text-color);
   --ring-secondary-color: #737577;
