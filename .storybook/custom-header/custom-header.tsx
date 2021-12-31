@@ -15,6 +15,7 @@ import Header, {
 } from '../../src/header/header';
 import hubConfig from '../hub-config';
 import authDialogService from '../../src/auth-dialog-service/auth-dialog-service';
+import Theme, {ThemeProvider} from '../../src/global/theme';
 
 import Version from './version';
 import styles from './header-styles.css';
@@ -47,56 +48,58 @@ class SiteHeader extends PureComponent {
 
   render() {
     return (
-      <Header className={styles.header}>
-        <a href=".">
-          <Logo
-            className={styles.logo}
-            glyph={jetbrainsLogo}
-            size={Logo.Size.Size96}
-          />
-        </a>
+      <ThemeProvider theme={Theme.DARK}>
+        <Header className={styles.header}>
+          <a href=".">
+            <Logo
+              className={styles.logo}
+              glyph={jetbrainsLogo}
+              size={Logo.Size.Size96}
+            />
+          </a>
 
-        <span className={styles.headerItem}>
-          {'Version '}
-          <Version version={packageInfo.version}/>
-        </span>
+          <span className={styles.headerItem}>
+            {'Version '}
+            <Version version={packageInfo.version}/>
+          </span>
 
-        <Tray>
-          <TrayIcon
-            icon={gitHubLogo}
-            iconSize={24}
-            href="https://github.com/JetBrains/ring-ui"
-            target="_blank"
-            title="GitHub repo"
-            aria-label="GitHub repo"
-            className={styles.githubIcon}
-          />
+          <Tray>
+            <TrayIcon
+              icon={gitHubLogo}
+              iconSize={24}
+              href="https://github.com/JetBrains/ring-ui"
+              target="_blank"
+              title="GitHub repo"
+              aria-label="GitHub repo"
+              className={styles.githubIcon}
+            />
 
-          <Services
-            services={[
-              {
-                id: 'youtrack',
-                name: 'Issues',
-                iconUrl: youtrackLogo,
-                homeUrl: 'https://youtrack.jetbrains.com/issues/RG'
-              },
-              {
-                id: 'upsource',
-                name: 'Code review',
-                iconUrl: upsourceLogo,
-                homeUrl: 'https://upsource.jetbrains.com/ring-ui/view'
-              },
-              {
-                id: 'teamcity',
-                name: 'Builds',
-                iconUrl: teamcityLogo,
-                homeUrl: 'https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview'
-              }
-            ]}
-          />
-          <SmartProfile auth={this.auth}/>
-        </Tray>
-      </Header>
+            <Services
+              services={[
+                {
+                  id: 'youtrack',
+                  name: 'Issues',
+                  iconUrl: youtrackLogo,
+                  homeUrl: 'https://youtrack.jetbrains.com/issues/RG'
+                },
+                {
+                  id: 'upsource',
+                  name: 'Code review',
+                  iconUrl: upsourceLogo,
+                  homeUrl: 'https://upsource.jetbrains.com/ring-ui/view'
+                },
+                {
+                  id: 'teamcity',
+                  name: 'Builds',
+                  iconUrl: teamcityLogo,
+                  homeUrl: 'https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview'
+                }
+              ]}
+            />
+            <SmartProfile auth={this.auth}/>
+          </Tray>
+        </Header>
+      </ThemeProvider>
     );
   }
 }
