@@ -175,6 +175,7 @@ export const asModelLazy = () => {
 };
 
 asModelLazy.storyName = 'as model lazy';
+asModelLazy.parameters = {storyshots: false};
 
 export const withPromise = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl($timeout, $q) {
