@@ -10,7 +10,8 @@ import {PhaseContext} from './adaptive-island-hoc';
 const Start = {
   FONT_SIZE: 24,
   LINE_HEIGHT: 28,
-  PADDING: 16,
+  PADDING_TOP: 24,
+  PADDING_BOTTOM: 0,
   X: 0,
   Y: 0,
   SPACING: 0
@@ -18,8 +19,9 @@ const Start = {
 
 const End = {
   FONT_SIZE: 13,
-  LINE_HEIGHT: 28,
-  PADDING: 0,
+  LINE_HEIGHT: 20,
+  PADDING_TOP: 16,
+  PADDING_BOTTOM: 8,
 
   // Compensation
   X: 0.4,
@@ -62,7 +64,8 @@ class Header extends Component<IslandHeaderProps> {
     const headerStyle = phase != null
       ? {
         lineHeight: `${this.style('LINE_HEIGHT')}px`, // need to append px because number is a valid line-height value
-        paddingTop: this.style('PADDING')
+        paddingTop: this.style('PADDING_TOP'),
+        paddingBottom: this.style('PADDING_BOTTOM')
       }
       : undefined;
 
