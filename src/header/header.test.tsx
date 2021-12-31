@@ -8,7 +8,7 @@ describe('Header', () => {
   const getHeaderDiv = (props?: HeaderAttrs) => mountHeader(props).find('header');
 
   it('should create component', () => {
-    mountHeader().type().should.equal(Header.type);
+    mountHeader().type().should.equal(Header);
   });
 
   it('should wrap children with header', () => {
