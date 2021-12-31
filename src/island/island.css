@@ -26,9 +26,9 @@
 
   box-sizing: border-box;
   width: 100%;
-  padding: 0 calc(unit * 4);
+  padding: calc(unit * 2) calc(unit * 4) unit;
 
-  line-height: 28px;
+  line-height: 24px;
 }
 
 .withBottomBorder.withBottomBorder {
@@ -54,7 +54,8 @@
 }
 
 .narrowIsland .header {
-  padding: 0 calc(unit * 2);
+  padding-right: calc(unit * 2);
+  padding-left: calc(unit * 2);
 }
 
 .content {
