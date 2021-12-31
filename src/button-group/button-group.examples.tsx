@@ -22,13 +22,13 @@ export const buttonGroup = () => (
         <Button>1st button</Button>
         <Button active>2nd button</Button>
         <Button disabled>3rd button</Button>
-        <Button>4th button</Button>
+        <Button disabled active>4th button</Button>
         <Button short>...</Button>
       </ButtonGroup>
     </div>
     <div>
+      <Caption>Side:</Caption>
       <ButtonGroup>
-        <Caption>Side:</Caption>
         <Button>Left</Button>
         <Button>Right</Button>
       </ButtonGroup>
@@ -45,7 +45,13 @@ export const buttonGroup = () => (
       </ButtonGroup>
     </div>
     <div>
-      <ButtonGroup>
+      <ButtonGroup split>
+        <Button>Split</Button>
+        <Button short>...</Button>
+      </ButtonGroup>
+    </div>
+    <div>
+      <ButtonGroup split>
         <Button primary>Primary</Button>
         <Button primary short>...</Button>
       </ButtonGroup>
