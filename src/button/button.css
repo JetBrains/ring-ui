@@ -53,13 +53,15 @@
     box-shadow: button-shadow var(--ring-border-hover-color);
   }
 
-  &:active,
-  &.active {
+  &:active {
+    transition: none;
+
     background-color: var(--ring-selected-background-color);
     box-shadow: button-shadow var(--ring-border-hover-color);
   }
 
-  &:global(.focus-visible) {
+  &:global(.focus-visible),
+  &.active {
     transition: none;
 
     box-shadow: button-shadow var(--ring-main-color);
@@ -105,22 +107,16 @@
     box-shadow: none;
   }
 
-  &:active,
-  &.active {
-    background-color: var(--ring-button-primary-background-color);
-    box-shadow: button-shadow var(--ring-button-primary-border-color);
-  }
-
   &.withIcon,
   &.withIcon:active,
   &.withIcon.active {
     color: var(--ring-main-color);
   }
 
-  &:global(.focus-visible) {
-    transition: none;
-
-    background-color: var(--ring-main-hover-color);
+  &:global(.focus-visible),
+  &:active,
+  &.active {
+    background-color: var(--ring-button-primary-background-color);
     box-shadow: button-shadow var(--ring-button-primary-border-color);
   }
 
