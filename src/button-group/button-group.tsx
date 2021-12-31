@@ -5,22 +5,25 @@ import classNames from 'classnames';
 import Caption from './caption';
 import styles from './button-group.css';
 
+export interface ButtonGroupProps extends HTMLAttributes<HTMLElement> {
+  split?: boolean | null | undefined
+}
 /**
  * @name Button Group
  */
-export default class ButtonGroup extends PureComponent<HTMLAttributes<HTMLElement>> {
+export default class ButtonGroup extends PureComponent<ButtonGroupProps> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string
   };
 
   render() {
-    const {className} = this.props;
-    const classes = classNames(styles.buttonGroup, className);
+    const {className, split, ...restProps} = this.props;
+    const classes = classNames(split ? styles.split : styles.buttonGroup, className);
 
     return (
       <div
-        {...this.props}
+        {...restProps}
         className={classes}
       />
     );
