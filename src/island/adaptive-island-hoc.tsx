@@ -16,12 +16,12 @@ export default function adaptiveIslandHOC<P>(ComposedComponent: ComponentType<P>
     static propTypes = ComposedComponent.propTypes;
 
     state = {
-      phase: 0
+      phase: null
     };
 
     onContentScroll = ({scrollTop, scrollHeight, clientHeight}: Element) => {
       if (scrollHeight - clientHeight >=
-        interpolateLinear(TITLE_RESIZE_THRESHOLD, TITLE_RESIZE_END, this.state.phase)) {
+        interpolateLinear(TITLE_RESIZE_THRESHOLD, TITLE_RESIZE_END, this.state.phase ?? 0)) {
         const phase = Math.min(1, scrollTop / TITLE_RESIZE_END);
         this.setState({phase});
       }

@@ -70,6 +70,7 @@ class Content extends Component<IslandContentInnerProps> {
     if (!scrollableNode) {
       return;
     }
+    this.props.onScroll(scrollableNode);
     const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
     const scrolledToTop = scrollTop === 0;
     const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - END_DISTANCE;
@@ -80,13 +81,6 @@ class Content extends Component<IslandContentInnerProps> {
 
     this.setState({scrolledToTop, scrolledToBottom});
   });
-
-  onScroll = () => {
-    if (this.scrollableNode != null) {
-      this.props.onScroll(this.scrollableNode);
-    }
-    this.calculateScrollPosition();
-  };
 
   scrollableNode?: HTMLElement | null;
   setScrollableNodeAndCalculatePosition = (node: HTMLElement | null) => {
@@ -129,7 +123,7 @@ class Content extends Component<IslandContentInnerProps> {
           data-scrollable-container
           className={scrollableWrapperClasses}
           ref={this.setScrollableNodeAndCalculatePosition}
-          onScroll={fade ? this.onScroll : noop}
+          onScroll={fade ? this.calculateScrollPosition : noop}
         >
           {fade && (
             <div ref={this.setWrapper}>

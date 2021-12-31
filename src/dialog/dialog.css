@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
+@value header from "../island/island.css";
 
 .container {
   position: fixed;
@@ -39,8 +40,7 @@
 
   & .panel {
     margin-top: 0;
-    padding-right: calc(unit * 4);
-    padding-left: calc(unit * 4);
+    padding: calc(unit * 2) calc(unit * 4) calc(unit * 4);
 
     border-top: none;
 
@@ -116,4 +116,11 @@
   & > :not(.popupTarget) {
     pointer-events: initial;
   }
+}
+
+.header {
+  padding-top: calc(unit * 4);
+
+  font-size: 24px;
+  line-height: 28px;
 }
