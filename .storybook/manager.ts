@@ -38,8 +38,7 @@ const theme = variablesSupported
 
     // Form colors
     inputBorder: variables.bordersColor,
-    inputTextColor: variables.textColor,
-    inputBorderRadius: 0
+    inputTextColor: variables.textColor
   }
   : {};
 

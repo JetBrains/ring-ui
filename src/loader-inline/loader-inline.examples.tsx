@@ -2,8 +2,9 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
+import Theme, {ThemeProvider} from '../global/theme';
+
 import LoaderInline from './loader-inline';
-import injectStyles from './inject-styles';
 
 export default {
   title: 'Components/Inline Loader',
@@ -51,13 +52,13 @@ export const onBlackBackground = () => {
   class Example extends React.Component {
     render() {
       return (
-        <div style={{backgroundColor: 'black', color: '#ccc'}}>
+        <ThemeProvider theme={Theme.DARK} style={{backgroundColor: 'var(--ring-content-background-color)', color: 'var(--ring-text-color)'}}>
           <span>some text on top</span>
           <div>
             before <LoaderInline/> Some text after
           </div>
           <div>some text under loader</div>
-        </div>
+        </ThemeProvider>
       );
     }
   }
@@ -97,8 +98,6 @@ export const withoutReact = () => {
       );
     }
   }
-
-  injectStyles();
 
   return <Example/>;
 };

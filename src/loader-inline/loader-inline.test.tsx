@@ -8,7 +8,7 @@ describe('Loader Inline', () => {
   const getLoaderInlineDiv = (props?: LoaderInlineAtrrs) => mountLoaderInline(props).find('div');
 
   it('should create component', () => {
-    mountLoaderInline().type().should.equal(LoaderInline.type);
+    mountLoaderInline().type().should.equal(LoaderInline);
   });
 
   it('should add custom class', () => {
