@@ -1051,7 +1051,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
             })}
             ref={this.loaderRef}
           >
-            <LoaderInline theme={theme}/>
+            <LoaderInline/>
           </div>
         )}
 
