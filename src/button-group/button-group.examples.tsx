@@ -23,7 +23,14 @@ export const buttonGroup = () => (
         <Button active>2nd button</Button>
         <Button disabled>3rd button</Button>
         <Button disabled active>4th button</Button>
-        <Button short>...</Button>
+        <Button >5th button</Button>
+      </ButtonGroup>
+    </div>
+    <div>
+      <ButtonGroup>
+        <Button disabled>1st disabled</Button>
+        <Button disabled active>2nd disabled</Button>
+        <Button disabled>3rd disabled</Button>
       </ButtonGroup>
     </div>
     <div>
