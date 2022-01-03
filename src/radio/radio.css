@@ -92,7 +92,8 @@
 
   &:focus + .circle,
   &.focus + .circle {
-    border-color: var(--ring-main-color);
+    border-color: var(--ring-border-hover-color);
+    box-shadow: 0 0 0 1px var(--ring-border-hover-color);
   }
 
   &[disabled] {

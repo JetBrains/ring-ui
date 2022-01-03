@@ -60,11 +60,7 @@
   background-color: var(--ring-icon-color);
 
   @nest .input:focus + & {
-    box-shadow: inset 0 0 0 1px var(--ring-main-color);
-  }
-
-  @nest :checked:focus + & {
-    box-shadow: inset 0 0 0 1px var(--ring-button-primary-border-color);
+    box-shadow: inset 0 0 0 1px var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
   }
 
   &::before {

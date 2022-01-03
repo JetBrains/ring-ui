@@ -52,10 +52,21 @@
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
-.buttonGroup .button.button:global(.focus-visible),
+.buttonGroup .button.button:global(.focus-visible) {
+  border-radius: var(--ring-border-radius);
+  box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button.button.active {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-main-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.buttonGroup .button:global(.focus-visible).active {
+  border-radius: var(--ring-border-radius);
+  box-shadow: button-shadow var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
 }
 
 .buttonGroup .button[disabled] {
@@ -120,7 +131,7 @@
   margin-left: 1px;
 }
 
-.split {
+.common {
   & .button {
     position: relative;
     z-index: var(--ring-button-group-default-z-index);
