@@ -4,11 +4,11 @@
 @value button, active, primary, button-shadow from "../button/button.css";
 
 :root {
-  --ring-button-group-default-z-index: 0;
-  --ring-button-group-disabled-z-index: -1;
-  --ring-button-group-active-z-index: 1;
-  --ring-button-group-hover-z-index: 2;
-  --ring-button-group-focus-z-index: 3;
+  --ring-button-group-default-z-index: 1;
+  --ring-button-group-disabled-z-index: 0;
+  --ring-button-group-active-z-index: 2;
+  --ring-button-group-hover-z-index: 3;
+  --ring-button-group-focus-z-index: 4;
 }
 
 .common {
@@ -29,19 +29,62 @@
 .buttonGroup .button {
   --ring-button-group-button-border-color: var(--ring-borders-color);
 
+  position: relative;
+
   transition: none;
 
   box-shadow: 0 1px var(--ring-button-group-button-border-color) inset, 0 -1px var(--ring-button-group-button-border-color) inset;
 }
 
+.buttonGroup .button[disabled] {
+  --ring-button-group-button-border-color: var(--ring-border-unselected-disabled-color);
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before,
+  &::after {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+
+    width: var(--ring-border-radius);
+
+    content: "";
+
+    background-color: var(--ring-disabled-background-color);
+
+    box-shadow: 0 1px var(--ring-border-unselected-disabled-color) inset, 0 -1px var(--ring-border-unselected-disabled-color) inset;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before {
+    left: calc(var(--ring-border-radius) * -1);
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::after {
+    right: calc(var(--ring-border-radius) * -1);
+  }
+}
+
 .buttonGroup > .button:first-child,
 .buttonGroup > :first-child .button {
   box-shadow: 0 1px var(--ring-button-group-button-border-color) inset, 0 -1px var(--ring-button-group-button-border-color) inset, 1px 0 var(--ring-button-group-button-border-color) inset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before {
+    display: none;
+  }
 }
 
 .buttonGroup > .button:last-child,
 .buttonGroup > :last-child .button {
   box-shadow: 0 1px var(--ring-button-group-button-border-color) inset, 0 -1px var(--ring-button-group-button-border-color) inset, -1px 0 var(--ring-button-group-button-border-color) inset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::after {
+    display: none;
+  }
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
@@ -67,10 +110,6 @@
 .buttonGroup .button:global(.focus-visible).active {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
-}
-
-.buttonGroup .button[disabled] {
-  --ring-button-group-button-border-color: var(--ring-border-unselected-disabled-color);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
@@ -155,5 +194,9 @@
 
   & .active {
     z-index: var(--ring-button-group-active-z-index);
+
+    &[disabled] {
+      z-index: var(--ring-button-group-default-z-index);
+    }
   }
 }
