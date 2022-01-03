@@ -3,8 +3,6 @@ import {shallow, mount} from 'enzyme';
 
 import Island, {AdaptiveIsland, Content, Header, IslandProps} from './island';
 
-const LINE_HEIGHT = '28px';
-
 describe('Island', () => {
   const shallowIsland = (params?: IslandProps) => shallow(<Island {...params}/>);
   const mountIsland = (params?: IslandProps) => mount(<Island {...params}/>);
@@ -40,8 +38,12 @@ describe('Island', () => {
 
       const headerNode = wrapper.find('[data-test="ring-island-header"]');
 
-      wrapper.instance().onContentScroll({scrollTop: 10} as Element);
-      headerNode.should.have.style('line-height', LINE_HEIGHT);
+      wrapper.instance().onContentScroll({
+        scrollTop: 10,
+        scrollHeight: 100,
+        clientHeight: 50
+      } as Element);
+      headerNode.should.have.style('line-height', '24px');
     });
   });
 
@@ -53,7 +55,7 @@ describe('Island', () => {
     it('should change header size', () => {
       const phase = 0.75;
       const wrapper = shallow(<Header phase={phase}/>);
-      wrapper.should.have.style('line-height', LINE_HEIGHT);
+      wrapper.should.have.style('line-height', '22px');
     });
   });
 });
