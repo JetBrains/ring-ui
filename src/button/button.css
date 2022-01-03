@@ -60,11 +60,20 @@
     box-shadow: button-shadow var(--ring-border-hover-color);
   }
 
-  &:global(.focus-visible),
+  &:global(.focus-visible) {
+    transition: none;
+
+    box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
+  }
+
   &.active {
     transition: none;
 
     box-shadow: button-shadow var(--ring-main-color);
+  }
+
+  &:global(.focus-visible).active {
+    box-shadow: button-shadow var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
   }
 
   &[disabled] {
@@ -117,6 +126,10 @@
   &:active,
   &.active {
     background-color: var(--ring-button-primary-background-color);
+  }
+
+  &:active,
+  &.active {
     box-shadow: button-shadow var(--ring-button-primary-border-color);
   }
 
@@ -194,7 +207,7 @@
   }
 
   &:global(.focus-visible) {
-    box-shadow: button-shadow var(--ring-main-color);
+    box-shadow: inset 0 0 0 2px var(--ring-border-hover-color);
   }
 }
 

@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
+@value button-shadow from "../button/button.css";
 
 .select {
   position: relative;
@@ -160,6 +161,10 @@
 
   text-align: left;
   vertical-align: calc(0 - unit);
+}
+
+.buttonValue:global(.focus-visible) {
+  box-shadow: button-shadow var(--ring-main-color);
 }
 
 .buttonValueOpen {
