@@ -78,7 +78,7 @@
   }
 
   &:checked + .circle {
-    border-color: var(--ring-border-hover-color);
+    border-color: var(--ring-main-color);
 
     /* stylelint-disable-next-line selector-max-specificity */
     &::after {
