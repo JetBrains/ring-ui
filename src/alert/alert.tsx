@@ -11,6 +11,7 @@ import Icon, {Color} from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
+import darkStyles from '../global/variables_dark.css';
 
 import styles from './alert.css';
 
@@ -53,6 +54,7 @@ const TypeToIconColor: Partial<Record<AlertType, Color>> = {
 };
 
 export interface AlertProps {
+  dark: boolean,
   timeout: number
   onCloseRequest: ((event?: React.MouseEvent<HTMLElement>) => void)
   onClose: (() => void)
@@ -109,6 +111,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
 
   /** @override */
   static defaultProps = {
+    dark: true,
     closeable: true,
     showWithAnimation: true,
     type: AlertType.MESSAGE,
@@ -207,7 +210,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
       );
     } else if (this.props.type === AlertType.LOADING) {
       return (
-        <Loader className={styles.loader} theme={Loader.Theme.DARK}/>
+        <Loader className={styles.loader}/>
       );
     }
 
@@ -220,7 +223,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
 
   render() {
     const {type, inline, isClosing, isShaking, closeButtonClassName,
-      showWithAnimation, className, 'data-test': dataTest} = this.props;
+      showWithAnimation, className, 'data-test': dataTest, dark} = this.props;
 
     const classes = classNames(className, {
       [styles.alert]: true,
@@ -228,7 +231,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
       [styles.error]: type === 'error',
       [styles.alertInline]: inline,
       [styles.animationClosing]: isClosing,
-      [styles.animationShaking]: isShaking
+      [styles.animationShaking]: isShaking,
+      [darkStyles.dark]: dark
     });
 
     const height = this.state.height;
