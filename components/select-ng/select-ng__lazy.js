@@ -63,6 +63,7 @@ class SelectLazy {
       this.ctrl.selectInstance._clickHandler();
     } else {
       this.ctrl.selectInstance = hydrate(this.reactSelect, this.container);
+      this.ctrl.selectInstance._clickHandler(true);
     }
   }
 }
