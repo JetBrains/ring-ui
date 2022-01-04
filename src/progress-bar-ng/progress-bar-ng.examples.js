@@ -1,6 +1,7 @@
 import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
+import darkStyles from '../global/variables_dark.css';
 
 import RingProgressBar from './progress-bar-ng';
 
@@ -33,8 +34,8 @@ export const basic = () => {
         <div style="height: 25px; padding-top: 25px;">
           <rg-progress-bar label="'Progress'" value="ctrl.value" class="example-progress"></rg-progress-bar>
         </div>
-        <div style="height: 25px; background: #000; padding-top: 25px;">
-          <rg-progress-bar label="'Progress'" value="ctrl.value" theme="'dark'" class="example-progress"></rg-progress-bar>
+        <div class="${darkStyles.dark}" style="height: 25px; background: var(--ring-content-background-color); padding-top: 25px;">
+          <rg-progress-bar label="'Progress'" value="ctrl.value" class="example-progress"></rg-progress-bar>
         </div>
         <div style="height: 25px; background: #F0F0F0; padding-top: 25px;">
           <rg-progress-bar label="'Progress'" value="ctrl.value" class="example-progress"></rg-progress-bar>

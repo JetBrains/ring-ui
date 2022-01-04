@@ -1,21 +1,16 @@
 @import "../global/variables.css";
 
+@value dark from "../global/variables_dark.css";
 @value unit from "../global/global.css";
 
-.light {
-  &.progressBar {
-    background-color: rgba(0, 0, 0, 0.2);
-  }
+:root {
+  --ring-progress-bar-background-color: rgba(0, 0, 0, 0.2);
+  --ring-progress-bar-line-background-color: rgba(255, 255, 255, 0.6);
 }
 
 .dark {
-  &.progressBar {
-    background-color: rgba(255, 255, 255, 0.3);
-  }
-
-  & .line::after {
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0));
-  }
+  --ring-progress-bar-background-color: rgba(255, 255, 255, 0.3);
+  --ring-progress-bar-line-background-color: rgba(255, 255, 255, 0.4);
 }
 
 .progressBar {
@@ -28,6 +23,7 @@
   margin-bottom: calc(unit / 2);
 
   border-radius: 2px;
+  background-color: var(--ring-progress-bar-background-color);
 }
 
 .globalMode {
@@ -64,7 +60,7 @@
     content: "";
     animation: progress-bar 2500ms linear infinite;
 
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--ring-progress-bar-line-background-color), rgba(0, 0, 0, 0));
     background-repeat: no-repeat;
   }
 }

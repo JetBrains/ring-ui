@@ -11,7 +11,7 @@
 
   word-wrap: break-word;
 
-  color: var(--ring-dark-active-color);
+  color: var(--ring-text-color);
 
   line-height: calc(unit * 2);
 }

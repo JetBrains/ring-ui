@@ -2,8 +2,13 @@ import React, {HTMLAttributes, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import servicesIcon from '@jetbrains/icons/services-20px';
 
+import classNames from 'classnames';
+
 import Dropdown, {AnchorProps} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
+
+import Theme from '../global/theme';
+import darkStyles from '../global/variables_dark.css';
 
 import TrayIcon from './tray-icon';
 import ServicesLink, {Service} from './services-link';
@@ -27,6 +32,7 @@ const makeAnchor = (loading: boolean | null | undefined) => {
 };
 
 export interface ServicesProps extends HTMLAttributes<HTMLElement> {
+  theme: Theme
   clientId?: string | null | undefined
   initShown?: boolean | undefined
   loading?: boolean | null | undefined
@@ -51,12 +57,16 @@ export default class Services extends PureComponent<ServicesProps> {
     services: PropTypes.arrayOf(ServicesLink.propTypes.service)
   };
 
+  static defaultProps = {
+    theme: Theme.DARK
+  };
+
   static Link = ServicesLink;
 
   serviceIsActive = (service: Service) => service.id === this.props.clientId;
 
   render() {
-    const {clientId, loading, services, initShown, ...props} = this.props;
+    const {clientId, loading, services, initShown, theme, ...props} = this.props;
 
     if (!services) {
       return (
@@ -82,7 +92,7 @@ export default class Services extends PureComponent<ServicesProps> {
         initShown={initShown}
       >
         <Popup
-          className={styles.services}
+          className={classNames(styles.services, {[darkStyles.dark]: theme === Theme.DARK})}
           top={-3}
         >
           {servicesWithIcons.map(service => {

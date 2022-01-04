@@ -1,8 +1,6 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import Theme from '../global/theme';
-
 import ProgressBar, {ProgressBarAttrs} from './progress-bar';
 import styles from './progress-bar.css';
 
@@ -49,14 +47,6 @@ describe('Progress Bar', () => {
       });
 
       wrapper.instance().progressbarWrapper!.should.have.class('test-class');
-    });
-
-    it('should set light modifier', () => {
-      const wrapper = mountProgressBar({
-        theme: Theme.DARK
-      });
-      wrapper.instance().progressbarWrapper!.
-        should.have.class(styles.dark);
     });
 
     it('should set global modifier', () => {

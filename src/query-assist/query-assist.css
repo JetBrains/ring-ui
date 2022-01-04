@@ -1,72 +1,70 @@
 @import "../global/variables.css";
 
+@value dark from "../global/variables_dark.css";
 @value unit from "../global/global.css";
 @value overInputZIndex: 2;
 @value inputGap: calc(unit * 3);
 
-.light {
-  &.queryAssist {
-    height: calc(unit * 3);
+.queryAssist {
+  height: calc(unit * 3);
 
-    background: var(--ring-content-background-color);
-  }
+  background: var(--ring-content-background-color);
+}
 
-  & .input {
-    height: calc(unit * 3 - 2px);
+.input {
+  height: calc(unit * 3 - 2px);
 
-    box-shadow: 0 0 0 1px var(--ring-borders-color);
+  box-shadow: 0 0 0 1px var(--ring-borders-color);
 
-    /* stylelint-disable-next-line selector-max-specificity */
-    &:not([disabled]):active,
-    /* stylelint-disable-next-line selector-max-specificity */
-    &:not([disabled]):focus {
-      border-color: transparent;
-      box-shadow: 0 0 0 1px var(--ring-main-color);
-    }
-  }
-
-  & .placeholder {
-    color: var(--ring-secondary-color);
-  }
-
-  & .letter-text {
-    color: var(--ring-warning-color);
-  }
-
-  & .letterDefault,
-  & .letter-field-name {
-    color: var(--ring-text-color);
-  }
-
-  & .letter-field-value {
-    color: var(--ring-link-color);
-  }
-
-  & .letter-operator {
-    color: var(--ring-secondary-color);
-  }
-
-  & .letter-error {
-    padding-bottom: 1px;
-
-    border-bottom: 1px solid var(--ring-icon-error-color);
-  }
-
-  & .iconInner {
-    color: var(--ring-icon-secondary-color);
-  }
-
-  & .highlight {
-    font-weight: 600;
-  }
-
-  & .service {
-    color: var(--ring-secondary-color);
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:not([disabled]):active,
+  &:not([disabled]):focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 1px var(--ring-main-color);
   }
 }
 
+.placeholder {
+  color: var(--ring-secondary-color);
+}
+
+.letter-text {
+  color: var(--ring-warning-color);
+}
+
+.letterDefault,
+.letter-field-name {
+  color: var(--ring-text-color);
+}
+
+.letter-field-value {
+  color: var(--ring-link-color);
+}
+
+.letter-operator {
+  color: var(--ring-secondary-color);
+}
+
+.letter-error {
+  padding-bottom: 1px;
+
+  border-bottom: 1px solid var(--ring-icon-error-color);
+}
+
+.iconInner {
+  color: var(--ring-icon-secondary-color);
+}
+
+.highlight {
+  font-weight: 600;
+}
+
+.service {
+  color: var(--ring-secondary-color);
+}
+
 .dark {
-  &.queryAssist {
+  & .queryAssist {
     height: calc(unit * 4);
 
     font-size: 16px;
@@ -80,7 +78,7 @@
     color: var(--ring-search-color);
 
     border-top-width: 5px;
-    background: var(--ring-dark-selected-background-color);
+    background: var(--ring-selected-background-color);
 
     &:active,
     &:focus {
@@ -117,7 +115,7 @@
   }
 
   & .letter-field-value {
-    color: var(--ring-white-text-color);
+    color: var(--ring-active-text-color);
   }
 
   & .letter-operator {
@@ -131,7 +129,7 @@
   }
 
   & .icon {
-    top: 8px;
+    top: 7px;
   }
 
   & .iconInner {
@@ -151,7 +149,7 @@
   }
 
   & .actions {
-    background-color: var(--ring-dark-selected-background-color);
+    background-color: var(--ring-selected-background-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
@@ -317,20 +315,6 @@
   right: 1px;
 
   left: auto;
-}
-
-.focusUnderline {
-  width: 0;
-  height: 2px;
-
-  transition: width 0.15s ease-out;
-
-  background: var(--ring-main-color);
-}
-
-.input:focus ~ .focusUnderline,
-.input:active ~ .focusUnderline {
-  width: 100%;
 }
 
 .input::-webkit-scrollbar {

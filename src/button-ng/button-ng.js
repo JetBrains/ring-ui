@@ -173,7 +173,7 @@ function createButtonDirective(tagName) {
     transclude: true,
     replace: true,
     template: `
-  <${tagName} class="${styles.button} ${styles.light}">
+  <${tagName} class="${styles.button}">
   <span class="${styles.content}"
   ><rg-icon class="${classNames(styles.icon, overrides.iconNg, iconMarginFix)}"></rg-icon
   ><ng-transclude></ng-transclude
