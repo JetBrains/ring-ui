@@ -1,6 +1,7 @@
 import React from 'react';
 
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
+
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '@jetbrains/ring-ui/components/button/button';
