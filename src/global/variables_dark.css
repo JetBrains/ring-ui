@@ -11,9 +11,9 @@
   --ring-border-hover-color: #70b1e6;
   --ring-main-color: #008eff;
   --ring-main-hover-color: #007ee5;
-  --ring-icon-error-color: #c22731;
-  --ring-icon-warning-color: #cc8b00;
-  --ring-icon-success-color: #1c8c32;
+  --ring-icon-error-color: #db5860;
+  --ring-icon-warning-color: #eda200;
+  --ring-icon-success-color: #59a869;
   --ring-popup-border-components: 0, 42, 76;
   --ring-popup-border-color: rgba(var(--ring-popup-border-components), 0.1);
   --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.15);

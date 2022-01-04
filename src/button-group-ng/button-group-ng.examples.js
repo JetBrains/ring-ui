@@ -19,8 +19,8 @@ export const basic = () => {
   angular.module(APP_NAME, [ButtonNG, ButtonGroupNG]);
 
   return `
+      <span rg-button-group-caption>Side</span>
       <div rg-button-group>
-        <span rg-button-group-caption>Side</span>
         <rg-button>Left</rg-button>
         <rg-button>Right</rg-button>
       </div>
