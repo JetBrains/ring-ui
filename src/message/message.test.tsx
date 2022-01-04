@@ -14,13 +14,13 @@ describe('Message', () => {
   });
 
   it('should wrap children with Popup', () => {
-    shallowMessage({title: 'foo'}).should.have.type(Popup);
+    shallowMessage({title: 'foo'}).find(Popup).should.exist;
   });
 
   it('should use passed className', () => {
     shallowMessage({
       title: 'foo',
       className: 'test-class'
-    }).should.have.className('test-class');
+    }).find(Popup).should.have.className('test-class');
   });
 });

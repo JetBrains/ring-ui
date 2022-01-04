@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Theme from '../global/theme';
+import Theme, {ThemeProvider} from '../global/theme';
 
 import ProgressBar from './progress-bar';
 
@@ -42,9 +42,9 @@ export const basic = () => {
             <ProgressBar label="Progress" value={value} style={{width: 288}}/>
           </div>
 
-          <div style={{height: '25px', paddingTop: '25px', background: '#000'}}>
-            <ProgressBar label="Progress" value={value} theme={Theme.DARK} style={{width: 288}}/>
-          </div>
+          <ThemeProvider theme={Theme.DARK} style={{height: '25px', paddingTop: '25px', background: 'var(--ring-content-background-color)'}}>
+            <ProgressBar label="Progress" value={value} style={{width: 288}}/>
+          </ThemeProvider>
 
           <div style={{height: '25px', paddingTop: '25px', background: '#F0F0F0'}}>
             <ProgressBar label="Progress" value={value} style={{width: 288}}/>

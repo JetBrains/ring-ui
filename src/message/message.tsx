@@ -8,6 +8,8 @@ import {Directions} from '../popup/popup.consts';
 import Icon, {IconType} from '../icon/icon';
 import Button, {ButtonAttrs} from '../button/button';
 
+import Theme, {ThemeProvider} from '../global/theme';
+
 import styles from './message.css';
 
 
@@ -41,6 +43,7 @@ export interface MessageProps {
   icon: string | IconType | null
   directions: readonly Directions[]
   translations: MessageTranslations
+  theme: Theme
   title?: string | null | undefined
   children?: ReactNode
   className?: string | null | undefined
@@ -72,7 +75,8 @@ export default class Message extends Component<MessageProps> {
     translations: {
       gotIt: 'Got it',
       dismiss: 'Dismiss'
-    }
+    },
+    theme: Theme.DARK
   };
 
   state: MessageState = {};
@@ -124,7 +128,8 @@ export default class Message extends Component<MessageProps> {
       buttonProps,
       onClose,
       onDismiss,
-      translations
+      translations,
+      theme
     } = this.props;
     const classes = classNames(styles.message, className);
     const tailClasses = classNames(styles.tail, tailClassName);
@@ -135,32 +140,34 @@ export default class Message extends Component<MessageProps> {
     const {direction} = this.state;
 
     return (
-      <Popup
-        ref={this.popupRef}
-        hidden={false}
-        directions={popupDirections}
-        className={classes}
-        offset={UNIT * 2}
-        onDirectionChange={this._onDirectionChange}
-        {...popupProps}
-      >
-        {direction && (
-          <div className={tailClasses} style={getTailOffsets(this.getTailOffset())[direction]}/>
-        )}
+      <ThemeProvider theme={theme} passToPopups>
+        <Popup
+          ref={this.popupRef}
+          hidden={false}
+          directions={popupDirections}
+          className={classes}
+          offset={UNIT * 2}
+          onDirectionChange={this._onDirectionChange}
+          {...popupProps}
+        >
+          {direction && (
+            <div className={tailClasses} style={getTailOffsets(this.getTailOffset())[direction]}/>
+          )}
 
-        {icon && <Icon className={styles.icon} glyph={icon}/>}
-        <h1 data-test="rgMessageTitle" className={styles.title}>{title}</h1>
-        {children && <div className={styles.description}>{children}</div>}
-        {(onClose || buttonProps) && (
-          <Button
-            className={styles.button}
-            onClick={onClose}
-            primary
-            {...buttonProps}
-          >{translations.gotIt}</Button>
-        )}
-        {onDismiss && <Button onClick={onDismiss} text>{translations.dismiss}</Button>}
-      </Popup>
+          {icon && <Icon className={styles.icon} glyph={icon}/>}
+          <h1 data-test="rgMessageTitle" className={styles.title}>{title}</h1>
+          {children && <div className={styles.description}>{children}</div>}
+          {(onClose || buttonProps) && (
+            <Button
+              className={styles.button}
+              onClick={onClose}
+              primary
+              {...buttonProps}
+            >{translations.gotIt}</Button>
+          )}
+          {onDismiss && <Button onClick={onDismiss} text>{translations.dismiss}</Button>}
+        </Popup>
+      </ThemeProvider>
     );
   }
 }

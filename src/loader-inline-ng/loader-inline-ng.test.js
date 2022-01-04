@@ -22,18 +22,7 @@ describe('LoaderInline', () => {
 
   it('should render loader markup', () => {
     element.should.contain(`.${styles.loader}`);
-    element.should.contain(`.${styles.loader}_light`);
     element.should.contain('[data-test="ring-loader-inline-ng"]');
-  });
-
-  it('should render light loader theme by default', () => {
-    element.should.contain(`.${styles.loader}_light`);
-  });
-
-  it('should render dark loader theme if passed', () => {
-    element = $compile('<rg-loader-inline theme="dark"></rg-loader-inline>')(scope)[0];
-    scope.$digest();
-    element.should.contain(`.${styles.loader}_dark`);
   });
 
 });

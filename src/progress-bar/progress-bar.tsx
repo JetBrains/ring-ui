@@ -2,14 +2,11 @@ import React, {HTMLAttributes, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Theme from '../global/theme';
-
 import styles from './progress-bar.css';
 
 export interface ProgressBarProps extends HTMLAttributes<HTMLElement>{
   max: number
   value: number
-  theme: Theme
   label: string
   global?: boolean | null | undefined
 }
@@ -32,7 +29,6 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
 
   static propTypes = {
     label: PropTypes.string,
-    theme: PropTypes.string,
 
     /**
      * Sets the ring-progress-bar_global class to position the progress bar on top of the screen.
@@ -67,7 +63,6 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
   static defaultProps = {
     max: 1.0,
     value: 0,
-    theme: Theme.LIGHT,
     label: 'Progress'
   };
 
@@ -82,12 +77,10 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
   };
 
   render() {
-    const {theme, className, global, max, value, label, ...otherProps} = this.props;
+    const {className, global, max, value, label, ...otherProps} = this.props;
 
     const width = value ? `${ProgressBar.toPercent(value, max)}%` : undefined;
     const classes = classNames(styles.progressBar, className, {
-      [styles.light]: theme === Theme.LIGHT,
-      [styles.dark]: theme === Theme.DARK,
       [styles.globalMode]: global
     });
 

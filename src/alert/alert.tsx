@@ -11,9 +11,10 @@ import Icon, {Color} from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
-import darkStyles from '../global/variables_dark.css';
 
 import Button from '../button/button';
+
+import Theme, {ThemeProvider} from '../global/theme';
 
 import styles from './alert.css';
 
@@ -56,7 +57,7 @@ const TypeToIconColor: Partial<Record<AlertType, Color>> = {
 };
 
 export interface AlertProps {
-  dark: boolean,
+  theme: Theme,
   timeout: number
   onCloseRequest: ((event?: React.MouseEvent<HTMLElement>) => void)
   onClose: (() => void)
@@ -113,7 +114,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
 
   /** @override */
   static defaultProps = {
-    dark: true,
+    theme: Theme.DARK,
     closeable: true,
     showWithAnimation: true,
     type: AlertType.MESSAGE,
@@ -225,7 +226,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
 
   render() {
     const {type, inline, isClosing, isShaking, closeButtonClassName,
-      showWithAnimation, className, 'data-test': dataTest, dark} = this.props;
+      showWithAnimation, className, 'data-test': dataTest, theme} = this.props;
 
     const classes = classNames(className, {
       [styles.alert]: true,
@@ -233,15 +234,15 @@ export default class Alert extends PureComponent<AlertProps, State> {
       [styles.error]: type === 'error',
       [styles.alertInline]: inline,
       [styles.animationClosing]: isClosing,
-      [styles.animationShaking]: isShaking,
-      [darkStyles.dark]: dark
+      [styles.animationShaking]: isShaking
     });
 
     const height = this.state.height;
     const style = height ? {marginBottom: -height} : undefined;
 
     return (
-      <div
+      <ThemeProvider
+        theme={theme}
         className={classes}
         data-test={dataTests('alert', dataTest)}
         data-test-type={type}
@@ -263,7 +264,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
             )
             : ''
         }
-      </div>
+      </ThemeProvider>
     );
   }
 }

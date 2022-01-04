@@ -18,7 +18,7 @@ import Link, {LinkProps} from '../link/link';
 import DropdownMenu from '../dropdown-menu/dropdown-menu';
 import showAuthDialog from '../auth-dialog-service/auth-dialog-service';
 
-import Theme, {ThemeProvider} from '../global/theme';
+import Theme from '../global/theme';
 
 import Auth from '../auth/auth';
 
@@ -65,37 +65,39 @@ export const header: Story<HeaderArgs> = ({isCompact, dark, ...args}) => {
 
       const Comp = (props: LinkProps) => <a {...props}>This is component</a>;
       return (
-        <ThemeProvider theme={dark ? Theme.DARK : Theme.LIGHT}>
-          <Header {...args} className={isCompact ? 'compactHeader' : ''}>
-            <a title="Hub" href="/">
-              {isCompact
-                ? <Logo className="compactLogo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
-                : <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
-              }
-            </a>
-            <Link active href="#">
-              Users
-            </Link>
-            <Link href="#">Groups</Link>
-            <Link href="#">Spaces</Link>
-            <Link href="#">Services</Link>
-            <Tray>
-              <TrayIcon primary title="Create issue" icon={addIcon}/>
-              <TrayIcon title="Help" icon={helpIcon}/>
-              <TrayIcon title="What's new" icon={giftIcon}/>
-              <TrayIcon title="Search" icon={searchIcon}/>
-              <DropdownMenu
-                data={[{label: 'Test'}, {label: 'Test2'}]}
-                anchor={({active, pinned, ...ariaProps}) => (
-                  <TrayIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps}/>
-                )}
-                menuProps={{top: -12}}
-              />
-              <SmartServices auth={auth}/>
-              <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
-            </Tray>
-          </Header>
-        </ThemeProvider>
+        <Header
+          {...args}
+          theme={dark ? Theme.DARK : Theme.LIGHT}
+          className={isCompact ? 'compactHeader' : ''}
+        >
+          <a title="Hub" href="/">
+            {isCompact
+              ? <Logo className="compactLogo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
+              : <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
+            }
+          </a>
+          <Link active href="#">
+            Users
+          </Link>
+          <Link href="#">Groups</Link>
+          <Link href="#">Spaces</Link>
+          <Link href="#">Services</Link>
+          <Tray>
+            <TrayIcon primary title="Create issue" icon={addIcon}/>
+            <TrayIcon title="Help" icon={helpIcon}/>
+            <TrayIcon title="What's new" icon={giftIcon}/>
+            <TrayIcon title="Search" icon={searchIcon}/>
+            <DropdownMenu
+              data={[{label: 'Test'}, {label: 'Test2'}]}
+              anchor={({active, pinned, ...ariaProps}) => (
+                <TrayIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps}/>
+              )}
+              menuProps={{top: -12}}
+            />
+            <SmartServices auth={auth}/>
+            <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
+          </Tray>
+        </Header>
       );
     }
   }

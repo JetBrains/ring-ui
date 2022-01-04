@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
+@value icon from "../button/button.css";
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -8,9 +9,9 @@
   background: var(--ring-main-color);
 }
 
-.closeButton,
-.closeButton:hover {
-  color: var(--ring-white-text-color);
+.closeButton .icon,
+.closeButton:hover .icon {
+  color: var(--ring-active-text-color);
 }
 
 .closeButton:hover {
