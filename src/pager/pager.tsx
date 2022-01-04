@@ -293,13 +293,7 @@ export default class Pager extends PureComponent<PagerProps> {
         {this.getPagerLinks()}
 
         <ButtonToolbar>
-          {start > 1 &&
-        (
-          <ButtonGroup>
-            {this.getButton(1, this.props.translations.firstPage)}
-          </ButtonGroup>
-        )
-          }
+          {start > 1 && this.getButton(1, this.props.translations.firstPage)}
 
           <ButtonGroup>
             {start > 1 && this.getButton(start - 1, '...')}
@@ -317,16 +311,10 @@ export default class Pager extends PureComponent<PagerProps> {
             )}
           </ButtonGroup>
 
-          {lastPageButtonAvailable &&
-        (
-          <ButtonGroup>
-            {this.getButton(
-              this.props.openTotal ? -1 : totalPages,
-              this.props.translations.lastPage
-            )}
-          </ButtonGroup>
-        )
-          }
+          {lastPageButtonAvailable && this.getButton(
+            this.props.openTotal ? -1 : totalPages,
+            this.props.translations.lastPage
+          )}
         </ButtonToolbar>
 
         {this.getPageSizeSelector()}

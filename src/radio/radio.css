@@ -74,7 +74,8 @@
   opacity: 0;
 
   &[disabled] + .circle {
-    border-color: var(--ring-borders-color);
+    border-color: var(--ring-border-unselected-disabled-color);
+    background-color: var(--ring-disabled-background-color);
   }
 
   &:checked + .circle {
@@ -101,8 +102,13 @@
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
-  &[disabled]:checked + .circle::after {
-    opacity: 0.5;
+  &[disabled]:checked + .circle {
+    border-color: var(--ring-border-disabled-color);
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    &::after {
+      background-color: var(--ring-border-disabled-color);
+    }
   }
 
   &[disabled] ~ .label {

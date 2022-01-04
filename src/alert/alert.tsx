@@ -13,6 +13,8 @@ import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
 import darkStyles from '../global/variables_dark.css';
 
+import Button from '../button/button';
+
 import styles from './alert.css';
 
 export const ANIMATION_TIME = 500;
@@ -251,15 +253,13 @@ export default class Alert extends PureComponent<AlertProps, State> {
         {
           this.props.closeable
             ? (
-              <button
-                type="button"
+              <Button
+                icon={closeIcon}
                 className={classNames(styles.close, closeButtonClassName)}
                 data-test="alert-close"
                 aria-label="close alert"
                 onClick={this.closeRequest}
-              >
-                <Icon glyph={closeIcon}/>
-              </button>
+              />
             )
             : ''
         }

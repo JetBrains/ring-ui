@@ -118,7 +118,7 @@
   }
 }
 
-.header {
+.container .header {
   padding-top: calc(unit * 4);
 
   font-size: 24px;

@@ -22,11 +22,13 @@
 }
 
 .header {
-  composes: withTransparentBottomBorder;
-
   box-sizing: border-box;
   width: 100%;
   padding: calc(unit * 2) calc(unit * 4) unit;
+
+  transition: border-bottom-color 0.1s;
+
+  border-bottom: 1px solid transparent;
 
   line-height: 24px;
 }
