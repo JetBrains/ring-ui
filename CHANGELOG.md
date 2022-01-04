@@ -12,6 +12,24 @@
 - Input: removed `compact` and `renderUnderline` props
 - Select: removed `Type.MATERIAL`
 - Toggle: added `Size.Size14` which is the new default
+- Button Group: caption should be pllaced outside of the group
+  ```
+  // Before
+  <ButtonGroup>
+    <Caption>Side:</Caption>
+    <Button>Left</Button>
+    <Button>Right</Button>
+  </ButtonGroup>
+  
+  // After
+  <>
+    <Caption>Side:</Caption>
+    <ButtonGroup>
+      <Button>Left</Button>
+      <Button>Right</Button>
+    </ButtonGroup>
+  </>
+  ```
 - Components no longer accept `theme` prop, themes are managed using CSS Custom Properties instead. To apply a theme to your app or some part of it, wrap it into `ThemeProvider`:
   ```js
   import Theme, {ThemeProvider} from '@jetbrains/ring-ui/components/global/theme';

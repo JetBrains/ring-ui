@@ -167,9 +167,8 @@
   box-shadow: button-shadow var(--ring-main-color);
 }
 
-.buttonValueOpen {
-  border-color: var(--ring-selected-background-color);
-  background-color: var(--ring-selected-background-color);
+.buttonValueOpen.buttonValueOpen {
+  box-shadow: button-shadow var(--ring-main-color);
 }
 
 .label {
