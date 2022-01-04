@@ -2,10 +2,13 @@ import React, {Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import Theme, {ThemeProvider} from '../global/theme';
+
 import styles from './header.css';
 
 interface HeaderProps extends HTMLAttributes<HTMLElement> {
   spaced: boolean
+  theme: Theme
 }
 
 /**
@@ -22,22 +25,25 @@ class Header extends Component<HeaderProps> {
   };
 
   static defaultProps = {
-    spaced: true
+    spaced: true,
+    theme: Theme.DARK
   };
 
   render() {
-    const {children, className, spaced, ...restProps} = this.props;
+    const {children, className, spaced, theme, ...restProps} = this.props;
     const classes = classNames(styles.header, className, {
       [styles.headerSpaced]: spaced
     });
 
     return (
-      <header
-        {...restProps}
-        className={classes}
-      >
-        {children}
-      </header>
+      <ThemeProvider theme={theme}>
+        <header
+          {...restProps}
+          className={classes}
+        >
+          {children}
+        </header>
+      </ThemeProvider>
     );
   }
 }

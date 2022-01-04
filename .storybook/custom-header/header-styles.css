@@ -29,7 +29,7 @@
 .version button {
   height: auto;
 
-  color: var(--ring-white-text-color);
+  color: var(--ring-active-text-color);
 }
 
 .githubIcon {

@@ -13,10 +13,9 @@ import List from '../list/list';
 import Icon from '../icon/icon';
 
 
-import QueryAssist, {
-  QueryAssistAttrs,
-  QueryAssistRequestParams
-} from './query-assist';
+import Theme, {ThemeProvider} from '../global/theme';
+
+import QueryAssist, {QueryAssistAttrs, QueryAssistRequestParams} from './query-assist';
 import {QueryAssistSuggestion} from './query-assist__suggestions';
 
 export default {
@@ -35,7 +34,6 @@ export default {
     hintOnSelection: 'hint on selection'
   },
   argTypes: {
-    theme: {},
     translations: {}
   }
 };
@@ -200,13 +198,12 @@ withCustomRenderer.storyName = 'with custom renderer';
 withCustomRenderer.parameters = {hermione: {skip: true}};
 
 export const darkThemeNoAuth: Story<QueryAssistAttrs> = args => (
-  <div style={{background: '#000', padding: '24px', margin: '-16px', paddingBottom: 0}}>
+  <ThemeProvider theme={Theme.DARK} style={{background: 'var(--ring-content-background-color)', padding: '24px', margin: '-16px', paddingBottom: 0}}>
     <QueryAssist {...args}/>
-  </div>
+  </ThemeProvider>
 );
 
 darkThemeNoAuth.args = {
-  theme: QueryAssist.Theme.DARK,
   dataSource: ({query, caret}) => ({
     query,
     caret,

@@ -12,7 +12,7 @@
 
   text-align: left;
 
-  color: var(--ring-white-text-color);
+  color: var(--ring-active-text-color);
 
   border: none;
 
@@ -55,7 +55,7 @@
 
   margin: calc(unit / 2) 0 0;
 
-  color: var(--ring-dark-active-color);
+  color: var(--ring-text-color);
 }
 
 .button {

@@ -15,7 +15,6 @@ import PopupMenu from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
-import Theme from '../global/theme';
 import Button from '../button/button';
 
 import {ShortcutsMap} from '../shortcuts/core';
@@ -71,7 +70,6 @@ export interface QueryAssistRequestParams {
 }
 
 export interface QueryAssistProps {
-  theme: Theme
   onApply: (change: QueryAssistChange) => void
   onChange: (change: QueryAssistChange) => void
   onApplySuggestion: (suggestion: QueryAssistSuggestion, change: QueryAssistChange) => void
@@ -168,7 +166,6 @@ interface HistoryEntry {
  */
 export default class QueryAssist extends Component<QueryAssistProps> {
   static propTypes = {
-    theme: PropTypes.string,
     /**
      * Open suggestions popup during the initial render
      */
@@ -256,7 +253,6 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   };
 
   static defaultProps = {
-    theme: Theme.LIGHT,
     onApply: noop,
     onChange: noop,
     onApplySuggestion: noop,
@@ -365,7 +361,6 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   }
 
   static ngModelStateField = ngModelStateField;
-  static Theme = Theme;
 
   immediateState: QueryAssistChange;
   requestData?: (afterCompletion?: boolean) => void;
@@ -1002,11 +997,10 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   }
 
   render() {
-    const {theme, glass, 'data-test': dataTest, className, useCustomItemRender} = this.props;
+    const {glass, 'data-test': dataTest, className, useCustomItemRender} = this.props;
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderLoader = this.props.loader !== false && this.state.loading;
     const renderGlass = glass && !renderLoader;
-    const renderUnderline = theme === Theme.DARK;
     const actions = this.renderActions();
 
     const inputClasses = classNames({
@@ -1020,7 +1014,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     return (
       <div
         data-test={dataTests('ring-query-assist', dataTest)}
-        className={classNames(className, styles.queryAssist, styles[theme])}
+        className={classNames(className, styles.queryAssist)}
         role="presentation"
         ref={this.nodeRef}
       >
@@ -1089,7 +1083,6 @@ export default class QueryAssist extends Component<QueryAssistProps> {
             {this.props.placeholder}
           </button>
         )}
-        {renderUnderline && <div className={styles.focusUnderline}/>}
         {actions &&
         <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>}
         <PopupMenu
@@ -1099,7 +1092,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
           anchorElement={this.node}
           keepMounted
           attached
-          className={classNames(styles[theme], this.props.popupClassName)}
+          className={this.props.popupClassName}
           directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
           data={useCustomItemRender ? this.state.suggestions : this.renderSuggestions()}
           data-test="ring-query-assist-popup"
