@@ -727,9 +727,9 @@ export default class Select extends Component {
     return isInputMode(this.props.type);
   }
 
-  _clickHandler = () => {
+  _clickHandler = (forceShowPopup = false) => {
     if (!this.props.disabled) {
-      if (this.state.showPopup) {
+      if (this.state.showPopup && !forceShowPopup) {
         this._hidePopup();
       } else {
         this.props.onBeforeOpen();
