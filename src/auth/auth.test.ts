@@ -540,21 +540,20 @@ describe('Auth', () => {
       }
     });
 
-    it('should show login overlay if token refresh fails and window login enabled', async () => {
+    it('should show login overlay if token refresh fails and window login enabled', done => {
+      const TIMEOUT = 100;
       if (auth._backgroundFlow != null) {
-        auth._backgroundFlow._timeout = 100;
+        auth._backgroundFlow._timeout = TIMEOUT;
       }
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
       sandbox.stub(Auth.prototype, '_showAuthDialog');
 
-      try {
-        await auth.requestToken();
-      } catch (reject) {
-        Auth.prototype._showAuthDialog.should.have.been.calledWith({
-          nonInteractive: true,
-          error: reject
-        });
-      }
+      auth.requestToken();
+
+      setTimeout(() => {
+        Auth.prototype._showAuthDialog.should.have.been.called;
+        done();
+      }, TIMEOUT * 2);
     });
   });
 

@@ -59,11 +59,10 @@ class SelectLazy {
     this.detachEvents();
     if (this.type === 'dropdown') {
       this.ctrl.selectInstance = render(this.reactSelect, this.container);
-      // In "dropdown" mode we don't click select itself, so need to force click handler
-      this.ctrl.selectInstance._clickHandler();
     } else {
       this.ctrl.selectInstance = hydrate(this.reactSelect, this.container);
     }
+    this.ctrl.selectInstance._openPopupIfClosed();
   }
 }
 
