@@ -52,6 +52,7 @@ export interface AuthTranslations {
   applyChange: string
   backendIsNotAvailable: string
   checkAgain: string
+  tryAgainLabel: string
   nothingHappensLink: string
   errorMessage: string
 }
@@ -130,6 +131,7 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
     login: 'Log in',
     loginTo: 'Log in to %serviceName%',
     cancel: 'Cancel',
+    tryAgainLabel: 'Try again',
     postpone: 'Postpone',
     youHaveLoggedInAs: 'You have logged in as another user: %userName%',
     applyChange: 'Apply change',
@@ -162,6 +164,7 @@ interface AuthDialogParams {
   nonInteractive?: boolean
   error?: Error
   canCancel?: boolean
+  onTryAgain?: () => Promise<void>
 }
 
 interface UserChange {
@@ -539,21 +542,40 @@ export default class Auth implements HTTPAuth {
     try {
       return await this._backgroundFlow?.authorize() ?? null;
     } catch (error) {
-      if (error instanceof Error) {
-        if (this._canShowDialogs()) {
-          this._showAuthDialog({nonInteractive: true, error});
-          return null;
-        } else {
-          const authRequest = await this._requestBuilder?.prepareAuthRequest();
-          if (authRequest != null) {
-            this._redirectCurrentPage(authRequest.url);
-          }
-        }
-
-        throw new TokenValidator.TokenValidationError(error.message);
-      } else {
+      if (!(error instanceof Error)) {
         return null;
       }
+      if (this._canShowDialogs()) {
+        return new Promise(resolve => {
+          const onTryAgain = async () => {
+            try {
+              const result = await this._backgroundFlow?.authorize();
+              resolve(result ?? null);
+            } catch (retryError) {
+              if (retryError instanceof Error) {
+                this._showAuthDialog({
+                  nonInteractive: true,
+                  error: retryError,
+                  onTryAgain
+                });
+              }
+              throw retryError;
+            }
+          };
+          this._showAuthDialog({
+            nonInteractive: true,
+            error: error as Error,
+            onTryAgain
+          });
+        });
+      } else {
+        const authRequest = await this._requestBuilder?.prepareAuthRequest();
+        if (authRequest != null) {
+          this._redirectCurrentPage(authRequest.url);
+        }
+      }
+
+      throw new TokenValidator.TokenValidationError(error.message);
     }
   }
 
@@ -660,7 +682,7 @@ export default class Auth implements HTTPAuth {
     this.logout();
   }
 
-  _showAuthDialog({nonInteractive, error, canCancel}: AuthDialogParams = {}) {
+  _showAuthDialog({nonInteractive, error, canCancel, onTryAgain}: AuthDialogParams = {}) {
     const {embeddedLogin, onPostponeLogout, translations} = this.config;
     const cancelable = this.user?.guest || canCancel;
 
@@ -701,15 +723,22 @@ export default class Auth implements HTTPAuth {
       }
     };
 
+    const onTryAgainClick = async () => {
+      await onTryAgain?.();
+      closeDialog();
+    };
+
     const hide = this._authDialogService?.({
       ...this._service,
       loginCaption: translations.login,
       loginToCaption: translations.loginTo,
       confirmLabel: translations.login,
+      tryAgainLabel: translations.tryAgainLabel,
       cancelLabel: cancelable ? translations.cancel : translations.postpone,
       errorMessage: this._extractErrorMessage(error, true),
       onConfirm,
-      onCancel
+      onCancel,
+      onTryAgain: onTryAgain ? onTryAgainClick : undefined
     });
 
     const stopTokenListening = this._storage?.onTokenChange(token => {
@@ -742,6 +771,7 @@ export default class Auth implements HTTPAuth {
       loginCaption: translations.login,
       loginToCaption: translations.loginTo,
       confirmLabel: translations.applyChange,
+      tryAgainLabel: translations.tryAgainLabel,
       cancelLabel: translations.postpone,
       onConfirm: () => {
         done();

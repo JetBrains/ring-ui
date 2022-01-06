@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
@@ -7,7 +8,6 @@ import Button from '../button/button';
 import AuthDialog from './auth-dialog';
 
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
-
 
 export default {
   title: 'Components/Auth Dialog',

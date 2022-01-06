@@ -849,6 +849,14 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
   };
 
+  _openPopupIfClosed = () => {
+    if (this.props.disabled || this.state.showPopup) {
+      return;
+    }
+    this.props.onBeforeOpen();
+    this._showPopup();
+  };
+
   _filterChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     this._setFilter(e.currentTarget.value, e);
   };
