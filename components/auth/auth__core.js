@@ -52,6 +52,7 @@ const DEFAULT_CONFIG = {
     login: 'Log in',
     loginTo: 'Log in to %serviceName%',
     cancel: 'Cancel',
+    tryAgain: 'Retry',
     postpone: 'Postpone',
     youHaveLoggedInAs: 'You have logged in as another user: %userName%',
     applyChange: 'Apply change',
@@ -405,9 +406,27 @@ export default class Auth {
     try {
       return await this._backgroundFlow.authorize();
     } catch (error) {
-
       if (this._canShowDialogs()) {
-        return this._showAuthDialog({nonInteractive: true, error});
+        return new Promise(resolve => {
+          const onTryAgain = async () => {
+            try {
+              const result = await this._backgroundFlow.authorize();
+              resolve(result);
+            } catch (retryError) {
+              this._showAuthDialog({
+                nonInteractive: true,
+                error: retryError,
+                onTryAgain
+              });
+              throw retryError;
+            }
+          };
+          this._showAuthDialog({
+            nonInteractive: true,
+            error,
+            onTryAgain
+          });
+        });
       } else {
         const authRequest = await this._requestBuilder.prepareAuthRequest();
         this._redirectCurrentPage(authRequest.url);
@@ -516,7 +535,7 @@ export default class Auth {
     this.logout();
   }
 
-  _showAuthDialog({nonInteractive, error, canCancel} = {}) {
+  _showAuthDialog({nonInteractive, error, canCancel, onTryAgain} = {}) {
     const {embeddedLogin, onPostponeLogout, translations} = this.config;
     const cancelable = this.user.guest || canCancel;
 
@@ -557,15 +576,22 @@ export default class Auth {
       }
     };
 
+    const onTryAgainClick = async () => {
+      await onTryAgain();
+      closeDialog();
+    };
+
     const hide = this._authDialogService({
       ...this._service,
       loginCaption: translations.login,
       loginToCaption: translations.loginTo,
       confirmLabel: translations.login,
+      tryAgainLabel: translations.tryAgain,
       cancelLabel: cancelable ? translations.cancel : translations.postpone,
       errorMessage: this._extractErrorMessage(error, true),
       onConfirm,
-      onCancel
+      onCancel,
+      onTryAgain: onTryAgain ? onTryAgainClick : null
     });
 
     const stopTokenListening = this._storage.onTokenChange(token => {
