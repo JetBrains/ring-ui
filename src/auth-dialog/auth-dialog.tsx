@@ -26,8 +26,10 @@ export interface AuthDialogProps {
   cancelOnEsc: boolean
   confirmLabel: string
   cancelLabel: string
+  tryAgainLabel: string
   onConfirm: () => void
   onCancel: () => void
+  onTryAgain?: () => void
 }
 
 export default class AuthDialog extends Component<AuthDialogProps> {
@@ -44,14 +46,17 @@ export default class AuthDialog extends Component<AuthDialogProps> {
     cancelOnEsc: PropTypes.bool,
     confirmLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
+    tryAgainLabel: PropTypes.string,
 
     onConfirm: PropTypes.func,
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func,
+    onTryAgain: PropTypes.func
   };
 
   static defaultProps = {
     loginCaption: 'Log in',
     loginToCaption: 'Log in to %serviceName%',
+    tryAgainLabel: 'Try again',
     show: false,
     cancelOnEsc: true,
     confirmLabel: 'Log in',
@@ -60,9 +65,35 @@ export default class AuthDialog extends Component<AuthDialogProps> {
     onCancel: () => {}
   };
 
+  state = {
+    retrying: false
+  };
+
+  componentDidMount() {
+    window.addEventListener('online', this.onRetryPress);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('online', this.onRetryPress);
+  }
+
   onEscPress = () => {
     if (this.props.cancelOnEsc) {
       this.props.onCancel();
+    }
+  };
+
+  onRetryPress = async () => {
+    if (!this.props.onTryAgain || this.state.retrying) {
+      return;
+    }
+    this.setState({retrying: true});
+    try {
+      await this.props.onTryAgain();
+    } catch (e) {
+      // do nothing, error is handled in onTryAgain
+    } finally {
+      this.setState({retrying: false});
     }
   };
 
@@ -77,9 +108,13 @@ export default class AuthDialog extends Component<AuthDialogProps> {
       loginToCaption,
       confirmLabel,
       cancelLabel,
+      tryAgainLabel,
       onConfirm,
-      onCancel
+      onCancel,
+      onTryAgain
     } = this.props;
+
+    const {retrying} = this.state;
 
     const defaultTitle = serviceName ? loginToCaption : loginCaption;
     const title = (this.props.title || defaultTitle).replace('%serviceName%', serviceName ?? '');
@@ -115,6 +150,17 @@ export default class AuthDialog extends Component<AuthDialogProps> {
             >
               {confirmLabel}
             </Button>
+            {onTryAgain && (
+              <Button
+                className={styles.button}
+                data-test="auth-dialog-retry-button"
+                onClick={() => this.onRetryPress()}
+                loader={retrying}
+                disabled={retrying}
+              >
+                {tryAgainLabel}
+              </Button>
+            )}
             <Button
               className={styles.button}
               data-test="auth-dialog-cancel-button"
