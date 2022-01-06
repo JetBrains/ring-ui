@@ -50,6 +50,14 @@ export default class AuthDialog extends Component {
     retrying: false
   };
 
+  componentDidMount() {
+    window.addEventListener('online', this.onRetryPress);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('online', this.onRetryPress);
+  }
+
   onEscPress = () => {
     if (this.props.cancelOnEsc) {
       this.props.onCancel();
@@ -57,6 +65,9 @@ export default class AuthDialog extends Component {
   };
 
   onRetryPress = async () => {
+    if (!this.props.onTryAgain || this.state.retrying) {
+      return;
+    }
     this.setState({retrying: true});
     try {
       await this.props.onTryAgain();
