@@ -727,15 +727,23 @@ export default class Select extends Component {
     return isInputMode(this.props.type);
   }
 
-  _clickHandler = (forceShowPopup = false) => {
+  _clickHandler = () => {
     if (!this.props.disabled) {
-      if (this.state.showPopup && !forceShowPopup) {
+      if (this.state.showPopup) {
         this._hidePopup();
       } else {
         this.props.onBeforeOpen();
         this._showPopup();
       }
     }
+  };
+
+  _openPopupIfClosed = () => {
+    if (this.props.disabled || this.state.showPopup) {
+      return;
+    }
+    this.props.onBeforeOpen();
+    this._showPopup();
   };
 
   _filterChangeHandler = e => {
