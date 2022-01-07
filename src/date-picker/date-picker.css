@@ -94,6 +94,7 @@
 .fromInputWithDivider {
   &::after {
     position: absolute;
+    top: 0;
     right: unit;
 
     content: "—";

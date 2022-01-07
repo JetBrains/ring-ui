@@ -9,6 +9,7 @@ import Icon, {IconType} from '../icon/icon';
 import Button, {ButtonAttrs} from '../button/button';
 
 import Theme, {ThemeProvider} from '../global/theme';
+import darkStyles from '../global/variables_dark.css';
 
 import styles from './message.css';
 
@@ -131,7 +132,9 @@ export default class Message extends Component<MessageProps> {
       translations,
       theme
     } = this.props;
-    const classes = classNames(styles.message, className);
+    const classes = classNames(styles.message, className, {
+      [darkStyles.dark]: theme === Theme.DARK
+    });
     const tailClasses = classNames(styles.tail, tailClassName);
     const popupDirections = this.props.direction
       ? [this.props.direction]
@@ -140,16 +143,16 @@ export default class Message extends Component<MessageProps> {
     const {direction} = this.state;
 
     return (
-      <ThemeProvider theme={theme} passToPopups>
-        <Popup
-          ref={this.popupRef}
-          hidden={false}
-          directions={popupDirections}
-          className={classes}
-          offset={UNIT * 2}
-          onDirectionChange={this._onDirectionChange}
-          {...popupProps}
-        >
+      <Popup
+        ref={this.popupRef}
+        hidden={false}
+        directions={popupDirections}
+        className={classes}
+        offset={UNIT * 2}
+        onDirectionChange={this._onDirectionChange}
+        {...popupProps}
+      >
+        <ThemeProvider theme={theme} passToPopups>
           {direction && (
             <div className={tailClasses} style={getTailOffsets(this.getTailOffset())[direction]}/>
           )}
@@ -166,8 +169,8 @@ export default class Message extends Component<MessageProps> {
             >{translations.gotIt}</Button>
           )}
           {onDismiss && <Button onClick={onDismiss} text>{translations.dismiss}</Button>}
-        </Popup>
-      </ThemeProvider>
+        </ThemeProvider>
+      </Popup>
     );
   }
 }
