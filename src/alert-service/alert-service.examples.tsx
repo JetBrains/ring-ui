@@ -6,6 +6,8 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 
+import Theme from '../global/theme';
+
 import alert from './alert-service';
 
 import styles from './alert-service.examples.css';
@@ -49,7 +51,8 @@ export const alertService = () => {
         0,
         {
           className: styles.customAlert,
-          closeButtonClassName: styles.closeButton
+          closeButtonClassName: styles.closeButton,
+          theme: Theme.LIGHT
         }
       );
     };

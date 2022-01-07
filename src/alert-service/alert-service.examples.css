@@ -6,12 +6,13 @@
 @value animation-easing: ease-out;
 
 .customAlert {
+  color: var(--ring-white-text-color);
   background: var(--ring-main-color);
 }
 
 .closeButton .icon,
 .closeButton:hover .icon {
-  color: var(--ring-active-text-color);
+  color: var(--ring-white-text-color);
 }
 
 .closeButton:hover {
