@@ -23,14 +23,14 @@ export const parameters = {
     extractComponentDescription: (component: Component, {notes}: Parameters) =>
       notes ?? component?.__docgenInfo?.description
   },
-  a11y: {
-    options: {
-      rules: {
-        // TODO enable when RG-2054 is fixed
-        'color-contrast': {enabled: false}
-      }
-    }
-  },
+  // a11y: {
+  //   options: {
+  //     rules: {
+  //       // TODO enable when RG-2054 is fixed
+  //       'color-contrast': {enabled: false}
+  //     }
+  //   }
+  // },
   actions: {argTypesRegex: '^on.*'}
 };
 

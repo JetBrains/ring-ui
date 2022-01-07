@@ -49,6 +49,8 @@
   <Markdown>some markdown</Markdown>
   ```
   See `react-markdown`'s [changelog](https://github.com/remarkjs/react-markdown/blob/main/changelog.md#600---2021-04-15) for other changes
+- Removed `core-js@2` support
+- Removed `webpack@4` support
 
 ## [4.1.0]
 
