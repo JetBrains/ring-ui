@@ -3,6 +3,10 @@
 @value unit from "../global/global.css";
 @value padding: calc(unit * 1.5);
 
+.container {
+  display: inline;
+}
+
 .message {
   overflow: visible;
 
