@@ -17,7 +17,8 @@ A footer consists of three sections, each optional:
 - left
 - center
 - right
-    `
+    `,
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/5b2a6042114b24a11a8ac153'
   }
 };
 
