@@ -16,7 +16,8 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Displays a tab set.'
+    notes: 'Displays a tab set.',
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc710be093ab38d4212f'
   }
 };
 

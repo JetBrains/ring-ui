@@ -31,7 +31,8 @@ export default {
 
   parameters: {
     component: Select,
-    framework: 'react'
+    framework: 'react',
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/61a4a19882fc3297f0165b3f'
   },
   args: {
     type,

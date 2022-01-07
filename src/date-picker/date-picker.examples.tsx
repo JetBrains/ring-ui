@@ -22,7 +22,8 @@ export default {
           selector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]']
         }
       ]
-    }
+    },
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/5b0d1f6c877adb4d06c959ef'
   }
 };
 
