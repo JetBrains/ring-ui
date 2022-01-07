@@ -16,7 +16,8 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Text input fields of varying size.'
+    notes: 'Text input fields of varying size.',
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc70ab2b23a8ca449004'
   }
 };
 
