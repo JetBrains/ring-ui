@@ -21,11 +21,11 @@
 }
 
 .label {
-  margin-left: calc(unit / 2);
+  margin-left: unit;
 }
 
 .leftLabel {
-  margin-right: calc(unit / 2);
+  margin-right: unit;
 }
 
 .switchWrapper {
