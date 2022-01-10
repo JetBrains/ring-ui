@@ -38,7 +38,7 @@ class SelectLazy {
   }
 
   attachEvents() {
-    this.container.addEventListener('click', this.onClick);
+    this.container.addEventListener('click', this.onClick, {capture: true, once: true});
   }
 
   detachEvents() {
@@ -59,10 +59,10 @@ class SelectLazy {
     this.detachEvents();
     if (this.type === 'dropdown') {
       this.ctrl.selectInstance = render(this.reactSelect, this.container);
+      this.ctrl.selectInstance._openPopupIfClosed();
     } else {
       this.ctrl.selectInstance = hydrate(this.reactSelect, this.container);
     }
-    this.ctrl.selectInstance._openPopupIfClosed();
   }
 }
 
