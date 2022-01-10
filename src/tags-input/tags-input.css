@@ -62,7 +62,8 @@
   margin-bottom: -1px;
 
   & .outerContainer {
-    --ring-input-padding-block: 0;
+    --ring-input-padding-top: 0;
+    --ring-input-padding-bottom: 0;
   }
 
   & .container {
