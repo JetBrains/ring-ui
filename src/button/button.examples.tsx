@@ -10,6 +10,8 @@ import Theme, {ThemeProvider} from '../global/theme';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
+import Input from '../input/input';
+
 import Button, {ButtonProps} from './button';
 
 export default {
@@ -234,3 +236,13 @@ export const longAction = () => {
 
 longAction.storyName = 'long action';
 longAction.parameters = {hermione: {skip: true}};
+
+export const buttonAndInputAlignment = () => [ControlsHeight.S, ControlsHeight.M, ControlsHeight.L].
+  map(height => (
+    <div key={height} style={{display: 'flex', alignItems: 'baseline', marginBottom: 'var(--ring-unit)'}}>
+      <ControlsHeightContext.Provider value={height}>
+        <Button style={{marginRight: 'var(--ring-unit)'}}>Button</Button>
+        <Input placeholder="Input"/>
+      </ControlsHeightContext.Provider>
+    </div>
+  ));
