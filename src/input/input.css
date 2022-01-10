@@ -30,9 +30,9 @@
   --ring-input-padding-end: var(--ring-input-padding-inline);
 
   width: 100%;
-  padding-top: var(--ring-input-padding-block);
+  padding-top: var(--ring-input-padding-top);
   padding-right: var(--ring-input-padding-end);
-  padding-bottom: var(--ring-input-padding-block);
+  padding-bottom: var(--ring-input-padding-bottom);
   padding-left: var(--ring-input-padding-start);
 
   transition: border-color var(--ring-ease);
@@ -103,7 +103,7 @@
 
 .icon {
   position: absolute;
-  top: calc(var(--ring-input-padding-block) + 1px);
+  top: calc(var(--ring-input-padding-top) + 1px);
   left: var(--ring-input-padding-inline);
 
   color: var(--ring-icon-secondary-color);
@@ -116,7 +116,7 @@
 
 .clear {
   position: absolute;
-  top: calc(var(--ring-input-padding-block) + 1px);
+  top: calc(var(--ring-input-padding-top) + 1px);
   right: var(--ring-input-padding-inline);
 
   height: auto;
@@ -188,13 +188,16 @@ textarea.input {
 }
 
 .heightS {
-  --ring-input-padding-block: 1px;
+  --ring-input-padding-top: 0;
+  --ring-input-padding-bottom: 2px;
 }
 
 .heightM {
-  --ring-input-padding-block: 3px;
+  --ring-input-padding-top: 3px;
+  --ring-input-padding-bottom: 3px;
 }
 
 .heightL {
-  --ring-input-padding-block: 5px;
+  --ring-input-padding-top: 5px;
+  --ring-input-padding-bottom: 5px;
 }
