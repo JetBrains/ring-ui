@@ -46,6 +46,7 @@ import {
 
 import styles from './list.css';
 
+export type {ListDataItem};
 
 const scheduleScrollListener = scheduleRAF();
 const scheduleHoverListener = scheduleRAF();
