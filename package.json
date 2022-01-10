@@ -88,7 +88,7 @@
     "@storybook/html": "6.4.10",
     "@storybook/manager-webpack5": "^6.4.9",
     "@storybook/source-loader": "6.4.10",
-    "@storybook/theming": "6.4.9",
+    "@storybook/theming": "6.4.10",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
