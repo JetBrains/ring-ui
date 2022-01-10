@@ -38,11 +38,11 @@ class SelectLazy {
   }
 
   attachEvents() {
-    this.container.addEventListener('click', this.onClick, {capture: true, once: true});
+    this.container.addEventListener('click', this.onClick, {capture: true});
   }
 
   detachEvents() {
-    this.container.removeEventListener('click', this.onClick);
+    this.container.removeEventListener('click', this.onClick, {capture: true});
   }
 
   render(props) {
