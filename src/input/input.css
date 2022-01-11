@@ -9,7 +9,8 @@
 }
 
 .borderless {
-  --ring-input-padding-inline: 0;
+  /* stylelint-disable-next-line length-zero-no-unit */
+  --ring-input-padding-inline: 0px;
 }
 
 .container {
