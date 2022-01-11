@@ -83,7 +83,7 @@ export class Input extends PureComponent<InputProps> {
   };
 
   componentDidMount() {
-    this.adapt();
+    requestAnimationFrame(() => this.adapt());
   }
 
   componentDidUpdate() {
@@ -112,7 +112,7 @@ export class Input extends PureComponent<InputProps> {
     if (!el || !el.style) {
       return;
     }
-    el.style.height = `${el.scrollHeight}px`;
+    el.style.height = `${el.scrollHeight + 2}px`;
   }
 
   adapt() {
