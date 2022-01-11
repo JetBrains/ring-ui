@@ -72,7 +72,7 @@ const Inputs = () => (
     <Input label="Error without description" error=""/>
     <Input label="Short input" size={Size.S}/>
     <Input label="Long input" size={Size.L}/>
-    <Input label="Autogrowing textarea" multiline/>
+    <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
     <ThemeProvider theme={Theme.DARK} className="dark inputs">
       <Input
         label="Input on dark background"

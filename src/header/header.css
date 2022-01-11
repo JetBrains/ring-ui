@@ -38,11 +38,11 @@
   }
 
   /* override link */
-  & > a {
+  & a {
     color: var(--ring-header-link-color);
   }
 
-  & > .active {
+  & .active {
     color: var(--ring-active-text-color);
   }
 }
