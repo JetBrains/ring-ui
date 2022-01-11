@@ -83,14 +83,21 @@ export class Input extends PureComponent<InputProps> {
   };
 
   componentDidMount() {
-    requestAnimationFrame(() => this.adapt());
+    this.frame = requestAnimationFrame(() => this.adapt());
   }
 
   componentDidUpdate() {
     this.adapt();
   }
 
+  componentWillUnmount() {
+    if (this.frame != null) {
+      cancelAnimationFrame(this.frame);
+    }
+  }
+
   static contextType = ControlsHeightContext;
+  frame?: number;
   input?: HTMLInputElement | HTMLTextAreaElement | null;
   id = getUID('ring-input-');
   getId() {
