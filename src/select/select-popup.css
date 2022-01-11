@@ -22,7 +22,9 @@
 }
 
 .filter {
-  width: 100%;
+  flex-grow: 1;
+
+  width: 0;
 
   & input {
     font-weight: 200;
@@ -31,6 +33,8 @@
 
 .filterWrapper {
   position: relative;
+
+  display: flex;
 
   margin: 0;
   padding-right: unit;
