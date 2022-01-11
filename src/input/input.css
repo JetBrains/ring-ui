@@ -30,6 +30,8 @@
   --ring-input-padding-end: var(--ring-input-padding-inline);
 
   width: 100%;
+
+  margin: 0;
   padding-top: var(--ring-input-padding-block);
   padding-right: var(--ring-input-padding-end);
   padding-bottom: var(--ring-input-padding-block);
@@ -160,6 +162,10 @@ textarea.input {
 
 .input::placeholder {
   color: var(--ring-disabled-color);
+}
+
+.input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }
 
 .errorText {

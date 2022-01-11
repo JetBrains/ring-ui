@@ -52,7 +52,7 @@ class ClearableInput extends PureComponent<ContainerProps<InputSpecificProps>> {
 }
 const Inputs = () => (
   <form className="inputs">
-    <Input label="Labeled input"/>
+    <Input type="search" label="Labeled input"/>
     <Input name="login" label="Label and hint" placeholder="Hint"/>
     <Input label="Label and value" defaultValue="Default value"/>
     <ClearableInput label="Clearable input" defaultValue="Default value"/>
