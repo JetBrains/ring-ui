@@ -134,8 +134,8 @@
   }
 
   &[disabled] {
-    background-color: var(--ring-content-background-color);
-    box-shadow: button-shadow var(--ring-borders-color);
+    background-color: var(--ring-disabled-background-color);
+    box-shadow: button-shadow var(--ring-border-disabled-color);
   }
 
   &[disabled].loader {

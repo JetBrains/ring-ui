@@ -34,15 +34,18 @@ single.parameters = {hermione: {skip: true}};
 
 function Examples() {
   function renderButtonModifications() {
-    return ['active', 'primary', 'danger', 'delayed', 'disabled', 'dropdown'].map(modifier => (
-      <Button
-        key={modifier}
-        data-test={`button-${modifier}`}
-        {...{[modifier]: true}}
-      >
-        Button {modifier}
-      </Button>
-    ));
+    return ['active', 'primary', 'danger', 'delayed', 'disabled', 'primary disabled', 'dropdown'].map(joinedModifiers => {
+      const modifiers = joinedModifiers.split(' ');
+      return (
+        <Button
+          key={joinedModifiers}
+          data-test={`button-${modifiers.join('-')}`}
+          {...Object.fromEntries(modifiers.map(modifier => [modifier, true]))}
+        >
+          Button {joinedModifiers}
+        </Button>
+      );
+    });
   }
 
   function renderTextModifications() {
