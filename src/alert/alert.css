@@ -1,5 +1,6 @@
 @import "../global/variables.css";
 
+@value link from "../link/link.css";
 @value unit from "../global/global.css";
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;

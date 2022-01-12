@@ -1,8 +1,6 @@
 @import "../global/variables.css";
 
 .link {
-  composes: link from "../alert/alert.css"; /* To override link stiles inside alert */
-
   cursor: pointer;
   transition: color var(--ring-fast-ease);
 
