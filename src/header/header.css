@@ -2,7 +2,7 @@
 
 @value dark from "../global/variables_dark.css";
 @value unit from "../global/global.css";
-@value active from "../link/link.css";
+@value link, active from "../link/link.css";
 @value height: calc(unit * 8);
 @value compensate: 3px;
 @value compensated: calc(height - compensate);
@@ -38,7 +38,7 @@
   }
 
   /* override link */
-  & a {
+  & .link {
     color: var(--ring-header-link-color);
   }
 
