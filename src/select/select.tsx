@@ -1104,9 +1104,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   }
 
   private _getLabel() {
-    return this.props.label ||
-      (typeof this.props.selectedLabel === 'string' ? this.props.selectedLabel : null) ||
-      'Select an option';
+    return this.props.label ?? this.props.selectedLabel ?? 'Select an option';
   }
 
   _getSelectedString() {
