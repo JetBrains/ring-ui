@@ -406,8 +406,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     selected: null, // current selection (item / array of items)
 
-    label: '', // BUTTON or INPUT label (nothing selected)
-    selectedLabel: '', // BUTTON or INPUT label (something selected)
     inputPlaceholder: '', // Placeholder for input modes
     hint: null, // hint text to display under the list
 
