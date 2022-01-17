@@ -163,7 +163,7 @@ export interface BaseSelectProps<T = unknown> {
   onLoadMore: () => void
   onOpen: () => void
   onFilter: (value: string) => void
-  onFocus: () => void
+  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void
   onBlur: () => void
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onSelect: (selected: SelectItem<T> | null, event?: Event | SyntheticEvent) => void
@@ -243,8 +243,8 @@ function getListItems<T = unknown>(
 ) {
   let filterString = rawFilterString.trim();
 
-  if (isInputMode(props.type) && state.selected && !Array.isArray(state.selected) &&
-    filterString === state.selected.label) {
+  if (isInputMode(props.type) && !props.allowAny && state.selected &&
+    !Array.isArray(state.selected) && filterString === state.selected.label) {
     filterString = ''; // ignore multiple if it is exactly the selected item
   }
   const lowerCaseString = filterString.toLowerCase();
@@ -393,7 +393,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     size: Size.M,
     targetElement: null, // element to bind the popup to (select BUTTON or INPUT by default)
     hideSelected: false, // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
-    allowAny: false, // INPUT mode: allows any value to be entered, hides the dropdown icon
+    allowAny: false, // INPUT mode: allows any value to be entered
     hideArrow: false, // hide dropdown arrow icon
 
     maxHeight: 600, // height of the options list, including the filter and the 'Add' button
@@ -535,8 +535,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   id = getUID('select-');
   shortcutsScope = this.id;
   listId = `${this.id}:list`;
-  private _focusHandler = () => {
-    this.props.onFocus();
+  private _focusHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.props.onFocus(e);
 
     this.setState({
       shortcutsEnabled: true,
@@ -753,10 +753,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
   _hidePopup(tryFocusAnchor?: boolean) {
     if (this.node && this.state.showPopup) {
-      this.setState({
+      this.setState(prevState => ({
         showPopup: false,
-        filterValue: ''
-      });
+        filterValue: this.props.allowAny ? prevState.filterValue : ''
+      }));
 
       if (tryFocusAnchor) {
         const restoreFocusNode = this.props.targetElement ||
