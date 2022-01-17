@@ -155,7 +155,7 @@ export interface BaseSelectProps<T = unknown> {
   maxHeight: number
   hideArrow: boolean
   directions: readonly Directions[]
-  label: string
+  label: string | null
   selectedLabel: ReactNode
   inputPlaceholder: string
   shortcutsEnabled: boolean
