@@ -2,11 +2,15 @@ import React, {
   HTMLAttributes,
   useMemo,
   useState,
-  useEffect, forwardRef, Ref
+  useEffect, forwardRef, Ref, useContext
 } from 'react';
 import classNames from 'classnames';
 
-import {PopupTarget} from '../popup/popup.target';
+import {createPortal} from 'react-dom';
+
+import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
+
+import {getPopupContainer} from '../popup/popup';
 
 import styles from './variables_dark.css';
 import getUID from './get-uid';
@@ -47,16 +51,26 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   const id = useMemo(() => getUID('popups-with-theme-'), []);
+  const themeClasses = classNames({[styles.dark]: resolvedTheme === Theme.DARK});
+  const parentTarget = useContext(PopupTargetContext);
   return (
     <div
       ref={ref}
-      className={classNames(className, {[styles.dark]: resolvedTheme === Theme.DARK})}
+      className={classNames(className, themeClasses)}
       {...restProps}
     >{
         passToPopups
           ? (
             <PopupTarget id={id}>
-              {target => <>{children}{target}</>}
+              {target => (
+                <>
+                  {children}
+                  {createPortal(
+                    target,
+                    parentTarget && getPopupContainer(parentTarget) || document.body)
+                  }
+                </>
+              )}
             </PopupTarget>
           )
           : children}
