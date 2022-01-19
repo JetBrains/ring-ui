@@ -87,7 +87,7 @@
     "@storybook/core": "6.4.9",
     "@storybook/html": "6.4.13",
     "@storybook/manager-webpack5": "^6.4.13",
-    "@storybook/source-loader": "6.4.10",
+    "@storybook/source-loader": "6.4.13",
     "@storybook/theming": "6.4.13",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
