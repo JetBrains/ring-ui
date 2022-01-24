@@ -30,6 +30,7 @@
   padding: 0 calc(unit * 2) 1px;
 
   text-align: right;
+  white-space: nowrap;
 
   color: var(--ring-secondary-color);
   border-top: 1px solid var(--ring-line-color);
