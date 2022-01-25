@@ -75,12 +75,12 @@ const Sizes: Record<number, SizesEntry> = {
 const sizeKeys = Object.keys(Sizes).map(Number);
 
 function extractLetters(name: string) {
-  const names = name.split(/[\s._]+/).filter(Boolean);
+  const names = name.split(/[\s._]+/).filter(Boolean).map(word => Array.from(word));
   if (names.length >= 2) {
     return names[0][0].toUpperCase() + names[1][0].toUpperCase();
   } else if (names.length === 1) {
     if (names[0].length >= 2) {
-      return names[0].slice(0, 2).toUpperCase();
+      return names[0].slice(0, 2).join('').toUpperCase();
     } else {
       return `${names[0][0].toUpperCase()}X`;
     }
