@@ -69,11 +69,11 @@
   &.active {
     transition: none;
 
-    box-shadow: button-shadow var(--ring-main-color);
+    box-shadow: inset 0 0 0 2px var(--ring-main-color);
   }
 
   &:global(.focus-visible).active {
-    box-shadow: button-shadow var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
+    box-shadow: inset 0 0 0 2px var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
   }
 
   &[disabled] {
