@@ -911,7 +911,7 @@ object PublishNext : BuildType({
     allowExternalStatus = true
 
     params {
-        param("lerna.publish.options", "--cd-version prerelease --preid beta --npm-tag next")
+        param("lerna.publish.options", "--cd-version prerelease --preid beta --npm-tag next --force-publish")
         param("vcs.branch.spec", """
             +:refs/heads/*
             -:refs/heads/gh-pages
