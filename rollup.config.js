@@ -47,7 +47,10 @@ export default {
       targets: [TARGET_DIR]
     }),
 
-    babel({babelHelpers: 'bundled'}),
+    babel({
+      babelHelpers: 'bundled',
+      browserslistEnv: 'dist'
+    }),
 
     // NOTE: styles plugin runs 2 times. First time it applies all the PostCSS transforms
     styles({
