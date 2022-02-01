@@ -1,4 +1,5 @@
 import path from 'path';
+import crypto from 'crypto';
 
 import {babel} from '@rollup/plugin-babel';
 import styles from 'rollup-plugin-styles';
@@ -6,6 +7,11 @@ import replace from '@rollup/plugin-replace';
 import clear from 'rollup-plugin-clear';
 import glob from 'glob';
 
+function getHash(input) {
+  const HASH_LEN = 4;
+  const hash = crypto.createHash('md5').update(input).digest('hex');
+  return hash.substr(0, HASH_LEN);
+}
 
 const files = glob.sync(
   'components/**/*.js',
@@ -62,7 +68,9 @@ export default {
     // Second time it applies CSS Modules, extraction and minification. See why https://youtrack.jetbrains.com/issue/RG-2171#focus=Comments-27-5632562.0-0
     styles({
       modules: {
-        generateScopedName: '[local]_rui_[hash:4]',
+        generateScopedName(name, filename, css) {
+          return `${name}_rui_${getHash(css)}`;
+        },
         mode: 'local'
       },
       mode: ['extract', 'style.css'],
