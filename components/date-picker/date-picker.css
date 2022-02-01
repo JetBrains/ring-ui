@@ -1,4 +1,5 @@
 @import "../global/variables.css";
+@import "../global/global.css";
 
 @value unit from "../global/global.css";
 @value cellSize: calc(unit * 3);
