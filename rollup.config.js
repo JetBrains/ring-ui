@@ -68,8 +68,8 @@ export default {
     // Second time it applies CSS Modules, extraction and minification. See why https://youtrack.jetbrains.com/issue/RG-2171#focus=Comments-27-5632562.0-0
     styles({
       modules: {
-        generateScopedName(name, filename, css) {
-          return `${name}_rui_${getHash(css)}`;
+        generateScopedName(name, filename) {
+          return `${name}_rui_${getHash(filename)}`;
         },
         mode: 'local'
       },
