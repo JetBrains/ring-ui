@@ -24,6 +24,8 @@
   border-radius: var(--ring-border-radius);
 
   box-shadow: button-shadow var(--ring-borders-color);
+
+  line-height: normal;
 }
 
 .buttonGroup .button {
