@@ -27,7 +27,7 @@
     "package-json": "^7.0.0",
     "pify": "^5.0.0",
     "portscanner": "^2.2.0",
-    "read-pkg-up": "^9.0.0",
+    "read-pkg-up": "^9.1.0",
     "title-case": "^3.0.3",
     "yeoman-generator": "^5.6.1",
     "yeoman-option-or-prompt": "^2.0.1"
