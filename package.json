@@ -68,7 +68,7 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "@babel/cli": "^7.17.0",
-    "@babel/eslint-parser": "^7.16.5",
+    "@babel/eslint-parser": "^7.17.0",
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^4.1.5",
     "@jetbrains/stylelint-config": "^3.0.2",
@@ -136,7 +136,7 @@
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2",
     "regenerator-runtime": "^0.13.9",
-    "rollup": "^2.67.0",
+    "rollup": "^2.67.2",
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-styles": "^4.0.0",
     "sinon": "^13.0.1",
