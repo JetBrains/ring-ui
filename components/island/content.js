@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {forwardRef, Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import createResizeDetector from 'element-resize-detector';
@@ -129,13 +129,15 @@ class Content extends Component {
   }
 }
 
-const ContentWrapper = props => (
+const ContentWrapper = forwardRef((props, ref) => (
   <ScrollHandlerContext.Consumer>
     {onScroll => {
       const addProps = onScroll != null ? {onScroll, bottomBorder: true} : {};
-      return <Content {...props} {...addProps}/>;
+      return <Content {...props} {...addProps} ref={ref}/>;
     }}
   </ScrollHandlerContext.Consumer>
-);
+));
+
+ContentWrapper.displayName = 'ContentWrapper';
 
 export default ContentWrapper;
