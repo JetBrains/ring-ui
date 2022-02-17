@@ -31,9 +31,6 @@ import {DEFAULT_ITEM_TYPE, Dimension, Type} from './consts';
 
 import styles from './list.css';
 
-const scheduleScrollListener = scheduleRAF();
-const scheduleHoverListener = scheduleRAF();
-
 function noop() {}
 
 const warnEmptyKey = deprecate(
@@ -121,6 +118,12 @@ export default class List extends Component {
     disableMoveDownOverflow: false,
     ariaLabel: 'List'
   };
+
+  constructor(...args) {
+    super(...args);
+    this.scheduleScrollListener = scheduleRAF();
+    this.scheduleHoverListener = scheduleRAF();
+  }
 
   state = {
     activeIndex: null,
@@ -220,7 +223,7 @@ export default class List extends Component {
   };
 
   hoverHandler = memoize(index => () =>
-    scheduleHoverListener(() => {
+    this.scheduleHoverListener(() => {
       if (this.state.disabledHover) {
         return;
       }
@@ -429,7 +432,7 @@ export default class List extends Component {
     return this.props.compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
   }
 
-  scrollEndHandler = () => scheduleScrollListener(() => {
+  scrollEndHandler = () => this.scheduleScrollListener(() => {
     const innerContainer = this.inner;
     if (innerContainer) {
       const maxScrollingPosition = innerContainer.scrollHeight;
