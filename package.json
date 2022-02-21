@@ -136,7 +136,7 @@
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2",
     "regenerator-runtime": "^0.13.9",
-    "rollup": "^2.67.2",
+    "rollup": "^2.67.3",
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-styles": "^4.0.0",
     "sinon": "^13.0.1",
