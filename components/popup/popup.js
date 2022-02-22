@@ -59,6 +59,7 @@ export default class Popup extends PureComponent {
 
     directions: PropTypes.arrayOf(PropTypes.string),
     autoPositioning: PropTypes.bool,
+    autoPositioningOnScroll: PropTypes.bool,
     autoCorrectTopOverflow: PropTypes.bool,
     left: PropTypes.number,
     top: PropTypes.number,
@@ -91,6 +92,7 @@ export default class Popup extends PureComponent {
 
     directions: DEFAULT_DIRECTIONS,
     autoPositioning: true,
+    autoPositioningOnScroll: true,
     autoCorrectTopOverflow: true,
     left: 0,
     top: 0,
@@ -250,7 +252,9 @@ export default class Popup extends PureComponent {
       setTimeout(() => {
         this._listenersEnabled = true;
         this.listeners.add(window, 'resize', this._redraw);
-        this.listeners.add(window, 'scroll', this._redraw);
+        if (this.props.autoPositioningOnScroll) {
+          this.listeners.add(window, 'scroll', this._redraw);
+        }
         this.listeners.add(document, 'pointerdown', this._onDocumentClick, true);
         let el = this._getAnchor();
         while (el) {
