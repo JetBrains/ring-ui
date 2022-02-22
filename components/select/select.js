@@ -264,6 +264,7 @@ export default class Select extends Component {
     disabled: PropTypes.bool,
     hideSelected: PropTypes.bool,
     label: PropTypes.string,
+    renderBottomToolbar: PropTypes.func,
     selectedLabel: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.node),
@@ -667,9 +668,9 @@ export default class Select extends Component {
   };
 
   getToolbar() {
-    const {hint} = this.props;
+    const {hint, renderBottomToolbar} = this.props;
     const {prefix, label, delayed} = this.state.addButton || {};
-    const isToolbarHasElements = this.state.addButton || hint;
+    const isToolbarHasElements = this.state.addButton || hint || renderBottomToolbar;
     if (!isToolbarHasElements) {
       return null;
     }
@@ -677,10 +678,11 @@ export default class Select extends Component {
     return (
       <div
         className={classNames({
-          [styles.toolbar]: !!this.state.addButton
+          [styles.toolbar]: Boolean(this.state.addButton || renderBottomToolbar)
         })}
         data-test="ring-select-toolbar"
       >
+        {renderBottomToolbar && renderBottomToolbar()}
         {this.state.addButton && (
           <Button
             text
