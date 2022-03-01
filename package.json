@@ -119,7 +119,7 @@
     "imports-loader": "^3.1.1",
     "jest": "~27.5.1",
     "jest-teamcity": "^1.10.0",
-    "karma": "^6.3.16",
+    "karma": "^6.3.17",
     "karma-chrome-launcher": "3.1.0",
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
