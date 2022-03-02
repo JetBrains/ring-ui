@@ -48,7 +48,6 @@ export default class Tag extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (this.props.focused !== prevProps.focused) {
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({focused: this.props.focused});
     }
     if (this.state.focused) {
