@@ -112,7 +112,6 @@ export default class Popup extends PureComponent {
 
   componentDidMount() {
     if (!this.props.client) {
-      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({client: true});
     }
     if (!this.props.hidden) {
