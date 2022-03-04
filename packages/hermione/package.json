@@ -25,7 +25,7 @@
     "filenamify": "^4.3.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^10.0.1",
-    "hermione": "^4.7.7",
+    "hermione": "^4.7.8",
     "html-reporter": "^8.3.0",
     "http-server": "^14.1.0",
     "ip": "^1.1.5",
