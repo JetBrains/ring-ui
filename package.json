@@ -204,7 +204,7 @@
     "postcss-preset-env": "^7.4.2",
     "prop-types": "^15.8.1",
     "react-markdown": "^5.0.3",
-    "react-movable": "^3.0.2",
+    "react-movable": "^3.0.3",
     "react-virtualized": "^9.22.3",
     "react-waypoint": "^10.1.0",
     "remark-breaks": "^3.0.2",
