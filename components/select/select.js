@@ -386,6 +386,10 @@ export default class Select extends Component {
       nextState.selected = Select._getEmptyValue(multiple);
     }
 
+    if (multiple && !nextState.selected) {
+      nextState.selected = prevState.selected;
+    }
+
     const {selected} = {...prevState, ...nextState};
     if (selected && multiple) {
       nextState.multipleMap = buildMultipleMap(selected);
