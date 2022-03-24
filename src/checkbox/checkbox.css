@@ -36,7 +36,7 @@
   pointer-events: none;
 
   border: 1px solid var(--ring-borders-color);
-  border-radius: var(--ring-border-radius);
+  border-radius: var(--ring-border-radius-small);
   background-color: var(--ring-content-background-color);
 }
 
@@ -46,9 +46,8 @@
   width: calc(unit * 2);
   height: calc(unit * 2);
 
-  transition: opacity var(--ring-fast-ease), transform var(--ring-fast-ease);
-
   opacity: 0;
+  color: var(--ring-white-text-color);
 
   & svg {
     position: absolute;
@@ -60,8 +59,8 @@
 .check {
   composes: icon;
 
-  top: calc(unit * -1.5);
-  left: 1px;
+  top: -1px;
+  left: -1px;
 }
 
 .minus {
@@ -90,14 +89,12 @@
   &:checked + .cell,
   &:indeterminate[checked] + .cell,
   &:indeterminate[data-checked="true"] + .cell {
-    border-color: var(--ring-border-hover-color);
-    background-color: var(--ring-selected-background-color);
+    border-color: transparent;
+    background-color: var(--ring-main-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
   &:checked + .cell .check {
-    transform: translateY(unit);
-
     opacity: 1;
   }
 
