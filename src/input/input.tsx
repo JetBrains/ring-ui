@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import closeIcon from '@jetbrains/icons/close';
+import closeIcon from '@jetbrains/icons/close-12px';
 
 import {refObject} from '../global/prop-types';
 import Button from '../button/button';

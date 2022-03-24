@@ -1,5 +1,6 @@
-import React, {PureComponent, useRef} from 'react';
+import React, {PureComponent, useContext, useRef} from 'react';
 import searchIcon from '@jetbrains/icons/search';
+import searchSIcon from '@jetbrains/icons/search-12px';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -50,42 +51,45 @@ class ClearableInput extends PureComponent<ContainerProps<InputSpecificProps>> {
     );
   }
 }
-const Inputs = () => (
-  <form className="inputs">
-    <Input label="Labeled input"/>
-    <Input name="login" label="Label and hint" placeholder="Hint"/>
-    <Input label="Label and value" defaultValue="Default value"/>
-    <ClearableInput label="Clearable input" defaultValue="Default value"/>
-    <ClearableInput
-      placeholder="Hint"
-      label="Disabled clearable input"
-      defaultValue="Default value"
-      disabled
-    />
-    <Input label="Input with icon" icon={searchIcon} defaultValue="Default value"/>
-    <ClearableInput placeholder="Hint" defaultValue="Borderless input" borderless/>
-    <Input label="Disabled input" disabled defaultValue="Default value"/>
-    <Input
-      label="Invalid input"
-      error="Error description that wraps over lines because of being really long"
-    />
-    <Input label="Error without description" error=""/>
-    <Input label="Short input" size={Size.S}/>
-    <Input label="Long input" size={Size.L}/>
-    <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
-    <ThemeProvider theme={Theme.DARK} className="dark inputs">
-      <Input
-        label="Input on dark background"
-        placeholder="Hint on dark background"
-      />
-      <Input
+const Inputs = () => {
+  const height = useContext(ControlsHeightContext);
+  return (
+    <form className="inputs">
+      <Input label="Labeled input"/>
+      <Input name="login" label="Label and hint" placeholder="Hint"/>
+      <Input label="Label and value" defaultValue="Default value"/>
+      <ClearableInput label="Clearable input" defaultValue="Default value"/>
+      <ClearableInput
+        placeholder="Hint"
+        label="Disabled clearable input"
+        defaultValue="Default value"
         disabled
-        label="Disabled input on dark background"
-        defaultValue="Default value on dark background"
       />
-    </ThemeProvider>
-  </form>
-);
+      <Input label="Input with icon" icon={height === ControlsHeight.S ? searchSIcon : searchIcon} defaultValue="Default value"/>
+      <ClearableInput placeholder="Hint" defaultValue="Borderless input" borderless/>
+      <Input label="Disabled input" disabled defaultValue="Default value"/>
+      <Input
+        label="Invalid input"
+        error="Error description that wraps over lines because of being really long"
+      />
+      <Input label="Error without description" error=""/>
+      <Input label="Short input" size={Size.S}/>
+      <Input label="Long input" size={Size.L}/>
+      <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
+      <ThemeProvider theme={Theme.DARK} className="dark inputs">
+        <Input
+          label="Input on dark background"
+          placeholder="Hint on dark background"
+        />
+        <Input
+          disabled
+          label="Disabled input on dark background"
+          defaultValue="Default value on dark background"
+        />
+      </ThemeProvider>
+    </form>
+  );
+};
 export const basic = () => <Inputs/>;
 
 basic.storyName = 'basic';

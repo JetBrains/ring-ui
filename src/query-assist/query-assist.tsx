@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
-import searchIcon from '@jetbrains/icons/search';
-import closeIcon from '@jetbrains/icons/close';
+import searchIcon from '@jetbrains/icons/search-12px';
+import closeIcon from '@jetbrains/icons/close-12px';
 
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
