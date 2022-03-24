@@ -11,7 +11,7 @@ import React, {
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
-import closeIcon from '@jetbrains/icons/close';
+import closeIcon from '@jetbrains/icons/close-12px';
 import deepEqual from 'deep-equal';
 
 import {Anchor} from '../dropdown/dropdown';
