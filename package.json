@@ -167,7 +167,7 @@
     "@babel/core": "^7.17.8",
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.3.2",
-    "@jetbrains/icons": "^3.18.0",
+    "@jetbrains/icons": "^3.19.1",
     "@jetbrains/logos": "^1.4.27",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@ungap/url-search-params": "^0.2.2",
