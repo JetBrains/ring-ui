@@ -4,7 +4,7 @@
  * @constructor
  */
 export default class AnalyticsGAPlugin {
-  constructor(gaId, isDevelopment, domain) {
+  constructor(gaId, isDevelopment, domain, cookielessUserIdentifier) {
     if (!gaId && !isDevelopment) {
       return;
     }
@@ -25,8 +25,16 @@ export default class AnalyticsGAPlugin {
      */
     const key = gaId || 'UA-57284711-1';
     /* global ga */
-    const gaCookieParams = domain ? {cookieDomain: domain} : {};
-    ga('create', key, (!gaId ? {cookieDomain: 'none'} : gaCookieParams));
+    if (cookielessUserIdentifier) {
+      ga('create', key, {
+        storage: 'none',
+        clientId: cookielessUserIdentifier
+      });
+    } else {
+      const gaCookieParams = domain ? {cookieDomain: domain} : {};
+      ga('create', key, (!gaId ? {cookieDomain: 'none'} : gaCookieParams));
+    }
+
     ga('set', 'anonymizeIp', true);
     ga('set', 'allowAdFeatures', false);
   }
