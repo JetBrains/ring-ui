@@ -98,7 +98,7 @@
     opacity: 1;
   }
 
-  &:focus + .cell,
+  &:global(.focus-visible) + .cell,
   &.focus + .cell {
     transition: background-color var(--ring-ease);
 
