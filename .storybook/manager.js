@@ -1,5 +1,5 @@
 import {addons} from '@storybook/addons';
-import {create} from '@storybook/theming/create';
+import {create} from '@storybook/theming';
 import {paramCase} from 'change-case';
 import '../components/global/variables.css';
 

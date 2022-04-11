@@ -1,8 +1,8 @@
 import angular from 'angular';
 
 import React from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
 
+import {render, unmountComponentAtNode} from '../global/react-render-adapter';
 import getEventKey from '../global/get-event-key';
 import Select, {RerenderableSelect} from '../select/select';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
@@ -375,9 +375,15 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         return sizes[ctrl.size] || sizes.FULL;
       }
 
+      function selectRef(instance) {
+        if (instance != null) {
+          ctrl.selectInstance = instance;
+        }
+      }
+
       function reRenderSelect(props) {
-        if (ctrl.selectInstance.node) {
-          ctrl.selectInstance.rerender(props);
+        if (ctrl.selectInstance?.node) {
+          ctrl.selectInstance.rerender({...props, ref: selectRef});
         }
       }
 
@@ -516,9 +522,14 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         ctrl.config = angular.extend({}, ctrl.defaultConfig, ctrl.config || {});
 
         if (getType() === 'suggest' || getType() === 'input') {
-          ctrl.selectInstance = render(<RerenderableSelect {...ctrl.config}/>, container);
+          render(
+            <RerenderableSelect
+              ref={selectRef}
+              {...ctrl.config}
+            />,
+            container);
         } else {
-          ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType());
+          ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType(), selectRef);
         }
 
         // Preserve existing contents of the directive
