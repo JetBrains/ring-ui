@@ -1,6 +1,6 @@
 import React from 'react';
-import {render} from 'react-dom';
 
+import {render} from '../global/react-render-adapter';
 import getUID from '../global/get-uid';
 
 import Alert, {ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';

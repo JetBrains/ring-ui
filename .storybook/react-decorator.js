@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks, react-hooks/exhaustive-deps */
 import React, {StrictMode} from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {useEffect, useMemo} from '@storybook/client-api';
 
 const reactDecorator = (story, context) => {
@@ -8,12 +8,16 @@ const reactDecorator = (story, context) => {
     () => document.createElement('div'),
     [context.kind, context.name]
   );
-  useEffect(() => () => ReactDOM.unmountComponentAtNode(node), [node]);
-  ReactDOM.render((
+  const root = useMemo(
+    () => createRoot(node),
+    [node]
+  );
+  useEffect(() => () => root.unmount(), [root]);
+  root.render((
     <StrictMode>
       {story()}
     </StrictMode>
-  ), node);
+  ));
   return node;
 };
 
