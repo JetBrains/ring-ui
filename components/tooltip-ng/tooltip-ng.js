@@ -1,9 +1,9 @@
 import angular from 'angular';
 
 import {createElement} from 'react';
-import {render} from 'react-dom';
 import classNames from 'classnames';
 
+import {render} from '../global/react-render-adapter';
 import Popup from '../popup/popup';
 
 import './tooltip-ng.css';
@@ -58,15 +58,18 @@ name.factory('RgTooltipPopup', function RgTooltipPopupDirective() {
       trapFocus: false
     };
 
-    this.renderPopup = props => {
-      this.popup = render(
-        createElement(Popup, {
-          ...this.defaultProps,
-          ...props
-        }, this.text),
-        this.wrapperElement
-      );
-    };
+    this.renderPopup = props => render(
+      createElement(Popup, {
+        ...this.defaultProps,
+        ...props,
+        ref: instance => {
+          if (instance != null) {
+            this.popup = instance;
+          }
+        }
+      }, this.text),
+      this.wrapperElement
+    );
 
     this.displayTooltip = customClass => {
       const text = textGetter();
