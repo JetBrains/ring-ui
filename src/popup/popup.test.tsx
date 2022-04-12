@@ -132,9 +132,9 @@ describe('Popup', () => {
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).
-        should.equal(elementOffset.left + elementOffset.width - popupElement.clientWidth);
+        should.equal(elementOffset.left + elementOffset.width - popupElement.offsetWidth);
       parseInt(getStyles(popupElement).top, 10).
-        should.equal(elementOffset.top - popupElement.clientHeight);
+        should.equal(elementOffset.top - popupElement.offsetHeight);
     });
 
     it('should limit top by sidePadding if opens to the top', () => {
