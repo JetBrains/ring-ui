@@ -26,14 +26,14 @@ function getScrollingCoordinates(container: Element | null) {
 }
 
 function getPositionStyles(
-  popup: Element,
+  popup: HTMLElement,
   anchorRect: Rect,
   anchorLeft: number,
   anchorTop: number,
   offset: number
 ) {
-  const popupWidth = popup.clientWidth;
-  const popupHeight = popup.clientHeight;
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
 
   const anchorBottom = anchorTop + anchorRect.height;
   const anchorRight = anchorLeft + anchorRect.width;
@@ -72,7 +72,7 @@ export interface PositionStyles extends Position {
 }
 
 export interface PositionAttrs {
-  popup: Element | null | undefined
+  popup: HTMLElement | null | undefined
   anchor: Element | null | undefined
   container: Element | null
   directions: readonly Directions[]
@@ -87,7 +87,7 @@ export interface PositionAttrs {
 }
 
 interface OverflowAttrs extends PositionAttrs {
-  popup: Element
+  popup: HTMLElement
 }
 
 function verticalOverflow(
