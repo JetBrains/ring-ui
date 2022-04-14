@@ -236,7 +236,9 @@ basic.argTypes = {
   },
   caption: {
     control: {disable: true}
-  }
+  },
+  onSelect: {},
+  onReorder: {}
 };
 basic.storyName = 'basic';
 
