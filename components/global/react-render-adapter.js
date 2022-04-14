@@ -1,6 +1,6 @@
 // Allows overriding ReactDOM.render when using React 18:
 // import * as client from 'react-dom/client'
-// import {setClient} from '@ring-ui/global/react-render-adapter'
+// import {setClient} from '@jetbrains/ring-ui/components/global/react-render-adapter'
 //
 // setClient(client)
 import {
