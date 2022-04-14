@@ -1,5 +1,6 @@
 import React from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
+
+import {render, unmountComponentAtNode} from '../global/react-render-adapter';
 
 import LoginDialog from './login-dialog';
 
