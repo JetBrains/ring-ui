@@ -1,6 +1,6 @@
 import React from 'react';
-import {render} from 'react-dom';
 
+import {render} from '../global/react-render-adapter';
 import AuthDialog, {AuthDialogProps} from '../auth-dialog/auth-dialog';
 
 /**

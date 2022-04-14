@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import classNames from 'classnames';
 
 import reactDecorator from '../../.storybook/react-decorator';
@@ -209,7 +209,10 @@ autoPositioning.parameters = {
 };
 
 export const popupInAPopup = () => {
-  class PopupBox extends Component {
+  interface PopupBoxProps {
+    children?: ReactNode
+  }
+  class PopupBox extends Component<PopupBoxProps> {
     state = {hidden: false};
 
     render() {

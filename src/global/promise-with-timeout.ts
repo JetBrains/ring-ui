@@ -3,15 +3,19 @@
 
 export interface PromiseWithTimeoutConfig {
   error?: Error | null | undefined
+  onTimeout?: () => void | undefined
 }
 
 export default function promiseWithTimeout<T>(
   promise: Promise<T>,
   timeout: number,
-  {error}: PromiseWithTimeoutConfig
+  {error, onTimeout = () => {}}: PromiseWithTimeoutConfig
 ) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => reject(error || new Error('Timeout')), timeout);
+    setTimeout(() => {
+      onTimeout();
+      reject(error || new Error('Timeout'));
+    }, timeout);
 
     promise.then(resolve, reject);
   });

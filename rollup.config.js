@@ -1,4 +1,5 @@
 import path from 'path';
+import crypto from 'crypto';
 
 import {babel} from '@rollup/plugin-babel';
 import styles from 'rollup-plugin-styles';
@@ -7,6 +8,11 @@ import resolve from '@rollup/plugin-node-resolve';
 import clear from 'rollup-plugin-clear';
 import glob from 'glob';
 
+function getHash(input) {
+  const HASH_LEN = 4;
+  const hash = crypto.createHash('md5').update(input).digest('hex');
+  return hash.substr(0, HASH_LEN);
+}
 
 const files = glob.sync(
   'components/**/*.{js,jsx}',
@@ -52,7 +58,11 @@ export default {
 
     resolve({extensions}),
 
-    babel({babelHelpers: 'bundled', extensions}),
+    babel({
+      babelHelpers: 'bundled',
+      browserslistEnv: 'dist',
+      extensions
+    }),
 
     // NOTE: styles plugin runs 2 times. First time it applies all the PostCSS transforms
     styles({
@@ -64,7 +74,9 @@ export default {
     // Second time it applies CSS Modules, extraction and minification. See why https://youtrack.jetbrains.com/issue/RG-2171#focus=Comments-27-5632562.0-0
     styles({
       modules: {
-        generateScopedName: '[local]_rui_[hash:4]',
+        generateScopedName(name, filename) {
+          return `${name}_rui_${getHash(filename)}`;
+        },
         mode: 'local'
       },
       mode: ['extract', 'style.css'],

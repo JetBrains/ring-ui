@@ -1,17 +1,18 @@
 import angular from 'angular';
 
-import {render, hydrate} from 'react-dom';
 import React from 'react';
 
+import {render, hydrate} from '../global/react-render-adapter';
 import {RerenderableSelect} from '../select/select';
 
 class SelectLazy {
-  constructor(container, props, ctrl, type) {
+  constructor(container, props, ctrl, type, selectRef) {
     this.container = container;
     this.ctrl = ctrl;
     this.props = props || {};
     this.type = type;
     this.node = container;
+    this.selectRef = selectRef;
     this._popup = {
       isVisible: angular.noop
     };
@@ -38,15 +39,20 @@ class SelectLazy {
   }
 
   attachEvents() {
-    this.container.addEventListener('click', this.onClick);
+    this.container.addEventListener('click', this.onClick, {capture: true});
   }
 
   detachEvents() {
-    this.container.removeEventListener('click', this.onClick);
+    this.container.removeEventListener('click', this.onClick, {capture: true});
   }
 
   render(props) {
-    this.reactSelect = <RerenderableSelect {...Object.assign({}, this.props, props || {})}/>;
+    this.reactSelect = (
+      <RerenderableSelect
+        ref={this.selectRef}
+        {...Object.assign({}, this.props, props || {})}
+      />
+    );
     this.props = this.reactSelect.props;
 
     if (this.type !== 'dropdown') {
@@ -58,11 +64,10 @@ class SelectLazy {
   _clickHandler() {
     this.detachEvents();
     if (this.type === 'dropdown') {
-      this.ctrl.selectInstance = render(this.reactSelect, this.container);
+      render(this.reactSelect, this.container);
     } else {
-      this.ctrl.selectInstance = hydrate(this.reactSelect, this.container);
+      hydrate(this.reactSelect, this.container);
     }
-    this.ctrl.selectInstance._openPopupIfClosed();
   }
 }
 

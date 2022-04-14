@@ -12,7 +12,7 @@ import {Story} from '@storybook/react';
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
-import Link, {LinkProps} from '../link/link';
+import Link from '../link/link';
 
 
 import DropdownMenu from '../dropdown-menu/dropdown-menu';
@@ -21,6 +21,8 @@ import showAuthDialog from '../auth-dialog-service/auth-dialog-service';
 import Theme from '../global/theme';
 
 import Auth from '../auth/auth';
+
+import {ClickableLinkProps} from '../link/clickableLink';
 
 import Header, {HeaderAttrs} from './header';
 import Logo from './logo';
@@ -64,7 +66,7 @@ export const header: Story<HeaderArgs> = ({isCompact, dark, ...args}) => {
         auth.init();
       }
 
-      const Comp = (props: LinkProps) => <a {...props}>This is component</a>;
+      const Comp = (props: ClickableLinkProps) => <a {...props}>This is component</a>;
       return (
         <Header
           {...args}

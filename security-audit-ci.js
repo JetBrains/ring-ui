@@ -3,7 +3,7 @@ const {writeFileSync} = require('fs');
 
 const tsm = require('teamcity-service-messages');
 
-// see https://classic.yarnpkg.com/en/docs/cli/audit/
+// see https://docs.npmjs.com/cli/v8/commands/npm-audit#audit-level
 const MIN_LEVEL = process.env.SEVERITY_LEVEL || 'moderate';
 
 try {
