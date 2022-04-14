@@ -1,6 +1,6 @@
 import React from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
 
+import {render, unmountComponentAtNode} from '../global/react-render-adapter';
 import Storage from '../storage/storage';
 import alertService from '../alert-service/alert-service';
 import Link from '../link/link';
