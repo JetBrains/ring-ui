@@ -82,7 +82,7 @@
     "@storybook/addon-storyshots-puppeteer": "6.5.0-alpha.59",
     "@storybook/addon-storysource": "6.5.0-alpha.59",
     "@storybook/addons": "6.5.0-alpha.59",
-    "@storybook/builder-webpack5": "6.5.0-alpha.59",
+    "@storybook/builder-webpack5": "6.5.0-alpha.63",
     "@storybook/client-api": "6.5.0-alpha.59",
     "@storybook/core": "6.5.0-alpha.59",
     "@storybook/html": "6.5.0-alpha.59",
