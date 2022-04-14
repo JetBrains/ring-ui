@@ -56,6 +56,8 @@ export interface BasePopupProps {
   autoFocusFirst: boolean
   offset: number
   legacy: boolean
+  withTail?: boolean
+  tailOffset?: number
 
   anchorElement?: HTMLElement | null | undefined
   target?: string | Element | null | undefined

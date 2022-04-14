@@ -81,7 +81,6 @@ const renderColors = () => `
       ${renderColorItem('--ring-sidebar-background-color')}
       ${renderColorItem('--ring-selected-background-color')}
       ${renderColorItem('--ring-hover-background-color')}
-      ${renderColorItem('--ring-message-background-color')}
       ${renderColorItem('--ring-navigation-background-color')}
       ${renderColorItem('--ring-removed-background-color')}
       ${renderColorItem('--ring-warning-background-color')}

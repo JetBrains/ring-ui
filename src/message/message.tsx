@@ -19,20 +19,33 @@ import styles from './message.css';
   */
 
 const UNIT = 8;
+const TAIL_SIZE = 11;
 
 const getTailOffsets = (offset: number) => ({
-  [Directions.BOTTOM_RIGHT]: {top: 0, left: offset - UNIT, transform: 'rotate(180deg)'},
-  [Directions.BOTTOM_LEFT]: {top: 0, right: offset - UNIT, transform: 'rotate(180deg)'},
-  [Directions.BOTTOM_CENTER]: {top: 0, left: offset - UNIT, transform: 'rotate(180deg)'},
-  [Directions.TOP_RIGHT]: {bottom: -UNIT + 1, left: offset - UNIT},
-  [Directions.TOP_LEFT]: {bottom: -UNIT + 1, right: offset - UNIT},
-  [Directions.TOP_CENTER]: {bottom: -UNIT + 1, left: offset - UNIT},
-  [Directions.RIGHT_TOP]: {bottom: offset - UNIT, left: -UNIT, transform: 'rotate(90deg)'},
-  [Directions.RIGHT_BOTTOM]: {top: offset, left: -UNIT, transform: 'rotate(90deg)'},
-  [Directions.RIGHT_CENTER]: {top: offset, left: -UNIT, transform: 'rotate(90deg)'},
-  [Directions.LEFT_TOP]: {bottom: offset - UNIT, right: -UNIT, transform: 'rotate(-90deg)'},
-  [Directions.LEFT_BOTTOM]: {top: offset, right: -UNIT, transform: 'rotate(-90deg)'},
-  [Directions.LEFT_CENTER]: {top: offset, right: -UNIT, transform: 'rotate(-90deg)'}
+  [Directions.BOTTOM_RIGHT]: {top: 0, left: offset + UNIT, transform: 'rotate(135deg)'},
+  [Directions.BOTTOM_LEFT]: {
+    top: 0,
+    right: offset - UNIT - TAIL_SIZE,
+    transform: 'rotate(135deg)'
+  },
+  [Directions.BOTTOM_CENTER]: {top: 0, left: offset + UNIT, transform: 'rotate(135deg)'},
+  [Directions.TOP_RIGHT]: {bottom: -TAIL_SIZE, left: offset - UNIT, transform: 'rotate(-45deg)'},
+  [Directions.TOP_LEFT]: {
+    bottom: -TAIL_SIZE,
+    right: offset + UNIT - TAIL_SIZE,
+    transform: 'rotate(-45deg)'
+  },
+  [Directions.TOP_CENTER]: {bottom: -TAIL_SIZE, left: offset - UNIT, transform: 'rotate(-45deg)'},
+  [Directions.RIGHT_TOP]: {bottom: offset + UNIT - TAIL_SIZE, left: 0, transform: 'rotate(45deg)'},
+  [Directions.RIGHT_BOTTOM]: {top: offset - UNIT, left: 0, transform: 'rotate(45deg)'},
+  [Directions.RIGHT_CENTER]: {top: offset - UNIT, left: 0, transform: 'rotate(45deg)'},
+  [Directions.LEFT_TOP]: {
+    bottom: offset - UNIT - TAIL_SIZE,
+    right: -TAIL_SIZE,
+    transform: 'rotate(-135deg)'
+  },
+  [Directions.LEFT_BOTTOM]: {top: offset + UNIT, right: -TAIL_SIZE, transform: 'rotate(-135deg)'},
+  [Directions.LEFT_CENTER]: {top: offset + UNIT, right: -TAIL_SIZE, transform: 'rotate(-135deg)'}
 });
 
 export interface MessageTranslations {

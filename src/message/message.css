@@ -18,26 +18,7 @@
 
   color: var(--ring-active-text-color);
 
-  border: none;
-
-  background-color: var(--ring-message-background-color);
-
-  box-shadow: none;
-
-  &::before {
-    position: absolute;
-    z-index: var(--ring-invisible-element-z-index);
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    content: "";
-
-    border-radius: var(--ring-border-radius);
-
-    box-shadow: var(--ring-popup-shadow);
-  }
+  background-color: var(--ring-popup-background-color);
 }
 
 .icon {
@@ -69,10 +50,14 @@
 .tail {
   position: absolute;
 
-  transform-origin: 50% 0;
+  box-sizing: border-box;
+  width: 11px;
+  height: 11px;
 
-  border-width: unit unit 0;
-  border-style: solid;
+  transform-origin: 0 0;
 
-  border-color: var(--ring-message-background-color) transparent transparent; /* stylelint-disable-line color-no-hex */
+  border: 1px solid;
+  border-color: transparent transparent var(--ring-popup-border-color) var(--ring-popup-border-color);
+
+  background-color: var(--ring-popup-background-color);
 }
