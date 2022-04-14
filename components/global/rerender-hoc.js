@@ -1,5 +1,7 @@
 import {createElement} from 'react';
-import {render} from 'react-dom';
+
+import {render} from './react-render-adapter';
+import composeRefs from './composeRefs';
 
 /**
  * Wraps a component to add a "rerender" method
@@ -28,8 +30,9 @@ export default function rerenderHOC(ComposedComponent, {captureNode} = {captureN
       }
 
       this._propsCache = Object.assign({}, this.props, this._propsCache, props);
+      this._propsCache.ref = composeRefs(this._propsCache.ref, callback);
 
-      return render(createElement(this.constructor, this._propsCache), container, callback);
+      render(createElement(this.constructor, this._propsCache), container);
     }
   };
 }

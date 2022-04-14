@@ -1,6 +1,6 @@
 import {Simulate} from 'react-dom/test-utils';
-import {unmountComponentAtNode} from 'react-dom';
 
+import {unmountComponentAtNode} from '../global/react-render-adapter';
 import islandStyles from '../island/island.css';
 
 import confirm, {containerElement} from './confirm-service';

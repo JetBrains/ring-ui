@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@jetbrains/hermione-teamcity-reporter": "^1.2.1",
-    "@storybook/addon-storyshots": "^6.3.2",
+    "@storybook/addon-storyshots": "6.5.0-alpha.59",
     "axios": "^0.26.1",
     "browserstack-local": "^1.4.9",
     "dotenv": "^16.0.0",
