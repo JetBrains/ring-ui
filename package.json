@@ -90,7 +90,7 @@
     "@storybook/source-loader": "6.5.0-alpha.59",
     "@storybook/theming": "6.5.0-alpha.59",
     "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^14.0.4",
+    "@testing-library/user-event": "^14.1.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
     "angular": "^1.8.2",
     "angular-mocks": "^1.8.2",
