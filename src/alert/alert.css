@@ -24,7 +24,7 @@
   pointer-events: auto;
 
   border-radius: var(--ring-border-radius);
-  background-color: var(--ring-message-background-color);
+  background-color: var(--ring-popup-background-color);
   box-shadow: var(--ring-popup-shadow);
 
   font-size: var(--ring-font-size);
