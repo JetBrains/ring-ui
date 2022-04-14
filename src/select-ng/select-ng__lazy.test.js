@@ -67,7 +67,9 @@ describe('Select Lazy', () => {
 
 
   function renderLazySelect(type = 'button') {
-    const lazySelect = new SelectLazy(containerNode, {}, ctrl, type);
+    const lazySelect = new SelectLazy(containerNode, {}, ctrl, type, instance => {
+      ctrl.selectInstance = instance;
+    });
     lazySelect.render();
     return lazySelect;
   }

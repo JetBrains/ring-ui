@@ -13,6 +13,7 @@ const {
 export interface SmartTableProps<T extends SelectionItem> extends
   Omit<TableAttrs<T>, 'selection' | 'onSelect'> {
   onSelectionChange: (selection: Selection<T>) => void
+  selection?: Selection<T>
 }
 class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<T>> {
   static propTypes = {
@@ -33,10 +34,13 @@ class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: SmartTableProps<T>) {
-    const {data, isItemSelectable} = nextProps;
-    if (this.props.data !== data || this.props.isItemSelectable !== isItemSelectable) {
-      const selection = new Selection({data, isItemSelectable});
+    const {data, isItemSelectable, selection} = nextProps;
+    if (this.props.remoteSelection && this.props.selection !== selection) {
       this.setState({selection});
+    } else if (this.props.data !== data || this.props.isItemSelectable !== isItemSelectable) {
+      this.setState({
+        selection: new Selection({data, isItemSelectable})
+      });
     }
   }
 

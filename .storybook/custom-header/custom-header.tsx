@@ -1,8 +1,9 @@
 import React, {PureComponent} from 'react';
-import {render} from 'react-dom';
+import * as client from 'react-dom/client';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
 import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
 
+import {setClient} from '../../src/global/react-render-adapter';
 import packageInfo from '../../package.json';
 import Auth from '../../src/auth/auth';
 import IFrameFlow from '../../src/auth/iframe-flow';
@@ -25,6 +26,8 @@ import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/t
 import upsourceLogo from '!file-loader?publicPath=./!@jetbrains/logos/upsource/upsource.svg';
 import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
 /* eslint-enable */
+
+setClient(client);
 
 class SiteHeader extends PureComponent {
   async componentDidMount() {
@@ -102,5 +105,6 @@ class SiteHeader extends PureComponent {
 }
 
 const node = document.createElement('div');
-render(<SiteHeader/>, node);
+const root = client.createRoot(node);
+root.render(<SiteHeader/>);
 document.body.insertAdjacentElement('afterbegin', node);

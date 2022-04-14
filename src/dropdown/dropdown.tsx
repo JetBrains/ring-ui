@@ -21,7 +21,7 @@ export interface AnchorProps {
   pinned: boolean
 }
 
-export interface DropdownProps extends HTMLAttributes<HTMLElement> {
+export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
   anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode)
   children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode)
   initShown: boolean

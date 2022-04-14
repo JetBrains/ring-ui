@@ -1,5 +1,7 @@
-import {createElement, Component} from 'react';
-import {render} from 'react-dom';
+import {createElement, Component, RefAttributes} from 'react';
+
+import {render} from './react-render-adapter';
+import composeRefs from './composeRefs';
 
 export interface RerenderableComponent<P, S> extends Component<P, S> {
   node?: HTMLElement | null
@@ -17,7 +19,7 @@ export interface RerenderableComponentClass<P, S> {
  */
 export default function rerenderHOC<P, S>(ComposedComponent: RerenderableComponentClass<P, S>) {
   return class Rerenderer extends ComposedComponent {
-    _propsCache = this.props;
+    _propsCache: P & RefAttributes<unknown> = this.props;
 
     rerender(props: Partial<P> = {}, callback?: () => void) {
       let container;
@@ -31,12 +33,9 @@ export default function rerenderHOC<P, S>(ComposedComponent: RerenderableCompone
       }
 
       this._propsCache = Object.assign({}, this.props, this._propsCache, props);
+      this._propsCache.ref = composeRefs(this._propsCache.ref, callback);
 
-      return render<P>(
-        createElement(this.constructor as typeof Rerenderer, this._propsCache),
-        container,
-        callback
-      );
+      render(createElement(this.constructor as typeof Rerenderer, this._propsCache), container);
     }
   };
 }

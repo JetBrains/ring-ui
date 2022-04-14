@@ -17,7 +17,8 @@ import {ListDataItem} from '../list/consts';
 import {AuthUser} from '../auth/auth';
 
 import {isTruthy} from '../global/typescript-utils';
-import {LinkProps} from '../link/link';
+
+import {ClickableLinkProps} from '../link/clickableLink';
 
 import styles from './header.css';
 
@@ -44,7 +45,7 @@ export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSe
   onLogout?: (() => void) | null | undefined
   onSwitchUser?: (() => void) | null | undefined
   profileUrl?: string | undefined
-  LinkComponent?: ComponentType<LinkProps> | null | undefined
+  LinkComponent?: ComponentType<ClickableLinkProps> | null | undefined
   user?: AuthUser | null | undefined | void
   round?: boolean | null | undefined
   showLogIn?: boolean | null | undefined

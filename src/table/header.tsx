@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, PureComponent, SyntheticEvent} from 'react';
+import React, {ChangeEventHandler, PureComponent, ReactNode, SyntheticEvent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Waypoint} from 'react-waypoint';
@@ -23,6 +23,15 @@ export interface HeaderProps {
   sortOrder: boolean
   caption?: string | null | undefined
   checkboxDisabled?: boolean | undefined
+}
+
+declare module 'react-waypoint' {
+  // eslint-disable-next-line @typescript-eslint/no-namespace,@typescript-eslint/no-shadow
+  namespace Waypoint {
+    interface WaypointProps {
+      children?: ReactNode
+    }
+  }
 }
 
 export default class Header extends PureComponent<HeaderProps> {

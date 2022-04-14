@@ -1,8 +1,8 @@
 import angular from 'angular';
 
 import React from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
 
+import {render, unmountComponentAtNode} from './react-render-adapter';
 import RingAngularComponent from './ring-angular-component';
 
 import DomRenderer from './react-dom-renderer';

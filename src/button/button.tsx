@@ -81,6 +81,7 @@ export class Button extends PureComponent<ButtonProps> {
 
   static IconSize = Size;
   static contextType = ControlsHeightContext;
+  declare context: React.ContextType<typeof ControlsHeightContext>;
 
   buttonRef = createRef<HTMLButtonElement>();
 

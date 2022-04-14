@@ -83,7 +83,7 @@ export const CollapsibleTabs = ({
     selected
   ]);
 
-  const adjustTabs = React.useCallback(entry => {
+  const adjustTabs = React.useCallback((entry: ResizeObserverEntry) => {
     const containerWidth = entry.contentRect.width;
 
     const {tabs: tabsSizes, more = 0} = elements.sizes;

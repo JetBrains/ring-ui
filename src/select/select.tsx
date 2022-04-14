@@ -172,6 +172,7 @@ export interface BaseSelectProps<T = unknown> {
   onDone: () => void
   onReset: () => void
   dir: 'ltr' | 'rtl'
+  renderBottomToolbar?: () => ReactNode
   height?: ControlsHeight | undefined
   targetElement?: HTMLElement | null | undefined
   className?: string | null | undefined
@@ -486,6 +487,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       nextState.selected = multiple ? [] : null;
     }
 
+    if (multiple && !nextState.selected) {
+      nextState.selected = prevState.selected;
+    }
+
     const {selected} = {...prevState, ...nextState};
     if (selected && Array.isArray(selected)) {
       nextState.multipleMap = buildMultipleMap(selected);
@@ -759,8 +764,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       }));
 
       if (tryFocusAnchor) {
-        const restoreFocusNode = this.props.targetElement ||
+        const focusableSelectExists = this.node &&
           this.node.querySelector<HTMLElement>('[data-test~=ring-select__focus]');
+        const restoreFocusNode = this.props.targetElement || focusableSelectExists;
         if (restoreFocusNode) {
           restoreFocusNode.focus();
         }
@@ -775,9 +781,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   };
 
   getToolbar() {
-    const {hint} = this.props;
+    const {hint, renderBottomToolbar} = this.props;
     const {prefix, label, delayed} = this.state.addButton || {};
-    const isToolbarHasElements = this.state.addButton || hint;
+    const isToolbarHasElements = this.state.addButton || hint || renderBottomToolbar;
     if (!isToolbarHasElements) {
       return null;
     }
@@ -785,10 +791,11 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     return (
       <div
         className={classNames({
-          [styles.toolbar]: !!this.state.addButton
+          [styles.toolbar]: Boolean(this.state.addButton || renderBottomToolbar)
         })}
         data-test="ring-select-toolbar"
       >
+        {renderBottomToolbar && renderBottomToolbar()}
         {this.state.addButton && (
           <Button
             text

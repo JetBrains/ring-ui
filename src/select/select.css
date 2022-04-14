@@ -63,6 +63,9 @@
 .selectedIcon {
   composes: resetButton from "../global/global.css";
 
+  position: relative;
+  top: 3px;
+
   display: inline-block;
 
   width: calc(2 * unit);

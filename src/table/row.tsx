@@ -1,4 +1,4 @@
-import React, {ComponentType, HTMLAttributes, PureComponent} from 'react';
+import React, {ComponentType, HTMLAttributes, PureComponent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
@@ -215,7 +215,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
     );
 
     const cells = columns.map((column, index) => {
-      const getValue = column.getValue || (() => item[column.id]);
+      const getValue = column.getValue || (() => item[column.id] as ReactNode);
       const getDataTest = column.getDataTest || (() => column.id);
       const value = getValue(item, column);
       const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
