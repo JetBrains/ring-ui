@@ -8,6 +8,8 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Popup from '../popup/popup';
 import Icon from '../icon/icon';
 
+import Theme from '../global/theme';
+
 import Message, {MessageAttrs} from './message';
 
 const {Directions} = Popup.PopupProps;
@@ -46,6 +48,18 @@ basic.args = {
 };
 basic.parameters = {
   actions: {argTypesRegex: '^onClose$'}
+};
+
+export const light: Story<MessageAttrs> = args => (
+  <div style={{padding: 200}} id="message-example">
+    <span>
+      Anchor
+      <Message {...args}/>
+    </span>
+  </div>
+);
+light.args = {
+  theme: Theme.LIGHT
 };
 
 export const withOnDissmiss: Story<MessageAttrs> = args => (

@@ -39,6 +39,7 @@
   You can also pass `Theme.AUTO` to use the user-defined system theme.
   The only exceptions are the components that provide dark context by default: Alert, Header, Message. Those still accept a `theme` prop.
 - `--ring-dark-*` CSS custom properties are removed, `--ring-dark-text-color` is renamed to `--ring-white-text-color`
+- `--ring-message-background-color` is removed in favor of `--ring-popup-background-color`
 - The codebase has migrated to TypeScript
 - `react-markdown` has been updated to v7, which affects the props of `Markdown` component. The most notable change is replacing `source` with `children`:
   ```js
