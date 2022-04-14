@@ -970,12 +970,17 @@ export default class Auth implements HTTPAuth {
   }
 
   _checkBackendsAreUp() {
+    const abortCtrl = new AbortController();
     const {backendCheckTimeout} = this.config;
+
     return Promise.all([
       promiseWithTimeout(
-        this.http.fetch('settings/public?fields=id'),
+        this.http.fetch('settings/public?fields=id', {signal: abortCtrl.signal}),
         backendCheckTimeout,
-        {error: new Error('The authorization server is taking too long to respond. Please try again later.')}
+        {
+          error: new Error('The authorization server is taking too long to respond. Please try again later.'),
+          onTimeout: () => abortCtrl.abort()
+        }
       ),
       this.config.checkBackendIsUp()
     ]).catch(err => {

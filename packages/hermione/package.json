@@ -17,19 +17,19 @@
     "test-ci": "node hermione-ci.js --teamcity"
   },
   "devDependencies": {
-    "@jetbrains/hermione-teamcity-reporter": "^1.1.2",
-    "@storybook/addon-storyshots": "^6.3.2",
-    "axios": "^0.24.0",
-    "browserstack-local": "^1.4.8",
-    "dotenv": "^10.0.0",
+    "@jetbrains/hermione-teamcity-reporter": "^1.2.1",
+    "@storybook/addon-storyshots": "6.5.0-alpha.59",
+    "axios": "^0.26.1",
+    "browserstack-local": "^1.4.9",
+    "dotenv": "^16.0.0",
     "filenamify": "^4.3.0",
     "font-awesome": "^4.7.0",
-    "fs-extra": "^10.0.0",
-    "hermione": "^4.7.5",
-    "html-reporter": "^8.0.2",
-    "http-server": "^14.0.0",
+    "fs-extra": "^10.0.1",
+    "hermione": "^4.8.0",
+    "html-reporter": "^8.4.1",
+    "http-server": "^14.1.0",
     "ip": "^1.1.5",
-    "jest": "^27.4.7",
+    "jest": "^27.5.1",
     "kill-port": "^1.6.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -44,6 +44,6 @@
     "extend": "3.0.2",
     "minimist": "1.2.5",
     "immer": "8.0.4",
-    "axios": "0.24.0"
+    "axios": "0.26.1"
   }
 }

@@ -53,6 +53,18 @@
 - Removed `core-js@2` support
 - Removed `webpack@4` support
 
+## [4.2.0]
+
+### React 18 support
+
+To enable the new root API, add the following code before any rendering:
+```js
+import * as client from 'react-dom/client'
+import {setClient} from '@jetbrains/ring-ui/components/global/react-render-adapter'
+
+setClient(client)
+```
+
 ## [4.1.0]
 
 ### Pre-built version

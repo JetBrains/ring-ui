@@ -48,9 +48,6 @@ import styles from './list.css';
 
 export type {ListDataItem};
 
-const scheduleScrollListener = scheduleRAF();
-const scheduleHoverListener = scheduleRAF();
-
 function noop() {}
 
 const warnEmptyKey = deprecate(
@@ -112,7 +109,7 @@ export interface ListProps<T = unknown> {
   hidden?: boolean | null | undefined
 }
 
-const shouldActivateFirstItem = (props: ListProps) => props.activateFirstItem ||
+const shouldActivateFirstItem = <T, >(props: ListProps<T>) => props.activateFirstItem ||
     props.activateSingleItem && props.data.length === 1;
 
 export const ActiveItemContext = createStatefulContext<string | undefined>(undefined, 'ActiveItem');
@@ -233,27 +230,25 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       }
     }
 
-    if (
-      activeIndex == null &&
-      prevState.activeIndex == null &&
-      shouldActivateFirstItem(nextProps)
-    ) {
-      const firstActivatableIndex = data.findIndex(isActivatable);
-      if (firstActivatableIndex >= 0) {
-        Object.assign(nextState, {
-          activeIndex: firstActivatableIndex,
-          activeItem: data[firstActivatableIndex],
-          needScrollToActive: true
-        });
-      }
-    }
-
     return nextState;
   }
 
   componentDidMount() {
     document.addEventListener('mousemove', this.onDocumentMouseMove);
     document.addEventListener('keydown', this.onDocumentKeyDown, true);
+
+    const {data, activeIndex} = this.props;
+
+    if (activeIndex == null && shouldActivateFirstItem(this.props)) {
+      const firstActivatableIndex = data.findIndex(isActivatable);
+      if (firstActivatableIndex >= 0) {
+        this.setState({
+          activeIndex: firstActivatableIndex,
+          activeItem: data[firstActivatableIndex],
+          needScrollToActive: true
+        });
+      }
+    }
   }
 
   shouldComponentUpdate(nextProps: ListProps<T>, nextState: ListState<T>) {
@@ -276,6 +271,9 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     document.removeEventListener('keydown', this.onDocumentKeyDown, true);
   }
 
+  scheduleScrollListener = scheduleRAF();
+  scheduleHoverListener = scheduleRAF();
+
   static isItemType = isItemType;
 
   static ListHint = ListHint;
@@ -290,7 +288,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   container?: HTMLElement | null;
 
   hoverHandler = memoize((index: number) => () =>
-    scheduleHoverListener(() => {
+    this.scheduleHoverListener(() => {
       if (this.state.disabledHover) {
         return;
       }
@@ -501,7 +499,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     return this.props.compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
   }
 
-  scrollEndHandler = () => scheduleScrollListener(() => {
+  scrollEndHandler = () => this.scheduleScrollListener(() => {
     const innerContainer = this.inner;
     if (innerContainer) {
       const maxScrollingPosition = innerContainer.scrollHeight;
@@ -686,7 +684,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     return (
       <AutoSizer disableHeight onResize={this.props.onResize}>
         {({width}) => (
-          <div ref={registerChild}>
+          <div ref={registerChild as never}>
             <VirtualizedList
               aria-label={this.props.ariaLabel}
               ref={this.virtualizedListRef}

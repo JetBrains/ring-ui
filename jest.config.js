@@ -9,6 +9,7 @@ module.exports = {
     '^@jetbrains/ring-ui(.*)$': '<rootDir>$1'
   },
   setupFiles: [
+    '<rootDir>/test-helpers/jest-setup.js',
     '<rootDir>/test-helpers/jest-globals.js'
   ],
   transform: {

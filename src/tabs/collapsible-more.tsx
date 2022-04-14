@@ -83,12 +83,12 @@ export const MoreButton = React.memo(({
   morePopupItemClassName,
   morePopupBeforeEnd
 }: MoreButtonProps) => {
-  const onSelectHandler = React.useCallback(listItem => {
+  const onSelectHandler = React.useCallback((listItem: ListDataItem) => {
     if (listItem.disabled === true || listItem.custom === true) {
       return;
     }
 
-    const cb = onSelect(listItem.key);
+    const cb = onSelect(String(listItem.key));
     cb();
   }, [onSelect]);
 

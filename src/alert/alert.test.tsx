@@ -41,12 +41,12 @@ describe('Alert', () => {
     should.not.exist(screen.queryByRole('button', {name: 'close alert'}));
   });
 
-  it('should call onCloseRequest on click by close button', () => {
+  it('should call onCloseRequest on click by close button', async () => {
     const closeSpy = sandbox.spy();
     render(<Alert onCloseRequest={closeSpy}>{'Test element'}</Alert>);
     const closeElement = screen.queryByRole('button', {name: 'close alert'});
     if (closeElement != null) {
-      userEvent.click(closeElement);
+      await userEvent.click(closeElement);
     }
     closeSpy.should.have.been.called;
   });

@@ -120,7 +120,7 @@ const AutoCollapseDemo = () => {
     });
   }, []);
 
-  const selectHandler = React.useCallback(key => {
+  const selectHandler = React.useCallback((key: string) => {
     setSelected(key);
   }, []);
 

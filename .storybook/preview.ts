@@ -1,15 +1,18 @@
-import {parameters as docsReactParameters} from '@storybook/addon-docs/dist/cjs/frameworks/react/config';
-
 // eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
 
 import URLSearchParams from '@ungap/url-search-params';
+import * as client from 'react-dom/client';
 
 import {Component} from '@storybook/addon-docs';
 import {Parameters} from '@storybook/react';
 
+import {setClient} from '../src/global/react-render-adapter';
+
 import styles from './preview.css';
 import stylesDecorator from './styles-decorator';
+
+setClient(client);
 
 const params = new URLSearchParams(location.search.slice(1));
 if (params.has('block-animations')) {
@@ -18,7 +21,6 @@ if (params.has('block-animations')) {
 
 export const parameters = {
   docs: {
-    ...docsReactParameters.docs,
     inlineStories: false,
     extractComponentDescription: (component: Component, {notes}: Parameters) =>
       notes ?? component?.__docgenInfo?.description

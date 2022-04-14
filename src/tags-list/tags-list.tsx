@@ -6,7 +6,7 @@ import Tag, {TagAttrs} from '../tag/tag';
 
 function noop() {}
 
-export interface TagType extends Omit<TagAttrs, 'onClick'> {
+export interface TagType extends Omit<TagAttrs, 'onClick' | 'children'> {
   label?: ReactNode
   key?: string | number | null | undefined
 }

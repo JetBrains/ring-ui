@@ -45,6 +45,7 @@ export interface BasePopupProps {
   keepMounted: boolean, // pass this prop to preserve the popup's DOM state while hidde
   directions: readonly Directions[]
   autoPositioning: boolean
+  autoPositioningOnScroll: boolean,
   autoCorrectTopOverflow: boolean
   left: number
   top: number
@@ -76,6 +77,7 @@ export interface BasePopupProps {
   onContextMenu?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined
   onDirectionChange?: ((direction: Directions) => void) | null | undefined
   onShow?: (() => void) | null | undefined
+  children?: ReactNode
 }
 
 export interface PopupProps extends BasePopupProps {
@@ -107,6 +109,7 @@ export default class Popup<
 
     directions: DEFAULT_DIRECTIONS,
     autoPositioning: true,
+    autoPositioningOnScroll: true,
     autoCorrectTopOverflow: true,
     left: 0,
     top: 0,
@@ -126,7 +129,6 @@ export default class Popup<
 
   componentDidMount() {
     if (!this.props.client) {
-      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({client: true});
     }
     if (!this.props.hidden) {
@@ -291,7 +293,9 @@ export default class Popup<
       setTimeout(() => {
         this._listenersEnabled = true;
         this.listeners.add(window, 'resize', this._redraw);
-        this.listeners.add(window, 'scroll', this._redraw);
+        if (this.props.autoPositioningOnScroll) {
+          this.listeners.add(window, 'scroll', this._redraw);
+        }
         this.listeners.add(document, 'pointerdown', this._onDocumentClick, true);
         let el = this._getAnchor();
         while (el) {

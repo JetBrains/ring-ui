@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
-import {render} from 'react-dom';
 
+import {render} from '../global/react-render-adapter';
 import Confirm, {ConfirmAttributes} from '../confirm/confirm';
 
 /**

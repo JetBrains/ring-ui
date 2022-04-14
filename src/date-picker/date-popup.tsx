@@ -99,7 +99,6 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       if (this.state.text && prevState.active) {
         this.confirm(prevState.active);
       }
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({text: null});
     }
   }
