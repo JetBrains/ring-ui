@@ -94,7 +94,7 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
     "angular": "^1.8.2",
     "angular-mocks": "^1.8.2",
-    "angular-route": "^1.8.2",
+    "angular-route": "^1.8.3",
     "babel-plugin-react-docgen": "^4.2.1",
     "babel-plugin-require-context-hook": "^1.0.0",
     "chai": "^4.3.6",
