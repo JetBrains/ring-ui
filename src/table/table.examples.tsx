@@ -49,7 +49,7 @@ interface BasicDemoState {
   page: number
   pageSize: number
   total: number
-  sortKey: string
+  sortKey: keyof Item
   sortOrder: boolean
 }
 class BasicDemo extends Component<BasicDemoProps, BasicDemoState> {
@@ -78,7 +78,7 @@ class BasicDemo extends Component<BasicDemoProps, BasicDemoState> {
     }
   }
 
-  onSort = (event: SortParams) => {
+  onSort = (event: SortParams<Item>) => {
     this.props.onSort?.(event);
     this.setState({sortKey: event.column.id, sortOrder: event.order});
   };
@@ -282,7 +282,7 @@ class MultiTableDemo extends Component {
       id: 'url',
       title: 'URL'
     }
-  ];
+  ] as const;
 
   columns2 = [
     {
@@ -297,7 +297,7 @@ class MultiTableDemo extends Component {
       id: 'url',
       title: 'URL'
     }
-  ];
+  ] as const;
 
   render() {
     return (
@@ -325,9 +325,9 @@ class MultiTableDemo extends Component {
 export const multiTable = () => <MultiTableDemo/>;
 multiTable.storyName = 'multi table';
 
-class EmptyTableDemo extends Component<TableAttrs<SelectionItem>> {
+class EmptyTableDemo extends Component<TableAttrs<Item>> {
   state = {
-    selection: new Selection({})
+    selection: new Selection<Item>({})
   };
 
   render() {
@@ -346,7 +346,7 @@ class EmptyTableDemo extends Component<TableAttrs<SelectionItem>> {
   }
 }
 
-export const emptyTable: Story<TableAttrs<SelectionItem>> = args => <EmptyTableDemo {...args}/>;
+export const emptyTable: Story<TableAttrs<Item>> = args => <EmptyTableDemo {...args}/>;
 emptyTable.args = {
   data: [],
   columns: [

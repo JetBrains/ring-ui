@@ -37,7 +37,7 @@ export interface TableProps<T extends SelectionItem> extends
   columns: readonly Column<T>[]
   isItemSelectable: (item: T) => boolean
   loading: boolean
-  onSort: (params: SortParams) => void
+  onSort: (params: SortParams<T>) => void
   onReorder: (params: ReorderParams<T>) => void
   getItemKey: (item: T) => string | number
   sortKey: string
@@ -181,7 +181,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
 
-    const headerProps: HeaderAttrs = {
+    const headerProps: HeaderAttrs<T> = {
       caption, selectable, draggable,
       columns, onSort, sortKey, sortOrder,
       sticky: stickyHeader,
