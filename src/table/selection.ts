@@ -1,5 +1,6 @@
 export interface SelectionItem {
   id: string | number
+  [key: string]: unknown
 }
 
 export interface TableSelectionConfig<T extends SelectionItem> {
