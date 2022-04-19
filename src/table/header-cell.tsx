@@ -10,7 +10,7 @@ import dataTests from '../global/data-tests';
 import style from './table.css';
 
 export interface Column<T = never> {
-  id: string & keyof T
+  id: string
   sortable?: boolean | null | undefined
   className?: string | null | undefined
   headerClassName?: string | null | undefined
@@ -21,20 +21,20 @@ export interface Column<T = never> {
   getDataTest?: ((item: T, column: Column) => string) | null | undefined
 }
 
-export interface SortParams<T> {
-  column: Column<T>
+export interface SortParams {
+  column: Column
   order: boolean
 }
 
-export interface HeaderCellProps<T> extends ThHTMLAttributes<HTMLTableHeaderCellElement> {
-  column: Column<T>
-  onSort: (params: SortParams<T>) => void
+export interface HeaderCellProps extends ThHTMLAttributes<HTMLTableHeaderCellElement> {
+  column: Column
+  onSort: (params: SortParams) => void
   sortKey?: string | null | undefined
   sortOrder?: boolean | null | undefined
   'data-test'?: string | null | undefined
 }
 
-export default class HeaderCell<T> extends PureComponent<HeaderCellProps<T>> {
+export default class HeaderCell extends PureComponent<HeaderCellProps> {
   static propTypes = {
     children: PropTypes.any,
     className: PropTypes.string,
