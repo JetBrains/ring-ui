@@ -10,14 +10,14 @@ import getUID from '../global/get-uid';
 import style from './table.css';
 import HeaderCell, {Column, SortParams} from './header-cell';
 
-export interface HeaderProps {
-  columns: readonly Column[]
+export interface HeaderProps<T> {
+  columns: readonly Column<T>[]
   selectable: boolean
   draggable: boolean
   checked: boolean
   sticky: boolean
   topStickOffset: string
-  onSort: (params: SortParams) => void
+  onSort: (params: SortParams<T>) => void
   onCheckboxChange: ChangeEventHandler<HTMLInputElement>
   sortKey: string
   sortOrder: boolean
@@ -34,7 +34,7 @@ declare module 'react-waypoint' {
   }
 }
 
-export default class Header extends PureComponent<HeaderProps> {
+export default class Header<T> extends PureComponent<HeaderProps<T>> {
   static propTypes = {
     caption: PropTypes.string,
     selectable: PropTypes.bool,
@@ -202,4 +202,4 @@ export default class Header extends PureComponent<HeaderProps> {
   }
 }
 
-export type HeaderAttrs = JSX.LibraryManagedAttributes<typeof Header, HeaderProps>
+export type HeaderAttrs<T> = JSX.LibraryManagedAttributes<typeof Header, HeaderProps<T>>
