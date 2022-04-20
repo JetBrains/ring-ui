@@ -84,7 +84,7 @@
     "@storybook/addons": "6.5.0-alpha.64",
     "@storybook/builder-webpack5": "6.5.0-alpha.64",
     "@storybook/client-api": "6.5.0-alpha.59",
-    "@storybook/core": "6.5.0-alpha.59",
+    "@storybook/core": "6.5.0-alpha.64",
     "@storybook/html": "6.5.0-alpha.59",
     "@storybook/manager-webpack5": "6.5.0-alpha.59",
     "@storybook/source-loader": "6.5.0-alpha.59",
