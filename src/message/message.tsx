@@ -192,7 +192,7 @@ export default class Message extends Component<MessageProps> {
   children: PropTypes.node,
   className: PropTypes.string,
   tailClassName: PropTypes.string,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
   directions: PropTypes.arrayOf(PropTypes.string),
   direction: PropTypes.string,
