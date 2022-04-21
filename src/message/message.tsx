@@ -171,7 +171,7 @@ export default class Message extends Component<MessageProps> {
           )}
 
           {icon && <Icon className={styles.icon} glyph={icon}/>}
-          <h1 data-test="rgMessageTitle" className={styles.title}>{title}</h1>
+          {title && <h1 data-test="rgMessageTitle" className={styles.title}>{title}</h1>}
           {children && <div className={styles.description}>{children}</div>}
           {(onClose || buttonProps) && (
             <Button
