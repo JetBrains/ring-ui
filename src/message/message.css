@@ -36,11 +36,12 @@
 }
 
 .description {
-  composes: font-smaller-lower from "../global/global.css";
-
   margin: calc(unit / 2) 0 0;
 
   color: var(--ring-text-color);
+
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }
 
 .button {
