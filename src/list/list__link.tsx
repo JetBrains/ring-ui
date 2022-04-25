@@ -29,6 +29,7 @@ export default class ListLink<T> extends PureComponent<ListDataItemProps<T>> {
       LinkComponent,
       compact,
       hoverClassName,
+      children,
       ...restProps
     } = this.props;
     const classes = classNames(styles.item, className, {
@@ -47,7 +48,7 @@ export default class ListLink<T> extends PureComponent<ListDataItemProps<T>> {
         className={classes}
         data-test={dataTests('ring-list-link', dataTest)}
       >
-        {label}
+        {label ?? children}
       </Comp>
     );
   }
