@@ -1,7 +1,7 @@
 import React, {createContext, forwardRef, HTMLAttributes, Ref, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
-export const PopupTargetContext = createContext<string | undefined>(undefined);
+export const PopupTargetContext = createContext<string | Element | undefined>(undefined);
 export interface PopupTargetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   id: string
   children: ReactNode | ((target: ReactNode) => ReactNode)

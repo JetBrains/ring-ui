@@ -388,7 +388,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     this.forceUpdate();
   };
 
-  getList(ringPopupTarget: string | undefined) {
+  getList(ringPopupTarget: string | Element | undefined) {
     if (this.props.data.length) {
       let {maxHeight} = this.props;
 
