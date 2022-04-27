@@ -283,7 +283,9 @@ export class Input extends PureComponent<InputProps> {
 
 export type ContainerProps<P extends InputProps> = JSX.LibraryManagedAttributes<typeof Input, P>
 
-export type InputAttrs = ContainerProps<InputProps>;
+export type InputSpecificAttrs = ContainerProps<InputSpecificProps>;
+export type TextAreaSpecificAttrs = ContainerProps<TextAreaSpecificProps>;
+export type InputAttrs = InputSpecificAttrs | TextAreaSpecificAttrs;
 
 export default Input;
 
