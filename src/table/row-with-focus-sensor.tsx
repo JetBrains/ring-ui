@@ -12,10 +12,10 @@ export interface RowWithFocusSensorCallbacksProps<T extends SelectionItem> exten
   FocusSensorProps<RowProps<T>, HTMLTableRowElement, typeof Row>,
   'onFocus'
 > {
-  onFocus: (item: T) => void
-  onSelect: (item: T, selected: boolean) => void
-  onCollapse: (item: T) => void
-  onExpand: (item: T) => void
+  onFocus?: (item: T) => void
+  onSelect?: (item: T, selected: boolean) => void
+  onCollapse?: (item: T) => void
+  onExpand?: (item: T) => void
 }
 
 export default class RowWithFocusSensorCallbacks<T extends SelectionItem>
@@ -24,19 +24,19 @@ export default class RowWithFocusSensorCallbacks<T extends SelectionItem>
   RowWithFocusSensor = getContainer<T>();
 
   onFocus = () => {
-    this.props.onFocus(this.props.item);
+    this.props.onFocus?.(this.props.item);
   };
 
   onSelect = (item: T, selected: boolean) => {
-    this.props.onSelect(item, selected);
+    this.props.onSelect?.(item, selected);
   };
 
   onCollapse = () => {
-    this.props.onCollapse(this.props.item);
+    this.props.onCollapse?.(this.props.item);
   };
 
   onExpand = () => {
-    this.props.onExpand(this.props.item);
+    this.props.onExpand?.(this.props.item);
   };
 
   render() {
