@@ -97,7 +97,7 @@ export interface QueryAssistProps {
   'data-test'?: string | null | undefined
 }
 
-interface StyleRange {
+export interface StyleRange {
   style: string
   start: number
   length: number
