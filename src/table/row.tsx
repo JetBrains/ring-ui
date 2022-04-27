@@ -274,3 +274,6 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
   onFocusReset: PropTypes.func,
   'data-test': PropTypes.string
 };
+
+export type RowAttrs<T extends SelectionItem> =
+  JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;
