@@ -481,3 +481,4 @@ export default class Popup<
 };
 
 export type PopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, PopupProps>
+export type BasePopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, BasePopupProps>;
