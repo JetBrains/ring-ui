@@ -211,7 +211,7 @@ export interface MultipleSelectProps<T = unknown> extends BaseSelectProps<T> {
   tags?: Tags | boolean | null | undefined
 }
 
-type SelectProps<T = unknown> = SingleSelectProps<T> | MultipleSelectProps<T>
+export type SelectProps<T = unknown> = SingleSelectProps<T> | MultipleSelectProps<T>
 
 interface AddButton {
   prefix: string | null | undefined
