@@ -140,6 +140,8 @@ export interface CustomAnchorProps {
   popup: ReactNode
 }
 
+export type CustomAnchor = ((props: CustomAnchorProps) => ReactNode);
+
 export interface BaseSelectProps<T = unknown> {
   data: readonly SelectItem<T>[]
   filter: boolean | Filter<T>
@@ -189,7 +191,7 @@ export interface BaseSelectProps<T = unknown> {
   hint?: ReactNode
   add?: Add | null | undefined
   compact?: boolean | null | undefined
-  customAnchor?: ((props: CustomAnchorProps) => ReactNode) | null | undefined
+  customAnchor?: CustomAnchor | null | undefined
   disableMoveOverflow?: boolean | null | undefined
   disableScrollToActive?: boolean | null | undefined
   'data-test'?: string | null | undefined
