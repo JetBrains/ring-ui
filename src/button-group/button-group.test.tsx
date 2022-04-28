@@ -1,10 +1,11 @@
 import React from 'react';
-import {mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
 import ButtonGroup from './button-group';
 
 describe('Button Group', () => {
   it('should create component', () => {
-    mount(<ButtonGroup/>).should.have.type(ButtonGroup);
+    render(<ButtonGroup/>);
+    screen.getByTestId('ring-button-group').should.exist;
   });
 });
