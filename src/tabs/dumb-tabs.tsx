@@ -16,7 +16,8 @@ import {TabProps} from './tab';
 
 export {CustomItem};
 
-type Children = readonly (Children | null | boolean)[] | ReactElement<TabProps> | null | boolean;
+export type Children =
+  readonly (Children | null | boolean)[] | ReactElement<TabProps> | null | boolean;
 
 export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'children'> {
   children: Children
