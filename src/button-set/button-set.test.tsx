@@ -1,10 +1,11 @@
 import React from 'react';
-import {mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
 import ButtonSet from './button-set';
 
 describe('Button Set', () => {
   it('should create component', () => {
-    mount(<ButtonSet/>).should.have.type(ButtonSet);
+    render(<ButtonSet/>);
+    screen.getByTestId('ring-button-set').should.exist;
   });
 });
