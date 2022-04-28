@@ -1,21 +1,23 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
 import ButtonToolbar from './button-toolbar';
 
 describe('Button Toolbar', () => {
-  const shallowButtonToolbar = params => shallow(<ButtonToolbar {...params}/>);
-  const mountButtonToolbar = params => mount(<ButtonToolbar {...params}/>);
+  const renderButtonToolbar = params => {
+    render(<ButtonToolbar {...params}/>);
+    return screen.getByTestId('ring-button-toolbar');
+  };
 
   it('should create component', () => {
-    mountButtonToolbar().should.have.type(ButtonToolbar);
+    renderButtonToolbar().should.exist;
   });
 
   it('should wrap children with div', () => {
-    shallowButtonToolbar().should.have.tagName('div');
+    renderButtonToolbar().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    shallowButtonToolbar({className: 'test-class'}).should.have.className('test-class');
+    renderButtonToolbar({className: 'test-class'}).should.have.class('test-class');
   });
 });

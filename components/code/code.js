@@ -99,7 +99,7 @@ export default class Code extends PureComponent {
     });
 
     return (
-      <Tag className={classes}>
+      <Tag className={classes} data-test="ring-code">
         <code
           // should be focusable because it can be scrollable
           tabIndex={inline ? -1 : 0}

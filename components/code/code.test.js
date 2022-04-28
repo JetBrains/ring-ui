@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 import css from 'highlight.js/lib/languages/css';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
@@ -11,34 +11,30 @@ highlight.registerLanguage('javascript', javascript);
 highlight.registerLanguage('xml', xml);
 
 describe('Code', () => {
-  const shallowCode = props => shallow(
-    <Code
-      code=""
-      {...props}
-    />,
-    {disableLifecycleMethods: true}
-  );
-  const mountCode = props => mount(
-    <Code
-      code=""
-      {...props}
-    />
-  );
+  const renderCode = props => {
+    render(
+      <Code
+        code=""
+        {...props}
+      />
+    );
+    return screen.getByTestId('ring-code');
+  };
 
   it('should wrap children with pre', () => {
-    shallowCode().should.have.tagName('pre');
+    renderCode().should.have.tagName('pre');
   });
 
   it('should use passed className', () => {
-    shallowCode({className: 'test-class'}).should.have.className('test-class');
+    renderCode({className: 'test-class'}).should.have.class('test-class');
   });
 
   it('should add passed language to class attribute', () => {
-    shallowCode({language: 'js'}).should.have.className('js');
+    renderCode({language: 'js'}).should.have.class('js');
   });
 
   it('should detect javascript/JSX', () => {
-    const wrapper = mountCode({
+    const code = renderCode({
       code: `
         import React, {Component} from 'react';
         import ChildComponent from './child-component';
@@ -51,13 +47,12 @@ describe('Code', () => {
       `
     });
 
-    // child tree is rendered with highlight.js, so it's unaccessible by enzyme
-    wrapper.getDOMNode().should.contain('.javascript');
-    wrapper.getDOMNode().should.contain('.xml');
+    code.should.contain('.javascript');
+    code.should.contain('.xml');
   });
 
   it('should detect CSS', () => {
-    const wrapper = mountCode({
+    const code = renderCode({
       code: `
         .className {
           display: inline-block;
@@ -65,36 +60,32 @@ describe('Code', () => {
         }
       `
     });
-    wrapper.getDOMNode().should.contain('.css');
+    code.should.contain('.css');
   });
 
   it('should detect HTML', () => {
-    const wrapper = mountCode({
+    const code = renderCode({
       code: `
         <body>
           <div id="app"></div>
         </body>
       `
     });
-    wrapper.getDOMNode().should.contain('.xml');
+    code.should.contain('.xml');
   });
 
   it('should parse and highlight the code', () => {
-    const wrapper = mountCode({
+    const code = renderCode({
       code: '"foo"'
     });
-    const token = wrapper.getDOMNode().querySelector('.hljs-string');
+    const token = code.querySelector('.hljs-string');
     token.textContent.should.equal('"foo"');
   });
 
   it('should parse and highlight the code after props update', () => {
-    const wrapper = mountCode({
-      code: '"foo"'
-    });
-    wrapper.setProps({
-      code: '"bar"'
-    });
-    const token = wrapper.getDOMNode().querySelector('.hljs-string');
-    token.textContent.should.equal('"bar"');
+    const {rerender} = render(<Code code="'foo'"/>);
+    rerender(<Code code="'bar'"/>);
+    const token = document.querySelector('.hljs-string');
+    token.textContent.should.equal("'bar'");
   });
 });

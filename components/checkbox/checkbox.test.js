@@ -1,33 +1,36 @@
 import React from 'react';
 import {Simulate} from 'react-dom/test-utils';
-import {shallow, mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import Checkbox from './checkbox';
 
 describe('Checkbox', () => {
-  const shallowCheckbox = props => shallow(<Checkbox {...props}/>);
-  const mountCheckbox = props => mount(<Checkbox {...props}/>);
+  const renderCheckbox = props => {
+    render(<Checkbox {...props}/>);
+    return screen.getByRole('checkbox');
+  };
 
   it('should create component', () => {
-    shallowCheckbox().should.exist;
+    renderCheckbox().should.exist;
   });
 
   it('should render checkbox', () => {
-    const checkbox = mountCheckbox().instance();
-    checkbox.input.should.have.property('type', 'checkbox');
+    const checkbox = renderCheckbox();
+    checkbox.should.have.property('type', 'checkbox');
   });
 
   it('should set name', () => {
-    const checkbox = mountCheckbox({name: 'test'}).instance();
+    const checkbox = renderCheckbox({name: 'test'});
 
-    checkbox.input.should.have.property('name', 'test');
+    checkbox.should.have.property('name', 'test');
   });
 
   it('should call handler for click event', () => {
     const clickHandler = sandbox.stub();
 
-    const checkbox = mountCheckbox({onClick: clickHandler}).instance();
-    Simulate.click(checkbox.input);
+    const checkbox = renderCheckbox({onClick: clickHandler});
+    Simulate.click(checkbox);
 
     clickHandler.should.have.been.called;
   });
@@ -35,33 +38,33 @@ describe('Checkbox', () => {
   it('should not call handler on change event if disabled', () => {
     const onChange = sandbox.stub();
 
-    const checkbox = shallowCheckbox({
+    const checkbox = renderCheckbox({
       disabled: true,
       onChange
     });
 
-    checkbox.simulate('click');
+    userEvent.click(checkbox);
     onChange.should.have.not.been.called;
   });
 
   it('should be unchecked by default', () => {
-    const checkbox = shallowCheckbox();
+    const checkbox = renderCheckbox();
 
-    checkbox.should.not.be.checked();
+    checkbox.checked.should.be.false;
   });
 
   it('should check control', () => {
-    const checkbox = mountCheckbox({defaultChecked: true}).instance();
+    const checkbox = renderCheckbox({defaultChecked: true});
 
-    checkbox.input.should.be.checked;
+    checkbox.checked.should.be.true;
   });
 
   it('should be disabled', () => {
-    const checkbox = mountCheckbox({
+    const checkbox = renderCheckbox({
       disabled: true
-    }).instance();
+    });
 
-    checkbox.input.should.be.disabled;
+    checkbox.should.be.disabled;
   });
 
   it('should check control on change event', () => {
@@ -70,9 +73,9 @@ describe('Checkbox', () => {
         checked: true
       }
     };
-    const checkbox = mountCheckbox().instance();
+    const checkbox = renderCheckbox();
 
-    Simulate.change(checkbox.input, eventMock);
-    checkbox.input.should.be.checked;
+    Simulate.change(checkbox, eventMock);
+    checkbox.should.be.checked;
   });
 });

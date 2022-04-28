@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import dataTests from '../global/data-tests';
+
 import styles from './button-set.css';
 
 /**
@@ -10,17 +12,20 @@ import styles from './button-set.css';
 export default class ButtonSet extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
+    'data-test': PropTypes.string
   };
 
   render() {
-    const classes = classNames(styles.buttonSet, this.props.className);
+    const {className, 'data-test': dataTest, children, ...restProps} = this.props;
+    const classes = classNames(styles.buttonSet, className);
     return (
       <div
-        {...this.props}
+        {...restProps}
+        data-test={dataTests('ring-button-set', dataTest)}
         className={classes}
       >
-        {this.props.children}
+        {children}
       </div>
     );
   }
