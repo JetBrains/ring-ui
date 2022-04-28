@@ -1,14 +1,12 @@
-import React, {PureComponent, ReactElement} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import dataTests from '../global/data-tests';
 
-import Tabs, {TabsAttrs} from './dumb-tabs';
-
-import {TabProps} from './tab';
+import Tabs, {TabsAttrs, Children} from './dumb-tabs';
 
 export interface SmartTabsProps extends TabsAttrs {
-  children: ReactElement<TabProps>[]
+  children: Children
   initSelected?: string | null | undefined
 }
 export default class SmartTabs extends PureComponent<SmartTabsProps> {
@@ -18,8 +16,19 @@ export default class SmartTabs extends PureComponent<SmartTabsProps> {
     'data-test': PropTypes.string
   };
 
-  state = {
-    selected: this.props.initSelected || this.props.children[0].props.id || '0'
+  constructor(props: SmartTabsProps) {
+    super(props);
+
+    this.state = {
+      selected:
+        this.props.initSelected ||
+        (Array.isArray(this.props.children) && this.props.children[0].props.id) ||
+        '0'
+    };
+  }
+
+  state: {
+    selected: string;
   };
 
   handleSelect = (selected: string) => this.setState({selected});
