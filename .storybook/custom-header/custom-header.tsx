@@ -68,6 +68,7 @@ class SiteHeader extends PureComponent {
           <TrayIcon
             icon={gitHubLogo}
             iconSize={24}
+            iconSuppressSizeWarning
             href="https://github.com/JetBrains/ring-ui"
             target="_blank"
             title="GitHub repo"

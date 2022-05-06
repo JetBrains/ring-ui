@@ -1,6 +1,8 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnText
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnText
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -26,4 +28,18 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
         npm-ls.log
         lerna-debug.log
     """.trimIndent()
+
+    failureConditions {
+        val feature1 = find<BuildFailureOnText> {
+            failOnText {
+                conditionType = BuildFailureOnText.ConditionType.CONTAINS
+                pattern = "ERROR:"
+                failureMessage = "console.error appeared in log"
+                reverse = false
+            }
+        }
+        feature1.apply {
+            enabled = false
+        }
+    }
 }
