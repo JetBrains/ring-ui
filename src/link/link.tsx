@@ -1,6 +1,6 @@
 import 'focus-visible';
 import React, {
-  Component,
+  PureComponent,
   memo,
   ReactNode,
   ComponentType,
@@ -65,7 +65,7 @@ export function linkHOC<P extends ClickableLinkProps>(
 ) {
   const isCustom = typeof ComposedComponent !== 'string' && ComposedComponent !== ClickableLink;
 
-  return class Link extends Component<LinkProps<P>> {
+  return class Link extends PureComponent<LinkProps<P>> {
     static propTypes = {
       className: PropTypes.string,
       innerClassName: PropTypes.string,
