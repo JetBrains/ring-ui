@@ -159,7 +159,6 @@ export default class Popup<
 
   componentWillUnmount() {
     this._setListenersEnabled(false);
-    this.popup = null;
   }
 
   popup?: HTMLElement | null;
