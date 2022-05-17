@@ -63,7 +63,10 @@ export default class SelectPopup extends PureComponent {
     multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
       label: PropTypes.string,
       limit: PropTypes.number,
-      selectAll: PropTypes.bool
+      selectAll: PropTypes.bool,
+      selectAllLabel: PropTypes.string,
+      deselectAllLabel: PropTypes.string,
+      renderSelectAllLabel: PropTypes.func
     })]),
     left: PropTypes.bool,
     loading: PropTypes.bool,
@@ -406,12 +409,15 @@ export default class SelectPopup extends PureComponent {
                 onClick={this.handleSelectAll}
               >
                 {activeFilters.length !== this.props.selected.length
-                  ? 'Select all'
-                  : 'Deselect all'}
+                  ? this.props.multiple.selectAllLabel || 'Select all'
+                  : this.props.multiple.deselectAllLabel || 'Deselect all'}
               </Button>
             )
         }
-        <Text info>{`${this.props.selected.length} selected`}</Text>
+        {this.props.multiple.renderSelectAllLabel &&
+          this.props.multiple.renderSelectAllLabel(this.props.selected, activeFilters.length) || (
+          <Text info>{`${this.props.selected.length} selected`}</Text>
+        )}
       </div>
     );
   };
