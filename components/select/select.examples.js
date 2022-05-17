@@ -5,6 +5,8 @@ import warningIcon from '@jetbrains/icons/warning';
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
+import Text from '../text/text';
+
 import Link from '@jetbrains/ring-ui/components/link/link';
 import Popup from '@jetbrains/ring-ui/components/popup/popup';
 import List from '@jetbrains/ring-ui/components/list/list';
@@ -961,6 +963,31 @@ export const multipleWithSelectAllAndDisabledItem = args => <Select {...args}/>;
 multipleWithSelectAllAndDisabledItem.storyName = 'multiple with select all and disabled item';
 multipleWithSelectAllAndDisabledItem.parameters = {hermione: {skip: true}};
 
+export const multipleWithSelectAllAndCustomLabels = args => <Select {...args}/>;
+{
+  const data = [
+    {label: 'One long label', key: '1'},
+    {label: 'Two long label', key: '2'},
+    {label: 'Three long label', key: '3'}
+  ];
+
+  const multipleConfig = {
+    selectAll: true,
+    selectAllLabel: 'All Items',
+    deselectAllLabel: 'None Items',
+    renderSelectAllLabel: selected => <Text info>{`${selected.length} items selected`}</Text>
+  };
+
+  multipleWithSelectAllAndCustomLabels.args = {
+    filter: true,
+    multiple: multipleConfig,
+    selected: [data[1]],
+    data
+  };
+}
+
+multipleWithSelectAllAndCustomLabels.storyName = 'multiple with select all and custom labels';
+multipleWithSelectAllAndCustomLabels.parameters = {hermione: {skip: true}};
 
 export const multipleWithLimit = args => <Select {...args}/>;
 {
