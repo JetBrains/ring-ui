@@ -975,7 +975,7 @@ export const multipleWithSelectAllAndCustomLabels = args => <Select {...args}/>;
     selectAll: true,
     selectAllLabel: 'All Items',
     deselectAllLabel: 'None Items',
-    renderSelectAllLabel: selected => <Text info>{`${selected.length} items selected`}</Text>
+    renderSelectedItemsDescription: selected => <Text info>{`${selected.length} items selected`}</Text>
   };
 
   multipleWithSelectAllAndCustomLabels.args = {
