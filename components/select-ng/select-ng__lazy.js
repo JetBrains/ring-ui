@@ -53,8 +53,8 @@ class SelectLazy {
   render(props) {
     this.reactSelect = (
       <RerenderableSelect
-        ref={this.selectRef}
         {...Object.assign({}, this.props, props || {})}
+        ref={this.selectRef}
       />
     );
     this.props = this.reactSelect.props;
