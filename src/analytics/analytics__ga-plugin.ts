@@ -49,6 +49,7 @@ export default class AnalyticsGAPlugin implements AnalyticsPlugin {
     }
 
     ga('set', 'anonymizeIp', true);
+    ga('set', 'location', domain || '/');
     ga('set', 'allowAdFeatures', false);
   }
 
