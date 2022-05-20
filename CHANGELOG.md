@@ -1,3 +1,58 @@
+## [5.0.0]
+
+### BREAKING CHANGES
+- Design of some components is changed, see [RG-2156](https://youtrack.jetbrains.com/issue/RG-2156). By default, controls (buttons, inputs etc.) have 28px height. To bring back the old compact 24px height, wrap your app into `ControlsHeightContext.Provider`:
+  ```js
+  import {ControlsHeight, ControlsHeightContext} from '@jetbrains/ring-ui/components/global/controls-height';
+
+  <ControlsHeightContext.Provider value={ControlsHeight.S}>
+    <App />
+  </ControlsHeightContext.Provider>
+  ```
+- Input: removed `compact` and `renderUnderline` props
+- Select: removed `Type.MATERIAL`
+- Toggle: added `Size.Size14` which is the new default
+- Button Group: caption should be pllaced outside of the group
+  ```
+  // Before
+  <ButtonGroup>
+    <Caption>Side:</Caption>
+    <Button>Left</Button>
+    <Button>Right</Button>
+  </ButtonGroup>
+  
+  // After
+  <>
+    <Caption>Side:</Caption>
+    <ButtonGroup>
+      <Button>Left</Button>
+      <Button>Right</Button>
+    </ButtonGroup>
+  </>
+  ```
+- Components no longer accept `theme` prop, themes are managed using CSS Custom Properties instead. To apply a theme to your app or some part of it, wrap it into `ThemeProvider`:
+  ```js
+  import Theme, {ThemeProvider} from '@jetbrains/ring-ui/components/global/theme';
+
+  <ThemeProvider theme={Theme.DARK}>{children}</ThemeProvider>
+  ```
+  You can also pass `Theme.AUTO` to use the user-defined system theme.
+  The only exceptions are the components that provide dark context by default: Alert, Header, Message. Those still accept a `theme` prop.
+- `--ring-dark-*` CSS custom properties are removed, `--ring-dark-text-color` is renamed to `--ring-white-text-color`
+- `--ring-message-background-color` is removed in favor of `--ring-popup-background-color`
+- The codebase has migrated to TypeScript
+- `react-markdown` has been updated to v7, which affects the props of `Markdown` component. The most notable change is replacing `source` with `children`:
+  ```js
+  // before
+  <Markdown source="some markdown" />
+  
+  // after
+  <Markdown>some markdown</Markdown>
+  ```
+  See `react-markdown`'s [changelog](https://github.com/remarkjs/react-markdown/blob/main/changelog.md#600---2021-04-15) for other changes
+- Removed `core-js@2` support
+- Removed `webpack@4` support
+
 ## [4.2.0]
 
 ### React 18 support

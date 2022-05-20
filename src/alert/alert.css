@@ -1,0 +1,147 @@
+@import "../global/variables.css";
+
+@value link from "../link/link.css";
+@value unit from "../global/global.css";
+@value animation-duration: 300ms;
+@value animation-easing: ease-out;
+
+.alert {
+  position: relative;
+
+  display: flex;
+  align-items: baseline;
+
+  box-sizing: border-box;
+  min-height: calc(unit * 5);
+  margin: unit auto;
+  padding: 0 calc(unit * 2);
+
+  transition:
+    transform animation-duration animation-easing,
+    margin-bottom animation-duration animation-easing,
+    opacity animation-duration animation-easing;
+  white-space: nowrap;
+  pointer-events: auto;
+
+  border-radius: var(--ring-border-radius);
+  background-color: var(--ring-popup-background-color);
+  box-shadow: var(--ring-popup-shadow);
+
+  font-size: var(--ring-font-size);
+  line-height: calc(unit * 5);
+}
+
+.alertInline {
+  margin: unit;
+}
+
+.error {
+  word-wrap: break-word;
+
+  color: var(--ring-icon-error-color);
+}
+
+.icon {
+  margin-right: unit;
+}
+
+.caption {
+  overflow: hidden;
+
+  max-width: calc(100% - calc(unit * 5));
+
+  margin: 12px 0;
+
+  white-space: normal;
+
+  color: var(--ring-active-text-color);
+
+  line-height: 20px;
+
+  & :global(.ring-link),
+  /* This link styles are used in link.css */
+  & .link {
+    color: var(--ring-main-color);
+  }
+
+  &.withCloseButton {
+    margin-right: calc(unit * 5);
+  }
+}
+
+.badge {
+  margin-left: unit;
+
+  vertical-align: baseline;
+}
+
+.loader {
+  top: 2px;
+
+  margin-right: unit;
+}
+
+.close {
+  position: absolute;
+  top: 2px;
+  right: 0;
+
+  margin: calc(unit / 2);
+  padding: unit;
+
+  font-size: 0;
+  line-height: 0;
+}
+
+@keyframes show {
+  from {
+    transform: translateY(100%);
+
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+
+    opacity: 1;
+  }
+}
+
+@keyframes shaking {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
+}
+
+.animationOpen {
+  animation-name: show;
+  animation-duration: animation-duration;
+}
+
+.animationClosing {
+  z-index: var(--ring-invisible-element-z-index);
+
+  opacity: 0;
+}
+
+.animationShaking {
+  animation-name: shaking;
+  animation-duration: 500ms;
+}

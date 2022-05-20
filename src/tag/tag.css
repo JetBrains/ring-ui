@@ -1,0 +1,186 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+@value max-height: 20px;
+
+.tag {
+  composes: resetButton from "../global/global.css";
+
+  position: relative;
+  z-index: 1;
+
+  display: inline-flex;
+
+  box-sizing: border-box;
+  max-width: 100%;
+  height: max-height;
+
+  margin-bottom: 1px;
+  padding: 0 unit;
+
+  cursor: pointer;
+
+  vertical-align: top;
+
+  color: var(--ring-text-color);
+
+  border: none;
+  border-radius: var(--ring-border-radius);
+
+  font-size: 12px;
+  line-height: var(--ring-line-height);
+}
+
+.tag,
+.tagAngled::before {
+  transition: background-color var(--ring-ease);
+
+  background-color: var(--ring-tag-background-color);
+}
+
+.withRemove {
+  padding-right: 22px;
+}
+
+.container {
+  position: relative;
+
+  display: inline-block;
+
+  max-width: calc(100% - unit / 2);
+
+  margin-right: calc(unit / 2);
+
+  white-space: nowrap;
+}
+
+.focused,
+.tag:global(.focus-visible) {
+  position: relative;
+
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring-border-hover-color);
+}
+
+.focused,
+.focused.tagAngled::before,
+.tag:global(.focus-visible),
+.tagAngled:global(.focus-visible)::before,
+.tag:hover,
+.tagAngled:hover::before {
+  transition: none;
+
+  background-color: var(--ring-tag-hover-background-color);
+}
+
+.tagAngled {
+  /* it needs to fix vertical alignment broken by "overflow: hidden". Remove this class, when IE11 will be deprecated */
+
+  margin-bottom: -5px !important;
+
+  margin-left: unit;
+  padding-left: calc(unit / 2);
+
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  &::before {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+
+    box-sizing: border-box;
+    width: 12px;
+    height: 12px;
+
+    content: "";
+    transform: scaleY(1.177) rotate(45deg);
+    transform-origin: 0 0;
+
+    border: none;
+  }
+
+  &.focused,
+  &:focus {
+    box-shadow: 0 0 0 1px var(--ring-border-hover-color) inset, 0 0 0 1px var(--ring-border-hover-color);
+  }
+
+  &:focus::before {
+    box-shadow:
+      1px -1px var(--ring-border-hover-color) inset,
+      -0.8px 0.8px 0 0.5px var(--ring-border-hover-color);
+  }
+}
+
+.content {
+  composes: ellipsis from "../global/global.css";
+}
+
+.disabled.tag,
+.disabled.tagAngled::before {
+  pointer-events: none;
+
+  color: var(--ring-disabled-color);
+  background-color: var(--ring-disabled-background-color);
+}
+
+.remove {
+  position: absolute;
+  z-index: 1;
+  top: 2px;
+  right: 0;
+
+  height: auto;
+  padding: 0 calc(unit / 2);
+
+  line-height: calc(unit * 2);
+}
+
+.removeIcon.removeIcon {
+  color: var(--ring-icon-secondary-color);
+}
+
+.icon {
+  margin-right: 6px;
+
+  color: var(--ring-icon-secondary-color);
+
+  & svg {
+    vertical-align: -3px;
+  }
+}
+
+.avatarContainer {
+  display: inline-block;
+  overflow: hidden;
+
+  box-sizing: border-box;
+  width: max-height;
+  height: max-height;
+  margin-right: calc(unit / 2);
+  margin-left: calc(0 - unit);
+
+  vertical-align: top;
+
+  border-top-left-radius: var(--ring-border-radius);
+  border-bottom-left-radius: var(--ring-border-radius);
+}
+
+.customIcon {
+  max-width: calc(unit * 2);
+  max-height: calc(unit * 2);
+
+  margin-right: calc(unit / 2);
+
+  vertical-align: bottom;
+}
+
+.avatarIcon {
+  width: max-height;
+
+  margin-right: -4px;
+
+  object-fit: contain;
+  object-position: center;
+}

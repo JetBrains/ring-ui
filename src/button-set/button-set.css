@@ -1,0 +1,22 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+@value button from "../button/button.css";
+
+.buttonSet {
+  position: relative;
+
+  display: inline-block;
+
+  white-space: nowrap;
+
+  font-size: 0;
+
+  & .button {
+    margin: 0 unit 0 0;
+  }
+
+  & > .button:last-child {
+    margin-right: 0;
+  }
+}

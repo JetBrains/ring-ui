@@ -1,0 +1,17 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+
+.title {
+  font-weight: 600;
+}
+
+.error {
+  margin-top: calc(unit / 2);
+
+  word-wrap: break-word;
+
+  color: var(--ring-text-color);
+
+  line-height: calc(unit * 2);
+}

@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import {babel} from '@rollup/plugin-babel';
 import styles from 'rollup-plugin-styles';
 import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
 import clear from 'rollup-plugin-clear';
 import glob from 'glob';
 
@@ -14,7 +15,7 @@ function getHash(input) {
 }
 
 const files = glob.sync(
-  'components/**/*.js',
+  'components/**/*.{js,jsx}',
   {
     ignore: [
       '**/__mocks__/**',
@@ -27,6 +28,8 @@ const files = glob.sync(
 );
 
 const TARGET_DIR = 'dist';
+
+const extensions = ['.js', '.jsx'];
 
 export default {
   external: id => {
@@ -53,9 +56,12 @@ export default {
       targets: [TARGET_DIR]
     }),
 
+    resolve({extensions}),
+
     babel({
       babelHelpers: 'bundled',
-      browserslistEnv: 'dist'
+      browserslistEnv: 'dist',
+      extensions
     }),
 
     // NOTE: styles plugin runs 2 times. First time it applies all the PostCSS transforms

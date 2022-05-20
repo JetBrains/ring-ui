@@ -1,12 +1,12 @@
 import initStoryshots, {renderOnly} from '@storybook/addon-storyshots';
 import {act} from 'react-dom/test-utils';
 
-jest.mock('./components/loader/loader__core', () => (
+jest.mock('./src/loader/loader__core', () => (
   class FakeLoader {
     updateMessage = jest.fn();
   }
 ));
-jest.mock('./components/old-browsers-message/old-browsers-message');
+jest.mock('./src/old-browsers-message/old-browsers-message');
 
 initStoryshots({
   framework: 'html',
