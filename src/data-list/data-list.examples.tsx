@@ -57,11 +57,11 @@ export const basic = () => {
     onItemMoreLess = (item: Item, more: boolean) => {
       if (more) {
         this.moreExpandedItems.add(item.id);
-        item.items ??= [];
+        item.items = item.items ?? [];
         item.items = item.items.concat([...moreItems]);
       } else {
         this.moreExpandedItems.delete(item.id);
-        item.items ??= [];
+        item.items = item.items ?? [];
         item.items = item.items.slice(0, item.items.length - moreItems.length);
       }
 
