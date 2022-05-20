@@ -7,6 +7,8 @@ import {Story} from '@storybook/react';
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
+import Text from '../text/text';
+
 import Link from '../link/link';
 import Popup from '../popup/popup';
 import List from '../list/list';
@@ -19,7 +21,8 @@ import Input, {ContainerProps, InputSpecificProps} from '../input/input';
 
 import {ControlsHeight} from '../global/controls-height';
 
-import Select, {SelectAttrs, SelectItem, SingleSelectAttrs} from './select';
+import Select, {SelectAttrs, SelectItem, SelectProps, SingleSelectAttrs} from './select';
+import {Multiple} from './select__popup';
 
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
@@ -998,6 +1001,31 @@ export const multipleWithSelectAllAndDisabledItem: Story<SelectAttrs> = args => 
 multipleWithSelectAllAndDisabledItem.storyName = 'multiple with select all and disabled item';
 multipleWithSelectAllAndDisabledItem.parameters = {hermione: {skip: true}};
 
+export const multipleWithSelectAllAndCustomLabels = (args: SelectProps) => <Select {...args}/>;
+{
+  const data = [
+    {label: 'One long label', key: '1'},
+    {label: 'Two long label', key: '2'},
+    {label: 'Three long label', key: '3'}
+  ];
+
+  const multipleConfig: Multiple = {
+    selectAll: true,
+    selectAllLabel: 'All Items',
+    deselectAllLabel: 'None Items',
+    renderSelectedItemsDescription: selected => <Text info>{`${selected.length} items selected`}</Text>
+  };
+
+  multipleWithSelectAllAndCustomLabels.args = {
+    filter: true,
+    multiple: multipleConfig,
+    selected: [data[1]],
+    data
+  };
+}
+
+multipleWithSelectAllAndCustomLabels.storyName = 'multiple with select all and custom labels';
+multipleWithSelectAllAndCustomLabels.parameters = {hermione: {skip: true}};
 
 export const multipleWithLimit: Story<SelectAttrs> = args => <Select {...args}/>;
 {

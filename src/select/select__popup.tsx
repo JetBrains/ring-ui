@@ -59,6 +59,9 @@ export interface Multiple {
   label?: string | null | undefined
   limit?: number | null | undefined
   selectAll?: boolean | null | undefined
+  renderSelectedItemsDescription?: (selectedItems: SelectItem[], total: number) => ReactNode;
+  selectAllLabel?: string;
+  deselectAllLabel?: string;
   removeSelectedItems?: boolean | null | undefined
 }
 
@@ -439,6 +442,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   };
 
   getSelectAll = () => {
+    const multiple = this.props.multiple as Multiple;
     const activeFilters = this.props.data.filter(item => !item.disabled);
     return Array.isArray(this.props.selected) && (
       <div className={styles.selectAll}>
@@ -454,12 +458,15 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
                 onClick={this.handleSelectAll}
               >
                 {activeFilters.length !== this.props.selected.length
-                  ? 'Select all'
-                  : 'Deselect all'}
+                  ? multiple.selectAllLabel || 'Select all'
+                  : multiple.deselectAllLabel || 'Deselect all'}
               </Button>
             )
         }
-        <Text info>{`${this.props.selected.length} selected`}</Text>
+        {multiple.renderSelectedItemsDescription
+          ?.(this.props.selected, activeFilters.length) || (
+          <Text info>{`${this.props.selected.length} selected`}</Text>
+        )}
       </div>
     );
   };
