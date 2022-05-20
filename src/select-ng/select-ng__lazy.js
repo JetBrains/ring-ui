@@ -12,7 +12,11 @@ class SelectLazy {
     this.props = props || {};
     this.type = type;
     this.node = container;
-    this.selectRef = selectRef;
+    this.selectInstance = null;
+    this.selectRef = node => {
+      this.selectInstance = node;
+      selectRef(node);
+    };
     this._popup = {
       isVisible: angular.noop
     };
@@ -49,8 +53,8 @@ class SelectLazy {
   render(props) {
     this.reactSelect = (
       <RerenderableSelect
-        ref={this.selectRef}
         {...Object.assign({}, this.props, props || {})}
+        ref={this.selectRef}
       />
     );
     this.props = this.reactSelect.props;
@@ -65,6 +69,8 @@ class SelectLazy {
     this.detachEvents();
     if (this.type === 'dropdown') {
       render(this.reactSelect, this.container);
+      // Hack for React17, where click event is not triggered on just rendered Select node
+      this.selectInstance?._openPopupIfClosed?.();
     } else {
       hydrate(this.reactSelect, this.container);
     }
