@@ -1,0 +1,80 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+
+.filterWithTags {
+  overflow: hidden;
+
+  margin: calc(unit * 2) unit 0;
+  padding: 1px;
+
+  text-align: left;
+
+  border: 1px solid var(--ring-borders-color);
+
+  & .filterWrapper {
+    border-bottom: none;
+  }
+}
+
+.filterWithTagsFocused {
+  border: 1px solid var(--ring-border-hover-color);
+}
+
+.filter {
+  flex-grow: 1;
+
+  width: 0;
+
+  & input {
+    font-weight: 200;
+  }
+}
+
+.filterWrapper {
+  position: relative;
+
+  display: flex;
+
+  margin: 0;
+  padding-right: unit;
+  padding-left: calc(unit * 5.5);
+
+  border-bottom: 1px solid var(--ring-borders-color);
+
+  @nest [dir=rtl] & {
+    padding-right: calc(unit * 5.5);
+    padding-left: unit;
+  }
+}
+
+.filterIcon {
+  position: absolute;
+  top: 7px;
+  left: calc(unit * 2);
+
+  color: var(--ring-icon-color);
+
+  @nest [dir=rtl] & {
+    right: calc(unit * 2);
+    left: auto;
+  }
+}
+
+.bottomLine {
+  text-align: center;
+}
+
+.message {
+  display: inline-block;
+
+  margin: unit 0;
+  padding: 0 calc(2 * unit);
+}
+
+.selectAll {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 8px 16px 0;
+}

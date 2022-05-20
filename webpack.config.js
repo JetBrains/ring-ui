@@ -1,16 +1,5 @@
 const path = require('path');
 
-const deprecate = require('util-deprecate');
-
-(function checkWebpack() {
-  const webpackVersion = require('webpack').version;
-  const isObsoleteWebpack = webpackVersion.startsWith('4');
-  if (isObsoleteWebpack) {
-    // TODO remove in 5.0
-    deprecate(() => null, `[WARN]: RingUI is used with Webpack@"${webpackVersion}". Ring UI requires Webpack@>=5`)();
-  }
-}());
-
 function loadersObjectToArray(loaders) {
   return Object.keys(loaders).map(name => loaders[name]);
 }
@@ -58,7 +47,7 @@ function createConfig() {
   };
 
   const babelLoader = {
-    test: /\.js$/,
+    test: /\.[jt]sx?$/,
     sideEffects: false,
     include: componentsPath,
     loader: require.resolve('babel-loader'),
@@ -86,6 +75,9 @@ function createConfig() {
     config: {
       module: {
         rules: loadersObjectToArray(loaders)
+      },
+      resolve: {
+        extensions: ['.js', '.ts', '.tsx']
       }
     },
     componentsPath,

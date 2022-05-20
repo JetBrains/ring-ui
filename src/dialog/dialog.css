@@ -1,0 +1,126 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+@value header from "../island/island.css";
+
+.container {
+  position: fixed;
+  z-index: var(--ring-overlay-z-index);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  overflow: auto;
+  align-items: center;
+  justify-content: center;
+
+  padding: calc(unit * 4) unit;
+
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 100%;
+}
+
+.content {
+  position: relative;
+
+  width: calc(unit * 58);
+  min-height: calc(unit * 15);
+  margin: auto;
+
+  cursor: default;
+  overflow-wrap: break-word;
+
+  & .panel {
+    margin-top: 0;
+    padding: calc(unit * 2) calc(unit * 4) calc(unit * 4);
+
+    border-top: none;
+
+    background-color: transparent;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .panel button {
+    margin-right: unit;
+  }
+}
+
+.content.content {
+  box-shadow: var(--ring-dialog-shadow);
+}
+
+.clickableOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  cursor: pointer;
+}
+
+.clickableOverlay:hover + * .closeIcon {
+  color: var(--ring-icon-hover-color);
+}
+
+.closeButton:hover .closeIcon {
+  color: var(--ring-icon-hover-color);
+}
+
+.clickableOverlay:active + * .closeIcon {
+  color: var(--ring-main-color);
+}
+
+.closeButton:active .closeIcon {
+  color: var(--ring-main-color);
+}
+
+.closeButton.closeButton {
+  position: absolute;
+}
+
+.closeButtonOutside {
+  top: 0;
+  right: calc(unit * -4);
+}
+
+.closeButtonInside {
+  top: calc(unit * 1.5);
+  right: unit;
+}
+
+.documentWithoutScroll {
+  overflow: hidden;
+
+  height: 100%;
+}
+
+.popupTarget {
+  position: fixed;
+  z-index: var(--ring-overlay-z-index);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  pointer-events: none;
+
+  & > :not(.popupTarget) {
+    pointer-events: initial;
+  }
+}
+
+.container .header {
+  padding-top: calc(unit * 4);
+
+  font-size: 24px;
+  line-height: 28px;
+}

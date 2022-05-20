@@ -10,12 +10,10 @@ module.exports = {
   },
   setupFiles: [
     '<rootDir>/test-helpers/jest-setup.js',
-    '<rootDir>/test-helpers/inject-hub-config.js',
-    '<rootDir>/test-helpers/register-context.js',
-    '<rootDir>/test-helpers/resize-observer-mock.js'
+    '<rootDir>/test-helpers/jest-globals.js'
   ],
   transform: {
-    '^.+\\.js$': 'babel-jest'
+    '^.+\\.[jt]sx?$': 'babel-jest'
   },
   transformIgnorePatterns: [],
   restoreMocks: true,

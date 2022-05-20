@@ -1,0 +1,45 @@
+import React from 'react';
+import classNames from 'classnames';
+import type {Locale} from 'date-fns';
+import getDay from 'date-fns/getDay';
+import format from 'date-fns/format';
+import setDay from 'date-fns/setDay';
+import startOfDay from 'date-fns/startOfDay';
+
+import PropTypes from 'prop-types';
+
+import {weekdays} from './consts';
+import styles from './date-picker.css';
+
+interface WeekdaysProps {
+  locale: Locale | undefined
+}
+
+export default function Weekdays(props: WeekdaysProps) {
+  const days = Object.values(weekdays).
+    map(value => startOfDay(setDay(new Date(), value)));
+
+  const {locale} = props;
+
+  return (
+    <div className={styles.weekdays}>
+      {days.map(day => (
+        <span
+          className={classNames(
+            styles.weekday,
+            {
+              [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day))
+            }
+          )}
+          key={+day}
+        >
+          {format(day, 'EEEEEE', {locale})}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+Weekdays.propTypes = {
+  locale: PropTypes.string
+};

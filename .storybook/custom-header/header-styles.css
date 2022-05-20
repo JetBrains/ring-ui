@@ -1,4 +1,3 @@
-
 /**
   Hackish handle Strotybooks fixed position
  */
@@ -30,7 +29,7 @@
 .version button {
   height: auto;
 
-  color: var(--ring-dark-text-color);
+  color: var(--ring-active-text-color);
 }
 
 .githubIcon {

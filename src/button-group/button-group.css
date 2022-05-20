@@ -1,0 +1,204 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+@value button, active, primary, button-shadow from "../button/button.css";
+
+:root {
+  --ring-button-group-default-z-index: 1;
+  --ring-button-group-disabled-z-index: 0;
+  --ring-button-group-active-z-index: 2;
+  --ring-button-group-hover-z-index: 3;
+  --ring-button-group-focus-z-index: 4;
+}
+
+.common {
+  display: inline-block;
+
+  white-space: nowrap;
+}
+
+.buttonGroup {
+  composes: common;
+  composes: buttonGroup from "../button-toolbar/button-toolbar.css";
+
+  border-radius: var(--ring-border-radius);
+
+  box-shadow: button-shadow var(--ring-borders-color);
+
+  line-height: normal;
+}
+
+.buttonGroup .button {
+  --ring-button-group-button-border-color: var(--ring-borders-color);
+
+  position: relative;
+
+  transition: none;
+
+  box-shadow: 0 1px var(--ring-button-group-button-border-color) inset, 0 -1px var(--ring-button-group-button-border-color) inset;
+}
+
+.buttonGroup .button[disabled] {
+  --ring-button-group-button-border-color: var(--ring-border-unselected-disabled-color);
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before,
+  &::after {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+
+    width: var(--ring-border-radius);
+
+    content: "";
+
+    background-color: var(--ring-disabled-background-color);
+
+    box-shadow: 0 1px var(--ring-border-unselected-disabled-color) inset, 0 -1px var(--ring-border-unselected-disabled-color) inset;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before {
+    left: calc(var(--ring-border-radius) * -1);
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::after {
+    right: calc(var(--ring-border-radius) * -1);
+  }
+}
+
+.buttonGroup > .button:first-child,
+.buttonGroup > :first-child .button {
+  box-shadow: 0 1px var(--ring-button-group-button-border-color) inset, 0 -1px var(--ring-button-group-button-border-color) inset, 1px 0 var(--ring-button-group-button-border-color) inset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before {
+    display: none;
+  }
+}
+
+.buttonGroup > .button:last-child,
+.buttonGroup > :last-child .button {
+  box-shadow: 0 1px var(--ring-button-group-button-border-color) inset, 0 -1px var(--ring-button-group-button-border-color) inset, -1px 0 var(--ring-button-group-button-border-color) inset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::after {
+    display: none;
+  }
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.buttonGroup .button.button:hover,
+.buttonGroup .button.button:active {
+  border-radius: var(--ring-border-radius);
+  box-shadow: button-shadow var(--ring-border-hover-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.buttonGroup .button.button:global(.focus-visible) {
+  border-radius: var(--ring-border-radius);
+  box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.buttonGroup .button.button.active {
+  border-radius: var(--ring-border-radius);
+  box-shadow: inset 0 0 0 2px var(--ring-main-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.buttonGroup .button:global(.focus-visible).active {
+  border-radius: var(--ring-border-radius);
+  box-shadow: inset 0 0 0 2px var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.buttonGroup .button.active[disabled] {
+  box-shadow: button-shadow var(--ring-border-disabled-color);
+}
+
+.split {
+  composes: common;
+
+  position: relative;
+  z-index: 0;
+}
+
+.common button,
+.common .button {
+  border-radius: 0;
+}
+
+.split button,
+.split .button {
+  margin: 0 0 0 -1px;
+}
+
+.caption {
+  composes: font from "../global/global.css";
+
+  margin-right: unit;
+
+  font-size: var(--ring-font-size);
+
+  &:empty {
+    margin-right: 0;
+  }
+}
+
+.common > button:first-child,
+.common > .button:first-child,
+.common > :first-child .button {
+  margin: 0;
+
+  border-top-left-radius: var(--ring-border-radius);
+  border-bottom-left-radius: var(--ring-border-radius);
+}
+
+.common > .button:last-child,
+.common > button:last-child,
+.common > :last-child .button {
+  border-top-right-radius: var(--ring-border-radius);
+  border-bottom-right-radius: var(--ring-border-radius);
+}
+
+.split .primary:not(:last-child) {
+  margin-right: 1px;
+}
+
+.split .primary:not(:first-child) {
+  margin-left: 1px;
+}
+
+.common {
+  & .button {
+    position: relative;
+    z-index: var(--ring-button-group-default-z-index);
+
+    &[disabled] {
+      z-index: var(--ring-button-group-disabled-z-index);
+    }
+
+    &:active {
+      z-index: var(--ring-button-group-active-z-index);
+    }
+
+    &:hover {
+      z-index: var(--ring-button-group-hover-z-index);
+    }
+
+    &:focus {
+      z-index: var(--ring-button-group-focus-z-index);
+    }
+  }
+
+  & .active {
+    z-index: var(--ring-button-group-active-z-index);
+
+    &[disabled] {
+      z-index: var(--ring-button-group-default-z-index);
+    }
+  }
+}
