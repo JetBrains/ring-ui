@@ -1,0 +1,117 @@
+/* stylelint-disable color-no-hex */
+
+:root {
+  --ring-unit: 8px;
+
+  /* Element */
+  --ring-line-color: #dfe5eb;
+  --ring-borders-color: #c5d1db;
+  --ring-icon-color: #b8d1e5;
+  --ring-icon-secondary-color: #999;
+  --ring-border-disabled-color: #d4d4d4;
+  --ring-border-unselected-disabled-color: #e8e8e8;
+  --ring-icon-disabled-color: #d4d4d4;
+  --ring-border-hover-color: #80c6ff;
+  --ring-icon-hover-color: var(--ring-link-hover-color);
+  --ring-main-color: #0080e5;
+  --ring-main-hover-color: #0070cc;
+  --ring-icon-error-color: #db5860;
+  --ring-icon-warning-color: #eda200;
+  --ring-icon-success-color: #59a869;
+  --ring-pale-control-color: #cfdbe5;
+  --ring-popup-border-components: 0, 28, 54;
+  --ring-popup-border-color: var(--ring-line-color);
+  --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.1);
+  --ring-popup-secondary-shadow-color: rgba(var(--ring-popup-border-components), 0.04);
+  --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);
+  --ring-popup-shadow: 0 2px 8px var(--ring-popup-shadow-color), 0 1px 2px var(--ring-popup-secondary-shadow-color);
+  --ring-dialog-shadow: 0 4px 24px var(--ring-popup-shadow-color), 0 2px 6px var(--ring-popup-secondary-shadow-color);
+  --ring-pinned-shadow-color: #737577;
+  --ring-button-danger-hover-color: var(--ring-icon-error-color);
+  --ring-button-primary-border-color: #0062b2;
+
+  /* Text */
+  --ring-search-color: #669ecc;
+  --ring-hint-color: #406380;
+  --ring-link-color: #0f5b99;
+  --ring-link-hover-color: #ff008c;
+  --ring-error-color: #a90f1a;
+  --ring-warning-color: #b25c00;
+  --ring-success-color: #0c7523;
+  --ring-text-color: #1f2326;
+  --ring-active-text-color: var(--ring-text-color);
+  --ring-white-text-color: #fff;
+  --ring-heading-color: var(--ring-text-color);
+  --ring-secondary-color: #737577;
+  --ring-disabled-color: #999;
+
+  /* Background */
+  --ring-content-background-color: #fff;
+  --ring-popup-background-color: #fff;
+  --ring-sidebar-background-color: #f7f9fa;
+  --ring-selected-background-color: #d4edff;
+  --ring-hover-background-color: #ebf6ff;
+  --ring-navigation-background-color: #fff;
+  --ring-tag-background-color: #e6ecf2;
+  --ring-tag-hover-background-color: #d3dae0;
+  --ring-removed-background-color: #ffd5cb;
+  --ring-warning-background-color: #faeccd;
+  --ring-added-background-color: #d8f0d8;
+  --ring-disabled-background-color: #f5f5f5;
+  --ring-button-danger-active-color: #ffe7e8;
+  --ring-button-loader-background: #33a3ff;
+  --ring-button-primary-background-color: #1a98ff;
+
+  /* Code */
+  --ring-code-background-color: var(--ring-content-background-color);
+  --ring-code-color: #000;
+  --ring-code-comment-color: #707070;
+  --ring-code-meta-color: #707070;
+  --ring-code-keyword-color: #000080;
+  --ring-code-tag-background-color: #efefef;
+  --ring-code-tag-color: var(--ring-code-keyword-color);
+  --ring-code-tag-font-weight: bold;
+  --ring-code-field-color: #660e7a;
+  --ring-code-attribute-color: #00f;
+  --ring-code-number-color: var(--ring-code-attribute-color);
+  --ring-code-string-color: #007a00;
+  --ring-code-addition-color: #aadeaa;
+  --ring-code-deletion-color: #c8c8c8;
+
+  /* Metrics */
+  --ring-border-radius: 4px;
+  --ring-border-radius-small: 2px;
+  --ring-font-size-larger: 15px;
+  --ring-font-size: 14px;
+  --ring-font-size-smaller: 12px;
+  --ring-line-height-taller: 21px;
+  --ring-line-height: 20px;
+  --ring-line-height-lower: 18px;
+  --ring-line-height-lowest: 16px;
+  --ring-ease: 0.3s ease-out;
+  --ring-fast-ease: 0.15s ease-out;
+  --ring-font-family: system-ui, Arial, sans-serif;
+  --ring-font-family-monospace:
+    Menlo,
+    "Bitstream Vera Sans Mono",
+    "Ubuntu Mono",
+    Consolas,
+    "Courier New",
+    Courier,
+    monospace;
+
+  /* Common z-index-values */
+
+  /* Invisible element is an absolutely positioned element which should be below */
+  /* all other elements on the page */
+  --ring-invisible-element-z-index: -1;
+
+  /* z-index for position: fixed elements */
+  --ring-fixed-z-index: 1;
+
+  /* Elements that should overlay all other elements on the page */
+  --ring-overlay-z-index: 5;
+
+  /* Alerts should de displayed above overlays */
+  --ring-alert-z-index: 6;
+}

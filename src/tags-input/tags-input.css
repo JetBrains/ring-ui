@@ -1,0 +1,92 @@
+@import "../global/variables.css";
+
+@value outerContainer, container, input from "../input/input.css";
+
+.tagsInput {
+  padding-top: 2px;
+  padding-bottom: 2px;
+
+  white-space: normal;
+}
+
+.tagsInputLegacyMode {
+  padding-top: 0;
+  padding-bottom: 1px;
+
+  border: 1px solid var(--ring-borders-color);
+  background-color: var(--ring-content-background-color);
+
+  & .tagsList {
+    padding-top: 1px;
+
+    line-height: 20px;
+  }
+
+  & .tag {
+    margin-right: 2px;
+  }
+}
+
+.tagsInputDisabled {
+  pointer-events: none;
+
+  color: var(--ring-disabled-color);
+
+  & .input {
+    background-color: transparent;
+  }
+
+  & .underline {
+    border-bottom-style: dashed;
+  }
+}
+
+.tagsInputFocused {
+  border-color: var(--ring-main-color);
+}
+
+.tagsList {
+  display: inline-block;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  margin-bottom: -1px;
+
+  padding-left: 2px;
+
+  line-height: 22px;
+}
+
+.tagsSelect {
+  margin-bottom: -1px;
+
+  & .outerContainer {
+    --ring-input-padding-block: 0;
+  }
+
+  & .container {
+    line-height: calc(var(--ring-line-height) - 2px);
+  }
+}
+
+.underline {
+  height: 1px;
+
+  border-bottom: var(--ring-borders-color) 1px solid;
+}
+
+.focusUnderline {
+  width: 0;
+  height: 2px;
+
+  margin-top: -1px;
+
+  transition: width 0.15s ease-out;
+
+  background: var(--ring-main-color);
+
+  @nest .tagsInputFocused & {
+    width: 100%;
+  }
+}

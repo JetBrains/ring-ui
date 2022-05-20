@@ -1,0 +1,170 @@
+@import "../global/variables.css";
+
+@value dark from "../global/variables_dark.css";
+@value unit from "../global/global.css";
+@value link, active from "../link/link.css";
+@value height: calc(unit * 8);
+@value compensate: 3px;
+@value compensated: calc(height - compensate);
+
+:root {
+  --ring-header-link-color: var(--ring-link-color);
+}
+
+.dark {
+  --ring-header-link-color: var(--ring-text-color);
+}
+
+.header {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+
+  box-sizing: border-box;
+  height: height;
+
+  color: var(--ring-text-color);
+
+  background-color: var(--ring-navigation-background-color);
+
+  line-height: compensated;
+
+  & > * {
+    display: inline-block;
+
+    box-sizing: border-box;
+    height: height;
+    padding: 0 calc(unit * 1.5) compensate;
+  }
+
+  /* override link */
+  & .link {
+    color: var(--ring-header-link-color);
+  }
+
+  & .active {
+    color: var(--ring-active-text-color);
+  }
+}
+
+.headerSpaced {
+  & > *:first-child {
+    padding-left: calc(unit * 4);
+  }
+
+  & > *:last-child {
+    padding-right: calc(unit * 4);
+  }
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+
+  height: height;
+
+  color: var(--ring-navigation-background-color);
+
+  line-height: normal;
+
+  & svg {
+    vertical-align: bottom;
+  }
+}
+
+.tray {
+  align-items: flex-end;
+
+  margin-left: auto;
+  padding: 0 0 compensate;
+}
+
+/* override .header > * */
+.tray.tray {
+  display: flex;
+}
+
+.trayItemContent {
+  height: compensated;
+}
+
+.icon {
+  width: calc(unit * 5);
+
+  text-align: center;
+
+  vertical-align: top;
+}
+
+/* override button */
+.icon.icon {
+  height: compensated;
+
+  padding-top: calc(unit / 2);
+
+  line-height: compensated;
+}
+
+.main svg {
+  color: var(--ring-main-color);
+}
+
+.rotatable svg {
+  transition: transform 0.3s ease-out;
+  transform: rotate(0deg);
+  transform-origin: 50% 50%;
+}
+
+.rotated svg {
+  transform: rotate(90deg);
+}
+
+.profileEmpty {
+  align-items: center;
+
+  width: auto;
+  height: compensated;
+  padding-left: unit;
+
+  vertical-align: bottom;
+}
+
+/* override dropdown */
+.profileEmpty.profileEmpty {
+  display: inline-flex;
+}
+
+.profile {
+  composes: profileEmpty;
+
+  height: compensated;
+
+  cursor: pointer;
+}
+
+.avatarWrapper {
+  composes: resetButton from "../global/global.css";
+
+  line-height: 0;
+}
+
+.hasUpdates {
+  position: relative;
+
+  &::after {
+    position: absolute;
+    top: calc(15% - 5px);
+    right: calc(15% - 5px);
+
+    display: block;
+
+    width: unit;
+    height: unit;
+
+    content: "";
+
+    border: 1px solid var(--ring-white-text-color);
+    border-radius: 50%;
+    background-color: var(--ring-link-hover-color);
+  }
+}

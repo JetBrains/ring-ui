@@ -8,20 +8,24 @@ const pkgConfig = require('../package.json').config;
 module.exports = {
   stories: [
     // Make welcome stories default
-    '../components/welcome.examples.js',
-    '../components/**/*.examples.js'
+    '../src/welcome.examples.js',
+    '../src/**/*.examples.{js,ts,tsx}'
   ],
   presets: [require.resolve('./custom-header/header-preset')],
   addons: [
     '@storybook/addon-storysource',
     '@storybook/addon-essentials',
-    '@storybook/addon-a11y'
+    '@storybook/addon-a11y',
+    'storybook-zeplin/register'
   ],
   core: {
     builder: 'webpack5'
   },
   webpackFinal(config) {
-    ringConfig.componentsPath.push(/\.storybook/);
+    ringConfig.componentsPath.push(
+      __dirname,
+      path.resolve(__dirname, '../src')
+    );
     ringConfig.loaders.babelLoader.options.plugins = [[
       'babel-plugin-react-docgen',
       {
@@ -56,8 +60,6 @@ module.exports = {
     const hubConfig = JSON.stringify({serverUri, clientId});
 
     config.plugins.push(new webpack.DefinePlugin({hubConfig}));
-
-    config.resolve.alias['@jetbrains/ring-ui'] = path.resolve(__dirname, '..');
 
     return config;
   }

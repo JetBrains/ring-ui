@@ -1,0 +1,34 @@
+@import "../global/variables.css";
+
+.popup {
+  composes: font from "../global/global.css";
+
+  position: fixed;
+  z-index: var(--ring-overlay-z-index);
+  top: -100vh;
+  left: -100vw;
+
+  overflow-y: auto;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--ring-popup-border-color);
+  border-radius: var(--ring-border-radius);
+
+  background-color: var(--ring-popup-background-color);
+  box-shadow: var(--ring-popup-shadow);
+}
+
+.hidden {
+  display: none;
+}
+
+.showing {
+  opacity: 0;
+}
+
+.attached {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

@@ -1,0 +1,133 @@
+@import "../global/variables.css";
+
+@value unit from "../global/global.css";
+@value gradientStart: rgba(255, 255, 255, 0);
+@value gradientStop: var(--ring-content-background-color);
+
+.island {
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid var(--ring-line-color);
+  border-radius: var(--ring-border-radius);
+
+  background-color: var(--ring-content-background-color);
+  box-shadow: 0 1px 4px var(--ring-popup-shadow-color);
+}
+
+.withTransparentBottomBorder {
+  transition: border-bottom-color 0.1s;
+
+  border-bottom: 1px solid transparent;
+}
+
+.header {
+  box-sizing: border-box;
+  width: 100%;
+  padding: calc(unit * 2) calc(unit * 4) unit;
+
+  transition: border-bottom-color 0.1s;
+
+  border-bottom: 1px solid transparent;
+
+  line-height: 24px;
+}
+
+.withBottomBorder.withBottomBorder {
+  border-bottom-color: var(--ring-popup-border-color);
+  border-top-left-radius: var(--ring-border-radius);
+  border-top-right-radius: var(--ring-border-radius);
+}
+
+.title {
+  display: block;
+  float: left;
+
+  margin: 0;
+
+  transform-origin: 0 50%;
+  word-break: break-word;
+
+  color: var(--ring-heading-color);
+
+  font-size: inherit;
+
+  font-weight: bold;
+}
+
+.narrowIsland .header {
+  padding-right: calc(unit * 2);
+  padding-left: calc(unit * 2);
+}
+
+.content {
+  position: relative;
+
+  display: flex;
+  overflow: auto;
+
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollableWrapper {
+  overflow: auto;
+
+  width: 100%;
+  padding: calc(unit * 2) calc(unit * 4);
+
+  &:focus:not(:global(.focus-visible)) {
+    outline: none;
+  }
+}
+
+.narrowIsland .scrollableWrapper {
+  padding: calc(unit * 2) calc(unit * 2);
+}
+
+.withoutPaddings .scrollableWrapper {
+  padding: 0;
+}
+
+.contentWithTopFade::before {
+  position: absolute;
+  z-index: var(--ring-fixed-z-index);
+  left: 0;
+
+  display: block;
+
+  width: 100%;
+  height: calc(unit * 3);
+
+  content: "";
+
+  pointer-events: none;
+
+  opacity: 0.8;
+
+  background: linear-gradient(to top, gradientStart, gradientStop);
+}
+
+.contentWithTopFade:first-child::before {
+  border-top-left-radius: var(--ring-border-radius);
+  border-top-right-radius: var(--ring-border-radius);
+}
+
+.contentWithBottomFade::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  display: block;
+
+  width: 100%;
+  height: calc(unit * 3);
+
+  content: "";
+  pointer-events: none;
+
+  opacity: 0.8;
+  border-bottom-right-radius: var(--ring-border-radius);
+  border-bottom-left-radius: var(--ring-border-radius);
+  background: linear-gradient(to bottom, gradientStart, gradientStop);
+}

@@ -2,8 +2,10 @@ const path = require('path');
 
 const webpack = require('webpack');
 
-const config = require('./webpack.config').config;
+const {config, componentsPath} = require('./webpack.config');
 const loaders = require('./webpack.config').loaders;
+
+componentsPath.push(path.join(__dirname, 'src'));
 
 const helpersPath = path.join(__dirname, 'test-helpers');
 
@@ -11,12 +13,6 @@ loaders.babelLoader.include.push(helpersPath);
 loaders.babelLoader.sideEffects = true;
 
 config.mode = 'development';
-
-config.resolve = {
-  alias: {
-    '@jetbrains/ring-ui': __dirname
-  }
-};
 
 config.output = {
   devtoolModuleFilenameTemplate: '/[absolute-resource-path]' // For some reason slash in the beginning is required
