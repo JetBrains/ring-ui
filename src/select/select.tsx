@@ -136,7 +136,9 @@ export interface DataTestProps {
 
 export interface CustomAnchorProps {
   wrapperProps: HTMLAttributes<HTMLElement> & DataTestProps & {ref: RefCallback<HTMLElement>}
-  buttonProps: ButtonHTMLAttributes<HTMLButtonElement> & DataTestProps,
+  buttonProps: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'id' | 'disabled' | 'children'> &
+    {onClick: () => void} &
+    DataTestProps,
   popup: ReactNode
 }
 
