@@ -36,6 +36,13 @@
 
   <ThemeProvider theme={Theme.DARK}>{children}</ThemeProvider>
   ```
+  
+  If you still need to apply theme to the global scope, here is a solution:
+  ```js
+    import Theme, {applyTheme} from '@jetbrains/ring-ui/components/global/theme';
+  
+    applyTheme(Theme.DARK, document.body);
+  ```
   You can also pass `Theme.AUTO` to use the user-defined system theme.
   The only exceptions are the components that provide dark context by default: Alert, Header, Message. Those still accept a `theme` prop.
 - `--ring-dark-*` CSS custom properties are removed, `--ring-dark-text-color` is renamed to `--ring-white-text-color`
