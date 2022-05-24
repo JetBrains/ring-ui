@@ -8,15 +8,20 @@ import {axeTest} from '@storybook/addon-storyshots-puppeteer';
 
 const isTeamCity = process.env.TEAMCITY_VERSION != null;
 
+let browser;
+beforeAll(async () => {
+  // Customized like said in https://github.com/puppeteer/puppeteer/issues/1947#issuecomment-879500626
+  browser = await Puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process'],
+    headless: true
+  });
+});
+
 const test = axeTest({
   storybookUrl: isTeamCity ? `file://${path.resolve(__dirname, 'storybook-dist')}` : 'http://localhost:9999?block-auth',
   customizePage: page => page.setViewport({width: 1000, height: 600}),
   testTimeout: 20000,
-  // Customized like said in https://github.com/puppeteer/puppeteer/issues/1947#issuecomment-879500626
-  getCustomBrowser: () => Puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process'],
-    headless: true
-  })
+  getCustomBrowser: () => browser
 });
 
 const suite = 'Accessibility audit';
@@ -34,6 +39,10 @@ initStoryshots({
     }
     await test(...args);
   }, test)
+});
+
+afterAll(() => {
+  browser.close();
 });
 
 if (isTeamCity) {
