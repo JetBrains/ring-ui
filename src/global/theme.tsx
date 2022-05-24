@@ -36,6 +36,14 @@ export function useTheme() {
   return dark ? Theme.DARK : Theme.LIGHT;
 }
 
+export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLElement) {
+  if (theme === Theme.DARK) {
+    container.classList.add(styles.dark);
+  } else {
+    container.classList.remove(styles.dark);
+  }
+}
+
 export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
   theme?: Theme
   passToPopups?: boolean
