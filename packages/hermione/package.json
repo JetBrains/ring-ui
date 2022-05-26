@@ -20,7 +20,7 @@
     "@jetbrains/hermione-teamcity-reporter": "^1.2.1",
     "@storybook/addon-storyshots": "6.5.0-alpha.59",
     "axios": "^0.26.1",
-    "browserstack-local": "^1.4.9",
+    "browserstack-local": "^1.5.1",
     "dotenv": "^16.0.0",
     "filenamify": "^4.3.0",
     "font-awesome": "^4.7.0",
