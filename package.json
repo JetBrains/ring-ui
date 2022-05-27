@@ -105,7 +105,7 @@
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
-    "angular": "^1.8.2",
+    "angular": "^1.8.3",
     "angular-mocks": "^1.8.2",
     "angular-route": "^1.8.3",
     "babel-plugin-react-docgen": "^4.2.1",
