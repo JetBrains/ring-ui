@@ -1,7 +1,8 @@
 ### Environment setup
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
-2. Install Node.js@16. We suggest using NVM for Node version management
+2. Install Node.js@16 (with NPM@8). We suggest using NVM for Node version management
+3. Run `npm install`
 
 ### Available commands
 
