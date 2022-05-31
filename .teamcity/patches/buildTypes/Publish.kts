@@ -28,7 +28,7 @@ changeBuildType(RelativeId("Publish")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -37,46 +37,45 @@ changeBuildType(RelativeId("Publish")) {
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                
+
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                
+
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-                
+
                 node -v
                 npm -v
                 npm whoami
-                
+
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-                
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-                
+
                 npm install
-                npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
                 npm run release-ci -- %lerna.publish.options%
-                
+
                 cat package.json
-                
+
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-                
+
                 publishBuildNumber
-                
+
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -87,7 +86,7 @@ changeBuildType(RelativeId("Publish")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -96,44 +95,43 @@ changeBuildType(RelativeId("Publish")) {
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                
+
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                
+
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-                
+
                 node -v
                 npm -v
                 npm whoami
-                
+
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-                
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-                
+
                 npm install
-                npm run bootstrap
                 npm run build
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
                 npm run release-ci -- %lerna.publish.options%
-                
+
                 cat package.json
-                
+
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-                
+
                 publishBuildNumber
-                
+
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
         }
