@@ -1224,8 +1224,6 @@ object UnitTestsAndBuild : BuildType({
                 node -v
                 npm -v
 
-                apt update
-                apt install g++ gcc make python -y
                 npm install
 
                 # Debugging
