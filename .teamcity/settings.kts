@@ -234,10 +234,9 @@ object Deploy : BuildType({
                 npm config set unsafe-perm true
 
                 npm install
-                npm run bootstrap
                 npm run build-examples
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -367,12 +366,11 @@ object GeminiTests : BuildType({
                 npm -v
 
                 npm install
-                npm run bootstrap
                 cd packages/hermione
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -483,7 +481,7 @@ object A11yAudit : BuildType({
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:14.18"
+            dockerImage = "satantime/puppeteer-node:16-stretch-slim"
         }
     }
 
@@ -543,7 +541,7 @@ object ConsoleErrors : BuildType({
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
         }
     }
 
@@ -606,7 +604,7 @@ object SecurityAudit : BuildType({
                 npm install
                 node security-audit-ci.js
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
         }
     }
 
@@ -678,7 +676,6 @@ object Publish : BuildType({
                 fi
 
                 npm install
-                npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
@@ -695,7 +692,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -817,7 +814,6 @@ object PublishHotfixRelease : BuildType({
                 fi
 
                 npm install
-                npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
@@ -834,7 +830,7 @@ object PublishHotfixRelease : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -966,7 +962,6 @@ object PublishNext : BuildType({
                 fi
 
                 npm install
-                npm run bootstrap
                 npm run build
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
@@ -983,7 +978,7 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1102,7 +1097,7 @@ object PublishToGitHubPages : BuildType({
 
                 npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -1232,7 +1227,6 @@ object UnitTestsAndBuild : BuildType({
                 apt update
                 apt install g++ gcc make python -y
                 npm install
-                npm run bootstrap
 
                 # Debugging
                 npm ls > npm-ls.log || true
@@ -1242,7 +1236,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run build
                 npm run build-examples
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:14.18"
+            dockerImage = "satantime/puppeteer-node:16-stretch-slim"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
@@ -1364,7 +1358,7 @@ object UnpublishSpecificVersion : BuildType({
 
                 npm unpublish %env.PACKAGE_NAME%@%env.PACKAGE_VERSION%
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
         }
     }
 
