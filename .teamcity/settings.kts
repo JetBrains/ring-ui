@@ -214,6 +214,7 @@ object Deploy : BuildType({
         password("env.AWS_SECRET_ACCESS_KEY", "credentialsJSON:dbeb62cd-b1ba-452b-aa7c-317f19a10804", display = ParameterDisplay.HIDDEN)
         param("env.AWS_ACCESS_KEY_ID", "AKIAJ42U3JYQAGGFJ5KQ")
         param("env.AWS_DEFAULT_REGION", "us-east-2")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -349,6 +350,7 @@ object GeminiTests : BuildType({
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:175b3950-943c-4803-99c4-56d5f6ac422a")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -453,6 +455,7 @@ object A11yAudit : BuildType({
 
     params {
         param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
         param("vcs.branch.spec", """
             +:refs/heads/*
             +:refs/(pull/*)/merge
@@ -522,6 +525,7 @@ object ConsoleErrors : BuildType({
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -585,6 +589,7 @@ object SecurityAudit : BuildType({
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -632,6 +637,7 @@ object Publish : BuildType({
     params {
         param("lerna.publish.options", "--cd-version patch")
         param("vcs.branch.spec", "+:refs/heads/(master)")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -770,6 +776,7 @@ object PublishHotfixRelease : BuildType({
     params {
         param("lerna.publish.options", "--cd-version patch --preid hotfix --npm-tag hotfix")
         param("vcs.branch.spec", "+:refs/heads/(release-*)")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -913,6 +920,7 @@ object PublishNext : BuildType({
             -:refs/heads/gh-pages
             -:refs/heads/master
         """.trimIndent())
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -1065,6 +1073,7 @@ object PublishToGitHubPages : BuildType({
             +:refs/heads/(release-1.0)
             +:refs/heads/(storybook-5.2)
         """.trimIndent())
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -1206,6 +1215,7 @@ object UnitTestsAndBuild : BuildType({
         param("env.GIT_COMMITTER_NAME", "")
         param("env.GIT_AUTHOR_EMAIL", "")
         param("npmjs.com.auth.key", "credentialsJSON:075c2e9e-0e12-4b18-9ec2-cb2f366d424e")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -1337,6 +1347,7 @@ object UnpublishSpecificVersion : BuildType({
     params {
         text("env.PACKAGE_NAME", "@jetbrains/ring-ui", label = "Package name", display = ParameterDisplay.PROMPT, allowEmpty = false)
         text("env.PACKAGE_VERSION", "0.3.3", label = "Package version", display = ParameterDisplay.PROMPT, allowEmpty = false)
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
