@@ -11,13 +11,24 @@ declare module 'react-markdown/lib/complex-types' {
   }
 }
 
-const MarkdownCode = ({children, language, inline}: CodeProps) => (
-  <Code
-    language={language}
-    code={children?.join('') || ''}
-    inline={inline}
-  />
-);
+const MarkdownCode = ({children, language, inline, className}: CodeProps) => {
+  // Hack for updated react-markdown RG-2193
+  const lang = language ?? (
+    className?.
+      split(' ').
+      find(name => name.startsWith('language-'))?.
+      replace('language-', '')
+  );
+
+  return (
+    <Code
+      language={lang}
+      className={className}
+      code={children?.join('') || ''}
+      inline={inline}
+    />
+  );
+};
 
 (MarkdownCode as ComponentType<CodeProps>).propTypes = {
   language: PropTypes.string,
