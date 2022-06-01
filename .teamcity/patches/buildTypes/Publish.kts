@@ -120,6 +120,13 @@ changeBuildType(RelativeId("Publish")) {
                 npm install
                 npm run bootstrap
                 npm run build
+                
+                if [ ! -d "./dist" ] 
+                then
+                    echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
+                    exit 333
+                fi
+                
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
