@@ -234,6 +234,7 @@ object Deploy : BuildType({
                 # To prevent lerna's "cannot run in wd" failure
                 npm config set unsafe-perm true
 
+                mkdir node_modules
                 npm install
                 npm run build-examples
             """.trimIndent()
@@ -367,6 +368,7 @@ object GeminiTests : BuildType({
                 node -v
                 npm -v
 
+                mkdir node_modules
                 npm install
                 cd packages/hermione
                 # ! We run tests against built Storybook from another build configuration
@@ -481,6 +483,7 @@ object A11yAudit : BuildType({
                 node -v
                 npm -v
 
+                mkdir node_modules
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
@@ -542,6 +545,7 @@ object ConsoleErrors : BuildType({
                 node -v
                 npm -v
 
+                mkdir node_modules
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
@@ -606,6 +610,7 @@ object SecurityAudit : BuildType({
                 node -v
                 npm -v
 
+                mkdir node_modules
                 npm install
                 node security-audit-ci.js
             """.trimIndent()
@@ -681,6 +686,7 @@ object Publish : BuildType({
                   exit 1;
                 fi
 
+                mkdir node_modules
                 npm install
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
@@ -820,6 +826,7 @@ object PublishHotfixRelease : BuildType({
                   exit 1;
                 fi
 
+                mkdir node_modules
                 npm install
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
@@ -969,6 +976,7 @@ object PublishNext : BuildType({
                   exit 1;
                 fi
 
+                mkdir node_modules
                 npm install
                 npm run build
                 # Reset possibly changed lock to avoid "git status is not clear" error
@@ -1236,6 +1244,7 @@ object UnitTestsAndBuild : BuildType({
 
                 apt update
                 apt install g++ gcc make python -y
+                mkdir node_modules
                 npm install
 
                 # Debugging
