@@ -25,7 +25,8 @@ export type MarkdownProps = Options & BaseMarkdownProps
 
 export default class Markdown extends PureComponent<MarkdownProps> {
   render() {
-    const {className, components, inline, children, plugins = [], ...restProps} = this.props;
+    const {className, components, inline, children,
+      plugins = [], remarkPlugins = [], ...restProps} = this.props;
 
     const classes = classNames(className, {
       [styles.markdown]: !inline,
@@ -35,7 +36,7 @@ export default class Markdown extends PureComponent<MarkdownProps> {
     return (
       <ReactMarkdown
         className={classes}
-        plugins={[RemarkBreaks, RemarkGFM, ...plugins]}
+        remarkPlugins={[RemarkBreaks, RemarkGFM, ...plugins, ...remarkPlugins]}
         components={{
           a: Link,
           code: Code,
