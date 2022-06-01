@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import AngularElastic from '@jetbrains/angular-elastic';
-
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import '../input/input-legacy.css';
 import '../error-bubble/error-bubble-legacy.css';
@@ -10,7 +8,7 @@ import '../error-bubble/error-bubble-legacy.css';
  * @name Form Ng
  */
 
-const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);
+const angularModule = angular.module('Ring.form', [MessageBundle]);
 
 angularModule.factory('getFormErrorMessages',
   function getFormErrorMessagesDirective(RingMessageBundle) {
