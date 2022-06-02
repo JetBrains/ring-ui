@@ -1244,8 +1244,7 @@ object UnitTestsAndBuild : BuildType({
 
                 apt update
                 apt install g++ gcc make python -y
-                npm config set unsafe-perm true
-                mkdir node_modules
+                mkdir node_modules && mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
                 npm install
 
                 npm run typecheck-ci
