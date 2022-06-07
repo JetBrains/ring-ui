@@ -41,13 +41,22 @@ angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
   </span><span class="${styles.label}" ng-transclude></span>
 </label>
     `),
-    link: function link(scope, iElement) {
+    link: function link(scope, iElement, attrs, controller, transcludeFn) {
       scope.checkmarkIcon = checkmarkIcon;
       const input = iElement[0].querySelector('input[type="checkbox"]');
+      const label = iElement[0].querySelector(`*[class~="${styles.label}"]`);
 
       const id = CHECKBOX_ID_PREFIX + idCounter++;
       iElement[0].setAttribute('for', id);
       input.setAttribute('id', id);
+
+      transcludeFn(clone => {
+        if (clone.length) {
+          label.style.display = 'initial';
+        } else {
+          label.style.display = 'none';
+        }
+      });
     }
   };
 });
