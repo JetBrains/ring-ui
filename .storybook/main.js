@@ -43,7 +43,7 @@ module.exports = {
         loader: 'raw-loader'
       },
       {
-        test: /\.examples\.js$/,
+        test: /\.examples\.[jt]sx?$/,
         loader: require.resolve('@storybook/source-loader'),
         enforce: 'pre'
       },
