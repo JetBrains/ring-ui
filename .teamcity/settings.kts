@@ -1254,6 +1254,7 @@ object UnitTestsAndBuild : BuildType({
             """.trimIndent()
             dockerImage = "satantime/puppeteer-node:16-stretch-slim"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
+            dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
 
