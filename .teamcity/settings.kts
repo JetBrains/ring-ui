@@ -1203,6 +1203,7 @@ object UnitTestsAndBuild : BuildType({
         storybook-dist => storybook-dist.zip
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogsssssssssssssssssssss
         coverage => coverage.zip
+        /root/.npm/_logs/*.log
         npm-ls.log
         lerna-debug.log
     """.trimIndent()
