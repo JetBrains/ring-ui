@@ -52,6 +52,7 @@
     "lint-ci": "eslint --format jslint-xml . > eslint-report.xml && npm run stylelint-ci",
     "stylelint-ci": "stylelint --ignore-path .eslintignore --custom-formatter './jslint-xml.js' '**/*.css' | xmlappend eslint-report.xml",
     "stylelint": "stylelint --ignore-path .eslintignore '**/*.css'",
+    "validate-tc-config": "mvn --file .teamcity/pom.xml org.jetbrains.teamcity:teamcity-configs-maven-plugin:generate -e",
     "pretest-ci": "npm run lint-ci",
     "test-ci": "karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
