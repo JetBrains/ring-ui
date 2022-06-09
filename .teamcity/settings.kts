@@ -1252,7 +1252,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run build
                 npm run build-examples
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:16-stretch-slim"
+            dockerImage = "satantime/puppeteer-node:16-stretch"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
