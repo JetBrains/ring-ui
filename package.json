@@ -31,7 +31,9 @@
     "components": "./components/"
   },
   "scripts": {
-    "postinstall": "husky install",
+    "apply-resolutions": "npx npm-force-resolutions@0.0.10",
+    "preinstall": "npm run apply-resolutions",
+    "postinstall": "husky install && npm run apply-resolutions",
     "a11y-audit": "jest a11y-audit.test.js",
     "a11y-audit-ci": "jest a11y-audit.test.js --reporters=jest-teamcity; node report-metadata.js",
     "console-errors": "jest console-errors.test.js --watchAll",
@@ -251,6 +253,14 @@
     "style-loader": "~3.3.1",
     "url-loader": "^4.1.1",
     "util-deprecate": "^1.0.2"
+  },
+  "resolutions": {
+    "lodash": "4.17.21",
+    "mocha": "7.2.0",
+    "extend": "3.0.2",
+    "minimist": "1.2.5",
+    "immer": "8.0.4",
+    "axios": "0.26.1"
   },
   "engines": {
     "node": ">=14.0",
