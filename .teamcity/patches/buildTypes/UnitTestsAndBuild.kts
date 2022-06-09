@@ -52,36 +52,12 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
                 npm run build-examples
             """.trimIndent()
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
-            dockerImage = "satantime/puppeteer-node:14.18"
+            dockerImage = "satantime/puppeteer-node:16-stretch-slim"
         }
     }
     steps {
         update<ScriptBuildStep>(0) {
             clearConditions()
-            scriptContent = """
-                #!/bin/bash
-                set -e -x
-
-                node -v
-                npm -v
-
-                # Debugging
-                ls
-                git status
-
-                apt update
-                apt install g++ gcc make python -y
-                npm install
-                npm run bootstrap
-
-                # Debugging
-                npm ls > npm-ls.log || true
-
-                npm run typecheck-ci
-                npm run test-ci
-                npm run build
-                npm run build-examples
-            """.trimIndent()
         }
     }
 
