@@ -237,17 +237,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     document.addEventListener('mousemove', this.onDocumentMouseMove);
     document.addEventListener('keydown', this.onDocumentKeyDown, true);
 
-    const {data, activeIndex} = this.props;
-
-    if (activeIndex == null && shouldActivateFirstItem(this.props)) {
-      const firstActivatableIndex = data.findIndex(isActivatable);
-      if (firstActivatableIndex >= 0) {
-        this.setState({
-          activeIndex: firstActivatableIndex,
-          activeItem: data[firstActivatableIndex],
-          needScrollToActive: true
-        });
-      }
+    if (this.props.activeIndex == null && shouldActivateFirstItem(this.props)) {
+      this.activateFirst();
     }
   }
 
@@ -260,6 +251,13 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   componentDidUpdate(prevProps: ListProps<T>) {
     if (this.virtualizedList && prevProps.data !== this.props.data) {
       this.virtualizedList.recomputeRowHeights();
+    }
+
+    if (this.props.activeIndex == null &&
+      this.props.data !== prevProps.data &&
+      shouldActivateFirstItem(this.props)
+    ) {
+      this.activateFirst();
     }
 
     this.checkOverflow();
@@ -343,6 +341,17 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   hasActivatableItems() {
     return this._hasActivatableItems(this.props.data);
   }
+
+  activateFirst = () => {
+    const firstActivatableIndex = this.props.data.findIndex(isActivatable);
+    if (firstActivatableIndex >= 0) {
+      this.setState({
+        activeIndex: firstActivatableIndex,
+        activeItem: this.props.data[firstActivatableIndex],
+        needScrollToActive: true
+      });
+    }
+  };
 
   selectHandler = memoize((index: number) =>
     (event: Event | SyntheticEvent, tryKeepOpen = false) => {
