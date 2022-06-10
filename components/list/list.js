@@ -171,27 +171,16 @@ export default class List extends Component {
       }
     }
 
-    if (
-      activeIndex == null &&
-      prevState.activeIndex == null &&
-      shouldActivateFirstItem(nextProps)
-    ) {
-      const firstActivatableIndex = data.findIndex(isActivatable);
-      if (firstActivatableIndex >= 0) {
-        Object.assign(nextState, {
-          activeIndex: firstActivatableIndex,
-          activeItem: data[firstActivatableIndex],
-          needScrollToActive: true
-        });
-      }
-    }
-
     return nextState;
   }
 
   componentDidMount() {
     document.addEventListener('mousemove', this.onDocumentMouseMove);
     document.addEventListener('keydown', this.onDocumentKeyDown, true);
+
+    if (this.props.activeIndex == null && shouldActivateFirstItem(this.props)) {
+      this.activateFirst();
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -202,6 +191,13 @@ export default class List extends Component {
   componentDidUpdate(prevProps) {
     if (this.virtualizedList && prevProps.data !== this.props.data) {
       this.virtualizedList.recomputeRowHeights();
+    }
+
+    if (this.props.activeIndex == null &&
+      this.props.data !== prevProps.data &&
+      shouldActivateFirstItem(this.props)
+    ) {
+      this.activateFirst();
     }
 
     this.checkOverflow();
@@ -278,6 +274,17 @@ export default class List extends Component {
   hasActivatableItems() {
     return this._hasActivatableItems(this.props.data);
   }
+
+  activateFirst = () => {
+    const firstActivatableIndex = this.props.data.findIndex(isActivatable);
+    if (firstActivatableIndex >= 0) {
+      this.setState({
+        activeIndex: firstActivatableIndex,
+        activeItem: this.props.data[firstActivatableIndex],
+        needScrollToActive: true
+      });
+    }
+  };
 
   selectHandler = memoize(index => (event, tryKeepOpen = false) => {
     const item = this.props.data[index];
