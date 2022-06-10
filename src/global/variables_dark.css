@@ -1,6 +1,7 @@
 /* stylelint-disable color-no-hex */
 
-.dark {
+.dark,
+:root.dark {
   --ring-line-color: #475159;
   --ring-borders-color: #406380;
   --ring-icon-color: #80929d;
