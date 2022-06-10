@@ -171,25 +171,27 @@ export default class List extends Component {
       }
     }
 
-    return nextState;
-  }
-
-  componentDidMount() {
-    document.addEventListener('mousemove', this.onDocumentMouseMove);
-    document.addEventListener('keydown', this.onDocumentKeyDown, true);
-
-    const {data, activeIndex} = this.props;
-
-    if (activeIndex == null && shouldActivateFirstItem(this.props)) {
+    if (
+      activeIndex == null &&
+      prevState.activeIndex == null &&
+      shouldActivateFirstItem(nextProps)
+    ) {
       const firstActivatableIndex = data.findIndex(isActivatable);
       if (firstActivatableIndex >= 0) {
-        this.setState({
+        Object.assign(nextState, {
           activeIndex: firstActivatableIndex,
           activeItem: data[firstActivatableIndex],
           needScrollToActive: true
         });
       }
     }
+
+    return nextState;
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousemove', this.onDocumentMouseMove);
+    document.addEventListener('keydown', this.onDocumentKeyDown, true);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
