@@ -65,4 +65,6 @@
   --ring-code-string-color: #6a8759;
   --ring-code-addition-color: #447152;
   --ring-code-deletion-color: #656e76;
+
+  color-scheme: dark;
 }
