@@ -9,11 +9,15 @@ import isSameYear from 'date-fns/isSameYear';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 import set from 'date-fns/set';
+import calendarIcon from '@jetbrains/icons/calendar';
+import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
 import memoize from '../global/memoize';
 
 import Popup, {PopupAttrs} from '../popup/popup';
-import Dropdown, {Anchor, DropdownAttrs} from '../dropdown/dropdown';
+import Dropdown, {DropdownAttrs} from '../dropdown/dropdown';
+import Icon from '../icon';
+import Button from '../button/button';
 
 import DatePopup, {DatePopupProps} from './date-popup';
 import {DateInputTranslations, DatePickerChange, dateType} from './consts';
@@ -262,10 +266,25 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   };
 
   render() {
-    const text = this.getAnchorText();
+    const anchorContent = (
+      <div className={styles.anchorContent}>
+        <Icon glyph={calendarIcon} className={styles.calendarIcon}/>
+        {this.getAnchorText()}
+        <Icon glyph={chevronDownIcon} className={styles.chevronDownIcon}/>
+      </div>
+    );
 
     if (this.props.disabled) {
-      return <Anchor disabled>{text}</Anchor>;
+      return (
+        <Button
+          data-test-ring-dropdown-anchor
+          className={styles.anchor}
+          disabled
+          text={false}
+        >
+          {anchorContent}
+        </Button>
+      );
     }
 
     const {
@@ -285,7 +304,15 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     return (
       <Dropdown
         className={classes}
-        anchor={text}
+        anchor={(
+          <Button
+            data-test-ring-dropdown-anchor
+            className={styles.anchor}
+            text={false}
+          >
+            {anchorContent}
+          </Button>
+        )}
         {...dropdownProps}
       >
         <PopupComponent

@@ -4,9 +4,7 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
 import startOfDay from 'date-fns/startOfDay';
-import calendarIcon from '@jetbrains/icons/calendar';
 
-import Icon from '../icon/icon';
 import memoize from '../global/memoize';
 
 import DateInput from './date-input';
@@ -390,11 +388,6 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
         ref={this.componentRef}
       >
         <div className={styles.filterWrapper}>
-          <Icon
-            glyph={calendarIcon}
-            className={styles.filterIcon}
-          />
-
           {names.map(name => {
             let onClear;
 
