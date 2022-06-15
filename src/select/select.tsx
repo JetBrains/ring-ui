@@ -56,7 +56,7 @@ enum Type {
   INPUT_WITHOUT_CONTROLS = 'INPUT_WITHOUT_CONTROLS'
 }
 
-const ICONS_OFFSET = 12;
+const ICONS_OFFSET = 5;
 const ICON_WIDTH = 20;
 const getStyle = memoize((iconsLength: number) => ({
   paddingRight: ICONS_OFFSET + iconsLength * ICON_WIDTH
