@@ -90,7 +90,7 @@
 
 .anchor {
   min-width: calc(unit * 30);
-  padding: 0 calc(unit * 1.5) 0 unit;
+  padding: 0 unit;
 
   text-align: start;
 }
@@ -102,6 +102,8 @@
 
 .chevronDownIcon {
   margin-left: auto;
+
+  color: var(--ring-icon-secondary-color);
 }
 
 .fromInput {
