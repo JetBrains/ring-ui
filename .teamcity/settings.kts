@@ -1244,7 +1244,9 @@ object UnitTestsAndBuild : BuildType({
 
                 apt update
                 apt install g++ gcc make python -y
+                umask 0000
                 chmod +rw . && mkdir -p -m +rw node_modules/.cache
+                touch eslint-report.xml
                 npm install
 
                 npm run typecheck-ci
