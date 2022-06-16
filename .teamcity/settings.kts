@@ -1241,6 +1241,7 @@ object UnitTestsAndBuild : BuildType({
 
                 node -v
                 npm -v
+                whoami
 
                 apt update
                 apt install g++ gcc make python -y
