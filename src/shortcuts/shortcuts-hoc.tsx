@@ -35,8 +35,6 @@ export default function shortcutsHOC<P>(ComposedComponent: ComponentType<P> | st
           options={rgShortcutsOptions}
           disabled={rgShortcutsOptions.disabled}
         >
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore */}
           <ComposedComponent {...props as never}/>
         </Shortcuts>
       );
