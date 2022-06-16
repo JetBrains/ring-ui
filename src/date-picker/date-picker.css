@@ -74,14 +74,36 @@
   composes: filterWrapper from "../select/select-popup.css";
 
   display: flex;
+
+  padding-left: calc(unit * 2);
 }
 
 .filter {
   composes: filter from "../select/select-popup.css";
 }
 
-.filterIcon {
-  composes: filterIcon from "../select/select-popup.css";
+.calendarIcon {
+  margin-right: calc(unit / 2);
+
+  color: var(--ring-icon-color);
+}
+
+.anchor {
+  min-width: calc(unit * 30);
+  padding: 0 unit;
+
+  text-align: start;
+}
+
+.anchorContent {
+  display: flex;
+  align-items: baseline;
+}
+
+.chevronDownIcon {
+  margin-left: auto;
+
+  color: var(--ring-icon-secondary-color);
 }
 
 .fromInput {
