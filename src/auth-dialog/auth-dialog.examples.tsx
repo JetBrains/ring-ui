@@ -9,6 +9,7 @@ import AuthDialog from './auth-dialog';
 
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 
+
 export default {
   title: 'Components/Auth Dialog',
   decorators: [reactDecorator()],

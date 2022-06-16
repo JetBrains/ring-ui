@@ -1,6 +1,7 @@
 /* stylelint-disable color-no-hex */
 
-.dark {
+.dark,
+:root.dark {
   --ring-line-color: #475159;
   --ring-borders-color: #406380;
   --ring-icon-color: #80929d;
@@ -64,4 +65,6 @@
   --ring-code-string-color: #6a8759;
   --ring-code-addition-color: #447152;
   --ring-code-deletion-color: #656e76;
+
+  color-scheme: dark;
 }
