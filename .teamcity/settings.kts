@@ -367,9 +367,11 @@ object GeminiTests : BuildType({
 
                 node -v
                 npm -v
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
 
                 mkdir node_modules
                 npm install
+
                 cd packages/hermione
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
