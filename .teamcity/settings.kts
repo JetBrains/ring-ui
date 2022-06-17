@@ -483,11 +483,13 @@ object A11yAudit : BuildType({
                 node -v
                 npm -v
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
+
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:16-stretch-slim"
+            dockerImage = "satantime/puppeteer-node:16.14-stretch"
         }
     }
 
