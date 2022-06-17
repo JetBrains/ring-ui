@@ -7,6 +7,7 @@ import Button from '../button/button';
 
 import AuthDialog from './auth-dialog';
 
+// eslint-disable-next-line import/order
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 
 

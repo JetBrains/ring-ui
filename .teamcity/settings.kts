@@ -1241,11 +1241,9 @@ object UnitTestsAndBuild : BuildType({
 
                 node -v
                 npm -v
-                whoami
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
 
-                apt update
-                apt install g++ gcc make python -y
-                mkdir -p -m ugo+rwx node_modules/.cache
+                mkdir node_modules
                 npm install
 
                 npm run typecheck-ci
@@ -1253,7 +1251,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run build
                 npm run build-examples
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:16-stretch"
+            dockerImage = "satantime/puppeteer-node:16.14-stretch"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
