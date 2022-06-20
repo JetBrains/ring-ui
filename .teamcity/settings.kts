@@ -214,6 +214,7 @@ object Deploy : BuildType({
         password("env.AWS_SECRET_ACCESS_KEY", "credentialsJSON:dbeb62cd-b1ba-452b-aa7c-317f19a10804", display = ParameterDisplay.HIDDEN)
         param("env.AWS_ACCESS_KEY_ID", "AKIAJ42U3JYQAGGFJ5KQ")
         param("env.AWS_DEFAULT_REGION", "us-east-2")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -230,14 +231,12 @@ object Deploy : BuildType({
                 node -v
                 npm -v
 
-                # To prevent lerna's "cannot run in wd" failure
-                npm config set unsafe-perm true
-
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                mkdir node_modules
                 npm install
-                npm run bootstrap
                 npm run build-examples
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -350,6 +349,7 @@ object GeminiTests : BuildType({
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:175b3950-943c-4803-99c4-56d5f6ac422a")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -365,14 +365,16 @@ object GeminiTests : BuildType({
 
                 node -v
                 npm -v
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
 
+                mkdir node_modules
                 npm install
-                npm run bootstrap
+
                 cd packages/hermione
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -455,6 +457,7 @@ object A11yAudit : BuildType({
 
     params {
         param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
         param("vcs.branch.spec", """
             +:refs/heads/*
             +:refs/(pull/*)/merge
@@ -480,10 +483,13 @@ object A11yAudit : BuildType({
                 node -v
                 npm -v
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                mkdir node_modules
+
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:14.18"
+            dockerImage = "satantime/puppeteer-node:16-stretch"
         }
     }
 
@@ -524,6 +530,7 @@ object ConsoleErrors : BuildType({
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -540,10 +547,12 @@ object ConsoleErrors : BuildType({
                 node -v
                 npm -v
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                mkdir node_modules
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
         }
     }
 
@@ -587,6 +596,7 @@ object SecurityAudit : BuildType({
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -603,10 +613,12 @@ object SecurityAudit : BuildType({
                 node -v
                 npm -v
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                mkdir node_modules
                 npm install
                 node security-audit-ci.js
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
         }
     }
 
@@ -634,6 +646,7 @@ object Publish : BuildType({
     params {
         param("lerna.publish.options", "--cd-version patch")
         param("vcs.branch.spec", "+:refs/heads/(master)")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -669,16 +682,14 @@ object Publish : BuildType({
                 npm -v
                 npm whoami
 
-                # Temporary until docker is not updated
-                npm config set unsafe-perm true
-
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                mkdir node_modules
                 npm install
-                npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
@@ -695,7 +706,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -773,6 +784,7 @@ object PublishHotfixRelease : BuildType({
     params {
         param("lerna.publish.options", "--cd-version patch --preid hotfix --npm-tag hotfix")
         param("vcs.branch.spec", "+:refs/heads/(release-*)")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -808,16 +820,14 @@ object PublishHotfixRelease : BuildType({
                 npm -v
                 npm whoami
 
-                # Temporary until docker is not updated
-                npm config set unsafe-perm true
-
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                mkdir node_modules
                 npm install
-                npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
@@ -834,7 +844,7 @@ object PublishHotfixRelease : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -917,6 +927,7 @@ object PublishNext : BuildType({
             -:refs/heads/gh-pages
             -:refs/heads/master
         """.trimIndent())
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -957,16 +968,14 @@ object PublishNext : BuildType({
                 node -v
                 npm -v
 
-                # Temporary until docker is not updated
-                npm config set unsafe-perm true
-
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                mkdir node_modules
                 npm install
-                npm run bootstrap
                 npm run build
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
@@ -983,7 +992,7 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1070,6 +1079,7 @@ object PublishToGitHubPages : BuildType({
             +:refs/heads/(release-1.0)
             +:refs/heads/(storybook-5.2)
         """.trimIndent())
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -1102,7 +1112,7 @@ object PublishToGitHubPages : BuildType({
 
                 npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -1211,6 +1221,7 @@ object UnitTestsAndBuild : BuildType({
         param("env.GIT_COMMITTER_NAME", "")
         param("env.GIT_AUTHOR_EMAIL", "")
         param("npmjs.com.auth.key", "credentialsJSON:075c2e9e-0e12-4b18-9ec2-cb2f366d424e")
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -1228,22 +1239,19 @@ object UnitTestsAndBuild : BuildType({
 
                 node -v
                 npm -v
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
 
-                apt update
-                apt install g++ gcc make python -y
+                mkdir node_modules
                 npm install
-                npm run bootstrap
-
-                # Debugging
-                npm ls > npm-ls.log || true
 
                 npm run typecheck-ci
                 npm run test-ci
                 npm run build
                 npm run build-examples
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:14.18"
+            dockerImage = "satantime/puppeteer-node:16-stretch"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
+            dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
 
@@ -1345,6 +1353,7 @@ object UnpublishSpecificVersion : BuildType({
     params {
         text("env.PACKAGE_NAME", "@jetbrains/ring-ui", label = "Package name", display = ParameterDisplay.PROMPT, allowEmpty = false)
         text("env.PACKAGE_VERSION", "0.3.3", label = "Package version", display = ParameterDisplay.PROMPT, allowEmpty = false)
+        param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
@@ -1364,7 +1373,7 @@ object UnpublishSpecificVersion : BuildType({
 
                 npm unpublish %env.PACKAGE_NAME%@%env.PACKAGE_VERSION%
             """.trimIndent()
-            dockerImage = "node:14"
+            dockerImage = "node:16"
         }
     }
 
