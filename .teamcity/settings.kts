@@ -700,7 +700,7 @@ object Publish : BuildType({
                 fi
 
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json package-lock.json packages/*/package-lock.json
+                git checkout package.json package-lock.json
                 npm run release-ci -- %lerna.publish.options%
 
                 cat package.json
