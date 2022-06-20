@@ -1095,6 +1095,7 @@ object PublishToGitHubPages : BuildType({
 
                 node -v
                 npm -v
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
 
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
