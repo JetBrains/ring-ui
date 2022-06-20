@@ -6,8 +6,6 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx npm-force-resolutions@0.0.3",
-    "postinstall": "npx npm-force-resolutions@0.0.3",
     "pregui": "kill-port 8000",
     "gather": "npm run hermione -- --update-refs",
     "gui": "npm run hermione gui",
@@ -37,13 +35,5 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "yauzl": "^2.10.0"
-  },
-  "resolutions": {
-    "lodash": "4.17.21",
-    "mocha": "7.2.0",
-    "extend": "3.0.2",
-    "minimist": "1.2.5",
-    "immer": "8.0.4",
-    "axios": "0.26.1"
   }
 }
