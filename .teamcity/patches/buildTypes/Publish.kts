@@ -50,14 +50,12 @@ changeBuildType(RelativeId("Publish")) {
                 npm -v
                 npm whoami
 
-                # Temporary until docker is not updated
-                npm config set unsafe-perm true
-
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 # Reset possibly changed lock to avoid "git status is not clear" error
@@ -109,24 +107,22 @@ changeBuildType(RelativeId("Publish")) {
                 npm -v
                 npm whoami
 
-                # Temporary until docker is not updated
-                npm config set unsafe-perm true
-
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 npm run build
-                
-                if [ ! -d "./dist" ] 
+
+                if [ ! -d "./dist" ]
                 then
                     echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
                     exit 333
                 fi
-                
+
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
