@@ -231,7 +231,9 @@ object Deploy : BuildType({
                 node -v
                 npm -v
 
-                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                # To prevent lerna's "cannot run in wd" failure
+                npm config set unsafe-perm true
+
                 mkdir node_modules
                 npm install
                 npm run build-examples
@@ -547,7 +549,6 @@ object ConsoleErrors : BuildType({
                 node -v
                 npm -v
 
-                chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 npm run console-errors-ci
@@ -613,7 +614,6 @@ object SecurityAudit : BuildType({
                 node -v
                 npm -v
 
-                chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 node security-audit-ci.js
@@ -682,12 +682,14 @@ object Publish : BuildType({
                 npm -v
                 npm whoami
 
+                # Temporary until docker is not updated
+                npm config set unsafe-perm true
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
-                chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 # Reset possibly changed lock to avoid "git status is not clear" error
@@ -820,12 +822,14 @@ object PublishHotfixRelease : BuildType({
                 npm -v
                 npm whoami
 
+                # Temporary until docker is not updated
+                npm config set unsafe-perm true
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
-                chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 # Reset possibly changed lock to avoid "git status is not clear" error
@@ -968,12 +972,14 @@ object PublishNext : BuildType({
                 node -v
                 npm -v
 
+                # Temporary until docker is not updated
+                npm config set unsafe-perm true
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
-                chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 npm run build
