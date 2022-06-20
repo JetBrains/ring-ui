@@ -491,7 +491,7 @@ object A11yAudit : BuildType({
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:16.14-stretch"
+            dockerImage = "satantime/puppeteer-node:16-stretch"
         }
     }
 
@@ -1255,7 +1255,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run build
                 npm run build-examples
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:16.14-stretch"
+            dockerImage = "satantime/puppeteer-node:16-stretch"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
