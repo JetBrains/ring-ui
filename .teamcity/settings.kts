@@ -683,6 +683,7 @@ object Publish : BuildType({
                 npm whoami
 
                 if [ -n "${'$'}(git status --porcelain)" ]; then
+                  git status
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
@@ -690,9 +691,16 @@ object Publish : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
+                npm run build
+
+                if [ ! -d "./dist" ]
+                then
+                    echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
+                    exit 333
+                fi
+
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
-                npm whoami
                 npm run release-ci -- %lerna.publish.options%
 
                 cat package.json
