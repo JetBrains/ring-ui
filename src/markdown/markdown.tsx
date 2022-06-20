@@ -15,6 +15,7 @@ import styles from './markdown.css';
 
 export interface BaseMarkdownProps {
   inline?: boolean | null | undefined
+  plugins?: Options['remarkPlugins']
 }
 
 export type MarkdownProps = Options & BaseMarkdownProps
