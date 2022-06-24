@@ -73,7 +73,7 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "@babel/cli": "^7.17.10",
-    "@babel/eslint-parser": "^7.17.0",
+    "@babel/eslint-parser": "^7.18.2",
     "@jetbrains/eslint-config": "^5.4.1",
     "@jetbrains/stylelint-config": "^3.0.2",
     "@primer/octicons": "^17.3.0",
