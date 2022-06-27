@@ -13,7 +13,7 @@ const browserstackPort = 45691;
 // eslint-disable-next-line no-magic-numbers
 const STDOUT_BUFFER_SIZE = 1024 * 1024 * 20; // 20 Mb
 
-module.exports = callback => kill(browserstackPort).then(() => {
+module.exports = callback => kill(browserstackPort).catch(() => {}).then(() => {
 
   browserstack.start({
     key: process.env.BROWSERSTACK_KEY,
