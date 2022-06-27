@@ -55,6 +55,7 @@ export interface RingCSSProperties {
   '--ring-warning-background-color'?: Property.BackgroundColor
   '--ring-added-background-color'?: Property.BackgroundColor
   '--ring-disabled-background-color'?: Property.BackgroundColor
+  '--ring-disabled-selected-background-color'?: Property.BackgroundColor
   '--ring-button-danger-active-color'?: Property.BackgroundColor
   '--ring-button-loader-background'?: Property.BackgroundColor
   '--ring-button-primary-background-color'?: Property.BackgroundColor
