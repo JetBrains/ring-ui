@@ -134,7 +134,7 @@
     "html-webpack-plugin": "^5.5.0",
     "husky": "^8.0.1",
     "identity-obj-proxy": "^3.0.0",
-    "imports-loader": "^3.1.1",
+    "imports-loader": "^4.0.0",
     "jest": "~27.5.1",
     "jest-teamcity": "^1.10.0",
     "karma": "^6.4.0",
