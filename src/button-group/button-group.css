@@ -105,13 +105,13 @@
 /* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button.button.active {
   border-radius: var(--ring-border-radius);
-  box-shadow: inset 0 0 0 2px var(--ring-main-color);
+  box-shadow: button-shadow var(--ring-main-color);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button:global(.focus-visible).active {
   border-radius: var(--ring-border-radius);
-  box-shadow: inset 0 0 0 2px var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
+  box-shadow: button-shadow var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */

@@ -69,7 +69,8 @@
   &.active {
     transition: none;
 
-    box-shadow: inset 0 0 0 2px var(--ring-main-color);
+    background-color: var(--ring-hover-background-color);
+    box-shadow: button-shadow var(--ring-main-color);
   }
 
   &:global(.focus-visible).active {
@@ -81,6 +82,10 @@
 
     background-color: var(--ring-disabled-background-color);
     box-shadow: button-shadow var(--ring-border-disabled-color);
+  }
+
+  &[disabled].active {
+    background-color: var(--ring-disabled-selected-background-color);
   }
 
   &[disabled],
