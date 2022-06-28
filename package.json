@@ -221,7 +221,7 @@
     "es6-error": "^4.1.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "extricate-loader": "^3.0.0",
-    "fastdom": "^1.0.10",
+    "fastdom": "^1.0.11",
     "file-loader": "^6.2.0",
     "focus-trap": "^6.9.4",
     "focus-visible": "^5.2.0",
