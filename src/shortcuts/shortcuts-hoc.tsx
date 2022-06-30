@@ -35,7 +35,7 @@ export default function shortcutsHOC<P>(ComposedComponent: ComponentType<P> | st
           options={rgShortcutsOptions}
           disabled={rgShortcutsOptions.disabled}
         >
-          <ComposedComponent {...props as never}/>
+          <ComposedComponent {...props as unknown as P}/>
         </Shortcuts>
       );
     }
