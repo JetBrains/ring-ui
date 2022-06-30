@@ -30,8 +30,6 @@
 }
 
 .header.header {
-  padding-top: calc(unit * 2);
-
   cursor: move;
   user-select: none;
 
@@ -71,7 +69,7 @@
 
 .footer {
   height: auto;
-  padding: calc(unit * 2) calc(unit * 4);
+  padding: calc(unit * 2) calc(unit * 4) calc(unit * 4);
 
   text-align: left;
 
