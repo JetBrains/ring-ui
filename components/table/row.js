@@ -16,7 +16,7 @@ import composeRefs from '../global/composeRefs';
 import Cell from './cell';
 import style from './table.css';
 
-const DragHandle = ({alwaysShowDragHandle}) => {
+const DragHandle = ({alwaysShowDragHandle, dragHandleTitle = 'Drag to reorder'}) => {
   const classes = classNames(style.dragHandle, {
     [style.visibleDragHandle]: alwaysShowDragHandle
   });
@@ -24,14 +24,15 @@ const DragHandle = ({alwaysShowDragHandle}) => {
   return (
     <Button
       data-movable-handle
-      title="Drag"
+      title={dragHandleTitle}
       className={classes}
       icon={dragIcon}
     />
   );
 };
 DragHandle.propTypes = {
-  alwaysShowDragHandle: PropTypes.bool
+  alwaysShowDragHandle: PropTypes.bool,
+  dragHandleTitle: PropTypes.string
 };
 
 export default class Row extends PureComponent {
@@ -43,6 +44,7 @@ export default class Row extends PureComponent {
     showFocus: PropTypes.bool,
     draggable: PropTypes.bool,
     alwaysShowDragHandle: PropTypes.bool,
+    dragHandleTitle: PropTypes.string,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
     onSelect: PropTypes.func,
@@ -127,7 +129,7 @@ export default class Row extends PureComponent {
   render() {
     const {
       item, columns, selectable, selected,
-      showFocus, draggable, alwaysShowDragHandle, level,
+      showFocus, draggable, alwaysShowDragHandle, dragHandleTitle, level,
       collapsible, parentCollapsible, collapsed,
       onCollapse, onExpand, showDisabledSelection,
       checkboxTooltip, innerRef, focused, autofocus, onFocusReset,
@@ -156,9 +158,12 @@ export default class Row extends PureComponent {
 
     const metaColumn = (
       <div className={metaColumnClasses} style={metaColumnStyle}>
-        {draggable &&
-          <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>
-        }
+        {draggable && (
+          <DragHandle
+            alwaysShowDragHandle={alwaysShowDragHandle}
+            dragHandleTitle={dragHandleTitle}
+          />
+        )}
 
         {selectable &&
           (

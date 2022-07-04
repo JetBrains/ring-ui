@@ -114,6 +114,7 @@ class BasicDemo extends Component {
           caption={withCaption ? 'Countries' : undefined}
           isItemSelectable={this.isItemSelectable}
           getItemDataTest={it => it.country}
+          dragHandleTitle="Drag me!"
         />
 
         <Grid>
