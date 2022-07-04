@@ -44,6 +44,7 @@ export interface TableProps<T extends SelectionItem> extends
   sortOrder: boolean
   draggable: boolean
   alwaysShowDragHandle: boolean
+  dragHandleTitle?: string
   stickyHeader: boolean
   getItemLevel: (item: T) => number
   getItemClassName: (item: T) => string | null | undefined
@@ -171,7 +172,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     const {
       data, selection, columns, caption, getItemKey, selectable, focused,
       isItemSelectable, getItemLevel, getItemClassName, getItemDataTest,
-      draggable, alwaysShowDragHandle,
+      draggable, alwaysShowDragHandle, dragHandleTitle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
@@ -260,6 +261,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
           className={classNames(getItemClassName(value), {[style.draggingRow]: isDragged})}
           draggable={draggable}
           alwaysShowDragHandle={alwaysShowDragHandle}
+          dragHandleTitle={dragHandleTitle}
           columns={columns}
           data-test={getItemDataTest(value)}
           {...restProps}

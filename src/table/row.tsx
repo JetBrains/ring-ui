@@ -23,8 +23,11 @@ import {SelectionItem} from './selection';
 
 interface DragHandleProps {
   alwaysShowDragHandle: boolean
+  dragHandleTitle?: string
 }
-const DragHandle = ({alwaysShowDragHandle}: DragHandleProps) => {
+const DragHandle = (
+  {alwaysShowDragHandle, dragHandleTitle = 'Drag to reorder'}: DragHandleProps
+) => {
   const classes = classNames(style.dragHandle, {
     [style.visibleDragHandle]: alwaysShowDragHandle
   });
@@ -32,14 +35,15 @@ const DragHandle = ({alwaysShowDragHandle}: DragHandleProps) => {
   return (
     <Button
       data-movable-handle
-      title="Drag"
+      title={dragHandleTitle}
       className={classes}
       icon={dragIcon}
     />
   );
 };
 DragHandle.propTypes = {
-  alwaysShowDragHandle: PropTypes.bool
+  alwaysShowDragHandle: PropTypes.bool,
+  dragHandleTitle: PropTypes.string
 };
 
 export interface RowProps<T extends SelectionItem> extends Omit<
@@ -52,6 +56,7 @@ export interface RowProps<T extends SelectionItem> extends Omit<
   showFocus: boolean
   draggable: boolean
   alwaysShowDragHandle: boolean
+  dragHandleTitle?: string
   selected: boolean
   onHover: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void
   onSelect: (item: T, selected: boolean) => void
@@ -132,7 +137,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
   render() {
     const {
       item, columns, selectable, selected,
-      showFocus, draggable, alwaysShowDragHandle, level,
+      showFocus, draggable, alwaysShowDragHandle, dragHandleTitle, level,
       collapsible, parentCollapsible, collapsed,
       onCollapse, onExpand, showDisabledSelection, onSelect,
       checkboxTooltip, innerRef, focused, autofocus, onFocusReset,
@@ -161,9 +166,12 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
 
     const metaColumn = (
       <div className={metaColumnClasses} style={metaColumnStyle}>
-        {draggable &&
-          <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>
-        }
+        {draggable && (
+          <DragHandle
+            alwaysShowDragHandle={alwaysShowDragHandle}
+            dragHandleTitle={dragHandleTitle}
+          />
+        )}
 
         {selectable &&
           (
