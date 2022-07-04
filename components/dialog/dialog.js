@@ -34,6 +34,7 @@ export default class Dialog extends PureComponent {
     show: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.bool,
     closeButtonInside: PropTypes.bool,
+    closeButtonTitle: PropTypes.string,
     onOverlayClick: PropTypes.func,
     onEscPress: PropTypes.func,
     onCloseClick: PropTypes.func,
@@ -119,7 +120,7 @@ export default class Dialog extends PureComponent {
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
-      portalTarget, label, ...restProps} = this.props;
+      portalTarget, label, closeButtonTitle, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -166,7 +167,8 @@ export default class Dialog extends PureComponent {
                         })}
                         iconClassName={styles.closeIcon}
                         onClick={this.onCloseClick}
-                        aria-label="close dialog"
+                        title={closeButtonTitle}
+                        aria-label={closeButtonTitle || 'close dialog'}
                       />
                     )
                   }
