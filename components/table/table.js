@@ -42,6 +42,7 @@ export class Table extends PureComponent {
     sortOrder: PropTypes.bool,
     draggable: PropTypes.bool,
     alwaysShowDragHandle: PropTypes.bool,
+    dragHandleTitle: PropTypes.string,
     getItemLevel: PropTypes.func,
     isItemCollapsible: PropTypes.func,
     isParentCollapsible: PropTypes.func,
@@ -175,7 +176,7 @@ export class Table extends PureComponent {
     const {
       data, selection, columns, caption, getItemKey, selectable, focused,
       isItemSelectable, getItemLevel, getItemClassName, getItemDataTest,
-      draggable, alwaysShowDragHandle,
+      draggable, alwaysShowDragHandle, dragHandleTitle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
@@ -262,6 +263,7 @@ export class Table extends PureComponent {
           className={classNames(getItemClassName(value), {[style.draggingRow]: isDragged})}
           draggable={draggable}
           alwaysShowDragHandle={alwaysShowDragHandle}
+          dragHandleTitle={dragHandleTitle}
           columns={columns}
           data-test={getItemDataTest(value)}
           {...restProps}
