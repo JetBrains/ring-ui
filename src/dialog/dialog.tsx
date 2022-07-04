@@ -25,6 +25,7 @@ export interface DialogProps extends Partial<TabTrapProps> {
   onCloseAttempt: (event: React.MouseEvent<HTMLElement> | KeyboardEvent) => void
   showCloseButton: boolean
   closeButtonInside: boolean
+  closeButtonTitle?: string
   trapFocus: boolean
   contentClassName?: string | null | undefined
   portalTarget?: Element | null | undefined
@@ -49,6 +50,7 @@ export default class Dialog extends PureComponent<DialogProps> {
     show: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.bool,
     closeButtonInside: PropTypes.bool,
+    closeButtonTitle: PropTypes.string,
     onOverlayClick: PropTypes.func,
     onEscPress: PropTypes.func,
     onCloseClick: PropTypes.func,
@@ -135,7 +137,7 @@ export default class Dialog extends PureComponent<DialogProps> {
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
-      portalTarget, label, ...restProps} = this.props;
+      portalTarget, label, closeButtonTitle, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -182,7 +184,8 @@ export default class Dialog extends PureComponent<DialogProps> {
                         })}
                         iconClassName={styles.closeIcon}
                         onClick={this.onCloseClick}
-                        aria-label="close dialog"
+                        title={closeButtonTitle}
+                        aria-label={closeButtonTitle || 'close dialog'}
                       />
                     )
                   }
