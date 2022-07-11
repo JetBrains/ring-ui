@@ -112,7 +112,8 @@ module.exports = {
         'no-magic-numbers': ignore,
         '@typescript-eslint/no-magic-numbers': [error, {
           ignore: [-1, 0, 1, 2],
-          ignoreEnums: true
+          ignoreEnums: true,
+          ignoreTypeIndexes: true
         }],
         'react/prop-types': ignore
       }
