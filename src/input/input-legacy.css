@@ -48,6 +48,8 @@ Input
 
   caret-color: var(--ring-main-color);
 
+  /* stylelint-enable order/properties-order */
+
   @nest [dir=rtl] & {
     padding-right: var(--ring-input-padding-start);
     padding-left: var(--ring-input-padding-end);
@@ -111,6 +113,8 @@ Input
 
 :global(textarea.ring-input) {
   box-sizing: border-box;
+
+  min-height: calc(8 * unit);
 
   resize: none;
 }
