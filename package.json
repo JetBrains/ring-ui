@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "5.0.14",
+  "version": "5.0.15",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -122,7 +122,7 @@
     "core-js": "^3.23.4",
     "cpy-cli": "^3.1.1",
     "enzyme": "^3.11.0",
-    "eslint": "^8.19.0",
+    "eslint": "^8.20.0",
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-angular": "^4.1.0",
     "eslint-plugin-bdd": "^2.1.1",
