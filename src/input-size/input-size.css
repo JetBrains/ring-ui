@@ -3,10 +3,10 @@
 @value unit from "../global/global.css";
 
 :root {
-  --ring-input-xs: 50px;
-  --ring-input-s: 100px;
-  --ring-input-m: 200px;
-  --ring-input-l: 400px;
+  --ring-input-xs: calc(unit * 12);
+  --ring-input-s: calc(unit * 12);
+  --ring-input-m: calc(unit * 30);
+  --ring-input-l: calc(unit * 50);
 }
 
 /**
@@ -59,4 +59,16 @@
 
 :global(.ring-input-size_l.ring-input-size_l ~ .ring-error-bubble) {
   left: calc(var(--ring-input-l) + 2px);
+}
+
+:global(.ring-input-height_s.ring-input-height_s) {
+  --ring-input-padding-block: 1px;
+}
+
+:global(.ring-input-height_m.ring-input-height_m) {
+  --ring-input-padding-block: 3px;
+}
+
+:global(.ring-input-height_l.ring-input-height_l) {
+  --ring-input-padding-block: 5px;
 }

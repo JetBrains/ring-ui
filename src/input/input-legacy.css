@@ -16,46 +16,82 @@ Input
  */
 
 :global(.ring-input) {
+  /* .heightS */
+  --ring-input-padding-block: 1px;
+  --ring-input-padding-inline: unit;
+  --ring-input-padding-start: var(--ring-input-padding-inline);
+  --ring-input-padding-end: var(--ring-input-padding-inline);
+
+  /* stylelint-disable order/properties-order */
+
   box-sizing: border-box;
+
+  font: inherit;
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
+
   width: 100%;
-  height: calc(3 * unit);
+
   margin: 0;
-  padding-right: calc(unit / 2);
-  padding-bottom: 3px;
-  padding-left: calc(unit / 2);
+  padding-top: var(--ring-input-padding-block);
+  padding-right: var(--ring-input-padding-end);
+  padding-bottom: var(--ring-input-padding-block);
+  padding-left: var(--ring-input-padding-start);
+
+  transition: border-color var(--ring-ease);
 
   color: var(--ring-text-color);
-
   border: 1px solid var(--ring-borders-color);
-  border-radius: 0;
-  background-color: var(--ring-content-background-color);
+  border-radius: var(--ring-border-radius);
+  outline: none;
+  background: transparent;
 
-  font-family: var(--ring-font-family);
+  caret-color: var(--ring-main-color);
 
-  font-size: var(--ring-font-size);
+  @nest [dir=rtl] & {
+    padding-right: var(--ring-input-padding-start);
+    padding-left: var(--ring-input-padding-end);
+  }
 
-  line-height: 20px;
-  appearance: none;
-}
+  &:hover {
+    transition: none;
 
-:global(.ring-input:active),
-:global(.ring-input:focus),
-:global(.ring-input_active),
-:global(.ring-input_focus) {
-  border-color: var(--ring-main-color);
-  outline: 0;
-}
+    border-color: var(--ring-border-hover-color);
+  }
 
-:global(.ring-input_correct) {
-  border-color: var(--ring-success-color);
+  @nest .error & {
+    border-color: var(--ring-icon-error-color);
+  }
+
+  &:focus {
+    transition: none;
+
+    border-color: var(--ring-main-color);
+  }
+
+  &[disabled] {
+    color: var(--ring-disabled-color);
+    border-color: var(--ring-border-disabled-color);
+    background-color: var(--ring-disabled-background-color);
+
+    -webkit-text-fill-color: var(--ring-disabled-color); /* Required for Safari, see RG-2063 for details */
+  }
+
+  /*
+    Kill yellow/blue webkit autocomplete
+    https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/
+  */
+  &:-webkit-autofill {
+    &,
+    &:hover,
+    &:focus {
+      transition: background-color 50000s ease-in-out 0s;
+    }
+  }
 }
 
 :global(.ring-input_error) {
-  border-color: var(--ring-error-color);
-}
-
-:global(.ring-input_no-resize) {
-  resize: none;
+  border-color: var(--ring-icon-error-color);
 }
 
 :global(.ring-input_filter-popup) {
@@ -63,32 +99,23 @@ Input
   min-width: 200px;
 }
 
-:global(.ring-input_material) {
-  padding-right: 0;
-  padding-left: 0;
-
-  border-top: 0;
-  border-right: 0;
-  border-left: 0;
-}
-
 :global(.ring-input.ring-input:disabled),
 :global(.ring-input.ring-input[disabled]),
 :global(.ring-input.ring-input_disabled) {
   color: var(--ring-disabled-color);
   border-color: var(--ring-border-disabled-color);
-  background-color: var(--ring-sidebar-background-color);
+  background-color: var(--ring-disabled-background-color);
+
+  -webkit-text-fill-color: var(--ring-disabled-color); /* Required for Safari, see RG-2063 for details */
 }
 
 :global(textarea.ring-input) {
-  height: auto;
-  min-height: calc(8 * unit);
+  box-sizing: border-box;
 
-  resize: vertical;
-  vertical-align: top;
+  resize: none;
 }
 
 /* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
-:global(textarea.ring-input::placeholder) {
+:global(.ring-input::placeholder) {
   color: var(--ring-disabled-color);
 }
