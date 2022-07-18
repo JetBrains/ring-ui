@@ -8,7 +8,7 @@
   position: relative;
 
   margin-top: calc(unit * 2);
-  padding: calc(unit * 1.5) 0 calc(unit * 2) calc(unit * 2);
+  padding: calc(unit * 2) calc(unit * 4) calc(unit * 4);
 
   border-top: 1px solid var(--ring-popup-border-color);
 
