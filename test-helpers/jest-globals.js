@@ -1,7 +1,12 @@
 /* eslint-env jest */
+import {TextEncoder, TextDecoder} from 'util';
+
 import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
 
 import {config} from '../package.json';
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 registerRequireContextHook();
 
