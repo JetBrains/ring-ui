@@ -39,6 +39,16 @@
 
 /* M */
 
+:global(.ring-input-size_m.ring-input-size_m) {
+  display: inline-block;
+
+  width: var(--ring-input-m);
+}
+
+:global(.ring-input-size_m.ring-input-size_m ~ .ring-error-bubble) {
+  left: calc(var(--ring-input-m) + 2px);
+}
+
 :global(.ring-input-size_md.ring-input-size_md) {
   display: inline-block;
 

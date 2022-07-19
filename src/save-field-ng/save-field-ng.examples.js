@@ -87,7 +87,7 @@ export const basic = ({onSave}) => {
                 on-save="save()">
                 <input type="text"
                   id="input"
-                  class="ring-input ring-input-size_md"
+                  class="ring-input ring-input-size_m"
                   ng-required="true"
                   ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\\.]*[@][a-zA-Z0-9-_\\.]+$/"
                   ng-model="data.email">
@@ -106,7 +106,7 @@ export const basic = ({onSave}) => {
                 on-save="save()">
                 <input type="text"
                   id="email"
-                  class="ring-input ring-input-size_md"
+                  class="ring-input ring-input-size_m"
                   ng-required="true"
                   ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\\.]*[@][a-zA-Z0-9-_\\.]+$/"
                   ng-model="data.emailWorkingValue">
@@ -144,7 +144,7 @@ export const basic = ({onSave}) => {
                   <textarea type="text"
                     id="list-mode"
                     name="myMultilineArea"
-                    class="ring-input ring-input-size_md"
+                    class="ring-input ring-input-size_m"
                     ng-model="data.longTextList"></textarea>
               </rg-save-field>
               <div class="ring-form__control__description">data.longTextList =
@@ -180,7 +180,7 @@ export const basic = ({onSave}) => {
                 on-save="invalidSave(value)">
                 <input type="text"
                   id="rejected"
-                  class="ring-input ring-input-size_md"
+                  class="ring-input ring-input-size_m"
                   ng-model="data.someText">
               </rg-save-field>
             </div>
