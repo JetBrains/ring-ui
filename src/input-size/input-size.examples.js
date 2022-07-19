@@ -46,7 +46,7 @@ export const basic = () => {
           </div>
           <div class="ring-error-bubble-wrapper">
             <rg-query-assist
-              class="ring-input-size_md"
+              class="ring-input-size_m"
               x-data-source="exampleCtrl.dataSource"
               glass="true"
               placeholder="'Medium'">
@@ -89,7 +89,7 @@ export const basic = () => {
             <div class="ring-error-bubble active">Short Select</div>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_md"
+            <rg-select class="ring-input-size_m"
               ng-model="exampleCtrl.selected"
               options="item in exampleCtrl.options"
               label="Select item"></rg-select>
@@ -129,7 +129,7 @@ export const basic = () => {
             <div class="ring-error-bubble active">Short Select</div>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_md"
+            <rg-select class="ring-input-size_m"
               type="input"
               ng-model="exampleCtrl.selected"
               options="item in exampleCtrl.options"
@@ -164,7 +164,7 @@ export const basic = () => {
             <label for="short-input" class="ring-error-bubble active">Short Input</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <input id="medium-input" type="number" class="ring-input ring-input-size_md">
+            <input id="medium-input" type="number" class="ring-input ring-input-size_m">
             <label for="medium-input" class="ring-error-bubble active">Medium Input</label>
           </div>
           <div class="ring-error-bubble-wrapper">
@@ -188,7 +188,7 @@ export const basic = () => {
             <label for="short-textarea" class="ring-error-bubble active">Short Textarea</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <textarea id="medium-textarea" class="ring-input ring-input-size_md"></textarea>
+            <textarea id="medium-textarea" class="ring-input ring-input-size_m"></textarea>
             <label for="medium-textarea" class="ring-error-bubble active">Medium Textarea</label>
           </div>
           <div class="ring-error-bubble-wrapper">
