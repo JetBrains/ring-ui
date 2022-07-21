@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
-import searchIcon from '@jetbrains/icons/search-12px';
+import searchIcon from '@jetbrains/icons/search';
 import closeIcon from '@jetbrains/icons/close-12px';
 
 import getUID from '../global/get-uid';
@@ -16,6 +16,7 @@ import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
 import Button from '../button/button';
+import Icon from '../icon/icon';
 
 import {ShortcutsMap} from '../shortcuts/core';
 
@@ -983,8 +984,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         <Button
           icon={closeIcon}
           key={'clearAction'}
-          className={styles.icon}
-          iconClassName={styles.iconInner}
+          className={styles.clear}
           title={this.props.translations.clearTitle}
           ref={this.clearRef}
           onClick={this.clearQuery}
@@ -1003,6 +1003,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const renderGlass = glass && !renderLoader;
     const actions = this.renderActions();
 
+    const containerClasses = classNames(className, {
+      [styles.queryAssist]: true,
+      [styles.withIcon]: renderGlass || renderLoader
+    });
+
     const inputClasses = classNames({
       [`${styles.input} ring-js-shortcuts`]: true,
       [styles.inputGap]: actions.length || this.isRenderingGlassOrLoader() && !glass,
@@ -1014,7 +1019,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     return (
       <div
         data-test={dataTests('ring-query-assist', dataTest)}
-        className={classNames(className, styles.queryAssist)}
+        className={containerClasses}
         role="presentation"
         ref={this.nodeRef}
       >
@@ -1028,16 +1033,15 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         }
 
         {renderGlass && (
-          <Button
-            icon={searchIcon}
+          <Icon
+            glyph={searchIcon}
             className={styles.icon}
-            iconClassName={styles.iconInner}
             title={this.props.translations.searchTitle}
-            ref={this.glassRef}
             onClick={this.handleApply}
             data-test="query-assist-search-icon"
           />
         )}
+
         {renderLoader && (
           <div
             className={classNames(styles.icon, styles.loader, {
@@ -1073,9 +1077,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         {renderPlaceholder && (
           <button
             type="button"
-            className={classNames(styles.placeholder, {
-              [styles.placeholderSpaced]: glass
-            })}
+            className={styles.placeholder}
             ref={this.placeholderRef}
             onClick={this.handleCaretMove}
             data-test="query-assist-placeholder"
