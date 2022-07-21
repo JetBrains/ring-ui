@@ -1,31 +1,94 @@
 @import "../global/variables.css";
+@import "../button/button.css";
 
-@value dark from "../global/variables_dark.css";
 @value unit from "../global/global.css";
 @value overInputZIndex: 2;
 @value inputGap: calc(unit * 3);
 
 .queryAssist {
-  height: calc(unit * 3);
+  --ring-input-icon-offset: calc(unit * 2.5);
+  --ring-input-padding-inline: unit;
+  --ring-input-padding-block: 3px;
+  --ring-input-padding-start: var(--ring-input-padding-inline);
+  --ring-input-padding-end: var(--ring-input-padding-inline);
 
-  background: var(--ring-content-background-color);
-}
+  position: relative;
 
-.input {
-  height: calc(unit * 3 - 2px);
+  box-sizing: border-box;
 
-  box-shadow: 0 0 0 1px var(--ring-borders-color);
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:not([disabled]):active,
-  &:not([disabled]):focus {
-    border-color: transparent;
-    box-shadow: 0 0 0 1px var(--ring-main-color);
+  & * {
+    box-sizing: border-box;
   }
 }
 
-.placeholder {
-  color: var(--ring-secondary-color);
+.input {
+  width: 100%;
+
+  margin: 0;
+  padding-top: var(--ring-input-padding-block);
+  padding-right: var(--ring-input-padding-end);
+  padding-bottom: var(--ring-input-padding-block);
+  padding-left: var(--ring-input-padding-start);
+
+  transition: border-color var(--ring-ease);
+
+  color: var(--ring-text-color);
+  border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
+  outline: none;
+  background: transparent;
+
+  font: inherit;
+
+  caret-color: var(--ring-main-color);
+
+  @nest [dir=rtl] & {
+    padding-right: var(--ring-input-padding-start);
+    padding-left: var(--ring-input-padding-end);
+  }
+
+  &:hover {
+    transition: none;
+
+    border-color: var(--ring-border-hover-color);
+  }
+
+  @nest .error & {
+    border-color: var(--ring-icon-error-color);
+  }
+
+  &:focus {
+    transition: none;
+
+    border-color: var(--ring-main-color);
+  }
+
+  &[disabled] {
+    color: var(--ring-disabled-color);
+    border-color: var(--ring-border-disabled-color);
+    background-color: var(--ring-disabled-background-color);
+
+    -webkit-text-fill-color: var(--ring-disabled-color); /* Required for Safari, see RG-2063 for details */
+  }
+
+  /*
+    Kill yellow/blue webkit autocomplete
+    https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/
+  */
+  &:-webkit-autofill {
+    &,
+    &:hover,
+    &:focus {
+      transition: background-color 50000s ease-in-out 0s;
+    }
+  }
+}
+
+.withIcon {
+  --ring-input-padding-start: calc(var(--ring-input-padding-inline) + var(--ring-input-icon-offset));
 }
 
 .letter-text {
@@ -51,10 +114,6 @@
   border-bottom: 1px solid var(--ring-icon-error-color);
 }
 
-.iconInner {
-  color: var(--ring-icon-secondary-color);
-}
-
 .highlight {
   font-weight: 600;
 }
@@ -63,211 +122,25 @@
   color: var(--ring-secondary-color);
 }
 
-.dark {
-  & .queryAssist {
-    height: calc(unit * 4);
-
-    font-size: 16px;
-  }
-
-  & .input {
-    top: 0;
-
-    height: calc(unit * 4 - 2px);
-
-    color: var(--ring-search-color);
-
-    border-top-width: 5px;
-    background: var(--ring-selected-background-color);
-
-    &:active,
-    &:focus {
-      border-color: var(--ring-navigation-background-color);
-
-      background-color: var(--ring-navigation-background-color);
-    }
-  }
-
-  & .placeholder {
-    top: 6px;
-
-    color: var(--ring-icon-color);
-
-    @nest & :-ms-input-placeholder,
-    :root & {
-      top: 7px;
-    }
-
-    @supports (-ms-ime-align:auto) {
-      & {
-        top: 7px;
-      }
-    }
-  }
-
-  & .letter-text {
-    color: var(--ring-warning-color);
-  }
-
-  & .letterDefault,
-  & .letter-field-name {
-    color: var(--ring-search-color);
-  }
-
-  & .letter-field-value {
-    color: var(--ring-active-text-color);
-  }
-
-  & .letter-operator {
-    color: var(--ring-secondary-color);
-  }
-
-  & .letter-error {
-    padding-bottom: 1px;
-
-    border-bottom: 1px solid var(--ring-icon-error-color);
-  }
-
-  & .icon {
-    top: 7px;
-  }
-
-  & .iconInner {
-    color: var(--ring-icon-color);
-  }
-
-  & .loader {
-    top: 6px;
-  }
-
-  & .highlight {
-    font-weight: 600;
-  }
-
-  & .service {
-    color: var(--ring-secondary-color);
-  }
-
-  & .actions {
-    background-color: var(--ring-selected-background-color);
-  }
-
-  /* stylelint-disable-next-line selector-max-specificity */
-  & .input:focus ~ .actions {
-    background-color: var(--ring-navigation-background-color);
-  }
-}
-
-.queryAssist {
-  composes: font from "../global/global.css";
-
-  position: relative;
-
-  box-sizing: border-box;
-
-  line-height: normal;
-}
-
-.input {
-  position: relative;
-
-  top: 1px;
-  left: 1px;
-
-  overflow: auto;
-
-  box-sizing: border-box;
-
-  width: calc(100% - 2px);
-  margin: 0;
-
-  padding: 2px calc(unit / 2) 3px;
-
-  white-space: nowrap;
-
-  border-width: 0;
-  border-style: solid;
-  border-color: transparent;
-  background: transparent;
-
-  line-height: 16px;
-
-  scrollbar-width: none;
-
-  &:active,
-  &:focus {
-    outline: 0;
-  }
-
-  @nest & :-ms-input-placeholder,
-  :root & {
-    line-height: 17px;
-  }
-
-  @supports (-ms-ime-align:auto) {
-    & {
-      line-height: 17px;
-    }
-  }
-
-  & .iconInner {
-    color: var(--ring-icon-color);
-  }
-
-  &.inputGap {
-    border-right-width: inputGap;
-  }
-
-  &.inputGap2 {
-    border-right-width: calc(2 * inputGap);
-  }
-
-  &.inputLeftGap {
-    border-left-width: inputGap;
-  }
-
-  &.inputDisabled {
-    border-color: var(--ring-line-color);
-    box-shadow: 0 0 0 1px var(--ring-line-color);
-  }
-
-  &.inputDisabled span > span {
-    color: var(--ring-disabled-color);
-  }
-}
-
 .placeholder {
   composes: resetButton from "../global/global.css";
 
   position: absolute;
-  top: 3px;
-
-  left: 5px;
+  top: calc(var(--ring-input-padding-block) + 1px);
+  left: 1px;
 
   display: block;
 
   overflow: hidden;
 
   width: calc(100% - unit * 4);
+  padding-left: var(--ring-input-padding-start);
 
   text-overflow: ellipsis;
 
   pointer-events: none;
 
-  &.placeholderSpaced {
-    left: calc(unit * 3 + 5px);
-  }
-
-  @nest & :-ms-input-placeholder,
-  :root & {
-    top: 4px;
-  }
-
-  @supports (-ms-ime-align:auto) {
-    & {
-      top: 4px;
-    }
-  }
+  color: var(--ring-disabled-color);
 }
 
 .letter {
@@ -276,39 +149,34 @@
 
 .actions {
   position: absolute;
-  z-index: overInputZIndex;
-  top: 4px;
-  right: 1px;
+  top: calc(var(--ring-input-padding-block) - 1px);
+  right: var(--ring-input-padding-inline);
 
-  background-color: var(--ring-content-background-color);
+  height: auto;
+
+  line-height: inherit;
+
+  @nest [dir=rtl] & {
+    right: auto;
+    left: unit;
+  }
 }
 
 .icon {
   position: absolute;
-  z-index: overInputZIndex;
-  top: 3px;
+  top: calc(var(--ring-input-padding-block) + 1px);
+  left: var(--ring-input-padding-inline);
 
-  box-sizing: border-box;
+  color: var(--ring-icon-secondary-color);
 
-  width: calc(unit * 3);
-  height: calc(unit * 2);
-
-  padding: 0 4px;
-
-  cursor: pointer;
-  user-select: none;
-
-  line-height: normal;
-
-  & svg {
-    vertical-align: baseline;
+  @nest [dir=rtl] & {
+    right: unit;
+    left: auto;
   }
+}
 
-  @nest .actions & {
-    position: relative;
-    top: 0;
-    left: -1px;
-  }
+.clear {
+  padding-right: 0;
 }
 
 .loaderOnTheRight {

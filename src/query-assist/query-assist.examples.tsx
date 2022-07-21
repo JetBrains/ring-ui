@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import permissionIcon from '@jetbrains/icons/permission';
+import permissionIcon from '@jetbrains/icons/settings';
 
 import {Story} from '@storybook/react';
 
@@ -11,7 +11,6 @@ import Auth from '../auth/auth';
 import HTTP from '../http/http';
 import List from '../list/list';
 import Icon from '../icon/icon';
-
 
 import Theme, {ThemeProvider} from '../global/theme';
 
@@ -198,7 +197,7 @@ withCustomRenderer.storyName = 'with custom renderer';
 withCustomRenderer.parameters = {hermione: {skip: true}};
 
 export const darkThemeNoAuth: Story<QueryAssistAttrs> = args => (
-  <ThemeProvider theme={Theme.DARK} style={{background: 'var(--ring-content-background-color)', padding: '24px', margin: '-16px', paddingBottom: 0}}>
+  <ThemeProvider theme={Theme.DARK} style={{background: 'var(--ring-content-background-color)', padding: '24px'}}>
     <QueryAssist {...args}/>
   </ThemeProvider>
 );
@@ -303,7 +302,9 @@ withCustomActions.args = {
   hint: 'lol',
   hintOnSelection: 'lol selected',
   popupClassName: 'test',
-  actions: [<Icon glyph={permissionIcon} key="custom-action"/>]
+  actions: [
+    <Icon glyph={permissionIcon} key="custom-action" style={{color: 'var(--ring-icon-color)'}}/>
+  ]
 };
 withCustomActions.storyName = 'with custom actions';
 withCustomActions.parameters = {hermione: {skip: true}};
