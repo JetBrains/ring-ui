@@ -248,6 +248,10 @@ export default class Pager extends PureComponent<PagerProps> {
     const {currentPage, visiblePagesLimit} = this.props;
     const totalPages = this.getTotal();
 
+    if (totalPages < this.props.currentPage) {
+      this.props.onPageChange?.(totalPages);
+    }
+
     if (totalPages < 2 && !this.props.openTotal) {
       return null;
     }
