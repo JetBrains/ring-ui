@@ -622,19 +622,6 @@ describe('Query Assist', () => {
       });
     });
 
-    it('should call onApply from glass', () => {
-      const instance = mountQueryAssist({
-        glass: true,
-        onApply
-      }).find<QueryAssist>(QueryAssist).instance();
-
-      Simulate.click(instance.glass!.buttonRef.current!);
-      onApply.should.have.been.calledWithMatch({
-        query: testQuery,
-        caret: testQueryLength
-      });
-    });
-
     it('should call onClear', () => {
       const onClear = sandbox.stub();
       const instance = mountQueryAssist({
