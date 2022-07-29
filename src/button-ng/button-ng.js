@@ -108,7 +108,7 @@ class ButtonController extends RingAngularComponent {
     this.element.className = classNames(
       foreignClasses,
       getButtonClasses({
-        height: ControlsHeight.S,
+        height: $attrs.height || ControlsHeight.S,
         className: styles.button,
         active: this.getAttrValue($attrs.active),
         disabled: this.getAttrValue($attrs.disabled),
