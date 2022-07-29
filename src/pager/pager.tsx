@@ -81,7 +81,7 @@ export default class Pager extends PureComponent<PagerProps> {
     return {selected, data};
   }
 
-  getTotal() {
+  getTotalPages() {
     const {total, pageSize} = this.props;
     return Math.ceil(total / pageSize);
   }
@@ -103,7 +103,7 @@ export default class Pager extends PureComponent<PagerProps> {
   handleNextClick = () => {
     const {currentPage, onLoadPage} = this.props;
     const nextPage = currentPage + 1;
-    const total = this.getTotal();
+    const total = this.getTotalPages();
     if (currentPage !== total) {
       this.props.onPageChange?.(nextPage);
     } else if (this.props.openTotal) {
@@ -168,7 +168,8 @@ export default class Pager extends PureComponent<PagerProps> {
 
     const prevLinkAvailable = this.props.currentPage !== 1;
 
-    const nextLinkAvailable = this.props.openTotal || this.props.currentPage !== this.getTotal();
+    const nextLinkAvailable = this.props.openTotal ||
+      this.props.currentPage !== this.getTotalPages();
 
     const nextIcon = (
       <Icon glyph={chevronRightIcon} key="icon"/>
@@ -246,14 +247,10 @@ export default class Pager extends PureComponent<PagerProps> {
 
   getPagerContent() {
     const {currentPage, visiblePagesLimit} = this.props;
-    const totalPages = this.getTotal();
+    const totalPages = this.getTotalPages();
 
     if (totalPages < this.props.currentPage) {
       this.props.onPageChange?.(totalPages);
-    }
-
-    if (totalPages < 2 && !this.props.openTotal) {
-      return null;
     }
 
     let start = 1;
@@ -333,7 +330,7 @@ export default class Pager extends PureComponent<PagerProps> {
 
     return (
       <div data-test="ring-pager" className={classes}>
-        {this.props.total > 1
+        {this.getTotalPages() > 1 || this.props.openTotal
           ? this.getPagerContent()
           : this.getPageSizeSelector()
         }
