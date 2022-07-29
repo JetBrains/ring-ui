@@ -14,6 +14,8 @@
 
   position: relative;
 
+  display: flex;
+
   box-sizing: border-box;
 
   font-size: var(--ring-font-size);
@@ -21,6 +23,20 @@
 
   & * {
     box-sizing: border-box;
+  }
+}
+
+.huge {
+  --ring-input-padding-block: 5px;
+
+  & .input {
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  & .actions {
+    right: calc(var(--ring-input-padding-inline) + 34px);
   }
 }
 
@@ -149,7 +165,7 @@
 
 .actions {
   position: absolute;
-  top: calc(var(--ring-input-padding-block) - 1px);
+  top: calc(var(--ring-input-padding-block) - 2px);
   right: var(--ring-input-padding-inline);
 
   height: auto;
@@ -172,6 +188,33 @@
   @nest [dir=rtl] & {
     right: unit;
     left: auto;
+  }
+}
+
+.rightSearchButton {
+  padding: 5px 9px;
+
+  cursor: pointer;
+
+  transition: border-color var(--ring-ease);
+
+  color: var(--ring-icon-secondary-color);
+
+  border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  @nest .queryAssist.queryAssist:focus-within & {
+    transition: none;
+
+    border-color: var(--ring-main-color);
+  }
+
+  @nest .queryAssist:hover & {
+    transition: none;
+
+    border-color: var(--ring-border-hover-color);
   }
 }
 

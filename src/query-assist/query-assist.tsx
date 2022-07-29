@@ -96,6 +96,7 @@ export interface QueryAssistProps {
   useCustomItemRender?: boolean | null | undefined
   actions?: ReactNode[] | null | undefined
   'data-test'?: string | null | undefined
+  huge?: boolean | null | undefined
 }
 
 export interface StyleRange {
@@ -250,7 +251,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     useCustomItemRender: PropTypes.bool,
     translations: PropTypes.object,
     actions: PropTypes.array,
-    'data-test': PropTypes.string
+    'data-test': PropTypes.string,
+    huge: PropTypes.bool
   };
 
   static defaultProps = {
@@ -997,7 +999,10 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   }
 
   render() {
-    const {glass, 'data-test': dataTest, className, useCustomItemRender} = this.props;
+    const {
+      glass, 'data-test': dataTest, className, useCustomItemRender, huge
+    } = this.props;
+
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderLoader = this.props.loader !== false && this.state.loading;
     const renderGlass = glass && !renderLoader;
@@ -1005,7 +1010,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     const containerClasses = classNames(className, {
       [styles.queryAssist]: true,
-      [styles.withIcon]: renderGlass || renderLoader
+      [styles.withIcon]: (renderGlass && !huge) || renderLoader,
+      [styles.huge]: huge
     });
 
     const inputClasses = classNames({
@@ -1032,12 +1038,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         )
         }
 
-        {renderGlass && (
+        {renderGlass && !huge && (
           <Icon
             glyph={searchIcon}
             className={styles.icon}
             title={this.props.translations.searchTitle}
-            onClick={this.handleApply}
             data-test="query-assist-search-icon"
           />
         )}
@@ -1085,8 +1090,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
             {this.props.placeholder}
           </button>
         )}
-        {actions &&
-        <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>}
+
+        {actions && (
+          <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>
+        )}
+
         <PopupMenu
           hidden={!this.state.showPopup}
           onCloseAttempt={this.closePopup}
@@ -1106,6 +1114,18 @@ export default class QueryAssist extends Component<QueryAssistProps> {
           onMouseUp={this.trackPopupMouseState}
           onSelect={item => this.handleComplete(item)}
         />
+
+        {glass && huge && (
+          <div className={styles.rightSearchButton}>
+            <Icon
+              glyph={searchIcon}
+              className={styles.rightSearchIcon}
+              title={this.props.translations.searchTitle}
+              onClick={this.handleApply}
+              data-test="query-assist-search-icon"
+            />
+          </div>
+        )}
       </div>
     );
   }

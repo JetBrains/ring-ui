@@ -308,3 +308,52 @@ withCustomActions.args = {
 };
 withCustomActions.storyName = 'with custom actions';
 withCustomActions.parameters = {hermione: {skip: true}};
+
+
+class HugeOne extends Component {
+  constructor(props: QueryAssistAttrs) {
+    super(props);
+    this.auth.init().then(() => this.setState({authReady: true}));
+  }
+
+  state = {authReady: false};
+  auth = new Auth(hubConfig);
+  http = new HTTP(this.auth, this.auth.getAPIPath());
+
+  dataSource = (props: QueryAssistRequestParams) => {
+    const params = {
+      query: {
+        ...props,
+        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
+      }
+    };
+
+    return this.http.get('users/queryAssist', params);
+  };
+
+  render() {
+    if (!this.state.authReady) {
+      return <span>Loading...</span>;
+    }
+
+    return (
+      <QueryAssist
+        {...this.props}
+        dataSource={this.dataSource}
+      />
+    );
+  }
+}
+export const hugeOne: Story<QueryAssistAttrs> = args => <HugeOne {...args}/>;
+
+hugeOne.storyName = 'huge one';
+hugeOne.parameters = {hermione: {skip: true}};
+hugeOne.args = {
+  huge: true,
+  query: 'test',
+  focus: true,
+  hint: 'lol',
+  hintOnSelection: 'lol selected',
+  popupClassName: 'test',
+  className: 'custom-class'
+};
