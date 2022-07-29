@@ -138,7 +138,7 @@ customFrameSize3.parameters = {hermione: {skip: true}};
 export const pageSizeSelector = () => {
   class PagerDemo extends Component {
     state = {
-      total: 300,
+      total: 100,
       currentPage: 1,
       pageSize: 50
     };
