@@ -946,8 +946,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     this.placeholder = node;
   };
 
-  glass?: ComponentRef<typeof Button> | null;
-  glassRef = (node: ComponentRef<typeof Button> | null) => {
+  glass?: ComponentRef<typeof Icon> | null;
+  glassRef = (node: ComponentRef<typeof Icon> | null) => {
     this.glass = node;
   };
 
@@ -1043,6 +1043,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
             glyph={searchIcon}
             className={styles.icon}
             title={this.props.translations.searchTitle}
+            ref={this.glassRef}
             data-test="query-assist-search-icon"
           />
         )}
@@ -1122,6 +1123,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               className={styles.rightSearchIcon}
               title={this.props.translations.searchTitle}
               onClick={this.handleApply}
+              ref={this.glassRef}
               data-test="query-assist-search-icon"
             />
           </div>
