@@ -29,6 +29,8 @@
 .huge {
   --ring-input-padding-block: 5px;
 
+  width: 100%;
+
   & .input {
     border-right: 0;
     border-top-right-radius: 0;
