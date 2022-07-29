@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "5.0.18",
+  "version": "5.0.19",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -119,7 +119,7 @@
     "chai-dom": "^1.10.0",
     "chai-enzyme": "1.0.0-beta.1",
     "cheerio": "^0.22.0",
-    "core-js": "^3.24.0",
+    "core-js": "^3.24.1",
     "cpy-cli": "^3.1.1",
     "enzyme": "^3.11.0",
     "eslint": "^8.20.0",
