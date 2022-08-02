@@ -479,6 +479,12 @@ export default class Auth implements HTTPAuth {
   }
 
   async handleInitValidationError(error: Error | TokenValidationError): Promise<undefined> {
+    if ('cause' in error && error.cause?.message === 'invalid_client') {
+      // eslint-disable-next-line no-console
+      console.error('RingUI Auth: invalid client detected. Logging out', error);
+      await this.logout();
+      return undefined;
+    }
     // Redirect flow
     if ('authRedirect' in error && error.authRedirect && this.config.redirect) {
       return this.sendRedirect(error);
