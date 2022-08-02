@@ -343,6 +343,11 @@ export default class Auth {
   }
 
   async handleInitValidationError(error) {
+    if (error.cause === 'invalid_client') {
+      // eslint-disable-next-line no-console
+      console.error('RingUI Auth: invalid client detected. Logging out', error);
+      return await this.logout();
+    }
     // Redirect flow
     if (error.authRedirect && this.config.redirect) {
       return this.sendRedirect(error);
