@@ -147,7 +147,10 @@ export default class TokenValidator {
         TokenValidator.shouldRefreshToken(response.error)
       ) {
         // Token expired
-        throw new TokenValidator.TokenValidationError(response.error || errorResponse.message);
+        throw new TokenValidator.TokenValidationError(
+          response.error || errorResponse.message,
+          errorResponse.data?.error
+        );
       }
 
       // Request unexpectedly failed
