@@ -61,11 +61,12 @@
   outline: none;
 
   font-size: var(--ring-font-size);
-  line-height: calc(unit * 3);
 }
 
 .item.item {
   padding: 3px calc(unit * 2) 5px;
+
+  line-height: calc(unit * 3);
 }
 
 .itemContainer {
