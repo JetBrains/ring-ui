@@ -8,7 +8,7 @@
 .queryAssist {
   --ring-input-icon-offset: calc(unit * 2.5);
   --ring-input-padding-inline: unit;
-  --ring-input-padding-block: 3px;
+  --ring-input-padding-block: 1px;
   --ring-input-padding-start: var(--ring-input-padding-inline);
   --ring-input-padding-end: var(--ring-input-padding-inline);
 
