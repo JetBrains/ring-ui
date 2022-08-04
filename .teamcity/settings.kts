@@ -818,6 +818,7 @@ object PublishHotfixRelease : BuildType({
 
                 npm install
                 npm run bootstrap
+                npm run build
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
