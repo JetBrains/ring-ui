@@ -8,6 +8,7 @@
 .idea/shelf/
 .idea/usage.statistics.xml
 .idea/workspace.xml
+.idea/libraries
 
 # OS
 .DS_Store
