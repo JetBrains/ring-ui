@@ -89,7 +89,7 @@
 
 :global(.ring-table__toggle) {
   position: relative;
-  top: 9px;
+  top: 11px;
 
   display: inline-block;
 
