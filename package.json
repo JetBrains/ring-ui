@@ -91,7 +91,7 @@
     "@storybook/client-api": "6.5.9",
     "@storybook/core": "6.5.9",
     "@storybook/html": "6.5.9",
-    "@storybook/manager-webpack5": "6.5.9",
+    "@storybook/manager-webpack5": "6.5.10",
     "@storybook/react": "6.5.9",
     "@storybook/source-loader": "6.5.10",
     "@storybook/theming": "6.5.9",
