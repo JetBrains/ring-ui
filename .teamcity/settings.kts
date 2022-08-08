@@ -316,7 +316,7 @@ object Deploy : BuildType({
 
     dependencies {
         snapshot(AllChecks) {
-            onDependencyFailure = FailureAction.FAIL_TO_START
+            onDependencyFailure = FailureAction.ADD_PROBLEM
         }
     }
 
@@ -397,6 +397,11 @@ object GeminiTests : BuildType({
             compareTo = build {
                 buildRule = lastSuccessful()
             }
+        }
+        failOnText {
+            conditionType = BuildFailureOnText.ConditionType.CONTAINS
+            pattern = "console.warn"
+            reverse = false
         }
     }
 
@@ -571,6 +576,11 @@ object ConsoleErrors : BuildType({
                 buildRule = lastSuccessful()
             }
         }
+        failOnText {
+            conditionType = BuildFailureOnText.ConditionType.CONTAINS
+            pattern = "console.warn"
+            reverse = false
+        }
     }
 
     requirements {
@@ -597,6 +607,7 @@ object SecurityAudit : BuildType({
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
+        param("env.SEVERITY_LEVEL", "critical")
     }
 
     vcs {
@@ -640,6 +651,11 @@ object SecurityAudit : BuildType({
 object Publish : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
     name = "Publish @latest (master)"
+
+    artifactRules = """
+        %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
+        dist=>dist.zip
+    """.trimIndent()
 
     allowExternalStatus = true
 
@@ -724,6 +740,7 @@ object Publish : BuildType({
         retryBuild {
             id = "retryBuildTrigger"
             delaySeconds = 60
+            enabled = false
         }
     }
 
@@ -926,6 +943,12 @@ object PublishNext : BuildType({
     name = "Publish @next"
     paused = true
 
+    artifactRules = """
+        %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
+        components => components.zip
+        dist => dist.zip
+    """.trimIndent()
+
     allowExternalStatus = true
 
     params {
@@ -1084,8 +1107,7 @@ object PublishToGitHubPages : BuildType({
     params {
         param("vcs.branch.spec", """
             +:refs/heads/(master)
-            +:refs/heads/(release-1.0)
-            +:refs/heads/(storybook-5.2)
+            +:refs/heads/(release-4.2)
         """.trimIndent())
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
@@ -1208,6 +1230,7 @@ object UnitTestsAndBuild : BuildType({
     allowExternalStatus = true
     artifactRules = """
         storybook-dist => storybook-dist.zip
+        dist => dist.zip
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogsssssssssssssssssssss
         coverage => coverage.zip
         npm-ls.log
@@ -1282,6 +1305,7 @@ object UnitTestsAndBuild : BuildType({
             pattern = "ERROR:"
             failureMessage = "console.error appeared in log"
             reverse = false
+            enabled = false
         }
         failOnText {
             conditionType = BuildFailureOnText.ConditionType.CONTAINS
