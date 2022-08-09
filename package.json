@@ -89,7 +89,7 @@
     "@storybook/addons": "6.5.10",
     "@storybook/builder-webpack5": "6.5.10",
     "@storybook/client-api": "6.5.10",
-    "@storybook/core": "6.5.9",
+    "@storybook/core": "6.5.10",
     "@storybook/html": "6.5.10",
     "@storybook/manager-webpack5": "6.5.10",
     "@storybook/react": "6.5.10",
