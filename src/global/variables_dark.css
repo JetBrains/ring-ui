@@ -2,70 +2,121 @@
 
 .dark,
 :root.dark {
-  --ring-line-color: #475159;
-  --ring-borders-color: #406380;
-  --ring-icon-color: #80929d;
-  --ring-icon-secondary-color: #80929d;
-  --ring-border-disabled-color: #475159;
-  --ring-border-unselected-disabled-color: #363636;
-  --ring-icon-disabled-color: #505253;
-  --ring-border-hover-color: #70b1e6;
-  --ring-main-color: #008eff;
-  --ring-main-hover-color: #007ee5;
-  --ring-icon-error-color: #db5860;
-  --ring-icon-warning-color: #eda200;
-  --ring-icon-success-color: #47d464;
+  --ring-line-components: 71, 81, 89;
+  --ring-line-color: rgb(var(--ring-line-components)); /* #475159 */
+  --ring-borders-components: 64, 99, 128;
+  --ring-borders-color: rgb(var(--ring-borders-components)); /* #406380 */
+  --ring-icon-components: 128, 146, 157;
+  --ring-icon-color: rgb(var(--ring-icon-components)); /* #80929d */
+  --ring-icon-secondary-components: 128, 146, 157;
+  --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #80929d */
+  --ring-border-disabled-components: 71, 81, 89;
+  --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #475159 */
+  --ring-border-unselected-disabled-components: 54, 54, 54;
+  --ring-border-unselected-disabled-color: rgb(var(--ring-border-unselected-disabled-components)); /* #363636 */
+  --ring-icon-disabled-components: 80, 82, 83;
+  --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #505253 */
+  --ring-border-hover-components: 112, 177, 230;
+  --ring-border-hover-color: rgb(var(--ring-border-hover-components)); /* #70b1e6 */
+  --ring-main-components: 0, 142, 255;
+  --ring-main-color: rgb(var(--ring-main-components)); /* #008eff */
+  --ring-main-hover-components: 0, 126, 229;
+  --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #007ee5 */
+  --ring-icon-error-components: 219, 88, 96;
+  --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #db5860 */
+  --ring-icon-warning-components: 237, 162, 0;
+  --ring-icon-warning-color: rgb(var(--ring-icon-warning-components)); /* #eda200 */
+  --ring-icon-success-components: 71, 212, 100;
+  --ring-icon-success-color: rgb(var(--ring-icon-success-components)); /* #47d464 */
   --ring-popup-border-components: 0, 42, 76;
   --ring-popup-border-color: rgba(var(--ring-popup-border-components), 0.1);
   --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.15);
   --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);
-  --ring-pinned-shadow-color: #000;
+  --ring-pinned-shadow-components: 0, 0, 0;
+  --ring-pinned-shadow-color: rgb(var(--ring-pinned-shadow-components)); /* #000 */
   --ring-button-danger-hover-color: var(--ring-error-color);
-  --ring-button-primary-border-color: #80c6ff;
+  --ring-button-primary-border-components: 128, 198, 255;
+  --ring-button-primary-border-color: rgb(var(--ring-button-primary-border-components)); /* #80c6ff */
 
   /* Text */
-  --ring-hint-color: #80929d;
-  --ring-link-color: #70b1e6;
-  --ring-error-color: #db5860;
-  --ring-warning-color: #eda200;
-  --ring-success-color: #47d464;
-  --ring-text-color: #bbb;
-  --ring-active-text-color: #fff;
+  --ring-hint-components: 128, 146, 157;
+  --ring-hint-color: rgb(var(--ring-hint-components)); /* #80929d */
+  --ring-link-components: 112, 177, 230;
+  --ring-link-color: rgb(var(--ring-link-components)); /* #70b1e6 */
+  --ring-error-components: 219, 88, 96;
+  --ring-error-color: rgb(var(--ring-error-components)); /* #db5860 */
+  --ring-warning-components: 237, 162, 0;
+  --ring-warning-color: rgb(var(--ring-warning-components)); /* #eda200 */
+  --ring-success-components: 71, 212, 100;
+  --ring-success-color: rgb(var(--ring-success-components)); /* #47d464 */
+  --ring-text-components: 187, 187, 187;
+  --ring-text-color: rgb(var(--ring-text-components)); /* #bbb */
+  --ring-active-text-components: 255, 255, 255;
+  --ring-active-text-color: rgb(var(--ring-active-text-components)); /* #fff */
   --ring-heading-color: var(--ring-text-color);
-  --ring-secondary-color: #80929d;
-  --ring-disabled-color: #80929d;
+  --ring-secondary-components: 128, 146, 157;
+  --ring-secondary-color: rgb(var(--ring-secondary-components)); /* #80929d */
+  --ring-disabled-components: 128, 146, 157;
+  --ring-disabled-color: rgb(var(--ring-disabled-components)); /* #80929d */
 
   /* Background */
-  --ring-content-background-color: #23272b;
-  --ring-popup-background-color: #111314;
-  --ring-sidebar-background-color: #28343d;
-  --ring-selected-background-color: #062640;
-  --ring-hover-background-color: #0b1a26;
-  --ring-navigation-background-color: #111314;
-  --ring-tag-background-color: #3e4d59;
-  --ring-tag-hover-background-color: #333e47;
-  --ring-removed-background-color: #8f5247;
-  --ring-warning-background-color: #593d01;
-  --ring-added-background-color: #365947;
-  --ring-disabled-background-color: #303030;
-  --ring-disabled-selected-background-color: #363636;
-  --ring-button-danger-active-color: #26080a;
-  --ring-button-primary-background-color: #007ee5;
+  --ring-content-background-components: 35, 39, 43;
+  --ring-content-background-color: rgb(var(--ring-content-background-components)); /* #23272b */
+  --ring-popup-background-components: 17, 19, 20;
+  --ring-popup-background-color: rgb(var(--ring-popup-background-components)); /* #111314 */
+  --ring-sidebar-background-components: 40, 52, 61;
+  --ring-sidebar-background-color: rgb(var(--ring-sidebar-background-components)); /* #28343d */
+  --ring-selected-background-components: 6, 38, 64;
+  --ring-selected-background-color: rgb(var(--ring-selected-background-components)); /* #062640 */
+  --ring-hover-background-components: 11, 26, 38;
+  --ring-hover-background-color: rgb(var(--ring-hover-background-components)); /* #0b1a26 */
+  --ring-navigation-background-components: 17, 19, 20;
+  --ring-navigation-background-color: rgb(var(--ring-navigation-background-components)); /* #111314 */
+  --ring-tag-background-components: 62, 77, 89;
+  --ring-tag-background-color: rgb(var(--ring-tag-background-components)); /* #3e4d59 */
+  --ring-tag-hover-background-components: 51, 62, 71;
+  --ring-tag-hover-background-color: rgb(var(--ring-tag-hover-background-components)); /* #333e47 */
+  --ring-removed-background-components: 143, 82, 71;
+  --ring-removed-background-color: rgb(var(--ring-removed-background-components)); /* #8f5247 */
+  --ring-warning-background-components: 89, 61, 1;
+  --ring-warning-background-color: rgb(var(--ring-warning-background-components)); /* #593d01 */
+  --ring-added-background-components: 54, 89, 71;
+  --ring-added-background-color: rgb(var(--ring-added-background-components)); /* #365947 */
+  --ring-disabled-background-components: 48, 48, 48;
+  --ring-disabled-background-color: rgb(var(--ring-disabled-background-components)); /* #303030 */
+  --ring-disabled-selected-background-components: 54, 54, 54;
+  --ring-disabled-selected-background-color: rgb(var(--ring-disabled-selected-background-components)); /* #363636 */
+  --ring-button-danger-active-components: 38, 8, 10;
+  --ring-button-danger-active-color: rgb(var(--ring-button-danger-active-components)); /* #26080a */
+  --ring-button-primary-background-components: 0, 126, 229;
+  --ring-button-primary-background-color: rgb(var(--ring-button-primary-background-components)); /* #007ee5 */
 
   /* Code */
-  --ring-code-background-color: #2b2b2b;
-  --ring-code-color: #a9b7c6;
-  --ring-code-meta-color: #bbb529;
-  --ring-code-keyword-color: #cc7832;
-  --ring-code-tag-background-color: #2b2b2b;
-  --ring-code-tag-color: #e8bf6a;
+  --ring-code-background-components: 43, 43, 43;
+  --ring-code-background-color: rgb(var(--ring-code-background-components)); /* #2b2b2b */
+  --ring-code-components: 169, 183, 198;
+  --ring-code-color: rgb(var(--ring-code-components)); /* #a9b7c6 */
+  --ring-code-meta-components: 187, 181, 41;
+  --ring-code-meta-color: rgb(var(--ring-code-meta-components)); /* #bbb529 */
+  --ring-code-keyword-components: 204, 120, 50;
+  --ring-code-keyword-color: rgb(var(--ring-code-keyword-components)); /* #cc7832 */
+  --ring-code-tag-background-components: 43, 43, 43;
+  --ring-code-tag-background-color: rgb(var(--ring-code-tag-background-components)); /* #2b2b2b */
+  --ring-code-tag-components: 232, 191, 106;
+  --ring-code-tag-color: rgb(var(--ring-code-tag-components)); /* #e8bf6a */
   --ring-code-tag-font-weight: normal;
-  --ring-code-field-color: #9876aa;
-  --ring-code-attribute-color: #bababa;
-  --ring-code-number-color: #6897bb;
-  --ring-code-string-color: #6a8759;
-  --ring-code-addition-color: #447152;
-  --ring-code-deletion-color: #656e76;
+  --ring-code-field-components: 152, 118, 170;
+  --ring-code-field-color: rgb(var(--ring-code-tag-font-weight)); /* #9876aa */
+  --ring-code-attribute-components: 186, 186, 186;
+  --ring-code-attribute-color: rgb(var(--ring-code-attribute-components)); /* #bababa */
+  --ring-code-number-components: 104, 151, 187;
+  --ring-code-number-color: rgb(var(--ring-code-number-components)); /* #6897bb */
+  --ring-code-string-components: 106, 135, 89;
+  --ring-code-string-color: rgb(var(--ring-code-string-components)); /* #6a8759 */
+  --ring-code-addition-components: 68, 113, 82;
+  --ring-code-addition-color: rgb(var(--ring-code-addition-components)); /* #447152 */
+  --ring-code-deletion-components: 101, 110, 118;
+  --ring-code-deletion-color: rgb(var(--ring-code-deletion-components)); /* #656e76 */
 
   color-scheme: dark;
 }
