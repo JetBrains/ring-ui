@@ -22,8 +22,29 @@ function renderColorItem(propName: string) {
         <div class="color-value" id="${id}"></div>
         <script>
           {
+            const formatColorPropertyValue = (value) => {
+              if (value.indexOf('RGB(') > -1 && value.indexOf(')') > 0) {
+                const rgbComponents = value.
+                  substring(value.indexOf('RGB(') + 'RGB('.length, value.indexOf(')')).
+                  split(',').
+                  map((it) => {
+                    try {
+                      return Number.parseInt(it.trim(), 10);
+                    } catch (err) {
+                      return 0;
+                    }
+                  }).
+                  map((it) => it.toString(16)).
+                  map((it) => (it.length === 1 ? ('0' + it) : it)).
+                  join('').toUpperCase();
+                return '#' + rgbComponents + ' - ' + value;
+              }
+              return value;
+            };
+
             const div = document.getElementById('${id}');
-            div.textContent = getComputedStyle(div).getPropertyValue('${propName}').toUpperCase();
+            const value = getComputedStyle(div).getPropertyValue('${propName}').toUpperCase();
+            div.textContent = formatColorPropertyValue(value);
           }
         </script>
       </div>
