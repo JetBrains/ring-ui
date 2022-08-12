@@ -127,7 +127,7 @@
   --ring-code-field-color: rgb(var(--ring-code-field-components)); /* #660e7a */
   --ring-code-attribute-components: 0, 0, 255;
   --ring-code-attribute-color: rgb(var(--ring-code-attribute-components)); /* #00f */
-  --ring-code-number-color: var(var(--ring-code-attribute-color));
+  --ring-code-number-color: var(--ring-code-attribute-color);
   --ring-code-string-components: 0, 122, 0;
   --ring-code-string-color: rgb(var(--ring-code-string-components)); /* #007a00 */
   --ring-code-addition-components: 170, 222, 170;
