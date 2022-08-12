@@ -18,7 +18,7 @@
   --ring-border-unselected-disabled-color: rgb(var(--ring-border-unselected-disabled-components)); /* #e8e8e8 */
   --ring-icon-disabled-components: 212, 212, 212;
   --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #d4d4d4 */
-  --ring-border-hover-components: 128, 128, 128;
+  --ring-border-hover-components: 128, 198, 255;
   --ring-border-hover-color: rgb(var(--ring-border-hover-components)); /* #80c6ff */
   --ring-icon-hover-components: var(--ring-link-hover-color);
   --ring-icon-hover-color: var(--ring-link-hover-color);
