@@ -10,7 +10,8 @@ export default {
   decorators: [angularDecorator()],
 
   parameters: {
-    notes: 'Provides an Angular wrapper for Heading.'
+    notes: 'Provides an Angular wrapper for Heading.',
+    hermione: {skip: true}
   }
 };
 
