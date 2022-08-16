@@ -108,6 +108,7 @@
   --ring-button-loader-background: rgb(var(--ring-button-loader-background-components)); /* #33a3ff */
   --ring-button-primary-background-components: 26, 152, 255;
   --ring-button-primary-background-color: rgb(var(--ring-button-primary-background-components)); /* #1a98ff */
+  --ring-table-loader-background-color: rgba(var(--ring-content-background-components), 0.5); /* #ffffff80 */
 
   /* Code */
   --ring-code-background-color: var(--ring-content-background-color);
