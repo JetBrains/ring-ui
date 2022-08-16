@@ -90,6 +90,7 @@
   --ring-button-danger-active-color: rgb(var(--ring-button-danger-active-components)); /* #26080a */
   --ring-button-primary-background-components: 0, 126, 229;
   --ring-button-primary-background-color: rgb(var(--ring-button-primary-background-components)); /* #007ee5 */
+  --ring-table-loader-background-color: rgba(var(--ring-content-background-components), 0.5); /* #23272b80 */
 
   /* Code */
   --ring-code-background-components: 43, 43, 43;
