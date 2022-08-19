@@ -56,8 +56,7 @@
 }
 
 .narrowIsland .header {
-  padding-right: calc(unit * 2);
-  padding-left: calc(unit * 2);
+  padding: 0 calc(unit * 2);
 }
 
 .content {
