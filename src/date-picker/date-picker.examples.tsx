@@ -345,3 +345,36 @@ rangeWithCustomPlaceholders.parameters = {
   hermione: {skip: true}
 };
 
+export const renderInline = () => {
+  class DatePickerExample extends Component {
+    state = {
+      date: '8 January 2020, 9:45'
+    };
+
+    setDate = (date: Date | null | undefined) => {
+      this.setState({date});
+    };
+
+    render() {
+      return (
+        <div>
+          <DatePicker
+            date={this.state.date}
+            onChange={this.setDate}
+            withTime
+            clear
+            inline
+          />
+        </div>
+      );
+    }
+  }
+
+  return <DatePickerExample/>;
+};
+
+renderInline.parameters = {
+  hermione: {skip: true}
+};
+
+renderInline.storyName = 'inline';

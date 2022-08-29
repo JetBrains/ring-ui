@@ -30,6 +30,10 @@
 
 .datePicker.datePicker {
   padding-right: unit;
+
+  &.inline {
+    padding: 0;
+  }
 }
 
 .displayDate {
@@ -93,6 +97,12 @@
   padding: 0 unit;
 
   text-align: start;
+
+  @nest .inline & {
+    padding: 0;
+
+    cursor: pointer;
+  }
 }
 
 .anchorContent {
