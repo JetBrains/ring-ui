@@ -99,6 +99,7 @@
   text-align: start;
 
   @nest .inline & {
+    min-width: initial;
     padding: 0;
 
     cursor: pointer;
