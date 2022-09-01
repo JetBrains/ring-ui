@@ -151,7 +151,7 @@
 
   border-collapse: collapse;
   border-width: 1px;
-  border-color: var(--ring-sidebar-background-color);
+  border-color: var(--ring-line-color);
   border-top-style: solid;
   border-bottom-style: solid;
 }
