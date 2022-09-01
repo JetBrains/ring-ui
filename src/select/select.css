@@ -152,6 +152,8 @@
 
 .buttonContainer {
   position: relative;
+
+  font-size: var(--ring-font-size);
 }
 
 .buttonValue {
