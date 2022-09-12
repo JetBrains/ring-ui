@@ -17,7 +17,9 @@ export interface RerenderableComponentClass<P, S> {
  * @param captureNode, whether the wrapper should capture this.node itself. Set to false if the component already has "node" property captured
  * @returns {Rerenderer}
  */
-export default function rerenderHOC<P, S>(ComposedComponent: RerenderableComponentClass<P, S>) {
+export default function rerenderHOC<P extends {}, S>(
+  ComposedComponent: RerenderableComponentClass<P, S>
+) {
   return class Rerenderer extends ComposedComponent {
     _propsCache: P & RefAttributes<unknown> = this.props;
 
