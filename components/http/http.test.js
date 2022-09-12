@@ -184,4 +184,18 @@ describe('HTTP', () => {
 
     http.request.should.have.been.calledWith('testurl', {method: 'POST', body: {foo: 'bar'}});
   });
+
+  it('"delete" method should call request with DELETE type', async () => {
+    sandbox.stub(http, 'request');
+    await http.delete('testurl', {body: {foo: 'bar'}});
+
+    http.request.should.have.been.calledWith('testurl', {method: 'DELETE', body: {foo: 'bar'}});
+  });
+
+  it('"put" method should call request with PUT type', async () => {
+    sandbox.stub(http, 'request');
+    await http.put('testurl', {body: {foo: 'bar'}});
+
+    http.request.should.have.been.calledWith('testurl', {method: 'PUT', body: {foo: 'bar'}});
+  });
 });
