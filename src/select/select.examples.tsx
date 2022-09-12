@@ -862,7 +862,6 @@ interface WithFilteredFieldsState {
   selectedFilterKey: string | number | undefined
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 class WithFilteredFields extends Component<{}, WithFilteredFieldsState> {
   constructor(props: never) {
     super(props);

@@ -15,7 +15,7 @@ export interface ShortcutsHOCProps {
   rgShortcutsMap: ShortcutsMap
 }
 
-export default function shortcutsHOC<P>(ComposedComponent: ComponentType<P> | string) {
+export default function shortcutsHOC<P extends {}>(ComposedComponent: ComponentType<P> | string) {
 
   return class WithShortcuts extends React.Component<P & ShortcutsHOCProps> {
     static propTypes = {

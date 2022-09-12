@@ -107,7 +107,7 @@ module.exports = {
         }],
         '@typescript-eslint/ban-types': [error, {
           extendDefaults: true,
-          types: {object: false}
+          types: {object: false, '{}': false}
         }],
         'no-magic-numbers': ignore,
         '@typescript-eslint/no-magic-numbers': [error, {
