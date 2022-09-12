@@ -44,7 +44,7 @@ export default class Alerts extends PureComponent<AlertContainerProps> {
 
           return cloneElement(child, {
             className: alertClassNames
-          });
+          } as Partial<unknown>);
         })}
       </div>,
       document.body
