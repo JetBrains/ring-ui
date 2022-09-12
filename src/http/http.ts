@@ -223,15 +223,29 @@ export default class HTTP implements Partial<HTTPAuth> {
 
   get = (url: string, params?: RequestParams) => (
     this.request(url, {
-      method: 'GET',
-      ...params
+      ...params,
+      method: 'GET'
     })
   );
 
   post = (url: string, params?: RequestParams) => (
     this.request(url, {
-      method: 'POST',
-      ...params
+      ...params,
+      method: 'POST'
+    })
+  );
+
+  delete = (url: string, params?: RequestParams) => (
+    this.request(url, {
+      ...params,
+      method: 'DELETE'
+    })
+  );
+
+  put = (url: string, params?: RequestParams) => (
+    this.request(url, {
+      ...params,
+      method: 'PUT'
     })
   );
 }
