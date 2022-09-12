@@ -31,7 +31,6 @@ interface AuthDialogDemoState {
 export const authDialogService = ({onConfirm, onCancel}: AuthDialogServiceArgs) => {
   const auth = new Auth(hubConfig);
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
   class AuthDialogDemo extends React.Component<{}, AuthDialogDemoState> {
     componentDidMount() {
       auth.init();
