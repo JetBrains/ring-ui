@@ -182,15 +182,29 @@ export default class HTTP {
 
   get = (url, params) => (
     this.request(url, {
-      method: 'GET',
-      ...params
+      ...params,
+      method: 'GET'
     })
   );
 
   post = (url, params) => (
     this.request(url, {
-      method: 'POST',
-      ...params
+      ...params,
+      method: 'POST'
+    })
+  );
+
+  delete = (url, params) => (
+    this.request(url, {
+      ...params,
+      method: 'DELETE'
+    })
+  );
+
+  put = (url, params) => (
+    this.request(url, {
+      ...params,
+      method: 'PUT'
     })
   );
 }
