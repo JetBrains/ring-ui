@@ -30,6 +30,17 @@ export const CODE = {
   UNAUTHORIZED: 401
 };
 
+function withMethodWarning(fn) {
+  return (url, params) => {
+    if (params && 'method' in params) {
+      // eslint-disable-next-line no-console
+      console.warn(`Ring UI HTTP misuse: {method: '${params.method}'}  is passed to http.post() or http.get() (url="${url}").
+This is a bug exploitation and will not work in next release.`);
+    }
+    return fn(url, params);
+  };
+}
+
 export default class HTTP {
   baseUrl = null;
   _requestsMeta = new WeakMap();
@@ -180,19 +191,19 @@ export default class HTTP {
 
   getMetaForResponse = response => this._requestsMeta.get(response);
 
-  get = (url, params) => (
+  get = withMethodWarning((url, params) => (
     this.request(url, {
-      ...params,
-      method: 'GET'
+      method: 'GET',
+      ...params
     })
-  );
+  ));
 
-  post = (url, params) => (
+  post = withMethodWarning((url, params) => (
     this.request(url, {
-      ...params,
-      method: 'POST'
+      method: 'POST',
+      ...params
     })
-  );
+  ));
 
   delete = (url, params) => (
     this.request(url, {
