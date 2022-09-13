@@ -64,6 +64,7 @@ describe('HTTP', () => {
 
     http._fetch.should.have.been.calledWith('testurl', {
       cache: 'default',
+      headers: undefined,
       body: undefined
     });
   });
