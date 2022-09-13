@@ -41,13 +41,22 @@ export interface FetchParams<T = unknown> extends Omit<RequestInit, 'body'> {
   query?: Record<string, unknown> | undefined
 }
 
-export type RequestParams =
-  | FetchParams & {
-    sendRawBody?: false
-  }
-  | FetchParams<BodyInit | null> & {
-    sendRawBody: true
-  }
+export interface RequestParams<
+  RawBody extends boolean = true | false
+> extends FetchParams<
+  RawBody extends true ? (BodyInit | null) : unknown
+> {
+  sendRawBody?: RawBody;
+}
+
+export type RequestParamsWithoutMethod<
+  RawBody extends boolean = boolean
+  > = Omit<RequestParams<RawBody>, 'method'>;
+
+function isRawBody(params: RequestParams): params is RequestParams<true> {
+  return params.sendRawBody === true;
+}
+
 
 export interface HTTPAuth {
   requestToken(): Promise<string | null> | string | null
@@ -119,7 +128,7 @@ export default class HTTP implements Partial<HTTPAuth> {
     });
 
     let bodyToSend: BodyInit | null | undefined;
-    if (params.sendRawBody) {
+    if (isRawBody(params)) {
       bodyToSend = params.body;
     } else {
       bodyToSend = params.body === null || params.body === undefined || params.body === ''
@@ -221,28 +230,28 @@ export default class HTTP implements Partial<HTTPAuth> {
 
   getMetaForResponse = (response: object) => this._requestsMeta.get(response);
 
-  get = (url: string, params?: RequestParams) => (
+  get = (url: string, params?: RequestParamsWithoutMethod) => (
     this.request(url, {
       ...params,
       method: 'GET'
     })
   );
 
-  post = (url: string, params?: RequestParams) => (
+  post = (url: string, params?: RequestParamsWithoutMethod) => (
     this.request(url, {
       ...params,
       method: 'POST'
     })
   );
 
-  delete = (url: string, params?: RequestParams) => (
+  delete = (url: string, params?: RequestParamsWithoutMethod) => (
     this.request(url, {
       ...params,
       method: 'DELETE'
     })
   );
 
-  put = (url: string, params?: RequestParams) => (
+  put = (url: string, params?: RequestParamsWithoutMethod) => (
     this.request(url, {
       ...params,
       method: 'PUT'
