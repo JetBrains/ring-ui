@@ -18,7 +18,7 @@ export const containerElement = document.createElement('div');
  * Renders Confirm into virtual node to skip maintaining container
  */
 function renderConfirm(props: Props) {
-  const {buttonsHeight = ControlsHeight.L, ...restProps} = props;
+  const {buttonsHeight = ControlsHeight.M, ...restProps} = props;
   render((
     <ControlsHeightContext.Provider value={buttonsHeight}>
       <Confirm {...restProps}/>
