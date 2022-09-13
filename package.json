@@ -4,6 +4,7 @@
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
+  "packageManager": "npm@8.11.0",
   "files": [
     "babel.config.js",
     "components",
