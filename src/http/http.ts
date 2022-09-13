@@ -36,9 +36,10 @@ export const CODE = {
   UNAUTHORIZED: 401
 };
 
-export interface FetchParams<T = unknown> extends Omit<RequestInit, 'body'> {
+export interface FetchParams<T = unknown> extends Omit<RequestInit, 'body' | 'headers'> {
   body?: T
   query?: Record<string, unknown> | undefined
+  headers?: HeadersInit | Record<string, null | undefined>
 }
 
 export interface RequestParams<
@@ -140,7 +141,7 @@ export default class HTTP implements Partial<HTTPAuth> {
       this._makeRequestUrl(url, query),
       {
         ...this.fetchConfig,
-        headers: combinedHeaders,
+        headers: combinedHeaders as HeadersInit,
         ...fetchConfig,
         body: bodyToSend
       }
@@ -188,6 +189,7 @@ export default class HTTP implements Partial<HTTPAuth> {
       this._makeRequestUrl(url, query),
       {
         ...fetchConfig,
+        headers: fetchConfig.headers as HeadersInit | undefined,
         body: body !== null && body !== undefined && body !== '' ? JSON.stringify(body) : body
       }
     );
