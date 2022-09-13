@@ -2,18 +2,28 @@ import React, {ReactNode} from 'react';
 
 import {render} from '../global/react-render-adapter';
 import Confirm, {ConfirmAttributes} from '../confirm/confirm';
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 /**
  * @name Confirm Service
  */
+
+export type Props = ConfirmAttributes & {
+  buttonsHeight?: ControlsHeight
+};
 
 export const containerElement = document.createElement('div');
 
 /**
  * Renders Confirm into virtual node to skip maintaining container
  */
-function renderConfirm(props: ConfirmAttributes) {
-  render(<Confirm {...props}/>, containerElement);
+function renderConfirm(props: Props) {
+  const {buttonsHeight = ControlsHeight.L, ...restProps} = props;
+  render((
+    <ControlsHeightContext.Provider value={buttonsHeight}>
+      <Confirm {...restProps}/>
+    </ControlsHeightContext.Provider>
+  ), containerElement);
 }
 
 export interface ConfirmServiceParams {
@@ -23,6 +33,7 @@ export interface ConfirmServiceParams {
   confirmLabel?: string | undefined
   rejectLabel?: string | undefined
   onBeforeConfirm?: (() => void) | undefined
+  buttonsHeight?: ControlsHeight | undefined
 }
 
 export default function confirm({
@@ -31,7 +42,8 @@ export default function confirm({
   confirmLabel = 'OK',
   rejectLabel = 'Cancel',
   cancelIsDefault,
-  onBeforeConfirm
+  onBeforeConfirm,
+  buttonsHeight
 }: ConfirmServiceParams) {
   return new Promise<void>((resolve, reject) => {
     const props = {
@@ -40,6 +52,7 @@ export default function confirm({
       confirmLabel,
       rejectLabel,
       cancelIsDefault,
+      buttonsHeight,
       show: true,
 
       onConfirm: () => {
