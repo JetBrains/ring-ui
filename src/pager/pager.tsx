@@ -81,7 +81,7 @@ export default class Pager extends PureComponent<PagerProps> {
     return {selected, data};
   }
 
-  getPagesAmount() {
+  getTotalPages() {
     const {total, pageSize} = this.props;
     return Math.ceil(total / pageSize);
   }
@@ -103,7 +103,7 @@ export default class Pager extends PureComponent<PagerProps> {
   handleNextClick = () => {
     const {currentPage, onLoadPage} = this.props;
     const nextPage = currentPage + 1;
-    const total = this.getPagesAmount();
+    const total = this.getTotalPages();
     if (currentPage !== total) {
       this.props.onPageChange?.(nextPage);
     } else if (this.props.openTotal) {
@@ -169,7 +169,7 @@ export default class Pager extends PureComponent<PagerProps> {
     const prevLinkAvailable = this.props.currentPage !== 1;
 
     const nextLinkAvailable = this.props.openTotal ||
-      this.props.currentPage !== this.getPagesAmount();
+      this.props.currentPage !== this.getTotalPages();
 
     const nextIcon = (
       <Icon glyph={chevronRightIcon} key="icon"/>
@@ -247,16 +247,17 @@ export default class Pager extends PureComponent<PagerProps> {
 
   getPagerContent() {
     const {currentPage, visiblePagesLimit} = this.props;
-    const pagesAmount = this.getPagesAmount();
+    const totalPages = this.getTotalPages();
 
-    if (pagesAmount < 2 && !this.props.openTotal) {
-      return null;
+    if (totalPages < this.props.currentPage) {
+      this.props.onPageChange?.(totalPages);
     }
 
     let start = 1;
-    let end = pagesAmount;
+    let end = totalPages;
 
-    if (pagesAmount >= visiblePagesLimit) {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    if (totalPages >= visiblePagesLimit + 6) {
       const leftHalfFrameSize = Math.ceil(visiblePagesLimit / 2) - 1;
       const rightHalfFrameSize = visiblePagesLimit - leftHalfFrameSize - 1;
 
@@ -269,8 +270,8 @@ export default class Pager extends PureComponent<PagerProps> {
         end += tail;
       }
 
-      if (end > pagesAmount) {
-        const tail = end - pagesAmount;
+      if (end > totalPages) {
+        const tail = end - totalPages;
         start -= tail;
         end -= tail;
       }
@@ -285,7 +286,7 @@ export default class Pager extends PureComponent<PagerProps> {
       buttons.push(this.getButton(i, i, i, i === currentPage));
     }
 
-    const lastPageButtonAvailable = (end < pagesAmount && !this.props.openTotal) ||
+    const lastPageButtonAvailable = (end < totalPages && !this.props.openTotal) ||
       (this.props.openTotal && this.props.canLoadLastPageWithOpenTotal);
 
     return (
@@ -300,9 +301,9 @@ export default class Pager extends PureComponent<PagerProps> {
 
             {buttons}
 
-            {end < pagesAmount && this.getButton(end + 1, '...')}
+            {end < totalPages && this.getButton(end + 1, '...')}
 
-            {end === pagesAmount && this.props.openTotal && (
+            {end === totalPages && this.props.openTotal && (
               <Button
                 href={this.generateHref(end + 1)}
                 disabled={this.props.loader}
@@ -311,16 +312,10 @@ export default class Pager extends PureComponent<PagerProps> {
             )}
           </ButtonGroup>
 
-          {lastPageButtonAvailable &&
-        (
-          <ButtonGroup>
-            {this.getButton(
-              this.props.openTotal ? -1 : pagesAmount,
-              this.props.translations.lastPage
-            )}
-          </ButtonGroup>
-        )
-          }
+          {lastPageButtonAvailable && this.getButton(
+            this.props.openTotal ? -1 : totalPages,
+            this.props.translations.lastPage
+          )}
         </ButtonToolbar>
 
         {this.getPageSizeSelector()}
@@ -335,7 +330,7 @@ export default class Pager extends PureComponent<PagerProps> {
 
     return (
       <div data-test="ring-pager" className={classes}>
-        {this.props.total > 1
+        {this.getTotalPages() > 1 || this.props.openTotal
           ? this.getPagerContent()
           : this.getPageSizeSelector()
         }
