@@ -216,7 +216,7 @@
     "combokeys": "^3.0.1",
     "compile-code-loader": "^1.0.0",
     "css-loader": "^6.7.1",
-    "csstype": "^3.1.0",
+    "csstype": "^3.1.1",
     "date-fns": "^2.29.2",
     "deep-equal": "^2.0.4",
     "element-resize-detector": "^1.2.4",
