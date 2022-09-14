@@ -95,7 +95,7 @@
     "@storybook/manager-webpack5": "6.5.12",
     "@storybook/react": "6.5.12",
     "@storybook/source-loader": "6.5.11",
-    "@storybook/theming": "6.5.10",
+    "@storybook/theming": "6.5.12",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/chai": "^4.3.3",
