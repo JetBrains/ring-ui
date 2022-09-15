@@ -212,7 +212,7 @@
     "babel-plugin-transform-define": "^2.0.1",
     "browserslist": "^4.16.6",
     "change-case": "^4.1.1",
-    "classnames": "^2.3.1",
+    "classnames": "^2.3.2",
     "combokeys": "^3.0.1",
     "compile-code-loader": "^1.0.0",
     "css-loader": "^6.7.1",
