@@ -76,8 +76,13 @@
   display: flex;
 }
 
-.filter {
-  composes: filter from "../select/select-popup.css";
+.filter.filter {
+  width: 0;
+  flex-grow: 1;
+
+  & input {
+    font-weight: 200;
+  }
 }
 
 .filterIcon {
