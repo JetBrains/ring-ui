@@ -77,8 +77,9 @@
 }
 
 .filter.filter {
-  width: 0;
   flex-grow: 1;
+
+  width: 0;
 
   & input {
     font-weight: 200;
