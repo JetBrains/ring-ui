@@ -77,7 +77,16 @@ export const singleDateAndTime = () => {
 };
 
 singleDateAndTime.parameters = {
-  hermione: {skip: true}
+  hermione: {
+    actions: [
+      {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
+      {
+        type: 'capture',
+        name: 'datePickerPopup',
+        selector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]']
+      }
+    ]
+  }
 };
 
 singleDateAndTime.storyName = 'single date and time';
