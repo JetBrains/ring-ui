@@ -209,7 +209,7 @@
     "@types/util-deprecate": "^1.0.0",
     "@ungap/url-search-params": "^0.2.2",
     "babel-loader": "^8.2.5",
-    "babel-plugin-transform-define": "^2.0.1",
+    "babel-plugin-transform-define": "^2.1.0",
     "browserslist": "^4.16.6",
     "change-case": "^4.1.1",
     "classnames": "^2.3.2",
