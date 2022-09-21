@@ -51,6 +51,8 @@
   padding-bottom: var(--ring-input-padding-block);
   padding-left: var(--ring-input-padding-start);
 
+  cursor: text;
+
   transition: border-color var(--ring-ease);
 
   color: var(--ring-text-color);
