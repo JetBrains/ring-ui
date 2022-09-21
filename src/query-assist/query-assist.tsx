@@ -17,6 +17,7 @@ import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
 import Button from '../button/button';
 import Icon from '../icon/icon';
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 import {ShortcutsMap} from '../shortcuts/core';
 
@@ -1023,112 +1024,114 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     });
 
     return (
-      <div
-        data-test={dataTests('ring-query-assist', dataTest)}
-        className={containerClasses}
-        role="presentation"
-        ref={this.nodeRef}
-      >
-        {this.state.shortcuts &&
-        (
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
-        )
-        }
+      <ControlsHeightContext.Provider value={ControlsHeight.M}>
+        <div
+          data-test={dataTests('ring-query-assist', dataTest)}
+          className={containerClasses}
+          role="presentation"
+          ref={this.nodeRef}
+        >
+          {this.state.shortcuts &&
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
+          }
 
-        {renderGlass && !huge && (
-          <Icon
-            glyph={searchIcon}
-            className={styles.icon}
-            title={this.props.translations.searchTitle}
-            ref={this.glassRef}
-            data-test="query-assist-search-icon"
-          />
-        )}
-
-        {renderLoader && (
-          <div
-            className={classNames(styles.icon, styles.loader, {
-              [styles.loaderOnTheRight]: !glass
-            })}
-            ref={this.loaderRef}
-          >
-            <LoaderInline/>
-          </div>
-        )}
-
-        <ContentEditable
-          aria-label={this.props.translations.searchTitle}
-          className={inputClasses}
-          data-test="ring-query-assist-input"
-          inputRef={this.inputRef}
-          disabled={this.props.disabled}
-          onComponentUpdate={() => this.setCaretPosition({fromContentEditable: true})}
-
-          onBlur={this.handleFocusChange}
-          onClick={this.handleCaretMove}
-          onCompositionStart={this.trackCompositionState}
-          onCompositionEnd={this.trackCompositionState}
-          onFocus={this.handleFocusChange}
-          onInput={this.handleInput} // To support IE use the same method
-          onKeyUp={this.handleInput} // to handle input and key up
-          onKeyDown={this.handleEnter}
-          onPaste={this.handlePaste}
-
-          spellCheck="false"
-        >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
-
-        {renderPlaceholder && (
-          <button
-            type="button"
-            className={styles.placeholder}
-            ref={this.placeholderRef}
-            onClick={this.handleCaretMove}
-            data-test="query-assist-placeholder"
-          >
-            {this.props.placeholder}
-          </button>
-        )}
-
-        {actions && (
-          <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>
-        )}
-
-        <PopupMenu
-          hidden={!this.state.showPopup}
-          onCloseAttempt={this.closePopup}
-          ref={this.popupRef}
-          anchorElement={this.node}
-          keepMounted
-          attached
-          className={this.props.popupClassName}
-          directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
-          data={useCustomItemRender ? this.state.suggestions : this.renderSuggestions()}
-          data-test="ring-query-assist-popup"
-          hint={this.props.hint}
-          hintOnSelection={this.props.hintOnSelection}
-          left={this.getPopupOffset(this.state.suggestions)}
-          maxHeight={PopupMenu.PopupProps.MaxHeight.SCREEN}
-          onMouseDown={this.trackPopupMouseState}
-          onMouseUp={this.trackPopupMouseState}
-          onSelect={item => this.handleComplete(item)}
-        />
-
-        {glass && huge && (
-          <div className={styles.rightSearchButton}>
+          {renderGlass && !huge && (
             <Icon
               glyph={searchIcon}
-              className={styles.rightSearchIcon}
+              className={styles.icon}
               title={this.props.translations.searchTitle}
-              onClick={this.handleApply}
               ref={this.glassRef}
               data-test="query-assist-search-icon"
             />
-          </div>
-        )}
-      </div>
+          )}
+
+          {renderLoader && (
+            <div
+              className={classNames(styles.icon, styles.loader, {
+                [styles.loaderOnTheRight]: !glass
+              })}
+              ref={this.loaderRef}
+            >
+              <LoaderInline/>
+            </div>
+          )}
+
+          <ContentEditable
+            aria-label={this.props.translations.searchTitle}
+            className={inputClasses}
+            data-test="ring-query-assist-input"
+            inputRef={this.inputRef}
+            disabled={this.props.disabled}
+            onComponentUpdate={() => this.setCaretPosition({fromContentEditable: true})}
+
+            onBlur={this.handleFocusChange}
+            onClick={this.handleCaretMove}
+            onCompositionStart={this.trackCompositionState}
+            onCompositionEnd={this.trackCompositionState}
+            onFocus={this.handleFocusChange}
+            onInput={this.handleInput} // To support IE use the same method
+            onKeyUp={this.handleInput} // to handle input and key up
+            onKeyDown={this.handleEnter}
+            onPaste={this.handlePaste}
+
+            spellCheck="false"
+          >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
+
+          {renderPlaceholder && (
+            <button
+              type="button"
+              className={styles.placeholder}
+              ref={this.placeholderRef}
+              onClick={this.handleCaretMove}
+              data-test="query-assist-placeholder"
+            >
+              {this.props.placeholder}
+            </button>
+          )}
+
+          {actions && (
+            <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>
+          )}
+
+          <PopupMenu
+            hidden={!this.state.showPopup}
+            onCloseAttempt={this.closePopup}
+            ref={this.popupRef}
+            anchorElement={this.node}
+            keepMounted
+            attached
+            className={this.props.popupClassName}
+            directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
+            data={useCustomItemRender ? this.state.suggestions : this.renderSuggestions()}
+            data-test="ring-query-assist-popup"
+            hint={this.props.hint}
+            hintOnSelection={this.props.hintOnSelection}
+            left={this.getPopupOffset(this.state.suggestions)}
+            maxHeight={PopupMenu.PopupProps.MaxHeight.SCREEN}
+            onMouseDown={this.trackPopupMouseState}
+            onMouseUp={this.trackPopupMouseState}
+            onSelect={item => this.handleComplete(item)}
+          />
+
+          {glass && huge && (
+            <div className={styles.rightSearchButton}>
+              <Icon
+                glyph={searchIcon}
+                className={styles.rightSearchIcon}
+                title={this.props.translations.searchTitle}
+                onClick={this.handleApply}
+                ref={this.glassRef}
+                data-test="query-assist-search-icon"
+              />
+            </div>
+          )}
+        </div>
+      </ControlsHeightContext.Provider>
     );
   }
 }
