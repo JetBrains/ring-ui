@@ -249,7 +249,7 @@
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
     "sniffr": "^1.2.0",
-    "storybook-zeplin": "^1.7.2",
+    "storybook-zeplin": "^1.7.3",
     "style-inject": "^0.3.0",
     "style-loader": "~3.3.1",
     "url-loader": "^4.1.1",
