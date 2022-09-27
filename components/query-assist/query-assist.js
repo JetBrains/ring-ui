@@ -80,6 +80,10 @@ export default class QueryAssist extends Component {
      */
     autoOpen: PropTypes.bool,
     /**
+     * Open suggestions popup during the initial render even if query is empty
+     */
+    autoOpenForce: PropTypes.bool,
+    /**
      * Initial caret position
      */
     caret: PropTypes.number,
@@ -203,7 +207,7 @@ export default class QueryAssist extends Component {
 
     this.setupRequestHandler(this.props.delay);
 
-    if (this.props.autoOpen && query.length > 0) {
+    if (this.props.autoOpenForce || this.props.autoOpen && query.length > 0) {
       this.requestHandler().
         catch(noop);
     } else {
