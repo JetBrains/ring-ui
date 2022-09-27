@@ -78,7 +78,7 @@ export interface QueryAssistProps {
   onClear: () => void
   onFocusChange: (change: FocusChange) => void
   translations: QueryAssistTranslations
-  autoOpen?: boolean | null | undefined
+  autoOpen?: boolean | null | undefined | 'force'
   caret?: number | null | undefined
   clear?: boolean | null | undefined
   className?: string | null | undefined
@@ -172,7 +172,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     /**
      * Open suggestions popup during the initial render
      */
-    autoOpen: PropTypes.bool,
+    autoOpen: PropTypes.oneOf([true, false, 'force']),
     /**
      * Initial caret position
      */
@@ -313,7 +313,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     this.setupRequestHandler(this.props.delay);
 
-    if (this.props.autoOpen && query.length > 0) {
+    if (this.props.autoOpen === 'force' || this.props.autoOpen && query.length > 0) {
       this.requestHandler().
         catch(noop);
     } else {
@@ -356,7 +356,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     if (typeof query === 'string' && queryChanged && query !== this.immediateState.query) {
       this.immediateState.query = query;
 
-      if (query && prevProps.autoOpen && query.length > 0) {
+      if (query && (this.props.autoOpen === 'force' || prevProps.autoOpen && query.length > 0)) {
         this.requestData?.();
       } else if (query) {
         this.requestStyleRanges();
@@ -490,7 +490,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     this.immediateState = props;
     this.props.onChange(props);
-    if (props.query.length > 0) {
+    if (this.props.autoOpen === 'force' || props.query.length > 0) {
       this.requestData?.();
     }
   };
@@ -580,12 +580,12 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
       this.immediateState.caret = caret;
       this.scrollInput();
-      if (this.immediateState.query.length > 0) {
+      if (this.props.autoOpen === 'force' || this.immediateState.query.length > 0) {
         this.requestData?.();
       }
     }
 
-    if (this.immediateState.query.length < 1) {
+    if (this.props.autoOpen !== 'force' && this.immediateState.query.length < 1) {
       this.setState({showPopup: false});
     }
   };
@@ -615,7 +615,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         placeholderEnabled: !query,
         query,
         suggestions,
-        showPopup: !!suggestions.length && !afterCompletion
+        showPopup: !!suggestions.length && (this.props.autoOpen === 'force' || !afterCompletion)
       };
 
       this.immediateState.suggestionsQuery = query;
