@@ -73,7 +73,7 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
-    "@babel/cli": "^7.18.10",
+    "@babel/cli": "^7.19.3",
     "@babel/eslint-parser": "^7.19.1",
     "@jetbrains/eslint-config": "^5.4.1",
     "@jetbrains/stylelint-config": "^3.0.2",
@@ -163,7 +163,7 @@
     "sinon": "^14.0.0",
     "sinon-chai": "^3.7.0",
     "storage-mock": "^2.1.0",
-    "stylelint": "^14.12.1",
+    "stylelint": "^14.13.0",
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.6",
