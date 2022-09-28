@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "5.0.30",
+  "version": "5.0.31",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -136,7 +136,7 @@
     "husky": "^8.0.1",
     "identity-obj-proxy": "^3.0.0",
     "imports-loader": "^4.0.1",
-    "jest": "~29.0.3",
+    "jest": "~29.1.1",
     "jest-environment-jsdom": "^29.0.3",
     "jest-teamcity": "^1.10.0",
     "karma": "^6.4.1",
