@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "5.0.30",
+  "version": "5.0.31",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -198,7 +198,7 @@
     "@babel/preset-typescript": "^7.18.6",
     "@jetbrains/babel-preset-jetbrains": "^2.3.2",
     "@jetbrains/icons": "^3.19.1",
-    "@jetbrains/logos": "^2.2.4",
+    "@jetbrains/logos": "^2.2.5",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@types/combokeys": "^2.4.6",
     "@types/deep-equal": "^1.0.1",
