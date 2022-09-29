@@ -28,7 +28,7 @@ export const basic = () => {
         <div class="example-block">
           <div class="ring-error-bubble-wrapper">
             <rg-query-assist
-              class="ring-input-size_xs"
+              size="'S'"
               x-data-source="exampleCtrl.dataSource"
               glass="true"
               placeholder="'Extra-short'">
@@ -37,7 +37,7 @@ export const basic = () => {
           </div>
           <div class="ring-error-bubble-wrapper">
             <rg-query-assist
-              class="ring-input-size_s"
+              size="'S'"
               x-data-source="exampleCtrl.dataSource"
               glass="true"
               placeholder="'Short'">
@@ -46,7 +46,7 @@ export const basic = () => {
           </div>
           <div class="ring-error-bubble-wrapper">
             <rg-query-assist
-              class="ring-input-size_m"
+              size="'M'"
               x-data-source="exampleCtrl.dataSource"
               glass="true"
               placeholder="'Medium'">
@@ -55,7 +55,7 @@ export const basic = () => {
           </div>
           <div class="ring-error-bubble-wrapper">
             <rg-query-assist
-              class="ring-input-size_l"
+              size="'L'"
               x-data-source="exampleCtrl.dataSource"
               glass="true"
               placeholder="'Long'">
@@ -64,6 +64,7 @@ export const basic = () => {
           </div>
           <div class="ring-error-bubble-wrapper">
             <rg-query-assist
+              size="'FULL'"
               x-data-source="exampleCtrl.dataSource"
               glass="true"
               placeholder="'Full-width'">

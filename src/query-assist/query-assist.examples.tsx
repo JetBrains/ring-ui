@@ -11,6 +11,7 @@ import Auth from '../auth/auth';
 import HTTP from '../http/http';
 import List from '../list/list';
 import Icon from '../icon/icon';
+import {Size} from '../input/input';
 
 import Theme, {ThemeProvider} from '../global/theme';
 
@@ -64,10 +65,17 @@ class Basic extends Component {
     }
 
     return (
-      <QueryAssist
-        {...this.props}
-        dataSource={this.dataSource}
-      />
+      <>
+        <QueryAssist
+          {...this.props}
+          dataSource={this.dataSource}
+        />
+        <QueryAssist
+          {...this.props}
+          dataSource={this.dataSource}
+          size={Size.S}
+        />
+      </>
     );
   }
 }
