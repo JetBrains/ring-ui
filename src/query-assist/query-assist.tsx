@@ -18,8 +18,10 @@ import rerenderHOC from '../global/rerender-hoc';
 import Button from '../button/button';
 import Icon from '../icon/icon';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-
+import {Size} from '../input/input';
 import {ShortcutsMap} from '../shortcuts/core';
+
+import inputStyles from '../input/input.css';
 
 import QueryAssistSuggestions, {
   QueryAssistSuggestion,
@@ -27,7 +29,6 @@ import QueryAssistSuggestions, {
 } from './query-assist__suggestions';
 
 import styles from './query-assist.css';
-
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
@@ -98,6 +99,7 @@ export interface QueryAssistProps {
   actions?: ReactNode[] | null | undefined
   'data-test'?: string | null | undefined
   huge?: boolean | null | undefined
+  size: Size
 }
 
 export interface StyleRange {
@@ -253,7 +255,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     translations: PropTypes.object,
     actions: PropTypes.array,
     'data-test': PropTypes.string,
-    huge: PropTypes.bool
+    huge: PropTypes.bool,
+    size: PropTypes.string
   };
 
   static defaultProps = {
@@ -262,6 +265,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     onApplySuggestion: noop,
     onClear: noop,
     onFocusChange: noop,
+    size: Size.L,
     translations: {
       searchTitle: 'Search',
       clearTitle: 'Clear search input'
@@ -1001,7 +1005,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
   render() {
     const {
-      glass, 'data-test': dataTest, className, useCustomItemRender, huge
+      glass, 'data-test': dataTest, className, useCustomItemRender, huge, size
     } = this.props;
 
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
@@ -1009,7 +1013,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const renderGlass = glass && !renderLoader;
     const actions = this.renderActions();
 
-    const containerClasses = classNames(className, {
+    const containerClasses = classNames(className, inputStyles[`size${huge ? Size.FULL : size}`], {
       [styles.queryAssist]: true,
       [styles.withIcon]: (renderGlass && !huge) || renderLoader,
       [styles.huge]: huge
@@ -1031,14 +1035,12 @@ export default class QueryAssist extends Component<QueryAssistProps> {
           role="presentation"
           ref={this.nodeRef}
         >
-          {this.state.shortcuts &&
-          (
+          {this.state.shortcuts && (
             <Shortcuts
               map={this.shortcutsMap}
               scope={this.shortcutsScope}
             />
-          )
-          }
+          )}
 
           {renderGlass && !huge && (
             <Icon
