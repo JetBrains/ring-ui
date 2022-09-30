@@ -30,6 +30,7 @@ export interface DialogProps extends Partial<TabTrapProps> {
   contentClassName?: string | null | undefined
   portalTarget?: Element | null | undefined
   'data-test'?: string | null | undefined
+  dense?: boolean | null | undefined
 }
 
 /**
@@ -137,7 +138,7 @@ export default class Dialog extends PureComponent<DialogProps> {
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
-      portalTarget, label, closeButtonTitle, ...restProps} = this.props;
+      portalTarget, label, closeButtonTitle, dense, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -167,7 +168,7 @@ export default class Dialog extends PureComponent<DialogProps> {
               )}
               <div className={styles.innerContainer}>
                 <AdaptiveIsland
-                  className={classNames(styles.content, contentClassName)}
+                  className={classNames(styles.content, contentClassName, {[styles.dense]: dense})}
                   data-test="ring-dialog"
                   role="dialog"
                   aria-label={label}
