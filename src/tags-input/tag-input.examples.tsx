@@ -8,6 +8,8 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
 import Dialog from '../dialog/dialog';
 import {Content} from '../island/island';
+import {ControlsHeight} from '../global/controls-height';
+import {Size} from '../input/input';
 
 import TagsInput from './tags-input';
 
@@ -30,18 +32,62 @@ export const basic = () => {
   }
 
   return (
-    <TagsInput
-      className="test-additional-class"
-      tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}
-      maxPopupHeight={250}
-      dataSource={dataSource}
-      allowAddNewTags
-      filter
-    />
+    <form className="tagsInputs">
+      <TagsInput
+        tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}
+        maxPopupHeight={250}
+        dataSource={dataSource}
+        allowAddNewTags
+        filter
+        label="M Size"
+      />
+
+      <TagsInput
+        tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}
+        maxPopupHeight={250}
+        dataSource={dataSource}
+        allowAddNewTags
+        filter
+        size={Size.L}
+        label="L Size"
+      />
+
+      <TagsInput
+        tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}
+        maxPopupHeight={250}
+        dataSource={dataSource}
+        allowAddNewTags
+        filter
+        size={Size.FULL}
+        label="Full Size"
+      />
+
+      <TagsInput
+        tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}
+        maxPopupHeight={250}
+        dataSource={dataSource}
+        allowAddNewTags
+        filter
+        size={Size.FULL}
+        height={ControlsHeight.S}
+        label="S Height"
+      />
+    </form>
   );
 };
 
 basic.storyName = 'basic';
+
+basic.parameters = {
+  storyStyles: `
+<style>
+  .tagsInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+</style>`
+};
 
 export const withIcons = () => {
   const tags = [

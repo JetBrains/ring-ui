@@ -1,4 +1,4 @@
-import React, {Component, PureComponent, SyntheticEvent} from 'react';
+import React, {Component, PureComponent, SyntheticEvent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -8,8 +8,12 @@ import TagsList, {TagType} from '../tags-list/tags-list';
 import Caret from '../caret/caret';
 import memoize from '../global/memoize';
 import rerenderHOC from '../global/rerender-hoc';
-
+import {Size} from '../input/input';
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import {Filter} from '../select/select__popup';
+import getUID from '../global/get-uid';
+
+import inputStyles from '../input/input.css';
 
 import styles from './tags-input.css';
 
@@ -24,9 +28,11 @@ const POPUP_VERTICAL_SHIFT = 2;
 export interface ToggleTagParams {
   tag: TagType
 }
+
 export interface TagsInputRequestParams {
   query: string
 }
+
 export interface TagsInputProps {
   dataSource: (params: TagsInputRequestParams) =>
     readonly SelectItem[] | Promise<readonly SelectItem[]>
@@ -39,7 +45,6 @@ export interface TagsInputProps {
   disabled: boolean
   autoOpen: boolean
   renderOptimization: boolean
-  legacyMode: boolean
   allowAddNewTags: boolean
   filter: boolean | Filter
   placeholder: string
@@ -47,7 +52,11 @@ export interface TagsInputProps {
   tags?: readonly TagType[] | null | undefined
   loadingMessage?: string | undefined
   notFoundMessage?: string | undefined
+  size: Size
+  height?: ControlsHeight | undefined
+  label?: ReactNode
 }
+
 interface TagsInputState {
   tags: TagType[]
   prevTags: TagType[] | null
@@ -57,6 +66,7 @@ interface TagsInputState {
   query: string
   activeIndex: number | null | undefined
 }
+
 export default class TagsInput extends PureComponent<TagsInputProps, TagsInputState> {
   static propTypes = {
     className: PropTypes.string,
@@ -78,7 +88,6 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     disabled: PropTypes.bool,
     autoOpen: PropTypes.bool,
     renderOptimization: PropTypes.bool,
-    legacyMode: PropTypes.bool,
     filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({fn: PropTypes.func})]),
 
     loadingMessage: PropTypes.string,
@@ -97,10 +106,10 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     disabled: false,
     autoOpen: false,
     renderOptimization: true,
-    legacyMode: false,
     allowAddNewTags: false,
     filter: {fn: () => true},
-    placeholder: 'Select an option'
+    placeholder: 'Select an option',
+    size: Size.M
   };
 
   constructor(props: TagsInputProps) {
@@ -136,6 +145,10 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
   static ngModelStateField = 'tags';
   ngModelStateField: string;
+
+  static contextType = ControlsHeightContext;
+
+  id = getUID('ring-tags-list-');
 
   node?: HTMLElement | null;
   nodeRef = (node: HTMLElement | null) => {
@@ -325,13 +338,19 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
   render() {
     const {focused, tags, activeIndex} = this.state;
-    const {legacyMode, disabled, canNotBeEmpty, allowAddNewTags, filter} = this.props;
+
+    const {
+      disabled, canNotBeEmpty, allowAddNewTags, filter,
+      size, height = this.context, label
+    } = this.props;
+
     const classes = classNames(
       styles.tagsInput,
+      [inputStyles[`size${size}`]],
+      [inputStyles[`height${height}`]],
       {
         [styles.tagsInputDisabled]: disabled,
-        [styles.tagsInputFocused]: focused,
-        [styles.tagsInputLegacyMode]: legacyMode
+        [styles.tagsInputFocused]: focused
       },
       this.props.className);
 
@@ -344,6 +363,15 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
         onClick={this.clickHandler}
         ref={this.nodeRef}
       >
+        {label && (
+          <label
+            htmlFor={this.id}
+            className={classNames(inputStyles.label, {
+              [inputStyles.disabledLabel]: disabled
+            })}
+          >{label}</label>
+        )}
+
         <TagsList
           tags={tags}
           activeIndex={activeIndex}
@@ -355,6 +383,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
           handleClick={this.handleClick}
         >
           <Select
+            id={this.id}
             ref={this.selectRef}
             size={Select.Size.AUTO}
             type={Select.Type.INPUT_WITHOUT_CONTROLS}
@@ -381,9 +410,6 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
             notFoundMessage={this.props.notFoundMessage}
           />
         </TagsList>
-
-        {!legacyMode && <div className={styles.underline}/>}
-        {!legacyMode && <div className={styles.focusUnderline}/>}
       </div>
     );
   }
@@ -391,4 +417,3 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
 export const RerenderableTagsInput = rerenderHOC(TagsInput);
 export type TagsInputAttrs = JSX.LibraryManagedAttributes<typeof TagsInput, TagsInputProps>
-
