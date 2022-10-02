@@ -1,29 +1,19 @@
 @import "../global/variables.css";
 
+@value unit from "../global/global.css";
 @value outerContainer, container, input from "../input/input.css";
 
 .tagsInput {
-  padding-top: 2px;
-  padding-bottom: 2px;
+  --ring-input-icon-offset: calc(unit * 2.5);
+  --ring-input-padding-inline: 3px;
 
-  white-space: normal;
-}
+  box-sizing: border-box;
 
-.tagsInputLegacyMode {
-  padding-top: 0;
-  padding-bottom: 1px;
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
 
-  border: 1px solid var(--ring-borders-color);
-  background-color: var(--ring-content-background-color);
-
-  & .tagsList {
-    padding-top: 1px;
-
-    line-height: 20px;
-  }
-
-  & .tag {
-    margin-right: 2px;
+  & * {
+    box-sizing: border-box;
   }
 }
 
@@ -35,10 +25,6 @@
   & .input {
     background-color: transparent;
   }
-
-  & .underline {
-    border-bottom-style: dashed;
-  }
 }
 
 .tagsInputFocused {
@@ -46,16 +32,41 @@
 }
 
 .tagsList {
-  display: inline-block;
-
-  box-sizing: border-box;
+  --ring-input-padding-start: var(--ring-input-padding-inline);
+  --ring-input-padding-end: var(--ring-input-padding-inline);
 
   width: 100%;
-  margin-bottom: -1px;
 
-  padding-left: 2px;
+  margin: 0;
+  padding-top: var(--ring-input-padding-block);
+  padding-right: var(--ring-input-padding-end);
+  padding-bottom: var(--ring-input-padding-block);
+  padding-left: var(--ring-input-padding-start);
 
-  line-height: 22px;
+  cursor: text;
+
+  transition: border-color var(--ring-ease);
+
+  color: var(--ring-text-color);
+  border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
+  outline: none;
+  background: transparent;
+
+  font: inherit;
+
+  caret-color: var(--ring-main-color);
+
+  @nest [dir=rtl] & {
+    padding-right: var(--ring-input-padding-start);
+    padding-left: var(--ring-input-padding-end);
+  }
+
+  &:hover {
+    transition: none;
+
+    border-color: var(--ring-border-hover-color);
+  }
 }
 
 .tagsSelect {
@@ -67,26 +78,5 @@
 
   & .container {
     line-height: calc(var(--ring-line-height) - 2px);
-  }
-}
-
-.underline {
-  height: 1px;
-
-  border-bottom: var(--ring-borders-color) 1px solid;
-}
-
-.focusUnderline {
-  width: 0;
-  height: 2px;
-
-  margin-top: -1px;
-
-  transition: width 0.15s ease-out;
-
-  background: var(--ring-main-color);
-
-  @nest .tagsInputFocused & {
-    width: 100%;
   }
 }
