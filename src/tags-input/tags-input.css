@@ -70,8 +70,6 @@
 }
 
 .tagsSelect {
-  margin-bottom: -1px;
-
   & .outerContainer {
     --ring-input-padding-block: 0;
   }
