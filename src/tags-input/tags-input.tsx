@@ -89,6 +89,9 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     autoOpen: PropTypes.bool,
     renderOptimization: PropTypes.bool,
     filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({fn: PropTypes.func})]),
+    size: PropTypes.string,
+    height: PropTypes.string,
+    label: PropTypes.node,
 
     loadingMessage: PropTypes.string,
     notFoundMessage: PropTypes.string,
