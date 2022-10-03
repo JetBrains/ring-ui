@@ -110,7 +110,7 @@ export class Input extends PureComponent<InputProps> {
     });
 
     if (this.props.multiline &&
-      this.input != null && this.input.scrollHeight > this.input.clientHeight) {
+      this.input != null && this.input.scrollHeight >= this.input.clientHeight) {
       this.stretch(this.input);
     }
   }
@@ -119,6 +119,7 @@ export class Input extends PureComponent<InputProps> {
     if (!el || !el.style) {
       return;
     }
+    el.style.height = '0'; // To know the real scrollHeight
     el.style.height = `${el.scrollHeight + 2}px`;
   }
 
