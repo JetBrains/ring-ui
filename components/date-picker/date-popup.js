@@ -102,7 +102,9 @@ export default class DatePopup extends Component {
   componentRef = React.createRef();
 
   handleWheel = e => {
-    e.preventDefault();
+    if (e.cancelable) {
+      e.preventDefault();
+    }
   };
 
   parse(text, type) {
