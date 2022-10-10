@@ -115,7 +115,9 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
   componentRef = React.createRef<HTMLDivElement>();
 
   handleWheel = (e: WheelEvent) => {
-    e.preventDefault();
+    if (e.cancelable) {
+      e.preventDefault();
+    }
   };
 
   parse(text: string | null | undefined, type: 'time'): string
