@@ -1,6 +1,7 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
+import {Size} from '../input/input';
 
 import EditableHeading, {Levels} from './editable-heading';
 
@@ -24,16 +25,18 @@ export default {
 
 export const basic = () => {
   interface Props {
-    level: Levels,
-    children: string
+    level: Levels;
+    children: string;
+    size?: Size;
   }
 
-  const ExampleEditableHeading = ({level, children: initChildren}: Props) => {
+  const ExampleEditableHeading = ({level, size, children: initChildren}: Props) => {
     const [editing, setEditing] = React.useState(false);
     const [children, setChildren] = React.useState(initChildren);
     return (
       <EditableHeading
         level={level}
+        size={size}
         editing={editing}
         edited={children !== initChildren}
         placeholder="Enter the field name"
@@ -58,6 +61,18 @@ export const basic = () => {
       {lorem}
 
       <ExampleEditableHeading level={Levels.H3}>Editable Heading 3</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading level={Levels.H1} size={Size.S}>S size</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading level={Levels.H1} size={Size.M}>M size</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading level={Levels.H1} size={Size.L}>L size</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading level={Levels.H1} size={Size.FULL}>FULL size</ExampleEditableHeading>
       {lorem}
     </div>
   );
