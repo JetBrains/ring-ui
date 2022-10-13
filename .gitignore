@@ -17,7 +17,7 @@ Thumbs.db
 # Generated dirs
 build
 coverage
-components
+/components
 dist
 storybook-dist
 html-report
