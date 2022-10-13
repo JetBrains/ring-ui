@@ -1,16 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Heading, {HeadingProps} from '../heading/heading';
+import Heading, {Levels} from '../heading/heading';
 import Button from '../button/button';
 import {Size} from '../input/input';
 import inputStyles from '../input/input.css';
+import {ControlsHeight} from '../global/controls-height';
 
 import styles from './editable-heading.css';
 
-export {Levels} from '../heading/heading';
+export {Levels};
 
-export interface EditableHeadingProps extends Omit<HeadingProps, 'onChange'> {
+export interface EditableHeadingProps {
+  level?: Levels;
+  className?: string | null;
   editing?: boolean;
   edited?: boolean;
   children?: string;
@@ -24,10 +27,9 @@ export interface EditableHeadingProps extends Omit<HeadingProps, 'onChange'> {
 }
 
 export const EditableHeading = ({
-  editing, edited, children, placeholder, className,
-  embedded = false, size = Size.L,
-  onEdit, onChange, onSave, onCancel,
-  ...restProps
+  level = Levels.H1, className, editing, edited, children,
+  placeholder, embedded = false, size = Size.L,
+  onEdit, onChange, onSave, onCancel
 }: EditableHeadingProps) => {
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
@@ -38,7 +40,7 @@ export const EditableHeading = ({
       {editing
         ? (
           <input
-            className={classNames(styles.input, [inputStyles[`size${size}`]])}
+            className={classNames(styles.input, [inputStyles[`size${size}`], [[styles[`level${level}`]]]])}
             value={children}
             onChange={onInputChange}
             placeholder={placeholder}
@@ -48,8 +50,8 @@ export const EditableHeading = ({
         : (
           <Heading
             className={classNames(styles.heading, [inputStyles[`size${size}`]])}
+            level={level}
             onClick={onEdit}
-            {...restProps}
           >{children}</Heading>
         )
       }
@@ -57,6 +59,7 @@ export const EditableHeading = ({
       {editing && !embedded && (
         <>
           <Button
+            height={ControlsHeight.M}
             className={styles.button}
             primary
             disabled={!edited || !children || children?.trim() === ''}
@@ -64,6 +67,7 @@ export const EditableHeading = ({
           >{'Save'}</Button>
 
           <Button
+            height={ControlsHeight.M}
             className={styles.button}
             onClick={onCancel}
           >{'Cancel'}</Button>
