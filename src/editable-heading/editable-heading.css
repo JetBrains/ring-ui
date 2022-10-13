@@ -10,7 +10,7 @@
 }
 
 .heading {
-  padding: unit 0;
+  padding: 6px 0;
 
   cursor: pointer;
 
@@ -20,10 +20,10 @@
 }
 
 .input {
-  margin-bottom: 3px;
+  margin-bottom: 2px;
   padding: 0;
-  padding-top: unit;
-  padding-bottom: 4px;
+  padding-top: 6px;
+  padding-bottom: 3px;
 
   color: var(--ring-heading-color);
   caret-color: var(--ring-main-color);
@@ -40,7 +40,7 @@
   }
 
   &:focus {
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 
     border-bottom-width: 2px;
     border-bottom-color: var(--ring-main-color);
@@ -48,7 +48,7 @@
 }
 
 .button {
-  margin: unit 0;
+  margin: 6px 0;
 }
 
 .level1 {
