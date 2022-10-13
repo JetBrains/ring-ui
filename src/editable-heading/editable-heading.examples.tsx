@@ -1,0 +1,76 @@
+import React from 'react';
+
+import reactDecorator from '../../.storybook/react-decorator';
+
+import EditableHeading, {Levels} from './editable-heading';
+
+const lorem = (
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+  </div>
+);
+
+export default {
+  title: 'Components/Editable Heading',
+  decorators: [reactDecorator()],
+
+  parameters: {
+    notes: 'A component for editable rendering h1-h5 tags.'
+  }
+};
+
+export const basic = () => {
+  interface Props {
+    level: Levels,
+    children: string
+  }
+
+  const ExampleEditableHeading = ({level, children: initChildren}: Props) => {
+    const [editing, setEditing] = React.useState(false);
+    const [children, setChildren] = React.useState(initChildren);
+    return (
+      <EditableHeading
+        level={level}
+        editing={editing}
+        edited={children !== initChildren}
+        placeholder="Enter the field name"
+        onEdit={() => setEditing(!editing)}
+        onChange={value => setChildren(value)}
+        onSave={() => setEditing(false)}
+        onCancel={() => {
+          setChildren(initChildren);
+          setEditing(false);
+        }}
+        className="example-editable-heading"
+      >{children}</EditableHeading>
+    );
+  };
+
+  return (
+    <div>
+      <ExampleEditableHeading level={Levels.H1}>Editable Heading 1</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading level={Levels.H2}>Editable Heading 2</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading level={Levels.H3}>Editable Heading 3</ExampleEditableHeading>
+      {lorem}
+    </div>
+  );
+};
+
+basic.storyName = 'Editable Heading';
+
+basic.parameters = {
+  storyStyles: `
+<style>
+  .example-editable-heading:not(:first-child) {
+    margin-top: var(--ring-line-height);
+  }
+</style>`
+};
+

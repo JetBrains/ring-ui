@@ -1,0 +1,54 @@
+@value unit from "../global/global.css";
+
+.editableHeading {
+  display: flex;
+  gap: unit;
+}
+
+.heading.heading {
+  margin-bottom: 0;
+}
+
+.heading {
+  padding: unit 0;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--ring-hover-background-color);
+  }
+}
+
+.input {
+  margin-bottom: 3px;
+  padding: 0;
+  padding-top: unit;
+  padding-bottom: 4px;
+
+  color: var(--ring-heading-color);
+  caret-color: var(--ring-main-color);
+
+  border: none;
+  border-bottom: 1px solid var(--ring-borders-color);
+  outline: none;
+
+  font-family: var(--ring-font-family);
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 28px;
+
+  &::placeholder {
+    color: var(--ring-disabled-color);
+  }
+
+  &:focus {
+    margin-bottom: 2px;
+
+    border-bottom-width: 2px;
+    border-bottom-color: var(--ring-main-color);
+  }
+}
+
+.button {
+  margin: unit 0;
+}
