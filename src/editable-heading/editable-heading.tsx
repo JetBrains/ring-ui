@@ -6,6 +6,8 @@ import Button from '../button/button';
 import {Size} from '../input/input';
 import inputStyles from '../input/input.css';
 import {ControlsHeight} from '../global/controls-height';
+import getUID from '../global/get-uid';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import styles from './editable-heading.css';
 
@@ -26,10 +28,14 @@ export interface EditableHeadingProps {
   onCancel?: () => void;
 }
 
+function noop() {}
+
+const shortcutsScope = getUID('ring-editable-heading-');
+
 export const EditableHeading = ({
   level = Levels.H1, className, editing, edited, children,
   placeholder, embedded = false, size = Size.L,
-  onEdit, onChange, onSave, onCancel
+  onEdit, onChange, onSave = noop, onCancel = noop
 }: EditableHeadingProps) => {
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
@@ -39,13 +45,22 @@ export const EditableHeading = ({
     <div className={classNames(styles.editableHeading, className)}>
       {editing
         ? (
-          <input
-            className={classNames(styles.input, [inputStyles[`size${size}`], [[styles[`level${level}`]]]])}
-            value={children}
-            onChange={onInputChange}
-            placeholder={placeholder}
-            autoFocus
-          />
+          <>
+            {!embedded && (
+              <Shortcuts
+                map={{enter: onSave, esc: onCancel}}
+                scope={shortcutsScope}
+              />
+            )}
+
+            <input
+              className={classNames('ring-js-shortcuts', styles.input, [inputStyles[`size${size}`], [[styles[`level${level}`]]]])}
+              value={children}
+              onChange={onInputChange}
+              placeholder={placeholder}
+              autoFocus
+            />
+          </>
         )
         : (
           <Heading
