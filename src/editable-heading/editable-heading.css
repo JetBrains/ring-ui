@@ -7,6 +7,8 @@
 
 .heading.heading {
   margin-bottom: 0;
+
+  line-height: 28px;
 }
 
 .heading {
@@ -36,6 +38,7 @@
 
   font-family: var(--ring-font-family);
   font-weight: bold;
+  line-height: 28px;
 
   &::placeholder {
     color: var(--ring-disabled-color);
@@ -55,15 +58,12 @@
 
 .level1 {
   font-size: 24px;
-  line-height: 28px;
 }
 
 .level2 {
   font-size: 20px;
-  line-height: 24px;
 }
 
 .level3 {
   font-size: 14px;
-  line-height: 20px;
 }
