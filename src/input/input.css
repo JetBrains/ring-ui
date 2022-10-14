@@ -109,6 +109,8 @@
   top: calc(var(--ring-input-padding-block) + 1px);
   left: var(--ring-input-padding-inline);
 
+  pointer-events: none;
+
   color: var(--ring-icon-secondary-color);
 
   @nest [dir=rtl] & {
