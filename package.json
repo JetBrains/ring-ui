@@ -45,7 +45,7 @@
     "hermione-gather": "npm --prefix packages/hermione run gather",
     "build-examples": "./node_modules/@storybook/html/bin/build.js --quiet -c .storybook -o storybook-dist",
     "prebuild": "rimraf components && tsc --project tsconfig-build.json && cpy '**/*' '!**/*.ts' '!**/*.tsx' ../components --parents --cwd=src/",
-    "build": "./node_modules/.bin/rollup -c",
+    "build": "./node_modules/.bin/rollup -c --bundleConfigAsCjs",
     "postbuild": "cpy '**/*.d.ts' ../dist --parents --cwd=components/",
     "serve": "npm --prefix packages/hermione run serve",
     "start": "./node_modules/@storybook/html/bin/index.js -p 9999",
