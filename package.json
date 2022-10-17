@@ -163,7 +163,7 @@
     "sinon": "^14.0.1",
     "sinon-chai": "^3.7.0",
     "storage-mock": "^2.1.0",
-    "stylelint": "^14.13.0",
+    "stylelint": "^14.14.0",
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.6",
