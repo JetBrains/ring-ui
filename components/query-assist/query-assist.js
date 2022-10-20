@@ -463,7 +463,7 @@ export default class QueryAssist extends Component {
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
       this.immediateState.caret = caret;
       this.scrollInput();
-      if (this.props.autoOpen === 'force' || this.immediateState.query.length > 0) {
+      if (this.immediateState.query.length > 0) {
         this.requestData();
       }
     }
