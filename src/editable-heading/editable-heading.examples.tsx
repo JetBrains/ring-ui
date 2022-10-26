@@ -48,6 +48,7 @@ export const basic = () => {
           setEditing(false);
         }}
         className="example-editable-heading"
+        autoFocus
       >{children}</EditableHeading>
     );
   };
