@@ -26,6 +26,8 @@ export interface EditableHeadingProps {
   onChange?: (text: string) => void;
   onSave?: () => void;
   onCancel?: () => void;
+  autoFocus?: boolean;
+  'data-test'?: string | null;
 }
 
 function noop() {}
@@ -35,7 +37,8 @@ const shortcutsScope = getUID('ring-editable-heading-');
 export const EditableHeading = ({
   level = Levels.H1, className, editing, edited, children,
   placeholder, embedded = false, size = Size.L,
-  onEdit, onChange, onSave = noop, onCancel = noop
+  onEdit, onChange, onSave = noop, onCancel = noop,
+  autoFocus, 'data-test': dataTest
 }: EditableHeadingProps) => {
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
@@ -58,7 +61,8 @@ export const EditableHeading = ({
               value={children}
               onChange={onInputChange}
               placeholder={placeholder}
-              autoFocus
+              autoFocus={autoFocus}
+              data-test={dataTest}
             />
           </>
         )
@@ -67,6 +71,7 @@ export const EditableHeading = ({
             className={classNames(styles.heading, [inputStyles[`size${size}`]])}
             level={level}
             onClick={onEdit}
+            data-test={dataTest}
           >{children}</Heading>
         )
       }
