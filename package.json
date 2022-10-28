@@ -77,7 +77,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@jetbrains/eslint-config": "^5.4.1",
     "@jetbrains/stylelint-config": "^3.0.2",
-    "@primer/octicons": "^17.7.0",
+    "@primer/octicons": "^17.8.0",
     "@rollup/plugin-babel": "^6.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-replace": "^5.0.1",
