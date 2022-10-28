@@ -16,9 +16,6 @@ const buttonGroupClasses = classNames(styles.buttonGroup, ngStyles.buttonGroup);
 function rgButtonGroup() {
   return {
     restrict: 'A',
-    scope: {
-      split: '='
-    },
     link: function link($scope, iElement, attrs) {
       const element = iElement[0];
       if (attrs.split) {
