@@ -41,7 +41,7 @@ export const basic = () => {
         edited={children !== initChildren}
         placeholder="Enter the field name"
         onEdit={() => setEditing(!editing)}
-        onChange={value => setChildren(value)}
+        onChange={e => setChildren(e.target.value)}
         onSave={() => setEditing(false)}
         onCancel={() => {
           setChildren(initChildren);

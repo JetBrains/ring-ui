@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {InputHTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import Heading, {Levels} from '../heading/heading';
@@ -13,7 +13,7 @@ import styles from './editable-heading.css';
 
 export {Levels};
 
-export interface EditableHeadingProps {
+export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
   level?: Levels;
   className?: string | null;
   editing?: boolean;
@@ -23,26 +23,23 @@ export interface EditableHeadingProps {
   embedded?: boolean;
   size?: Size;
   onEdit?: () => void;
-  onChange?: (text: string) => void;
   onSave?: () => void;
   onCancel?: () => void;
   autoFocus?: boolean;
   'data-test'?: string | null;
-}
+};
 
 function noop() {}
 
 const shortcutsScope = getUID('ring-editable-heading-');
 
-export const EditableHeading = ({
-  level = Levels.H1, className, editing, edited, children,
-  placeholder, embedded = false, size = Size.L,
-  onEdit, onChange, onSave = noop, onCancel = noop,
-  autoFocus, 'data-test': dataTest
-}: EditableHeadingProps) => {
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e.target.value);
-  };
+export const EditableHeading = (props: EditableHeadingProps) => {
+  const {
+    level = Levels.H1, className, editing, edited, children,
+    placeholder, embedded = false, size = Size.L,
+    onEdit, onSave = noop, onCancel = noop,
+    autoFocus, 'data-test': dataTest, ...restProps
+  } = props;
 
   return (
     <div className={classNames(styles.editableHeading, className)}>
@@ -59,10 +56,10 @@ export const EditableHeading = ({
             <input
               className={classNames('ring-js-shortcuts', styles.input, [inputStyles[`size${size}`], [[styles[`level${level}`]]]])}
               value={children}
-              onChange={onInputChange}
               placeholder={placeholder}
               autoFocus={autoFocus}
               data-test={dataTest}
+              {...restProps}
             />
           </>
         )
