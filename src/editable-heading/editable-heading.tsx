@@ -41,8 +41,12 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     autoFocus, 'data-test': dataTest, ...restProps
   } = props;
 
+  const classes = classNames(styles.editableHeading, className, {
+    [styles.fullSize]: size === Size.FULL
+  });
+
   return (
-    <div className={classNames(styles.editableHeading, className)}>
+    <div className={classes}>
       {editing
         ? (
           <>
