@@ -25,12 +25,13 @@ export default {
 
 export const basic = () => {
   interface Props {
-    level: Levels;
+    level?: Levels;
     children: string;
     size?: Size;
+    error?: boolean;
   }
 
-  const ExampleEditableHeading = ({level, size, children: initChildren}: Props) => {
+  const ExampleEditableHeading = ({level, size, error, children: initChildren}: Props) => {
     const [editing, setEditing] = React.useState(false);
     const [children, setChildren] = React.useState(initChildren);
     return (
@@ -40,6 +41,7 @@ export const basic = () => {
         editing={editing}
         edited={children !== initChildren}
         placeholder="Enter the field name"
+        error={error}
         onEdit={() => setEditing(!editing)}
         onChange={e => setChildren(e.target.value)}
         onSave={() => setEditing(false)}
@@ -74,6 +76,9 @@ export const basic = () => {
       {lorem}
 
       <ExampleEditableHeading level={Levels.H1} size={Size.FULL}>FULL size</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading error>Invalid Heading</ExampleEditableHeading>
       {lorem}
     </div>
   );
