@@ -27,6 +27,7 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
   onCancel?: () => void;
   autoFocus?: boolean;
   'data-test'?: string | null;
+  error?: boolean;
 };
 
 function noop() {}
@@ -38,11 +39,13 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     level = Levels.H1, className, editing, edited, children,
     placeholder, embedded = false, size = Size.L,
     onEdit, onSave = noop, onCancel = noop,
-    autoFocus, 'data-test': dataTest, ...restProps
+    autoFocus, 'data-test': dataTest, error,
+    ...restProps
   } = props;
 
   const classes = classNames(styles.editableHeading, className, {
-    [styles.fullSize]: size === Size.FULL
+    [styles.fullSize]: size === Size.FULL,
+    [styles.error]: error
   });
 
   return (
@@ -58,7 +61,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
             )}
 
             <input
-              className={classNames('ring-js-shortcuts', styles.input, [inputStyles[`size${size}`], [[styles[`level${level}`]]]])}
+              className={classNames('ring-js-shortcuts', styles.input, inputStyles[`size${size}`], styles[`level${level}`])}
               value={children}
               placeholder={placeholder}
               autoFocus={autoFocus}
@@ -69,7 +72,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
         )
         : (
           <Heading
-            className={classNames(styles.heading, [inputStyles[`size${size}`]])}
+            className={classNames(styles.heading, inputStyles[`size${size}`])}
             level={level}
             onClick={onEdit}
             data-test={dataTest}
@@ -83,7 +86,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
             height={ControlsHeight.M}
             className={styles.button}
             primary
-            disabled={!edited || !children || children?.trim() === ''}
+            disabled={!edited || !children || children?.trim() === '' || error}
             onClick={onSave}
           >{'Save'}</Button>
 

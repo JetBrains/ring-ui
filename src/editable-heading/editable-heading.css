@@ -54,6 +54,13 @@
     border-bottom-width: 2px;
     border-bottom-color: var(--ring-main-color);
   }
+
+  @nest .error & {
+    margin-bottom: 1px;
+
+    border-bottom-width: 2px;
+    border-bottom-color: var(--ring-icon-error-color);
+  }
 }
 
 .button {
