@@ -72,7 +72,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
         )
         : (
           <Heading
-            className={classNames(styles.heading, inputStyles[`size${size}`])}
+            className={styles.heading}
             level={level}
             onClick={onEdit}
             data-test={dataTest}
