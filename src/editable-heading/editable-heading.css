@@ -3,6 +3,10 @@
 .editableHeading {
   display: flex;
   gap: unit;
+
+  &.fullSize {
+    width: 100%;
+  }
 }
 
 .heading.heading {
