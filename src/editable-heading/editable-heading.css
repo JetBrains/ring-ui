@@ -25,6 +25,12 @@
   &:hover {
     background-color: var(--ring-hover-background-color);
   }
+
+  @nest .disabled &:hover {
+    cursor: initial;
+
+    background-color: initial;
+  }
 }
 
 .input {

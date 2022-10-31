@@ -3,7 +3,7 @@ import React from 'react';
 import reactDecorator from '../../.storybook/react-decorator';
 import {Size} from '../input/input';
 
-import EditableHeading, {Levels} from './editable-heading';
+import EditableHeading, {EditableHeadingProps, Levels} from './editable-heading';
 
 const lorem = (
   <div>
@@ -24,24 +24,15 @@ export default {
 };
 
 export const basic = () => {
-  interface Props {
-    level?: Levels;
-    children: string;
-    size?: Size;
-    error?: boolean;
-  }
-
-  const ExampleEditableHeading = ({level, size, error, children: initChildren}: Props) => {
+  const ExampleEditableHeading = (props: EditableHeadingProps) => {
+    const {children: initChildren, ...restProps} = props;
     const [editing, setEditing] = React.useState(false);
     const [children, setChildren] = React.useState(initChildren);
     return (
       <EditableHeading
-        level={level}
-        size={size}
         editing={editing}
         edited={children !== initChildren}
         placeholder="Enter the field name"
-        error={error}
         onEdit={() => setEditing(!editing)}
         onChange={e => setChildren(e.target.value)}
         onSave={() => setEditing(false)}
@@ -51,6 +42,7 @@ export const basic = () => {
         }}
         className="example-editable-heading"
         autoFocus
+        {...restProps}
       >{children}</EditableHeading>
     );
   };
@@ -79,6 +71,9 @@ export const basic = () => {
       {lorem}
 
       <ExampleEditableHeading error>Invalid Heading</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading disabled>Disabled Heading</ExampleEditableHeading>
       {lorem}
     </div>
   );

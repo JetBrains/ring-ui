@@ -16,6 +16,8 @@ export {Levels};
 export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
   level?: Levels;
   className?: string | null;
+  headingClassName?: string | null;
+  inputClassName?: string | null;
   editing?: boolean;
   edited?: boolean;
   children?: string;
@@ -28,6 +30,7 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
   autoFocus?: boolean;
   'data-test'?: string | null;
   error?: boolean;
+  disabled?: boolean;
 };
 
 function noop() {}
@@ -36,21 +39,40 @@ const shortcutsScope = getUID('ring-editable-heading-');
 
 export const EditableHeading = (props: EditableHeadingProps) => {
   const {
-    level = Levels.H1, className, editing, edited, children,
-    placeholder, embedded = false, size = Size.L,
-    onEdit, onSave = noop, onCancel = noop,
-    autoFocus, 'data-test': dataTest, error,
+    level = Levels.H1, className, headingClassName, inputClassName,
+    editing, edited, children, placeholder, embedded = false,
+    size = Size.L, onEdit, onSave = noop, onCancel = noop,
+    autoFocus, 'data-test': dataTest, error, disabled,
     ...restProps
   } = props;
 
   const classes = classNames(styles.editableHeading, className, {
     [styles.fullSize]: size === Size.FULL,
-    [styles.error]: error
+    [styles.error]: error,
+    [styles.disabled]: disabled
   });
+
+  const headingClasses = classNames(styles.heading, headingClassName);
+
+  const inputClasses = classNames(
+    'ring-js-shortcuts',
+    styles.input,
+    inputStyles[`size${size}`],
+    styles[`level${level}`],
+    inputClassName
+  );
+
+  const onClick = () => {
+    if (disabled || !onEdit) {
+      return undefined;
+    }
+
+    return onEdit();
+  };
 
   return (
     <div className={classes}>
-      {editing
+      {!disabled && editing
         ? (
           <>
             {!embedded && (
@@ -61,7 +83,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
             )}
 
             <input
-              className={classNames('ring-js-shortcuts', styles.input, inputStyles[`size${size}`], styles[`level${level}`])}
+              className={inputClasses}
               value={children}
               placeholder={placeholder}
               autoFocus={autoFocus}
@@ -72,9 +94,9 @@ export const EditableHeading = (props: EditableHeadingProps) => {
         )
         : (
           <Heading
-            className={styles.heading}
+            className={headingClasses}
             level={level}
-            onClick={onEdit}
+            onClick={onClick}
             data-test={dataTest}
           >{children}</Heading>
         )
