@@ -352,3 +352,40 @@ rangeWithCustomPlaceholders.parameters = {
   hermione: {skip: true}
 };
 
+export const withEmptyPlaceholder = () => {
+  class DatePickerExample extends Component {
+    state = {
+      from: undefined,
+      to: undefined
+    };
+
+    setRange = ({from, to}) => {
+      this.setState({from, to});
+    };
+
+    render() {
+      return (
+        <div>
+          <DatePicker
+            from={this.state.from}
+            to={this.state.to}
+            onChange={this.setRange}
+            fromPlaceholder=""
+            toPlaceholder=""
+            rangePlaceholder=""
+            clear
+            range
+          />
+        </div>
+      );
+    }
+  }
+
+  return <DatePickerExample/>;
+};
+
+withEmptyPlaceholder.storyName = 'range with empty placeholder';
+withEmptyPlaceholder.parameters = {
+  hermione: {skip: true}
+};
+
