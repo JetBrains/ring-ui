@@ -981,7 +981,7 @@ export default class Select extends Component {
   }
 
   _getLabel() {
-    return this.props.label || this.props.selectedLabel || 'Select an option';
+    return this.props.label ?? this.props.selectedLabel ?? 'Select an option';
   }
 
   _getSelectedString() {
