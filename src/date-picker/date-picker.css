@@ -66,6 +66,8 @@
 }
 
 .datePopup {
+  width: min-content;
+
   user-select: none;
   text-align: left;
 }

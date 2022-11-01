@@ -244,10 +244,10 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     const time = this.formatTime();
 
     if (!range && !withTime) {
-      return date ? displayFormat(date, locale) : datePlaceholder || translations.setDate;
+      return date ? displayFormat(date, locale) : (datePlaceholder ?? translations.setDate);
     } else if (!range && withTime) {
       if (!date && !time) {
-        return dateTimePlaceholder || translations.setDateTime;
+        return dateTimePlaceholder ?? translations.setDateTime;
       } else {
         return `${date && displayFormat(date, locale) || '—'}, ${time || '—'}`;
       }
@@ -266,7 +266,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     } else if (to) {
       return `— ${displayFormat(to, locale)}`;
     } else {
-      return rangePlaceholder || translations.setPeriod;
+      return rangePlaceholder ?? translations.setPeriod;
     }
   };
 
