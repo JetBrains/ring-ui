@@ -206,15 +206,15 @@ export default class DatePicker extends PureComponent {
 
     let text;
     if (!range && !withTime) {
-      text = date ? displayFormat(date, locale) : datePlaceholder || translations.setDate;
+      text = date ? displayFormat(date, locale) : (datePlaceholder ?? translations.setDate);
     } else if (!range && withTime) {
       if (!date && !time) {
-        text = dateTimePlaceholder || translations.setDateTime;
+        text = dateTimePlaceholder ?? translations.setDateTime;
       } else {
         text = `${date && displayFormat(date, locale) || '—'}, ${time || '—'}`;
       }
     } else if (!from && !to) {
-      text = rangePlaceholder || translations.setPeriod;
+      text = rangePlaceholder ?? translations.setPeriod;
     } else if (!to) {
       text = `${displayFormat(from, locale)} —`;
     } else if (!from) {
