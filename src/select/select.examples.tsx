@@ -1050,6 +1050,16 @@ export const multipleWithLimit: Story<SelectAttrs> = args => <Select {...args}/>
 multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {hermione: {skip: true}};
 
+export const withEmptyPlaceholder: Story<SelectAttrs> = args => (
+  <Select
+    {...args}
+    label={''}
+  />
+);
+
+withEmptyPlaceholder.storyName = 'with empty placeholder';
+withEmptyPlaceholder.parameters = {hermione: {skip: true}};
+
 export const selectInPopup: Story<SelectAttrs> = args => (
   <Dropdown
     anchor="Open dropdown"
