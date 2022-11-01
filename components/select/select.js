@@ -311,8 +311,8 @@ export default class Select extends Component {
 
     selected: null, // current selection (item / array of items)
 
-    label: '', // BUTTON or INPUT label (nothing selected)
-    selectedLabel: '', // BUTTON or INPUT label (something selected)
+    label: null, // BUTTON or INPUT label (nothing selected)
+    selectedLabel: null, // BUTTON or INPUT label (something selected)
     inputPlaceholder: '', // Placeholder for input modes
     hint: null, // hint text to display under the list
 
@@ -981,7 +981,7 @@ export default class Select extends Component {
   }
 
   _getLabel() {
-    return this.props.label || this.props.selectedLabel || 'Select an option';
+    return this.props.label ?? this.props.selectedLabel ?? 'Select an option';
   }
 
   _getSelectedString() {
