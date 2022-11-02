@@ -13,7 +13,7 @@ import styles from './editable-heading.css';
 
 export {Levels};
 
-export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
+export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'size'> & {
   level?: Levels;
   className?: string | null;
   headingClassName?: string | null;
