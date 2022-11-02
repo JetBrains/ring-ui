@@ -75,12 +75,10 @@ export const EditableHeading = (props: EditableHeadingProps) => {
       {!disabled && editing
         ? (
           <>
-            {!embedded && (
-              <Shortcuts
-                map={{enter: onSave, esc: onCancel}}
-                scope={shortcutsScope}
-              />
-            )}
+            <Shortcuts
+              map={{enter: onSave, esc: onCancel}}
+              scope={shortcutsScope}
+            />
 
             <input
               className={inputClasses}
