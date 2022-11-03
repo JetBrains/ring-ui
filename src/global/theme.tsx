@@ -12,6 +12,7 @@ import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
 
 import {getPopupContainer} from '../popup/popup';
 
+import defaultStyles from './variables.css';
 import styles from './variables_dark.css';
 import getUID from './get-uid';
 
@@ -38,9 +39,11 @@ export function useTheme() {
 
 export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLElement) {
   if (theme === Theme.DARK) {
+    container.classList.remove(defaultStyles.light);
     container.classList.add(styles.dark);
   } else {
     container.classList.remove(styles.dark);
+    container.classList.add(defaultStyles.light);
   }
 }
 
@@ -59,7 +62,10 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   const id = useMemo(() => getUID('popups-with-theme-'), []);
-  const themeClasses = classNames({[styles.dark]: resolvedTheme === Theme.DARK});
+  const themeClasses = classNames({
+    [styles.dark]: resolvedTheme === Theme.DARK,
+    [defaultStyles.light]: resolvedTheme === Theme.LIGHT
+  });
   const parentTarget = useContext(PopupTargetContext);
   return (
     <div
