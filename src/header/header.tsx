@@ -35,16 +35,26 @@ class Header extends Component<HeaderProps> {
       [styles.headerSpaced]: spaced
     });
 
-    return (
-      <ThemeProvider theme={theme}>
-        <header
-          {...restProps}
-          className={classes}
-        >
-          {children}
-        </header>
-      </ThemeProvider>
+    const overrideOuterTheme = theme !== Theme.LIGHT;
+
+    const header = (
+      <header
+        {...restProps}
+        className={classes}
+      >
+        {children}
+      </header>
     );
+
+    if (overrideOuterTheme) {
+      return (
+        <ThemeProvider theme={theme}>
+          {header}
+        </ThemeProvider>
+      );
+    }
+
+    return header;
   }
 }
 
