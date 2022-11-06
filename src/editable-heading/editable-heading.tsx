@@ -5,7 +5,6 @@ import Heading, {Levels} from '../heading/heading';
 import Button from '../button/button';
 import {Size} from '../input/input';
 import inputStyles from '../input/input.css';
-import {ControlsHeight} from '../global/controls-height';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 
@@ -103,7 +102,6 @@ export const EditableHeading = (props: EditableHeadingProps) => {
       {editing && !embedded && (
         <>
           <Button
-            height={ControlsHeight.M}
             className={styles.button}
             primary
             disabled={!edited || !children || children?.trim() === '' || error}
@@ -111,7 +109,6 @@ export const EditableHeading = (props: EditableHeadingProps) => {
           >{'Save'}</Button>
 
           <Button
-            height={ControlsHeight.M}
             className={styles.button}
             onClick={onCancel}
           >{'Cancel'}</Button>
