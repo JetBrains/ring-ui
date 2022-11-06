@@ -26,22 +26,31 @@ export default {
 export const basic = () => {
   const ExampleEditableHeading = (props: EditableHeadingProps) => {
     const {children: initChildren, ...restProps} = props;
-    const [editing, setEditing] = React.useState(false);
+    const [isEditing, setIsEditing] = React.useState(false);
+    const [isSaving, setIsSaving] = React.useState(false);
     const [children, setChildren] = React.useState(initChildren);
+
     return (
       <EditableHeading
-        editing={editing}
-        edited={children !== initChildren}
+        isEditing={isEditing}
+        isSavingPossible={children !== initChildren}
         placeholder="Enter the field name"
-        onEdit={() => setEditing(!editing)}
+        onEdit={() => setIsEditing(!isEditing)}
         onChange={e => setChildren(e.target.value)}
-        onSave={() => setEditing(false)}
+        onSave={() => {
+          setIsSaving(true);
+          setTimeout(() => {
+            setIsSaving(false);
+            setIsEditing(false);
+          }, 1000);
+        }}
         onCancel={() => {
           setChildren(initChildren);
-          setEditing(false);
+          setIsEditing(false);
         }}
         className="example-editable-heading"
         autoFocus
+        isSaving={isSaving}
         {...restProps}
       >{children}</EditableHeading>
     );
