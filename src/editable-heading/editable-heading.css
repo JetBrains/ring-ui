@@ -2,6 +2,7 @@
 
 .editableHeading {
   display: flex;
+  align-items: center;
   gap: unit;
 
   &.fullSize {
