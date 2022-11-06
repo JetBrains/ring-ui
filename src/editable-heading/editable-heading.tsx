@@ -17,8 +17,9 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
   className?: string | null;
   headingClassName?: string | null;
   inputClassName?: string | null;
-  editing?: boolean;
-  edited?: boolean;
+  isEditing?: boolean;
+  isSavingPossible?: boolean;
+  isSaving?: boolean;
   children?: string;
   placeholder?: string;
   embedded?: boolean;
@@ -39,7 +40,7 @@ const shortcutsScope = getUID('ring-editable-heading-');
 export const EditableHeading = (props: EditableHeadingProps) => {
   const {
     level = Levels.H1, className, headingClassName, inputClassName,
-    editing, edited, children, placeholder, embedded = false,
+    isEditing, isSavingPossible, isSaving, children, placeholder, embedded = false,
     size = Size.L, onEdit, onSave = noop, onCancel = noop,
     autoFocus, 'data-test': dataTest, error, disabled,
     ...restProps
@@ -61,22 +62,31 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     inputClassName
   );
 
-  const onClick = () => {
+  const onClick = React.useCallback(() => {
     if (disabled || !onEdit) {
       return undefined;
     }
 
     return onEdit();
-  };
+  }, [disabled, onEdit]);
+
+  const isSaveDisabled =
+    !isSavingPossible || !children || children.trim() === '' || error || isSaving;
+
+  const isCancelDisabled = isSaving;
 
   return (
     <div className={classes}>
-      {!disabled && editing
+      {!disabled && isEditing
         ? (
           <>
             <Shortcuts
-              map={{enter: onSave, esc: onCancel}}
+              map={{
+                enter: () => !isSaveDisabled && onSave(),
+                esc: () => !isCancelDisabled && onCancel()
+              }}
               scope={shortcutsScope}
+              disabled={isSaving}
             />
 
             <input
@@ -85,6 +95,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
               placeholder={placeholder}
               autoFocus={autoFocus}
               data-test={dataTest}
+              disabled={isSaving}
               {...restProps}
             />
           </>
@@ -99,17 +110,19 @@ export const EditableHeading = (props: EditableHeadingProps) => {
         )
       }
 
-      {editing && !embedded && (
+      {isEditing && !embedded && (
         <>
           <Button
             className={styles.button}
             primary
-            disabled={!edited || !children || children?.trim() === '' || error}
+            disabled={isSaveDisabled}
+            loader={isSaving}
             onClick={onSave}
           >{'Save'}</Button>
 
           <Button
             className={styles.button}
+            disabled={isCancelDisabled}
             onClick={onCancel}
           >{'Cancel'}</Button>
         </>
