@@ -81,6 +81,15 @@
   margin: 6px 0;
 }
 
+.errorText {
+  margin: calc(unit / 2) 0;
+
+  color: var(--ring-error-color);
+
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
+}
+
 .level1 {
   font-size: 24px;
 }

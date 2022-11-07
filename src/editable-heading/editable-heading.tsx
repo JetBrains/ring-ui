@@ -29,7 +29,7 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
   onCancel?: () => void;
   autoFocus?: boolean;
   'data-test'?: string | null;
-  error?: boolean;
+  error?: string;
   disabled?: boolean;
   renderMenu?: () => React.ReactNode;
 };
@@ -47,10 +47,12 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     renderMenu = () => null, ...restProps
   } = props;
 
+  const hasError = error !== undefined;
+
   const classes = classNames(styles.editableHeading, className, {
     [styles.fullSize]: size === Size.FULL,
     [styles.isEditing]: isEditing,
-    [styles.error]: error,
+    [styles.error]: hasError,
     [styles.disabled]: disabled
   });
 
@@ -73,67 +75,73 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   }, [disabled, onEdit]);
 
   const isSaveDisabled =
-    !isSavingPossible || !children || children.trim() === '' || error || isSaving;
+    !isSavingPossible || !children || children.trim() === '' || hasError || isSaving;
 
   const isCancelDisabled = isSaving;
 
   return (
-    <div className={classes}>
-      {!disabled && isEditing
-        ? (
-          <>
-            <Shortcuts
-              map={{
-                enter: () => !isSaveDisabled && onSave(),
-                esc: () => !isCancelDisabled && onCancel()
-              }}
-              scope={shortcutsScope}
-              disabled={isSaving}
-            />
+    <>
+      <div className={classes}>
+        {!disabled && isEditing
+          ? (
+            <>
+              <Shortcuts
+                map={{
+                  enter: () => !isSaveDisabled && onSave(),
+                  esc: () => !isCancelDisabled && onCancel()
+                }}
+                scope={shortcutsScope}
+                disabled={isSaving}
+              />
 
-            <input
-              className={inputClasses}
-              value={children}
-              placeholder={placeholder}
-              autoFocus={autoFocus}
+              <input
+                className={inputClasses}
+                value={children}
+                placeholder={placeholder}
+                autoFocus={autoFocus}
+                data-test={dataTest}
+                disabled={isSaving}
+                {...restProps}
+              />
+            </>
+          )
+          : (
+            <Heading
+              className={headingClasses}
+              level={level}
+              onClick={onClick}
               data-test={dataTest}
-              disabled={isSaving}
-              {...restProps}
-            />
+            >{children}</Heading>
+          )
+        }
+
+        {!isEditing && (
+          renderMenu()
+        )}
+
+        {isEditing && !embedded && (
+          <>
+            <Button
+              className={styles.button}
+              primary
+              disabled={isSaveDisabled}
+              loader={isSaving}
+              onClick={onSave}
+            >{'Save'}</Button>
+
+            <Button
+              className={styles.button}
+              disabled={isCancelDisabled}
+              onClick={onCancel}
+            >{'Cancel'}</Button>
           </>
-        )
-        : (
-          <Heading
-            className={headingClasses}
-            level={level}
-            onClick={onClick}
-            data-test={dataTest}
-          >{children}</Heading>
-        )
-      }
+        )}
+      </div>
 
-      {!isEditing && (
-        renderMenu()
+      {isEditing && error && (
+        <div className={classNames(styles.errorText, inputStyles[`size${size}`])}>{error}</div>
       )}
-
-      {isEditing && !embedded && (
-        <>
-          <Button
-            className={styles.button}
-            primary
-            disabled={isSaveDisabled}
-            loader={isSaving}
-            onClick={onSave}
-          >{'Save'}</Button>
-
-          <Button
-            className={styles.button}
-            disabled={isCancelDisabled}
-            onClick={onCancel}
-          >{'Cancel'}</Button>
-        </>
-      )}
-    </div>
+    </>
   );
 };
 
