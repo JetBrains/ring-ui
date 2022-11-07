@@ -62,6 +62,10 @@
     border-bottom-color: var(--ring-main-color);
   }
 
+  &[disabled] {
+    background-color: initial;
+  }
+
   @nest .error & {
     margin-bottom: 1px;
 
