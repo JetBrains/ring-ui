@@ -53,7 +53,6 @@ export const basic = () => {
           setIsEditing(false);
         }}
         className="example-editable-heading"
-        autoFocus
         isSaving={isSaving}
         {...restProps}
       >{children}</EditableHeading>

@@ -39,7 +39,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     level = Levels.H1, className, headingClassName, inputClassName,
     isEditing, isSavingPossible, isSaving, children, embedded = false,
     size = Size.L, onEdit, onSave = noop, onCancel = noop,
-    'data-test': dataTest, error, disabled,
+    autoFocus = true, 'data-test': dataTest, error, disabled,
     renderMenu = () => null, ...restProps
   } = props;
 
@@ -93,6 +93,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
               <input
                 className={inputClasses}
                 value={children}
+                autoFocus={autoFocus}
                 data-test={dataTest}
                 disabled={isSaving}
                 {...restProps}
