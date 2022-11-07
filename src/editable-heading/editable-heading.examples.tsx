@@ -93,7 +93,12 @@ export const basic = () => {
       <ExampleEditableHeading renderMenu={renderMenu}>Heading with menu</ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading error>Invalid Heading</ExampleEditableHeading>
+      <ExampleEditableHeading error="">Invalid Heading</ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading error="Some error message">
+        Invalid Heading with an error message
+      </ExampleEditableHeading>
       {lorem}
 
       <ExampleEditableHeading disabled>Disabled Heading</ExampleEditableHeading>
