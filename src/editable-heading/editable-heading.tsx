@@ -14,23 +14,19 @@ export {Levels};
 
 export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'size'> & {
   level?: Levels;
-  className?: string | null;
   headingClassName?: string | null;
   inputClassName?: string | null;
   isEditing?: boolean;
   isSavingPossible?: boolean;
   isSaving?: boolean;
   children?: string;
-  placeholder?: string;
   embedded?: boolean;
   size?: Size;
   onEdit?: () => void;
   onSave?: () => void;
   onCancel?: () => void;
-  autoFocus?: boolean;
   'data-test'?: string | null;
   error?: string;
-  disabled?: boolean;
   renderMenu?: () => React.ReactNode;
 };
 
@@ -41,9 +37,9 @@ const shortcutsScope = getUID('ring-editable-heading-');
 export const EditableHeading = (props: EditableHeadingProps) => {
   const {
     level = Levels.H1, className, headingClassName, inputClassName,
-    isEditing, isSavingPossible, isSaving, children, placeholder, embedded = false,
+    isEditing, isSavingPossible, isSaving, children, embedded = false,
     size = Size.L, onEdit, onSave = noop, onCancel = noop,
-    autoFocus, 'data-test': dataTest, error, disabled,
+    'data-test': dataTest, error, disabled,
     renderMenu = () => null, ...restProps
   } = props;
 
@@ -97,8 +93,6 @@ export const EditableHeading = (props: EditableHeadingProps) => {
               <input
                 className={inputClasses}
                 value={children}
-                placeholder={placeholder}
-                autoFocus={autoFocus}
                 data-test={dataTest}
                 disabled={isSaving}
                 {...restProps}
