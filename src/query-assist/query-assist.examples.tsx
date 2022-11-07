@@ -15,7 +15,11 @@ import {Size} from '../input/input';
 
 import Theme, {ThemeProvider} from '../global/theme';
 
-import QueryAssist, {QueryAssistAttrs, QueryAssistRequestParams} from './query-assist';
+import QueryAssist, {
+  QueryAssistAttrs,
+  QueryAssistRequestParams,
+  QueryAssistResponse
+} from './query-assist';
 import {QueryAssistSuggestion} from './query-assist__suggestions';
 
 export default {
@@ -364,4 +368,26 @@ hugeOne.args = {
   hintOnSelection: 'lol selected',
   popupClassName: 'test',
   className: 'custom-class'
+};
+
+
+class DisabledOne extends Component {
+  dataSource = () => [] as QueryAssistResponse;
+
+  render() {
+    return (
+      <QueryAssist
+        disabled
+        dataSource={this.dataSource}
+        {...this.props}
+      />
+    );
+  }
+}
+export const disabledOne: Story<QueryAssistAttrs> = args => <DisabledOne {...args}/>;
+
+disabledOne.storyName = 'disabled one';
+disabledOne.parameters = {hermione: {skip: true}};
+disabledOne.args = {
+  query: ''
 };
