@@ -1,5 +1,6 @@
 /* stylelint-disable color-no-hex */
 
+:global(.ring-ui-theme-dark),
 .dark,
 :root.dark {
   --ring-line-components: 71, 81, 89;
