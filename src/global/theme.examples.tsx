@@ -18,6 +18,18 @@ export const basic = () => {
 
   const ThemeExample: React.FC = () => (
     <div>
+      <div className="ring-ui-theme-dark">
+        <ThemedWrapper>
+          <Text>This is dark (via global css class)</Text>
+        </ThemedWrapper>
+      </div>
+
+      <div>
+        <ThemedWrapper>
+          <Text>This is light (via absence of css class)</Text>
+        </ThemedWrapper>
+      </div>
+
       <ThemeProvider theme={Theme.DARK}>
         <ThemedWrapper>
           <Text>This is dark</Text>
