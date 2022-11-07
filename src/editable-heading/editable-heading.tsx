@@ -34,6 +34,8 @@ function noop() {}
 
 const shortcutsScope = getUID('ring-editable-heading-');
 
+export {Size} from '../input/input';
+
 export const EditableHeading = (props: EditableHeadingProps) => {
   const {
     level = Levels.H1, className, headingClassName, inputClassName,
