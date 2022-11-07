@@ -3,10 +3,13 @@
 .editableHeading {
   display: flex;
   align-items: center;
-  gap: unit;
 
   &.fullSize {
     width: 100%;
+  }
+
+  &.isEditing {
+    gap: unit;
   }
 }
 

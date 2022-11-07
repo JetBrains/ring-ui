@@ -31,6 +31,7 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
   'data-test'?: string | null;
   error?: boolean;
   disabled?: boolean;
+  renderMenu?: () => React.ReactNode;
 };
 
 function noop() {}
@@ -43,11 +44,12 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     isEditing, isSavingPossible, isSaving, children, placeholder, embedded = false,
     size = Size.L, onEdit, onSave = noop, onCancel = noop,
     autoFocus, 'data-test': dataTest, error, disabled,
-    ...restProps
+    renderMenu = () => null, ...restProps
   } = props;
 
   const classes = classNames(styles.editableHeading, className, {
     [styles.fullSize]: size === Size.FULL,
+    [styles.isEditing]: isEditing,
     [styles.error]: error,
     [styles.disabled]: disabled
   });
@@ -109,6 +111,10 @@ export const EditableHeading = (props: EditableHeadingProps) => {
           >{children}</Heading>
         )
       }
+
+      {!isEditing && (
+        renderMenu()
+      )}
 
       {isEditing && !embedded && (
         <>

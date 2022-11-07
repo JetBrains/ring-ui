@@ -1,7 +1,11 @@
 import React from 'react';
 
+import pencilIcon from '@jetbrains/icons/pencil';
+import moreOptionsIcon from '@jetbrains/icons/more-options';
+
 import reactDecorator from '../../.storybook/react-decorator';
 import {Size} from '../input/input';
+import Button from '../button/button';
 
 import EditableHeading, {EditableHeadingProps, Levels} from './editable-heading';
 
@@ -56,6 +60,13 @@ export const basic = () => {
     );
   };
 
+  const renderMenu = () => (
+    <>
+      <Button icon={pencilIcon} className="example-editable-heading__menu-button"/>
+      <Button icon={moreOptionsIcon} className="example-editable-heading__menu-button"/>
+    </>
+  );
+
   return (
     <div>
       <ExampleEditableHeading level={Levels.H1}>Editable Heading 1</ExampleEditableHeading>
@@ -79,6 +90,9 @@ export const basic = () => {
       <ExampleEditableHeading level={Levels.H1} size={Size.FULL}>FULL size</ExampleEditableHeading>
       {lorem}
 
+      <ExampleEditableHeading renderMenu={renderMenu}>Heading with menu</ExampleEditableHeading>
+      {lorem}
+
       <ExampleEditableHeading error>Invalid Heading</ExampleEditableHeading>
       {lorem}
 
@@ -95,6 +109,11 @@ basic.parameters = {
 <style>
   .example-editable-heading:not(:first-child) {
     margin-top: var(--ring-line-height);
+  }
+
+  .example-editable-heading__menu-button {
+    padding: 0;
+    margin-left: var(--ring-unit);
   }
 </style>`
 };
