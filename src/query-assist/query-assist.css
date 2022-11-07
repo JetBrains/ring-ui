@@ -18,6 +18,8 @@
 
   box-sizing: border-box;
 
+  min-height: calc(var(--ring-line-height) + 2 * var(--ring-input-padding-block) + 2px); /* 2px - border */
+
   font-size: var(--ring-font-size);
   line-height: var(--ring-line-height);
 
