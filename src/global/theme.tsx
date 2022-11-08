@@ -41,10 +41,10 @@ export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLEleme
   if (theme === Theme.DARK) {
     container.classList.remove(defaultStyles.light);
     container.classList.add(styles.dark);
-    container.classList.add(styles['ring-ui-theme-dark']);
+    container.classList.add('ring-ui-theme-dark');
   } else {
     container.classList.remove(styles.dark);
-    container.classList.remove(styles['ring-ui-theme-dark']);
+    container.classList.remove('ring-ui-theme-dark');
     container.classList.add(defaultStyles.light);
   }
 }
