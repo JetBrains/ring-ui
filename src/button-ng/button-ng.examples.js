@@ -6,7 +6,6 @@ import pencilIcon from '@jetbrains/icons/pencil';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import IconNG from '../icon-ng/icon-ng';
-import ThemeNG from '../theme-ng/theme-ng';
 import CheckboxNG from '../checkbox-ng/checkbox-ng';
 import Theme from '../global/theme';
 import styles from '../global/variables_dark.css';
@@ -21,7 +20,7 @@ export default {
 
 export const basic = () => {
   angular.
-    module(APP_NAME, [IconNG, ThemeNG, CheckboxNG, ButtonNG]).
+    module(APP_NAME, [IconNG, CheckboxNG, ButtonNG]).
     controller('testCtrl', function controller($scope) {
       $scope.pencil = pencilIcon;
       $scope.Theme = Theme;
