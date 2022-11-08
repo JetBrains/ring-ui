@@ -37,6 +37,12 @@ export default {
   }
 };
 
+const defaultData = [
+  {label: 'One', key: '1', type: 'user'},
+  {label: 'Group', key: '2', type: 'user'},
+  {label: 'Three', key: '3', type: 'user'}
+];
+
 export const withAFilterAndTags = args => <Select {...args}/>;
 export const withAvatars = args => <Select {...args}/>;
 
@@ -216,11 +222,7 @@ inlineWithAFilter.args = {
   type: Select.Type.INLINE,
   filter: true,
   clear: true,
-  data: [
-    {label: 'One', key: '1', type: 'user'},
-    {label: 'Group', key: '2', type: 'user'},
-    {label: 'Three', key: '3', type: 'user'}
-  ]
+  data: defaultData
 };
 inlineWithAFilter.argTypes = {
   selected: {
@@ -259,11 +261,7 @@ inlineOpensToLeft.args = {
   filter: true,
   clear: true,
   directions: [Popup.PopupProps.Directions.BOTTOM_LEFT],
-  data: [
-    {label: 'One', key: '1', type: 'user'},
-    {label: 'Group', key: '2', type: 'user'},
-    {label: 'Three', key: '3', type: 'user'}
-  ]
+  data: defaultData
 };
 inlineOpensToLeft.argTypes = {
   selected: {
@@ -298,11 +296,7 @@ withDisabledMoveOverflow.args = {
   filter: true,
   clear: true,
   disableMoveOverflow: true,
-  data: [
-    {label: 'One', key: '1', type: 'user'},
-    {label: 'Group', key: '2', type: 'user'},
-    {label: 'Three', key: '3', type: 'user'}
-  ]
+  data: defaultData
 };
 withDisabledMoveOverflow.argTypes = {
   selected: {
@@ -400,9 +394,7 @@ withFuzzySearchFilter.args = {
   filter: {fuzzy: true},
   clear: true,
   data: [
-    {label: 'One', key: '1', type: 'user'},
-    {label: 'Group', key: '2', type: 'user'},
-    {label: 'Three', key: '3', type: 'user'},
+    ...defaultData,
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
   ]
 };
@@ -1014,14 +1006,39 @@ multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {hermione: {skip: true}};
 
 export const withEmptyPlaceholder = args => (
-  <Select
-    {...args}
-    label={''}
-  />
-);
+  <div className="demo-container">
+    <label
+      htmlFor="select"
+      className="label"
+    >
+      Field name
+    </label>
 
+    <Select
+      {...args}
+      id={'select'}
+      label={''}
+    />
+  </div>
+);
+withEmptyPlaceholder.args = {
+  data: defaultData
+};
 withEmptyPlaceholder.storyName = 'with empty placeholder';
-withEmptyPlaceholder.parameters = {hermione: {skip: true}};
+withEmptyPlaceholder.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+  .demo-container {
+    display: flex;
+  }
+  .label {
+    margin-right: 20px;
+    align-self: center;
+  }
+</style>
+`
+};
 
 export const selectInPopup = args => (
   <Dropdown
