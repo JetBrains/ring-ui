@@ -80,7 +80,7 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
                 <>
                   {children}
                   {createPortal(
-                    target,
+                    <div className={themeClasses}>{target}</div>,
                     parentTarget && getPopupContainer(parentTarget) || document.body)
                   }
                 </>

@@ -4,6 +4,8 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import Text from '../text/text';
 
+import Select from '../select/select';
+
 import Theme, {ThemeProvider} from './theme';
 
 export default {
@@ -11,11 +13,22 @@ export default {
   decorators: [reactDecorator()]
 };
 
-export const basic = () => {
-  const ThemedWrapper: React.FC<{children: React.ReactNode}> = ({children}) => (
-    <div className="themed-wrapper">{children}</div>
-  );
+const storyStyles = `
+<style>
+  .themed-wrapper {
+    border: solid 1px var(--ring-borders-color);
+    border-radius: var(--ring-border-radius);
+    background-color: var(--ring-content-background-color);
+    margin: var(--ring-unit);
+    padding: var(--ring-unit);
+  }
+</style>`;
 
+const ThemedWrapper: React.FC<{children: React.ReactNode}> = ({children}) => (
+  <div className="themed-wrapper">{children}</div>
+);
+
+export const basic = () => {
   const ThemeExample: React.FC = () => (
     <div>
       <div className="ring-ui-theme-dark">
@@ -70,15 +83,41 @@ export const basic = () => {
 };
 
 basic.storyName = 'Theme Provider';
-basic.parameters = {
-  storyStyles: `
-<style>
-  .themed-wrapper {
-    border: solid 1px var(--ring-borders-color);
-    border-radius: var(--ring-border-radius);
-    background-color: var(--ring-content-background-color);
-    margin: var(--ring-unit);
-    padding: var(--ring-unit);
-  }
-</style>`
+basic.parameters = {storyStyles};
+
+const selectTestData = [{
+  key: 'label-1', label: 'Hello'
+}, {
+  key: 'label-2', label: 'World'
+}];
+
+export const withPopup = () => {
+  const ThemeExample: React.FC = () => (
+    <div>
+      <ThemeProvider theme={Theme.DARK} passToPopups>
+        <ThemedWrapper>
+          <Select data={selectTestData} label="Dark popup"/>
+        </ThemedWrapper>
+      </ThemeProvider>
+
+      <ThemeProvider theme={Theme.DARK}>
+        <ThemedWrapper>
+          <Text>There will be Light inside Dark</Text>
+          <ThemeProvider theme={Theme.LIGHT}>
+            <ThemedWrapper>
+              <Select data={selectTestData} label="Light popup"/>
+            </ThemedWrapper>
+          </ThemeProvider>
+        </ThemedWrapper>
+      </ThemeProvider>
+    </div>
+  );
+
+  return <ThemeExample/>;
+};
+
+withPopup.storyName = 'Theme Provider and Popup';
+withPopup.parameters = {
+  hermione: {skip: true},
+  storyStyles
 };
