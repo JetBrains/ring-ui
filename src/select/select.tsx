@@ -1227,9 +1227,12 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const ariaProps = this.state.showPopup
       ? {
         'aria-owns': this.listId,
-        'aria-activedescendant': activeItemId
+        'aria-activedescendant': activeItemId,
+        'aria-label': this.props.label ?? undefined
       }
-      : {};
+      : {
+        'aria-label': this.props.label ?? undefined
+      };
 
     switch (this.props.type) {
       case Type.INPUT_WITHOUT_CONTROLS:
