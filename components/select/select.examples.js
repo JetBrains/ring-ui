@@ -37,12 +37,6 @@ export default {
   }
 };
 
-const defaultData = [
-  {label: 'One', key: '1', type: 'user'},
-  {label: 'Group', key: '2', type: 'user'},
-  {label: 'Three', key: '3', type: 'user'}
-];
-
 export const withAFilterAndTags = args => <Select {...args}/>;
 export const withAvatars = args => <Select {...args}/>;
 
@@ -222,7 +216,11 @@ inlineWithAFilter.args = {
   type: Select.Type.INLINE,
   filter: true,
   clear: true,
-  data: defaultData
+  data: [
+    {label: 'One', key: '1', type: 'user'},
+    {label: 'Group', key: '2', type: 'user'},
+    {label: 'Three', key: '3', type: 'user'}
+  ]
 };
 inlineWithAFilter.argTypes = {
   selected: {
@@ -261,7 +259,11 @@ inlineOpensToLeft.args = {
   filter: true,
   clear: true,
   directions: [Popup.PopupProps.Directions.BOTTOM_LEFT],
-  data: defaultData
+  data: [
+    {label: 'One', key: '1', type: 'user'},
+    {label: 'Group', key: '2', type: 'user'},
+    {label: 'Three', key: '3', type: 'user'}
+  ]
 };
 inlineOpensToLeft.argTypes = {
   selected: {
@@ -296,7 +298,11 @@ withDisabledMoveOverflow.args = {
   filter: true,
   clear: true,
   disableMoveOverflow: true,
-  data: defaultData
+  data: [
+    {label: 'One', key: '1', type: 'user'},
+    {label: 'Group', key: '2', type: 'user'},
+    {label: 'Three', key: '3', type: 'user'}
+  ]
 };
 withDisabledMoveOverflow.argTypes = {
   selected: {
@@ -394,7 +400,9 @@ withFuzzySearchFilter.args = {
   filter: {fuzzy: true},
   clear: true,
   data: [
-    ...defaultData,
+    {label: 'One', key: '1', type: 'user'},
+    {label: 'Group', key: '2', type: 'user'},
+    {label: 'Three', key: '3', type: 'user'},
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
   ]
 };
