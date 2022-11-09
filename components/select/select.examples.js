@@ -1005,40 +1005,6 @@ export const multipleWithLimit = args => <Select {...args}/>;
 multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {hermione: {skip: true}};
 
-export const withEmptyPlaceholder = args => (
-  <div className="demo-container">
-    <label
-      htmlFor="select"
-      className="label"
-    >
-      Field name
-    </label>
-
-    <Select
-      {...args}
-      id={'select'}
-      label={''}
-    />
-  </div>
-);
-withEmptyPlaceholder.args = {
-  data: defaultData
-};
-withEmptyPlaceholder.storyName = 'with empty placeholder';
-withEmptyPlaceholder.parameters = {
-  hermione: {skip: true},
-  storyStyles: `
-<style>
-  .demo-container {
-    display: flex;
-  }
-  .label {
-    margin-right: 20px;
-    align-self: center;
-  }
-</style>
-`
-};
 
 export const selectInPopup = args => (
   <Dropdown
