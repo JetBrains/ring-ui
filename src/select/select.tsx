@@ -19,6 +19,7 @@ import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
 import Input, {Size} from '../input/input';
+import InputLabel from '../input/input-label';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import dataTests from '../global/data-tests';
@@ -1118,6 +1119,13 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     return this.props.label ?? this.props.selectedLabel ?? 'Select an option';
   }
 
+  private _getPlaceholder() {
+    if (this._selectionIsEmpty()) {
+      return this.props.label ?? 'Select an option';
+    }
+    return this._getSelectedString();
+  }
+
   _getSelectedString() {
     if (Array.isArray(this.state.selected)) {
       const labels = [];
@@ -1213,6 +1221,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
   renderSelect(activeItemId: string | undefined) {
     const dataTest = this.props['data-test'];
+    const {selectedLabel} = this.props;
     const {shortcutsEnabled} = this.state;
     const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, styles[`height${this.props.height || this.context}`], {
       [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
@@ -1286,6 +1295,13 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             className={classNames(classes, styles.buttonMode)}
             data-test={dataTests('ring-select', dataTest)}
           >
+            {selectedLabel && (
+              <InputLabel
+                label={selectedLabel}
+                disabled={this.props.disabled}
+                htmlFor={this.props.id}
+              />
+            )}
             {shortcutsEnabled && (
               <Shortcuts
                 map={this.getShortcutsMap()}
@@ -1310,7 +1326,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                 data-test="ring-select__button ring-select__focus"
               >
                 {this._getAvatar()}
-                {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
+                {this._getPlaceholder()}
               </Button>
               {iconsNode}
             </div>
@@ -1339,7 +1355,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               disabled={this.props.disabled}
               active={this.state.showPopup}
             >
-              {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
+              {this._getPlaceholder()}
             </Anchor>
             {this._renderPopup()}
           </div>
@@ -1364,7 +1380,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                   id: this.props.id,
                   onClick: this._clickHandler,
                   disabled: this.props.disabled,
-                  children: this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString(),
+                  children: this._getPlaceholder(),
                   'data-test': 'ring-select_focus'
                 },
                 popup: this._renderPopup()
