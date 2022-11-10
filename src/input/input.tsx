@@ -22,6 +22,7 @@ import composeRefs from '../global/composeRefs';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 import styles from './input.css';
+import {InputLabel} from './input-label';
 
 
 function noop() {}
@@ -213,12 +214,11 @@ export class Input extends PureComponent<InputProps> {
     return (
       <div className={classes} data-test="ring-input">
         {label && (
-          <label
+          <InputLabel
             htmlFor={this.getId()}
-            className={classNames(styles.label, {
-              [styles.disabledLabel]: disabled
-            })}
-          >{label}</label>
+            disabled={disabled}
+            label={label}
+          />
         )}
         <div className={styles.container}>
           {icon && <Icon glyph={icon} className={styles.icon}/>}
