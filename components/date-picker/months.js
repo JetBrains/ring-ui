@@ -44,8 +44,8 @@ const scrollSchedule = scheduleRAF();
 let dy = 0;
 export default function Months(props) {
   const {scrollDate} = props;
-  // prevent switching from april to march because of daylight saving time
   const monthDate = scrollDate instanceof Date ? scrollDate : new Date(scrollDate);
+  // Creating midnight of the first day of the month in UTC to prevent the impact of user timezone
   const monthStart = new Date(Date.UTC(monthDate.getFullYear(), monthDate.getMonth(), 1));
 
   let month = subMonths(monthStart, MONTHSBACK);
