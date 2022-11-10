@@ -11,6 +11,7 @@ import Shortcuts from '../shortcuts/shortcuts';
 import styles from './editable-heading.css';
 
 export {Levels};
+export {Size};
 
 export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'size'> & {
   level?: Levels;
@@ -33,8 +34,6 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
 function noop() {}
 
 const shortcutsScope = getUID('ring-editable-heading-');
-
-export {Size} from '../input/input';
 
 export const EditableHeading = (props: EditableHeadingProps) => {
   const {
