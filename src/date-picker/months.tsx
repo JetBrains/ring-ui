@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import addMonths from 'date-fns/addMonths';
 import getDay from 'date-fns/getDay';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
-import set from 'date-fns/set';
-import startOfHour from 'date-fns/startOfHour';
 import startOfMonth from 'date-fns/startOfMonth';
 import subMonths from 'date-fns/subMonths';
 import endOfMonth from 'date-fns/endOfMonth';
@@ -46,8 +44,9 @@ const scrollSchedule = scheduleRAF();
 let dy = 0;
 export default function Months(props: MonthsProps) {
   const {scrollDate} = props;
-  // prevent switching from april to march because of daylight saving time
-  const monthStart = startOfHour(set(scrollDate, {date: 1, hours: 1}));
+  const monthDate = scrollDate instanceof Date ? scrollDate : new Date(scrollDate);
+  // Creating midnight of the first day of the month in UTC to prevent the impact of user timezone
+  const monthStart = new Date(Date.UTC(monthDate.getFullYear(), monthDate.getMonth(), 1));
 
   let month = subMonths(monthStart, MONTHSBACK);
   const months = [month];
