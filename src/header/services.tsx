@@ -81,8 +81,10 @@ export default class Services extends PureComponent<ServicesProps> {
     }
 
     const sortedServices = [...services].sort(Services.sort);
-    const servicesWithIcons = sortedServices.filter(service => service.iconUrl);
-    const servicesWithOutIcons = sortedServices.filter(service => !service.iconUrl);
+    const servicesWithIcons = sortedServices.filter(service => service.iconUrl && service.homeUrl);
+    const servicesWithOutIcons = sortedServices.filter(
+      service => !service.iconUrl && service.homeUrl
+    );
     const separatorIsRequired = servicesWithIcons.length !== 0 && servicesWithOutIcons.length !== 0;
 
     return (
