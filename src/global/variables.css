@@ -29,8 +29,6 @@
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #0070cc */
   --ring-action-link-components: var(--ring-main-components);
   --ring-action-link-color: var(--ring-main-color); /* #0080e5 */
-  --ring-action-link-hover-components: var(--ring-main-hover-components);
-  --ring-action-link-hover-color: var(--ring-main-hover-color); /* #0070cc */
   --ring-icon-error-components: 219, 88, 96;
   --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #db5860 */
   --ring-icon-warning-components: 237, 162, 0;
