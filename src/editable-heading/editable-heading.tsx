@@ -33,18 +33,31 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
 
 function noop() {}
 
-const shortcutsScope = getUID('ring-editable-heading-');
-
 export const EditableHeading = (props: EditableHeadingProps) => {
   const {
-    level = Levels.H1, className, headingClassName, inputClassName,
-    isEditing, isSavingPossible, isSaving, children, embedded = false,
-    size = Size.L, onEdit, onSave = noop, onCancel = noop,
+    level = Levels.H1, className, headingClassName, inputClassName, children,
+    isEditing = false, isSavingPossible = false, isSaving = false, embedded = false,
+    size = Size.L, onEdit = noop, onSave = noop, onCancel = noop,
     autoFocus = true, 'data-test': dataTest, error, disabled,
     renderMenu = () => null, ...restProps
   } = props;
 
+  const [shortcutsScope] = React.useState(getUID('ring-editable-heading-'));
+  const [isInFocus, setIsInFocus] = React.useState(false);
+
   const hasError = error !== undefined;
+
+  const isSaveDisabled =
+    !isSavingPossible || !children || children.trim() === '' || hasError || isSaving;
+
+  const isCancelDisabled = isSaving;
+
+  const isShortcutsDisabled = !isInFocus || isSaving;
+
+  const shortcutsMap = React.useMemo(() => ({
+    enter: isSaveDisabled ? noop : onSave,
+    esc: isCancelDisabled ? noop : onCancel
+  }), [isSaveDisabled, isCancelDisabled, onSave, onCancel]);
 
   const classes = classNames(styles.editableHeading, className, {
     [styles.fullSize]: size === Size.FULL,
@@ -63,18 +76,21 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     inputClassName
   );
 
-  const onClick = React.useCallback(() => {
-    if (disabled || !onEdit) {
+  const onHeadingClick = React.useCallback(() => {
+    if (disabled) {
       return undefined;
     }
 
     return onEdit();
   }, [disabled, onEdit]);
 
-  const isSaveDisabled =
-    !isSavingPossible || !children || children.trim() === '' || hasError || isSaving;
+  const onInputFocus = React.useCallback(() => {
+    setIsInFocus(true);
+  }, []);
 
-  const isCancelDisabled = isSaving;
+  const onInputBlur = React.useCallback(() => {
+    setIsInFocus(false);
+  }, []);
 
   return (
     <>
@@ -83,12 +99,9 @@ export const EditableHeading = (props: EditableHeadingProps) => {
           ? (
             <>
               <Shortcuts
-                map={{
-                  enter: () => !isSaveDisabled && onSave(),
-                  esc: () => !isCancelDisabled && onCancel()
-                }}
+                map={shortcutsMap}
                 scope={shortcutsScope}
-                disabled={isSaving}
+                disabled={isShortcutsDisabled}
               />
 
               <input
@@ -97,6 +110,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                 autoFocus={autoFocus}
                 data-test={dataTest}
                 disabled={isSaving}
+                onFocus={onInputFocus}
+                onBlur={onInputBlur}
                 {...restProps}
               />
             </>
@@ -105,7 +120,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
             <Heading
               className={headingClasses}
               level={level}
-              onClick={onClick}
+              onClick={onHeadingClick}
               data-test={dataTest}
             >{children}</Heading>
           )

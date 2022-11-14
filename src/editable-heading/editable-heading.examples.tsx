@@ -34,6 +34,19 @@ export const basic = () => {
     const [isSaving, setIsSaving] = React.useState(false);
     const [children, setChildren] = React.useState(initChildren);
 
+    const onSave = React.useCallback(() => {
+      setIsSaving(true);
+      setTimeout(() => {
+        setIsSaving(false);
+        setIsEditing(false);
+      }, 1000);
+    }, []);
+
+    const onCancel = React.useCallback(() => {
+      setChildren(initChildren);
+      setIsEditing(false);
+    }, [initChildren]);
+
     return (
       <EditableHeading
         isEditing={isEditing}
@@ -41,17 +54,8 @@ export const basic = () => {
         placeholder="Enter the field name"
         onEdit={() => setIsEditing(!isEditing)}
         onChange={e => setChildren(e.target.value)}
-        onSave={() => {
-          setIsSaving(true);
-          setTimeout(() => {
-            setIsSaving(false);
-            setIsEditing(false);
-          }, 1000);
-        }}
-        onCancel={() => {
-          setChildren(initChildren);
-          setIsEditing(false);
-        }}
+        onSave={onSave}
+        onCancel={onCancel}
         className="example-editable-heading"
         isSaving={isSaving}
         {...restProps}
