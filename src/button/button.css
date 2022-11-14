@@ -124,7 +124,7 @@
   &.withIcon,
   &.withIcon:active,
   &.withIcon.active {
-    color: var(--ring-main-color);
+    color: var(--ring-action-link-color);
   }
 
   &:global(.focus-visible),
@@ -233,7 +233,7 @@
 }
 
 .text {
-  color: var(--ring-main-color);
+  color: var(--ring-action-link-color);
 }
 
 .inline {
@@ -259,7 +259,7 @@
 .withIcon {
   &:active,
   &.active {
-    color: var(--ring-main-color);
+    color: var(--ring-action-link-color);
   }
 }
 
