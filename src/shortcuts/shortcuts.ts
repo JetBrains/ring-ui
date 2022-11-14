@@ -31,11 +31,15 @@ export default class Shortcuts extends PureComponent<ShortcutsProps> {
   }
 
   componentDidUpdate(prevProps: ShortcutsProps) {
-    const {disabled} = this.props;
+    const {disabled, map} = this.props;
     if (!prevProps.disabled && disabled) {
       this.turnShorcutsOff();
     }
     if (prevProps.disabled && !disabled) {
+      this.turnShorcutsOn();
+    }
+    if (prevProps.map !== map) {
+      this.turnShorcutsOff();
       this.turnShorcutsOn();
     }
   }
