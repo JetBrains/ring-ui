@@ -66,7 +66,9 @@ const renderColors = () => `
       ${renderColorItem('--ring-border-hover-color')}
       ${renderColorItem('--ring-icon-hover-color')}
       ${renderColorItem('--ring-main-color')}
+      ${renderColorItem('--ring-action-link-color')}
       ${renderColorItem('--ring-main-hover-color')}
+      ${renderColorItem('--ring-action-link-hover-color')}
       ${renderColorItem('--ring-icon-error-color')}
       ${renderColorItem('--ring-icon-warning-color')}
       ${renderColorItem('--ring-icon-success-color')}
