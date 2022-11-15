@@ -19,6 +19,21 @@
   line-height: 28px;
 }
 
+.headingWrapperButton {
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  border-radius: var(--ring-border-radius);
+  background: inherit;
+
+  font-size: inherit;
+
+  &:focus {
+    outline: 1px solid var(--ring-border-hover-color);
+  }
+}
+
 .heading {
   padding: 6px 0;
 

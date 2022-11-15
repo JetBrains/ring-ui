@@ -128,12 +128,17 @@ export const EditableHeading = (props: EditableHeadingProps) => {
             </>
           )
           : (
-            <Heading
-              className={headingClasses}
-              level={level}
+            <button
+              type="button"
+              className={styles.headingWrapperButton}
               onClick={onHeadingClick}
-              data-test={dataTest}
-            >{children}</Heading>
+            >
+              <Heading
+                className={headingClasses}
+                level={level}
+                data-test={dataTest}
+              >{children}</Heading>
+            </button>
           )
         }
 
