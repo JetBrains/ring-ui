@@ -21,6 +21,8 @@
   --ring-border-hover-color: rgb(var(--ring-border-hover-components)); /* #70b1e6 */
   --ring-main-components: 0, 142, 255;
   --ring-main-color: rgb(var(--ring-main-components)); /* #008eff */
+  --ring-action-link-components: var(--ring-main-components);
+  --ring-action-link-color: rgb(var(--ring-main-components)); /* #008eff */
   --ring-main-hover-components: 0, 126, 229;
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #007ee5 */
   --ring-icon-error-components: 219, 88, 96;
