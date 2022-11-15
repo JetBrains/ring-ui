@@ -65,8 +65,8 @@ export const basic = () => {
 
   const renderMenu = () => (
     <>
-      <Button icon={pencilIcon} className="example-editable-heading__menu-button"/>
-      <Button icon={moreOptionsIcon} className="example-editable-heading__menu-button"/>
+      <Button icon={pencilIcon} className="example-editable-heading__menu-button" title="Edit"/>
+      <Button icon={moreOptionsIcon} className="example-editable-heading__menu-button" title="More Options"/>
     </>
   );
 
