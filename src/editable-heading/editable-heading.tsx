@@ -13,6 +13,11 @@ import styles from './editable-heading.css';
 export {Levels};
 export {Size};
 
+export interface EditableHeadingTranslations {
+  save: string;
+  cancel: string;
+}
+
 export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'size'> & {
   level?: Levels;
   headingClassName?: string | null;
@@ -29,6 +34,7 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
   'data-test'?: string | null;
   error?: string;
   renderMenu?: () => React.ReactNode;
+  translations?: EditableHeadingTranslations;
 };
 
 function noop() {}
@@ -39,7 +45,12 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     isEditing = false, isSavingPossible = false, isSaving = false, embedded = false,
     size = Size.L, onEdit = noop, onSave = noop, onCancel = noop,
     autoFocus = true, 'data-test': dataTest, error, disabled,
-    renderMenu = () => null, ...restProps
+    renderMenu = () => null,
+    translations = {
+      save: 'Save',
+      cancel: 'Cancel'
+    },
+    ...restProps
   } = props;
 
   const [shortcutsScope] = React.useState(getUID('ring-editable-heading-'));
@@ -138,13 +149,13 @@ export const EditableHeading = (props: EditableHeadingProps) => {
               disabled={isSaveDisabled}
               loader={isSaving}
               onClick={onSave}
-            >{'Save'}</Button>
+            >{translations.save}</Button>
 
             <Button
               className={styles.button}
               disabled={isCancelDisabled}
               onClick={onCancel}
-            >{'Cancel'}</Button>
+            >{translations.cancel}</Button>
           </>
         )}
       </div>
