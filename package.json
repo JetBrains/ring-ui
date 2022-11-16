@@ -218,7 +218,7 @@
     "css-loader": "^6.7.1",
     "csstype": "^3.1.1",
     "date-fns": "^2.29.3",
-    "deep-equal": "^2.0.4",
+    "deep-equal": "^2.1.0",
     "element-resize-detector": "^1.2.4",
     "es6-error": "^4.1.1",
     "eslint-plugin-react-hooks": "^4.6.0",
