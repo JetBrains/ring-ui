@@ -10,6 +10,7 @@ import closeIcon from '@jetbrains/icons/close-12px';
 
 import Icon, {IconType} from '../icon/icon';
 import Button from '../button/button';
+import {ControlsHeight} from '../global/controls-height';
 
 import styles from './tag.css';
 
@@ -167,6 +168,7 @@ export default class Tag extends PureComponent<TagProps> {
           iconClassName={styles.removeIcon}
           onClick={this.props.onRemove}
           style={{'--ring-icon-secondary-color': this.props.textColor}}
+          height={ControlsHeight.M}
         />
       );
     }
