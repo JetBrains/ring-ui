@@ -39,8 +39,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps> {
       this.turnShorcutsOn();
     }
     if (prevProps.map !== map) {
-      this.turnShorcutsOff();
-      this.turnShorcutsOn();
+      shortcuts.bindMap(map, this.props);
     }
   }
 
