@@ -133,7 +133,7 @@
     "events": "^3.3.0",
     "glob": "^8.0.3",
     "html-webpack-plugin": "^5.5.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.2",
     "identity-obj-proxy": "^3.0.0",
     "imports-loader": "^4.0.1",
     "jest": "~29.2.2",
