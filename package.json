@@ -225,7 +225,7 @@
     "extricate-loader": "^3.0.0",
     "fastdom": "^1.0.11",
     "file-loader": "^6.2.0",
-    "focus-trap": "^7.0.0",
+    "focus-trap": "^7.1.0",
     "focus-visible": "^5.2.0",
     "highlight.js": "^10.7.2",
     "html-loader": "^4.2.0",
