@@ -227,7 +227,7 @@
     "file-loader": "^6.2.0",
     "focus-trap": "^7.1.0",
     "focus-visible": "^5.2.0",
-    "highlight.js": "^10.7.2",
+    "highlight.js": "^11.6.0",
     "html-loader": "^4.2.0",
     "interpolate-loader": "^2.0.1",
     "just-debounce-it": "^3.1.1",
