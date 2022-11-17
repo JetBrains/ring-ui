@@ -34,7 +34,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.1.2",
-    "redux-thunk": "^2.4.1",
+    "redux-thunk": "^2.4.2",
     "yauzl": "^2.10.0"
   }
 }
