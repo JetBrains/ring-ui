@@ -211,6 +211,7 @@
   float: left;
 
   width: 20px;
+
   margin-right: unit;
 
   color: var(--ring-icon-secondary-color);
@@ -220,6 +221,11 @@
   composes: glyph;
 
   top: 0;
+
+  height: 20px;
+
+  object-fit: cover;
+  object-position: center;
 }
 
 .rightGlyph {
