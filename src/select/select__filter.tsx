@@ -6,8 +6,6 @@ import Input, {InputAttrs} from '../input/input';
 import sniffr from '../global/sniffer';
 import {ActiveItemContext} from '../list/list';
 
-import {ControlsHeight} from '../global/controls-height';
-
 import styles from './select-popup.css';
 
 function noop() {}
@@ -60,7 +58,6 @@ export default class SelectFilter extends Component<SelectFilterProps> {
             autoComplete="off"
             autoFocus
             borderless
-            height={ControlsHeight.L}
             inputRef={this.inputRef}
             className={classes}
           />

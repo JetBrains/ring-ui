@@ -23,6 +23,7 @@ import Caret from '../caret/caret';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import Text from '../text/text';
+import {ControlsHeight} from '../global/controls-height';
 
 import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 
@@ -294,11 +295,13 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           className={styles.filterWrapper}
           data-test="ring-select-popup-filter"
         >
-          <Icon
-            glyph={searchIcon}
-            className={styles.filterIcon}
-            data-test-custom="ring-select-popup-filter-icon"
-          />
+          {!this.props.tags && (
+            <Icon
+              glyph={searchIcon}
+              className={styles.filterIcon}
+              data-test-custom="ring-select-popup-filter-icon"
+            />
+          )}
           <FilterWithShortcuts
             rgShortcutsOptions={this.state.popupFilterShortcutsOptions}
             rgShortcutsMap={this.popupFilterShortcutsMap}
@@ -308,13 +311,15 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
             onBlur={this.popupFilterOnBlur}
             onFocus={this.onFilterFocus}
             className="ring-js-shortcuts"
+            inputClassName={classNames({[styles.filterWithTagsInput]: this.props.tags})}
             placeholder={typeof this.props.filter === 'object'
               ? this.props.filter.placeholder
               : undefined}
+            height={this.props.tags ? ControlsHeight.S : ControlsHeight.L}
 
             onChange={this.props.onFilter}
             onClick={this.onClickHandler}
-            onClear={this.props.onClear}
+            onClear={this.props.tags ? undefined : this.props.onClear}
 
             data-test-custom="ring-select-popup-filter-input"
             listId={this.props.listId}
