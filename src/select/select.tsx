@@ -672,6 +672,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           text
           className={styles.button}
           data-test="ring-select-reset-tags-button"
+          height={ControlsHeight.S}
         >
           {reset.label}
         </Button>
@@ -699,6 +700,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const anchorElement = this.props.targetElement || this.node;
     const {showPopup, shownData} = this.state;
     const _shownData = this._prependResetOption(shownData);
+
     let message;
 
     if (this.props.loading) {
