@@ -683,9 +683,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
   _prependResetOption(shownData: SelectItem<T>[]): SelectItem<T>[] {
     const resetOption = this._getResetOption();
-    const margin = {rgItemType: List.ListProps.Type.MARGIN} as SelectItem<T>;
     if (resetOption) {
-      const resetItems = [margin, resetOption, margin];
+      const resetItems = [resetOption];
       if (resetOption.separator) {
         resetItems.push({
           rgItemType: List.ListProps.Type.SEPARATOR

@@ -6,19 +6,34 @@
   overflow: hidden;
 
   margin: calc(unit * 2) unit 0;
-  padding: 1px;
+  padding: 3px;
 
   text-align: left;
 
   border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
 
   & .filterWrapper {
+    padding-right: 0;
+    padding-left: 0;
+
     border-bottom: none;
+  }
+
+  &:hover {
+    border-color: var(--ring-border-hover-color);
   }
 }
 
-.filterWithTagsFocused {
-  border: 1px solid var(--ring-border-hover-color);
+.filterWithTagsFocused,
+.filterWithTagsFocused.filterWithTagsFocused:hover {
+  border-color: var(--ring-main-color);
+}
+
+.filterWithTagsInput {
+  padding: 0;
+
+  border: none;
 }
 
 .filter {
