@@ -89,6 +89,20 @@
   }
 }
 
+.buttonGroup > .button:only-child,
+.buttonGroup > :only-child .button {
+  box-shadow:
+    0 1px var(--ring-button-group-button-border-color) inset,
+    0 -1px var(--ring-button-group-button-border-color) inset,
+    -1px 0 var(--ring-button-group-button-border-color) inset,
+    1px 0 var(--ring-button-group-button-border-color) inset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before {
+    display: none;
+  }
+}
+
 /* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button.button:hover,
 .buttonGroup .button.button:active {
