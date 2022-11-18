@@ -68,6 +68,7 @@
   border: none;
   border-bottom: 1px solid var(--ring-borders-color);
   outline: none;
+  background-color: transparent;
 
   font-family: var(--ring-font-family);
   font-weight: bold;
