@@ -16,6 +16,7 @@
 .buttonToolbar > :global(.ring-button-group),
 .buttonToolbar > .button,
 .buttonToolbar > .buttonGroup,
+.buttonToolbar > .split,
 .buttonToolbar > .buttonToolbar {
   margin-right: unit;
 }
