@@ -67,6 +67,12 @@
 
     border-color: var(--ring-border-hover-color);
   }
+
+  &:focus-within {
+    transition: none;
+
+    border-color: var(--ring-main-color);
+  }
 }
 
 .tagsSelect {
