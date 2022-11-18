@@ -1135,7 +1135,7 @@ describe('Select', () => {
       instance = getInstance();
       const newShownData = instance._prependResetOption([{key: 0}]);
 
-      newShownData.length.should.be.equal(4);
+      newShownData.length.should.be.equal(2);
     });
 
     it('should prepend reset option with separator', () => {
@@ -1143,7 +1143,7 @@ describe('Select', () => {
 
       const newShownData = instance._prependResetOption([{key: 0}]);
 
-      newShownData.length.should.be.equal(5);
+      newShownData.length.should.be.equal(3);
     });
 
     it('should not prepend reset option', () => {
