@@ -29,11 +29,6 @@ export const buttonGroup = () => (
     </div>
     <div>
       <ButtonGroup>
-        <Button>1st button</Button>
-      </ButtonGroup>
-    </div>
-    <div>
-      <ButtonGroup>
         <Button disabled>1st disabled</Button>
         <Button disabled active>2nd disabled</Button>
         <Button disabled>3rd disabled</Button>
