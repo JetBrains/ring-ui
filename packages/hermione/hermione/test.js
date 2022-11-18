@@ -1,11 +1,11 @@
 /* global hermione */
-import querystring from 'querystring';
+const querystring = require('querystring');
 
-import filenamify from 'filenamify';
+const filenamify = require('filenamify');
 
-import items from './stories.json' assert { type: "json" };
+const items = require('./stories.json');
 
-import Actions from './actions.js';
+const Actions = require('./actions');
 
 function addTestName(name, storyName) {
   return `${storyName}${name ? `-${name}` : ''}`;
