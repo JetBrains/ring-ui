@@ -22,7 +22,7 @@ export default class ButtonGroup extends PureComponent<ButtonGroupProps> {
 
   render() {
     const {className, split, 'data-test': dataTest, ...restProps} = this.props;
-    const classes = classNames(styles.buttonGroup, className, {[styles.split]: split});
+    const classes = classNames(split ? styles.split : styles.buttonGroup, className);
 
     return (
       <div
