@@ -129,7 +129,7 @@
     "eslint-plugin-bdd": "^2.1.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react": "^7.31.11",
     "events": "^3.3.0",
     "glob": "^8.0.3",
     "html-webpack-plugin": "^5.5.0",
