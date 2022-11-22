@@ -75,16 +75,15 @@
 
   color: var(--ring-heading-color);
 
-  font-size: calc(3 * unit);
-  font-weight: normal;
-  line-height: 28px;
+  font-size: 20px;
+  line-height: 24px;
 }
 
 :global(.ring-sidebar__title .tag-flag) {
   vertical-align: bottom;
 }
 
-.ring-sidebar__avatar ~ .ring-sidebar__title {
+:global(.ring-sidebar__avatar ~ .ring-sidebar__title) {
   margin-bottom: 42px;
 }
 
