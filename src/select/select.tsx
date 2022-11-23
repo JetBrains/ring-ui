@@ -1465,7 +1465,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   left: PropTypes.number,
   renderOptimization: PropTypes.bool,
   ringPopupTarget: PropTypes.string,
-  error: PropTypes.bool,
+  error: PropTypes.string,
   hint: List.ListHint.propTypes.label,
   add: PropTypes.object,
   type: PropTypes.oneOf(Object.values(Type)),
