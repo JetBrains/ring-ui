@@ -572,6 +572,9 @@ export const inputBasedInSuggestOnlyMode: Story<SelectAttrs> = args => <Select {
 inputBasedInSuggestOnlyMode.storyName = 'input-based in suggest-only mode';
 inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
 
+export const inputBasedWithError: Story<SelectAttrs> = args => <Select {...args}/>;
+inputBasedWithError.storyName = 'input-based with error';
+
 {
   const data = [...Array(20)].map((elem, idx) => ({label: `Item ${idx}`, key: idx}));
 
@@ -588,6 +591,13 @@ inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
     label: 'Placeholder without arrow',
     data,
     selected: data[1]
+  };
+
+  inputBasedWithError.args = {
+    type: Select.Type.INPUT,
+    data,
+    clear: true,
+    error: 'Error description that wraps over lines because of being really long'
   };
 }
 
