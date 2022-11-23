@@ -36,6 +36,8 @@ import {isArray} from '../global/typescript-utils';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
+import inputStyles from '../input/input.css';
+
 import SelectPopup, {Filter, FilterFn, Multiple, Tags} from './select__popup';
 import styles from './select.css';
 
@@ -191,6 +193,7 @@ export interface BaseSelectProps<T = unknown> {
   left?: number | undefined
   renderOptimization?: boolean | undefined
   ringPopupTarget?: string | null | undefined
+  error?: ReactNode | null | undefined
   hint?: ReactNode
   add?: Add | null | undefined
   compact?: boolean | null | undefined
@@ -1247,47 +1250,61 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     switch (this.props.type) {
       case Type.INPUT_WITHOUT_CONTROLS:
       case Type.INPUT: return (
-        <div
-          ref={this.nodeRef}
-          className={classNames(classes, styles.inputMode)}
-          data-test={dataTests('ring-select', dataTest)}
-        >
-          {shortcutsEnabled && (
-            <Shortcuts
-              map={this.getShortcutsMap()}
-              scope={this.shortcutsScope}
-            />
-          )}
-          <Input
-            {...ariaProps}
-            height={this.props.height}
-            autoComplete="off"
-            id={this.props.id}
-            onClick={this._clickHandler}
-            inputRef={this.filterRef}
-            disabled={this.props.disabled}
-            value={this.state.filterValue}
-            borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
-            style={style}
-            size={Size.FULL}
-            onChange={this._filterChangeHandler}
-            onFocus={this._focusHandler}
-            onBlur={this._blurHandler}
+        <>
+          <div
+            ref={this.nodeRef}
+            className={classNames(classes, styles.inputMode)}
+            data-test={dataTests('ring-select', dataTest)}
+          >
+            {shortcutsEnabled && (
+              <Shortcuts
+                map={this.getShortcutsMap()}
+                scope={this.shortcutsScope}
+              />
+            )}
+            <Input
+              {...ariaProps}
+              height={this.props.height}
+              autoComplete="off"
+              id={this.props.id}
+              onClick={this._clickHandler}
+              inputRef={this.filterRef}
+              disabled={this.props.disabled}
+              value={this.state.filterValue}
+              borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
+              style={style}
+              size={Size.FULL}
+              onChange={this._filterChangeHandler}
+              onFocus={this._focusHandler}
+              onBlur={this._blurHandler}
 
-            label={this.props.type === Type.INPUT ? this._getLabel() : null}
-            placeholder={this.props.inputPlaceholder}
-            onKeyDown={this.props.onKeyDown}
-            data-test="ring-select__focus"
-            enableShortcuts={shortcutsEnabled
-              ? Object.keys({
-                ...this.getShortcutsMap(),
-                ...this._popup?.list?.shortcutsMap
-              })
-              : undefined}
-            afterInput={this.props.type === Type.INPUT && iconsNode}
-          />
-          {this._renderPopup()}
-        </div>
+              // Input with error style without description
+              error={this.props.error != null ? '' : null}
+              label={this.props.type === Type.INPUT ? this._getLabel() : null}
+              placeholder={this.props.inputPlaceholder}
+              onKeyDown={this.props.onKeyDown}
+              data-test="ring-select__focus"
+              enableShortcuts={shortcutsEnabled
+                ? Object.keys({
+                  ...this.getShortcutsMap(),
+                  ...this._popup?.list?.shortcutsMap
+                })
+                : undefined}
+              afterInput={this.props.type === Type.INPUT && iconsNode}
+            />
+            {this._renderPopup()}
+          </div>
+          {this.props.error && (
+            <div
+              className={classNames(
+                inputStyles.errorText,
+                inputStyles[`size${this.props.size}`],
+              )}
+            >
+              {this.props.error}
+            </div>
+          )}
+        </>
       );
       case Type.BUTTON:
         return (
@@ -1448,6 +1465,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   left: PropTypes.number,
   renderOptimization: PropTypes.bool,
   ringPopupTarget: PropTypes.string,
+  error: PropTypes.bool,
   hint: List.ListHint.propTypes.label,
   add: PropTypes.object,
   type: PropTypes.oneOf(Object.values(Type)),
