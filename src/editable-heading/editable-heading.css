@@ -36,6 +36,10 @@
   &:focus {
     outline: 1px solid var(--ring-border-hover-color);
   }
+
+  @nest .disabled &:focus {
+    outline: none;
+  }
 }
 
 .heading {
