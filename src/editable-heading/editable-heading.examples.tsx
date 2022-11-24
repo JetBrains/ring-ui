@@ -96,6 +96,16 @@ export const basic = () => {
       <ExampleEditableHeading renderMenu={renderMenu}>Heading with menu</ExampleEditableHeading>
       {lorem}
 
+      <ExampleEditableHeading size={Size.FULL} renderMenu={renderMenu}>
+        Full size heading with menu
+      </ExampleEditableHeading>
+      {lorem}
+
+      <ExampleEditableHeading size={Size.M}>
+        Too long long long long long long long heading
+      </ExampleEditableHeading>
+      {lorem}
+
       <ExampleEditableHeading error="">Invalid Heading</ExampleEditableHeading>
       {lorem}
 

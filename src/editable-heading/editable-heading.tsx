@@ -71,13 +71,13 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   }), [isSaveDisabled, isCancelDisabled, onSave, onCancel]);
 
   const classes = classNames(styles.editableHeading, className, {
-    [styles.fullSize]: size === Size.FULL,
+    [styles.fullSize]: isEditing && size === Size.FULL,
     [styles.isEditing]: isEditing,
     [styles.error]: hasError,
     [styles.disabled]: disabled
   });
 
-  const headingClasses = classNames(styles.heading, headingClassName);
+  const headingClasses = classNames(styles.heading, headingClassName, styles[`size${size}`]);
 
   const inputClasses = classNames(
     'ring-js-shortcuts',
