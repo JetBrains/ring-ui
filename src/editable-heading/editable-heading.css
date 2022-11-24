@@ -4,6 +4,8 @@
   display: flex;
   align-items: center;
 
+  max-width: 100%;
+
   &.fullSize {
     width: 100%;
   }
@@ -13,13 +15,8 @@
   }
 }
 
-.heading.heading {
-  margin-bottom: 0;
-
-  line-height: 28px;
-}
-
 .headingWrapperButton {
+  max-width: 100%;
   margin: 0;
   padding: 0;
 
@@ -43,9 +40,14 @@
 }
 
 .heading {
+  overflow: hidden;
+
   padding: 6px 0;
 
   cursor: pointer;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   border-radius: var(--ring-border-radius);
 
@@ -58,6 +60,12 @@
 
     background-color: initial;
   }
+}
+
+.heading.heading {
+  margin-bottom: 0;
+
+  line-height: 28px;
 }
 
 .input {
@@ -124,4 +132,20 @@
 
 .level3 {
   font-size: 14px;
+}
+
+.sizeS {
+  max-width: calc(unit * 12);
+}
+
+.sizeM {
+  max-width: calc(unit * 30);
+}
+
+.sizeL {
+  max-width: calc(unit * 50);
+}
+
+.sizeFULL {
+  max-width: 100%;
 }
