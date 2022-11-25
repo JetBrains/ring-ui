@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import Icon, {IconType} from '../icon/icon';
 import {Size} from '../icon/icon__constants';
 
+import dataTests from '../global/data-tests';
+
 import styles from './error-message.css';
 
 export interface ErrorMessageProps {
@@ -14,6 +16,7 @@ export interface ErrorMessageProps {
   message?: string | null | undefined
   description?: string | null | undefined
   className?: string | null | undefined
+  'data-test'?: string | null | undefined
 }
 
 /**
@@ -27,16 +30,18 @@ export default class ErrorMessage extends Component<ErrorMessageProps> {
     message: PropTypes.string,
     description: PropTypes.string,
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
+    'data-test': PropTypes.string
   };
 
 
   render() {
-    const {className, icon, code, message, description, children} = this.props;
+    const {className, icon, code, message, description, children,
+      'data-test': dataTest} = this.props;
     const classes = classNames(styles.errorMessage, className);
 
     return (
-      <div className={classes}>
+      <div className={classes} data-test={dataTests('ring-error-message', dataTest)}>
         {icon && (
           <Icon
             className={styles.icon}
