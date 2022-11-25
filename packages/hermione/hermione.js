@@ -48,7 +48,7 @@ module.exports = callback => kill(browserstackPort).catch(() => {}).then(() => {
     });
     const hermioneProcess = exec(
       // eslint-disable-next-line no-magic-numbers
-      `../../node_modules/.bin/hermione ${process.argv.slice(2).join(' ')}`,
+      `npx hermione ${process.argv.slice(2).join(' ')}`,
       {maxBuffer: STDOUT_BUFFER_SIZE},
       error => {
         console.log('hermione execution have been done, error =', error);
