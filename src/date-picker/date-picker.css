@@ -1,5 +1,6 @@
 @import "../global/variables.css";
 @import "../global/global.css";
+@import "../input-size/input-size.css";
 
 @value unit from "../global/global.css";
 @value cellSize: calc(unit * 3);
@@ -33,6 +34,26 @@
 
   &.inline {
     padding: 0;
+  }
+
+  &.sizeS {
+    width: var(--ring-input-s);
+  }
+
+  &.sizeM {
+    width: var(--ring-input-m);
+  }
+
+  &.sizeL {
+    width: var(--ring-input-l);
+  }
+
+  &.sizeFULL {
+    width: 100%;
+  }
+
+  &.sizeAUTO {
+    max-width: 100%;
   }
 }
 
@@ -95,10 +116,11 @@
 }
 
 .anchor {
-  min-width: calc(unit * 30);
+  width: 100%;
   padding: 0 unit;
 
   text-align: start;
+  white-space: nowrap;
 
   @nest .inline & {
     min-width: initial;
