@@ -84,6 +84,7 @@ export interface QueryAssistProps {
   clear?: boolean | null | undefined
   className?: string | null | undefined
   popupClassName?: string | null | undefined
+  inputClassName?: string | null | undefined
   dataSource: (params: QueryAssistRequestParams) => Promise<QueryAssistResponse> |
     QueryAssistResponse
   delay?: number | null | undefined
@@ -191,6 +192,10 @@ export default class QueryAssist extends Component<QueryAssistProps> {
      * Additional class for the popup
      */
     popupClassName: PropTypes.string,
+    /**
+     * Additional class for the input
+     */
+    inputClassName: PropTypes.string,
     /**
      * Data source function
      */
@@ -1019,7 +1024,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       [styles.huge]: huge
     });
 
-    const inputClasses = classNames({
+    const inputClasses = classNames(this.props.inputClassName, {
       [`${styles.input} ring-js-shortcuts`]: true,
       [styles.inputGap]: actions.length || this.isRenderingGlassOrLoader() && !glass,
       [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
