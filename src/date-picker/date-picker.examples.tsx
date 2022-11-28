@@ -1,15 +1,22 @@
 import React, {Component} from 'react';
+import {Story} from '@storybook/react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import DatePicker from './date-picker';
+import {Size} from '../input/input';
+
+import DatePicker, {DatePickerAttrs} from './date-picker';
 import {DatePickerChange} from './consts';
+
+const {size, inline} = DatePicker.defaultProps;
 
 export default {
   title: 'Components/Date Picker',
   decorators: [reactDecorator()],
 
   parameters: {
+    component: DatePicker,
+    framework: 'react',
     notes:
       'Allows picking a date or a date range. Uses [date-fns](https://date-fns.org) under the hood.',
 
@@ -24,10 +31,20 @@ export default {
       ]
     },
     zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/5b0d1f6c877adb4d06c959ef'
+  },
+  args: {
+    size,
+    inline
+  },
+  argTypes: {
+    size: {
+      options: Object.keys(Size),
+      control: {type: 'select'}
+    }
   }
 };
 
-export const singleDate = () => {
+export const singleDate: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.01.18'};
 
@@ -38,7 +55,7 @@ export const singleDate = () => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} onChange={this.setDate}/>
+          <DatePicker date={this.state.date} onChange={this.setDate} {...args}/>
         </div>
       );
     }
@@ -49,7 +66,7 @@ export const singleDate = () => {
 
 singleDate.storyName = 'single date';
 
-export const singleDateAndTime = () => {
+export const singleDateAndTime: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       date: '8 January 2020, 9:45'
@@ -67,6 +84,7 @@ export const singleDateAndTime = () => {
             onChange={this.setDate}
             withTime
             clear
+            {...args}
           />
         </div>
       );
@@ -91,7 +109,7 @@ singleDateAndTime.parameters = {
 
 singleDateAndTime.storyName = 'single date and time';
 
-export const range = () => {
+export const range: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: '1 January 2018',
@@ -105,7 +123,13 @@ export const range = () => {
     render() {
       return (
         <div>
-          <DatePicker from={this.state.from} to={this.state.to} onChange={this.setRange} range/>
+          <DatePicker
+            from={this.state.from}
+            to={this.state.to}
+            onChange={this.setRange}
+            range
+            {...args}
+          />
         </div>
       );
     }
@@ -115,7 +139,7 @@ export const range = () => {
 
 range.storyName = 'range';
 
-export const clearable = () => {
+export const clearable: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.01.18'};
 
@@ -126,7 +150,7 @@ export const clearable = () => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} clear/>
+          <DatePicker date={this.state.date} onChange={this.setDate} clear {...args}/>
         </div>
       );
     }
@@ -137,7 +161,7 @@ export const clearable = () => {
 
 clearable.storyName = 'clearable';
 
-export const singleWithMinMax = () => {
+export const singleWithMinMax: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
@@ -154,6 +178,7 @@ export const singleWithMinMax = () => {
             clear
             minDate="25 January 2018"
             maxDate="5 February 2018"
+            {...args}
           />
         </div>
       );
@@ -165,7 +190,7 @@ export const singleWithMinMax = () => {
 
 singleWithMinMax.storyName = 'single with min-max dates';
 
-export const singleWithMin = () => {
+export const singleWithMin: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
@@ -181,6 +206,7 @@ export const singleWithMin = () => {
             onChange={this.setDate}
             clear
             minDate="25 January 2018"
+            {...args}
           />
         </div>
       );
@@ -192,7 +218,7 @@ export const singleWithMin = () => {
 
 singleWithMin.storyName = 'single with min date';
 
-export const singleWithMax = () => {
+export const singleWithMax: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
@@ -208,6 +234,7 @@ export const singleWithMax = () => {
             onChange={this.setDate}
             clear
             maxDate="5 February 2018"
+            {...args}
           />
         </div>
       );
@@ -219,7 +246,7 @@ export const singleWithMax = () => {
 
 singleWithMax.storyName = 'single with max date';
 
-export const rangeWithMinMax = () => {
+export const rangeWithMinMax: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: '27 January 2018',
@@ -241,6 +268,7 @@ export const rangeWithMinMax = () => {
             minDate="25 January 2018"
             maxDate="5 February 2018"
             range
+            {...args}
           />
         </div>
       );
@@ -252,7 +280,7 @@ export const rangeWithMinMax = () => {
 
 rangeWithMinMax.storyName = 'range with min-max dates';
 
-export const rangeWithMin = () => {
+export const rangeWithMin: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: '27 January 2018',
@@ -273,6 +301,7 @@ export const rangeWithMin = () => {
             clear
             minDate="25 January 2018"
             range
+            {...args}
           />
         </div>
       );
@@ -284,7 +313,7 @@ export const rangeWithMin = () => {
 
 rangeWithMin.storyName = 'range with min date';
 
-export const rangeWithMax = () => {
+export const rangeWithMax: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: '27 January 2018',
@@ -305,6 +334,7 @@ export const rangeWithMax = () => {
             clear
             maxDate="5 February 2018"
             range
+            {...args}
           />
         </div>
       );
@@ -316,7 +346,7 @@ export const rangeWithMax = () => {
 
 rangeWithMax.storyName = 'range with max date';
 
-export const rangeWithCustomPlaceholders = () => {
+export const rangeWithCustomPlaceholders: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: undefined,
@@ -339,6 +369,7 @@ export const rangeWithCustomPlaceholders = () => {
             rangePlaceholder="Set range"
             clear
             range
+            {...args}
           />
         </div>
       );
@@ -354,7 +385,7 @@ rangeWithCustomPlaceholders.parameters = {
   hermione: {skip: true}
 };
 
-export const renderInline = () => {
+export const renderInline: Story<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       date: '8 January 2020, 9:45'
@@ -373,6 +404,7 @@ export const renderInline = () => {
             withTime
             clear
             inline
+            {...args}
           />
         </div>
       );
@@ -387,3 +419,76 @@ renderInline.parameters = {
 };
 
 renderInline.storyName = 'inline';
+
+
+export const allSizes = () => {
+  class DatePickerExample extends Component {
+    state = {
+      date: '8 January 2020, 9:45'
+    };
+
+    setDate = (date: Date | null | undefined) => {
+      this.setState({date});
+    };
+
+    render() {
+      return (
+        <div style={{width: '100%'}} data-test="root">
+          <div className="block">
+            <span className="label">M</span>
+            <DatePicker
+              date={this.state.date}
+              onChange={this.setDate}
+              size={Size.M}
+            />
+          </div>
+          <div className="block">
+            <span className="label">L</span>
+            <DatePicker
+              date={this.state.date}
+              onChange={this.setDate}
+              size={Size.L}
+            />
+          </div>
+          <div className="block">
+            <span className="label">FULL</span>
+            <DatePicker
+              date={this.state.date}
+              onChange={this.setDate}
+              size={Size.FULL}
+            />
+          </div>
+          <div className="block">
+            <span className="label">AUTO</span>
+            <DatePicker
+              date={this.state.date}
+              onChange={this.setDate}
+              size={Size.AUTO}
+            />
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return <DatePickerExample/>;
+};
+
+allSizes.storyName = 'all sizes';
+allSizes.parameters = {
+  storyStyles: `
+<style>
+  .block {
+    padding: 8px 0;
+  }
+  .label {
+    display: block;
+  }
+</style>
+      `,
+  hermione: {
+    actions: [
+      {type: 'capture', name: 'datepickers', selector: ['[data-test~=root]']}
+    ]
+  }
+};
