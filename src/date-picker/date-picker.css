@@ -34,6 +34,26 @@
   &.inline {
     padding: 0;
   }
+
+  &.sizeS {
+    width: calc(unit * 12);
+  }
+
+  &.sizeM {
+    width: calc(unit * 30);
+  }
+
+  &.sizeL {
+    width: calc(unit * 50);
+  }
+
+  &.sizeFULL {
+    width: 100%;
+  }
+
+  &.sizeAUTO {
+    max-width: 100%;
+  }
 }
 
 .displayDate {
@@ -95,10 +115,11 @@
 }
 
 .anchor {
-  min-width: calc(unit * 30);
+  width: 100%;
   padding: 0 unit;
 
   text-align: start;
+  white-space: nowrap;
 
   @nest .inline & {
     min-width: initial;
