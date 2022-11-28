@@ -21,6 +21,8 @@ import Icon from '../icon';
 import Button from '../button/button';
 import Link from '../link/link';
 
+import {Size} from '../input/input';
+
 import DatePopup, {DatePopupProps} from './date-popup';
 import {DateInputTranslations, DatePickerChange, dateType} from './consts';
 import styles from './date-picker.css';
@@ -97,6 +99,7 @@ export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateIn
   rangePlaceholder: string
   disabled?: boolean | null | undefined
   parseDateInput: (input: string | null | undefined) => Date | null
+  size?: Size
 }
 
 /**
@@ -129,7 +132,8 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     minDate: dateType,
     maxDate: dateType,
     translations: PropTypes.object,
-    locale: PropTypes.object
+    locale: PropTypes.object,
+    size: PropTypes.oneOf(Object.values(Size))
   };
 
   static defaultProps: DatePickerProps = {
@@ -141,6 +145,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     to: null,
     clear: false,
     inline: false,
+    size: Size.M,
     displayFormat: (date, locale) => (date ? formatDate(date, 'd MMM yyyy', {locale}) : ''),
     displayMonthFormat: (date, locale) => (date ? formatDate(date, 'd MMM', {locale}) : ''),
     displayDayFormat: (date, locale) => (date ? formatDate(date, 'd', {locale}) : ''),
@@ -305,6 +310,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     const classes = classNames(
       styles.datePicker,
       className,
+      styles[`size${this.props.size}`],
       {
         [styles.inline]: inline
       }
