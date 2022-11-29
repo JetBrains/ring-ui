@@ -1370,6 +1370,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             )}
             <Anchor
               {...ariaProps}
+              className={this.props.buttonClassName ?? undefined}
               id={this.props.id}
               onClick={this._clickHandler}
               data-test="ring-select__focus"
