@@ -1146,6 +1146,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const {selected} = this.state;
     const {disabled, clear, hideArrow} = this.props;
     const icons = [];
+    const height = this.props.height || (this.context as ControlsHeight);
 
     if (!Array.isArray(selected) && selected?.icon) {
       icons.push(
@@ -1170,6 +1171,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           key="close"
           disabled={this.props.disabled}
           onClick={this.clear}
+          height={height}
           icon={closeIcon}
         />
       );
@@ -1184,6 +1186,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           icon={chevronDownIcon}
           key="hide"
           disabled={this.props.disabled}
+          height={height}
           onClick={this._clickHandler}
         />
       );
@@ -1236,7 +1239,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     const style = getStyle(icons.length);
 
-    const iconsNode = <span className={styles.icons}>{icons}</span>;
+    const iconsNode = <div className={styles.icons}>{icons}</div>;
     const ariaProps = this.state.showPopup
       ? {
         'aria-owns': this.listId,
