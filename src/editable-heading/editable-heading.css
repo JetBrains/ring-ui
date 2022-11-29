@@ -16,6 +16,7 @@
 }
 
 .headingWrapperButton {
+  min-width: 0;
   max-width: 100%;
   margin: 0;
   padding: 0;
