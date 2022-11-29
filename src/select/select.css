@@ -40,20 +40,13 @@
 
 .icons {
   position: absolute;
-  top: -3px;
+  top: 0;
   right: 5px;
+  bottom: 0;
 
   transition: color var(--ring-ease);
 
   color: var(--ring-icon-secondary-color);
-
-  line-height: calc(unit * 4);
-
-  & :global(.ring-loader_inline) {
-    top: 2px;
-
-    margin-right: 2px;
-  }
 
   @nest .inputMode & {
     font-size: var(--ring-font-size);
@@ -234,8 +227,4 @@
   transition: none;
 
   color: inherit;
-}
-
-.heightS .icons {
-  top: -5px;
 }
