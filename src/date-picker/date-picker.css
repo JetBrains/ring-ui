@@ -90,6 +90,8 @@
 
   user-select: none;
   text-align: left;
+
+  color: var(--ring-text-color);
 }
 
 .datePopup * {
