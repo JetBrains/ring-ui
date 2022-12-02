@@ -81,7 +81,7 @@
   margin-right: unit;
 }
 
-.close {
+.close.close {
   position: absolute;
   top: 2px;
   right: 0;
