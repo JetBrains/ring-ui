@@ -7,6 +7,8 @@
   padding: unit;
 
   text-align: left;
+
+  color: var(--ring-text-color);
 }
 
 .long {
