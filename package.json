@@ -103,7 +103,7 @@
     "@types/chai-dom": "0.0.10",
     "@types/chai-enzyme": "^0.6.8",
     "@types/enzyme": "^3.10.12",
-    "@types/react": "^18.0.25",
+    "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@types/sinon": "^10.0.13",
     "@types/sinon-chai": "^3.2.9",
