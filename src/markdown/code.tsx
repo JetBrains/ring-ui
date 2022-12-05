@@ -5,13 +5,11 @@ import {CodeProps, ComponentType} from 'react-markdown/lib/ast-to-react';
 
 import Code from '../code/code';
 
-declare module 'react-markdown/lib/complex-types' {
-  interface ReactMarkdownProps {
-    language?: string
-  }
+export interface MarkdownCodeProps extends CodeProps {
+  language?: string
 }
 
-const MarkdownCode = ({children, language, inline, className}: CodeProps) => {
+const MarkdownCode = ({children, language, inline, className}: MarkdownCodeProps) => {
   // Hack for updated react-markdown RG-2193
   const lang = language ?? (
     className?.
@@ -30,7 +28,7 @@ const MarkdownCode = ({children, language, inline, className}: CodeProps) => {
   );
 };
 
-(MarkdownCode as ComponentType<CodeProps>).propTypes = {
+(MarkdownCode as ComponentType<MarkdownCodeProps>).propTypes = {
   language: PropTypes.string,
   children: PropTypes.array.isRequired,
   inline: PropTypes.bool
