@@ -202,8 +202,6 @@
 
 :global(.ring-table__column_gap) {
   padding-left: calc(unit * 2) !important;
-
-  border-right-style: solid;
 }
 
 :global(.ring-table__column-title) {
