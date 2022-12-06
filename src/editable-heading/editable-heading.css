@@ -21,6 +21,8 @@
   margin: 0;
   padding: 0;
 
+  cursor: pointer;
+
   text-align: inherit;
 
   color: inherit;
@@ -38,19 +40,6 @@
   @nest .disabled &:focus {
     outline: none;
   }
-}
-
-.heading {
-  overflow: hidden;
-
-  padding: 6px 0;
-
-  cursor: pointer;
-
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  border-radius: var(--ring-border-radius);
 
   &:hover {
     background-color: var(--ring-hover-background-color);
@@ -63,8 +52,22 @@
   }
 }
 
+.heading {
+  display: -webkit-box;
+  overflow: hidden;
+
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+
+  border-radius: var(--ring-border-radius);
+
+  @nest .multiline & {
+    -webkit-line-clamp: 3;
+  }
+}
+
 .heading.heading {
-  margin-bottom: 0;
+  margin: 6px 0;
 
   line-height: 28px;
 }

@@ -106,6 +106,16 @@ export const basic = () => {
       </ExampleEditableHeading>
       {lorem}
 
+      <ExampleEditableHeading multiline>
+        Multiline Heading.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio tellus.
+        Suspendisse ut elit orci. Pellentesque sagittis pharetra lacus, id vehicula mauris.
+        Donec lacinia tincidunt risus, et sollicitudin risus dignissim sit amet.
+        Duis eu lectus ac odio pharetra egestas in eget ipsum. Curabitur luctus lacinia molestie.
+        Nullam id metus tortor.
+      </ExampleEditableHeading>
+      {lorem}
+
       <ExampleEditableHeading error="">Invalid Heading</ExampleEditableHeading>
       {lorem}
 
