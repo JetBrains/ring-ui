@@ -33,6 +33,7 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
   onCancel?: () => void;
   'data-test'?: string | null;
   error?: string;
+  multiline?: boolean;
   renderMenu?: () => React.ReactNode;
   translations?: EditableHeadingTranslations;
 };
@@ -44,7 +45,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     level = Levels.H1, className, headingClassName, inputClassName, children,
     isEditing = false, isSavingPossible = false, isSaving = false, embedded = false,
     size = Size.L, onEdit = noop, onSave = noop, onCancel = noop,
-    autoFocus = true, 'data-test': dataTest, error, disabled,
+    autoFocus = true, 'data-test': dataTest, error, disabled, multiline = false,
     renderMenu = () => null,
     translations = {
       save: 'Save',
@@ -74,7 +75,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     [styles.fullSize]: isEditing && size === Size.FULL,
     [styles.isEditing]: isEditing,
     [styles.error]: hasError,
-    [styles.disabled]: disabled
+    [styles.disabled]: disabled,
+    [styles.multiline]: multiline
   });
 
   const headingClasses = classNames(styles.heading, headingClassName, styles[`size${size}`]);
