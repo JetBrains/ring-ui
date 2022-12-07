@@ -48,6 +48,8 @@
 
   color: var(--ring-icon-secondary-color);
 
+  line-height: normal;
+
   @nest .inputMode & {
     font-size: var(--ring-font-size);
   }
