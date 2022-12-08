@@ -150,11 +150,12 @@
   left: 1px;
 
   display: block;
-
   overflow: hidden;
 
   width: calc(100% - unit * 4);
   padding-left: var(--ring-input-padding-start);
+
+  white-space: nowrap;
 
   text-overflow: ellipsis;
 
