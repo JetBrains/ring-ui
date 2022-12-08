@@ -2,6 +2,8 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.ScriptBuildStep
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -10,6 +12,49 @@ To apply the patch, change the buildType with id = 'GeminiTests'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("GeminiTests")) {
+    expectSteps {
+        script {
+            name = "Run hermione"
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                
+                mkdir node_modules
+                npm install
+                
+                cd packages/hermione
+                # ! We run tests against built Storybook from another build configuration
+                npm run test-ci
+            """.trimIndent()
+            dockerImage = "node:16"
+            dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+        }
+    }
+    steps {
+        update<ScriptBuildStep>(0) {
+            clearConditions()
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                
+                mkdir -p node_modules
+                npm install
+                
+                cd packages/hermione
+                # ! We run tests against built Storybook from another build configuration
+                npm run test-ci
+            """.trimIndent()
+        }
+    }
+
     features {
         remove {
             commitStatusPublisher {
