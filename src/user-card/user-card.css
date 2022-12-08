@@ -32,6 +32,13 @@
   font-weight: 600;
 }
 
+.userNameInfo {
+  display: inline-block;
+
+  margin-right: 4px;
+  margin-bottom: 3px;
+}
+
 .userActiveStatus {
   display: inline-block;
 
