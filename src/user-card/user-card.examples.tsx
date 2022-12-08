@@ -8,6 +8,8 @@ import {createHubUserCardSource} from '../hub-source/hub-source__user';
 
 import {avatarDataUri} from '../avatar/avatar-example-datauri';
 
+import Badge from '../badge/badge';
+
 import {UserCard, UserCardTooltip, SmartUserCardTooltip} from './user-card';
 
 export default {
@@ -33,7 +35,7 @@ export const inline = () => {
       <div>Inline user card:</div>
       <UserCard user={user} data-test="user-card-inline"/>
 
-      <UserCardTooltip user={user}>
+      <UserCardTooltip user={user} info={<Badge gray>{'Reporter'}</Badge>}>
         <span>Hover this text see card in tooltip mode</span>
       </UserCardTooltip>
     </div>
