@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, PureComponent} from 'react';
+import React, {HTMLAttributes, PureComponent, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -26,11 +26,13 @@ export interface UserCardWording {
 export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
   user: UserCardUser
   wording: UserCardWording
+  info?: ReactElement | readonly ReactElement[] | string,
   'data-test'?: string | null | undefined
 }
 export default class UserCard extends PureComponent<UserCardProps> {
   static propTypes = {
     children: PropTypes.node,
+    info: PropTypes.node,
     className: PropTypes.string,
 
     user: PropTypes.shape({
@@ -60,7 +62,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
   };
 
   render() {
-    const {children, className, user, wording, ...restProps} = this.props;
+    const {children, info, className, user, wording, ...restProps} = this.props;
 
     const classes = classNames(className, {});
     const userActiveStatusClasses = classNames(
@@ -86,6 +88,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
                 </Link>
               )}
               {!user.href && <span className={styles.userName}>{user.name}</span>}
+              {!!info && <span className={styles.userNameInfo}>{info}</span>}
               {
                 user.banned &&
                 (
