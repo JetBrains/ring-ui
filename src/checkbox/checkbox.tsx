@@ -1,10 +1,12 @@
-import React, {PureComponent, InputHTMLAttributes, CSSProperties} from 'react';
+import React, {PureComponent, InputHTMLAttributes, CSSProperties, Ref} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import checkmarkIcon from '@jetbrains/icons/checkmark-14px';
 import minusIcon from '@jetbrains/icons/remove-10px';
 
 import Icon from '../icon/icon';
+import {refObject} from '../global/prop-types';
+import composeRefs from '../global/composeRefs';
 
 import styles from './checkbox.css';
 
@@ -15,6 +17,7 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   cellClassName?: string | null | undefined
   labelClassName?: string | null | undefined
   indeterminate: boolean
+  inputRef?: Ref<HTMLInputElement>
 }
 
 /**
@@ -37,7 +40,11 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
     indeterminate: PropTypes.bool,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
-    children: PropTypes.node
+    children: PropTypes.node,
+    inputRef: PropTypes.oneOfType([
+      PropTypes.func,
+      refObject(PropTypes.instanceOf(HTMLInputElement))
+    ])
   };
 
   static defaultProps = {
@@ -76,6 +83,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
       cellClassName,
       labelClassName,
       indeterminate,
+      inputRef,
       ...restProps
     } = this.props;
 
@@ -93,7 +101,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
         <input
           {...restProps}
           data-checked={restProps.checked}
-          ref={this.inputRef}
+          ref={composeRefs(this.inputRef, inputRef)}
           type="checkbox"
           className={classes}
         />
