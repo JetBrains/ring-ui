@@ -15,6 +15,7 @@
   position: relative;
 
   display: flex;
+  align-items: center;
 
   box-sizing: border-box;
 
@@ -43,6 +44,8 @@
 }
 
 .input {
+  overflow: auto;
+
   width: 100%;
 
   margin: 0;
@@ -54,6 +57,7 @@
   cursor: text;
 
   transition: border-color var(--ring-ease);
+  white-space: nowrap;
 
   color: var(--ring-text-color);
   border: 1px solid var(--ring-borders-color);
@@ -62,6 +66,7 @@
   background: transparent;
 
   font: inherit;
+  scrollbar-width: none;
 
   caret-color: var(--ring-main-color);
 
@@ -146,7 +151,6 @@
   composes: resetButton from "../global/global.css";
 
   position: absolute;
-  top: calc(var(--ring-input-padding-block) + 1px);
   left: 1px;
 
   display: block;
@@ -170,7 +174,6 @@
 
 .actions {
   position: absolute;
-  top: calc(var(--ring-input-padding-block) - 2px);
   right: var(--ring-input-padding-inline);
 
   height: auto;
@@ -185,7 +188,6 @@
 
 .icon {
   position: absolute;
-  top: calc(var(--ring-input-padding-block) + 1px);
   left: var(--ring-input-padding-inline);
 
   color: var(--ring-icon-secondary-color);
