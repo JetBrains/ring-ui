@@ -53,7 +53,7 @@ export const smartTooltip = () => {
     href: `${hubConfig.serverUri}/users/0`,
     banned: true,
     online: false,
-    banReason: 'Bad guy: is accused of stealing potatoes'
+    banReason: 'Bad guy: is accused of stealing potatoes!'
   };
 
   function loadUser() {
