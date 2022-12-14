@@ -1021,15 +1021,15 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const containerClasses = classNames(className, inputStyles[`size${huge ? Size.FULL : size}`], {
       [styles.queryAssist]: true,
       [styles.withIcon]: (renderGlass && !huge) || renderLoader,
-      [styles.huge]: huge
+      [styles.huge]: huge,
+      [styles.queryAssistDisabled]: this.props.disabled
     });
 
     const inputClasses = classNames(this.props.inputClassName, {
       [`${styles.input} ring-js-shortcuts`]: true,
       [styles.inputGap]: actions.length || this.isRenderingGlassOrLoader() && !glass,
       [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
-      [styles.inputLeftGap]: this.isRenderingGlassOrLoader() && glass,
-      [styles.inputDisabled]: this.props.disabled
+      [styles.inputLeftGap]: this.isRenderingGlassOrLoader() && glass
     });
 
     return (
