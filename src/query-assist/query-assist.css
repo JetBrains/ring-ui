@@ -78,11 +78,6 @@
 
   caret-color: var(--ring-main-color);
 
-  @nest [dir=rtl] & {
-    padding-right: var(--ring-input-padding-start);
-    padding-left: var(--ring-input-padding-end);
-  }
-
   &:hover {
     transition: none;
 
@@ -161,6 +156,12 @@
   pointer-events: none;
 
   color: var(--ring-disabled-color);
+
+  @nest [dir=rtl] & {
+    padding-right: calc(unit * 3 - var(--ring-input-padding-block));
+
+    text-align: right;
+  }
 }
 
 .letter {
@@ -174,13 +175,12 @@
 
   height: 100%;
   max-height: calc(var(--ring-input-padding-inline) * 2);
-  padding-left: unit;
+  padding-left: var(--ring-input-padding-inline);
 
   line-height: inherit;
 
   @nest [dir=rtl] & {
-    right: auto;
-    left: unit;
+    padding: 0 var(--ring-input-padding-inline) 0 0;
   }
 }
 
@@ -190,8 +190,7 @@
   color: var(--ring-icon-secondary-color);
 
   @nest [dir=rtl] & {
-    right: unit;
-    left: auto;
+    padding: 0 0 0 var(--ring-input-padding-inline);
   }
 }
 
@@ -226,6 +225,11 @@
   top: 1px;
 
   padding-right: 0;
+
+  @nest [dir=rtl] & {
+    padding-right: var(--ring-input-padding-inline);
+    padding-left: 0;
+  }
 }
 
 .loaderOnTheRight {
@@ -240,4 +244,8 @@
 
 .withoutGlass {
   padding-left: 0;
+
+  @nest [dir=rtl] & {
+    padding-right: 0;
+  }
 }
