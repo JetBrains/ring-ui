@@ -1034,7 +1034,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     const placeholderStyles = classNames({
       [styles.placeholder]: true,
-      [styles.withoutGlass]: !glass
+      [styles.withoutGlass]: !renderGlass
     });
 
     return (
