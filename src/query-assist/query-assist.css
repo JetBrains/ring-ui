@@ -16,6 +16,7 @@
 
   display: flex;
   align-items: center;
+  justify-content: center;
 
   box-sizing: border-box;
 
@@ -47,7 +48,7 @@
   overflow: auto;
 
   width: 100%;
-
+  min-height: inherit;
   margin: 0;
   padding-top: var(--ring-input-padding-block);
   padding-right: var(--ring-input-padding-end);
