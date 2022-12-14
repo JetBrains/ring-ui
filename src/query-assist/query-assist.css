@@ -18,6 +18,7 @@
   align-items: center;
 
   box-sizing: border-box;
+  min-height: calc(var(--ring-input-padding-inline) * 3);
   padding: var(--ring-input-padding-block) var(--ring-input-padding-inline);
 
   border: 1px solid var(--ring-borders-color);
