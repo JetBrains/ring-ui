@@ -1032,6 +1032,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       [styles.inputLeftGap]: this.isRenderingGlassOrLoader() && glass
     });
 
+    const placeholderStyles = classNames({
+      [styles.placeholder]: true,
+      [styles.withoutGlass]: !glass
+    });
+
     return (
       <ControlsHeightContext.Provider value={ControlsHeight.M}>
         <div
@@ -1092,7 +1097,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
           {renderPlaceholder && (
             <button
               type="button"
-              className={styles.placeholder}
+              className={placeholderStyles}
               ref={this.placeholderRef}
               onClick={this.handleCaretMove}
               data-test="query-assist-placeholder"
