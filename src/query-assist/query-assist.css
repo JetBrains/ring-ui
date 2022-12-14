@@ -237,3 +237,7 @@
 .input::-webkit-scrollbar {
   display: none;
 }
+
+.withoutGlass {
+  padding-left: 0;
+}
