@@ -9,8 +9,6 @@
   --ring-input-icon-offset: calc(unit * 2.5);
   --ring-input-padding-inline: unit;
   --ring-input-padding-block: 1px;
-  --ring-input-padding-start: var(--ring-input-padding-inline);
-  --ring-input-padding-end: var(--ring-input-padding-inline);
 
   position: relative;
 
@@ -43,14 +41,14 @@
 .huge {
   --ring-input-padding-block: 5px;
 
-  max-height: calc(unit * 4);
+  max-height: calc(var(--ring-input-padding-inline) * 4);
 
-  padding: 0 0 0 unit;
+  padding: 0 0 0 var(--ring-input-padding-end);
 
   border-right: 0;
 
   & .actions {
-    padding-right: unit;
+    padding-right: var(--ring-input-padding-inline);
   }
 
   & .placeholder {
@@ -146,8 +144,8 @@
   display: block;
   overflow: hidden;
 
-  width: calc(100% - unit * 4);
-  padding-left: calc(unit * 3 - var(--ring-input-padding-block));
+  width: calc(100% - var(--ring-input-padding-inline) * 4);
+  padding-left: calc(var(--ring-input-padding-inline) * 3 - var(--ring-input-padding-block));
 
   white-space: nowrap;
 
@@ -158,7 +156,7 @@
   color: var(--ring-disabled-color);
 
   @nest [dir=rtl] & {
-    padding-right: calc(unit * 3 - var(--ring-input-padding-block));
+    padding-right: calc(var(--ring-input-padding-inline) * 3 - var(--ring-input-padding-block));
 
     text-align: right;
   }
