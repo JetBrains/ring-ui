@@ -99,7 +99,8 @@
 .input {
   overflow: hidden;
 
-  width: 100%;
+  flex-grow: 1;
+
   margin: 0;
 
   cursor: text;
