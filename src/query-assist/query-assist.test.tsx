@@ -391,7 +391,6 @@ describe('Query Assist', () => {
       }).find<QueryAssist>(QueryAssist).instance();
 
       instance.input!.should.have.attr('contenteditable', 'false');
-      instance.input!.should.have.class(styles.inputDisabled);
     });
 
     it('should render glass when enabled', () => {
