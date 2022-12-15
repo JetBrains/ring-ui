@@ -54,6 +54,16 @@
   & .placeholder {
     padding-left: 0;
   }
+
+  @nest [dir=rtl] & {
+    padding: 0 var(--ring-input-padding-inline) 0 0;
+
+    border: 1px solid var(--ring-borders-color);
+
+    & .actions {
+      padding: 0 var(--ring-input-padding-inline);
+    }
+  }
 }
 
 .input {
