@@ -9,18 +9,18 @@
   --ring-input-icon-offset: calc(unit * 2.5);
   --ring-input-padding-inline: unit;
   --ring-input-padding-block: 1px;
-  --ring-input-padding-start: var(--ring-input-padding-inline);
-  --ring-input-padding-end: var(--ring-input-padding-inline);
 
   position: relative;
 
   display: flex;
   align-items: center;
-  justify-content: center;
 
   box-sizing: border-box;
+  min-height: calc(var(--ring-input-padding-inline) * 3);
+  padding: var(--ring-input-padding-block) var(--ring-input-padding-inline);
 
-  min-height: calc(var(--ring-line-height) + 2 * var(--ring-input-padding-block) + 2px); /* 2px - border */
+  border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
 
   font-size: var(--ring-font-size);
   line-height: var(--ring-line-height);
@@ -30,17 +30,39 @@
   }
 }
 
+.queryAssistDisabled {
+  color: var(--ring-disabled-color);
+  border-color: var(--ring-border-disabled-color);
+  background-color: var(--ring-disabled-background-color);
+
+  -webkit-text-fill-color: var(--ring-disabled-color); /* Required for Safari, see RG-2063 for details */
+}
+
 .huge {
   --ring-input-padding-block: 5px;
 
-  & .input {
-    border-right: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
+  max-height: calc(var(--ring-input-padding-inline) * 4);
+
+  padding: 0 0 0 var(--ring-input-padding-inline);
+
+  border-right: 0;
 
   & .actions {
-    right: calc(var(--ring-input-padding-inline) + 34px);
+    padding-right: var(--ring-input-padding-inline);
+  }
+
+  & .placeholder {
+    padding-left: 0;
+  }
+
+  @nest [dir=rtl] & {
+    padding: 0 var(--ring-input-padding-inline) 0 0;
+
+    border: 1px solid var(--ring-borders-color);
+
+    & .actions {
+      padding: 0 var(--ring-input-padding-inline);
+    }
   }
 }
 
@@ -48,12 +70,7 @@
   overflow: auto;
 
   width: 100%;
-  min-height: inherit;
   margin: 0;
-  padding-top: var(--ring-input-padding-block);
-  padding-right: var(--ring-input-padding-end);
-  padding-bottom: var(--ring-input-padding-block);
-  padding-left: var(--ring-input-padding-start);
 
   cursor: text;
 
@@ -61,8 +78,6 @@
   white-space: nowrap;
 
   color: var(--ring-text-color);
-  border: 1px solid var(--ring-borders-color);
-  border-radius: var(--ring-border-radius);
   outline: none;
   background: transparent;
 
@@ -70,11 +85,6 @@
   scrollbar-width: none;
 
   caret-color: var(--ring-main-color);
-
-  @nest [dir=rtl] & {
-    padding-right: var(--ring-input-padding-start);
-    padding-left: var(--ring-input-padding-end);
-  }
 
   &:hover {
     transition: none;
@@ -92,14 +102,6 @@
     border-color: var(--ring-main-color);
   }
 
-  &[disabled] {
-    color: var(--ring-disabled-color);
-    border-color: var(--ring-border-disabled-color);
-    background-color: var(--ring-disabled-background-color);
-
-    -webkit-text-fill-color: var(--ring-disabled-color); /* Required for Safari, see RG-2063 for details */
-  }
-
   /*
     Kill yellow/blue webkit autocomplete
     https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/
@@ -111,10 +113,6 @@
       transition: background-color 50000s ease-in-out 0s;
     }
   }
-}
-
-.withIcon {
-  --ring-input-padding-start: calc(var(--ring-input-padding-inline) + var(--ring-input-icon-offset));
 }
 
 .letter-text {
@@ -152,13 +150,12 @@
   composes: resetButton from "../global/global.css";
 
   position: absolute;
-  left: 1px;
 
   display: block;
   overflow: hidden;
 
-  width: calc(100% - unit * 4);
-  padding-left: var(--ring-input-padding-start);
+  width: calc(100% - var(--ring-input-padding-inline) * 4);
+  padding-left: calc(var(--ring-input-padding-inline) * 3 - var(--ring-input-padding-block));
 
   white-space: nowrap;
 
@@ -167,6 +164,12 @@
   pointer-events: none;
 
   color: var(--ring-disabled-color);
+
+  @nest [dir=rtl] & {
+    padding-right: calc(var(--ring-input-padding-inline) * 3 - var(--ring-input-padding-block));
+
+    text-align: right;
+  }
 }
 
 .letter {
@@ -174,28 +177,28 @@
 }
 
 .actions {
-  position: absolute;
-  right: var(--ring-input-padding-inline);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-  height: auto;
+  height: 100%;
+  max-height: calc(var(--ring-input-padding-inline) * 2);
+  padding-left: var(--ring-input-padding-inline);
 
   line-height: inherit;
 
   @nest [dir=rtl] & {
-    right: auto;
-    left: unit;
+    padding: 0 var(--ring-input-padding-inline) 0 0;
   }
 }
 
 .icon {
-  position: absolute;
-  left: var(--ring-input-padding-inline);
+  padding-right: var(--ring-input-padding-inline);
 
   color: var(--ring-icon-secondary-color);
 
   @nest [dir=rtl] & {
-    right: unit;
-    left: auto;
+    padding: 0 0 0 var(--ring-input-padding-inline);
   }
 }
 
@@ -227,7 +230,14 @@
 }
 
 .clear {
+  top: 1px;
+
   padding-right: 0;
+
+  @nest [dir=rtl] & {
+    padding-right: var(--ring-input-padding-inline);
+    padding-left: 0;
+  }
 }
 
 .loaderOnTheRight {
@@ -238,4 +248,12 @@
 
 .input::-webkit-scrollbar {
   display: none;
+}
+
+.withoutGlass {
+  padding-left: 0;
+
+  @nest [dir=rtl] & {
+    padding-right: 0;
+  }
 }
