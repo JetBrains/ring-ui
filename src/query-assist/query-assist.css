@@ -43,7 +43,7 @@
 
   max-height: calc(var(--ring-input-padding-inline) * 4);
 
-  padding: 0 0 0 var(--ring-input-padding-end);
+  padding: 0 0 0 var(--ring-input-padding-inline);
 
   border-right: 0;
 
