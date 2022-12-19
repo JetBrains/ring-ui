@@ -123,7 +123,7 @@
     "core-js": "^3.26.1",
     "cpy-cli": "^3.1.1",
     "enzyme": "^3.11.0",
-    "eslint": "^8.29.0",
+    "eslint": "^8.30.0",
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-angular": "^4.1.0",
     "eslint-plugin-bdd": "^2.1.1",
