@@ -80,7 +80,7 @@
     "@primer/octicons": "^17.10.0",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-replace": "^5.0.1",
+    "@rollup/plugin-replace": "^5.0.2",
     "@storybook/addon-a11y": "6.5.14",
     "@storybook/addon-docs": "6.5.14",
     "@storybook/addon-essentials": "6.5.14",
