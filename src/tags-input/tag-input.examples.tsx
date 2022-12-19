@@ -47,6 +47,7 @@ export const basic = () => {
         maxPopupHeight={250}
         dataSource={dataSource}
         allowAddNewTags
+        placeholder="This is a very very very long placeholder"
         filter
         size={Size.L}
         label="L Size"
