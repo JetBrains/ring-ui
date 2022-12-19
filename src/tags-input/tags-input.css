@@ -35,6 +35,10 @@
   --ring-input-padding-start: var(--ring-input-padding-inline);
   --ring-input-padding-end: var(--ring-input-padding-inline);
 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
   width: 100%;
 
   margin: 0;
@@ -76,6 +80,17 @@
 }
 
 .tagsSelect {
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  min-width: 160px;
+
+  & .input {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
   & .outerContainer {
     --ring-input-padding-block: 0;
   }
