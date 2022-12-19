@@ -208,12 +208,11 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
   }
 
   clickHandler = (event: SyntheticEvent) => {
-    if (event.target !== this.node) {
+    if (event.target !== this.node && (event.target as HTMLElement).parentElement !== this.node) {
       return;
     }
 
-    this.loadSuggestions(this.getInputNode()?.value);
-    this.focusInput();
+    this.select?._clickHandler();
   };
 
   filterExistingTags = (suggestions: readonly SelectItem[]) => {
