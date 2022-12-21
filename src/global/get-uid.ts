@@ -1,5 +1,12 @@
 const idCounters: Record<string, number> = {};
 
+function generateSalt() {
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  return (Number(new Date()) * Math.random()).toString(36).substring(0, 4);
+}
+
+const salt = generateSalt();
+
 export default function getUID(name: string) {
   if (!name) {
     throw Error('Argument "name" is required in getUID()');
@@ -11,5 +18,5 @@ export default function getUID(name: string) {
 
   const id = String(idCounters[name]++);
 
-  return name + id;
+  return `${name}${id}-${salt}`;
 }
