@@ -95,7 +95,6 @@ changeBuildType(RelativeId("Publish")) {
                 
                 node -v
                 npm -v
-                npm whoami
                 
                 chmod 644 ~/.ssh/config
                 
@@ -110,6 +109,8 @@ changeBuildType(RelativeId("Publish")) {
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
+                
+                npm whoami
                 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
