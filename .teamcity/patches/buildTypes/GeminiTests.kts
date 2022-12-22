@@ -18,14 +18,14 @@ changeBuildType(RelativeId("GeminiTests")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-
+                
                 node -v
                 npm -v
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-
-                mkdir -p node_modules
+                
+                mkdir node_modules
                 npm install
-
+                
                 cd packages/hermione
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
@@ -40,14 +40,14 @@ changeBuildType(RelativeId("GeminiTests")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-
+                
                 node -v
                 npm -v
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-
+                
                 mkdir -p node_modules
                 npm install
-
+                
                 cd packages/hermione
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
