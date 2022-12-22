@@ -284,19 +284,6 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
       </div>
     );
 
-    if (this.props.disabled) {
-      return (
-        <Button
-          data-test-ring-dropdown-anchor
-          className={styles.anchor}
-          disabled
-          text={false}
-        >
-          {anchorContent}
-        </Button>
-      );
-    }
-
     const {
       className,
       popupClassName,
@@ -319,12 +306,14 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     return (
       <Dropdown
         className={classes}
+        disabled={this.props.disabled}
         anchor={
           inline
             ? (
               <Link
                 data-test-ring-dropdown-anchor
                 className={styles.anchor}
+                disabled={this.props.disabled ?? false}
                 pseudo
               >
                 {this.getAnchorText()}
@@ -335,6 +324,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
                 data-test-ring-dropdown-anchor
                 className={styles.anchor}
                 text={false}
+                disabled={this.props.disabled ?? false}
               >
                 {anchorContent}
               </Button>
