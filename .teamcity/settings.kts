@@ -232,7 +232,7 @@ object Deploy : BuildType({
                 npm -v
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
                 npm run build-examples
             """.trimIndent()
@@ -367,7 +367,7 @@ object GeminiTests : BuildType({
                 npm -v
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
 
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
 
                 cd packages/hermione
@@ -489,7 +489,7 @@ object A11yAudit : BuildType({
                 npm -v
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
 
                 npm install
                 npm run a11y-audit-ci
@@ -553,7 +553,7 @@ object ConsoleErrors : BuildType({
                 npm -v
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
@@ -625,7 +625,7 @@ object SecurityAudit : BuildType({
                 npm -v
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
                 node security-audit-ci.js
             """.trimIndent()
@@ -705,7 +705,7 @@ object Publish : BuildType({
                 fi
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
                 npm run build
 
@@ -851,7 +851,7 @@ object PublishHotfixRelease : BuildType({
                 fi
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
@@ -1005,7 +1005,7 @@ object PublishNext : BuildType({
                 fi
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
                 npm run build
                 # Reset possibly changed lock to avoid "git status is not clear" error
@@ -1273,7 +1273,7 @@ object UnitTestsAndBuild : BuildType({
                 npm -v
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
 
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
 
                 npm run typecheck-ci
