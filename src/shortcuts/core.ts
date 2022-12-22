@@ -226,7 +226,7 @@ class Shortcuts {
     }
 
     // stop for input, select, and textarea
-    return element.matches('input,select,textarea') || (element.contentEditable === 'true');
+    return element.matches('input:not([type=checkbox]),select,textarea') || (element.contentEditable === 'true');
   };
 
   private _getKeyboardEventType(params: ShortcutsParams) {
