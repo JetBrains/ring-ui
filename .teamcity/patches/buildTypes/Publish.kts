@@ -138,6 +138,7 @@ changeBuildType(RelativeId("Publish")) {
                 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
+            dockerImage = "node:16.18"
         }
     }
 }
