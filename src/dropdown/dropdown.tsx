@@ -25,6 +25,7 @@ export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'childr
   anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode)
   children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode)
   initShown: boolean
+  disabled?: boolean | null | undefined
   clickMode: boolean
   hoverMode: boolean
   hoverShowTimeOut: number
@@ -59,6 +60,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
     hoverMode: PropTypes.bool,
     hoverShowTimeOut: PropTypes.number,
     hoverHideTimeOut: PropTypes.number,
+    disabled: PropTypes.bool,
     onShow: PropTypes.func,
     onHide: PropTypes.func,
     onMouseEnter: PropTypes.func,
@@ -72,6 +74,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
     hoverMode: false,
     hoverShowTimeOut: 300,
     hoverHideTimeOut: 600,
+    disabled: false,
     onShow: () => {},
     onHide: () => {},
     onMouseEnter: () => {},
@@ -84,6 +87,9 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
   };
 
   onClick = () => {
+    if (this.props.disabled) {
+      return;
+    }
     const {show, pinned} = this.state;
     let nextPinned = pinned;
 
@@ -115,6 +121,9 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
   hoverTimer?: number | null;
 
   onMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
     this._clearTimer();
     this.props.onMouseEnter?.(event);
 
@@ -126,6 +135,9 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
   };
 
   onMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
     this.props.onMouseLeave?.(event);
     if (this.state.pinned) {
       return;
@@ -164,6 +176,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
     const {
       initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut,
       children, anchor, className, activeClassName, hoverMode, clickMode, 'data-test': dataTest,
+      disabled,
       ...restProps
     } = this.props;
 
