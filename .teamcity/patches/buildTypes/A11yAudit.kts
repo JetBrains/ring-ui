@@ -17,13 +17,13 @@ changeBuildType(RelativeId("A11yAudit")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
-                
+
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
-                
+                mkdir -p node_modules
+
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
@@ -36,13 +36,13 @@ changeBuildType(RelativeId("A11yAudit")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
-                
+
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir -p node_modules
-                
+
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
