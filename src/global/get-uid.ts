@@ -2,7 +2,7 @@ const idCounters: Record<string, number> = {};
 
 function generateSalt() {
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  return (Number(new Date()) * Math.random()).toString(36).substring(0, 4);
+  return (Date.now() * Math.random()).toString(36).substring(0, 4);
 }
 
 const salt = generateSalt();
