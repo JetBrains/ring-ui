@@ -6,7 +6,10 @@
 .radio {
   position: relative;
 
-  display: block;
+  display: flex;
+  flex-direction: row;
+
+  padding: 6px 0;
 
   text-align: left;
 
@@ -22,9 +25,9 @@
 
 .circle {
   position: relative;
-  top: -2px;
+  top: 2px;
 
-  display: inline-block;
+  flex-shrink: 0;
 
   box-sizing: border-box;
   width: radio-size;
@@ -32,7 +35,6 @@
 
   user-select: none;
   transition: border-color var(--ring-ease), box-shadow var(--ring-ease);
-  vertical-align: middle;
   pointer-events: none;
 
   border: 1px solid var(--ring-borders-color);
@@ -119,5 +121,5 @@
 .label {
   margin-left: unit;
 
-  line-height: calc(unit * 4);
+  line-height: var(--ring-line-height);
 }
