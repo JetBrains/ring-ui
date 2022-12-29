@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {useState, Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -32,6 +32,23 @@ function RadioExample() {
 export const basic = () => <RadioExample/>;
 
 basic.storyName = 'basic';
+
+function MultilineRadioExample() {
+  const [value, onChange] = useState('one');
+  return (
+    <div style={{width: 200}}>
+      Selected: {value}
+      <Radio value={value} onChange={onChange}>
+        <Radio.Item value="one">One</Radio.Item>
+        <Radio.Item value="two">This is a multiline radio item that should wrap</Radio.Item>
+      </Radio>
+    </div>
+  );
+}
+
+export const multiline = () => <MultilineRadioExample/>;
+
+multiline.storyName = 'multiline';
 
 export const uncontrolled = () => (
   <Radio>
