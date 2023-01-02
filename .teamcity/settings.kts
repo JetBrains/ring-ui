@@ -660,7 +660,7 @@ object Publish : BuildType({
     allowExternalStatus = true
 
     params {
-        param("lerna.publish.options", "--cd-version patch")
+        param("env.NPM_VERSION_PARAMS", "patch")
         param("vcs.branch.spec", "+:refs/heads/(master)")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
@@ -717,7 +717,7 @@ object Publish : BuildType({
 
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json
-                npm run release-ci -- %lerna.publish.options%
+                npm run release-ci
 
                 cat package.json
 
@@ -807,7 +807,8 @@ object PublishHotfixRelease : BuildType({
     allowExternalStatus = true
 
     params {
-        param("lerna.publish.options", "--cd-version patch --preid hotfix --npm-tag hotfix")
+        param("env.NPM_VERSION_PARAMS", "patch --preid hotfix")
+        param("env.NPM_PUBLISH_PARAMS", "--tag hotfix")
         param("vcs.branch.spec", "+:refs/heads/(release-*)")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
@@ -856,7 +857,7 @@ object PublishHotfixRelease : BuildType({
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
                 npm whoami
-                npm run release-ci -- %lerna.publish.options%
+                npm run release-ci
 
                 cat package.json
 
@@ -952,7 +953,9 @@ object PublishNext : BuildType({
     allowExternalStatus = true
 
     params {
-        param("lerna.publish.options", "--cd-version prerelease --preid beta --npm-tag next --force-publish")
+        param("env.NPM_VERSION_PARAMS", "patch --preid beta")
+        param("env.NPM_PUBLISH_PARAMS", "--tag next")
+
         param("vcs.branch.spec", """
             +:refs/heads/*
             -:refs/heads/gh-pages
@@ -1010,7 +1013,7 @@ object PublishNext : BuildType({
                 npm run build
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
-                npm run release-ci -- %lerna.publish.options%
+                npm run release-ci
 
                 cat package.json
 
@@ -1234,7 +1237,6 @@ object UnitTestsAndBuild : BuildType({
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogsssssssssssssssssssss
         coverage => coverage.zip
         npm-ls.log
-        lerna-debug.log
     """.trimIndent()
 
     params {
