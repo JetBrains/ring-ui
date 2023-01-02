@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "5.0.85",
+  "version": "5.0.86",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -64,6 +64,7 @@
     "typecheck-ci": "node tsc-teamcity",
     "prerelease-ci": "git pull",
     "release-ci": "npm version $NPM_VERSION_PARAMS && npm publish --access=public $NPM_PUBLISH_PARAMS",
+    "postrelease-ci": "git push --follow-tags",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
   },
