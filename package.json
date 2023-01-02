@@ -63,7 +63,7 @@
     "typecheck": "tsc",
     "typecheck-ci": "node tsc-teamcity",
     "prerelease-ci": "git pull",
-    "release-ci": "lerna publish --no-verify-access --yes",
+    "release-ci": "npm version $NPM_VERSION_PARAMS && npm publish --access=public $NPM_PUBLISH_PARAMS",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
   },
@@ -145,7 +145,6 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma-teamcity-reporter": "^2.0.0",
     "karma-webpack": "^5.0.0",
-    "lerna": "^6.3.0",
     "lint-staged": "^13.1.0",
     "merge-options": "^3.0.4",
     "mocha": "^10.2.0",
