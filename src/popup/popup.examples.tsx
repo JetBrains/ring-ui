@@ -308,14 +308,26 @@ insideAScrollableContainer.parameters = {
 
 export const fitsScreen = () => {
   const PopupDemo = (
-    <div className="anchorBottom">
-      Popup anchor on bottom
-      <Popup maxHeight={1380}>
-        <div className="popupContent">
-          <div>Popup top</div>
-          <div>popup bottom</div>
-        </div>
-      </Popup>
+    <div>
+      <div className="anchorBottom">
+        Popup anchor on bottom
+        <Popup>
+          <div className="popupContent">
+            <div>Popup top</div>
+            <div>popup bottom</div>
+          </div>
+        </Popup>
+      </div>
+
+      <div className="anchorTop">
+        Popup anchor on top
+        <Popup>
+          <div className="popupContent">
+            <div>Popup top</div>
+            <div>popup bottom</div>
+          </div>
+        </Popup>
+      </div>
     </div>
   );
 
@@ -348,6 +360,12 @@ fitsScreen.parameters = {
     .anchorBottom {
       position: absolute;
       bottom: 20px;
+    }
+
+    .anchorTop {
+      position: absolute;
+      left: 300px;
+      top: 20px;
     }
 </style>
       `
