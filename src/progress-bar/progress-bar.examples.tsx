@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Theme, {ThemeProvider} from '../global/theme';
-
 import ProgressBar from './progress-bar';
 
 const disableAnimations = window.location.search.includes('block-animations');
@@ -40,10 +38,6 @@ export const basic = () => {
           <div style={{height: '25px', paddingTop: '25px'}}>
             <ProgressBar label="Progress" value={value} style={{width: 288}}/>
           </div>
-
-          <ThemeProvider theme={Theme.DARK} style={{height: '25px', paddingTop: '25px', background: 'var(--ring-content-background-color)'}}>
-            <ProgressBar label="Progress" value={value} style={{width: 288}}/>
-          </ThemeProvider>
 
           <div style={{height: '25px', paddingTop: '25px', background: '#F0F0F0'}}>
             <ProgressBar label="Progress" value={value} style={{width: 288}}/>

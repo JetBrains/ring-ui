@@ -26,6 +26,12 @@ for (const {kind, stories} of items) {
         actions = [{type: 'capture', name: '', selector: captureSelector}]
       } = parameters;
 
+      const allActions = [
+        ...actions,
+        {type: 'setDarkTheme'},
+        {type: 'capture', name: 'dark', selector: captureSelector}
+      ];
+
       if (skip === true) {
         continue;
       }
@@ -38,7 +44,7 @@ for (const {kind, stories} of items) {
           `iframe.html?${querystring.stringify({id, 'block-animations': true, 'block-auth': true})}`,
         );
 
-        for (const action of actions) {
+        for (const action of allActions) {
           await Actions[action.type](
             this.browser,
             {...action, name: addTestName(action.name, name)}
