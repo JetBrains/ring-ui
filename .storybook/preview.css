@@ -6,6 +6,7 @@ body {
   padding: 0 !important;
 
   color: var(--ring-text-color);
+  background-color: var(--ring-content-background-color);
 
   font-family: var(--ring-font-family);
   font-size: var(--ring-font-size);

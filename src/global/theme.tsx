@@ -2,7 +2,7 @@ import React, {
   HTMLAttributes,
   useMemo,
   useState,
-  useEffect, forwardRef, Ref, useContext
+  useEffect, forwardRef, Ref, useContext, ReactElement
 } from 'react';
 import classNames from 'classnames';
 
@@ -37,6 +37,24 @@ export function useTheme() {
   return dark ? Theme.DARK : Theme.LIGHT;
 }
 
+export function useThemeClasses(theme: Theme) {
+  const systemTheme = useTheme();
+  const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
+  return classNames({
+    [styles.dark]: resolvedTheme === Theme.DARK,
+    [defaultStyles.light]: resolvedTheme === Theme.LIGHT
+  });
+}
+
+export interface WithThemeClassesProps {
+  theme: Theme
+  children: (classes: string) => ReactElement
+}
+export function WithThemeClasses({theme, children}: WithThemeClassesProps) {
+  const themeClasses = useThemeClasses(theme);
+  return children(themeClasses);
+}
+
 export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLElement) {
   if (theme === Theme.DARK) {
     container.classList.remove(defaultStyles.light);
@@ -52,6 +70,7 @@ export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLEleme
 export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
   theme?: Theme
   passToPopups?: boolean
+  target?: HTMLElement
 }
 
 export const ThemeProvider = forwardRef(function ThemeProvider({
@@ -59,30 +78,33 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
   className,
   passToPopups,
   children,
+  target,
   ...restProps
 }: ThemeProviderProps, ref: Ref<HTMLDivElement>) {
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   const id = useMemo(() => getUID('popups-with-theme-'), []);
-  const themeClasses = classNames({
-    [styles.dark]: resolvedTheme === Theme.DARK,
-    [defaultStyles.light]: resolvedTheme === Theme.LIGHT
-  });
+  useEffect(() => {
+    if (target != null) {
+      applyTheme(resolvedTheme, target);
+    }
+  }, [resolvedTheme, target]);
+  const themeClasses = useThemeClasses(theme);
   const parentTarget = useContext(PopupTargetContext);
   return (
     <div
       ref={ref}
-      className={classNames(className, themeClasses)}
+      className={target != null ? undefined : classNames(className, themeClasses)}
       {...restProps}
     >{
         passToPopups
           ? (
             <PopupTarget id={id}>
-              {target => (
+              {popupTarget => (
                 <>
                   {children}
                   {createPortal(
-                    <div className={themeClasses}>{target}</div>,
+                    <div className={themeClasses}>{popupTarget}</div>,
                     parentTarget && getPopupContainer(parentTarget) || document.body)
                   }
                 </>

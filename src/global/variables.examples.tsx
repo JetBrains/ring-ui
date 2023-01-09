@@ -1,4 +1,3 @@
-import darkStyles from './variables_dark.css';
 import getUID from './get-uid';
 
 export default {
@@ -122,11 +121,6 @@ export const basic = () => `
   <div>
     <h2>Default theme</h2>
     ${renderColors()}
-
-    <div class="${darkStyles.dark}">
-      <h2>Dark theme</h2>
-      ${renderColors()}
-    </div>
   </div>
 `;
 

@@ -8,7 +8,7 @@ import {Directions} from '../popup/popup.consts';
 import Icon, {IconType} from '../icon/icon';
 import Button, {ButtonAttrs} from '../button/button';
 
-import Theme, {ThemeProvider} from '../global/theme';
+import Theme, {ThemeProvider, WithThemeClasses} from '../global/theme';
 import darkStyles from '../global/variables_dark.css';
 
 import styles from './message.css';
@@ -156,34 +156,41 @@ export default class Message extends Component<MessageProps> {
     const {direction} = this.state;
 
     return (
-      <Popup
-        ref={this.popupRef}
-        hidden={false}
-        directions={popupDirections}
-        className={classes}
-        offset={UNIT * 2}
-        onDirectionChange={this._onDirectionChange}
-        {...popupProps}
-      >
-        <ThemeProvider theme={theme} passToPopups>
-          {direction && (
-            <div className={tailClasses} style={getTailOffsets(this.getTailOffset())[direction]}/>
-          )}
+      <WithThemeClasses theme={theme}>
+        {themeClasses => (
+          <Popup
+            ref={this.popupRef}
+            hidden={false}
+            directions={popupDirections}
+            className={classNames(classes, themeClasses)}
+            offset={UNIT * 2}
+            onDirectionChange={this._onDirectionChange}
+            {...popupProps}
+          >
+            <ThemeProvider theme={theme} passToPopups>
+              {direction && (
+                <div
+                  className={tailClasses}
+                  style={getTailOffsets(this.getTailOffset())[direction]}
+                />
+              )}
 
-          {icon && <Icon className={styles.icon} glyph={icon}/>}
-          {title && <h1 data-test="rgMessageTitle" className={styles.title}>{title}</h1>}
-          {children && <div className={styles.description}>{children}</div>}
-          {(onClose || buttonProps) && (
-            <Button
-              className={styles.button}
-              onClick={onClose}
-              primary
-              {...buttonProps}
-            >{translations.gotIt}</Button>
-          )}
-          {onDismiss && <Button onClick={onDismiss} text>{translations.dismiss}</Button>}
-        </ThemeProvider>
-      </Popup>
+              {icon && <Icon className={styles.icon} glyph={icon}/>}
+              {title && <h1 data-test="rgMessageTitle" className={styles.title}>{title}</h1>}
+              {children && <div className={styles.description}>{children}</div>}
+              {(onClose || buttonProps) && (
+                <Button
+                  className={styles.button}
+                  onClick={onClose}
+                  primary
+                  {...buttonProps}
+                >{translations.gotIt}</Button>
+              )}
+              {onDismiss && <Button onClick={onDismiss} text>{translations.dismiss}</Button>}
+            </ThemeProvider>
+          </Popup>
+        )}
+      </WithThemeClasses>
     );
   }
 }
