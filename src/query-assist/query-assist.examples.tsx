@@ -13,8 +13,6 @@ import List from '../list/list';
 import Icon from '../icon/icon';
 import {Size} from '../input/input';
 
-import Theme, {ThemeProvider} from '../global/theme';
-
 import QueryAssist, {
   QueryAssistAttrs,
   QueryAssistRequestParams,
@@ -207,68 +205,6 @@ withCustomRenderer.args = {
 };
 withCustomRenderer.storyName = 'with custom renderer';
 withCustomRenderer.parameters = {hermione: {skip: true}};
-
-export const darkThemeNoAuth: Story<QueryAssistAttrs> = args => (
-  <ThemeProvider theme={Theme.DARK} style={{background: 'var(--ring-content-background-color)', padding: '24px'}}>
-    <QueryAssist {...args}/>
-  </ThemeProvider>
-);
-
-darkThemeNoAuth.args = {
-  dataSource: ({query, caret}) => ({
-    query,
-    caret,
-    styleRanges: [
-      {start: 0, length: 1, style: 'text'},
-      {start: 1, length: 1, style: 'field_value'},
-      {start: 2, length: 1, style: 'field_name'},
-      {start: 3, length: 1, style: 'operator'}
-    ],
-    suggestions: [
-      {
-        prefix: 'login: ',
-        option: 'test',
-        suffix: ' ',
-        description: '1',
-        matchingStart: 0,
-        matchingEnd: query.length,
-        caret: 2,
-        completionStart: 0,
-        completionEnd: query.length,
-        group: 'logins'
-      },
-      {
-        prefix: 'login: ',
-        option: 'test.1',
-        suffix: ' ',
-        description: '2',
-        matchingStart: 0,
-        matchingEnd: query.length,
-        caret: 2,
-        completionStart: 0,
-        completionEnd: query.length,
-        group: 'logins'
-      }
-    ]
-  })
-};
-
-darkThemeNoAuth.storyName = 'dark theme (no-auth)';
-
-darkThemeNoAuth.parameters = {
-  hermione: {
-    actions: [
-      {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
-      {type: 'click', selector: '[data-test=ring-query-assist-input]'},
-      {type: 'sendKeys', selector: '[data-test=ring-query-assist-input]', value: 'test '},
-      {
-        type: 'capture',
-        name: 'withPopup',
-        selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']
-      }
-    ]
-  }
-};
 
 class QueryAssistExample extends Component {
   constructor(props: QueryAssistAttrs) {

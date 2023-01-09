@@ -101,7 +101,7 @@ withSidebarOnTheLeft.parameters = {
     }
 
     .sidebar {
-      background-color: #EEEEEE;
+      background-color: var(--ring-sidebar-background-color);
     }
 </style>`
 };
@@ -181,7 +181,7 @@ withSidebarOnTheRight.parameters = {
     }
 
     .sidebar {
-      background-color: #EEEEEE;
+      background-color: var(--ring-sidebar-background-color);
     }
 </style>
       `

@@ -44,5 +44,9 @@ module.exports = {
   },
   waitForJSCondition: (browser, {condition}) =>
     browser.waitUntil(() => browser.execute(condition)),
-  wait: (_, {delay}) => new Promise(resolve => setTimeout(resolve, delay))
+  wait: (_, {delay}) => new Promise(resolve => setTimeout(resolve, delay)),
+  setDarkTheme: browser => browser.execute(() => {
+    document.documentElement.classList.add('ring-ui-theme-dark');
+    document.body.classList.add('ring-ui-theme-dark');
+  })
 };

@@ -6,8 +6,6 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import Loader from '../loader-inline/loader-inline';
 
-import Theme, {ThemeProvider} from '../global/theme';
-
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 import Button, {ButtonProps} from './button';
@@ -88,72 +86,36 @@ function Examples() {
   }
 
   return (
-    <div>
-      <div className="buttons">
-        <Button>Button default</Button>
+    <div className="buttons">
+      <Button>Button default</Button>
 
-        <Button short>...</Button>
+      <Button short>...</Button>
 
-        <Button href="/">Button link</Button>
+      <Button href="/">Button link</Button>
 
-        <Button loader>Button loader</Button>
+      <Button loader>Button loader</Button>
 
-        <Button primary loader>
-          Primary loader
-        </Button>
+      <Button primary loader>
+        Primary loader
+      </Button>
 
-        <Button icon={pencilIcon} loader>
-          Icon loader
-        </Button>
+      <Button icon={pencilIcon} loader>
+        Icon loader
+      </Button>
 
-        {renderButtonModifications()}
+      {renderButtonModifications()}
 
-        <Button text>Text action</Button>
+      <Button text>Text action</Button>
 
-        {renderTextModifications()}
+      {renderTextModifications()}
 
-        <Button icon={pencilIcon}>Icon action</Button>
+      <Button icon={pencilIcon}>Icon action</Button>
 
-        {renderIconWithTextModifications()}
+      {renderIconWithTextModifications()}
 
-        <Button icon={pencilIcon} title="Icon action"/>
+      <Button icon={pencilIcon} title="Icon action"/>
 
-        {renderIconActionModifications()}
-      </div>
-
-      <ThemeProvider theme={Theme.DARK} className="buttons">
-        <Button>Button default</Button>
-
-        <Button short>
-          ...
-        </Button>
-
-        <Button href="/">
-          Button link
-        </Button>
-
-        <Button loader>
-          Dark loader
-        </Button>
-
-        {renderButtonModifications()}
-
-        <Button text>
-          Text action
-        </Button>
-
-        {renderTextModifications()}
-
-        <Button icon={pencilIcon}>
-          Icon action
-        </Button>
-
-        {renderIconWithTextModifications()}
-
-        <Button icon={pencilIcon} title="Icon action"/>
-
-        {renderIconActionModifications()}
-      </ThemeProvider>
+      {renderIconActionModifications()}
     </div>
   );
 }
