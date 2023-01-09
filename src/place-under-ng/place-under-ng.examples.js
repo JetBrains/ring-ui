@@ -68,8 +68,7 @@ basic.parameters = {
     right: 0;
     width: 50%;
     padding: 16px;
-    background-color: #666;
-    color: #fff;
+    background-color: var(--ring-selected-background-color);
   }
 
   .head {
@@ -81,14 +80,14 @@ basic.parameters = {
     top: 0;
     width: 100%;
     padding: 16px;
-    background-color: #CCC;
+    background-color: var(--ring-hover-background-color);
   }
 
   .scrollable {
     height: 1000px;
     padding: 16px;
     padding-top: 64px;
-    background-color: #EEE;
+    background-color: var(--ring-sidebar-background-color);
   }
 </style>
       `

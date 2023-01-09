@@ -1,7 +1,15 @@
 import {addons} from '@storybook/addons';
 import {create} from '@storybook/theming';
 import {paramCase} from 'change-case';
+
 import '../src/global/variables.css';
+import Theme, {applyTheme} from '../src/global/theme';
+
+const darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
+
+if (darkMatcher.matches) {
+  applyTheme(Theme.DARK, document.documentElement);
+}
 
 // Proxy support is more or less the same as one of CSS custom properties
 const variables: Record<string, string> = window.Proxy
@@ -44,7 +52,7 @@ const theme = variablesSupported
 
 addons.setConfig({
   theme: create({
-    base: 'light',
+    base: darkMatcher.matches ? 'dark' : 'light',
     brandTitle: 'JetBrains Ring UI',
     ...theme
   })

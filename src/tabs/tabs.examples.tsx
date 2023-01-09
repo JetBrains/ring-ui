@@ -7,8 +7,6 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
 import Icon, {IconProps} from '../icon/icon';
 
-import Theme, {ThemeProvider} from '../global/theme';
-
 import {CustomItem, SmartTabs, Tab, Tabs} from './tabs';
 
 export default {
@@ -141,53 +139,6 @@ const AutoCollapseDemo = () => {
 export const autoCollapseDemo = () => <AutoCollapseDemo/>;
 
 autoCollapseDemo.storyName = 'Auto collapsing';
-
-
-class DarkDemo extends Component {
-  state = {selected: 'first'};
-
-  render() {
-    return (
-      <ThemeProvider theme={Theme.DARK}>
-        <Tabs
-          selected={this.state.selected}
-          onSelect={selected => this.setState({selected})}
-          className="dark-wrapper"
-        >
-          <Tab id="first" title="First tab">
-            First tab content
-          </Tab>
-          <Tab id="second" title="Second tab">
-            Second tab content
-          </Tab>
-          <Tab id="third" title="Third tab">
-            Third tab content
-          </Tab>
-          <Tab id="fourth" title="Fourth tab (Link)" href="/">
-            Fourth tab content
-          </Tab>
-          <Tab disabled id="disabled" title="Disabled tab">
-            Disabled tab content
-          </Tab>
-        </Tabs>
-      </ThemeProvider>
-    );
-  }
-}
-export const dark = () => <DarkDemo/>;
-
-dark.storyName = 'dark';
-
-dark.parameters = {
-  storyStyles: `
-<style>
-  .dark-wrapper {
-    background: var(--ring-content-background-color);
-    padding: 8px;
-    color: var(--ring-text-color);
-  }
-</style>`
-};
 
 export const smart = () => (
   <SmartTabs>

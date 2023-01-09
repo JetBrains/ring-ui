@@ -6,8 +6,6 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
 
-import Theme, {ThemeProvider} from '../global/theme';
-
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 import Input, {ContainerProps, InputSpecificProps, Size} from './input';
@@ -76,17 +74,6 @@ const Inputs = () => {
       <Input label="Short input" size={Size.S}/>
       <Input label="Long input" size={Size.L}/>
       <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
-      <ThemeProvider theme={Theme.DARK} className="dark inputs">
-        <Input
-          label="Input on dark background"
-          placeholder="Hint on dark background"
-        />
-        <Input
-          disabled
-          label="Disabled input on dark background"
-          defaultValue="Default value on dark background"
-        />
-      </ThemeProvider>
     </form>
   );
 };

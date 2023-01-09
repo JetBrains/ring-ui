@@ -8,7 +8,6 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import IconNG from '../icon-ng/icon-ng';
 import CheckboxNG from '../checkbox-ng/checkbox-ng';
 import Theme from '../global/theme';
-import styles from '../global/variables_dark.css';
 
 import ButtonNG from './button-ng';
 
@@ -87,8 +86,6 @@ export const basic = () => {
   return `
     <div ng-controller="testCtrl">
       <div class="buttons">${renderAllButtons()}</div>
-
-      <div class="buttons ${styles.dark}">${renderAllButtons()}</div>
     </div>
   `;
 
