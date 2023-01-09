@@ -11,7 +11,8 @@
   --ring-header-link-color: var(--ring-link-color);
 }
 
-.dark {
+.dark,
+:global(.ring-ui-theme-dark) {
   --ring-header-link-color: var(--ring-text-color);
 }
 
