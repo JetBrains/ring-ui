@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import React from 'react';
+import React, {cloneElement} from 'react';
 
 import {render, hydrate} from '../global/react-render-adapter';
 import {RerenderableSelect} from '../select/select';
@@ -68,9 +68,12 @@ class SelectLazy {
   _clickHandler() {
     this.detachEvents();
     if (this.type === 'dropdown') {
-      render(this.reactSelect, this.container);
-      // Hack for React17, where click event is not triggered on just rendered Select node
-      this.selectInstance?._openPopupIfClosed?.();
+      render(cloneElement(this.reactSelect, {
+        ref: node => {
+          this.selectRef(node);
+          node?._openPopupIfClosed?.();
+        }
+      }), this.container);
     } else {
       hydrate(this.reactSelect, this.container);
     }
