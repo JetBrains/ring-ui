@@ -9,8 +9,18 @@ import {Parameters} from '@storybook/react';
 
 import {setClient} from '../src/global/react-render-adapter';
 
+import Theme, {applyTheme} from '../src/global/theme';
+
 import styles from './preview.css';
 import stylesDecorator from './styles-decorator';
+
+const darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
+const updateTheme = () => applyTheme(
+  darkMatcher.matches ? Theme.DARK : Theme.LIGHT,
+  document.documentElement
+);
+updateTheme();
+darkMatcher.addEventListener('change', updateTheme);
 
 setClient(client);
 

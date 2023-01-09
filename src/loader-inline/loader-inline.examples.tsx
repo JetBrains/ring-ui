@@ -2,8 +2,6 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Theme, {ThemeProvider} from '../global/theme';
-
 import LoaderInline from './loader-inline';
 
 export default {
@@ -48,31 +46,11 @@ export const withChildren = () => {
 
 withChildren.storyName = 'with children';
 
-export const onBlackBackground = () => {
-  class Example extends React.Component {
-    render() {
-      return (
-        <ThemeProvider theme={Theme.DARK} style={{backgroundColor: 'var(--ring-content-background-color)', color: 'var(--ring-text-color)'}}>
-          <span>some text on top</span>
-          <div>
-            before <LoaderInline/> Some text after
-          </div>
-          <div>some text under loader</div>
-        </ThemeProvider>
-      );
-    }
-  }
-
-  return <Example/>;
-};
-
-onBlackBackground.storyName = 'on black background';
-
 export const onCustomBackground = () => {
   class Example extends React.Component {
     render() {
       return (
-        <div style={{backgroundColor: '#E5F4FF'}}>
+        <div style={{backgroundColor: 'var(--ring-hover-background-color)'}}>
           <span>some text on top</span>
           <div>
             before <LoaderInline/> Some text after
