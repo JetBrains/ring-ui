@@ -43,7 +43,15 @@ export const parameters = {
       }
     }
   },
-  actions: {argTypesRegex: '^on.*'}
+  actions: {argTypesRegex: '^on.*'},
+  backgrounds: {disable: true},
+  themes: {
+    default: 'Light',
+    list: [
+      {name: 'Light', color: '#FFF'},
+      {name: 'Dark', class: 'ring-ui-theme-dark', color: '#23272b'}
+    ]
+  }
 };
 
 export const decorators = [stylesDecorator()];
