@@ -16,7 +16,8 @@ module.exports = {
     '@storybook/addon-storysource',
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
-    'storybook-zeplin/register'
+    'storybook-zeplin/register',
+    'storybook-addon-themes'
   ],
   core: {
     builder: 'webpack5'
