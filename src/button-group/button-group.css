@@ -39,7 +39,7 @@
 }
 
 .buttonGroup .button[disabled] {
-  --ring-button-group-button-border-color: var(--ring-border-unselected-disabled-color);
+  --ring-button-group-button-border-color: var(--ring-border-disabled-color);
 
   /* stylelint-disable-next-line selector-max-specificity */
   &::before,
@@ -55,7 +55,7 @@
 
     background-color: var(--ring-disabled-background-color);
 
-    box-shadow: 0 1px var(--ring-border-unselected-disabled-color) inset, 0 -1px var(--ring-border-unselected-disabled-color) inset;
+    box-shadow: 0 1px var(--ring-border-disabled-color) inset, 0 -1px var(--ring-border-disabled-color) inset;
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
@@ -130,7 +130,7 @@
 
 /* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button.active[disabled] {
-  box-shadow: button-shadow var(--ring-border-disabled-color);
+  box-shadow: button-shadow var(--ring-border-selected-disabled-color);
 }
 
 .split {
