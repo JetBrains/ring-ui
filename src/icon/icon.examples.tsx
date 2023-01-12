@@ -90,7 +90,7 @@ inText.parameters = {
 
 export const allIconsList = () => (
   <div className="icon-example__container">
-    {allIcons.keys().filter(key => !key.includes('index.js')).map(key => {
+    {allIcons.keys().filter(key => !/(index|svgo\.config)\.js$/.test(key)).map(key => {
       const iconName = key.replace('./', '').replace('.js', '');
 
       return (
