@@ -2,7 +2,7 @@ import React, {PureComponent, InputHTMLAttributes, CSSProperties, Ref} from 'rea
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import checkmarkIcon from '@jetbrains/icons/checkmark-14px';
-import minusIcon from '@jetbrains/icons/remove-10px';
+import minusIcon from '@jetbrains/icons/remove-14px';
 
 import Icon from '../icon/icon';
 import {refObject} from '../global/prop-types';
