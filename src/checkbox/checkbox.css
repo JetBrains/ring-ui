@@ -116,20 +116,20 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   &[disabled][disabled] + .cell {
-    border-color: var(--ring-border-unselected-disabled-color);
+    border-color: var(--ring-border-disabled-color);
     background-color: var(--ring-disabled-background-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
   &[disabled]:checked + .cell,
   &[disabled]:indeterminate + .cell {
-    border-color: var(--ring-border-disabled-color);
+    border-color: var(--ring-border-selected-disabled-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
   &[disabled]:checked + .cell .check,
   &[disabled]:indeterminate + .cell .minus {
-    color: var(--ring-border-disabled-color);
+    color: var(--ring-border-selected-disabled-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
