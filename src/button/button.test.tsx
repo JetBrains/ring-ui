@@ -44,7 +44,7 @@ describe('Button', () => {
     const element = screen.getByRole('button');
     element.should.have.class(styles.withIcon);
     caretDownSVG.
-      replace('/>', '></path>').
+      replace('/>', '></polygon>').
       should.include(element.querySelector('svg')?.innerHTML);
   });
 
