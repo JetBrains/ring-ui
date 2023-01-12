@@ -173,7 +173,6 @@ export const withSidebar = () => {
             <rg-legacy-table-title>Avatar</rg-legacy-table-title>
             <rg-legacy-table-title>Check</rg-legacy-table-title>
             <rg-legacy-table-title active>Name</rg-legacy-table-title>
-            <rg-legacy-table-title></rg-legacy-table-title>
           </rg-legacy-table-header>
 
           <rg-legacy-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
@@ -183,10 +182,6 @@ export const withSidebar = () => {
             </rg-legacy-table-column>
             <rg-legacy-table-checkbox-cell aria-label="Toggle row checked state"></rg-legacy-table-checkbox-cell>
             <rg-legacy-table-column limited>{{::item.name }}</rg-legacy-table-column>
-            <rg-legacy-table-column>
-              <rg-sidebar-toggle-button ng-show="item.active"
-                model="ctrl.isShowSideBar"></rg-sidebar-toggle-button>
-            </rg-legacy-table-column>
           </rg-legacy-table-row>
         </rg-legacy-table>
       </div>
