@@ -86,6 +86,7 @@
 
   &[disabled].active {
     background-color: var(--ring-disabled-selected-background-color);
+    box-shadow: button-shadow var(--ring-border-selected-disabled-color);
   }
 
   &[disabled],
