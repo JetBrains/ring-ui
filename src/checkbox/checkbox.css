@@ -43,6 +43,9 @@
 .icon.icon {
   position: absolute;
 
+  top: -1px;
+  left: -1px;
+
   width: calc(unit * 2);
   height: calc(unit * 2);
 
@@ -58,18 +61,10 @@
 
 .check {
   composes: icon;
-
-  top: -1px;
-  left: -1px;
 }
 
 .minus {
   composes: icon;
-
-  top: 1px;
-  left: 2px;
-
-  opacity: 0;
 }
 
 .input {
