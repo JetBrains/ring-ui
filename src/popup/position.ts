@@ -145,11 +145,52 @@ const defaultcontainerRect = {
   left: 0
 };
 
+interface TopOffScreenParams {
+  sidePadding: number
+  styles: PositionStyles
+  anchorRect: Rect
+  maxHeight: number | 'screen' | null | undefined
+  popupScrollHeight: number
+  direction: Directions | null
+  scroll: Position
+}
+
+function handleTopOffScreen({
+  sidePadding, styles, anchorRect, maxHeight, popupScrollHeight, direction, scroll
+}: TopOffScreenParams) {
+  const BORDER_COMPENSATION = 1;
+  const {TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP} = Directions;
+
+  const openedToTop =
+    direction != null && [TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP].includes(direction);
+
+  if (!openedToTop) {
+    return styles;
+  }
+
+  const isAttachedToAnchorTop =
+    direction != null && [TOP_LEFT, TOP_CENTER, TOP_RIGHT].includes(direction);
+  const attachingPointY = (isAttachedToAnchorTop ? anchorRect.top : anchorRect.bottom);
+
+  const effectiveHeight = maxHeight && typeof maxHeight === 'number'
+    ? Math.min(popupScrollHeight, maxHeight)
+    : popupScrollHeight;
+  const hypotheticalTop = attachingPointY - effectiveHeight;
+
+  if (hypotheticalTop <= sidePadding) {
+    styles.top = sidePadding + scroll.top;
+    styles.maxHeight = attachingPointY - sidePadding + BORDER_COMPENSATION;
+  }
+
+  return styles;
+}
+
+
 export function maxHeightForDirection(
   direction: Directions,
   anchorNode: Element,
   containerNode?: Element | null
-): number {
+) {
   const container = containerNode || document.documentElement;
   const domRect = anchorNode.getBoundingClientRect();
   const containerRect = container.getBoundingClientRect();
@@ -158,7 +199,7 @@ export function maxHeightForDirection(
     // XXX
     // If container is the document element
     // then we check client height too because we may have situation when
-    // "height" from "getBoundingClientRect" less than "clientHeight".
+    // "height" from "getBoundingClientRect" less then "clientHeight".
     container === document.documentElement ? container.clientHeight : 0);
   const bottomMaxHeight = Math.max(containerHeight - (topMaxHeight + domRect.height), 0);
   switch (direction) {
@@ -180,8 +221,7 @@ export function maxHeightForDirection(
     case Directions.LEFT_CENTER:
       return (domRect.height / 2) + Math.min(bottomMaxHeight / 2, topMaxHeight / 2);
     default:
-      const exhaustiveCheck: never = direction;
-      throw new Error(exhaustiveCheck);
+      return null;
   }
 }
 
@@ -253,11 +293,16 @@ export default function position(attrs: PositionAttrs) {
     styles.maxHeight = maxHeight;
   }
 
-  if (autoCorrectTopOverflow && chosenDirection && anchor) {
-    styles.maxHeight = maxHeightForDirection(chosenDirection, anchor, container) - sidePadding;
-    if (styles.top === 0) {
-      styles.top = sidePadding;
-    }
+  if (autoCorrectTopOverflow) {
+    styles = handleTopOffScreen({
+      sidePadding,
+      styles,
+      anchorRect,
+      maxHeight,
+      direction: chosenDirection,
+      popupScrollHeight: popup?.scrollHeight ?? 0,
+      scroll
+    });
   }
 
   if (minWidth === MinWidth.TARGET || minWidth === 'target') {
