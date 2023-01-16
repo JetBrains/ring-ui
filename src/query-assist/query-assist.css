@@ -69,8 +69,6 @@
 }
 
 .huge {
-  --ring-input-padding-block: 5px;
-
   max-height: calc(var(--ring-input-padding-inline) * 4);
 
   padding: 0 0 0 var(--ring-input-padding-inline);
@@ -79,14 +77,8 @@
     padding-right: var(--ring-input-padding-inline);
   }
 
-  & .placeholder {
-    padding-left: 0;
-  }
-
   @nest [dir=rtl] & {
     padding: 0 var(--ring-input-padding-inline) 0 0;
-
-    border: 1px solid var(--ring-borders-color);
 
     & .actions {
       padding: 0 var(--ring-input-padding-inline);
@@ -167,7 +159,7 @@
   color: var(--ring-disabled-color);
 
   @nest [dir=rtl] & {
-    padding-right: calc(var(--ring-input-padding-inline) * 3 - var(--ring-input-padding-block));
+    padding-right: calc(var(--ring-input-padding-inline) * 3 + var(--ring-input-padding-block) * 2);
 
     text-align: right;
   }
@@ -229,6 +221,14 @@
 
     border-color: var(--ring-border-hover-color);
   }
+
+  @nest [dir=rtl] & {
+    border-right: 1px solid var(--ring-borders-color);
+    border-left: 0;
+    border-radius: var(--ring-border-radius);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 }
 
 .clear {
@@ -256,6 +256,10 @@
   padding-left: 0;
 
   @nest [dir=rtl] & {
-    padding-right: 0;
+    padding-right: calc(var(--ring-input-padding-block) * 3);
   }
+}
+
+.loaderActive {
+  padding-right: calc(var(--ring-input-padding-inline) - var(--ring-input-padding-block));
 }

@@ -1028,13 +1028,12 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const inputClasses = classNames(this.props.inputClassName, {
       [`${styles.input} ring-js-shortcuts`]: true,
       [styles.inputGap]: actions.length || this.isRenderingGlassOrLoader() && !glass,
-      [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
-      [styles.inputLeftGap]: this.isRenderingGlassOrLoader() && glass
+      [styles.inputGap2]: actions.length === 2 // TODO: replace with flex-box layout
     });
 
     const placeholderStyles = classNames({
       [styles.placeholder]: true,
-      [styles.withoutGlass]: !renderGlass
+      [styles.withoutGlass]: !this.isRenderingGlassOrLoader() || (!renderLoader && huge)
     });
 
     return (
@@ -1065,7 +1064,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
           {renderLoader && (
             <div
               className={classNames(styles.icon, styles.loader, {
-                [styles.loaderOnTheRight]: !glass
+                [styles.loaderOnTheRight]: !glass,
+                [styles.loaderActive]: renderLoader
               })}
               ref={this.loaderRef}
             >
