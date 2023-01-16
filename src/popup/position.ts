@@ -103,9 +103,7 @@ function verticalOverflow(
 
   const topOverflow = Math.max(viewportMinX - styles.top, 0);
 
-  const popupHeight = attrs.maxHeight && typeof attrs.maxHeight === 'number'
-    ? Math.min(attrs.popup.scrollHeight, attrs.maxHeight)
-    : attrs.popup.scrollHeight;
+  const popupHeight = attrs.popup.clientHeight;
   const verticalDiff = styles.top + popupHeight - viewportMaxX;
   const bottomOverflow = Math.max(verticalDiff, 0);
 
@@ -220,7 +218,7 @@ export default function position(attrs: PositionAttrs) {
     const overflowAttrs = {...attrs, popup};
     const directionsMatrix = getPositionStyles(popup, anchorRect, anchorLeft, anchorTop, offset);
     if (!autoPositioning || directions.length === 1) {
-      styles = {...directionsMatrix[directions[0]]};
+      styles = directionsMatrix[directions[0]];
       chosenDirection = directions[0];
     } else {
       const sortedByIncreasingOverflow = directions.
@@ -236,7 +234,7 @@ export default function position(attrs: PositionAttrs) {
             horizontalOverflow(stylesB, scroll, overflowAttrs);
           return overflowA - overflowB;
         });
-      styles = {...sortedByIncreasingOverflow[0].styles};
+      styles = sortedByIncreasingOverflow[0].styles;
       chosenDirection = sortedByIncreasingOverflow[0].direction;
     }
 
