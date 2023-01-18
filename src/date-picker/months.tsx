@@ -6,7 +6,6 @@ import getDaysInMonth from 'date-fns/getDaysInMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import subMonths from 'date-fns/subMonths';
 import endOfMonth from 'date-fns/endOfMonth';
-import {set} from 'date-fns';
 
 import scheduleRAF from '../global/schedule-raf';
 import linearFunction from '../global/linear-function';
@@ -46,7 +45,7 @@ let dy = 0;
 export default function Months(props: MonthsProps) {
   const {scrollDate} = props;
   const monthDate = scrollDate instanceof Date ? scrollDate : new Date(scrollDate);
-  const monthStart = set(monthDate, {date: 1});
+  const monthStart = startOfMonth(monthDate);
 
   let month = subMonths(monthStart, MONTHSBACK);
   const months = [month];
