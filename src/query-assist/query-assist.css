@@ -242,12 +242,6 @@
   }
 }
 
-.loaderOnTheRight {
-  right: 1px;
-
-  left: auto;
-}
-
 .input::-webkit-scrollbar {
   display: none;
 }
@@ -262,4 +256,16 @@
 
 .loaderActive {
   padding-right: calc(var(--ring-input-padding-inline) - var(--ring-input-padding-block));
+}
+
+.loaderOnTheRight {
+  padding-right: 0;
+
+  @nest [dir=rtl] & {
+    padding-left: 0;
+  }
+}
+
+.inputRevertOrder {
+  order: -1;
 }
