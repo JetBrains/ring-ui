@@ -1028,7 +1028,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const inputClasses = classNames(this.props.inputClassName, {
       [`${styles.input} ring-js-shortcuts`]: true,
       [styles.inputGap]: actions.length || this.isRenderingGlassOrLoader() && !glass,
-      [styles.inputGap2]: actions.length === 2 // TODO: replace with flex-box layout
+      [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
+      [styles.inputRevertOrder]: !glass
     });
 
     const placeholderStyles = classNames({
