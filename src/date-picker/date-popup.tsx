@@ -4,6 +4,7 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
 import startOfDay from 'date-fns/startOfDay';
+import {set} from 'date-fns';
 
 import memoize from '../global/memoize';
 
@@ -138,7 +139,13 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
         text: null,
         scrollDate: null
       });
-      this.props.onChange(changes.date);
+      const adjustedDate = changes.date && set(new Date(),
+        {
+          year: changes.date.getFullYear(),
+          month: changes.date.getMonth(),
+          date: changes.date.getDate()
+        });
+      this.props.onChange(adjustedDate);
       this.props.onComplete();
     } else if (!range && withTime) {
       const date = this.parse(this.props.date, 'date');
