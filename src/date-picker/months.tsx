@@ -45,8 +45,7 @@ let dy = 0;
 export default function Months(props: MonthsProps) {
   const {scrollDate} = props;
   const monthDate = scrollDate instanceof Date ? scrollDate : new Date(scrollDate);
-  // Creating midnight of the first day of the month in UTC to prevent the impact of user timezone
-  const monthStart = new Date(Date.UTC(monthDate.getFullYear(), monthDate.getMonth(), 1));
+  const monthStart = startOfMonth(monthDate);
 
   let month = subMonths(monthStart, MONTHSBACK);
   const months = [month];
