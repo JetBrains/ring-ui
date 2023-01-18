@@ -1107,9 +1107,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
             </button>
           )}
 
-          {actions && (
-            <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>
-          )}
+          {actions.length
+            ? (
+              <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>
+            )
+            : null}
 
           <PopupMenu
             hidden={!this.state.showPopup}
