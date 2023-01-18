@@ -6,6 +6,7 @@ import getDaysInMonth from 'date-fns/getDaysInMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import subMonths from 'date-fns/subMonths';
 import endOfMonth from 'date-fns/endOfMonth';
+import {set} from 'date-fns';
 
 import scheduleRAF from '../global/schedule-raf';
 import linearFunction from '../global/linear-function';
@@ -45,8 +46,7 @@ let dy = 0;
 export default function Months(props: MonthsProps) {
   const {scrollDate} = props;
   const monthDate = scrollDate instanceof Date ? scrollDate : new Date(scrollDate);
-  // Creating midnight of the first day of the month in UTC to prevent the impact of user timezone
-  const monthStart = new Date(Date.UTC(monthDate.getFullYear(), monthDate.getMonth(), 1));
+  const monthStart = set(monthDate, {date: 1});
 
   let month = subMonths(monthStart, MONTHSBACK);
   const months = [month];
