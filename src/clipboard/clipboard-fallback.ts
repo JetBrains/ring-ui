@@ -7,10 +7,11 @@ export function copyTextToClipboard(str: string) {
 
   document.body.appendChild(el);
 
+  const selection = document.getSelection();
   // Should restore previous selection
   const selected =
-    document.getSelection()!.rangeCount > 0
-      ? document.getSelection()!.getRangeAt(0)
+    (selection && selection.rangeCount > 0)
+      ? selection.getRangeAt(0)
       : false;
 
   el.select();
@@ -18,9 +19,9 @@ export function copyTextToClipboard(str: string) {
   document.execCommand('copy');
   document.body.removeChild(el);
 
-  if (selected) {
-    document.getSelection()!.removeAllRanges();
-    document.getSelection()!.addRange(selected);
+  if (selected && selection) {
+    selection.removeAllRanges();
+    selection.addRange(selected);
   }
 }
 
@@ -33,23 +34,24 @@ export function copyHTMLToClipboard(str: string) {
 
   document.body.appendChild(el);
 
+  const selection = document.getSelection();
   // Should restore previous selection
   const selected =
-    document.getSelection()!.rangeCount > 0
-      ? document.getSelection()!.getRangeAt(0)
+    (selection && selection.rangeCount > 0)
+      ? selection.getRangeAt(0)
       : false;
 
-  window.getSelection()?.removeAllRanges();
+  selection?.removeAllRanges();
   const range = document.createRange();
   range.selectNode(el);
-  window.getSelection()?.addRange(range);
+  selection?.addRange(range);
   document.execCommand('copy');
-  window.getSelection()?.removeAllRanges();
+  selection?.removeAllRanges();
 
   document.execCommand('copy');
   document.body.removeChild(el);
 
-  if (selected) {
-    document.getSelection()!.addRange(selected);
+  if (selected && selection) {
+    selection.addRange(selected);
   }
 }
