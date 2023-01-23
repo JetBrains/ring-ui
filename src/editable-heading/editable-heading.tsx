@@ -47,6 +47,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     size = Size.L, onEdit = noop, onSave = noop, onCancel = noop,
     autoFocus = true, 'data-test': dataTest, error, disabled, multiline = false,
     renderMenu = () => null,
+    onFocus, onBlur,
     translations = {
       save: 'Save',
       cancel: 'Cancel'
@@ -97,13 +98,15 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     return onEdit();
   }, [disabled, onEdit]);
 
-  const onInputFocus = React.useCallback(() => {
+  const onInputFocus = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
     setIsInFocus(true);
-  }, []);
+    onFocus?.(e);
+  }, [onFocus]);
 
-  const onInputBlur = React.useCallback(() => {
+  const onInputBlur = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
     setIsInFocus(false);
-  }, []);
+    onBlur?.(e);
+  }, [onBlur]);
 
   return (
     <>
@@ -123,9 +126,9 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                 autoFocus={autoFocus}
                 data-test={dataTest}
                 disabled={isSaving}
+                {...restProps}
                 onFocus={onInputFocus}
                 onBlur={onInputBlur}
-                {...restProps}
               />
             </>
           )
