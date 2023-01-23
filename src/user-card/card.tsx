@@ -1,10 +1,13 @@
 import React, {HTMLAttributes, PureComponent, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import copyIcon from '@jetbrains/icons/copy';
 
-import Avatar, {Size} from '../avatar/avatar';
+import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Link from '../link/link';
+import clipboard from '../clipboard/clipboard';
 import badgeStyles from '../badge/badge.css';
+import Icon, {Size as IconSize} from '../icon/icon';
 
 import styles from './user-card.css';
 
@@ -17,11 +20,16 @@ export interface UserCardUser {
   online?: boolean | null | undefined
   banned?: boolean | null | undefined
   banReason?: string | undefined
+  unverifiedEmail?: boolean | null | undefined
 }
 export interface UserCardWording {
   banned: string
   online: string
   offline: string
+  copyToClipboard: string
+  copiedToClipboard: string
+  copingToClipboardError: string
+  unverified: string
 }
 export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
   user: UserCardUser
@@ -43,13 +51,18 @@ export default class UserCard extends PureComponent<UserCardProps> {
       href: PropTypes.string,
       online: PropTypes.bool,
       banned: PropTypes.bool,
-      banReason: PropTypes.string
+      banReason: PropTypes.string,
+      unverifiedEmail: PropTypes.bool
     }).isRequired,
 
     wording: PropTypes.shape({
       banned: PropTypes.string.isRequired,
       online: PropTypes.string.isRequired,
-      offline: PropTypes.string.isRequired
+      offline: PropTypes.string.isRequired,
+      copyToClipboard: PropTypes.string.isRequired,
+      copiedToClipboard: PropTypes.string.isRequired,
+      copingToClipboardError: PropTypes.string.isRequired,
+      unverified: PropTypes.string
     })
   };
 
@@ -57,8 +70,17 @@ export default class UserCard extends PureComponent<UserCardProps> {
     wording: {
       banned: 'banned',
       online: 'online',
-      offline: 'offline'
+      offline: 'offline',
+      copyToClipboard: 'Copy to clipboard',
+      copiedToClipboard: 'Email was copied to clipboard',
+      copingToClipboardError: 'Failed to copy to clipboard',
+      unverified: 'Unverified'
     }
+  };
+
+  copyEmail = () => {
+    const {user, wording} = this.props;
+    clipboard.copyText(user.email || '', wording.copiedToClipboard, wording.copingToClipboardError);
   };
 
   render() {
@@ -74,11 +96,11 @@ export default class UserCard extends PureComponent<UserCardProps> {
       <div className={classes} {...restProps}>
         <div className={styles.userInformationContainer}>
           <Avatar
-            size={Size.Size56}
+            size={AvatarSize.Size56}
             url={user.avatarUrl}
           />
           <div className={styles.userInformation}>
-            <div>
+            <div className={styles.userNameLine}>
               {user.href && (
                 <Link
                   href={user.href}
@@ -88,6 +110,15 @@ export default class UserCard extends PureComponent<UserCardProps> {
                 </Link>
               )}
               {!user.href && <span className={styles.userName}>{user.name}</span>}
+              {
+                typeof user.online === 'boolean' &&
+                (
+                  <span
+                    className={userActiveStatusClasses}
+                    title={user.online ? wording.online : wording.offline}
+                  />
+                )
+              }
               {!!info && <span className={styles.userNameInfo}>{info}</span>}
               {
                 user.banned &&
@@ -99,22 +130,36 @@ export default class UserCard extends PureComponent<UserCardProps> {
                 )
               }
             </div>
-            <div>
-              {
-                typeof user.online === 'boolean' &&
-                (
-                  <span
-                    className={userActiveStatusClasses}
-                    title={user.online ? wording.online : wording.offline}
-                  />
-                )
-              }
-              {user.login}
-            </div>
-            {user.email && <div>{user.email}</div>}
+            <div className={styles.userLogin}>{user.login}</div>
+            {user.email && (
+              <span
+                className={styles.userEmailWrapper}
+              >
+                <Link
+                  pseudo
+                  onClick={this.copyEmail}
+                  className={styles.userEmail}
+                >
+                  {user.email}
+                </Link>
+                {
+                  user.unverifiedEmail && (
+                    <span className={styles.unverifiedLabel}>{wording.unverified}</span>
+                  )
+                }
+                <Icon
+                  title={wording.copyToClipboard}
+                  className={styles.userCopyIcon}
+                  onClick={this.copyEmail}
+                  glyph={copyIcon}
+                  size={IconSize.Size14}
+                  suppressSizeWarning
+                />
+              </span>
+            )}
+            {children}
           </div>
         </div>
-        {children}
       </div>
     );
   }
