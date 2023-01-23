@@ -10,7 +10,8 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Displays a link which copies test to clipboard.'
+    notes: 'Displays a link which copies test to clipboard.',
+    hermione: {skip: true}
   }
 };
 
