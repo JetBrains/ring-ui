@@ -8,7 +8,7 @@
 
 .userInformationContainer {
   display: flex;
-  align-items: center;
+  align-items: start;
 }
 
 .userInformation {
@@ -22,20 +22,70 @@
   line-height: 18px;
 }
 
+.userNameLine {
+  height: var(--ring-line-height);
+
+  white-space: nowrap;
+
+  line-height: var(--ring-line-height);
+}
+
 .userName {
   display: inline-block;
 
   margin-right: 4px;
-  margin-bottom: 3px;
 
   font-size: 16px;
   font-weight: 600;
 }
 
+.userLogin {
+  margin-bottom: var(--ring-unit);
+
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+}
+
+.userEmail {
+  margin-right: 4px;
+
+  font-size: var(--ring-font-size);
+}
+
+.userCopyIcon {
+  cursor: pointer;
+
+  opacity: 0;
+}
+
+.userCopyIcon svg {
+  margin-left: 4px;
+
+  color: var(--ring-link-hover-color);
+}
+
+.userEmailWrapper:hover .userCopyIcon {
+  transition: opacity 300ms ease-out;
+
+  opacity: 1;
+}
+
+.userEmailWrapper:hover .userEmail {
+  color: var(--ring-link-hover-color);
+}
+
+.unverifiedLabel {
+  margin: 0 4px;
+
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+}
+
 .userNameInfo {
   display: inline-block;
 
-  margin-right: 4px;
   margin-bottom: 3px;
 }
 
