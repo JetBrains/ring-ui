@@ -23,11 +23,11 @@
 }
 
 .userNameLine {
-  height: var(--ring-line-height);
+  height: var(--ring-line-height-lowest);
 
   white-space: nowrap;
 
-  line-height: var(--ring-line-height);
+  line-height: var(--ring-line-height-lowest);
 }
 
 .userName {
@@ -40,7 +40,7 @@
 }
 
 .userLogin {
-  margin-bottom: var(--ring-unit);
+  margin-bottom: 7px;
 
   color: var(--ring-secondary-color);
 
@@ -94,8 +94,8 @@
 
   width: unit;
   height: unit;
-
-  margin-right: 4px;
+  margin-right: var(--ring-unit);
+  margin-left: 6px;
 
   border-radius: 50%;
   background-color: var(--ring-icon-secondary-color);
