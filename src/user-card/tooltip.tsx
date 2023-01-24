@@ -29,14 +29,12 @@ export default class UserCardTooltip extends Component<UserCardTooltipProps> {
 
   static defaultProps = {
     renderUserCard: (props: UserCardTooltipProps) => {
-      const {className,
-        children, renderUserCard, renderNoUser, dropdownProps, user, ...restProps} = props;
+      const {children, renderUserCard, renderNoUser, dropdownProps, user, ...restProps} = props;
 
       return user && (
         <UserCard
           user={user}
           {...restProps}
-          className={classNames(styles.userCardSpaced, className)}
         />
       );
     },
@@ -58,7 +56,14 @@ export default class UserCardTooltip extends Component<UserCardTooltipProps> {
         {...dropdownProps}
       >
         <Popup attached={false}>
-          {user ? renderUserCard(this.props) : renderNoUser()}
+          {
+            user
+              ? renderUserCard({
+                ...this.props,
+                className: classNames(styles.userCardSpaced, this.props.className)
+              })
+              : renderNoUser()
+          }
         </Popup>
       </Dropdown>
     );
