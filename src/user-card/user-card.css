@@ -28,6 +28,10 @@
   line-height: 18px;
 }
 
+.userInformationGeneral {
+  height: 56px;
+}
+
 .userNameLine {
   height: var(--ring-line-height-lowest);
 
