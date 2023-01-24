@@ -14,7 +14,7 @@ export interface UserCardTooltipProps extends Omit<UserCardAttrs, 'user'> {
   user?: UserCardUser | null | undefined
   children: ReactElement | readonly ReactElement[] | string
   dropdownProps: Partial<DropdownAttrs>
-  renderUserCard: (props: UserCardTooltipProps) => ReactNode
+  renderUserCard: (props: UserCardAttrs) => ReactNode
   renderNoUser: () => ReactNode
 }
 export default class UserCardTooltip extends Component<UserCardTooltipProps> {
@@ -28,8 +28,8 @@ export default class UserCardTooltip extends Component<UserCardTooltipProps> {
   };
 
   static defaultProps = {
-    renderUserCard: (props: UserCardTooltipProps) => {
-      const {children, renderUserCard, renderNoUser, dropdownProps, user, ...restProps} = props;
+    renderUserCard: (props: UserCardAttrs) => {
+      const {user, ...restProps} = props;
 
       return user && (
         <UserCard
@@ -46,7 +46,7 @@ export default class UserCardTooltip extends Component<UserCardTooltipProps> {
   };
 
   render() {
-    const {children, user, renderUserCard, renderNoUser, dropdownProps} = this.props;
+    const {children, renderUserCard, renderNoUser, dropdownProps, user, ...restProps} = this.props;
 
     return (
       <Dropdown
@@ -59,7 +59,8 @@ export default class UserCardTooltip extends Component<UserCardTooltipProps> {
           {
             user
               ? renderUserCard({
-                ...this.props,
+                ...restProps,
+                user,
                 className: classNames(styles.userCardSpaced, this.props.className)
               })
               : renderNoUser()
