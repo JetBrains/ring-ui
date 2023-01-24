@@ -11,6 +11,10 @@
   align-items: flex-start;
 }
 
+.userAvatar {
+  position: relative;
+}
+
 .userInformation {
   padding-left: 12px;
 

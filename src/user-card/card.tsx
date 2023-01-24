@@ -35,6 +35,7 @@ export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
   user: UserCardUser
   wording: UserCardWording
   info?: ReactElement | readonly ReactElement[] | string,
+  avatarInfo?: ReactElement | readonly ReactElement[] | string,
   'data-test'?: string | null | undefined
 }
 export default class UserCard extends PureComponent<UserCardProps> {
@@ -84,7 +85,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
   };
 
   render() {
-    const {children, info, className, user, wording, ...restProps} = this.props;
+    const {children, info, className, user, wording, avatarInfo, ...restProps} = this.props;
 
     const classes = classNames(className, {});
     const userActiveStatusClasses = classNames(
@@ -95,10 +96,13 @@ export default class UserCard extends PureComponent<UserCardProps> {
     return (
       <div className={classes} {...restProps}>
         <div className={styles.userInformationContainer}>
-          <Avatar
-            size={AvatarSize.Size56}
-            url={user.avatarUrl}
-          />
+          <div className={styles.userAvatar}>
+            <Avatar
+              size={AvatarSize.Size56}
+              url={user.avatarUrl}
+            />
+            {!!avatarInfo && avatarInfo}
+          </div>
           <div className={styles.userInformation}>
             <div className={styles.userNameLine}>
               {user.href && (
