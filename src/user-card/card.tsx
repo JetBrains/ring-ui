@@ -104,63 +104,65 @@ export default class UserCard extends PureComponent<UserCardProps> {
             {!!avatarInfo && avatarInfo}
           </div>
           <div className={styles.userInformation}>
-            <div className={styles.userNameLine}>
-              {user.href && (
-                <Link
-                  href={user.href}
-                  className={styles.userName}
-                >
-                  {user.name}
-                </Link>
-              )}
-              {!user.href && <span className={styles.userName}>{user.name}</span>}
-              {
-                typeof user.online === 'boolean' &&
-                (
-                  <span
-                    className={userActiveStatusClasses}
-                    title={user.online ? wording.online : wording.offline}
-                  />
-                )
-              }
-              {!!info && <span className={styles.userNameInfo}>{info}</span>}
-              {
-                user.banned &&
-                (
-                  <span
-                    className={classNames(badgeStyles.badge, badgeStyles.invalid)}
-                    title={user.banReason}
-                  >{wording.banned}</span>
-                )
-              }
-            </div>
-            <div className={styles.userLogin}>{user.login}</div>
-            {user.email && (
-              <span
-                className={styles.userEmailWrapper}
-              >
-                <Link
-                  pseudo
-                  onClick={this.copyEmail}
-                  className={styles.userEmail}
-                >
-                  {user.email}
-                </Link>
+            <div className={styles.userInformationGeneral}>
+              <div className={styles.userNameLine}>
+                {user.href && (
+                  <Link
+                    href={user.href}
+                    className={styles.userName}
+                  >
+                    {user.name}
+                  </Link>
+                )}
+                {!user.href && <span className={styles.userName}>{user.name}</span>}
                 {
-                  user.unverifiedEmail && (
-                    <span className={styles.unverifiedLabel}>{wording.unverified}</span>
+                  typeof user.online === 'boolean' &&
+                  (
+                    <span
+                      className={userActiveStatusClasses}
+                      title={user.online ? wording.online : wording.offline}
+                    />
                   )
                 }
-                <Icon
-                  title={wording.copyToClipboard}
-                  className={styles.userCopyIcon}
-                  onClick={this.copyEmail}
-                  glyph={copyIcon}
-                  size={IconSize.Size14}
-                  suppressSizeWarning
-                />
-              </span>
-            )}
+                {!!info && <span className={styles.userNameInfo}>{info}</span>}
+                {
+                  user.banned &&
+                  (
+                    <span
+                      className={classNames(badgeStyles.badge, badgeStyles.invalid)}
+                      title={user.banReason}
+                    >{wording.banned}</span>
+                  )
+                }
+              </div>
+              <div className={styles.userLogin}>{user.login}</div>
+              {user.email && (
+                <span
+                  className={styles.userEmailWrapper}
+                >
+                  <Link
+                    pseudo
+                    onClick={this.copyEmail}
+                    className={styles.userEmail}
+                  >
+                    {user.email}
+                  </Link>
+                  {
+                    user.unverifiedEmail && (
+                      <span className={styles.unverifiedLabel}>{wording.unverified}</span>
+                    )
+                  }
+                  <Icon
+                    title={wording.copyToClipboard}
+                    className={styles.userCopyIcon}
+                    onClick={this.copyEmail}
+                    glyph={copyIcon}
+                    size={IconSize.Size14}
+                    suppressSizeWarning
+                  />
+                </span>
+              )}
+            </div>
             {children}
           </div>
         </div>
