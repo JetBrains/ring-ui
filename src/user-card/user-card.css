@@ -13,6 +13,8 @@
 
 .userAvatar {
   position: relative;
+
+  display: flex;
 }
 
 .userInformation {
