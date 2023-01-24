@@ -150,7 +150,7 @@
     "merge-options": "^3.0.4",
     "mocha": "^10.2.0",
     "pinst": "^3.0.0",
-    "puppeteer": "^19.5.2",
+    "puppeteer": "^19.6.0",
     "raw-loader": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
