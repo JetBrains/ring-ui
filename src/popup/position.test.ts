@@ -13,33 +13,25 @@ interface NodeData {
 describe('position', () => {
   describe('maxHeightForDirection', () => {
     it('should return max height for specified direction relative to container', () => {
-      const containerNode = createNode({},
-        createClientRectMock({
-          top: 10,
-          left: 10,
-          width: 30,
-          height: 40
-        })
-      );
+      sandbox.stub(window, 'innerHeight').value(40);
 
       const topMaxHeight = 20;
       const bottomMaxHeight = 10;
 
       const anchorNode = createNode({},
         createClientRectMock({
-          top: containerNode.getBoundingClientRect().top + topMaxHeight,
-          left: containerNode.getBoundingClientRect().left + 10,
+          top: topMaxHeight,
+          left: 0,
           width: 10,
           height: 10
         })
       );
 
-      checkMaxHeight(anchorNode, containerNode, [
+      checkMaxHeight(anchorNode, undefined, [
         topMaxHeight,
         bottomMaxHeight
       ]);
     });
-
 
     it('should NOT include scroll height when calculate max height', () => {
       const containerNode = createNode(
@@ -73,28 +65,23 @@ describe('position', () => {
     });
 
 
-    it('should handle case when both element out of the top border of viewport', () => {
-      const containerNode = createNode({},
-        createClientRectMock({
-          top: -50,
-          left: 10,
-          width: 30,
-          height: 30
-        })
-      );
+    it('should handle case when anchor is out of viewport', () => {
+      const WINDOW_HEIGHT = 200;
+      const ANCHOR_TOP = -50;
+      sandbox.stub(window, 'innerHeight').value(200);
 
       const anchorNode = createNode({},
         createClientRectMock({
-          top: containerNode.getBoundingClientRect().top + 10,
-          left: containerNode.getBoundingClientRect().left + 10,
+          top: ANCHOR_TOP,
+          left: 0,
           width: 10,
           height: 10
         })
       );
 
-      const topMaxHeight = 10;
-      const bottomMaxHeight = 10;
-      checkMaxHeight(anchorNode, containerNode, [
+      const topMaxHeight = 8;
+      const bottomMaxHeight = WINDOW_HEIGHT - ANCHOR_TOP - 10;
+      checkMaxHeight(anchorNode, undefined, [
         topMaxHeight,
         bottomMaxHeight
       ]);
@@ -112,7 +99,7 @@ describe('position', () => {
 
   function checkMaxHeight(
     anchorNode: Element,
-    containerNode: Element,
+    containerNode: Element | undefined,
     [topMaxHeight, bottomMaxHeight]: [number, number]
   ) {
     const expectedValues = [

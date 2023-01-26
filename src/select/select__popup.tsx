@@ -503,7 +503,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           Math.max(maxHeight, maxHeightForDirection(
             direction,
             anchorNode,
-            getStyles(containerNode).position !== 'static' ? containerNode : null
+            getStyles(containerNode).position !== 'static' ? containerNode : undefined
           ) ?? 0)
         ), minMaxHeight),
         userDefinedMaxHeight

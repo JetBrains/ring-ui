@@ -150,19 +150,30 @@ const defaultcontainerRect = {
 export function maxHeightForDirection(
   direction: Directions,
   anchorNode: Element,
-  containerNode?: Element | null
+  container: Element = document.documentElement
 ): number {
-  const container = containerNode || document.documentElement;
+  const MIN_POPUP_SIZE = 8;
   const domRect = anchorNode.getBoundingClientRect();
-  const containerRect = container.getBoundingClientRect();
-  const topMaxHeight = Math.max(domRect.top - containerRect.top, 0);
-  const containerHeight = Math.max(containerRect.height,
-    // XXX
-    // If container is the document element
-    // then we check client height too because we may have situation when
-    // "height" from "getBoundingClientRect" less than "clientHeight".
-    container === document.documentElement ? container.clientHeight : 0);
-  const bottomMaxHeight = Math.max(containerHeight - (topMaxHeight + domRect.height), 0);
+
+  let topMaxHeight;
+  let bottomMaxHeight;
+
+  if (container === document.documentElement) {
+    topMaxHeight = Math.max(domRect.top, MIN_POPUP_SIZE);
+    bottomMaxHeight = Math.max(getWindowHeight() - domRect.top - domRect.height, MIN_POPUP_SIZE);
+  } else {
+    const containerRect = container.getBoundingClientRect();
+    topMaxHeight = Math.max(domRect.top - containerRect.top, 0);
+    const containerHeight = Math.max(containerRect.height,
+      // XXX
+      // If container is the document element
+      // then we check client height too because we may have situation when
+      // "height" from "getBoundingClientRect" less than "clientHeight".
+      container === document.documentElement ? container.clientHeight : 0);
+    bottomMaxHeight = Math.max(containerHeight - (topMaxHeight + domRect.height), 0);
+  }
+
+
   switch (direction) {
     case Directions.TOP_LEFT:
     case Directions.TOP_CENTER:
@@ -256,9 +267,13 @@ export default function position(attrs: PositionAttrs) {
   }
 
   if (autoCorrectTopOverflow && chosenDirection && anchor) {
-    styles.maxHeight = maxHeightForDirection(chosenDirection, anchor, container) - sidePadding;
-    if (styles.top === 0) {
-      styles.top = sidePadding;
+    const maxForDirection = maxHeightForDirection(chosenDirection, anchor) - sidePadding;
+
+    if (!styles.maxHeight || styles.maxHeight > maxForDirection) {
+      styles.maxHeight = maxForDirection;
+      if (styles.top === 0) {
+        styles.top = sidePadding;
+      }
     }
   }
 
