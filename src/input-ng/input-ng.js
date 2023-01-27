@@ -15,7 +15,6 @@ import styleOverrides from './input-ng.css';
 const angularModule = angular.module('Ring.input', [ButtonNg]);
 
 class RingInputComponent extends RingAngularComponent {
-  static $inject = ['$element'];
 
   static require = {
     ngModelCtrl: '?ngModel'
@@ -153,6 +152,7 @@ class RingInputComponent extends RingAngularComponent {
 </div>
   `;
 }
+RingInputComponent.$inject = ['$element'];
 
 angularModule.component('rgInput', RingInputComponent);
 
