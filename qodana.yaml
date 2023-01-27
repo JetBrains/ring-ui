@@ -7,6 +7,15 @@ profile:
 include:
   - name: CheckDependencyLicenses
 
+exclude:
+  - name: CssInvalidPropertyValue # https://youtrack.jetbrains.com/issue/WEB-59153/Mismatched-property-value-in-postcss-file
+  - name: CssUnknownProperty # https://youtrack.jetbrains.com/issue/WEB-59153/Mismatched-property-value-in-postcss-file
+  - name: CssNegativeValue # Fixed in 2023.1 EAP 2, https://youtrack.jetbrains.com/issue/WEB-23000/box-shadow-CSS-property-false-negative-value-is-not-allowed-error
+  - name: HtmlUnknownAttribute # https://youtrack.jetbrains.com/issue/WEB-59170/HtmlUnknownAttribute-in-.js-file-wrong-suggestion-class-className-for-foo
+  - name: JSUnusedGlobalSymbols # https://youtrack.jetbrains.com/issue/WEB-30388
+    paths:
+      - typings.d.ts
+
 licenseRules:
   - keys: [ "Apache-2.0" ]
     allowed:
