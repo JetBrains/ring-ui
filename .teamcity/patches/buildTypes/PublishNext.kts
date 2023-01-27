@@ -11,6 +11,15 @@ To apply the patch, change the buildType with id = 'PublishNext'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("PublishNext")) {
+    params {
+        expect {
+            param("env.NPM_VERSION_PARAMS", "patch --preid beta")
+        }
+        update {
+            param("env.NPM_VERSION_PARAMS", " prepatch --preid beta")
+        }
+    }
+
     expectSteps {
         script {
             name = "Publish"
