@@ -15,6 +15,12 @@ exclude:
   - name: JSUnusedGlobalSymbols # https://youtrack.jetbrains.com/issue/WEB-30388
     paths:
       - typings.d.ts
+  - name: SpellCheckingInspection # Suppress "lorem ipsum" spell checking
+    paths:
+      - src/content-layout/content-layout.examples.tsx
+      - src/heading/heading.examples.tsx
+      - src/editable-heading/editable-heading.examples.tsx
+
 
 licenseRules:
   - keys: [ "Apache-2.0" ]
