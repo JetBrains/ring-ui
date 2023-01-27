@@ -648,6 +648,33 @@ object SecurityAudit : BuildType({
     }
 })
 
+object QodanaAnalysis : BuildType({
+  name = "Qodana Analyze"
+
+  params {
+    password("env.QODANA_TOKEN", "******", display = ParameterDisplay.HIDDEN)
+  }
+
+  vcs {
+    root(DslContext.settingsRoot)
+  }
+
+  steps {
+    qodana {
+      name = "Run Qodana for JS"
+      linter = customLinter {
+        image = "jetbrains/qodana-js:2022.3-eap"
+      }
+      additionalDockerArguments = "-e QODANA_TOKEN=%env.QODANA_TOKEN%"
+      param("code-inspection-custom-xml-config-path", ".idea/inspectionProfiles/Project_Default.xml")
+    }
+  }
+  triggers {
+    vcs {
+    }
+  }
+})
+
 object Publish : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
     name = "Publish @latest (master)"
