@@ -1,0 +1,19 @@
+version: "1.0"
+linter: jetbrains/qodana-js:2022.3-eap
+bootstrap: bash .qodana/bootstrap.sh
+profile:
+  path: .idea/inspectionProfiles/Project_Default.xml
+
+include:
+  - name: CheckDependencyLicenses
+
+licenseRules:
+  - keys: [ "Apache-2.0" ]
+    allowed:
+      - "W3C"
+      - "Unlicense"
+      - "0BSD"
+      - "CC-BY-4.0"
+
+dependencyIgnores:
+  - name: "@jetbrains/logos"
