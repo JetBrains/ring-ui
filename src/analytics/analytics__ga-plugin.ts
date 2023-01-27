@@ -1,4 +1,5 @@
 import {AnalyticsPlugin} from './analytics';
+import AnalyticsPluginUtils from './analytics__plugin-utils';
 
 declare global {
   interface Window {
@@ -7,7 +8,7 @@ declare global {
 }
 
 /**
- *
+ * @deprecated
  * @param {string?} gaId Google Analytics ID (should be undefined in development)
  * @constructor
  */
@@ -53,23 +54,55 @@ export default class AnalyticsGAPlugin implements AnalyticsPlugin {
     ga('set', 'allowAdFeatures', false);
   }
 
-  trackEvent(category: string, action: string) {
+  /**
+   * @deprecated
+   */
+  trackEvent(rawCategory: string, rawAction: string, additionalData?: Record<string, string>) {
     if (window.ga != null) {
-      const eventOptions = {
+      const category = AnalyticsPluginUtils.reformatString(rawCategory, true);
+      const action = AnalyticsPluginUtils.reformatString(rawAction);
+      ga('send', 'event', {
         eventCategory: category,
         eventAction: action
-      };
-      ga('send', 'event', eventOptions);
+      });
+      if (additionalData) {
+        ga('send', 'event', {
+          eventCategory: category,
+          eventAction: action + this._buildSuffix(additionalData)
+        });
+      }
     }
   }
 
+  /**
+   * @deprecated
+   */
   trackPageView(path: string) {
     if (window.ga != null) {
       ga('send', 'pageview', path);
     }
   }
 
+  /**
+   * @deprecated
+   */
   get serializeAdditionalInfo() {
     return true;
+  }
+
+  private _buildSuffix(additionalData: Record<string, unknown> | undefined) {
+    if (!additionalData) {
+      return '';
+    }
+
+    let suffix = '';
+    let key;
+    for (key in additionalData) {
+      if (additionalData.hasOwnProperty(key)) {
+        suffix += `__${key}$${additionalData[key]}`;
+      }
+    }
+
+    return suffix;
   }
 }
