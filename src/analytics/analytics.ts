@@ -1,13 +1,24 @@
+import deprecate from 'util-deprecate';
+
+const warnOnDeprecationOfAnalyticsMethod = (methodName: string) =>
+  deprecate(
+    () => {},
+    `Method analytics::${methodName} is deprecated, use analytics::trackEvent instead`
+  )();
+
 type Serializable = string | number | boolean | null | undefined | {
   [K in string | number]?: Serializable
 }
 
 export interface AnalyticsPlugin {
+  /**
+   * @deprecated
+   */
   serializeAdditionalInfo: boolean
   trackEvent(
     category: string,
     action: string,
-    additionalData?: Record<string, unknown> | undefined
+    additionalData?: Record<string, string>
   ): void
   trackPageView(path: string): void
 }
@@ -26,10 +37,15 @@ export class Analytics {
     this._plugins = plugins;
   }
 
-  track(rawTrackingData: string, additionalData?: Record<string, unknown> | undefined) {
+  /**
+   * @deprecated
+   */
+  track(rawTrackingData: string, additionalData: Record<string, string>) {
     if (!rawTrackingData) {
       return;
     }
+
+    warnOnDeprecationOfAnalyticsMethod('track');
 
     let splitIdx = rawTrackingData.indexOf(':');
     if (splitIdx < 0) {
@@ -45,7 +61,11 @@ export class Analytics {
     this.trackEvent(category, subcategory, additionalData);
   }
 
+  /**
+   * @deprecated
+   */
   trackPageView(path: string) {
+    warnOnDeprecationOfAnalyticsMethod('trackPageView');
     this._plugins.forEach(plugin => {
       plugin.trackPageView(path);
     });
@@ -54,36 +74,35 @@ export class Analytics {
   trackEvent(
     category: string,
     action: string,
-    additionalData?: Record<string, unknown> | undefined
+    additionalData?: Record<string, string>
   ) {
-    const subaction = additionalData ? action + this._buildSuffix(additionalData) : null;
     this._plugins.forEach(plugin => {
-      if (plugin.serializeAdditionalInfo) {
-        plugin.trackEvent(category, action);
-        if (subaction) {
-          plugin.trackEvent(category, subaction);
-        }
-      } else {
-        plugin.trackEvent(category, action, additionalData);
-      }
+      plugin.trackEvent(category, action, additionalData);
     });
   }
 
+  /**
+   * @deprecated
+   */
   trackShortcutEvent(
     category: string,
     action: string,
-    additionalData?: Record<string, unknown> | undefined
+    additionalData: Record<string, string>
   ) {
+    warnOnDeprecationOfAnalyticsMethod('trackShortcutEvent');
     this.trackEvent(category, action, additionalData);
-    this.trackEvent('ring-shortcut', `${category}$${action}`, additionalData);
   }
 
+  /**
+   * @deprecated
+   */
   trackEntityProperties(
     entityName: string,
     entity: Serializable,
     propertiesNames: readonly string[],
-    additionalData?: Record<string, unknown> | undefined
+    additionalData?: Record<string, string>
   ) {
+    warnOnDeprecationOfAnalyticsMethod('trackEntityProperties');
     for (let i = 0; i < propertiesNames.length; ++i) {
       const keys = propertiesNames[i].split('.');
       let value = entity;
@@ -108,22 +127,6 @@ export class Analytics {
       const resultAction = `${keys.join('-')}__${value}`;
       this.trackEvent(entityName, resultAction, additionalData);
     }
-  }
-
-  private _buildSuffix(additionalData: Record<string, unknown> | undefined) {
-    if (!additionalData) {
-      return '';
-    }
-
-    let suffix = '';
-    let key;
-    for (key in additionalData) {
-      if (additionalData.hasOwnProperty(key)) {
-        suffix += `__${key}$${additionalData[key]}`;
-      }
-    }
-
-    return suffix;
   }
 }
 

@@ -1,16 +1,27 @@
+import deprecate from 'util-deprecate';
+
 import sniffer from '../global/sniffer';
+
+const warnOnDeprecationOfAnalyticsUtilsMethod = (methodName: string) =>
+  deprecate(
+    () => {},
+    `Method AnalyticsPluginUtils::${methodName} is deprecated and will be removed soon`
+  )();
+
 
 const SECOND = 1000;
 const HOUR = 3600;
 
 const AnalyticsPluginUtils = {
   /**
+   * @deprecated
    * Statistics server does not accept undefined values and strings containing certain symbols
    * @param value
    * @param isCategory
    * @returns string, where forbidden symbols are replaced with '_'
    */
   reformatString: (value: unknown, isCategory?: boolean) => {
+    warnOnDeprecationOfAnalyticsUtilsMethod('reformatString');
     const str = String(value);
     /**
      * Category also cannot contain the '/' character (but an action can)
@@ -19,7 +30,11 @@ const AnalyticsPluginUtils = {
     return str.replace(regexp, '_');
   },
 
+  /**
+   * @deprecated
+   */
   getPageViewDurationPresentation: (durationMs?: number) => {
+    warnOnDeprecationOfAnalyticsUtilsMethod('getPageViewDurationPresentation');
     if (durationMs == null) {
       return 'less-than-1-sec';
     }
@@ -44,7 +59,11 @@ const AnalyticsPluginUtils = {
     return `less-than-${roundedDuration}-sec`;
   },
 
+  /**
+   * @deprecated
+   */
   getScreenWidthPresentation: () => {
+    warnOnDeprecationOfAnalyticsUtilsMethod('getScreenWidthPresentation');
     /**
      * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
      */
@@ -58,9 +77,19 @@ const AnalyticsPluginUtils = {
     return '[1200px;inf)';
   },
 
-  npeSaveLowerCase: (val: string | null | undefined) => (val || 'unknown').toLowerCase(),
+  /**
+   * @deprecated
+   */
+  npeSaveLowerCase: (val: string | null | undefined) => {
+    warnOnDeprecationOfAnalyticsUtilsMethod('npeSaveLowerCase');
+    return (val || 'unknown').toLowerCase();
+  },
 
+  /**
+   * @deprecated
+   */
   getUserAgentPresentation: () => {
+    warnOnDeprecationOfAnalyticsUtilsMethod('getUserAgentPresentation');
     const name = AnalyticsPluginUtils.npeSaveLowerCase(sniffer.browser.name || 'unknown');
     const majorVersion = sniffer.browser.version[0];
     const version = majorVersion || 'unknown';
@@ -68,7 +97,11 @@ const AnalyticsPluginUtils = {
     return `${name}$${version}`;
   },
 
+  /**
+   * @deprecated
+   */
   getDevicePixelRatioPresentation: () => {
+    warnOnDeprecationOfAnalyticsUtilsMethod('getDevicePixelRatioPresentation');
     if (!window.devicePixelRatio || !window.devicePixelRatio.toFixed) {
       return 'unknown';
     }
