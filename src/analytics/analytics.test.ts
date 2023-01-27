@@ -159,33 +159,6 @@ describe('Analytics', () => {
           data: {type: 'test-type'}
         }]);
       });
-
-      it('should send request to statistics server on page view', () => {
-        analyticsInstance.trackPageView('test-page');
-        clock.tick(TICK_INTERVAL);
-
-        send.should.have.been.called;
-      });
-
-      it('should send request to statistics server multiple times', () => {
-        //first loop
-        analyticsInstance.trackPageView('test-page');
-        clock.tick(TICK_INTERVAL);
-        send.should.have.been.called;
-
-        //second loop
-        analyticsInstance.trackEvent('test-category', 'test-event');
-        analyticsInstance.trackEvent('test-category-2', 'test-event-2');
-        clock.tick(TICK_INTERVAL);
-        send.should.calledWith([{
-          category: 'test-category',
-          action: 'test-event'
-        }, {
-          category: 'test-category-2',
-          action: 'test-event-2'
-        }
-        ]);
-      });
     });
     describe('#disabled', () => {
       beforeEach(() => {

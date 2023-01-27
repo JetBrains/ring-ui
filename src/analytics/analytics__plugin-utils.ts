@@ -21,7 +21,6 @@ const AnalyticsPluginUtils = {
    * @returns string, where forbidden symbols are replaced with '_'
    */
   reformatString: (value: unknown, isCategory?: boolean) => {
-    warnOnDeprecationOfAnalyticsUtilsMethod('reformatString');
     const str = String(value);
     /**
      * Category also cannot contain the '/' character (but an action can)
