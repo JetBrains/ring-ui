@@ -31,7 +31,6 @@ const buttonClassesMap = Object.values({...styles, ...overrides}).
 export const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
 
 class ButtonController extends RingAngularComponent {
-  static $inject = ['$element', '$attrs', '$scope', '$compile', '$log'];
 
   constructor(...args) {
     super(...args);
@@ -166,6 +165,7 @@ class ButtonController extends RingAngularComponent {
     $compile(icon)($scope);
   };
 }
+ButtonController.$inject = ['$element', '$attrs', '$scope', '$compile', '$log'];
 
 function createButtonDirective(tagName) {
   return () => ({
