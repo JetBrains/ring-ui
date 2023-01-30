@@ -666,7 +666,7 @@ object QodanaAnalysis : BuildType({
         image = "jetbrains/qodana-js:2022.3-eap"
       }
       additionalDockerArguments = "-e QODANA_TOKEN=%env.QODANA_TOKEN%"
-      param("code-inspection-custom-xml-config-path", ".idea/inspectionProfiles/Project_Default.xml")
+      collectAnonymousStatistics = true
     }
   }
   triggers {
