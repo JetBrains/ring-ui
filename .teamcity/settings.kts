@@ -40,6 +40,7 @@ project {
     buildType(SecurityAudit)
     buildType(UnpublishSpecificVersion)
     buildType(GeminiTests)
+    buildType(QodanaAnalysis)
     buildType(UnitTestsAndBuild)
     buildType(Publish)
     buildType(Deploy)
@@ -143,7 +144,7 @@ project {
             param("multi", "true")
         }
     }
-    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, PublishHotfixRelease, Deploy, PublishToGitHubPages, PublishNext, UnpublishSpecificVersion, AllChecks)
+    buildTypesOrder = arrayListOf(GeminiTests, QodanaAnalysis, UnitTestsAndBuild, Publish, PublishHotfixRelease, Deploy, PublishToGitHubPages, PublishNext, UnpublishSpecificVersion, AllChecks)
 }
 
 object AllChecks : BuildType({
@@ -188,6 +189,9 @@ object AllChecks : BuildType({
 
     dependencies {
         snapshot(GeminiTests) {
+            onDependencyCancel = FailureAction.ADD_PROBLEM
+        }
+        snapshot(QodanaAnalysis) {
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
         snapshot(A11yAudit) {
