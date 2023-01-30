@@ -1,4 +1,4 @@
-import {AnalyticsPlugin} from './analytics';
+import {AnalyticsPlugin, Serializable} from './analytics';
 import AnalyticsPluginUtils from './analytics__plugin-utils';
 
 declare global {
@@ -57,7 +57,7 @@ export default class AnalyticsGAPlugin implements AnalyticsPlugin {
   /**
    * @deprecated
    */
-  trackEvent(rawCategory: string, rawAction: string, additionalData?: Record<string, string>) {
+  trackEvent(rawCategory: string, rawAction: string, data?: Record<string, Serializable>) {
     if (window.ga != null) {
       const category = AnalyticsPluginUtils.reformatString(rawCategory, true);
       const action = AnalyticsPluginUtils.reformatString(rawAction);
@@ -65,10 +65,10 @@ export default class AnalyticsGAPlugin implements AnalyticsPlugin {
         eventCategory: category,
         eventAction: action
       });
-      if (additionalData) {
+      if (data) {
         ga('send', 'event', {
           eventCategory: category,
-          eventAction: action + this._buildSuffix(additionalData)
+          eventAction: action + this._buildSuffix(data)
         });
       }
     }
