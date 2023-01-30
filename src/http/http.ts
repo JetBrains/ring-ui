@@ -182,7 +182,9 @@ export default class HTTP implements Partial<HTTPAuth> {
     return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
   }
 
-  fetch = async (url: string, params: FetchParams = {}) => {
+  // TODO: Replace any to never/unknown in next release and remove eslint-disable
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fetch = async <T = any>(url: string, params: FetchParams = {}): Promise<T> => {
     const {body, query = {}, ...fetchConfig} = params;
 
     const response = await this._fetch(
@@ -203,7 +205,9 @@ export default class HTTP implements Partial<HTTPAuth> {
     return this._processResponse(response);
   }
 
-  request = async (url: string, params?: RequestParams) => {
+  // TODO: Replace any to never/unknown in next release and remove eslint-disable
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  request = async <T = any>(url: string, params?: RequestParams): Promise<T> => {
     let token = await this.requestToken?.();
     let response = await this._performRequest(url, token, params);
 
@@ -232,29 +236,37 @@ export default class HTTP implements Partial<HTTPAuth> {
 
   getMetaForResponse = (response: object) => this._requestsMeta.get(response);
 
-  get = (url: string, params?: RequestParamsWithoutMethod) => (
-    this.request(url, {
+  // TODO: Replace any to never/unknown in next release and remove eslint-disable
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get = <T = any>(url: string, params?: RequestParamsWithoutMethod): Promise<T> => (
+    this.request<T>(url, {
       ...params,
       method: 'GET'
     })
   );
 
-  post = (url: string, params?: RequestParamsWithoutMethod) => (
-    this.request(url, {
+  // TODO: Replace any to never/unknown in next release and remove eslint-disable
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  post = <T = any>(url: string, params?: RequestParamsWithoutMethod): Promise<T> => (
+    this.request<T>(url, {
       ...params,
       method: 'POST'
     })
   );
 
-  delete = (url: string, params?: RequestParamsWithoutMethod) => (
-    this.request(url, {
+  // TODO: Replace any to never/unknown in next release and remove eslint-disable
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  delete = <T = any>(url: string, params?: RequestParamsWithoutMethod): Promise<T> => (
+    this.request<T>(url, {
       ...params,
       method: 'DELETE'
     })
   );
 
-  put = (url: string, params?: RequestParamsWithoutMethod) => (
-    this.request(url, {
+  // TODO: Replace any to never/unknown in next release and remove eslint-disable
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  put = <T = any>(url: string, params?: RequestParamsWithoutMethod): Promise<T> => (
+    this.request<T>(url, {
       ...params,
       method: 'PUT'
     })
