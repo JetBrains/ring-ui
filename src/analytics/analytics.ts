@@ -6,7 +6,7 @@ const warnOnDeprecationOfAnalyticsMethod = (methodName: string) =>
     `Method analytics::${methodName} is deprecated, use analytics::trackEvent instead`
   )();
 
-type Serializable = string | number | boolean | null | undefined | {
+export type Serializable = string | number | boolean | null | undefined | {
   [K in string | number]?: Serializable
 }
 
@@ -18,7 +18,7 @@ export interface AnalyticsPlugin {
   trackEvent(
     category: string,
     action: string,
-    additionalData?: Record<string, string>
+    additionalData?: Record<string, Serializable>
   ): void
   trackPageView(path: string): void
 }
@@ -40,7 +40,7 @@ export class Analytics {
   /**
    * @deprecated
    */
-  track(rawTrackingData: string, additionalData: Record<string, string>) {
+  track(rawTrackingData: string, additionalData: Record<string, Serializable>) {
     if (!rawTrackingData) {
       return;
     }
@@ -74,7 +74,7 @@ export class Analytics {
   trackEvent(
     category: string,
     action: string,
-    additionalData?: Record<string, string>
+    additionalData?: Record<string, Serializable>
   ) {
     this._plugins.forEach(plugin => {
       plugin.trackEvent(category, action, additionalData);
@@ -87,7 +87,7 @@ export class Analytics {
   trackShortcutEvent(
     category: string,
     action: string,
-    additionalData: Record<string, string>
+    additionalData: Record<string, Serializable>
   ) {
     warnOnDeprecationOfAnalyticsMethod('trackShortcutEvent');
     this.trackEvent(category, action, additionalData);
@@ -100,7 +100,7 @@ export class Analytics {
     entityName: string,
     entity: Serializable,
     propertiesNames: readonly string[],
-    additionalData?: Record<string, string>
+    additionalData?: Record<string, Serializable>
   ) {
     warnOnDeprecationOfAnalyticsMethod('trackEntityProperties');
     for (let i = 0; i < propertiesNames.length; ++i) {
