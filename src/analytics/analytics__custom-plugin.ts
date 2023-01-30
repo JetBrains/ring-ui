@@ -1,4 +1,4 @@
-import {AnalyticsPlugin} from './analytics';
+import {AnalyticsPlugin, Serializable} from './analytics';
 
 const DEFAULT_FLUSH_INTERVAL = 10000;
 const DEFAULT_FLUSH_MAX_PACK_SIZE = 100;
@@ -6,7 +6,7 @@ const DEFAULT_FLUSH_MAX_PACK_SIZE = 100;
 export interface AnalyticsCustomPluginData {
   category: string
   action: string
-  data?: Record<string, string>
+  data?: Record<string, Serializable>
 }
 
 export interface AnalyticsCustomPluginConfig {
@@ -50,11 +50,11 @@ export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
     this._flushMaxPackSize = config.flushMaxPackSize || DEFAULT_FLUSH_MAX_PACK_SIZE;
   }
 
-  trackEvent(category: string, action: string, additionalData?: Record<string, string>) {
+  trackEvent(category: string, action: string, additionalData?: Record<string, Serializable>) {
     this._processEvent(category, action, additionalData);
   }
 
-  trackPageView(path: string, data?: Record<string, string>) {
+  trackPageView(path: string, data?: Record<string, Serializable>) {
     this._processEvent('page', 'view', data);
   }
 
@@ -67,7 +67,7 @@ export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
     this._hasSendSchedule = true;
   }
 
-  private _processEvent(category: string, action: string, data?: Record<string, string>) {
+  private _processEvent(category: string, action: string, data?: Record<string, Serializable>) {
     if (!this._hasSendSchedule && this._flush) {
       this._initSendSchedule();
     }
