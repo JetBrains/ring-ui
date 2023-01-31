@@ -60,9 +60,9 @@ export default class UserCard extends PureComponent<UserCardProps> {
       banned: PropTypes.string.isRequired,
       online: PropTypes.string.isRequired,
       offline: PropTypes.string.isRequired,
-      copyToClipboard: PropTypes.string.isRequired,
-      copiedToClipboard: PropTypes.string.isRequired,
-      copingToClipboardError: PropTypes.string.isRequired,
+      copyToClipboard: PropTypes.string,
+      copiedToClipboard: PropTypes.string,
+      copingToClipboardError: PropTypes.string,
       unverified: PropTypes.string
     })
   };
