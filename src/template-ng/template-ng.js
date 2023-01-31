@@ -9,8 +9,6 @@ import RingAngularComponent from '../global/ring-angular-component';
 const angularModule = angular.module('Ring.template', []);
 
 class RgTemplateController extends RingAngularComponent {
-  static $inject = ['$scope', '$element', '$attrs', '$compile'];
-
   currentScope = null;
 
   constructor(...args) {
@@ -48,6 +46,7 @@ class RgTemplateController extends RingAngularComponent {
     }
   }
 }
+RgTemplateController.$inject = ['$scope', '$element', '$attrs', '$compile'];
 
 angularModule.directive('rgTemplate', function rgTemplateDirective() {
   return {

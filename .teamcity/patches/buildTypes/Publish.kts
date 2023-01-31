@@ -18,7 +18,7 @@ changeBuildType(RelativeId("Publish")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-
+                
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -27,49 +27,49 @@ changeBuildType(RelativeId("Publish")) {
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-
+                
                 chmod 644 ~/.ssh/config
-
+                
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-
+                
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-
+                
                 node -v
                 npm -v
                 npm whoami
-
+                
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-
+                
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 npm run build
-
+                
                 if [ ! -d "./dist" ]
                 then
                     echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
                     exit 333
                 fi
-
+                
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json
                 npm run release-ci
-
+                
                 cat package.json
-
+                
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-
+                
                 publishBuildNumber
-
+                
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
             dockerImage = "node:16"
@@ -83,7 +83,7 @@ changeBuildType(RelativeId("Publish")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-
+                
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -92,50 +92,50 @@ changeBuildType(RelativeId("Publish")) {
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-
+                
                 node -v
                 npm -v
-
+                
                 chmod 644 ~/.ssh/config
-
+                
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-
+                
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-
+                
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-
+                
                 npm whoami
-
+                
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
                 npm run build
-
+                
                 if [ ! -d "./dist" ]
                 then
                     echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
                     exit 333
                 fi
-
+                
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json
                 npm run release-ci
-
+                
                 cat package.json
-
+                
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-
+                
                 publishBuildNumber
-
+                
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
             dockerImage = "node:16.18"

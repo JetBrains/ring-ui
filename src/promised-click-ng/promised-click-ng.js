@@ -15,7 +15,6 @@ const angularModule = angular.module('Ring.promised-click', []);
 const DEFAULT_MODE = 'active';
 
 class PromisedClickController extends RingAngularComponent {
-  static $inject = ['$scope', '$element', '$attrs', '$parse'];
   constructor(...args) {
     super(...args);
 
@@ -106,6 +105,7 @@ class PromisedClickController extends RingAngularComponent {
     this.promise.then(done, done);
   }
 }
+PromisedClickController.$inject = ['$scope', '$element', '$attrs', '$parse'];
 
 function rgPromisedClickDirective() {
   return {

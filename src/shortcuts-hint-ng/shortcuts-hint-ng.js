@@ -25,8 +25,6 @@ const getTitle = title => (typeof title === 'function' ? title() : title);
 
 
 class HintPopupService extends RingAngularComponent {
-  static $inject = ['dialog', 'shortcuts'];
-
   show(popupConfig = {}, shortcutModes, okButtonLabel = 'Got it', searchPlaceholder = 'Search') {
     const {dialog, shortcuts} = this.$inject;
 
@@ -67,6 +65,7 @@ class HintPopupService extends RingAngularComponent {
     }, popupConfig));
   }
 }
+HintPopupService.$inject = ['dialog', 'shortcuts'];
 
 function shortcutKeySymbolFilter(shortcut) {
   return getShortcutTitle(shortcut);
