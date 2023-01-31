@@ -5,8 +5,9 @@ import 'angular-mocks';
 import RingAngularComponent from './ring-angular-component';
 
 class TestComponent extends RingAngularComponent {
-  static $inject = ['$scope'];
+
 }
+TestComponent.$inject = ['$scope'];
 
 const testModule = angular.module('Test', []).component('testComponent', TestComponent).name;
 

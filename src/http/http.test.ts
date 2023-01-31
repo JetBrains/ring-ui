@@ -203,4 +203,20 @@ describe('HTTP', () => {
 
     http.request.should.have.been.calledWith('testurl', {method: 'PUT', body: {foo: 'bar'}});
   });
+
+  describe('abortify', () => {
+    it('should abort request', () => {
+      const abortSpy = sandbox.spy();
+      sandbox.stub(window, 'AbortController').value(class FakeAbortController {
+        signal = '';
+        abort = abortSpy;
+      });
+
+      const {abort} = http.abortify(http.request<{id: string}>)('test');
+
+      abort();
+
+      abortSpy.should.have.been.called;
+    });
+  });
 });
