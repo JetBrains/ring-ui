@@ -36,6 +36,8 @@ export const CODE = {
   UNAUTHORIZED: 401
 };
 
+type Method<T> = (url: string, params?: RequestParams) => Promise<T>;
+
 export interface FetchParams<T = unknown> extends Omit<RequestInit, 'body' | 'headers'> {
   body?: T
   query?: Record<string, unknown> | undefined
@@ -271,4 +273,23 @@ export default class HTTP implements Partial<HTTPAuth> {
       method: 'PUT'
     })
   );
+
+  /**
+   * Usage: const {promise, abort} = http.abortify(http.get<{id: string}>)('http://test.com');
+   * @param method
+   */
+  abortify = <T>(method: Method<T>):
+    ((...p: Parameters<Method<T>>) => ({promise: Promise<T>; abort: () => void;})) =>
+    (...[url, params]: Parameters<Method<T>>) => {
+      const ctrl = new AbortController();
+
+      if (params && !('signal' in params)) {
+        (params as RequestInit).signal = ctrl.signal;
+      }
+
+      return {
+        promise: method.call(this, url, params) as Promise<T>,
+        abort: () => ctrl.abort()
+      };
+    };
 }
