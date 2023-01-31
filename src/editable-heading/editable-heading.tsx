@@ -67,10 +67,17 @@ export const EditableHeading = (props: EditableHeadingProps) => {
 
   const isShortcutsDisabled = !isInFocus || isSaving;
 
-  const shortcutsMap = React.useMemo(() => ({
-    enter: isSaveDisabled ? noop : onSave,
-    esc: isCancelDisabled ? noop : onCancel
-  }), [isSaveDisabled, isCancelDisabled, onSave, onCancel]);
+  const shortcutsMap = React.useMemo(() => {
+    const map: Record<string, ()=>void> = {};
+    if (!isSaveDisabled) {
+      map.enter = onSave;
+    }
+    if (isCancelDisabled) {
+      map.esc = onCancel;
+    }
+
+    return map;
+  }, [isSaveDisabled, isCancelDisabled, onSave, onCancel]);
 
   const classes = classNames(styles.editableHeading, className, {
     [styles.fullSize]: isEditing && size === Size.FULL,
