@@ -26,8 +26,6 @@ const angularModule = angular.module(
 );
 
 class DialogController extends RingAngularComponent {
-  static $inject = ['$scope', '$q', 'dialog', '$element', 'dialogInSidebar', '$compile',
-    '$injector', '$controller', 'rgCompiler', '$sce'];
 
   constructor(...args) {
     super(...args);
@@ -333,9 +331,9 @@ class DialogController extends RingAngularComponent {
     };
   }
 }
-
+DialogController.$inject = ['$scope', '$q', 'dialog', '$element', 'dialogInSidebar', '$compile',
+  '$injector', '$controller', 'rgCompiler', '$sce'];
 class DialogService extends RingAngularComponent {
-  static $inject = ['$log'];
 
   DIALOG_NAMESPACE = 'ring-dialog';
   fallbackDialog = null;
@@ -366,9 +364,9 @@ class DialogService extends RingAngularComponent {
     Reflect.deleteProperty(this, 'ctrl');
   };
 }
+DialogService.$inject = ['$log'];
 
 class DialogInSidebarService extends DialogService {
-  static $inject = [...DialogService.$inject, 'dialog'];
 
   DIALOG_NAMESPACE = 'ring-dialog-in-sidebar';
 
@@ -377,6 +375,7 @@ class DialogInSidebarService extends DialogService {
     this.fallbackDialog = this.$inject.dialog;
   }
 }
+DialogInSidebarService.$inject = [...DialogService.$inject, 'dialog'];
 
 function rgDialogDirective($timeout) {
   function link(scope, iElement, iAttrs, dialogCtrl) {

@@ -11,7 +11,6 @@ import LoaderCore from '../loader/loader__core';
 const angularModule = angular.module('Ring.loader', []);
 
 class RgLoaderComponent extends RingAngularComponent {
-  static $inject = ['$element'];
 
   static bindings = {
     message: '@'
@@ -31,6 +30,7 @@ class RgLoaderComponent extends RingAngularComponent {
     this.loader.updateMessage(changes.message.currentValue);
   }
 }
+RgLoaderComponent.$inject = ['$element'];
 
 angularModule.component('rgLoader', RgLoaderComponent);
 

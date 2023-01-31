@@ -26,10 +26,10 @@ export interface UserCardWording {
   banned: string
   online: string
   offline: string
-  copyToClipboard: string
-  copiedToClipboard: string
-  copingToClipboardError: string
-  unverified: string
+  copyToClipboard?: string
+  copiedToClipboard?: string
+  copingToClipboardError?: string
+  unverified?: string
 }
 export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
   user: UserCardUser
@@ -60,9 +60,9 @@ export default class UserCard extends PureComponent<UserCardProps> {
       banned: PropTypes.string.isRequired,
       online: PropTypes.string.isRequired,
       offline: PropTypes.string.isRequired,
-      copyToClipboard: PropTypes.string.isRequired,
-      copiedToClipboard: PropTypes.string.isRequired,
-      copingToClipboardError: PropTypes.string.isRequired,
+      copyToClipboard: PropTypes.string,
+      copiedToClipboard: PropTypes.string,
+      copingToClipboardError: PropTypes.string,
       unverified: PropTypes.string
     })
   };
@@ -80,12 +80,15 @@ export default class UserCard extends PureComponent<UserCardProps> {
   };
 
   copyEmail = () => {
-    const {user, wording} = this.props;
-    clipboard.copyText(user.email || '', wording.copiedToClipboard, wording.copingToClipboardError);
+    const wording = {...UserCard.defaultProps.wording, ...this.props.wording};
+    clipboard.copyText(
+      this.props.user.email || '', wording.copiedToClipboard, wording.copingToClipboardError
+    );
   };
 
   render() {
-    const {children, info, className, user, wording, avatarInfo, ...restProps} = this.props;
+    const {children, info, className, user, avatarInfo, ...restProps} = this.props;
+    const wording = {...UserCard.defaultProps.wording, ...this.props.wording};
 
     const classes = classNames(className, {});
     const userActiveStatusClasses = classNames(

@@ -19,8 +19,7 @@ function createAngularComponent(Component) {
     bindings[key] = '<';
   });
 
-  return class AngularComponent extends RingAngularComponent {
-    static $inject = ['$scope', '$element', '$transclude'];
+  class AngularComponent extends RingAngularComponent {
 
     static bindings = bindings;
     static transclude = true;
@@ -72,7 +71,9 @@ function createAngularComponent(Component) {
         container
       );
     }
-  };
+  }
+  AngularComponent.$inject = ['$scope', '$element', '$transclude'];
+  return AngularComponent;
 }
 
 function angularComponentFactory(Component, name) {

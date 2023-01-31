@@ -21,8 +21,6 @@ import buttonTemplate from './sidebar-ng__button-template';
 const angularModule = angular.module('Ring.sidebar', [PlaceUnder, IconNG, ButtonNG]);
 
 class SidebarController extends RingAngularComponent {
-  static $inject = ['$scope'];
-
   constructor(...args) {
     super(...args);
 
@@ -49,6 +47,7 @@ class SidebarController extends RingAngularComponent {
     };
   }
 }
+SidebarController.$inject = ['$scope'];
 
 function rgSidebarDirective() {
   return {
