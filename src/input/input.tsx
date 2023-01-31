@@ -39,6 +39,10 @@ enum Size {
   FULL = 'FULL'
 }
 
+export interface InputTranslations {
+  clear: string
+}
+
 export interface InputBaseProps {
   size: Size
   enableShortcuts: boolean | string[]
@@ -53,6 +57,7 @@ export interface InputBaseProps {
   icon?: string | ComponentType | null | undefined
   height?: ControlsHeight | undefined
   afterInput?: ReactNode
+  translations: InputTranslations
 }
 
 type Override<D, S> = Omit<D, keyof S> & S
@@ -76,7 +81,10 @@ export class Input extends PureComponent<InputProps> {
     size: Size.M,
     onChange: noop,
     inputRef: noop,
-    enableShortcuts: ['esc']
+    enableShortcuts: ['esc'],
+    translations: {
+      clear: 'Clear input'
+    }
   };
 
   state = {
@@ -172,6 +180,7 @@ export class Input extends PureComponent<InputProps> {
       id,
       placeholder,
       icon,
+      translations,
       height = this.context,
       afterInput,
       ...restProps
@@ -240,7 +249,7 @@ export class Input extends PureComponent<InputProps> {
             )}
           {clearable && !disabled && (
             <Button
-              title="Clear input"
+              title={translations.clear}
               data-test="ring-input-clear"
               className={styles.clear}
               icon={closeIcon}
@@ -279,6 +288,7 @@ export class Input extends PureComponent<InputProps> {
   disabled: PropTypes.bool,
   id: PropTypes.string,
   placeholder: PropTypes.string,
+  translations: PropTypes.object,
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
 };
 
