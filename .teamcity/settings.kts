@@ -656,7 +656,7 @@ object QodanaAnalysis : BuildType({
   name = "Qodana Analyze"
 
   params {
-    password("env.QODANA_TOKEN", "******", display = ParameterDisplay.HIDDEN)
+    password("env.QODANA_TOKEN", "credentialsJSON:1b6fe259-bfcd-45f5-be23-e2625685a0f6", display = ParameterDisplay.HIDDEN)
   }
 
   vcs {
