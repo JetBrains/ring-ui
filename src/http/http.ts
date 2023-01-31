@@ -288,7 +288,7 @@ export default class HTTP implements Partial<HTTPAuth> {
       }
 
       return {
-        promise: method.call(this, url, params) as Promise<T>,
+        promise: method.call(this, url, params),
         abort: () => ctrl.abort()
       };
     };
