@@ -7,6 +7,7 @@ export interface AnalyticsCustomPluginData {
   category: string
   action: string
   data?: Record<string, Serializable>
+  timestamp: number
 }
 
 export interface AnalyticsCustomPluginConfig {
@@ -74,7 +75,8 @@ export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
     if (this._isDevelopment) {
       console.log('TRACKING DATA = ', category, action, data); // eslint-disable-line no-console
     }
-    this._addDataToFlushingPack(data ? {category, action, data} : {category, action});
+    const baseSendingData = {category, action, timestamp: Date.now()};
+    this._addDataToFlushingPack(data ? {...baseSendingData, data} : baseSendingData);
   }
 
   private _addDataToFlushingPack(sendingData: AnalyticsCustomPluginData) {
