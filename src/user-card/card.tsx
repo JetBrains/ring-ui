@@ -72,7 +72,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
       banned: 'banned',
       online: 'online',
       offline: 'offline',
-      copyToClipboard: 'Copy to clipboard',
+      copyToClipboard: 'Copy email to clipboard',
       copiedToClipboard: 'Email was copied to clipboard',
       copingToClipboardError: 'Failed to copy to clipboard',
       unverified: 'Unverified'
@@ -144,8 +144,9 @@ export default class UserCard extends PureComponent<UserCardProps> {
                   className={styles.userEmailWrapper}
                 >
                   <Link
-                    pseudo
-                    onClick={this.copyEmail}
+                    href={`mailto:${user.email}`}
+                    title={`mailto:${user.email}`}
+                    target="_blank"
                     className={styles.userEmail}
                   >
                     {user.email}
