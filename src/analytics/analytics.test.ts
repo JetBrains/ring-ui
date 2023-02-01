@@ -100,7 +100,8 @@ describe('Analytics', () => {
 
         send.should.have.been.calledWith([{
           category: 'test-category',
-          action: 'test-action'
+          action: 'test-action',
+          timestamp: sinon.match.number
         }]);
       });
 
@@ -116,7 +117,8 @@ describe('Analytics', () => {
         send.should.not.have.been.called;
         flushingFunction.should.have.been.calledWith([{
           category: 'test-category',
-          action: 'test-action'
+          action: 'test-action',
+          timestamp: sinon.match.number
         }]);
       });
 
@@ -156,6 +158,7 @@ describe('Analytics', () => {
         send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action',
+          timestamp: sinon.match.number,
           data: {type: 'test-type'}
         }]);
       });
