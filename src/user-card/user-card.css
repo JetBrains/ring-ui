@@ -29,6 +29,10 @@
 }
 
 .userInformationGeneral {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
   height: 56px;
 }
 
@@ -72,6 +76,10 @@
 .userCopyIcon svg {
   margin-left: 4px;
 
+  color: var(--ring-icon-color);
+}
+
+.userCopyIcon:hover svg {
   color: var(--ring-link-hover-color);
 }
 
@@ -81,7 +89,7 @@
   opacity: 1;
 }
 
-.userEmailWrapper:hover .userEmail {
+:has(.userCopyIcon:hover) > .userEmail {
   color: var(--ring-link-hover-color);
 }
 
