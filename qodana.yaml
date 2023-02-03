@@ -1,0 +1,34 @@
+version: "1.0"
+linter: jetbrains/qodana-js:2022.3-eap
+bootstrap: bash .qodana/bootstrap.sh
+profile:
+  path: .idea/inspectionProfiles/Project_Default.xml
+
+include:
+  - name: CheckDependencyLicenses
+
+exclude:
+  - name: CssInvalidPropertyValue # https://youtrack.jetbrains.com/issue/WEB-59153/Mismatched-property-value-in-postcss-file
+  - name: CssUnknownProperty # https://youtrack.jetbrains.com/issue/WEB-59153/Mismatched-property-value-in-postcss-file
+  - name: CssNegativeValue # Fixed in 2023.1 EAP 2, https://youtrack.jetbrains.com/issue/WEB-23000/box-shadow-CSS-property-false-negative-value-is-not-allowed-error
+  - name: HtmlUnknownAttribute # https://youtrack.jetbrains.com/issue/WEB-59170/HtmlUnknownAttribute-in-.js-file-wrong-suggestion-class-className-for-foo
+  - name: JSUnusedGlobalSymbols # https://youtrack.jetbrains.com/issue/WEB-30388
+    paths:
+      - typings.d.ts
+  - name: SpellCheckingInspection # Suppress "lorem ipsum" spell checking
+    paths:
+      - src/content-layout/content-layout.examples.tsx
+      - src/heading/heading.examples.tsx
+      - src/editable-heading/editable-heading.examples.tsx
+
+
+licenseRules:
+  - keys: [ "Apache-2.0" ]
+    allowed:
+      - "W3C"
+      - "Unlicense"
+      - "0BSD"
+      - "CC-BY-4.0"
+
+dependencyIgnores:
+  - name: "@jetbrains/logos"
