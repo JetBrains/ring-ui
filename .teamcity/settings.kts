@@ -40,6 +40,7 @@ project {
     buildType(SecurityAudit)
     buildType(UnpublishSpecificVersion)
     buildType(GeminiTests)
+    buildType(QodanaAnalysis)
     buildType(UnitTestsAndBuild)
     buildType(Publish)
     buildType(Deploy)
@@ -143,7 +144,7 @@ project {
             param("multi", "true")
         }
     }
-    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, PublishHotfixRelease, Deploy, PublishToGitHubPages, PublishNext, UnpublishSpecificVersion, AllChecks)
+    buildTypesOrder = arrayListOf(GeminiTests, QodanaAnalysis, UnitTestsAndBuild, Publish, PublishHotfixRelease, Deploy, PublishToGitHubPages, PublishNext, UnpublishSpecificVersion, AllChecks)
 }
 
 object AllChecks : BuildType({
@@ -188,6 +189,9 @@ object AllChecks : BuildType({
 
     dependencies {
         snapshot(GeminiTests) {
+            onDependencyCancel = FailureAction.ADD_PROBLEM
+        }
+        snapshot(QodanaAnalysis) {
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
         snapshot(A11yAudit) {
@@ -646,6 +650,33 @@ object SecurityAudit : BuildType({
         exists("docker.version")
         contains("docker.server.osType", "linux")
     }
+})
+
+object QodanaAnalysis : BuildType({
+  name = "Qodana Analyze"
+
+  params {
+    password("env.QODANA_TOKEN", "credentialsJSON:1b6fe259-bfcd-45f5-be23-e2625685a0f6", display = ParameterDisplay.HIDDEN)
+  }
+
+  vcs {
+    root(DslContext.settingsRoot)
+  }
+
+  steps {
+    qodana {
+      name = "Run Qodana for JS"
+      linter = customLinter {
+        image = "jetbrains/qodana-js:2022.3-eap"
+      }
+      additionalDockerArguments = "-e QODANA_TOKEN=%env.QODANA_TOKEN%"
+      collectAnonymousStatistics = true
+    }
+  }
+  triggers {
+    vcs {
+    }
+  }
 })
 
 object Publish : BuildType({
