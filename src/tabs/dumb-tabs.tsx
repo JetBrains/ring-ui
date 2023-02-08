@@ -23,6 +23,7 @@ export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'chil
   children: Children
   onSelect: (key: string) => void
   className?: string | null | undefined
+  tabContainerClassName?: string | null | undefined
   autoCollapse?: boolean | null | undefined
   'data-test'?: string | null | undefined
 }
@@ -31,6 +32,7 @@ class Tabs extends PureComponent<TabsProps> {
   static propTypes = {
     selected: PropTypes.string,
     className: PropTypes.string,
+    tabContainerClassName: PropTypes.string,
     href: PropTypes.string,
     children: PropTypes.node.isRequired,
     onSelect: PropTypes.func,
@@ -80,6 +82,7 @@ class Tabs extends PureComponent<TabsProps> {
   render() {
     const {
       className,
+      tabContainerClassName,
       children,
       selected,
       autoCollapse,
@@ -106,7 +109,7 @@ class Tabs extends PureComponent<TabsProps> {
               {childrenArray.map(this.getTabTitle)}
             </div>
           )}
-        <div className={styles.tab}>
+        <div className={classNames(tabContainerClassName)}>
           {childrenArray.find(({props}, i) => (props.id || String(i)) === selected)}
         </div>
       </div>
