@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 
-import styles from './tabs.css';
 import {TabLinkProps} from './tab-link';
 
 export interface TabProps {
@@ -32,9 +31,13 @@ export default class Tab extends PureComponent<TabProps> {
 
   render() {
     const {className, children, 'data-test': dataTest} = this.props;
-    const classes = classNames(styles.tab, className);
     return (
-      <div data-test={dataTests('ring-tab', dataTest)} className={classes}>{children}</div>
+      <div
+        data-test={dataTests('ring-tab', dataTest)}
+        className={classNames(className)}
+      >
+        {children}
+      </div>
     );
   }
 }
