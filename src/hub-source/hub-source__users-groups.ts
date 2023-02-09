@@ -13,7 +13,7 @@ const defaultOptions: HubSourceUsersGroupsOptions = {
 };
 
 export interface UserGroup extends Item {
-  id: number,
+  id: string,
   total?: number,
   userCount: number,
   iconUrl?: string
