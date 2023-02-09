@@ -14,7 +14,7 @@ describe('List Users Groups Source', () => {
     const source = new ListUsersGroupsSource(fakeAuth);
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
-      id: 1,
+      id: 'test-user',
       name: 'test user',
       login: 'testUser',
       type: 'user',
@@ -22,7 +22,7 @@ describe('List Users Groups Source', () => {
     }]));
 
     sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
-      id: 1,
+      id: 'test-group',
       name: 'test group',
       type: 'userGroup',
       userCount: 123,
@@ -31,11 +31,11 @@ describe('List Users Groups Source', () => {
 
     const dataForList = await source.getForList();
     dataForList.should.deep.contain({
-      id: 1,
+      id: 'test-user',
+      key: 'test-user',
       login: 'testUser',
       profile: {avatar: {url: 'http://test.com.url'}},
       name: 'test user',
-      key: 1,
       type: 'user',
       label: 'test user',
       description: 'testUser',
@@ -48,14 +48,14 @@ describe('List Users Groups Source', () => {
     const source = new ListUsersGroupsSource(fakeAuth);
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
-      id: 1,
+      id: 'test-user',
       name: 'test user',
       login: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
     sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
-      id: 1,
+      id: 'test-group',
       name: 'test group',
       type: 'userGroup',
       userCount: 123,
@@ -64,8 +64,8 @@ describe('List Users Groups Source', () => {
 
     const dataForList = await source.getForList();
     dataForList.should.deep.contain({
-      id: 1,
-      key: 1,
+      id: 'test-group',
+      key: 'test-group',
       name: 'test group',
       label: 'test group',
       type: 'userGroup',
@@ -83,14 +83,14 @@ describe('List Users Groups Source', () => {
     });
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
-      id: 1,
+      id: 'test-user',
       name: 'test user',
       login: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
     sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
-      id: 1,
+      id: 'test-group',
       name: 'test group',
       userCount: 123
     }]));
@@ -105,7 +105,7 @@ describe('List Users Groups Source', () => {
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([]));
 
     sandbox.stub(source, 'getGroups').
-      returns(Promise.resolve([{id: 1, name: 'test group', userCount: 0}]));
+      returns(Promise.resolve([{id: 'test-group', name: 'test group', userCount: 0}]));
 
     const dataForList = await source.getForList();
     dataForList[0].description.should.equal('No users');
@@ -115,7 +115,7 @@ describe('List Users Groups Source', () => {
     const source = new ListUsersGroupsSource(fakeAuth, {});
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
-      id: 1,
+      id: 'test-group',
       name: 'test user',
       login: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}

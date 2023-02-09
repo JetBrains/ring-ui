@@ -28,7 +28,7 @@ function noop() {}
 
 export interface AuthUser {
   guest?: boolean
-  id: number | string
+  id: string
   name: string
   login: string
   banned?: boolean
