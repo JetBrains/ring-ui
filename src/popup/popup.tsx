@@ -461,7 +461,7 @@ export default class Popup<
   autoCorrectTopOverflow: PropTypes.bool,
   left: PropTypes.number,
   top: PropTypes.number,
-  maxHeight: PropTypes.number,
+  maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   minWidth: PropTypes.number,
   sidePadding: PropTypes.number,
 
