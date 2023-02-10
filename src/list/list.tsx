@@ -77,6 +77,10 @@ function isActivatable<T>(item: ListDataItem<T> | null) {
   return item != null && !nonActivatableTypes.includes(item.rgItemType) && !item.disabled;
 }
 
+function getDataHash<T>(data: readonly ListDataItem<T>[]): string {
+  return data.map(it => it.key).join('-');
+}
+
 export interface SelectHandlerParams {
   tryKeepOpen?: boolean
 }
@@ -254,7 +258,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     }
 
     if (this.props.activeIndex == null &&
-      this.props.data !== prevProps.data &&
+      getDataHash(this.props.data) !== getDataHash(prevProps.data) &&
       shouldActivateFirstItem(this.props)
     ) {
       this.activateFirst();
