@@ -497,6 +497,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       return;
     }
 
+    this.immediateState = props;
+
     if (this.state.query) {
       let i = 0;
       while (
@@ -520,7 +522,6 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       });
     }
 
-    this.immediateState = props;
     this.props.onChange(props);
     if (this.props.autoOpen === 'force' || props.query.length > 0) {
       this.requestData?.();
