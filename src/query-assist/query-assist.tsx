@@ -497,6 +497,29 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       return;
     }
 
+    if (this.state.query) {
+      let i = 0;
+      while (
+        this.state.query[i] === this.immediateState.query[i] && i < this.state.query.length - 1
+      ) {
+        i++;
+      }
+      const diff = this.immediateState.query.length - this.state.query.length;
+      const originalIndex = this.immediateState.caret - diff;
+      const ranges = [...this.state.styleRanges ?? []];
+
+      const range = ranges.
+        find(r => originalIndex >= r.start && originalIndex <= r.start + r.length);
+
+      if (range) {
+        range.length += diff;
+      }
+
+      ranges.filter(r => r.start > originalIndex).forEach(r => {
+        r.start += diff;
+      });
+    }
+
     this.immediateState = props;
     this.props.onChange(props);
     if (this.props.autoOpen === 'force' || props.query.length > 0) {
