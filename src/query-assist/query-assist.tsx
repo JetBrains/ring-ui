@@ -1058,6 +1058,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     const placeholderStyles = classNames({
       [styles.placeholder]: true,
+      [styles.hugePlaceholder]: huge,
       [styles.withoutGlass]: !glass || (!renderLoader && huge)
     });
 
@@ -1089,7 +1090,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
           {renderLoader && (
             <div
               className={classNames(styles.icon, styles.loader, {
-                [styles.loaderOnTheRight]: !glass || huge,
+                [styles.loaderOnTheRight]: !glass && !huge,
                 [styles.loaderActive]: renderLoader
               })}
               ref={this.loaderRef}
