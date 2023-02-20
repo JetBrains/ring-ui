@@ -165,6 +165,10 @@
   }
 }
 
+.hugePlaceholder {
+  padding-left: 0;
+}
+
 .letter {
   display: inline;
 }
