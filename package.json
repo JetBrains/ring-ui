@@ -108,7 +108,7 @@
     "@types/react-dom": "^18.0.11",
     "@types/sinon": "^10.0.13",
     "@types/sinon-chai": "^3.2.9",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.52.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "angular": "^1.8.3",
