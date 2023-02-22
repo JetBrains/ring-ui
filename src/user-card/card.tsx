@@ -103,6 +103,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
             <Avatar
               size={AvatarSize.Size56}
               url={user.avatarUrl}
+              round
             />
             {!!avatarInfo && avatarInfo}
           </div>
