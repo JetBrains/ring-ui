@@ -6,6 +6,7 @@
 .outerContainer {
   --ring-input-icon-offset: calc(unit * 2.5);
   --ring-input-padding-inline: unit;
+  --ring-input-background-color: var(--ring-content-background-color);
 }
 
 .borderless {
@@ -44,7 +45,7 @@
   border: 1px solid var(--ring-borders-color);
   border-radius: var(--ring-border-radius);
   outline: none;
-  background: transparent;
+  background-color: var(--ring-input-background-color);
 
   font: inherit;
 
@@ -94,6 +95,7 @@
 
 .borderless .input {
   border-color: transparent;
+  background-color: transparent;
 }
 
 .withIcon .input {
