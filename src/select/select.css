@@ -171,6 +171,10 @@
   box-shadow: button-shadow var(--ring-main-color);
 }
 
+.buttonValueEmpty.buttonValueEmpty {
+  color: var(--ring-disabled-color);
+}
+
 .heightS .buttonValue {
   font-size: var(--ring-font-size);
 }

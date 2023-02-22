@@ -1339,7 +1339,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                   this.props.buttonClassName,
                   styles.buttonValue,
                   {
-                    [styles.buttonValueOpen]: this.state.showPopup
+                    [styles.buttonValueOpen]: this.state.showPopup,
+                    [styles.buttonValueEmpty]: this._selectionIsEmpty()
                   })
                 }
                 disabled={this.props.disabled}
