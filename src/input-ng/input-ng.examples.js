@@ -2,6 +2,8 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
+import darkStyles from '../global/variables_dark.css';
+
 import InputNG from './input-ng';
 
 export default {
@@ -89,7 +91,7 @@ export const basic = () => {
           multiline="true"
         ></rg-input>
 
-        <div class="dark">
+        <div class="dark ${darkStyles.dark}">
           <rg-input
             label="Input on dark background"
             placeholder="Hint on dark background"
