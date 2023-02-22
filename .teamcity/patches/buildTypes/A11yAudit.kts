@@ -44,6 +44,9 @@ changeBuildType(RelativeId("A11yAudit")) {
                 mkdir -p node_modules
                 
                 npm install
+                # Workaround for not always installed chromium https://github.com/puppeteer/puppeteer/issues/9533#issuecomment-1386653636
+                node node_modules/puppeteer/install.js
+                
                 npm run a11y-audit-ci
             """.trimIndent()
         }
