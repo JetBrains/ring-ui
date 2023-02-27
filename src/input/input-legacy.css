@@ -44,7 +44,7 @@ Input
   border: 1px solid var(--ring-borders-color);
   border-radius: var(--ring-border-radius);
   outline: none;
-  background: transparent;
+  background-color: var(--ring-content-background-color);
 
   caret-color: var(--ring-main-color);
 
