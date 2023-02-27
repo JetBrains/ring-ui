@@ -116,7 +116,7 @@
     "angular-route": "^1.8.3",
     "babel-plugin-react-docgen": "^4.2.1",
     "babel-plugin-require-context-hook": "^1.0.0",
-    "caniuse-lite": "^1.0.30001457",
+    "caniuse-lite": "^1.0.30001458",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.10.0",
