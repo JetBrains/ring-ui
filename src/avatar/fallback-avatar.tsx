@@ -142,10 +142,12 @@ export default function FallbackAvatar({username, size, round}: FallbackAvatarPr
           letterSpacing={sizes.letterSpacing}
           fill="#FFFFFF"
           textAnchor={sizes.textAnchor}
+          cursor="default"
         >
           <tspan>{extractLetters(username)}</tspan>
           {sizes.underscore && <tspan x={sizes.underscore.x} y={sizes.underscore.y}>{'_'}</tspan>}
         </text>
+        <title>{username}</title>
       </g>
     </svg>
   );
