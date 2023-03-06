@@ -441,7 +441,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         typeof this.immediateState.selection === 'object' &&
         this.immediateState.selection.startOffset !== undefined) {
         this.caret?.setPosition(this.immediateState.selection);
-      } else if (params.forceSetCaret) {
+      } else if (this.immediateState.selection === undefined || params.forceSetCaret) {
         this.caret?.setPosition(-1);
       }
     }
