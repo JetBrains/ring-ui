@@ -9,6 +9,7 @@ import composeRefs from './composeRefs';
 export interface FocusSensorOuterProps<T extends HTMLElement> {
   focused?: boolean | undefined
   autofocus?: boolean | undefined
+  scrollOnTableFocus?: boolean;
   onFocus?: (() => void) | undefined
   onBlur?: (() => void) | undefined
   innerRef?: Ref<T> | null | undefined
@@ -52,7 +53,7 @@ export default function focusSensorHOC<
     };
 
     componentDidMount() {
-      const {props: {autofocus}, node} = this;
+      const {props: {autofocus, scrollOnTableFocus}, node} = this;
 
       node?.setAttribute('tabindex', '0');
       if (node != null) {
@@ -63,7 +64,7 @@ export default function focusSensorHOC<
       document.addEventListener('blur', this.onBlurCapture, true);
 
       if (autofocus) {
-        node?.focus();
+        node?.focus({preventScroll: !scrollOnTableFocus});
       }
     }
 
@@ -118,7 +119,7 @@ export default function focusSensorHOC<
 
     onFocusRestore = () => {
       this._skipNextCapture = true;
-      this.node?.focus();
+      this.node?.focus({preventScroll: !this.props.scrollOnTableFocus});
     };
 
     onFocusReset = () => {
@@ -126,7 +127,8 @@ export default function focusSensorHOC<
     };
 
     render() {
-      const {autofocus, focused, onFocus, onBlur, innerRef, ...rest} = this.props;
+      const {autofocus, focused, onFocus, onBlur, innerRef, scrollOnTableFocus, ...rest} =
+        this.props;
       return (
         <ComposedComponent
           {...rest as JSX.LibraryManagedAttributes<C, P>}
@@ -150,6 +152,7 @@ export default function focusSensorHOC<
     ...ComposedComponent.defaultProps,
     focused: false,
     autofocus: false,
+    scrollOnTableFocus: true,
     onFocus: () => {},
     onBlur: () => {}
   };
