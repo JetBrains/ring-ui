@@ -324,6 +324,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
     this.select(changes);
     this.props.onClear?.(e);
+    this.componentRef.current?.querySelector('input')?.focus();
   };
 
   render() {
