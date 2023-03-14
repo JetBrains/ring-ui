@@ -271,6 +271,12 @@
   color: var(--ring-main-color);
 }
 
+.draggingTable {
+  z-index: var(--ring-overlay-z-index);
+
+  border-spacing: 0;
+}
+
 .tableMessage {
   padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4);
 
