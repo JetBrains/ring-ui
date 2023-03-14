@@ -270,7 +270,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 
       return isDragged
         ? (
-          <table style={{...props.style, borderSpacing: 0}}>
+          <table style={{...props.style}} className={style.draggingTable}>
             <tbody>{row}</tbody>
           </table>
         )
