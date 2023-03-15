@@ -256,8 +256,8 @@ export default class Pager extends PureComponent<PagerProps> {
     let start = 1;
     let end = totalPages;
 
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    if (totalPages >= visiblePagesLimit + 6) {
+
+    if (totalPages >= visiblePagesLimit) {
       const leftHalfFrameSize = Math.ceil(visiblePagesLimit / 2) - 1;
       const rightHalfFrameSize = visiblePagesLimit - leftHalfFrameSize - 1;
 
