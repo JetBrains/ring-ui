@@ -22,7 +22,7 @@
     "dotenv": "^16.0.3",
     "filenamify": "^5.1.1",
     "font-awesome": "^4.7.0",
-    "fs-extra": "^11.1.0",
+    "fs-extra": "^11.1.1",
     "hermione": "~5.6.0",
     "html-reporter": "^9.7.6",
     "http-server": "^14.1.1",
