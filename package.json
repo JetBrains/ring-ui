@@ -242,7 +242,7 @@
     "postcss-modules-values-replace": "^4.1.0",
     "postcss-preset-env": "^8.0.1",
     "prop-types": "^15.8.1",
-    "react-markdown": "^8.0.5",
+    "react-markdown": "^8.0.6",
     "react-movable": "^3.0.4",
     "react-virtualized": "^9.22.3",
     "react-waypoint": "^10.3.0",
