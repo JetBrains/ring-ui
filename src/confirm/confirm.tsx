@@ -86,9 +86,11 @@ export default class Confirm extends PureComponent<ConfirmProps> {
         data-test="ring-confirm"
       >
         {text && <Header>{text}</Header>}
-        <Content>
-          {description && <div className={styles.description}>{description}</div>}
-        </Content>
+        {description && (
+          <Content>
+            <div className={styles.description}>{description}</div>
+          </Content>
+        )}
         <Panel>
           <Button
             data-test="confirm-ok-button"
