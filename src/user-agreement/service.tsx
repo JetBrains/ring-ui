@@ -7,6 +7,8 @@ import Link from '../link/link';
 import Alert from '../alert/alert';
 import Group from '../group/group';
 
+import {ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
+
 import UserAgreement, {UserAgreementAttrs, UserAgreementTranslations} from './user-agreement';
 
 const GUEST_SESSION_KEY = 'end-user-agreement-consent';
@@ -262,7 +264,11 @@ export default class UserAgreementService {
         };
 
         render(
-          <UserAgreement {...props}/>,
+          (
+            <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
+              <UserAgreement {...props}/>
+            </ControlsHeightContext.Provider>
+          ),
           this.container
         );
 

@@ -2,7 +2,11 @@ import React, {ReactNode} from 'react';
 
 import {render} from '../global/react-render-adapter';
 import Confirm, {ConfirmAttributes} from '../confirm/confirm';
-import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
+import {
+  ControlsHeight,
+  ControlsHeightContext,
+  getGlobalControlsHeight
+} from '../global/controls-height';
 
 /**
  * @name Confirm Service
@@ -18,7 +22,7 @@ export const containerElement = document.createElement('div');
  * Renders Confirm into virtual node to skip maintaining container
  */
 function renderConfirm(props: Props) {
-  const {buttonsHeight = ControlsHeight.M, ...restProps} = props;
+  const {buttonsHeight = getGlobalControlsHeight(), ...restProps} = props;
   render((
     <ControlsHeightContext.Provider value={buttonsHeight}>
       <Confirm {...restProps}/>
