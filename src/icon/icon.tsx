@@ -24,7 +24,7 @@ export interface IconProps extends HTMLAttributes<HTMLElement> {
   color: Color
   glyph: string | IconType | null
   height?: number | undefined
-  size?: Size | null | undefined
+  size?: Size | number | null | undefined
   width?: number | undefined
   loading?: boolean | null | undefined
   suppressSizeWarning?: boolean | null | undefined

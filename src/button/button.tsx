@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px';
 
-import Icon, {IconType, Size} from '../icon/icon';
+import Icon, {IconProps, IconType, Size} from '../icon/icon';
 import ClickableLink, {ClickableLinkProps} from '../link/clickableLink';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
@@ -29,7 +29,7 @@ export interface ButtonBaseProps {
   dropdown?: boolean | null | undefined
   disabled?: boolean | undefined
   icon?: string | IconType | null | undefined
-  iconSize?: Size | null | undefined
+  iconSize?: IconProps['size']
   iconClassName?: string | null | undefined
   iconSuppressSizeWarning?: boolean | null | undefined
 }
