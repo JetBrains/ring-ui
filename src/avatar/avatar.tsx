@@ -25,7 +25,7 @@ export enum Size {
 
 export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
   dpr: number
-  size: Size
+  size: Size | number
   subavatarSize: number
   url?: string | null | undefined
   round?: boolean | null | undefined
