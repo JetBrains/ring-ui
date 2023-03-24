@@ -28,7 +28,7 @@
   float: right;
 }
 
-:global(.ring-avatar-editor:hover:not(:disabled):not(.ring-avatar-editor_controlled)) {
+:global(.ring-avatar-editor:hover:not(:disabled, .ring-avatar-editor_controlled)) {
   padding: 0;
 
   border: 1px solid var(--ring-link-hover-color);
