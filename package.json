@@ -138,7 +138,7 @@
     "husky": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
     "imports-loader": "^4.0.1",
-    "jest": "~29.4.2",
+    "jest": "~29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "jest-teamcity": "^1.10.0",
     "karma": "^6.4.1",
