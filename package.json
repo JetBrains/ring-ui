@@ -241,7 +241,7 @@
     "postcss-font-family-system-ui": "^5.0.0",
     "postcss-loader": "^7.1.0",
     "postcss-modules-values-replace": "^4.1.0",
-    "postcss-preset-env": "^8.0.1",
+    "postcss-preset-env": "^8.1.0",
     "prop-types": "^15.8.1",
     "react-markdown": "^8.0.6",
     "react-movable": "^3.0.4",
