@@ -482,7 +482,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
       Object.assign(nextState, {
         selected,
-        prevFilterValue: getValueForFilter(selected, type, filterValue)
+        filterValue: getValueForFilter(selected, type, filterValue)
       });
 
       if (!Array.isArray(prevSelected) || !Array.isArray(selected) ||
