@@ -467,7 +467,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             prevState.selected,
             data,
           ),
-          prevFilterValue: getValueForFilter(prevState.selected, type, filterValue)
+          filterValue: getValueForFilter(prevState.selected, type, filterValue)
         });
       }
     }
