@@ -65,8 +65,6 @@
 
   @nest .multiline & {
     -webkit-line-clamp: 3;
-
-    word-wrap: normal;
   }
 }
 
