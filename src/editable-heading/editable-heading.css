@@ -59,10 +59,14 @@
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 
+  word-wrap: break-word;
+
   border-radius: var(--ring-border-radius);
 
   @nest .multiline & {
     -webkit-line-clamp: 3;
+
+    word-wrap: normal;
   }
 }
 
