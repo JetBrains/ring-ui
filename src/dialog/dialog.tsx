@@ -142,7 +142,7 @@ export default class Dialog extends PureComponent<DialogProps> {
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
-      portalTarget, label, closeButtonTitle, dense, ...restProps} = this.props;
+      portalTarget, label, closeButtonTitle, dense, shortcutOptions, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
