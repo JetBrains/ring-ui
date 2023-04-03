@@ -12,6 +12,7 @@ import TabTrap, {TabTrapProps} from '../tab-trap/tab-trap';
 import Button from '../button/button';
 
 import {PopupTarget} from '../popup/popup.target';
+import type {ShortcutsScopeOptions} from '../shortcuts/core';
 
 import {preventerFactory as scrollPreventerFactory} from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
@@ -24,6 +25,7 @@ export interface DialogProps extends Partial<TabTrapProps> {
   onCloseClick: (event: React.MouseEvent<HTMLElement>) => void
   onCloseAttempt: (event: React.MouseEvent<HTMLElement> | KeyboardEvent) => void
   showCloseButton: boolean
+  shortcutOptions: ShortcutsScopeOptions;
   closeButtonInside: boolean
   closeButtonTitle?: string
   trapFocus: boolean
@@ -55,6 +57,7 @@ export default class Dialog extends PureComponent<DialogProps> {
     onOverlayClick: PropTypes.func,
     onEscPress: PropTypes.func,
     onCloseClick: PropTypes.func,
+    shortcutOptions: PropTypes.object,
     // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
     // Use it if you don't need different behaviors for this cases.
     onCloseAttempt: PropTypes.func,
@@ -65,7 +68,7 @@ export default class Dialog extends PureComponent<DialogProps> {
     'data-test': PropTypes.string
   };
 
-  static defaultProps = {
+  static defaultProps: Partial<DialogProps> = {
     label: 'Dialog',
     onOverlayClick: noop,
     onEscPress: noop,
@@ -73,6 +76,7 @@ export default class Dialog extends PureComponent<DialogProps> {
     onCloseAttempt: noop,
     showCloseButton: false,
     closeButtonInside: false,
+    shortcutOptions: {modal: false},
     trapFocus: false,
     autoFocusFirst: true
   };
@@ -157,6 +161,7 @@ export default class Dialog extends PureComponent<DialogProps> {
               <Shortcuts
                 map={shortcutsMap}
                 scope={this.state.shortcutsScope}
+                options={this.props.shortcutOptions}
               />
               {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
                 <div
