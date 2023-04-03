@@ -1067,7 +1067,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         <div
           data-test={dataTests('ring-query-assist', dataTest)}
           className={containerClasses}
-          role="search"
+          role="presentation"
           ref={this.nodeRef}
         >
           {this.state.shortcuts && (
@@ -1101,7 +1101,6 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
           <ContentEditable
             aria-label={this.props.translations.searchTitle}
-            role="searchbox"
             className={inputClasses}
             data-test="ring-query-assist-input"
             inputRef={this.inputRef}
