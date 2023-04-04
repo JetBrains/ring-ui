@@ -82,7 +82,8 @@ const FooterLine = memo(function FooterLine(props: FooterLineProps) {
   const items = Array.isArray(props.item) ? props.item : [props.item];
 
   function renderItem(item: FooterItem) {
-    if (isValidElement(item) || typeof item !== 'object') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (isValidElement<any>(item) || typeof item !== 'object') {
       return item;
     }
 

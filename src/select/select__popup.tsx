@@ -166,7 +166,8 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
 
   caret?: Caret | null;
   handleNavigation(event: Event, navigateLeft?: boolean) {
-    if (this.isEventTargetFilter(event) && this.caret != null && this.caret.getPosition() > 0 ||
+    if (this.isEventTargetFilter(event) && this.caret != null &&
+      Number(this.caret.getPosition()) > 0 ||
       !Array.isArray(this.props.selected)) {
       return;
     }
