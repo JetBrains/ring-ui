@@ -283,7 +283,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
 
     if (key === 'ArrowLeft') {
-      if (this.getInputNode() && this.caret != null && this.caret.getPosition() > 0) {
+      if (this.getInputNode() && this.caret != null && Number(this.caret.getPosition()) > 0) {
         return true;
       }
 
