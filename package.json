@@ -208,7 +208,7 @@
     "@types/element-resize-detector": "^1.1.3",
     "@types/google.analytics": "0.0.42",
     "@types/prop-types": "^15.7.5",
-    "@types/react-virtualized": "9.21.20",
+    "@types/react-virtualized": "9.21.21",
     "@types/util-deprecate": "^1.0.0",
     "@ungap/url-search-params": "^0.2.2",
     "babel-loader": "9.1.2",
