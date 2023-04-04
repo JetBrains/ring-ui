@@ -23,7 +23,7 @@ export const basic = () => {
     // state uses getChildren
     // eslint-disable-next-line react/sort-comp
     expandedItems = new Set();
-    isItemCollapsible = (item: Item) => item.collapsible && item.items && item.id > 10;
+    isItemCollapsible = (item: Item) => item.collapsible && item.items && Number(item.id) > 10;
     isItemCollapsed = (item: Item) => !this.expandedItems.has(item.id);
 
     getChildren = (item: Item) => {
