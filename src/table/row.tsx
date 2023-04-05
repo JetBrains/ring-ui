@@ -227,7 +227,8 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
       const getDataTest = column.getDataTest || (() => column.id);
       const value = getValue(item, column);
       const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
-      const showMetaColumn = draggable || selectable || showDisabledSelection || !!level;
+      const showMetaColumn =
+        draggable || selectable || collapsible || showDisabledSelection || !!level;
 
       return (
         <Cell key={column.id} className={cellClasses} data-test={getDataTest(item, column)}>
