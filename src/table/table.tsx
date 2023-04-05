@@ -48,6 +48,7 @@ export interface TableProps<T extends SelectionItem> extends
   stickyHeader: boolean
   getItemLevel: (item: T) => number
   getItemClassName: (item: T) => string | null | undefined
+  getMetaColumnClassName: (item: T) => string | null | undefined
   getItemDataTest: (item: T) => string | null | undefined
   isItemCollapsible: (item: T) => boolean
   isParentCollapsible: (item: T) => boolean
@@ -82,6 +83,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     stickyHeader: true,
     getItemLevel: () => 0,
     getItemClassName: () => null,
+    getMetaColumnClassName: () => null,
     getItemDataTest: () => null,
     isItemCollapsible: () => false,
     isParentCollapsible: () => false,
@@ -171,7 +173,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
   render() {
     const {
       data, selection, columns, caption, getItemKey, selectable, focused,
-      isItemSelectable, getItemLevel, getItemClassName, getItemDataTest,
+      isItemSelectable, getItemLevel, getItemClassName, getMetaColumnClassName, getItemDataTest,
       draggable, alwaysShowDragHandle, dragHandleTitle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
@@ -259,6 +261,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
           showDisabledSelection={isDisabledSelectionVisible(value)}
           checkboxTooltip={getCheckboxTooltip(value)}
           className={classNames(getItemClassName(value), {[style.draggingRow]: isDragged})}
+          metaColumnClassName={getMetaColumnClassName(value)}
           draggable={draggable}
           alwaysShowDragHandle={alwaysShowDragHandle}
           dragHandleTitle={dragHandleTitle}
@@ -324,6 +327,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
   loading: PropTypes.bool,
   getItemKey: PropTypes.func,
   getItemClassName: PropTypes.func,
+  getMetaColumnClassName: PropTypes.func,
   getItemDataTest: PropTypes.func,
   onSort: PropTypes.func,
   onReorder: PropTypes.func,
