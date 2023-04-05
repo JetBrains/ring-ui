@@ -72,6 +72,7 @@ export interface RowProps<T extends SelectionItem> extends Omit<
   checkboxTooltip?: string | undefined
   autofocus?: boolean | null | undefined
   'data-test'?: string | null | undefined
+  metaColumnClassName?: string | null | undefined
 }
 export default class Row<T extends SelectionItem> extends PureComponent<RowProps<T>> {
   static defaultProps = {
@@ -141,7 +142,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
       collapsible, parentCollapsible, collapsed,
       onCollapse, onExpand, showDisabledSelection, onSelect,
       checkboxTooltip, innerRef, focused, autofocus, onFocusReset,
-      onFocusRestore, onHover, className, 'data-test': dataTest, ...restProps
+      onFocusRestore, onHover, className, metaColumnClassName, 'data-test': dataTest, ...restProps
     } = this.props;
 
     const classes = classNames(className, {
@@ -155,7 +156,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
       'data-test-selected': selected || undefined
     };
 
-    const metaColumnClasses = style.metaColumn;
+    const metaColumnClasses = classNames(metaColumnClassName, style.metaColumn);
 
     const SUBITEM_OFFSET = 30;
     const COLLAPSIBLE_PARENT_OFFSET = 20;
@@ -257,6 +258,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
 
 (Row as ComponentType<unknown>).propTypes = {
   className: PropTypes.string,
+  metaColumnClassName: PropTypes.string,
   item: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
   selectable: PropTypes.bool,
