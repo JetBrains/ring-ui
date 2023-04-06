@@ -92,7 +92,7 @@ async function downloadArtifacts(buildLocator, src, dest) {
 }
 
 downloadArtifacts(
-  `branch:${branch},buildType:(id:JetBrainsUi_RingUi_GeminiTests)`,
+  `branch:${/\//.test(branch) ? `$base64:${btoa(unescape(encodeURIComponent(branch)))}` : branch},buildType:(id:JetBrainsUi_RingUi_GeminiTests)`,
   'html-report.zip',
   'html-report',
 );
