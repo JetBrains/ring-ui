@@ -16,7 +16,7 @@
     display: none;
   }
 
-  & button {
+  & button:not(:last-child) {
     margin-right: unit;
   }
 }
