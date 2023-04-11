@@ -23,15 +23,6 @@ By default, documentation is built using the `development` environment. Use the 
  * **hub** (Hub server URI)
  * **clientId** (Ring UI service client ID in Hub)
 
-### Contributing
-
-To add a new component, issue one of the following commands after changing to the `components` directory:
-  * For a plain ES6 component: `npm run component:es6`
-  * For a ReactJS component: `npm run component:react`
-  * For an AngularJS component: `npm run component:ng`
-  
-It will ask for component name and then create the skeleton for you.
-
 ### Is Lodash or Underscore available?
 
 Instead of utility libraries Ring UI uses new features of *ES2015* and beyond provided by [Babel.js](https://babeljs.io) and [core-js](https://github.com/zloirock/core-js/). Polyfills like `Array.prototype.find` that patch native objects should be imported manually (e.g. via `import 'core-js/modules/es6.array.find';`).
