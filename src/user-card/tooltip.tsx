@@ -10,9 +10,14 @@ import styles from './user-card.css';
 
 const DEFAULT_TIMEOUT = 300;
 
-export interface UserCardTooltipProps extends Omit<UserCardAttrs, 'user'> {
+interface ChildrenProps {
+  active: boolean
+  pinned: boolean
+}
+
+export interface UserCardTooltipProps extends Omit<UserCardAttrs, 'children' | 'user'> {
   user?: UserCardUser | null | undefined
-  children: ReactElement | readonly ReactElement[] | string
+  children: ReactElement | readonly ReactElement[] | string | ((props: ChildrenProps) => ReactNode)
   dropdownProps: Partial<DropdownAttrs>
   renderUserCard: (props: UserCardAttrs) => ReactNode
   renderNoUser: () => ReactNode
@@ -20,7 +25,7 @@ export interface UserCardTooltipProps extends Omit<UserCardAttrs, 'user'> {
 export default class UserCardTooltip extends Component<UserCardTooltipProps> {
   static propTypes = {
     className: PropTypes.string,
-    children: PropTypes.node,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     dropdownProps: PropTypes.object,
     user: PropTypes.object,
     renderUserCard: PropTypes.func,
