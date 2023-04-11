@@ -84,7 +84,6 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md)
 - [Living style guide][docsite]
 - [GitHub repository](https://github.com/JetBrains/ring-ui)
 - [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
-- [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)
 - [Builds in TeamCity][ci-project]
 - [npm package][npm-package]
 
