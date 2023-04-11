@@ -48,7 +48,7 @@
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
-  & .panel button:not(:last-child) {
+  & .panel > button:not(:last-child) {
     margin-right: unit;
   }
 }
