@@ -14,14 +14,16 @@ module.exports = {
   presets: [require.resolve('./custom-header/header-preset')],
   addons: [
     '@storybook/addon-storysource',
-    '@storybook/addon-essentials',
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        actions: false
+      }
+    },
     '@storybook/addon-a11y',
     'storybook-zeplin/register',
     'storybook-addon-themes'
   ],
-  core: {
-    builder: 'webpack5'
-  },
   webpackFinal(config) {
     ringConfig.componentsPath.push(
       __dirname,
@@ -36,9 +38,6 @@ module.exports = {
 
     config.module.rules = [
       ...ringConfig.config.module.rules,
-      config.module.rules.find(rule =>
-        rule.include instanceof RegExp &&
-        rule.include.test('node_modules/acorn-jsx')),
       {
         test: /\.md$/,
         loader: 'raw-loader'
@@ -63,5 +62,16 @@ module.exports = {
     config.plugins.push(new webpack.DefinePlugin({hubConfig}));
 
     return config;
-  }
+  },
+  framework: {
+    name: '@storybook/html-webpack5',
+    options: {}
+  },
+  docs: {
+    autodocs: true
+  },
+  storyIndexers: indexers => indexers.map(indexer =>
+    (indexer.test.test('.stories.tsx') && !indexer.test.test('.examples.tsx')
+      ? {...indexer, test: /\.examples\.[jt]sx?$/}
+      : indexer))
 };

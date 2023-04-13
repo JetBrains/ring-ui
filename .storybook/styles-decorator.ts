@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {useEffect} from '@storybook/client-api';
+import {useEffect} from '@storybook/preview-api';
 
 import {StoryContext} from '@storybook/html';
 

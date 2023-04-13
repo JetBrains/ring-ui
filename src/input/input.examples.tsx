@@ -133,7 +133,7 @@ selectAll.parameters = {
   hermione: {
     actions: [
       {type: 'click', selector: '[data-test-select]'},
-      {type: 'capture', selector: '#root'}
+      {type: 'capture', selector: '#storybook-root'}
     ]
   }
 };

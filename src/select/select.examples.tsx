@@ -211,7 +211,7 @@ buttonModeWithAFilter.storyName = 'button mode with a filter';
 
 buttonModeWithAFilter.parameters = {
   hermione: {captureSelector: '*[data-test~=ring-select]'},
-  a11y: {element: '*[data-test~=ring-select]'},
+  a11y: {element: '#storybook-root,*[data-test~=ring-select]'},
   storyStyles: `
 <style>
   .demo {

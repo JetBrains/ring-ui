@@ -31,7 +31,7 @@ basic.parameters = {
     actions: [
       {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
       {type: 'wait', delay: 500},
-      {type: 'capture', name: '', selector: '#root'}
+      {type: 'capture', name: '', selector: '#storybook-root'}
     ]
   }
 };
@@ -80,9 +80,9 @@ displayedWhenNecessary.parameters = {
   hermione: {
     actions: [
       {type: 'mouseEvent', selector: '.lorem-ipsum__text', eventname: 'mouseover'},
-      {type: 'capture', name: 'full text element', selector: '#root'},
+      {type: 'capture', name: 'full text element', selector: '#storybook-root'},
       {type: 'mouseEvent', selector: '.lorem-ipsum__text_overflow', eventname: 'mouseover'},
-      {type: 'capture', name: 'cut text element', selector: '#root'}
+      {type: 'capture', name: 'cut text element', selector: '#storybook-root'}
     ]
   }
 };
@@ -114,7 +114,7 @@ nested.parameters = {
     actions: [
       {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
       {type: 'wait', delay: 500},
-      {type: 'capture', name: '', selector: '#root'}
+      {type: 'capture', name: '', selector: '#storybook-root'}
     ]
   }
 };
