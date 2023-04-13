@@ -21,7 +21,12 @@ import Input, {ContainerProps, InputSpecificProps} from '../input/input';
 
 import {ControlsHeight} from '../global/controls-height';
 
-import Select, {SelectAttrs, SelectItem, SelectProps, SingleSelectAttrs} from './select';
+import Select, {
+  MultipleSelectAttrs,
+  SelectItem,
+  SelectProps,
+  SingleSelectAttrs
+} from './select';
 import {Multiple} from './select__popup';
 
 const FLAG_DE_URL =
@@ -44,8 +49,8 @@ export default {
   }
 };
 
-export const withAFilterAndTags: Story<SelectAttrs> = args => <Select {...args}/>;
-export const withAvatars: Story<SelectAttrs> = args => <Select {...args}/>;
+export const withAFilterAndTags: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const withAvatars: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 
 {
   const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
@@ -340,7 +345,7 @@ withDisabledMoveOverflow.parameters = {
 
 const alwaysTrue = () => true;
 
-class WithServerSideFiltering extends Component<SelectAttrs> {
+class WithServerSideFiltering extends Component<SingleSelectAttrs> {
   state = {
     users: [],
     request: null
@@ -436,12 +441,12 @@ withFuzzySearchFilter.parameters = {
       `
 };
 
-export const withALargeDataset: Story<SelectAttrs> = args => <Select {...args}/>;
+export const withALargeDataset: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 
 withALargeDataset.storyName = 'with a large dataset';
 withALargeDataset.parameters = {hermione: {skip: true}};
 
-export const withALargeDatasetAndDisabledScrollToActiveItem: Story<SelectAttrs> = args =>
+export const withALargeDatasetAndDisabledScrollToActiveItem: Story<SingleSelectAttrs> = args =>
   <Select {...args}/>;
 
 withALargeDatasetAndDisabledScrollToActiveItem.storyName = 'with a large dataset and disabled scroll to active item';
@@ -484,7 +489,7 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
   };
 }
 
-export const multipleWithADescription: Story<SelectAttrs> = args => <Select {...args}/>;
+export const multipleWithADescription: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
 
 {
   const deFlag =
@@ -550,7 +555,7 @@ disabled.parameters = {
       `
 };
 
-export const inputBased: Story<SelectAttrs> = args => <Select {...args}/>;
+export const inputBased: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 
 inputBased.storyName = 'input-based';
 
@@ -567,12 +572,12 @@ inputBased.parameters = {
   }
 };
 
-export const inputBasedInSuggestOnlyMode: Story<SelectAttrs> = args => <Select {...args}/>;
+export const inputBasedInSuggestOnlyMode: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 
 inputBasedInSuggestOnlyMode.storyName = 'input-based in suggest-only mode';
 inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
 
-export const inputBasedWithError: Story<SelectAttrs> = args => <Select {...args}/>;
+export const inputBasedWithError: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 inputBasedWithError.storyName = 'input-based with error';
 
 {
@@ -601,7 +606,7 @@ inputBasedWithError.storyName = 'input-based with error';
   };
 }
 
-export const withSubLevelsForListElement: Story<SelectAttrs> = args => <Select {...args}/>;
+export const withSubLevelsForListElement: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 
 withSubLevelsForListElement.args = {
   filter: true,
@@ -617,7 +622,7 @@ withSubLevelsForListElement.args = {
 withSubLevelsForListElement.storyName = 'with sub levels for list element';
 withSubLevelsForListElement.parameters = {hermione: {skip: true}};
 
-export const withDefaultFilterModeAndALoadingIndicator: Story<SelectAttrs> = args =>
+export const withDefaultFilterModeAndALoadingIndicator: Story<SingleSelectAttrs> = args =>
   <Select {...args}/>;
 {
   const data = [
@@ -637,7 +642,7 @@ export const withDefaultFilterModeAndALoadingIndicator: Story<SelectAttrs> = arg
 withDefaultFilterModeAndALoadingIndicator.storyName = 'with default filter mode and a loading indicator';
 withDefaultFilterModeAndALoadingIndicator.parameters = {hermione: {skip: true}};
 
-export const withACustomizedFilterAndAnAddItemButton: Story<SelectAttrs> = args =>
+export const withACustomizedFilterAndAnAddItemButton: Story<SingleSelectAttrs> = args =>
   <Select {...args}/>;
 {
   const data = [...Array(100)].map((elem, idx) => ({
@@ -662,7 +667,8 @@ export const withACustomizedFilterAndAnAddItemButton: Story<SelectAttrs> = args 
 withACustomizedFilterAndAnAddItemButton.storyName = "with a customized filter and an 'Add item' button";
 withACustomizedFilterAndAnAddItemButton.parameters = {hermione: {skip: true}};
 
-export const withCustomItemsAndAnAddItemButton: Story<SelectAttrs> = args => <Select {...args}/>;
+export const withCustomItemsAndAnAddItemButton: Story<SingleSelectAttrs> = args =>
+  <Select {...args}/>;
 withCustomItemsAndAnAddItemButton.args = {
   data: [...Array(100)].map((elem, idx) => {
     const label = `Label ${idx}`;
@@ -697,7 +703,8 @@ withCustomItemsAndAnAddItemButton.parameters = {
       `
 };
 
-export const withAnAlwaysVisibleAddItemButton: Story<SelectAttrs> = args => <Select {...args}/>;
+export const withAnAlwaysVisibleAddItemButton: Story<SingleSelectAttrs> = args =>
+  <Select {...args}/>;
 withAnAlwaysVisibleAddItemButton.args = {
   data: [...Array(10)].map((elem, idx) => ({
     key: idx,
@@ -716,7 +723,7 @@ withAnAlwaysVisibleAddItemButton.args = {
 withAnAlwaysVisibleAddItemButton.storyName = "with an always visible 'Add item' button";
 withAnAlwaysVisibleAddItemButton.parameters = {hermione: {skip: true}};
 
-export const multipleWithCustomView: Story<SelectAttrs> = args => <Select {...args}/>;
+export const multipleWithCustomView: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -740,7 +747,7 @@ export const multipleWithCustomView: Story<SelectAttrs> = args => <Select {...ar
 multipleWithCustomView.storyName = 'multiple with custom view';
 multipleWithCustomView.parameters = {hermione: {skip: true}};
 
-export const asADropdownWithoutFilter: Story<SelectAttrs> = args => <Select {...args}/>;
+export const asADropdownWithoutFilter: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 asADropdownWithoutFilter.args = {
   data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
@@ -814,7 +821,7 @@ withCustomInputAnchor.args = {
 withCustomInputAnchor.storyName = 'with custom input anchor';
 withCustomInputAnchor.parameters = {hermione: {skip: true}};
 
-export const withRenderOptimization: Story<SelectAttrs> = args => <Select {...args}/>;
+export const withRenderOptimization: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 withRenderOptimization.args = {
   data: [...Array(1000)].map((item, idx) => ({
     label: `Label ${idx}`,
@@ -827,7 +834,7 @@ withRenderOptimization.args = {
 withRenderOptimization.storyName = 'with render optimization';
 withRenderOptimization.parameters = {hermione: {skip: true}};
 
-export const fitsToScreen: Story<SelectAttrs> = args => (
+export const fitsToScreen: Story<SingleSelectAttrs> = args => (
   <div className="demo">
     <Select {...args}/>
   </div>
@@ -966,7 +973,7 @@ withFilteredFields.parameters = {
       `
 };
 
-export const multipleWithSelectAll: Story<SelectAttrs> = args => <Select {...args}/>;
+export const multipleWithSelectAll: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -987,7 +994,8 @@ export const multipleWithSelectAll: Story<SelectAttrs> = args => <Select {...arg
 multipleWithSelectAll.storyName = 'multiple with select all';
 multipleWithSelectAll.parameters = {hermione: {skip: true}};
 
-export const multipleWithSelectAllAndDisabledItem: Story<SelectAttrs> = args => <Select {...args}/>;
+export const multipleWithSelectAllAndDisabledItem: Story<MultipleSelectAttrs> = args =>
+  <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -1036,7 +1044,7 @@ export const multipleWithSelectAllAndCustomLabels = (args: SelectProps) => <Sele
 multipleWithSelectAllAndCustomLabels.storyName = 'multiple with select all and custom labels';
 multipleWithSelectAllAndCustomLabels.parameters = {hermione: {skip: true}};
 
-export const multipleWithLimit: Story<SelectAttrs> = args => <Select {...args}/>;
+export const multipleWithLimit: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -1061,7 +1069,7 @@ multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {hermione: {skip: true}};
 
 
-export const selectInPopup: Story<SelectAttrs> = args => (
+export const selectInPopup: Story<SingleSelectAttrs> = args => (
   <Dropdown
     anchor="Open dropdown"
   >

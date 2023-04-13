@@ -6,6 +6,8 @@ import sinonChai from 'sinon-chai';
 import chaiEnzyme from 'chai-enzyme';
 import sinon from 'sinon';
 
+import {MochaGlobals} from 'mocha';
+
 import {unmountComponentAtNode} from '../src/global/react-render-adapter';
 
 chai.use(chaiAsPromised);
@@ -20,7 +22,7 @@ const windowExtension = {
   should: chai.should()
 };
 
-type WindowExtension = typeof windowExtension;
+type WindowExtension = typeof windowExtension & MochaGlobals;
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
