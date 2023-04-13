@@ -18,7 +18,7 @@ export default {
     component: UserAgreement,
     framework: 'react',
     hermione: {captureSelector: '*[data-test~=ring-dialog]'},
-    a11y: {element: '*[data-test~=ring-dialog]'}
+    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
   }
 };
 
@@ -126,5 +126,5 @@ service.storyName = 'service';
 service.parameters = {
   component: null,
   hermione: {skip: true},
-  a11y: {element: '*[data-test="alert-container"]'}
+  a11y: {element: '#storybook-root,*[data-test="alert-container"]'}
 };
