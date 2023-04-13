@@ -145,5 +145,5 @@ alertContainer.parameters = {
   hermione: {
     captureSelector: '*[data-test="alert-container"]'
   },
-  a11y: {element: '*[data-test="alert-container"]'}
+  a11y: {element: '#storybook-root,*[data-test="alert-container"]'}
 };

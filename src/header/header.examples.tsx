@@ -108,7 +108,6 @@ export const header: Story<HeaderArgs> = ({isCompact, dark, ...args}) => {
   return <HeaderDemo/>;
 };
 
-header.storyName = 'Header';
 header.parameters = {notes: 'See available presentation options in knobs panel'};
 header.args = {isCompact: false, dark: true};
 

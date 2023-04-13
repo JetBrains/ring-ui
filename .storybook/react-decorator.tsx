@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks, react-hooks/exhaustive-deps */
 import React, {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
-import {useEffect, useMemo} from '@storybook/client-api';
+import {useEffect, useMemo} from '@storybook/preview-api';
 import {Story, StoryContext} from '@storybook/react';
 
 const reactDecorator = (StoryFn: Story, context: StoryContext) => {

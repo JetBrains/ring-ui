@@ -140,6 +140,7 @@ module.exports = {
       files: [
         '**/*.examples.*'
       ],
+      plugins: ['storybook'],
       env: {
         browser: true,
         node: true
@@ -156,7 +157,15 @@ module.exports = {
         'no-magic-numbers': ignore,
         '@typescript-eslint/no-magic-numbers': ignore,
         'angular/no-controller': ignore,
-        'angular/di-unused': ignore
+        'angular/di-unused': ignore,
+        'storybook/await-interactions': error,
+        'storybook/context-in-play-function': error,
+        'storybook/default-exports': error,
+        'storybook/hierarchy-separator': error,
+        'storybook/no-redundant-story-name': error,
+        'storybook/story-exports': error,
+        'storybook/use-storybook-expect': error,
+        'storybook/use-storybook-testing-library': error
       }
     }
   ],

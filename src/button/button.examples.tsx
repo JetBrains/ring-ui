@@ -127,9 +127,9 @@ basic.storyName = 'basic';
 basic.parameters = {
   hermione: {
     actions: [
-      {type: 'capture', name: '', selector: '#root'},
+      {type: 'capture', name: '', selector: '#storybook-root'},
       {type: 'focus', selector: '[data-test=button-active]'},
-      {type: 'capture', name: 'focus active', selector: '#root'}
+      {type: 'capture', name: 'focus active', selector: '#storybook-root'}
     ]
   },
   storyStyles: `

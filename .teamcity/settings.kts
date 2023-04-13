@@ -174,7 +174,6 @@ object AllChecks : BuildType({
         merge {
             branchFilter = """
               +:dependabot/*
-              -:dependabot/npm_and_yarn/storybook/*
             """.trimIndent()
             mergePolicy = AutoMerge.MergePolicy.FAST_FORWARD
             destinationBranch = "master"
