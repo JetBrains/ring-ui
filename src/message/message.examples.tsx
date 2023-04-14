@@ -26,10 +26,6 @@ export default {
     title: 'This is title',
     direction: Directions.TOP_RIGHT,
     children: 'This is long long long long long long long long long long long long long long long long long long description'
-  },
-  argTypes: {
-    onClose: {},
-    onDismiss: {}
   }
 };
 
@@ -44,10 +40,8 @@ export const basic: Story<MessageAttrs> = args => (
 
 basic.storyName = 'basic';
 basic.args = {
-  tailOffset: 32
-};
-basic.parameters = {
-  actions: {argTypesRegex: '^onClose$'}
+  tailOffset: 32,
+  onClose: () => {}
 };
 
 export const light: Story<MessageAttrs> = args => (
@@ -59,7 +53,9 @@ export const light: Story<MessageAttrs> = args => (
   </div>
 );
 light.args = {
-  theme: Theme.LIGHT
+  theme: Theme.LIGHT,
+  onClose: () => {},
+  onDismiss: () => {}
 };
 
 export const withOnDissmiss: Story<MessageAttrs> = args => (
@@ -73,7 +69,9 @@ export const withOnDissmiss: Story<MessageAttrs> = args => (
 
 withOnDissmiss.storyName = 'with onDissmiss';
 withOnDissmiss.args = {
-  tailOffset: 32
+  tailOffset: 32,
+  onClose: () => {},
+  onDismiss: () => {}
 };
 
 export const wishNarrowAnchor: Story<MessageAttrs> = args => (
@@ -88,7 +86,4 @@ export const wishNarrowAnchor: Story<MessageAttrs> = args => (
 wishNarrowAnchor.storyName = 'with narrow anchor';
 wishNarrowAnchor.args = {
   popupProps: {left: -8}
-};
-wishNarrowAnchor.parameters = {
-  actions: {argTypesRegex: null}
 };
