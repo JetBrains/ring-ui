@@ -1,3 +1,4 @@
+import 'focus-visible';
 import React, {PureComponent, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

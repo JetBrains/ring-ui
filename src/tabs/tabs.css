@@ -1,5 +1,8 @@
 @import "../global/variables.css";
 
+/* ensure styles order */
+@import "../link/link.css";
+
 @value dark from "../global/variables_dark.css";
 @value unit from "../global/global.css";
 @value line-shadow: inset 0 -1px 0 0;

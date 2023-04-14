@@ -1,8 +1,17 @@
 import React from 'react';
 
+import javascript from 'highlight.js/lib/languages/javascript';
+
+import xml from 'highlight.js/lib/languages/xml';
+
 import reactDecorator from '../../.storybook/react-decorator';
 
+import {highlight} from '../code/code';
+
 import Markdown, {md} from './markdown';
+
+highlight.registerLanguage('javascript', javascript);
+highlight.registerLanguage('xml', xml);
 
 export default {
   title: 'Components/Markdown',
