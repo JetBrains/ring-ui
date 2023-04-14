@@ -5,6 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import '../input/input-legacy.css';
 import './form.css';
 import '../input-size/input-size.css';
+import '../error-bubble/error-bubble-legacy.css';
 
 import ButtonNG from '../button-ng/button-ng';
 

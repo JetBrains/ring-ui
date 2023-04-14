@@ -1,6 +1,7 @@
 /**
  * @name Island Ng
  */
+import 'focus-visible';
 import angular from 'angular';
 
 import styles from '../island/island.css';
@@ -20,10 +21,10 @@ angularModule.directive('rgIsland', function islandDirective() {
     },
     compile,
     template: `
-<div 
+<div
   data-test="ring-island"
-  class="${styles.island}" 
-  ng-class="{'${styles.narrowIsland}': islandCtrl.narrow}" 
+  class="${styles.island}"
+  ng-class="{'${styles.narrowIsland}': islandCtrl.narrow}"
   ng-transclude
 ></div>
 `,

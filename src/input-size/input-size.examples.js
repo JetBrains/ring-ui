@@ -5,6 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import '../input/input-legacy.css';
 import '../form/form.css';
 import './input-size.css';
+import '../error-bubble/error-bubble-legacy.css';
 
 import SelectNG from '../select-ng/select-ng';
 import QueryAssistNG from '../query-assist-ng/query-assist-ng';
