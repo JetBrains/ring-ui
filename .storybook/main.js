@@ -11,7 +11,6 @@ module.exports = {
     '../src/welcome.examples.js',
     '../src/**/*.examples.{js,ts,tsx}'
   ],
-  presets: [require.resolve('./custom-header/header-preset')],
   addons: [
     '@storybook/addon-storysource',
     {
@@ -73,5 +72,6 @@ module.exports = {
   storyIndexers: indexers => indexers.map(indexer =>
     (indexer.test.test('.stories.tsx') && !indexer.test.test('.examples.tsx')
       ? {...indexer, test: /\.examples\.[jt]sx?$/}
-      : indexer))
+      : indexer)),
+  staticDirs: ['./custom-header/dist']
 };
