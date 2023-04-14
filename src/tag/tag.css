@@ -54,7 +54,7 @@
 }
 
 .focused,
-.tag:global(.focus-visible) {
+.tag:focus-visible {
   position: relative;
 
   outline: none;
@@ -63,8 +63,8 @@
 
 .focused,
 .focused.tagAngled::before,
-.tag:global(.focus-visible),
-.tagAngled:global(.focus-visible)::before,
+.tag:focus-visible,
+.tagAngled:focus-visible::before,
 .tag:hover,
 .tagAngled:hover::before {
   transition: none;

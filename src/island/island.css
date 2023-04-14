@@ -75,7 +75,7 @@
   width: 100%;
   padding: calc(unit * 2) calc(unit * 4);
 
-  &:focus:not(:global(.focus-visible)) {
+  &:focus:not(:focus-visible) {
     outline: none;
   }
 }
