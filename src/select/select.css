@@ -163,7 +163,7 @@
   vertical-align: calc(0 - unit);
 }
 
-.buttonValue:global(.focus-visible) {
+.buttonValue:focus-visible {
   box-shadow: button-shadow var(--ring-main-color);
 }
 
@@ -187,7 +187,7 @@
 
 .select:hover .value,
 .select:hover .icons,
-:global(.focus-visible) + .icons,
+:focus-visible + .icons,
 .value:focus,
 .value:focus + .icons,
 .open,

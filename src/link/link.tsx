@@ -1,4 +1,3 @@
-import 'focus-visible';
 import React, {
   PureComponent,
   memo,

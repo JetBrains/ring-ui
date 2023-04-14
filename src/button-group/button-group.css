@@ -111,7 +111,7 @@
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
-.buttonGroup .button.button:global(.focus-visible) {
+.buttonGroup .button.button:focus-visible {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
 }
@@ -123,7 +123,7 @@
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
-.buttonGroup .button:global(.focus-visible).active {
+.buttonGroup .button:focus-visible.active {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
 }
