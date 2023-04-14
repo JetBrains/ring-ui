@@ -1,3 +1,4 @@
+import 'focus-visible';
 import angular from 'angular';
 
 import className from 'classnames';

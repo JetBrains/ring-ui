@@ -19,6 +19,7 @@ build
 coverage
 /components
 dist
+.storybook/custom-header/dist
 storybook-dist
 html-report
 npmlogs

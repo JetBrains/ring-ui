@@ -108,4 +108,11 @@ class SiteHeader extends PureComponent {
 const node = document.createElement('div');
 const root = client.createRoot(node);
 root.render(<SiteHeader/>);
-document.body.insertAdjacentElement('afterbegin', node);
+
+const observer = new MutationObserver(() => {
+  if (document.body) {
+    observer.disconnect();
+    document.body.insertAdjacentElement('afterbegin', node);
+  }
+});
+observer.observe(document.documentElement, {childList: true});

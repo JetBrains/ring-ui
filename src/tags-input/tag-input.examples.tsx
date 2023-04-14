@@ -144,9 +144,9 @@ export const autoOpen = () => {
 
 autoOpen.parameters = {
   hermione: {
-    captureSelector: ['#root', '[data-test~=ring-popup]']
+    captureSelector: ['#storybook-root', '[data-test~=ring-popup]']
   },
-  a11y: {element: '#root,[data-test~=ring-popup]'}
+  a11y: {element: '#storybook-root,[data-test~=ring-popup]'}
 };
 
 
@@ -176,5 +176,5 @@ autoOpenInADialog.parameters = {
   hermione: {
     captureSelector: ['[data-test~=ring-dialog]', '[data-test~=ring-popup]']
   },
-  a11y: {element: '[data-test~=ring-dialog],[data-test~=ring-popup]'}
+  a11y: {element: '#storybook-root,[data-test~=ring-dialog],[data-test~=ring-popup]'}
 };
