@@ -21,7 +21,7 @@ for (const {kind, stories} of items) {
       const {name, id, parameters = {}} = story;
       const testName = filenamify(name);
       const {
-        captureSelector = '[id=root]',
+        captureSelector = '[id=storybook-root]',
         skip,
         actions = [{type: 'capture', name: '', selector: captureSelector}]
       } = parameters;

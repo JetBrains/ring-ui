@@ -20,7 +20,7 @@ export default {
         }
       ]
     },
-    a11y: {element: '*[data-test~=ring-dropdown]'}
+    a11y: {element: '#storybook-root,*[data-test~=ring-dropdown]'}
   }
 };
 
