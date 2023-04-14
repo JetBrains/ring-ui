@@ -1,3 +1,4 @@
+import 'focus-visible';
 import angular from 'angular';
 
 import checkmarkIcon from '@jetbrains/icons/checkmark-14px';
