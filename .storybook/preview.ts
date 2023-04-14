@@ -13,8 +13,8 @@ import Theme, {applyTheme} from '../src/global/theme';
 
 import styles from './preview.css';
 import stylesDecorator from './styles-decorator';
+import {darkMatcher, theme} from './theme';
 
-const darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
 const updateTheme = () => applyTheme(
   darkMatcher.matches ? Theme.DARK : Theme.LIGHT,
   document.documentElement
@@ -33,7 +33,8 @@ export const parameters = {
   docs: {
     inlineStories: false,
     extractComponentDescription: (component: Component, {notes}: Parameters) =>
-      notes ?? component?.__docgenInfo?.description
+      notes ?? component?.__docgenInfo?.description,
+    theme
   },
   a11y: {
     options: {
