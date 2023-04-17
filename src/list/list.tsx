@@ -90,7 +90,7 @@ export interface ListProps<T = unknown> {
   restoreActiveIndex: boolean
   activateSingleItem: boolean
   activateFirstItem: boolean
-  onMouseOut: (e: SyntheticEvent) => void
+  onMouseOut: (e: SyntheticEvent<HTMLElement>) => void
   onSelect: (item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) =>
     void
   onScrollToBottom: () => void
