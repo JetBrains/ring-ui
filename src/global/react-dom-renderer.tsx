@@ -3,24 +3,23 @@ import PropTypes from 'prop-types';
 
 export interface RendererProps {
   className?: string | undefined
-  nodes: readonly Node[]
+  nodes: readonly Node[] | NodeList;
 }
 
 export default class Renderer extends Component<RendererProps> {
   static propTypes = {
     className: PropTypes.string,
-    nodes: PropTypes.array
+    nodes: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
   };
 
   componentDidMount() {
+    const {node} = this;
     const {nodes} = this.props;
-    if (!this.node || !nodes || !nodes.length) {
+    if (!node || !nodes || !nodes.length) {
       return;
     }
-    const fragment = document.createDocumentFragment();
-    nodes.forEach(nodeToRender => fragment.appendChild(nodeToRender));
-
-    this.node.appendChild(fragment);
+    Array.from(this.props.nodes).
+      forEach(nodeToRender => node.appendChild(nodeToRender));
   }
 
   node?: HTMLElement | null;

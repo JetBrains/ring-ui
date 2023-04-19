@@ -4,7 +4,7 @@ import angular from 'angular';
 import 'angular-mocks';
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {Simulate} from 'react-dom/test-utils';
+import {act, Simulate} from 'react-dom/test-utils';
 
 import angularComponentFactory from './angular-component-factory';
 
@@ -13,7 +13,8 @@ class TestComponent extends PureComponent {
     id: PropTypes.string,
     someObj: PropTypes.object,
     onClick: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
+    children: PropTypes.node
   };
 
   static defaultProps = {
@@ -23,15 +24,18 @@ class TestComponent extends PureComponent {
   handleClick = () => this.props.onClick('payload');
 
   render() {
-    const {id, someObj, className} = this.props;
+    const {id, someObj, className, children} = this.props;
     return (
-      <button
-        type="button"
-        id={id}
-        data-some-obj={someObj.foo}
-        onClick={this.handleClick}
-        className={className}
-      />
+      <>
+        <button
+          type="button"
+          id={id}
+          data-some-obj={someObj.foo}
+          onClick={this.handleClick}
+          className={className}
+        />
+        {children}
+      </>
     );
   }
 }
@@ -114,5 +118,21 @@ describe('angularComponentFactory', () => {
 
     $rootScope.callback.should.have.been.called;
     $rootScope.callback.should.have.been.calledWith('payload');
+  });
+
+  it('should support ng-if in nested content', () => {
+    let $element = null;
+    act(() => {
+      $element = $compile(`
+<rg-test-component>
+  <span data-test="hello">HELLO</span>
+</rg-test-component>`
+      )($rootScope);
+    });
+
+    const component = $element[0].querySelector('[data-test~=hello]');
+    $rootScope.$digest();
+
+    should.exist(component);
   });
 });

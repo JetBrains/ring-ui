@@ -27,14 +27,19 @@ function createAngularComponent(Component) {
     $postLink() {
       const {$transclude} = this.$inject;
 
+
       $transclude(clone => {
-        this.innerNodes = Array.from(clone);
+        this.container = document.createElement('div');
+
+        for (let i = 0; i < clone.length; i++) {
+          this.container.appendChild(clone[i]);
+        }
         this.render();
       });
     }
 
     $onChanges() {
-      if (!this.innerNodes) {
+      if (!this.container) {
         return;
       }
       this.render();
@@ -62,11 +67,11 @@ function createAngularComponent(Component) {
         }
       });
 
-      const hasInnerContent = this.innerNodes && this.innerNodes.length;
+      const hasInnerContent = this.container.hasChildNodes();
 
       render(
         <Component {...props}>
-          {hasInnerContent ? <DomRenderer nodes={this.innerNodes}/> : null}
+          {hasInnerContent ? <DomRenderer nodes={this.container.childNodes}/> : null}
         </Component>,
         container
       );
