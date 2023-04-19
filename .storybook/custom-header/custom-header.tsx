@@ -23,7 +23,6 @@ import styles from './header-styles.css';
 
 /* eslint-disable import/no-unresolved */
 import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
-import upsourceLogo from '!file-loader?publicPath=./!@jetbrains/logos/upsource/upsource.svg';
 import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
 /* eslint-enable */
 
@@ -83,12 +82,6 @@ class SiteHeader extends PureComponent {
                 name: 'Issues',
                 iconUrl: youtrackLogo,
                 homeUrl: 'https://youtrack.jetbrains.com/issues/RG'
-              },
-              {
-                id: 'upsource',
-                name: 'Code review',
-                iconUrl: upsourceLogo,
-                homeUrl: 'https://upsource.jetbrains.com/ring-ui/view'
               },
               {
                 id: 'teamcity',
