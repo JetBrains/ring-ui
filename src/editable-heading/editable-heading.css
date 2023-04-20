@@ -33,6 +33,10 @@
 
   font-size: inherit;
 
+  @nest .disabled & {
+    user-select: text;
+  }
+
   &:focus {
     outline: 1px solid var(--ring-border-hover-color);
   }
