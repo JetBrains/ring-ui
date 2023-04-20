@@ -35,6 +35,8 @@
 
   @nest .disabled & {
     user-select: text;
+
+    border-radius: 0;
   }
 
   &:focus {
