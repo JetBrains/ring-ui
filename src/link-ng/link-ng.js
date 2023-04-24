@@ -1,4 +1,3 @@
-import 'focus-visible';
 import angular from 'angular';
 
 import styles from '../link/link.css';

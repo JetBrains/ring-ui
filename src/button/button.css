@@ -60,7 +60,7 @@
     box-shadow: button-shadow var(--ring-border-hover-color);
   }
 
-  &:global(.focus-visible) {
+  &:focus-visible {
     transition: none;
 
     box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
@@ -73,7 +73,7 @@
     box-shadow: button-shadow var(--ring-main-color);
   }
 
-  &:global(.focus-visible).active {
+  &:focus-visible.active {
     box-shadow: inset 0 0 0 2px var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
   }
 
@@ -128,7 +128,7 @@
     color: var(--ring-action-link-color);
   }
 
-  &:global(.focus-visible),
+  &:focus-visible,
   &:active,
   &.active {
     background-color: var(--ring-button-primary-background-color);
@@ -186,12 +186,12 @@
 
   &:active,
   &.active,
-  &:global(.focus-visible),
+  &:focus-visible,
   &:hover {
     box-shadow: button-shadow var(--ring-button-danger-hover-color);
   }
 
-  &:global(.focus-visible),
+  &:focus-visible,
   &:hover {
     transition: none;
   }
@@ -212,7 +212,7 @@
     box-shadow: none;
   }
 
-  &:global(.focus-visible) {
+  &:focus-visible {
     box-shadow: inset 0 0 0 2px var(--ring-border-hover-color);
   }
 }
@@ -228,7 +228,7 @@
   box-shadow: none;
 }
 
-.withIcon:hover:not(:global(.focus-visible)) {
+.withIcon:hover:not(:focus-visible) {
   background-color: transparent;
   box-shadow: none;
 }
