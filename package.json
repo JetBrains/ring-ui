@@ -176,7 +176,7 @@
     "typescript": "~5.0.4",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.80.0",
-    "webpack-cli": "^5.0.1",
+    "webpack-cli": "^5.0.2",
     "xmlappend": "^1.0.4",
     "yo": "^4.3.1"
   },
