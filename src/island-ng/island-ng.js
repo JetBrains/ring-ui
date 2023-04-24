@@ -1,7 +1,6 @@
 /**
  * @name Island Ng
  */
-import 'focus-visible';
 import angular from 'angular';
 
 import styles from '../island/island.css';
