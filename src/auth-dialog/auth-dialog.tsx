@@ -117,7 +117,9 @@ export default class AuthDialog extends Component<AuthDialogProps> {
     const {retrying} = this.state;
 
     const defaultTitle = serviceName ? loginToCaption : loginCaption;
-    const title = (this.props.title || defaultTitle).replace('%serviceName%', serviceName ?? '');
+    const title = (this.props.title || defaultTitle).
+      replace('%serviceName%', serviceName ?? '').
+      replace('{{serviceName}}', serviceName ?? '');
 
     return (
       <Dialog
