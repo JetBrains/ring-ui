@@ -152,7 +152,7 @@
     "merge-options": "^3.0.4",
     "mocha": "^10.2.0",
     "pinst": "^3.0.0",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "puppeteer": "^19.10.1",
     "raw-loader": "^4.0.2",
     "react": "^18.2.0",
