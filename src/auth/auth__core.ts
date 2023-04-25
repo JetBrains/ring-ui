@@ -773,7 +773,9 @@ export default class Auth implements HTTPAuth {
 
     const hide = this._authDialogService?.({
       ...this._service,
-      title: translations.youHaveLoggedInAs.replace('%userName%', newUser.name ?? ''),
+      title: translations.youHaveLoggedInAs.
+        replace('%userName%', newUser.name ?? '').
+        replace('{{userName}}', newUser.name ?? ''),
       loginCaption: translations.login,
       loginToCaption: translations.loginTo,
       confirmLabel: translations.applyChange,

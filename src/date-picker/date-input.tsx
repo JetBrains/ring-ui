@@ -122,7 +122,9 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
         case 'time':
           return timePlaceholder || translations.addTime;
         default:
-          return translations.selectName.replace('%name%', name);
+          return translations.selectName.
+            replace('%name%', name).
+            replace('{{name}}', name);
       }
     })();
 
