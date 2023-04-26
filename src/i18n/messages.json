@@ -1,5 +1,6 @@
 {
   "login": "Log in",
+  "logout": "Log out",
   "loginTo": "Log in to {{serviceName}}",
   "ok": "OK",
   "cancel": "Cancel",
@@ -11,6 +12,9 @@
   "checkAgain": "try again",
   "nothingHappensLink": "Click here if nothing happens",
   "errorMessage": "There may be a problem with your network connection. Make sure that you are online and",
+  "applyChangedUser": "Apply changed user",
+  "profile": "Profile",
+  "switchUser": "Switch user",
   "addFirstDate": "Add first date",
   "addSecondDate": "Add second date",
   "addTime": "Add time",
@@ -38,5 +42,12 @@
   "selectOption": "Select an option",
   "progress": "Progress",
   "loading": "Loading...",
-  "noOptionsFound": "No options found"
+  "noOptionsFound": "No options found",
+  "banned": "banned",
+  "online": "online",
+  "offline": "offline",
+  "copyToClipboard": "Copy email to clipboard",
+  "copiedToClipboard": "Email was copied to clipboard",
+  "copingToClipboardError": "Failed to copy to clipboard",
+  "unverified": "Unverified"
 }

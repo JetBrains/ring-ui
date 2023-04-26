@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Input, {InputAttrs} from '../input/input';
 import sniffr from '../global/sniffer';
 import {ActiveItemContext} from '../list/list';
+import {I18nContext} from '../i18n/i18n-context';
 
 import styles from './select-popup.css';
 
@@ -17,7 +18,6 @@ type SelectFilterProps = InputAttrs & {
 
 export default class SelectFilter extends Component<SelectFilterProps> {
   static defaultProps = {
-    placeholder: 'Filter items',
     inputRef: noop
   };
 
@@ -51,16 +51,21 @@ export default class SelectFilter extends Component<SelectFilterProps> {
     return (
       <ActiveItemContext.ValueContext.Consumer>
         {activeItemId => (
-          <Input
-            {...restProps}
-            aria-owns={listId}
-            aria-activedescendant={activeItemId}
-            autoComplete="off"
-            autoFocus
-            borderless
-            inputRef={this.inputRef}
-            className={classes}
-          />
+          <I18nContext.Consumer>
+            {messages => (
+              <Input
+                {...restProps}
+                placeholder={restProps.placeholder ?? messages.filterItems}
+                aria-owns={listId}
+                aria-activedescendant={activeItemId}
+                autoComplete="off"
+                autoFocus
+                borderless
+                inputRef={this.inputRef}
+                className={classes}
+              />
+            )}
+          </I18nContext.Consumer>
         )}
       </ActiveItemContext.ValueContext.Consumer>
     );

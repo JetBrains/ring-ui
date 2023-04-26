@@ -15,6 +15,9 @@ import memoize from '../global/memoize';
 import Link, {WrapTextProps} from '../link/link';
 import Icon from '../icon/icon';
 
+import {I18nContext} from '../i18n/i18n-context';
+import {Messages} from '../i18n/i18n';
+
 import style from './pager.css';
 
 export interface PagerTranslations {
@@ -34,7 +37,7 @@ export interface PagerProps {
   disablePageSizeSelector: boolean
   openTotal: boolean
   canLoadLastPageWithOpenTotal: boolean
-  translations: PagerTranslations
+  translations?: PagerTranslations | null | undefined
   loader: boolean
   loaderNavigation: boolean
   onPageSizeChange: (size: number) => void
@@ -58,24 +61,20 @@ export default class Pager extends PureComponent<PagerProps> {
     disablePageSizeSelector: false,
     openTotal: false,
     canLoadLastPageWithOpenTotal: false,
-    translations: {
-      perPage: 'per page',
-      firstPage: 'First page',
-      lastPage: 'Last page',
-      nextPage: 'Next page',
-      previousPage: 'Previous'
-    },
     loader: false,
     loaderNavigation: false,
     onPageSizeChange: () => {},
     onLoadPage: () => {}
   };
 
+  static contextType = I18nContext;
+
   getSelectOptions() {
     const {pageSize, pageSizes} = this.props;
+    const messages = this.context as Messages;
     const data: SelectItem<PagerSizeItem>[] = pageSizes.map(size => ({
       key: size,
-      label: `${size} ${this.props.translations.perPage}`
+      label: `${size} ${(this.props.translations ?? messages).perPage}`
     }));
     const selected = data.find(it => it.key === pageSize);
     return {selected, data};
@@ -165,6 +164,7 @@ export default class Pager extends PureComponent<PagerProps> {
   }
 
   getPagerLinks() {
+    const messages = this.context as Messages;
 
     const prevLinkAvailable = this.props.currentPage !== 1;
 
@@ -179,9 +179,9 @@ export default class Pager extends PureComponent<PagerProps> {
       <Icon glyph={chevronLeftIcon} key="icon"/>
     );
 
-    const prevText = this.props.translations.previousPage;
+    const prevText = (this.props.translations ?? messages).previousPage;
 
-    const nextText = this.props.translations.nextPage;
+    const nextText = (this.props.translations ?? messages).nextPage;
 
     const nextLinkContent = (WrapText: ComponentType<WrapTextProps>) => [
       <span key="text"><WrapText>{nextText}</WrapText></span>,
@@ -248,6 +248,7 @@ export default class Pager extends PureComponent<PagerProps> {
   getPagerContent() {
     const {currentPage, visiblePagesLimit} = this.props;
     const totalPages = this.getTotalPages();
+    const messages = this.context as Messages;
 
     if (totalPages < this.props.currentPage) {
       this.props.onPageChange?.(totalPages);
@@ -294,7 +295,7 @@ export default class Pager extends PureComponent<PagerProps> {
         {this.getPagerLinks()}
 
         <ButtonToolbar>
-          {start > 1 && this.getButton(1, this.props.translations.firstPage)}
+          {start > 1 && this.getButton(1, (this.props.translations ?? messages).firstPage)}
 
           <ButtonGroup>
             {start > 1 && this.getButton(start - 1, '...')}
@@ -314,7 +315,7 @@ export default class Pager extends PureComponent<PagerProps> {
 
           {lastPageButtonAvailable && this.getButton(
             this.props.openTotal ? -1 : totalPages,
-            this.props.translations.lastPage
+            (this.props.translations ?? messages).lastPage
           )}
         </ButtonToolbar>
 
