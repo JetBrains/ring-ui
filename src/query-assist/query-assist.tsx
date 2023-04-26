@@ -1015,11 +1015,10 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     if (renderClear) {
       actions.push(
-        <I18nContext.Consumer>
+        <I18nContext.Consumer key={'clearAction'}>
           {messages => (
             <Button
               icon={closeIcon}
-              key={'clearAction'}
               className={styles.clear}
               title={(this.props.translations ?? messages).clearTitle}
               ref={this.clearRef}
