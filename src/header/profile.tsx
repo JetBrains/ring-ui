@@ -12,6 +12,7 @@ import Avatar, {Size} from '../avatar/avatar';
 import Button from '../button/button';
 import DropdownMenu from '../dropdown-menu/dropdown-menu';
 import PopupMenu from '../popup-menu/popup-menu';
+import {I18nContext} from '../i18n/i18n-context';
 
 import {ListDataItem} from '../list/consts';
 import {AuthUser} from '../auth/auth';
@@ -19,6 +20,7 @@ import {AuthUser} from '../auth/auth';
 import {isTruthy} from '../global/typescript-utils';
 
 import {ClickableLinkProps} from '../link/clickableLink';
+import {Messages} from '../i18n/i18n';
 
 import styles from './header.css';
 
@@ -36,7 +38,7 @@ export interface ProfileTranslations {
 export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   closeOnSelect: boolean
   renderPopupItems: (items: ListDataItem[]) => readonly ListDataItem[]
-  translations: ProfileTranslations
+  translations?: ProfileTranslations | null | undefined
   size: Size
   renderGuest: (props: ProfileProps) => ReactNode
   hasUpdates?: boolean | null | undefined
@@ -96,24 +98,29 @@ export default class Profile extends PureComponent<ProfileProps> {
   static defaultProps: ProfileProps = {
     closeOnSelect: true,
     renderPopupItems: items => items,
-    translations: {},
     size: Size.Size32,
     renderGuest: ({loading, onLogin, className, translations}) => (
-      <div
-        className={classNames(styles.profileEmpty, className)}
-      >
-        <Button
-          primary
-          data-test="ring-header-login-button"
-          disabled={loading}
-          loader={loading}
-          onClick={onLogin}
-        >
-          {translations.login || 'Log in...'}
-        </Button>
-      </div>
+      <I18nContext.Consumer>
+        {messages => (
+          <div
+            className={classNames(styles.profileEmpty, className)}
+          >
+            <Button
+              primary
+              data-test="ring-header-login-button"
+              disabled={loading}
+              loader={loading}
+              onClick={onLogin}
+            >
+              {translations?.login ?? messages.login}
+            </Button>
+          </div>
+        )}
+      </I18nContext.Consumer>
     )
   };
+
+  static contextType = I18nContext;
 
   static Size = Size;
 
@@ -140,6 +147,8 @@ export default class Profile extends PureComponent<ProfileProps> {
       loading, onLogin,
       ...props
     } = this.props;
+
+    const messages = this.context as Messages;
 
     if (!user) {
       return (
@@ -173,19 +182,19 @@ export default class Profile extends PureComponent<ProfileProps> {
     const items = [
       showApplyChangedUser && {
         rgItemType,
-        label: translations.applyChangedUser || 'Apply changed user',
+        label: translations?.applyChangedUser ?? messages.applyChangedUser,
         className: styles.profileMenuItem,
         onClick: onRevertPostponement
       },
       showLogIn && {
         rgItemType,
-        label: translations.login || 'Log in',
+        label: translations?.login ?? messages.login,
         className: styles.profileMenuItem,
         onClick: onRevertPostponement
       },
       {
         rgItemType: PopupMenu.ListProps.Type.LINK,
-        label: translations.profile || 'Profile',
+        label: translations?.profile ?? messages.profile,
 
         target: '_self', // Full page reload in Angular
         href: profileUrl,
@@ -193,13 +202,13 @@ export default class Profile extends PureComponent<ProfileProps> {
       },
       showSwitchUser && {
         rgItemType,
-        label: translations.switchUser || 'Switch user',
+        label: translations?.switchUser ?? messages.switchUser,
         className: styles.profileMenuItem,
         onClick: onSwitchUser
       },
       showLogOut && {
         rgItemType,
-        label: translations.logout || 'Log out',
+        label: translations?.logout ?? messages.logout,
 
         onClick: onLogout
       }

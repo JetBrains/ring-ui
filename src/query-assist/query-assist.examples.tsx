@@ -34,9 +34,6 @@ export default {
     clear: true,
     hint: 'hint',
     hintOnSelection: 'hint on selection'
-  },
-  argTypes: {
-    translations: {}
   }
 };
 
