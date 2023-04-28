@@ -5,6 +5,7 @@ import {babel} from '@rollup/plugin-babel';
 import styles from 'rollup-plugin-styles';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
+import json from '@rollup/plugin-json';
 import clear from 'rollup-plugin-clear';
 import glob from 'glob';
 
@@ -55,6 +56,8 @@ export default {
     clear({
       targets: [TARGET_DIR]
     }),
+
+    json(),
 
     resolve({extensions}),
 
