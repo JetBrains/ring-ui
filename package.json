@@ -178,8 +178,7 @@
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.81.0",
     "webpack-cli": "^5.0.2",
-    "xmlappend": "^1.0.4",
-    "yo": "^4.3.1"
+    "xmlappend": "^1.0.4"
   },
   "peerDependencies": {
     "@types/react": ">=16.8.0",
