@@ -27,6 +27,7 @@ import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
 import memoize from '../global/memoize';
+import {I18nContext} from '../i18n/i18n-context';
 
 import {ListDataItem} from '../list/consts';
 
@@ -153,8 +154,8 @@ export interface BaseSelectProps<T = unknown> {
   clear: boolean
   loading: boolean
   disabled: boolean
-  loadingMessage: string
-  notFoundMessage: string
+  loadingMessage?: string
+  notFoundMessage?: string
   type: Type
   size: Size
   hideSelected: boolean
@@ -394,10 +395,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     clear: false, // enable clear button that clears the "selected" state
     loading: false, // show a loading indicator while data is loading
     disabled: false, // disable select
-
-    loadingMessage: 'Loading...',
-    notFoundMessage: 'No options found',
-
     type: Type.BUTTON,
     size: Size.M,
     targetElement: null, // element to bind the popup to (select BUTTON or INPUT by default)
@@ -704,52 +701,58 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const {showPopup, shownData} = this.state;
     const _shownData = this._prependResetOption(shownData);
 
-    let message;
-
-    if (this.props.loading) {
-      message = this.props.loadingMessage;
-    } else if (!shownData.length) {
-      message = this.props.notFoundMessage;
-    }
-
     return (
-      <SelectPopup<SelectItemData<T>>
-        data={_shownData}
-        message={message}
-        toolbar={showPopup && this.getToolbar()}
-        loading={this.props.loading}
-        activeIndex={this.state.selectedIndex}
-        hidden={!showPopup}
-        ref={this.popupRef}
-        maxHeight={this.props.maxHeight}
-        minWidth={this.props.minWidth}
-        directions={this.props.directions}
-        className={this.props.popupClassName}
-        style={this.props.popupStyle}
-        top={this.props.top}
-        left={this.props.left}
-        filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
-        multiple={this.props.multiple}
-        filterValue={this.state.filterValue}
-        anchorElement={anchorElement}
-        onCloseAttempt={this._onCloseAttempt}
-        onSelect={this._listSelectHandler}
-        onSelectAll={this._listSelectAllHandler}
-        onFilter={this._filterChangeHandler}
-        onClear={this.clearFilter}
-        onLoadMore={this.props.onLoadMore}
-        isInputMode={this.isInputMode()}
-        selected={this.state.selected}
-        tags={this.props.tags}
-        compact={this.props.compact}
-        renderOptimization={this.props.renderOptimization}
-        ringPopupTarget={this.props.ringPopupTarget}
-        disableMoveOverflow={this.props.disableMoveOverflow}
-        disableScrollToActive={this.props.disableScrollToActive}
-        dir={this.props.dir}
-        onEmptyPopupEnter={this.onEmptyPopupEnter}
-        listId={this.listId}
-      />
+      <I18nContext.Consumer>
+        {messages => {
+          let message;
+
+          if (this.props.loading) {
+            message = this.props.loadingMessage ?? messages.loading;
+          } else if (!shownData.length) {
+            message = this.props.notFoundMessage ?? messages.noOptionsFound;
+          }
+
+          return (
+            <SelectPopup<SelectItemData<T>>
+              data={_shownData}
+              message={message}
+              toolbar={showPopup && this.getToolbar()}
+              loading={this.props.loading}
+              activeIndex={this.state.selectedIndex}
+              hidden={!showPopup}
+              ref={this.popupRef}
+              maxHeight={this.props.maxHeight}
+              minWidth={this.props.minWidth}
+              directions={this.props.directions}
+              className={this.props.popupClassName}
+              style={this.props.popupStyle}
+              top={this.props.top}
+              left={this.props.left}
+              filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
+              multiple={this.props.multiple}
+              filterValue={this.state.filterValue}
+              anchorElement={anchorElement}
+              onCloseAttempt={this._onCloseAttempt}
+              onSelect={this._listSelectHandler}
+              onSelectAll={this._listSelectAllHandler}
+              onFilter={this._filterChangeHandler}
+              onClear={this.clearFilter}
+              onLoadMore={this.props.onLoadMore}
+              isInputMode={this.isInputMode()}
+              selected={this.state.selected}
+              tags={this.props.tags}
+              compact={this.props.compact}
+              renderOptimization={this.props.renderOptimization}
+              ringPopupTarget={this.props.ringPopupTarget}
+              disableMoveOverflow={this.props.disableMoveOverflow}
+              disableScrollToActive={this.props.disableScrollToActive}
+              dir={this.props.dir}
+              onEmptyPopupEnter={this.onEmptyPopupEnter}
+              listId={this.listId}
+            />
+          );
+        }}
+      </I18nContext.Consumer>
     );
   }
 
