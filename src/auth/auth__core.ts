@@ -4,6 +4,8 @@ import HTTP, {HTTPAuth, RequestParams} from '../http/http';
 import promiseWithTimeout from '../global/promise-with-timeout';
 import AuthDialogService from '../auth-dialog-service/auth-dialog-service';
 
+import {getTranslations} from '../i18n/i18n';
+
 import AuthStorage, {AuthState} from './storage';
 import AuthResponseParser, {AuthError} from './response-parser';
 import AuthRequestBuilder from './request-builder';
@@ -99,7 +101,7 @@ export interface AuthConfig extends TokenValidatorConfig {
   checkBackendIsUp: () => Promise<unknown>
   onBackendDown: (params: BackendDownParams) => () => void
   defaultExpiresIn: number
-  translations: AuthTranslations
+  translations?: AuthTranslations | null | undefined /* TODO remove in 6.0 in favor of i18n layer? */
   userParams?: RequestParams | undefined
   waitForRedirectTimeout: number
 }
@@ -127,19 +129,7 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
 
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   waitForRedirectTimeout: DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT,
-  translations: {
-    login: 'Log in',
-    loginTo: 'Log in to %serviceName%',
-    cancel: 'Cancel',
-    tryAgainLabel: 'Try again',
-    postpone: 'Postpone',
-    youHaveLoggedInAs: 'You have logged in as another user: %userName%',
-    applyChange: 'Apply change',
-    backendIsNotAvailable: 'Connection lost',
-    checkAgain: 'try again',
-    nothingHappensLink: 'Click here if nothing happens',
-    errorMessage: 'There may be a problem with your network connection. Make sure that you are online and'
-  }
+  translations: null
 };
 
 type AuthPayloadMap = {
@@ -279,7 +269,7 @@ export default class Auth implements HTTPAuth {
       this._embeddedFlow = new this.config.EmbeddedLoginFlow(
         this._requestBuilder,
         this._storage,
-        this.config.translations
+        this.config.translations ?? getTranslations()
       );
     }
 
@@ -691,6 +681,7 @@ export default class Auth implements HTTPAuth {
   _showAuthDialog({nonInteractive, error, canCancel, onTryAgain}: AuthDialogParams = {}) {
     const {embeddedLogin, onPostponeLogout, translations} = this.config;
     const cancelable = this.user?.guest || canCancel;
+    const actualTranslations = translations ?? getTranslations();
 
     this._createInitDeferred();
 
@@ -736,11 +727,11 @@ export default class Auth implements HTTPAuth {
 
     const hide = this._authDialogService?.({
       ...this._service,
-      loginCaption: translations.login,
-      loginToCaption: translations.loginTo,
-      confirmLabel: translations.login,
-      tryAgainLabel: translations.tryAgainLabel,
-      cancelLabel: cancelable ? translations.cancel : translations.postpone,
+      loginCaption: actualTranslations.login,
+      loginToCaption: actualTranslations.loginTo,
+      confirmLabel: actualTranslations.login,
+      tryAgainLabel: actualTranslations.tryAgainLabel,
+      cancelLabel: cancelable ? actualTranslations.cancel : actualTranslations.postpone,
       errorMessage: this._extractErrorMessage(error, true),
       onConfirm,
       onCancel,
@@ -762,6 +753,7 @@ export default class Auth implements HTTPAuth {
 
   _showUserChangedDialog({newUser, onApply, onPostpone}: UserChangedDialogParams) {
     const {translations} = this.config;
+    const actualTranslations = translations ?? getTranslations();
 
     this._createInitDeferred();
 
@@ -773,12 +765,14 @@ export default class Auth implements HTTPAuth {
 
     const hide = this._authDialogService?.({
       ...this._service,
-      title: translations.youHaveLoggedInAs.replace('%userName%', newUser.name ?? ''),
-      loginCaption: translations.login,
-      loginToCaption: translations.loginTo,
-      confirmLabel: translations.applyChange,
-      tryAgainLabel: translations.tryAgainLabel,
-      cancelLabel: translations.postpone,
+      title: actualTranslations.youHaveLoggedInAs.
+        replace('%userName%', newUser.name ?? '').
+        replace('{{userName}}', newUser.name ?? ''),
+      loginCaption: actualTranslations.login,
+      loginToCaption: actualTranslations.loginTo,
+      confirmLabel: actualTranslations.applyChange,
+      tryAgainLabel: actualTranslations.tryAgainLabel,
+      cancelLabel: actualTranslations.postpone,
       onConfirm: () => {
         done();
         onApply();
@@ -849,7 +843,9 @@ export default class Auth implements HTTPAuth {
         reject(new Error('Auth(@jetbrains/ring-ui): postponed by user'));
       };
 
-      const hide = onBackendDown({onCheckAgain, onPostpone, backendError, translations});
+      const hide = onBackendDown({
+        onCheckAgain, onPostpone, backendError, translations: translations ?? getTranslations()
+      });
 
       window.addEventListener('online', onCheckAgain);
 

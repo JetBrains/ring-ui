@@ -16,6 +16,7 @@ import Button from '../button/button';
 import getUID from '../global/get-uid';
 
 import Icon from '../icon/icon';
+import {I18nContext} from '../i18n/i18n-context';
 
 import composeRefs from '../global/composeRefs';
 
@@ -57,7 +58,7 @@ export interface InputBaseProps {
   icon?: string | ComponentType | null | undefined
   height?: ControlsHeight | undefined
   afterInput?: ReactNode
-  translations: InputTranslations
+  translations?: InputTranslations | null | undefined
 }
 
 type Override<D, S> = Omit<D, keyof S> & S
@@ -81,10 +82,7 @@ export class Input extends PureComponent<InputProps> {
     size: Size.M,
     onChange: noop,
     inputRef: noop,
-    enableShortcuts: ['esc'],
-    translations: {
-      clear: 'Clear input'
-    }
+    enableShortcuts: ['esc']
   };
 
   state = {
@@ -221,45 +219,49 @@ export class Input extends PureComponent<InputProps> {
     };
 
     return (
-      <div className={classes} data-test="ring-input">
-        {label && (
-          <InputLabel
-            htmlFor={this.getId()}
-            disabled={disabled}
-            label={label}
-          />
-        )}
-        <div className={styles.container}>
-          {icon && <Icon glyph={icon} className={styles.icon}/>}
-          {multiline
-            ? (
-              <textarea
-                onChange={this.handleTextareaChange}
-                rows={1}
-                {...commonProps}
-                {...restProps as TextareaHTMLAttributes<HTMLTextAreaElement>}
-              />
-            )
-            : (
-              <input
-                onChange={this.handleInputChange}
-                {...commonProps}
-                {...restProps as InputHTMLAttributes<HTMLInputElement>}
+      <I18nContext.Consumer>
+        {messages => (
+          <div className={classes} data-test="ring-input">
+            {label && (
+              <InputLabel
+                htmlFor={this.getId()}
+                disabled={disabled}
+                label={label}
               />
             )}
-          {clearable && !disabled && (
-            <Button
-              title={translations.clear}
-              data-test="ring-input-clear"
-              className={styles.clear}
-              icon={closeIcon}
-              onClick={this.clear}
-            />
-          )}
-          {afterInput}
-        </div>
-        {error && <div className={styles.errorText}>{error}</div>}
-      </div>
+            <div className={styles.container}>
+              {icon && <Icon glyph={icon} className={styles.icon}/>}
+              {multiline
+                ? (
+                  <textarea
+                    onChange={this.handleTextareaChange}
+                    rows={1}
+                    {...commonProps}
+                    {...restProps as TextareaHTMLAttributes<HTMLTextAreaElement>}
+                  />
+                )
+                : (
+                  <input
+                    onChange={this.handleInputChange}
+                    {...commonProps}
+                    {...restProps as InputHTMLAttributes<HTMLInputElement>}
+                  />
+                )}
+              {clearable && !disabled && (
+                <Button
+                  title={(translations ?? messages).clear}
+                  data-test="ring-input-clear"
+                  className={styles.clear}
+                  icon={closeIcon}
+                  onClick={this.clear}
+                />
+              )}
+              {afterInput}
+            </div>
+            {error && <div className={styles.errorText}>{error}</div>}
+          </div>
+        )}
+      </I18nContext.Consumer>
     );
   }
 }

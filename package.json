@@ -81,6 +81,7 @@
     "@jetbrains/stylelint-config": "^4.0.1",
     "@primer/octicons": "^18.3.0",
     "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-replace": "^5.0.2",
     "@storybook/addon-a11y": "7.0.7",

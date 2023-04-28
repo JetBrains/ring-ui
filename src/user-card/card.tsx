@@ -9,6 +9,10 @@ import clipboard from '../clipboard/clipboard';
 import badgeStyles from '../badge/badge.css';
 import Icon, {Size as IconSize} from '../icon/icon';
 
+import {I18nContext} from '../i18n/i18n-context';
+
+import {Messages} from '../i18n/i18n';
+
 import styles from './user-card.css';
 
 export interface UserCardUser {
@@ -33,11 +37,23 @@ export interface UserCardWording {
 }
 export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
   user: UserCardUser
-  wording: UserCardWording
+  wording?: UserCardWording | null | undefined // TODO: "wording" isn't the right name, to be replaced with "translations" in 6.0
+  translations?: UserCardWording | null | undefined
   info?: ReactElement | readonly ReactElement[] | string,
   avatarInfo?: ReactElement | readonly ReactElement[] | string,
   'data-test'?: string | null | undefined
 }
+
+const translationsShape = PropTypes.shape({
+  banned: PropTypes.string.isRequired,
+  online: PropTypes.string.isRequired,
+  offline: PropTypes.string.isRequired,
+  copyToClipboard: PropTypes.string,
+  copiedToClipboard: PropTypes.string,
+  copingToClipboardError: PropTypes.string,
+  unverified: PropTypes.string
+});
+
 export default class UserCard extends PureComponent<UserCardProps> {
   static propTypes = {
     children: PropTypes.node,
@@ -56,31 +72,17 @@ export default class UserCard extends PureComponent<UserCardProps> {
       unverifiedEmail: PropTypes.bool
     }).isRequired,
 
-    wording: PropTypes.shape({
-      banned: PropTypes.string.isRequired,
-      online: PropTypes.string.isRequired,
-      offline: PropTypes.string.isRequired,
-      copyToClipboard: PropTypes.string,
-      copiedToClipboard: PropTypes.string,
-      copingToClipboardError: PropTypes.string,
-      unverified: PropTypes.string
-    })
+    wording: translationsShape,
+    translations: translationsShape
   };
 
-  static defaultProps = {
-    wording: {
-      banned: 'banned',
-      online: 'online',
-      offline: 'offline',
-      copyToClipboard: 'Copy email to clipboard',
-      copiedToClipboard: 'Email was copied to clipboard',
-      copingToClipboardError: 'Failed to copy to clipboard',
-      unverified: 'Unverified'
-    }
-  };
+  static contextType = I18nContext;
 
   copyEmail = () => {
-    const wording = {...UserCard.defaultProps.wording, ...this.props.wording};
+    const messages = this.context as Messages;
+    const messageOverrides = this.props.wording || this.props.translations;
+
+    const wording = messageOverrides ?? messages;
     clipboard.copyText(
       this.props.user.email || '', wording.copiedToClipboard, wording.copingToClipboardError
     );
@@ -88,7 +90,10 @@ export default class UserCard extends PureComponent<UserCardProps> {
 
   render() {
     const {children, info, className, user, avatarInfo, ...restProps} = this.props;
-    const wording = {...UserCard.defaultProps.wording, ...this.props.wording};
+    const messages = this.context as Messages;
+    const messageOverrides = this.props.wording || this.props.translations;
+
+    const wording = messageOverrides ?? messages;
 
     const classes = classNames(className, {});
     const userActiveStatusClasses = classNames(
