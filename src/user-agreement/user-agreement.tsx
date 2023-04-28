@@ -12,6 +12,8 @@ import Panel from '../panel/panel';
 import Button from '../button/button';
 import Markdown from '../markdown/markdown';
 
+import {I18nContext} from '../i18n/i18n-context';
+
 import style from './user-agreement.css';
 
 function noop() {}
@@ -27,7 +29,7 @@ export interface UserAgreementTranslations {
 
 export interface UserAgreementProps {
   text: string
-  translations: UserAgreementTranslations
+  translations?: UserAgreementTranslations | null | undefined
   show: boolean
   onAccept: () => void
   onDecline: () => void
@@ -60,14 +62,6 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
   };
 
   static defaultProps = {
-    translations: {
-      userAgreement: 'User Agreement',
-      accept: 'Accept',
-      decline: 'Decline',
-      close: 'Close',
-      scrollToAccept: 'View the entire agreement to continue',
-      remindLater: 'Remind me later'
-    },
     show: false,
     onAccept: noop,
     onDecline: noop,
@@ -95,50 +89,64 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
     } = this.props;
 
     return (
-      <Dialog
-        label={translations.userAgreement}
-        show={show}
-        className={classNames(style.agreementDialog, className)}
-        contentClassName={style.dialogContent}
-        trapFocus
-        autoFocusFirst={false}
-        data-test="user-agreement"
-      >
-        <Header>{translations.userAgreement}</Header>
-        <Content
-          fade
-          onScrollToBottom={this.onScrollToBottom}
-        >
-          <Markdown>{text}</Markdown>
-        </Content>
-        {!preview && (
-          <Panel>
-            {onRemindLater && !scrolledDown && (
-              <div className={style.suggestion}>{translations.scrollToAccept}</div>
-            )}
-            <Button primary disabled={!scrolledDown} onClick={onAccept} data-test="accept">
-              {translations.accept}
-            </Button>
-            <Button onClick={onDecline} autoFocus data-test="decline">
-              {translations.decline}
-            </Button>
+      <I18nContext.Consumer>
+        {messages => (
+          <Dialog
+            label={(translations ?? messages).userAgreement}
+            show={show}
+            className={classNames(style.agreementDialog, className)}
+            contentClassName={style.dialogContent}
+            trapFocus
+            autoFocusFirst={false}
+            data-test="user-agreement"
+          >
+            <Header>{(translations ?? messages).userAgreement}</Header>
+            <Content
+              fade
+              onScrollToBottom={this.onScrollToBottom}
+            >
+              <Markdown>{text}</Markdown>
+            </Content>
+            {!preview && (
+              <Panel>
+                {onRemindLater && !scrolledDown && (
+                  <div className={style.suggestion}>
+                    {(translations ?? messages).scrollToAccept}
+                  </div>
+                )}
+                <Button primary disabled={!scrolledDown} onClick={onAccept} data-test="accept">
+                  {(translations ?? messages).accept}
+                </Button>
+                <Button onClick={onDecline} autoFocus data-test="decline">
+                  {(translations ?? messages).decline}
+                </Button>
 
-            {!onRemindLater && !scrolledDown && (
-              <span className={style.suggestion}>{translations.scrollToAccept}</span>
+                {!onRemindLater && !scrolledDown && (
+                  <span className={style.suggestion}>
+                    {(translations ?? messages).scrollToAccept}
+                  </span>
+                )}
+                {onRemindLater && (
+                  <Button
+                    className={style.remindLaterButton}
+                    onClick={onRemindLater}
+                    data-test="later"
+                  >
+                    {(translations ?? messages).remindLater}
+                  </Button>
+                )}
+              </Panel>
             )}
-            {onRemindLater && (
-              <Button className={style.remindLaterButton} onClick={onRemindLater} data-test="later">
-                {translations.remindLater}
-              </Button>
+            {preview && (
+              <Panel>
+                <Button onClick={onClose} autoFocus data-test="close">
+                  {(translations ?? messages).close}
+                </Button>
+              </Panel>
             )}
-          </Panel>
+          </Dialog>
         )}
-        {preview && (
-          <Panel>
-            <Button onClick={onClose} autoFocus data-test="close">{translations.close}</Button>
-          </Panel>
-        )}
-      </Dialog>
+      </I18nContext.Consumer>
     );
   }
 }
