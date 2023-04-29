@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes} from 'react';
+import React, {InputHTMLAttributes, useEffect} from 'react';
 import classNames from 'classnames';
 
 import Heading, {Levels} from '../heading/heading';
@@ -57,6 +57,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
 
   const [shortcutsScope] = React.useState(getUID('ring-editable-heading-'));
   const [isInFocus, setIsInFocus] = React.useState(false);
+  const [isMouseDown, setIsMouseDown] = React.useState(false);
+  const [isInSelectionMode, setIsInSelectionMode] = React.useState(false);
 
   const hasError = error !== undefined;
 
@@ -84,7 +86,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     [styles.isEditing]: isEditing,
     [styles.error]: hasError,
     [styles.disabled]: disabled,
-    [styles.multiline]: multiline
+    [styles.multiline]: multiline,
+    [styles.selectionMode]: isInSelectionMode
   });
 
   const headingClasses = classNames(styles.heading, headingClassName, styles[`size${size}`]);
@@ -97,13 +100,26 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     inputClassName
   );
 
-  const onHeadingClick = React.useCallback(() => {
-    if (disabled) {
-      return undefined;
+  const onHeadingMouseDown = React.useCallback(() => {
+    setIsMouseDown(true);
+  }, []);
+
+  const onMouseMove = React.useCallback(() => {
+    if (!isMouseDown) {
+      return;
     }
 
-    return onEdit();
-  }, [disabled, onEdit]);
+    setIsInSelectionMode(true);
+  }, [isMouseDown]);
+
+  const onMouseUp = React.useCallback(() => {
+    if (isMouseDown && !isInSelectionMode && !disabled) {
+      onEdit();
+    }
+
+    setIsMouseDown(false);
+    setIsInSelectionMode(false);
+  }, [isMouseDown, isInSelectionMode, disabled, onEdit]);
 
   const onInputFocus = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
     setIsInFocus(true);
@@ -114,6 +130,16 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     setIsInFocus(false);
     onBlur?.(e);
   }, [onBlur]);
+
+  useEffect(() => {
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  });
 
   return (
     <>
@@ -143,7 +169,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
             <button
               type="button"
               className={styles.headingWrapperButton}
-              onClick={onHeadingClick}
+              onMouseDown={onHeadingMouseDown}
             >
               <Heading
                 className={headingClasses}
