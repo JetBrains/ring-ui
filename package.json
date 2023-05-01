@@ -99,7 +99,7 @@
     "@storybook/theming": "7.0.7",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "@types/chai": "^4.3.4",
+    "@types/chai": "^4.3.5",
     "@types/chai-as-promised": "^7.1.5",
     "@types/chai-dom": "0.0.10",
     "@types/chai-enzyme": "^0.6.8",
