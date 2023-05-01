@@ -241,7 +241,7 @@
     "postcss-calc": "^9.0.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
-    "postcss-loader": "^7.2.4",
+    "postcss-loader": "^7.3.0",
     "postcss-modules-values-replace": "^4.1.0",
     "postcss-preset-env": "^8.3.2",
     "prop-types": "^15.8.1",
