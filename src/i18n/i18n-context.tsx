@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 
 import {getTranslations, type Messages, setTranslations, translate} from './i18n';
 
-interface I18nContextProps {
+export interface I18nContextProps {
   translate(key: keyof Messages): string;
   messages: Messages;
 }
