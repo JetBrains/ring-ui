@@ -20,7 +20,6 @@ import {AuthUser} from '../auth/auth';
 import {isTruthy} from '../global/typescript-utils';
 
 import {ClickableLinkProps} from '../link/clickableLink';
-import {Messages} from '../i18n/i18n';
 
 import styles from './header.css';
 
@@ -101,7 +100,7 @@ export default class Profile extends PureComponent<ProfileProps> {
     size: Size.Size32,
     renderGuest: ({loading, onLogin, className, translations}) => (
       <I18nContext.Consumer>
-        {messages => (
+        {({translate}) => (
           <div
             className={classNames(styles.profileEmpty, className)}
           >
@@ -112,7 +111,7 @@ export default class Profile extends PureComponent<ProfileProps> {
               loader={loading}
               onClick={onLogin}
             >
-              {translations?.login ?? messages.login}
+              {translations?.login ?? translate('login')}
             </Button>
           </div>
         )}
@@ -121,6 +120,7 @@ export default class Profile extends PureComponent<ProfileProps> {
   };
 
   static contextType = I18nContext;
+  declare context: React.ContextType<typeof Profile.contextType>;
 
   static Size = Size;
 
@@ -148,7 +148,7 @@ export default class Profile extends PureComponent<ProfileProps> {
       ...props
     } = this.props;
 
-    const messages = this.context as Messages;
+    const {translate} = this.context;
 
     if (!user) {
       return (
@@ -182,19 +182,19 @@ export default class Profile extends PureComponent<ProfileProps> {
     const items = [
       showApplyChangedUser && {
         rgItemType,
-        label: translations?.applyChangedUser ?? messages.applyChangedUser,
+        label: translations?.applyChangedUser ?? translate('applyChangedUser'),
         className: styles.profileMenuItem,
         onClick: onRevertPostponement
       },
       showLogIn && {
         rgItemType,
-        label: translations?.login ?? messages.login,
+        label: translations?.login ?? translate('login'),
         className: styles.profileMenuItem,
         onClick: onRevertPostponement
       },
       {
         rgItemType: PopupMenu.ListProps.Type.LINK,
-        label: translations?.profile ?? messages.profile,
+        label: translations?.profile ?? translate('profile'),
 
         target: '_self', // Full page reload in Angular
         href: profileUrl,
@@ -202,13 +202,13 @@ export default class Profile extends PureComponent<ProfileProps> {
       },
       showSwitchUser && {
         rgItemType,
-        label: translations?.switchUser ?? messages.switchUser,
+        label: translations?.switchUser ?? translate('switchUser'),
         className: styles.profileMenuItem,
         onClick: onSwitchUser
       },
       showLogOut && {
         rgItemType,
-        label: translations?.logout ?? messages.logout,
+        label: translations?.logout ?? translate('logout'),
 
         onClick: onLogout
       }

@@ -1016,11 +1016,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     if (renderClear) {
       actions.push(
         <I18nContext.Consumer key={'clearAction'}>
-          {messages => (
+          {({translate}) => (
             <Button
               icon={closeIcon}
               className={styles.clear}
-              title={(this.props.translations ?? messages).clearTitle}
+              title={this.props.translations?.clearTitle ?? translate('clearTitle')}
               ref={this.clearRef}
               onClick={this.clearQuery}
               data-test="query-assist-clear-icon"
@@ -1066,7 +1066,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     return (
       <ControlsHeightContext.Provider value={ControlsHeight.M}>
         <I18nContext.Consumer>
-          {messages => (
+          {({translate}) => (
             <div
               data-test={dataTests('ring-query-assist', dataTest)}
               className={containerClasses}
@@ -1084,7 +1084,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 <Icon
                   glyph={searchIcon}
                   className={styles.icon}
-                  title={(translations ?? messages).searchTitle}
+                  title={translations?.searchTitle ?? translate('searchTitle')}
                   ref={this.glassRef}
                   data-test="query-assist-search-icon"
                 />
@@ -1103,7 +1103,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               )}
 
               <ContentEditable
-                aria-label={(translations ?? messages).searchTitle}
+                aria-label={translations?.searchTitle ?? translate('searchTitle')}
                 className={inputClasses}
                 data-test="ring-query-assist-input"
                 inputRef={this.inputRef}
@@ -1169,7 +1169,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                   <Icon
                     glyph={searchIcon}
                     className={styles.rightSearchIcon}
-                    title={(translations ?? messages).searchTitle}
+                    title={translations?.searchTitle ?? translate('searchTitle')}
                     onClick={this.handleApply}
                     ref={this.glassRef}
                     data-test="query-assist-search-icon"
