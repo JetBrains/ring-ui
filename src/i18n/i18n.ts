@@ -26,7 +26,7 @@ export function getTranslations() {
 }
 
 export function getTranslationsWithFallback(): MessagesStrict {
-  return {...messages, ...defaultMessages};
+  return {...defaultMessages, ...messages};
 }
 
 export function translate(key: keyof MessagesStrict): string {
