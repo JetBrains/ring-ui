@@ -5,9 +5,9 @@ export type MessagesStrict = typeof defaultMessages;
 export type Messages = Partial<MessagesStrict>;
 
 let messages: Messages = defaultMessages;
+const warned = new Set<string>();
 
 function warnMissedKeyOnce(key: keyof MessagesStrict) {
-  const warned = new Set<string>();
   if (warned.has(key)) {
     return;
   }
