@@ -16,7 +16,7 @@ const localised = {
 2. Pass it to i18n singleton, using `setTranslations`. That would provide localisation to non-react components, like Auth.
 
 ```
-// Your messages object should have loalised strings at that moment
+// Your messages object should have localised strings at that moment
 const localised = {
   login: 'Inloggen',
   ...
