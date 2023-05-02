@@ -4,7 +4,7 @@ import HTTP, {HTTPAuth, RequestParams} from '../http/http';
 import promiseWithTimeout from '../global/promise-with-timeout';
 import AuthDialogService from '../auth-dialog-service/auth-dialog-service';
 
-import {getTranslations} from '../i18n/i18n';
+import {getTranslations, getTranslationsWithFallback, translate} from '../i18n/i18n';
 
 import AuthStorage, {AuthState} from './storage';
 import AuthResponseParser, {AuthError} from './response-parser';
@@ -68,7 +68,7 @@ export interface LoginFlowClass {
   new (
     requestBuilder: AuthRequestBuilder,
     storage: AuthStorage,
-    translations: AuthTranslations,
+    translations: AuthTranslations
   ): LoginFlow
 }
 
@@ -269,7 +269,7 @@ export default class Auth implements HTTPAuth {
       this._embeddedFlow = new this.config.EmbeddedLoginFlow(
         this._requestBuilder,
         this._storage,
-        this.config.translations ?? getTranslations()
+        this.config.translations ?? getTranslationsWithFallback()
       );
     }
 
@@ -753,7 +753,6 @@ export default class Auth implements HTTPAuth {
 
   _showUserChangedDialog({newUser, onApply, onPostpone}: UserChangedDialogParams) {
     const {translations} = this.config;
-    const actualTranslations = translations ?? getTranslations();
 
     this._createInitDeferred();
 
@@ -765,14 +764,14 @@ export default class Auth implements HTTPAuth {
 
     const hide = this._authDialogService?.({
       ...this._service,
-      title: actualTranslations.youHaveLoggedInAs.
+      title: translations?.youHaveLoggedInAs ?? translate('youHaveLoggedInAs').
         replace('%userName%', newUser.name ?? '').
         replace('{{userName}}', newUser.name ?? ''),
-      loginCaption: actualTranslations.login,
-      loginToCaption: actualTranslations.loginTo,
-      confirmLabel: actualTranslations.applyChange,
-      tryAgainLabel: actualTranslations.tryAgainLabel,
-      cancelLabel: actualTranslations.postpone,
+      loginCaption: translations?.login ?? translate('login'),
+      loginToCaption: translations?.loginTo ?? translate('loginTo'),
+      confirmLabel: translations?.applyChange ?? translate('applyChange'),
+      tryAgainLabel: translations?.tryAgainLabel ?? translate('tryAgainLabel'),
+      cancelLabel: translations?.postpone ?? translate('postpone'),
       onConfirm: () => {
         done();
         onApply();
@@ -844,7 +843,8 @@ export default class Auth implements HTTPAuth {
       };
 
       const hide = onBackendDown({
-        onCheckAgain, onPostpone, backendError, translations: translations ?? getTranslations()
+        onCheckAgain, onPostpone, backendError,
+        translations: translations ?? getTranslationsWithFallback()
       });
 
       window.addEventListener('online', onCheckAgain);

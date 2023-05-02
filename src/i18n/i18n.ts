@@ -25,6 +25,10 @@ export function getTranslations() {
   return messages;
 }
 
+export function getTranslationsWithFallback(): MessagesStrict {
+  return {...messages, ...defaultMessages};
+}
+
 export function translate(key: keyof MessagesStrict): string {
   if (!(key in messages)) {
     warnMissedKeyOnce(key);
