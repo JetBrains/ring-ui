@@ -25,10 +25,7 @@ const localised = {
 setTranslations(localised);
 ```
 
-3. [Optional] Add I18nContextHolder into your root tree. 
-   If you skip this step, messages from singleton service would be used.
-   Note: setTranslations() calls won't cause React tree rerender, so you have to call it before first render.
-   If you need to live update your strings, you need to use I18nContextHolder. 
+3. Add I18nContextHolder into your root React tree. If you replace "localised" object with another one, consumers would be updated automatically.  
 
 ```
   <I18nContextHolder messages={localised}>
