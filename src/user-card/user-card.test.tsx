@@ -1,6 +1,8 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
+import {I18nContextHolder} from '../i18n/i18n-context';
+
 import {SmartUserCardTooltip, UserCard, UserCardTooltip} from './user-card';
 import {UserCardAttrs} from './card';
 import {UserCardTooltipAttrs} from './tooltip';
@@ -17,7 +19,9 @@ describe('UserCard', () => {
 
   describe('Card', () => {
     const shallowCard = (props?: Partial<UserCardAttrs>) => shallow(
-      <UserCard user={fakeUser} {...props}/>
+      <I18nContextHolder messages={{}}>
+        <UserCard user={fakeUser} {...props}/>
+      </I18nContextHolder>
     );
     const mountCard = (props?: Partial<UserCardAttrs>) =>
       mount(<UserCard user={fakeUser} {...props}/>);
@@ -41,7 +45,7 @@ describe('UserCard', () => {
     });
 
     it('should use passed className', () => {
-      shallowCard({className: 'test-class'}).should.have.className('test-class');
+      shallowCard({className: 'test-class'}).find(UserCard).should.have.className('test-class');
     });
 
     it('should use pass rest props to dom node', () => {

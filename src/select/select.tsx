@@ -703,13 +703,13 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     return (
       <I18nContext.Consumer>
-        {messages => {
+        {({translate}) => {
           let message;
 
           if (this.props.loading) {
-            message = this.props.loadingMessage ?? messages.loading;
+            message = this.props.loadingMessage ?? translate('loading');
           } else if (!shownData.length) {
-            message = this.props.notFoundMessage ?? messages.noOptionsFound;
+            message = this.props.notFoundMessage ?? translate('noOptionsFound');
           }
 
           return (

@@ -220,7 +220,7 @@ export class Input extends PureComponent<InputProps> {
 
     return (
       <I18nContext.Consumer>
-        {messages => (
+        {({translate}) => (
           <div className={classes} data-test="ring-input">
             {label && (
               <InputLabel
@@ -249,7 +249,7 @@ export class Input extends PureComponent<InputProps> {
                 )}
               {clearable && !disabled && (
                 <Button
-                  title={(translations ?? messages).clear}
+                  title={translations?.clear ?? translate('clear')}
                   data-test="ring-input-clear"
                   className={styles.clear}
                   icon={closeIcon}
