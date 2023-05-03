@@ -5,19 +5,19 @@ import {Story} from '@storybook/react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import {getTranslations, Messages} from './i18n';
-import {I18nContext} from './i18n-context';
+import {getTranslations, type Messages} from './i18n';
+import {I18nContext, I18nContextHolder} from './i18n-context';
 
 const I18nTestComponent: React.FC<Messages> = props => (
-  <I18nContext.Provider value={props}>
+  <I18nContextHolder messages={props}>
     <I18nContext.Consumer>
-      {messages => (
-        Object.entries(messages).map(([key, value]) => (
-          <div key={key}>{key}: {value}</div>
+      {({messages, translate}) => (
+        Object.keys(messages).map(key => (
+          <div key={key}>{key}: {translate(key as keyof Messages)}</div>
         ))
       )}
     </I18nContext.Consumer>
-  </I18nContext.Provider>
+  </I18nContextHolder>
 );
 
 export default {
