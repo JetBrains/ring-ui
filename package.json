@@ -170,7 +170,7 @@
     "storybook": "^7.0.7",
     "storybook-addon-themes": "^6.1.0",
     "storybook-zeplin": "^2.0.0",
-    "stylelint": "^15.6.0",
+    "stylelint": "^15.6.1",
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.7",
