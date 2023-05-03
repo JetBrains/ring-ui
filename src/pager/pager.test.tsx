@@ -3,13 +3,18 @@ import {shallow, mount} from 'enzyme';
 
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 
+import {I18nContextHolder} from '../i18n/i18n-context';
+
 import Pager, {PagerAttrs} from './pager';
 import styles from './pager.css';
 
 describe('Pager', () => {
   const props = {total: 100, currentPage: 1, onPageChange: () => {}};
   const shallowPager = (params?: Partial<PagerAttrs>) =>
-    shallow(<Pager {...{...props, ...params}}/>);
+    shallow(
+      <I18nContextHolder messages={{}}>
+        <Pager {...{...props, ...params}}/>
+      </I18nContextHolder>);
   const mountPager = (params?: Partial<PagerAttrs>) => mount(<Pager {...{...props, ...params}}/>);
 
   it('should create component', () => {
@@ -17,7 +22,7 @@ describe('Pager', () => {
   });
 
   it('should render page buttons when total is more than pageSize', () => {
-    const wrapper = shallowPager({
+    const wrapper = mountPager({
       total: 2,
       pageSize: 1
     });
@@ -32,9 +37,11 @@ describe('Pager', () => {
   });
 
   it('should render page size selector even when total is less than 2', () => {
-    const wrapper = shallowPager({total: 1});
+    const wrapper = mountPager({total: 1});
     wrapper.should.have.data('test', 'ring-pager');
-    wrapper.childAt(0).should.have.data('test', 'ring-pager-page-size-selector');
+    should.exist(
+      wrapper.getDOMNode()?.querySelector('[data-test^=ring-pager-page-size-selector]')
+    );
   });
 
   it('should wrap children with div', () => {
@@ -42,11 +49,11 @@ describe('Pager', () => {
   });
 
   it('should use passed className', () => {
-    shallowPager({className: 'test-class'}).should.have.className('test-class');
+    shallowPager({className: 'test-class'}).find(Pager).should.have.className('test-class');
   });
 
   it('should render page buttons even when currentPage==total if openTotal is true', () => {
-    const wrapper = shallowPager({
+    const wrapper = mountPager({
       total: 10,
       pageSize: 10,
       currentPage: 1,

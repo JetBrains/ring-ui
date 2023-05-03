@@ -52,10 +52,10 @@ export default class SelectFilter extends Component<SelectFilterProps> {
       <ActiveItemContext.ValueContext.Consumer>
         {activeItemId => (
           <I18nContext.Consumer>
-            {messages => (
+            {({translate}) => (
               <Input
                 {...restProps}
-                placeholder={restProps.placeholder ?? messages.filterItems}
+                placeholder={restProps.placeholder ?? translate('filterItems')}
                 aria-owns={listId}
                 aria-activedescendant={activeItemId}
                 autoComplete="off"

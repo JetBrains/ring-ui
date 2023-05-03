@@ -90,9 +90,9 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
 
     return (
       <I18nContext.Consumer>
-        {messages => (
+        {({translate}) => (
           <Dialog
-            label={(translations ?? messages).userAgreement}
+            label={translations?.userAgreement ?? translate('userAgreement')}
             show={show}
             className={classNames(style.agreementDialog, className)}
             contentClassName={style.dialogContent}
@@ -100,7 +100,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
             autoFocusFirst={false}
             data-test="user-agreement"
           >
-            <Header>{(translations ?? messages).userAgreement}</Header>
+            <Header>{translations?.userAgreement ?? translate('userAgreement')}</Header>
             <Content
               fade
               onScrollToBottom={this.onScrollToBottom}
@@ -111,19 +111,19 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
               <Panel>
                 {onRemindLater && !scrolledDown && (
                   <div className={style.suggestion}>
-                    {(translations ?? messages).scrollToAccept}
+                    {translations?.scrollToAccept ?? translate('scrollToAccept')}
                   </div>
                 )}
                 <Button primary disabled={!scrolledDown} onClick={onAccept} data-test="accept">
-                  {(translations ?? messages).accept}
+                  {translations?.accept ?? translate('accept')}
                 </Button>
                 <Button onClick={onDecline} autoFocus data-test="decline">
-                  {(translations ?? messages).decline}
+                  {translations?.decline ?? translate('decline')}
                 </Button>
 
                 {!onRemindLater && !scrolledDown && (
                   <span className={style.suggestion}>
-                    {(translations ?? messages).scrollToAccept}
+                    {translations?.scrollToAccept ?? translate('scrollToAccept')}
                   </span>
                 )}
                 {onRemindLater && (
@@ -132,7 +132,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
                     onClick={onRemindLater}
                     data-test="later"
                   >
-                    {(translations ?? messages).remindLater}
+                    {translations?.remindLater ?? translate('remindLater')}
                   </Button>
                 )}
               </Panel>
@@ -140,7 +140,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
             {preview && (
               <Panel>
                 <Button onClick={onClose} autoFocus data-test="close">
-                  {(translations ?? messages).close}
+                  {translations?.close ?? translate('close')}
                 </Button>
               </Panel>
             )}

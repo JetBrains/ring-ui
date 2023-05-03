@@ -154,7 +154,7 @@ export default class Message extends Component<MessageProps> {
 
     return (
       <I18nContext.Consumer>
-        {messages => (
+        {({translate}) => (
           <WithThemeClasses theme={theme}>
             {themeClasses => (
               <Popup
@@ -183,10 +183,12 @@ export default class Message extends Component<MessageProps> {
                       onClick={onClose}
                       primary
                       {...buttonProps}
-                    >{(translations ?? messages).gotIt}</Button>
+                    >{translations?.gotIt ?? translate('gotIt')}</Button>
                   )}
                   {onDismiss && (
-                    <Button onClick={onDismiss} text>{(translations ?? messages).dismiss}</Button>
+                    <Button onClick={onDismiss} text>
+                      {translations?.dismiss ?? translate('dismiss')}
+                    </Button>
                   )}
                 </ThemeProvider>
               </Popup>

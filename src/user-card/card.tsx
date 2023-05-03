@@ -11,8 +11,6 @@ import Icon, {Size as IconSize} from '../icon/icon';
 
 import {I18nContext} from '../i18n/i18n-context';
 
-import {Messages} from '../i18n/i18n';
-
 import styles from './user-card.css';
 
 export interface UserCardUser {
@@ -77,23 +75,23 @@ export default class UserCard extends PureComponent<UserCardProps> {
   };
 
   static contextType = I18nContext;
+  declare context: React.ContextType<typeof UserCard.contextType>;
 
   copyEmail = () => {
-    const messages = this.context as Messages;
-    const messageOverrides = this.props.wording || this.props.translations;
+    const {translate} = this.context;
+    const wording = this.props.translations || this.props.wording;
 
-    const wording = messageOverrides ?? messages;
     clipboard.copyText(
-      this.props.user.email || '', wording.copiedToClipboard, wording.copingToClipboardError
+      this.props.user.email || '',
+      wording?.copiedToClipboard ?? translate('copyToClipboard'),
+      wording?.copingToClipboardError ?? translate('copingToClipboardError')
     );
   };
 
   render() {
     const {children, info, className, user, avatarInfo, ...restProps} = this.props;
-    const messages = this.context as Messages;
-    const messageOverrides = this.props.wording || this.props.translations;
-
-    const wording = messageOverrides ?? messages;
+    const {translate} = this.context;
+    const wording = this.props.translations || this.props.wording;
 
     const classes = classNames(className, {});
     const userActiveStatusClasses = classNames(
@@ -129,7 +127,10 @@ export default class UserCard extends PureComponent<UserCardProps> {
                   (
                     <span
                       className={userActiveStatusClasses}
-                      title={user.online ? wording.online : wording.offline}
+                      title={user.online
+                        ? (wording?.online ?? translate('online'))
+                        : (wording?.offline ?? translate('offline'))
+                      }
                     />
                   )
                 }
@@ -140,7 +141,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
                     <span
                       className={classNames(badgeStyles.badge, badgeStyles.invalid)}
                       title={user.banReason}
-                    >{wording.banned}</span>
+                    >{wording?.banned ?? translate('banned')}</span>
                   )
                 }
               </div>
@@ -159,11 +160,13 @@ export default class UserCard extends PureComponent<UserCardProps> {
                   </Link>
                   {
                     user.unverifiedEmail && (
-                      <span className={styles.unverifiedLabel}>{wording.unverified}</span>
+                      <span className={styles.unverifiedLabel}>
+                        {wording?.unverified ?? translate('unverified')}
+                      </span>
                     )
                   }
                   <Icon
-                    title={wording.copyToClipboard}
+                    title={wording?.copyToClipboard ?? translate('copyToClipboard')}
                     className={styles.userCopyIcon}
                     onClick={this.copyEmail}
                     glyph={copyIcon}
