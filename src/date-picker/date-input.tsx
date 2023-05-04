@@ -6,6 +6,8 @@ import Input from '../input/input';
 
 import {ControlsHeight} from '../global/controls-height';
 
+import {I18nContext} from '../i18n/i18n-context';
+
 import {DatePopupBaseProps, dateType, Field} from './consts';
 import styles from './date-picker.css';
 
@@ -47,24 +49,15 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
     locale: PropTypes.object
   };
 
-  static defaultProps = {
-    fromPlaceholder: null,
-    toPlaceholder: null,
-    timePlaceholder: null,
-    translations: {
-      addFirstDate: 'Add first date',
-      addSecondDate: 'Add second date',
-      addTime: 'Add time',
-      selectName: 'Select %name%'
-    }
-  };
-
   componentDidUpdate(prevProps: DateInputProps) {
     const {hidden, text, active} = this.props;
     if (!hidden && prevProps.hidden || text !== prevProps.text || active !== prevProps.active) {
       this.updateInput({text, active});
     }
   }
+
+  static contextType = I18nContext;
+  declare context: React.ContextType<typeof DateInput.contextType>;
 
   input?: HTMLInputElement | null;
   inputRef = (el: HTMLInputElement | null) => {
@@ -101,6 +94,7 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
       onActivate, onClear,
       fromPlaceholder, toPlaceholder, timePlaceholder, locale
     } = this.props;
+    const {translate} = this.context;
 
     let displayText = '';
     if (active && hoverDate) {
@@ -116,13 +110,13 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
     const placeholder = (() => {
       switch (name) {
         case 'from':
-          return fromPlaceholder || translations.addFirstDate;
+          return fromPlaceholder || (translations?.addFirstDate ?? translate('addFirstDate'));
         case 'to':
-          return toPlaceholder || translations.addSecondDate;
+          return toPlaceholder || (translations?.addSecondDate ?? translate('addSecondDate'));
         case 'time':
-          return timePlaceholder || translations.addTime;
+          return timePlaceholder || (translations?.addTime ?? translate('addTime'));
         default:
-          return translations.selectName.
+          return (translations?.selectName ?? translate('selectName')).
             replace('%name%', name).
             replace('{{name}}', name);
       }
