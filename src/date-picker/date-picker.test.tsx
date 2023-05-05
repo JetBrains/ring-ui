@@ -1,11 +1,17 @@
 import React from 'react';
 import {mount, shallow, render} from 'enzyme';
 
+import {I18nContextHolder} from '../i18n/i18n-context';
+
 import DatePicker, {DatePickerAttrs} from './date-picker';
 import styles from './date-picker.css';
 
 describe('Date Picker', () => {
-  const shallowDatePicker = (params?: DatePickerAttrs) => shallow(<DatePicker {...params}/>);
+  const shallowDatePicker = (params?: DatePickerAttrs) => shallow(
+    <I18nContextHolder messages={{}}>
+      <DatePicker {...params}/>
+    </I18nContextHolder>
+  );
   const mountDatePicker = (params?: DatePickerAttrs) => mount(<DatePicker {...params}/>);
   const renderDatePicker = (params?: DatePickerAttrs) => render(<DatePicker {...params}/>);
 
@@ -18,7 +24,7 @@ describe('Date Picker', () => {
   });
 
   it('should use passed className', () => {
-    shallowDatePicker({className: 'test-class'}).should.have.className('test-class');
+    shallowDatePicker({className: 'test-class'}).find(DatePicker).should.have.className('test-class');
   });
 
   it('should parse and display passed date', () => {

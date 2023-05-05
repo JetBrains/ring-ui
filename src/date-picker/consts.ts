@@ -54,10 +54,10 @@ export function parseTime(time: string) {
 }
 
 export interface DateInputTranslations {
-  addFirstDate: string
-  addSecondDate: string
-  addTime: string
-  selectName: string
+  addFirstDate?: string
+  addSecondDate?: string
+  addTime?: string
+  selectName?: string
 }
 
 export interface DateSpecificPopupProps {
@@ -98,7 +98,7 @@ export interface DatePopupBaseProps {
   to?: Date | number | string | null | undefined
   minDate?: string | null | undefined
   maxDate?: string | null | undefined
-  translations: DateInputTranslations
+  translations?: DateInputTranslations | null | undefined
   fromPlaceholder?: string | null | undefined
   toPlaceholder?: string | null | undefined
   timePlaceholder?: string | null | undefined
