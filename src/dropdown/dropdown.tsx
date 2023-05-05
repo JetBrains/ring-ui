@@ -21,6 +21,14 @@ export interface AnchorProps {
   pinned: boolean
 }
 
+export interface DropdownChildProps {
+  hidden: boolean
+  onCloseAttempt: () => void
+  onMouseDown?: () => void | undefined
+  onContextMenu?: () => void | undefined
+  dontCloseOnAnchorClick: boolean
+}
+
 export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
   anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode)
   children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode)
@@ -204,7 +212,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
         }
     }
 
-    const childProps = {
+    const childProps: DropdownChildProps = {
       hidden: !show,
       onCloseAttempt: this.onChildCloseAttempt,
       onMouseDown: hoverMode ? this.handlePopupInteraction : undefined,
