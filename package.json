@@ -167,7 +167,7 @@
     "sinon": "^15.0.4",
     "sinon-chai": "^3.7.0",
     "storage-mock": "^2.1.0",
-    "storybook": "^7.0.7",
+    "storybook": "^7.0.9",
     "storybook-addon-themes": "^6.1.0",
     "storybook-zeplin": "^2.0.0",
     "stylelint": "^15.6.1",
