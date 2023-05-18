@@ -176,7 +176,7 @@
     "terser-webpack-plugin": "^5.3.8",
     "typescript": "~5.0.4",
     "wallaby-webpack": "^3.9.16",
-    "webpack": "^5.82.1",
+    "webpack": "^5.83.1",
     "webpack-cli": "^5.1.1",
     "xmlappend": "^1.0.4"
   },
