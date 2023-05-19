@@ -221,7 +221,7 @@
     "classnames": "^2.3.2",
     "combokeys": "^3.0.1",
     "compile-code-loader": "^1.0.0",
-    "css-loader": "^6.7.3",
+    "css-loader": "^6.7.4",
     "csstype": "^3.1.2",
     "date-fns": "^2.30.0",
     "deep-equal": "^2.2.1",
