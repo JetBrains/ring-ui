@@ -1,3 +1,7 @@
+:global(body) {
+  margin: 0;
+}
+
 /**
   Hackish handle Strotybooks fixed position
  */
