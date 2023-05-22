@@ -52,7 +52,7 @@ function noop() {}
 /**
  * @enum {number}
  */
-enum Type {
+export enum Type {
   BUTTON = 'BUTTON',
   INPUT = 'INPUT',
   CUSTOM = 'CUSTOM',
