@@ -16,7 +16,8 @@ module.exports = {
     {
       name: '@storybook/addon-essentials',
       options: {
-        actions: false
+        actions: false,
+        docs: false
       }
     },
     '@storybook/addon-a11y',
@@ -67,7 +68,7 @@ module.exports = {
     options: {}
   },
   docs: {
-    autodocs: true
+    autodocs: false
   },
   storyIndexers: indexers => indexers.map(indexer =>
     (indexer.test.test('.stories.tsx') && !indexer.test.test('.examples.tsx')
