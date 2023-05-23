@@ -78,6 +78,10 @@ export default {
     styles({
       modules: {
         generateScopedName(name, filename) {
+          if (name.startsWith('light')) {
+            // RG-2283 Hack for Ring UI's light theme being multiplied for every import
+            return `${name}_rui_${getHash(name)}`;
+          }
           return `${name}_rui_${getHash(filename)}`;
         },
         mode: 'local'
