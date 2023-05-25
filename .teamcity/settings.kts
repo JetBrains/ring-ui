@@ -217,9 +217,6 @@ object Deploy : BuildType({
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
 
     params {
-        password("env.AWS_SECRET_ACCESS_KEY", "credentialsJSON:dbeb62cd-b1ba-452b-aa7c-317f19a10804", display = ParameterDisplay.HIDDEN)
-        param("env.AWS_ACCESS_KEY_ID", "AKIAJ42U3JYQAGGFJ5KQ")
-        param("env.AWS_DEFAULT_REGION", "us-east-2")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
