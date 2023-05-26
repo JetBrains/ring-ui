@@ -1,5 +1,5 @@
 version: "1.0"
-linter: jetbrains/qodana-js:2022.3-eap
+linter: jetbrains/qodana-js:2023.1-eap
 bootstrap: bash .qodana/bootstrap.sh
 profile:
   path: .idea/inspectionProfiles/Project_Default.xml
