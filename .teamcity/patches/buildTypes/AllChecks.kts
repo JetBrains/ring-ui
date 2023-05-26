@@ -22,4 +22,19 @@ changeBuildType(RelativeId("AllChecks")) {
 
         }
     }
+
+    dependencies {
+        expect(RelativeId("QodanaAnalysis")) {
+            snapshot {
+                onDependencyCancel = FailureAction.ADD_PROBLEM
+            }
+        }
+        update(RelativeId("QodanaAnalysis")) {
+            snapshot {
+                onDependencyFailure = FailureAction.IGNORE
+                onDependencyCancel = FailureAction.ADD_PROBLEM
+            }
+        }
+
+    }
 }
