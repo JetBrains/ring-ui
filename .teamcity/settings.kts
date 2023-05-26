@@ -666,7 +666,7 @@ object QodanaAnalysis : BuildType({
     qodana {
       name = "Run Qodana for JS"
       linter = customLinter {
-        image = "jetbrains/qodana-js:2022.3-eap"
+        image = "jetbrains/qodana-js:2023.1-eap"
       }
       additionalDockerArguments = "-e QODANA_TOKEN=%env.QODANA_TOKEN%"
       collectAnonymousStatistics = true
