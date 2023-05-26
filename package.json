@@ -85,7 +85,7 @@
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-replace": "^5.0.2",
     "@storybook/addon-a11y": "7.0.12",
-    "@storybook/addon-docs": "7.0.12",
+    "@storybook/addon-docs": "7.0.17",
     "@storybook/addon-essentials": "7.0.12",
     "@storybook/addon-storyshots": "7.0.12",
     "@storybook/addon-storyshots-puppeteer": "7.0.12",
