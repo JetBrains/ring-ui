@@ -12,7 +12,7 @@ import startOfYear from 'date-fns/startOfYear';
 import linearFunction from '../global/linear-function';
 
 import MonthSlider from './month-slider';
-import {HALF, YEAR, MIDDLE_DAY, yearScrollSpeed, dateType, MonthsProps} from './consts';
+import {YEAR, MIDDLE_DAY, yearScrollSpeed, dateType, MonthsProps} from './consts';
 import styles from './date-picker.css';
 
 interface MonthNameProps {
@@ -30,7 +30,7 @@ class MonthName extends PureComponent<MonthNameProps> {
 
   handleClick = () => {
     const end = endOfMonth(this.props.month);
-    this.props.onScrollChange((+this.props.month + +end) * HALF);
+    this.props.onScrollChange(end.getTime());
   };
 
   render() {
