@@ -1,4 +1,12 @@
-import React, {Component, ReactNode, SyntheticEvent} from 'react';
+import React, {
+  Component,
+  FC,
+  ReactNode,
+  SyntheticEvent,
+  useCallback,
+  useMemo,
+  useState
+} from 'react';
 import PropTypes from 'prop-types';
 import warningIcon from '@jetbrains/icons/warning';
 
@@ -871,89 +879,69 @@ fitsToScreen.parameters = {
       `
 };
 
-interface WithFilteredFieldsState {
-  data: SelectItem[]
-  filtersData: SelectItem[]
-  filteredData: SelectItem[]
-  selectedDataKey: string | number | null,
-  selectedFilterKey: string | number | undefined
-}
-
-class WithFilteredFields extends Component<{}, WithFilteredFieldsState> {
-  constructor(props: never) {
-    super(props);
-
-    const data = [...Array(100)].map((item, idx) => {
-      const label = `Label ${idx}`;
-      return {
-        key: idx,
-        label,
-        template: <span className="label">{label}</span>,
-        rgItemType: List.ListProps.Type.CUSTOM
-      };
-    });
-
-    const filtersData = [
-      {label: 'Show odd', key: '1'},
-      {label: 'Show even', key: '2'},
-      {label: 'Show all', key: '3'}
-    ];
-
-    this.state = {
-      data,
-      filtersData,
-      filteredData: data.filter(item => item.key % 2),
-      selectedDataKey: null,
-      selectedFilterKey: filtersData[0].key
+const WithFilteredFields: FC = () => {
+  const data = useMemo(() => [...Array(100)].map((item, idx) => {
+    const label = `Label ${idx}`;
+    return {
+      key: idx,
+      label,
+      template: <span className="label">{label}</span>,
+      rgItemType: List.ListProps.Type.CUSTOM
     };
-  }
+  }), []);
 
-  handleFilterSelect = (selected: SelectItem | null) => {
-    const {data} = this.state;
+  const filtersData = useMemo(() => [
+    {label: 'Show odd', key: '1'},
+    {label: 'Show even', key: '2'},
+    {label: 'Show all', key: '3'}
+  ], []);
 
-    const filteredData =
-      selected?.label === 'Show all'
-        ? [...data]
-        : data.filter(item => !!(Number(item.key) % 2) === (selected?.label === 'Show odd'));
+  const [filteredData, setFilteredData] = useState(data.filter(item => item.key % 2));
 
-    this.setState({
-      filteredData,
-      selectedFilterKey: selected?.key,
-      selectedDataKey: null
-    });
-  };
+  const [selectedDataKey, setSelectedDataKey] = useState<string | number | null>(null);
 
-  handleDataSelect = (selected: SelectItem | null) => this.setState({
-    selectedDataKey: selected && selected.key
-  });
+  const [
+    selectedFilterKey,
+    setSelectedFilterKey
+  ] = useState<string | number | undefined>(filtersData[0].key);
 
-  render() {
-    const {filteredData, filtersData, selectedFilterKey, selectedDataKey} = this.state;
-    return (
-      <div className="filters-block">
-        <Select
-          selectedLabel="Filter"
-          label="Please select filter"
-          filter
-          clear
-          selected={filtersData.filter(item => item.key === selectedFilterKey)[0]}
-          onSelect={this.handleFilterSelect}
-          data={filtersData}
-        />
-        <Select
-          key={selectedFilterKey}
-          selectedLabel="Option"
-          label="Please select option"
-          filter
-          clear
-          selected={filteredData.filter(item => item.key === selectedDataKey)[0]}
-          onSelect={this.handleDataSelect}
-          data={filteredData}
-        />
-      </div>
-    );
-  }
-}
+  const handleFilterSelect = useCallback((selected: SelectItem | null) => {
+    setFilteredData(selected?.label === 'Show all'
+      ? [...data]
+      : data.filter(item => !!(Number(item.key) % 2) === (selected?.label === 'Show odd')));
+    setSelectedFilterKey(selected?.key);
+    setSelectedDataKey(null);
+  }, [data]);
+
+  const handleDataSelect = useCallback((selected: SelectItem | null) => {
+    setSelectedDataKey(selected && selected.key);
+  }, []);
+
+  return (
+    <div className="filters-block">
+      <Select
+        selectedLabel="Filter"
+        label="Please select filter"
+        filter
+        clear
+        selected={filtersData.filter(item => item.key === selectedFilterKey)[0]}
+        onSelect={handleFilterSelect}
+        data={filtersData}
+      />
+      <Select
+        key={selectedFilterKey}
+        selectedLabel="Option"
+        label="Please select option"
+        filter
+        clear
+        selected={filteredData.filter(item => item.key === selectedDataKey)[0]}
+        onSelect={handleDataSelect}
+        data={filteredData}
+      />
+    </div>
+  );
+};
+
 export const withFilteredFields = () => <WithFilteredFields/>;
 
 withFilteredFields.storyName = 'with filtered fields';
