@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import PropTypes from 'prop-types';
 import addMonths from 'date-fns/addMonths';
 import getDay from 'date-fns/getDay';
@@ -9,6 +9,7 @@ import endOfMonth from 'date-fns/endOfMonth';
 
 import scheduleRAF from '../global/schedule-raf';
 import linearFunction from '../global/linear-function';
+import useEventCallback from '../global/use-event-callback';
 
 import Month from './month';
 import MonthNames from './month-names';
@@ -47,43 +48,66 @@ export default function Months(props: MonthsProps) {
   const monthDate = scrollDate instanceof Date ? scrollDate : new Date(scrollDate);
   const monthStart = startOfMonth(monthDate);
 
-  let month = subMonths(monthStart, MONTHSBACK);
-  const months = [month];
-  for (let i = 0; i < MONTHSBACK * DOUBLE; i++) {
-    month = addMonths(month, 1);
-    months.push(month);
-  }
+  const months = useMemo(() => {
+    let month = subMonths(monthStart, MONTHSBACK);
+
+    const result = [month];
+    for (let i = 0; i < MONTHSBACK * DOUBLE; i++) {
+      month = addMonths(month, 1);
+      result.push(month);
+    }
+
+    return result;
+  }, [monthStart]);
 
   const currentSpeed = scrollSpeed(scrollDate);
   const pxToDate = linearFunction(0, Number(scrollDate), currentSpeed);
   const offset = pxToDate.x(Number(monthStart)); // is a negative number
   const bottomOffset = monthHeight(scrollDate) + offset;
 
+  const componentRef = useRef<HTMLDivElement>(null);
+
+  const handleWheel = useEventCallback((e: WheelEvent) => {
+    e.preventDefault();
+    dy += e.deltaY;
+    scrollSchedule(() => {
+      let date;
+
+      // adjust scroll speed to prevent glitches
+      if (dy < offset) {
+        date = pxToDate.y(offset) + (dy - offset) * scrollSpeed(months[1]);
+      } else if (dy > bottomOffset) {
+        date =
+          pxToDate.y(bottomOffset) +
+          (dy - bottomOffset) *
+          scrollSpeed(months[MONTHSBACK + 1]);
+      } else {
+        date = pxToDate.y(dy);
+      }
+
+      props.onScroll(date);
+      dy = 0;
+    });
+  });
+
+  useEffect(() => {
+    const current = componentRef.current;
+
+    if (current !== null) {
+      current.addEventListener('wheel', handleWheel, {passive: false});
+    }
+
+    return () => {
+      if (current !== null) {
+        current.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, [handleWheel]);
+
   return (
     <div
       className={styles.months}
-      onWheel={function handleWheel(e) {
-        e.preventDefault();
-        dy += e.deltaY;
-        scrollSchedule(() => {
-          let date;
-
-          // adjust scroll speed to prevent glitches
-          if (dy < offset) {
-            date = pxToDate.y(offset) + (dy - offset) * scrollSpeed(months[1]);
-          } else if (dy > bottomOffset) {
-            date =
-              pxToDate.y(bottomOffset) +
-              (dy - bottomOffset) *
-              scrollSpeed(months[MONTHSBACK + 1]);
-          } else {
-            date = pxToDate.y(dy);
-          }
-
-          props.onScroll(date);
-          dy = 0;
-        });
-      }}
+      ref={componentRef}
     >
       <div
         style={{
