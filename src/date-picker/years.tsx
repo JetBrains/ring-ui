@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {createRef, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import addYears from 'date-fns/addYears';
@@ -36,8 +36,20 @@ export default class Years extends PureComponent<CalendarProps> {
 
   state = {scrollDate: null};
 
+  componentDidMount() {
+    if (this.componentRef.current) {
+      this.componentRef.current.addEventListener('wheel', this.handleWheel);
+    }
+  }
+
   componentDidUpdate(prevProps: CalendarProps, prevState: YearsState) {
     this.stoppedScrolling = prevState.scrollDate != null && !this.state.scrollDate;
+  }
+
+  componentWillUnmount() {
+    if (this.componentRef.current) {
+      this.componentRef.current.removeEventListener('wheel', this.handleWheel);
+    }
   }
 
   stoppedScrolling?: boolean;
@@ -54,6 +66,23 @@ export default class Years extends PureComponent<CalendarProps> {
     );
   }
 
+  componentRef = createRef<HTMLDivElement>();
+
+  handleWheel = (e: WheelEvent) => {
+    const {scrollDate} = this.props;
+    const date = this.state.scrollDate || scrollDate;
+
+    e.preventDefault();
+    const newScrollDate = linearFunction(0, Number(date), yearDuration / yearHeight).y(e.deltaY);
+    this.setState({
+      scrollDate: newScrollDate
+    });
+    if (scrollTO) {
+      window.clearTimeout(scrollTO);
+    }
+    scrollTO = window.setTimeout(() => this.setYear(newScrollDate), scrollDelay);
+  };
+
   render() {
     const {onScrollChange, scrollDate} = this.props;
     const date = this.state.scrollDate || scrollDate;
@@ -67,24 +96,10 @@ export default class Years extends PureComponent<CalendarProps> {
 
     const pxToDate = linearFunction(0, Number(years[0]), yearDuration / yearHeight);
 
-    const handleWheel = (e: React.WheelEvent) => {
-      e.preventDefault();
-      const newScrollDate = linearFunction(0, Number(date), yearDuration / yearHeight).
-        y(e.deltaY);
-      this.setState({
-        scrollDate: newScrollDate
-      });
-      if (scrollTO) {
-        window.clearTimeout(scrollTO);
-      }
-      scrollTO = window.setTimeout(() => this.setYear(newScrollDate), scrollDelay);
-    };
-
     return (
       <div
         className={styles.years}
-        onWheel={handleWheel}
-
+        ref={this.componentRef}
         style={{
           transition: this.stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
           top: Math.floor(calHeight * HALF - pxToDate.x(Number(date)))
