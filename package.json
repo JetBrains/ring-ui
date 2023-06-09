@@ -200,7 +200,7 @@
     }
   },
   "dependencies": {
-    "@babel/core": "^7.22.1",
+    "@babel/core": "^7.22.5",
     "@babel/preset-typescript": "^7.21.5",
     "@jetbrains/babel-preset-jetbrains": "^2.3.2",
     "@jetbrains/icons": "^3.21.0",
