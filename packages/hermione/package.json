@@ -15,7 +15,7 @@
     "test-ci": "node hermione-ci.js --teamcity"
   },
   "devDependencies": {
-    "@jetbrains/hermione-teamcity-reporter": "^1.2.1",
+    "@jetbrains/hermione-teamcity-reporter": "^1.2.2",
     "@storybook/addon-storyshots": "7.0.18",
     "axios": "^1.4.0",
     "browserstack-local": "^1.5.3",
