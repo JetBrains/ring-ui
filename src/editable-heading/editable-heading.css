@@ -30,6 +30,7 @@
 
   border: none;
   border-radius: var(--ring-border-radius);
+  outline: none;
   background: inherit;
 
   font-size: inherit;
@@ -42,12 +43,12 @@
   }
 
   &:focus-visible {
-    outline: 1px solid var(--ring-border-hover-color);
+    box-shadow: 0 0 0 2px var(--ring-border-hover-color);
   }
 
   @nest .disabled &:focus,
   .selectionMode &:focus {
-    outline: none;
+    box-shadow: none;
   }
 
   &:hover {
