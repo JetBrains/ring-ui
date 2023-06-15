@@ -41,7 +41,7 @@
     border-radius: 0;
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 1px solid var(--ring-border-hover-color);
   }
 
