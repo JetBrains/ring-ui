@@ -55,7 +55,7 @@
     }
   }
 
-  @nest .error & {
+  .error & {
     border-color: var(--ring-icon-error-color);
   }
 }
@@ -77,7 +77,7 @@
     padding-right: var(--ring-input-padding-inline);
   }
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding: 0 var(--ring-input-padding-inline) 0 0;
 
     & .actions {
@@ -158,7 +158,7 @@
 
   color: var(--ring-disabled-color);
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding-right: calc(var(--ring-input-padding-inline) * 3 + var(--ring-input-padding-block) * 2);
 
     text-align: right;
@@ -184,7 +184,7 @@
 
   line-height: inherit;
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding: 0 var(--ring-input-padding-inline) 0 0;
   }
 }
@@ -194,7 +194,7 @@
 
   color: var(--ring-icon-secondary-color);
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding: 0 0 0 var(--ring-input-padding-inline);
   }
 }
@@ -214,19 +214,20 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 
-  @nest .queryAssist.queryAssist:focus-within & {
+  /* stylelint-disable-next-line selector-max-specificity */
+  .queryAssist.queryAssist:focus-within & {
     transition: none;
 
     border-color: var(--ring-main-color);
   }
 
-  @nest .queryAssist:hover & {
+  .queryAssist:hover & {
     transition: none;
 
     border-color: var(--ring-border-hover-color);
   }
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     border-right: 1px solid var(--ring-borders-color);
     border-left: 0;
     border-radius: var(--ring-border-radius);
@@ -240,7 +241,7 @@
 
   padding-right: 0;
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding-right: var(--ring-input-padding-inline);
     padding-left: 0;
   }
@@ -253,7 +254,7 @@
 .withoutGlass {
   padding-left: 0;
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding-right: calc(var(--ring-input-padding-block) * 3);
   }
 }
@@ -265,7 +266,7 @@
 .loaderOnTheRight {
   padding-right: 0;
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding-left: 0;
   }
 }

@@ -61,7 +61,7 @@
 
   caret-color: var(--ring-main-color);
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding-right: var(--ring-input-padding-start);
     padding-left: var(--ring-input-padding-end);
   }
