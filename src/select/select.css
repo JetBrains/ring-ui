@@ -23,12 +23,12 @@
 
   text-align: left;
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     text-align: right;
     direction: ltr;
   }
 
-  @nest .toolbar & {
+  .toolbar & {
     height: calc(4 * unit);
     margin: unit 0;
   }
@@ -50,7 +50,7 @@
 
   line-height: normal;
 
-  @nest .inputMode & {
+  .inputMode & {
     font-size: var(--ring-font-size);
   }
 }
