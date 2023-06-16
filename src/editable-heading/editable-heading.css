@@ -35,7 +35,7 @@
 
   font-size: inherit;
 
-  @nest .disabled &,
+  .disabled &,
   .selectionMode & {
     user-select: text;
 
@@ -46,7 +46,7 @@
     box-shadow: 0 0 0 2px var(--ring-border-hover-color);
   }
 
-  @nest .disabled &:focus,
+  .disabled &:focus,
   .selectionMode &:focus {
     box-shadow: none;
   }
@@ -55,7 +55,7 @@
     background-color: var(--ring-hover-background-color);
   }
 
-  @nest .disabled &:hover,
+  .disabled &:hover,
   .selectionMode &:hover {
     cursor: initial;
 
@@ -74,7 +74,7 @@
 
   border-radius: var(--ring-border-radius);
 
-  @nest .multiline & {
+  .multiline & {
     -webkit-line-clamp: 3;
   }
 }
@@ -119,7 +119,7 @@
     background-color: initial;
   }
 
-  @nest .error & {
+  .error & {
     margin-bottom: 1px;
 
     border-bottom-width: 2px;

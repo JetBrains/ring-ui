@@ -50,7 +50,7 @@ Input
 
   /* stylelint-enable order/properties-order */
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding-right: var(--ring-input-padding-start);
     padding-left: var(--ring-input-padding-end);
   }
@@ -61,7 +61,7 @@ Input
     border-color: var(--ring-border-hover-color);
   }
 
-  @nest .error & {
+  .error & {
     border-color: var(--ring-icon-error-color);
   }
 

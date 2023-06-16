@@ -1,6 +1,9 @@
 module.exports = {
   extends: '@jetbrains/stylelint-config',
+  plugins: ['@csstools/stylelint-no-at-nest-rule'],
   rules: {
+    '@csstools/stylelint-no-at-nest-rule': true,
+
     'selector-max-specificity': ['0,3,0', {
       ignoreSelectors: [':global', ':local']
     }],
