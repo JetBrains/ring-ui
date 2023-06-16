@@ -9,30 +9,30 @@
     margin-top: 0;
   }
 
-  @nest h1&, h2& {
+  &:is(h1, h2) {
     margin-bottom: 8px;
 
     color: var(--ring-heading-color);
   }
 
-  @nest h1& {
+  &:is(h1) {
     font-size: 24px;
     line-height: 28px;
   }
 
-  @nest h2& {
+  &:is(h2) {
     font-size: 20px;
     line-height: 24px;
   }
 
-  @nest h3& {
+  &:is(h3) {
     margin-bottom: 0;
 
     font-size: 16px;
     line-height: 22px;
   }
 
-  @nest h4& {
+  &:is(h4) {
     margin-bottom: 1px;
 
     letter-spacing: 1px;
