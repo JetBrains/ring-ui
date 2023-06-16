@@ -51,7 +51,7 @@
 
   caret-color: var(--ring-main-color);
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     padding-right: var(--ring-input-padding-start);
     padding-left: var(--ring-input-padding-end);
   }
@@ -62,7 +62,7 @@
     border-color: var(--ring-border-hover-color);
   }
 
-  @nest .error & {
+  .error & {
     border-color: var(--ring-icon-error-color);
   }
 
@@ -115,7 +115,7 @@
 
   color: var(--ring-icon-secondary-color);
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     right: unit;
     left: auto;
   }
@@ -132,11 +132,11 @@
 
   line-height: inherit;
 
-  @nest .empty & {
+  .empty & {
     display: none;
   }
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     right: auto;
     left: unit;
   }
