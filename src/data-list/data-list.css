@@ -30,7 +30,8 @@
 
   outline: none;
 
-  @nest .dataList:not(.disabledHover) &:hover {
+  /* stylelint-disable-next-line selector-max-specificity */
+  .dataList:not(.disabledHover) &:hover {
     background-color: var(--ring-hover-background-color);
   }
 

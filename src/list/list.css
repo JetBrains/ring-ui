@@ -115,7 +115,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     text-align: right;
     direction: ltr;
   }
@@ -263,7 +263,7 @@
 
   text-align: left;
 
-  @nest [dir=rtl] & {
+  [dir="rtl"] & {
     text-align: right;
     direction: ltr;
   }
