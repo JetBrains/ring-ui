@@ -88,7 +88,7 @@
     "@storybook/addon-a11y": "7.0.22",
     "@storybook/addon-docs": "7.0.22",
     "@storybook/addon-essentials": "7.0.22",
-    "@storybook/addon-storyshots": "7.0.21",
+    "@storybook/addon-storyshots": "7.0.22",
     "@storybook/addon-storyshots-puppeteer": "7.0.22",
     "@storybook/addon-storysource": "7.0.22",
     "@storybook/addons": "7.0.22",
