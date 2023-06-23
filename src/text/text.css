@@ -4,6 +4,18 @@
   color: var(--ring-text-color);
 }
 
+.sizeS {
+  font-size: var(--ring-font-size-smaller);
+}
+
+.sizeM {
+  font-size: var(--ring-font-size);
+}
+
+.sizeL {
+  font-size: var(--ring-font-size-larger);
+}
+
 .info {
   color: var(--ring-secondary-color);
 }
