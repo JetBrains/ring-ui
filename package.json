@@ -136,7 +136,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-storybook": "^0.6.12",
     "events": "^3.3.0",
-    "glob": "^8.1.0",
+    "glob": "^10.3.0",
     "html-webpack-plugin": "^5.5.3",
     "husky": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
