@@ -4,27 +4,43 @@ import classNames from 'classnames';
 
 import styles from './text.css';
 
+type TextSize = 's' | 'm' | 'l';
+
 export interface TextProps extends HTMLAttributes<HTMLElement> {
-  info?: boolean | null | undefined
+  info?: boolean | null | undefined,
+  size?: TextSize,
   'data-test'?: string | null | undefined
 }
+
+const TextSize: Record<string, TextSize> = {
+  S: 's',
+  M: 'm',
+  L: 'l'
+};
 
 /**
  * @name Text
  */
 
 export default class Text extends Component<TextProps> {
+
   static propTypes = {
     children: PropTypes.node,
     info: PropTypes.bool,
+    size: PropTypes.oneOf(Object.keys(TextSize).map(it => TextSize[it])),
     className: PropTypes.string
   };
 
+  static Size = TextSize;
+
   render() {
-    const {children, className, info, ...restProps} = this.props;
+    const {children, className, info, size, ...restProps} = this.props;
 
     const classes = classNames(styles.text, className, {
-      [styles.info]: info
+      [styles.info]: info,
+      [styles.sizeS]: size === Text.Size.S,
+      [styles.sizeM]: size === Text.Size.M || !size,
+      [styles.sizeL]: size === Text.Size.L
     });
 
     return (
