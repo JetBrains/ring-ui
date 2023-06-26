@@ -39,7 +39,7 @@ export default class Text extends Component<TextProps> {
     const classes = classNames(styles.text, className, {
       [styles.info]: info,
       [styles.sizeS]: size === Text.Size.S,
-      [styles.sizeM]: size === Text.Size.M || !size,
+      [styles.sizeM]: size === Text.Size.M,
       [styles.sizeL]: size === Text.Size.L
     });
 
