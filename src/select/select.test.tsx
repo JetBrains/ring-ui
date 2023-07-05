@@ -312,6 +312,12 @@ describe('Select', () => {
 
       wrapper.state().selectedIndex!.should.equal(0);
     });
+
+    function createItem(): SelectItem {
+      createItem.key += 1;
+      return {key: createItem.key};
+    }
+    createItem.key = 0;
   });
 
   describe('DOM', () => {
@@ -652,12 +658,6 @@ describe('Select', () => {
     });
   });
 
-  function createItem(): SelectItem {
-    createItem.key += 1;
-    return {key: createItem.key};
-  }
-  createItem.key = 0;
-
   const defaultPropsMultiple = (): MultipleSelectAttrs => ({
     data: testData,
     selected: testData.slice(0, 2),
@@ -994,10 +994,7 @@ describe('Select', () => {
       const SHOW_TIMEOUT = 300;
 
       beforeEach(() => {
-        mountSelectToContainer({
-          filter: true,
-          data: [createItem()]
-        });
+        mountSelectToContainer({filter: true});
       });
 
       it('Should focus the filter on opening', done => {
