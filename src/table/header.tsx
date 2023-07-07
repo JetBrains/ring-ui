@@ -1,7 +1,6 @@
 import React, {ChangeEventHandler, PureComponent, ReactNode, SyntheticEvent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {Waypoint} from 'react-waypoint';
 
 import Checkbox from '../checkbox/checkbox';
 
@@ -26,7 +25,7 @@ export interface HeaderProps {
 }
 
 declare module 'react-waypoint' {
-  // eslint-disable-next-line @typescript-eslint/no-namespace,@typescript-eslint/no-shadow
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Waypoint {
     interface WaypointProps {
       children?: ReactNode
@@ -62,11 +61,6 @@ export default class Header extends PureComponent<HeaderProps> {
     sortOrder: true
   };
 
-  state = {
-    fixed: false,
-    headerWidth: undefined,
-    widths: []
-  };
 
   id = getUID('table-header-');
 
@@ -74,34 +68,6 @@ export default class Header extends PureComponent<HeaderProps> {
     event.currentTarget.blur();
   };
 
-  private _columnsRowNode?: HTMLElement | null;
-  storeColumnsRowNode = (node: HTMLElement | null) => {
-    if (node) {
-      this._columnsRowNode = node;
-      this.calculateColumnsWidths(node);
-    }
-  };
-
-  onScrollIn = () => {
-    this.calculateColumnsWidths(this._columnsRowNode);
-    this.setState({fixed: false});
-  };
-
-  onScrollOut = ({currentPosition}: Waypoint.CallbackArgs) => {
-    if (currentPosition !== 'above') {
-      return;
-    }
-    this.calculateColumnsWidths(this._columnsRowNode);
-    this.setState({fixed: true});
-  };
-
-  calculateColumnsWidths(columnsRowNode: HTMLElement | null | undefined) {
-    this.setState({
-      headerWidth: columnsRowNode?.clientWidth,
-      widths: [...columnsRowNode?.childNodes ?? []].map(column =>
-        (column instanceof Element ? column.clientWidth : 0))
-    });
-  }
 
   createCells(widths = []) {
     const {
@@ -143,21 +109,19 @@ export default class Header extends PureComponent<HeaderProps> {
 
   render() {
     const {caption, sticky, topStickOffset} = this.props;
-    const {fixed, widths, headerWidth} = this.state;
 
     const regularCells = this.createCells();
 
-    const waypointChild = (
-      <tr data-test="ring-table-header-row">
-        {/*Since we need to keep the exact amount of columns in each row, we need to present them even being empty*/}
-        {/*regularCells doesn't provide any other information than a list of components. Hence using array indexes as keys looks like a sane idea*/}
-        {/*eslint-disable-next-line react/no-array-index-key*/}
-        {regularCells.map((c, i) => <td key={i}/>)}
-      </tr>
-    );
-
     return (
-      <thead id={this.id} data-test="ring-table-header" className={style.tableHead}>
+      <thead
+        id={this.id}
+        data-test="ring-table-header"
+        style={{top: topStickOffset}}
+        className={classNames({
+          [style.tableHead]: true,
+          [style.subHeaderSticky]: sticky
+        })}
+      >
         {caption && (
           <tr data-test="ring-table-header-row">
             <th
@@ -168,35 +132,10 @@ export default class Header extends PureComponent<HeaderProps> {
           </tr>
         )}
 
-        {sticky &&
-        (
-          <Waypoint
-            topOffset={topStickOffset}
-            onEnter={this.onScrollIn}
-            onLeave={this.onScrollOut}
-          >
-            {waypointChild}
-          </Waypoint>
-        )
-        }
-
         <tr
           className={style.subHeader}
-          ref={this.storeColumnsRowNode}
           data-test="ring-table-header-row"
         >{regularCells}</tr>
-
-        {fixed && sticky &&
-          (
-            <tr
-              className={style.subHeaderFixed}
-              style={{width: headerWidth, top: topStickOffset}}
-              data-test="ring-table-header-row"
-            >
-              {this.createCells(widths)}
-            </tr>
-          )
-        }
       </thead>
     );
   }
