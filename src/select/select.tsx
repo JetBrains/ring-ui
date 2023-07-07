@@ -763,7 +763,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     const shownData = this.getListItems(this.filterValue());
     this.setState({
-      showPopup: !!shownData.length || !this.props.allowAny,
+      showPopup: true,
       shownData
     });
   }
