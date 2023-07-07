@@ -52,6 +52,7 @@ export interface TagsInputProps {
   tags?: readonly TagType[] | null | undefined
   loadingMessage?: string | undefined
   notFoundMessage?: string | undefined
+  hint?: string | undefined
   size: Size
   height?: ControlsHeight | undefined
   label?: ReactNode
@@ -95,6 +96,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
     loadingMessage: PropTypes.string,
     notFoundMessage: PropTypes.string,
+    hint: PropTypes.string,
     allowAddNewTags: PropTypes.bool
   };
 
@@ -410,6 +412,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
             loadingMessage={this.props.loadingMessage}
             notFoundMessage={this.props.notFoundMessage}
+            hint={this.props.hint}
           />
         </TagsList>
       </div>
