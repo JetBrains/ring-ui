@@ -101,34 +101,13 @@
   background-color: var(--ring-line-color);
 }
 
-.subHeaderFixed::after {
-  position: absolute;
-  top: 24px;
+.subHeaderSticky {
+  position: sticky;
 
-  height: 1px;
-
-  content: "";
-
-  background-color: var(--ring-line-color);
-}
-
-.subHeader::after {
-  right: calc(unit * 4);
-  left: calc(unit * 4);
-}
-
-.subHeaderFixed {
-  position: fixed;
   z-index: var(--ring-fixed-z-index);
   top: 0;
 
-  opacity: 0.9;
-  background-color: var(--ring-content-background-color);
-}
-
-.subHeaderFixed::after {
-  right: 0;
-  left: 0;
+  background-color: rgba(var(--ring-content-background-components), 0.9);
 }
 
 .row {
