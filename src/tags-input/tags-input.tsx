@@ -17,6 +17,8 @@ import inputStyles from '../input/input.css';
 
 import {TagAttrs} from '../tag/tag';
 
+import ControlLabel, {LabelType} from '../control-label/control-label';
+
 import styles from './tags-input.css';
 
 function noop() {}
@@ -58,6 +60,7 @@ export interface TagsInputProps {
   size: Size
   height?: ControlsHeight | undefined
   label?: ReactNode
+  labelType?: LabelType
 }
 
 interface TagsInputState {
@@ -347,7 +350,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
     const {
       disabled, canNotBeEmpty, allowAddNewTags, filter,
-      size, height = this.context, label
+      size, labelType, height = this.context, label
     } = this.props;
 
     const classes = classNames(
@@ -370,12 +373,11 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
         ref={this.nodeRef}
       >
         {label && (
-          <label
+          <ControlLabel
             htmlFor={this.id}
-            className={classNames(inputStyles.label, {
-              [inputStyles.disabledLabel]: disabled
-            })}
-          >{label}</label>
+            disabled={disabled}
+            type={labelType}
+          >{label}</ControlLabel>
         )}
 
         <TagsList

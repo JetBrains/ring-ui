@@ -1,0 +1,21 @@
+.label {
+  display: block;
+
+  margin-bottom: calc(var(--ring-unit) * 0.5);
+
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
+}
+
+.primaryLabel {
+  color: var(--ring-text-color);
+
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
+}
+
+.disabledLabel {
+  color: var(--ring-disabled-color);
+}

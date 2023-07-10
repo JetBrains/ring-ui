@@ -8,6 +8,8 @@ import Button from '../button/button';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
+import {LabelType} from '../control-label/control-label';
+
 import Input, {ContainerProps, InputSpecificProps, Size} from './input';
 
 export default {
@@ -64,6 +66,7 @@ const Inputs = () => {
         disabled
       />
       <Input label="Input with icon" icon={height === ControlsHeight.S ? searchSIcon : searchIcon} defaultValue="Default value"/>
+      <Input name="login" label="Primary label" labelType={LabelType.PRIMARY} placeholder="Hint"/>
       <ClearableInput placeholder="Hint" defaultValue="Borderless input" borderless/>
       <Input label="Disabled input" disabled defaultValue="Default value"/>
       <Input
