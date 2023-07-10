@@ -1,4 +1,4 @@
-import React, {Component, PureComponent, SyntheticEvent, ReactNode} from 'react';
+import React, {Component, PureComponent, SyntheticEvent, ReactNode, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -14,6 +14,8 @@ import {Filter} from '../select/select__popup';
 import getUID from '../global/get-uid';
 
 import inputStyles from '../input/input.css';
+
+import {TagAttrs} from '../tag/tag';
 
 import styles from './tags-input.css';
 
@@ -38,7 +40,7 @@ export interface TagsInputProps {
     readonly SelectItem[] | Promise<readonly SelectItem[]>
   onAddTag: (params: ToggleTagParams) => void
   onRemoveTag: (params: ToggleTagParams) => void
-  customTagComponent: Component
+  customTagComponent: ComponentType<TagAttrs>
   maxPopupHeight: number
   minPopupWidth: number
   canNotBeEmpty: boolean
@@ -385,6 +387,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
           className={styles.tagsList}
           tagClassName={styles.tag}
           handleClick={this.handleClick}
+          customTagComponent={this.props.customTagComponent}
         >
           <Select
             id={this.id}
