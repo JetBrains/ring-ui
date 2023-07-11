@@ -11,10 +11,10 @@
   --ring-icon-color: rgb(var(--ring-icon-components)); /* #80929d */
   --ring-icon-secondary-components: 128, 146, 157;
   --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #80929d */
-  --ring-border-disabled-components: 54, 54, 54;
-  --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #363636 */
-  --ring-border-selected-disabled-components: 54, 54, 54;
-  --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #363636 */
+  --ring-border-disabled-components: 71, 81, 89;
+  --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #475159 */
+  --ring-border-selected-disabled-components: 71, 81, 89;
+  --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #475159 */
   --ring-border-unselected-disabled-components: 54, 54, 54;
   --ring-border-unselected-disabled-color: rgb(var(--ring-border-unselected-disabled-components)); /* #363636 */ /* TODO remove in 6.0 */
   --ring-icon-disabled-components: 80, 82, 83;
