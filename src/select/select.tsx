@@ -178,6 +178,7 @@ export interface BaseSelectProps<T = unknown> {
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onSelect: (selected: SelectItem<T> | null, event?: Event | SyntheticEvent) => void
   onDeselect: (selected: SelectItem<T> | null) => void
+  onOutsideClick: (e: PointerEvent) => void
   onAdd: (value: string) => void
   onDone: () => void
   onReset: () => void
@@ -433,6 +434,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     onSelect: noop, // single + multi
     onDeselect: noop, // multi
+    onOutsideClick: noop, // multi
     onChange: noop, // multi
 
     onAdd: noop, // search string as first argument
@@ -736,6 +738,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               filterValue={this.state.filterValue}
               anchorElement={anchorElement}
               onCloseAttempt={this._onCloseAttempt}
+              onOutsideClick={this.props.onOutsideClick}
               onSelect={this._listSelectHandler}
               onSelectAll={this._listSelectAllHandler}
               onFilter={this._filterChangeHandler}
@@ -1456,6 +1459,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   onBeforeOpen: PropTypes.func,
   onSelect: PropTypes.func,
   onDeselect: PropTypes.func,
+  onOutsideClick: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onKeyDown: PropTypes.func,

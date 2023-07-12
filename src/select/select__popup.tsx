@@ -88,6 +88,7 @@ export interface SelectPopupProps<T = unknown> {
   loading: boolean
   onSelect: (item: ListDataItem<T>, event: Event, params?: SelectHandlerParams,) => void
   onCloseAttempt: (e?: Event | SyntheticEvent, isEsc?: boolean | undefined) => void
+  onOutsideClick: (e: PointerEvent) => void
   onFilter: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClear: (e: React.MouseEvent<HTMLButtonElement>) => void
   onLoadMore: () => void
@@ -128,6 +129,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     loading: false,
     onSelect: noop,
     onCloseAttempt: noop,
+    onOutsideClick: noop,
     onFilter: noop,
     onClear: noop,
     onLoadMore: noop,
@@ -557,6 +559,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
       anchorElement,
       minWidth,
       onCloseAttempt,
+      onOutsideClick,
       directions,
       top,
       left,
@@ -586,6 +589,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               anchorElement={anchorElement}
               minWidth={minWidth}
               onCloseAttempt={onCloseAttempt}
+              onOutsideClick={onOutsideClick}
               directions={directions}
               top={top}
               left={left}
@@ -648,6 +652,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   loading: PropTypes.bool,
   onClear: PropTypes.func,
   onCloseAttempt: PropTypes.func,
+  onOutsideClick: PropTypes.func,
   onEmptyPopupEnter: PropTypes.func,
   onFilter: PropTypes.func,
   onLoadMore: PropTypes.func,
