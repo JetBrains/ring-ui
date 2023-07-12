@@ -103,7 +103,7 @@ class RingInputComponent extends RingAngularComponent {
 >
   <label
     ng-if="!$ctrl.borderless"
-    class="${labelStyles.label}"
+    class="${labelStyles.label} ${labelStyles.secondaryLabel}"
   >{{$ctrl.label}}</label>
   <div class="${styles.container}">
     <input
