@@ -162,6 +162,7 @@ export interface BaseSelectProps<T = unknown> {
   allowAny: boolean
   maxHeight: number
   hideArrow: boolean
+  showPopup: boolean
   directions: readonly Directions[]
   label: string | null
   selectedLabel: ReactNode
@@ -402,6 +403,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     hideSelected: false, // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
     allowAny: false, // INPUT mode: allows any value to be entered
     hideArrow: false, // hide dropdown arrow icon
+    showPopup: false,
 
     maxHeight: 600, // height of the options list, including the filter and the 'Add' button
     directions: [
@@ -516,7 +518,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       this.props.filter.value || '',
     shortcutsEnabled: false,
     popupShortcuts: false,
-    showPopup: false,
+    showPopup: this.props.showPopup,
     prevData: this.props.data,
     prevSelected: null,
     prevMultiple: this.props.multiple,
@@ -1489,6 +1491,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   inputPlaceholder: PropTypes.string,
   clear: PropTypes.bool,
   hideArrow: PropTypes.bool,
+  showPopup: PropTypes.bool,
   compact: PropTypes.bool,
   size: PropTypes.oneOf(Object.values(Size)),
   customAnchor: PropTypes.func,
