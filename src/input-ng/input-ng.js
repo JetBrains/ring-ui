@@ -8,6 +8,7 @@ import closeIcon from '@jetbrains/icons/close';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import styles from '../input/input.css';
+import labelStyles from '../control-label/control-label.css';
 import ButtonNg from '../button-ng/button-ng';
 
 import styleOverrides from './input-ng.css';
@@ -102,7 +103,7 @@ class RingInputComponent extends RingAngularComponent {
 >
   <label
     ng-if="!$ctrl.borderless"
-    class="${styles.label}"
+    class="${labelStyles.label} ${labelStyles.secondaryLabel}"
   >{{$ctrl.label}}</label>
   <div class="${styles.container}">
     <input
