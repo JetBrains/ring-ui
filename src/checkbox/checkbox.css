@@ -124,7 +124,7 @@
   /* stylelint-disable-next-line selector-max-specificity */
   &[disabled]:checked + .cell .check,
   &[disabled]:indeterminate + .cell .minus {
-    color: var(--ring-border-selected-disabled-color);
+    color: var(--ring-icon-disabled-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
