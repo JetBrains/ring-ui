@@ -19,7 +19,7 @@ import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
 import Input, {Size} from '../input/input';
-import InputLabel from '../input/input-label';
+import ControlLabel, {LabelType} from '../control-label/control-label';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import dataTests from '../global/data-tests';
@@ -165,6 +165,7 @@ export interface BaseSelectProps<T = unknown> {
   directions: readonly Directions[]
   label: string | null
   selectedLabel: ReactNode
+  labelType?: LabelType
   inputPlaceholder: string
   shortcutsEnabled: boolean
   onBeforeOpen: () => void
@@ -1320,11 +1321,11 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             data-test={dataTests('ring-select', dataTest)}
           >
             {selectedLabel && (
-              <InputLabel
-                label={selectedLabel}
+              <ControlLabel
+                type={this.props.labelType}
                 disabled={this.props.disabled}
                 htmlFor={this.props.id}
-              />
+              >{selectedLabel}</ControlLabel>
             )}
             {shortcutsEnabled && (
               <Shortcuts
