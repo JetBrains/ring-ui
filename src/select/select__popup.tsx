@@ -80,6 +80,7 @@ export interface SelectPopupProps<T = unknown> {
   data: readonly ListDataItem<T>[]
   activeIndex: number | null
   toolbar: ReactNode
+  topbar: ReactNode
   filter: boolean | Filter<T>
   message: string | null
   anchorElement: HTMLElement | null
@@ -120,6 +121,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     data: [],
     activeIndex: null,
     toolbar: null,
+    topbar: null,
     filter: false,
     multiple: false,
     message: null,
@@ -552,6 +554,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   render() {
     const {
       toolbar,
+      topbar,
       className,
       multiple,
       hidden,
@@ -577,7 +580,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
             multiple.selectAll && this.getSelectAll();
           const list = this.getList(this.props.ringPopupTarget || ringPopupTarget);
           const bottomLine = this.getBottomLine();
-          const hasContent = filterWithTags || selectAll || list || bottomLine || toolbar;
+          const hasContent = filterWithTags || selectAll || list || bottomLine || toolbar || topbar;
           return (
             <Popup
               trapFocus={false}
@@ -606,6 +609,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
                       scope={this.shortcutsScope}
                     />
                   )}
+                {topbar}
                 {/* Add empty div to prevent the change of List position in DOM*/}
                 {hidden ? <div/> : filterWithTags}
                 {selectAll}
@@ -664,6 +668,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   style: PropTypes.object,
   tags: PropTypes.object,
   toolbar: PropTypes.node,
+  topbar: PropTypes.node,
   top: PropTypes.number
 };
 
