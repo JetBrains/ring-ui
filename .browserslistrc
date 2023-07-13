@@ -2,5 +2,5 @@
 
 [dist]
 defaults
->1%
+>0.1%
 not IE 11
