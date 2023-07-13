@@ -21,9 +21,9 @@ import {I18nContext} from '../i18n/i18n-context';
 import composeRefs from '../global/composeRefs';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
+import {ControlLabel, LabelType} from '../control-label/control-label';
 
 import styles from './input.css';
-import {InputLabel} from './input-label';
 
 
 function noop() {}
@@ -50,6 +50,7 @@ export interface InputBaseProps {
   children?: string | undefined
   inputClassName?: string | null | undefined
   label?: ReactNode
+  labelType?: LabelType
   active?: boolean | null | undefined
   error?: ReactNode | null | undefined
   borderless?: boolean | null | undefined
@@ -166,6 +167,7 @@ export class Input extends PureComponent<InputProps> {
 
       // Props
       label,
+      labelType,
       error,
       className,
       inputClassName,
@@ -223,11 +225,11 @@ export class Input extends PureComponent<InputProps> {
         {({translate}) => (
           <div className={classes} data-test="ring-input">
             {label && (
-              <InputLabel
+              <ControlLabel
                 htmlFor={this.getId()}
                 disabled={disabled}
-                label={label}
-              />
+                type={labelType}
+              >{label}</ControlLabel>
             )}
             <div className={styles.container}>
               {icon && <Icon glyph={icon} className={styles.icon}/>}

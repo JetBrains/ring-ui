@@ -19,7 +19,7 @@ import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
 import Input, {Size} from '../input/input';
-import InputLabel from '../input/input-label';
+import ControlLabel, {LabelType} from '../control-label/control-label';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import dataTests from '../global/data-tests';
@@ -162,9 +162,11 @@ export interface BaseSelectProps<T = unknown> {
   allowAny: boolean
   maxHeight: number
   hideArrow: boolean
+  showPopup: boolean
   directions: readonly Directions[]
   label: string | null
   selectedLabel: ReactNode
+  labelType?: LabelType
   inputPlaceholder: string
   shortcutsEnabled: boolean
   onBeforeOpen: () => void
@@ -176,11 +178,13 @@ export interface BaseSelectProps<T = unknown> {
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onSelect: (selected: SelectItem<T> | null, event?: Event | SyntheticEvent) => void
   onDeselect: (selected: SelectItem<T> | null) => void
+  onOutsideClick: (e: PointerEvent) => void
   onAdd: (value: string) => void
   onDone: () => void
   onReset: () => void
   dir: 'ltr' | 'rtl'
   renderBottomToolbar?: () => ReactNode
+  renderTopToolbar?: () => ReactNode
   height?: ControlsHeight | undefined
   targetElement?: HTMLElement | null | undefined
   className?: string | null | undefined
@@ -401,6 +405,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     hideSelected: false, // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
     allowAny: false, // INPUT mode: allows any value to be entered
     hideArrow: false, // hide dropdown arrow icon
+    showPopup: false,
 
     maxHeight: 600, // height of the options list, including the filter and the 'Add' button
     directions: [
@@ -430,6 +435,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     onSelect: noop, // single + multi
     onDeselect: noop, // multi
+    onOutsideClick: noop, // multi
     onChange: noop, // multi
 
     onAdd: noop, // search string as first argument
@@ -515,7 +521,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       this.props.filter.value || '',
     shortcutsEnabled: false,
     popupShortcuts: false,
-    showPopup: false,
+    showPopup: this.props.showPopup,
     prevData: this.props.data,
     prevSelected: null,
     prevMultiple: this.props.multiple,
@@ -717,6 +723,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               data={_shownData}
               message={message}
               toolbar={showPopup && this.getToolbar()}
+              topbar={this.getTopbar()}
               loading={this.props.loading}
               activeIndex={this.state.selectedIndex}
               hidden={!showPopup}
@@ -733,6 +740,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               filterValue={this.state.filterValue}
               anchorElement={anchorElement}
               onCloseAttempt={this._onCloseAttempt}
+              onOutsideClick={this.props.onOutsideClick}
               onSelect={this._listSelectHandler}
               onSelectAll={this._listSelectAllHandler}
               onFilter={this._filterChangeHandler}
@@ -827,6 +835,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         )}
       </div>
     );
+  }
+
+  getTopbar() {
+    return this.props.renderTopToolbar?.();
   }
 
   getLowerCaseLabel = getLowerCaseLabel;
@@ -1320,11 +1332,11 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             data-test={dataTests('ring-select', dataTest)}
           >
             {selectedLabel && (
-              <InputLabel
-                label={selectedLabel}
+              <ControlLabel
+                type={this.props.labelType}
                 disabled={this.props.disabled}
                 htmlFor={this.props.id}
-              />
+              >{selectedLabel}</ControlLabel>
             )}
             {shortcutsEnabled && (
               <Shortcuts
@@ -1453,6 +1465,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   onBeforeOpen: PropTypes.func,
   onSelect: PropTypes.func,
   onDeselect: PropTypes.func,
+  onOutsideClick: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onKeyDown: PropTypes.func,
@@ -1488,6 +1501,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   inputPlaceholder: PropTypes.string,
   clear: PropTypes.bool,
   hideArrow: PropTypes.bool,
+  showPopup: PropTypes.bool,
   compact: PropTypes.bool,
   size: PropTypes.oneOf(Object.values(Size)),
   customAnchor: PropTypes.func,

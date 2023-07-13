@@ -29,12 +29,9 @@ import Input, {ContainerProps, InputSpecificProps} from '../input/input';
 
 import {ControlsHeight} from '../global/controls-height';
 
-import Select, {
-  MultipleSelectAttrs,
-  SelectItem,
-  SelectProps,
-  SingleSelectAttrs
-} from './select';
+import {LabelType} from '../control-label/control-label';
+
+import Select, {MultipleSelectAttrs, SelectItem, SelectProps, SingleSelectAttrs} from './select';
 import {Multiple} from './select__popup';
 
 const FLAG_DE_URL =
@@ -161,6 +158,7 @@ export const withAFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
 
 withAFilter.args = {
   selectedLabel: 'Option',
+  labelType: LabelType.PRIMARY,
   label: 'Please select option',
   filter: true,
   clear: true,
