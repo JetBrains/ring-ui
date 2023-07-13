@@ -109,7 +109,7 @@
 
     /* stylelint-disable-next-line selector-max-specificity */
     &::after {
-      background-color: var(--ring-border-selected-disabled-color);
+      background-color: var(--ring-icon-disabled-color);
     }
   }
 
