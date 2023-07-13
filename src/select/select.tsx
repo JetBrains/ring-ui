@@ -184,6 +184,7 @@ export interface BaseSelectProps<T = unknown> {
   onReset: () => void
   dir: 'ltr' | 'rtl'
   renderBottomToolbar?: () => ReactNode
+  renderTopToolbar?: () => ReactNode
   height?: ControlsHeight | undefined
   targetElement?: HTMLElement | null | undefined
   className?: string | null | undefined
@@ -722,6 +723,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               data={_shownData}
               message={message}
               toolbar={showPopup && this.getToolbar()}
+              topbar={this.getTopbar()}
               loading={this.props.loading}
               activeIndex={this.state.selectedIndex}
               hidden={!showPopup}
@@ -833,6 +835,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         )}
       </div>
     );
+  }
+
+  getTopbar() {
+    return this.props.renderTopToolbar?.();
   }
 
   getLowerCaseLabel = getLowerCaseLabel;
