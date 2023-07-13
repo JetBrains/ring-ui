@@ -87,8 +87,8 @@
   --ring-warning-background-color: rgb(var(--ring-warning-background-components)); /* #593d01 */
   --ring-added-background-components: 54, 89, 71;
   --ring-added-background-color: rgb(var(--ring-added-background-components)); /* #365947 */
-  --ring-disabled-background-components: 54, 54, 54;
-  --ring-disabled-background-color: rgb(var(--ring-disabled-background-components)); /* #363636 */
+  --ring-disabled-background-components: 44, 47, 51;
+  --ring-disabled-background-color: rgb(var(--ring-disabled-background-components)); /* #2C2F33 */
   --ring-disabled-selected-background-components: 44, 47, 51;
   --ring-disabled-selected-background-color: rgb(var(--ring-disabled-selected-background-components)); /* #2C2F33 */
   --ring-button-danger-active-components: 38, 8, 10;
