@@ -80,6 +80,7 @@ export interface SelectPopupProps<T = unknown> {
   data: readonly ListDataItem<T>[]
   activeIndex: number | null
   toolbar: ReactNode
+  topbar: ReactNode
   filter: boolean | Filter<T>
   message: string | null
   anchorElement: HTMLElement | null
@@ -88,6 +89,7 @@ export interface SelectPopupProps<T = unknown> {
   loading: boolean
   onSelect: (item: ListDataItem<T>, event: Event, params?: SelectHandlerParams,) => void
   onCloseAttempt: (e?: Event | SyntheticEvent, isEsc?: boolean | undefined) => void
+  onOutsideClick: (e: PointerEvent) => void
   onFilter: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClear: (e: React.MouseEvent<HTMLButtonElement>) => void
   onLoadMore: () => void
@@ -119,6 +121,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     data: [],
     activeIndex: null,
     toolbar: null,
+    topbar: null,
     filter: false,
     multiple: false,
     message: null,
@@ -128,6 +131,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     loading: false,
     onSelect: noop,
     onCloseAttempt: noop,
+    onOutsideClick: noop,
     onFilter: noop,
     onClear: noop,
     onLoadMore: noop,
@@ -550,6 +554,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   render() {
     const {
       toolbar,
+      topbar,
       className,
       multiple,
       hidden,
@@ -557,6 +562,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
       anchorElement,
       minWidth,
       onCloseAttempt,
+      onOutsideClick,
       directions,
       top,
       left,
@@ -574,7 +580,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
             multiple.selectAll && this.getSelectAll();
           const list = this.getList(this.props.ringPopupTarget || ringPopupTarget);
           const bottomLine = this.getBottomLine();
-          const hasContent = filterWithTags || selectAll || list || bottomLine || toolbar;
+          const hasContent = filterWithTags || selectAll || list || bottomLine || toolbar || topbar;
           return (
             <Popup
               trapFocus={false}
@@ -586,6 +592,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               anchorElement={anchorElement}
               minWidth={minWidth}
               onCloseAttempt={onCloseAttempt}
+              onOutsideClick={onOutsideClick}
               directions={directions}
               top={top}
               left={left}
@@ -602,6 +609,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
                       scope={this.shortcutsScope}
                     />
                   )}
+                {topbar}
                 {/* Add empty div to prevent the change of List position in DOM*/}
                 {hidden ? <div/> : filterWithTags}
                 {selectAll}
@@ -648,6 +656,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   loading: PropTypes.bool,
   onClear: PropTypes.func,
   onCloseAttempt: PropTypes.func,
+  onOutsideClick: PropTypes.func,
   onEmptyPopupEnter: PropTypes.func,
   onFilter: PropTypes.func,
   onLoadMore: PropTypes.func,
@@ -659,6 +668,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   style: PropTypes.object,
   tags: PropTypes.object,
   toolbar: PropTypes.node,
+  topbar: PropTypes.node,
   top: PropTypes.number
 };
 
