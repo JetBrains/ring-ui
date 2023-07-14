@@ -6,12 +6,12 @@ import styles from './control-label.css';
 
 export enum LabelType {
   SECONDARY = 'secondary',
-  PRIMARY = 'primary', // See RG-2291
+  FORM = 'form', // See RG-2291
 }
 
 const classNameByType: Record<LabelType, string> = {
   [LabelType.SECONDARY]: styles.secondaryLabel,
-  [LabelType.PRIMARY]: styles.primaryLabel
+  [LabelType.FORM]: styles.formLabel
 };
 
 interface ControlLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
