@@ -158,7 +158,7 @@ export const withAFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
 
 withAFilter.args = {
   selectedLabel: 'Option',
-  labelType: LabelType.PRIMARY,
+  labelType: LabelType.FORM,
   label: 'Please select option',
   filter: true,
   clear: true,

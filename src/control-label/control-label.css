@@ -4,7 +4,7 @@
   margin-bottom: calc(var(--ring-unit) * 0.5);
 }
 
-.primaryLabel {
+.formLabel {
   color: var(--ring-text-color);
 
   font-size: var(--ring-font-size);
