@@ -30,6 +30,7 @@ import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 import {ListDataItem} from '../list/consts';
 
 import {ShortcutsMap} from '../shortcuts/core';
+import {TagAttrs} from '../tag/tag';
 
 import SelectFilter from './select__filter';
 import styles from './select-popup.css';
@@ -74,6 +75,7 @@ export interface TagsReset {
 
 export interface Tags {
   reset?: TagsReset | null | undefined
+  customTagComponent?: (tag: TagAttrs) => ReactNode
 }
 
 export interface SelectPopupProps<T = unknown> {
@@ -348,6 +350,13 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     }
   });
 
+  getCustomTag(tags: Tags | boolean | null) {
+    if (tags !== null && typeof tags !== 'boolean') {
+      return tags.customTagComponent;
+    }
+    return undefined;
+  }
+
   getTags() {
     return Array.isArray(this.props.selected) && (
       <div>
@@ -357,6 +366,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           handleRemove={this.handleRemoveTag}
           handleClick={this.handleTagClick}
           disabled={this.props.disabled}
+          customTagComponent={this.getCustomTag(this.props.tags)}
         />
       </div>
     );
