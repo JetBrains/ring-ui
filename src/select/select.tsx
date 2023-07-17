@@ -169,6 +169,7 @@ export interface BaseSelectProps<T = unknown> {
   labelType?: LabelType
   inputPlaceholder: string
   shortcutsEnabled: boolean
+  tryKeepOpen?: boolean
   onBeforeOpen: () => void
   onLoadMore: () => void
   onOpen: () => void
@@ -960,8 +961,12 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       return;
     }
 
+    const tryKeepOpen = this.props.tryKeepOpen ?? opts.tryKeepOpen;
+
     if (!this.props.multiple) {
-      this._hidePopup(isSelectItemEvent);
+      if (!tryKeepOpen) {
+        this._hidePopup(isSelectItemEvent);
+      }
       this.setState({
         selected,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
@@ -975,7 +980,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         (this.props.onChange as (selected: SelectItem<T>, event?: Event) => void)(selected, event);
       });
     } else {
-      const {tryKeepOpen} = opts;
       if (!tryKeepOpen) {
         this._hidePopup(isSelectItemEvent);
       }
@@ -1502,6 +1506,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   clear: PropTypes.bool,
   hideArrow: PropTypes.bool,
   showPopup: PropTypes.bool,
+  tryKeepOpen: PropTypes.bool,
   compact: PropTypes.bool,
   size: PropTypes.oneOf(Object.values(Size)),
   customAnchor: PropTypes.func,
