@@ -108,7 +108,6 @@ export interface RingCSSProperties {
 }
 
 declare module 'csstype' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface Properties extends RingCSSProperties {}
 }
 
