@@ -17,15 +17,18 @@ export enum Type {
   MARGIN = 6
 }
 
+// TODO refactor to plain object in 6.0
 export enum Dimension {
   ITEM_PADDING = 16,
   ITEM_HEIGHT = 32,
   COMPACT_ITEM_HEIGHT = 24,
   SEPARATOR_HEIGHT = 25,
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   SEPARATOR_FIRST_HEIGHT = 16,
   SEPARATOR_TEXT_HEIGHT = 18,
   TITLE_HEIGHT = 42,
   INNER_PADDING = 8,
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   MARGIN = 8
 }
 
