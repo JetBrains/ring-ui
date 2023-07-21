@@ -1005,7 +1005,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         );
 
         const nextState: Partial<SelectState<T>> = {
-
+          filterValue: '',
           selected: nextSelection,
           selectedIndex: this._getSelectedIndex(selected, this.props.data)
         };
