@@ -1,14 +1,17 @@
+// TODO remove React 17 support in 6.0
 // Allows overriding ReactDOM.render when using React 18:
 // import * as client from 'react-dom/client'
 // import {setClient} from '@ring-ui/global/react-render-adapter'
 //
 // setClient(client)
 import type {ReactChild, ReactElement, ReactNode} from 'react';
+/* eslint-disable react/no-deprecated */
 import {
   render as legacyRender,
   unmountComponentAtNode as legacyUnmountComponentAtNode,
   hydrate as legacyHydrate
 } from 'react-dom';
+/* eslint-enable */
 
 /* eslint-disable import/no-mutable-exports */
 export let render: (element: ReactElement, container: Element | DocumentFragment) => void =
@@ -48,6 +51,7 @@ interface Client {
   ): Root
 }
 
+// TODO replace with a noop with warning in 6.0, remove in 7.0
 export function setClient({createRoot, hydrateRoot}: Client) {
   const roots = new WeakMap();
 
