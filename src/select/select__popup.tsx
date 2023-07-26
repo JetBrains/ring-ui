@@ -93,6 +93,7 @@ export interface SelectPopupProps<T = unknown> {
   toolbar: ReactNode
   topbar: ReactNode
   filter: boolean | Filter<T>
+  filterIcon?: string | ComponentType | null | undefined
   filterRef?: Ref<HTMLInputElement>
   message: string | null
   anchorElement: HTMLElement | null
@@ -135,6 +136,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     toolbar: null,
     topbar: null,
     filter: false,
+    filterIcon: null,
     filterRef: noop,
     multiple: false,
     message: null,
@@ -315,7 +317,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
         >
           {!this.props.tags && (
             <Icon
-              glyph={searchIcon}
+              glyph={this.props.filterIcon ?? searchIcon}
               className={styles.filterIcon}
               data-test-custom="ring-select-popup-filter-icon"
             />
@@ -662,6 +664,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     placeholder: PropTypes.string
   })]),
   filterValue: PropTypes.string,
+  filterIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
   filterRef: PropTypes.oneOfType([
     PropTypes.func,
     refObject(PropTypes.instanceOf(HTMLInputElement))

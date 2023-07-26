@@ -155,7 +155,8 @@ export type CustomAnchor = ((props: CustomAnchorProps) => ReactNode);
 export interface BaseSelectProps<T = unknown> {
   data: readonly SelectItem<T>[]
   filter: boolean | Filter<T>
-  filterRef: Ref<HTMLInputElement>
+  filterIcon?: string | ComponentType | null | undefined
+  filterRef?: Ref<HTMLInputElement>
   clear: boolean
   loading: boolean
   disabled: boolean
@@ -401,6 +402,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   static defaultProps = {
     data: [],
     filter: false, // enable filter (not in INPUT modes)
+    filterIcon: null,
     filterRef: noop,
     multiple: false, // multiple can be an object - see demo for more information
     clear: false, // enable clear button that clears the "selected" state
@@ -743,6 +745,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               top={this.props.top}
               left={this.props.left}
               filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
+              filterIcon={this.props.filterIcon}
               filterRef={this.props.filterRef}
               multiple={this.props.multiple}
               filterValue={this.state.filterValue}
@@ -1319,6 +1322,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                   ...this._popup?.list?.shortcutsMap
                 })
                 : undefined}
+              icon={this.props.filterIcon}
               afterInput={this.props.type === Type.INPUT && iconsNode}
             />
             {this._renderPopup()}
@@ -1463,6 +1467,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   allowAny: PropTypes.bool,
   filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  filterIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
   filterRef: PropTypes.oneOfType([
     PropTypes.func,
     refObject(PropTypes.instanceOf(HTMLInputElement))
