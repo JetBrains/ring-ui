@@ -743,6 +743,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               top={this.props.top}
               left={this.props.left}
               filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
+              filterRef={this.props.filterRef}
               multiple={this.props.multiple}
               filterValue={this.state.filterValue}
               anchorElement={anchorElement}
