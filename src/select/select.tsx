@@ -5,7 +5,9 @@ import React, {
   CSSProperties,
   Fragment,
   HTMLAttributes,
-  ReactNode, RefCallback,
+  ReactNode,
+  Ref,
+  RefCallback,
   SyntheticEvent
 } from 'react';
 import classNames from 'classnames';
@@ -33,6 +35,8 @@ import {ListDataItem} from '../list/consts';
 
 import {Directions} from '../popup/popup.consts';
 
+import composeRefs from '../global/composeRefs';
+import {refObject} from '../global/prop-types';
 import {isArray} from '../global/typescript-utils';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
@@ -151,6 +155,7 @@ export type CustomAnchor = ((props: CustomAnchorProps) => ReactNode);
 export interface BaseSelectProps<T = unknown> {
   data: readonly SelectItem<T>[]
   filter: boolean | Filter<T>
+  filterRef: Ref<HTMLInputElement>
   clear: boolean
   loading: boolean
   disabled: boolean
@@ -396,6 +401,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   static defaultProps = {
     data: [],
     filter: false, // enable filter (not in INPUT modes)
+    filterRef: noop,
     multiple: false, // multiple can be an object - see demo for more information
     clear: false, // enable clear button that clears the "selected" state
     loading: false, // show a loading indicator while data is loading
@@ -1290,7 +1296,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               autoComplete="off"
               id={this.props.id}
               onClick={this._clickHandler}
-              inputRef={this.filterRef}
+              inputRef={composeRefs(this.filterRef, this.props.filterRef)}
               disabled={this.props.disabled}
               value={this.state.filterValue}
               borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
@@ -1456,6 +1462,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   allowAny: PropTypes.bool,
   filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  filterRef: PropTypes.oneOfType([
+    PropTypes.func,
+    refObject(PropTypes.instanceOf(HTMLInputElement))
+  ]),
 
   getInitial: PropTypes.func,
   onClose: PropTypes.func,
