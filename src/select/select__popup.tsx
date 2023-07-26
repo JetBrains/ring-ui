@@ -1,7 +1,14 @@
 /**
  * @description Displays a popup with select's options.
  */
-import React, {ComponentType, CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react';
+import React, {
+  ComponentType,
+  CSSProperties,
+  PureComponent,
+  ReactNode,
+  Ref,
+  SyntheticEvent
+} from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search';
 import memoizeOne from 'memoize-one';
@@ -24,6 +31,8 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import Text from '../text/text';
 import {ControlsHeight} from '../global/controls-height';
+import {refObject} from '../global/prop-types';
+import composeRefs from '../global/composeRefs';
 
 import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 
@@ -84,6 +93,7 @@ export interface SelectPopupProps<T = unknown> {
   toolbar: ReactNode
   topbar: ReactNode
   filter: boolean | Filter<T>
+  filterRef?: Ref<HTMLInputElement>
   message: string | null
   anchorElement: HTMLElement | null
   maxHeight: number
@@ -125,6 +135,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     toolbar: null,
     topbar: null,
     filter: false,
+    filterRef: noop,
     multiple: false,
     message: null,
     anchorElement: null,
@@ -314,7 +325,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
             rgShortcutsMap={this.popupFilterShortcutsMap}
 
             value={this.props.filterValue}
-            inputRef={this.filterRef}
+            inputRef={composeRefs(this.filterRef, this.props.filterRef)}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.onFilterFocus}
             className="ring-js-shortcuts"
@@ -651,6 +662,10 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     placeholder: PropTypes.string
   })]),
   filterValue: PropTypes.string,
+  filterRef: PropTypes.oneOfType([
+    PropTypes.func,
+    refObject(PropTypes.instanceOf(HTMLInputElement))
+  ]),
   hidden: PropTypes.bool,
   isInputMode: PropTypes.bool,
   listId: PropTypes.string,
