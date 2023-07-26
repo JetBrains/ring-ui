@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import warningIcon from '@jetbrains/icons/warning';
+import searchIcon from '@jetbrains/icons/search';
 
 import {Story} from '@storybook/react';
 
@@ -243,7 +244,8 @@ inlineWithAFilter.args = {
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'}
-  ]
+  ],
+  filterIcon: searchIcon
 };
 inlineWithAFilter.argTypes = {
   selected: {
@@ -586,6 +588,9 @@ inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
 export const inputBasedWithError: Story<SingleSelectAttrs> = args => <Select {...args}/>;
 inputBasedWithError.storyName = 'input-based with error';
 
+export const inputBasedWithFilterIcon: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
+
 {
   const data = [...Array(20)].map((elem, idx) => ({label: `Item ${idx}`, key: idx}));
 
@@ -609,6 +614,13 @@ inputBasedWithError.storyName = 'input-based with error';
     data,
     clear: true,
     error: 'Error description that wraps over lines because of being really long'
+  };
+
+  inputBasedWithFilterIcon.args = {
+    type: Select.Type.INPUT,
+    data,
+    clear: true,
+    filterIcon: searchIcon
   };
 }
 
