@@ -79,8 +79,6 @@
   padding-top: unit;
   padding-bottom: 6px;
 
-  text-transform: capitalize;
-
   color: var(--ring-text-color);
   border-bottom: none;
 
