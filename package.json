@@ -80,7 +80,7 @@
     "@csstools/stylelint-no-at-nest-rule": "^1.0.0",
     "@jetbrains/eslint-config": "^5.4.1",
     "@jetbrains/stylelint-config": "^4.0.1",
-    "@primer/octicons": "^19.4.0",
+    "@primer/octicons": "^19.5.0",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
