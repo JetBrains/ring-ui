@@ -94,7 +94,7 @@
     "@storybook/addons": "7.2.1",
     "@storybook/html": "7.2.0",
     "@storybook/html-webpack5": "^7.2.1",
-    "@storybook/preview-api": "7.2.0",
+    "@storybook/preview-api": "7.2.1",
     "@storybook/react": "7.2.1",
     "@storybook/source-loader": "7.2.1",
     "@storybook/theming": "7.2.1",
