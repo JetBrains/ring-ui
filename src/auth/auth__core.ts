@@ -7,7 +7,7 @@ import AuthDialogService from '../auth-dialog-service/auth-dialog-service';
 import {getTranslations, getTranslationsWithFallback, translate} from '../i18n/i18n';
 
 import AuthStorage, {AuthState} from './storage';
-import AuthResponseParser, {AuthError} from './response-parser';
+import AuthResponseParser, {AuthError, AuthResponse} from './response-parser';
 import AuthRequestBuilder from './request-builder';
 import BackgroundFlow from './background-flow';
 import TokenValidator, {TokenValidationError, TokenValidatorConfig} from './token-validator';
@@ -926,6 +926,27 @@ export default class Auth implements HTTPAuth {
     await this._runEmbeddedLogin();
   }
 
+  _makeStateFromResponse(authResponse: AuthResponse): AuthState {
+    const {state} = authResponse;
+    if (!state) {
+      return {};
+    }
+    const {scope: defaultScope} = this.config;
+    try {
+      const urlFromState = new URL(state); // checking if state contains valid URL on same origin, see HUB-11514
+      if (urlFromState.origin !== window.location.origin) {
+        return {};
+      }
+      return {
+        restoreLocation: state,
+        created: Date.now(),
+        scopes: defaultScope
+      };
+    } catch (e) {
+      return {};
+    }
+  }
+
   /**
    * Check if the hash contains an access token.
    * If it does, extract the state, compare with
@@ -949,7 +970,8 @@ export default class Auth implements HTTPAuth {
 
     const {state: stateId, scope, expiresIn, accessToken} = authResponse;
     const newState: AuthState =
-      await (stateId && this._storage?.getState(stateId)) || {};
+      await (stateId && this._storage?.getState(stateId)) ||
+      this._makeStateFromResponse(authResponse);
 
     const scopes = scope ? scope.split(' ') : newState.scopes || defaultScope || [];
     const effectiveExpiresIn = expiresIn ? parseInt(expiresIn, 10) : defaultExpiresIn;
