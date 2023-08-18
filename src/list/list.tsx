@@ -78,7 +78,7 @@ function isActivatable<T>(item: ListDataItem<T> | null) {
 }
 
 function getDataHash<T>(data: readonly ListDataItem<T>[]): string {
-  return data.map(it => it.key).join('-');
+  return data.map(it => `${it.key}-${it.disabled}`).join('-');
 }
 
 export interface SelectHandlerParams {
