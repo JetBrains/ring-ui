@@ -93,7 +93,7 @@
     "@storybook/addon-storysource": "7.3.2",
     "@storybook/addons": "7.3.1",
     "@storybook/html": "7.2.0",
-    "@storybook/html-webpack5": "^7.3.1",
+    "@storybook/html-webpack5": "^7.3.2",
     "@storybook/preview-api": "7.2.0",
     "@storybook/react": "7.3.1",
     "@storybook/source-loader": "7.3.1",
