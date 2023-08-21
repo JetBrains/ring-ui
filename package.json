@@ -96,7 +96,7 @@
     "@storybook/html-webpack5": "^7.3.2",
     "@storybook/preview-api": "7.2.0",
     "@storybook/react": "7.3.1",
-    "@storybook/source-loader": "7.3.1",
+    "@storybook/source-loader": "7.3.2",
     "@storybook/theming": "7.3.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
