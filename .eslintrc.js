@@ -8,7 +8,6 @@ module.exports = {
     '@jetbrains/eslint-config/es6',
     '@jetbrains/eslint-config/browser',
     '@jetbrains/eslint-config/react',
-    '@jetbrains/eslint-config/angular',
     '@jetbrains/eslint-config/test',
     'plugin:import/typescript'
   ],
@@ -73,9 +72,6 @@ module.exports = {
         }],
         quotes: [error, 'single', {avoidEscape: true}],
 
-        // Angular
-        'angular/directive-name': [error, 'rg'],
-
         // Imports
         'import/no-commonjs': error,
         'import/no-unused-modules': ignore
@@ -85,8 +81,7 @@ module.exports = {
           webpack: {
             config: './webpack.config.js'
           }
-        },
-        'import/core-modules': ['angular']
+        }
       }
     },
     {
@@ -156,8 +151,6 @@ module.exports = {
         'react/prop-types': ignore,
         'no-magic-numbers': ignore,
         '@typescript-eslint/no-magic-numbers': ignore,
-        'angular/no-controller': ignore,
-        'angular/di-unused': ignore,
         'storybook/await-interactions': error,
         'storybook/context-in-play-function': error,
         'storybook/default-exports': error,
