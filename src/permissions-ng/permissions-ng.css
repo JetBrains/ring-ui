@@ -1,5 +1,0 @@
-@import "../global/variables.css";
-
-:global(.ring-permission-hide) {
-  display: none !important;
-}
