@@ -1,160 +1,14 @@
-import angular from 'angular';
-
-import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-
 import '../input/input-legacy.css';
 import '../form/form.css';
 import './input-size.css';
 import '../error-bubble/error-bubble-legacy.css';
 
-import SelectNG from '../select-ng/select-ng';
-import QueryAssistNG from '../query-assist-ng/query-assist-ng';
-
 export default {
-  title: 'Style-only/Input Sizes',
-  decorators: [angularDecorator()]
+  title: 'Style-only/Input Sizes'
 };
 
-export const basic = () => {
-  angular.module(APP_NAME, [QueryAssistNG, SelectNG]).controller('ExampleCtrl', function ctrl() {
-    this.dataSource = () => [];
-
-    this.options = ['one', 'two', 'three'];
-    this.selected = null;
-  });
-
-  return `
-      <div ng-controller="ExampleCtrl as exampleCtrl">
-        <h3 class="example-block">Query Assists</h3>
-        <div class="example-block">
-          <div class="ring-error-bubble-wrapper">
-            <rg-query-assist
-              size="'S'"
-              x-data-source="exampleCtrl.dataSource"
-              glass="true"
-              placeholder="'Extra-short'">
-            </rg-query-assist>
-            <div class="ring-error-bubble active">Extra-short Query Assist</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-query-assist
-              size="'S'"
-              x-data-source="exampleCtrl.dataSource"
-              glass="true"
-              placeholder="'Short'">
-            </rg-query-assist>
-            <div class="ring-error-bubble active">Short Query Assist</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-query-assist
-              size="'M'"
-              x-data-source="exampleCtrl.dataSource"
-              glass="true"
-              placeholder="'Medium'">
-            </rg-query-assist>
-            <div class="ring-error-bubble active">Medium Query Assist</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-query-assist
-              size="'L'"
-              x-data-source="exampleCtrl.dataSource"
-              glass="true"
-              placeholder="'Long'">
-            </rg-query-assist>
-            <div class="ring-error-bubble active">Long Query Assist</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-query-assist
-              size="'FULL'"
-              x-data-source="exampleCtrl.dataSource"
-              glass="true"
-              placeholder="'Full-width'">
-            </rg-query-assist>
-            <div class="ring-error-bubble active">Full-width Query Assist</div>
-          </div>
-        </div>
-
-        <h3 class="example-block">Rg Selects: Buttons</h3>
-        <div class="example-block">
-          <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_xs"
-              ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Extra-short Select</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_s"
-              ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Short Select</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_m"
-              ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Medium Select</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_l"
-              ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Long Select</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-select ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Full-width Select</div>
-          </div>
-        </div>
-
-        <h3 class="example-block">Rg Selects: Inputs</h3>
-        <div class="example-block">
-          <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_xs"
-              type="input"
-              ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Extra-short Select</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_s"
-              type="input"
-              ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Short Select</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_m"
-              type="input"
-              ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Medium Select</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-select class="ring-input-size_l"
-              type="input"
-              ng-model="exampleCtrl.selected"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Long Select</div>
-          </div>
-          <div class="ring-error-bubble-wrapper">
-            <rg-select ng-model="exampleCtrl.selected"
-              type="input"
-              options="item in exampleCtrl.options"
-              label="Select item"></rg-select>
-            <div class="ring-error-bubble active">Full-width Select</div>
-          </div>
-        </div>
-
+export const basic = () => `
+      <div>
         <h3 class="example-block">Inputs</h3>
         <div class="example-block">
           <div class="ring-error-bubble-wrapper">
@@ -204,7 +58,6 @@ export const basic = () => {
         </div>
       </div>
     `;
-};
 
 basic.storyName = 'Input Sizes';
 

@@ -1,27 +1,18 @@
-import angular from 'angular';
-
-import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-
 import '../input/input-legacy.css';
 import './form.css';
 import '../input-size/input-size.css';
 import '../error-bubble/error-bubble-legacy.css';
 
-import ButtonNG from '../button-ng/button-ng';
 
 export default {
   title: 'Style-only/Form',
-  decorators: [angularDecorator()],
 
   parameters: {
     notes: 'Helps create forms with various types of controls.'
   }
 };
 
-export const basic = () => {
-  angular.module(APP_NAME, [ButtonNG]);
-
-  return `
+export const basic = () => `
       <div style="width: 700px">
         <form class="ring-form">
           <span class="ring-form__title">Form Title</span>
@@ -123,6 +114,5 @@ export const basic = () => {
         </form>
       </div>
     `;
-};
 
 basic.storyName = 'Form';

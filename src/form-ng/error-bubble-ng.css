@@ -1,7 +1,0 @@
-.errorBubbleNg {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 2px);
-
-  display: inline-block;
-}
