@@ -4,7 +4,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import TableLegacyToolbar from '../table-legacy-ng/table-legacy-ng__toolbar';
 import Selection from '../table/selection';
-import data from '../table/table.examples.json';
+import data from '../table/table.stories.json';
 
 import TableNG from './table-ng';
 

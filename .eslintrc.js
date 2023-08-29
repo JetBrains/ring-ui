@@ -25,9 +25,9 @@ module.exports = {
         '**/*.test.js',
         '**/*.test.ts',
         '**/*.test.tsx',
-        '**/*.examples.js',
-        '**/*.examples.ts',
-        '**/*.examples.tsx',
+        '**/*.stories.js',
+        '**/*.stories.ts',
+        '**/*.stories.tsx',
         '**/.eslintrc.js',
         '.storybook/**',
         'packages/hermione/**',
@@ -138,7 +138,7 @@ module.exports = {
     },
     {
       files: [
-        '**/*.examples.*'
+        '**/*.stories.*'
       ],
       plugins: ['storybook'],
       env: {
@@ -150,7 +150,7 @@ module.exports = {
       },
       rules: {
         'react/no-multi-comp': ignore,
-        // It's fine for examples:
+        // It's fine for stories:
         'react/jsx-no-literals': ignore,
         'react/no-this-in-sfc': ignore,
         'react/prop-types': ignore,

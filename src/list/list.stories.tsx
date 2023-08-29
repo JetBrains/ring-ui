@@ -14,7 +14,7 @@ import ContentLayout, {Sidebar} from '../content-layout/content-layout';
 
 import List, {ListAttrs} from './list';
 import Source from './list__users-groups-source';
-import styles from './list.examples.css';
+import styles from './list.stories.css';
 import {ListDataItem} from './consts';
 
 const FLAG_EN_URL =

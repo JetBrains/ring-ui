@@ -237,7 +237,7 @@ object Deploy : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
-                npm run build-examples
+                npm run build-stories
             """.trimIndent()
             dockerImage = "node:16"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
@@ -524,7 +524,7 @@ object A11yAudit : BuildType({
 
 
 object ConsoleErrors : BuildType({
-    name = "Console errors in examples"
+    name = "Console errors in stories"
 
     allowExternalStatus = true
 
@@ -1311,7 +1311,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run typecheck-ci
                 npm run test-ci
                 npm run build
-                npm run build-examples
+                npm run build-stories
             """.trimIndent()
             dockerImage = "satantime/puppeteer-node:18.12"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
