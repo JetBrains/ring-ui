@@ -10,7 +10,7 @@ import Theme from '../global/theme';
 
 import alert from './alert-service';
 
-import styles from './alert-service.examples.css';
+import styles from './alert-service.stories.css';
 
 export default {
   title: 'Services/Alert Service',
