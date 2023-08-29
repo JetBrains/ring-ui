@@ -155,7 +155,7 @@
     "mocha": "^10.2.0",
     "pinst": "^3.0.0",
     "prettier": "^3.0.2",
-    "puppeteer": "^21.1.0",
+    "puppeteer": "^21.1.1",
     "raw-loader": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
