@@ -23,7 +23,7 @@ const files = glob.sync(
       'components/error-page/*', // TODO Error page does not work because of importing GIF file
       'components/error-page-ng/*',
       'components/**/*.test.js',
-      'components/**/*.examples.js'
+      'components/**/*.stories.js'
     ]
   }
 );

@@ -20,9 +20,9 @@ exclude:
       - typings.d.ts
   - name: SpellCheckingInspection # Suppress "lorem ipsum" spell checking
     paths:
-      - src/content-layout/content-layout.examples.tsx
-      - src/heading/heading.examples.tsx
-      - src/editable-heading/editable-heading.examples.tsx
+      - src/content-layout/content-layout.stories.tsx
+      - src/heading/heading.stories.tsx
+      - src/editable-heading/editable-heading.stories.tsx
 
 
 licenseRules:
