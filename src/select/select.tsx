@@ -599,6 +599,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
   };
 
+  focus = () => {
+    this.node?.focus();
+  };
+
   private _onEnter = () => {
     if (this.state.addButton && this.state.shownData.length === 0) {
       this.addHandler();
