@@ -73,15 +73,6 @@ export const basic = () => (
 );
 
 basic.storyName = 'basic';
-basic.parameters = {
-  storyStyles: `
-<style>
-  pre {
-    --ring-code-tag-font-weight: normal;
-  }
-</style>
-`
-};
 
 export const taggedTemplate = () =>
   md`
@@ -123,10 +114,5 @@ export const taggedTemplate = () =>
     const MarkdownHeader = ({children}) => md\`#\${children}\`;
     \`\`\`
   `;
-
-taggedTemplate.parameters = {
-  hermione: {skip: true}
-};
-
 
 taggedTemplate.storyName = 'tagged template';
