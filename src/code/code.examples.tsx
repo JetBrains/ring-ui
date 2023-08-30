@@ -44,14 +44,6 @@ export const basic = () => (
 );
 
 basic.storyName = 'basic';
-basic.parameters = {
-  storyStyles: `
-<style>
-  pre {
-    --ring-code-tag-font-weight: normal;
-  }
-</style>`
-};
 
 export const lazy = () => (
   <Code
