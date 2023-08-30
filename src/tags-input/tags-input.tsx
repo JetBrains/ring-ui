@@ -61,6 +61,7 @@ export interface TagsInputProps {
   height?: ControlsHeight | undefined
   label?: ReactNode
   labelType?: LabelType
+  id?: string | undefined
 }
 
 interface TagsInputState {
@@ -158,7 +159,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
   static contextType = ControlsHeightContext;
 
-  id = getUID('ring-tags-list-');
+  id = this.props.id || getUID('ring-tags-list-');
 
   node?: HTMLElement | null;
   nodeRef = (node: HTMLElement | null) => {
@@ -183,6 +184,10 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
   focusInput = () => {
     this.getInputNode()?.focus();
+  };
+
+  focus = () => {
+    this.focusInput();
   };
 
   addTag = (tag: TagType | null) => {
