@@ -18,7 +18,7 @@
 
   padding: calc(unit * 4) unit;
 
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(var(--ring-dialog-overlay-components), 0.4);
 }
 
 .innerContainer {
