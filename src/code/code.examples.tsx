@@ -36,7 +36,7 @@ export const basic = () => (
 
           const MyComponent = () => (
             <div className="class">
-              <ChildComponent prop="value" />
+              <ChildComponent/>
             </div>
           );
         `}
