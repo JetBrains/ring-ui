@@ -63,7 +63,7 @@ export const basic = () => (
           import ChildComponent from './child-component';
 
           const MyComponent = () => (
-            <div className="class">
+            <div>
               <ChildComponent/>
             </div>
           );
