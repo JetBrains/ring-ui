@@ -12,7 +12,7 @@ import Button from '../button/button';
 import Table, {Table as BaseTable, TableAttrs} from './table';
 import MultiTable from './multitable';
 import Selection, {SelectionItem} from './selection';
-import mock from './table.examples.json';
+import mock from './table.stories.json';
 import {continents, countries} from './table.examples2.json';
 import {SortParams} from './header-cell';
 
