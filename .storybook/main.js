@@ -8,8 +8,8 @@ const pkgConfig = require('../package.json').config;
 module.exports = {
   stories: [
     // Make welcome stories default
-    '../src/welcome.examples.js',
-    '../src/**/*.examples.{js,ts,tsx}'
+    '../src/welcome.stories.js',
+    '../src/**/*.stories.{js,ts,tsx}'
   ],
   addons: [
     '@storybook/addon-storysource',
@@ -43,7 +43,7 @@ module.exports = {
         loader: 'raw-loader'
       },
       {
-        test: /\.examples\.[jt]sx?$/,
+        test: /\.stories\.[jt]sx?$/,
         loader: require.resolve('@storybook/source-loader'),
         enforce: 'pre'
       },
@@ -70,9 +70,5 @@ module.exports = {
   docs: {
     autodocs: false
   },
-  storyIndexers: indexers => indexers.map(indexer =>
-    (indexer.test.test('.stories.tsx') && !indexer.test.test('.examples.tsx')
-      ? {...indexer, test: /\.examples\.[jt]sx?$/}
-      : indexer)),
   staticDirs: ['./custom-header/dist']
 };
