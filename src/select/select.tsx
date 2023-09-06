@@ -599,6 +599,13 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
   };
 
+  focus = () => {
+    const focusableSelectExists =
+      this.node?.querySelector<HTMLElement>('[data-test~=ring-select__focus]');
+    const restoreFocusNode = this.props.targetElement || focusableSelectExists;
+    restoreFocusNode?.focus();
+  };
+
   private _onEnter = () => {
     if (this.state.addButton && this.state.shownData.length === 0) {
       this.addHandler();
@@ -795,12 +802,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       }));
 
       if (tryFocusAnchor) {
-        const focusableSelectExists = this.node &&
-          this.node.querySelector<HTMLElement>('[data-test~=ring-select__focus]');
-        const restoreFocusNode = this.props.targetElement || focusableSelectExists;
-        if (restoreFocusNode) {
-          restoreFocusNode.focus();
-        }
+        this.focus();
       }
     }
   }
