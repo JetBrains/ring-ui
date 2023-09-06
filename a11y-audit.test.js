@@ -13,7 +13,7 @@ beforeAll(async () => {
   // Customized like said in https://github.com/puppeteer/puppeteer/issues/1947#issuecomment-879500626
   browser = await Puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process'],
-    headless: true
+    headless: 'new'
   });
 });
 
