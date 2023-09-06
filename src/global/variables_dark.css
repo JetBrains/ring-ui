@@ -23,8 +23,8 @@
   --ring-border-hover-color: rgb(var(--ring-border-hover-components)); /* #4D6494 */
   --ring-main-components: 53, 116, 240;
   --ring-main-color: rgb(var(--ring-main-components)); /* #3574F0 */
-  --ring-action-link-components: var(--ring-main-components);
-  --ring-action-link-color: rgb(var(--ring-main-components)); /* #008eff */
+  --ring-action-link-components: 135, 166, 227;
+  --ring-action-link-color: rgb(var(--ring-action-link-components)); /* #87A6E3 */
   --ring-main-hover-components: 45, 105, 224;
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #2D69E0 */
   --ring-icon-error-components: 193, 88, 88;
@@ -33,8 +33,8 @@
   --ring-icon-warning-color: rgb(var(--ring-icon-warning-components)); /* #C2A151 */
   --ring-icon-success-components: 94, 156, 98;
   --ring-icon-success-color: rgb(var(--ring-icon-success-components)); /* #5E9C62 */
-  --ring-popup-border-components: var(--ring-line-color);
-  --ring-popup-border-color: rgba(var(--ring-popup-border-components), 0.1);
+  --ring-popup-border-components: 57, 59, 64;
+  --ring-popup-border-color: rgb(var(--ring-popup-border-components)); /* #393b40 */
   --ring-popup-shadow-color: rgba(0, 0, 0, 0.31);
   --ring-popup-secondary-shadow-color: rgba(0, 0, 0, 0.37);
   --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);
@@ -77,10 +77,10 @@
   --ring-popup-background-color: rgb(var(--ring-popup-background-components)); /* #292B2E */
   --ring-sidebar-background-components: 32, 33, 36;
   --ring-sidebar-background-color: rgb(var(--ring-sidebar-background-components)); /* #202124 */
-  --ring-selected-background-components: 53, 73, 114;
-  --ring-selected-background-color: rgb(var(--ring-selected-background-components)); /* #354972 */
-  --ring-hover-background-components: 44, 56, 79;
-  --ring-hover-background-color: rgb(var(--ring-hover-background-components)); /* #2C384F */
+  --ring-selected-background-components: 49, 67, 105;
+  --ring-selected-background-color: rgb(var(--ring-selected-background-components)); /* #314369 */
+  --ring-hover-background-components: 40, 51, 71;
+  --ring-hover-background-color: rgb(var(--ring-hover-background-components)); /* #283347 */
   --ring-navigation-background-components: 17, 19, 20;
   --ring-navigation-background-color: rgb(var(--ring-navigation-background-components)); /* #111314 */
   --ring-tag-background-components: 53, 55, 59;
