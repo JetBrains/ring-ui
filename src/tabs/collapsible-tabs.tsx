@@ -190,11 +190,11 @@ export const CollapsibleTabs = ({
       const descendants = [...container?.children ?? []];
       const moreButton = descendants.pop() as HTMLElement;
 
-      let moreButtonWidth = moreButton.offsetWidth;
+      let moreButtonWidth = moreButton?.offsetWidth ?? 0;
       const {
-        marginLeft: moreButtonMarginLeft,
-        marginRight: moreButtonMarginRight
-      } = getComputedStyle(moreButton);
+        marginLeft: moreButtonMarginLeft = '0',
+        marginRight: moreButtonMarginRight = '0'
+      } = moreButton ? getComputedStyle(moreButton) : {};
       moreButtonWidth += +moreButtonMarginLeft.replace('px', '') + +moreButtonMarginRight.replace('px', '');
 
       const tabsWidth = descendants.map(node => {
