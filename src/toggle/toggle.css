@@ -48,6 +48,8 @@
 }
 
 .switch {
+  --ring-toggle-item-color: var(--ring-white-text-color);
+
   position: relative;
 
   display: block;
@@ -78,7 +80,7 @@
     transform: translateX(padding);
 
     border-radius: calc(unit * 0.75);
-    background-color: var(--ring-content-background-color);
+    background-color: var(--ring-toggle-item-color);
   }
 }
 
@@ -163,6 +165,10 @@
   & .input:checked + ::before {
     transform: translateX(calc(unit * 2 - padding));
   }
+}
+
+.input[disabled] + .switch {
+  --ring-toggle-item-color: var(--ring-content-background-color);
 }
 
 .input[disabled] + ::after {
