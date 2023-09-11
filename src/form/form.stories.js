@@ -57,7 +57,7 @@ export const basic = () => (
             id="ring-form-4"
             type="text"
           />
-          <div className="ring-error-bubble active">Error bubble htmlFor a long
+          <div className="ring-error-bubble active">Error bubble for a long
             control
           </div>
         </div>
@@ -68,7 +68,7 @@ export const basic = () => (
           Control</label>
         <div className="ring-form__control">
           <input className="ring-input" id="ring-form-5" type="text"/>
-          <div className="ring-error-bubble active">Error bubble htmlFor a full-width
+          <div className="ring-error-bubble active">Error bubble for a full-width
             control
           </div>
         </div>
