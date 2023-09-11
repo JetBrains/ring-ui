@@ -20,15 +20,15 @@ export const basic = () => (
 
 basic.storyName = 'basic';
 
-export const withAHeaderAndButtons = () => `
-    <div class="ring-island">
-      <div class="ring-island__header">
-        <span class="ring-island__title">Title</span>
-        <span class="ring-island__header-button">Button1</span>
-        <span class="ring-island__header-button">Button2</span>
-      </div>
-      <div class="ring-island__content">Content</div>
+export const withAHeaderAndButtons = () => (
+  <div className="ring-island">
+    <div className="ring-island__header">
+      <span className="ring-island__title">Title</span>
+      <span className="ring-island__header-button">Button1</span>
+      <span className="ring-island__header-button">Button2</span>
     </div>
-  `;
+    <div className="ring-island__content">Content</div>
+  </div>
+);
 
 withAHeaderAndButtons.storyName = 'with a header and buttons';
