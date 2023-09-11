@@ -1,6 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Heading, {H1, H2, H3, H4} from './heading';
 
@@ -15,7 +14,6 @@ const lorem = (
 
 export default {
   title: 'Components/Heading',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'A component for rendering h1-h5 tags.'

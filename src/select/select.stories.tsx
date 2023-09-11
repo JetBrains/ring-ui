@@ -13,7 +13,6 @@ import searchIcon from '@jetbrains/icons/search';
 
 import {Story} from '@storybook/react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
 import Text from '../text/text';
@@ -41,7 +40,6 @@ const FLAG_DE_URL =
 const {type, size, directions} = Select.defaultProps;
 export default {
   title: 'Components/Select',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: Select,

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
-
 
 import Button from '../button/button';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
@@ -14,7 +12,6 @@ import styles from './alert-service.stories.css';
 
 export default {
   title: 'Services/Alert Service',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Service for managing a stack of alerts.',

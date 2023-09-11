@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Story} from '@storybook/react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import {Size} from '../input/input';
 
@@ -12,7 +11,6 @@ const {size, inline} = DatePicker.defaultProps;
 
 export default {
   title: 'Components/Date Picker',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: DatePicker,

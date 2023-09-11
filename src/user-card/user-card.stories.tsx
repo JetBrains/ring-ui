@@ -1,6 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
 import Auth from '../auth/auth';
@@ -14,7 +13,6 @@ import {UserCard, UserCardTooltip, SmartUserCardTooltip} from './user-card';
 
 export default {
   title: 'Components/User Card',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'A component that displays user details.'

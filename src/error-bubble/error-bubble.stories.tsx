@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Select, {SingleSelectAttrs} from '../select/select';
 
@@ -13,7 +12,6 @@ import ErrorBubble from './error-bubble';
 
 export default {
   title: 'Components/ErrorBubble',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes:

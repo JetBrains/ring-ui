@@ -5,7 +5,7 @@ import path from 'path';
 import loadFramework from '@storybook/addon-storyshots/dist/frameworks/frameworkLoader';
 
 test('Get stories tree', () => {
-  const {storybook} = loadFramework({framework: 'html'});
+  const {storybook} = loadFramework({framework: 'react'});
   const kinds = {};
   storybook.raw().forEach(({kind, id, name, parameters}) => {
     kinds[kind] = kinds[kind] || {kind, stories: []};

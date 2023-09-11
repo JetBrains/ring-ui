@@ -1,6 +1,5 @@
 import React, {CSSProperties, Fragment} from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
 
@@ -8,7 +7,6 @@ import Tooltip from './tooltip';
 
 export default {
   title: 'Components/Tooltip',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a tooltip.',

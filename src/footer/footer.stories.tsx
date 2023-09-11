@@ -1,12 +1,10 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Footer from './footer';
 
 export default {
   title: 'Components/Footer',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: `
