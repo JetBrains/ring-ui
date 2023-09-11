@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import {Story} from '@storybook/react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import alert from '../alert-service/alert-service';
 
@@ -12,7 +11,6 @@ import text from './toolbox.eula';
 
 export default {
   title: 'Components/User Agreement',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: UserAgreement,

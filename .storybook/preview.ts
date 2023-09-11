@@ -12,6 +12,7 @@ import {setClient} from '../src/global/react-render-adapter';
 import Theme, {applyTheme} from '../src/global/theme';
 
 import styles from './preview.css';
+import strictModeDecorator from './strict-mode-decorator';
 import stylesDecorator from './styles-decorator';
 import {darkMatcher, theme} from './theme';
 
@@ -55,4 +56,4 @@ export const parameters = {
   }
 };
 
-export const decorators = [stylesDecorator()];
+export const decorators = [stylesDecorator(), strictModeDecorator()];

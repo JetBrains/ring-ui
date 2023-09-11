@@ -115,7 +115,8 @@ module.exports = {
     },
     {
       files: [
-        '**/*.test.*'
+        '**/*.test.*',
+        '__mocks__/**'
       ],
       env: {
         mocha: true,

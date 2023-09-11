@@ -2,7 +2,6 @@ import React, {PureComponent, useContext, useRef} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import searchSIcon from '@jetbrains/icons/search-12px';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
 
@@ -14,7 +13,6 @@ import Input, {ContainerProps, InputSpecificProps, Size} from './input';
 
 export default {
   title: 'Components/Input',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Text input fields of varying size.',

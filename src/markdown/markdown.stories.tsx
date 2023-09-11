@@ -4,7 +4,6 @@ import javascript from 'highlight.js/lib/languages/javascript';
 
 import xml from 'highlight.js/lib/languages/xml';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import {highlight} from '../code/code';
 
@@ -15,7 +14,6 @@ highlight.registerLanguage('xml', xml);
 
 export default {
   title: 'Components/Markdown',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Renders Markdown.'

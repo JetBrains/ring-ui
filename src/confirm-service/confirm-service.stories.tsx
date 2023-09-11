@@ -1,6 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
 
@@ -8,7 +7,6 @@ import confirm, {hideConfirm} from './confirm-service';
 
 export default {
   title: 'Services/Confirm Service',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes:

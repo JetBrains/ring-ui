@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Icon from '../icon/icon';
 import Toggle from '../toggle/toggle';
@@ -12,7 +11,6 @@ import {ClickableLinkProps} from './clickableLink';
 
 export default {
   title: 'Components/Link',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a link.'

@@ -2,7 +2,6 @@ import React from 'react';
 import {useState} from '@storybook/preview-api';
 import type {Story} from '@storybook/react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import {Header, Content} from '../island/island';
 import Button from '../button/button';
@@ -15,7 +14,6 @@ import Dialog from './dialog';
 
 export default {
   title: 'Components/Dialog',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'The Dialog component is a simple way to present content above an enclosing view.',

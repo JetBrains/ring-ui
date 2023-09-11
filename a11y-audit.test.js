@@ -28,7 +28,7 @@ const suite = 'Accessibility audit';
 
 const metadataMessages = [];
 initStoryshots({
-  framework: 'html',
+  framework: 'react',
   suite,
   // storyKindRegex: /^Legacy Angular\|Sidebar Ng$/,
   // storyNameRegex: /^Simple$/,
