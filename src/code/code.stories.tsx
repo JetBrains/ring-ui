@@ -2,7 +2,6 @@ import React from 'react';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Code, {code, highlight} from './code';
 
@@ -11,7 +10,6 @@ highlight.registerLanguage('xml', xml);
 
 export default {
   title: 'Components/Code',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: `

@@ -9,7 +9,6 @@ import settingsIcon from '@jetbrains/icons/settings-20px';
 
 import {Story} from '@storybook/react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
 import Link from '../link/link';
@@ -36,7 +35,6 @@ const blockAuth = window.location.search.includes('block-auth');
 
 export default {
   title: 'Components/Header',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: Header,

@@ -8,7 +8,6 @@ import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import starFilledIcon from '@jetbrains/icons/star-filled';
 import okIcon from '@jetbrains/icons/ok';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Icon from './icon';
 
@@ -17,7 +16,6 @@ const allLogos = require.context('../../node_modules/@jetbrains/logos', true, /\
 
 export default {
   title: 'Components/Icon',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays an icon.'

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -11,7 +10,6 @@ import showAuthDialog from './auth-dialog-service';
 
 export default {
   title: 'Services/Auth Dialog Service',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes:

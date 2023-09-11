@@ -187,15 +187,17 @@ export const CollapsibleTabs = ({
 
     const measureTask = fastdom.measure(() => {
       const container = measureRef.current;
-      const descendants = [...container?.children ?? []];
-      const moreButton = descendants.pop() as HTMLElement;
+      const descendants = [...container?.children ?? []] as HTMLElement[];
+      const moreButton = descendants.pop();
 
-      let moreButtonWidth = moreButton.offsetWidth;
-      const {
-        marginLeft: moreButtonMarginLeft,
-        marginRight: moreButtonMarginRight
-      } = getComputedStyle(moreButton);
-      moreButtonWidth += +moreButtonMarginLeft.replace('px', '') + +moreButtonMarginRight.replace('px', '');
+      let moreButtonWidth = moreButton?.offsetWidth ?? 0;
+      if (moreButton != null) {
+        const {
+          marginLeft: moreButtonMarginLeft,
+          marginRight: moreButtonMarginRight
+        } = getComputedStyle(moreButton);
+        moreButtonWidth += +moreButtonMarginLeft.replace('px', '') + +moreButtonMarginRight.replace('px', '');
+      }
 
       const tabsWidth = descendants.map(node => {
         const {marginLeft, marginRight} = getComputedStyle(node);

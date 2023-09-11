@@ -1,12 +1,10 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import DropdownMenu from './dropdown-menu';
 
 export default {
   title: 'Components/DropdownMenu',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a menu in a dropdown.',

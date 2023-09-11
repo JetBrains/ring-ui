@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import {Story} from '@storybook/react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import {Grid, Row, Col} from '../grid/grid';
 import Link from '../link/link';
@@ -18,7 +17,6 @@ import {SortParams} from './header-cell';
 
 export default {
   title: 'Components/Table',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: BaseTable,

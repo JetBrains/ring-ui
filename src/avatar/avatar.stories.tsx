@@ -1,13 +1,11 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Avatar, {Size} from './avatar';
 import {avatarDataUri} from './avatar-example-datauri';
 
 export default {
   title: 'Components/Avatar',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays an avatar. In case of a loading error an empty square is displayed.'

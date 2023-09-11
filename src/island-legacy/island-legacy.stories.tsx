@@ -1,4 +1,5 @@
 import './island-legacy.css';
+import React from 'react';
 
 export default {
   title: 'Style-only/Island',
@@ -8,14 +9,14 @@ export default {
   }
 };
 
-export const basic = () => `
-    <div class="ring-island">
-      <div class="ring-island__header">
-        <span class="ring-island__title">Title</span>
-      </div>
-      <div class="ring-island__content">Content</div>
+export const basic = () => (
+  <div className="ring-island">
+    <div className="ring-island__header">
+      <span className="ring-island__title">Title</span>
     </div>
-    `;
+    <div className="ring-island__content">Content</div>
+  </div>
+);
 
 basic.storyName = 'basic';
 

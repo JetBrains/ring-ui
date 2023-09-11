@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {useEffect} from '@storybook/preview-api';
 
-import {StoryContext} from '@storybook/html';
+import {StoryContext, StoryFn} from '@storybook/react';
+
+import React from 'react';
 
 import {injectStyleSheet} from '../src/global/inject-styles';
 
-const stylesDecorator = (story: () => string | Node, context: StoryContext) => {
+const stylesDecorator = (Story: StoryFn, context: StoryContext) => {
   const storyStyles = context.parameters?.storyStyles;
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const stylesDecorator = (story: () => string | Node, context: StoryContext) => {
     return undefined;
   }, [storyStyles]);
 
-  return story();
+  return <Story/>;
 };
 
 export default () => stylesDecorator;

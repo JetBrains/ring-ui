@@ -1,13 +1,11 @@
 import React, {Component, ReactNode} from 'react';
 import classNames from 'classnames';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Popup from './popup';
 
 export default {
   title: 'Components/Popup',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a popup.'
