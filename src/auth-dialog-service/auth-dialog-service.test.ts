@@ -1,12 +1,21 @@
 import {Simulate} from 'react-dom/test-utils';
 
+import {ReactElement} from 'react';
+
+import {render} from '@testing-library/react';
+
 import styles from '../auth-dialog/auth-dialog.css';
 
-import authDialog from './auth-dialog-service';
+import authDialog, {reactRoot} from './auth-dialog-service';
+
 
 describe('Auth Dialog Service', () => {
   const getContainer = () => document.querySelector('*[data-test~="ring-auth-dialog"]');
   let hideAuthDialog: () => void;
+
+  beforeEach(() => {
+    sandbox.stub(reactRoot, 'render').callsFake(element => render(element as ReactElement));
+  });
 
   afterEach(() => {
     hideAuthDialog();
