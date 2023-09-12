@@ -128,6 +128,7 @@ export const basic = () => (
 
       <div className="ring-form__footer">
         <rg-button mode="primary">Save</rg-button>
+        {' '}
         <rg-button>Cancel</rg-button>
       </div>
     </form>
