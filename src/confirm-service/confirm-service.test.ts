@@ -1,15 +1,25 @@
 import {Simulate} from 'react-dom/test-utils';
 
-import {unmountComponentAtNode} from '../global/react-render-adapter';
+import {render} from '@testing-library/react';
+
+import {ReactElement} from 'react';
+
 import islandStyles from '../island/island.css';
 
-import confirm, {containerElement} from './confirm-service';
+import confirm, {reactRoot} from './confirm-service';
 
 describe('Confirm Service', () => {
   const getContainer = () => document.querySelector('[data-test~="ring-dialog"]');
 
+  let unmount: () => void;
+  beforeEach(() => {
+    sandbox.stub(reactRoot, 'render').callsFake(element => {
+      unmount = render(element as ReactElement).unmount;
+    });
+  });
+
   afterEach(() => {
-    unmountComponentAtNode(containerElement);
+    unmount();
   });
 
   it('should show confirm', () => {

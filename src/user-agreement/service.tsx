@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {render, unmountComponentAtNode} from '../global/react-render-adapter';
+import {createRoot} from 'react-dom/client';
+
 import Storage from '../storage/storage';
 import alertService from '../alert-service/alert-service';
 import Link from '../link/link';
@@ -93,6 +94,7 @@ export default class UserAgreementService {
   tabId = Math.random();
   interval = ONE_HOUR;
   container = document.createElement('div');
+  reactRoot = createRoot(this.container);
   storage = new Storage();
   checkingPromise: Promise<[Agreement, Consent]> | null = null;
   guest: boolean | null | undefined = false;
@@ -263,13 +265,12 @@ export default class UserAgreementService {
           preview, ...restOptions
         };
 
-        render(
+        this.reactRoot.render(
           (
             <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
               <UserAgreement {...props}/>
             </ControlsHeightContext.Provider>
           ),
-          this.container
         );
 
         if (onDialogShow) {
@@ -288,7 +289,7 @@ export default class UserAgreementService {
   hideDialog = (withoutNotifications?: boolean) => {
     const {onDialogHide} = this.config;
 
-    unmountComponentAtNode(this.container);
+    this.reactRoot.unmount();
 
     if (onDialogHide) {
       onDialogHide();
