@@ -7,8 +7,7 @@ import chaiEnzyme from 'chai-enzyme';
 import sinon from 'sinon';
 
 import {MochaGlobals} from 'mocha';
-
-import {unmountComponentAtNode} from '../src/global/react-render-adapter';
+import {unmountComponentAtNode} from 'react-dom';
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);

@@ -1,8 +1,9 @@
 import React from 'react';
 
+import {createRoot} from 'react-dom/client';
+
 import {ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
 
-import {render} from '../global/react-render-adapter';
 import AuthDialog, {AuthDialogProps} from '../auth-dialog/auth-dialog';
 
 /**
@@ -10,6 +11,7 @@ import AuthDialog, {AuthDialogProps} from '../auth-dialog/auth-dialog';
  */
 
 const containerElement = document.createElement('div');
+export const reactRoot = createRoot(containerElement);
 
 type AuthDialogAttributes = JSX.LibraryManagedAttributes<typeof AuthDialog, AuthDialogProps>
 
@@ -17,13 +19,12 @@ type AuthDialogAttributes = JSX.LibraryManagedAttributes<typeof AuthDialog, Auth
  * Renders AuthDialog into virtual node to skip maintaining container
  */
 function renderAuthDialog(props: AuthDialogAttributes) {
-  render(
+  reactRoot.render(
     (
       <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
         <AuthDialog {...props}/>
       </ControlsHeightContext.Provider>
     ),
-    containerElement
   );
 }
 

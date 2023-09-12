@@ -1,3 +1,8 @@
+## [6.0.0]
+
+### BREAKING CHANGES
+- Minimum supported React version is 18.0.0. `setClient` utility is deprecated and will be removed in 7.0
+
 ## [5.0.0]
 
 ### BREAKING CHANGES

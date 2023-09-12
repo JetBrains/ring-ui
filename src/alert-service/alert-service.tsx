@@ -1,6 +1,7 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, Ref} from 'react';
 
-import {render} from '../global/react-render-adapter';
+import {createRoot} from 'react-dom/client';
+
 import getUID from '../global/get-uid';
 
 import Alert, {
@@ -13,6 +14,7 @@ import Alert, {
 export interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
   key: string | number,
   message: ReactNode
+  ref?: Ref<Alert>
 }
 
 /**
@@ -24,6 +26,7 @@ class AlertService {
   // This alerts are stored in inverse order (last shown is first in array)
   showingAlerts: AlertItem[] = [];
   containerElement = document.createElement('div');
+  reactRoot = createRoot(this.containerElement);
 
   _getShowingAlerts() {
     return [...this.showingAlerts];
@@ -53,7 +56,7 @@ class AlertService {
    * Renders alert container into virtual node to skip maintaining container
    */
   renderAlerts() {
-    render(this.renderAlertContainer(this.showingAlerts), this.containerElement);
+    this.reactRoot.render(this.renderAlertContainer(this.showingAlerts));
   }
 
   findSameAlert(message: ReactNode, type: AlertType | undefined) {
