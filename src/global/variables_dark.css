@@ -15,8 +15,6 @@
   --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #37393D */
   --ring-border-selected-disabled-components: 54, 54, 54;
   --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #363636 */
-  --ring-border-unselected-disabled-components: 51, 52, 56;
-  --ring-border-unselected-disabled-color: rgb(var(--ring-border-unselected-disabled-components)); /* #333438 */ /* TODO remove in 6.0 */
   --ring-icon-disabled-components: 64, 66, 71;
   --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #404247 */
   --ring-border-hover-components: 77, 100, 148;
