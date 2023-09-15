@@ -63,7 +63,6 @@ const renderColors = () => (
       <ColorItem propName="--ring-icon-color"/>
       <ColorItem propName="--ring-icon-secondary-color"/>
       <ColorItem propName="--ring-border-disabled-color"/>
-      <ColorItem propName="--ring-border-unselected-disabled-color"/>
       <ColorItem propName="--ring-icon-disabled-color"/>
       <ColorItem propName="--ring-border-hover-color"/>
       <ColorItem propName="--ring-icon-hover-color"/>
