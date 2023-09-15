@@ -97,7 +97,7 @@
     "@storybook/preview-api": "7.4.0",
     "@storybook/react": "7.4.2",
     "@storybook/source-loader": "7.4.1",
-    "@storybook/theming": "7.4.1",
+    "@storybook/theming": "7.4.2",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/chai": "^4.3.6",
