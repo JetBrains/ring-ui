@@ -99,7 +99,7 @@
     "@storybook/source-loader": "7.4.2",
     "@storybook/theming": "7.4.2",
     "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/user-event": "^14.5.1",
     "@types/chai": "^4.3.6",
     "@types/chai-as-promised": "^7.1.6",
     "@types/chai-dom": "0.0.10",
