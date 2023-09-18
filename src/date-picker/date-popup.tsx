@@ -55,7 +55,6 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     onClear: PropTypes.func,
     minDate: dateType,
     maxDate: dateType,
-    hidden: PropTypes.bool,
     fromPlaceholder: PropTypes.string,
     toPlaceholder: PropTypes.string,
     timePlaceholder: PropTypes.string,
@@ -328,7 +327,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
   };
 
   render() {
-    const {range, hidden, withTime, locale} = this.props;
+    const {range, withTime, locale} = this.props;
     const {from, to, date, time, ...restProps} = this.props;
     const parsedDate = this.parse(this.props.date, 'date');
     const parsedTo = this.parse(this.props.to, 'to');
@@ -414,7 +413,6 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
                 key={name}
                 date={dates[name]}
                 active={this.state.active === name}
-                hidden={hidden}
                 onActivate={this.handleActivate(name)}
                 onInput={this.handleInput}
                 onConfirm={this.handleConfirm(name)}
@@ -437,7 +435,6 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
                   date={null}
                   time={time}
                   active={this.state.active === 'time'}
-                  hidden={hidden}
                   onActivate={this.handleActivate('time')}
                   onInput={this.handleInput}
                   onConfirm={this.handleConfirm('time')}
