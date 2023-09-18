@@ -49,7 +49,6 @@ const PopupComponent = ({
 }: PopupComponentProps) => (
   <Popup
     hidden={hidden}
-    keepMounted
     className={className}
     ref={popupRef}
     directions={[
@@ -64,7 +63,6 @@ const PopupComponent = ({
       onClear={onClear}
       {...datePopupProps as DatePopupProps}
       onComplete={onComplete}
-      hidden={hidden}
     />
   </Popup>
 );

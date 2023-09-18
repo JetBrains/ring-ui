@@ -102,7 +102,6 @@ export interface DatePopupBaseProps {
   fromPlaceholder?: string | null | undefined
   toPlaceholder?: string | null | undefined
   timePlaceholder?: string | null | undefined
-  hidden: boolean
   locale?: Locale | undefined
   parseDateInput: (text: Date | number | string | null | undefined) => Date | null
   displayFormat: (date: Date, locale: Locale | undefined) => string
