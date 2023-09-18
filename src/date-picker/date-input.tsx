@@ -37,7 +37,6 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
     date: dateType,
     time: PropTypes.string,
     displayFormat: PropTypes.func,
-    hidden: PropTypes.bool,
     translations: PropTypes.object,
     fromPlaceholder: PropTypes.string,
     toPlaceholder: PropTypes.string,
@@ -50,8 +49,8 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
   };
 
   componentDidUpdate(prevProps: DateInputProps) {
-    const {hidden, text, active} = this.props;
-    if (!hidden && prevProps.hidden || text !== prevProps.text || active !== prevProps.active) {
+    const {text, active} = this.props;
+    if (text !== prevProps.text || active !== prevProps.active) {
       this.updateInput({text, active});
     }
   }
