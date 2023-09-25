@@ -75,7 +75,7 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
-    "@babel/cli": "^7.22.15",
+    "@babel/cli": "^7.23.0",
     "@babel/eslint-parser": "^7.22.15",
     "@csstools/stylelint-no-at-nest-rule": "^1.0.0",
     "@jetbrains/eslint-config": "^5.4.1",
