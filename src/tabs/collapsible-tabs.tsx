@@ -191,13 +191,11 @@ export const CollapsibleTabs = ({
       const moreButton = descendants.pop();
 
       let moreButtonWidth = moreButton?.offsetWidth ?? 0;
-      if (moreButton != null) {
-        const {
-          marginLeft: moreButtonMarginLeft,
-          marginRight: moreButtonMarginRight
-        } = getComputedStyle(moreButton);
-        moreButtonWidth += +moreButtonMarginLeft.replace('px', '') + +moreButtonMarginRight.replace('px', '');
-      }
+      const {
+        marginLeft: moreButtonMarginLeft = '0',
+        marginRight: moreButtonMarginRight = '0'
+      } = moreButton ? getComputedStyle(moreButton) : {};
+      moreButtonWidth += +moreButtonMarginLeft.replace('px', '') + +moreButtonMarginRight.replace('px', '');
 
       const tabsWidth = descendants.map(node => {
         const {marginLeft, marginRight} = getComputedStyle(node);
