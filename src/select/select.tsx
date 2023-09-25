@@ -1436,7 +1436,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                   onClick: this._clickHandler,
                   disabled: this.props.disabled,
                   children: this._getPlaceholder(),
-                  'data-test': 'ring-select_focus'
+                  'data-test': 'ring-select__focus'
                 },
                 popup: this._renderPopup()
               })}
