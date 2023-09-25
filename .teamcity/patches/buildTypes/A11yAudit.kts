@@ -17,13 +17,13 @@ changeBuildType(RelativeId("A11yAudit")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
-                
+
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
-                
+
                 npm install
                 npm run a11y-audit-ci
             """.trimIndent()
@@ -36,17 +36,17 @@ changeBuildType(RelativeId("A11yAudit")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
-                
+
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir -p node_modules
-                
+
                 npm install
                 # Workaround for not always installed chromium https://github.com/puppeteer/puppeteer/issues/9533#issuecomment-1386653636
-                node node_modules/puppeteer/install.js
-                
+                node node_modules/puppeteer/install.mjs
+
                 npm run a11y-audit-ci
             """.trimIndent()
         }
