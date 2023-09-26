@@ -250,7 +250,7 @@
     "react-movable": "^3.0.4",
     "react-virtualized": "^9.22.5",
     "react-waypoint": "^10.3.0",
-    "remark-breaks": "^3.0.3",
+    "remark-breaks": "^4.0.0",
     "remark-gfm": "^3.0.1",
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
