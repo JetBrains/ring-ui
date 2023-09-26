@@ -208,7 +208,7 @@
     "@jetbrains/logos": "^2.2.21",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@types/combokeys": "^2.4.7",
-    "@types/deep-equal": "^1.0.1",
+    "@types/deep-equal": "^1.0.2",
     "@types/element-resize-detector": "^1.1.4",
     "@types/google.analytics": "0.0.43",
     "@types/prop-types": "^15.7.5",
