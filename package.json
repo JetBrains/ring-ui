@@ -106,7 +106,7 @@
     "@types/chai-enzyme": "^0.6.11",
     "@types/enzyme": "^3.10.14",
     "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
+    "@types/react-dom": "^18.2.8",
     "@types/sinon": "^10.0.17",
     "@types/sinon-chai": "^3.2.10",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
