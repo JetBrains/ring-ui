@@ -54,6 +54,7 @@ export interface FocusChange {
 
 export interface QueryAssistChange {
   query: string
+  prevCaret?: number | null;
   caret: number
   focus?: boolean
   selection?: Position | number | null
@@ -357,6 +358,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     const shouldSetCaret = typeof caret === 'number' && caret !== prevProps.caret;
     if (shouldSetCaret) {
+      this.immediateState.prevCaret = prevProps.caret;
       this.immediateState.caret = caret;
     }
 
@@ -609,6 +611,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
+      this.immediateState.prevCaret = this.immediateState.caret;
       this.immediateState.caret = caret;
       this.scrollInput();
       if (this.immediateState.query.length > 0) {
@@ -687,6 +690,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const suffix = suggestion.suffix || '';
 
     const state = {
+      prevCaret: currentCaret,
       caret: suggestion.caret ?? 0,
       selection: suggestion.caret ?? 0,
       query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
