@@ -211,7 +211,7 @@
     "@types/deep-equal": "^1.0.2",
     "@types/element-resize-detector": "^1.1.4",
     "@types/google.analytics": "0.0.43",
-    "@types/prop-types": "^15.7.5",
+    "@types/prop-types": "^15.7.7",
     "@types/react-virtualized": "9.21.23",
     "@types/util-deprecate": "^1.0.0",
     "@ungap/url-search-params": "^0.2.2",
