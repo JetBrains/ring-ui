@@ -1,5 +1,5 @@
 version: "1.0"
-linter: jetbrains/qodana-js:2023.1-eap
+linter: jetbrains/qodana-js:2023.2
 bootstrap: bash .qodana/bootstrap.sh
 profile:
   path: .idea/inspectionProfiles/Project_Default.xml
@@ -11,9 +11,7 @@ exclude:
   - name: All
     paths:
       - .storybook/custom-header/dist
-  - name: CssInvalidPropertyValue # https://youtrack.jetbrains.com/issue/WEB-59153/Mismatched-property-value-in-postcss-file
   - name: CssUnknownProperty # https://youtrack.jetbrains.com/issue/WEB-59153/Mismatched-property-value-in-postcss-file
-  - name: CssNegativeValue # Fixed in 2023.1 EAP 2, https://youtrack.jetbrains.com/issue/WEB-23000/box-shadow-CSS-property-false-negative-value-is-not-allowed-error
   - name: HtmlUnknownAttribute # https://youtrack.jetbrains.com/issue/WEB-59170/HtmlUnknownAttribute-in-.js-file-wrong-suggestion-class-className-for-foo
   - name: JSUnusedGlobalSymbols # https://youtrack.jetbrains.com/issue/WEB-30388
     paths:
@@ -24,9 +22,8 @@ exclude:
       - src/heading/heading.stories.tsx
       - src/editable-heading/editable-heading.stories.tsx
 
-
 licenseRules:
-  - keys: [ "Apache-2.0" ]
+  - keys: ["Apache-2.0"]
     allowed:
       - "W3C"
       - "Unlicense"
