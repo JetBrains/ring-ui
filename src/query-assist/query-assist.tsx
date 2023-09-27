@@ -363,7 +363,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     if (typeof query === 'string' && queryChanged && query !== this.immediateState.query) {
       this.immediateState.query = query;
 
-      if (prevProps.autoOpen && query?.length > 0) {
+      if (query && (this.props.autoOpen === 'force' || prevProps.autoOpen && query.length > 0)) {
         this.requestData?.();
       } else if (query) {
         this.requestStyleRanges();
@@ -616,7 +616,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       }
     }
 
-    if (this.immediateState.query.length < 1) {
+    if (this.props.autoOpen !== 'force' && this.immediateState.query.length < 1) {
       this.setState({showPopup: false});
     }
   };
@@ -646,7 +646,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         placeholderEnabled: !query,
         query,
         suggestions,
-        showPopup: !!suggestions.length && !afterCompletion
+        showPopup: !!suggestions.length && (this.props.autoOpen === 'force' || !afterCompletion)
       };
 
       this.immediateState.suggestionsQuery = query;
