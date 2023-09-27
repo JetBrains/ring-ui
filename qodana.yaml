@@ -29,6 +29,8 @@ licenseRules:
       - "Unlicense"
       - "0BSD"
       - "CC-BY-4.0"
+      - "MPL-2.0"
+      - "MIT-0"
 
 dependencyIgnores:
   - name: "@jetbrains/logos"
