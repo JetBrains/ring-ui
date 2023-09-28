@@ -5,6 +5,7 @@ import Auth from '../auth/auth';
 import HTTP from '../http/http';
 
 import Services from './services';
+import {Service} from './services-link';
 
 function noop() {}
 
@@ -54,7 +55,7 @@ export default class SmartServices extends Component<SmartServicesProps> {
   };
 
   getServices(fields: string) {
-    return this.http?.get(`services/header?fields=${fields}`);
+    return this.http?.get<Service[]>(`services/header?fields=${fields}`);
   }
 
   render() {

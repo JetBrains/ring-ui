@@ -53,7 +53,7 @@ class Basic extends Component {
       }
     };
 
-    return this.http.get('users/queryAssist', params);
+    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
   };
 
   render() {
@@ -220,7 +220,7 @@ class QueryAssistExample extends Component {
       }
     };
 
-    return this.http.get('users/queryAssist', params);
+    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
   };
 
   render() {
@@ -271,7 +271,7 @@ class HugeOne extends Component {
       }
     };
 
-    return this.http.get('users/queryAssist', params);
+    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
   };
 
   render() {

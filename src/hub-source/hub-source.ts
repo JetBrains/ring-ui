@@ -47,15 +47,15 @@ export default class HubSource<I extends Item, U extends string> {
     this.filterFn = () => true;
   }
 
-  makeRequest(queryParams?: Record<string, unknown>) {
-    return this.http.get(this.relativeUrl, {query: queryParams});
+  makeRequest<T = unknown>(queryParams?: Record<string, unknown>) {
+    return this.http.get<T>(this.relativeUrl, {query: queryParams});
   }
 
   async makeCachedRequest(params?: Record<string, unknown>) {
     if (this.storedData) {
       return this.storedData;
     }
-    const res = await this.makeRequest(params);
+    const res = await this.makeRequest<NonNullable<typeof this.storedData>>(params);
     this.storedData = res;
     return res;
   }
@@ -127,14 +127,15 @@ export default class HubSource<I extends Item, U extends string> {
 
   getValueFromSuitableSource(query?: string, params?: Record<string, unknown>) {
     if (this.isClientSideSearch === null) {
-      return this.sideDetectionRequest(params, query);
+      return this.sideDetectionRequest(params, query) as
+        Promise<NonNullable<typeof this.storedData>>;
     }
 
     if (this.isClientSideSearch) {
-      return this.doClientSideSearch(params);
+      return this.doClientSideSearch(params) as Promise<NonNullable<typeof this.storedData>>;
     }
 
-    return this.doServerSideSearch(params, query);
+    return this.doServerSideSearch(params, query) as Promise<NonNullable<typeof this.storedData>>;
   }
 
   async get(query: string, params: Record<string, unknown>, filterFn?: (item: I) => boolean) {

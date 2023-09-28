@@ -580,7 +580,10 @@ export default class Auth implements HTTPAuth {
       return;
     }
     try {
-      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
+      const {serviceName, iconUrl: serviceImage} = await this.http.get<{
+        serviceName: string
+        iconUrl: string
+      }>(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
       this.setCurrentService({serviceImage, serviceName});
     } catch (e) {
       // noop
