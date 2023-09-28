@@ -24,7 +24,7 @@ export interface UserCardUser {
   banReason?: string | undefined
   unverifiedEmail?: boolean | null | undefined
 }
-export interface UserCardWording {
+export interface UserCardTranslations {
   banned: string
   online: string
   offline: string
@@ -35,8 +35,7 @@ export interface UserCardWording {
 }
 export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
   user: UserCardUser
-  wording?: UserCardWording | null | undefined // TODO: "wording" isn't the right name, to be replaced with "translations" in 6.0
-  translations?: UserCardWording | null | undefined
+  translations?: UserCardTranslations | null | undefined
   info?: ReactElement | readonly ReactElement[] | string,
   avatarInfo?: ReactElement | readonly ReactElement[] | string,
   'data-test'?: string | null | undefined
@@ -79,19 +78,19 @@ export default class UserCard extends PureComponent<UserCardProps> {
 
   copyEmail = () => {
     const {translate} = this.context;
-    const wording = this.props.translations || this.props.wording;
+    const translations = this.props.translations;
 
     clipboard.copyText(
       this.props.user.email || '',
-      wording?.copiedToClipboard ?? translate('copyToClipboard'),
-      wording?.copingToClipboardError ?? translate('copingToClipboardError')
+      translations?.copiedToClipboard ?? translate('copyToClipboard'),
+      translations?.copingToClipboardError ?? translate('copingToClipboardError')
     );
   };
 
   render() {
     const {children, info, className, user, avatarInfo, ...restProps} = this.props;
     const {translate} = this.context;
-    const wording = this.props.translations || this.props.wording;
+    const translations = this.props.translations;
 
     const classes = classNames(className, {});
     const userActiveStatusClasses = classNames(
@@ -128,8 +127,8 @@ export default class UserCard extends PureComponent<UserCardProps> {
                     <span
                       className={userActiveStatusClasses}
                       title={user.online
-                        ? (wording?.online ?? translate('online'))
-                        : (wording?.offline ?? translate('offline'))
+                        ? (translations?.online ?? translate('online'))
+                        : (translations?.offline ?? translate('offline'))
                       }
                     />
                   )
@@ -141,7 +140,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
                     <span
                       className={classNames(badgeStyles.badge, badgeStyles.invalid)}
                       title={user.banReason}
-                    >{wording?.banned ?? translate('banned')}</span>
+                    >{translations?.banned ?? translate('banned')}</span>
                   )
                 }
               </div>
@@ -161,12 +160,12 @@ export default class UserCard extends PureComponent<UserCardProps> {
                   {
                     user.unverifiedEmail && (
                       <span className={styles.unverifiedLabel}>
-                        {wording?.unverified ?? translate('unverified')}
+                        {translations?.unverified ?? translate('unverified')}
                       </span>
                     )
                   }
                   <Icon
-                    title={wording?.copyToClipboard ?? translate('copyToClipboard')}
+                    title={translations?.copyToClipboard ?? translate('copyToClipboard')}
                     className={styles.userCopyIcon}
                     onClick={this.copyEmail}
                     glyph={copyIcon}

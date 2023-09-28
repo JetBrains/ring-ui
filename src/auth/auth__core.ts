@@ -101,7 +101,7 @@ export interface AuthConfig extends TokenValidatorConfig {
   checkBackendIsUp: () => Promise<unknown>
   onBackendDown: (params: BackendDownParams) => () => void
   defaultExpiresIn: number
-  translations?: AuthTranslations | null | undefined /* TODO remove in 6.0 in favor of i18n layer? */
+  translations?: AuthTranslations | null | undefined
   userParams?: RequestParams | undefined
   waitForRedirectTimeout: number
 }
@@ -580,7 +580,10 @@ export default class Auth implements HTTPAuth {
       return;
     }
     try {
-      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
+      const {serviceName, iconUrl: serviceImage} = await this.http.get<{
+        serviceName: string
+        iconUrl: string
+      }>(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
       this.setCurrentService({serviceImage, serviceName});
     } catch (e) {
       // noop

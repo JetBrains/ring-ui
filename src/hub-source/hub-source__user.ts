@@ -24,7 +24,7 @@ export function createHubUserCardSource(
   const http = new HTTP(auth);
 
   return async function getHubUser() {
-    const hubUser = await http.get(
+    const hubUser = await http.get<AuthUser>(
       `${auth.config.serverUri}api/rest/users/${userId}?fields=${fields}`
     );
 
