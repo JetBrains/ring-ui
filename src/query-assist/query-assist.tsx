@@ -80,7 +80,7 @@ export interface QueryAssistProps {
   onApplySuggestion: (suggestion: QueryAssistSuggestion, change: QueryAssistChange) => void
   onClear: () => void
   onFocusChange: (change: FocusChange) => void
-  translations?: QueryAssistTranslations | null | undefined /* TODO remove in 6.0 in favor of i18n layer? */
+  translations?: QueryAssistTranslations | null | undefined
   autoOpen?: boolean | null | undefined | 'force'
   caret?: number | null | undefined
   clear?: boolean | null | undefined

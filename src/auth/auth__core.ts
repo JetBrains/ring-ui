@@ -101,7 +101,7 @@ export interface AuthConfig extends TokenValidatorConfig {
   checkBackendIsUp: () => Promise<unknown>
   onBackendDown: (params: BackendDownParams) => () => void
   defaultExpiresIn: number
-  translations?: AuthTranslations | null | undefined /* TODO remove in 6.0 in favor of i18n layer? */
+  translations?: AuthTranslations | null | undefined
   userParams?: RequestParams | undefined
   waitForRedirectTimeout: number
 }
