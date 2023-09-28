@@ -119,7 +119,7 @@
     "babel-plugin-react-docgen": "^4.2.1",
     "babel-plugin-require-context-hook": "^1.0.0",
     "caniuse-lite": "^1.0.30001540",
-    "chai": "^4.3.9",
+    "chai": "^4.3.10",
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.10.0",
     "chai-enzyme": "1.0.0-beta.1",
