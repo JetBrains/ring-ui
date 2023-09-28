@@ -12,7 +12,7 @@ import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 import Select, {SelectItem} from '../select/select';
 import memoize from '../global/memoize';
-import Link, {WrapTextProps} from '../link/link';
+import Link from '../link/link';
 import Icon from '../icon/icon';
 
 import {I18nContext} from '../i18n/i18n-context';
@@ -184,15 +184,9 @@ export default class Pager extends PureComponent<PagerProps> {
 
     const nextText = this.props.translations?.nextPage ?? translate('nextPage');
 
-    const nextLinkContent = (WrapText: ComponentType<WrapTextProps>) => [
-      <span key="text"><WrapText>{nextText}</WrapText></span>,
-      nextIcon
-    ];
+    const nextLinkContent = () => [<span key="text">{nextText}</span>, nextIcon];
 
-    const prevLinkContent = (WrapText: ComponentType<WrapTextProps>) => [
-      prevIcon,
-      <span key="text"><WrapText>{prevText}</WrapText></span>
-    ];
+    const prevLinkContent = () => [prevIcon, <span key="text">{prevText}</span>];
 
     const prevLinkHref = this.generateHref(this.props.currentPage - 1);
 
