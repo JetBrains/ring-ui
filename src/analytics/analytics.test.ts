@@ -1,7 +1,6 @@
 import * as Sinon from 'sinon';
 
 import analytics, {Analytics} from './analytics';
-import AnalyticsGAPlugin from './analytics__ga-plugin';
 import AnalyticsCustomPlugin, {AnalyticsCustomPluginData} from './analytics__custom-plugin';
 
 const TICK_INTERVAL = 10500;
@@ -13,67 +12,7 @@ describe('Analytics', () => {
   });
 
   it('should export correct interface', () => {
-    analytics.trackPageView.should.exist;
     analytics.trackEvent.should.exist;
-    analytics.trackShortcutEvent.should.exist;
-    analytics.trackEntityProperties.should.exist;
-    analytics.track.should.exist;
-  });
-
-  describe('ga plugin', () => {
-    let gaPlugin: AnalyticsGAPlugin;
-
-    beforeEach(() => {
-      Reflect.deleteProperty(window, 'ga');
-      gaPlugin = new AnalyticsGAPlugin('SOME-ID');
-    });
-
-    it('should init ga', () => {
-      window.ga.should.exist;
-    });
-
-    it('should export interface', () => {
-      gaPlugin.trackPageView.should.exist;
-      gaPlugin.trackEvent.should.exist;
-    });
-
-    it('should send pageview event', () => {
-      const rememberGA = window.ga;
-      window.ga = sandbox.spy() as never;
-      gaPlugin.trackPageView('some-path');
-
-      window.ga.should.have.been.calledWith('send', 'pageview', 'some-path');
-
-      window.ga = rememberGA;
-    });
-
-    it('should send action event', () => {
-      const rememberGA = window.ga;
-      window.ga = sandbox.spy() as never;
-      gaPlugin.trackEvent('some-category', 'some-action');
-
-      window.ga.should.calledWith('send', 'event', {
-        eventCategory: 'some-category',
-        eventAction: 'some-action'
-      });
-
-      window.ga = rememberGA;
-    });
-  });
-
-  describe('ga plugin with no key and in non-development mode', () => {
-    let gaPlugin: AnalyticsGAPlugin;
-
-    beforeEach(() => {
-      Reflect.deleteProperty(window, 'ga');
-      gaPlugin = new AnalyticsGAPlugin();
-    });
-
-    it('should not init ga', () => {
-      should.not.exist(window.ga);
-      gaPlugin.trackEvent.should.be.an.instanceof(Function);
-      gaPlugin.trackPageView.should.be.an.instanceof(Function);
-    });
   });
 
   describe('tracking events', () => {
