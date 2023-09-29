@@ -23,7 +23,7 @@ export interface LinkBaseProps {
   pseudo?: boolean | null | undefined
   hover?: boolean | null | undefined
   'data-test'?: string | null | undefined
-  children: ReactNode | (() => ReactNode),
+  children: ReactNode
 }
 
 export type LinkProps<P extends ClickableLinkProps = ClickableLinkProps> =
@@ -47,11 +47,6 @@ export function linkHOC<P extends ClickableLinkProps>(
       onPlainLeftClick: PropTypes.func,
       onClick: PropTypes.func
     };
-
-    getChildren() {
-      const {children} = this.props;
-      return typeof children === 'function' ? children() : children;
-    }
 
     render() {
       const {
@@ -87,7 +82,7 @@ export function linkHOC<P extends ClickableLinkProps>(
             className={classes}
             onClick={(onClick || onPlainLeftClick) as MouseEventHandler}
             data-test={dataTests('ring-link', dataTest)}
-          >{this.getChildren()}</button>
+          >{children}</button>
         );
       }
 
@@ -100,7 +95,7 @@ export function linkHOC<P extends ClickableLinkProps>(
           onPlainLeftClick={onPlainLeftClick}
           data-test={dataTests('ring-link', dataTest)}
         >
-          {this.getChildren()}
+          {children}
         </ComposedComponent>
       );
     }

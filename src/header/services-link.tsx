@@ -37,7 +37,7 @@ export default class ServicesLink extends PureComponent<ServicesLinkProps> {
         href={service.homeUrl}
         {...props}
       >
-        {() => (service.iconUrl
+        {service.iconUrl
           ? [
             <span
               key="icon"
@@ -46,7 +46,7 @@ export default class ServicesLink extends PureComponent<ServicesLinkProps> {
             />,
             <div key="text">{service.name}</div>
           ]
-          : service.name)
+          : service.name
         }
       </Link>
     );

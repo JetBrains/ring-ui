@@ -184,9 +184,9 @@ export default class Pager extends PureComponent<PagerProps> {
 
     const nextText = this.props.translations?.nextPage ?? translate('nextPage');
 
-    const nextLinkContent = () => [<span key="text">{nextText}</span>, nextIcon];
+    const nextLinkContent = [<span key="text">{nextText}</span>, nextIcon];
 
-    const prevLinkContent = () => [prevIcon, <span key="text">{prevText}</span>];
+    const prevLinkContent = [prevIcon, <span key="text">{prevText}</span>];
 
     const prevLinkHref = this.generateHref(this.props.currentPage - 1);
 
