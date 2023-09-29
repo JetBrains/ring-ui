@@ -1,6 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 
-import '../link/link__legacy.css';
 import Link from '../link/link';
 
 import Input from '../input/input';
