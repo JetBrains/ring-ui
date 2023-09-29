@@ -5,13 +5,11 @@ import hubConfig from '../../.storybook/hub-config';
 
 import authDialogService from '../auth-dialog-service/auth-dialog-service';
 import Link from '../link/link';
+import linkSyles from '../link/link.css';
 
 import Auth from './auth';
 import IFrameFlow from './iframe-flow';
 import LandingEntryFileName from './landing-entry';
-
-import '../link/link__legacy.css';
-
 
 export default {
   title: 'Utilities/Auth',
@@ -87,9 +85,9 @@ export const landingPage = () => {
   const node = document.createElement('div');
   node.innerHTML = `
       <div id="example">
-        <div><a href="#" id="open-link" class="ring-link">Open landing page</a></div>
-        <div><a href="#" id="force-update" class="ring-link">Force token update</a></div>
-        <div><a href="#" id="log-out" class="ring-link">Log out</a></div>
+        <div><a href="#" id="open-link" class="${linkSyles.link}">Open landing page</a></div>
+        <div><a href="#" id="force-update" class="${linkSyles.link}">Force token update</a></div>
+        <div><a href="#" id="log-out" class="${linkSyles.link}">Log out</a></div>
         <div id="example-2"></div>
       </div>
     `;

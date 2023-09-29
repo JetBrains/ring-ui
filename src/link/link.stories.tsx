@@ -4,9 +4,8 @@ import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
 
 import Icon from '../icon/icon';
-import Toggle from '../toggle/toggle';
 
-import Link, {linkHOC, setCompatibilityMode} from './link';
+import Link, {linkHOC} from './link';
 import {ClickableLinkProps} from './clickableLink';
 
 export default {
@@ -20,9 +19,7 @@ export default {
 interface CustomComponentProps extends ClickableLinkProps {
   active?: boolean
 }
-interface LinkDemoState {
-  compatibility: boolean
-}
+
 export const allVariants = () => {
   class CustomComponent extends React.Component<CustomComponentProps> {
     render() {
@@ -37,15 +34,7 @@ export const allVariants = () => {
 
   const CustomLink = linkHOC(CustomComponent);
 
-  class LinkDemo extends React.Component<unknown, LinkDemoState> {
-    state = {compatibility: false};
-
-    changeCompatibility = () => this.setState(({compatibility}) => {
-      const newCompat = !compatibility;
-      setCompatibilityMode(newCompat);
-      return {compatibility: newCompat};
-    });
-
+  class LinkDemo extends React.Component<unknown> {
     render() {
       return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}} data-test="lik-example">
@@ -59,17 +48,17 @@ export const allVariants = () => {
             Pseudo link (no underline on hover)
           </Link>
 
+          <Link href="/" hover>Hovered link</Link>
+
           <Link href="/">Link with a very long text, wrapping over lines</Link>
 
           <Link href="/">Link with a very long text, wrapping over lines</Link>
 
           <Link href="/" className="hub-link">
-            {WrapText => [
-              <Icon key="icon" glyph={hubLogo} className="hub-icon"/>,
-              <div key="text">
-                <WrapText>Link with non-text content</WrapText>
-              </div>
-            ]}
+            <Icon key="icon" glyph={hubLogo} className="hub-icon"/>
+            <div key="text">
+              <span>Link with non-text content</span>
+            </div>
           </Link>
 
           <CustomLink href="/">Custom link component</CustomLink>
@@ -77,8 +66,6 @@ export const allVariants = () => {
           <CustomLink href="/" active>
             Active custom link component
           </CustomLink>
-
-          <Toggle onChange={this.changeCompatibility}>Compatibility mode</Toggle>
         </div>
       );
     }

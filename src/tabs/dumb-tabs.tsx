@@ -70,7 +70,6 @@ class Tabs extends PureComponent<TabsProps> {
         isSelected={isSelected}
         key={key}
         href={href}
-        innerClassName={titleClasses}
         className={titleClasses}
         disabled={disabled}
         onPlainLeftClick={this.handleSelect(key)}
