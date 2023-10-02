@@ -44,7 +44,6 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
   static propTypes = {
     show: PropTypes.bool,
     preview: PropTypes.bool,
-    text: PropTypes.string.isRequired,
     onAccept: PropTypes.func,
     onDecline: PropTypes.func,
     onClose: PropTypes.func,
