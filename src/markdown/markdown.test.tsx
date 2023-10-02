@@ -6,9 +6,10 @@ import Markdown, {MarkdownProps} from './markdown';
 describe('Markdown', () => {
   const shallowMarkdown = (props?: Partial<MarkdownProps>) => shallow(
     <Markdown
-      content="<p>test</p>"
       {...props}
-    />
+    >
+      <div dangerouslySetInnerHTML={{__html: '<p>test</p>'}}/>
+    </Markdown>
   );
 
 
