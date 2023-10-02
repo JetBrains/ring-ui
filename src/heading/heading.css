@@ -2,9 +2,13 @@
 
 .contentWithHeadings {
   & h1,
+  &:is(h1),
   & h2,
+  &:is(h2),
   & h3,
-  & h4 {
+  &:is(h3),
+  & h4,
+  &:is(h4) {
     margin-top: var(--ring-line-height);
 
     &:first-child {
@@ -15,6 +19,8 @@
 
   & :is(h1, h2),
   &:is(h1, h2) {
+    margin-bottom: 8px;
+
     color: var(--ring-heading-color);
   }
 
