@@ -28,7 +28,7 @@ export const dialog: Story<UserAgreementAttrs> = args => (
 
 dialog.args = {
   show: true,
-  text,
+  children: <div style={{whiteSpace: 'pre-wrap'}}>{text}</div>,
   onRemindLater: null
 };
 dialog.argTypes = {
