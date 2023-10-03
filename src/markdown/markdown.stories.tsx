@@ -42,13 +42,39 @@ export default {
   }
 };
 
+/*
+  Note: it is up to developer to pick the best option fore markdown rendering
+  We suggest using `markdown-it` or `react-markdown`
+  Be careful with passing user input down to `dangerouslySetInnerHTML`!
+
+  ## Example usage of "react-markdown":
+
+  ```
+  import ReactMarkdown from "react-markdown";
+  import Markdown from '@jetbrains/ring-ui/components/markdown/markdown';
+
+  ...
+  <Markdown>
+    <ReactMarkdown>{"Hi, **Pluto**!"}</ReactMarkdown>
+  </Markdown>
+  ```
+
+
+  ## Example usage of "markdown-it":
+
+  ```
+  import MarkdownIt from 'markdown-it';
+  ...
+  const renderedMarkdown = new MarkdownIt().render('Hi, **Pluto**!');
+  ...
+
+  <Markdown>
+    <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
+  </Markdown>
+  ```
+*/
 export const basic = () => (
   <Markdown>
-    {/*
-        Note: it is up to developer to pick the best option fore markdown rendering
-        We suggest using `markdown-it` or `react-markdown`
-        Be careful with passing user input down to `dangerouslySetInnerHTML`!
-   */}
     <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
   </Markdown>
 );
