@@ -408,9 +408,15 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   }
 
   getBottomLine() {
-    const {loading, message} = this.props;
+    const {loading, message, data} = this.props;
+    const hasMoreThanOneItem = data.length > 1;
+
     return (loading || message) && (
-      <div className={styles.bottomLine}>
+      <div
+        className={classNames(styles.bottomLine, {
+          [styles.bottomLineOverItem]: hasMoreThanOneItem
+        })}
+      >
         {loading && <LoaderInline/>}
 
         {message && (
