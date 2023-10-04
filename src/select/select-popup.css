@@ -74,6 +74,16 @@
 
 .bottomLine {
   text-align: center;
+
+  &.bottomLineOverItem {
+    position: relative;
+
+    z-index: var(--ring-fixed-z-index);
+
+    margin-top: -36px;
+
+    background-color: var(--ring-content-background-color);
+  }
 }
 
 .message {
