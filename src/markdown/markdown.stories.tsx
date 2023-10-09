@@ -1,82 +1,93 @@
+
 import React from 'react';
 
+import MarkdownIt from 'markdown-it';
+import highlightJs from 'highlight.js';
+
+import highlightStyles from '../code/highlight.css';
+
 import Markdown from './markdown';
-
-const renderedMarkdown = `
-<h1>Header 1</h1>
-<h2>Header 2</h2>
-<h3>Header 3</h3>
-<h4>Header 4</h4>
-<p><em>Various</em> types of <strong>highlighting</strong></p>
-<p><a href="/">Link</a></p>
-<blockquote>
-<p>Blockquote</p>
-<p>Second line</p>
-</blockquote>
-<p>Unordered list:</p>
-<ul>
-<li>List</li>
-<li>List</li>
-</ul>
-<p>Ordered list:</p>
-<ol>
-<li>One</li>
-<li>Two</li>
-</ol>
-<p>Horizontal line</p>
-<hr>
-<p>Some <code>inline(code)</code> inside text</p>
-<h2>Block code</h2>
-<pre class="hljs"><code>import React from 'react';
-
-import {md} from '@jetbrains/ring-ui/components/markdown/markdown';
-
-const MarkdownHeader = ({children}) =&gt; md\`#$\{children\}\`;
-</code></pre>`;
 
 export default {
   title: 'Components/Markdown',
 
   parameters: {
-    notes: 'Renders Markdown.'
+    notes: `
+Renders markdown.
+Note: it is up to developer to pick the best option fore markdown rendering. We suggest using \`markdown-it\` or \`react-markdown\`.
+Be careful with passing user input down to \`dangerouslySetInnerHTML\`!
+  `
   }
 };
 
-/*
-  Note: it is up to developer to pick the best option fore markdown rendering
-  We suggest using `markdown-it` or `react-markdown`
-  Be careful with passing user input down to `dangerouslySetInnerHTML`!
+export const basic = () => {
+  const markdownIt = new MarkdownIt('commonmark', {
+    html: false,
+    highlight(str, lang) {
+      if (lang && highlightJs.getLanguage(lang)) {
+        return highlightJs.highlight(str, {language: lang}).value;
+      }
 
-  ## Example usage of "react-markdown":
+      return '';
+    }
+  }).
+    enable('table');
 
-  ```
-  import ReactMarkdown from "react-markdown";
-  import Markdown from '@jetbrains/ring-ui/components/markdown/markdown';
+  const renderedMarkdown = markdownIt.render(
+    `
+# Header
 
-  ...
-  <Markdown>
-    <ReactMarkdown>{"Hi, **Pluto**!"}</ReactMarkdown>
-  </Markdown>
-  ```
+_Various_ types of **highlighting**
 
+[Link](/)
 
-  ## Example usage of "markdown-it":
+[Link with definition][definition]
 
-  ```
-  import MarkdownIt from 'markdown-it';
-  ...
-  const renderedMarkdown = new MarkdownIt().render('Hi, **Pluto**!');
-  ...
+[definition]: /
 
-  <Markdown>
-    <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
-  </Markdown>
-  ```
-*/
-export const basic = () => (
-  <Markdown>
-    <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
-  </Markdown>
+> Blockquote
+>
+> Second line
+
+Unordered list:
+
+* List
+* List
+
+Ordered list:
+
+1. One
+2. Two
+
+Horizontal line
+
+| Some | Table |
+| --- | --- |
+| One | Two |
+
+---
+Some \`inline(code)\` inside text
+
+## Block code
+\`\`\`js
+import React, {Component} from 'react';
+import ChildComponent from './child-component';
+
+const MyComponent = () => (
+  <div>
+    <ChildComponent/>
+  </div>
 );
+\`\`\`
+`
+  );
+
+  return (
+    <Markdown className={highlightStyles.highlightContainer}>
+      {/* Be careful with passing user input down to `dangerouslySetInnerHTML`! */}
+      <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
+    </Markdown>
+  );
+};
 
 basic.storyName = 'basic';
