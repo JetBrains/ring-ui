@@ -1,24 +1,17 @@
-import React, {ComponentType, PureComponent} from 'react';
+import React, {ComponentType, PureComponent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
-import ReactMarkdown, {Options} from 'react-markdown';
 import classNames from 'classnames';
-import RemarkBreaks from 'remark-breaks';
-import RemarkGFM from 'remark-gfm';
 
-import normalizeIndent from '../global/normalize-indent';
-import trivialTemplateTag from '../global/trivial-template-tag';
+import headingStyles from '../heading/heading.css';
+import linkStyles from '../link/link.css';
 
-import Code from './code';
-import Link from './link';
-import Heading from './heading';
 import styles from './markdown.css';
 
-export interface BaseMarkdownProps {
+export interface MarkdownProps {
   inline?: boolean | null | undefined
-  plugins?: Options['remarkPlugins']
+  children: ReactNode
+  className?: string | null | undefined
 }
-
-export type MarkdownProps = Options & BaseMarkdownProps
 
 /**
   * @name Markdown
@@ -26,43 +19,26 @@ export type MarkdownProps = Options & BaseMarkdownProps
 
 export default class Markdown extends PureComponent<MarkdownProps> {
   render() {
-    const {className, components, inline, children,
-      plugins = [], remarkPlugins = [], ...restProps} = this.props;
+    const {className, children, inline} = this.props;
 
-    const classes = classNames(className, {
-      [styles.markdown]: !inline,
-      [styles.inline]: inline
-    });
+    const classes = classNames(className,
+      headingStyles.contentWithHeadings,
+      linkStyles.withLinks,
+      {
+        [styles.markdown]: !inline,
+        [styles.inline]: inline
+      }
+    );
 
     return (
-      <ReactMarkdown
-        className={classes}
-        remarkPlugins={[RemarkBreaks, RemarkGFM, ...plugins, ...remarkPlugins]}
-        components={{
-          a: Link,
-          code: Code,
-          h1: Heading,
-          h2: Heading,
-          h3: Heading,
-          h4: Heading,
-          h5: Heading,
-          h6: Heading,
-          ...components
-        }}
-        {...restProps}
-      >{normalizeIndent(children)}</ReactMarkdown>
+      <div className={classes}>
+        {children}
+      </div>
     );
   }
 }
 
 (Markdown as ComponentType<unknown>).propTypes = {
   inline: PropTypes.bool,
-  children: PropTypes.string,
-  className: PropTypes.string,
-  components: PropTypes.object,
-  plugins: PropTypes.array
+  className: PropTypes.string
 };
-
-const md = trivialTemplateTag(source => <Markdown>{source}</Markdown>);
-
-export {md};
