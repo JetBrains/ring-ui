@@ -54,6 +54,7 @@ export interface FocusChange {
 
 export interface QueryAssistChange {
   query: string
+  prevCaret?: number | null;
   caret: number
   focus?: boolean
   selection?: Position | number | null
@@ -357,13 +358,14 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     const shouldSetCaret = typeof caret === 'number' && caret !== prevProps.caret;
     if (shouldSetCaret) {
+      this.immediateState.prevCaret = prevProps.caret;
       this.immediateState.caret = caret;
     }
 
     if (typeof query === 'string' && queryChanged && query !== this.immediateState.query) {
       this.immediateState.query = query;
 
-      if (prevProps.autoOpen && query?.length > 0) {
+      if (query && (this.props.autoOpen === 'force' || prevProps.autoOpen && query.length > 0)) {
         this.requestData?.();
       } else if (query) {
         this.requestStyleRanges();
@@ -609,6 +611,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
+      this.immediateState.prevCaret = this.immediateState.caret;
       this.immediateState.caret = caret;
       this.scrollInput();
       if (this.immediateState.query.length > 0) {
@@ -616,7 +619,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       }
     }
 
-    if (this.immediateState.query.length < 1) {
+    if (this.props.autoOpen !== 'force' && this.immediateState.query.length < 1) {
       this.setState({showPopup: false});
     }
   };
@@ -646,7 +649,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         placeholderEnabled: !query,
         query,
         suggestions,
-        showPopup: !!suggestions.length && !afterCompletion
+        showPopup: !!suggestions.length && (this.props.autoOpen === 'force' || !afterCompletion)
       };
 
       this.immediateState.suggestionsQuery = query;
@@ -687,6 +690,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const suffix = suggestion.suffix || '';
 
     const state = {
+      prevCaret: currentCaret,
       caret: suggestion.caret ?? 0,
       selection: suggestion.caret ?? 0,
       query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
