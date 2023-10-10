@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
-.link {
+.link,
+.withLinks a {
   cursor: pointer;
   transition: color var(--ring-fast-ease);
 
@@ -29,6 +30,7 @@
     color: inherit;
   }
 
+  /* stylelint-disable-next-line selector-max-specificity */
   &.pseudo:hover {
     text-decoration: none;
   }
