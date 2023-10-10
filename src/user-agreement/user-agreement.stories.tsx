@@ -28,7 +28,7 @@ export const dialog: Story<UserAgreementAttrs> = args => (
 
 dialog.args = {
   show: true,
-  text,
+  children: <div style={{whiteSpace: 'pre-wrap'}}>{text}</div>,
   onRemindLater: null
 };
 dialog.argTypes = {
@@ -61,7 +61,7 @@ export const service: Story<ServiceArgs> = ({
   const fakeUserAgreement: Agreement = {
     enabled: true,
     majorVersion: 1.0,
-    text
+    content: <div style={{whiteSpace: 'pre-wrap'}}>{text}</div>
   };
 
   const fakeUserConsent: Consent = {

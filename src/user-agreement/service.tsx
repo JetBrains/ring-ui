@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import {createRoot} from 'react-dom/client';
 
@@ -36,7 +36,7 @@ export interface ConsentResponse {
 }
 
 export interface Agreement {
-  text: string
+  content: ReactNode
   enabled?: boolean | null | undefined
   majorVersion?: number | null | undefined
   minorVersion?: number | null | undefined
@@ -47,7 +47,7 @@ const DEFAULT_AGREEMENT: Agreement = {
   majorVersion: 0,
   minorVersion: 0,
   requiredForREST: false,
-  text: ''
+  content: ''
 };
 
 export interface UserAgreementServiceTranslations extends UserAgreementTranslations {
@@ -238,7 +238,7 @@ export default class UserAgreementService {
     restOptions?: Partial<UserAgreementAttrs>
   ) => {
     const {translations, onDialogShow} = this.config;
-    const {text} = this.userAgreement;
+    const {content} = this.userAgreement;
     const show = true;
 
     if (!this._dialogPromise) {
@@ -256,7 +256,7 @@ export default class UserAgreementService {
         const onClose = this.hideDialogAndAlert;
 
         const props: UserAgreementAttrs = {
-          text,
+          children: content,
           show,
           onAccept,
           onDecline,

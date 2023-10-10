@@ -1,116 +1,93 @@
+
 import React from 'react';
 
-import javascript from 'highlight.js/lib/languages/javascript';
+import MarkdownIt from 'markdown-it';
+import highlightJs from 'highlight.js';
 
-import xml from 'highlight.js/lib/languages/xml';
+import highlightStyles from '../code/highlight.css';
 
-
-import {highlight} from '../code/code';
-
-import Markdown, {md} from './markdown';
-
-highlight.registerLanguage('javascript', javascript);
-highlight.registerLanguage('xml', xml);
+import Markdown from './markdown';
 
 export default {
   title: 'Components/Markdown',
 
   parameters: {
-    notes: 'Renders Markdown.'
+    notes: `
+Renders markdown.
+Note: it is up to developer to pick the best option fore markdown rendering. We suggest using \`markdown-it\` or \`react-markdown\`.
+Be careful with passing user input down to \`dangerouslySetInnerHTML\`!
+  `
   }
 };
 
-export const basic = () => (
-  <Markdown>{`
-          # Header
+export const basic = () => {
+  const markdownIt = new MarkdownIt('commonmark', {
+    html: false,
+    highlight(str, lang) {
+      if (lang && highlightJs.getLanguage(lang)) {
+        return highlightJs.highlight(str, {language: lang}).value;
+      }
 
-          _Various_ types of **highlighting**
+      return '';
+    }
+  }).
+    enable('table');
 
-          [Link](/)
+  const renderedMarkdown = markdownIt.render(
+    `
+# Header
 
-          [Link with definition][definition]
+_Various_ types of **highlighting**
 
-          [definition]: /
+[Link](/)
 
-          > Blockquote
-          >
-          > Second line
+[Link with definition][definition]
 
-          Unordered list:
+[definition]: /
 
-          * List
-          * List
+> Blockquote
+>
+> Second line
 
-          Ordered list:
+Unordered list:
 
-          1. One
-          2. Two
+* List
+* List
 
-          Horizontal line
+Ordered list:
 
-          | Some | Table |
-          | --- | --- |
-          | One | Two |
+1. One
+2. Two
 
-          ---
-          Some \`inline(code)\` inside text
+Horizontal line
 
-          ## Block code
-          \`\`\`js
-          import React, {Component} from 'react';
-          import ChildComponent from './child-component';
+| Some | Table |
+| --- | --- |
+| One | Two |
 
-          const MyComponent = () => (
-            <div>
-              <ChildComponent/>
-            </div>
-          );
-          \`\`\`
-        `}
-  </Markdown>
+---
+Some \`inline(code)\` inside text
+
+## Block code
+\`\`\`js
+import React, {Component} from 'react';
+import ChildComponent from './child-component';
+
+const MyComponent = () => (
+  <div>
+    <ChildComponent/>
+  </div>
 );
+\`\`\`
+`
+  );
+
+  return (
+    <Markdown className={highlightStyles.highlightContainer}>
+      {/* Be careful with passing user input down to `dangerouslySetInnerHTML`! */}
+      <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
+    </Markdown>
+  );
+};
 
 basic.storyName = 'basic';
-
-export const taggedTemplate = () =>
-  md`
-    # Header
-
-    _Various_ types of **highlighting**
-
-    [Link](/)
-
-    [Link with definition][definition]
-
-    [definition]: /
-
-    > Blockquote
-    >
-    > Second line
-
-    Unordered list:
-
-    * List
-    * List
-
-    Ordered list:
-
-    1. One
-    2. Two
-
-    Horizontal line
-
-    ---
-    Some \`inline(code)\` inside text
-
-    ## Block code
-    \`\`\`js
-    import React from 'react';
-
-    import {md} from '@jetbrains/ring-ui/components/markdown/markdown';
-
-    const MarkdownHeader = ({children}) => md\`#\${children}\`;
-    \`\`\`
-  `;
-
-taggedTemplate.storyName = 'tagged template';
