@@ -1,5 +1,7 @@
 import React, {ComponentType, ReactNode, SyntheticEvent} from 'react';
 
+import {ReactElement} from 'react-markdown/lib/react-markdown';
+
 import {LinkProps} from '../link/link';
 import {IconType, Size} from '../icon/icon';
 import {ClickableLinkProps} from '../link/clickableLink';
@@ -64,6 +66,7 @@ export type ListDataItem<T = unknown> =
   originalModel?: never
   LinkComponent?: ComponentType<ClickableLinkProps> | string | null | undefined
   template?: ReactNode | ((props: ListDataItemProps<T>) => ReactNode)
+  wrapper?: (children: ReactNode) => ReactElement
   custom?: boolean | null | undefined
   onClick?:
     | ((item: ListDataItem<T>, event: Event | SyntheticEvent) => void)
