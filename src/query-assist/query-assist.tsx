@@ -1013,6 +1013,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     end: noop
   };
 
+  listShortcutsMap: ShortcutsMap = {
+    home: noop,
+    end: noop
+  };
+
   renderActions() {
     const actions = [...(this.props.actions || [])];
     const renderClear = this.props.clear && !!this.state.query;
@@ -1160,6 +1165,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 data={useCustomItemRender ? this.state.suggestions : this.renderSuggestions()}
                 data-test="ring-query-assist-popup"
                 hint={this.props.hint}
+                shortcutsMap={this.listShortcutsMap}
                 hintOnSelection={this.props.hintOnSelection}
                 left={this.getPopupOffset(this.state.suggestions)}
                 maxHeight={PopupMenu.PopupProps.MaxHeight.SCREEN}
