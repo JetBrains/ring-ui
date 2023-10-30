@@ -96,6 +96,7 @@ export interface ListProps<T = unknown> {
   onScrollToBottom: () => void
   onResize: (info: Size) => void
   shortcuts: boolean
+  shortcutsMap?: ShortcutsMap;
   renderOptimization: boolean
   disableMoveDownOverflow: boolean
   ariaLabel: string
@@ -158,6 +159,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     activateSingleItem: PropTypes.bool,
     activateFirstItem: PropTypes.bool,
     shortcuts: PropTypes.bool,
+    shortcutsMap: PropTypes.object,
     onMouseOut: PropTypes.func,
     onSelect: PropTypes.func,
     onScrollToBottom: PropTypes.func,
@@ -824,7 +826,9 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
           {this.props.shortcuts &&
           (
             <Shortcuts
-              map={this.shortcutsMap}
+              map={this.props.shortcutsMap
+                ? {...this.shortcutsMap, ...this.props.shortcutsMap}
+                : this.shortcutsMap}
               scope={this.shortcutsScope}
             />
           )
