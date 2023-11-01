@@ -7,6 +7,7 @@ import hubConfig from '../../.storybook/hub-config';
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Loader from '../loader/loader';
+import Tooltip from '../tooltip/tooltip';
 import Auth from '../auth/auth';
 import Code from '../code/code';
 import ContentLayout, {Sidebar} from '../content-layout/content-layout';
@@ -276,3 +277,14 @@ export const withUsers = () => <UserList/>;
 
 withUsers.storyName = 'with users';
 withUsers.parameters = {hermione: {skip: true}};
+
+export const withCustomTooltip: Story<ListAttrs> = args => <List {...args}/>;
+
+withCustomTooltip.storyName = 'with custom tooltip';
+withCustomTooltip.args = {
+  shortcuts: true,
+  renderOptimization: false,
+  data: [
+    {label: 'Custom Tooltip', key: 1, title: '', wrapper: children => <Tooltip title={'Cutom Tooltip'}>{children}</Tooltip>}
+  ]
+};

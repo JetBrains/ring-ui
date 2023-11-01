@@ -636,7 +636,11 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
           throw new Error(`Unknown menu element type: ${itemProps.rgItemType}`);
       }
 
-      el = <ItemComponent {...itemProps}/>;
+      if (itemProps.wrapper) {
+        el = itemProps.wrapper(<ItemComponent {...itemProps}/>);
+      } else {
+        el = <ItemComponent {...itemProps}/>;
+      }
     }
 
     return parent
