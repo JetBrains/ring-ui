@@ -285,6 +285,6 @@ withCustomTooltip.args = {
   shortcuts: true,
   renderOptimization: false,
   data: [
-    {label: 'Custom Tooltip', key: 1, title: '', labelWrapper: children => <Tooltip title={'Cutom Tooltip'}>{children}</Tooltip>}
+    {label: 'Custom Tooltip', key: 1, title: '', labelWrapper: children => <Tooltip title={'Custom Tooltip'}>{children}</Tooltip>}
   ]
 };
