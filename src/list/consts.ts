@@ -1,6 +1,4 @@
-import React, {ComponentType, ReactNode, SyntheticEvent} from 'react';
-
-import {ReactElement} from 'react-markdown/lib/react-markdown';
+import React, {ComponentType, ReactNode, ReactElement, SyntheticEvent} from 'react';
 
 import {LinkProps} from '../link/link';
 import {IconType, Size} from '../icon/icon';
