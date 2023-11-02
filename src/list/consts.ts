@@ -66,7 +66,7 @@ export type ListDataItem<T = unknown> =
   originalModel?: never
   LinkComponent?: ComponentType<ClickableLinkProps> | string | null | undefined
   template?: ReactNode | ((props: ListDataItemProps<T>) => ReactNode)
-  wrapper?: (children: ReactNode) => ReactElement
+  labelWrapper?: (children: ReactNode) => ReactElement
   custom?: boolean | null | undefined
   onClick?:
     | ((item: ListDataItem<T>, event: Event | SyntheticEvent) => void)
