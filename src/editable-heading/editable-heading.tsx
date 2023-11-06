@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes, useEffect} from 'react';
+import React, {InputHTMLAttributes, useCallback, useEffect} from 'react';
 import classNames from 'classnames';
 
 import Heading, {Levels} from '../heading/heading';
@@ -144,7 +144,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
       onBlur?.(e);
     }, [onBlur]);
 
-  textAreaRef?.current?.addEventListener('scroll', () => {
+
+  const onScroll = useCallback(() => {
     const scrollHeight = textAreaRef?.current?.scrollHeight || 0;
     const clientHeight = textAreaRef?.current?.clientHeight || 0;
     const scrollTop = textAreaRef?.current?.scrollTop || 0;
@@ -156,17 +157,24 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     } else {
       textAreaWrapperRef?.current?.classList.add(styles.textareaWrapper);
     }
-  });
+  }, []);
 
   useEffect(() => {
+    const textAreaRefCurrent = textAreaRef?.current;
+    textAreaRefCurrent?.addEventListener('scroll', onScroll);
+
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
+
+      if (textAreaRefCurrent) {
+        textAreaRefCurrent.removeEventListener('scroll', onScroll);
+      }
     };
-  });
+  }, [onMouseMove, onMouseUp, onScroll]);
 
   return (
     <>
