@@ -13,6 +13,8 @@ import styles from './editable-heading.css';
 export {Levels};
 export {Size};
 
+const DEFAULT_MULTILINE_INPUT_ROWS = 3;
+
 export interface EditableHeadingTranslations {
   save: string;
   cancel: string;
@@ -36,7 +38,6 @@ export type EditableHeadingProps = Omit<
   'data-test'?: string | null;
   error?: string;
   multiline?: boolean;
-  multilineInput?: boolean;
   multilineInputRows?: number;
   renderMenu?: () => React.ReactNode;
   translations?: EditableHeadingTranslations;
@@ -56,8 +57,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
       save: 'Save',
       cancel: 'Cancel'
     },
-    multilineInput,
-    multilineInputRows,
+    multilineInputRows = DEFAULT_MULTILINE_INPUT_ROWS,
     ...restProps
   } = props;
 
@@ -188,7 +188,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                 disabled={isShortcutsDisabled}
               />
 
-              {!multilineInput
+              {!multiline
                 ? (
                   <input
                     className={inputClasses}
