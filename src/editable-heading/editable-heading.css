@@ -127,6 +127,28 @@
   }
 }
 
+.textarea {
+  resize: none;
+}
+
+.textareaWrapper {
+  position: relative;
+
+  &::after {
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+
+    width: 100%;
+    height: 30px;
+
+    content: "";
+    pointer-events: none;
+
+    background: linear-gradient(to bottom, rgba(var(--ring-content-background-components), 0), rgba(var(--ring-content-background-components), 1));
+  }
+}
+
 .button {
   margin: 6px 0;
 }

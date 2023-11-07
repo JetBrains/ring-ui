@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes, useEffect} from 'react';
+import React, {InputHTMLAttributes, useCallback, useEffect} from 'react';
 import classNames from 'classnames';
 
 import Heading, {Levels} from '../heading/heading';
@@ -13,12 +13,16 @@ import styles from './editable-heading.css';
 export {Levels};
 export {Size};
 
+const DEFAULT_MULTILINE_INPUT_ROWS = 3;
+
 export interface EditableHeadingTranslations {
   save: string;
   cancel: string;
 }
 
-export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'size'> & {
+export type EditableHeadingProps = Omit<
+  InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement
+>, 'value' | 'size'> & {
   level?: Levels;
   headingClassName?: string | null;
   inputClassName?: string | null;
@@ -34,6 +38,7 @@ export type EditableHeadingProps = Omit<InputHTMLAttributes<HTMLInputElement>, '
   'data-test'?: string | null;
   error?: string;
   multiline?: boolean;
+  multilineInputRows?: number;
   renderMenu?: () => React.ReactNode;
   translations?: EditableHeadingTranslations;
 };
@@ -52,6 +57,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
       save: 'Save',
       cancel: 'Cancel'
     },
+    multilineInputRows = DEFAULT_MULTILINE_INPUT_ROWS,
     ...restProps
   } = props;
 
@@ -59,6 +65,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   const [isInFocus, setIsInFocus] = React.useState(false);
   const [isMouseDown, setIsMouseDown] = React.useState(false);
   const [isInSelectionMode, setIsInSelectionMode] = React.useState(false);
+  const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
+  const textAreaWrapperRef = React.useRef<HTMLDivElement>(null);
 
   const hasError = error !== undefined;
 
@@ -95,6 +103,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   const inputClasses = classNames(
     'ring-js-shortcuts',
     styles.input,
+    styles.textarea,
     inputStyles[`size${size}`],
     styles[`level${level}`],
     inputClassName
@@ -121,25 +130,51 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     setIsInSelectionMode(false);
   }, [isMouseDown, isInSelectionMode, disabled, onEdit]);
 
-  const onInputFocus = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
-    setIsInFocus(true);
-    onFocus?.(e);
-  }, [onFocus]);
+  const onInputFocus = React.useCallback(
+    (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+      setIsInFocus(true);
+      onFocus?.(e);
+    }, [onFocus]);
 
-  const onInputBlur = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
-    setIsInFocus(false);
-    onBlur?.(e);
-  }, [onBlur]);
+  const onInputBlur = React.useCallback(
+    (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+      setIsInFocus(false);
+      onBlur?.(e);
+    }, [onBlur]);
+
+
+  const onScroll = useCallback(() => {
+    const scrollHeight = textAreaRef?.current?.scrollHeight || 0;
+    const clientHeight = textAreaRef?.current?.clientHeight || 0;
+    const scrollTop = textAreaRef?.current?.scrollTop || 0;
+
+    const isScrolledToBottom = scrollHeight - clientHeight <= scrollTop;
+
+    if (isScrolledToBottom) {
+      textAreaWrapperRef?.current?.classList.remove(styles.textareaWrapper);
+    } else {
+      textAreaWrapperRef?.current?.classList.add(styles.textareaWrapper);
+    }
+  }, []);
 
   useEffect(() => {
+    const textAreaRefCurrent = textAreaRef?.current;
+    textAreaRefCurrent?.addEventListener('scroll', onScroll);
+
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
+
+      if (textAreaRefCurrent) {
+        textAreaRefCurrent.removeEventListener('scroll', onScroll);
+      }
     };
-  });
+  }, [onMouseMove, onMouseUp, onScroll]);
 
   return (
     <>
@@ -153,16 +188,35 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                 disabled={isShortcutsDisabled}
               />
 
-              <input
-                className={inputClasses}
-                value={children}
-                autoFocus={autoFocus}
-                data-test={dataTest}
-                disabled={isSaving}
-                {...restProps}
-                onFocus={onInputFocus}
-                onBlur={onInputBlur}
-              />
+              {!multiline
+                ? (
+                  <input
+                    className={inputClasses}
+                    value={children}
+                    autoFocus={autoFocus}
+                    data-test={dataTest}
+                    disabled={isSaving}
+                    {...restProps}
+                    onFocus={onInputFocus}
+                    onBlur={onInputBlur}
+                  />
+                )
+                : (
+                  <div ref={textAreaWrapperRef} className={styles.textareaWrapper}>
+                    <textarea
+                      ref={textAreaRef}
+                      className={inputClasses}
+                      value={children}
+                      autoFocus={autoFocus}
+                      rows={multilineInputRows}
+                      data-test={dataTest}
+                      disabled={isSaving}
+                      {...restProps}
+                      onFocus={onInputFocus}
+                      onBlur={onInputBlur}
+                    />
+                  </div>
+                )}
             </>
           )
           : (
