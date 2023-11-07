@@ -60,6 +60,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       leftNodes,
       showGeneratedAvatar,
       username,
+      labelWrapper,
       ...restProps
     } = this.props;
 
@@ -102,6 +103,14 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       'ring-list-item-action': !disabled,
       'ring-list-item-selected': checkbox
     }, restProps['data-test']);
+
+    const labelElement = (
+      <span
+        className={styles.label}
+        title={computedTitle}
+        data-test="ring-list-item-label"
+      >{label}</span>
+    );
 
     return (
       <div className={styles.itemContainer} data-test={dataTest}>
@@ -153,11 +162,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
               </div>
             )}
 
-            <span
-              className={styles.label}
-              title={computedTitle}
-              data-test="ring-list-item-label"
-            >{label}</span>
+            {labelWrapper ? labelWrapper(labelElement) : labelElement}
 
             {description && (
               <span
