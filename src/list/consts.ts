@@ -1,4 +1,4 @@
-import React, {ComponentType, ReactNode, SyntheticEvent} from 'react';
+import React, {ComponentType, ReactNode, ReactElement, SyntheticEvent} from 'react';
 
 import {LinkProps} from '../link/link';
 import {IconType, Size} from '../icon/icon';
@@ -61,6 +61,7 @@ export type ListDataItem<T = unknown> =
   originalModel?: never
   LinkComponent?: ComponentType<ClickableLinkProps> | string | null | undefined
   template?: ReactNode | ((props: ListDataItemProps<T>) => ReactNode)
+  labelWrapper?: (children: ReactNode) => ReactElement
   custom?: boolean | null | undefined
   onClick?:
     | ((item: ListDataItem<T>, event: Event | SyntheticEvent) => void)
