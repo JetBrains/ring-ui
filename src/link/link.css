@@ -26,10 +26,6 @@
     color: var(--ring-link-hover-color);
   }
 
-  &.active {
-    color: inherit;
-  }
-
   /* stylelint-disable-next-line selector-max-specificity */
   &.pseudo:hover {
     text-decoration: none;
@@ -38,6 +34,10 @@
   &:focus-visible {
     box-shadow: 0 0 0 2px var(--ring-border-hover-color);
   }
+}
+
+.link.active {
+  color: inherit;
 }
 
 .inherit:not(:hover) {
