@@ -38,6 +38,10 @@
   cursor: default;
   overflow-wrap: break-word;
 
+  & [data-scrollable-container] {
+    padding-bottom: unit;
+  }
+
   & .panel {
     margin-top: 0;
     padding: calc(unit * 2) calc(unit * 4) calc(unit * 4);
