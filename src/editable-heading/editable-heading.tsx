@@ -13,6 +13,8 @@ import styles from './editable-heading.css';
 export {Levels};
 export {Size};
 
+const BOTTOM_OFFSET = 9;
+
 export interface EditableHeadingTranslations {
   save: string;
   cancel: string;
@@ -24,6 +26,7 @@ export type EditableHeadingProps = Omit<
   level?: Levels;
   headingClassName?: string | null;
   inputClassName?: string | null;
+  textAreaWrapperClassName?: string | null;
   isEditing?: boolean;
   isSavingPossible?: boolean;
   isSaving?: boolean;
@@ -52,6 +55,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     renderMenu = () => null,
     onFocus, onBlur, onChange,
     onScroll, maxInputHeight,
+    textAreaWrapperClassName,
     translations = {
       save: 'Save',
       cancel: 'Cancel'
@@ -64,7 +68,6 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   const [isMouseDown, setIsMouseDown] = React.useState(false);
   const [isInSelectionMode, setIsInSelectionMode] = React.useState(false);
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
-  const textAreaWrapperRef = React.useRef<HTMLDivElement>(null);
   const [isScrolledToBottom, setIsScrolledToBottom] = React.useState(false);
 
   const hasError = error !== undefined;
@@ -114,7 +117,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     }
 
     el.style.height = '0';
-    el.style.height = `${el.scrollHeight + 2}px`;
+    el.style.height = `${el.scrollHeight - BOTTOM_OFFSET}px`;
   }, []);
 
   const checkValue = useCallback((el: HTMLElement | null | undefined) => {
@@ -218,9 +221,12 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                 )
                 : (
                   <div
-                    ref={textAreaWrapperRef}
                     className={
-                      classNames({[styles.textareaWrapperFocused]: !isScrolledToBottom})
+                      classNames(
+                        styles.textAreaWrapper,
+                        {[styles.textareaWrapperFocused]: !isScrolledToBottom},
+                        textAreaWrapperClassName
+                      )
                     }
                   >
                     <textarea
