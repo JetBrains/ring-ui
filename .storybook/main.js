@@ -8,7 +8,7 @@ const pkgConfig = require('../package.json').config;
 module.exports = {
   stories: [
     // Make welcome stories default
-    '../src/welcome.stories.js',
+    '../src/welcome.stories.tsx',
     '../src/**/*.stories.{js,ts,tsx}'
   ],
   addons: [
