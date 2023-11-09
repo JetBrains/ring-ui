@@ -15,6 +15,10 @@
   }
 }
 
+.textAreaWrapper {
+  margin-bottom: -5px;
+}
+
 .headingWrapperButton {
   min-width: 0;
   max-width: 100%;
@@ -147,6 +151,10 @@
 
     background: linear-gradient(to bottom, rgba(var(--ring-content-background-components), 0), rgba(var(--ring-content-background-components), 1));
   }
+}
+
+.textareaWrapper {
+  margin-bottom: -5px;
 }
 
 .button {
