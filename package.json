@@ -103,7 +103,7 @@
     "@types/chai": "^4.3.10",
     "@types/chai-as-promised": "^7.1.8",
     "@types/chai-dom": "0.0.10",
-    "@types/chai-enzyme": "^0.6.12",
+    "@types/chai-enzyme": "^0.6.13",
     "@types/enzyme": "^3.10.16",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.14",
