@@ -13,8 +13,6 @@ import styles from './editable-heading.css';
 export {Levels};
 export {Size};
 
-const BOTTOM_OFFSET = 9;
-
 export interface EditableHeadingTranslations {
   save: string;
   cancel: string;
@@ -55,7 +53,6 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     renderMenu = () => null,
     onFocus, onBlur, onChange,
     onScroll, maxInputHeight,
-    textAreaWrapperClassName,
     translations = {
       save: 'Save',
       cancel: 'Cancel'
@@ -117,7 +114,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     }
 
     el.style.height = '0';
-    el.style.height = `${el.scrollHeight - BOTTOM_OFFSET}px`;
+    const {paddingTop, paddingBottom} = window.getComputedStyle(el);
+    el.style.height = `${el.scrollHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)}px`;
   }, []);
 
   const checkValue = useCallback((el: HTMLElement | null | undefined) => {
@@ -224,8 +222,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                     className={
                       classNames(
                         styles.textAreaWrapper,
-                        {[styles.textareaWrapperFocused]: !isScrolledToBottom},
-                        textAreaWrapperClassName
+                        inputStyles[`size${size}`],
+                        {[styles.textareaWrapperFocused]: !isScrolledToBottom}
                       )
                     }
                   >
