@@ -221,7 +221,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                   <div
                     className={
                       classNames(
-                        styles.textAreaWrapper,
+                        styles.textareaWrapper,
                         inputStyles[`size${size}`],
                         {[styles.textareaWrapperFocused]: !isScrolledToBottom}
                       )
