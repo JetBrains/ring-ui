@@ -210,7 +210,7 @@
     "@types/combokeys": "^2.4.9",
     "@types/deep-equal": "^1.0.3",
     "@types/element-resize-detector": "^1.1.6",
-    "@types/google.analytics": "0.0.44",
+    "@types/google.analytics": "0.0.45",
     "@types/prop-types": "^15.7.10",
     "@types/react-virtualized": "9.21.26",
     "@types/util-deprecate": "^1.0.1",
