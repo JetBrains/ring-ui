@@ -222,8 +222,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                     className={
                       classNames(
                         styles.textareaWrapper,
-                        inputStyles[`size${size}`],
-                        {[styles.textareaWrapperFocused]: !isScrolledToBottom}
+                        inputStyles[`size${size}`]
                       )
                     }
                   >
@@ -241,6 +240,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                       onScroll={onInputScroll}
                       style={{maxHeight: maxInputHeight}}
                     />
+                    {!isScrolledToBottom && <div className={styles.textareaFade}/>}
                   </div>
                 )}
             </>
