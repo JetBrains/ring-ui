@@ -211,6 +211,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                     autoFocus={autoFocus}
                     data-test={dataTest}
                     disabled={isSaving}
+                    onChange={onChange}
                     {...restProps}
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
