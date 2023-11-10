@@ -24,7 +24,6 @@ export type EditableHeadingProps = Omit<
   level?: Levels;
   headingClassName?: string | null;
   inputClassName?: string | null;
-  textAreaWrapperClassName?: string | null;
   isEditing?: boolean;
   isSavingPossible?: boolean;
   isSaving?: boolean;
