@@ -64,7 +64,6 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   const [isMouseDown, setIsMouseDown] = React.useState(false);
   const [isInSelectionMode, setIsInSelectionMode] = React.useState(false);
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
-  const textAreaWrapperRef = React.useRef<HTMLDivElement>(null);
   const [isScrolledToBottom, setIsScrolledToBottom] = React.useState(false);
 
   const hasError = error !== undefined;
@@ -114,7 +113,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     }
 
     el.style.height = '0';
-    el.style.height = `${el.scrollHeight + 2}px`;
+    const {paddingTop, paddingBottom} = window.getComputedStyle(el);
+    el.style.height = `${el.scrollHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)}px`;
   }, []);
 
   const checkValue = useCallback((el: HTMLElement | null | undefined) => {
@@ -219,9 +219,11 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                 )
                 : (
                   <div
-                    ref={textAreaWrapperRef}
                     className={
-                      classNames({[styles.textareaWrapperFocused]: !isScrolledToBottom})
+                      classNames(
+                        styles.textareaWrapper,
+                        inputStyles[`size${size}`]
+                      )
                     }
                   >
                     <textarea
@@ -238,6 +240,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                       onScroll={onInputScroll}
                       style={{maxHeight: maxInputHeight}}
                     />
+                    {!isScrolledToBottom && <div className={styles.textareaFade}/>}
                   </div>
                 )}
             </>
