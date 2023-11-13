@@ -5,11 +5,9 @@ import hubConfig from '../../.storybook/hub-config';
 
 import authDialogService from '../auth-dialog-service/auth-dialog-service';
 import Link from '../link/link';
-import linkSyles from '../link/link.css';
 
 import Auth from './auth';
 import IFrameFlow from './iframe-flow';
-import LandingEntryFileName from './landing-entry';
 
 export default {
   title: 'Utilities/Auth',
@@ -80,52 +78,3 @@ export const InIFrame = () => {
 };
 
 InIFrame.storyName = 'in IFrame';
-
-export const landingPage = () => {
-  const node = document.createElement('div');
-  node.innerHTML = `
-      <div id="example">
-        <div><a href="#" id="open-link" class="${linkSyles.link}">Open landing page</a></div>
-        <div><a href="#" id="force-update" class="${linkSyles.link}">Force token update</a></div>
-        <div><a href="#" id="log-out" class="${linkSyles.link}">Log out</a></div>
-        <div id="example-2"></div>
-      </div>
-    `;
-
-  const auth = new Auth(hubConfig);
-  async function run() {
-    auth.setAuthDialogService(authDialogService);
-    await auth.init();
-
-    const user = await auth.requestUser();
-    console.log('Logged in as:', user.name);
-  }
-
-  run();
-
-  return (
-    <div id="example">
-      <div><Link href={LandingEntryFileName}>Open landing page</Link></div>
-      <div>
-        <Link
-          pseudo
-          onClick={async () => {
-            const newToken = await auth.forceTokenUpdate();
-            console.log('New token:', newToken);
-          }}
-        >Force token update</Link>
-      </div>
-      <div>
-        <Link
-          pseudo
-          onClick={() => {
-            auth.login();
-          }}
-        >Log out</Link>
-      </div>
-      <div id="example-2"/>
-    </div>
-  );
-};
-
-landingPage.storyName = 'landing page';
