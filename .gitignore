@@ -31,7 +31,6 @@ test_gen
 eslint-report.xml
 http-server.log
 jetbrains-ring-ui-*.tgz
-lerna-debug.log
 npm-debug.log*
 browserstack.log*
 yarn-error.log
