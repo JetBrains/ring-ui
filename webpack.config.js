@@ -91,5 +91,5 @@ module.exports = {
   createConfig,
   config,
   componentsPath,
-  loaders: {...loaders}
+  loaders
 };
