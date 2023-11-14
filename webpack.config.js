@@ -91,28 +91,5 @@ module.exports = {
   createConfig,
   config,
   componentsPath,
-  loaders: {
-    ...loaders,
-    get svgInlineLoader() {
-      throw new Error('***Ring UI embedded "svgInlineLoader" removed in 4.0. Please install and use own instance if you need it.***');
-    },
-    get scssLoader() {
-      throw new Error('***Ring UI embedded "scssLoader" removed in 4.0. Please install and use own instance if you need it.***');
-    },
-    get svgLoader() {
-      throw new Error('***Ring UI embedded "svgLoader" removed in 4.0. Please install and use own instance if you need it.***');
-    },
-    get vfileLoader() {
-      throw new Error('***Ring UI embedded "vfileLoader" removed in 4.0. Please install and use own instance if you need it.***');
-    },
-    get htmlLoader() {
-      // eslint-disable-next-line no-console
-      console.warn('RingUI\'s "loaders.htmlLoader" is deprecated and will be removed soon. Please don\'t use it in your build');
-      return {
-        test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
-        include: componentsPath,
-        loader: require.resolve('html-loader')
-      };
-    }
-  }
+  loaders: {...loaders}
 };
