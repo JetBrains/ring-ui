@@ -716,6 +716,9 @@ object Publish : BuildType({
                     UserKnownHostsFile /dev/null
                 EOT
 
+                node -v
+                npm -v
+
                 chmod 644 ~/.ssh/config
 
                 # GitHub and NPM authorization
@@ -724,15 +727,13 @@ object Publish : BuildType({
 
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
 
-                node -v
-                npm -v
-                npm whoami
-
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
+
+                npm whoami
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
@@ -765,7 +766,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:16"
+            dockerImage = "node:16.18"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -999,7 +1000,7 @@ object PublishNext : BuildType({
     allowExternalStatus = true
 
     params {
-        param("env.NPM_VERSION_PARAMS", "patch --preid beta")
+        param("env.NPM_VERSION_PARAMS", "prepatch --preid beta")
         param("env.NPM_PUBLISH_PARAMS", "--tag next")
 
         param("vcs.branch.spec", """
@@ -1083,7 +1084,8 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:16"
+            dockerImage = "node:16.18"
+            dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
