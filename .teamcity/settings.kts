@@ -737,18 +737,23 @@ object Publish : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
-                npm run build
 
+                # Reset possibly changed lock to avoid "git status is not clear" error
+                git checkout package.json package-lock.json
+                npm run release-ci
+                cat package.json
+
+                ########## Here goes publishing of pre-built version
+                npm run build
                 if [ ! -d "./dist" ]
                 then
                     echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
                     exit 333
                 fi
-
-                # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json package-lock.json
-                npm run release-ci
-
+                rm -rf components
+                mv dist components
+                npm run release-built-ci
+                ########## End of pre-built version publishing
                 cat package.json
 
                 function publishBuildNumber {
@@ -884,11 +889,22 @@ object PublishHotfixRelease : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
+
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json package-lock.json packages/*/package-lock.json
-                npm whoami
+                git checkout package.json package-lock.json
                 npm run release-ci
 
+                ########## Here goes publishing of pre-built version
+                npm run build
+                if [ ! -d "./dist" ]
+                then
+                    echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
+                    exit 333
+                fi
+                rm -rf components
+                mv dist components
+                npm run release-built-ci
+                ########## End of pre-built version publishing
                 cat package.json
 
                 function publishBuildNumber {
@@ -1040,11 +1056,22 @@ object PublishNext : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
-                npm run build
+
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json package-lock.json packages/*/package-lock.json
+                git checkout package.json package-lock.json
                 npm run release-ci
 
+                ########## Here goes publishing of pre-built version
+                npm run build
+                if [ ! -d "./dist" ]
+                then
+                    echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
+                    exit 333
+                fi
+                rm -rf components
+                mv dist components
+                npm run release-built-ci
+                ########## End of pre-built version publishing
                 cat package.json
 
                 function publishBuildNumber {
