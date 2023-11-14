@@ -63,6 +63,13 @@ function clearAndRenamePackage() {
   // Rename package.name
   sourcePackageJSON.name = BUILT_PACKAGE_NAME;
 
+  // Remove "webpack" from peer dependencies
+  delete sourcePackageJSON.peerDependencies.webpack;
+  delete sourcePackageJSON.peerDependenciesMeta.webpack;
+
+  // Remove build-time files from files to be published
+  sourcePackageJSON.files = ['components', 'typings.d.ts'];
+
   // Check if the CLI argument is provided and is true
   const filteredData = filterDependencies(sourcePackageJSON, WHITE_LIST);
   updatePackageJSON('./package.json', filteredData);
