@@ -238,7 +238,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                       onFocus={onInputFocus}
                       onBlur={onInputBlur}
                       onScroll={onInputScroll}
-                      style={{maxHeight: `${maxInputRows}lh`}}
+                      style={{maxHeight: maxInputRows ? `${maxInputRows}lh` : ''}}
                     />
                     {!isScrolledToBottom && <div className={styles.textareaFade}/>}
                   </div>
