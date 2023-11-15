@@ -36,7 +36,7 @@ export type EditableHeadingProps = Omit<
   'data-test'?: string | null;
   error?: string;
   multiline?: boolean;
-  maxInputHeight?: number;
+  maxInputRows?: number;
   renderMenu?: () => React.ReactNode;
   translations?: EditableHeadingTranslations;
 };
@@ -51,7 +51,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     autoFocus = true, 'data-test': dataTest, error, disabled, multiline = false,
     renderMenu = () => null,
     onFocus, onBlur, onChange,
-    onScroll, maxInputHeight,
+    onScroll, maxInputRows,
     translations = {
       save: 'Save',
       cancel: 'Cancel'
@@ -238,7 +238,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                       onFocus={onInputFocus}
                       onBlur={onInputBlur}
                       onScroll={onInputScroll}
-                      style={{maxHeight: maxInputHeight}}
+                      style={{maxHeight: `calc(${maxInputRows} * 1lh)`}}
                     />
                     {!isScrolledToBottom && <div className={styles.textareaFade}/>}
                   </div>
