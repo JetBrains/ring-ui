@@ -65,6 +65,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   const [isInSelectionMode, setIsInSelectionMode] = React.useState(false);
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
   const [isScrolledToBottom, setIsScrolledToBottom] = React.useState(false);
+  const [isOverflow, setIsOverflow] = React.useState(false);
 
   const hasError = error !== undefined;
 
@@ -102,6 +103,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     'ring-js-shortcuts',
     styles.input,
     styles.textarea,
+    {[styles.textareaNotOverflow]: !isOverflow},
     inputStyles[`size${size}`],
     styles[`level${level}`],
     inputClassName
@@ -129,6 +131,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     const scrollTop = el.scrollTop || 0;
 
     setIsScrolledToBottom(scrollHeight - clientHeight <= scrollTop);
+    setIsOverflow(scrollHeight > clientHeight);
   }, [setIsScrolledToBottom]);
 
   const onHeadingMouseDown = React.useCallback(() => {
