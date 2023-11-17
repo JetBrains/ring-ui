@@ -131,6 +131,10 @@
   resize: none;
 }
 
+.textareaNotOverflow {
+  overflow: hidden;
+}
+
 .textareaFade {
   position: absolute;
   bottom: 0;
