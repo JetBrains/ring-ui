@@ -8,6 +8,8 @@ import ReadMe from '../README.md';
 import Contributing from '../CONTRIBUTING.md';
 import Changelog from '../CHANGELOG.md';
 
+import highlightStyles from './code/highlight.css';
+
 
 import Markdown from './markdown/markdown';
 
@@ -22,8 +24,7 @@ const markdownIt = new MarkdownIt('commonmark', {
 
     return '';
   }
-}).
-  enable('table');
+}).enable('table');
 
 export default {
   title: 'Ring UI/Welcome',
@@ -37,7 +38,10 @@ export const gettingStarted = () => {
   const renderedMarkdown = markdownIt.render(ReadMe);
   return (
     <Markdown>
-      <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
+      <div
+        className={highlightStyles.highlightContainer}
+        dangerouslySetInnerHTML={{__html: renderedMarkdown}}
+      />
     </Markdown>
   );
 };
@@ -45,7 +49,10 @@ export const contributing = () => {
   const renderedMarkdown = markdownIt.render(Contributing);
   return (
     <Markdown>
-      <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
+      <div
+        className={highlightStyles.highlightContainer}
+        dangerouslySetInnerHTML={{__html: renderedMarkdown}}
+      />
     </Markdown>
   );
 };
@@ -53,7 +60,10 @@ export const changelog = () => {
   const renderedMarkdown = markdownIt.render(Changelog);
   return (
     <Markdown>
-      <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
+      <div
+        className={highlightStyles.highlightContainer}
+        dangerouslySetInnerHTML={{__html: renderedMarkdown}}
+      />
     </Markdown>
   );
 };
