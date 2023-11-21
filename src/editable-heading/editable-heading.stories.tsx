@@ -104,7 +104,7 @@ export const basic = () => {
       </ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading multiline multilineInputRows={5}>
+      <ExampleEditableHeading multiline maxInputRows={5}>
         Multiline Heading.
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio tellus.
         Suspendisse ut elit orci. Pellentesque sagittis pharetra lacus, id vehicula mauris.

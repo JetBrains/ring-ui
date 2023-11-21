@@ -1,7 +1,7 @@
 # Ring UI — JetBrains Web UI components
 [![Storybook][storybook-img]][docsite] [![Build Status][ci-img]][ci-bt] [![Storybook][browserstack-img]][browserstack-build-page] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
 
-[![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+[![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)](https://github.com/JetBrains#jetbrains-on-github)
 
 This collection of UI components aims to provide all the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 

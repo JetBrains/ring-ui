@@ -12,7 +12,7 @@ import Table, {Table as BaseTable, TableAttrs} from './table';
 import MultiTable from './multitable';
 import Selection, {SelectionItem} from './selection';
 import mock from './table.stories.json';
-import {continents, countries} from './table.examples2.json';
+import tableData from './table.examples2.json';
 import {SortParams} from './header-cell';
 
 export default {
@@ -263,8 +263,8 @@ basic.argTypes = {
 };
 basic.storyName = 'basic';
 
-const data1 = continents;
-const data2 = countries;
+const data1 = tableData.continents;
+const data2 = tableData.countries;
 
 class MultiTableDemo extends Component {
   state = {

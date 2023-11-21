@@ -131,22 +131,29 @@
   resize: none;
 }
 
+.textareaNotOverflow {
+  overflow: hidden;
+}
+
+.textareaFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 30px;
+
+  content: "";
+  pointer-events: none;
+
+  background: linear-gradient(to bottom, rgba(var(--ring-content-background-components), 0), rgba(var(--ring-content-background-components), 1));
+}
+
+
 .textareaWrapper {
   position: relative;
 
-  &::after {
-    position: absolute;
-    bottom: 6px;
-    left: 0;
-
-    width: 100%;
-    height: 30px;
-
-    content: "";
-    pointer-events: none;
-
-    background: linear-gradient(to bottom, rgba(var(--ring-content-background-components), 0), rgba(var(--ring-content-background-components), 1));
-  }
+  display: flex;
 }
 
 .button {
@@ -171,7 +178,7 @@
 }
 
 .level3 {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .sizeS {
