@@ -13,8 +13,6 @@ import styles from './editable-heading.css';
 export {Levels};
 export {Size};
 
-const DEFAULT_MULTILINE_INPUT_ROWS = 3;
-
 export interface EditableHeadingTranslations {
   save: string;
   cancel: string;
@@ -38,7 +36,7 @@ export type EditableHeadingProps = Omit<
   'data-test'?: string | null;
   error?: string;
   multiline?: boolean;
-  multilineInputRows?: number;
+  maxInputRows?: number;
   renderMenu?: () => React.ReactNode;
   translations?: EditableHeadingTranslations;
 };
@@ -52,12 +50,12 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     size = Size.L, onEdit = noop, onSave = noop, onCancel = noop,
     autoFocus = true, 'data-test': dataTest, error, disabled, multiline = false,
     renderMenu = () => null,
-    onFocus, onBlur,
+    onFocus, onBlur, onChange,
+    onScroll, maxInputRows,
     translations = {
       save: 'Save',
       cancel: 'Cancel'
     },
-    multilineInputRows = DEFAULT_MULTILINE_INPUT_ROWS,
     ...restProps
   } = props;
 
@@ -66,7 +64,8 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   const [isMouseDown, setIsMouseDown] = React.useState(false);
   const [isInSelectionMode, setIsInSelectionMode] = React.useState(false);
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
-  const textAreaWrapperRef = React.useRef<HTMLDivElement>(null);
+  const [isScrolledToBottom, setIsScrolledToBottom] = React.useState(false);
+  const [isOverflow, setIsOverflow] = React.useState(false);
 
   const hasError = error !== undefined;
 
@@ -104,10 +103,36 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     'ring-js-shortcuts',
     styles.input,
     styles.textarea,
+    {[styles.textareaNotOverflow]: !isOverflow},
     inputStyles[`size${size}`],
     styles[`level${level}`],
     inputClassName
   );
+
+  const stretch = useCallback((el: HTMLElement | null | undefined) => {
+    if (!el || !el.style) {
+      return;
+    }
+
+    el.style.height = '0';
+    const {paddingTop, paddingBottom} = window.getComputedStyle(el);
+    el.style.height = `${el.scrollHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)}px`;
+  }, []);
+
+  const checkValue = useCallback((el: HTMLElement | null | undefined) => {
+    if (multiline && el != null && el.scrollHeight >= el.clientHeight) {
+      stretch(el);
+    }
+  }, [stretch, multiline]);
+
+  const checkOverflow = useCallback((el: HTMLInputElement | HTMLTextAreaElement) => {
+    const scrollHeight = el.scrollHeight || 0;
+    const clientHeight = el.clientHeight || 0;
+    const scrollTop = el.scrollTop || 0;
+
+    setIsScrolledToBottom(scrollHeight - clientHeight <= scrollTop);
+    setIsOverflow(scrollHeight > clientHeight);
+  }, [setIsScrolledToBottom]);
 
   const onHeadingMouseDown = React.useCallback(() => {
     setIsMouseDown(true);
@@ -134,8 +159,23 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
       setIsInFocus(true);
+      checkValue(e.target);
+      checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
       onFocus?.(e);
-    }, [onFocus]);
+    }, [onFocus, checkOverflow, checkValue]);
+
+  const onInputChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      checkValue(e.target);
+      checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
+      onChange?.(e);
+    }, [onChange, checkOverflow, checkValue]);
+
+  const onInputScroll = React.useCallback(
+    (e: React.UIEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
+      onScroll?.(e);
+    }, [onScroll, checkOverflow]);
 
   const onInputBlur = React.useCallback(
     (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -144,37 +184,15 @@ export const EditableHeading = (props: EditableHeadingProps) => {
       onBlur?.(e);
     }, [onBlur]);
 
-
-  const onScroll = useCallback(() => {
-    const scrollHeight = textAreaRef?.current?.scrollHeight || 0;
-    const clientHeight = textAreaRef?.current?.clientHeight || 0;
-    const scrollTop = textAreaRef?.current?.scrollTop || 0;
-
-    const isScrolledToBottom = scrollHeight - clientHeight <= scrollTop;
-
-    if (isScrolledToBottom) {
-      textAreaWrapperRef?.current?.classList.remove(styles.textareaWrapper);
-    } else {
-      textAreaWrapperRef?.current?.classList.add(styles.textareaWrapper);
-    }
-  }, []);
-
   useEffect(() => {
-    const textAreaRefCurrent = textAreaRef?.current;
-    textAreaRefCurrent?.addEventListener('scroll', onScroll);
-
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
-
-      if (textAreaRefCurrent) {
-        textAreaRefCurrent.removeEventListener('scroll', onScroll);
-      }
     };
-  }, [onMouseMove, onMouseUp, onScroll]);
+  }, [onMouseMove, onMouseUp]);
 
   return (
     <>
@@ -196,25 +214,36 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                     autoFocus={autoFocus}
                     data-test={dataTest}
                     disabled={isSaving}
+                    onChange={onChange}
                     {...restProps}
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
                   />
                 )
                 : (
-                  <div ref={textAreaWrapperRef} className={styles.textareaWrapper}>
+                  <div
+                    className={
+                      classNames(
+                        styles.textareaWrapper,
+                        inputStyles[`size${size}`]
+                      )
+                    }
+                  >
                     <textarea
                       ref={textAreaRef}
                       className={inputClasses}
                       value={children}
                       autoFocus={autoFocus}
-                      rows={multilineInputRows}
                       data-test={dataTest}
                       disabled={isSaving}
+                      onChange={onInputChange}
                       {...restProps}
                       onFocus={onInputFocus}
                       onBlur={onInputBlur}
+                      onScroll={onInputScroll}
+                      style={{maxHeight: maxInputRows ? `${maxInputRows}lh` : ''}}
                     />
+                    {!isScrolledToBottom && <div className={styles.textareaFade}/>}
                   </div>
                 )}
             </>
