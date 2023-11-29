@@ -3,7 +3,6 @@
  */
 
 import React, {
-  cloneElement,
   Component,
   ReactNode,
   ReactElement,
@@ -306,8 +305,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       }
     })
   );
-
-  private _activatableItems = false;
 
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   private _bufferSize = 10; // keep X items above and below of the visible area
@@ -659,7 +656,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       )
       : (
         <div role="row" id={itemId} key={itemKey}>
-          <div role="cell">{cloneElement(el)}</div>
+          <div role="cell">{el}</div>
         </div>
       );
   };
