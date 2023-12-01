@@ -42,6 +42,10 @@
   width: 0;
 }
 
+.popup {
+  overscroll-behavior: contain;
+}
+
 .filterWrapper {
   position: relative;
 
