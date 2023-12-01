@@ -9,6 +9,7 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLElement>{
   value: number
   label: string
   global?: boolean | null | undefined
+  staticColor?: boolean;
 }
 
 /**
@@ -57,7 +58,13 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
      * A floating point number that specifies current task completion rate.
      * @type {number}
      */
-    value: PropTypes.number
+    value: PropTypes.number,
+
+    /**
+     * Disables Disabled progress bar color animation and sets it to static color.
+     * @type {boolean}
+     */
+    staticColor: PropTypes.bool
   };
 
   static defaultProps = {
@@ -77,11 +84,12 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
   };
 
   render() {
-    const {className, global, max, value, label, ...otherProps} = this.props;
+    const {className, global, max, value, label, staticColor, ...otherProps} = this.props;
 
     const width = value ? `${ProgressBar.toPercent(value, max)}%` : undefined;
     const classes = classNames(styles.progressBar, className, {
-      [styles.globalMode]: global
+      [styles.globalMode]: global,
+      [styles.staticLineColor]: staticColor
     });
 
     return (
