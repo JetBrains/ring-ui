@@ -63,6 +63,12 @@
 
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--ring-progress-bar-line-background-color), rgba(0, 0, 0, 0));
     background-repeat: no-repeat;
+
+    .staticLineColor &  {
+      animation: none;
+
+      background-image: var(--ring-progress-bar-line-background-color);
+    }
   }
 }
 
