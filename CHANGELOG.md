@@ -1,9 +1,17 @@
-## [6.0.0]
+## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
 
 ### BREAKING CHANGES
+- All AngularJS components has been removed
+- Pre-built components (located in "dist") folder has been extracted into separate package, [@jetbrains/ring-ui-built](https://www.npmjs.com/package/@jetbrains/ring-ui-built). For details, see [RG-2304](https://youtrack.jetbrains.com/issue/RG-2304)
 - Minimum supported React version is 18.0.0. `setClient` utility is deprecated and will be removed in 7.0
 - `--ring-border-unselected-disabled-color` CSS custom property is removed. Use `--ring-border-disabled-color` instead.
 - `List.ListProps.Dimension` is now a plain object instead of an enum
+- "Auth landing page" component has been removed
+- Markdown component now only provides styling, not the rendering logic. See [RG-2310](https://youtrack.jetbrains.com/issue/RG-2310)
+- `<Link/>` component now has no inner `<span/>`, see [RG-2311](https://youtrack.jetbrains.com/issue/RG-2311)
+
+### Other changes
+- Dark theme colors has been updated. See [RG-2306](https://youtrack.jetbrains.com/issue/RG-2306)
 
 ## [5.0.0]
 
