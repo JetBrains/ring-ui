@@ -6,22 +6,26 @@
 This collection of UI components aims to provide all the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 
 ## Try now
-* Try the [codesandbox](https://codesandbox.io/s/ring-ui-sandbox-wrigs), based on `create-react-app` tooling, to see and try the UI components
+* Try the [codesandbox](https://codesandbox.io/p/devbox/ring-ui-6-0-demo-l5v5fk), based on `create-react-app` tooling, to see and try the UI components
 * Check out [list of examples](https://jetbrains.github.io/ring-ui/master/index.html) for each component
 
 ## Installation
 
-`npm install @jetbrains/ring-ui`
+* For Quick Start, use pre-built version: 
+  `npm install @jetbrains/ring-ui-built`
+* For complex projects, use "sources" version
+  `npm install @jetbrains/ring-ui`
+  You will then need to include building Ring UI into your WebPack build (see "Building Ring UI from source via Webpack" below)
 
 ### Quick start
 
 The easiest way is to import necessary components as ES modules:
 ```js
 // You need to import RingUI styles once
-import '@jetbrains/ring-ui/dist/style.css';
+import '@jetbrains/ring-ui-built/components/style.css';
 
-import alertService from '@jetbrains/ring-ui/dist/alert-service/alert-service';
-import Button from '@jetbrains/ring-ui/dist/button/button';
+import alertService from '@jetbrains/ring-ui-built/components/alert-service/alert-service';
+import Button from '@jetbrains/ring-ui-built/components/button/button';
 
 ...
 
