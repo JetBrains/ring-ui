@@ -741,11 +741,11 @@ object Publish : BuildType({
 
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json
+                npm run build
                 npm run release-ci
                 cat package.json
 
                 ########## Here goes publishing of pre-built version
-                npm run build
                 if [ ! -d "./dist" ]
                 then
                     echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
@@ -893,10 +893,10 @@ object PublishHotfixRelease : BuildType({
 
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json
+                npm run build
                 npm run release-ci
 
                 ########## Here goes publishing of pre-built version
-                npm run build
                 if [ ! -d "./dist" ]
                 then
                     echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
@@ -1060,10 +1060,10 @@ object PublishNext : BuildType({
 
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json
+                npm run build
                 npm run release-ci
 
                 ########## Here goes publishing of pre-built version
-                npm run build
                 if [ ! -d "./dist" ]
                 then
                     echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
