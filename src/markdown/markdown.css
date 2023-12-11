@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value p-margin: 10px;
 
 .inline {
@@ -50,7 +49,7 @@
   }
 
   & blockquote {
-    padding: 0 0 0 calc(2 * unit);
+    padding: 0 0 0 calc(2 * var(--ring-unit));
 
     color: var(--ring-secondary-color);
     box-shadow: inset 2px 0 0 var(--ring-line-color);
@@ -60,7 +59,7 @@
   }
 
   & ul {
-    padding: 0 0 0 calc(2 * unit);
+    padding: 0 0 0 calc(2 * var(--ring-unit));
   }
 
   & ol {

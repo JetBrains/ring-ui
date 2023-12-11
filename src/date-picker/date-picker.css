@@ -1,12 +1,11 @@
 @import "../global/variables.css";
 @import "../global/global.css";
 
-@value unit from "../global/global.css";
-@value cellSize: calc(unit * 3);
-@value calHeight: calc(unit * 36);
-@value calWidth: calc(unit * 37);
-@value yearHeight: calc(unit * 4);
-@value yearWidth: calc(unit * 6);
+@value cellSize: calc(var(--ring-unit) * 3);
+@value calHeight: calc(var(--ring-unit) * 36);
+@value calWidth: calc(var(--ring-unit) * 37);
+@value yearHeight: calc(var(--ring-unit) * 4);
+@value yearWidth: calc(var(--ring-unit) * 6);
 
 :root {
   /* stylelint-disable-next-line color-no-hex */
@@ -29,22 +28,22 @@
 }
 
 .datePicker.datePicker {
-  padding-right: unit;
+  padding-right: var(--ring-unit);
 
   &.inline {
     padding: 0;
   }
 
   &.sizeS {
-    width: calc(unit * 12);
+    width: calc(var(--ring-unit) * 12);
   }
 
   &.sizeM {
-    width: calc(unit * 30);
+    width: calc(var(--ring-unit) * 30);
   }
 
   &.sizeL {
-    width: calc(unit * 50);
+    width: calc(var(--ring-unit) * 50);
   }
 
   &.sizeFULL {
@@ -59,13 +58,13 @@
 .displayDate {
   display: inline-block;
 
-  min-width: calc(unit * 11);
+  min-width: calc(var(--ring-unit) * 11);
 
   text-align: left;
 }
 
 .displayDate.displayRange {
-  min-width: calc(unit * 22);
+  min-width: calc(var(--ring-unit) * 22);
 }
 
 .clear {
@@ -103,7 +102,7 @@
 
   display: flex;
 
-  padding-left: calc(unit * 2);
+  padding-left: calc(var(--ring-unit) * 2);
 }
 
 .filter {
@@ -111,14 +110,14 @@
 }
 
 .calendarIcon {
-  margin-right: calc(unit / 2);
+  margin-right: calc(var(--ring-unit) / 2);
 
   color: var(--ring-icon-color);
 }
 
 .anchor {
   width: 100%;
-  padding: 0 unit;
+  padding: 0 var(--ring-unit);
 
   text-align: start;
   white-space: nowrap;
@@ -145,7 +144,7 @@
 .fromInput {
   position: relative;
 
-  flex-basis: calc(unit * 13);
+  flex-basis: calc(var(--ring-unit) * 13);
   flex-grow: 0;
   flex-shrink: 0;
 }
@@ -154,24 +153,24 @@
   &::after {
     position: absolute;
     top: 0;
-    right: unit;
+    right: var(--ring-unit);
 
     content: "—";
 
-    line-height: calc(4 * unit - 2px);
+    line-height: calc(4 * var(--ring-unit) - 2px);
   }
 }
 
 .toInput {
-  flex-basis: calc(unit * 13);
+  flex-basis: calc(var(--ring-unit) * 13);
   flex-grow: 1;
   flex-shrink: 0;
 
-  width: calc(unit * 13);
+  width: calc(var(--ring-unit) * 13);
 }
 
 .dateInput {
-  flex-basis: calc(unit * 11);
+  flex-basis: calc(var(--ring-unit) * 11);
   flex-grow: 1;
   flex-shrink: 0;
 }
@@ -181,17 +180,17 @@
 
   &::before {
     position: absolute;
-    left: calc(-1 * unit);
+    left: calc(-1 * var(--ring-unit));
 
     content: ",";
 
-    line-height: calc(4 * unit - 3px);
+    line-height: calc(4 * var(--ring-unit) - 3px);
   }
 }
 
 .weekdays {
-  height: calc(unit * 4);
-  padding: 5px calc(unit * 2) 0;
+  height: calc(var(--ring-unit) * 4);
+  padding: 5px calc(var(--ring-unit) * 2) 0;
 
   color: var(--ring-secondary-color);
 }
@@ -237,8 +236,8 @@
   display: flex;
   flex-wrap: wrap;
 
-  width: calc(unit * 21);
-  margin: calc(unit * 2);
+  width: calc(var(--ring-unit) * 21);
+  margin: calc(var(--ring-unit) * 2);
 }
 
 .month.month > * {
@@ -252,9 +251,9 @@
 .monthTitle {
   /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
 
-  width: calc(unit * 12);
+  width: calc(var(--ring-unit) * 12);
 
-  padding-left: calc(unit * 0.5);
+  padding-left: calc(var(--ring-unit) * 0.5);
 
   text-align: left;
 
@@ -263,7 +262,7 @@
   font-weight: bold;
 
   @supports (flex-basis: 1px) {
-    flex-basis: calc(unit * 12);
+    flex-basis: calc(var(--ring-unit) * 12);
 
     width: auto;
   }
@@ -341,7 +340,7 @@
   &::after {
     position: absolute;
 
-    width: calc(unit * 2);
+    width: calc(var(--ring-unit) * 2);
     height: 100%;
 
     content: "";
@@ -384,8 +383,8 @@
     position: absolute;
     z-index: var(--ring-invisible-element-z-index);
 
-    width: calc(unit * 23);
-    height: calc(unit * 8);
+    width: calc(var(--ring-unit) * 23);
+    height: calc(var(--ring-unit) * 8);
 
     content: "";
     transition: background-color var(--ring-ease);
@@ -403,7 +402,7 @@
 
   &.Monday {
     &::after {
-      height: calc(unit * 5);
+      height: calc(var(--ring-unit) * 5);
     }
   }
 
@@ -413,10 +412,10 @@
     &::before {
       position: absolute;
       z-index: var(--ring-invisible-element-z-index);
-      top: calc(unit * -8);
+      top: calc(var(--ring-unit) * -8);
       left: 600%;
 
-      width: calc(unit * 2);
+      width: calc(var(--ring-unit) * 2);
       height: 100%;
 
       content: "";
@@ -430,7 +429,7 @@
 .Sunday {
   &::before,
   &::after {
-    height: calc(unit * 5);
+    height: calc(var(--ring-unit) * 5);
   }
 }
 
@@ -469,7 +468,7 @@
 .today::before {
   position: absolute;
   top: 0;
-  left: calc(unit * 0.5);
+  left: calc(var(--ring-unit) * 0.5);
 
   content: "•";
 
@@ -496,7 +495,7 @@
   right: 0;
   bottom: 0;
 
-  width: calc(unit * 6);
+  width: calc(var(--ring-unit) * 6);
 
   background-color: var(--ring-content-background-color);
   box-shadow: -1px 0 var(--ring-line-color);
@@ -513,7 +512,7 @@
   width: 100%;
 
   height: cellSize;
-  padding-left: calc(unit * 1.5);
+  padding-left: calc(var(--ring-unit) * 1.5);
 
   text-transform: capitalize;
 
@@ -532,7 +531,7 @@
 
   width: calc(100% + 1px);
 
-  height: calc(unit * 6);
+  height: calc(var(--ring-unit) * 6);
 
   cursor: grab;
 

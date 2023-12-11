@@ -1,8 +1,6 @@
 @import "../global/variables.css";
 @import "../button/button.css";
 
-@value unit from "../global/global.css";
-
 .outerContainer {
   --ring-input-icon-offset: calc(unit * 2.5);
   --ring-input-padding-inline: unit;
@@ -116,7 +114,7 @@
   color: var(--ring-icon-secondary-color);
 
   [dir="rtl"] & {
-    right: unit;
+    right: var(--ring-unit);
     left: auto;
   }
 }
@@ -138,7 +136,7 @@
 
   [dir="rtl"] & {
     right: auto;
-    left: unit;
+    left: var(--ring-unit);
   }
 }
 
@@ -159,7 +157,7 @@ textarea.input {
 }
 
 .errorText {
-  margin-top: calc(unit / 2);
+  margin-top: calc(var(--ring-unit) / 2);
 
   color: var(--ring-error-color);
 
@@ -168,15 +166,15 @@ textarea.input {
 }
 
 .sizeS {
-  width: calc(unit * 12);
+  width: calc(var(--ring-unit) * 12);
 }
 
 .sizeM {
-  width: calc(unit * 30);
+  width: calc(var(--ring-unit) * 30);
 }
 
 .sizeL {
-  width: calc(unit * 50);
+  width: calc(var(--ring-unit) * 50);
 }
 
 .sizeFULL {

@@ -1,5 +1,3 @@
-@value unit from "../global/global.css";
-
 :global(.ring-table__toolbar) {
   background: inherit;
 }
@@ -9,9 +7,9 @@
 
   display: block;
 
-  min-height: calc(unit * 3);
+  min-height: calc(var(--ring-unit) * 3);
 
-  padding: calc(unit * 2) calc(unit * 4);
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4);
 
   white-space: initial;
 

@@ -1,12 +1,10 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .alertContainer {
   position: fixed;
   z-index: var(--ring-alert-z-index);
-  right: calc(unit * 2);
-  bottom: calc(unit);
+  right: calc(var(--ring-unit) * 2);
+  bottom: calc(var(--ring-unit));
 
   display: flex;
   overflow: visible;
@@ -22,7 +20,7 @@
 .alertInContainer {
   composes: alert from "./alert.css";
 
-  min-width: calc(unit * 30);
-  max-width: calc(unit * 50);
+  min-width: calc(var(--ring-unit) * 30);
+  max-width: calc(var(--ring-unit) * 50);
   margin-top: 0;
 }

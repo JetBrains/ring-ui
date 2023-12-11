@@ -1,9 +1,7 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .group {
   & > *:not(:last-child) {
-    margin-right: unit;
+    margin-right: var(--ring-unit);
   }
 }

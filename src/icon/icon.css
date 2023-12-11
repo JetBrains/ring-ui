@@ -1,7 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .icon {
   display: inline-block;
 
@@ -36,8 +34,8 @@
   }
 
   &.compatibilityMode {
-    width: calc(unit * 2);
-    height: calc(unit * 2);
+    width: calc(var(--ring-unit) * 2);
+    height: calc(var(--ring-unit) * 2);
     margin-right: 0;
     margin-left: 0;
   }

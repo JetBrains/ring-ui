@@ -1,11 +1,5 @@
 /* https://readymag.com/artemtiunov/RingUILanguage/colours/ */
 
-/*
-Unit shouldn't be CSS custom property because it is not intended to change
-Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
-*/
-@value unit: 8px;
-
 .clearfix {
   &::after {
     display: block;

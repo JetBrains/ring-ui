@@ -1,9 +1,6 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value icon from "../button/button.css";
-@value animation-duration: 300ms;
-@value animation-easing: ease-out;
 
 .customAlert {
   color: var(--ring-white-text-color);
