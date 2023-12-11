@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value header from "../island/island.css";
 
 .container {
@@ -16,7 +15,7 @@
   align-items: center;
   justify-content: center;
 
-  padding: calc(unit * 4) unit;
+  padding: calc(var(--ring-unit) * 4) var(--ring-unit);
 
   background-color: rgba(var(--ring-dialog-overlay-components), 0.4);
 }
@@ -31,20 +30,20 @@
 .content {
   position: relative;
 
-  width: calc(unit * 58);
-  min-height: calc(unit * 15);
+  width: calc(var(--ring-unit) * 58);
+  min-height: calc(var(--ring-unit) * 15);
   margin: auto;
 
   cursor: default;
   overflow-wrap: break-word;
 
   & [data-scrollable-container] {
-    padding-bottom: unit;
+    padding-bottom: var(--ring-unit);
   }
 
   & .panel {
     margin-top: 0;
-    padding: calc(unit * 2) calc(unit * 4) calc(unit * 4);
+    padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 4);
 
     border-top: none;
 
@@ -53,7 +52,7 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .panel > button:not(:last-child) {
-    margin-right: unit;
+    margin-right: var(--ring-unit);
   }
 }
 
@@ -93,12 +92,12 @@
 
 .closeButtonOutside {
   top: 0;
-  right: calc(unit * -4);
+  right: calc(var(--ring-unit) * -4);
 }
 
 .closeButtonInside {
-  top: calc(unit * 1.5);
-  right: unit;
+  top: calc(var(--ring-unit) * 1.5);
+  right: var(--ring-unit);
 }
 
 .documentWithoutScroll {
@@ -123,16 +122,16 @@
 }
 
 .container .header {
-  padding-top: calc(unit * 4);
+  padding-top: calc(var(--ring-unit) * 4);
 
   font-size: 24px;
   line-height: 28px;
 }
 
 .dense .header {
-  padding-top: calc(unit * 2);
+  padding-top: calc(var(--ring-unit) * 2);
 }
 
 .dense .panel {
-  padding-bottom: calc(unit * 2);
+  padding-bottom: calc(var(--ring-unit) * 2);
 }

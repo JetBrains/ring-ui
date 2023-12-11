@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value height: calc(4 * unit);
 @value compensate: 2px;
 @value compensated: calc(height - compensate);
@@ -23,8 +22,8 @@
   composes: font-smaller-lower from "../global/global.css";
 
   box-sizing: border-box;
-  height: calc(unit * 3);
-  padding-right: calc(unit * 5);
+  height: calc(var(--ring-unit) * 3);
+  padding-right: calc(var(--ring-unit) * 5);
 
   text-align: left;
   white-space: nowrap;
@@ -35,12 +34,12 @@
 }
 
 .headerCell:first-child {
-  padding-left: calc(unit * 4);
+  padding-left: calc(var(--ring-unit) * 4);
 }
 
 .headerCell:last-child {
   width: 100%;
-  padding-right: calc(unit * 4);
+  padding-right: calc(var(--ring-unit) * 4);
 }
 
 .headerCell:first-child:only-child {
@@ -76,7 +75,7 @@
 }
 
 .caption {
-  padding-top: unit;
+  padding-top: var(--ring-unit);
   padding-bottom: 6px;
 
   color: var(--ring-text-color);
@@ -154,13 +153,13 @@
 
   height: height;
   padding: 0;
-  padding-right: calc(unit * 5);
+  padding-right: calc(var(--ring-unit) * 5);
 
   color: var(--ring-text-color);
 }
 
 .cell:first-child {
-  padding-left: calc(unit * 4);
+  padding-left: calc(var(--ring-unit) * 4);
 }
 
 .cell:last-child {
@@ -169,12 +168,12 @@
   /* Markup hack, allows cell to have content which is wider than cell and collapses it */
 
   max-width: 0;
-  padding-right: calc(unit * 4);
+  padding-right: calc(var(--ring-unit) * 4);
 }
 
 .cell:first-child {
-  min-width: calc(unit * 37);
-  max-width: calc(unit * 77);
+  min-width: calc(var(--ring-unit) * 37);
+  max-width: calc(var(--ring-unit) * 77);
 }
 
 .cell:first-child:only-child {
@@ -207,7 +206,7 @@
 
 .dragHandle {
   top: top;
-  left: calc(-2 * unit);
+  left: calc(-2 * var(--ring-unit));
 
   cursor: grab;
 
@@ -228,7 +227,7 @@
 }
 
 .rowCollapseExpandButton {
-  padding-right: calc(unit / 2);
+  padding-right: calc(var(--ring-unit) / 2);
   padding-left: 7px;
 }
 

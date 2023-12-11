@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value button from "../button/button.css";
 
 .buttonSet {
@@ -13,7 +12,7 @@
   font-size: 0;
 
   & .button {
-    margin: 0 unit 0 0;
+    margin: 0 var(--ring-unit) 0 0;
   }
 
   & > .button:last-child {

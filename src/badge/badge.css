@@ -1,13 +1,11 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .badge {
   display: inline-block;
 
   box-sizing: border-box;
   height: 20px;
-  padding: 0 unit;
+  padding: 0 var(--ring-unit);
 
   cursor: default;
 

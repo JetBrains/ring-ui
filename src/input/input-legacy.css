@@ -1,7 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 /*
 Input
 
@@ -114,7 +112,7 @@ Input
 :global(textarea.ring-input) {
   box-sizing: border-box;
 
-  min-height: calc(8 * unit);
+  min-height: calc(8 * var(--ring-unit));
 
   resize: none;
 }

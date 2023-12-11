@@ -1,9 +1,7 @@
 @import "../global/variables.css";
 
 @value dark from "../global/variables_dark.css";
-@value unit from "../global/global.css";
 @value link, active from "../link/link.css";
-@value height: calc(unit * 8);
 @value compensate: 3px;
 @value compensated: calc(height - compensate);
 
@@ -22,7 +20,7 @@
   align-items: center;
 
   box-sizing: border-box;
-  height: height;
+  height: calc(var(--ring-unit) * 8);
 
   color: var(--ring-text-color);
 
@@ -34,8 +32,8 @@
     display: inline-block;
 
     box-sizing: border-box;
-    height: height;
-    padding: 0 calc(unit * 1.5) compensate;
+    height: calc(var(--ring-unit) * 8);
+    padding: 0 calc(var(--ring-unit) * 1.5) compensate;
   }
 
   /* override link */
@@ -50,11 +48,11 @@
 
 .headerSpaced {
   & > *:first-child {
-    padding-left: calc(unit * 4);
+    padding-left: calc(var(--ring-unit) * 4);
   }
 
   & > *:last-child {
-    padding-right: calc(unit * 4);
+    padding-right: calc(var(--ring-unit) * 4);
   }
 }
 
@@ -62,7 +60,7 @@
   display: inline-flex;
   align-items: center;
 
-  height: height;
+  height: calc(var(--ring-unit) * 8);
 
   color: var(--ring-navigation-background-color);
 
@@ -90,7 +88,7 @@
 }
 
 .icon {
-  width: calc(unit * 5);
+  width: calc(var(--ring-unit) * 5);
 
   text-align: center;
 
@@ -101,7 +99,7 @@
 .icon.icon {
   height: compensated;
 
-  padding-top: calc(unit / 2);
+  padding-top: calc(var(--ring-unit) / 2);
 
   line-height: compensated;
 }
@@ -125,7 +123,7 @@
 
   width: auto;
   height: compensated;
-  padding-left: unit;
+  padding-left: var(--ring-unit);
 
   vertical-align: bottom;
 }
@@ -159,8 +157,8 @@
 
     display: block;
 
-    width: unit;
-    height: unit;
+    width: var(--ring-unit);
+    height: var(--ring-unit);
 
     content: "";
 

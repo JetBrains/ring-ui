@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value padding: 2px;
 @value disabled-line-color: rgba(255, 255, 255, 0.9);
 @value duration: 300ms;
@@ -21,11 +20,11 @@
 }
 
 .label {
-  margin-left: unit;
+  margin-left: var(--ring-unit);
 }
 
 .leftLabel {
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 }
 
 .switchWrapper {
@@ -70,8 +69,8 @@
     top: padding;
     left: 0;
 
-    width: calc(unit * 1.5);
-    height: calc(unit * 1.5);
+    width: calc(var(--ring-unit) * 1.5);
+    height: calc(var(--ring-unit) * 1.5);
 
     content: "";
 
@@ -79,7 +78,7 @@
 
     transform: translateX(padding);
 
-    border-radius: calc(unit * 0.75);
+    border-radius: calc(var(--ring-unit) * 0.75);
     background-color: var(--ring-toggle-item-color);
   }
 }
@@ -94,32 +93,32 @@
 
 .size16 {
   & .switchWrapper {
-    width: calc(unit * 3);
-    height: calc(unit * 2);
+    width: calc(var(--ring-unit) * 3);
+    height: calc(var(--ring-unit) * 2);
 
     vertical-align: -3px;
   }
 
   & .switch {
-    border-radius: unit;
+    border-radius: var(--ring-unit);
 
     &::before {
-      width: calc(unit * 1.5);
-      height: calc(unit * 1.5);
+      width: calc(var(--ring-unit) * 1.5);
+      height: calc(var(--ring-unit) * 1.5);
 
-      border-radius: calc(unit * 0.75);
+      border-radius: calc(var(--ring-unit) * 0.75);
     }
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .input:checked + ::before {
-    transform: translateX(calc(unit * 1.5 - padding));
+    transform: translateX(calc(var(--ring-unit) * 1.5 - padding));
   }
 }
 
 .size14 {
   & .switchWrapper {
-    width: calc(unit * 3);
+    width: calc(var(--ring-unit) * 3);
     height: 14px;
 
     vertical-align: -2px;
@@ -144,26 +143,26 @@
 
 .size20 {
   & .switchWrapper {
-    width: calc(unit * 4);
-    height: calc(unit * 2.5);
+    width: calc(var(--ring-unit) * 4);
+    height: calc(var(--ring-unit) * 2.5);
 
     vertical-align: -5px;
   }
 
   & .switch {
-    border-radius: calc(unit * 1.25);
+    border-radius: calc(var(--ring-unit) * 1.25);
 
     &::before {
-      width: calc(unit * 2);
-      height: calc(unit * 2);
+      width: calc(var(--ring-unit) * 2);
+      height: calc(var(--ring-unit) * 2);
 
-      border-radius: calc(unit);
+      border-radius: calc(var(--ring-unit));
     }
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .input:checked + ::before {
-    transform: translateX(calc(unit * 2 - padding));
+    transform: translateX(calc(var(--ring-unit) * 2 - padding));
   }
 }
 
@@ -181,7 +180,7 @@
 
   content: "";
 
-  border-radius: unit;
+  border-radius: var(--ring-unit);
   background-image:
     linear-gradient(
       45deg,
