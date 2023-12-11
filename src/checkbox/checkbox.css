@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value checkboxSize: 14px;
 
 .checkbox {
@@ -46,8 +45,8 @@
   top: -1px;
   left: -1px;
 
-  width: calc(unit * 2);
-  height: calc(unit * 2);
+  width: calc(var(--ring-unit) * 2);
+  height: calc(var(--ring-unit) * 2);
 
   opacity: 0;
   color: var(--ring-white-text-color);
@@ -140,7 +139,7 @@
 }
 
 .label {
-  margin-left: unit;
+  margin-left: var(--ring-unit);
 
   line-height: normal;
 }

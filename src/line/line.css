@@ -1,7 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 :global(.ring-line) {
   display: block;
 
@@ -12,5 +10,5 @@
 }
 
 :global(.ring-line_separated) {
-  margin: calc(unit * 2) 0;
+  margin: calc(var(--ring-unit) * 2) 0;
 }

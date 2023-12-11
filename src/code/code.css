@@ -1,16 +1,14 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .code {
-  margin: calc(unit * 2) 0;
+  margin: calc(var(--ring-unit) * 2) 0;
 }
 
 /* override hljs */
 .code code {
   display: block;
 
-  padding: calc(unit * 1.5) calc(unit * 2) calc(unit * 2);
+  padding: calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 2);
 
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-sidebar-background-color);
@@ -23,7 +21,7 @@
 .inline code {
   display: inline-block;
 
-  padding: 0 calc(unit / 2);
+  padding: 0 calc(var(--ring-unit) / 2);
 }
 
 .softWrap code {

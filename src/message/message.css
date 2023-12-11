@@ -1,8 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-@value padding: calc(unit * 1.5);
-
 .container {
   display: inline;
 }
@@ -10,9 +7,9 @@
 .message {
   overflow: visible;
 
-  max-width: calc(unit * 40);
+  max-width: calc(var(--ring-unit) * 40);
 
-  padding: padding padding calc(unit * 2) calc(unit * 5);
+  padding: calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 5);
 
   text-align: left;
 
@@ -24,7 +21,7 @@
 .icon {
   position: absolute;
   top: 10px;
-  left: padding;
+  left: calc(var(--ring-unit) * 1.5);
 }
 
 .title {
@@ -36,7 +33,7 @@
 }
 
 .description {
-  margin: calc(unit / 2) 0 0;
+  margin: calc(var(--ring-unit) / 2) 0 0;
 
   color: var(--ring-text-color);
 

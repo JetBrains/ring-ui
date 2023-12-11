@@ -1,7 +1,6 @@
 @import "../global/variables.css";
 
 @value link from "../link/link.css";
-@value unit from "../global/global.css";
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -12,9 +11,9 @@
   align-items: baseline;
 
   box-sizing: border-box;
-  min-height: calc(unit * 5);
-  margin: unit auto;
-  padding: 0 calc(unit * 2);
+  min-height: calc(var(--ring-unit) * 5);
+  margin: var(--ring-unit) auto;
+  padding: 0 calc(var(--ring-unit) * 2);
 
   transition:
     transform animation-duration animation-easing,
@@ -28,11 +27,11 @@
   box-shadow: var(--ring-popup-shadow);
 
   font-size: var(--ring-font-size);
-  line-height: calc(unit * 5);
+  line-height: calc(var(--ring-unit) * 5);
 }
 
 .alertInline {
-  margin: unit;
+  margin: var(--ring-unit);
 }
 
 .error {
@@ -42,13 +41,13 @@
 }
 
 .icon {
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 }
 
 .caption {
   overflow: hidden;
 
-  max-width: calc(100% - calc(unit * 5));
+  max-width: calc(100% - calc(var(--ring-unit) * 5));
 
   margin: 12px 0;
 
@@ -65,12 +64,12 @@
   }
 
   &.withCloseButton {
-    margin-right: calc(unit * 5);
+    margin-right: calc(var(--ring-unit) * 5);
   }
 }
 
 .badge {
-  margin-left: unit;
+  margin-left: var(--ring-unit);
 
   vertical-align: baseline;
 }
@@ -78,7 +77,7 @@
 .loader {
   top: 2px;
 
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 }
 
 .close.close {
@@ -86,8 +85,8 @@
   top: 2px;
   right: 0;
 
-  margin: calc(unit / 2);
-  padding: unit;
+  margin: calc(var(--ring-unit) / 2);
+  padding: var(--ring-unit);
 
   font-size: 0;
   line-height: 0;

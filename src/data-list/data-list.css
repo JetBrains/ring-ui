@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value height, compensate from "../table/table.css";
 
 .dataListWrapper {
@@ -57,11 +56,11 @@
 .boxes {
   display: flex;
 
-  min-width: calc(unit * 3);
+  min-width: calc(var(--ring-unit) * 3);
 }
 
 .checkboxBox {
-  width: calc(unit * 3);
+  width: calc(var(--ring-unit) * 3);
 }
 
 .collapseButton {

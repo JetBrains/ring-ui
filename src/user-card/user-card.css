@@ -1,9 +1,7 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .userCardSpaced {
-  padding: calc(unit * 2) calc(unit * 2);
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 2);
 }
 
 .userInformationContainer {
@@ -111,8 +109,8 @@
 .userActiveStatus {
   display: inline-block;
 
-  width: unit;
-  height: unit;
+  width: var(--ring-unit);
+  height: var(--ring-unit);
   margin-right: var(--ring-unit);
   margin-left: 6px;
 
