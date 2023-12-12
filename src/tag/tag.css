@@ -157,7 +157,7 @@
   width: max-height;
   height: max-height;
   margin-right: calc(var(--ring-unit) / 2);
-  margin-left: calc(0 - var(--ring-unit));
+  margin-left: calc(var(--ring-unit) * -1);
 
   vertical-align: top;
 

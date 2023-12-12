@@ -24,8 +24,8 @@
   align-items: center;
 
   box-sizing: content-box;
-  height: height;
-  padding: 0 calc(unit * 5) compensate 0;
+  height: calc(4 * var(--ring-unit));
+  padding: 0 calc(var(--ring-unit) * 5) compensate 0;
 
   outline: none;
 

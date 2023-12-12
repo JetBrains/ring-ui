@@ -3,7 +3,7 @@
 @value dark from "../global/variables_dark.css";
 @value link, active from "../link/link.css";
 @value compensate: 3px;
-@value compensated: calc(height - compensate);
+@value compensated: calc(calc(var(--ring-unit) * 8) - compensate);
 
 :root {
   --ring-header-link-color: var(--ring-link-color);
