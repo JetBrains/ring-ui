@@ -42,7 +42,7 @@
 }
 
 .button {
-  margin-top: padding;
+  margin-top: calc(var(--ring-unit) * 1.5);
 }
 
 .tail {

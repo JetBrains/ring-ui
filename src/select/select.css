@@ -159,7 +159,7 @@
   padding-left: var(--ring-unit);
 
   text-align: left;
-  vertical-align: calc(0 - var(--ring-unit));
+  vertical-align: calc(var(--ring-unit) * -1);
 }
 
 .buttonValue:focus-visible {
