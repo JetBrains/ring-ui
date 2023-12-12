@@ -16,7 +16,7 @@ Input
 :global(.ring-input) {
   /* .heightS */
   --ring-input-padding-block: 1px;
-  --ring-input-padding-inline: unit;
+  --ring-input-padding-inline: var(--ring-unit);
   --ring-input-padding-start: var(--ring-input-padding-inline);
   --ring-input-padding-end: var(--ring-input-padding-inline);
 

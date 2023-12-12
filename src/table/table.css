@@ -1,8 +1,7 @@
 @import "../global/variables.css";
 
-@value height: calc(4 * unit);
 @value compensate: 2px;
-@value compensated: calc(height - compensate);
+@value compensated: calc(calc(4 * var(--ring-unit)) - compensate);
 
 .tableWrapper {
   position: relative;
@@ -151,7 +150,7 @@
 
   min-width: 0;
 
-  height: height;
+  height: calc(4 * var(--ring-unit));
   padding: 0;
   padding-right: calc(var(--ring-unit) * 5);
 
@@ -217,7 +216,7 @@
 .dragHandle.dragHandle {
   position: absolute;
 
-  height: calc(height - top);
+  height: calc(calc(4 * var(--ring-unit)) - top);
   padding: 0;
 }
 

@@ -10,7 +10,7 @@
 }
 
 .long {
-  padding: var(--ring-unit) calc(unit * 1.5);
+  padding: var(--ring-unit) calc(var(--ring-unit) * 1.5);
 
   font-size: var(--ring-font-size-smaller);
   line-height: var(--ring-line-height-lowest);

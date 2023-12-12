@@ -2,8 +2,8 @@
 @import "../button/button.css";
 
 .outerContainer {
-  --ring-input-icon-offset: calc(unit * 2.5);
-  --ring-input-padding-inline: unit;
+  --ring-input-icon-offset: calc(var(--ring-unit) * 2.5);
+  --ring-input-padding-inline: var(--ring-unit);
   --ring-input-background-color: var(--ring-content-background-color);
 }
 
