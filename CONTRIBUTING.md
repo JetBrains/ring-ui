@@ -23,21 +23,18 @@ By default, documentation is built using the `development` environment. Use the 
  * **hub** (Hub server URI)
  * **clientId** (Ring UI service client ID in Hub)
 
-### Is Lodash or Underscore available?
+### Beta versions and hotfixes
 
-Instead of utility libraries Ring UI uses new features of *ES2015* and beyond provided by [Babel.js](https://babeljs.io) and [core-js](https://github.com/zloirock/core-js/). Polyfills like `Array.prototype.find` that patch native objects should be imported manually (e.g. via `import 'core-js/modules/es6.array.find';`).
+When we start developing a new major version, we make a branch with name `develop-x.0` and make changes. 
+Beta builds could be published by [this configuration](https://teamcity.jetbrains.com/buildConfiguration/JetBrainsUi_RingUi_PublishNext?mode=builds) (you need to pick branch youself!)
+When version is ready, we
+1. Make a branch from `master` with name `release-x.x` (current version) and put it for like LTE
+2. Merge `develop-x.0` into `master` and publish new version
 
-### Is jQuery available?
+When hotfixes needs to be delivered in old branches, one need to commit fix into that `release-x.x` branch, 
+merge `release-x.x -> master` and publish it 
+via [this configuration](https://teamcity.jetbrains.com/buildConfiguration/JetBrainsUi_RingUi_PublishHotfixRelease?mode=builds).
 
-Instead of jQuery Ring UI uses modern DOM APIs and some handy helpers located in the `dom` component.
-
-### Wallaby support
-
-To enable the `Wallaby.js` test runner follow these steps:
- 
-1. Download and install the [Wallaby.js plugin](https://wallabyjs.com/) for WebStorm.
-2. Make sure Node.js is available at `/usr/local/bin/node`, if not – create a symlink.  
-3. Run the `Wallaby` configuration in WebStorm.
 
 ### Visual regression testing
 
