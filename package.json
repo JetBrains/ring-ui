@@ -95,7 +95,7 @@
     "@storybook/addons": "7.6.3",
     "@storybook/preview-api": "7.6.3",
     "@storybook/react": "7.6.3",
-    "@storybook/react-webpack5": "7.6.3",
+    "@storybook/react-webpack5": "7.6.4",
     "@storybook/source-loader": "7.6.3",
     "@storybook/theming": "7.6.3",
     "@testing-library/react": "^14.1.2",
