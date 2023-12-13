@@ -7,8 +7,8 @@
 - `--ring-border-unselected-disabled-color` CSS custom property is removed. Use `--ring-border-disabled-color` instead.
 - `List.ListProps.Dimension` is now a plain object instead of an enum
 - "Auth landing page" component has been removed
-- `Markdown` component now only provides styling, not the rendering logic. See [RG-2310](https://youtrack.jetbrains.com/issue/RG-2310)
-  - `UserAgreement` component has always dropped support for Markdown rendering. If you use it with Markdown content, you would have to render markdown yourself.
+- `Markdown` component now only provides styling, not the rendering logic. See [RG-2310](https://youtrack.jetbrains.com/issue/RG-2310). Here [are some examples of user-side markdown rendering](https://github.com/JetBrains/ring-ui/blob/master/src/markdown/markdown.stories.tsx).
+  - `UserAgreement` component has also dropped support for Markdown rendering. If you use it with Markdown content, you would have to render markdown yourself.
 - `<Link/>` component now has no inner `<span/>`, see [RG-2311](https://youtrack.jetbrains.com/issue/RG-2311)
 - HTTP component's typing has been updated to be more strict (no more "any"). See [commit](https://github.com/JetBrains/ring-ui/pull/6585/commits/cc42d73d3c65db49ab5703cf335c3a6d124b60cd)
 - Deprecated parts of Analytics component has been deleted. See [commit](https://github.com/JetBrains/ring-ui/pull/6585/commits/61ce0684cd0b8c1e16529b0f6580ba066fc6b13a)
