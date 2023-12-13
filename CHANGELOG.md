@@ -15,6 +15,7 @@
 
 ### Other changes
 - Dark theme colors has been updated. See [RG-2306](https://youtrack.jetbrains.com/issue/RG-2306)
+- Toggles has been updated [RG-2312](https://youtrack.jetbrains.com/issue/RG-2312/Update-Dark-Mode-Toggles-Color)
 
 ## [5.0.0]
 
