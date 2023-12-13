@@ -1,24 +1,24 @@
 import React from 'react';
 
-import {render, unmountComponentAtNode} from '../global/react-render-adapter';
+import {createRoot} from 'react-dom/client';
 
 import {ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
 
 import LoginDialog, {LoginDialogAttrs} from './login-dialog';
 
 const containerElement = document.createElement('div');
+const reactRoot = createRoot(containerElement);
 
 /**
  * Renders LoginDialog into virtual node to skip maintaining container
  */
 function renderLoginDialog(props: LoginDialogAttrs) {
-  render(
+  reactRoot.render(
     (
       <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
         <LoginDialog {...props}/>
       </ControlsHeightContext.Provider>
     ),
-    containerElement
   );
 }
 
@@ -30,6 +30,6 @@ export default function showAuthDialog(props: LoginDialogAttrs = {onCancel: noop
   });
 
   return () => {
-    unmountComponentAtNode(containerElement);
+    reactRoot.unmount();
   };
 }

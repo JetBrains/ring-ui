@@ -70,7 +70,7 @@ describe('HTTP', () => {
   });
 
   it('should perform request and return result', async () => {
-    const res = await http.request('testurl');
+    const res = await http.request<typeof fetchResult>('testurl');
     res.should.equal(fetchResult);
   });
 
@@ -82,12 +82,12 @@ describe('HTTP', () => {
       text: () => 'some text'
     });
 
-    const res = await http.request('testurl');
+    const res = await http.request<{data: string}>('testurl');
     res.should.deep.equal({data: 'some text'});
   });
 
   it('should allow to get meta information of response', async () => {
-    const res = await http.request('testurl');
+    const res = await http.request<{}>('testurl');
 
     const meta = http.getMetaForResponse(res);
     OK.should.equal(meta?.status);
@@ -101,7 +101,7 @@ describe('HTTP', () => {
       json: () => sandbox.spy(),
       text: () => 'some text'
     });
-    const res = await http.request('testurl');
+    const res = await http.request<{}>('testurl');
 
     const meta = http.getMetaForResponse(res);
     OK.should.equal(meta?.status);
@@ -169,7 +169,7 @@ describe('HTTP', () => {
         headers: new Headers({'content-type': 'application/json'})
       });
 
-    const res = await http.request('testurl');
+    const res = await http.request<typeof fetchResult>('testurl');
 
     fakeAuth.forceTokenUpdate.should.have.been.called;
 

@@ -18,5 +18,5 @@ export default {
   serverUri,
   clientId,
   requestCredentials: 'skip',
-  redirectUri: `${origin + base}iframe.html?id=utilities-auth--landing-page`
+  redirectUri: `${origin + base}iframe.html?id=utilities-auth--basic`
 };

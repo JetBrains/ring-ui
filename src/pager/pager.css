@@ -1,19 +1,17 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .pager {
   user-select: none;
 }
 
 .links {
-  margin-bottom: calc(unit * 2);
+  margin-bottom: calc(var(--ring-unit) * 2);
 }
 
 .link {
   display: inline-block;
 
-  margin-right: calc(unit * 2);
+  margin-right: calc(var(--ring-unit) * 2);
 }
 
 .linkDisabled {

@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react';
 import pencilIcon from '@jetbrains/icons/pencil';
 import hourglassIcon from '@jetbrains/icons/hourglass';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Loader from '../loader-inline/loader-inline';
 
@@ -12,7 +11,6 @@ import Button, {ButtonProps} from './button';
 
 export default {
   title: 'Components/Button',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: Button,

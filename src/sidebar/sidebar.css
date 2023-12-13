@@ -1,7 +1,5 @@
 @import "../global/global.css";
 
-@value unit from "../global/global.css";
-
 @keyframes show-sidebar {
   0% {
     right: -100%;
@@ -25,10 +23,10 @@
 
   box-sizing: border-box;
 
-  width: calc(unit * 58);
+  width: calc(var(--ring-unit) * 58);
   height: 100%;
 
-  padding-top: calc(2 * unit);
+  padding-top: calc(2 * var(--ring-unit));
 
   transition: right 0.5s ease, visibility 0.5s;
 
@@ -60,16 +58,16 @@
 :global(.ring-sidebar__avatar) {
   float: left;
 
-  width: calc(6 * unit);
-  height: calc(6 * unit);
+  width: calc(6 * var(--ring-unit));
+  height: calc(6 * var(--ring-unit));
   object-fit: contain;
 
-  padding: 0 calc(2 * unit) 0 calc(4 * unit);
+  padding: 0 calc(2 * var(--ring-unit)) 0 calc(4 * var(--ring-unit));
 }
 
 :global(.ring-sidebar__title) {
   margin: 0;
-  padding-left: calc(4 * unit);
+  padding-left: calc(4 * var(--ring-unit));
 
   vertical-align: middle;
 
@@ -90,8 +88,8 @@
 :global(.ring-sidebar__section) {
   position: relative;
 
-  margin-top: calc(3 * unit);
-  padding: 0 calc(2 * unit) 0 calc(4 * unit);
+  margin-top: calc(3 * var(--ring-unit));
+  padding: 0 calc(2 * var(--ring-unit)) 0 calc(4 * var(--ring-unit));
 }
 
 :global(.ring-sidebar__section-title) {
@@ -107,7 +105,7 @@
   color: var(--ring-text-color);
 
   font-size: var(--ring-font-size);
-  line-height: calc(3 * unit);
+  line-height: calc(3 * var(--ring-unit));
 }
 
 :global(.ring-sidebar__section-text_multiline) {
@@ -117,7 +115,7 @@
 }
 
 :global(.ring-sidebar__section-roster) {
-  margin-top: unit;
+  margin-top: var(--ring-unit);
 }
 
 :global(.ring-sidebar__section-icon) {
@@ -126,7 +124,7 @@
 
   display: block;
 
-  width: calc(4 * unit);
+  width: calc(4 * var(--ring-unit));
 
   text-align: center;
 
@@ -136,7 +134,7 @@
 }
 
 :global(.ring-sidebar__empty) {
-  margin-top: calc(unit * 4);
+  margin-top: calc(var(--ring-unit) * 4);
 
   text-align: center;
 }
@@ -148,7 +146,7 @@
 }
 
 :global(.ring-sidebar__empty-description) {
-  margin-top: calc(unit * 2);
+  margin-top: calc(var(--ring-unit) * 2);
   padding-top: 4px;
 
   color: var(--ring-text-color);

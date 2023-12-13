@@ -4,7 +4,6 @@ import {Story} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Loader from '../loader/loader';
 import Tooltip from '../tooltip/tooltip';
@@ -23,7 +22,6 @@ const FLAG_EN_URL =
 
 export default {
   title: 'Components/List',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: List,

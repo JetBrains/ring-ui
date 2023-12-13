@@ -76,7 +76,7 @@ export default class Permissions {
   }
 
   private _defaultDatasource = (query: string | undefined) => (
-    this._auth.http.get(Permissions.API_PERMISSION_CACHE_PATH, {
+    this._auth.http.get<Permission[]>(Permissions.API_PERMISSION_CACHE_PATH, {
       query: {
         fields: 'permission/key,global,projects(id)',
         query

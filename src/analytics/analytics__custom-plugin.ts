@@ -86,8 +86,4 @@ export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
       this._flush?.();
     }
   }
-
-  get serializeAdditionalInfo() {
-    return true;
-  }
 }

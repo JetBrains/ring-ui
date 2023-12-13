@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value button-shadow from "../button/button.css";
 
 .select {
@@ -29,12 +28,12 @@
   }
 
   .toolbar & {
-    height: calc(4 * unit);
-    margin: unit 0;
+    height: calc(4 * var(--ring-unit));
+    margin: var(--ring-unit) 0;
   }
 
   &.buttonSpaced {
-    padding: 0 calc(2 * unit);
+    padding: 0 calc(2 * var(--ring-unit));
   }
 }
 
@@ -63,8 +62,8 @@
 
   display: inline-block;
 
-  width: calc(2 * unit);
-  height: calc(2 * unit);
+  width: calc(2 * var(--ring-unit));
+  height: calc(2 * var(--ring-unit));
   margin: 0 4px;
 
   background-repeat: no-repeat;
@@ -80,15 +79,15 @@
 }
 
 .sizeS {
-  width: calc(unit * 12);
+  width: calc(var(--ring-unit) * 12);
 }
 
 .sizeM {
-  width: calc(unit * 30);
+  width: calc(var(--ring-unit) * 30);
 }
 
 .sizeL {
-  width: calc(unit * 50);
+  width: calc(var(--ring-unit) * 50);
 }
 
 .sizeFULL {
@@ -113,7 +112,7 @@
 
   box-sizing: border-box;
   width: 100%;
-  height: calc(unit * 4 + 1px);
+  height: calc(var(--ring-unit) * 4 + 1px);
   padding: 0 0 3px;
 
   cursor: pointer;
@@ -157,10 +156,10 @@
   display: block;
 
   width: 100%;
-  padding-left: unit;
+  padding-left: var(--ring-unit);
 
   text-align: left;
-  vertical-align: calc(0 - unit);
+  vertical-align: calc(var(--ring-unit) * -1);
 }
 
 .buttonValue:focus-visible {
@@ -216,8 +215,8 @@
 }
 
 .popup {
-  min-width: calc(unit * 30);
-  max-width: calc(unit * 40);
+  min-width: calc(var(--ring-unit) * 30);
+  max-width: calc(var(--ring-unit) * 40);
 }
 
 .chevron.chevron {

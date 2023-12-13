@@ -1,13 +1,11 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import ContentLayout from './content-layout';
 import Sidebar from './sidebar';
 
 export default {
   title: 'Components/Content Layout',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'A component for simple content layout.'

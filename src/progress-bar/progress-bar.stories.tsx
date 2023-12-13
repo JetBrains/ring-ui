@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import ProgressBar from './progress-bar';
 
 const disableAnimations = window.location.search.includes('block-animations');
 
 export default {
-  title: 'Components/Progress Bar',
-  decorators: [reactDecorator()]
+  title: 'Components/Progress Bar'
 };
 
 export const basic = () => {

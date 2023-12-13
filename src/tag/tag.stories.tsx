@@ -1,13 +1,11 @@
 import React from 'react';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Tag from './tag';
 
 export default {
   title: 'Components/Tag',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a tag.',

@@ -40,7 +40,6 @@ export const AnchorLink = ({
   return (
     <Link
       title={'More'}
-      innerClassName={classnames}
       className={classnames}
       {...restProps}
     >

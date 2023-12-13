@@ -3,7 +3,6 @@ import searchIcon from '@jetbrains/icons/search';
 
 import {Story} from '@storybook/react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Popup from '../popup/popup';
 import Icon from '../icon/icon';
@@ -16,7 +15,6 @@ const {Directions} = Popup.PopupProps;
 
 export default {
   title: 'Components/Message',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: Message,

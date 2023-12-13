@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import TableSelection from '../table/selection';
 
@@ -11,7 +10,6 @@ import mock, {Item, moreItems} from './data-list.mock';
 
 export default {
   title: 'Components/DataList',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'A component for rendering interactive hierarchical tables.'

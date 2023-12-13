@@ -1,7 +1,6 @@
 import React from 'react';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import {ActiveItemContext} from '../list/list';
 
@@ -16,7 +15,6 @@ import Dropdown from './dropdown';
 
 export default {
   title: 'Components/Dropdown',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'A stateful popup with a clickable anchor.',

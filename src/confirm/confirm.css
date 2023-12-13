@@ -1,9 +1,7 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .description {
-  margin-top: unit;
+  margin-top: var(--ring-unit);
 
   font-size: var(--ring-font-size);
 }

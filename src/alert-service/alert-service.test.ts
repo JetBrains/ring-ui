@@ -1,5 +1,9 @@
 import * as Sinon from 'sinon';
 
+import {render} from '@testing-library/react';
+
+import {ReactElement} from 'react';
+
 import Alert from '../alert/alert';
 
 import alert from './alert-service';
@@ -14,6 +18,15 @@ describe('Alert Service', () => {
 
   beforeEach(() => {
     clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+    let rerender: (element: ReactElement) => void;
+    sandbox.stub(alert.reactRoot, 'render').callsFake(node => {
+      const element = node as ReactElement;
+      if (rerender == null) {
+        rerender = render(element).rerender;
+      } else {
+        rerender(element);
+      }
+    });
   });
 
   afterEach(() => {
@@ -52,12 +65,6 @@ describe('Alert Service', () => {
 
     alert._getShowingAlerts().length.should.equal(1);
     true.should.equal(alert._getShowingAlerts()[0].isShaking);
-  });
-
-  it('Should remove alert after timeout', () => {
-    alertKey = alert.message('foo', ALERT_SHOW_TIME);
-    clock.tick(SMALL_TICK);
-    alert._getShowingAlerts().length.should.equal(0);
   });
 
   it('Should remove alert after timeout', () => {

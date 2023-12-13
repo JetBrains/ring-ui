@@ -1,12 +1,10 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import {Grid, Row, Col} from './grid';
 
 export default {
   title: 'Components/Grid',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes:

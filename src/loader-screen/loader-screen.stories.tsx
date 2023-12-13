@@ -1,12 +1,10 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import LoaderScreen from './loader-screen';
 
 export default {
   title: 'Components/Loader Screen',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes:
