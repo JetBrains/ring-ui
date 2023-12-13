@@ -1,12 +1,10 @@
 import React, {useState, Fragment} from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Radio from './radio';
 
 export default {
   title: 'Components/Radio',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes:

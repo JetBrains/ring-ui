@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value gradientStart: rgba(255, 255, 255, 0);
 @value gradientStop: var(--ring-content-background-color);
 
@@ -24,7 +23,7 @@
 .header {
   box-sizing: border-box;
   width: 100%;
-  padding: calc(unit * 2) calc(unit * 4) unit;
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4) var(--ring-unit);
 
   transition: border-bottom-color 0.1s;
 
@@ -56,7 +55,7 @@
 }
 
 .narrowIsland .header {
-  padding: 0 calc(unit * 2);
+  padding: 0 calc(var(--ring-unit) * 2);
 }
 
 .content {
@@ -73,7 +72,7 @@
   overflow: auto;
 
   width: 100%;
-  padding: calc(unit * 2) calc(unit * 4);
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4);
 
   &:focus:not(:focus-visible) {
     outline: none;
@@ -81,7 +80,7 @@
 }
 
 .narrowIsland .scrollableWrapper {
-  padding: calc(unit * 2) calc(unit * 2);
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 2);
 }
 
 .withoutPaddings .scrollableWrapper {
@@ -96,7 +95,7 @@
   display: block;
 
   width: 100%;
-  height: calc(unit * 3);
+  height: calc(var(--ring-unit) * 3);
 
   content: "";
 
@@ -120,7 +119,7 @@
   display: block;
 
   width: 100%;
-  height: calc(unit * 3);
+  height: calc(var(--ring-unit) * 3);
 
   content: "";
   pointer-events: none;

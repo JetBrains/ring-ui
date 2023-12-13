@@ -1,7 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 /*
 Input
 
@@ -18,7 +16,7 @@ Input
 :global(.ring-input) {
   /* .heightS */
   --ring-input-padding-block: 1px;
-  --ring-input-padding-inline: unit;
+  --ring-input-padding-inline: var(--ring-unit);
   --ring-input-padding-start: var(--ring-input-padding-inline);
   --ring-input-padding-end: var(--ring-input-padding-inline);
 
@@ -114,7 +112,7 @@ Input
 :global(textarea.ring-input) {
   box-sizing: border-box;
 
-  min-height: calc(8 * unit);
+  min-height: calc(8 * var(--ring-unit));
 
   resize: none;
 }

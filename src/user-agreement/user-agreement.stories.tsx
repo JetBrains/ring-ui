@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import {Story} from '@storybook/react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import alert from '../alert-service/alert-service';
 
@@ -12,7 +11,6 @@ import text from './toolbox.eula';
 
 export default {
   title: 'Components/User Agreement',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: UserAgreement,
@@ -30,7 +28,7 @@ export const dialog: Story<UserAgreementAttrs> = args => (
 
 dialog.args = {
   show: true,
-  text,
+  children: <div style={{whiteSpace: 'pre-wrap'}}>{text}</div>,
   onRemindLater: null
 };
 dialog.argTypes = {
@@ -63,7 +61,7 @@ export const service: Story<ServiceArgs> = ({
   const fakeUserAgreement: Agreement = {
     enabled: true,
     majorVersion: 1.0,
-    text
+    content: <div style={{whiteSpace: 'pre-wrap'}}>{text}</div>
   };
 
   const fakeUserConsent: Consent = {

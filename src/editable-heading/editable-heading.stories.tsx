@@ -3,7 +3,6 @@ import React from 'react';
 import pencilIcon from '@jetbrains/icons/pencil';
 import moreOptionsIcon from '@jetbrains/icons/more-options';
 
-import reactDecorator from '../../.storybook/react-decorator';
 import {Size} from '../input/input';
 import Button from '../button/button';
 
@@ -20,7 +19,6 @@ const lorem = (
 
 export default {
   title: 'Components/Editable Heading',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'A component for editable rendering h1-h5 tags.'

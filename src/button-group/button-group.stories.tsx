@@ -1,6 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
 
@@ -8,7 +7,6 @@ import ButtonGroup, {Caption} from './button-group';
 
 export default {
   title: 'Components/Button Group',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Allows to group several buttons.',

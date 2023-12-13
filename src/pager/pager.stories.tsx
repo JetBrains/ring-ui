@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Pager from './pager';
 
@@ -21,7 +20,6 @@ function hrefGenerator(linkPageNumber: number, pageSize?: number) {
 
 export default {
   title: 'Components/Pager',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a pager.',

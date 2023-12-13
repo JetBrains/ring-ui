@@ -21,7 +21,6 @@ module.exports = {
       }
     },
     '@storybook/addon-a11y',
-    'storybook-zeplin/register',
     'storybook-addon-themes'
   ],
   webpackFinal(config) {
@@ -29,12 +28,6 @@ module.exports = {
       __dirname,
       path.resolve(__dirname, '../src')
     );
-    ringConfig.loaders.babelLoader.options.plugins = [[
-      'babel-plugin-react-docgen',
-      {
-        DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES'
-      }
-    ]];
 
     config.module.rules = [
       ...ringConfig.config.module.rules,
@@ -64,11 +57,14 @@ module.exports = {
     return config;
   },
   framework: {
-    name: '@storybook/html-webpack5',
+    name: '@storybook/react-webpack5',
     options: {}
   },
   docs: {
     autodocs: false
   },
-  staticDirs: ['./custom-header/dist']
+  staticDirs: ['./custom-header/dist'],
+  typescript: {
+    reactDocgen: 'react-docgen'
+  }
 };

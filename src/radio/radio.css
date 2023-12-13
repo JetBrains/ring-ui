@@ -1,8 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-@value radio-size: calc(2 * unit);
-
 .radio {
   position: relative;
 
@@ -30,15 +27,15 @@
   flex-shrink: 0;
 
   box-sizing: border-box;
-  width: radio-size;
-  height: radio-size;
+  width: calc(2 * var(--ring-unit));
+  height: calc(2 * var(--ring-unit));
 
   user-select: none;
   transition: border-color var(--ring-ease), box-shadow var(--ring-ease);
   pointer-events: none;
 
   border: 1px solid var(--ring-borders-color);
-  border-radius: unit;
+  border-radius: var(--ring-unit);
   background-color: var(--ring-content-background-color);
 
   &::after {
@@ -46,8 +43,8 @@
     top: 3px;
     left: 3px;
 
-    width: unit;
-    height: unit;
+    width: var(--ring-unit);
+    height: var(--ring-unit);
 
     content: "";
 
@@ -57,7 +54,7 @@
 
     opacity: 0;
 
-    border-radius: calc(unit / 2);
+    border-radius: calc(var(--ring-unit) / 2);
     background-color: var(--ring-main-color);
   }
 }
@@ -119,7 +116,7 @@
 }
 
 .label {
-  margin-left: unit;
+  margin-left: var(--ring-unit);
 
   line-height: var(--ring-line-height);
 }

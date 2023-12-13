@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 
-import {render, unmountComponentAtNode} from '../global/react-render-adapter';
+import {createRoot} from 'react-dom/client';
+
 import Storage from '../storage/storage';
 import alertService from '../alert-service/alert-service';
 import Link from '../link/link';
@@ -35,7 +36,7 @@ export interface ConsentResponse {
 }
 
 export interface Agreement {
-  text: string
+  content: ReactNode
   enabled?: boolean | null | undefined
   majorVersion?: number | null | undefined
   minorVersion?: number | null | undefined
@@ -46,7 +47,7 @@ const DEFAULT_AGREEMENT: Agreement = {
   majorVersion: 0,
   minorVersion: 0,
   requiredForREST: false,
-  text: ''
+  content: ''
 };
 
 export interface UserAgreementServiceTranslations extends UserAgreementTranslations {
@@ -93,6 +94,7 @@ export default class UserAgreementService {
   tabId = Math.random();
   interval = ONE_HOUR;
   container = document.createElement('div');
+  reactRoot = createRoot(this.container);
   storage = new Storage();
   checkingPromise: Promise<[Agreement, Consent]> | null = null;
   guest: boolean | null | undefined = false;
@@ -236,7 +238,7 @@ export default class UserAgreementService {
     restOptions?: Partial<UserAgreementAttrs>
   ) => {
     const {translations, onDialogShow} = this.config;
-    const {text} = this.userAgreement;
+    const {content} = this.userAgreement;
     const show = true;
 
     if (!this._dialogPromise) {
@@ -254,7 +256,7 @@ export default class UserAgreementService {
         const onClose = this.hideDialogAndAlert;
 
         const props: UserAgreementAttrs = {
-          text,
+          children: content,
           show,
           onAccept,
           onDecline,
@@ -263,13 +265,12 @@ export default class UserAgreementService {
           preview, ...restOptions
         };
 
-        render(
+        this.reactRoot.render(
           (
             <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
               <UserAgreement {...props}/>
             </ControlsHeightContext.Provider>
           ),
-          this.container
         );
 
         if (onDialogShow) {
@@ -288,7 +289,7 @@ export default class UserAgreementService {
   hideDialog = (withoutNotifications?: boolean) => {
     const {onDialogHide} = this.config;
 
-    unmountComponentAtNode(this.container);
+    this.reactRoot.unmount();
 
     if (onDialogHide) {
       onDialogHide();

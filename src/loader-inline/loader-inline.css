@@ -1,7 +1,6 @@
 @import "../global/variables.css";
 
 @value dark from "../global/variables_dark.css";
-@value unit from "../global/global.css";
 
 :root {
   /* stylelint-disable-next-line color-no-hex */
@@ -48,7 +47,7 @@
   animation: spin 1s linear infinite;
   vertical-align: -3px;
 
-  border-radius: unit;
+  border-radius: var(--ring-unit);
 
   &,
   &::after {
@@ -58,17 +57,17 @@
   &::after {
     display: block;
 
-    width: calc(unit * 2);
-    height: calc(unit * 2);
+    width: calc(var(--ring-unit) * 2);
+    height: calc(var(--ring-unit) * 2);
 
     content: "";
     animation: pulse 0.85s cubic-bezier(0.68, 0, 0.74, 0.74) infinite alternate;
 
     background-image: conic-gradient(var(--ring-loader-inline-stops));
-    mask-image: radial-gradient(unit, transparent 71.875%, var(--ring-content-background-color) 71.875%);
+    mask-image: radial-gradient(var(--ring-unit), transparent 71.875%, var(--ring-content-background-color) 71.875%);
   }
 }
 
 .children {
-  margin-left: calc(unit / 2);
+  margin-left: calc(var(--ring-unit) / 2);
 }

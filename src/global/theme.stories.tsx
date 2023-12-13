@@ -1,6 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Text from '../text/text';
 
@@ -9,8 +8,7 @@ import Select from '../select/select';
 import Theme, {ThemeProvider} from './theme';
 
 export default {
-  title: 'Components/Theme Provider',
-  decorators: [reactDecorator()]
+  title: 'Components/Theme Provider'
 };
 
 const storyStyles = `

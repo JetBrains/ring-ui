@@ -54,7 +54,6 @@ const TabTitle = React.memo(function TabTitle({
       isSelected={selected}
       active
       href={href}
-      innerClassName={titleClasses}
       className={titleClasses}
       disabled={disabled}
       onPlainLeftClick={handleSelect}

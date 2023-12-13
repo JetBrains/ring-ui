@@ -1,5 +1,3 @@
-@value unit from "../global/global.css";
-
 :global(.ring-error-bubble) {
   position: absolute;
   z-index: 2;
@@ -9,9 +7,9 @@
   display: none;
 
   box-sizing: border-box;
-  min-height: calc(3 * unit);
-  padding-right: calc(2 * unit);
-  padding-left: calc(2 * unit);
+  min-height: calc(3 * var(--ring-unit));
+  padding-right: calc(2 * var(--ring-unit));
+  padding-left: calc(2 * var(--ring-unit));
 
   white-space: nowrap;
 
@@ -41,8 +39,8 @@
 
   display: block;
 
-  width: unit;
-  height: unit;
+  width: var(--ring-unit);
+  height: var(--ring-unit);
 
   content: "";
   transform: rotate(45deg);
@@ -55,7 +53,7 @@
 }
 
 :global(.ring-error-bubble_material) {
-  padding-left: unit;
+  padding-left: var(--ring-unit);
 
   border: 0;
   background: transparent none;

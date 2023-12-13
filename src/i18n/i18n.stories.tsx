@@ -3,8 +3,6 @@ import React from 'react';
 import {Story} from '@storybook/react';
 
 
-import reactDecorator from '../../.storybook/react-decorator';
-
 import {getTranslations, type Messages} from './i18n';
 import {I18nContext, I18nContextHolder} from './i18n-context';
 
@@ -22,7 +20,6 @@ const I18nTestComponent: React.FC<Messages> = props => (
 
 export default {
   title: 'Services/I18n',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: I18nTestComponent,

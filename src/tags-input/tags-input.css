@@ -1,10 +1,9 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value outerContainer, container, input from "../input/input.css";
 
 .tagsInput {
-  --ring-input-icon-offset: calc(unit * 2.5);
+  --ring-input-icon-offset: calc(var(--ring-unit) * 2.5);
   --ring-input-padding-inline: 3px;
 
   box-sizing: border-box;

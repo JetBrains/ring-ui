@@ -2,7 +2,7 @@
  * @name User Agreement
  */
 
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -10,7 +10,6 @@ import Dialog from '../dialog/dialog';
 import {Content, Header} from '../island/island';
 import Panel from '../panel/panel';
 import Button from '../button/button';
-import Markdown from '../markdown/markdown';
 
 import {I18nContext} from '../i18n/i18n-context';
 
@@ -28,8 +27,8 @@ export interface UserAgreementTranslations {
 }
 
 export interface UserAgreementProps {
-  text: string
   translations?: UserAgreementTranslations | null | undefined
+  children: ReactNode
   show: boolean
   onAccept: () => void
   onDecline: () => void
@@ -45,7 +44,6 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
   static propTypes = {
     show: PropTypes.bool,
     preview: PropTypes.bool,
-    text: PropTypes.string.isRequired,
     onAccept: PropTypes.func,
     onDecline: PropTypes.func,
     onClose: PropTypes.func,
@@ -82,7 +80,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
       onDecline,
       onClose,
       onRemindLater,
-      text,
+      children,
       show,
       preview,
       className
@@ -105,7 +103,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
               fade
               onScrollToBottom={this.onScrollToBottom}
             >
-              <Markdown>{text}</Markdown>
+              {children}
             </Content>
             {!preview && (
               <Panel>

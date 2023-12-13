@@ -1,10 +1,8 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .tooltip {
-  max-width: calc(unit * 50);
-  padding: unit;
+  max-width: calc(var(--ring-unit) * 50);
+  padding: var(--ring-unit);
 
   text-align: left;
 
@@ -12,7 +10,7 @@
 }
 
 .long {
-  padding: unit calc(unit * 1.5);
+  padding: var(--ring-unit) calc(var(--ring-unit) * 1.5);
 
   font-size: var(--ring-font-size-smaller);
   line-height: var(--ring-line-height-lowest);

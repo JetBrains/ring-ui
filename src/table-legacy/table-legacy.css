@@ -1,7 +1,5 @@
 @import "./table-legacy__toolbar.css";
 
-@value unit from "../global/global.css";
-
 :global(.ring-table) {
   width: 100%;
 
@@ -32,7 +30,7 @@
 
   display: table-cell;
 
-  padding: 0 unit;
+  padding: 0 var(--ring-unit);
 
   text-align: left;
   white-space: nowrap;
@@ -51,7 +49,7 @@
 }
 
 :global(.ring-table__title:first-child) {
-  padding-left: calc(unit * 4);
+  padding-left: calc(var(--ring-unit) * 4);
 }
 
 /* Have to emulate right border because of Fx weird bug —
@@ -79,7 +77,7 @@
 }
 
 :global(.ring-table__title_nested) {
-  padding-left: calc(unit * 5);
+  padding-left: calc(var(--ring-unit) * 5);
 }
 
 /* fix header checkbox position in nested table */
@@ -96,7 +94,7 @@
   width: 12px;
   height: 9px;
 
-  margin-left: calc(unit * 2);
+  margin-left: calc(var(--ring-unit) * 2);
   padding-bottom: 21px;
 
   cursor: pointer;
@@ -129,7 +127,7 @@
 }
 
 :global(.ring-table__column_selector) {
-  min-width: calc(3 * unit);
+  min-width: calc(3 * var(--ring-unit));
   padding: 0 !important;
 
   text-align: center;
@@ -138,13 +136,13 @@
 :global(.ring-table__selector) {
   display: inline-block;
 
-  margin: 0 0 0 calc(unit / 2);
+  margin: 0 0 0 calc(var(--ring-unit) / 2);
 }
 
 :global(.ring-table__column) {
   display: table-cell;
 
-  padding: calc(unit - 2px) unit;
+  padding: calc(var(--ring-unit) - 2px) var(--ring-unit);
 
   vertical-align: middle;
   white-space: nowrap;
@@ -162,7 +160,7 @@
 }
 
 :global(.ring-table__column:first-child) {
-  padding-left: calc(4 * unit);
+  padding-left: calc(4 * var(--ring-unit));
 }
 
 :global(.ring-table__column.ring-table__column_gap) {
@@ -172,7 +170,7 @@
 
 /* Combined class is required here for specificity */
 :global(.ring-table__column.ring-table__column_toggle) {
-  width: calc(unit * 2);
+  width: calc(var(--ring-unit) * 2);
   padding: 0;
 
   text-align: right;
@@ -201,7 +199,7 @@
 }
 
 :global(.ring-table__column_gap) {
-  padding-left: calc(unit * 2) !important;
+  padding-left: calc(var(--ring-unit) * 2) !important;
 }
 
 :global(.ring-table__column-title) {
@@ -209,13 +207,13 @@
 }
 
 :global(.ring-table__column_wide) {
-  min-width: calc(10 * unit);
+  min-width: calc(10 * var(--ring-unit));
 }
 
 :global(.ring-table__column_limited) {
   overflow: hidden;
 
-  max-width: calc(50 * unit);
+  max-width: calc(50 * var(--ring-unit));
 
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -232,7 +230,7 @@
 }
 
 :global(.ring-table__column_narrow) {
-  min-width: calc(3 * unit);
+  min-width: calc(3 * var(--ring-unit));
   padding: 0 !important;
 }
 
@@ -244,7 +242,7 @@
   display: table-row;
 
   width: 100%;
-  height: calc(5 * unit);
+  height: calc(5 * var(--ring-unit));
 }
 
 :global(.ring-table__row .ring-table__row_ghost) {
@@ -294,7 +292,7 @@
 }
 
 :global(.ring-table__description) {
-  margin-left: unit;
+  margin-left: var(--ring-unit);
 
   color: var(--ring-secondary-color);
 
@@ -302,13 +300,13 @@
 }
 
 :global(.ring-table__avatar) {
-  width: calc(3 * unit);
-  height: calc(3 * unit + 3px); /* If avatar is missing */
+  width: calc(3 * var(--ring-unit));
+  height: calc(3 * var(--ring-unit) + 3px); /* If avatar is missing */
 }
 
 :global(.ring-table__avatar-img) {
-  width: calc(3 * unit);
-  height: calc(3 * unit);
+  width: calc(3 * var(--ring-unit));
+  height: calc(3 * var(--ring-unit));
 }
 
 :global(.ring-table__header_sticky) {
@@ -325,17 +323,17 @@
 }
 
 :global(.table__pager) {
-  padding: calc(4 * unit) calc(4 * unit);
+  padding: calc(4 * var(--ring-unit)) calc(4 * var(--ring-unit));
 }
 
 :global(.table__pager-links) {
-  margin-bottom: calc(2 * unit);
+  margin-bottom: calc(2 * var(--ring-unit));
 }
 
 :global(.table__pager-link) {
   display: inline-block;
 
-  margin-right: calc(4 * unit);
+  margin-right: calc(4 * var(--ring-unit));
 }
 
 :global(.table__pager-link_disabled) {

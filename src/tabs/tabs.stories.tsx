@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import warningIcon from '@jetbrains/icons/warning';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
 import Icon, {IconProps} from '../icon/icon';
@@ -11,7 +10,6 @@ import {CustomItem, SmartTabs, Tab, Tabs} from './tabs';
 
 export default {
   title: 'Components/Tabs',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a tab set.',

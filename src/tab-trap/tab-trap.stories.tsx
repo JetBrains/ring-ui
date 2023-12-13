@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Input from '../input/input';
 import Button from '../button/button';
@@ -11,7 +10,6 @@ import TabTrap from './tab-trap';
 
 export default {
   title: 'Components/TabTrap',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Disallows tabbing out of a designated area.',

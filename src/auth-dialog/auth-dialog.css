@@ -1,7 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 .dialog.dialog {
   width: auto;
   max-width: 400px;
@@ -14,23 +12,23 @@
   align-items: center;
   flex-direction: column;
 
-  margin: calc(unit * 2) 0;
+  margin: calc(var(--ring-unit) * 2) 0;
 }
 
 .button {
-  width: calc(unit * 25);
-  margin-top: unit;
+  width: calc(var(--ring-unit) * 25);
+  margin-top: var(--ring-unit);
 }
 
 .firstButton {
   composes: button;
 
-  margin-top: calc(unit * 4);
+  margin-top: calc(var(--ring-unit) * 4);
 }
 
 .title.title {
   margin-top: 0;
-  margin-bottom: unit;
+  margin-bottom: var(--ring-unit);
 
   text-align: center;
 
@@ -38,14 +36,14 @@
 }
 
 .logo {
-  width: calc(unit * 12);
-  height: calc(unit * 12);
+  width: calc(var(--ring-unit) * 12);
+  height: calc(var(--ring-unit) * 12);
   margin-bottom: 12px;
   object-fit: contain;
 
   @media (max-height: 400px) {
-    width: calc(unit * 4);
-    height: calc(unit * 4);
+    width: calc(var(--ring-unit) * 4);
+    height: calc(var(--ring-unit) * 4);
   }
 }
 

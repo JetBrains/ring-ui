@@ -1,6 +1,7 @@
 import React, {ReactNode} from 'react';
 
-import {render} from '../global/react-render-adapter';
+import {createRoot} from 'react-dom/client';
+
 import Confirm, {ConfirmAttributes} from '../confirm/confirm';
 import {
   ControlsHeight,
@@ -16,18 +17,19 @@ export type Props = ConfirmAttributes & {
   buttonsHeight?: ControlsHeight
 };
 
-export const containerElement = document.createElement('div');
+const containerElement = document.createElement('div');
+export const reactRoot = createRoot(containerElement);
 
 /**
  * Renders Confirm into virtual node to skip maintaining container
  */
 function renderConfirm(props: Props) {
   const {buttonsHeight = getGlobalControlsHeight(), ...restProps} = props;
-  render((
+  reactRoot.render(
     <ControlsHeightContext.Provider value={buttonsHeight}>
       <Confirm {...restProps}/>
     </ControlsHeightContext.Provider>
-  ), containerElement);
+  );
 }
 
 export interface ConfirmServiceParams {
