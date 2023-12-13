@@ -1,7 +1,6 @@
 import React from 'react';
 import frownIcon from '@jetbrains/icons/frown';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Link from '../link/link';
 
@@ -9,7 +8,6 @@ import ErrorMessage from './error-message';
 
 export default {
   title: 'Components/Error Message',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes:

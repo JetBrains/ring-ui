@@ -1,6 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Link from '../link/link';
 import Button from '../button/button';
@@ -11,7 +10,6 @@ import Alert, {Container} from './alert';
 
 export default {
   title: 'Components/Alert',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: Alert,

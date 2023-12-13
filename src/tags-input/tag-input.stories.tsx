@@ -3,7 +3,6 @@ import checkmarkIcon from '@jetbrains/icons/checkmark';
 import exceptionIcon from '@jetbrains/icons/exception';
 import frownIcon from '@jetbrains/icons/frown';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
 import Dialog from '../dialog/dialog';
@@ -15,7 +14,6 @@ import TagsInput from './tags-input';
 
 export default {
   title: 'Components/Tags Input',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a tags input field.'

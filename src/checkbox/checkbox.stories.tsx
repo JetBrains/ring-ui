@@ -1,12 +1,10 @@
 import React, {Fragment} from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Checkbox, {CheckboxProps} from './checkbox';
 
 export default {
   title: 'Components/Checkbox',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: Checkbox,

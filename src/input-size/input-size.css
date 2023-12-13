@@ -1,12 +1,10 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 :root {
-  --ring-input-xs: calc(unit * 12);
-  --ring-input-s: calc(unit * 12);
-  --ring-input-m: calc(unit * 30);
-  --ring-input-l: calc(unit * 50);
+  --ring-input-xs: calc(var(--ring-unit) * 12);
+  --ring-input-s: calc(var(--ring-unit) * 12);
+  --ring-input-m: calc(var(--ring-unit) * 30);
+  --ring-input-l: calc(var(--ring-unit) * 50);
 }
 
 /**

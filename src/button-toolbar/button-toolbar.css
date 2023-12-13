@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value button from "../button/button.css";
 
 .buttonToolbar {
@@ -18,7 +17,7 @@
 .buttonToolbar > .buttonGroup,
 .buttonToolbar > .split,
 .buttonToolbar > .buttonToolbar {
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 }
 
 .buttonToolbar > :last-child {

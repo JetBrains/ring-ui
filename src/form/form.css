@@ -1,7 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
-
 /**
  * @name Form
 */
@@ -29,25 +27,25 @@
 }
 
 :global(.ring-form_rows.ring-form__control) {
-  width: calc(42 * unit);
+  width: calc(42 * var(--ring-unit));
   margin-left: 0;
 }
 
 :global(.ring-form__wrap) {
   margin-bottom: 0;
-  padding: calc(3 * unit) calc(4 * unit) 0 calc(4 * unit);
+  padding: calc(3 * var(--ring-unit)) calc(4 * var(--ring-unit)) 0 calc(4 * var(--ring-unit));
 }
 
 :global(.ring-form__header) {
   min-height: 13px;
-  padding-bottom: calc(2 * unit);
+  padding-bottom: calc(2 * var(--ring-unit));
 }
 
 :global(.ring-form__control__description) {
   display: block;
 
   max-width: 900px;
-  padding-top: calc(unit / 2);
+  padding-top: calc(var(--ring-unit) / 2);
 
   color: var(--ring-secondary-color);
 
@@ -58,7 +56,7 @@
 :global(.ring-form__title-img) {
   float: left;
 
-  height: calc(4 * unit);
+  height: calc(4 * var(--ring-unit));
 
   border: 0;
 }
@@ -66,7 +64,7 @@
 :global(.ring-form__title) {
   display: block;
 
-  margin-bottom: calc(unit);
+  margin-bottom: calc(var(--ring-unit));
 
   font-weight: bold;
 }
@@ -79,13 +77,13 @@
 }
 
 :global(.ring-form__title_separated) {
-  margin: calc(unit * 3) 0;
+  margin: calc(var(--ring-unit) * 3) 0;
 }
 
 :global(.ring-form__group) {
   position: relative;
 
-  margin: calc(unit * 2) 0;
+  margin: calc(var(--ring-unit) * 2) 0;
 }
 
 :global(.ring-form__group:first-child) {
@@ -105,20 +103,20 @@
 
 :global(.ring-form__group .ring_form__group) {
   padding-top: 0;
-  padding-left: calc(unit * 2);
+  padding-left: calc(var(--ring-unit) * 2);
 }
 
 :global(.ring-form__group .ring_form__group .ring-form__control) {
-  margin-left: calc(18 * unit);
+  margin-left: calc(18 * var(--ring-unit));
 }
 
 :global(.ring-form__group_nested) {
   padding-top: 0;
-  padding-left: calc(unit * 2);
+  padding-left: calc(var(--ring-unit) * 2);
 }
 
 :global(.ring-form__group_nested .ring-form__control) {
-  margin-left: calc(18 * unit);
+  margin-left: calc(18 * var(--ring-unit));
 }
 
 :global(.ring-form__label) {
@@ -128,12 +126,12 @@
   display: inline-block;
   float: left;
 
-  max-width: calc(18 * unit);
-  padding-top: calc(unit / 2);
+  max-width: calc(18 * var(--ring-unit));
+  padding-top: calc(var(--ring-unit) / 2);
 
   vertical-align: top;
 
-  line-height: calc(2 * unit);
+  line-height: calc(2 * var(--ring-unit));
 }
 
 :global(.ring-form__label .ring-radio-btn__label) {
@@ -154,18 +152,18 @@
   position: relative;
 
   width: auto;
-  min-height: calc(3 * unit);
-  margin-left: calc(20 * unit);
+  min-height: calc(3 * var(--ring-unit));
+  margin-left: calc(20 * var(--ring-unit));
 
   vertical-align: top;
 
-  line-height: calc(3 * unit);
+  line-height: calc(3 * var(--ring-unit));
 }
 
 :global(.ring-form__control_text::after) {
   display: inline-block;
 
-  height: calc(unit * 3);
+  height: calc(var(--ring-unit) * 3);
 
   content: "";
   vertical-align: middle;
@@ -174,8 +172,8 @@
 /* Temporary solution, proper grid is necessary */
 :global(.ring-form__control_secondary) {
   position: absolute;
-  top: unit;
-  left: calc(27 * unit);
+  top: var(--ring-unit);
+  left: calc(27 * var(--ring-unit));
 }
 
 :global(.ring-form__control_on) {
@@ -192,19 +190,19 @@
 }
 
 :global(.ring-form__control_small) {
-  margin-left: calc(16 * unit) !important;
+  margin-left: calc(16 * var(--ring-unit)) !important;
 }
 
 :global(.ring-form__info) {
-  width: calc(85 * unit);
-  margin-bottom: calc(-1 * unit + 2px);
-  margin-left: calc(20 * unit);
+  width: calc(85 * var(--ring-unit));
+  margin-bottom: calc(-1 * var(--ring-unit) + 2px);
+  margin-left: calc(20 * var(--ring-unit));
 
   line-height: 20px;
 }
 
 :global(.ring-form__control__part) {
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 }
 
 /* Form for key-value data
@@ -247,22 +245,22 @@
  </form> */
 
 :global(.ring-form__group_short) {
-  padding-top: calc(unit / 2);
+  padding-top: calc(var(--ring-unit) / 2);
   padding-bottom: 0;
 }
 
 :global(.ring-form__group_short:last-child) {
-  padding-bottom: unit;
+  padding-bottom: var(--ring-unit);
 }
 
 :global(.ring-form__group_short.ring-form__control) {
-  margin-left: calc(unit * 3);
+  margin-left: calc(var(--ring-unit) * 3);
 }
 
 :global(.ring-form_small .ring-form__label) {
-  max-width: calc(12 * unit);
+  max-width: calc(12 * var(--ring-unit));
 }
 
 :global(.ring-form_small .ring-form__control) {
-  margin-left: calc(16 * unit);
+  margin-left: calc(16 * var(--ring-unit));
 }

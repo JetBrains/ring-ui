@@ -1,6 +1,5 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
 
@@ -8,7 +7,6 @@ import Confirm from './confirm';
 
 export default {
   title: 'Components/Confirm',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'A component that shows a confirmation dialog.',

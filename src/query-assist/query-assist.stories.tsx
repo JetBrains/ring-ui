@@ -5,7 +5,6 @@ import {Story} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Auth from '../auth/auth';
 import HTTP from '../http/http';
@@ -22,7 +21,6 @@ import {QueryAssistSuggestion} from './query-assist__suggestions';
 
 export default {
   title: 'Components/Query Assist',
-  decorators: [reactDecorator()],
 
   parameters: {
     component: QueryAssist,
@@ -55,7 +53,7 @@ class Basic extends Component {
       }
     };
 
-    return this.http.get('users/queryAssist', params);
+    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
   };
 
   render() {
@@ -222,7 +220,7 @@ class QueryAssistExample extends Component {
       }
     };
 
-    return this.http.get('users/queryAssist', params);
+    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
   };
 
   render() {
@@ -273,7 +271,7 @@ class HugeOne extends Component {
       }
     };
 
-    return this.http.get('users/queryAssist', params);
+    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
   };
 
   render() {

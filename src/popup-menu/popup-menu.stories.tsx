@@ -1,12 +1,10 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import PopupMenu, {ListProps} from './popup-menu';
 
 export default {
   title: 'Components/PopupMenu',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a popup menu.',

@@ -1,12 +1,10 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import Toggle, {Size} from './toggle';
 
 export default {
   title: 'Components/Toggle',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes: 'Displays a checkbox as an animated on/off toggle.',

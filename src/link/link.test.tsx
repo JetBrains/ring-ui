@@ -50,7 +50,7 @@ describe('Link', () => {
     it('should pass activeClassName to wrapped component', () => {
       const CustomComponent: ComponentType<ClickableLinkProps> = () => <span/>;
       const CustomLink = linkHOC(CustomComponent);
-      mount(<CustomLink>{() => null}</CustomLink>).should.containMatchingElement(
+      mount(<CustomLink>{null}</CustomLink>).should.containMatchingElement(
         <CustomComponent activeClassName={styles.active}/>
       );
     });
@@ -59,7 +59,7 @@ describe('Link', () => {
       const CustomComponent: ComponentType<ClickableLinkProps & {custom: string}> = () => <span/>;
       const CustomLink = linkHOC(CustomComponent);
 
-      mount(<CustomLink custom="test">{() => null}</CustomLink>).should.containMatchingElement(
+      mount(<CustomLink custom="test">{null}</CustomLink>).should.containMatchingElement(
         <CustomComponent custom="test"/>
       );
     });

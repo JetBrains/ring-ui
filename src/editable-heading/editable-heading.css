@@ -1,5 +1,3 @@
-@value unit from "../global/global.css";
-
 .editableHeading {
   display: flex;
   align-items: center;
@@ -11,7 +9,7 @@
   }
 
   &.isEditing {
-    gap: unit;
+    gap: var(--ring-unit);
   }
 }
 
@@ -161,7 +159,7 @@
 }
 
 .errorText {
-  margin: calc(unit / 2) 0;
+  margin: calc(var(--ring-unit) / 2) 0;
 
   color: var(--ring-error-color);
 
@@ -182,15 +180,15 @@
 }
 
 .sizeS {
-  max-width: calc(unit * 12);
+  max-width: calc(var(--ring-unit) * 12);
 }
 
 .sizeM {
-  max-width: calc(unit * 30);
+  max-width: calc(var(--ring-unit) * 30);
 }
 
 .sizeL {
-  max-width: calc(unit * 50);
+  max-width: calc(var(--ring-unit) * 50);
 }
 
 .sizeFULL {

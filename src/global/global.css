@@ -1,11 +1,5 @@
 /* https://readymag.com/artemtiunov/RingUILanguage/colours/ */
 
-/*
-Unit shouldn't be CSS custom property because it is not intended to change
-Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
-*/
-@value unit: 8px;
-
 .clearfix {
   &::after {
     display: block;
@@ -93,7 +87,7 @@ Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
 }
 
 /* Note: footer also has top margin which isn't taken into account here */
-@value footer-height: calc(unit * 8);
+@value footer-height: calc(var(--ring-unit) * 8);
 
 /* Media breakpoints (minimal values) */
 @value breakpoint-small: 640px;

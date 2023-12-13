@@ -716,6 +716,9 @@ object Publish : BuildType({
                     UserKnownHostsFile /dev/null
                 EOT
 
+                node -v
+                npm -v
+
                 chmod 644 ~/.ssh/config
 
                 # GitHub and NPM authorization
@@ -724,31 +727,34 @@ object Publish : BuildType({
 
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
 
-                node -v
-                npm -v
-                npm whoami
-
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
 
+                npm whoami
+
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
-                npm run build
 
+                # Reset possibly changed lock to avoid "git status is not clear" error
+                git checkout package.json package-lock.json
+                npm run build
+                npm run release-ci
+                cat package.json
+
+                ########## Here goes publishing of pre-built version
                 if [ ! -d "./dist" ]
                 then
                     echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
                     exit 333
                 fi
-
-                # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json package-lock.json
-                npm run release-ci
-
+                rm -rf components
+                mv dist components
+                npm run release-built-ci
+                ########## End of pre-built version publishing
                 cat package.json
 
                 function publishBuildNumber {
@@ -760,7 +766,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:16"
+            dockerImage = "node:16.18"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -884,11 +890,22 @@ object PublishHotfixRelease : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
+
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json package-lock.json packages/*/package-lock.json
-                npm whoami
+                git checkout package.json package-lock.json
+                npm run build
                 npm run release-ci
 
+                ########## Here goes publishing of pre-built version
+                if [ ! -d "./dist" ]
+                then
+                    echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
+                    exit 333
+                fi
+                rm -rf components
+                mv dist components
+                npm run release-built-ci
+                ########## End of pre-built version publishing
                 cat package.json
 
                 function publishBuildNumber {
@@ -983,7 +1000,7 @@ object PublishNext : BuildType({
     allowExternalStatus = true
 
     params {
-        param("env.NPM_VERSION_PARAMS", "patch --preid beta")
+        param("env.NPM_VERSION_PARAMS", "prepatch --preid beta")
         param("env.NPM_PUBLISH_PARAMS", "--tag next")
 
         param("vcs.branch.spec", """
@@ -1040,11 +1057,22 @@ object PublishNext : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
-                npm run build
+
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json package-lock.json packages/*/package-lock.json
+                git checkout package.json package-lock.json
+                npm run build
                 npm run release-ci
 
+                ########## Here goes publishing of pre-built version
+                if [ ! -d "./dist" ]
+                then
+                    echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
+                    exit 333
+                fi
+                rm -rf components
+                mv dist components
+                npm run release-built-ci
+                ########## End of pre-built version publishing
                 cat package.json
 
                 function publishBuildNumber {
@@ -1056,7 +1084,8 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:16"
+            dockerImage = "node:16.18"
+            dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")

@@ -1,12 +1,10 @@
 import React from 'react';
 
-import reactDecorator from '../../.storybook/react-decorator';
 
 import LoaderInline from './loader-inline';
 
 export default {
   title: 'Components/Inline Loader',
-  decorators: [reactDecorator()],
 
   parameters: {
     notes:

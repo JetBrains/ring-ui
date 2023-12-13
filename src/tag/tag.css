@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value max-height: 20px;
 
 .tag {
@@ -15,7 +14,7 @@
   max-width: 100%;
   height: max-height;
 
-  padding: 0 unit;
+  padding: 0 var(--ring-unit);
 
   cursor: pointer;
 
@@ -46,9 +45,9 @@
 
   display: inline-block;
 
-  max-width: calc(100% - unit / 2);
+  max-width: calc(100% - var(--ring-unit) / 2);
 
-  margin-right: calc(unit / 2);
+  margin-right: calc(var(--ring-unit) / 2);
 
   white-space: nowrap;
 }
@@ -77,8 +76,8 @@
 
   margin-bottom: -5px !important;
 
-  margin-left: unit;
-  padding-left: calc(unit / 2);
+  margin-left: var(--ring-unit);
+  padding-left: calc(var(--ring-unit) / 2);
 
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -131,9 +130,9 @@
   right: 0;
 
   height: auto;
-  padding: 0 calc(unit / 2);
+  padding: 0 calc(var(--ring-unit) / 2);
 
-  line-height: calc(unit * 2);
+  line-height: calc(var(--ring-unit) * 2);
 }
 
 .removeIcon.removeIcon {
@@ -157,8 +156,8 @@
   box-sizing: border-box;
   width: max-height;
   height: max-height;
-  margin-right: calc(unit / 2);
-  margin-left: calc(0 - unit);
+  margin-right: calc(var(--ring-unit) / 2);
+  margin-left: calc(var(--ring-unit) * -1);
 
   vertical-align: top;
 
@@ -167,10 +166,10 @@
 }
 
 .customIcon {
-  max-width: calc(unit * 2);
-  max-height: calc(unit * 2);
+  max-width: calc(var(--ring-unit) * 2);
+  max-height: calc(var(--ring-unit) * 2);
 
-  margin-right: calc(unit / 2);
+  margin-right: calc(var(--ring-unit) / 2);
 
   vertical-align: bottom;
 }

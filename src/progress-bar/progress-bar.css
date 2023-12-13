@@ -1,7 +1,6 @@
 @import "../global/variables.css";
 
 @value dark from "../global/variables_dark.css";
-@value unit from "../global/global.css";
 
 :root {
   --ring-progress-bar-background-color: rgba(0, 0, 0, 0.2);
@@ -20,8 +19,8 @@
 
   overflow: hidden;
 
-  height: calc(unit / 2);
-  margin-bottom: calc(unit / 2);
+  height: calc(var(--ring-unit) / 2);
+  margin-bottom: calc(var(--ring-unit) / 2);
 
   border-radius: 2px;
   background-color: var(--ring-progress-bar-background-color);
@@ -49,7 +48,7 @@
   border-radius: 2px;
   background-color: var(--ring-main-color);
 
-  line-height: calc(unit / 2);
+  line-height: calc(var(--ring-unit) / 2);
 
   &::after {
     position: absolute;

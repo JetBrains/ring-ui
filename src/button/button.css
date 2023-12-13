@@ -1,22 +1,20 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
-@value height: var(--ring-button-height);
-@value loaderWidth: calc(unit * 8);
+@value loaderWidth: calc(var(--ring-unit) * 8);
 
 .heightS {
-  --ring-button-height: calc(unit * 3);
+  --ring-button-height: calc(var(--ring-unit) * 3);
   --ring-button-font-size: var(--ring-font-size-smaller);
 }
 
 .heightM {
-  --ring-button-height: calc(unit * 3.5);
+  --ring-button-height: calc(var(--ring-unit) * 3.5);
   --ring-button-font-size: var(--ring-font-size);
 }
 
 .heightL {
-  --ring-button-height: calc(unit * 4);
+  --ring-button-height: calc(var(--ring-unit) * 4);
   --ring-button-font-size: var(--ring-font-size);
 }
 
@@ -26,9 +24,9 @@
   display: inline-block;
 
   box-sizing: border-box;
-  height: height;
+  height: var(--ring-button-height);
   margin: 0;
-  padding: 0 calc(unit * 2);
+  padding: 0 calc(var(--ring-unit) * 2);
 
   cursor: pointer;
   transition: color var(--ring-ease), background-color var(--ring-ease), box-shadow var(--ring-ease);
@@ -45,7 +43,7 @@
   font-family: var(--ring-font-family);
   font-size: var(--ring-button-font-size);
 
-  line-height: height;
+  line-height: var(--ring-button-height);
 
   &:hover {
     transition: none;
@@ -247,7 +245,7 @@
 }
 
 .withIcon {
-  padding: 0 unit;
+  padding: 0 var(--ring-unit);
 }
 
 .text {
@@ -278,7 +276,7 @@
   line-height: normal;
 
   &:not(:last-child) {
-    margin-right: calc(unit * 0.5);
+    margin-right: calc(var(--ring-unit) * 0.5);
   }
 }
 
@@ -359,7 +357,7 @@
 }
 
 .short {
-  width: calc(unit * 4);
+  width: calc(var(--ring-unit) * 4);
   padding: 0;
 }
 
