@@ -70,12 +70,15 @@
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 
-  word-wrap: break-word;
+  word-break: break-all;
 
   border-radius: var(--ring-border-radius);
 
   .multiline & {
     -webkit-line-clamp: 3;
+
+    word-wrap: break-word;
+    word-break: normal;
   }
 }
 
