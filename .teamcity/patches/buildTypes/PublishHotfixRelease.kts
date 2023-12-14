@@ -11,6 +11,14 @@ To apply the patch, change the buildType with id = 'PublishHotfixRelease'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("PublishHotfixRelease")) {
+    check(artifactRules == "") {
+        "Unexpected option value: artifactRules = $artifactRules"
+    }
+    artifactRules = """
+        %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
+        dist=>dist.zip
+    """.trimIndent()
+
     expectSteps {
         script {
             name = "Publish"
