@@ -157,7 +157,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",
-    "regenerator-runtime": "^0.14.0",
+    "regenerator-runtime": "^0.14.1",
     "rimraf": "^5.0.5",
     "rollup": "^3.29.4",
     "rollup-plugin-clear": "^2.0.7",
