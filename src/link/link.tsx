@@ -41,7 +41,7 @@ export function linkHOC<P extends ClickableLinkProps>(
       inherit: PropTypes.bool,
       pseudo: PropTypes.bool,
       hover: PropTypes.bool,
-      children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+      children: PropTypes.node,
       'data-test': PropTypes.string,
       href: PropTypes.string,
       onPlainLeftClick: PropTypes.func,
