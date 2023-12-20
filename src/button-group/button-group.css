@@ -103,8 +103,9 @@
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
-.buttonGroup .button.button:hover,
-.buttonGroup .button.button:active {
+.buttonGroup .button.button:hover:not(:disabled),
+/* stylelint-disable-next-line selector-max-specificity */
+.buttonGroup .button.button:active:not(:disabled) {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-border-hover-color);
 }
@@ -215,7 +216,8 @@
       z-index: var(--ring-button-group-active-z-index);
     }
 
-    &:hover {
+    /* stylelint-disable-next-line selector-max-specificity */
+    &:hover:not(:disabled) {
       z-index: var(--ring-button-group-hover-z-index);
     }
 
