@@ -92,7 +92,8 @@
     color: var(--ring-disabled-color);
   }
 
-  &[disabled] .icon {
+  /* stylelint-disable-next-line selector-max-specificity */
+  &[disabled] .icon.icon {
     color: var(--ring-icon-disabled-color);
   }
 
