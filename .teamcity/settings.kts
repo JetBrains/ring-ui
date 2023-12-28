@@ -55,6 +55,7 @@ project {
             -:refs/heads/gh-pages
         """.trimIndent())
         text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
+        password("env.QODANA_TOKEN", "credentialsJSON:1b6fe259-bfcd-45f5-be23-e2625685a0f6", display = ParameterDisplay.HIDDEN)
     }
 
     features {
@@ -167,6 +168,7 @@ object AllChecks : BuildType({
         }
         retryBuild {
             delaySeconds = 60
+            attempts = 1
         }
     }
 
@@ -194,6 +196,7 @@ object AllChecks : BuildType({
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
         snapshot(QodanaAnalysis) {
+            onDependencyFailure = FailureAction.IGNORE
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
         snapshot(A11yAudit) {
@@ -370,7 +373,7 @@ object GeminiTests : BuildType({
                 npm -v
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
 
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
 
                 cd packages/hermione
@@ -425,14 +428,6 @@ object GeminiTests : BuildType({
                 authType = personalToken {
                     token = "credentialsJSON:5ffe2d7e-531e-4f6f-b1fc-a41bfea26eaa"
                 }
-            }
-        }
-        commitStatusPublisher {
-            publisher = upsource {
-                serverUrl = "https://upsource.jetbrains.com"
-                projectId = "ring-ui"
-                userName = "TeamCityReporter"
-                password = "credentialsJSON:58d15732-d29f-42a6-a0e5-e88ab97c64dd"
             }
         }
     }
@@ -492,9 +487,12 @@ object A11yAudit : BuildType({
                 npm -v
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
 
                 npm install
+                # Workaround for not always installed chromium https://github.com/puppeteer/puppeteer/issues/9533#issuecomment-1386653636
+                node node_modules/puppeteer/install.js
+
                 npm run a11y-audit-ci
             """.trimIndent()
             dockerImage = "satantime/puppeteer-node:20"
@@ -556,7 +554,7 @@ object ConsoleErrors : BuildType({
                 npm -v
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
@@ -628,7 +626,7 @@ object SecurityAudit : BuildType({
                 npm -v
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
+                mkdir -p node_modules
                 npm install
                 node security-audit-ci.js
             """.trimIndent()
@@ -675,6 +673,9 @@ object QodanaAnalysis : BuildType({
   triggers {
     vcs {
     }
+  }
+  failureConditions {
+    executionTimeoutMin = 30
   }
 })
 
@@ -841,6 +842,10 @@ object PublishHotfixRelease : BuildType({
     name = "Publish @hotfix (release-*)"
     paused = true
     allowExternalStatus = true
+    artifactRules = """
+        %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
+        dist=>dist.zip
+    """.trimIndent()
 
     params {
         param("env.NPM_VERSION_PARAMS", "patch --preid hotfix")
@@ -870,6 +875,9 @@ object PublishHotfixRelease : BuildType({
                     UserKnownHostsFile /dev/null
                 EOT
 
+                node -v
+                npm -v
+
                 chmod 644 ~/.ssh/config
 
                 # GitHub and NPM authorization
@@ -878,14 +886,13 @@ object PublishHotfixRelease : BuildType({
 
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
 
-                node -v
-                npm -v
-                npm whoami
-
                 if [ -n "${'$'}(git status --porcelain)" ]; then
+                  git status
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
+
+                npm whoami
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
@@ -895,6 +902,7 @@ object PublishHotfixRelease : BuildType({
                 git checkout package.json package-lock.json
                 npm run build
                 npm run release-ci
+                cat package.json
 
                 ########## Here goes publishing of pre-built version
                 if [ ! -d "./dist" ]
@@ -1479,6 +1487,6 @@ object UnpublishSpecificVersion : BuildType({
     }
 
     requirements {
-        contains("system.agent.name", "ubuntu")
+      contains("docker.server.osType", "linux")
     }
 })
