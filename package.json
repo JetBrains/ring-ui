@@ -113,7 +113,7 @@
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
-    "acorn": "^8.11.2",
+    "acorn": "^8.11.3",
     "babel-plugin-require-context-hook": "^1.0.0",
     "caniuse-lite": "^1.0.30001572",
     "chai": "^4.3.10",
