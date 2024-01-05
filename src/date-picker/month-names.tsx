@@ -2,12 +2,12 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import type {Locale} from 'date-fns';
-import endOfMonth from 'date-fns/endOfMonth';
-import format from 'date-fns/format';
-import isThisMonth from 'date-fns/isThisMonth';
-import set from 'date-fns/set';
-import startOfDay from 'date-fns/startOfDay';
-import startOfYear from 'date-fns/startOfYear';
+import {endOfMonth} from 'date-fns/endOfMonth';
+import {format} from 'date-fns/format';
+import {isThisMonth} from 'date-fns/isThisMonth';
+import {set} from 'date-fns/set';
+import {startOfDay} from 'date-fns/startOfDay';
+import {startOfYear} from 'date-fns/startOfYear';
 
 import linearFunction from '../global/linear-function';
 
