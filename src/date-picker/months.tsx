@@ -1,11 +1,11 @@
 import React, {useEffect, useMemo, useRef} from 'react';
 import PropTypes from 'prop-types';
-import addMonths from 'date-fns/addMonths';
-import getDay from 'date-fns/getDay';
-import getDaysInMonth from 'date-fns/getDaysInMonth';
-import startOfMonth from 'date-fns/startOfMonth';
-import subMonths from 'date-fns/subMonths';
-import endOfMonth from 'date-fns/endOfMonth';
+import {addMonths} from 'date-fns/addMonths';
+import {getDay} from 'date-fns/getDay';
+import {getDaysInMonth} from 'date-fns/getDaysInMonth';
+import {startOfMonth} from 'date-fns/startOfMonth';
+import {subMonths} from 'date-fns/subMonths';
+import {endOfMonth} from 'date-fns/endOfMonth';
 
 import scheduleRAF from '../global/schedule-raf';
 import linearFunction from '../global/linear-function';
