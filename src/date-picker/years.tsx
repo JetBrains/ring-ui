@@ -1,14 +1,14 @@
 import React, {createRef, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import addYears from 'date-fns/addYears';
-import getYear from 'date-fns/getYear';
-import format from 'date-fns/format';
-import isSameYear from 'date-fns/isSameYear';
-import isThisYear from 'date-fns/isThisYear';
-import setYear from 'date-fns/setYear';
-import startOfYear from 'date-fns/startOfYear';
-import subYears from 'date-fns/subYears';
+import {addYears} from 'date-fns/addYears';
+import {getYear} from 'date-fns/getYear';
+import {format} from 'date-fns/format';
+import {isSameYear} from 'date-fns/isSameYear';
+import {isThisYear} from 'date-fns/isThisYear';
+import {setYear} from 'date-fns/setYear';
+import {startOfYear} from 'date-fns/startOfYear';
+import {subYears} from 'date-fns/subYears';
 
 import linearFunction from '../global/linear-function';
 
