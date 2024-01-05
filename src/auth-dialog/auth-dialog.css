@@ -41,7 +41,7 @@
   margin-bottom: 12px;
   object-fit: contain;
 
-  @media (max-height: 400px) {
+  @media (height <= 400px) {
     width: calc(var(--ring-unit) * 4);
     height: calc(var(--ring-unit) * 4);
   }
