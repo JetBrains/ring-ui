@@ -13,7 +13,7 @@
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 
-  @media (min-resolution: 2dppx) {
+  @media (resolution >= 2dppx) {
     text-decoration-thickness: 0.5px;
   }
 
