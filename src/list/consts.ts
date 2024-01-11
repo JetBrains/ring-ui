@@ -57,7 +57,7 @@ export type ListDataItem<T = unknown> =
   rightNodes?: ReactNode
   leftNodes?: ReactNode
   tagName?: keyof JSX.IntrinsicElements | null | undefined
-  selectedLabel?: ReactNode,
+  selectedLabel?: string | null | undefined,
   originalModel?: never
   LinkComponent?: ComponentType<ClickableLinkProps> | string | null | undefined
   template?: ReactNode | ((props: ListDataItemProps<T>) => ReactNode)
