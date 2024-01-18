@@ -491,7 +491,7 @@ object A11yAudit : BuildType({
 
                 npm install
                 # Workaround for not always installed chromium https://github.com/puppeteer/puppeteer/issues/9533#issuecomment-1386653636
-                node node_modules/puppeteer/install.js
+                node node_modules/puppeteer/install.mjs
 
                 npm run a11y-audit-ci
             """.trimIndent()
