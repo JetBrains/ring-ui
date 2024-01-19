@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import addDays from 'date-fns/addDays';
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-import getDate from 'date-fns/getDate';
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import isSameDay from 'date-fns/isSameDay';
-import isToday from 'date-fns/isToday';
-import startOfDay from 'date-fns/startOfDay';
+import {addDays} from 'date-fns/addDays';
+import {format} from 'date-fns/format';
+import {getDay} from 'date-fns/getDay';
+import {getDate} from 'date-fns/getDate';
+import {isAfter} from 'date-fns/isAfter';
+import {isBefore} from 'date-fns/isBefore';
+import {isSameDay} from 'date-fns/isSameDay';
+import {isToday} from 'date-fns/isToday';
+import {startOfDay} from 'date-fns/startOfDay';
 
 import {MonthsProps, dateType, weekdays} from './consts';
 import styles from './date-picker.css';

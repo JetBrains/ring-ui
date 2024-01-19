@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import isSameDay from 'date-fns/isSameDay';
-import startOfDay from 'date-fns/startOfDay';
+import {isAfter} from 'date-fns/isAfter';
+import {isBefore} from 'date-fns/isBefore';
+import {isSameDay} from 'date-fns/isSameDay';
+import {startOfDay} from 'date-fns/startOfDay';
 import {set} from 'date-fns';
 
 import memoize from '../global/memoize';
