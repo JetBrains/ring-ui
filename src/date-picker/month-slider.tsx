@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import addYears from 'date-fns/addYears';
-import startOfDay from 'date-fns/startOfDay';
-import subYears from 'date-fns/subYears';
+import {addYears} from 'date-fns/addYears';
+import {startOfDay} from 'date-fns/startOfDay';
+import {subYears} from 'date-fns/subYears';
 
 import linearFunction, {LinearFunction} from '../global/linear-function';
 
