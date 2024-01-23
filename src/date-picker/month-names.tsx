@@ -25,7 +25,7 @@ class MonthName extends PureComponent<MonthNameProps> {
   static propTypes = {
     month: dateType,
     onScrollChange: PropTypes.func,
-    locale: PropTypes.string
+    locale: PropTypes.object
   };
 
   handleClick = () => {
@@ -107,5 +107,5 @@ MonthNames.propTypes = {
   scrollDate: dateType,
   onScrollChange: PropTypes.func,
   currentRange: PropTypes.arrayOf(dateType),
-  locale: PropTypes.string
+  locale: PropTypes.object
 };
