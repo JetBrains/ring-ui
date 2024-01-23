@@ -8,7 +8,15 @@ import setDay from 'date-fns/setDay';
 import PropTypes from 'prop-types';
 
 import Day from './day';
-import {MonthsProps, dateType, WEEK, weekdays} from './consts';
+import {
+  MonthsProps,
+  dateType,
+  WEEK,
+  weekdays,
+  shiftWeekArray,
+  getWeekStartsOn,
+  FIFTH_DAY
+} from './consts';
 import styles from './date-picker.css';
 
 export interface MonthProps extends MonthsProps {
@@ -22,7 +30,9 @@ export default function Month(props: MonthProps) {
 
   // pad with empty cells starting from last friday
   const weekday = getDay(start);
-  let day = setDay(start, weekday >= weekdays.FR ? weekdays.FR : weekdays.FR - WEEK);
+  const weekDays = shiftWeekArray(Object.values(weekdays), getWeekStartsOn(props.locale));
+  const fifthDayOfWeek = weekDays[FIFTH_DAY];
+  let day = setDay(start, weekday >= fifthDayOfWeek ? fifthDayOfWeek : fifthDayOfWeek - WEEK);
   const days = [];
   while (day < end) {
     days.push(day);
@@ -48,5 +58,5 @@ export default function Month(props: MonthProps) {
 
 Month.propTypes = {
   month: dateType,
-  locale: PropTypes.string
+  locale: PropTypes.object
 };
