@@ -886,7 +886,7 @@ object PublishHotfixRelease : BuildType({
                 mkdir node_modules
                 npm install
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json package-lock.json packages/*/package-lock.json
+                git checkout package.json package-lock.json
                 npm whoami
                 npm run release-ci
 
