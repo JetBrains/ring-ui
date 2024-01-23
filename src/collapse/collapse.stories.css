@@ -1,0 +1,25 @@
+.container {
+  width: 400px;
+  padding: 10px;
+}
+
+.border {
+  border: 1px solid var(--ring-line-color);
+  border-radius: 5px;
+}
+
+.loaderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 200px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 500px;
+}
