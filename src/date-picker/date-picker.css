@@ -334,7 +334,7 @@
   border-radius: var(--ring-border-radius);
 }
 
-.Monday {
+.Day1 {
   position: relative;
 
   &::before,
@@ -401,13 +401,13 @@
     left: 0;
   }
 
-  &.Monday {
+  &.Day1 {
     &::after {
       height: calc(unit * 5);
     }
   }
 
-  & + .Tuesday {
+  & + .Day2 {
     position: relative;
 
     &::before {
@@ -425,9 +425,9 @@
   }
 }
 
-.Friday,
-.Saturday,
-.Sunday {
+.Day5,
+.Day6,
+.Day7 {
   &::before,
   &::after {
     height: calc(unit * 5);
@@ -437,7 +437,7 @@
 .spread {
   &::before,
   &::after,
-  & + .Tuesday::before {
+  & + .Day2::before {
     transition: none;
 
     background-color: var(--ring-selected-background-color);
@@ -447,7 +447,7 @@
 .activeSpread {
   &::before,
   &::after,
-  & + .Tuesday::before {
+  & + .Day2::before {
     transition: none;
 
     background-color: var(--ring-date-picker-hover-color);

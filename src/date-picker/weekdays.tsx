@@ -8,7 +8,7 @@ import startOfDay from 'date-fns/startOfDay';
 
 import PropTypes from 'prop-types';
 
-import {weekdays} from './consts';
+import {getWeekStartsOn, shiftWeekArray, weekdays} from './consts';
 import styles from './date-picker.css';
 
 interface WeekdaysProps {
@@ -16,7 +16,7 @@ interface WeekdaysProps {
 }
 
 export default function Weekdays(props: WeekdaysProps) {
-  const days = Object.values(weekdays).
+  const days = shiftWeekArray(Object.values(weekdays), getWeekStartsOn(props.locale)).
     map(value => startOfDay(setDay(new Date(), value)));
 
   const {locale} = props;
@@ -41,5 +41,5 @@ export default function Weekdays(props: WeekdaysProps) {
 }
 
 Weekdays.propTypes = {
-  locale: PropTypes.string
+  locale: PropTypes.object
 };

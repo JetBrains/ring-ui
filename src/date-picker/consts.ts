@@ -17,6 +17,7 @@ export default units;
 
 export const YEAR = 12;
 export const WEEK = 7;
+export const FIFTH_DAY = 4;
 export const weekdays = {
   MO: 1,
   TU: 2,
@@ -51,6 +52,20 @@ export function parseTime(time: string) {
   }
 
   return result;
+}
+
+export function shiftWeekArray<T>(arr: T[], startOfWeek: number) {
+  const shiftTimes = startOfWeek - 1;
+  return arr.slice(shiftTimes).concat(arr.slice(0, shiftTimes));
+}
+
+export function getWeekStartsOn(locale: Locale | undefined): number {
+  return locale?.options?.weekStartsOn ?? weekdays.MO;
+}
+
+export function getDayNumInWeek(locale: Locale | undefined, day: number): number {
+  const weekDays = shiftWeekArray(Object.values(weekdays), getWeekStartsOn(locale));
+  return weekDays.indexOf(day);
 }
 
 export interface DateInputTranslations {
