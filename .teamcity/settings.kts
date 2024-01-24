@@ -885,6 +885,7 @@ object PublishHotfixRelease : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
                 npm install
+                npm run build
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json
                 npm whoami
