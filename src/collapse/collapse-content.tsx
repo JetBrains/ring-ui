@@ -4,14 +4,14 @@ import React, {
   useRef,
   useContext,
   useMemo,
-  useCallback,
   PropsWithChildren
 } from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
+import {getRect} from '../global/dom';
 
-import {getElementHeight, toPx} from './utils';
+import {toPx} from './utils';
 import CollapseContext from './collapse-context';
 import {COLLAPSE_CONTENT_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
 
@@ -26,7 +26,6 @@ type Props = {
   minHeight?: number;
   className?: string;
   'data-test'?: string | null | undefined;
-  disableAnimation?: boolean;
 };
 
 /**
@@ -36,10 +35,9 @@ type Props = {
 export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   children,
   minHeight = DEFAULT_HEIGHT,
-  disableAnimation = false,
   'data-test': dataTest
 }) => {
-  const {collapsed, duration, onChange, id} = useContext(CollapseContext);
+  const {collapsed, duration, id, disableAnimation} = useContext(CollapseContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const initialContentHeight = useRef<number>(minHeight);
@@ -51,30 +49,17 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   const [height, setHeight] = useState<string>(toPx(minHeight));
   const [showFade, setShowFade] = useState<boolean>(true);
 
-  const onTransitionStart = useCallback(() => {
+  useEffect(() => {
     if (!collapsed) {
       setShowFade(false);
     } else {
       setShowFade(true);
     }
-    onChange(collapsed);
-  }, [collapsed, onChange]);
-
-  useEffect(() => {
-    const ref = containerRef.current;
-    if (ref) {
-      ref.addEventListener('transitionstart', onTransitionStart);
-    }
-    return () => {
-      if (ref) {
-        ref.removeEventListener('transitionstart', onTransitionStart);
-      }
-    };
-  }, [onTransitionStart, minHeight]);
+  }, [collapsed]);
 
   useEffect(() => {
     if (contentRef.current) {
-      contentHeight.current = getElementHeight(contentRef.current);
+      contentHeight.current = getRect(contentRef.current).height;
     }
   }, [minHeight, dimensions.height]);
 

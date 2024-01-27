@@ -52,7 +52,7 @@ export const ShowOnExtend = () => {
   const onChange = () => {
     setTimeout(() => {
       setShowDelayedContent(true);
-    }, 1000);
+    }, 2000);
   };
 
   return (
@@ -128,11 +128,11 @@ WithMinHeight.storyName = 'With default min height';
 
 export const AnimationDisable = () => (
   <div className={styles.container}>
-    <Collapse>
+    <Collapse disableAnimation>
       <CollapseControl>
         {(collapsed: boolean) => <Button>{collapsed ? 'Show more' : 'Show less'}</Button>}
       </CollapseControl>
-      <CollapseContent disableAnimation>{text}</CollapseContent>
+      <CollapseContent>{text}</CollapseContent>
     </Collapse>
   </div>
 );

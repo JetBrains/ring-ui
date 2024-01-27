@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {render, screen} from '@testing-library/react';
+import React, {PropsWithChildren, useState} from 'react';
+import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {COLLAPSE_CONTROL_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
@@ -18,8 +18,9 @@ const textMock = `This is very long text! This is very long text! This is very l
             This is very long text! This is very long text! This is very long text!`;
 const MIN_HEIGHT = 50;
 const DEFAULT_HEIGHT = 0;
-const CONTENT_HEIGHT = 74;
+const CONTENT_HEIGHT = 75;
 const LARGE_HEIGHT = CONTENT_HEIGHT * 2;
+const TextWrapper: React.FC<PropsWithChildren> = ({children}) => <div style={{height: `${CONTENT_HEIGHT}px`}}>{children}</div>;
 
 const onChangeMock = sandbox.stub();
 
@@ -32,14 +33,14 @@ const Dummy = ({
   disableAnimation: boolean;
   controlAsFunc: boolean;
 }) => {
-  const [text, setText] = useState(textMock);
+  const [texts, setTexts] = useState([textMock]);
 
   return (
     <>
-      <button type="button" onClick={() => setText(`${textMock}${textMock}`)}>
+      <button type="button" onClick={() => setTexts([...texts, textMock])}>
         {'More text'}
       </button>
-      <Collapse onChange={onChangeMock}>
+      <Collapse onChange={onChangeMock} disableAnimation={disableAnimation}>
         <CollapseControl>
           {controlAsFunc
             ? (
@@ -50,8 +51,9 @@ const Dummy = ({
             )
           }
         </CollapseControl>
-        <CollapseContent disableAnimation={disableAnimation} minHeight={minHeight}>
-          {text}
+        <CollapseContent minHeight={minHeight}>
+          {/* eslint-disable-next-line react/no-array-index-key */}
+          {texts.map((text, index) => <TextWrapper key={index}>{text}</TextWrapper>)}
         </CollapseContent>
       </Collapse>
     </>
@@ -112,7 +114,7 @@ describe('<Collapse />', () => {
 
     await userEvent.click(moreTextButton);
 
-    content.style.height.should.equal(`${LARGE_HEIGHT}px`);
+    await waitFor(() => content.style.height.should.equal(`${LARGE_HEIGHT}px`));
   });
 
   it('should disable animation', () => {
