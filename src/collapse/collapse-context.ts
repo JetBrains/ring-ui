@@ -5,16 +5,16 @@ import {BASE_ANIMATION_DURATION} from './consts';
 interface CollapseContextInterface {
   collapsed: boolean;
   duration: number;
+  disableAnimation: boolean,
   setCollapsed: () => void;
-  onChange: (collapsed: boolean) => void;
   id: string;
 }
 
 export const CollapseContext = createContext<CollapseContextInterface>({
   collapsed: true,
   duration: BASE_ANIMATION_DURATION,
+  disableAnimation: false,
   setCollapsed: () => {},
-  onChange: () => {},
   id: ''
 });
 
