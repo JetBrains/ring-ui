@@ -6,6 +6,7 @@ import {BASE_ANIMATION_DURATION} from './consts';
 type Props = {
   onChange?: (collapsed: boolean) => void;
   duration?: number;
+  disableAnimation?: boolean;
   className?: string;
 };
 
@@ -16,6 +17,7 @@ type Props = {
 export const Collapse: React.FC<PropsWithChildren<Props>> = ({
   children,
   duration = BASE_ANIMATION_DURATION,
+  disableAnimation = false,
   className = '',
   onChange = () => {}
 }) => {
@@ -24,7 +26,8 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
 
   const setCollapsed = useCallback(() => {
     toggle(!collapsed);
-  }, [toggle, collapsed]);
+    onChange(!collapsed);
+  }, [toggle, onChange, collapsed]);
 
   return (
     <div className={className}>
@@ -33,7 +36,7 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
           collapsed,
           setCollapsed,
           duration,
-          onChange,
+          disableAnimation,
           id
         }}
       >
