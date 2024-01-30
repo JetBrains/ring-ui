@@ -7,3 +7,7 @@ updates:
     time: "10:00"
   open-pull-requests-limit: 20
   versioning-strategy: increase
+  ignore:
+    - dependency-name: html-reporter
+      versions:
+        - ">= 9.15.0"
