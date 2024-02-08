@@ -77,8 +77,7 @@
   .multiline & {
     -webkit-line-clamp: 3;
 
-    word-wrap: break-word;
-    word-break: normal;
+    word-break: break-word;
   }
 }
 
