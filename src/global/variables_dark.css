@@ -11,10 +11,10 @@
   --ring-icon-color: rgb(var(--ring-icon-components)); /* #777C88 */
   --ring-icon-secondary-components: 121, 126, 139;
   --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #797E8B */
-  --ring-border-disabled-components: 55, 57, 61;
-  --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #37393D */
-  --ring-border-selected-disabled-components: 54, 54, 54;
-  --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #363636 */
+  --ring-border-disabled-components: 73, 73, 73;
+  --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #494949 */
+  --ring-border-selected-disabled-components: 97, 97, 97;
+  --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #616161 */
   --ring-icon-disabled-components: 64, 66, 71;
   --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #404247 */
   --ring-border-hover-components: 77, 100, 148;
