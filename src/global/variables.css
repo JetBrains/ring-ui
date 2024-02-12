@@ -15,8 +15,8 @@
   --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #999 */
   --ring-border-disabled-components: 232, 232, 232;
   --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #e8e8e8 */
-  --ring-border-selected-disabled-components: 212, 212, 212;
-  --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #d4d4d4 */
+  --ring-border-selected-disabled-components: 199, 199, 199;
+  --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #C7C7C7 */
   --ring-icon-disabled-components: 212, 212, 212;
   --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #d4d4d4 */
   --ring-border-hover-components: 128, 198, 255;
