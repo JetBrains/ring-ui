@@ -18,6 +18,11 @@
     vertical-align: -1px;
   }
 
+  &[width="12"] {
+    vertical-align: -1px;
+  }
+
+  /* TODO remove in 7.0 */
   &[width="14"] {
     margin-right: -2px;
     margin-left: 0;
