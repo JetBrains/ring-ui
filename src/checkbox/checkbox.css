@@ -42,8 +42,8 @@
 .icon.icon {
   position: absolute;
 
-  top: -1px;
-  left: -1px;
+  top: 0;
+  left: 1px;
 
   width: calc(var(--ring-unit) * 2);
   height: calc(var(--ring-unit) * 2);
