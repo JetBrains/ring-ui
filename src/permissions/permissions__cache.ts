@@ -4,6 +4,7 @@ export interface PermissionType {
 
 export interface Project {
   id: string
+  ringId?: string
 }
 
 export interface Permission {
@@ -46,7 +47,11 @@ export default class PermissionCache {
     if (projects) {
       projectIdSet = {};
       for (let i = 0; i < projects.length; i++) {
-        projectIdSet[projects[i].id] = true;
+        let project = projects[i];
+        projectIdSet[project.id] = true;
+        if (project.ringId) {
+          projectIdSet[project.ringId] = true
+        }
       }
     }
 
