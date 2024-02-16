@@ -92,7 +92,10 @@ export const allIconsList = () => (
       const iconName = key.replace('./', '').replace('.js', '');
 
       return (
-        <Icon glyph={allIcons(key)} key={key} title={iconName} className="ring-icon"/>
+        <div className="ring-icon-example" key={key}>
+          <Icon glyph={allIcons(key)} className="ring-icon"/>
+          {iconName}
+        </div>
       );
     })}
   </div>
@@ -104,14 +107,18 @@ allIconsList.parameters = {
   storyStyles: `
 <style>
   .icon-example__container {
-    margin-left: -16px;
+    margin: 0 8px;
+  }
+
+  .ring-icon-example {
+    display: inline-block;
+    width: 280px;
+    line-height: 28px;
   }
 
   .ring-icon {
-    display: inline-block;
-    margin: 8px;
-    padding: 8px;
     color: var(--ring-link-color);
+    margin-right: 4px;
   }
 
   .secondary {
