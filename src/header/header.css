@@ -143,9 +143,15 @@
   cursor: pointer;
 }
 
-.avatarWrapper {
+.anchorClassName {
   composes: resetButton from "../global/global.css";
 
+  display: flex;
+  align-items: center;
+  gap: calc(1.5 * var(--ring-unit));
+}
+
+.avatarWrapper {
   line-height: 0;
 }
 
