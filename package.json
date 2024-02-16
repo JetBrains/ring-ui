@@ -93,7 +93,7 @@
     "@storybook/addon-storyshots": "7.6.10",
     "@storybook/addon-storyshots-puppeteer": "7.6.16",
     "@storybook/addon-storysource": "7.6.15",
-    "@storybook/addons": "7.6.15",
+    "@storybook/addons": "7.6.16",
     "@storybook/preview-api": "7.6.10",
     "@storybook/react": "7.6.10",
     "@storybook/react-webpack5": "7.6.16",
