@@ -87,7 +87,7 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
-    "@storybook/addon-a11y": "7.6.15",
+    "@storybook/addon-a11y": "7.6.16",
     "@storybook/addon-docs": "7.6.16",
     "@storybook/addon-essentials": "7.6.16",
     "@storybook/addon-storyshots": "7.6.10",
