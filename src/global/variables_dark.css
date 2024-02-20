@@ -7,8 +7,8 @@
   --ring-line-color: rgb(var(--ring-line-components)); /* #393B40 */
   --ring-borders-components: 90, 93, 99;
   --ring-borders-color: rgb(var(--ring-borders-components)); /* #5A5D63 */
-  --ring-icon-components: 119, 124, 136;
-  --ring-icon-color: rgb(var(--ring-icon-components)); /* #777C88 */
+  --ring-icon-components: 128, 146, 157;
+  --ring-icon-color: rgb(var(--ring-icon-components)); /* #80929d */
   --ring-icon-secondary-components: 121, 126, 139;
   --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #797E8B */
   --ring-border-disabled-components: 73, 73, 73;
