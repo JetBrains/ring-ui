@@ -236,7 +236,7 @@
     "postcss-font-family-system-ui": "^5.0.0",
     "postcss-loader": "^8.1.0",
     "postcss-modules-values-replace": "^4.1.0",
-    "postcss-preset-env": "^9.3.0",
+    "postcss-preset-env": "^9.4.0",
     "prop-types": "^15.8.1",
     "react-movable": "^3.0.4",
     "react-virtualized": "^9.22.5",
