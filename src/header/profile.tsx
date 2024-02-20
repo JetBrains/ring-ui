@@ -55,12 +55,14 @@ export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSe
   showSwitchUser?: boolean | null | undefined
   showApplyChangedUser?: boolean | null | undefined
   onRevertPostponement?: (() => void) | null | undefined,
-  menuProps?: PopupMenuAttrs | null | undefined
+  menuProps?: PopupMenuAttrs | null | undefined,
+  activeClassName?: string | null | undefined
 }
 
 export default class Profile extends PureComponent<ProfileProps> {
   static propTypes = {
     className: PropTypes.string,
+    activeClassName: PropTypes.string,
     closeOnSelect: PropTypes.bool,
     hasUpdates: PropTypes.bool,
     loading: PropTypes.bool,
@@ -131,6 +133,7 @@ export default class Profile extends PureComponent<ProfileProps> {
   render() {
     const {
       className,
+      activeClassName,
       closeOnSelect,
       hasUpdates,
       onLogout,
@@ -231,6 +234,7 @@ export default class Profile extends PureComponent<ProfileProps> {
         data={renderPopupItems(items)}
         data-test="ring-profile"
         className={classNames(styles.profile, className)}
+        activeClassName={activeClassName}
         menuProps={{
           closeOnSelect,
           left: -2,
