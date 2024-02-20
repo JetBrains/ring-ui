@@ -224,7 +224,7 @@
     "element-resize-detector": "^1.2.4",
     "es6-error": "^4.1.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "fastdom": "^1.0.11",
+    "fastdom": "^1.0.12",
     "file-loader": "^6.2.0",
     "focus-trap": "^7.5.4",
     "highlight.js": "^10.7.2",
