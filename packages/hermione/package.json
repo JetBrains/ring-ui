@@ -19,7 +19,7 @@
     "@storybook/addon-storyshots": "7.6.16",
     "axios": "^1.6.7",
     "browserstack-local": "^1.5.5",
-    "dotenv": "^16.4.4",
+    "dotenv": "^16.4.5",
     "filenamify": "^6.0.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.2.0",
