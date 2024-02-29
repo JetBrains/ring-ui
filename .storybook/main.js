@@ -7,17 +7,16 @@ const pkgConfig = require('../package.json').config;
 
 module.exports = {
   stories: [
-    // Make welcome stories default
-    '../src/welcome.stories.tsx',
-    '../src/**/*.stories.{js,ts,tsx}'
+    '../src/**/*.stories.mdx',
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [
     '@storybook/addon-storysource',
     {
       name: '@storybook/addon-essentials',
       options: {
-        actions: false,
-        docs: false
+        actions: true,
+        docs: true
       }
     },
     '@storybook/addon-a11y',
@@ -61,10 +60,10 @@ module.exports = {
     options: {}
   },
   docs: {
-    autodocs: false
+    autodocs: true
   },
   staticDirs: ['./custom-header/dist'],
   typescript: {
-    reactDocgen: 'react-docgen'
-  }
+    reactDocgen: "react-docgen"
+  },
 };
