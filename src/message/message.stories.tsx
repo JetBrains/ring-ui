@@ -16,10 +16,7 @@ const {Directions} = Popup.PopupProps;
 export default {
   title: 'Components/Message',
 
-  parameters: {
-    component: Message,
-    framework: 'react'
-  },
+  component: Message,
   args: {
     title: 'This is title',
     direction: Directions.TOP_RIGHT,

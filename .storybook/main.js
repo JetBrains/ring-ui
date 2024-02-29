@@ -17,7 +17,7 @@ module.exports = {
       name: '@storybook/addon-essentials',
       options: {
         actions: false,
-        docs: false
+        docs: true
       }
     },
     '@storybook/addon-a11y',
@@ -31,6 +31,7 @@ module.exports = {
 
     config.module.rules = [
       ...ringConfig.config.module.rules,
+      config.module.rules.find(rule => /react-docgen-loader\.js$/.test(rule.loader)),
       {
         test: /\.md$/,
         loader: 'raw-loader'
@@ -61,7 +62,7 @@ module.exports = {
     options: {}
   },
   docs: {
-    autodocs: false
+    autodocs: true
   },
   staticDirs: ['./custom-header/dist'],
   typescript: {
