@@ -7,8 +7,9 @@ const pkgConfig = require('../package.json').config;
 
 module.exports = {
   stories: [
-    '../src/**/*.stories.mdx',
-    '../src/**/*.stories.@(js|jsx|ts|tsx)',
+    // Make welcome stories default
+    '../src/welcome.stories.tsx',
+    '../src/**/*.stories.{js,ts,tsx}'
   ],
   addons: [
     '@storybook/addon-storysource',
@@ -64,6 +65,6 @@ module.exports = {
   },
   staticDirs: ['./custom-header/dist'],
   typescript: {
-    reactDocgen: "react-docgen"
-  },
+    reactDocgen: 'react-docgen'
+  }
 };
