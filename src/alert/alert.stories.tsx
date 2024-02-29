@@ -11,10 +11,7 @@ import Alert, {Container} from './alert';
 export default {
   title: 'Components/Alert',
 
-  parameters: {
-    component: Alert,
-    framework: 'react'
-  }
+  component: Alert
 };
 
 export const simple = () => {

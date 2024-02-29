@@ -12,9 +12,8 @@ import Button, {ButtonProps} from './button';
 export default {
   title: 'Components/Button',
 
+  component: Button,
   parameters: {
-    component: Button,
-    framework: 'react',
     zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc70fc4aa2a937f165ad'
   },
   argTypes: {

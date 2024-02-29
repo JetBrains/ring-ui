@@ -36,9 +36,8 @@ const blockAuth = window.location.search.includes('block-auth');
 export default {
   title: 'Components/Header',
 
+  component: Header,
   parameters: {
-    component: Header,
-    framework: 'react',
 
     storyStyles: `
 <style>
