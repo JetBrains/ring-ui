@@ -5,7 +5,12 @@ import Checkbox, {CheckboxProps} from './checkbox';
 
 export default {
   title: 'Components/Checkbox',
-
+  argTypes: {
+    label: { control: 'text' },
+    checked: { control: 'boolean' },
+    indeterminate: { control: 'boolean' },
+    disabled: { control: 'boolean' }
+  },
   parameters: {
     component: Checkbox,
     framework: 'react',

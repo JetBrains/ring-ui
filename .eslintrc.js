@@ -5,10 +5,7 @@ module.exports = {
   parser: '@babel/eslint-parser',
   extends: [
     '@jetbrains',
-    '@jetbrains/eslint-config/es6',
     '@jetbrains/eslint-config/browser',
-    '@jetbrains/eslint-config/react',
-    '@jetbrains/eslint-config/test',
     'plugin:import/typescript'
   ],
   rules: {
