@@ -12,9 +12,8 @@ const {size, inline} = DatePicker.defaultProps;
 export default {
   title: 'Components/Date Picker',
 
+  component: DatePicker,
   parameters: {
-    component: DatePicker,
-    framework: 'react',
     notes:
       'Allows picking a date or a date range. Uses [date-fns](https://date-fns.org) under the hood.',
 

@@ -12,9 +12,8 @@ import text from './toolbox.eula';
 export default {
   title: 'Components/User Agreement',
 
+  component: UserAgreement,
   parameters: {
-    component: UserAgreement,
-    framework: 'react',
     hermione: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
   }
@@ -122,7 +121,6 @@ service.argTypes = {
 };
 service.storyName = 'service';
 service.parameters = {
-  component: null,
   hermione: {skip: true},
   a11y: {element: '#storybook-root,*[data-test="alert-container"]'}
 };

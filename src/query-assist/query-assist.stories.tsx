@@ -22,10 +22,7 @@ import {QueryAssistSuggestion} from './query-assist__suggestions';
 export default {
   title: 'Components/Query Assist',
 
-  parameters: {
-    component: QueryAssist,
-    framework: 'react'
-  },
+  component: QueryAssist,
   args: {
     placeholder: 'placeholder',
     glass: true,
