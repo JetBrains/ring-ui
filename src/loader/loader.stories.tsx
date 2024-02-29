@@ -8,10 +8,8 @@ import Loader, {LoaderProps} from './loader';
 export default {
   title: 'Components/Loader',
 
+  component: Loader,
   parameters: {
-    component: Loader,
-    framework: 'react',
-
     hermione: {skip: true}
   }
 };
