@@ -31,6 +31,7 @@ module.exports = {
 
     config.module.rules = [
       ...ringConfig.config.module.rules,
+      config.module.rules.find(rule => /react-docgen-loader\.js$/.test(rule.loader)),
       {
         test: /\.md$/,
         loader: 'raw-loader'

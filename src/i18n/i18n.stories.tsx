@@ -21,10 +21,7 @@ const I18nTestComponent: React.FC<Messages> = props => (
 export default {
   title: 'Services/I18n',
 
-  parameters: {
-    component: I18nTestComponent,
-    framework: 'react'
-  },
+  component: I18nTestComponent,
   args: {
     ...getTranslations()
   }
