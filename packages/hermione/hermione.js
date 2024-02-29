@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const browserstack = new browserStackLocal.Local();
 
-const browserstackPort = 45691;
+const browserstackPort = 45690;
 // eslint-disable-next-line no-magic-numbers
 const STDOUT_BUFFER_SIZE = 1024 * 1024 * 20; // 20 Mb
 
