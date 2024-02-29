@@ -18,9 +18,8 @@ import {SortParams} from './header-cell';
 export default {
   title: 'Components/Table',
 
+  component: BaseTable,
   parameters: {
-    component: BaseTable,
-    framework: 'react',
     hermione: {skip: true}
   },
   argTypes: {

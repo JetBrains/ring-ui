@@ -23,9 +23,8 @@ const FLAG_EN_URL =
 export default {
   title: 'Components/List',
 
+  component: List,
   parameters: {
-    component: List,
-    framework: 'react',
     hermione: {captureSelector: '*[data-test~=ring-list]'}
   }
 };
