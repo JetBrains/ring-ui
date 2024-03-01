@@ -1,6 +1,5 @@
 import React, {
   Fragment,
-  KeyboardEvent,
   ReactNode,
   useCallback,
   useEffect,
@@ -8,20 +7,22 @@ import React, {
   useRef,
   useState
 } from 'react';
-
 import classNames from 'classnames';
 
 import {isArray} from '../global/typescript-utils';
+import Shortcuts from '../shortcuts/shortcuts';
+import getUID from '../global/get-uid';
+import {ShortcutsMap} from '../shortcuts/core';
 
 import styles from './slider.css';
 import {
   adjustValues,
+  calculateMarks,
   calculateValue,
   HUNDRED,
   toPercent,
-  validateValue,
   toRange,
-  calculateMarks
+  validateValue
 } from './slider.utils';
 
 type Mark = {
@@ -65,10 +66,11 @@ export const Slider: React.FC<Props> = ({
     () => toRange(value ?? values, min, max),
     [max, min, value, values]
   );
-  const validStep = useMemo(() => (step < 0 ? 0 : step), [step]);
-  const isRange = useMemo(() => isArray(defaultValue ?? value), [defaultValue, value]);
+  const validStep = step < 0 ? 0 : step;
+  const isRange = isArray(defaultValue ?? value);
   const [isDragging, setIsDragging] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState(-1);
+  const [shortcutsScope] = useState(getUID('ring-slider-'));
 
   const markValues: Mark[] = useMemo(() => {
     if (isArray(marks)) {
@@ -99,6 +101,46 @@ export const Slider: React.FC<Props> = ({
     setValues(nextValues);
     onChange?.(isRange ? nextValues : nextValues[0]);
   }, [isRange, onChange]);
+
+  const shortcutsMap = useMemo(() => {
+    const setValueAndSwap = (nextValue: number, index: number) => {
+      const nextValues = [...validValues];
+      nextValues[index] = nextValue;
+      if (nextValues[0] > nextValues[1]) {
+        const previousValue = nextValues[index];
+        nextValues.reverse();
+        const thumb: HTMLButtonElement | null | undefined = ref.current?.querySelector(
+          `[role="slider"][data-index="${nextValues.indexOf(previousValue)}"]`
+        );
+        thumb?.focus();
+      }
+      handleValueChange(nextValues);
+    };
+    const getIndex = (target: EventTarget | null) =>
+      Number((target as Element)?.getAttribute('data-index'));
+
+    const map: ShortcutsMap = {};
+
+    if (!disabled) {
+      map.left = map.down = ({target}: KeyboardEvent) => {
+        const index = getIndex(target);
+        setValueAndSwap(Math.max(min, validValues[index] - validStep), index);
+      };
+      map.right = map.up = ({target}: KeyboardEvent) => {
+        const index = getIndex(target);
+        setValueAndSwap(Math.min(max, validValues[index] + validStep), index);
+      };
+      map.home = ({target}: KeyboardEvent) => {
+        const index = getIndex(target);
+        setValueAndSwap(min, index);
+      };
+      map.end = ({target}: KeyboardEvent) => {
+        const index = getIndex(target);
+        setValueAndSwap(max, index);
+      };
+    }
+    return map;
+  }, [disabled, handleValueChange, max, min, validStep, validValues]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -141,38 +183,6 @@ export const Slider: React.FC<Props> = ({
     handleValueChange(nextValues);
   }, [validValues, draggedIndex, max, min, validStep, handleValueChange]);
 
-  const handleKeyDown = useCallback(({key, currentTarget}: KeyboardEvent) => {
-    const nextValues = [...validValues];
-    const index = Number(currentTarget.getAttribute('data-index'));
-    switch (key) {
-      case 'ArrowLeft':
-      case 'ArrowDown':
-        nextValues[index] = Math.max(min, validValues[index] - validStep);
-        break;
-      case 'ArrowRight':
-      case 'ArrowUp':
-        nextValues[index] = Math.min(max, validValues[index] + validStep);
-        break;
-      case 'Home':
-        nextValues[index] = min;
-        break;
-      case 'End':
-        nextValues[index] = max;
-        break;
-      default:
-        return;
-    }
-    if (nextValues[0] > nextValues[1]) {
-      const previousValue = nextValues[index];
-      nextValues.reverse();
-      const thumb: HTMLButtonElement | null | undefined = ref.current?.querySelector(
-        `[role="slider"][data-index="${nextValues.indexOf(previousValue)}"]`
-      );
-      thumb?.focus();
-    }
-    handleValueChange(nextValues);
-  }, [validValues, handleValueChange, min, validStep, max]);
-
   useEffect(() => {
     if (disabled) {
       return undefined;
@@ -202,6 +212,10 @@ export const Slider: React.FC<Props> = ({
       tabIndex={-1}
       onMouseDown={handleMouseDown}
     >
+      <Shortcuts
+        map={shortcutsMap}
+        scope={shortcutsScope}
+      />
       <div className={classNames(styles.rail, {
         [styles.rounded]: !showTicks,
         [styles.disabled]: disabled
@@ -236,7 +250,6 @@ export const Slider: React.FC<Props> = ({
               })}
               disabled={disabled}
               onMouseDown={handleMouseDown}
-              onKeyDown={handleKeyDown}
             />
             {showTag && (
               <div
