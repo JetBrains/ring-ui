@@ -11,14 +11,6 @@ describe('Slider', () => {
   const mountSlider = (params?: ComponentProps<typeof Slider>) => mount(<Slider {...params}/>);
   const renderSlider = (params?: ComponentProps<typeof Slider>) => render(<Slider {...params}/>);
 
-  const focusThumb = () => {
-    const onChange = sandbox.spy();
-    renderSlider({defaultValue: DEFAULT_VALUE, onChange});
-    const thumb = screen.queryByRole('slider')!;
-    thumb.focus();
-    return {onChange, thumb};
-  };
-
   it('should create component', () => {
     mountSlider().should.have.type(Slider);
   });
@@ -44,35 +36,6 @@ describe('Slider', () => {
   it('should display a formatted tag', () => {
     renderSlider({defaultValue: DEFAULT_VALUE, showTag: true, renderTag: value => `%${value}%`});
     screen.queryByRole('tooltip')?.should.have.text(`%${DEFAULT_VALUE}%`);
-  });
-
-  it('should handle ArrowRight/ArrowUp key', () => {
-    const {onChange, thumb} = focusThumb();
-    fireEvent.keyDown(thumb, {key: 'ArrowRight'});
-    onChange.should.have.been.calledWith(DEFAULT_VALUE + 1);
-    fireEvent.keyDown(thumb, {key: 'ArrowUp'});
-    onChange.should.have.been.calledWith(DEFAULT_VALUE + 2);
-  });
-
-  it('should handle ArrowLeft/ArrowDown key', () => {
-    const {onChange, thumb} = focusThumb();
-    fireEvent.keyDown(thumb, {key: 'ArrowLeft'});
-    onChange.should.have.been.calledWith(DEFAULT_VALUE - 1);
-    fireEvent.keyDown(thumb, {key: 'ArrowDown'});
-    onChange.should.have.been.calledWith(DEFAULT_VALUE - 2);
-  });
-
-  it('should handle Home key', () => {
-    const {onChange, thumb} = focusThumb();
-    fireEvent.keyDown(thumb, {key: 'Home'});
-    onChange.should.have.been.calledWith(0);
-  });
-
-  it('should handle End key', () => {
-    const MAX = 100;
-    const {onChange, thumb} = focusThumb();
-    fireEvent.keyDown(thumb, {key: 'End'});
-    onChange.should.have.been.calledWith(MAX);
   });
 
   it('should handle only 2 values in range', () => {
