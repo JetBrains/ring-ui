@@ -1,25 +1,13 @@
 @value dark from "../global/variables_dark.css";
 
-:root {
+.slider {
   --ring-slider-thumb-color: var(--ring-content-background-color);
   --ring-slider-thumb-border: var(--ring-main-color);
   --ring-slider-thumb-disabled-color: var(--ring-content-background-color);
   --ring-slider-tag-disabled-text-color: var(--ring-white-text-color);
-}
 
-.dark,
-:global(.ring-ui-theme-dark) {
-  --ring-slider-thumb-color: var(--ring-main-color);
-  --ring-slider-thumb-border: var(--ring-white-text-color);
-  --ring-slider-thumb-disabled-color: var(--ring-disabled-background-color);
-  --ring-slider-thumb-disabled-border: var(--ring-border-disabled-color);
-  --ring-slider-tag-disabled-text-color: var(--ring-secondary-color);
-}
-
-.slider {
   position: relative;
 
-  width: 100%;
   height: calc(var(--ring-unit) / 2);
   padding: var(--ring-unit) 0;
 
@@ -34,8 +22,20 @@
   }
 }
 
+.dark, :global(.ring-ui-theme-dark) {
+  .slider {
+    --ring-slider-thumb-color: var(--ring-main-color);
+    --ring-slider-thumb-border: var(--ring-white-text-color);
+    --ring-slider-thumb-disabled-color: var(--ring-disabled-background-color);
+    --ring-slider-thumb-disabled-border: var(--ring-border-disabled-color);
+    --ring-slider-tag-disabled-text-color: var(--ring-secondary-color);
+  }
+}
+
 .rail {
   height: inherit;
+
+  border-radius: calc(var(--ring-unit) / 2);
 
   background-color: var(--ring-selected-background-color);
 
@@ -50,10 +50,12 @@
 
 .track {
   position: absolute;
-  top: var(--ring-unit);
   left: 0;
 
   height: inherit;
+  margin-top:calc(var(--ring-unit) / -2);
+
+  border-radius: calc(var(--ring-unit) / 2);
 
   background-color: var(--ring-main-color);
 
@@ -71,17 +73,17 @@
 
   position: absolute;
   z-index: 1;
-  top: calc(var(--ring-unit) / 2);
 
   width: calc(var(--ring-unit) * 1.5);
   height: calc(var(--ring-unit) * 1.5);
+  margin-top: calc(var(--ring-unit) * -1);
 
   cursor: pointer;
   transform: translateX(-50%);
 
   border-radius: var(--ring-unit);
   background-color: var(--ring-slider-thumb-color);
-  box-shadow:  0 1px 2px 0 var(--ring-popup-secondary-shadow-color), 0 2px 8px 0 var(--ring-popup-shadow-components);
+  box-shadow: 0 1px 2px 0 var(--ring-popup-secondary-shadow-color), 0 2px 8px 0 var(--ring-popup-shadow-components);
 
   &.disabled {
     cursor: default;
@@ -99,10 +101,10 @@
 
 .tick {
   position: absolute;
-  top: var(--ring-unit);
 
   width: calc(var(--ring-unit) / 2);
   height: calc(var(--ring-unit) / 2);
+  margin-top: calc(var(--ring-unit) / -2);
   margin-left: calc(var(--ring-unit) / -4);
 
   border-radius: calc(var(--ring-unit) / 2);
@@ -119,8 +121,8 @@
 
 .markValue {
   position: absolute;
-  top: calc(var(--ring-unit) * -2.5);
 
+  margin-top:  calc(var(--ring-unit) * -4);
   margin-left: calc(var(--ring-unit) / -4);
 
   transform: translateX(calc(-50% + 2px));
@@ -138,8 +140,8 @@
 .tag {
   position: absolute;
   z-index: 2;
-  top: calc(var(--ring-unit) * -2.5 - 2px);
 
+  margin-top: calc(var(--ring-unit) * -4 - 2px);
   padding: calc(var(--ring-unit) / 4) calc(var(--ring-unit) * 0.75);
 
   transform: translateX(-50%);
