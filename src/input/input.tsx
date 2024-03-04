@@ -55,7 +55,6 @@ export interface InputBaseProps {
   error?: ReactNode | null | undefined
   borderless?: boolean | null | undefined
   onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
-  loading?: boolean | null | undefined
   icon?: string | ComponentType | null | undefined
   height?: ControlsHeight | undefined
   afterInput?: ReactNode
