@@ -1298,7 +1298,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             )}
             <Input
               {...ariaProps}
-              loading={this.props.loading}
               height={this.props.height}
               autoComplete="off"
               id={this.props.id}
