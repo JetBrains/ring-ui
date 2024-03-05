@@ -202,7 +202,7 @@
     "@babel/core": "^7.24.0",
     "@babel/preset-typescript": "^7.23.3",
     "@jetbrains/babel-preset-jetbrains": "^2.3.2",
-    "@jetbrains/icons": "^4.0.1",
+    "@jetbrains/icons": "^4.1.0",
     "@jetbrains/logos": "^2.2.25",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@types/combokeys": "^2.4.9",
