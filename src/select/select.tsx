@@ -782,7 +782,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     );
   }
 
-  _showPopup() {
+  _showPopup = () => {
     if (!this.node) {
       return;
     }
@@ -792,9 +792,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       showPopup: true,
       shownData
     });
-  }
+  };
 
-  _hidePopup(tryFocusAnchor?: boolean) {
+  _hidePopup = (tryFocusAnchor?: boolean) => {
     if (this.node && this.state.showPopup) {
       this.setState(prevState => ({
         showPopup: false,
@@ -805,7 +805,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         this.focus();
       }
     }
-  }
+  };
 
   addHandler = () => {
     const value = this.filterValue();
