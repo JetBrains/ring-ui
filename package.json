@@ -203,7 +203,7 @@
     "@babel/preset-typescript": "^7.23.3",
     "@jetbrains/babel-preset-jetbrains": "^2.3.2",
     "@jetbrains/icons": "^4.1.0",
-    "@jetbrains/logos": "^2.2.25",
+    "@jetbrains/logos": "^2.2.26",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@types/combokeys": "^2.4.9",
     "@types/deep-equal": "^1.0.4",
