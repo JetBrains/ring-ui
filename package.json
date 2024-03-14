@@ -109,7 +109,7 @@
     "@types/enzyme": "^3.10.18",
     "@types/markdown-it": "^13.0.7",
     "@types/react": "^18.2.65",
-    "@types/react-dom": "^18.2.21",
+    "@types/react-dom": "^18.2.22",
     "@types/sinon": "^17.0.3",
     "@types/sinon-chai": "^3.2.12",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
