@@ -92,7 +92,7 @@
     "@storybook/addon-essentials": "7.6.17",
     "@storybook/addon-storyshots": "7.6.17",
     "@storybook/addon-storyshots-puppeteer": "7.6.17",
-    "@storybook/addon-storysource": "8.0.2",
+    "@storybook/addon-storysource": "8.0.4",
     "@storybook/addons": "7.6.17",
     "@storybook/components": "8.0.2",
     "@storybook/preview-api": "7.6.17",
