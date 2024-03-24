@@ -11,7 +11,7 @@ import {isSameDay} from 'date-fns/isSameDay';
 import {isToday} from 'date-fns/isToday';
 import {startOfDay} from 'date-fns/startOfDay';
 
-import {MonthsProps, dateType, weekdays} from './consts';
+import {MonthsProps, dateType, weekdays, getDayNumInWeek} from './consts';
 import styles from './date-picker.css';
 
 export interface DayProps extends MonthsProps {
@@ -30,6 +30,7 @@ export default class Day extends Component<DayProps> {
     onSelect: PropTypes.func,
     parseDateInput: PropTypes.func,
     onHover: PropTypes.func,
+    locale: PropTypes.object,
     minDate: dateType,
     maxDate: dateType
   };
@@ -77,10 +78,12 @@ export default class Day extends Component<DayProps> {
       from,
       currentRange,
       activeRange,
-      empty
+      empty,
+      locale
     } = this.props;
 
     const reverse = activeRange && activeRange[1] === from;
+    const dayInWeek = getDayNumInWeek(locale, getDay(day)) + 1;
 
     function makeSpreadRange(range: [Date, Date] | null): [Date, Date] | null {
       return range && [range[0], addDays(range[1], 1)];
@@ -94,7 +97,7 @@ export default class Day extends Component<DayProps> {
         type="button"
         className={classNames(
           styles.day,
-          styles[format(day, 'EEEE')],
+          styles[`Day${dayInWeek}`],
           {
             [styles.current]: (['date', 'from', 'to'] as const).some(this.is),
             [styles.active]: !disabled && this.is('activeDate'),

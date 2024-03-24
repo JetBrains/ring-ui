@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Story} from '@storybook/react';
+import enUSLocale from 'date-fns/locale/en-US';
 
 
 import {Size} from '../input/input';
@@ -489,3 +490,26 @@ allSizes.parameters = {
     ]
   }
 };
+
+
+export const startsFromSunday: Story<DatePickerAttrs> = args => {
+  class DatePickerExample extends Component {
+    state = {date: '01.01.25'};
+
+    setDate = (date: Date | null | undefined) => {
+      this.setState({date});
+    };
+
+    render() {
+      return (
+        <div>
+          <DatePicker date={this.state.date} locale={enUSLocale} onChange={this.setDate} {...args}/>
+        </div>
+      );
+    }
+  }
+
+  return <DatePickerExample/>;
+};
+
+startsFromSunday.storyName = 'starts on Sunday';

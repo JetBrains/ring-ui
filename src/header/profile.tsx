@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import Avatar, {Size} from '../avatar/avatar';
 import Button from '../button/button';
 import DropdownMenu from '../dropdown-menu/dropdown-menu';
-import PopupMenu from '../popup-menu/popup-menu';
+import PopupMenu, {PopupMenuAttrs} from '../popup-menu/popup-menu';
 import {I18nContext} from '../i18n/i18n-context';
 
 import {ListDataItem} from '../list/consts';
@@ -49,16 +49,20 @@ export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSe
   LinkComponent?: ComponentType<ClickableLinkProps> | null | undefined
   user?: AuthUser | null | undefined | void
   round?: boolean | null | undefined
+  showName?: boolean | null | undefined
   showLogIn?: boolean | null | undefined
   showLogOut?: boolean | null | undefined
   showSwitchUser?: boolean | null | undefined
   showApplyChangedUser?: boolean | null | undefined
-  onRevertPostponement?: (() => void) | null | undefined
+  onRevertPostponement?: (() => void) | null | undefined,
+  menuProps?: PopupMenuAttrs | null | undefined,
+  activeClassName?: string | null | undefined
 }
 
 export default class Profile extends PureComponent<ProfileProps> {
   static propTypes = {
     className: PropTypes.string,
+    activeClassName: PropTypes.string,
     closeOnSelect: PropTypes.bool,
     hasUpdates: PropTypes.bool,
     loading: PropTypes.bool,
@@ -86,12 +90,14 @@ export default class Profile extends PureComponent<ProfileProps> {
     }),
     size: PropTypes.number,
     round: PropTypes.bool,
+    showName: PropTypes.bool,
     showLogIn: PropTypes.bool,
     showLogOut: PropTypes.bool,
     showSwitchUser: PropTypes.bool,
     showApplyChangedUser: PropTypes.bool,
     onRevertPostponement: PropTypes.func,
-    renderGuest: PropTypes.func
+    renderGuest: PropTypes.func,
+    menuProps: PropTypes.object
   };
 
   static defaultProps: ProfileProps = {
@@ -127,6 +133,7 @@ export default class Profile extends PureComponent<ProfileProps> {
   render() {
     const {
       className,
+      activeClassName,
       closeOnSelect,
       hasUpdates,
       onLogout,
@@ -137,6 +144,7 @@ export default class Profile extends PureComponent<ProfileProps> {
       renderPopupItems,
       onRevertPostponement,
       showApplyChangedUser,
+      showName,
       showLogIn,
       showLogOut,
       showSwitchUser,
@@ -145,6 +153,7 @@ export default class Profile extends PureComponent<ProfileProps> {
       size,
       round,
       loading, onLogin,
+      menuProps,
       ...props
     } = this.props;
 
@@ -165,17 +174,20 @@ export default class Profile extends PureComponent<ProfileProps> {
       return renderGuest(this.props);
     }
 
-    const anchorClassName = classNames(styles.avatarWrapper, {
+    const avatarWrapper = classNames(styles.avatarWrapper, {
       [styles.hasUpdates]: hasUpdates
     });
 
     const anchor = (
-      <button type="button" className={anchorClassName}>
-        <Avatar
-          url={user.profile && user.profile.avatar && user.profile.avatar.url}
-          size={size}
-          round={round}
-        />
+      <button type="button" className={styles.anchorClassName}>
+        <span className={avatarWrapper}>
+          <Avatar
+            url={user.profile && user.profile.avatar && user.profile.avatar.url}
+            size={size}
+            round={round}
+          />
+        </span>
+        {showName && <span>{user.name}</span>}
       </button>
     );
 
@@ -222,11 +234,13 @@ export default class Profile extends PureComponent<ProfileProps> {
         data={renderPopupItems(items)}
         data-test="ring-profile"
         className={classNames(styles.profile, className)}
+        activeClassName={activeClassName}
         menuProps={{
           closeOnSelect,
           left: -2,
           top: -8,
-          sidePadding: 32
+          sidePadding: 32,
+          ...menuProps
         }}
       />
     );
