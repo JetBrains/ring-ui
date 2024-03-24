@@ -3,6 +3,8 @@ import {Story} from '@storybook/react';
 import enUSLocale from 'date-fns/locale/en-US';
 
 
+import type {Locale} from 'date-fns';
+
 import {Size} from '../input/input';
 
 import DatePicker, {DatePickerAttrs} from './date-picker';
@@ -503,7 +505,12 @@ export const startsFromSunday: Story<DatePickerAttrs> = args => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} locale={enUSLocale} onChange={this.setDate} {...args}/>
+          <DatePicker
+            date={this.state.date}
+            locale={enUSLocale as unknown as Locale}
+            onChange={this.setDate}
+            {...args}
+          />
         </div>
       );
     }
