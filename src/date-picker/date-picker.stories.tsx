@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import {Story} from '@storybook/react';
-import enUSLocale from 'date-fns/locale/en-US';
-
-
-import type {Locale} from 'date-fns';
+import {enUS} from 'date-fns/locale/en-US';
 
 import {Size} from '../input/input';
 
@@ -507,7 +504,7 @@ export const startsFromSunday: Story<DatePickerAttrs> = args => {
         <div>
           <DatePicker
             date={this.state.date}
-            locale={enUSLocale as unknown as Locale}
+            locale={enUS}
             onChange={this.setDate}
             {...args}
           />
