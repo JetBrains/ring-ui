@@ -128,8 +128,9 @@ export function parseQueryString(queryString: string | null | undefined) {
 }
 
 function customEncodeURIComponent(str: unknown) {
-  const commaRE = /%2C/g;
-  return encodeURIComponent(String(str)).replace(commaRE, ',');
+  return encodeURIComponent(String(str)).
+    replace(/%2C/g, ',').
+    replace(/%24/g, '$');
 }
 
 /**
