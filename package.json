@@ -208,7 +208,7 @@
     "@types/combokeys": "^2.4.9",
     "@types/deep-equal": "^1.0.4",
     "@types/element-resize-detector": "^1.1.6",
-    "@types/prop-types": "^15.7.11",
+    "@types/prop-types": "^15.7.12",
     "@types/react-virtualized": "9.21.29",
     "@types/util-deprecate": "^1.0.3",
     "@ungap/url-search-params": "^0.2.2",
