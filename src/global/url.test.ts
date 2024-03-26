@@ -124,6 +124,11 @@ describe('Url', () => {
       encodeURL('hub', {test: 'with(some,allowed)'}).
         should.be.equal('hub?test=with(some,allowed)');
     });
+
+    it('should not encode dollar', () => {
+      encodeURL('hub', {$top: '1'}).
+        should.be.equal('hub?$top=1');
+    });
   });
 
   describe('isDataURI', () => {
