@@ -97,7 +97,7 @@
     "@storybook/components": "8.0.4",
     "@storybook/preview-api": "7.6.17",
     "@storybook/react": "7.6.17",
-    "@storybook/react-webpack5": "7.6.17",
+    "@storybook/react-webpack5": "8.0.4",
     "@storybook/source-loader": "8.0.2",
     "@storybook/theming": "8.0.4",
     "@testing-library/react": "^14.2.2",
