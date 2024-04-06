@@ -57,6 +57,8 @@ export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSe
   onRevertPostponement?: (() => void) | null | undefined,
   menuProps?: PopupMenuAttrs | null | undefined,
   activeClassName?: string | null | undefined
+  onShow?: (() => void)
+  onHide?: (() => void)
 }
 
 export default class Profile extends PureComponent<ProfileProps> {
@@ -97,7 +99,9 @@ export default class Profile extends PureComponent<ProfileProps> {
     showApplyChangedUser: PropTypes.bool,
     onRevertPostponement: PropTypes.func,
     renderGuest: PropTypes.func,
-    menuProps: PropTypes.object
+    menuProps: PropTypes.object,
+    onShow: PropTypes.func,
+    onHide: PropTypes.func
   };
 
   static defaultProps: ProfileProps = {
@@ -154,6 +158,8 @@ export default class Profile extends PureComponent<ProfileProps> {
       round,
       loading, onLogin,
       menuProps,
+      onShow,
+      onHide,
       ...props
     } = this.props;
 
@@ -229,6 +235,8 @@ export default class Profile extends PureComponent<ProfileProps> {
     return (
       <DropdownMenu
         {...props}
+        onShow={onShow}
+        onHide={onHide}
         title={user.name}
         anchor={anchor}
         data={renderPopupItems(items)}
