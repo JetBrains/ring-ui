@@ -21,6 +21,8 @@ function createConfig() {
         loader: require.resolve('css-loader'),
         options: {
           modules: {
+            namedExport: false,
+            exportLocalsConvention: 'as-is',
             localIdentName: '[local]_[hash:4]'
           },
           importLoaders: 1
