@@ -7,10 +7,10 @@
   --ring-line-color: rgb(var(--ring-line-components)); /* #3D3F45 */
   --ring-borders-components: 97, 101, 107;
   --ring-borders-color: rgb(var(--ring-borders-components)); /* #61656B */
-  --ring-icon-components: 125, 130, 143;
-  --ring-icon-color: rgb(var(--ring-icon-components)); /* #7D828F */
-  --ring-icon-secondary-components: 125, 130, 143;
-  --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #7D828F */
+  --ring-icon-components: 138, 145, 163;
+  --ring-icon-color: rgb(var(--ring-icon-components)); /* #8A91A3 */
+  --ring-icon-secondary-components: 121, 126, 139;
+  --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #797E8B */
   --ring-border-disabled-components: 79, 79, 79;
   --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #4F4F4F */
   --ring-border-selected-disabled-components: 102, 102, 102;
