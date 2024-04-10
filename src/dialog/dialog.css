@@ -17,7 +17,7 @@
 
   padding: calc(var(--ring-unit) * 4) var(--ring-unit);
 
-  background-color: rgba(var(--ring-dialog-overlay-components), 0.4);
+  background-color: rgba(var(--ring-dialog-overlay-components), var(--ring-dialog-overlay-opacity));
 }
 
 .innerContainer {
