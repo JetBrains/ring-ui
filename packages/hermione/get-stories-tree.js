@@ -1,19 +1,25 @@
 /* eslint-disable no-console */
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
-import loadFramework from '@storybook/addon-storyshots/dist/frameworks/frameworkLoader';
+import {getAllStoryFiles, getStories} from '../../test-helpers/get-stories';
 
 test('Get stories tree', () => {
-  const {storybook} = loadFramework({framework: 'react'});
   const kinds = {};
-  storybook.raw().forEach(({kind, id, name, parameters}) => {
-    kinds[kind] = kinds[kind] || {kind, stories: []};
-    kinds[kind].stories.push({
-      id,
-      name,
-      parameters: parameters.hermione
-    });
+  getAllStoryFiles().forEach(({storyFile, title}) => {
+    kinds[title] = {
+      kind: title,
+      stories: getStories({
+        ...storyFile,
+        default: {...storyFile.default, title}
+      }).map(
+        ({name, story}) => ({
+          id: story.id,
+          name,
+          parameters: story.parameters.hermione
+        }),
+      )
+    };
   });
 
   fs.writeFileSync(

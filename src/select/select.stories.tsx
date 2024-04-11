@@ -450,6 +450,7 @@ export const withALargeDataset: Story<SingleSelectAttrs> = args => <Select {...a
 
 withALargeDataset.storyName = 'with a large dataset';
 withALargeDataset.parameters = {hermione: {skip: true}};
+withALargeDataset.tags = ['skip-test'];
 
 export const withALargeDatasetAndDisabledScrollToActiveItem: Story<SingleSelectAttrs> = args =>
   <Select {...args}/>;
@@ -468,6 +469,7 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
     ]
   }
 };
+withALargeDatasetAndDisabledScrollToActiveItem.tags = ['skip-test'];
 
 {
   const elementsNum = 100000;

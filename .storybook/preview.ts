@@ -36,7 +36,8 @@ export const parameters = {
     options: {
       rules: {
         // TODO enable when RG-2054 is fixed
-        'color-contrast': {enabled: false}
+        'color-contrast': {enabled: false},
+        'link-in-text-block': {enabled: false} // https://youtrack.jetbrains.com/issue/RG-2412/Contrast-Issue-Between-Link-and-Text-Color
       }
     }
   },
