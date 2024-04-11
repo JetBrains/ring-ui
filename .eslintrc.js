@@ -33,7 +33,8 @@ module.exports = {
         '**/.hermione.conf.js',
         'report-metadata.js',
         'security-audit-ci.js',
-        'tsc-teamcity.js'
+        'tsc-teamcity.js',
+        'test-runner-jest.config.js'
       ],
       peerDependencies: true
     }],
