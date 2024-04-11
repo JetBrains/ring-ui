@@ -13,7 +13,7 @@ export default {
   }
 };
 
-function RadioExample() {
+export const Basic = () => {
   const [value, onChange] = useState('one');
   return (
     <Fragment>
@@ -25,13 +25,11 @@ function RadioExample() {
       </Radio>
     </Fragment>
   );
-}
+};
 
-export const basic = () => <RadioExample/>;
+Basic.storyName = 'basic';
 
-basic.storyName = 'basic';
-
-function MultilineRadioExample() {
+export const Multiline = () => {
   const [value, onChange] = useState('one');
   return (
     <div style={{width: 200}}>
@@ -42,11 +40,9 @@ function MultilineRadioExample() {
       </Radio>
     </div>
   );
-}
+};
 
-export const multiline = () => <MultilineRadioExample/>;
-
-multiline.storyName = 'multiline';
+Multiline.storyName = 'multiline';
 
 export const uncontrolled = () => (
   <Radio>
