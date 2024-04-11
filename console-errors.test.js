@@ -1,23 +1,59 @@
-import initStoryshots, {renderWithOptions} from '@storybook/addon-storyshots';
+import React from 'react';
+
 import {act} from 'react-dom/test-utils';
+
+import {render} from '@testing-library/react';
+
+import {getAllStoryFiles, getStories} from './test-helpers/get-stories';
 
 jest.mock('./src/loader/loader__core', () => (
   class FakeLoader {
     updateMessage = jest.fn();
+    destroy = jest.fn();
   }
 ));
 jest.mock('./src/old-browsers-message/old-browsers-message');
 
-initStoryshots({
-  framework: 'react',
+const options = {
   suite: 'Console errors',
-  storyKindRegex: /^((?!Style-only\/Old Browsers Message).)*$/,
+  storyKindRegex: /^((?!Style-only\/Old Browsers Message).)*$/
   // storyNameRegex: /^with deprecated item\.type parameter$/,
-  async test(...args) {
-    const consoleError = jest.spyOn(global.console, 'error');
-    await act(() => Promise.resolve(renderWithOptions({
-      createNodeMock: element => document.createElement(element.type)
-    })(...args)));
-    expect(consoleError).not.toBeCalled();
-  }
+};
+
+describe(options.suite, () => {
+  getAllStoryFiles().forEach(({storyFile, title}) => {
+    const meta = storyFile.default;
+
+    if (
+      (options.storyKindRegex != null && !options.storyKindRegex.test(title)) ||
+      meta.parameters?.storyshots?.disable
+    ) {
+      return;
+    }
+
+    describe(title, () => {
+      const stories = getStories(storyFile).filter(
+        ({name, story}) =>
+          (options.storyNameRegex == null ||
+            options.storyNameRegex.test(name)) &&
+          !story.parameters.storyshots?.disable,
+      );
+
+      if (stories.length <= 0) {
+        throw new Error(
+          `No stories found for this module: ${title}. Make sure there is at least one valid story for this module, without a disable parameter, or add parameters.storyshots.disable in the default export of this file.`,
+        );
+      }
+
+      stories.forEach(({name, story}) => {
+        test(name, async () => {
+          const consoleError = jest.spyOn(global.console, 'error');
+          const Component = story;
+          render(<Component/>);
+          await act(() => Promise.resolve());
+          expect(consoleError).not.toBeCalled();
+        });
+      });
+    });
+  });
 });

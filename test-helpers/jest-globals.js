@@ -3,6 +3,8 @@ import {TextEncoder, TextDecoder} from 'util';
 
 import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
 
+import {setProjectAnnotations} from '@storybook/react';
+
 import {config} from '../package.json';
 
 global.TextEncoder = TextEncoder;
@@ -44,3 +46,5 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn()
   })
 });
+
+setProjectAnnotations(require('../.storybook/preview'));
