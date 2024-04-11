@@ -1,4 +1,4 @@
-import React, {PureComponent, useContext, useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import searchSIcon from '@jetbrains/icons/search-12px';
 
@@ -9,7 +9,7 @@ import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 import {LabelType} from '../control-label/control-label';
 
-import Input, {ContainerProps, InputSpecificProps, Size} from './input';
+import Input, {Size} from './input';
 
 export default {
   title: 'Components/Input',
@@ -20,52 +20,37 @@ export default {
   }
 };
 
-class ClearableInput extends PureComponent<ContainerProps<InputSpecificProps>> {
-  state = {
-    text: this.props.defaultValue
-  };
+export const Basic = () => {
+  const [clearableInputValue, setClearableInputValue] = useState('Default value');
+  const [borderlessInputValue, setBorderlessInputValue] = useState('Borderless input');
 
-  setText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      text: e.target.value
-    });
-  };
-
-  clear = () => {
-    this.setState({
-      text: ''
-    });
-  };
-
-  render() {
-    const {defaultValue, ...restProps} = this.props;
-    return (
-      <Input
-        value={this.state.text}
-        onChange={this.setText}
-        onClear={this.clear}
-        {...restProps}
-      />
-    );
-  }
-}
-const Inputs = () => {
-  const height = useContext(ControlsHeightContext);
   return (
     <form className="inputs">
       <Input label="Labeled input"/>
       <Input name="login" label="Label and hint" placeholder="Hint"/>
       <Input label="Label and value" defaultValue="Default value"/>
-      <ClearableInput label="Clearable input" defaultValue="Default value"/>
-      <ClearableInput
+      <Input
+        label="Clearable input"
+        value={clearableInputValue}
+        onChange={e => setClearableInputValue(e.currentTarget.value)}
+        onClear={() => setClearableInputValue('')}
+      />
+      <Input
         placeholder="Hint"
         label="Disabled clearable input"
         defaultValue="Default value"
+        onClear={() => {}}
         disabled
       />
-      <Input label="Input with icon" icon={height === ControlsHeight.S ? searchSIcon : searchIcon} defaultValue="Default value"/>
+      <Input label="Input with icon" icon={searchIcon} defaultValue="Default value"/>
       <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint"/>
-      <ClearableInput placeholder="Hint" defaultValue="Borderless input" borderless/>
+      <Input
+        placeholder="Hint"
+        value={borderlessInputValue}
+        onChange={e => setBorderlessInputValue(e.currentTarget.value)}
+        onClear={() => setBorderlessInputValue('')}
+        borderless
+      />
       <Input label="Disabled input" disabled defaultValue="Default value"/>
       <Input
         label="Invalid input"
@@ -78,11 +63,10 @@ const Inputs = () => {
     </form>
   );
 };
-export const basic = () => <Inputs/>;
 
-basic.storyName = 'basic';
+Basic.storyName = 'basic';
 
-basic.parameters = {
+Basic.parameters = {
   storyStyles: `
 <style>
   .inputs {
@@ -104,14 +88,54 @@ basic.parameters = {
 </style>`
 };
 
-export const heightS = () => (
-  <ControlsHeightContext.Provider value={ControlsHeight.S}>
-    <Inputs/>
-  </ControlsHeightContext.Provider>
-);
-heightS.parameters = basic.parameters;
+export const HeightS = () => {
+  const [clearableInputValue, setClearableInputValue] = useState('Default value');
+  const [borderlessInputValue, setBorderlessInputValue] = useState('Borderless input');
 
-function SelectAll() {
+  return (
+    <ControlsHeightContext.Provider value={ControlsHeight.S}>
+      <form className="inputs">
+        <Input label="Labeled input"/>
+        <Input name="login" label="Label and hint" placeholder="Hint"/>
+        <Input label="Label and value" defaultValue="Default value"/>
+        <Input
+          label="Clearable input"
+          value={clearableInputValue}
+          onChange={e => setClearableInputValue(e.currentTarget.value)}
+          onClear={() => setClearableInputValue('')}
+        />
+        <Input
+          placeholder="Hint"
+          label="Disabled clearable input"
+          defaultValue="Default value"
+          onClear={() => {}}
+          disabled
+        />
+        <Input label="Input with icon" icon={searchSIcon} defaultValue="Default value"/>
+        <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint"/>
+        <Input
+          placeholder="Hint"
+          value={borderlessInputValue}
+          onChange={e => setBorderlessInputValue(e.currentTarget.value)}
+          onClear={() => setBorderlessInputValue('')}
+          borderless
+        />
+        <Input label="Disabled input" disabled defaultValue="Default value"/>
+        <Input
+          label="Invalid input"
+          error="Error description that wraps over lines because of being really long"
+        />
+        <Input label="Error without description" error=""/>
+        <Input label="Short input" size={Size.S}/>
+        <Input label="Long input" size={Size.L}/>
+        <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
+      </form>
+    </ControlsHeightContext.Provider>
+  );
+};
+HeightS.parameters = Basic.parameters;
+
+export const SelectAll = () => {
   const ref = useRef<HTMLInputElement>(null);
 
   function select() {
@@ -126,11 +150,9 @@ function SelectAll() {
       <Button style={{marginTop: 4}} data-test-select onClick={select}>Select all</Button>
     </>
   );
-}
+};
 
-export const selectAll = () => <SelectAll/>;
-
-selectAll.parameters = {
+SelectAll.parameters = {
   hermione: {
     actions: [
       {type: 'click', selector: '[data-test-select]'},
