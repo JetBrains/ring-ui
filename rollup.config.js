@@ -16,7 +16,12 @@ function getHash(input) {
 }
 
 const files = glob.sync(
-  'components/**/*.{js,jsx}',
+  [
+    'components/**/*.{js,jsx}',
+    // Style-only components
+    'components/form/form.css',
+    'components/input-size/input-size.css'
+  ],
   {
     ignore: [
       '**/__mocks__/**',
