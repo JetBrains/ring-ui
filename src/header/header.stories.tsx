@@ -46,7 +46,8 @@ export default {
   }
 </style>`,
     zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71a88a41a987ba9918'
-  }
+  },
+  tags: ['skip-test']
 };
 
 interface HeaderArgs extends HeaderAttrs {

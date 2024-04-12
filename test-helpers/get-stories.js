@@ -35,10 +35,11 @@ export const getStories = storyFile =>
     const originalStory = storyFile[name];
 
     return {
-      name:
+      name: originalStory.storyName ?? (
         originalStory.name != null
           ? getStoryName(originalStory)
-          : storyNameFromExport(name),
+          : storyNameFromExport(name)
+      ),
       story
     };
   });

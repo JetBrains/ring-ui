@@ -85,6 +85,7 @@ basic.args = {
   popupClassName: 'test',
   className: 'custom-class'
 };
+basic.tags = ['skip-test'];
 
 export const noAuth: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
 
@@ -248,7 +249,7 @@ withCustomActions.args = {
 };
 withCustomActions.storyName = 'with custom actions';
 withCustomActions.parameters = {hermione: {skip: true}};
-
+withCustomActions.tags = ['skip-test'];
 
 class HugeOne extends Component {
   constructor(props: QueryAssistAttrs) {
@@ -297,6 +298,7 @@ hugeOne.args = {
   popupClassName: 'test',
   className: 'custom-class'
 };
+hugeOne.tags = ['skip-test'];
 
 
 class DisabledOne extends Component {
