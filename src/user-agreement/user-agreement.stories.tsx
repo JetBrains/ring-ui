@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 
 import alert from '../alert-service/alert-service';
@@ -19,7 +19,7 @@ export default {
   }
 };
 
-export const dialog: Story<UserAgreementAttrs> = args => (
+export const dialog: StoryFn<UserAgreementAttrs> = args => (
   <div>
     <UserAgreement {...args}/>
   </div>
@@ -48,7 +48,7 @@ interface ServiceArgs {
   onDialogShow?: (() => void) | null | undefined
   onDialogHide?: (() => void) | null | undefined
 }
-export const service: Story<ServiceArgs> = ({
+export const service: StoryFn<ServiceArgs> = ({
   onGetUserAgreement = noop,
   onGetUserConsent = noop,
   onSetUserConsent = noop,

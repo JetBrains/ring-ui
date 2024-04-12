@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import permissionIcon from '@jetbrains/icons/settings';
 
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -73,7 +73,7 @@ class Basic extends Component {
     );
   }
 }
-export const basic: Story<QueryAssistAttrs> = args => <Basic {...args}/>;
+export const basic: StoryFn<QueryAssistAttrs> = args => <Basic {...args}/>;
 
 basic.storyName = 'basic';
 basic.parameters = {hermione: {skip: true}};
@@ -86,7 +86,7 @@ basic.args = {
   className: 'custom-class'
 };
 
-export const noAuth: Story<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
+export const noAuth: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
 
 noAuth.storyName = 'no auth';
 noAuth.args = {
@@ -161,7 +161,7 @@ const template = (item: QueryAssistSuggestion) =>
     `My name is ${item.description}, my ${item.prefix} is ${item.option}`
   );
 
-export const withCustomRenderer: Story<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
+export const withCustomRenderer: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
 
 withCustomRenderer.args = {
   useCustomItemRender: true,
@@ -234,7 +234,7 @@ class QueryAssistExample extends Component {
   }
 }
 
-export const withCustomActions: Story<QueryAssistAttrs> = args => <QueryAssistExample {...args}/>;
+export const withCustomActions: StoryFn<QueryAssistAttrs> = args => <QueryAssistExample {...args}/>;
 
 withCustomActions.args = {
   query: 'test',
@@ -284,7 +284,7 @@ class HugeOne extends Component {
     );
   }
 }
-export const hugeOne: Story<QueryAssistAttrs> = args => <HugeOne {...args}/>;
+export const hugeOne: StoryFn<QueryAssistAttrs> = args => <HugeOne {...args}/>;
 
 hugeOne.storyName = 'huge one';
 hugeOne.parameters = {hermione: {skip: true}};
@@ -312,7 +312,7 @@ class DisabledOne extends Component {
     );
   }
 }
-export const disabledOne: Story<QueryAssistAttrs> = args => <DisabledOne {...args}/>;
+export const disabledOne: StoryFn<QueryAssistAttrs> = args => <DisabledOne {...args}/>;
 
 disabledOne.storyName = 'disabled one';
 disabledOne.parameters = {hermione: {skip: true}};
