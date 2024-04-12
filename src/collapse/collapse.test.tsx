@@ -2,7 +2,7 @@ import React, {PropsWithChildren, useState} from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {COLLAPSE_CONTROL_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
+import {COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
 
 import {Collapse} from './collapse';
 import {CollapseContent} from './collapse-content';
@@ -73,7 +73,7 @@ function renderComponent(minHeight = 0, disableAnimation = false, controlAsFunc 
 describe('<Collapse />', () => {
   it('should be able to expand and collapse', async () => {
     renderComponent();
-    const button = screen.getByTestId(COLLAPSE_CONTROL_TEST_ID);
+    const button = screen.getByRole('button', {name: 'Show text'});
 
     await userEvent.click(button);
 
@@ -90,7 +90,7 @@ describe('<Collapse />', () => {
 
   it('should correctly behave with minHeight prop', async () => {
     renderComponent(MIN_HEIGHT);
-    const button = screen.getByTestId(COLLAPSE_CONTROL_TEST_ID);
+    const button = screen.getByRole('button', {name: 'Show text'});
 
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
@@ -104,7 +104,7 @@ describe('<Collapse />', () => {
   it('should resize the collapsable container if content has been changed', async () => {
     renderComponent();
 
-    const button = screen.getByTestId(COLLAPSE_CONTROL_TEST_ID);
+    const button = screen.getByRole('button', {name: 'Show text'});
 
     await userEvent.click(button);
 
