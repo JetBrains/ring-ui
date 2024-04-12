@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 
 import {Grid, Row, Col} from '../grid/grid';
@@ -208,7 +208,7 @@ class BasicDemo extends Component<BasicDemoProps, BasicDemoState> {
     );
   }
 }
-export const basic: Story<BasicDemoProps> = args => <BasicDemo {...args}/>;
+export const basic: StoryFn<BasicDemoProps> = args => <BasicDemo {...args}/>;
 basic.args = {
   columns: [
     {
@@ -344,7 +344,7 @@ class EmptyTableDemo extends Component<TableAttrs<SelectionItem>> {
   }
 }
 
-export const emptyTable: Story<TableAttrs<SelectionItem>> = args => <EmptyTableDemo {...args}/>;
+export const emptyTable: StoryFn<TableAttrs<SelectionItem>> = args => <EmptyTableDemo {...args}/>;
 emptyTable.args = {
   data: [],
   columns: [

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState} from '@storybook/preview-api';
-import type {Story} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
 
 import {Header, Content} from '../island/island';
@@ -27,7 +27,7 @@ interface Args {
   onAction(action: string): void
 }
 
-export const basic: Story<Args> = ({onAction}) => {
+export const basic: StoryFn<Args> = ({onAction}) => {
   class DialogDemo extends React.Component {
     state = {
       show: true,
@@ -100,7 +100,7 @@ basic.parameters = {
 </style>`
 };
 
-export const dense: Story = () => (
+export const dense: StoryFn = () => (
   <Dialog show dense>
     <Header>Dialog title</Header>
     <Content>
@@ -119,7 +119,7 @@ unknown printer took a galley of type and scrambled it to make a type specimen
 book. It has survived not only five centuries, but also the leap into electronic
 typesetting, remaining essentially unchanged.`;
 
-export const withScroll: Story<Args> = ({onAction}) => {
+export const withScroll: StoryFn<Args> = ({onAction}) => {
   class DialogDemo extends React.Component {
     state = {
       show: true
