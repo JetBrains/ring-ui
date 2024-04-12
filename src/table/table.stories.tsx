@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import {StoryFn} from '@storybook/react';
 
@@ -40,176 +40,129 @@ interface Item extends SelectionItem {
 interface BasicDemoProps extends TableAttrs<Item> {
   withCaption: boolean
 }
-interface BasicDemoState {
-  data: Item[]
-  selection: Selection<Item>
-  page: number
-  pageSize: number
-  total: number
-  sortKey: string
-  sortOrder: boolean
-}
-class BasicDemo extends Component<BasicDemoProps, BasicDemoState> {
-  state: BasicDemoState = {
-    data: [],
-    selection: new Selection(),
-    page: 1,
-    pageSize: PAGE_SIZE,
-    total: TOTAL,
-    sortKey: 'country',
-    sortOrder: true
-  };
+export const Basic: StoryFn<BasicDemoProps> = args => {
+  const {onSort, onSelect, withCaption, onReorder, ...restProps} = args;
+  const [data, setData] = React.useState<Item[]>([]);
+  const [selection, setSelection] = React.useState<Selection<Item>>(new Selection());
+  const [sortKey, setSortKey] = React.useState<string>('country');
+  const [sortOrder, setSortOrder] = React.useState<boolean>(true);
+  const [page, setPage] = React.useState<number>(1);
 
-  componentDidMount() {
-    this.loadPage();
-  }
+  const isItemSelectable = React.useCallback((item: Item) => item.id !== 14, []);
 
-  componentDidUpdate(prevProps: BasicDemoProps, prevState: BasicDemoState) {
-    const {page, sortKey, sortOrder} = this.state;
-    if (
-      page !== prevState.page ||
-      sortKey !== prevState.sortKey ||
-      sortOrder !== prevState.sortOrder
-    ) {
-      this.loadPage();
-    }
-  }
-
-  onSort = (event: SortParams) => {
-    this.props.onSort?.(event);
-    this.setState({sortKey: event.column.id, sortOrder: event.order});
-  };
-
-  onPageChange = (page: number) => {
-    this.setState({page});
-  };
-
-  isItemSelectable(item: Item) {
-    return item.id !== 14;
-  }
-
-  loadPage = () => {
-    const {page, pageSize, sortKey, sortOrder} = this.state;
-
-    let data: Item[] = [...mock];
-    data.sort((a, b) =>
+  React.useEffect(() => {
+    let newData: Item[] = [...mock];
+    newData.sort((a, b) =>
       String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
-    data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+    newData = newData.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE);
 
-    const selection = new Selection({data, isItemSelectable: this.isItemSelectable});
+    const newSelection = new Selection({data: newData, isItemSelectable});
 
-    this.setState({data, selection});
-  };
+    setData(newData);
+    setSelection(newSelection);
+  }, [isItemSelectable, page, sortKey, sortOrder]);
 
-  render() {
-    const {onSelect, withCaption, onReorder, ...restProps} = this.props;
-    const {
-      data,
-      page,
-      pageSize,
-      total,
-      selection,
-      sortKey,
-      sortOrder
-    } = this.state;
+  const handleSort = React.useCallback((event: SortParams) => {
+    onSort?.(event);
+    setSortKey(event.column.id);
+    setSortOrder(event.order);
+  }, [onSort]);
 
-    return (
-      <div>
-        <Table
-          {...restProps}
-          data={data}
-          selection={selection}
-          onSelect={newSelection => {
-            onSelect?.(newSelection);
-            this.setState({selection: newSelection});
-          }}
-          onReorder={event => {
-            onReorder?.(event);
-            this.setState({data: event.data});
-          }}
-          onSort={this.onSort}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          caption={withCaption ? 'Countries' : undefined}
-          isItemSelectable={this.isItemSelectable}
-          getItemDataTest={it => String(it.country)}
-          dragHandleTitle="Drag me!"
-        />
+  return (
+    <div>
+      <Table
+        {...restProps}
+        data={data}
+        selection={selection}
+        onSelect={newSelection => {
+          onSelect?.(newSelection);
+          setSelection(newSelection);
+        }}
+        onReorder={event => {
+          onReorder?.(event);
+          setData(event.data);
+        }}
+        onSort={handleSort}
+        sortKey={sortKey}
+        sortOrder={sortOrder}
+        caption={withCaption ? 'Countries' : undefined}
+        isItemSelectable={isItemSelectable}
+        getItemDataTest={it => String(it.country)}
+        dragHandleTitle="Drag me!"
+      />
 
-        <Grid>
-          <Row>
-            <Col>
-              <Pager
-                total={total}
-                pageSize={pageSize}
-                currentPage={page}
-                disablePageSizeSelector
-                onPageChange={this.onPageChange}
-              />
-            </Col>
-          </Row>
+      <Grid>
+        <Row>
+          <Col>
+            <Pager
+              total={TOTAL}
+              pageSize={PAGE_SIZE}
+              currentPage={page}
+              disablePageSizeSelector
+              onPageChange={setPage}
+            />
+          </Col>
+        </Row>
 
-          <Row>
-            <Col>
-              Active items: {[...selection.getActive()].map(item => item.country).join(', ')}
-            </Col>
-          </Row>
+        <Row>
+          <Col>
+            Active items: {[...selection.getActive()].map(item => item.country).join(', ')}
+          </Col>
+        </Row>
 
-          <Row>
-            <Col>
-              <Button onClick={() => this.setState({data: [...data]})}>
-                Recreate data array
-              </Button>
-              {page === 1 && data.length > 5 && (
-                <>
+        <Row>
+          <Col>
+            <Button onClick={() => setData([...data])}>
+              Recreate data array
+            </Button>
+            {page === 1 && data.length > 5 && (
+              <>
+                {' '}
+                <span id="button-select-bulgaria">
+                  {selection.isSelected(data[3])
+                    ? (
+                      <Button
+                        onClick={() => setSelection(selection.deselect(data[3]))}
+                      >
+                        Deselect {data[3].country}
+                      </Button>
+                    )
+                    : (
+                      <Button
+                        onClick={() => setSelection(selection.select(data[3]))}
+                      >
+                        Select {data[3].country}
+                      </Button>
+                    )}
+                </span>
+
+                <span id="button-select-finland">
                   {' '}
-                  <span id="button-select-bulgaria">
-                    {selection.isSelected(data[3])
-                      ? (
-                        <Button
-                          onClick={() => this.setState({selection: selection.deselect(data[3])})}
-                        >
-                          Deselect {data[3].country}
-                        </Button>
-                      )
-                      : (
-                        <Button
-                          onClick={() => this.setState({selection: selection.select(data[3])})}
-                        >
-                          Select {data[3].country}
-                        </Button>
-                      )}
-                  </span>
-
-                  <span id="button-select-finland">
-                    {' '}
-                    {selection.isSelected(data[5])
-                      ? (
-                        <Button
-                          onClick={() => this.setState({selection: selection.deselect(data[5])})}
-                        >
-                          Deselect {data[5].country}
-                        </Button>
-                      )
-                      : (
-                        <Button
-                          onClick={() => this.setState({selection: selection.select(data[5])})}
-                        >
-                          Select {data[5].country}
-                        </Button>
-                      )}
-                  </span>
-                </>
-              )}
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    );
-  }
-}
-export const basic: StoryFn<BasicDemoProps> = args => <BasicDemo {...args}/>;
-basic.args = {
+                  {selection.isSelected(data[5])
+                    ? (
+                      <Button
+                        onClick={() => setSelection(selection.deselect(data[5]))}
+                      >
+                        Deselect {data[5].country}
+                      </Button>
+                    )
+                    : (
+                      <Button
+                        onClick={() => setSelection(selection.select(data[5]))}
+                      >
+                        Select {data[5].country}
+                      </Button>
+                    )}
+                </span>
+              </>
+            )}
+          </Col>
+        </Row>
+      </Grid>
+    </div>
+  );
+};
+Basic.args = {
   columns: [
     {
       id: 'country',
@@ -244,7 +197,7 @@ basic.args = {
   withCaption: false,
   isItemSelectable: item => item.id !== 14
 };
-basic.argTypes = {
+Basic.argTypes = {
   data: {
     control: {disable: true}
   },
@@ -260,18 +213,16 @@ basic.argTypes = {
   onSelect: {},
   onReorder: {}
 };
-basic.storyName = 'basic';
+Basic.storyName = 'basic';
 
 const data1 = tableData.continents;
 const data2 = tableData.countries;
 
-class MultiTableDemo extends Component {
-  state = {
-    selection1: new Selection({data: data1}),
-    selection2: new Selection({data: data2})
-  };
+export const MultiTableStory = () => {
+  const [selection1, setSelection1] = React.useState(new Selection({data: data1}));
+  const [selection2, setSelection2] = React.useState(new Selection({data: data2}));
 
-  columns1 = [
+  const columns1 = [
     {
       id: 'continent',
       title: 'Continent'
@@ -282,7 +233,7 @@ class MultiTableDemo extends Component {
     }
   ];
 
-  columns2 = [
+  const columns2 = [
     {
       id: 'country',
       title: 'Country'
@@ -297,55 +248,44 @@ class MultiTableDemo extends Component {
     }
   ];
 
-  render() {
-    return (
-      <MultiTable>
-        <Table
-          data={data1}
-          columns={this.columns1}
-          caption="Continents"
-          selection={this.state.selection1}
-          onSelect={selection => this.setState({selection1: selection})}
-        />
-
-        <Table
-          data={data2}
-          columns={this.columns2}
-          caption="Countries"
-          autofocus
-          selection={this.state.selection2}
-          onSelect={selection => this.setState({selection2: selection})}
-        />
-      </MultiTable>
-    );
-  }
-}
-export const multiTable = () => <MultiTableDemo/>;
-multiTable.storyName = 'multi table';
-
-class EmptyTableDemo extends Component<TableAttrs<SelectionItem>> {
-  state = {
-    selection: new Selection({})
-  };
-
-  render() {
-    const {onSelect, ...restProps} = this.props;
-
-    return (
+  return (
+    <MultiTable>
       <Table
-        {...restProps}
-        selection={this.state.selection}
-        onSelect={selection => {
-          onSelect?.(selection);
-          this.setState({selection});
-        }}
+        data={data1}
+        columns={columns1}
+        caption="Continents"
+        selection={selection1}
+        onSelect={setSelection1}
       />
-    );
-  }
-}
 
-export const emptyTable: StoryFn<TableAttrs<SelectionItem>> = args => <EmptyTableDemo {...args}/>;
-emptyTable.args = {
+      <Table
+        data={data2}
+        columns={columns2}
+        caption="Countries"
+        autofocus
+        selection={selection2}
+        onSelect={setSelection2}
+      />
+    </MultiTable>
+  );
+};
+MultiTableStory.storyName = 'multi table';
+
+export const EmptyTable: StoryFn<TableAttrs<SelectionItem>> = ({onSelect, ...restProps}) => {
+  const [selection, setSelection] = React.useState(new Selection({}));
+
+  return (
+    <Table
+      {...restProps}
+      selection={selection}
+      onSelect={newSelection => {
+        onSelect?.(newSelection);
+        setSelection(newSelection);
+      }}
+    />
+  );
+};
+EmptyTable.args = {
   data: [],
   columns: [
     {
@@ -364,4 +304,4 @@ emptyTable.args = {
   renderEmpty: () => 'Empty table',
   selectable: false
 };
-emptyTable.storyName = 'empty table';
+EmptyTable.storyName = 'empty table';
