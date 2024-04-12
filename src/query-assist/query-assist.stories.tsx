@@ -82,7 +82,7 @@ Basic.args = {
   popupClassName: 'test',
   className: 'custom-class'
 };
-basic.tags = ['skip-test'];
+Basic.tags = ['skip-test'];
 
 export const noAuth: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
 
@@ -288,7 +288,7 @@ HugeOne.args = {
   popupClassName: 'test',
   className: 'custom-class'
 };
-hugeOne.tags = ['skip-test'];
+HugeOne.tags = ['skip-test'];
 
 export const disabledOne: StoryFn<QueryAssistAttrs> = args => (
   <QueryAssist
