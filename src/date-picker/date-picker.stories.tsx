@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 import {enUS} from 'date-fns/locale/en-US';
 
 import {Size} from '../input/input';
@@ -41,7 +41,7 @@ export default {
   }
 };
 
-export const singleDate: Story<DatePickerAttrs> = args => {
+export const singleDate: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.01.18'};
 
@@ -63,7 +63,7 @@ export const singleDate: Story<DatePickerAttrs> = args => {
 
 singleDate.storyName = 'single date';
 
-export const singleDateAndTime: Story<DatePickerAttrs> = args => {
+export const singleDateAndTime: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       date: '8 January 2020, 9:45'
@@ -106,7 +106,7 @@ singleDateAndTime.parameters = {
 
 singleDateAndTime.storyName = 'single date and time';
 
-export const range: Story<DatePickerAttrs> = args => {
+export const range: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: '1 January 2018',
@@ -136,7 +136,7 @@ export const range: Story<DatePickerAttrs> = args => {
 
 range.storyName = 'range';
 
-export const clearable: Story<DatePickerAttrs> = args => {
+export const clearable: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.01.18'};
 
@@ -158,7 +158,7 @@ export const clearable: Story<DatePickerAttrs> = args => {
 
 clearable.storyName = 'clearable';
 
-export const singleWithMinMax: Story<DatePickerAttrs> = args => {
+export const singleWithMinMax: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
@@ -187,7 +187,7 @@ export const singleWithMinMax: Story<DatePickerAttrs> = args => {
 
 singleWithMinMax.storyName = 'single with min-max dates';
 
-export const singleWithMin: Story<DatePickerAttrs> = args => {
+export const singleWithMin: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
@@ -215,7 +215,7 @@ export const singleWithMin: Story<DatePickerAttrs> = args => {
 
 singleWithMin.storyName = 'single with min date';
 
-export const singleWithMax: Story<DatePickerAttrs> = args => {
+export const singleWithMax: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.02.18'};
 
@@ -243,7 +243,7 @@ export const singleWithMax: Story<DatePickerAttrs> = args => {
 
 singleWithMax.storyName = 'single with max date';
 
-export const rangeWithMinMax: Story<DatePickerAttrs> = args => {
+export const rangeWithMinMax: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: '27 January 2018',
@@ -277,7 +277,7 @@ export const rangeWithMinMax: Story<DatePickerAttrs> = args => {
 
 rangeWithMinMax.storyName = 'range with min-max dates';
 
-export const rangeWithMin: Story<DatePickerAttrs> = args => {
+export const rangeWithMin: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: '27 January 2018',
@@ -310,7 +310,7 @@ export const rangeWithMin: Story<DatePickerAttrs> = args => {
 
 rangeWithMin.storyName = 'range with min date';
 
-export const rangeWithMax: Story<DatePickerAttrs> = args => {
+export const rangeWithMax: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: '27 January 2018',
@@ -343,7 +343,7 @@ export const rangeWithMax: Story<DatePickerAttrs> = args => {
 
 rangeWithMax.storyName = 'range with max date';
 
-export const rangeWithCustomPlaceholders: Story<DatePickerAttrs> = args => {
+export const rangeWithCustomPlaceholders: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       from: undefined,
@@ -382,7 +382,7 @@ rangeWithCustomPlaceholders.parameters = {
   hermione: {skip: true}
 };
 
-export const renderInline: Story<DatePickerAttrs> = args => {
+export const renderInline: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
       date: '8 January 2020, 9:45'
@@ -491,7 +491,7 @@ allSizes.parameters = {
 };
 
 
-export const startsFromSunday: Story<DatePickerAttrs> = args => {
+export const startsFromSunday: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {date: '01.01.25'};
 

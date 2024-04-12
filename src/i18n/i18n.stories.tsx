@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 
 import {getTranslations, type Messages} from './i18n';
@@ -27,7 +27,7 @@ export default {
   }
 };
 
-export const basic: Story<Messages> = args => <I18nTestComponent {...args}/>;
+export const basic: StoryFn<Messages> = args => <I18nTestComponent {...args}/>;
 
 basic.storyName = 'basic';
 basic.parameters = {hermione: {skip: true}};
