@@ -1,13 +1,10 @@
 import React, {
-  Component,
-  FC,
   ReactNode,
   SyntheticEvent,
-  useCallback,
-  useMemo,
+  useCallback, useEffect,
+  useMemo, useRef,
   useState
 } from 'react';
-import PropTypes from 'prop-types';
 import warningIcon from '@jetbrains/icons/warning';
 import searchIcon from '@jetbrains/icons/search';
 
@@ -109,52 +106,34 @@ withAFilterAndTags.parameters = {hermione: {skip: true}};
 type StatefulProps = SingleSelectAttrs & {
   text?: ReactNode
 }
-interface StatefulState {
-  selected: SelectItem | null | undefined
-}
-class Stateful extends Component<StatefulProps, StatefulState> {
-  static propTypes = {
-    data: PropTypes.arrayOf(Object)
-  };
 
-  constructor(props: StatefulProps) {
-    super(props);
-    this.state = {selected: props.data?.[0]};
-  }
+export const WithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
+  const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  clearSelection = () => {
-    this.setState({selected: null});
-  };
+  const handleSelect = useCallback((option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  }, [onSelect]);
 
-  onSelect = (option: SelectItem | null) => {
-    this.setState({selected: option});
-    this.props.onSelect?.(option);
-  };
-
-  render() {
-    const {text, ...restProps} = this.props;
-    return (
-      <div className="demo-container">
-        <div className="demo">
-          {text}
-          <Select
-            {...restProps}
-            selected={this.state.selected}
-            onSelect={this.onSelect}
-          />
-        </div>
-
-        <Link pseudo onClick={this.clearSelection}>
-          Clear
-        </Link>
+  return (
+    <div className="demo-container">
+      <div className="demo">
+        {text}
+        <Select
+          {...restArgs}
+          selected={selected}
+          onSelect={handleSelect}
+        />
       </div>
-    );
-  }
-}
 
-export const withAFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
+      <Link pseudo onClick={() => setSelected(null)}>
+        Clear
+      </Link>
+    </div>
+  );
+};
 
-withAFilter.args = {
+WithAFilter.args = {
   selectedLabel: 'Option',
   labelType: LabelType.FORM,
   label: 'Please select option',
@@ -167,15 +146,15 @@ withAFilter.args = {
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
   ]
 };
-withAFilter.argTypes = {
+WithAFilter.argTypes = {
   selected: {
     control: {disable: true}
   }
 };
 
-withAFilter.storyName = 'with a filter';
+WithAFilter.storyName = 'with a filter';
 
-withAFilter.parameters = {
+WithAFilter.parameters = {
   hermione: {
     actions: [
       {type: 'click', selector: '[data-test~=ring-select]'},
@@ -195,9 +174,33 @@ withAFilter.parameters = {
       `
 };
 
-export const buttonModeWithAFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
+export const ButtonModeWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
+  const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-buttonModeWithAFilter.args = {
+  const handleSelect = useCallback((option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  }, [onSelect]);
+
+  return (
+    <div className="demo-container">
+      <div className="demo">
+        {text}
+        <Select
+          {...restArgs}
+          selected={selected}
+          onSelect={handleSelect}
+        />
+      </div>
+
+      <Link pseudo onClick={() => setSelected(null)}>
+        Clear
+      </Link>
+    </div>
+  );
+};
+
+ButtonModeWithAFilter.args = {
   type: Select.Type.BUTTON,
   selectedLabel: 'Option',
   label: 'Please select option',
@@ -210,15 +213,15 @@ buttonModeWithAFilter.args = {
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
   ]
 };
-buttonModeWithAFilter.argTypes = {
+ButtonModeWithAFilter.argTypes = {
   selected: {
     control: {disable: true}
   }
 };
 
-buttonModeWithAFilter.storyName = 'button mode with a filter';
+ButtonModeWithAFilter.storyName = 'button mode with a filter';
 
-buttonModeWithAFilter.parameters = {
+ButtonModeWithAFilter.parameters = {
   hermione: {captureSelector: '*[data-test~=ring-select]'},
   a11y: {element: '#storybook-root,*[data-test~=ring-select]'},
   storyStyles: `
@@ -230,9 +233,33 @@ buttonModeWithAFilter.parameters = {
       `
 };
 
-export const inlineWithAFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
+export const InlineWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
+  const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-inlineWithAFilter.args = {
+  const handleSelect = useCallback((option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  }, [onSelect]);
+
+  return (
+    <div className="demo-container">
+      <div className="demo">
+        {text}
+        <Select
+          {...restArgs}
+          selected={selected}
+          onSelect={handleSelect}
+        />
+      </div>
+
+      <Link pseudo onClick={() => setSelected(null)}>
+        Clear
+      </Link>
+    </div>
+  );
+};
+
+InlineWithAFilter.args = {
   text: 'Selected option is ',
   type: Select.Type.INLINE,
   filter: true,
@@ -244,15 +271,15 @@ inlineWithAFilter.args = {
   ],
   filterIcon: searchIcon
 };
-inlineWithAFilter.argTypes = {
+InlineWithAFilter.argTypes = {
   selected: {
     control: {disable: true}
   }
 };
 
-inlineWithAFilter.storyName = 'inline with a filter';
+InlineWithAFilter.storyName = 'inline with a filter';
 
-inlineWithAFilter.parameters = {
+InlineWithAFilter.parameters = {
   hermione: {
     actions: [
       {type: 'click', selector: '[data-test~=ring-select]'},
@@ -272,9 +299,33 @@ inlineWithAFilter.parameters = {
       `
 };
 
-export const inlineOpensToLeft: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
+export const InlineOpensToLeft: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
+  const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-inlineOpensToLeft.args = {
+  const handleSelect = useCallback((option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  }, [onSelect]);
+
+  return (
+    <div className="demo-container">
+      <div className="demo">
+        {text}
+        <Select
+          {...restArgs}
+          selected={selected}
+          onSelect={handleSelect}
+        />
+      </div>
+
+      <Link pseudo onClick={() => setSelected(null)}>
+        Clear
+      </Link>
+    </div>
+  );
+};
+
+InlineOpensToLeft.args = {
   text: 'Selected option is ',
   type: Select.Type.INLINE,
   filter: true,
@@ -286,15 +337,15 @@ inlineOpensToLeft.args = {
     {label: 'Three', key: '3', type: 'user'}
   ]
 };
-inlineOpensToLeft.argTypes = {
+InlineOpensToLeft.argTypes = {
   selected: {
     control: {disable: true}
   }
 };
 
-inlineOpensToLeft.storyName = 'inline (opens to left)';
+InlineOpensToLeft.storyName = 'inline (opens to left)';
 
-inlineOpensToLeft.parameters = {
+InlineOpensToLeft.parameters = {
   hermione: {skip: true},
   storyStyles: `
 <style>
@@ -311,9 +362,33 @@ inlineOpensToLeft.parameters = {
       `
 };
 
-export const withDisabledMoveOverflow: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
+export const WithDisabledMoveOverflow: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
+  const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-withDisabledMoveOverflow.args = {
+  const handleSelect = useCallback((option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  }, [onSelect]);
+
+  return (
+    <div className="demo-container">
+      <div className="demo">
+        {text}
+        <Select
+          {...restArgs}
+          selected={selected}
+          onSelect={handleSelect}
+        />
+      </div>
+
+      <Link pseudo onClick={() => setSelected(null)}>
+        Clear
+      </Link>
+    </div>
+  );
+};
+
+WithDisabledMoveOverflow.args = {
   selectedLabel: 'Option',
   label: 'Please select option',
   filter: true,
@@ -325,15 +400,15 @@ withDisabledMoveOverflow.args = {
     {label: 'Three', key: '3', type: 'user'}
   ]
 };
-withDisabledMoveOverflow.argTypes = {
+WithDisabledMoveOverflow.argTypes = {
   selected: {
     control: {disable: true}
   }
 };
 
-withDisabledMoveOverflow.storyName = 'with disabled move overflow';
+WithDisabledMoveOverflow.storyName = 'with disabled move overflow';
 
-withDisabledMoveOverflow.parameters = {
+WithDisabledMoveOverflow.parameters = {
   hermione: {skip: true},
   storyStyles: `
 <style>
@@ -350,58 +425,46 @@ withDisabledMoveOverflow.parameters = {
 
 const alwaysTrue = () => true;
 
-class WithServerSideFiltering extends Component<SingleSelectAttrs> {
-  state = {
-    users: [],
-    request: null
-  };
+export const WithServerSideFiltering: StoryFn<SingleSelectAttrs> = args => {
+  const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState<SelectItem[]>([]);
+  const requestRef = useRef<Promise<SelectItem[]> | null>(null);
+  const auth = useMemo(() => new Auth(hubConfig), []);
+  const source = useMemo(() => new Source(auth, {searchMax: 8}), [auth]);
+  const {onFilter} = args;
+  const loadData = useCallback(async (query = '') => {
+    onFilter?.(query);
+    const request = source.getForList(query);
+    requestRef.current = request;
+    setLoading(true);
 
-  componentDidMount() {
-    this.initialize();
-  }
-
-  auth = new Auth(hubConfig);
-
-  source = new Source(this.auth, {
-    searchMax: 8
-  });
-
-  initialize = async () => {
-    await this.auth.init();
-    await this.loadData();
-  };
-
-  loadData = async (query = '') => {
-    this.props.onFilter?.(query);
-    const request = this.source.getForList(query);
-    this.setState({request});
-
-    const users = await request;
+    const data = await request;
 
     // only the latest request is relevant
-    if (this.state.request === request) {
-      this.setState({
-        users,
-        request: null
-      });
+    if (requestRef.current === request) {
+      setLoading(false);
+      setUsers(data);
     }
-  };
+  }, [onFilter, source]);
 
-  render() {
-    return (
-      <Select
-        {...this.props}
-        data={this.state.users}
-        onFilter={this.loadData}
-        loading={!!this.state.request}
-      />
-    );
-  }
-}
+  useEffect(() => {
+    (async () => {
+      await auth.init();
+      await loadData();
+    })();
+  }, [auth, loadData]);
 
-export const withServerSideFiltering = () => <WithServerSideFiltering/>;
+  return (
+    <Select
+      {...args}
+      data={users}
+      onFilter={loadData}
+      loading={loading}
+    />
+  );
+};
 
-withServerSideFiltering.args = {
+WithServerSideFiltering.args = {
   label: 'Set owner',
   selectedLabel: 'Owner',
   filter: {
@@ -410,13 +473,37 @@ withServerSideFiltering.args = {
   }
 };
 
-withServerSideFiltering.storyName = 'with server-side filtering';
-withServerSideFiltering.parameters = {hermione: {skip: true}};
-withServerSideFiltering.tags = ['skip-test'];
+WithServerSideFiltering.storyName = 'with server-side filtering';
+WithServerSideFiltering.parameters = {hermione: {skip: true}};
+WithServerSideFiltering.tags = ['skip-test'];
 
-export const withFuzzySearchFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
+export const WithFuzzySearchFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
+  const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-withFuzzySearchFilter.args = {
+  const handleSelect = useCallback((option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  }, [onSelect]);
+
+  return (
+    <div className="demo-container">
+      <div className="demo">
+        {text}
+        <Select
+          {...restArgs}
+          selected={selected}
+          onSelect={handleSelect}
+        />
+      </div>
+
+      <Link pseudo onClick={() => setSelected(null)}>
+        Clear
+      </Link>
+    </div>
+  );
+};
+
+WithFuzzySearchFilter.args = {
   selectedLabel: 'Option',
   label: 'Please select option',
   filter: {fuzzy: true},
@@ -428,15 +515,15 @@ withFuzzySearchFilter.args = {
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
   ]
 };
-withFuzzySearchFilter.argTypes = {
+WithFuzzySearchFilter.argTypes = {
   selected: {
     control: {disable: true}
   }
 };
 
-withFuzzySearchFilter.storyName = 'with fuzzy search filter';
+WithFuzzySearchFilter.storyName = 'with fuzzy search filter';
 
-withFuzzySearchFilter.parameters = {
+WithFuzzySearchFilter.parameters = {
   hermione: {skip: true},
   storyStyles: `
 <style>
@@ -794,7 +881,7 @@ type DemoComponentProps = Omit<SingleSelectAttrs<DemoComponentItem>, 'onChange'>
   onChange: (e: SyntheticEvent) => void
 }
 
-const DemoComponent = ({onChange, ...restProps}: DemoComponentProps) => {
+export const WithCustomInputAnchor: StoryFn<DemoComponentProps> = ({onChange, ...restArgs}) => {
   const [inputValue, setInputValue] = React.useState('');
   const selectRef = React.useRef<Select<DemoComponentItem>>(null);
 
@@ -808,7 +895,7 @@ const DemoComponent = ({onChange, ...restProps}: DemoComponentProps) => {
 
   return (
     <Select
-      {...restProps}
+      {...restArgs}
       ref={selectRef}
       onChange={(item: SelectItem<DemoComponentItem> | null) => setInputValue(item?.label ?? '')}
       customAnchor={({wrapperProps, buttonProps, popup}) => (
@@ -825,9 +912,7 @@ const DemoComponent = ({onChange, ...restProps}: DemoComponentProps) => {
     />
   );
 };
-export const withCustomInputAnchor: StoryFn<DemoComponentProps> = args =>
-  <DemoComponent {...args}/>;
-withCustomInputAnchor.args = {
+WithCustomInputAnchor.args = {
   data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
     description: `Description for the item lalalalala ${idx}`,
@@ -836,8 +921,8 @@ withCustomInputAnchor.args = {
   type: Select.Type.CUSTOM
 };
 
-withCustomInputAnchor.storyName = 'with custom input anchor';
-withCustomInputAnchor.parameters = {hermione: {skip: true}};
+WithCustomInputAnchor.storyName = 'with custom input anchor';
+WithCustomInputAnchor.parameters = {hermione: {skip: true}};
 
 export const withRenderOptimization: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 withRenderOptimization.args = {
@@ -889,7 +974,7 @@ fitsToScreen.parameters = {
       `
 };
 
-const WithFilteredFields: FC = () => {
+export const WithFilteredFields = () => {
   const data = useMemo(() => [...Array(100)].map((item, idx) => {
     const label = `Label ${idx}`;
     return {
@@ -952,11 +1037,9 @@ const WithFilteredFields: FC = () => {
   );
 };
 
-export const withFilteredFields = () => <WithFilteredFields/>;
+WithFilteredFields.storyName = 'with filtered fields';
 
-withFilteredFields.storyName = 'with filtered fields';
-
-withFilteredFields.parameters = {
+WithFilteredFields.parameters = {
   hermione: {skip: true},
   storyStyles: `
 <style>
