@@ -80,7 +80,7 @@
     "@babel/eslint-parser": "^7.24.1",
     "@csstools/css-parser-algorithms": "^2.6.1",
     "@csstools/stylelint-no-at-nest-rule": "^2.0.0",
-    "@jetbrains/eslint-config": "^5.4.1",
+    "@jetbrains/eslint-config": "^5.4.2",
     "@jetbrains/stylelint-config": "^4.0.2",
     "@primer/octicons": "^19.9.0",
     "@rollup/plugin-babel": "^6.0.4",
