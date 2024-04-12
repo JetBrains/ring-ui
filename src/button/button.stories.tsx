@@ -27,9 +27,25 @@ export const single = (args: ButtonProps) => <Button {...args}/>;
 single.args = {children: 'Label'};
 single.parameters = {hermione: {skip: true}};
 
-function Examples() {
-  function renderButtonModifications() {
-    return ['active', 'primary', 'danger', 'delayed', 'disabled', 'primary disabled', 'dropdown'].map(joinedModifiers => {
+export const basic = () => (
+  <div className="buttons">
+    <Button>Button default</Button>
+
+    <Button short>...</Button>
+
+    <Button href="/">Button link</Button>
+
+    <Button loader>Button loader</Button>
+
+    <Button primary loader>
+      Primary loader
+    </Button>
+
+    <Button icon={pencilIcon} loader>
+      Icon loader
+    </Button>
+
+    {['active', 'primary', 'danger', 'delayed', 'disabled', 'primary disabled', 'dropdown'].map(joinedModifiers => {
       const modifiers = joinedModifiers.split(' ');
       return (
         <Button
@@ -40,19 +56,19 @@ function Examples() {
           Button {joinedModifiers}
         </Button>
       );
-    });
-  }
+    })}
 
-  function renderTextModifications() {
-    return ['primary', 'danger', 'disabled', 'loader'].map(modifier => (
+    <Button text>Text action</Button>
+
+    {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
       <Button text key={modifier} {...{[modifier]: true}}>
         Text action {modifier}
       </Button>
-    ));
-  }
+    ))}
 
-  function renderIconWithTextModifications() {
-    return [
+    <Button icon={pencilIcon}>Icon action</Button>
+
+    {[
       {label: 'primary', primary: true},
       {label: 'danger', danger: true},
       {label: 'disabled', disabled: true},
@@ -62,11 +78,11 @@ function Examples() {
       <Button key={modifiers.label} icon={pencilIcon} {...modifiers}>
         Icon action {modifiers.label}
       </Button>
-    ));
-  }
+    ))}
 
-  function renderIconActionModifications() {
-    return [
+    <Button icon={pencilIcon} title="Icon action"/>
+
+    {[
       {label: 'primary', primary: true},
       {label: 'danger', danger: true},
       {label: 'disabled', disabled: true},
@@ -79,45 +95,9 @@ function Examples() {
         icon={pencilIcon}
         {...modifiers}
       />
-    ));
-  }
-
-  return (
-    <div className="buttons">
-      <Button>Button default</Button>
-
-      <Button short>...</Button>
-
-      <Button href="/">Button link</Button>
-
-      <Button loader>Button loader</Button>
-
-      <Button primary loader>
-        Primary loader
-      </Button>
-
-      <Button icon={pencilIcon} loader>
-        Icon loader
-      </Button>
-
-      {renderButtonModifications()}
-
-      <Button text>Text action</Button>
-
-      {renderTextModifications()}
-
-      <Button icon={pencilIcon}>Icon action</Button>
-
-      {renderIconWithTextModifications()}
-
-      <Button icon={pencilIcon} title="Icon action"/>
-
-      {renderIconActionModifications()}
-    </div>
-  );
-}
-
-export const basic = () => <Examples/>;
+    ))}
+  </div>
+);
 
 basic.storyName = 'basic';
 
@@ -143,14 +123,150 @@ basic.parameters = {
 
 export const heightS = () => (
   <ControlsHeightContext.Provider value={ControlsHeight.S}>
-    <Examples/>
+    <div className="buttons">
+      <Button>Button default</Button>
+
+      <Button short>...</Button>
+
+      <Button href="/">Button link</Button>
+
+      <Button loader>Button loader</Button>
+
+      <Button primary loader>
+        Primary loader
+      </Button>
+
+      <Button icon={pencilIcon} loader>
+        Icon loader
+      </Button>
+
+      {['active', 'primary', 'danger', 'delayed', 'disabled', 'primary disabled', 'dropdown'].map(joinedModifiers => {
+        const modifiers = joinedModifiers.split(' ');
+        return (
+          <Button
+            key={joinedModifiers}
+            data-test={`button-${modifiers.join('-')}`}
+            {...Object.fromEntries(modifiers.map(modifier => [modifier, true]))}
+          >
+            Button {joinedModifiers}
+          </Button>
+        );
+      })}
+
+      <Button text>Text action</Button>
+
+      {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
+        <Button text key={modifier} {...{[modifier]: true}}>
+          Text action {modifier}
+        </Button>
+      ))}
+
+      <Button icon={pencilIcon}>Icon action</Button>
+
+      {[
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map(modifiers => (
+        <Button key={modifiers.label} icon={pencilIcon} {...modifiers}>
+          Icon action {modifiers.label}
+        </Button>
+      ))}
+
+      <Button icon={pencilIcon} title="Icon action"/>
+
+      {[
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map(modifiers => (
+        <Button
+          key={modifiers.label}
+          title={`Just icon action (${modifiers.label})`}
+          icon={pencilIcon}
+          {...modifiers}
+        />
+      ))}
+    </div>
   </ControlsHeightContext.Provider>
 );
 heightS.parameters = basic.parameters;
 
 export const heightL = () => (
   <ControlsHeightContext.Provider value={ControlsHeight.L}>
-    <Examples/>
+    <div className="buttons">
+      <Button>Button default</Button>
+
+      <Button short>...</Button>
+
+      <Button href="/">Button link</Button>
+
+      <Button loader>Button loader</Button>
+
+      <Button primary loader>
+        Primary loader
+      </Button>
+
+      <Button icon={pencilIcon} loader>
+        Icon loader
+      </Button>
+
+      {['active', 'primary', 'danger', 'delayed', 'disabled', 'primary disabled', 'dropdown'].map(joinedModifiers => {
+        const modifiers = joinedModifiers.split(' ');
+        return (
+          <Button
+            key={joinedModifiers}
+            data-test={`button-${modifiers.join('-')}`}
+            {...Object.fromEntries(modifiers.map(modifier => [modifier, true]))}
+          >
+            Button {joinedModifiers}
+          </Button>
+        );
+      })}
+
+      <Button text>Text action</Button>
+
+      {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
+        <Button text key={modifier} {...{[modifier]: true}}>
+          Text action {modifier}
+        </Button>
+      ))}
+
+      <Button icon={pencilIcon}>Icon action</Button>
+
+      {[
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map(modifiers => (
+        <Button key={modifiers.label} icon={pencilIcon} {...modifiers}>
+          Icon action {modifiers.label}
+        </Button>
+      ))}
+
+      <Button icon={pencilIcon} title="Icon action"/>
+
+      {[
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map(modifiers => (
+        <Button
+          key={modifiers.label}
+          title={`Just icon action (${modifiers.label})`}
+          icon={pencilIcon}
+          {...modifiers}
+        />
+      ))}
+    </div>
   </ControlsHeightContext.Provider>
 );
 heightL.parameters = basic.parameters;
