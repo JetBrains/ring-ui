@@ -274,6 +274,7 @@ export const withUsers = () => <UserList/>;
 
 withUsers.storyName = 'with users';
 withUsers.parameters = {hermione: {skip: true}};
+withUsers.tags = ['skip-test'];
 
 export const withCustomTooltip: StoryFn<ListAttrs> = args => <List {...args}/>;
 
