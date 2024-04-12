@@ -412,6 +412,7 @@ withServerSideFiltering.args = {
 
 withServerSideFiltering.storyName = 'with server-side filtering';
 withServerSideFiltering.parameters = {hermione: {skip: true}};
+withServerSideFiltering.tags = ['skip-test'];
 
 export const withFuzzySearchFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
 
@@ -469,7 +470,6 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
     ]
   }
 };
-withALargeDatasetAndDisabledScrollToActiveItem.tags = ['skip-test'];
 
 {
   const elementsNum = 100000;
