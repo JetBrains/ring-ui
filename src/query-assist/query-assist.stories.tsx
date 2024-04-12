@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useMemo} from 'react';
 import permissionIcon from '@jetbrains/icons/settings';
 
 import {StoryFn} from '@storybook/react';
@@ -17,7 +17,6 @@ import QueryAssist, {
   QueryAssistRequestParams,
   QueryAssistResponse
 } from './query-assist';
-import {QueryAssistSuggestion} from './query-assist__suggestions';
 
 export default {
   title: 'Components/Query Assist',
@@ -32,52 +31,50 @@ export default {
   }
 };
 
-class Basic extends Component {
-  constructor(props: QueryAssistAttrs) {
-    super(props);
-    this.auth.init().then(() => this.setState({authReady: true}));
-  }
+export const Basic: StoryFn<QueryAssistAttrs> = args => {
+  const [authReady, setAuthReady] = React.useState(false);
+  const auth = useMemo(() => new Auth(hubConfig), []);
 
-  state = {authReady: false};
-  auth = new Auth(hubConfig);
-  http = new HTTP(this.auth, this.auth.getAPIPath());
+  React.useEffect(() => {
+    auth.init().then(() => setAuthReady(true));
+  }, [auth]);
+  const dataSource = useMemo(() => {
+    const http = new HTTP(auth, auth.getAPIPath());
 
-  dataSource = (props: QueryAssistRequestParams) => {
-    const params = {
-      query: {
-        ...props,
-        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-      }
+    return (props: QueryAssistRequestParams) => {
+      const params = {
+        query: {
+          ...props,
+          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
+        }
+      };
+
+      return http.get<QueryAssistResponse>('users/queryAssist', params);
     };
+  }, [auth]);
 
-    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
-  };
-
-  render() {
-    if (!this.state.authReady) {
-      return <span>Loading...</span>;
-    }
-
-    return (
-      <>
-        <QueryAssist
-          {...this.props}
-          dataSource={this.dataSource}
-        />
-        <QueryAssist
-          {...this.props}
-          dataSource={this.dataSource}
-          size={Size.S}
-        />
-      </>
-    );
+  if (!authReady) {
+    return <span>Loading...</span>;
   }
-}
-export const basic: StoryFn<QueryAssistAttrs> = args => <Basic {...args}/>;
 
-basic.storyName = 'basic';
-basic.parameters = {hermione: {skip: true}};
-basic.args = {
+  return (
+    <>
+      <QueryAssist
+        {...args}
+        dataSource={dataSource}
+      />
+      <QueryAssist
+        {...args}
+        dataSource={dataSource}
+        size={Size.S}
+      />
+    </>
+  );
+};
+
+Basic.storyName = 'basic';
+Basic.parameters = {hermione: {skip: true}};
+Basic.args = {
   query: 'test',
   focus: true,
   hint: 'lol',
@@ -155,13 +152,6 @@ noAuth.parameters = {
   }
 };
 
-const template = (item: QueryAssistSuggestion) =>
-  React.createElement(
-    'span',
-    null,
-    `My name is ${item.description}, my ${item.prefix} is ${item.option}`
-  );
-
 export const withCustomRenderer: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
 
 withCustomRenderer.args = {
@@ -191,7 +181,11 @@ withCustomRenderer.args = {
     ].map(i => ({
       ...i,
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: template(i),
+      template: React.createElement(
+        'span',
+        null,
+        `My name is ${i.description}, my ${i.prefix} is ${i.option}`
+      ),
       data: i
     }))
   })
@@ -199,45 +193,42 @@ withCustomRenderer.args = {
 withCustomRenderer.storyName = 'with custom renderer';
 withCustomRenderer.parameters = {hermione: {skip: true}};
 
-class QueryAssistExample extends Component {
-  constructor(props: QueryAssistAttrs) {
-    super(props);
-    const auth = new Auth(hubConfig);
-    this.http = new HTTP(auth, auth.getAPIPath());
-    auth.init().then(() => this.setState({authReady: true}));
-  }
+export const WithCustomActions: StoryFn<QueryAssistAttrs> = args => {
+  const [authReady, setAuthReady] = React.useState(false);
+  const auth = useMemo(() => new Auth(hubConfig), []);
 
-  state = {authReady: false};
-  http: HTTP;
+  React.useEffect(() => {
+    auth.init().then(() => setAuthReady(true));
+  }, [auth]);
 
-  dataSource = (props: QueryAssistRequestParams) => {
-    const params = {
-      query: {
-        ...props,
-        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-      }
+  const dataSource = useMemo(() => {
+    const http = new HTTP(auth, auth.getAPIPath());
+
+    return (props: QueryAssistRequestParams) => {
+      const params = {
+        query: {
+          ...props,
+          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
+        }
+      };
+
+      return http.get<QueryAssistResponse>('users/queryAssist', params);
     };
+  }, [auth]);
 
-    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
-  };
-
-  render() {
-    if (!this.state.authReady) {
-      return <span>Loading...</span>;
-    }
-
-    return (
-      <QueryAssist
-        {...this.props}
-        dataSource={this.dataSource}
-      />
-    );
+  if (!authReady) {
+    return <span>Loading...</span>;
   }
-}
 
-export const withCustomActions: StoryFn<QueryAssistAttrs> = args => <QueryAssistExample {...args}/>;
+  return (
+    <QueryAssist
+      {...args}
+      dataSource={dataSource}
+    />
+  );
+};
 
-withCustomActions.args = {
+WithCustomActions.args = {
   query: 'test',
   focus: true,
   hint: 'lol',
@@ -247,49 +238,48 @@ withCustomActions.args = {
     <Icon glyph={permissionIcon} key="custom-action" style={{color: 'var(--ring-icon-color)'}}/>
   ]
 };
-withCustomActions.storyName = 'with custom actions';
-withCustomActions.parameters = {hermione: {skip: true}};
-withCustomActions.tags = ['skip-test'];
+WithCustomActions.storyName = 'with custom actions';
+WithCustomActions.parameters = {hermione: {skip: true}};
+WithCustomActions.tags = ['skip-test'];
 
-class HugeOne extends Component {
-  constructor(props: QueryAssistAttrs) {
-    super(props);
-    this.auth.init().then(() => this.setState({authReady: true}));
-  }
+export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
+  const [authReady, setAuthReady] = React.useState(false);
+  const auth = useMemo(() => new Auth(hubConfig), []);
 
-  state = {authReady: false};
-  auth = new Auth(hubConfig);
-  http = new HTTP(this.auth, this.auth.getAPIPath());
+  React.useEffect(() => {
+    auth.init().then(() => setAuthReady(true));
+  }, [auth]);
 
-  dataSource = (props: QueryAssistRequestParams) => {
-    const params = {
-      query: {
-        ...props,
-        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-      }
+  const dataSource = useMemo(() => {
+    const http = new HTTP(auth, auth.getAPIPath());
+
+    return (props: QueryAssistRequestParams) => {
+      const params = {
+        query: {
+          ...props,
+          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
+        }
+      };
+
+      return http.get<QueryAssistResponse>('users/queryAssist', params);
     };
+  }, [auth]);
 
-    return this.http.get<QueryAssistResponse>('users/queryAssist', params);
-  };
-
-  render() {
-    if (!this.state.authReady) {
-      return <span>Loading...</span>;
-    }
-
-    return (
-      <QueryAssist
-        {...this.props}
-        dataSource={this.dataSource}
-      />
-    );
+  if (!authReady) {
+    return <span>Loading...</span>;
   }
-}
-export const hugeOne: StoryFn<QueryAssistAttrs> = args => <HugeOne {...args}/>;
 
-hugeOne.storyName = 'huge one';
-hugeOne.parameters = {hermione: {skip: true}};
-hugeOne.args = {
+  return (
+    <QueryAssist
+      {...args}
+      dataSource={dataSource}
+    />
+  );
+};
+
+HugeOne.storyName = 'huge one';
+HugeOne.parameters = {hermione: {skip: true}};
+HugeOne.args = {
   huge: true,
   query: 'test',
   focus: true,
@@ -300,21 +290,13 @@ hugeOne.args = {
 };
 hugeOne.tags = ['skip-test'];
 
-
-class DisabledOne extends Component {
-  dataSource = () => [] as QueryAssistResponse;
-
-  render() {
-    return (
-      <QueryAssist
-        disabled
-        dataSource={this.dataSource}
-        {...this.props}
-      />
-    );
-  }
-}
-export const disabledOne: StoryFn<QueryAssistAttrs> = args => <DisabledOne {...args}/>;
+export const disabledOne: StoryFn<QueryAssistAttrs> = args => (
+  <QueryAssist
+    {...args}
+    disabled
+    dataSource={() => [] as QueryAssistResponse}
+  />
+);
 
 disabledOne.storyName = 'disabled one';
 disabledOne.parameters = {hermione: {skip: true}};
