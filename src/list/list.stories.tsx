@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import {StoryFn} from '@storybook/react';
 
@@ -227,53 +227,43 @@ withCustomItems.args = {
   ]
 };
 
-class UserList extends React.Component {
-  state = {
-    listData: null,
-    selected: null
-  };
+export const WithUsers = () => {
+  const [listData, setListData] = React.useState<ListDataItem[] | null>(null);
+  const [selected, setSelected] = React.useState<ListDataItem | null>(null);
+  useEffect(() => {
+    const auth = new Auth(hubConfig);
+    const source = new Source(auth);
 
-  componentDidMount() {
-    this.loadUsers();
-  }
+    async function loadUsers() {
+      await auth.init();
+      const data = await source.getForList('ring', Source.Filter.USERS);
+      setListData(data);
+    }
 
-  auth = new Auth(hubConfig);
-  source = new Source(this.auth);
+    loadUsers();
+  }, []);
 
-  async loadUsers() {
-    await this.auth.init();
-    const listData = await this.source.getForList('ring', Source.Filter.USERS);
-    this.setState({listData});
-  }
+  return listData
+    ? (
+      <ContentLayout>
+        <Sidebar>
+          <List
+            className="list"
+            data={listData}
+            shortcuts
+            onSelect={setSelected}
+          />
+        </Sidebar>
+        {selected && (
+          <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)}/>
+        )}
+      </ContentLayout>
+    )
+    : <Loader/>;
+};
 
-  handleSelect = (selected: ListDataItem) => this.setState({selected});
-
-  render() {
-    const {listData, selected} = this.state;
-    return listData
-      ? (
-        <ContentLayout>
-          <Sidebar>
-            <List
-              className="list"
-              data={listData}
-              shortcuts
-              onSelect={this.handleSelect}
-            />
-          </Sidebar>
-          {selected && (
-            <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)}/>
-          )}
-        </ContentLayout>
-      )
-      : <Loader/>;
-  }
-}
-
-export const withUsers = () => <UserList/>;
-
-withUsers.storyName = 'with users';
-withUsers.parameters = {hermione: {skip: true}};
+WithUsers.storyName = 'with users';
+WithUsers.parameters = {hermione: {skip: true}};
 withUsers.tags = ['skip-test'];
 
 export const withCustomTooltip: StoryFn<ListAttrs> = args => <List {...args}/>;
