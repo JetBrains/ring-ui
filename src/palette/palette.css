@@ -1,5 +1,9 @@
 /* stylelint-disable color-no-hex */
 
+/**
+  TODO: Drop in Ring UI 7.0
+ */
+
 :global(.ring-palette_color-0) {
   color: #444;
   background-color: transparent;
