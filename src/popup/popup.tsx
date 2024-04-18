@@ -29,8 +29,6 @@ import {PopupTargetContext, PopupTarget} from './popup.target';
 
 export {PopupTargetContext, PopupTarget};
 
-const stop = (e: SyntheticEvent) => e.stopPropagation();
-
 export const getPopupContainer = (target: string | Element) => (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
 
 export interface BasePopupProps {
@@ -388,9 +386,6 @@ export default class Popup<
           this.ringPopupTarget = value;
           return (
             <span
-              // prevent bubbling through portal
-              onClick={stop}
-              // This handler only blocks bubbling through React portal
               role="presentation"
               ref={this.portalRef}
             >
