@@ -94,12 +94,8 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
     pinned: false
   };
 
-  private nodeRef = React.createRef<HTMLDivElement>();
-
-  onClick = (event: React.MouseEvent) => {
-    const clickedInPopup = this.nodeRef.current &&
-      !this.nodeRef.current.contains(event.target as Node);
-    if (this.props.disabled || clickedInPopup) {
+  onClick = () => {
+    if (this.props.disabled) {
       return;
     }
     const {show, pinned} = this.state;
@@ -227,7 +223,6 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
     return (
       <div
         data-test={dataTests('ring-dropdown', dataTest)}
-        ref={this.nodeRef}
         {...restProps}
         onClick={clickMode ? this.onClick : undefined}
         // anchorElement should be a `button` or an `a`
