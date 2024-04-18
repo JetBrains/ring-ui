@@ -29,7 +29,29 @@ import {PopupTargetContext, PopupTarget} from './popup.target';
 
 export {PopupTargetContext, PopupTarget};
 
-const stop = (e: SyntheticEvent) => e.stopPropagation();
+const isPossibleClientSideNavigation = (event: React.MouseEvent) => {
+  const target = event.target as Element;
+  const link = target.closest<HTMLAnchorElement>('a');
+  // Taken from https://github.com/nanostores/router/blob/80a333db4cf0789fda21a02715ebabca15192642/index.js#L58-L69
+  return link &&
+    event.button === 0 && // Left mouse button
+    link.target !== '_blank' && // Not for new tab
+    link.origin === location.origin && // Not external link
+    link.rel !== 'external' && // Not external link
+    link.target !== '_self' && // Now manually disabled
+    !link.download && // Not download link
+    !event.altKey && // Not download link by user
+    !event.metaKey && // Not open in new tab by user
+    !event.ctrlKey && // Not open in new tab by user
+    !event.shiftKey && // Not open in new window by user
+    event.defaultPrevented;
+};
+
+const stop = (event: React.MouseEvent) => {
+  if (!isPossibleClientSideNavigation(event)) {
+    event.stopPropagation();
+  }
+};
 
 export const getPopupContainer = (target: string | Element) => (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
 
