@@ -289,7 +289,7 @@ export default class UserAgreementService {
   hideDialog = (withoutNotifications?: boolean) => {
     const {onDialogHide} = this.config;
 
-    this.reactRoot.unmount();
+    this.reactRoot.render(null);
 
     if (onDialogHide) {
       onDialogHide();
