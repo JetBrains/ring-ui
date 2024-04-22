@@ -74,6 +74,8 @@
   position: absolute;
   z-index: 1;
 
+  box-sizing: border-box;
+
   width: calc(var(--ring-unit) * 1.5);
   height: calc(var(--ring-unit) * 1.5);
   margin-top: calc(var(--ring-unit) * -1);

@@ -22,7 +22,7 @@ export default {
 
     hermione: {
       actions: [
-        {type: 'click', selector: '[data-test~=ring-collapse-control]'}
+        {type: 'click', selector: '[data-test~=ring-collapse-control] button'}
       ]
     }
   }
