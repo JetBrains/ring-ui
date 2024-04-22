@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import warningIcon from '@jetbrains/icons/warning';
 
@@ -17,81 +17,76 @@ export default {
   }
 };
 
-class BasicDemo extends Component {
-  state = {selected: 'first'};
-
-  render() {
-    return (
-      <Tabs selected={this.state.selected} onSelect={selected => this.setState({selected})}>
-        <Tab id="first" title="First tab">
-          First tab content
-        </Tab>
-        <Tab id="second" title="Second tab">
-          Second tab content
-        </Tab>
-        <Tab id="third" title="Third tab">
-          Third tab content
-        </Tab>
-        <Tab id="fourth" title="Fourth tab (Link)" href="/">
-          Fourth tab content
-        </Tab>
-        <Tab disabled id="disabled" title="Disabled tab">
-          Disabled tab content
-        </Tab>
-      </Tabs>
-    );
-  }
-}
-export const basic = () => <BasicDemo/>;
-
-basic.storyName = 'basic';
-
-
-const autocollapseData = [
-  {
-    id: 'first',
-    title: 'First tab',
-    content: 'First tab content'
-  },
-  {
-    id: 'second',
-    title: 'Second tab',
-    content: 'Second tab content'
-  },
-  {
-    id: 'third',
-    title: 'Third tab',
-    content: 'Third tab content'
-  },
-  {
-    id: 'fourth',
-    title: 'Fourth tab (Link)',
-    href: '/',
-    content: 'Fourth tab content'
-  },
-  {
-    id: 'disabled1',
-    title: 'Disabled tab',
-    content: 'Disabled tab content',
-    disabled: true
-  },
-  {
-    id: 'fifth',
-    title: 'Fifth tab (Always hidden)',
-    alwaysHidden: true,
-    href: '/',
-    content: 'Hidden tab content'
-  },
-  {
-    id: 'custom',
-    alwaysHidden: true,
-    custom: true,
-    content: <Button text style={{padding: 0}}>Custom Item</Button>
-  }
-];
-
-const AutoCollapseDemo = () => {
+export const Basic = () => {
   const [selected, setSelected] = React.useState('first');
+
+  return (
+    <Tabs selected={selected} onSelect={setSelected}>
+      <Tab id="first" title="First tab">
+        First tab content
+      </Tab>
+      <Tab id="second" title="Second tab">
+        Second tab content
+      </Tab>
+      <Tab id="third" title="Third tab">
+        Third tab content
+      </Tab>
+      <Tab id="fourth" title="Fourth tab (Link)" href="/">
+        Fourth tab content
+      </Tab>
+      <Tab disabled id="disabled" title="Disabled tab">
+        Disabled tab content
+      </Tab>
+    </Tabs>
+  );
+};
+
+Basic.storyName = 'basic';
+
+export const AutoCollapseDemo = () => {
+  const [selected, setSelected] = React.useState('first');
+  const autocollapseData = [
+    {
+      id: 'first',
+      title: 'First tab',
+      content: 'First tab content'
+    },
+    {
+      id: 'second',
+      title: 'Second tab',
+      content: 'Second tab content'
+    },
+    {
+      id: 'third',
+      title: 'Third tab',
+      content: 'Third tab content'
+    },
+    {
+      id: 'fourth',
+      title: 'Fourth tab (Link)',
+      href: '/',
+      content: 'Fourth tab content'
+    },
+    {
+      id: 'disabled1',
+      title: 'Disabled tab',
+      content: 'Disabled tab content',
+      disabled: true
+    },
+    {
+      id: 'fifth',
+      title: 'Fifth tab (Always hidden)',
+      alwaysHidden: true,
+      href: '/',
+      content: 'Hidden tab content'
+    },
+    {
+      id: 'custom',
+      alwaysHidden: true,
+      custom: true,
+      content: <Button text style={{padding: 0}}>Custom Item</Button>
+    }
+  ];
   const [tabs, setTabs] = React.useState(autocollapseData.map(item => {
     const {content, ...tabProps} = item;
     const Host = item.custom === true ? CustomItem : Tab;
@@ -134,9 +129,8 @@ const AutoCollapseDemo = () => {
     </>
   );
 };
-export const autoCollapseDemo = () => <AutoCollapseDemo/>;
 
-autoCollapseDemo.storyName = 'Auto collapsing';
+AutoCollapseDemo.storyName = 'Auto collapsing';
 
 export const smart = () => (
   <SmartTabs>
