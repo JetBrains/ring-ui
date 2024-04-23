@@ -5,7 +5,6 @@ import ChevronDownIcon from '@jetbrains/icons/chevron-down';
 import ChevronUpIcon from '@jetbrains/icons/chevron-up';
 
 import Button from '../button/button';
-import Icon from '../icon/icon';
 
 import LoaderInline from '../loader-inline/loader-inline';
 
@@ -23,7 +22,7 @@ export default {
 
     hermione: {
       actions: [
-        {type: 'click', selector: '[data-test~=ring-collapse-control]'}
+        {type: 'click', selector: '[data-test~=ring-collapse-control] button'}
       ]
     }
   }
@@ -99,10 +98,10 @@ export const WithIcon = () => (
         {(collapsed: boolean) =>
           (collapsed
             ? (
-              <Icon glyph={ChevronDownIcon} className={styles.check}/>
+              <Button aria-label="Expand" icon={ChevronDownIcon} className={styles.check}/>
             )
             : (
-              <Icon glyph={ChevronUpIcon} className={styles.check}/>
+              <Button aria-label="Collapse" icon={ChevronUpIcon} className={styles.check}/>
             ))
         }
       </CollapseControl>

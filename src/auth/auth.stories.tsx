@@ -15,7 +15,8 @@ export default {
   parameters: {
     notes: 'Authenticates a user in [Hub](https://www.jetbrains.com/hub/).',
     hermione: {skip: true}
-  }
+  },
+  tags: ['skip-test']
 };
 
 export const basic = () => {

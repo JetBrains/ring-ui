@@ -89,3 +89,4 @@ export const hubUserCard = () => {
 
 hubUserCard.storyName = 'hub user card';
 hubUserCard.parameters = {hermione: {skip: true}};
+hubUserCard.tags = ['skip-test'];

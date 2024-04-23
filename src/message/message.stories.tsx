@@ -1,7 +1,7 @@
 import React from 'react';
 import searchIcon from '@jetbrains/icons/search';
 
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 
 import Popup from '../popup/popup';
@@ -24,7 +24,7 @@ export default {
   }
 };
 
-export const basic: Story<MessageAttrs> = args => (
+export const basic: StoryFn<MessageAttrs> = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
@@ -39,7 +39,7 @@ basic.args = {
   onClose: () => {}
 };
 
-export const light: Story<MessageAttrs> = args => (
+export const light: StoryFn<MessageAttrs> = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
@@ -53,7 +53,7 @@ light.args = {
   onDismiss: () => {}
 };
 
-export const withOnDissmiss: Story<MessageAttrs> = args => (
+export const withOnDissmiss: StoryFn<MessageAttrs> = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
@@ -69,7 +69,7 @@ withOnDissmiss.args = {
   onDismiss: () => {}
 };
 
-export const wishNarrowAnchor: Story<MessageAttrs> = args => (
+export const wishNarrowAnchor: StoryFn<MessageAttrs> = args => (
   <div style={{padding: 200}}>
     <span>
       <Icon glyph={searchIcon}/>
