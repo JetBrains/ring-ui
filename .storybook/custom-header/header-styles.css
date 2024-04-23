@@ -23,7 +23,7 @@
 }
 
 .logo {
-  margin-left: calc(var(--ring-unit) * -4 + 1px);
+  margin-left: calc(var(--ring-unit) * -2);
 }
 
 .headerItem {
