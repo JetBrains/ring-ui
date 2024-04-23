@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import warningIcon from '@jetbrains/icons/warning';
 import searchIcon from '@jetbrains/icons/search';
 
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -52,8 +52,8 @@ export default {
   }
 };
 
-export const withAFilterAndTags: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
-export const withAvatars: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const withAFilterAndTags: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 
 {
   const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
@@ -152,7 +152,7 @@ class Stateful extends Component<StatefulProps, StatefulState> {
   }
 }
 
-export const withAFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
+export const withAFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
 
 withAFilter.args = {
   selectedLabel: 'Option',
@@ -195,7 +195,7 @@ withAFilter.parameters = {
       `
 };
 
-export const buttonModeWithAFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
+export const buttonModeWithAFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
 
 buttonModeWithAFilter.args = {
   type: Select.Type.BUTTON,
@@ -230,7 +230,7 @@ buttonModeWithAFilter.parameters = {
       `
 };
 
-export const inlineWithAFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
+export const inlineWithAFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
 
 inlineWithAFilter.args = {
   text: 'Selected option is ',
@@ -272,7 +272,7 @@ inlineWithAFilter.parameters = {
       `
 };
 
-export const inlineOpensToLeft: Story<StatefulProps> = args => <Stateful {...args}/>;
+export const inlineOpensToLeft: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
 
 inlineOpensToLeft.args = {
   text: 'Selected option is ',
@@ -311,7 +311,7 @@ inlineOpensToLeft.parameters = {
       `
 };
 
-export const withDisabledMoveOverflow: Story<StatefulProps> = args => <Stateful {...args}/>;
+export const withDisabledMoveOverflow: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
 
 withDisabledMoveOverflow.args = {
   selectedLabel: 'Option',
@@ -412,8 +412,9 @@ withServerSideFiltering.args = {
 
 withServerSideFiltering.storyName = 'with server-side filtering';
 withServerSideFiltering.parameters = {hermione: {skip: true}};
+withServerSideFiltering.tags = ['skip-test'];
 
-export const withFuzzySearchFilter: Story<StatefulProps> = args => <Stateful {...args}/>;
+export const withFuzzySearchFilter: StoryFn<StatefulProps> = args => <Stateful {...args}/>;
 
 withFuzzySearchFilter.args = {
   selectedLabel: 'Option',
@@ -446,12 +447,13 @@ withFuzzySearchFilter.parameters = {
       `
 };
 
-export const withALargeDataset: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const withALargeDataset: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 
 withALargeDataset.storyName = 'with a large dataset';
 withALargeDataset.parameters = {hermione: {skip: true}};
+withALargeDataset.tags = ['skip-test'];
 
-export const withALargeDatasetAndDisabledScrollToActiveItem: Story<SingleSelectAttrs> = args =>
+export const withALargeDatasetAndDisabledScrollToActiveItem: StoryFn<SingleSelectAttrs> = args =>
   <Select {...args}/>;
 
 withALargeDatasetAndDisabledScrollToActiveItem.storyName = 'with a large dataset and disabled scroll to active item';
@@ -494,7 +496,7 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
   };
 }
 
-export const multipleWithADescription: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const multipleWithADescription: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
 
 {
   const deFlag =
@@ -560,7 +562,7 @@ disabled.parameters = {
       `
 };
 
-export const inputBased: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const inputBased: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 
 inputBased.storyName = 'input-based';
 
@@ -577,15 +579,15 @@ inputBased.parameters = {
   }
 };
 
-export const inputBasedInSuggestOnlyMode: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const inputBasedInSuggestOnlyMode: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 
 inputBasedInSuggestOnlyMode.storyName = 'input-based in suggest-only mode';
 inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
 
-export const inputBasedWithError: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const inputBasedWithError: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 inputBasedWithError.storyName = 'input-based with error';
 
-export const inputBasedWithFilterIcon: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const inputBasedWithFilterIcon: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
 
 {
@@ -621,7 +623,7 @@ inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
   };
 }
 
-export const withSubLevelsForListElement: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const withSubLevelsForListElement: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 
 withSubLevelsForListElement.args = {
   filter: true,
@@ -637,7 +639,7 @@ withSubLevelsForListElement.args = {
 withSubLevelsForListElement.storyName = 'with sub levels for list element';
 withSubLevelsForListElement.parameters = {hermione: {skip: true}};
 
-export const withDefaultFilterModeAndALoadingIndicator: Story<SingleSelectAttrs> = args =>
+export const withDefaultFilterModeAndALoadingIndicator: StoryFn<SingleSelectAttrs> = args =>
   <Select {...args}/>;
 {
   const data = [
@@ -657,7 +659,7 @@ export const withDefaultFilterModeAndALoadingIndicator: Story<SingleSelectAttrs>
 withDefaultFilterModeAndALoadingIndicator.storyName = 'with default filter mode and a loading indicator';
 withDefaultFilterModeAndALoadingIndicator.parameters = {hermione: {skip: true}};
 
-export const withACustomizedFilterAndAnAddItemButton: Story<SingleSelectAttrs> = args =>
+export const withACustomizedFilterAndAnAddItemButton: StoryFn<SingleSelectAttrs> = args =>
   <Select {...args}/>;
 {
   const data = [...Array(100)].map((elem, idx) => ({
@@ -682,7 +684,7 @@ export const withACustomizedFilterAndAnAddItemButton: Story<SingleSelectAttrs> =
 withACustomizedFilterAndAnAddItemButton.storyName = "with a customized filter and an 'Add item' button";
 withACustomizedFilterAndAnAddItemButton.parameters = {hermione: {skip: true}};
 
-export const withCustomItemsAndAnAddItemButton: Story<SingleSelectAttrs> = args =>
+export const withCustomItemsAndAnAddItemButton: StoryFn<SingleSelectAttrs> = args =>
   <Select {...args}/>;
 withCustomItemsAndAnAddItemButton.args = {
   data: [...Array(100)].map((elem, idx) => {
@@ -718,7 +720,7 @@ withCustomItemsAndAnAddItemButton.parameters = {
       `
 };
 
-export const withAnAlwaysVisibleAddItemButton: Story<SingleSelectAttrs> = args =>
+export const withAnAlwaysVisibleAddItemButton: StoryFn<SingleSelectAttrs> = args =>
   <Select {...args}/>;
 withAnAlwaysVisibleAddItemButton.args = {
   data: [...Array(10)].map((elem, idx) => ({
@@ -738,7 +740,7 @@ withAnAlwaysVisibleAddItemButton.args = {
 withAnAlwaysVisibleAddItemButton.storyName = "with an always visible 'Add item' button";
 withAnAlwaysVisibleAddItemButton.parameters = {hermione: {skip: true}};
 
-export const multipleWithCustomView: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const multipleWithCustomView: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -762,7 +764,7 @@ export const multipleWithCustomView: Story<MultipleSelectAttrs> = args => <Selec
 multipleWithCustomView.storyName = 'multiple with custom view';
 multipleWithCustomView.parameters = {hermione: {skip: true}};
 
-export const asADropdownWithoutFilter: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const asADropdownWithoutFilter: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 asADropdownWithoutFilter.args = {
   data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
@@ -823,7 +825,8 @@ const DemoComponent = ({onChange, ...restProps}: DemoComponentProps) => {
     />
   );
 };
-export const withCustomInputAnchor: Story<DemoComponentProps> = args => <DemoComponent {...args}/>;
+export const withCustomInputAnchor: StoryFn<DemoComponentProps> = args =>
+  <DemoComponent {...args}/>;
 withCustomInputAnchor.args = {
   data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
@@ -836,7 +839,7 @@ withCustomInputAnchor.args = {
 withCustomInputAnchor.storyName = 'with custom input anchor';
 withCustomInputAnchor.parameters = {hermione: {skip: true}};
 
-export const withRenderOptimization: Story<SingleSelectAttrs> = args => <Select {...args}/>;
+export const withRenderOptimization: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 withRenderOptimization.args = {
   data: [...Array(1000)].map((item, idx) => ({
     label: `Label ${idx}`,
@@ -849,7 +852,7 @@ withRenderOptimization.args = {
 withRenderOptimization.storyName = 'with render optimization';
 withRenderOptimization.parameters = {hermione: {skip: true}};
 
-export const fitsToScreen: Story<SingleSelectAttrs> = args => (
+export const fitsToScreen: StoryFn<SingleSelectAttrs> = args => (
   <div className="demo">
     <Select {...args}/>
   </div>
@@ -968,7 +971,7 @@ withFilteredFields.parameters = {
       `
 };
 
-export const multipleWithSelectAll: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const multipleWithSelectAll: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -989,7 +992,7 @@ export const multipleWithSelectAll: Story<MultipleSelectAttrs> = args => <Select
 multipleWithSelectAll.storyName = 'multiple with select all';
 multipleWithSelectAll.parameters = {hermione: {skip: true}};
 
-export const multipleWithSelectAllAndDisabledItem: Story<MultipleSelectAttrs> = args =>
+export const multipleWithSelectAllAndDisabledItem: StoryFn<MultipleSelectAttrs> = args =>
   <Select {...args}/>;
 {
   const data = [
@@ -1039,7 +1042,7 @@ export const multipleWithSelectAllAndCustomLabels = (args: SelectProps) => <Sele
 multipleWithSelectAllAndCustomLabels.storyName = 'multiple with select all and custom labels';
 multipleWithSelectAllAndCustomLabels.parameters = {hermione: {skip: true}};
 
-export const multipleWithLimit: Story<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const multipleWithLimit: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -1064,7 +1067,7 @@ multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {hermione: {skip: true}};
 
 
-export const selectInPopup: Story<SingleSelectAttrs> = args => (
+export const selectInPopup: StoryFn<SingleSelectAttrs> = args => (
   <Dropdown
     anchor="Open dropdown"
   >

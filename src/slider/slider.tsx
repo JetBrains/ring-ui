@@ -204,7 +204,7 @@ export const Slider: React.FC<Props> = ({
   return (
     <div
       ref={ref}
-      role="button"
+      role="presentation" // contains interactive elements
       className={classNames(styles.slider, className, {
         [styles.disabled]: disabled,
         [styles.marked]: !!marks || showTag
@@ -236,8 +236,9 @@ export const Slider: React.FC<Props> = ({
         return (
           // eslint-disable-next-line react/no-array-index-key
           <Fragment key={index}>
-            <button
-              type="button"
+            <div
+              tabIndex={0}
+              aria-label="Pick value"
               role="slider"
               aria-valuemin={min}
               aria-valuemax={max}
@@ -248,7 +249,6 @@ export const Slider: React.FC<Props> = ({
                 [styles.disabled]: disabled,
                 [styles.dragged]: isDragging && draggedIndex === index
               })}
-              disabled={disabled}
               onMouseDown={handleMouseDown}
             />
             {showTag && (

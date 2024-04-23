@@ -15,7 +15,8 @@ export default {
     notes:
       'A wrapper for the AuthDialog component. Allows showing the auth dialog without mounting the AuthDialog component first. Can be used outside React.',
     hermione: {skip: true}
-  }
+  },
+  tags: ['skip-test']
 };
 
 interface AuthDialogServiceArgs {

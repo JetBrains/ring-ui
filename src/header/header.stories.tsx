@@ -7,7 +7,7 @@ import helpIcon from '@jetbrains/icons/help-20px';
 import searchIcon from '@jetbrains/icons/search-20px';
 import settingsIcon from '@jetbrains/icons/settings-20px';
 
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -46,7 +46,8 @@ export default {
   }
 </style>`,
     zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71a88a41a987ba9918'
-  }
+  },
+  tags: ['skip-test']
 };
 
 interface HeaderArgs extends HeaderAttrs {
@@ -54,7 +55,7 @@ interface HeaderArgs extends HeaderAttrs {
   dark: boolean
 }
 
-export const header: Story<HeaderArgs> = ({isCompact, dark, ...args}) => {
+export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
   class HeaderDemo extends React.Component {
     render() {
       const auth = new Auth(hubConfig);
