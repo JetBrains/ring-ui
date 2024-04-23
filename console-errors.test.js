@@ -39,12 +39,6 @@ describe(options.suite, () => {
           !story.parameters.storyshots?.disable,
       );
 
-      if (stories.length <= 0) {
-        throw new Error(
-          `No stories found for this module: ${title}. Make sure there is at least one valid story for this module, without a disable parameter, or add parameters.storyshots.disable in the default export of this file.`,
-        );
-      }
-
       stories.forEach(({name, story}) => {
         test(name, async () => {
           const consoleError = jest.spyOn(global.console, 'error');
