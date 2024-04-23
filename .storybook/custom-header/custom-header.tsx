@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import * as client from 'react-dom/client';
-import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
+import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains-simple.svg';
 import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
 
 import packageInfo from '../../package.json';
@@ -52,7 +52,7 @@ class SiteHeader extends PureComponent {
           <Logo
             className={styles.logo}
             glyph={jetbrainsLogo}
-            size={Logo.Size.Size96}
+            size={Logo.Size.Size48}
           />
         </a>
 
