@@ -12,7 +12,8 @@ export default {
   parameters: {
     notes: 'Provides a way to perform authorized network requests.',
     hermione: {skip: true}
-  }
+  },
+  tags: ['skip-test']
 };
 
 export const Basic = () => {

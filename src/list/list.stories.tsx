@@ -1,6 +1,6 @@
 import React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
-import {Story} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -29,7 +29,7 @@ export default {
   }
 };
 
-export const basic: Story<ListAttrs> = args => <List {...args}/>;
+export const basic: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 basic.storyName = 'basic';
 basic.args = {
@@ -45,7 +45,7 @@ basic.args = {
   ]
 };
 
-export const withAHintBelow: Story<ListAttrs> = args => <List {...args}/>;
+export const withAHintBelow: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 withAHintBelow.storyName = 'with a hint below';
 withAHintBelow.args = {
@@ -66,7 +66,7 @@ withAHintBelow.args = {
   ]
 };
 
-export const longList: Story<ListAttrs> = args => <List {...args}/>;
+export const longList: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 longList.storyName = 'long list';
 longList.parameters = {hermione: {skip: true}};
@@ -80,7 +80,7 @@ longList.args = {
   }))
 };
 
-export const list2: Story<ListAttrs> = args => <List {...args}/>;
+export const list2: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 list2.storyName = 'list #2';
 list2.args = {
@@ -132,7 +132,7 @@ list2.args = {
   ]
 };
 
-export const withItemIcons: Story<ListAttrs> = args => <List {...args}/>;
+export const withItemIcons: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 withItemIcons.storyName = 'with item icons';
 withItemIcons.args = {
@@ -181,7 +181,7 @@ withItemIcons.args = {
   ]
 };
 
-export const withDeprecatedItemTypeParameter: Story<ListAttrs> = args => <List {...args}/>;
+export const withDeprecatedItemTypeParameter: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 withDeprecatedItemTypeParameter.storyName = 'with deprecated item.type parameter';
 withDeprecatedItemTypeParameter.parameters = {hermione: {skip: true}};
@@ -201,7 +201,7 @@ withDeprecatedItemTypeParameter.args = {
   ]
 };
 
-export const withCustomItems: Story<ListAttrs> = args => <List {...args}/>;
+export const withCustomItems: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 withCustomItems.storyName = 'with custom items';
 withCustomItems.args = {
@@ -274,8 +274,9 @@ export const withUsers = () => <UserList/>;
 
 withUsers.storyName = 'with users';
 withUsers.parameters = {hermione: {skip: true}};
+withUsers.tags = ['skip-test'];
 
-export const withCustomTooltip: Story<ListAttrs> = args => <List {...args}/>;
+export const withCustomTooltip: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 withCustomTooltip.storyName = 'with custom tooltip';
 withCustomTooltip.args = {
