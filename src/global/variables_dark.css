@@ -82,10 +82,10 @@
   --ring-hover-background-color: rgb(var(--ring-hover-background-components)); /* #323D54 */
   --ring-navigation-background-components: 17, 19, 20;
   --ring-navigation-background-color: rgb(var(--ring-navigation-background-components)); /* #111314 */
-  --ring-tag-background-components: 56, 58, 64;
-  --ring-tag-background-color: rgb(var(--ring-tag-background-components)); /* #383A40 */
-  --ring-tag-hover-background-components: 54, 56, 61;
-  --ring-tag-hover-background-color: rgb(var(--ring-tag-hover-background-components)); /* #36383D */
+  --ring-tag-background-components: 74, 77, 84;
+  --ring-tag-background-color: rgb(var(--ring-tag-background-components)); /* #4A4D54 */
+  --ring-tag-hover-background-components: 67, 69, 76;
+  --ring-tag-hover-background-color: rgb(var(--ring-tag-hover-background-components)); /* #43454C */
   --ring-removed-background-components: 94, 56, 53;
   --ring-removed-background-color: rgb(var(--ring-removed-background-components)); /* #5E3835 */
   --ring-warning-background-components: 87, 71, 47;
