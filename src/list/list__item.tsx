@@ -148,6 +148,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
                     className={styles.glyph}
                     glyph={glyph}
                     size={this.props.iconSize}
+                    suppressSizeWarning={this.props.suppressSizeWarning}
                   />
                 )}
                 {(avatar || shouldShowGeneratedAvatar) && (
@@ -176,6 +177,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
                 <Icon
                   className={styles.rightGlyph}
                   glyph={rightGlyph}
+                  suppressSizeWarning={this.props.suppressSizeWarning}
                   size={this.props.iconSize}
                 />
               )}
