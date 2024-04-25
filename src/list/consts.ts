@@ -48,6 +48,7 @@ export type ListDataItem<T = unknown> =
   glyph?: IconType | string | null | undefined
   icon?: string | undefined
   iconSize?: Size | null | undefined
+  suppressSizeWarning?: boolean | null | undefined
   rightGlyph?: IconType | string | null | undefined
   title?: string | null | undefined
   level?: number | null | undefined
