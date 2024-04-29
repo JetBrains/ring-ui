@@ -226,7 +226,7 @@
     "deep-equal": "^2.2.3",
     "element-resize-detector": "^1.2.4",
     "es6-error": "^4.1.1",
-    "eslint-plugin-react-hooks": "^4.6.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "fastdom": "^1.0.12",
     "file-loader": "^6.2.0",
     "focus-trap": "^7.5.4",
