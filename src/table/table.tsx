@@ -241,7 +241,6 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       const row = (
         <Row<T>
           innerRef={ref}
-          key={getItemKey(value)}
           level={getItemLevel(value)}
           item={value}
           showFocus={selection.isFocused(value)}
@@ -268,6 +267,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
           columns={columns}
           data-test={getItemDataTest(value)}
           {...restProps}
+          key={restProps.key ?? getItemKey(value)}
         />
       );
 

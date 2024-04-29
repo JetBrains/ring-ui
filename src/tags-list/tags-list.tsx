@@ -58,6 +58,7 @@ export default class TagsList<T extends TagType> extends Component<TagsListProps
     return (
       <TagComponent
         {...tag}
+        key={tag.key}
         readOnly={readOnly}
         disabled={this.props.disabled || tag.disabled}
         focused={focusTag}
