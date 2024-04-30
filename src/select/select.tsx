@@ -204,8 +204,8 @@ export interface BaseSelectProps<T = unknown> {
   top?: number | undefined
   left?: number | undefined
   renderOptimization?: boolean | undefined
-  ringPopupTarget?: string | null | undefined,
-  preventListOverscroll?: boolean | undefined,
+  ringPopupTarget?: string | null | undefined
+  preventListOverscroll?: boolean | undefined
   error?: ReactNode | null | undefined
   hint?: ReactNode
   add?: Add | null | undefined
