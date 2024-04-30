@@ -371,6 +371,10 @@
 
   color: var(--ring-icon-secondary-color);
 
+  .primary & {
+    color: unset;
+  }
+
   line-height: normal;
 }
 
