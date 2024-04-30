@@ -205,7 +205,7 @@ export interface BaseSelectProps<T = unknown> {
   left?: number | undefined
   renderOptimization?: boolean | undefined
   ringPopupTarget?: string | null | undefined,
-  overscrollPopupBehaviorNone?: boolean | undefined,
+  preventListOverscroll?: boolean | undefined,
   error?: ReactNode | null | undefined
   hint?: ReactNode
   add?: Add | null | undefined
@@ -776,7 +776,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               dir={this.props.dir}
               onEmptyPopupEnter={this.onEmptyPopupEnter}
               listId={this.listId}
-              overscrollPopupBehaviourNone={this.props.overscrollPopupBehaviorNone}
+              preventListOverscroll={this.props.preventListOverscroll}
             />
           );
         }}
@@ -1506,7 +1506,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   directions: PropTypes.array,
   popupClassName: PropTypes.string,
   popupStyle: PropTypes.object,
-  overscrollPopupBehaviorNone: PropTypes.bool,
+  preventListOverscroll: PropTypes.bool,
   top: PropTypes.number,
   left: PropTypes.number,
   renderOptimization: PropTypes.bool,

@@ -127,7 +127,7 @@ export interface SelectPopupProps<T = unknown> {
   multiple: boolean | Multiple
   selected: ListDataItem<T> | readonly ListDataItem<T>[] | null
   tags: Tags | boolean | null
-  overscrollPopupBehaviourNone?: boolean | undefined
+  preventListOverscroll?: boolean | undefined
 }
 
 export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupProps<T>> {
@@ -465,7 +465,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           disableMoveDownOverflow={this.props.loading}
           disableScrollToActive={this.props.disableScrollToActive}
           compact={this.props.compact}
-          className={this.props.overscrollPopupBehaviourNone
+          className={this.props.preventListOverscroll
             ? styles.popupOverscrollNone
             : undefined}
           renderOptimization={this.props.renderOptimization}
@@ -708,7 +708,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   toolbar: PropTypes.node,
   topbar: PropTypes.node,
   top: PropTypes.number,
-  overscrollListBehaviorNone: PropTypes.bool
+  preventListOverscroll: PropTypes.bool
 };
 
 export type SelectPopupAttrs<T = unknown> =
