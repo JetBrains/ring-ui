@@ -44,10 +44,6 @@
   overscroll-behavior: contain;
 }
 
-.popupOverscrollNone {
-  overscroll-behavior: none;
-}
-
 .filterWrapper {
   position: relative;
 

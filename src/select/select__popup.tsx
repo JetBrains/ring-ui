@@ -465,9 +465,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           disableMoveDownOverflow={this.props.loading}
           disableScrollToActive={this.props.disableScrollToActive}
           compact={this.props.compact}
-          className={this.props.preventListOverscroll
-            ? styles.popupOverscrollNone
-            : undefined}
+          preventListOverscroll={this.props.preventListOverscroll}
           renderOptimization={this.props.renderOptimization}
         />
       );
