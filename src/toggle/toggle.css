@@ -72,7 +72,7 @@
 
   &::before {
     position: absolute;
-    top: calc(padding - 1px);
+    top: 50%;
     left: -1px;
 
     box-sizing: border-box;
@@ -84,7 +84,7 @@
 
     transition: transform timing-function duration;
 
-    transform: translateX(padding);
+    transform: translateX(padding) translateY(-50%);
 
     border: solid 1px var(--ring-switch-border-color);
 
@@ -122,7 +122,7 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .input:checked + ::before {
-    transform: translateX(calc(var(--ring-unit) * 1.5 - padding));
+    transform: translateX(calc(var(--ring-unit) * 1.5 - padding)) translateY(-50%);
   }
 }
 
@@ -147,7 +147,7 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .input:checked + ::before {
-    transform: translateX(12px);
+    transform: translateX(12px) translateY(-50%);
   }
 }
 
@@ -172,7 +172,7 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .input:checked + ::before {
-    transform: translateX(calc(var(--ring-unit) * 2 - padding));
+    transform: translateX(calc(var(--ring-unit) * 2 - padding)) translateY(-50%);
   }
 }
 

@@ -40,7 +40,7 @@
 
   &::after {
     position: absolute;
-    top: 3px;
+    top: 50%;
     left: 3px;
 
     width: var(--ring-unit);
@@ -50,7 +50,7 @@
 
     transition: opacity var(--ring-fast-ease), transform var(--ring-fast-ease);
 
-    transform: scale(0);
+    transform: scale(0) translateY(-50%);
 
     opacity: 0;
 
@@ -84,7 +84,7 @@
     &::after {
       transition: none;
 
-      transform: scale(1);
+      transform: scale(1) translateY(-50%);
 
       opacity: 1;
     }
