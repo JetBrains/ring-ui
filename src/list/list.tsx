@@ -111,6 +111,7 @@ export interface ListProps<T = unknown> {
   compact?: boolean | null | undefined
   disableScrollToActive?: boolean | null | undefined
   hidden?: boolean | null | undefined
+  preventListOverscroll?: boolean | undefined
 }
 
 const shouldActivateFirstItem = <T, >(props: ListProps<T>) => props.activateFirstItem ||
@@ -171,7 +172,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     compact: PropTypes.bool,
     disableScrollToActive: PropTypes.bool,
     hidden: PropTypes.bool,
-    ariaLabel: PropTypes.string
+    ariaLabel: PropTypes.string,
+    preventListOverscroll: PropTypes.bool
   };
 
   static defaultProps = {
@@ -700,7 +702,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
             <VirtualizedList
               aria-label={this.props.ariaLabel}
               ref={this.virtualizedListRef}
-              className="ring-list__i"
+              className={classNames('ring-list__i',
+                {[styles.overscrollNone]: this.props.preventListOverscroll})}
               autoHeight={autoHeight}
               style={maxHeight ? {maxHeight, height: 'auto', ...dirOverride} : dirOverride}
               autoContainerWidth
