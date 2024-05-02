@@ -171,7 +171,7 @@
     "storage-mock": "^2.1.0",
     "storybook": "8.0.9",
     "storybook-addon-themes": "^6.1.0",
-    "stylelint": "^16.4.0",
+    "stylelint": "^16.5.0",
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.10",
