@@ -44,7 +44,7 @@ const isPossibleClientSideNavigation = (event: React.MouseEvent) => {
     !event.metaKey && // Not open in new tab by user
     !event.ctrlKey && // Not open in new tab by user
     !event.shiftKey && // Not open in new window by user
-    event.defaultPrevented;
+    !event.defaultPrevented;
 };
 
 const stop = (event: React.MouseEvent) => {
