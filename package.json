@@ -79,7 +79,7 @@
   "devDependencies": {
     "@babel/cli": "^7.24.5",
     "@babel/eslint-parser": "^7.24.5",
-    "@csstools/css-parser-algorithms": "^2.6.1",
+    "@csstools/css-parser-algorithms": "^2.6.3",
     "@csstools/stylelint-no-at-nest-rule": "^2.0.0",
     "@jetbrains/eslint-config": "^5.4.2",
     "@jetbrains/stylelint-config": "^4.0.2",
