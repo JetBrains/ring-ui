@@ -12,7 +12,6 @@ module.exports = {
     '../src/**/*.stories.{js,ts,tsx}'
   ],
   addons: [
-    '@storybook/addon-storysource',
     {
       name: '@storybook/addon-essentials',
       options: {
@@ -35,11 +34,6 @@ module.exports = {
       {
         test: /\.md$/,
         loader: 'raw-loader'
-      },
-      {
-        test: /\.stories\.[jt]sx?$/,
-        loader: require.resolve('@storybook/source-loader'),
-        enforce: 'pre'
       },
       {
         test: /\.svg$/,
