@@ -51,7 +51,7 @@ export default class ErrorMessage extends Component<ErrorMessageProps> {
           />
         )}
         <div className={styles.content}>
-          <div className={styles.title}>
+          <div className={styles.title} data-test="ring-error-message-title">
             {code && `${code}:`} {message}
           </div>
           {description && (
