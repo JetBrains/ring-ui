@@ -30,6 +30,7 @@
 
   cursor: pointer;
   transition: color var(--ring-ease), background-color var(--ring-ease), box-shadow var(--ring-ease);
+  white-space: nowrap;
   text-decoration: none;
 
   color: var(--ring-text-color);
