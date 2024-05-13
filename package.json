@@ -118,7 +118,7 @@
     "babel-plugin-require-context-hook": "^1.0.0",
     "caniuse-lite": "^1.0.30001617",
     "chai": "^5.1.1",
-    "chai-as-promised": "^7.1.1",
+    "chai-as-promised": "^7.1.2",
     "chai-dom": "^1.10.0",
     "chai-enzyme": "1.0.0-beta.1",
     "cheerio": "^1.0.0-rc.12",
