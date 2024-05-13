@@ -386,7 +386,7 @@
 
 @keyframes progress {
   from {
-    transform: translateX(calc(0 - loaderWidth));
+    transform: translateX(-64px); /* must be in Sync with loaderWidth, but CSS var doesn't work due to RG-2438 */
   }
 
   to {
