@@ -51,7 +51,8 @@ export interface RowProps<T extends SelectionItem> extends Omit<
   'onClick' | 'onDoubleClick' | 'onSelect'
 >, FocusSensorAddProps<HTMLTableRowElement> {
   item: T
-  columns: readonly Column<T>[]
+  columns: readonly Column<T>[] | ((item: T) => readonly Column<T>[])
+  maxColSpan?: number
   selectable: boolean
   showFocus: boolean
   draggable: boolean
@@ -137,7 +138,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
 
   render() {
     const {
-      item, columns, selectable, selected,
+      item, columns: columnProps, selectable, selected,
       showFocus, draggable, alwaysShowDragHandle, dragHandleTitle, level,
       collapsible, parentCollapsible, collapsed,
       onCollapse, onExpand, showDisabledSelection, onSelect,
@@ -223,6 +224,8 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
       </div>
     );
 
+    const columns = typeof columnProps === 'function' ? columnProps(item) : columnProps;
+    let colSpan = 0;
     const cells = columns.map((column, index) => {
       const getValue = column.getValue || (() => item[column.id] as ReactNode);
       const getDataTest = column.getDataTest || (() => column.id);
@@ -231,8 +234,17 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
       const showMetaColumn =
         draggable || selectable || collapsible || showDisabledSelection || !!level;
 
+      colSpan += column.colSpan || 1;
+      if (colSpan > (this.props.maxColSpan || Infinity)) {
+        return null;
+      }
       return (
-        <Cell key={column.id} className={cellClasses} data-test={getDataTest(item, column)}>
+        <Cell
+          colSpan={column.colSpan}
+          key={column.id}
+          className={cellClasses}
+          data-test={getDataTest(item, column)}
+        >
           {index === 0 && (showMetaColumn) && metaColumn}
           {value}
         </Cell>

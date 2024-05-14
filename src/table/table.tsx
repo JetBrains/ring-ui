@@ -34,7 +34,8 @@ export interface ReorderParams<T> {
 export interface TableProps<T extends SelectionItem> extends
   FocusSensorAddProps<HTMLTableRowElement>, SelectionShortcutsAddProps<T>, DisableHoverAddProps {
   data: readonly T[]
-  columns: readonly Column<T>[]
+  columns: readonly Column<T>[] | ((item:T|null)=>readonly Column<T>[])
+  maxColSpan?:number;
   isItemSelectable: (item: T) => boolean
   loading: boolean
   onSort: (params: SortParams) => void
@@ -178,7 +179,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
-      onItemDoubleClick, onItemClick, renderEmpty
+      onItemDoubleClick, onItemClick, renderEmpty, maxColSpan
     } = this.props;
 
 
@@ -186,9 +187,9 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 
     const headerProps: HeaderAttrs = {
       caption, selectable, draggable,
-      columns, onSort, sortKey, sortOrder,
+      columns: typeof columns === 'function' ? columns(null) : columns, onSort, sortKey, sortOrder,
       sticky: stickyHeader,
-      topStickOffset: stickyHeaderOffset
+      topStickOffset: stickyHeaderOffset, maxColSpan: this.props.maxColSpan
     };
 
     const selectedSize = selection.getSelected().size;
@@ -266,6 +267,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
           dragHandleTitle={dragHandleTitle}
           columns={columns}
           data-test={getItemDataTest(value)}
+          maxColSpan={maxColSpan}
           {...restProps}
           key={restProps.key ?? getItemKey(value)}
         />
