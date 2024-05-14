@@ -19,6 +19,7 @@ export interface Column<T = never> {
   title?: ReactNode
   getValue?: ((item: T, column: Column) => ReactNode) | null | undefined
   getDataTest?: ((item: T, column: Column) => string) | null | undefined
+  colSpan?:number;
 }
 
 export interface SortParams {

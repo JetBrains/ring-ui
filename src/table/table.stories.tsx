@@ -302,6 +302,88 @@ EmptyTable.args = {
     }
   ],
   renderEmpty: () => 'Empty table',
-  selectable: false
+  selectable: false,
+  maxColSpan: 3
 };
 EmptyTable.storyName = 'empty table';
+
+type FlexItem={id:string, type:'A', valueA1:string, valueA2:string}|{id:string, type:'B', valueB1:string, valueB2:string, valueB3:string};
+
+export const WithCustomColumns: StoryFn<TableAttrs<FlexItem>> = args => {
+
+  const [selection] = React.useState(new Selection<FlexItem>({}));
+
+  return <Table {...args} selection={selection}/>;
+};
+
+WithCustomColumns.args = {
+  data: [
+    //three items of type a and two items of type B
+    {id: '1', type: 'A', valueA1: 'valueA1', valueA2: 'valueA2'},
+    {id: '2', type: 'A', valueA1: 'valueA1', valueA2: 'valueA2'},
+    {type: 'B', id: '3', valueB1: 'valueB1', valueB2: 'valueB2', valueB3: 'valueB3'},
+    {type: 'B', id: '4', valueB1: 'valueB1', valueB2: 'valueB2', valueB3: 'valueB3'}
+
+  ],
+  columns: item => {
+    if (item === null) {
+      return [
+        {id: 'valueB1', title: 'valueB1', colSpan: 1},
+        {id: 'valueB2', title: 'valueB2'},
+        {id: 'valueB3', title: 'valueB3'}
+      ];
+    }
+
+    if (item.type === 'A') {
+      return [{
+        id: 'valueA1',
+        title: 'valueA1', getValue: rowItem => {
+          if (rowItem.type === 'A') {
+            return rowItem.valueA1;
+          }
+          return null;
+        }, colSpan: 2
+      }, {
+        id: 'valueA2',
+        title: 'valueA2', getValue: rowItem => {
+          if (rowItem.type === 'A') {
+            return rowItem.valueA2;
+          }
+          return null;
+        }
+      }];
+    }
+    if (item.type === 'B') {
+      return [{
+        id: 'valueB1',
+        title: 'valueB1', getValue: rowItem => {
+          if (rowItem.type === 'B') {
+            return rowItem.valueB1;
+          }
+          return null;
+        }
+      }, {
+        id: 'valueB2',
+        title: 'valueB2', getValue: rowItem => {
+          if (rowItem.type === 'B') {
+            return rowItem.valueB2;
+          }
+          return null;
+        }
+      }, {
+        id: 'valueB3',
+        title: 'valueB3', getValue: rowItem => {
+          if (rowItem.type === 'B') {
+            return rowItem.valueB3;
+          }
+          return null;
+        }
+      }];
+    }
+    return [];
+  },
+  renderEmpty: () => 'Empty table',
+  selectable: false
+};
+
+WithCustomColumns.storyName = 'Table with custom rows';
