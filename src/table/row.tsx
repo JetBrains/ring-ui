@@ -140,7 +140,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
     const {
       item, columns: columnProps, selectable, selected,
       showFocus, draggable, alwaysShowDragHandle, dragHandleTitle, level,
-      collapsible, parentCollapsible, collapsed,
+      collapsible, parentCollapsible, collapsed, maxColSpan,
       onCollapse, onExpand, showDisabledSelection, onSelect,
       checkboxTooltip, innerRef, focused, autofocus, onFocusReset,
       onFocusRestore, onHover, className, metaColumnClassName, 'data-test': dataTest, ...restProps
@@ -235,7 +235,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
         draggable || selectable || collapsible || showDisabledSelection || !!level;
 
       colSpan += column.colSpan || 1;
-      if (colSpan > (this.props.maxColSpan || Infinity)) {
+      if (colSpan > (maxColSpan || Infinity)) {
         return null;
       }
       return (
@@ -272,7 +272,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
   className: PropTypes.string,
   metaColumnClassName: PropTypes.string,
   item: PropTypes.object.isRequired,
-  columns: PropTypes.array.isRequired,
+  columns: PropTypes.oneOfType([PropTypes.array, PropTypes.func]).isRequired,
   selectable: PropTypes.bool,
   showFocus: PropTypes.bool,
   draggable: PropTypes.bool,
