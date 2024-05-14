@@ -321,7 +321,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
   className: PropTypes.string,
   loaderClassName: PropTypes.string,
   data: PropTypes.array.isRequired,
-  columns: PropTypes.array.isRequired,
+  columns: PropTypes.oneOfType([PropTypes.array, PropTypes.func]).isRequired,
   caption: PropTypes.string,
   isItemSelectable: PropTypes.func,
   stickyHeader: PropTypes.bool,
