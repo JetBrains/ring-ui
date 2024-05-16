@@ -164,7 +164,7 @@
     "rollup": "^4.17.2",
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-styles": "^4.0.0",
-    "sinon": "^17.0.2",
+    "sinon": "^18.0.0",
     "sinon-chai": "^3.7.0",
     "storage-mock": "^2.1.0",
     "storybook": "8.1.0",
