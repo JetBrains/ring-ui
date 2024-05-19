@@ -1,0 +1,6 @@
+// Info https://containers.dev/implementors/json_reference/
+{
+  "name": "ring-ui",
+  "forwardPorts": [9000],
+  "image":  "node:20.10.0"
+}
