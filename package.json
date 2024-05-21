@@ -111,7 +111,7 @@
     "@types/sinon": "^17.0.3",
     "@types/sinon-chai": "^3.2.12",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
-    "@typescript-eslint/parser": "^7.9.0",
+    "@typescript-eslint/parser": "^7.10.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "acorn": "^8.11.3",
     "axe-playwright": "^2.0.1",
