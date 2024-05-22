@@ -1,6 +1,8 @@
 // @ts-expect-error no typings available
 import mockedWindow from 'storage-mock';
 
+import {act} from 'react';
+
 import HTTP from '../http/http';
 import LocalStorage from '../storage/storage__local';
 
@@ -229,7 +231,7 @@ describe('Auth', () => {
         waitForRedirectTimeout: 0
       });
       try {
-        await auth.init();
+        await act(() => auth.init());
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
         Auth.prototype._redirectCurrentPage.
@@ -394,7 +396,7 @@ describe('Auth', () => {
       });
 
       try {
-        await auth.init();
+        await act(() => auth.init());
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
         // Background loading
@@ -424,7 +426,7 @@ describe('Auth', () => {
       });
 
       try {
-        await auth.init();
+        await act(() => auth.init());
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
         // Background loading
