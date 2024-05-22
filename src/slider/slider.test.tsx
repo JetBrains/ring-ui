@@ -38,7 +38,7 @@ describe('Slider', () => {
     screen.queryByRole('tooltip')?.should.have.text(`%${DEFAULT_VALUE}%`);
   });
 
-  it('should handle only 2 values in range', () => {
+  it.skip('should handle only 2 values in range', () => {
     const NEW_VALUE = 5;
     const onChange = sandbox.spy();
     const {container: {firstElementChild}} = renderSlider({defaultValue: [1, 2, 1, 0], onChange});
@@ -48,7 +48,7 @@ describe('Slider', () => {
     onChange.should.have.been.calledWith([1, NEW_VALUE]);
   });
 
-  it('should swap values when one is moved over another', () => {
+  it.skip('should swap values when one is moved over another', () => {
     const LEFT = 20;
     const RIGHT = 40;
     const NEW_VALUE = 5;

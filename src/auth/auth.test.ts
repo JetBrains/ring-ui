@@ -1,3 +1,6 @@
+// @ts-expect-error no typings available
+import mockedWindow from 'storage-mock';
+
 import HTTP from '../http/http';
 import LocalStorage from '../storage/storage__local';
 
@@ -9,12 +12,20 @@ import AuthResponseParser, {AuthError} from './response-parser';
 import BackgroundFlow from './background-flow';
 import TokenValidator, {TokenValidationError} from './token-validator';
 
-// eslint-disable-next-line import/no-commonjs
-const MockedStorage: typeof LocalStorage = require('imports-loader?imports=default|storage-mock|window!../storage/storage__local').default;
-
 const HOUR = 3600;
 
 describe('Auth', () => {
+  beforeEach(() => {
+    sandbox.stub(window, 'addEventListener').
+      value((...args: unknown[]) => mockedWindow.addEventListener(...args));
+    sandbox.stub(window, 'removeEventListener').
+      value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
+    sandbox.stub(window, 'localStorage').value(mockedWindow.localStorage);
+    sandbox.stub(window, 'sessionStorage').value(mockedWindow.sessionStorage);
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
   describe('construction', () => {
     it('should require provide config', () => {
       // @ts-expect-error testing a wrong usage
@@ -337,11 +348,11 @@ describe('Auth', () => {
 
       if (auth._storage != null) {
         auth._storage._tokenStorage = auth._storage._stateStorage =
-        auth._storage._messagesStorage = new MockedStorage();
+        auth._storage._messagesStorage = new LocalStorage();
       }
 
       if (auth._domainStorage != null) {
-        auth._domainStorage._messagesStorage = new MockedStorage();
+        auth._domainStorage._messagesStorage = new LocalStorage();
       }
     });
 
@@ -453,7 +464,7 @@ describe('Auth', () => {
       });
 
       if (auth._storage != null) {
-        auth._storage._tokenStorage = new MockedStorage();
+        auth._storage._tokenStorage = new LocalStorage();
       }
       auth.setAuthDialogService(() => () => {});
       auth._initDeferred?.resolve?.();
@@ -540,7 +551,7 @@ describe('Auth', () => {
       }
     });
 
-    it('should show login overlay if token refresh fails and window login enabled', done => {
+    it('should show login overlay if token refresh fails and window login enabled', async () => {
       const TIMEOUT = 100;
       if (auth._backgroundFlow != null) {
         auth._backgroundFlow._timeout = TIMEOUT;
@@ -550,10 +561,10 @@ describe('Auth', () => {
 
       auth.requestToken();
 
-      setTimeout(() => {
+      await new Promise<void>(resolve => setTimeout(() => {
         Auth.prototype._showAuthDialog.should.have.been.called;
-        done();
-      }, TIMEOUT * 2);
+        resolve();
+      }, TIMEOUT * 2));
     });
   });
 

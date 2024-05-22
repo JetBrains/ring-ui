@@ -15,6 +15,8 @@ import ListSeparator from './list__separator';
 import styles from './list.css';
 import {Type} from './consts';
 
+const RAF_TIMEOUT = 100;
+
 describe('List', () => {
   const shallowList = (props: ListAttrs) => shallow<List>(<List {...props}/>);
   const mountList = (props: ListAttrs) => mount<List>(<List {...props}/>);
@@ -167,8 +169,9 @@ describe('List', () => {
       (0).should.equal(wrapper.state('activeItem')?.key);
     });
 
-    it('should activate item', () => {
+    it('should activate item', async () => {
       instance.hoverHandler(1)();
+      await new Promise<void>(resolve => setTimeout(resolve, RAF_TIMEOUT));
       wrapper.should.have.state('activeIndex', 1);
       (1).should.equal(wrapper.state('activeItem')?.key);
     });
@@ -192,11 +195,12 @@ describe('List', () => {
       wrapper.should.have.state('activeItem', null);
     });
 
-    it('shouldn\'t reset activeIndex when it isn\'t changed in props', () => {
+    it('shouldn\'t reset activeIndex when it isn\'t changed in props', async () => {
       instance.hoverHandler(1)();
       wrapper.setProps({
         activeIndex: 0
       });
+      await new Promise<void>(resolve => setTimeout(resolve, RAF_TIMEOUT));
       wrapper.should.have.state('activeIndex', 1);
       (1).should.equal(wrapper.state('activeItem')?.key);
     });

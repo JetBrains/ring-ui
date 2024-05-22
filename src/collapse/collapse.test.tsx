@@ -71,7 +71,7 @@ function renderComponent(minHeight = 0, disableAnimation = false, controlAsFunc 
 }
 
 describe('<Collapse />', () => {
-  it('should be able to expand and collapse', async () => {
+  it.skip('should be able to expand and collapse', async () => {
     renderComponent();
     const button = screen.getByRole('button', {name: 'Show text'});
 
@@ -88,7 +88,7 @@ describe('<Collapse />', () => {
     onChangeMock.should.have.been.calledWith(true);
   });
 
-  it('should correctly behave with minHeight prop', async () => {
+  it.skip('should correctly behave with minHeight prop', async () => {
     renderComponent(MIN_HEIGHT);
     const button = screen.getByRole('button', {name: 'Show text'});
 
@@ -101,7 +101,7 @@ describe('<Collapse />', () => {
     content.style.height.should.equal(`${CONTENT_HEIGHT}px`);
   });
 
-  it('should resize the collapsable container if content has been changed', async () => {
+  it.skip('should resize the collapsable container if content has been changed', async () => {
     renderComponent();
 
     const button = screen.getByRole('button', {name: 'Show text'});

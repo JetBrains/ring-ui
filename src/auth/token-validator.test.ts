@@ -8,13 +8,10 @@ import Auth from './auth';
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
 
-// eslint-disable-next-line import/no-commonjs
-const MockedStorage: typeof LocalStorage = require('imports-loader?imports=default|storage-mock|window!../storage/storage__local').default;
-
 describe('Auth', () => {
   describe('TokenValidator', () => {
     const storage = new AuthStorage({
-      storage: MockedStorage
+      storage: LocalStorage
     });
     const http = new HTTP();
     const getUser = (token: string) => http.authorizedFetch(Auth.API_PROFILE_PATH, token);

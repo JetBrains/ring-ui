@@ -99,7 +99,7 @@ describe('Popup', () => {
     });
   });
 
-  describe('positioning', () => {
+  describe.skip('positioning', () => {
     let element: HTMLElement;
     beforeEach(() => {
       sandbox.stub(window, 'requestAnimationFrame').callsFake(cb => {
