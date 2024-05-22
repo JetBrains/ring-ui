@@ -148,7 +148,7 @@
     "karma-sourcemap-loader": "^0.4.0",
     "karma-teamcity-reporter": "^2.0.0",
     "karma-webpack": "^5.0.1",
-    "lint-staged": "^15.2.2",
+    "lint-staged": "^15.2.4",
     "markdown-it": "^14.1.0",
     "merge-options": "^3.0.4",
     "mocha": "^10.4.0",
