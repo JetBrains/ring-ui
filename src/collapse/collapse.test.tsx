@@ -17,7 +17,6 @@ const textMock = `This is very long text! This is very long text! This is very l
             very long text! This is very long text! This is very long text! This is very long text!
             This is very long text! This is very long text! This is very long text!`;
 const MIN_HEIGHT = 50;
-const DEFAULT_HEIGHT = 0;
 const CONTENT_HEIGHT = 75;
 const LARGE_HEIGHT = CONTENT_HEIGHT * 2;
 const TextWrapper: React.FC<PropsWithChildren> = ({children}) => <div style={{height: `${CONTENT_HEIGHT}px`}}>{children}</div>;
@@ -71,7 +70,7 @@ function renderComponent(minHeight = 0, disableAnimation = false, controlAsFunc 
 }
 
 describe('<Collapse />', () => {
-  it.skip('should be able to expand and collapse', async () => {
+  it('should be able to expand and collapse', async () => {
     renderComponent();
     const button = screen.getByRole('button', {name: 'Show text'});
 
@@ -80,15 +79,15 @@ describe('<Collapse />', () => {
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
     onChangeMock.should.have.been.calledWith(false);
-    content.style.height.should.equal(`${CONTENT_HEIGHT}px`);
+    content.style.opacity.should.equal('1');
 
     await userEvent.click(button);
 
-    content.style.height.should.equal(`${DEFAULT_HEIGHT}px`);
+    content.style.opacity.should.equal('0');
     onChangeMock.should.have.been.calledWith(true);
   });
 
-  it.skip('should correctly behave with minHeight prop', async () => {
+  it('should correctly behave with minHeight prop', async () => {
     renderComponent(MIN_HEIGHT);
     const button = screen.getByRole('button', {name: 'Show text'});
 
@@ -98,7 +97,7 @@ describe('<Collapse />', () => {
 
     await userEvent.click(button);
 
-    content.style.height.should.equal(`${CONTENT_HEIGHT}px`);
+    content.style.opacity.should.equal('1');
   });
 
   it.skip('should resize the collapsable container if content has been changed', async () => {
