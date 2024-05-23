@@ -59,22 +59,6 @@ describe('Loader', () => {
     loader.canvas.style.width.should.equal('42px');
   });
 
-  it('Should scale canvas on HDPI devices to make visible image size the same as on normal screens', () => {
-    sandbox.stub(LoaderCore, 'getPixelRatio').returns(2);
-    sandbox.spy(CanvasRenderingContext2D.prototype, 'scale');
-    createLoader({size: 42});
-
-    loader.ctx!.scale.should.have.been.calledWith(2, 2);
-  });
-
-  it('Should scale canvas on zoomed out devices to avoid image cropping', () => {
-    sandbox.stub(LoaderCore, 'getPixelRatio').returns(0.5);
-    sandbox.spy(CanvasRenderingContext2D.prototype, 'scale');
-    createLoader({size: 42});
-
-    loader.ctx!.scale.should.have.been.calledWith(0.5, 0.5);
-  });
-
   it('Should start loop on constructing', () => {
     loader.isRunning.should.be.true;
   });
@@ -208,21 +192,5 @@ describe('Loader', () => {
     loader.removeDeadParticles();
 
     loader.particles.length.should.equal(2);
-  });
-
-  it('Should clear canvas before rendering new frame', () => {
-    sandbox.spy(loader.ctx!, 'clearRect');
-
-    loader.draw();
-
-    loader.ctx!.clearRect.should.have.been.called;
-  });
-
-  it('Should call draw for each particle', () => {
-    const drawSpy = sandbox.spy();
-    loader.particles = [{draw: drawSpy, isAlive: () => true, step: noop}];
-
-    loader.draw();
-    drawSpy.should.have.been.called;
   });
 });

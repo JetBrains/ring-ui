@@ -430,7 +430,8 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        const addButton = instance._popup!.popup!.popup!.querySelector(`.${styles.button}`);
+        const addButton = instance._popup!.popup!.popup!.
+          querySelector('[data-test~="ring-select-toolbar-button"]');
 
         addButton!.should.contain.text('Add Something');
       });
@@ -444,7 +445,8 @@ describe('Select', () => {
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('test');
         instance._showPopup();
-        const addButton = instance._popup!.popup!.popup!.querySelector(`.${styles.button}`);
+        const addButton = instance._popup!.popup!.popup!.
+          querySelector('[data-test~="ring-select-toolbar-button"]');
 
         addButton!.should.contain.text('--test--');
       });
@@ -997,26 +999,30 @@ describe('Select', () => {
         mountSelectToContainer({filter: true});
       });
 
-      it('Should focus the filter on opening', done => {
+      it('Should focus the filter on opening', async () => {
         const instance = mountWrapper!.instance();
         instance._showPopup();
         // Can't use fake timers here, as Popup redraws by requestAnimationFrame.
         // Stabbing it isn't possible either, as it hangs IE11
-        setTimeout(() => {
-          instance._popup!.filter!.should.equal(document.activeElement);
-          done();
-        }, SHOW_TIMEOUT);
+        await new Promise<void>(resolve => {
+          setTimeout(() => {
+            instance._popup!.filter!.should.equal(document.activeElement);
+            resolve();
+          }, SHOW_TIMEOUT);
+        });
       });
 
-      it('Should focus the filter on second opening', done => {
+      it('Should focus the filter on second opening', async () => {
         const instance = mountWrapper!.instance();
         instance._showPopup();
         instance._hidePopup();
         instance._showPopup();
-        setTimeout(() => {
-          instance._popup!.filter!.should.equal(document.activeElement);
-          done();
-        }, SHOW_TIMEOUT);
+        await new Promise<void>(resolve => {
+          setTimeout(() => {
+            instance._popup!.filter!.should.equal(document.activeElement);
+            resolve();
+          }, SHOW_TIMEOUT);
+        });
       });
     });
 

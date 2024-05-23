@@ -228,24 +228,28 @@ describe('Query Assist', () => {
     });
 
 
-    it('should create popup when autoOpen', done => {
-      mountQueryAssist({
-        autoOpen: true,
-        dataSource: params => {
-          params.should.not.have.property('omitSuggestions');
-          done();
-          return dataSource(params);
-        }
+    it('should create popup when autoOpen', async () => {
+      await new Promise<void>(resolve => {
+        mountQueryAssist({
+          autoOpen: true,
+          dataSource: params => {
+            params.should.not.have.property('omitSuggestions');
+            resolve();
+            return dataSource(params);
+          }
+        });
       });
     });
 
-    it('should not create popup by default', done => {
-      mountQueryAssist({
-        dataSource: params => {
-          params.should.have.property('omitSuggestions', true);
-          done();
-          return dataSource(params);
-        }
+    it('should not create popup by default', async () => {
+      await new Promise<void>(resolve => {
+        mountQueryAssist({
+          dataSource: params => {
+            params.should.have.property('omitSuggestions', true);
+            resolve();
+            return dataSource(params);
+          }
+        });
       });
     });
   });
@@ -268,15 +272,17 @@ describe('Query Assist', () => {
         should.have.length(testQueryLength);
     });
 
-    it('should support undo', done => {
+    it('should support undo', async () => {
       const instance = mountQueryAssist().find<QueryAssist>(QueryAssist).instance();
 
-      instance.setState({query: 'newQuery'}, () => {
-        simulateCombo('meta+z');
+      await new Promise<void>(resolve => {
+        instance.setState({query: 'newQuery'}, () => {
+          simulateCombo('meta+z');
 
-        setTimeout(() => {
-          instance.state.query!.should.equal(testQuery);
-          done();
+          setTimeout(() => {
+            instance.state.query!.should.equal(testQuery);
+            resolve();
+          });
         });
       });
     });

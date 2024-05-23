@@ -1349,7 +1349,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run build
                 npm run build-stories
             """.trimIndent()
-            dockerImage = "satantime/puppeteer-node:20"
+            dockerImage = "node:20"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }

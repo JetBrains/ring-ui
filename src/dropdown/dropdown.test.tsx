@@ -82,16 +82,19 @@ describe('Dropdown', () => {
     popup?.isVisible().should.be.false;
   });
 
-  it('should hide popup on outside pointer down event', done => {
+  it('should hide popup on outside pointer down event', async () => {
     mountDropdown();
     should.exist(anchor);
     anchor && Simulate.click(anchor);
-    setTimeout(() => {
-      document.dispatchEvent(new PointerEvent('pointerdown'));
-      should.exist(popup);
-      popup?.isVisible().should.be.false;
-      done();
-    }, 0);
+
+    await new Promise<void>(resolve => {
+      setTimeout(() => {
+        document.dispatchEvent(new PointerEvent('pointerdown'));
+        should.exist(popup);
+        popup?.isVisible().should.be.false;
+        resolve();
+      }, 0);
+    });
   });
 
   it('should show popup when initialized with initShown=true', () => {

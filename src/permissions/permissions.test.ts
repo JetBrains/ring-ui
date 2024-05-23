@@ -42,15 +42,17 @@ describe('Permissions', () => {
   });
 
 
-  it('should load permissions', function _(done) {
+  it('should load permissions', async () => {
     const auth = createAuthMock();
     const permissionsData = [createPermission('A')];
     sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
     const permissions = new Permissions(auth);
 
-    permissions.load().then(permissionsCache => {
-      permissionsCache.has('A').should.be.true;
-      done();
+    await new Promise<void>(resolve => {
+      permissions.load().then(permissionsCache => {
+        permissionsCache.has('A').should.be.true;
+        resolve();
+      });
     });
   });
 
@@ -88,13 +90,15 @@ describe('Permissions', () => {
     });
 
 
-    it('should cache loaded permissions', function _(done) {
+    it('should cache loaded permissions', async () => {
       permissions.load();
       permissions.load();
       permissions.load();
-      permissions.load().then(permissionsCache => {
-        permissionsCache.has('A').should.be.true;
-        done();
+      await new Promise<void>(resolve => {
+        permissions.load().then(permissionsCache => {
+          permissionsCache.has('A').should.be.true;
+          resolve();
+        });
       });
 
       auth.http.get.should.have.been.calledOnce;

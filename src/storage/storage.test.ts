@@ -1,9 +1,9 @@
+// @ts-expect-error no typings
+import mockedWindow from 'storage-mock';
+
 import {StorageInterface} from './storage';
 import LocalStorage from './storage__local';
 import FallbackStorage from './storage__fallback';
-
-// eslint-disable-next-line import/no-commonjs
-const MockedStorage: typeof LocalStorage = require('imports-loader?imports=default|storage-mock|window!./storage__local').default;
 
 function noop() {}
 
@@ -107,19 +107,21 @@ function testStorageEvents(storage: StorageInterface) {
     let stop: () => void;
 
     afterEach(() => {
-      stop();
+      stop?.();
     });
 
-    it('on after set should be fired', () => {
+    it('on after set should be fired', async () => {
       const testEvent = 'testKey';
 
-      const change = new Promise(resolve => {
-        stop = storage.on(testEvent, resolve);
+      const change = new Promise<void>(resolve => {
+        stop = storage.on(testEvent, () => {
+          resolve();
+        });
       });
 
       storage.set(testEvent, 'testValue');
 
-      return change.should.be.fulfilled;
+      return await change;
     });
 
     it('on after set should be fired with correct value', () => {
@@ -189,6 +191,12 @@ function testStorageEvents(storage: StorageInterface) {
 describe('Storage', () => {
   describe('Local', () => {
     beforeEach(() => {
+      sandbox.stub(window, 'addEventListener').
+        value((...args: unknown[]) => mockedWindow.addEventListener(...args));
+      sandbox.stub(window, 'removeEventListener').
+        value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
+      sandbox.stub(window, 'localStorage').value(mockedWindow.localStorage);
+      sandbox.stub(window, 'sessionStorage').value(mockedWindow.sessionStorage);
       localStorage.clear();
       sessionStorage.clear();
     });
@@ -204,7 +212,7 @@ describe('Storage', () => {
     describe('Session', () => {
       testStorage(storageSession);
     });
-    testStorageEvents(new MockedStorage());
+    testStorageEvents(new LocalStorage());
 
     describe('specific', () => {
       beforeEach(() => {
