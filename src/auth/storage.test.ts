@@ -1,10 +1,10 @@
+// @ts-expect-error no typings available
+import mockedWindow from 'storage-mock';
+
 import LocalStorage from '../storage/storage__local';
 
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
-
-// eslint-disable-next-line import/no-commonjs
-const MockedStorage: typeof LocalStorage = require('imports-loader?imports=default|storage-mock|window!../storage/storage__local').default;
 
 const TICK = 100;
 
@@ -139,10 +139,19 @@ describe('Auth', () => {
       let mockedAuthStorage: AuthStorage;
 
       beforeEach(() => {
+        sandbox.stub(window, 'addEventListener').
+          value((...args: unknown[]) => mockedWindow.addEventListener(...args));
+        sandbox.stub(window, 'removeEventListener').
+          value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
+        sandbox.stub(window, 'localStorage').value(mockedWindow.localStorage);
+        sandbox.stub(window, 'sessionStorage').value(mockedWindow.sessionStorage);
+        localStorage.clear();
+        sessionStorage.clear();
+
         mockedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',
           tokenKey: 'loltoken',
-          storage: MockedStorage
+          storage: LocalStorage
         });
       });
 
