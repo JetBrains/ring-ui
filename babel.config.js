@@ -15,6 +15,11 @@ module.exports = function config(api) {
       ['babel-plugin-transform-define', {
         SUPPORTED_BROWSERS: browserslist()
       }]
-    ]
+    ],
+    env: {
+      test: {
+        plugins: ['require-context-hook']
+      }
+    }
   };
 };
