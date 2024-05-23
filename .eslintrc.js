@@ -20,7 +20,6 @@ module.exports = {
         'wallaby.config.js',
         'rollup.config.js',
         '*webpack.config.js',
-        'karma-*.conf.js',
         '**/*.test.js',
         '**/*.test.ts',
         '**/*.test.tsx',
@@ -55,7 +54,6 @@ module.exports = {
       ],
       env: {
         browser: true,
-        mocha: false,
         node: false
       },
       rules: {
@@ -120,7 +118,6 @@ module.exports = {
         '__mocks__/**'
       ],
       env: {
-        mocha: true,
         jest: true
       },
       globals: {

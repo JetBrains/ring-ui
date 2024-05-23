@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {act} from 'react';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -56,7 +56,9 @@ describe('Alert', () => {
     const closeSpy = sandbox.spy();
     render(<Alert timeout={TIMEOUT} onCloseRequest={closeSpy}>{'Test element'}</Alert>);
 
-    clock.tick(TICK);
+    act(() => {
+      clock.tick(TICK);
+    });
 
     closeSpy.should.have.been.called;
   });

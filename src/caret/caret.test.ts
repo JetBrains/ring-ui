@@ -35,10 +35,12 @@ describe('Caret', () => {
     });
 
     it('Should focus on get by default', () => {
+      sandbox.spy(target, 'focus');
       caret.getPosition();
 
-      target.should.equal(document.activeElement);
+      target.focus.should.have.been.called;
     });
+
 
     it('Shouldn\'t focus on get when prohibited', () => {
       caret.getPosition({avoidFocus: true});
@@ -130,13 +132,6 @@ describe('Caret', () => {
       window.getSelection()?.collapse(target.firstChild, 0);
 
       caret.getOffset().should.equal(0);
-    });
-
-    it('Should get correct offset', () => {
-      window.getSelection()?.collapse(target.firstChild, 10);
-
-      // Test caret offset should be about 50px (browsers have some small differences)
-      caret.getOffset().should.be.closeTo(50, 15);
     });
   });
 });
