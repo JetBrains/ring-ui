@@ -400,7 +400,6 @@ export const renderInline: StoryFn<DatePickerAttrs> = args => {
             onChange={this.setDate}
             withTime
             clear
-            inline
             {...args}
           />
         </div>
@@ -409,6 +408,10 @@ export const renderInline: StoryFn<DatePickerAttrs> = args => {
   }
 
   return <DatePickerExample/>;
+};
+
+renderInline.args = {
+  inline: true
 };
 
 renderInline.parameters = {
