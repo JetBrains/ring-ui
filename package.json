@@ -193,7 +193,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.24.6",
-    "@babel/preset-typescript": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.6",
     "@jetbrains/babel-preset-jetbrains": "^2.3.2",
     "@jetbrains/icons": "^4.2.0",
     "@jetbrains/logos": "^3.0.0-canary.734b213.0",
