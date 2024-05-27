@@ -87,7 +87,7 @@ export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateIn
   clear: boolean
   inline: boolean
   popupClassName?: string | null | undefined
-  dropdownProps?: DropdownAttrs
+  dropdownProps?: Partial<DropdownAttrs>
   translations?: DatePickerTranslations | null | undefined,
   displayMonthFormat: (date: Date, locale: Locale | undefined) => string
   displayDayFormat: (date: Date, locale: Locale | undefined) => string
