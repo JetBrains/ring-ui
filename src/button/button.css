@@ -89,7 +89,8 @@
   }
 
   &[disabled],
-  &[disabled].withIcon {
+  &[disabled].withIcon,
+  &[disabled]:hover {
     color: var(--ring-disabled-color);
   }
 
