@@ -24,8 +24,8 @@ describe('HTTP', () => {
     sandbox.stub(httpInstance, '_fetch').resolves({
       status: OK,
       headers: new Headers({'content-type': 'application/json'}),
-      json: () => fetchResult
-    });
+      json: () => Promise.resolve(fetchResult)
+    } as Response);
   }
 
   beforeEach(function beforeEach() {
