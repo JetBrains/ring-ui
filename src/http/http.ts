@@ -19,9 +19,8 @@ export const defaultFetchConfig: RequestInit = {
   credentials: 'same-origin'
 };
 
-export interface HTTPErrorData {
-  error?: string
-}
+export type HTTPErrorData = Record<string, unknown>
+
 export class HTTPError extends ExtendableError {
   data: HTTPErrorData;
   status: number | undefined;
@@ -217,7 +216,7 @@ export default class HTTP implements Partial<HTTPAuth> {
         throw error;
       }
 
-      const shouldRefreshToken = error.data.error !== undefined
+      const shouldRefreshToken = typeof error.data.error === 'string'
         ? this.shouldRefreshToken?.(error.data.error)
         : false;
 
