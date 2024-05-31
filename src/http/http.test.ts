@@ -1,9 +1,10 @@
 import * as Sinon from 'sinon';
 
-import HTTP, {defaultFetchConfig, HTTPAuth} from './http';
+import HTTP, {defaultFetchConfig, HTTPAuth, HTTPError} from './http';
 
 const OK = 200;
 const METHOD_NOT_ALLOWED = 405;
+const SERVER_ERROR = 500;
 
 
 describe('HTTP', () => {
@@ -152,6 +153,32 @@ describe('HTTP', () => {
     await http.request('testurl').catch(onError);
 
     onError.should.have.been.called;
+  });
+
+  it('should include error information', async () => {
+    (http._fetch as Sinon.SinonStub).resolves({
+      status: SERVER_ERROR,
+      headers: {
+        get: () => 'application/json'
+      },
+      json: () => ({
+        error: 'Failed',
+        errorDescription: 'Failure description'
+      })
+    });
+
+    try {
+      await http.get('testurl');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
+      e.should.be.instanceof(HTTPError);
+      e.status.should.equal(SERVER_ERROR);
+
+      e.data.should.be.deep.equal({
+        error: 'Failed',
+        errorDescription: 'Failure description'
+      });
+    }
   });
 
   it('should refresh token and request again if invalid token error returned', async () => {
