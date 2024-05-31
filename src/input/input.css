@@ -121,7 +121,7 @@
 
 .clear {
   position: absolute;
-  top: calc(var(--ring-input-padding-block) + 2px);
+  top: calc(var(--ring-input-padding-block) + 1px);
   right: var(--ring-input-padding-inline);
 
   height: auto;
@@ -191,4 +191,8 @@ textarea.input {
 
 .heightL {
   --ring-input-padding-block: 5px;
+}
+
+.heightS .clear {
+  top: calc(var(--ring-input-padding-block) + 2px);
 }
