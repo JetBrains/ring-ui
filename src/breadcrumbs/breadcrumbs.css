@@ -1,0 +1,7 @@
+.separator {
+  margin: 0 var(--ring-unit);
+
+  color: var(--ring-borders-color);
+
+  font-size: 16px;
+}
