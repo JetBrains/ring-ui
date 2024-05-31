@@ -23,6 +23,7 @@ describe('HTTP', () => {
   function mockFetch(httpInstance: HTTP) {
     sandbox.stub(httpInstance, '_fetch').resolves({
       status: OK,
+      ok: true,
       headers: new Headers({'content-type': 'application/json'}),
       json: () => Promise.resolve(fetchResult)
     } as Response);
@@ -78,6 +79,7 @@ describe('HTTP', () => {
   it('should perform request and return text result if no "application/json" header', async () => {
     (http._fetch as Sinon.SinonStub).resolves({
       status: OK,
+      ok: true,
       headers: new Headers({'content-type': 'text/html'}),
       json: () => sandbox.spy(),
       text: () => 'some text'
@@ -98,6 +100,7 @@ describe('HTTP', () => {
   it('should allow to get meta information of string response', async () => {
     (http._fetch as Sinon.SinonStub).resolves({
       status: OK,
+      ok: true,
       headers: new Headers({'content-type': 'text/html'}),
       json: () => sandbox.spy(),
       text: () => 'some text'
@@ -146,6 +149,7 @@ describe('HTTP', () => {
   it('should throw if response status is not OK', async () => {
     (http._fetch as Sinon.SinonStub).resolves({
       status: METHOD_NOT_ALLOWED,
+      ok: false,
       json: () => fetchResult
     });
 
@@ -158,6 +162,7 @@ describe('HTTP', () => {
   it('should include error information', async () => {
     (http._fetch as Sinon.SinonStub).resolves({
       status: SERVER_ERROR,
+      ok: false,
       headers: {
         get: () => 'application/json'
       },
@@ -187,11 +192,13 @@ describe('HTTP', () => {
     (http._fetch as Sinon.SinonStub).
       onFirstCall().resolves({
         status: METHOD_NOT_ALLOWED,
+        ok: false,
         json: () => ({error: 'invalid_token'}),
         headers: new Headers({'content-type': 'application/json'})
       }).
       onSecondCall().resolves({
         status: OK,
+        ok: true,
         json: () => fetchResult,
         headers: new Headers({'content-type': 'application/json'})
       });
