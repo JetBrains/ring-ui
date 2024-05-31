@@ -32,11 +32,11 @@ export default class HTTPMock extends HTTP {
       }
     }];
 
-    return {
+    return Promise.resolve({
       status: 200,
       headers: new Headers({'content-type': 'application/json'}),
       json: () => Promise.resolve((this._getResponseForUrl(url) || this.defaultResponse))
-    };
+    } as Response);
   }
 
   respondDefault(response: unknown) {
