@@ -8,8 +8,6 @@ import {encodeURL, joinBaseURLAndPath} from '../global/url';
  */
 
 const TOKEN_TYPE = 'Bearer';
-const STATUS_OK_IF_MORE_THAN = 200;
-const STATUS_BAD_IF_MORE_THAN = 300;
 
 export const defaultFetchConfig: RequestInit = {
   headers: {
@@ -159,7 +157,7 @@ export default class HTTP implements Partial<HTTPAuth> {
     const contentType = response.headers.get('content-type');
     const isJson = contentType && contentType.indexOf('application/json') !== -1;
 
-    if (HTTP._isErrorStatus(response.status)) {
+    if (!response.ok) {
       let resJson;
       try {
         resJson = await (isJson ? response.json() : response.text());
@@ -177,10 +175,6 @@ export default class HTTP implements Partial<HTTPAuth> {
     } catch (err) {
       return response;
     }
-  }
-
-  private static _isErrorStatus(status: number) {
-    return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
   }
 
   fetch = async <T = unknown>(url: string, params: FetchParams = {}): Promise<T> => {
