@@ -197,7 +197,6 @@ export class Input extends PureComponent<InputProps> {
         [styles.active]: active,
         [styles.error]: error != null,
         [styles.empty]: empty,
-        [styles.noLabel]: !this.props.label,
         [styles.withIcon]: icon != null,
         [styles.clearable]: clearable,
         [styles.borderless]: borderless
