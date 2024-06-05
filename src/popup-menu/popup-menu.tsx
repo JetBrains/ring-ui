@@ -60,6 +60,7 @@ export default class PopupMenu<T = unknown> extends Popup<PopupMenuProps<T>> {
 (PopupMenu as ComponentType<unknown>).propTypes = {
   ...popupPropTypes,
   ...List.propTypes,
+  maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   closeOnSelect: PropTypes.bool
 };
 
