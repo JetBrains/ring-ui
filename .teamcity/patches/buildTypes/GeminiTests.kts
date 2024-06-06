@@ -11,6 +11,12 @@ To apply the patch, change the buildType with id = 'GeminiTests'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("GeminiTests")) {
+    params {
+        add {
+            password("env.NGROK_TOKEN", "credentialsJSON:56069693-43e9-4c45-ac02-a0ca8913f080")
+        }
+    }
+
     expectSteps {
         script {
             name = "Run hermione"
