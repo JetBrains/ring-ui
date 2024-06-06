@@ -1,4 +1,4 @@
-/* global hermione */
+/* global testplane */
 import querystring from 'querystring';
 
 import filenamify from 'filenamify';
@@ -36,7 +36,7 @@ for (const {kind, stories} of items) {
         continue;
       }
       if (skip) {
-        hermione.skip.in(skip);
+        testplane.skip.in(skip);
       }
 
       it(testName, async function test() {

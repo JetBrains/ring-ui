@@ -116,6 +116,6 @@ export const withPopup = () => {
 
 withPopup.storyName = 'Theme Provider and Popup';
 withPopup.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles
 };

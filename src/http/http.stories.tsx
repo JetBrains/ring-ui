@@ -11,7 +11,7 @@ export default {
 
   parameters: {
     notes: 'Provides a way to perform authorized network requests.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   },
   tags: ['skip-test']
 };

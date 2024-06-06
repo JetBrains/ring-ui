@@ -40,7 +40,7 @@ via [this configuration](https://teamcity.jetbrains.com/buildConfiguration/JetBr
 
 Run the development server with `npm start` before executing the commands listed below*
 
-Ring UI uses [Hermione](https://github.com/gemini-testing/hermione) for visual regression testing. Hermione works by taking screenshots and comparing them to existing reference images. 
+Ring UI uses [Testplane](https://github.com/gemini-testing/testplane) for visual regression testing. Testplane works by taking screenshots and comparing them to existing reference images. 
 
 We use [BrowserStack](https://www.browserstack.com/) as a cloud Selenium grid. In order to use it on your local machine, you need to have a BrowserStack account. 
 Credentials can be gathered on [this page](https://www.browserstack.com/accounts/settings).
@@ -54,12 +54,12 @@ export BROWSERSTACK_KEY=yourkey
 ```
  
  Or prepend these variables before your commands:
- `BROWSERSTACK_NAME=**** BROWSERSTACK_KEY=**** npm run hermione-test`
+ `BROWSERSTACK_NAME=**** BROWSERSTACK_KEY=**** npm run screenshots-test`
 
-After you make some visual changes, run `npm run hermione-test` to make sure there are no regressions.
+After you make some visual changes, run `npm run screenshots-test` to make sure there are no regressions.
 
 To update the reference images for a certain component (for example, `alert`):
-`npm run hermione-gather -- -- --grep Components/Alert`.
+`npm run screenshots-gather -- -- --grep Components/Alert`.
 
 ### Accessibility audit
 

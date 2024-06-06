@@ -7,7 +7,7 @@ export default {
 
   parameters: {
     notes: 'A collection of DOM utilities.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

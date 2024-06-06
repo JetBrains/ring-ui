@@ -66,7 +66,7 @@ export const smartTooltip = () => {
 };
 
 smartTooltip.storyName = 'smart tooltip';
-smartTooltip.parameters = {hermione: {skip: true}};
+smartTooltip.parameters = {screenshots: {skip: true}};
 
 export const hubUserCard = () => {
   const auth = new Auth(hubConfig);
@@ -88,5 +88,5 @@ export const hubUserCard = () => {
 };
 
 hubUserCard.storyName = 'hub user card';
-hubUserCard.parameters = {hermione: {skip: true}};
+hubUserCard.parameters = {screenshots: {skip: true}};
 hubUserCard.tags = ['skip-test'];

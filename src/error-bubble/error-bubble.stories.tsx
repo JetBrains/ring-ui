@@ -89,6 +89,6 @@ export const inDialogForm = () => {
 inDialogForm.storyName = 'in dialog form';
 
 inDialogForm.parameters = {
-  hermione: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
+  screenshots: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
   a11y: {element: '#storybook-root,*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'}
 };
