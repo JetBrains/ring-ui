@@ -86,5 +86,5 @@ export const taggedTemplate = () =>
 taggedTemplate.storyName = 'tagged template';
 
 taggedTemplate.parameters = {
-  hermione: {skip: true}
+  screenshots: {skip: true}
 };

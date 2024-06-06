@@ -1,28 +1,27 @@
 {
-  "name": "@ring-ui/hermione",
+  "name": "@ring-ui/screenshots",
   "version": "6.0.0",
-  "description": "Hermione tests runner for Ring UI library",
+  "description": "Screenshot tests runner for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "pregui": "kill-port 8000",
-    "gather": "npm run hermione -- --update-refs",
-    "gui": "npm run hermione gui",
-    "hermione": "node hermione-local.js",
+    "gather": "npm run screenshots -- --update-refs",
+    "gui": "npm run screenshots gui",
+    "screenshots": "node screenshots-local.js",
     "serve": "http-server ../../storybook-dist/ -p 9999",
-    "test": "npm run hermione",
-    "test-ci": "node hermione-ci.js --teamcity"
+    "test": "npm run screenshots",
+    "test-ci": "node screenshots-ci.js --teamcity"
   },
   "devDependencies": {
-    "@jetbrains/hermione-teamcity-reporter": "^1.2.2",
+    "@jetbrains/testplane-teamcity-reporter": "^1.2.2",
     "axios": "^1.7.2",
     "browserstack-local": "^1.5.5",
     "dotenv": "^16.4.5",
     "filenamify": "^6.0.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.2.0",
-    "hermione": "~5.6.0",
     "html-reporter": "^10.0.0",
     "http-server": "^14.1.1",
     "ip": "^2.0.1",
@@ -34,6 +33,7 @@
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
+    "testplane": "^8.11.7",
     "yauzl": "^3.1.3"
   }
 }

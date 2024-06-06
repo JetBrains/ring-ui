@@ -27,15 +27,15 @@ module.exports = {
   compositeImage: true,
   windowSize,
   plugins: {
-    '@jetbrains/hermione-teamcity-reporter': {
+    '@jetbrains/testplane-teamcity-reporter': {
       enabled: isTeamCity
     },
-    'html-reporter/hermione': {
+    'html-reporter/testplane': {
       defaultView: 'all'
     }
   },
   screenshotsDir: test =>
-    path.join('hermione', test.browserId, test.parent.title.toLowerCase()),
+    path.join('screenshots', test.browserId, test.parent.title.toLowerCase()),
 
   desiredCapabilities: {
     project: 'Ring UI',

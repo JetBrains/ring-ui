@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Download latest visual regression build" type="NodeJSConfigurationType" path-to-js-file="download-latest-build.js" working-dir="$PROJECT_DIR$/packages/hermione">
+  <configuration default="false" name="Download latest visual regression build" type="NodeJSConfigurationType" path-to-js-file="download-latest-build.js" working-dir="$PROJECT_DIR$/packages/screenshots">
     <method v="2" />
   </configuration>
 </component>

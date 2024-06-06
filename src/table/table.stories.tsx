@@ -20,7 +20,7 @@ export default {
 
   component: BaseTable,
   parameters: {
-    hermione: {skip: true}
+    screenshots: {skip: true}
   },
   argTypes: {
     selection: {

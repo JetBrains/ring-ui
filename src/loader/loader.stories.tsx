@@ -10,7 +10,7 @@ export default {
 
   component: Loader,
   parameters: {
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

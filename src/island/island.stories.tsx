@@ -8,7 +8,7 @@ export default {
 
   parameters: {
     notes: 'Displays an island.',
-    hermione: {captureSelector: '*[data-test~=ring-island]'}
+    screenshots: {captureSelector: '*[data-test~=ring-island]'}
   }
 };
 

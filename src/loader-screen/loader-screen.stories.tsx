@@ -9,7 +9,7 @@ export default {
   parameters: {
     notes:
       'Displays a large animated loader with an optional caption. Typical use cases: page loading animation, major action animation.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

@@ -16,14 +16,14 @@ test('Get stories tree', () => {
         ({name, story}) => ({
           id: story.id,
           name,
-          parameters: story.parameters.hermione
+          parameters: story.parameters.screenshots
         }),
       )
     };
   });
 
   fs.writeFileSync(
-    path.join(__dirname, 'hermione/stories.json'),
+    path.join(__dirname, 'screenshots/stories.json'),
     // eslint-disable-next-line no-magic-numbers
     JSON.stringify(Object.values(kinds), null, 2),
   );

@@ -19,7 +19,7 @@ export default {
   parameters: {
     notes: 'A stateful popup with a clickable anchor.',
 
-    hermione: {
+    screenshots: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-dropdown]'},
         {
@@ -125,7 +125,7 @@ export const withHoverModeAndDisabledClickMode = () => (
 );
 
 withHoverModeAndDisabledClickMode.storyName = 'with hover mode and disabled click mode';
-withHoverModeAndDisabledClickMode.parameters = {hermione: {skip: true}};
+withHoverModeAndDisabledClickMode.parameters = {screenshots: {skip: true}};
 
 export const autofocusOnOpen = () => (
   <div>
@@ -140,11 +140,11 @@ export const autofocusOnOpen = () => (
 );
 
 autofocusOnOpen.storyName = 'autofocus on open';
-autofocusOnOpen.parameters = {hermione: {skip: true}};
+autofocusOnOpen.parameters = {screenshots: {skip: true}};
 
 export const renderProps = () => (
   <Dropdown anchor="Click me">
     {props => <Popup {...props}><Button onClick={props.onCloseAttempt} text>Close</Button></Popup>}
   </Dropdown>
 );
-renderProps.parameters = {hermione: {skip: true}};
+renderProps.parameters = {screenshots: {skip: true}};

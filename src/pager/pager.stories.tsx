@@ -23,7 +23,7 @@ export default {
 
   parameters: {
     notes: 'Displays a pager.',
-    hermione: {captureSelector: '*[data-test~=ring-pager]'}
+    screenshots: {captureSelector: '*[data-test~=ring-pager]'}
   }
 };
 
@@ -77,7 +77,7 @@ export const customFrameSize = () => {
 };
 
 customFrameSize.storyName = 'custom frame size';
-customFrameSize.parameters = {hermione: {skip: true}};
+customFrameSize.parameters = {screenshots: {skip: true}};
 
 export const customFrameSize2 = () => {
   class PagerDemo extends Component {
@@ -104,7 +104,7 @@ export const customFrameSize2 = () => {
 };
 
 customFrameSize2.storyName = 'custom frame size #2';
-customFrameSize2.parameters = {hermione: {skip: true}};
+customFrameSize2.parameters = {screenshots: {skip: true}};
 
 export const customFrameSize3 = () => {
   class PagerDemo extends Component {
@@ -131,7 +131,7 @@ export const customFrameSize3 = () => {
 };
 
 customFrameSize3.storyName = 'custom frame size #3';
-customFrameSize3.parameters = {hermione: {skip: true}};
+customFrameSize3.parameters = {screenshots: {skip: true}};
 
 export const pageSizeSelector = () => {
   class PagerDemo extends Component {
@@ -266,7 +266,7 @@ export const openTotalAndHistorySupport = () => {
 };
 
 openTotalAndHistorySupport.storyName = 'open total and history support';
-openTotalAndHistorySupport.parameters = {hermione: {skip: true}};
+openTotalAndHistorySupport.parameters = {screenshots: {skip: true}};
 
 export const reloadOnCurrentPageChange = () => {
   class PagerDemo extends Component {
@@ -294,4 +294,4 @@ export const reloadOnCurrentPageChange = () => {
 };
 
 reloadOnCurrentPageChange.storyName = 'reload on current page change';
-reloadOnCurrentPageChange.parameters = {hermione: {skip: true}};
+reloadOnCurrentPageChange.parameters = {screenshots: {skip: true}};
