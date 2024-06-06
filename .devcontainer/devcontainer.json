@@ -3,5 +3,5 @@
   "name": "ring-ui",
   "forwardPorts": [9999],
   "image":  "node:20.10.0",
-  "postStartCommand": "npm install"
+  "postCreateCommand": "npm install"
 }
