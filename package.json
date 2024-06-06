@@ -196,7 +196,7 @@
     "@babel/preset-typescript": "^7.24.7",
     "@jetbrains/babel-preset-jetbrains": "^2.3.2",
     "@jetbrains/icons": "^4.2.0",
-    "@jetbrains/logos": "^3.0.0-canary.734b213.0",
+    "@jetbrains/logos": "^3.0.0-canary.8190069.0",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@types/combokeys": "^2.4.9",
     "@types/deep-equal": "^1.0.4",
