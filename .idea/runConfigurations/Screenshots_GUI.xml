@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Hermione GUI" type="js.build_tools.npm">
+  <configuration default="false" name="Screenshots GUI" type="js.build_tools.npm">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
-      <script value="hermione-gui" />
+      <script value="screenshots-gui" />
     </scripts>
     <node-interpreter value="project" />
     <package-manager value="npm" />

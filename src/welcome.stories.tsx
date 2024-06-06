@@ -30,7 +30,7 @@ export default {
   title: 'Ring UI/Welcome',
 
   parameters: {
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

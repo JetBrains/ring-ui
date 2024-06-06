@@ -7,7 +7,7 @@ export default {
     notes: `
 Ring UI colors are based on CSS custom properties spec. You can use them in you markup directly.
     `,
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

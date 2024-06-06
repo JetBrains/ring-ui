@@ -12,7 +12,7 @@ export default {
   parameters: {
     notes:
       'Allows manipulation of the caret position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

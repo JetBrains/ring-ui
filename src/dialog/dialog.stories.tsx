@@ -17,7 +17,7 @@ export default {
 
   parameters: {
     notes: 'The Dialog component is a simple way to present content above an enclosing view.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
     zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71d1f136a8dec29cee'
   }
@@ -217,7 +217,7 @@ WithOverflowScrollOnHtml.parameters = {
       }
     </style>
   `,
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '.button'},
       {type: 'capture', selector: '*[data-test~=ring-dialog-container]'}

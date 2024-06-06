@@ -1,6 +1,6 @@
 const {exec} = require('child_process');
 
-const hermione = require('./hermione');
+const screenshots = require('./screenshots');
 
 const server = exec('npm run serve');
 server.stderr.on('data', error => {
@@ -8,7 +8,7 @@ server.stderr.on('data', error => {
   console.error(error);
 });
 
-hermione(() => {
+screenshots(() => {
   server.kill();
   process.exit(0);
 });

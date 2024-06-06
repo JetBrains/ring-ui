@@ -55,7 +55,7 @@ export const uncontrolled = () => (
 );
 
 uncontrolled.storyName = 'uncontrolled';
-uncontrolled.parameters = {hermione: {skip: true}};
+uncontrolled.parameters = {screenshots: {skip: true}};
 
 export const disabled = () => (
   <Radio disabled>

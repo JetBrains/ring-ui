@@ -137,7 +137,7 @@ export const alertContainer = () => {
 };
 
 alertContainer.parameters = {
-  hermione: {
+  screenshots: {
     captureSelector: '*[data-test="alert-container"]'
   },
   a11y: {element: '#storybook-root,*[data-test="alert-container"]'}

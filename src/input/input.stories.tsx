@@ -153,7 +153,7 @@ export const SelectAll = () => {
 };
 
 SelectAll.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test-select]'},
       {type: 'capture', selector: '#storybook-root'}

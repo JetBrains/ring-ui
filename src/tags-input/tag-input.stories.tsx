@@ -141,7 +141,7 @@ export const autoOpen = () => {
 };
 
 autoOpen.parameters = {
-  hermione: {
+  screenshots: {
     captureSelector: ['#storybook-root', '[data-test~=ring-popup]']
   },
   a11y: {element: '#storybook-root,[data-test~=ring-popup]'}
@@ -171,7 +171,7 @@ export const autoOpenInADialog = () => {
 };
 
 autoOpenInADialog.parameters = {
-  hermione: {
+  screenshots: {
     captureSelector: ['[data-test~=ring-dialog]', '[data-test~=ring-popup]']
   },
   a11y: {element: '#storybook-root,[data-test~=ring-dialog],[data-test~=ring-popup]'}
