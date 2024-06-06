@@ -129,7 +129,7 @@ allIconsList.parameters = {
 
 export const jetBrainsProductLogosList = () => (
   <div>
-    {allLogos.keys().map(key => (
+    {allLogos.keys().filter(key => !/icon\.svg/.test(key)).map(key => (
       <Icon glyph={allLogos(key)} key={key} title={key.slice(2)} className="ring-icon"/>
     ))}
   </div>
