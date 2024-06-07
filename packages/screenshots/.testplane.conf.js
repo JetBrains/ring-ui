@@ -35,7 +35,7 @@ module.exports = {
     }
   },
   screenshotsDir: test =>
-    path.join('screenshots', test.browserId, test.parent.title.toLowerCase()),
+    path.join('testplane', test.browserId, test.parent.title.toLowerCase()),
 
   desiredCapabilities: {
     project: 'Ring UI',
