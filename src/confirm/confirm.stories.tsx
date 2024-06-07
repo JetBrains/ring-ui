@@ -10,7 +10,7 @@ export default {
 
   parameters: {
     notes: 'A component that shows a confirmation dialog.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
   }
 };

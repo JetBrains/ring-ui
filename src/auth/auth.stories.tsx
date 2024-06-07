@@ -14,7 +14,7 @@ export default {
 
   parameters: {
     notes: 'Authenticates a user in [Hub](https://www.jetbrains.com/hub/).',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   },
   tags: ['skip-test']
 };

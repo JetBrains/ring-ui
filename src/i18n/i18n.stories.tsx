@@ -30,4 +30,4 @@ export default {
 export const basic: StoryFn<Messages> = args => <I18nTestComponent {...args}/>;
 
 basic.storyName = 'basic';
-basic.parameters = {hermione: {skip: true}};
+basic.parameters = {screenshots: {skip: true}};

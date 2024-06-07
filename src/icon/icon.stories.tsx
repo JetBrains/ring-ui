@@ -138,7 +138,7 @@ export const jetBrainsProductLogosList = () => (
 jetBrainsProductLogosList.storyName = 'JetBrains product logos list';
 
 jetBrainsProductLogosList.parameters = {
-  hermione: {skip: true}, // Logos example is too big and have no much sense to test
+  screenshots: {skip: true}, // Logos example is too big and have no much sense to test
   storyStyles: `
 <style>
   .ring-icon {

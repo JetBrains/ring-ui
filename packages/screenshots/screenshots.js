@@ -34,8 +34,8 @@ module.exports = callback => kill(browserstackPort).catch(e => {
         console.log('Closed BrowserStack process', error || '');
       });
       // eslint-disable-next-line no-use-before-define
-      hermioneProcess.kill();
-      exec('git add hermione');
+      screenshotsProcess.kill();
+      exec('git add testplane');
       callback();
     };
 
@@ -44,21 +44,21 @@ module.exports = callback => kill(browserstackPort).catch(e => {
       cleanup();
     });
 
-    execSync('npx jest packages/hermione/get-stories-tree.js \'--testMatch=**\'', {
+    execSync('npx jest packages/screenshots/get-stories-tree.js \'--testMatch=**\'', {
       cwd: path.resolve(__dirname, '../..'),
       stdio: 'inherit'
     });
-    const hermioneProcess = exec(
+    const screenshotsProcess = exec(
       // eslint-disable-next-line no-magic-numbers
-      `npx hermione ${process.argv.slice(2).join(' ')}`,
+      `npx testplane ${process.argv.slice(2).join(' ')}`,
       {maxBuffer: STDOUT_BUFFER_SIZE},
       error => {
-        console.log('hermione execution have been done, error =', error);
+        console.log('screenshots execution have been done, error =', error);
         cleanup();
       }
     );
-    hermioneProcess.stdout.pipe(process.stdout);
-    hermioneProcess.stderr.pipe(process.stderr);
+    screenshotsProcess.stdout.pipe(process.stdout);
+    screenshotsProcess.stderr.pipe(process.stderr);
   });
 });
 

@@ -75,4 +75,4 @@ export const allVariants = () => {
 };
 
 allVariants.storyName = 'Link';
-allVariants.parameters = {hermione: {captureSelector: '*[data-test~=lik-example]'}};
+allVariants.parameters = {screenshots: {captureSelector: '*[data-test~=lik-example]'}};

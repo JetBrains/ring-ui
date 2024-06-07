@@ -16,7 +16,7 @@ export default {
 
   parameters: {
     notes: 'Displays a menu in a dropdown.',
-    hermione: {
+    screenshots: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-dropdown]'},
         {
@@ -155,7 +155,7 @@ export const nested = () => {
 nested.storyName = 'DropdownMenu nested';
 
 nested.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test~=ring-dropdown]'},
       {type: 'click', selector: '[aria-label="Option 2"]'},

@@ -332,13 +332,13 @@ object Deploy : BuildType({
 })
 
 object GeminiTests : BuildType({
-    name = "Visual Regression Tests (Hermione)"
+    name = "Visual Regression Tests"
     description = "Screenshots based snapshot tests"
 
     allowExternalStatus = true
     artifactRules = """
-        packages/hermione/html-report/ => html-report.zip
-        packages/hermione/*.log
+        packages/screenshots/html-report/ => html-report.zip
+        packages/screenshots/*.log
     """.trimIndent()
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
     maxRunningBuilds = 1
@@ -364,7 +364,7 @@ object GeminiTests : BuildType({
 
     steps {
         script {
-            name = "Run hermione"
+            name = "Run screenshot tests"
             scriptContent = """
                 #!/bin/bash
                 set -e -x
@@ -376,12 +376,15 @@ object GeminiTests : BuildType({
                 mkdir -p node_modules
                 npm install
 
-                cd packages/hermione
+                cd packages/screenshots
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
             dockerImage = "node:20"
-            dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+            dockerRunParameters = "-p 4445:4445 -p 9999:9999 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+            param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
+            param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
+            param("org.jfrog.artifactory.selectedDeployableServer.uploadSpecSource", "Job configuration")
         }
     }
 
