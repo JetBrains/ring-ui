@@ -9,7 +9,7 @@ export default {
 
   parameters: {
     notes: 'Displays a link which copies test to clipboard.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

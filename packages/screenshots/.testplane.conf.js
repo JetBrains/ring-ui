@@ -27,19 +27,19 @@ module.exports = {
   compositeImage: true,
   windowSize,
   plugins: {
-    '@jetbrains/hermione-teamcity-reporter': {
+    '@jetbrains/testplane-teamcity-reporter': {
       enabled: isTeamCity
     },
-    'html-reporter/hermione': {
+    'html-reporter/testplane': {
       defaultView: 'all'
     }
   },
   screenshotsDir: test =>
-    path.join('hermione', test.browserId, test.parent.title.toLowerCase()),
+    path.join('testplane', test.browserId, test.parent.title.toLowerCase()),
 
   desiredCapabilities: {
     project: 'Ring UI',
-    build: `Screenshots comparision [build ${process.env.BUILD_NUMBER || `local ${Date.now()}`}]`,
+    build: `Screenshots comparison [build ${process.env.BUILD_NUMBER || `local ${Date.now()}`}]`,
     'browserstack.local': true
   },
   // See all platforms here https://www.browserstack.com/automate/capabilities

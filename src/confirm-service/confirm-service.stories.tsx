@@ -11,7 +11,7 @@ export default {
   parameters: {
     notes:
       ' wrapper for the Confirm component. Allows showing the confirmation dialog * without mounting the Confirm component first. Can be used outside React.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
   }
 };

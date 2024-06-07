@@ -165,6 +165,15 @@ textarea.input {
   line-height: var(--ring-line-height-lowest);
 }
 
+.helpText {
+  margin-top: calc(var(--ring-unit) / 2);
+
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
+}
+
 .sizeS {
   width: calc(var(--ring-unit) * 12);
 }
@@ -191,8 +200,4 @@ textarea.input {
 
 .heightL {
   --ring-input-padding-block: 5px;
-}
-
-.heightS .clear {
-  top: calc(var(--ring-input-padding-block) + 2px);
 }
