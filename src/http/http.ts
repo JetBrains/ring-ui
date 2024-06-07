@@ -101,7 +101,7 @@ export default class HTTP implements Partial<HTTPAuth> {
     this.baseUrl = baseUrl;
   };
 
-  _fetch(...args: Parameters<typeof fetch>): Promise<Response> | Partial<Response> {
+  _fetch(...args: Parameters<typeof fetch>): Promise<Response> {
     return fetch(...args);
   }
 
@@ -155,14 +155,14 @@ export default class HTTP implements Partial<HTTPAuth> {
       set(parsedResponse, {headers, ok, redirected, status, statusText, type, url});
   }
 
-  private async _processResponse(response: Partial<Response>) {
-    const contentType = response.headers?.get('content-type');
+  private async _processResponse(response: Response) {
+    const contentType = response.headers.get('content-type');
     const isJson = contentType && contentType.indexOf('application/json') !== -1;
 
-    if (response.status != null && HTTP._isErrorStatus(response.status)) {
+    if (HTTP._isErrorStatus(response.status)) {
       let resJson;
       try {
-        resJson = await (isJson ? response.json?.() : response.text?.());
+        resJson = await (isJson ? response.json() : response.text());
       } catch (err) {
         // noop
       }
@@ -171,7 +171,7 @@ export default class HTTP implements Partial<HTTPAuth> {
     }
 
     try {
-      const parsedResponse = await (isJson ? response.json?.() : {data: await response.text?.()});
+      const parsedResponse = await (isJson ? response.json() : {data: await response.text()});
       this._storeRequestMeta(parsedResponse, response);
       return parsedResponse;
     } catch (err) {
