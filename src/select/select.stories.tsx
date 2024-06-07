@@ -100,7 +100,7 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
 
   withAvatars.args = {
     data: tags,
-    selected: tags[4],
+    selected: tags[5],
     type: Select.Type.BUTTON
   };
 }
