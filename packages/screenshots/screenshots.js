@@ -35,7 +35,7 @@ module.exports = callback => kill(browserstackPort).catch(e => {
       });
       // eslint-disable-next-line no-use-before-define
       screenshotsProcess.kill();
-      exec('git add screenshots');
+      exec('git add testplane');
       callback();
     };
 
