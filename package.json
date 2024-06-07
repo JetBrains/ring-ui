@@ -111,6 +111,7 @@
     "@types/react-dom": "^18.3.0",
     "@types/sinon": "^17.0.3",
     "@types/sinon-chai": "^3.2.12",
+    "@types/webpack-env": "^1.18.5",
     "@typescript-eslint/eslint-plugin": "^7.12.0",
     "@typescript-eslint/parser": "^7.12.0",
     "@vitejs/plugin-react": "^4.3.0",
