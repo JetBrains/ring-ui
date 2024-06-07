@@ -124,6 +124,7 @@ export interface SelectPopupProps<T = unknown> {
   renderOptimization?: boolean | undefined
   style?: CSSProperties | undefined
   top?: number | undefined
+  offset?: number | undefined
   multiple: boolean | Multiple
   selected: ListDataItem<T> | readonly ListDataItem<T>[] | null
   tags: Tags | boolean | null
@@ -597,6 +598,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
       directions,
       top,
       left,
+      offset,
       style,
       dir,
       filter
@@ -627,6 +629,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               directions={directions}
               top={top}
               left={left}
+              offset={offset}
               onMouseDown={this.mouseDownHandler}
               target={this.props.ringPopupTarget}
               autoCorrectTopOverflow={false}
