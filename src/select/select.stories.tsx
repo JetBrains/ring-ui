@@ -65,6 +65,11 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
       icon: FLAG_DE_URL
     },
     {
+      label: 'With SVG icon',
+      key: 4,
+      rightGlyph: warningIcon
+    },
+    {
       label: 'With avatar',
       key: 5,
       avatar: avatarUrl
@@ -95,7 +100,7 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
 
   withAvatars.args = {
     data: tags,
-    selected: tags[4],
+    selected: tags[5],
     type: Select.Type.BUTTON
   };
 }
