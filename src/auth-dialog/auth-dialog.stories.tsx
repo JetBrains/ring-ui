@@ -14,7 +14,7 @@ export default {
 
   parameters: {
     notes: 'A component that shows an authentication dialog.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
   }
 };

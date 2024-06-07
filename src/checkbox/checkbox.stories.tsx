@@ -14,7 +14,7 @@ export default {
 
 export const controls = (args: CheckboxProps) => <Checkbox {...args}/>;
 controls.args = {label: 'label'};
-controls.parameters = {hermione: {skip: true}};
+controls.parameters = {screenshots: {skip: true}};
 
 export const basic = () => (
   <Fragment>

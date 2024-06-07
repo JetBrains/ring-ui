@@ -17,7 +17,7 @@ export default {
     notes:
       'Allows picking a date or a date range. Uses [date-fns](https://date-fns.org) under the hood.',
 
-    hermione: {
+    screenshots: {
       actions: [
         {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
         {
@@ -92,7 +92,7 @@ export const singleDateAndTime: StoryFn<DatePickerAttrs> = args => {
 };
 
 singleDateAndTime.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
       {
@@ -379,7 +379,7 @@ export const rangeWithCustomPlaceholders: StoryFn<DatePickerAttrs> = args => {
 rangeWithCustomPlaceholders.storyName = 'range with customized placeholders';
 
 rangeWithCustomPlaceholders.parameters = {
-  hermione: {skip: true}
+  screenshots: {skip: true}
 };
 
 export const renderInline: StoryFn<DatePickerAttrs> = args => {
@@ -415,7 +415,7 @@ renderInline.args = {
 };
 
 renderInline.parameters = {
-  hermione: {skip: true}
+  screenshots: {skip: true}
 };
 
 renderInline.storyName = 'inline';
@@ -486,7 +486,7 @@ allSizes.parameters = {
   }
 </style>
       `,
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'capture', name: 'datepickers', selector: ['[data-test~=root]']}
     ]

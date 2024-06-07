@@ -25,7 +25,7 @@ export default {
 
   component: List,
   parameters: {
-    hermione: {captureSelector: '*[data-test~=ring-list]'}
+    screenshots: {captureSelector: '*[data-test~=ring-list]'}
   }
 };
 
@@ -69,7 +69,7 @@ withAHintBelow.args = {
 export const longList: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 longList.storyName = 'long list';
-longList.parameters = {hermione: {skip: true}};
+longList.parameters = {screenshots: {skip: true}};
 longList.args = {
   maxHeight: 400,
   compact: true,
@@ -184,7 +184,7 @@ withItemIcons.args = {
 export const withDeprecatedItemTypeParameter: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 withDeprecatedItemTypeParameter.storyName = 'with deprecated item.type parameter';
-withDeprecatedItemTypeParameter.parameters = {hermione: {skip: true}};
+withDeprecatedItemTypeParameter.parameters = {screenshots: {skip: true}};
 withDeprecatedItemTypeParameter.args = {
   shortcuts: true,
   data: [
@@ -263,7 +263,7 @@ export const WithUsers = () => {
 };
 
 WithUsers.storyName = 'with users';
-WithUsers.parameters = {hermione: {skip: true}};
+WithUsers.parameters = {screenshots: {skip: true}};
 WithUsers.tags = ['skip-test'];
 
 export const withCustomTooltip: StoryFn<ListAttrs> = args => <List {...args}/>;

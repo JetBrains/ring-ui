@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
 import searchIcon from '@jetbrains/icons/search';
-import searchSIcon from '@jetbrains/icons/search-12px';
 
 
 import Button from '../button/button';
@@ -57,6 +56,7 @@ export const Basic = () => {
         error="Error description that wraps over lines because of being really long"
       />
       <Input label="Error without description" error=""/>
+      <Input label="Input with help" help="Help text"/>
       <Input label="Short input" size={Size.S}/>
       <Input label="Long input" size={Size.L}/>
       <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
@@ -111,7 +111,7 @@ export const HeightS = () => {
           onClear={() => {}}
           disabled
         />
-        <Input label="Input with icon" icon={searchSIcon} defaultValue="Default value"/>
+        <Input label="Input with icon" icon={searchIcon} defaultValue="Default value"/>
         <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint"/>
         <Input
           placeholder="Hint"
@@ -126,6 +126,7 @@ export const HeightS = () => {
           error="Error description that wraps over lines because of being really long"
         />
         <Input label="Error without description" error=""/>
+        <Input label="Input with help" help="Help text"/>
         <Input label="Short input" size={Size.S}/>
         <Input label="Long input" size={Size.L}/>
         <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
@@ -153,7 +154,7 @@ export const SelectAll = () => {
 };
 
 SelectAll.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test-select]'},
       {type: 'capture', selector: '#storybook-root'}

@@ -15,7 +15,7 @@ export default {
 
   parameters: {
     notes: 'Service for managing a stack of alerts.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

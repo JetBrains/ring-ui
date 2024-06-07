@@ -159,7 +159,9 @@ describe('Auth', () => {
       sandbox.stub(Auth.prototype, 'setHash');
     });
 
-    afterEach(() => Promise.all([auth._storage?.cleanStates(), auth._storage?.wipeToken()]));
+    afterEach(async () => {
+      await Promise.all([auth._storage?.cleanStates(), auth._storage?.wipeToken()]);
+    });
 
     it('should resolve to undefined if there is a valid token', async () => {
       await auth._storage?.saveToken({
@@ -472,7 +474,9 @@ describe('Auth', () => {
       auth._initDeferred?.resolve?.();
     });
 
-    afterEach(() => Promise.all([auth._storage?.cleanStates(), auth._storage?.wipeToken()]));
+    afterEach(async () => {
+      await Promise.all([auth._storage?.cleanStates(), auth._storage?.wipeToken()]);
+    });
 
     it('should resolve to access token if there is a valid one', async () => {
       await auth._storage?.saveToken({

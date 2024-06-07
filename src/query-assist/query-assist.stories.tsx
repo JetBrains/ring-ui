@@ -73,7 +73,7 @@ export const Basic: StoryFn<QueryAssistAttrs> = args => {
 };
 
 Basic.storyName = 'basic';
-Basic.parameters = {hermione: {skip: true}};
+Basic.parameters = {screenshots: {skip: true}};
 Basic.args = {
   query: 'test',
   focus: true,
@@ -138,7 +138,7 @@ noAuth.args = {
   })
 };
 noAuth.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
       {type: 'click', selector: '[data-test=ring-query-assist-input]'},
@@ -191,7 +191,7 @@ withCustomRenderer.args = {
   })
 };
 withCustomRenderer.storyName = 'with custom renderer';
-withCustomRenderer.parameters = {hermione: {skip: true}};
+withCustomRenderer.parameters = {screenshots: {skip: true}};
 
 export const WithCustomActions: StoryFn<QueryAssistAttrs> = args => {
   const [authReady, setAuthReady] = React.useState(false);
@@ -239,7 +239,7 @@ WithCustomActions.args = {
   ]
 };
 WithCustomActions.storyName = 'with custom actions';
-WithCustomActions.parameters = {hermione: {skip: true}};
+WithCustomActions.parameters = {screenshots: {skip: true}};
 WithCustomActions.tags = ['skip-test'];
 
 export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
@@ -278,7 +278,7 @@ export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
 };
 
 HugeOne.storyName = 'huge one';
-HugeOne.parameters = {hermione: {skip: true}};
+HugeOne.parameters = {screenshots: {skip: true}};
 HugeOne.args = {
   huge: true,
   query: 'test',
@@ -299,7 +299,7 @@ export const disabledOne: StoryFn<QueryAssistAttrs> = args => (
 );
 
 disabledOne.storyName = 'disabled one';
-disabledOne.parameters = {hermione: {skip: true}};
+disabledOne.parameters = {screenshots: {skip: true}};
 disabledOne.args = {
   query: ''
 };

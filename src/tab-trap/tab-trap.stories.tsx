@@ -13,7 +13,7 @@ export default {
 
   parameters: {
     notes: 'Disallows tabbing out of a designated area.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 
