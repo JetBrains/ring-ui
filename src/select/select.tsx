@@ -203,6 +203,7 @@ export interface BaseSelectProps<T = unknown> {
   popupStyle?: CSSProperties | undefined
   top?: number | undefined
   left?: number | undefined
+  offset?: number | undefined
   renderOptimization?: boolean | undefined
   ringPopupTarget?: string | null | undefined
   preventListOverscroll?: boolean | undefined
@@ -455,7 +456,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     tags: null,
     ringPopupTarget: null,
-    dir: 'ltr'
+    dir: 'ltr',
+    offset: 4
   };
 
   static getDerivedStateFromProps<T = unknown>(
@@ -752,6 +754,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               style={this.props.popupStyle}
               top={this.props.top}
               left={this.props.left}
+              offset={this.props.offset}
               filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
               filterIcon={this.props.filterIcon}
               filterRef={this.props.filterRef}
