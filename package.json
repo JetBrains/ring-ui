@@ -81,7 +81,7 @@
     "@csstools/css-parser-algorithms": "^2.6.1",
     "@csstools/stylelint-no-at-nest-rule": "^2.0.0",
     "@jetbrains/eslint-config": "^5.4.2",
-    "@jetbrains/logos": "3.0.0-canary.36efb2f.0",
+    "@jetbrains/logos": "3.0.0-canary.734b213.0",
     "@jetbrains/stylelint-config": "^4.0.2",
     "@primer/octicons": "^19.9.0",
     "@rollup/plugin-babel": "^6.0.4",
