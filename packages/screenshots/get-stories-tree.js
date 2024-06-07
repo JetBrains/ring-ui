@@ -23,7 +23,7 @@ test('Get stories tree', () => {
   });
 
   fs.writeFileSync(
-    path.join(__dirname, 'screenshots/stories.json'),
+    path.join(__dirname, 'testplane/stories.json'),
     // eslint-disable-next-line no-magic-numbers
     JSON.stringify(Object.values(kinds), null, 2),
   );

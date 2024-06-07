@@ -39,7 +39,7 @@ module.exports = {
 
   desiredCapabilities: {
     project: 'Ring UI',
-    build: `Screenshots comparision [build ${process.env.BUILD_NUMBER || `local ${Date.now()}`}]`,
+    build: `Screenshots comparison [build ${process.env.BUILD_NUMBER || `local ${Date.now()}`}]`,
     'browserstack.local': true
   },
   // See all platforms here https://www.browserstack.com/automate/capabilities
