@@ -34,6 +34,7 @@ export default class HTTPMock extends HTTP {
 
     return Promise.resolve({
       status: 200,
+      ok: true,
       headers: new Headers({'content-type': 'application/json'}),
       json: () => Promise.resolve((this._getResponseForUrl(url) || this.defaultResponse))
     } as Response);
