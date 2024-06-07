@@ -53,6 +53,7 @@ export interface InputBaseProps {
   labelType?: LabelType
   active?: boolean | null | undefined
   error?: ReactNode | null | undefined
+  help?: ReactNode | null | undefined
   borderless?: boolean | null | undefined
   onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
   icon?: string | ComponentType | null | undefined
@@ -168,6 +169,7 @@ export class Input extends PureComponent<InputProps> {
       label,
       labelType,
       error,
+      help,
       className,
       inputClassName,
       children,
@@ -258,7 +260,9 @@ export class Input extends PureComponent<InputProps> {
               )}
               {afterInput}
             </div>
-            {error && <div className={styles.errorText}>{error}</div>}
+            {error
+              ? <div className={styles.errorText}>{error}</div>
+              : (help && <div className={styles.helpText}>{help}</div>)}
           </div>
         )}
       </I18nContext.Consumer>
