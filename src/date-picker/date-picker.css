@@ -9,7 +9,7 @@
 
 :root {
   /* stylelint-disable-next-line color-no-hex */
-  --ring-date-picker-hover-color: #b3dfff;
+  --ring-date-picker-hover-color: var(--ring-border-hover-color);
 }
 
 .container {
@@ -310,7 +310,7 @@
 .active.active {
   transition: none;
 
-  color: var(--ring-link-hover-color);
+  color: var(--ring-text-color);
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-date-picker-hover-color);
 }

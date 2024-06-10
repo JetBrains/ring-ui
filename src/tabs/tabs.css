@@ -13,7 +13,7 @@
 
 .dark,
 :global(.ring-ui-theme-dark) {
-  --ring-selected-tab-color: var(--ring-main-color);
+  --ring-selected-tab-color: var(--ring-text-color);
 }
 
 .tabs {
