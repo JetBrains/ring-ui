@@ -51,7 +51,6 @@ export interface InputBaseProps {
   inputClassName?: string | null | undefined
   label?: ReactNode
   labelType?: LabelType
-  active?: boolean | null | undefined
   error?: ReactNode | null | undefined
   help?: ReactNode | null | undefined
   borderless?: boolean | null | undefined
@@ -161,7 +160,6 @@ export class Input extends PureComponent<InputProps> {
     const {
       // Modifiers
       size,
-      active,
       multiline,
       borderless,
 
@@ -196,7 +194,6 @@ export class Input extends PureComponent<InputProps> {
       [styles[`height${height}`]],
       {
         'ring-js-shortcuts': enableShortcuts === true,
-        [styles.active]: active,
         [styles.error]: error != null,
         [styles.empty]: empty,
         [styles.withIcon]: icon != null,
@@ -276,7 +273,6 @@ export class Input extends PureComponent<InputProps> {
   inputClassName: PropTypes.string,
   size: PropTypes.oneOf(Object.values(Size)).isRequired,
   label: PropTypes.node,
-  active: PropTypes.bool,
   error: PropTypes.string,
   multiline: PropTypes.bool,
   onChange: PropTypes.func,
