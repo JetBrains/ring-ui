@@ -1,4 +1,4 @@
-import React, {PureComponent, ReactNode, SyntheticEvent, ThHTMLAttributes} from 'react';
+import {PureComponent, ReactNode, SyntheticEvent, ThHTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import sortableIcon from '@jetbrains/icons/unsorted-10px';

@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import {Component, Fragment} from 'react';
 import pencilIcon from '@jetbrains/icons/pencil';
 import hourglassIcon from '@jetbrains/icons/hourglass';
 

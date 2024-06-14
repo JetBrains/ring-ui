@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import hubConfig from '../../.storybook/hub-config';
@@ -30,7 +30,7 @@ interface AuthDialogDemoState {
 export const authDialogService = ({onConfirm, onCancel}: AuthDialogServiceArgs) => {
   const auth = new Auth(hubConfig);
 
-  class AuthDialogDemo extends React.Component<{}, AuthDialogDemoState> {
+  class AuthDialogDemo extends Component<{}, AuthDialogDemoState> {
     componentDidMount() {
       auth.init();
       this.showAuthDialog();

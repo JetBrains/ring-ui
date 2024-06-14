@@ -1,4 +1,3 @@
-import React from 'react';
 import searchIcon from '@jetbrains/icons/search';
 
 import {StoryFn} from '@storybook/react';

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers*/
-import React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount, ReactWrapper, ShallowWrapper} from 'enzyme';
 

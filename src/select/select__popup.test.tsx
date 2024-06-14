@@ -1,4 +1,3 @@
-import React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 

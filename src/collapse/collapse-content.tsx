@@ -1,11 +1,5 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useContext,
-  useMemo,
-  PropsWithChildren
-} from 'react';
+import {useState, useEffect, useRef, useContext, useMemo, PropsWithChildren} from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';

@@ -1,4 +1,5 @@
-import React, {useMemo, useContext, cloneElement} from 'react';
+import {useMemo, useContext, cloneElement} from 'react';
+import * as React from 'react';
 
 import dataTests from '../global/data-tests';
 

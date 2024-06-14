@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import LoaderScreen from './loader-screen';
@@ -14,7 +14,7 @@ export default {
 };
 
 export const basic = () => {
-  class Example extends React.Component {
+  class Example extends Component {
     render() {
       return <LoaderScreen/>;
     }
@@ -26,7 +26,7 @@ export const basic = () => {
 basic.storyName = 'basic';
 
 export const withMessage = () => {
-  class Example extends React.Component {
+  class Example extends Component {
     render() {
       return <LoaderScreen message={'Some message'}/>;
     }

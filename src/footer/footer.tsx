@@ -1,12 +1,13 @@
 /**
  * @name Footer
  */
-import React, {
+import {
   memo,
   isValidElement,
   ReactNode,
   ComponentType,
-  HTMLAttributeAnchorTarget, ReactChild
+  HTMLAttributeAnchorTarget,
+  ReactChild
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import ContentEditable from './contenteditable';
 
 export default {

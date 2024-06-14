@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import {Grid, Row, Col} from './grid';
 
 export default {

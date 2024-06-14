@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import Toggle, {Size} from './toggle';
 
 export default {

@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import Button from '../button/button';
@@ -21,7 +21,7 @@ interface ConfirmServiceArgs {
   onCancel: () => void
 }
 export const confirmService = ({onConfirm, onCancel}: ConfirmServiceArgs) => {
-  class ConfirmDemo extends React.Component {
+  class ConfirmDemo extends Component {
     componentDidMount() {
       this.showConfirm();
     }

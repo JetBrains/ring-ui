@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import Badge from '../badge/badge';
 import Link from '../link/link';
 

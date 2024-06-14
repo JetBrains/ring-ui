@@ -1,7 +1,7 @@
 /**
  * @description Displays a popup with select's options.
  */
-import React, {
+import {
   ComponentType,
   CSSProperties,
   PureComponent,
@@ -9,6 +9,8 @@ import React, {
   Ref,
   SyntheticEvent
 } from 'react';
+
+import * as React from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search';
 import memoizeOne from 'memoize-one';

@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import {useState} from '@storybook/preview-api';
 import type {StoryFn} from '@storybook/react';
 
@@ -28,7 +28,7 @@ interface Args {
 }
 
 export const basic: StoryFn<Args> = ({onAction}) => {
-  class DialogDemo extends React.Component {
+  class DialogDemo extends Component {
     state = {
       show: true,
       text: '',
@@ -120,7 +120,7 @@ book. It has survived not only five centuries, but also the leap into electronic
 typesetting, remaining essentially unchanged.`;
 
 export const withScroll: StoryFn<Args> = ({onAction}) => {
-  class DialogDemo extends React.Component {
+  class DialogDemo extends Component {
     state = {
       show: true
     };

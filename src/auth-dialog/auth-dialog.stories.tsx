@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import Button from '../button/button';
@@ -24,7 +24,7 @@ interface AuthDialogArgs {
   onCancel: () => void
 }
 export const authDialog = ({onConfirm, onCancel}: AuthDialogArgs) => {
-  class AuthDialogDemo extends React.Component {
+  class AuthDialogDemo extends Component {
     state = {
       confirm: {
         show: true,

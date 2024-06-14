@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import LoaderInline from './loader-inline';
@@ -13,7 +13,7 @@ export default {
 };
 
 export const basic = () => {
-  class Example extends React.Component {
+  class Example extends Component {
     render() {
       return (
         <div>
@@ -33,7 +33,7 @@ export const basic = () => {
 basic.storyName = 'basic';
 
 export const withChildren = () => {
-  class Example extends React.Component {
+  class Example extends Component {
     render() {
       return <LoaderInline>Loading...</LoaderInline>;
     }
@@ -45,7 +45,7 @@ export const withChildren = () => {
 withChildren.storyName = 'with children';
 
 export const onCustomBackground = () => {
-  class Example extends React.Component {
+  class Example extends Component {
     render() {
       return (
         <div style={{backgroundColor: 'var(--ring-hover-background-color)'}}>
@@ -65,7 +65,7 @@ export const onCustomBackground = () => {
 onCustomBackground.storyName = 'on custom background';
 
 export const withoutReact = () => {
-  class Example extends React.Component {
+  class Example extends Component {
     render() {
       return (
         <div>

@@ -1,4 +1,4 @@
-import React, {Component, ComponentType, ReactNode} from 'react';
+import {Component, ComponentType, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import gift from '@jetbrains/icons/gift';
