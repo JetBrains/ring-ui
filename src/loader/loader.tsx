@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, PureComponent} from 'react';
+import {HTMLAttributes, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import dataTests from '../global/data-tests';

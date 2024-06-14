@@ -1,4 +1,4 @@
-import React, {PureComponent, ReactNode, ComponentType} from 'react';
+import {PureComponent, ReactNode, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';

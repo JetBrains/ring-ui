@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import {Fragment} from 'react';
 
 
 import ControlLabel, {LabelType} from '../control-label/control-label';

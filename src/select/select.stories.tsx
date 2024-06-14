@@ -1,10 +1,14 @@
-import React, {
+import {
   ReactNode,
   SyntheticEvent,
-  useCallback, useEffect,
-  useMemo, useRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
   useState
 } from 'react';
+
+import * as React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import searchIcon from '@jetbrains/icons/search';
 

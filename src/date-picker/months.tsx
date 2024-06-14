@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef} from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {addMonths} from 'date-fns/addMonths';
 import {getDay} from 'date-fns/getDay';

@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import PopupMenu, {ListProps} from './popup-menu';
 
 export default {

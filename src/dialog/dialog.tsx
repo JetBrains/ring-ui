@@ -1,4 +1,5 @@
-import React, {PureComponent} from 'react';
+import {PureComponent} from 'react';
+import * as React from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

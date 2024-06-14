@@ -1,4 +1,3 @@
-import React from 'react';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 

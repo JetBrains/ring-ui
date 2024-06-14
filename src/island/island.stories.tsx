@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import Island, {AdaptiveIsland, Header, Content} from './island';
 
 export default {

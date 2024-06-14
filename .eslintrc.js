@@ -42,7 +42,9 @@ module.exports = {
       allow: ['^UNSAFE_']
     }],
     // TODO move to @jetbrains/eslint-config
-    'require-await': error
+    'require-await': error,
+    'react/jsx-uses-react': ignore,
+    'react/react-in-jsx-scope': ignore
   },
   env: {
     node: true
@@ -86,6 +88,9 @@ module.exports = {
     {
       files: ['**/*.ts', '**/*.tsx'],
       parser: '@typescript-eslint/parser',
+      parserOptions: {
+        jsxPragma: null
+      },
       plugins: ['@typescript-eslint'],
       extends: ['plugin:@typescript-eslint/recommended'],
       rules: {

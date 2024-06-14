@@ -1,4 +1,3 @@
-import React from 'react';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
 

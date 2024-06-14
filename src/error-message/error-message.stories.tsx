@@ -1,4 +1,3 @@
-import React from 'react';
 import frownIcon from '@jetbrains/icons/frown';
 
 

@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import {useState, useEffect, createElement, useMemo} from 'react';
 import permissionIcon from '@jetbrains/icons/settings';
 
 import {StoryFn} from '@storybook/react';
@@ -32,10 +32,10 @@ export default {
 };
 
 export const Basic: StoryFn<QueryAssistAttrs> = args => {
-  const [authReady, setAuthReady] = React.useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const auth = useMemo(() => new Auth(hubConfig), []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     auth.init().then(() => setAuthReady(true));
   }, [auth]);
   const dataSource = useMemo(() => {
@@ -181,7 +181,7 @@ withCustomRenderer.args = {
     ].map(i => ({
       ...i,
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: React.createElement(
+      template: createElement(
         'span',
         null,
         `My name is ${i.description}, my ${i.prefix} is ${i.option}`
@@ -194,10 +194,10 @@ withCustomRenderer.storyName = 'with custom renderer';
 withCustomRenderer.parameters = {screenshots: {skip: true}};
 
 export const WithCustomActions: StoryFn<QueryAssistAttrs> = args => {
-  const [authReady, setAuthReady] = React.useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const auth = useMemo(() => new Auth(hubConfig), []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     auth.init().then(() => setAuthReady(true));
   }, [auth]);
 
@@ -243,10 +243,10 @@ WithCustomActions.parameters = {screenshots: {skip: true}};
 WithCustomActions.tags = ['skip-test'];
 
 export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
-  const [authReady, setAuthReady] = React.useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const auth = useMemo(() => new Auth(hubConfig), []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     auth.init().then(() => setAuthReady(true));
   }, [auth]);
 

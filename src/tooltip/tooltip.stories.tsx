@@ -1,4 +1,4 @@
-import React, {CSSProperties, Fragment} from 'react';
+import {CSSProperties, Fragment} from 'react';
 
 
 import Button from '../button/button';

@@ -1,4 +1,5 @@
-import React, {Component, ComponentRef, ReactNode, SyntheticEvent} from 'react';
+import {Component, ComponentRef, ReactNode, SyntheticEvent} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
@@ -508,7 +509,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       }
       const diff = this.immediateState.query.length - this.state.query.length;
       const originalIndex = this.immediateState.caret - diff;
-      const ranges = [...this.state.styleRanges ?? []];
+      const ranges = [...(this.state.styleRanges ?? [])];
 
       const range = ranges.
         find(r => originalIndex >= r.start && originalIndex <= r.start + r.length);

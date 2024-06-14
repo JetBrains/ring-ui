@@ -1,4 +1,3 @@
-import React from 'react';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import exceptionIcon from '@jetbrains/icons/exception';
 import frownIcon from '@jetbrains/icons/frown';

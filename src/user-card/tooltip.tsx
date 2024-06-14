@@ -1,4 +1,4 @@
-import React, {Component, ReactElement, ReactNode} from 'react';
+import {Component, ReactElement, ReactNode} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 

@@ -1,9 +1,4 @@
-import React, {
-  Component,
-  forwardRef,
-  Ref,
-  ForwardedRef
-} from 'react';
+import {Component, forwardRef, Ref, ForwardedRef} from 'react';
 
 import composeRefs from './composeRefs';
 

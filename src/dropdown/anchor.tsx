@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import {memo} from 'react';
 import PropTypes from 'prop-types';
 import chevronDown from '@jetbrains/icons/chevron-10px';
 import classNames from 'classnames';

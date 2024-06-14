@@ -1,4 +1,4 @@
-import React, {PureComponent, Children, cloneElement, ReactElement} from 'react';
+import {PureComponent, Children, cloneElement, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 
 import {TableAttrs} from './table';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import loginDialogService from '../login-dialog/service';
 import Link from '../link/link';
 

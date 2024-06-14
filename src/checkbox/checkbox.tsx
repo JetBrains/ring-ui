@@ -1,4 +1,4 @@
-import React, {PureComponent, InputHTMLAttributes, CSSProperties, Ref, ReactNode} from 'react';
+import {PureComponent, InputHTMLAttributes, CSSProperties, Ref, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import checkmarkIcon from '@jetbrains/icons/checkmark-12px';

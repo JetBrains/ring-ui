@@ -1,4 +1,4 @@
-import React from 'react';
+import {createElement} from 'react';
 import {shallow, mount, ReactWrapper} from 'enzyme';
 import VirtualizedList, {ListRowProps} from 'react-virtualized/dist/es/List';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
@@ -388,7 +388,7 @@ describe('List', () => {
       const instance = shallowList({
         data: [
           {
-            template: React.createElement('span', {}, 'custom item'),
+            template: createElement('span', {}, 'custom item'),
             key: 1,
             rgItemType: List.ListProps.Type.CUSTOM
           }
@@ -404,7 +404,7 @@ describe('List', () => {
       const instance = mountList({
         data: [
           {
-            template: React.createElement('span', {}, 'custom item'),
+            template: createElement('span', {}, 'custom item'),
             key: 1,
             rgItemType: List.ListProps.Type.CUSTOM,
             onClick
@@ -421,7 +421,7 @@ describe('List', () => {
       const instance = shallowList({
         data: [
           {
-            template: React.createElement('span', {}, 'custom item'),
+            template: createElement('span', {}, 'custom item'),
             key: 1,
             rgItemType: List.ListProps.Type.CUSTOM,
             disabled: true

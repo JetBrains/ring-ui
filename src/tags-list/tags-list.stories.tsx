@@ -1,4 +1,3 @@
-import React from 'react';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 
 

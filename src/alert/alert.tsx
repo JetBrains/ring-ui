@@ -1,4 +1,5 @@
-import React, {PureComponent, ReactNode} from 'react';
+import {PureComponent, ReactNode} from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import {shallow, render} from 'enzyme';
 
 import TagsList, {TagsListAttrs} from './tags-list';

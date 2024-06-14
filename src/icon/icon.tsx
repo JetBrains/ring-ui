@@ -2,7 +2,7 @@
  * @name Icon
  */
 
-import React, {PureComponent, ComponentType, SVGAttributes, HTMLAttributes} from 'react';
+import {PureComponent, ComponentType, SVGAttributes, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';

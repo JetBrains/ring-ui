@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import React from 'react';
 import {shallow, mount, render} from 'enzyme';
 
 import Footer, {FooterProps} from './footer';

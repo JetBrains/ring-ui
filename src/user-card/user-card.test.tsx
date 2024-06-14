@@ -1,4 +1,3 @@
-import React from 'react';
 import {shallow, mount} from 'enzyme';
 
 import {I18nContextHolder} from '../i18n/i18n-context';
