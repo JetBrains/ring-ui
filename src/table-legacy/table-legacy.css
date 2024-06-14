@@ -323,7 +323,7 @@
 }
 
 :global(.table__pager) {
-  padding: calc(4 * var(--ring-unit)) calc(4 * var(--ring-unit));
+  padding: calc(4 * var(--ring-unit));
 }
 
 :global(.table__pager-links) {
