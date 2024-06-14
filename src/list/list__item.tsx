@@ -1,4 +1,4 @@
-import React, {PureComponent, SyntheticEvent, ComponentType} from 'react';
+import {PureComponent, SyntheticEvent, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 

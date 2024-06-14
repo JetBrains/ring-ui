@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes} from 'react';
+import {InputHTMLAttributes} from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 

@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react';
+import {useState, Fragment} from 'react';
 
 
 import {ControlLabel, LabelType} from '../control-label/control-label';

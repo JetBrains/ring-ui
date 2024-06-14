@@ -1,12 +1,5 @@
-import React, {
-  Fragment,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
+import {Fragment, ReactNode, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 
 import {isArray} from '../global/typescript-utils';

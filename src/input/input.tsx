@@ -1,4 +1,4 @@
-import React, {
+import {
   PureComponent,
   Ref,
   ComponentType,
@@ -6,6 +6,8 @@ import React, {
   TextareaHTMLAttributes,
   ReactNode
 } from 'react';
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close-12px';

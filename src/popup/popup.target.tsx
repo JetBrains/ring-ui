@@ -1,4 +1,4 @@
-import React, {createContext, forwardRef, HTMLAttributes, Ref, ReactNode} from 'react';
+import {createContext, forwardRef, HTMLAttributes, Ref, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
 export const PopupTargetContext = createContext<string | Element | undefined>(undefined);

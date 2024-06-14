@@ -1,5 +1,4 @@
 import * as Sinon from 'sinon';
-import React from 'react';
 import {
   Simulate
 } from 'react-dom/test-utils';

@@ -1,4 +1,4 @@
-import React, {Component, ComponentType, RefCallback} from 'react';
+import {Component, ComponentType, RefCallback} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 

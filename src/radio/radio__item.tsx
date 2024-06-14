@@ -1,9 +1,4 @@
-import React, {
-  Component,
-  createContext,
-  forwardRef,
-  InputHTMLAttributes, ReactNode
-} from 'react';
+import {Component, createContext, forwardRef, InputHTMLAttributes, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 

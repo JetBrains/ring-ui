@@ -1,4 +1,4 @@
-import React, {
+import {
   ButtonHTMLAttributes,
   Component,
   ComponentType,
@@ -10,6 +10,8 @@ import React, {
   RefCallback,
   SyntheticEvent
 } from 'react';
+
+import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';

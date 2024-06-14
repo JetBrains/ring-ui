@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
+import * as React from 'react';
 
 import {getTranslations, type Messages, setTranslations, translate} from './i18n';
 

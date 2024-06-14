@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {StoryObj} from '@storybook/react';
 
 import Link from '../link/link';

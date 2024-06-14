@@ -1,4 +1,4 @@
-import React, {PureComponent, HTMLAttributes} from 'react';
+import {PureComponent, HTMLAttributes} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 

@@ -1,6 +1,4 @@
 
-import React from 'react';
-
 import MarkdownIt from 'markdown-it';
 import highlightJs from 'highlight.js';
 

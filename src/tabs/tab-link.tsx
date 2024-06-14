@@ -1,4 +1,4 @@
-import React, {memo, ReactNode} from 'react';
+import {memo, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
 import Link, {LinkProps} from '../link/link';

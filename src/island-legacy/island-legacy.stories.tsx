@@ -1,5 +1,4 @@
 import './island-legacy.css';
-import React from 'react';
 
 export default {
   title: 'Style-only/Island',

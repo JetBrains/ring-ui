@@ -1,4 +1,5 @@
-import React, {
+import {
+  forwardRef,
   useMemo,
   cloneElement,
   ComponentType,
@@ -104,7 +105,7 @@ DropdownAnchorWrapper.propTypes = {
   listId: PropTypes.string
 };
 
-const DropdownMenu = React.forwardRef(function DropdownMenu<T = unknown>(
+const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
   {id, anchor, ariaLabel, data, onSelect, menuProps, ...restDropdownProps}: DropdownMenuProps<T>,
   forwardedRef: Ref<PopupMenu<T>>
 ) {

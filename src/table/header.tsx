@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, PureComponent, ReactNode, SyntheticEvent} from 'react';
+import {ChangeEventHandler, PureComponent, ReactNode, SyntheticEvent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 

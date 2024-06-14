@@ -1,4 +1,4 @@
-import React, {cloneElement, Component, HTMLAttributes, ReactElement} from 'react';
+import {Children, cloneElement, Component, HTMLAttributes, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -43,7 +43,7 @@ export default class ContentLayout extends Component<ContentLayoutProps> {
 
     const contentClasses = classNames(styles.contentLayoutContent, contentClassName);
 
-    const childrenArray = React.Children.toArray(children);
+    const childrenArray = Children.toArray(children);
     const sidebarChild = childrenArray.filter(
       (child): child is ReactElement<SidebarProps, typeof Sidebar> =>
         child != null && typeof child === 'object' && 'type' in child && child.type === Sidebar

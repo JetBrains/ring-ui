@@ -1,4 +1,5 @@
-import React, {ReactNode} from 'react';
+import {ReactNode} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import alertService from '../alert-service/alert-service';

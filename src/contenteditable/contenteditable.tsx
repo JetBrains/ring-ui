@@ -1,4 +1,4 @@
-import React, {Component, HTMLAttributes, Ref, ReactElement} from 'react';
+import {Component, HTMLAttributes, Ref, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import {renderToStaticMarkup} from 'react-dom/server';
 
