@@ -33,7 +33,7 @@
 
 :global(.ring-form__wrap) {
   margin-bottom: 0;
-  padding: calc(3 * var(--ring-unit)) calc(4 * var(--ring-unit)) 0 calc(4 * var(--ring-unit));
+  padding: calc(3 * var(--ring-unit)) calc(4 * var(--ring-unit)) 0;
 }
 
 :global(.ring-form__header) {

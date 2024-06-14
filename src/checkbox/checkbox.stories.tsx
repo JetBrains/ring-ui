@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react';
 
 
+import ControlLabel, {LabelType} from '../control-label/control-label';
+
 import Checkbox, {CheckboxProps} from './checkbox';
 
 export default {
@@ -22,12 +24,24 @@ export const basic = () => (
     <div id="checkbox-base">
       <Checkbox label="One"/>
       <br/>
-      <Checkbox label="Two" defaultChecked/>
+      <Checkbox label="Two" defaultChecked help="Help text"/>
       <br/>
       <Checkbox label="Indeterminate" indeterminate/>
       <br/>
       <Checkbox label="Indeterminate checked" indeterminate defaultChecked/>
     </div>
+
+    <h1>Grouped checkbpoxes</h1>
+    <ControlLabel>Group Description</ControlLabel>
+    <Checkbox label="Label 1"/>
+    <br/>
+    <Checkbox label="Label 2"/>
+    <br/>
+    <br/>
+    <ControlLabel type={LabelType.FORM}>Group Description</ControlLabel>
+    <Checkbox label="Label 1"/>
+    <br/>
+    <Checkbox label="Label 2"/>
 
     <h1>Disabled checkboxes</h1>
     <div id="checkbox-disabled">
