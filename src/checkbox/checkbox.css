@@ -114,25 +114,24 @@
     background-color: var(--ring-disabled-background-color);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
+  /* stylelint-disable selector-max-specificity */
   &[disabled]:checked + .cell,
   &[disabled]:indeterminate + .cell {
     border-color: var(--ring-border-selected-disabled-color);
     background-color: var(--ring-border-selected-disabled-color);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
   &[disabled]:checked + .cell .check,
   &[disabled]:indeterminate + .cell .minus {
     color: var(--ring-disabled-background-color);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
   &:indeterminate:indeterminate + .cell .check {
     transition: none;
 
     opacity: 0;
   }
+  /* stylelint-enable */
 
   &[disabled] ~ .label {
     color: var(--ring-disabled-color);
