@@ -5,7 +5,8 @@
 .checkbox {
   position: relative;
 
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
 
   text-align: left;
 
@@ -79,28 +80,26 @@
 
   opacity: 0;
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:checked + .cell,
-  &:indeterminate + .cell {
+  /* stylelint-disable selector-max-specificity */
+  &:checked + .cellWrapper .cell,
+  &:indeterminate + .cellWrapper .cell {
     border-color: transparent;
     background-color: var(--ring-main-color);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:checked + .cell .check {
+  &:checked + .cellWrapper .check {
     opacity: 1;
   }
 
-  &:focus-visible + .cell,
-  &.focus + .cell {
+  &:focus-visible + .cellWrapper .cell,
+  &.focus + .cellWrapper .cell {
     transition: background-color var(--ring-ease);
 
     border-color: var(--ring-border-hover-color);
     box-shadow: 0 0 0 1px var(--ring-border-hover-color);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:indeterminate + .cell .minus {
+  &:indeterminate + .cellWrapper .minus {
     opacity: 1;
   }
 
@@ -108,31 +107,28 @@
     pointer-events: none;
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &[disabled][disabled] + .cell {
+  &[disabled][disabled] + .cellWrapper .cell {
     border-color: var(--ring-border-disabled-color);
     background-color: var(--ring-disabled-background-color);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &[disabled]:checked + .cell,
-  &[disabled]:indeterminate + .cell {
+  &[disabled]:checked + .cellWrapper .cell,
+  &[disabled]:indeterminate + .cellWrapper .cell {
     border-color: var(--ring-border-selected-disabled-color);
     background-color: var(--ring-border-selected-disabled-color);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &[disabled]:checked + .cell .check,
-  &[disabled]:indeterminate + .cell .minus {
+  &[disabled]:checked + .cellWrapper .check,
+  &[disabled]:indeterminate + .cellWrapper .minus {
     color: var(--ring-disabled-background-color);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:indeterminate:indeterminate + .cell .check {
+  &:indeterminate:indeterminate + .cellWrapper .check {
     transition: none;
 
     opacity: 0;
   }
+  /* stylelint-enable */
 
   &[disabled] ~ .label {
     color: var(--ring-disabled-color);
@@ -143,4 +139,11 @@
   margin-left: var(--ring-unit);
 
   line-height: normal;
+}
+
+.help {
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }

@@ -80,7 +80,7 @@
 }
 
 .narrowIsland .scrollableWrapper {
-  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 2);
+  padding: calc(var(--ring-unit) * 2);
 }
 
 .withoutPaddings .scrollableWrapper {
