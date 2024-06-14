@@ -1,6 +1,5 @@
 @import "../global/variables.css";
 
-@value link from "../link/link.css";
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -56,12 +55,6 @@
   color: var(--ring-active-text-color);
 
   line-height: 20px;
-
-  & :global(.ring-link),
-  /* This link styles are used in link.css */
-  & .link {
-    color: var(--ring-main-color);
-  }
 
   &.withCloseButton {
     margin-right: calc(var(--ring-unit) * 5);
