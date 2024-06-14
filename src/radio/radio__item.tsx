@@ -9,6 +9,8 @@ import classNames from 'classnames';
 
 import getUID from '../global/get-uid';
 
+import ControlHelp from '../control-help/control-help';
+
 import styles from './radio.css';
 
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
@@ -61,7 +63,7 @@ export class RadioItemInner extends Component<RadioItemInnerProps> {
         <span className={styles.circle}/>
         <span className={styles.label}>
           {children}
-          {help && <div className={styles.help}>{help}</div>}
+          {help && <ControlHelp>{help}</ControlHelp>}
         </span>
       </label>
     );

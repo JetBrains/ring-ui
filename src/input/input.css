@@ -167,11 +167,6 @@ textarea.input {
 
 .helpText {
   margin-top: calc(var(--ring-unit) / 2);
-
-  color: var(--ring-secondary-color);
-
-  font-size: var(--ring-font-size-smaller);
-  line-height: var(--ring-line-height-lowest);
 }
 
 .sizeS {

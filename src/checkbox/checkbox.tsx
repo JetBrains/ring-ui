@@ -8,6 +8,8 @@ import Icon from '../icon/icon';
 import {refObject} from '../global/prop-types';
 import composeRefs from '../global/composeRefs';
 
+import ControlHelp from '../control-help/control-help';
+
 import styles from './checkbox.css';
 
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -121,7 +123,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
         </div>
         <span className={labelClasses}>
           {label || children}
-          {help && <div className={styles.help}>{help}</div>}
+          {help && <ControlHelp>{help}</ControlHelp>}
         </span>
       </label>
     );
