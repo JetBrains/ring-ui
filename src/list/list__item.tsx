@@ -138,6 +138,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
           onMouseUp={onMouseUp}
           className={classes}
           style={style}
+          disabled={disabled}
         >
           <div className={styles.top} onMouseOut={this.stopBubbling} onBlur={this.stopBubbling}>
             {!showCheckbox && (
