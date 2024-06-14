@@ -1140,6 +1140,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                   ref={this.placeholderRef}
                   onClick={this.handleCaretMove}
                   data-test="query-assist-placeholder"
+                  disabled={this.props.disabled}
                 >
                   {this.props.placeholder}
                 </button>
