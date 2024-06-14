@@ -31,7 +31,7 @@ responsive.parameters = {
   storyStyles: `
 <style>
   .cell {
-    background-color: silver;
+    background-color: var(--ring-selected-background-color);
   }
 </style>`
 };
@@ -107,7 +107,7 @@ offset.parameters = {
   storyStyles: `
 <style>
   .cell {
-    background-color: silver;
+    background-color: var(--ring-selected-background-color);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -148,7 +148,7 @@ autoSize.parameters = {
   storyStyles: `
 <style>
   .cell {
-    background-color: silver;
+    background-color: var(--ring-selected-background-color);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -236,7 +236,7 @@ alignment.parameters = {
   storyStyles: `
 <style>
   .cell {
-    background-color: silver;
+    background-color: var(--ring-selected-background-color);
   }
   .cell_tall {
     height: 64px;
@@ -280,7 +280,7 @@ columnsDistribution.parameters = {
   storyStyles: `
 <style>
   .cell {
-    background-color: silver;
+    background-color: var(--ring-selected-background-color);
   }
 </style>`
 };
