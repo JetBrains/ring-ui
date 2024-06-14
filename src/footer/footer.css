@@ -7,7 +7,7 @@
 
   box-sizing: border-box;
   height: calc(var(--ring-unit) * 8);
-  margin: calc(var(--ring-unit) * 5) calc(var(--ring-unit) * 4) 0 calc(var(--ring-unit) * 4);
+  margin: calc(var(--ring-unit) * 5) calc(var(--ring-unit) * 4) 0;
   padding-top: calc(var(--ring-unit) * 2);
 
   text-align: center;
