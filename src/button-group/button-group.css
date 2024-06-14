@@ -231,3 +231,7 @@
     }
   }
 }
+
+.help {
+  margin-top: calc(var(--ring-unit) * 0.5);
+}
