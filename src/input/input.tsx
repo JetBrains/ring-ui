@@ -23,6 +23,8 @@ import composeRefs from '../global/composeRefs';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import {ControlLabel, LabelType} from '../control-label/control-label';
 
+import ControlHelp from '../control-help/control-help';
+
 import styles from './input.css';
 
 
@@ -259,7 +261,7 @@ export class Input extends PureComponent<InputProps> {
             </div>
             {error
               ? <div className={styles.errorText}>{error}</div>
-              : (help && <div className={styles.helpText}>{help}</div>)}
+              : (help && <ControlHelp className={styles.helpText}>{help}</ControlHelp>)}
           </div>
         )}
       </I18nContext.Consumer>
