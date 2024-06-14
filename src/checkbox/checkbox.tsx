@@ -1,4 +1,4 @@
-import React, {PureComponent, InputHTMLAttributes, CSSProperties, Ref} from 'react';
+import React, {PureComponent, InputHTMLAttributes, CSSProperties, Ref, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import checkmarkIcon from '@jetbrains/icons/checkmark-12px';
@@ -18,6 +18,7 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   labelClassName?: string | null | undefined
   indeterminate: boolean
   inputRef?: Ref<HTMLInputElement>
+  help?: ReactNode
 }
 
 /**
@@ -84,6 +85,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
       labelClassName,
       indeterminate,
       inputRef,
+      help,
       ...restProps
     } = this.props;
 
@@ -105,17 +107,22 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
           type="checkbox"
           className={classes}
         />
-        <span className={cellClasses}>
-          <Icon
-            glyph={checkmarkIcon}
-            className={styles.check}
-          />
-          <Icon
-            glyph={minusIcon}
-            className={styles.minus}
-          />
+        <div className={styles.cellWrapper}>
+          <span className={cellClasses}>
+            <Icon
+              glyph={checkmarkIcon}
+              className={styles.check}
+            />
+            <Icon
+              glyph={minusIcon}
+              className={styles.minus}
+            />
+          </span>
+        </div>
+        <span className={labelClasses}>
+          {label || children}
+          {help && <div className={styles.help}>{help}</div>}
         </span>
-        <span className={labelClasses}>{label || children}</span>
       </label>
     );
   }

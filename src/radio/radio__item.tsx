@@ -2,7 +2,7 @@ import React, {
   Component,
   createContext,
   forwardRef,
-  InputHTMLAttributes
+  InputHTMLAttributes, ReactNode
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -18,7 +18,11 @@ export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
 
 export const RadioContext = createContext<RadioProps>({});
 
-export class Radio extends Component<InputHTMLAttributes<HTMLInputElement>> {
+
+export interface RadioItemInnerProps extends InputHTMLAttributes<HTMLInputElement> {
+  help?: ReactNode
+}
+export class RadioItemInner extends Component<RadioItemInnerProps> {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
@@ -41,7 +45,7 @@ export class Radio extends Component<InputHTMLAttributes<HTMLInputElement>> {
   };
 
   render() {
-    const {className, children, ...restProps} = this.props;
+    const {className, children, help, ...restProps} = this.props;
 
     const classes = classNames(styles.radio, className);
 
@@ -55,22 +59,25 @@ export class Radio extends Component<InputHTMLAttributes<HTMLInputElement>> {
           type="radio"
         />
         <span className={styles.circle}/>
-        <span className={styles.label}>{children}</span>
+        <span className={styles.label}>
+          {children}
+          {help && <div className={styles.help}>{help}</div>}
+        </span>
       </label>
     );
   }
 }
 
-export interface RadioItemProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface RadioItemProps extends RadioItemInnerProps {
   value: string
 }
 
-const RadioItem = forwardRef<Radio, RadioItemProps>(function RadioItem(
+const RadioItem = forwardRef<RadioItemInner, RadioItemProps>(function RadioItem(
   props, ref) {
   return (
     <RadioContext.Consumer>
       {({value, onChange, ...restContext}) => (
-        <Radio
+        <RadioItemInner
           ref={ref}
           {...restContext}
           checked={value != null ? value === props.value : undefined}
@@ -81,5 +88,5 @@ const RadioItem = forwardRef<Radio, RadioItemProps>(function RadioItem(
     </RadioContext.Consumer>
   );
 });
-RadioItem.propTypes = Radio.propTypes as (typeof RadioItem)['propTypes'];
+RadioItem.propTypes = RadioItemInner.propTypes as (typeof RadioItem)['propTypes'];
 export default RadioItem;
