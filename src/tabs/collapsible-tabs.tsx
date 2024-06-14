@@ -1,4 +1,13 @@
-import React, {ReactElement, ReactNode} from 'react';
+import {
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+  memo,
+  ReactElement,
+  ReactNode
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -44,21 +53,21 @@ export const CollapsibleTabs = ({
   morePopupItemClassName,
   initialVisibleItems
 }: CollapsibleTabsProps) => {
-  const [sizes, setSizes] = React.useState<Sizes>({tabs: [], more: undefined});
-  const [lastVisibleIndex, setLastVisibleIndex] = React.useState<number | null>(null);
+  const [sizes, setSizes] = useState<Sizes>({tabs: [], more: undefined});
+  const [lastVisibleIndex, setLastVisibleIndex] = useState<number | null>(null);
   const elements = {sizes, lastVisibleIndex};
-  const [preparedElements, setPreparedElements] = React.useState<PreparedElements>({
+  const [preparedElements, setPreparedElements] = useState<PreparedElements>({
     visible: [],
     hidden: []
   });
 
-  const measureRef = React.useRef<HTMLDivElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
 
-  const selectedIndex = React.useMemo(() => children.
+  const selectedIndex = useMemo(() => children.
     filter(tab => tab.props.alwaysHidden !== true).
     findIndex(tab => tab.props.id === selected) ?? null, [children, selected]);
 
-  const visibleElements = React.useMemo(() => {
+  const visibleElements = useMemo(() => {
     let items;
 
     if (preparedElements.ready) {
@@ -83,7 +92,7 @@ export const CollapsibleTabs = ({
     selected
   ]);
 
-  const adjustTabs = React.useCallback((entry: ResizeObserverEntry) => {
+  const adjustTabs = useCallback((entry: ResizeObserverEntry) => {
     const containerWidth = entry.contentRect.width;
 
     const {tabs: tabsSizes, more = 0} = elements.sizes;
@@ -134,7 +143,7 @@ export const CollapsibleTabs = ({
   }, [children, elements.lastVisibleIndex, elements.sizes, selectedIndex]);
 
   // Prepare list of visible and hidden elements
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       const res = children.reduce((accumulator: PreparedElements, tab) => {
         if (tab.props.alwaysHidden !== true &&
@@ -171,7 +180,7 @@ export const CollapsibleTabs = ({
   }, [children, elements.lastVisibleIndex, preparedElements, selected, selectedIndex]);
 
   // Get list of all possibly visible elements to render in a measure container
-  const childrenToMeasure = React.useMemo(
+  const childrenToMeasure = useMemo(
     () => {
       const items = children.filter(tab => tab.props.alwaysHidden !== true);
       return getTabTitles({items, tabIndex: -1});
@@ -180,14 +189,14 @@ export const CollapsibleTabs = ({
   );
 
   // Initial measure for tabs and more button sizes
-  React.useEffect(() => {
+  useEffect(() => {
     if (measureRef.current == null) {
       return undefined;
     }
 
     const measureTask = fastdom.measure(() => {
       const container = measureRef.current;
-      const descendants = [...container?.children ?? []] as HTMLElement[];
+      const descendants = [...(container?.children ?? [])] as HTMLElement[];
       const moreButton = descendants.pop();
 
       let moreButtonWidth = moreButton?.offsetWidth ?? 0;
@@ -219,7 +228,7 @@ export const CollapsibleTabs = ({
   }, [children, elements.sizes.more, elements.sizes.tabs]);
 
   // Start observers to listen resizing and mutation
-  React.useEffect(() => {
+  useEffect(() => {
     if (measureRef.current === null) {
       return undefined;
     }
@@ -292,4 +301,4 @@ CollapsibleTabs.propTypes = {
   morePopupBeforeEnd: PropTypes.element
 };
 
-export default React.memo(CollapsibleTabs);
+export default memo(CollapsibleTabs);

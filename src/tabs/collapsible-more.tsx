@@ -1,4 +1,4 @@
-import React, {ComponentType, ReactElement, ReactNode} from 'react';
+import {memo, useCallback, useMemo, ComponentType, ReactElement, ReactNode} from 'react';
 
 import classNames from 'classnames';
 
@@ -72,7 +72,7 @@ export interface MoreButtonProps {
   morePopupItemClassName?: string | undefined
   morePopupBeforeEnd: ReactNode
 }
-export const MoreButton = React.memo(({
+export const MoreButton = memo(({
   items,
   selected,
   onSelect,
@@ -82,7 +82,7 @@ export const MoreButton = React.memo(({
   morePopupItemClassName,
   morePopupBeforeEnd
 }: MoreButtonProps) => {
-  const onSelectHandler = React.useCallback((listItem: ListDataItem) => {
+  const onSelectHandler = useCallback((listItem: ListDataItem) => {
     if (listItem.disabled === true || listItem.custom === true) {
       return;
     }
@@ -91,12 +91,12 @@ export const MoreButton = React.memo(({
     cb();
   }, [onSelect]);
 
-  const hasActiveChild = React.useMemo(() =>
+  const hasActiveChild = useMemo(() =>
     items.some(item => item.props.alwaysHidden && item.props.id === selected),
   [items, selected]
   );
 
-  const data = React.useMemo(() => {
+  const data = useMemo(() => {
     const popupItems: ListDataItem[] = getTabTitles({
       items,
       selected,
@@ -127,7 +127,7 @@ export const MoreButton = React.memo(({
     return popupItems;
   }, [items, morePopupBeforeEnd, morePopupItemClassName, selected]);
 
-  const popupAnchor = React.useMemo(() => (
+  const popupAnchor = useMemo(() => (
     <AnchorLink
       moreClassName={moreClassName}
       moreActiveClassName={moreActiveClassName}
@@ -135,7 +135,7 @@ export const MoreButton = React.memo(({
     />
   ), [hasActiveChild, moreActiveClassName, moreClassName]);
 
-  const popup = React.useMemo(() => (
+  const popup = useMemo(() => (
     <PopupMenu
       directions={morePopupDirections}
       className={morePopupClassName}
@@ -175,7 +175,7 @@ export const MoreButton = React.memo(({
 
 MoreButton.displayName = 'MoreButton';
 
-export const FakeMoreButton = React.memo(({
+export const FakeMoreButton = memo(({
   moreClassName,
   moreActiveClassName,
   hasActiveChildren

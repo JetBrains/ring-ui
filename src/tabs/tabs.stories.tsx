@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState, useCallback} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import warningIcon from '@jetbrains/icons/warning';
 
@@ -18,7 +18,7 @@ export default {
 };
 
 export const Basic = () => {
-  const [selected, setSelected] = React.useState('first');
+  const [selected, setSelected] = useState('first');
 
   return (
     <Tabs selected={selected} onSelect={setSelected}>
@@ -44,7 +44,7 @@ export const Basic = () => {
 Basic.storyName = 'basic';
 
 export const AutoCollapseDemo = () => {
-  const [selected, setSelected] = React.useState('first');
+  const [selected, setSelected] = useState('first');
   const autocollapseData = [
     {
       id: 'first',
@@ -87,14 +87,14 @@ export const AutoCollapseDemo = () => {
       content: <Button text style={{padding: 0}}>Custom Item</Button>
     }
   ];
-  const [tabs, setTabs] = React.useState(autocollapseData.map(item => {
+  const [tabs, setTabs] = useState(autocollapseData.map(item => {
     const {content, ...tabProps} = item;
     const Host = item.custom === true ? CustomItem : Tab;
 
     return <Host key={item.id} {...tabProps}>{content}</Host>;
   }));
 
-  const addTab = React.useCallback(() => {
+  const addTab = useCallback(() => {
     setTabs(state => {
       const newTab = (
         <Tab
@@ -111,7 +111,7 @@ export const AutoCollapseDemo = () => {
     });
   }, []);
 
-  const selectHandler = React.useCallback((key: string) => {
+  const selectHandler = useCallback((key: string) => {
     setSelected(key);
   }, []);
 

@@ -1,4 +1,4 @@
-import React, {forwardRef, Component, HTMLAttributes} from 'react';
+import {forwardRef, Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import createResizeDetector from 'element-resize-detector';

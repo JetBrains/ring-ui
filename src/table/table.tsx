@@ -2,7 +2,9 @@
  * @name Table
  */
 
-import React, {Component, ComponentType, PureComponent, ReactNode, SyntheticEvent} from 'react';
+import {Component, ComponentType, PureComponent, ReactNode, SyntheticEvent} from 'react';
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {arrayMove, List} from 'react-movable';

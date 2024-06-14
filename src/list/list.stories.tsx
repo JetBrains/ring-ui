@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {createElement, useState, useEffect} from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import {StoryFn} from '@storybook/react';
 
@@ -211,25 +211,25 @@ withCustomItems.args = {
     {
       key: '1',
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: React.createElement('span', {}, 'custom item')
+      template: createElement('span', {}, 'custom item')
     },
     {
       key: '2',
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: React.createElement('span', {}, 'custom item (disabled)'),
+      template: createElement('span', {}, 'custom item (disabled)'),
       disabled: true
     },
     {
       key: '3',
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: React.createElement('span', {}, 'custom item 3')
+      template: createElement('span', {}, 'custom item 3')
     }
   ]
 };
 
 export const WithUsers = () => {
-  const [listData, setListData] = React.useState<ListDataItem[] | null>(null);
-  const [selected, setSelected] = React.useState<ListDataItem | null>(null);
+  const [listData, setListData] = useState<ListDataItem[] | null>(null);
+  const [selected, setSelected] = useState<ListDataItem | null>(null);
   useEffect(() => {
     const auth = new Auth(hubConfig);
     const source = new Source(auth);

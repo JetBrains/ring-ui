@@ -1,4 +1,5 @@
-import React, {Component, ReactNode, HTMLAttributes} from 'react';
+import {Component, ReactNode, HTMLAttributes} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import {isNodeInVisiblePartOfPage} from '../global/dom';

@@ -1,5 +1,5 @@
 // Inspired by https://github.com/sairion/svg-inline-react
-import React, {memo, SVGAttributes} from 'react';
+import {memo, SVGAttributes} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 

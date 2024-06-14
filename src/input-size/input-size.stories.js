@@ -2,7 +2,6 @@ import '../input/input-legacy.css';
 import '../form/form.css';
 import './input-size.css';
 import '../error-bubble/error-bubble-legacy.css';
-import React from 'react';
 
 export default {
   title: 'Style-only/Input Sizes'

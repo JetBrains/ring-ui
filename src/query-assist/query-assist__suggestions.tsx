@@ -1,5 +1,3 @@
-import React from 'react';
-
 import List from '../list/list';
 
 import {ListDataItem} from '../list/consts';

@@ -1,4 +1,5 @@
-import React, {ComponentType, ReactNode, ReactElement, SyntheticEvent} from 'react';
+import {ComponentType, ReactNode, ReactElement, SyntheticEvent} from 'react';
+import * as React from 'react';
 
 import {LinkProps} from '../link/link';
 import {IconType, Size} from '../icon/icon';

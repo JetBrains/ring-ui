@@ -1,4 +1,3 @@
-import React from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import pencilIcon from '@jetbrains/icons/pencil';

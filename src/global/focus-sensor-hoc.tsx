@@ -1,4 +1,4 @@
-import React, {Component, ComponentType, Ref} from 'react';
+import {Component, ComponentType, Ref} from 'react';
 import PropTypes from 'prop-types';
 
 import {refObject} from './prop-types';

@@ -1,4 +1,4 @@
-import React, {HTMLAttributes} from 'react';
+import {HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import styles from './control-help.css';

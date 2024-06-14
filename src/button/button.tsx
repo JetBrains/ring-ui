@@ -1,8 +1,5 @@
-import React, {
-  createRef,
-  PureComponent,
-  ButtonHTMLAttributes
-} from 'react';
+import {createRef, PureComponent, ButtonHTMLAttributes} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px';

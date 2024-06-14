@@ -1,9 +1,5 @@
-import React, {
-  HTMLAttributes,
-  PureComponent,
-  ReactNode,
-  RefCallback
-} from 'react';
+import {HTMLAttributes, PureComponent, ReactNode, RefCallback} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close-12px';

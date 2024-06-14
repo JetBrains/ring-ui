@@ -8,7 +8,10 @@ module.exports = function config(api) {
       ['@jetbrains/babel-preset-jetbrains', {
         typeScript: true,
         useBuiltIns: 'usage',
-        corejs: '3'
+        corejs: '3',
+        react: {
+          runtime: 'automatic'
+        }
       }]
     ],
     plugins: [

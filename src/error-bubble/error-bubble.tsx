@@ -1,4 +1,4 @@
-import React, {Children, cloneElement, PureComponent, ReactElement} from 'react';
+import {Children, cloneElement, PureComponent, ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import hubConfig from '../../.storybook/hub-config';
 
 import Auth from '../auth/auth';

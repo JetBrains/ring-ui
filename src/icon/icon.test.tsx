@@ -1,4 +1,3 @@
-import React from 'react';
 import {mount, render} from 'enzyme';
 import defaultIcon from '@jetbrains/icons/umbrella';
 import expandIcon from '@jetbrains/icons/expand';
