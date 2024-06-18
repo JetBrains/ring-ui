@@ -90,7 +90,7 @@ export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
             <TrayIcon title="Search" icon={searchIcon}/>
             <DropdownMenu
               data={[{label: 'Test'}, {label: 'Test2'}]}
-              anchor={({active, pinned, ...ariaProps}) => (
+              anchor={({active}, ariaProps) => (
                 <TrayIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps}/>
               )}
               menuProps={{top: -12}}
