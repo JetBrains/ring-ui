@@ -133,7 +133,7 @@
     "eslint-plugin-bdd": "^2.1.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
-    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-storybook": "^0.8.0",
     "events": "^3.3.0",
     "glob": "^10.4.1",
