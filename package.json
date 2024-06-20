@@ -171,7 +171,7 @@
     "vitest": "^1.6.0",
     "vitest-teamcity-reporter": "^0.3.0",
     "wallaby-webpack": "^3.9.16",
-    "webpack": "^5.92.0",
+    "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4",
     "xmlappend": "^1.0.4"
   },
