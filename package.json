@@ -96,7 +96,7 @@
     "@storybook/preview-api": "8.1.10",
     "@storybook/react": "8.1.10",
     "@storybook/react-webpack5": "8.1.10",
-    "@storybook/test-runner": "^0.18.2",
+    "@storybook/test-runner": "^0.19.0",
     "@storybook/theming": "8.1.10",
     "@testing-library/dom": "^10.1.0",
     "@testing-library/react": "^16.0.0",
