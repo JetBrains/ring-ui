@@ -20,7 +20,7 @@ import getUID from '../global/get-uid';
 import Icon from '../icon/icon';
 import {I18nContext} from '../i18n/i18n-context';
 
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import {ControlLabel, LabelType} from '../control-label/control-label';
@@ -142,6 +142,8 @@ export class Input extends PureComponent<InputProps> {
     this.input = el;
   };
 
+  composedInputRef = createComposedRef<HTMLInputElement | HTMLTextAreaElement>();
+
   clear = (e: React.MouseEvent<HTMLButtonElement>) => {
     this.props.onClear && this.props.onClear(e);
   };
@@ -211,7 +213,7 @@ export class Input extends PureComponent<InputProps> {
     const text = value != null ? value : children;
 
     const commonProps = {
-      ref: composeRefs(this.inputRef, inputRef),
+      ref: this.composedInputRef(this.inputRef, inputRef),
       className: inputClasses,
       value: text,
       disabled,
