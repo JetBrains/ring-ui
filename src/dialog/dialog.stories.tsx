@@ -100,6 +100,79 @@ basic.parameters = {
 </style>`
 };
 
+export const native: StoryFn<Args> = ({onAction}) => {
+  class DialogDemo extends Component {
+    state = {
+      show: true,
+      text: '',
+      modal: true
+    };
+
+    doAction = () => {
+      onAction(`${this.state.text} performed`);
+      this.setState({show: false});
+    };
+
+    cancelDialog = () => {
+      this.setState({show: false});
+    };
+
+    render() {
+      const {show, text, modal} = this.state;
+      return (
+        <div className="long-page">
+          <Group>
+            <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
+            <Toggle
+              checked={modal}
+              onChange={() => this.setState({modal: !modal})}
+            >
+              Modal
+            </Toggle>
+          </Group>
+
+          <Dialog
+            label="Dialog"
+            show={show}
+            onCloseAttempt={this.cancelDialog}
+            native
+            modal={modal}
+            showCloseButton
+          >
+            <Header>Dialog title</Header>
+            <Content>
+              <Input
+                label="Enter action name"
+                value={text}
+                onChange={e => this.setState({text: e.target.value})}
+              />
+            </Content>
+            <Panel>
+              <Button primary onClick={this.doAction}>
+                OK
+              </Button>
+              <Button onClick={this.cancelDialog}>Cancel</Button>
+            </Panel>
+          </Dialog>
+        </div>
+      );
+    }
+  }
+  return <DialogDemo/>;
+};
+
+native.storyName = 'native';
+native.argTypes = {onAction: {}};
+
+native.parameters = {
+  storyStyles: `
+<style>
+  .long-page {
+    height: 200vh;
+  }
+</style>`
+};
+
 export const dense: StoryFn = () => (
   <Dialog show dense>
     <Header>Dialog title</Header>
@@ -149,7 +222,7 @@ export const withScroll: StoryFn<Args> = ({onAction}) => {
             showCloseButton
           >
             <Header>Dialog title</Header>
-            <Content>
+            <Content tabIndex={0}>
               <div>
                 <p>Dialog content (scrollable)</p>
                 <p>{lorem}</p>
