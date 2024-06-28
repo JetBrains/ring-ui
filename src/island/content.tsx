@@ -94,7 +94,7 @@ class Content extends Component<IslandContentInnerProps> {
   render() {
     const {
       children, className, bottomBorder, scrollableWrapperClassName,
-      onScroll, onScrollToBottom, fade, ...restProps
+      onScroll, onScrollToBottom, fade, tabIndex, ...restProps
     } = this.props;
     const {scrolledToTop, scrolledToBottom} = this.state;
 
@@ -117,10 +117,7 @@ class Content extends Component<IslandContentInnerProps> {
         className={classes}
       >
         <div
-          // it has to be focusable because it can be scrollable
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex={0}
-          data-scrollable-container
+          tabIndex={tabIndex}
           className={scrollableWrapperClasses}
           ref={this.setScrollableNodeAndCalculatePosition}
           onScroll={fade ? this.calculateScrollPosition : noop}

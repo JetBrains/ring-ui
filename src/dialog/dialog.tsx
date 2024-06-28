@@ -1,4 +1,4 @@
-import {PureComponent} from 'react';
+import {createRef, PureComponent} from 'react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
@@ -34,6 +34,8 @@ export interface DialogProps extends Partial<TabTrapProps> {
   portalTarget?: Element | null | undefined
   'data-test'?: string | null | undefined
   dense?: boolean | null | undefined
+  native?: boolean
+  modal?: boolean
 }
 
 /**
@@ -79,7 +81,8 @@ export default class Dialog extends PureComponent<DialogProps> {
     closeButtonInside: false,
     shortcutOptions: {modal: false},
     trapFocus: false,
-    autoFocusFirst: true
+    autoFocusFirst: true,
+    modal: true
   };
 
   state = {
@@ -87,10 +90,18 @@ export default class Dialog extends PureComponent<DialogProps> {
   };
 
   componentDidMount() {
+    const {show, native} = this.props;
+    if (native && show) {
+      this.toggleNativeDialog();
+    }
     this.toggleScrollPreventer();
   }
 
   componentDidUpdate(prevProps: DialogProps) {
+    const {show, native} = this.props;
+    if (native && show !== prevProps.show) {
+      this.toggleNativeDialog();
+    }
     if (prevProps.show !== this.props.show) {
       this.toggleScrollPreventer();
     }
@@ -103,6 +114,17 @@ export default class Dialog extends PureComponent<DialogProps> {
   scrollPreventer = scrollPreventerFactory(getUID('preventer-'));
 
   uid = getUID('dialog-');
+
+  toggleNativeDialog() {
+    const {show, modal} = this.props;
+    if (this.nativeDialog.current != null) {
+      if (show) {
+        modal ? this.nativeDialog.current.showModal() : this.nativeDialog.current.show();
+      } else {
+        this.nativeDialog.current.close();
+      }
+    }
+  }
 
   toggleScrollPreventer() {
     if (this.props.show) {
@@ -140,12 +162,68 @@ export default class Dialog extends PureComponent<DialogProps> {
     this.dialog = tabTrap && tabTrap.node;
   };
 
+  nativeDialog = createRef<HTMLDialogElement>();
+
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
-      portalTarget, label, closeButtonTitle, dense, shortcutOptions, ...restProps} = this.props;
+      portalTarget, label, closeButtonTitle, dense, shortcutOptions, native, modal,
+      ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
+    const content = (
+      <>
+        <Shortcuts
+          map={shortcutsMap}
+          scope={this.state.shortcutsScope}
+          options={this.props.shortcutOptions}
+        />
+        {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
+          <div
+            // click handler is duplicated in close button
+            role="presentation"
+            className={styles.clickableOverlay}
+            onClick={this.handleClick}
+          />
+        )}
+        <div className={styles.innerContainer}>
+          <AdaptiveIsland
+            className={classNames(styles.content, contentClassName, {[styles.dense]: dense})}
+            data-test="ring-dialog"
+            role="dialog"
+            aria-label={label}
+          >
+            {children}
+            {showCloseButton &&
+              (
+                <Button
+                  icon={closeIcon}
+                  data-test="ring-dialog-close-button"
+                  className={classNames(styles.closeButton, {
+                    [styles.closeButtonOutside]: !closeButtonInside,
+                    [styles.closeButtonInside]: closeButtonInside
+                  })}
+                  iconClassName={styles.closeIcon}
+                  onClick={this.onCloseClick}
+                  title={closeButtonTitle}
+                  aria-label={closeButtonTitle || 'close dialog'}
+                />
+              )
+            }
+          </AdaptiveIsland>
+        </div>
+      </>
+    );
+
+    if (native) {
+      return (
+        <dialog className={classNames(styles.nativeDialog, className)} ref={this.nativeDialog}>
+          <PopupTarget id={this.uid} className={styles.popupTarget}>
+            {target => <>{content}{target}</>}
+          </PopupTarget>
+        </dialog>
+      );
+    }
 
     return show && createPortal(
       <PopupTarget id={this.uid} className={styles.popupTarget}>
@@ -159,45 +237,7 @@ export default class Dialog extends PureComponent<DialogProps> {
               role="presentation"
               {...restProps}
             >
-              <Shortcuts
-                map={shortcutsMap}
-                scope={this.state.shortcutsScope}
-                options={this.props.shortcutOptions}
-              />
-              {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
-                <div
-                  // click handler is duplicated in close button
-                  role="presentation"
-                  className={styles.clickableOverlay}
-                  onClick={this.handleClick}
-                />
-              )}
-              <div className={styles.innerContainer}>
-                <AdaptiveIsland
-                  className={classNames(styles.content, contentClassName, {[styles.dense]: dense})}
-                  data-test="ring-dialog"
-                  role="dialog"
-                  aria-label={label}
-                >
-                  {children}
-                  {showCloseButton &&
-                    (
-                      <Button
-                        icon={closeIcon}
-                        data-test="ring-dialog-close-button"
-                        className={classNames(styles.closeButton, {
-                          [styles.closeButtonOutside]: !closeButtonInside,
-                          [styles.closeButtonInside]: closeButtonInside
-                        })}
-                        iconClassName={styles.closeIcon}
-                        onClick={this.onCloseClick}
-                        title={closeButtonTitle}
-                        aria-label={closeButtonTitle || 'close dialog'}
-                      />
-                    )
-                  }
-                </AdaptiveIsland>
-              </div>
+              {content}
               {target}
             </TabTrap>
           )
