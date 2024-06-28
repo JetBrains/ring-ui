@@ -101,7 +101,7 @@
   background-color: transparent;
 
   font-family: var(--ring-font-family);
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
   line-height: 28px;
 
   &::placeholder {

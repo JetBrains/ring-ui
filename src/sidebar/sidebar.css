@@ -98,7 +98,7 @@
   color: var(--ring-text-color);
 
   font-size: var(--ring-font-size);
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 :global(.ring-sidebar__section-text) {

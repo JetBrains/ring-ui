@@ -1,5 +1,3 @@
-import Group from '../group/group';
-
 import Text from './text';
 
 export default {
@@ -12,32 +10,22 @@ export default {
 
 export const basic = () => (
   <div>
-    <p style={{fontSize: '30px'}}>
-      <Group>
-        <Text>Text, which size is set by the outer style</Text>
-        <Text info>with an info message</Text>
-      </Group>
+    <p>
+      <Text size={Text.Size.S} info>Label text example</Text>
+      <br/>
+      <Text size={Text.Size.S} info bold>Label text example bold</Text>
     </p>
 
-    <p style={{fontSize: '30px'}}>
-      <Group>
-        <Text size={Text.Size.S}>Small text</Text>
-        <Text size={Text.Size.S} info>with an info message</Text>
-      </Group>
+    <p>
+      <Text size={Text.Size.M}>Regular text example</Text>
+      <br/>
+      <Text size={Text.Size.M} bold>Regular text example bold</Text>
     </p>
 
-    <p style={{fontSize: '30px'}}>
-      <Group>
-        <Text size={Text.Size.M}>Medium text</Text>
-        <Text size={Text.Size.M} info>with an info message</Text>
-      </Group>
-    </p>
-
-    <p style={{fontSize: '30px'}}>
-      <Group>
-        <Text size={Text.Size.L}>Large text</Text>
-        <Text size={Text.Size.L} info>with an info message</Text>
-      </Group>
+    <p>
+      <Text size={Text.Size.L}>Text block example</Text>
+      <br/>
+      <Text size={Text.Size.L} bold>Text block example bold</Text>
     </p>
   </div>
 );
