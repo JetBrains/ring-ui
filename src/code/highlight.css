@@ -40,7 +40,7 @@
   & :global(.hljs-type) {
     color: var(--ring-code-keyword-color);
 
-    font-weight: bold;
+    font-weight: var(--ring-font-weight-bold);
   }
 
   & :global(.hljs-name),
@@ -61,7 +61,7 @@
   & :global(.hljs-attr) {
     color: var(--ring-code-field-color);
 
-    font-weight: bold;
+    font-weight: var(--ring-font-weight-bold);
   }
 
   & :global(.hljs-tag) > :global(.hljs-attr),
@@ -82,7 +82,7 @@
   & :global(.hljs-string) {
     color: var(--ring-code-string-color);
 
-    font-weight: bold;
+    font-weight: var(--ring-font-weight-bold);
   }
 
   & :global(.hljs-doctag) {
@@ -107,6 +107,6 @@
   }
 
   & :global(.hljs-strong) {
-    font-weight: bold;
+    font-weight: var(--ring-font-weight-bold);
   }
 }
