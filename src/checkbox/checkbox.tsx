@@ -6,7 +6,7 @@ import minusIcon from '@jetbrains/icons/remove-12px';
 
 import Icon from '../icon/icon';
 import {refObject} from '../global/prop-types';
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
 
 import ControlHelp from '../control-help/control-help';
 
@@ -76,6 +76,8 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
     this.input = el;
   };
 
+  composedInputRef = createComposedRef<HTMLInputElement>();
+
   render() {
     const {
       children,
@@ -105,7 +107,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
         <input
           {...restProps}
           data-checked={restProps.checked}
-          ref={composeRefs(this.inputRef, inputRef)}
+          ref={this.composedInputRef(this.inputRef, inputRef)}
           type="checkbox"
           className={classes}
         />
