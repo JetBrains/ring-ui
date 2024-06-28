@@ -5,12 +5,15 @@
 @value timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 
 .toggle {
+  display: flex;
+  align-items: baseline;
+
   cursor: pointer;
 
   &:hover .switch {
-    transition: none;
+    --ring-toggle-background-color: var(--ring-border-hover-color);
 
-    background-color: var(--ring-border-hover-color);
+    transition: none;
   }
 
   &.disabled {
@@ -22,14 +25,16 @@
   margin-left: var(--ring-unit);
 }
 
+.disabled .label {
+  color: var(--ring-disabled-color);
+}
+
 .leftLabel {
   margin-right: var(--ring-unit);
 }
 
 .switchWrapper {
   position: relative;
-
-  display: inline-block;
 }
 
 .input {
@@ -47,13 +52,13 @@
 
 .switch {
   --ring-toggle-item-color: var(--ring-white-text-color);
-  --ring-toggle-background-color: var(--ring-icon-color);
+  --ring-toggle-background-color: var(--ring-borders-color);
   --ring-toggle-border-color: var(--ring-toggle-background-color);
   --ring-switch-border-color: var(--ring-toggle-item-color);
 
   position: relative;
 
-  display: block;
+  display: inline-block;
 
   box-sizing: border-box;
 
@@ -98,18 +103,18 @@
 }
 
 :checked:hover + .switch {
-  background-color: var(--ring-main-hover-color);
+  --ring-toggle-background-color: var(--ring-main-hover-color);
 }
 
 .size16 {
   & .switchWrapper {
     width: calc(var(--ring-unit) * 3);
     height: calc(var(--ring-unit) * 2);
-
-    vertical-align: -3px;
   }
 
   & .switch {
+    vertical-align: -3px;
+
     border-radius: var(--ring-unit);
 
     &::before {
@@ -130,11 +135,11 @@
   & .switchWrapper {
     width: calc(var(--ring-unit) * 3);
     height: 14px;
-
-    vertical-align: -2px;
   }
 
   & .switch {
+    vertical-align: -2px;
+
     border-radius: 7px;
 
     &::before {
@@ -155,11 +160,11 @@
   & .switchWrapper {
     width: calc(var(--ring-unit) * 4);
     height: calc(var(--ring-unit) * 2.5);
-
-    vertical-align: -5px;
   }
 
   & .switch {
+    vertical-align: -5px;
+
     border-radius: calc(var(--ring-unit) * 1.25);
 
     &::before {
@@ -187,12 +192,4 @@
   --ring-toggle-background-color: var(--ring-disabled-background-color);
   --ring-toggle-border-color: var(--ring-border-disabled-color);
   --ring-switch-border-color: var(--ring-border-disabled-color);
-}
-
-.paleSwitch.paleSwitch {
-  --ring-toggle-background-color: var(--ring-pale-control-color);
-}
-
-.input:checked + .paleSwitch {
-  --ring-toggle-background-color: var(--ring-border-disabled-color);
 }
