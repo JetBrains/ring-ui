@@ -78,7 +78,7 @@
   "devDependencies": {
     "@babel/cli": "^7.24.7",
     "@babel/eslint-parser": "^7.24.7",
-    "@csstools/css-parser-algorithms": "^2.6.1",
+    "@csstools/css-parser-algorithms": "^2.7.0",
     "@csstools/stylelint-no-at-nest-rule": "^2.0.0",
     "@jetbrains/eslint-config": "^5.4.2",
     "@jetbrains/logos": "3.0.0-canary.734b213.0",
