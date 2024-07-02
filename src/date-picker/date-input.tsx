@@ -48,6 +48,10 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
     locale: PropTypes.object
   };
 
+  componentDidMount() {
+    this.updateInput(this.props);
+  }
+
   componentDidUpdate(prevProps: DateInputProps) {
     const {text, active} = this.props;
     if (text !== prevProps.text || active !== prevProps.active) {
@@ -61,7 +65,6 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
   input?: HTMLInputElement | null;
   inputRef = (el: HTMLInputElement | null) => {
     this.input = el;
-    this.updateInput(this.props);
   };
 
   updateInput({text, active}: UpdateInputConfig) {

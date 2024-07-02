@@ -59,6 +59,7 @@ const PopupComponent = ({
       Popup.PopupProps.Directions.TOP_RIGHT
     ]}
     {...restProps}
+    trapFocus
   >
     <DatePopup
       onClear={onClear}
