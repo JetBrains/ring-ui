@@ -1,4 +1,4 @@
-import {Component, ReactNode, HTMLAttributes} from 'react';
+import {Component, HTMLAttributes, ReactNode} from 'react';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
@@ -36,17 +36,35 @@ export default class TabTrap extends Component<TabTrapProps> {
     focusBackOnExit: false
   };
 
-  componentDidMount() {
-    this.previousFocusedNode = document.activeElement;
+  constructor(props: TabTrapProps) {
+    super(props);
 
+    // It's the same approach as in focus-trap-react:
+    // https://github.com/focus-trap/focus-trap-react/commit/3b22fca9eebeb883edc89548850fe5a5b9d6d50e
+    // We can't do it in componentDidMount because it's too late, some children might have already
+    // focused itself.
+    this.previousFocusedNode = document.activeElement;
+  }
+
+  componentDidMount() {
     if (this.props.autoFocusFirst) {
       this.focusFirst();
-    } else if (
-      !this.props.trapDisabled &&
-      (!this.node || !this.node.contains(this.previousFocusedNode))
-    ) {
-      this.trapWithoutFocus = true;
-      this.trapButtonNode?.focus();
+    } else if (!this.props.trapDisabled) {
+      const previousFocusedElementIsInContainer =
+        this.previousFocusedNode &&
+        this.node?.contains(this.previousFocusedNode);
+
+      // The component wrapped in TabTrap can already have a focused element (e.g. Date Picker),
+      // so we need to check if it does. If so, we don't need to focus anything.
+      const currentlyFocusedElementIsInContainer = this.node?.contains(document.activeElement);
+
+      if (
+        !this.node ||
+        (!previousFocusedElementIsInContainer && !currentlyFocusedElementIsInContainer)
+      ) {
+        this.trapWithoutFocus = true;
+        this.trapButtonNode?.focus();
+      }
     }
   }
 
