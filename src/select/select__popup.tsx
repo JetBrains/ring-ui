@@ -34,7 +34,7 @@ import Button from '../button/button';
 import Text from '../text/text';
 import {ControlsHeight} from '../global/controls-height';
 import {refObject} from '../global/prop-types';
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
 
 import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 
@@ -331,7 +331,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
             rgShortcutsMap={this.popupFilterShortcutsMap}
 
             value={this.props.filterValue}
-            inputRef={composeRefs(this.filterRef, this.props.filterRef)}
+            inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.onFilterFocus}
             className="ring-js-shortcuts"
@@ -563,6 +563,8 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     this.filter = el;
     this.caret = el && new Caret(el);
   };
+
+  composedFilterRef = createComposedRef<HTMLInputElement>();
 
   shortcutsScope = getUID('select-popup-');
   shortcutsMap = {
