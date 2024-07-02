@@ -167,7 +167,7 @@
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.10",
-    "typescript": "~5.5.2",
+    "typescript": "~5.5.3",
     "vitest": "^1.6.0",
     "vitest-teamcity-reporter": "^0.3.0",
     "wallaby-webpack": "^3.9.16",
