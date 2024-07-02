@@ -37,7 +37,7 @@ import {ListDataItem} from '../list/consts';
 
 import {Directions} from '../popup/popup.consts';
 
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
 import {refObject} from '../global/prop-types';
 import {isArray} from '../global/typescript-utils';
 
@@ -1250,6 +1250,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     this.filter = el;
   };
 
+  composedFilterRef = createComposedRef<HTMLInputElement>();
+
   getShortcutsMap() {
     return {
       enter: this._onEnter,
@@ -1309,7 +1311,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               autoComplete="off"
               id={this.props.id}
               onClick={this._clickHandler}
-              inputRef={composeRefs(this.filterRef, this.props.filterRef)}
+              inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
               disabled={this.props.disabled}
               value={this.state.filterValue}
               borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
