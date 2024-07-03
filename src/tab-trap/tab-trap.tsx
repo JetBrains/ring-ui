@@ -47,6 +47,8 @@ export default class TabTrap extends Component<TabTrapProps> {
   }
 
   componentDidMount() {
+    this.mounted = true;
+
     if (this.props.autoFocusFirst) {
       this.focusFirst();
     } else if (!this.props.trapDisabled) {
@@ -72,8 +74,11 @@ export default class TabTrap extends Component<TabTrapProps> {
     if (this.props.focusBackOnClose) {
       this.restoreFocus();
     }
+
+    this.mounted = false;
   }
 
+  private mounted = false;
   previousFocusedNode?: Element | null;
   trapWithoutFocus?: boolean;
 
@@ -84,7 +89,16 @@ export default class TabTrap extends Component<TabTrapProps> {
       previousFocusedNode.focus &&
       isNodeInVisiblePartOfPage(previousFocusedNode)
     ) {
-      previousFocusedNode.focus({preventScroll: true});
+      // If no delay is added, restoring focus caused by pressing Enter will trigger
+      // the onClick event of the previousFocusedNode, e.g.
+      // https://youtrack.jetbrains.com/issue/RG-2450/Anchor-should-be-focused-after-closing-datepicker#focus=Comments-27-10044234.0-0.
+      setTimeout(() => {
+        // This is to prevent the focus from being restored the first time
+        // componentWillUnmount is called in StrictMode.
+        if (!this.mounted) {
+          previousFocusedNode.focus({preventScroll: true});
+        }
+      });
     }
   };
 
