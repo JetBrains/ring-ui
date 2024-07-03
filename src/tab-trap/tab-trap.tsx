@@ -1,4 +1,11 @@
-import {Component, HTMLAttributes, ReactNode} from 'react';
+import {
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  useCallback,
+  useEffect, useImperativeHandle,
+  useRef
+} from 'react';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,108 +17,107 @@ export const FOCUSABLE_ELEMENTS = 'input, button, select, textarea, a[href], *[t
 
 export interface TabTrapProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode
-  trapDisabled: boolean
-  autoFocusFirst: boolean
-  focusBackOnClose: boolean
-  focusBackOnExit: boolean
+  trapDisabled?: boolean
+  autoFocusFirst?: boolean
+  focusBackOnClose?: boolean
+  focusBackOnExit?: boolean
 }
 
 /**
  * @name TabTrap
  */
 
-export default class TabTrap extends Component<TabTrapProps> {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    trapDisabled: PropTypes.bool,
-    autoFocusFirst: PropTypes.bool,
-    focusBackOnClose: PropTypes.bool,
-    focusBackOnExit: PropTypes.bool
-  };
+interface TabTrap {
+  node: HTMLElement | null
+}
 
-  static defaultProps = {
-    trapDisabled: false,
-    autoFocusFirst: true,
-    focusBackOnClose: true,
-    focusBackOnExit: false
-  };
+// eslint-disable-next-line @typescript-eslint/no-shadow
+const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap({
+  children,
+  trapDisabled = false,
+  autoFocusFirst = true,
+  focusBackOnClose = true,
+  focusBackOnExit = false,
+  ...restProps
+}, ref) {
+  const nodeRef = useRef<HTMLDivElement | null>(null);
+  const trapButtonNodeRef = useRef<HTMLDivElement | null>(null);
+  const previousFocusedNodeRef = useRef<Element | null>(null);
+  const trapWithoutFocusRef = useRef<boolean>(false);
+  const mountedRef = useRef(false);
 
-  constructor(props: TabTrapProps) {
-    super(props);
-
-    // It's the same approach as in focus-trap-react:
-    // https://github.com/focus-trap/focus-trap-react/commit/3b22fca9eebeb883edc89548850fe5a5b9d6d50e
-    // We can't do it in componentDidMount because it's too late, some children might have already
-    // focused itself.
-    this.previousFocusedNode = document.activeElement;
+  // It's the same approach as in focus-trap-react:
+  // https://github.com/focus-trap/focus-trap-react/commit/3b22fca9eebeb883edc89548850fe5a5b9d6d50e
+  // We can't do it in useEffect because it's too late, some children might have already
+  // focused itself.
+  if (previousFocusedNodeRef.current === null) {
+    previousFocusedNodeRef.current = document.activeElement;
   }
 
-  componentDidMount() {
-    this.mounted = true;
+  useImperativeHandle(ref, () => ({node: nodeRef.current}), []);
 
-    if (this.props.autoFocusFirst) {
-      this.focusFirst();
-    } else if (!this.props.trapDisabled) {
+  const focusFirst = useCallback(() => focusElement(true), []);
+  const focusLast = () => focusElement(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (autoFocusFirst) {
+      focusFirst();
+    } else if (!trapDisabled) {
       const previousFocusedElementIsInContainer =
-        this.previousFocusedNode &&
-        this.node?.contains(this.previousFocusedNode);
+        previousFocusedNodeRef.current &&
+        nodeRef.current?.contains(previousFocusedNodeRef.current);
 
       // The component wrapped in TabTrap can already have a focused element (e.g. Date Picker),
       // so we need to check if it does. If so, we don't need to focus anything.
-      const currentlyFocusedElementIsInContainer = this.node?.contains(document.activeElement);
+      const currentlyFocusedElementIsInContainer = nodeRef.current?.
+        contains(document.activeElement);
 
       if (
-        !this.node ||
+        !nodeRef.current ||
         (!previousFocusedElementIsInContainer && !currentlyFocusedElementIsInContainer)
       ) {
-        this.trapWithoutFocus = true;
-        this.trapButtonNode?.focus();
+        trapWithoutFocusRef.current = true;
+        trapButtonNodeRef.current?.focus();
       }
     }
-  }
 
-  componentWillUnmount() {
-    if (this.props.focusBackOnClose) {
-      this.restoreFocus();
-    }
+    return () => {
+      if (focusBackOnClose) {
+        restoreFocus();
+      }
+    };
+  }, [autoFocusFirst, trapDisabled, focusBackOnClose, focusFirst]);
 
-    this.mounted = false;
-  }
-
-  private mounted = false;
-  previousFocusedNode?: Element | null;
-  trapWithoutFocus?: boolean;
-
-  restoreFocus = () => {
-    const {previousFocusedNode} = this;
+  function restoreFocus() {
+    const previousFocusedNode = previousFocusedNodeRef.current;
     if (
       previousFocusedNode instanceof HTMLElement &&
       previousFocusedNode.focus &&
       isNodeInVisiblePartOfPage(previousFocusedNode)
     ) {
       // If no delay is added, restoring focus caused by pressing Enter will trigger
-      // the onClick event of the previousFocusedNode, e.g.
+      // the onClick event on the previousFocusedNode, e.g.
       // https://youtrack.jetbrains.com/issue/RG-2450/Anchor-should-be-focused-after-closing-datepicker#focus=Comments-27-10044234.0-0.
       setTimeout(() => {
         // This is to prevent the focus from being restored the first time
         // componentWillUnmount is called in StrictMode.
-        if (!this.mounted) {
+        if (!mountedRef.current) {
           previousFocusedNode.focus({preventScroll: true});
         }
       });
     }
-  };
+  }
 
-  node?: HTMLElement | null;
-  containerRef = (node: HTMLElement | null) => {
-    if (!node) {
-      return;
-    }
-    this.node = node;
-  };
-
-  focusElement = (first = true) => {
-    const {node} = this;
+  function focusElement(first = true) {
+    const node = nodeRef.current;
     if (!node) {
       return;
     }
@@ -124,99 +130,83 @@ export default class TabTrap extends Component<TabTrapProps> {
     if (toBeFocused) {
       toBeFocused.focus();
     }
-  };
+  }
 
-  focusFirst = () => this.focusElement(true);
 
-  focusLast = () => this.focusElement(false);
-
-  focusLastIfEnabled = (event: React.FocusEvent) => {
-    if (this.trapWithoutFocus) {
+  function focusLastIfEnabled(event: React.FocusEvent) {
+    if (trapWithoutFocusRef.current) {
       return;
     }
-    if (this.props.focusBackOnExit) {
+    if (focusBackOnExit) {
       const prevFocused = event.nativeEvent.relatedTarget;
-      if (prevFocused != null && this.node != null && prevFocused instanceof Element &&
-        this.node.contains(prevFocused)) {
-        this.restoreFocus();
+      if (prevFocused != null && nodeRef.current != null && prevFocused instanceof Element &&
+        nodeRef.current.contains(prevFocused)) {
+        restoreFocus();
       }
     } else {
-      this.focusLast();
+      focusLast();
     }
-  };
+  }
 
-  handleBlurIfWithoutFocus = (event: React.FocusEvent) => {
-    if (!this.trapWithoutFocus) {
+  function handleBlurIfWithoutFocus(event: React.FocusEvent) {
+    if (!trapWithoutFocusRef.current) {
       return;
     }
-    this.trapWithoutFocus = false;
+    trapWithoutFocusRef.current = false;
 
     const newFocused = event.nativeEvent.relatedTarget;
     if (!newFocused) {
       return;
     }
 
-    if (newFocused instanceof Element && this.node?.contains(newFocused)) {
+    if (newFocused instanceof Element && nodeRef.current?.contains(newFocused)) {
       return;
     }
 
-    this.focusLast();
-  };
+    focusLast();
+  }
 
-  trapButtonNode?: HTMLElement | null;
-  trapButtonRef = (node: HTMLElement | null) => {
-    if (!node) {
-      return;
-    }
-
-    this.trapButtonNode = node;
-  };
-
-  render() {
-    const {
-      children,
-      trapDisabled,
-      autoFocusFirst,
-      focusBackOnClose,
-      focusBackOnExit,
-      ...restProps
-    } = this.props;
-
-    if (trapDisabled) {
-      return (
-        <div
-          ref={this.containerRef}
-          {...restProps}
-        >
-          {children}
-        </div>
-      );
-    }
-
+  if (trapDisabled) {
     return (
-      <div
-        ref={this.containerRef}
-        {...restProps}
-      >
-        <div
-          // It never actually stays focused
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex={0}
-          ref={this.trapButtonRef}
-          className={styles.trapButton}
-          onFocus={this.focusLastIfEnabled}
-          onBlur={this.handleBlurIfWithoutFocus}
-          data-trap-button
-        />
+      <div ref={nodeRef} {...restProps}>
         {children}
-        <div
-          // It never actually stays focused
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex={0}
-          onFocus={focusBackOnExit ? this.restoreFocus : this.focusFirst}
-          data-trap-button
-        />
       </div>
     );
   }
-}
+
+  return (
+    <div
+      ref={nodeRef}
+      {...restProps}
+    >
+      <div
+        // It never actually stays focused
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+        ref={trapButtonNodeRef}
+        className={styles.trapButton}
+        onFocus={focusLastIfEnabled}
+        onBlur={handleBlurIfWithoutFocus}
+        data-trap-button
+      />
+      {children}
+      <div
+        // It never actually stays focused
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+        onFocus={focusBackOnExit ? restoreFocus : focusFirst}
+        data-trap-button
+      />
+    </div>
+  );
+});
+
+TabTrap.propTypes = {
+  children: PropTypes.node.isRequired,
+  trapDisabled: PropTypes.bool,
+  autoFocusFirst: PropTypes.bool,
+  focusBackOnClose: PropTypes.bool,
+  focusBackOnExit: PropTypes.bool
+};
+
+export default TabTrap;
