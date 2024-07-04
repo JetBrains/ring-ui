@@ -203,7 +203,7 @@ describe('Auth', () => {
       expectedToken.should.be.deep.equal(token);
     });
 
-    it('should not throw error if user does not have state in local storage', () => {
+    it('should throw error if user does not have state in local storage (RG-2380)', () => {
       sandbox.stub(AuthResponseParser.prototype, 'getLocation').
         returns('http://localhost:8080/hub' +
           '#access_token=000&state=state&token_type=token&expires_in=3600');
@@ -216,7 +216,40 @@ describe('Auth', () => {
         optionalScopes: ['youtrack']
       });
 
-      return auth.init().should.be.fulfilled;
+      return auth.init().should.be.rejectedWith(Error, 'Could not create state where stateId="state');
+    });
+
+    it('should get target URL from state field, if valid URL (RG-2380)', () => {
+      const origin = window.location.origin;
+      sandbox.stub(AuthResponseParser.prototype, 'getLocation').
+        returns('http://localhost:8080/hub' +
+        `#access_token=000&state=${origin}/test&token_type=token&expires_in=3600`);
+
+      auth = new Auth({
+        serverUri: '',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack']
+      });
+
+      return auth.init().should.be.eventually.equal(`${origin}/test`);
+    });
+
+    it('should throw error if target URL from state field has different origin (RG-2380)', () => {
+      sandbox.stub(AuthResponseParser.prototype, 'getLocation').
+        returns('http://localhost:8080/hub' +
+        '#access_token=000&state=http://google.com/test&token_type=token&expires_in=3600');
+
+      auth = new Auth({
+        serverUri: '',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack']
+      });
+
+      return auth.init().should.be.rejectedWith(Error, 'State contains URL with different origin: "http://google.com/test"');
     });
 
     it('should redirect to auth when there is no valid token', async () => {
