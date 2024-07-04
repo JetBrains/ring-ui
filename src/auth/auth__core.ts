@@ -188,7 +188,7 @@ export default class Auth implements HTTPAuth {
   listeners = new Listeners<AuthPayloadMap>();
   http: HTTP;
   private _service: Partial<AuthService> = {};
-  readonly _storage: AuthStorage<number> | null = null;
+  readonly _storage: AuthStorage<number>;
   private _responseParser = new AuthResponseParser();
   private readonly _requestBuilder: AuthRequestBuilder | null = null;
   _backgroundFlow: BackgroundFlow | null;
@@ -929,25 +929,26 @@ export default class Auth implements HTTPAuth {
     await this._runEmbeddedLogin();
   }
 
-  _makeStateFromResponse(authResponse: AuthResponse): AuthState {
+  _makeStateFromResponse(authResponse: AuthResponse): AuthState | null {
     const {state} = authResponse;
     if (!state) {
-      return {};
+      throw new Error('No state in AuthResponse');
     }
     const {scope: defaultScope} = this.config;
+    let urlFromState: URL | null = null;
     try {
-      const urlFromState = new URL(state); // checking if state contains valid URL on same origin, see HUB-11514
-      if (urlFromState.origin !== window.location.origin) {
-        return {};
-      }
-      return {
-        restoreLocation: state,
-        created: Date.now(),
-        scopes: defaultScope
-      };
-    } catch (e) {
-      return {};
+      urlFromState = new URL(state); // checking if state contains valid URL on same origin, see HUB-11514
+    } catch {
+      return null;
     }
+    if (urlFromState.origin !== window.location.origin) {
+      throw new Error(`State contains URL with different origin: "${state}"`);
+    }
+    return {
+      restoreLocation: state,
+      created: Date.now(),
+      scopes: defaultScope
+    };
   }
 
   /**
@@ -972,10 +973,18 @@ export default class Auth implements HTTPAuth {
     }
 
     const {state: stateId, scope, expiresIn, accessToken} = authResponse;
-    const newState: AuthState =
-      await (stateId && this._storage?.getState(stateId)) ||
-      this._makeStateFromResponse(authResponse);
 
+    let newState: AuthState | null = null;
+    if (stateId) {
+      newState = await this._storage.getState(stateId);
+      if (!newState) {
+        newState = this._makeStateFromResponse(authResponse);
+      }
+    }
+
+    if (!newState) {
+      throw new Error(`Could not create state where stateId="${stateId}"`);
+    }
     const scopes = scope ? scope.split(' ') : newState.scopes || defaultScope || [];
     const effectiveExpiresIn = expiresIn ? parseInt(expiresIn, 10) : defaultExpiresIn;
     const expires = TokenValidator._epoch() + effectiveExpiresIn;
