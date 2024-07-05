@@ -32,7 +32,7 @@
   },
   "scripts": {
     "apply-resolutions": "npx npm-force-resolutions@0.0.10",
-    "postinstall": "husky install",
+    "postinstall": "husky",
     "prepare": "webpack -c .storybook/custom-header/webpack.config.js",
     "prea11y-audit": "playwright install",
     "a11y-audit": "test-storybook --url http://localhost:9999",
