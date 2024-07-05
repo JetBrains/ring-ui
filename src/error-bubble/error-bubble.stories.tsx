@@ -27,17 +27,19 @@ export const basic = () => {
       const {value} = this.state;
 
       return (
-        <ErrorBubble<SingleSelectAttrs>
-          error={value ? null : 'Value is required'}
-          onSelect={selected => this.setState({value: selected})}
-          inputPlaceholder="enter something"
-        >
-          <Select
-            type={Select.Type.BUTTON}
-            size={Select.Size.M}
-            data={[{key: 0, label: 'One'}, {key: 1, label: 'Two'}]}
-          />
-        </ErrorBubble>
+        <div style={{height: 32}}>
+          <ErrorBubble<SingleSelectAttrs>
+            error={value ? null : 'Value is required'}
+            onSelect={selected => this.setState({value: selected})}
+            inputPlaceholder="enter something"
+          >
+            <Select
+              type={Select.Type.BUTTON}
+              size={Select.Size.M}
+              data={[{key: 0, label: 'One'}, {key: 1, label: 'Two'}]}
+            />
+          </ErrorBubble>
+        </div>
       );
     }
   }
