@@ -1,5 +1,5 @@
 import {Component} from 'react';
-import checkmarkIcon from '@jetbrains/icons/checkmark';
+import tagIcon from '@jetbrains/icons/tag';
 
 
 import Tag from './tag';
@@ -23,13 +23,8 @@ export const demo = () => {
         <div>
           <Tag>Simple</Tag>
           <Tag readOnly>Read-only</Tag>
-          <Tag angled>With angle</Tag>
-          <Tag backgroundColor="#422" textColor="#FFF">Colored</Tag>
-          <Tag angled className="limited-width">
-            With angle and long truncated text
-          </Tag>
           <Tag className="limited-width">With long truncated text</Tag>
-          <Tag rgTagIcon={checkmarkIcon} rgTagTitle="I am an icon title">
+          <Tag rgTagIcon={tagIcon} rgTagTitle="I am an icon title">
             With icon title
           </Tag>
           <Tag avatar={avatarUrl} readOnly={false}>
