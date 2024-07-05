@@ -12,7 +12,8 @@
     "screenshots": "node screenshots-local.js",
     "serve": "http-server ../../storybook-dist/ -p 9999",
     "test": "npm run screenshots",
-    "test-ci": "node screenshots-ci.js --teamcity"
+    "test-ci": "node screenshots-ci.js --teamcity",
+    "cleanup": "npm run screenshots remove-unused-screens -- -p 'testplane/**/*.png' --skip-questions"
   },
   "devDependencies": {
     "@jetbrains/testplane-teamcity-reporter": "^1.2.2",
