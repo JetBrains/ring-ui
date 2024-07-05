@@ -37,7 +37,7 @@
 }
 
 .withRemove {
-  padding-right: 22px;
+  padding-right: 20px;
 }
 
 .container {
@@ -127,7 +127,7 @@
   position: absolute;
   z-index: 1;
   top: 2px;
-  right: 0;
+  right: 1px;
 
   height: auto;
   padding: 0 calc(var(--ring-unit) / 2);
@@ -140,12 +140,13 @@
 }
 
 .icon {
-  margin-right: 6px;
+  margin-right: 5px;
+  margin-left: -3px;
 
   color: var(--ring-icon-secondary-color);
 
-  & svg {
-    vertical-align: -3px;
+  && svg {
+    vertical-align: -3.5px;
   }
 }
 
