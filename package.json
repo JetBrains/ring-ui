@@ -223,7 +223,7 @@
     "fastdom": "^1.0.12",
     "file-loader": "^6.2.0",
     "focus-trap": "^7.5.4",
-    "highlight.js": "^10.7.2",
+    "highlight.js": "^11.10.0",
     "just-debounce-it": "^3.2.0",
     "memoize-one": "^6.0.0",
     "postcss": "^8.4.39",
