@@ -3,7 +3,7 @@ const {exec, execSync} = require('child_process');
 const path = require('path');
 
 const browserStackLocal = require('browserstack-local');
-const kill = require('kill-port');
+const claimPort = require('port-claim');
 
 require('dotenv').config();
 
@@ -13,7 +13,7 @@ const browserstackPort = 45690;
 // eslint-disable-next-line no-magic-numbers
 const STDOUT_BUFFER_SIZE = 1024 * 1024 * 20; // 20 Mb
 
-module.exports = callback => kill(browserstackPort).catch(e => {
+module.exports = callback => claimPort(browserstackPort).catch(e => {
   console.error(e);
 }).then(() => {
 
