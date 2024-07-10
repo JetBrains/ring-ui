@@ -686,6 +686,25 @@ inputBasedWithError.storyName = 'input-based with error';
 export const inputBasedWithFilterIcon: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
 
+export const inputWithoutControls: StoryFn<SingleSelectAttrs> = args => (
+  <Select {...args} className="wrapper"/>
+);
+
+inputWithoutControls.storyName = 'input without controls';
+
+inputWithoutControls.parameters = {
+  storyStyles: `
+<style>
+  .wrapper {
+    border: 1px solid var(--ring-borders-color);
+    border-radius: var(--ring-border-radius);
+  }
+</style>
+      `
+};
+
+inputWithoutControls.tags = ['skip-test'];
+
 {
   const data = [...Array(20)].map((elem, idx) => ({label: `Item ${idx}`, key: idx}));
 
@@ -716,6 +735,11 @@ inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
     data,
     clear: true,
     filterIcon: searchIcon
+  };
+
+  inputWithoutControls.args = {
+    type: Select.Type.INPUT_WITHOUT_CONTROLS,
+    data
   };
 }
 
