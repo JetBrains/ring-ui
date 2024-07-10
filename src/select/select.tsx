@@ -1275,11 +1275,15 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       [styles.disabled]: this.props.disabled
     });
 
-    const icons = this._getIcons();
+    let style: CSSProperties | undefined;
+    let iconsNode;
 
-    const style = getStyle(icons.length);
+    if (this.props.type === Type.INPUT || this.props.type === Type.BUTTON) {
+      const icons = this._getIcons();
+      style = getStyle(icons.length);
+      iconsNode = <div className={styles.icons}>{icons}</div>;
+    }
 
-    const iconsNode = <div className={styles.icons}>{icons}</div>;
     const ariaProps = this.state.showPopup
       ? {
         'aria-owns': this.listId,
@@ -1334,7 +1338,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                 })
                 : undefined}
               icon={this.props.filterIcon}
-              afterInput={this.props.type === Type.INPUT && iconsNode}
+              afterInput={iconsNode}
             />
             {this._renderPopup()}
           </div>
