@@ -225,8 +225,11 @@ class Shortcuts {
       return false;
     }
 
-    // stop for input, select, and textarea
-    return element.matches('input:not([type=checkbox]),select,textarea') || (element.contentEditable === 'true');
+    const elementContentEditableAttribute = element.contentEditable;
+    const isElementContentEditable = elementContentEditableAttribute === 'true' || elementContentEditableAttribute === 'plaintext-only';
+
+    // stop for input, select, textarea and content-editable elements
+    return element.matches('input:not([type=checkbox]),select,textarea') || isElementContentEditable;
   };
 
   private _getKeyboardEventType(params: ShortcutsParams) {
