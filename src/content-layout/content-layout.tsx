@@ -56,6 +56,7 @@ export default class ContentLayout extends Component<ContentLayoutProps> {
 
     return (
       <div
+        data-test="content-layout"
         {...restProps}
         className={classes}
       >
