@@ -1,45 +1,40 @@
-import {shallow, mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
-import ContentLayout, {ContentLayoutProps} from './content-layout';
+import ContentLayout from './content-layout';
 import Sidebar from './sidebar';
 import styles from './content-layout.css';
 
-type ContentLayoutAttributes =
-  JSX.LibraryManagedAttributes<typeof ContentLayout, ContentLayoutProps>
-
 describe('Content Layout', () => {
-  const shallowContentLayout = (params?: ContentLayoutAttributes) =>
-    shallow(<ContentLayout {...params}/>);
-  const mountContentLayout = (params?: ContentLayoutAttributes) =>
-    mount(<ContentLayout {...params}/>);
-
   it('should create component', () => {
-    mountContentLayout().should.have.type(ContentLayout);
+    render(<ContentLayout/>);
+    screen.getByTestId('content-layout').should.exist;
   });
 
   it('should wrap children with div', () => {
-    shallowContentLayout().should.have.tagName('div');
+    render(<ContentLayout/>);
+    screen.getByTestId('content-layout').should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    shallowContentLayout({className: 'test-class'}).should.have.className('test-class');
+    render(<ContentLayout className="test-class"/>);
+    screen.getByTestId('content-layout').should.have.class('test-class');
   });
 
   it('should render sidebar', () => {
-    const component = mount(<ContentLayout>
+    render(<ContentLayout>
       <Sidebar>{'In sidebar'}</Sidebar>
       <div>{'Foo'}</div>
     </ContentLayout>);
 
-    component.should.have.descendants(`div.${styles.sidebar}`);
+    screen.getByRole('complementary').should.exist;
   });
 
   it('should render sidebar on the right', () => {
-    const component = mount(<ContentLayout>
+    render(<ContentLayout>
       <Sidebar right>{'In sidebar'}</Sidebar>
       <div>{'Foo'}</div>
     </ContentLayout>);
 
-    component.should.have.descendants(`div.${styles.sidebarRight}`);
+    screen.getByRole('complementary').should.have.descendants(`div.${styles.sidebarRight}`);
   });
 });
