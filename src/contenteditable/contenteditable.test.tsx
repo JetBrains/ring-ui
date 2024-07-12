@@ -1,73 +1,50 @@
-import {shallow, mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
-import ContentEditable, {ContentEditableProps} from './contenteditable';
+import ContentEditable from './contenteditable';
 
 describe('ContentEditable', () => {
   const stub = sandbox.stub();
 
   afterEach(() => stub.reset());
 
-  const defaultProps = {
-    className: 'test',
-    onComponentUpdate: stub
-  };
-
-  const mountContentEditable = (props = defaultProps) => mount(
-    <ContentEditable {...props}>
-      <b>{'bold'}</b>
-    </ContentEditable>
-  );
-  const shallowContentEditable = (props: Omit<ContentEditableProps, 'children'> = defaultProps) =>
-    shallow(
-      <ContentEditable {...props}>
-        <b>{'bold'}</b>
-      </ContentEditable>
-    );
-
   it('should create component', () => {
-    mountContentEditable().should.have.type(ContentEditable);
+    render(<ContentEditable/>);
+    screen.getByRole('textbox').should.exist;
   });
 
   it('should pass other properties', () => {
-    shallowContentEditable().should.have.className('test');
+    render(<ContentEditable className="test"/>);
+    screen.getByRole('textbox').should.have.class('test');
   });
 
 
   it('should dangerously set html', () => {
-    mountContentEditable().getDOMNode().innerHTML.should.equal('<b>bold</b>');
+    render(<ContentEditable><b>{'bold'}</b></ContentEditable>);
+    screen.getByText('bold').should.have.tagName('b');
   });
 
   it('should render only on html / disabled change', () => {
-    const wrapper = mountContentEditable();
-    wrapper.setProps({
-      disabled: true
-    });
-
-    wrapper.setProps({
-      children: <span/>
-    });
+    const {rerender} = render(<ContentEditable onComponentUpdate={stub}/>);
+    rerender(<ContentEditable onComponentUpdate={stub} disabled/>);
+    rerender(<ContentEditable onComponentUpdate={stub}><span/></ContentEditable>);
 
     stub.should.have.been.calledTwice;
   });
 
   it('should not render on other props change', () => {
-    const wrapper = mountContentEditable();
-    wrapper.setProps({
-      className: 'testtest'
-    });
+    const {rerender} = render(<ContentEditable onComponentUpdate={stub}/>);
+    rerender(<ContentEditable onComponentUpdate={stub} className="testtest"/>);
 
     stub.should.not.have.been.called;
   });
 
   it('should set tabindex equal zero by default', () => {
-    shallowContentEditable().should.have.attr('tabindex', '0');
+    render(<ContentEditable/>);
+    screen.getByRole('textbox').should.have.attr('tabindex', '0');
   });
 
   it('should allow pass custom tabindex', () => {
-    const wrapper = shallowContentEditable({
-      tabIndex: -1
-    });
-
-    wrapper.should.have.attr('tabindex', '-1');
+    render(<ContentEditable tabIndex={-1}/>);
+    screen.getByRole('textbox').should.have.attr('tabindex', '-1');
   });
 });
