@@ -128,7 +128,7 @@
   --ring-code-tag-background-components: 239, 239, 239;
   --ring-code-tag-background-color: rgb(var(--ring-code-tag-background-components)); /* #efefef */
   --ring-code-tag-color: var(--ring-code-keyword-color);
-  --ring-code-tag-font-weight: bold;
+  --ring-code-tag-font-weight: var(--ring-font-weight-bold);
   --ring-code-field-components: 102, 14, 122;
   --ring-code-field-color: rgb(var(--ring-code-field-components)); /* #660e7a */
   --ring-code-attribute-components: 0, 0, 255;
@@ -144,10 +144,10 @@
   /* Metrics */
   --ring-border-radius: 4px;
   --ring-border-radius-small: 2px;
-  --ring-font-size-larger: 15px;
+  --ring-font-size-larger: 16px;
   --ring-font-size: 14px;
   --ring-font-size-smaller: 12px;
-  --ring-line-height-taller: 21px;
+  --ring-line-height-taller: 24px;
   --ring-line-height: 20px;
   --ring-line-height-lower: 18px;
   --ring-line-height-lowest: 16px;
@@ -162,6 +162,7 @@
     "Courier New",
     Courier,
     monospace;
+  --ring-font-weight-bold: 600;
 
   /* Common z-index-values */
 

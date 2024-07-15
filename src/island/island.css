@@ -51,7 +51,7 @@
 
   font-size: inherit;
 
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 .narrowIsland .header {

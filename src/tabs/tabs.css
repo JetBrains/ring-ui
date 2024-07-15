@@ -51,17 +51,14 @@
 
   &:hover,
   &:active {
+    color: var(--ring-link-hover-color);
+    outline-style: none;
+    box-shadow: inset 0 -1px 0 0 var(--ring-link-hover-color);
+
     &.selected,
     &.collapsed {
       color: inherit;
       box-shadow: selected-line-shadow var(--ring-text-color);
-    }
-
-    &:not(.selected),
-    &:not(.collapsed) {
-      color: var(--ring-link-hover-color);
-      outline-style: none;
-      box-shadow: inset 0 -1px 0 0 var(--ring-link-hover-color);
     }
   }
 
@@ -96,7 +93,7 @@
   outline: none;
   box-shadow: selected-line-shadow var(--ring-selected-tab-color);
 
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 .visible {
@@ -125,7 +122,7 @@
 
   height: 0;
 
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 .hiddenRegular {

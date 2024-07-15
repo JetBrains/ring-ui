@@ -12,7 +12,8 @@
     "screenshots": "node screenshots-local.js",
     "serve": "http-server ../../storybook-dist/ -p 9999",
     "test": "npm run screenshots",
-    "test-ci": "node screenshots-ci.js --teamcity"
+    "test-ci": "node screenshots-ci.js --teamcity",
+    "cleanup": "npm run screenshots remove-unused-screens -- -p 'testplane/**/*.png' --skip-questions"
   },
   "devDependencies": {
     "@jetbrains/testplane-teamcity-reporter": "^1.2.2",
@@ -22,18 +23,18 @@
     "filenamify": "^6.0.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.2.0",
-    "html-reporter": "^10.3.2",
+    "html-reporter": "^10.4.0",
     "http-server": "^14.1.1",
     "ip": "^2.0.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "kill-port": "^2.0.1",
+    "port-claim": "^1.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "testplane": "^8.14.1",
+    "testplane": "^8.17.0",
     "yauzl": "^3.1.3"
   }
 }

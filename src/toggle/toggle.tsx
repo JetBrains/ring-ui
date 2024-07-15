@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 
+import ControlHelp from '../control-help/control-help';
+
 import styles from './toggle.css';
 
 export const Size = {
@@ -18,9 +20,9 @@ export const Size = {
 
 export interface ToggleProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   size: string
-  pale?: boolean | null | undefined
   leftLabel?: ReactNode
   'data-test'?: string | null | undefined
+  help?: ReactNode
 }
 class Toggle extends PureComponent<ToggleProps> {
   static propTypes = {
@@ -32,7 +34,6 @@ class Toggle extends PureComponent<ToggleProps> {
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
-    pale: PropTypes.bool,
     onChange: PropTypes.func,
     onTransitionEnd: PropTypes.func,
     size: PropTypes.oneOf(Object.values(Size)),
@@ -44,8 +45,8 @@ class Toggle extends PureComponent<ToggleProps> {
   };
 
   render() {
-    const {className, children, disabled, pale, title, leftLabel, size = Size.Size16,
-      'data-test': dataTest, onTransitionEnd, ...restProps} = this.props;
+    const {className, children, disabled, title, leftLabel, size = Size.Size16,
+      'data-test': dataTest, help, onTransitionEnd, ...restProps} = this.props;
 
     const classes = classNames(
       className,
@@ -60,7 +61,11 @@ class Toggle extends PureComponent<ToggleProps> {
         title={title}
         data-test={dataTests('ring-toggle', dataTest)}
       >
-        {leftLabel && <span className={styles.leftLabel}>{leftLabel}</span>}
+        {leftLabel && (
+          <span className={styles.leftLabel}>{leftLabel}
+            {help && <ControlHelp className={styles.help}>{help}</ControlHelp>}
+          </span>
+        )}
 
         <span className={styles.switchWrapper}>
           <input
@@ -72,12 +77,17 @@ class Toggle extends PureComponent<ToggleProps> {
           />
 
           <span
-            className={classNames(styles.switch, pale && styles.paleSwitch)}
+            className={styles.switch}
             onTransitionEnd={onTransitionEnd}
           />
         </span>
 
-        {children && <span className={styles.label}>{children}</span>}
+        {children && (
+          <div className={styles.label}>
+            {children}
+            {help && <ControlHelp className={styles.help}>{help}</ControlHelp>}
+          </div>
+        )}
       </label>
     );
   }

@@ -25,19 +25,10 @@ export const basic = () => (
       <Toggle disabled defaultChecked>Disabled checked</Toggle>
     </div>
     <div>
-      <Toggle pale>Pale unchecked by default</Toggle>
-    </div>
-    <div>
-      <Toggle pale defaultChecked>Pale checked by default</Toggle>
-    </div>
-    <div>
-      <Toggle pale disabled>Pale disabled unchecked</Toggle>
-    </div>
-    <div>
-      <Toggle pale disabled defaultChecked>Pale disabled checked</Toggle>
-    </div>
-    <div>
       <Toggle leftLabel="With label on the left"/>
+    </div>
+    <div>
+      <Toggle help="Help text">With help text</Toggle>
     </div>
     <h1>Size 16</h1>
     <div>
@@ -53,19 +44,10 @@ export const basic = () => (
       <Toggle size={Size.Size16} disabled defaultChecked>Disabled checked</Toggle>
     </div>
     <div>
-      <Toggle size={Size.Size16} pale>Pale unchecked by default</Toggle>
-    </div>
-    <div>
-      <Toggle size={Size.Size16} pale defaultChecked>Pale checked by default</Toggle>
-    </div>
-    <div>
-      <Toggle size={Size.Size16} pale disabled>Pale disabled unchecked</Toggle>
-    </div>
-    <div>
-      <Toggle size={Size.Size16} pale disabled defaultChecked>Pale disabled checked</Toggle>
-    </div>
-    <div>
       <Toggle size={Size.Size16} leftLabel="With label on the left"/>
+    </div>
+    <div>
+      <Toggle size={Size.Size16} help="Help text">With help text</Toggle>
     </div>
     <h1>Size 20</h1>
     <div style={{lineHeight: '24px'}}>
@@ -82,19 +64,10 @@ export const basic = () => (
         <Toggle size={Size.Size20} disabled defaultChecked>Disabled checked</Toggle>
       </div>
       <div>
-        <Toggle size={Size.Size20} pale>Pale unchecked by default</Toggle>
-      </div>
-      <div>
-        <Toggle size={Size.Size20} pale defaultChecked>Pale checked by default</Toggle>
-      </div>
-      <div>
-        <Toggle size={Size.Size20} pale disabled>Pale disabled unchecked</Toggle>
-      </div>
-      <div>
-        <Toggle size={Size.Size20} pale disabled defaultChecked>Pale disabled checked</Toggle>
-      </div>
-      <div>
         <Toggle size={Size.Size20} leftLabel="With label on the left"/>
+      </div>
+      <div>
+        <Toggle size={Size.Size20} help="Help text">With help text</Toggle>
       </div>
     </div>
   </div>

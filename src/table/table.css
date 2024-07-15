@@ -47,7 +47,7 @@
 }
 
 .headerCell.headerCellSorted {
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 .headerCell.headerCellSortable {
@@ -81,7 +81,7 @@
   border-bottom: none;
 
   font-size: var(--ring-font-size);
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
   line-height: var(--ring-line-height-lower);
 }
 
