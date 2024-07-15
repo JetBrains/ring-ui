@@ -1,5 +1,4 @@
 import * as Sinon from 'sinon';
-import React from 'react';
 import {shallow, mount} from 'enzyme';
 
 import {getRect, getStyles} from '../global/dom';

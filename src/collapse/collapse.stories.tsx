@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 
 import ChevronDownIcon from '@jetbrains/icons/chevron-down';
 
@@ -20,7 +20,7 @@ export default {
   parameters: {
     notes: 'The "Collapse" component hides content and shows more when clicked, saving space and keeping it tidy.',
 
-    hermione: {
+    screenshots: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-collapse-control] button'}
       ]

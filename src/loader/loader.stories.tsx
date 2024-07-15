@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {StoryFn} from '@storybook/react';
 
 
@@ -10,7 +8,7 @@ export default {
 
   component: Loader,
   parameters: {
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

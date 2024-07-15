@@ -1,4 +1,4 @@
-import React, {memo, HTMLAttributes, ComponentType} from 'react';
+import {memo, HTMLAttributes, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
@@ -54,37 +54,33 @@ Heading.Levels = Levels;
 export default Heading;
 
 export interface H1Props extends HTMLAttributes<HTMLHeadingElement> {
-  caps?: boolean | null | undefined
-}
-function makeHeading(level: Levels.H1, useCaps: true): ComponentType<H1Props>
-function makeHeading(level: Levels): ComponentType<HTMLAttributes<HTMLHeadingElement>>
-function makeHeading(level: Levels, useCaps?: true) {
-  const H: ComponentType<H1Props> = memo(({className, caps, ...restProps}: H1Props) => {
-    const classes = classNames(className, {
-      [styles.caps]: useCaps && caps
-    });
-
-    return (
-      <Heading
-        {...restProps}
-        level={level}
-        className={classes}
-      />
-    );
-  });
-  H.displayName = `H${level}`;
-  H.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    // use only for short h1 headers, no longer than three words
-    caps: PropTypes.bool
-  };
-  return H;
+  caps?: boolean | null | undefined // TODO remove in 7.0
 }
 
-const H1 = makeHeading(Levels.H1, true);
-const H2 = makeHeading(Levels.H2);
-const H3 = makeHeading(Levels.H3);
-const H4 = makeHeading(Levels.H4);
+const warnCaps = deprecate(() => {}, 'H1 caps prop is deprecated and will be removed in Ring UI 7.0');
+
+const H1 = memo(function H1({className, caps, ...restProps}: H1Props) {
+  if (caps) {
+    warnCaps();
+  }
+  const classes = classNames(className, {[styles.caps]: caps});
+  return <Heading {...restProps} level={Levels.H1} className={classes}/>;
+});
+
+const H2 = memo(function H2(props: HTMLAttributes<HTMLHeadingElement>) {
+  return <Heading {...props} level={Levels.H2}/>;
+});
+
+const H3 = memo(function H3(props: HTMLAttributes<HTMLHeadingElement>) {
+  return <Heading {...props} level={Levels.H3}/>;
+});
+
+export interface H4Props extends HTMLAttributes<HTMLHeadingElement> {
+  bold?: boolean | null | undefined
+}
+const H4 = memo(function H4({className, bold, ...restProps}: H4Props) {
+  const classes = classNames(className, {[styles.bold]: bold});
+  return <Heading {...restProps} className={classes} level={Levels.H4}/>;
+});
 
 export {H1, H2, H3, H4};

@@ -1,4 +1,4 @@
-import React, {PureComponent, SyntheticEvent, ComponentType} from 'react';
+import {PureComponent, SyntheticEvent, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -138,6 +138,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
           onMouseUp={onMouseUp}
           className={classes}
           style={style}
+          disabled={disabled}
         >
           <div className={styles.top} onMouseOut={this.stopBubbling} onBlur={this.stopBubbling}>
             {!showCheckbox && (

@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import {Component, Fragment} from 'react';
 import pencilIcon from '@jetbrains/icons/pencil';
 import hourglassIcon from '@jetbrains/icons/hourglass';
 
@@ -25,7 +25,7 @@ export default {
 
 export const single = (args: ButtonProps) => <Button {...args}/>;
 single.args = {children: 'Label'};
-single.parameters = {hermione: {skip: true}};
+single.parameters = {screenshots: {skip: true}};
 
 export const basic = () => (
   <div className="buttons">
@@ -102,7 +102,7 @@ export const basic = () => (
 basic.storyName = 'basic';
 
 basic.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'capture', name: '', selector: '#storybook-root'},
       {type: 'focus', selector: '[data-test=button-active]'},
@@ -311,4 +311,4 @@ export const longAction = () => {
 };
 
 longAction.storyName = 'long action';
-longAction.parameters = {hermione: {skip: true}};
+longAction.parameters = {screenshots: {skip: true}};

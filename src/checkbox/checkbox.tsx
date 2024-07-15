@@ -1,4 +1,4 @@
-import React, {PureComponent, InputHTMLAttributes, CSSProperties, Ref} from 'react';
+import {PureComponent, InputHTMLAttributes, CSSProperties, Ref, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import checkmarkIcon from '@jetbrains/icons/checkmark-12px';
@@ -6,7 +6,9 @@ import minusIcon from '@jetbrains/icons/remove-12px';
 
 import Icon from '../icon/icon';
 import {refObject} from '../global/prop-types';
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
+
+import ControlHelp from '../control-help/control-help';
 
 import styles from './checkbox.css';
 
@@ -18,6 +20,7 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   labelClassName?: string | null | undefined
   indeterminate: boolean
   inputRef?: Ref<HTMLInputElement>
+  help?: ReactNode
 }
 
 /**
@@ -73,6 +76,8 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
     this.input = el;
   };
 
+  composedInputRef = createComposedRef<HTMLInputElement>();
+
   render() {
     const {
       children,
@@ -84,6 +89,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
       labelClassName,
       indeterminate,
       inputRef,
+      help,
       ...restProps
     } = this.props;
 
@@ -101,21 +107,26 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
         <input
           {...restProps}
           data-checked={restProps.checked}
-          ref={composeRefs(this.inputRef, inputRef)}
+          ref={this.composedInputRef(this.inputRef, inputRef)}
           type="checkbox"
           className={classes}
         />
-        <span className={cellClasses}>
-          <Icon
-            glyph={checkmarkIcon}
-            className={styles.check}
-          />
-          <Icon
-            glyph={minusIcon}
-            className={styles.minus}
-          />
+        <div className={styles.cellWrapper}>
+          <span className={cellClasses}>
+            <Icon
+              glyph={checkmarkIcon}
+              className={styles.check}
+            />
+            <Icon
+              glyph={minusIcon}
+              className={styles.minus}
+            />
+          </span>
+        </div>
+        <span className={labelClasses}>
+          {label || children}
+          {help && <ControlHelp>{help}</ControlHelp>}
         </span>
-        <span className={labelClasses}>{label || children}</span>
       </label>
     );
   }

@@ -2,7 +2,7 @@
   * @name Data List
   */
 
-import React, {PureComponent, Component, ComponentType} from 'react';
+import {PureComponent, Component, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 

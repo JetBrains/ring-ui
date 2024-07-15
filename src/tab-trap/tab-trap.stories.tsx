@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 
 
 import Input from '../input/input';
@@ -13,7 +13,7 @@ export default {
 
   parameters: {
     notes: 'Disallows tabbing out of a designated area.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

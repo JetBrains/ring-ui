@@ -1,41 +1,30 @@
-import React from 'react';
-import {shallow, mount, render} from 'enzyme';
+import {render, screen} from '@testing-library/react';
+
+import {SelectionItem} from '../table/selection';
 
 import DataList, {DataListContainerProps} from './data-list';
 import Selection from './selection';
-import {Item} from './data-list.mock';
+
+const data: SelectionItem[] = [];
+const props: DataListContainerProps<SelectionItem> = {
+  data,
+  selection: new Selection({data, isItemSelectable: item => Boolean(item.selectable)}),
+  itemFormatter: () => ({})
+};
 
 describe('Data List', () => {
-  const shallowDataList = (props: Partial<DataListContainerProps<Item>> = {}) => {
-    const data = props.data || [];
-    const selection = new Selection({data, isItemSelectable: item => item.selectable});
-    const itemFormatter = () => ({});
-    return shallow(<DataList {...{...{data, selection, itemFormatter}, ...props}}/>);
-  };
-
-  const mountDataList = (props: Partial<DataListContainerProps<Item>> = {}) => {
-    const data = props.data || [];
-    const selection = new Selection({data, isItemSelectable: item => item.selectable});
-    const itemFormatter = () => ({});
-    return mount(<DataList {...{...{data, selection, itemFormatter}, ...props}}/>);
-  };
-
-  const renderDataList = (props: Partial<DataListContainerProps<Item>> = {}) => {
-    const data = props.data || [];
-    const selection = new Selection({data, isItemSelectable: item => item.selectable});
-    const itemFormatter = () => ({});
-    return render(<DataList {...{...{data, selection, itemFormatter}, ...props}}/>);
-  };
-
   it('should create component', () => {
-    mountDataList().should.have.type(DataList);
+    render(<DataList {...props}/>);
+    screen.getByTestId('ring-data-list').should.exist;
   });
 
   it('should wrap children with div', () => {
-    shallowDataList().should.have.tagName('div');
+    render(<DataList {...props}/>);
+    screen.getByTestId('ring-data-list').should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    renderDataList({className: 'test-class'}).find('ul').should.have.className('test-class');
+    render(<DataList {...props} className="test-class"/>);
+    screen.getByRole('list').should.have.class('test-class');
   });
 });

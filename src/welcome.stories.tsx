@@ -1,5 +1,3 @@
-import React from 'react';
-
 import MarkdownIt from 'markdown-it';
 
 import highlightJs from 'highlight.js';
@@ -30,7 +28,7 @@ export default {
   title: 'Ring UI/Welcome',
 
   parameters: {
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

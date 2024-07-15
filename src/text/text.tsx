@@ -1,4 +1,4 @@
-import React, {Component, HTMLAttributes} from 'react';
+import {Component, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -10,6 +10,7 @@ export interface TextProps extends HTMLAttributes<HTMLElement> {
   info?: boolean | null | undefined,
   size?: TextSize,
   'data-test'?: string | null | undefined
+  bold?: boolean | null | undefined
 }
 
 const TextSize: Record<string, TextSize> = {
@@ -34,10 +35,11 @@ export default class Text extends Component<TextProps> {
   static Size = TextSize;
 
   render() {
-    const {children, className, info, size, ...restProps} = this.props;
+    const {children, className, info, size, bold, ...restProps} = this.props;
 
     const classes = classNames(styles.text, className, {
       [styles.info]: info,
+      [styles.bold]: bold,
       [styles.sizeS]: size === Text.Size.S,
       [styles.sizeM]: size === Text.Size.M,
       [styles.sizeL]: size === Text.Size.L

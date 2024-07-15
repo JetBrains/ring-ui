@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from 'classnames';
 import type {Locale} from 'date-fns';
 import {getDay} from 'date-fns/getDay';

@@ -1,4 +1,4 @@
-import React, {ComponentRef, Ref} from 'react';
+import {ComponentRef, Ref} from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 

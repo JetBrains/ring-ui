@@ -1,24 +1,24 @@
-import React, {InputHTMLAttributes} from 'react';
+import {InputHTMLAttributes} from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
-import {Radio} from './radio__item';
+import {RadioItemInner} from './radio__item';
 
 describe('Radio Item', () => {
   function noop() {}
 
   const factory = (props?: InputHTMLAttributes<HTMLInputElement>) => (
-    <Radio
+    <RadioItemInner
       checked={false}
       onChange={noop}
       value="test"
       {...props}
     >
       {'test'}
-    </Radio>
+    </RadioItemInner>
   );
   const mountRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) =>
-    mount<Radio>(factory(props));
+    mount<RadioItemInner>(factory(props));
   const shallowRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) =>
     shallow(factory(props));
 

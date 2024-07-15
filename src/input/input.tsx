@@ -1,4 +1,4 @@
-import React, {
+import {
   PureComponent,
   Ref,
   ComponentType,
@@ -6,6 +6,8 @@ import React, {
   TextareaHTMLAttributes,
   ReactNode
 } from 'react';
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close-12px';
@@ -18,10 +20,12 @@ import getUID from '../global/get-uid';
 import Icon from '../icon/icon';
 import {I18nContext} from '../i18n/i18n-context';
 
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import {ControlLabel, LabelType} from '../control-label/control-label';
+
+import ControlHelp from '../control-help/control-help';
 
 import styles from './input.css';
 
@@ -51,8 +55,8 @@ export interface InputBaseProps {
   inputClassName?: string | null | undefined
   label?: ReactNode
   labelType?: LabelType
-  active?: boolean | null | undefined
   error?: ReactNode | null | undefined
+  help?: ReactNode | null | undefined
   borderless?: boolean | null | undefined
   onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
   icon?: string | ComponentType | null | undefined
@@ -138,6 +142,8 @@ export class Input extends PureComponent<InputProps> {
     this.input = el;
   };
 
+  composedInputRef = createComposedRef<HTMLInputElement | HTMLTextAreaElement>();
+
   clear = (e: React.MouseEvent<HTMLButtonElement>) => {
     this.props.onClear && this.props.onClear(e);
   };
@@ -160,7 +166,6 @@ export class Input extends PureComponent<InputProps> {
     const {
       // Modifiers
       size,
-      active,
       multiline,
       borderless,
 
@@ -168,6 +173,7 @@ export class Input extends PureComponent<InputProps> {
       label,
       labelType,
       error,
+      help,
       className,
       inputClassName,
       children,
@@ -194,7 +200,6 @@ export class Input extends PureComponent<InputProps> {
       [styles[`height${height}`]],
       {
         'ring-js-shortcuts': enableShortcuts === true,
-        [styles.active]: active,
         [styles.error]: error != null,
         [styles.empty]: empty,
         [styles.withIcon]: icon != null,
@@ -208,7 +213,7 @@ export class Input extends PureComponent<InputProps> {
     const text = value != null ? value : children;
 
     const commonProps = {
-      ref: composeRefs(this.inputRef, inputRef),
+      ref: this.composedInputRef(this.inputRef, inputRef),
       className: inputClasses,
       value: text,
       disabled,
@@ -258,7 +263,9 @@ export class Input extends PureComponent<InputProps> {
               )}
               {afterInput}
             </div>
-            {error && <div className={styles.errorText}>{error}</div>}
+            {error
+              ? <div className={styles.errorText}>{error}</div>
+              : (help && <ControlHelp className={styles.helpText}>{help}</ControlHelp>)}
           </div>
         )}
       </I18nContext.Consumer>
@@ -272,7 +279,6 @@ export class Input extends PureComponent<InputProps> {
   inputClassName: PropTypes.string,
   size: PropTypes.oneOf(Object.values(Size)).isRequired,
   label: PropTypes.node,
-  active: PropTypes.bool,
   error: PropTypes.string,
   multiline: PropTypes.bool,
   onChange: PropTypes.func,

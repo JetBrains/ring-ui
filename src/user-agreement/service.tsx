@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import {ReactNode} from 'react';
 
 import {createRoot} from 'react-dom/client';
 
@@ -138,7 +138,7 @@ export default class UserAgreementService {
   };
 
   getUserAgreement = async () => {
-    this.userAgreement = await this.config.getUserAgreement() || DEFAULT_AGREEMENT;
+    this.userAgreement = (await this.config.getUserAgreement()) || DEFAULT_AGREEMENT;
     return this.userAgreement;
   };
 
@@ -148,7 +148,7 @@ export default class UserAgreementService {
     this.guest = guest;
 
     if (guest) {
-      this.userConsent = await this.storage.get(GUEST_SESSION_KEY) || this.userConsent;
+      this.userConsent = (await this.storage.get(GUEST_SESSION_KEY)) || this.userConsent;
     } else {
       this.userConsent = endUserAgreementConsent || this.userConsent;
     }

@@ -1,4 +1,4 @@
-import React, {createContext, memo, useContext, useEffect, useState, ReactNode} from 'react';
+import {createContext, memo, useContext, useEffect, useState, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 
 type Update<T> = (value: T) => void

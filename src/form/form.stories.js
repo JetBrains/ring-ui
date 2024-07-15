@@ -1,4 +1,3 @@
-import React from 'react';
 import '../input/input-legacy.css';
 import './form.css';
 import '../input-size/input-size.css';

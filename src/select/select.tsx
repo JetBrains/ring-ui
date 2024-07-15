@@ -1,4 +1,4 @@
-import React, {
+import {
   ButtonHTMLAttributes,
   Component,
   ComponentType,
@@ -10,6 +10,8 @@ import React, {
   RefCallback,
   SyntheticEvent
 } from 'react';
+
+import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
@@ -35,7 +37,7 @@ import {ListDataItem} from '../list/consts';
 
 import {Directions} from '../popup/popup.consts';
 
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
 import {refObject} from '../global/prop-types';
 import {isArray} from '../global/typescript-utils';
 
@@ -203,6 +205,7 @@ export interface BaseSelectProps<T = unknown> {
   popupStyle?: CSSProperties | undefined
   top?: number | undefined
   left?: number | undefined
+  offset?: number | undefined
   renderOptimization?: boolean | undefined
   ringPopupTarget?: string | null | undefined
   preventListOverscroll?: boolean | undefined
@@ -455,7 +458,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     tags: null,
     ringPopupTarget: null,
-    dir: 'ltr'
+    dir: 'ltr',
+    offset: 4
   };
 
   static getDerivedStateFromProps<T = unknown>(
@@ -752,6 +756,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               style={this.props.popupStyle}
               top={this.props.top}
               left={this.props.left}
+              offset={this.props.offset}
               filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
               filterIcon={this.props.filterIcon}
               filterRef={this.props.filterRef}
@@ -1245,6 +1250,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     this.filter = el;
   };
 
+  composedFilterRef = createComposedRef<HTMLInputElement>();
+
   getShortcutsMap() {
     return {
       enter: this._onEnter,
@@ -1268,11 +1275,15 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       [styles.disabled]: this.props.disabled
     });
 
-    const icons = this._getIcons();
+    let style: CSSProperties | undefined;
+    let iconsNode;
 
-    const style = getStyle(icons.length);
+    if (this.props.type === Type.INPUT || this.props.type === Type.BUTTON) {
+      const icons = this._getIcons();
+      style = getStyle(icons.length);
+      iconsNode = <div className={styles.icons}>{icons}</div>;
+    }
 
-    const iconsNode = <div className={styles.icons}>{icons}</div>;
     const ariaProps = this.state.showPopup
       ? {
         'aria-owns': this.listId,
@@ -1304,7 +1315,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               autoComplete="off"
               id={this.props.id}
               onClick={this._clickHandler}
-              inputRef={composeRefs(this.filterRef, this.props.filterRef)}
+              inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
               disabled={this.props.disabled}
               value={this.state.filterValue}
               borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
@@ -1327,7 +1338,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                 })
                 : undefined}
               icon={this.props.filterIcon}
-              afterInput={this.props.type === Type.INPUT && iconsNode}
+              afterInput={iconsNode}
             />
             {this._renderPopup()}
           </div>

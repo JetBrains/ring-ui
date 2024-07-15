@@ -1,4 +1,4 @@
-import React, {Component, ReactNode} from 'react';
+import {Component, ReactNode} from 'react';
 import classNames from 'classnames';
 
 
@@ -72,7 +72,7 @@ export const basic = () => {
 basic.storyName = 'basic';
 
 basic.parameters = {
-  hermione: {captureSelector: ['.topLeft', '.topRight', '.bottomLeft', '.bottomRight']},
+  screenshots: {captureSelector: ['.topLeft', '.topRight', '.bottomLeft', '.bottomRight']},
   a11y: {element: '#storybook-root,.topLeft,.topRight,.bottomLeft,.bottomRight'},
   storyStyles: `
 <style>
@@ -158,7 +158,7 @@ export const autoPositioning = () => {
 autoPositioning.storyName = 'auto-positioning';
 
 autoPositioning.parameters = {
-  hermione: {captureSelector: 'body'},
+  screenshots: {captureSelector: 'body'},
   a11y: {element: '#storybook-root,.left,.right,.bottom,.top'},
   storyStyles: `
 <style>
@@ -242,7 +242,7 @@ export const popupInAPopup = () => {
 popupInAPopup.storyName = 'popup in a popup';
 
 popupInAPopup.parameters = {
-  hermione: {captureSelector: 'body'},
+  screenshots: {captureSelector: 'body'},
   storyStyles: `
 <style>
   body {
@@ -280,7 +280,7 @@ export const insideAScrollableContainer = () => (
 insideAScrollableContainer.storyName = 'inside a scrollable container';
 
 insideAScrollableContainer.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles: `
 <style>
     body {
@@ -323,7 +323,7 @@ export const fitsScreen = () => {
 fitsScreen.storyName = 'fits screen';
 
 fitsScreen.parameters = {
-  hermione: {captureSelector: 'body'},
+  screenshots: {captureSelector: 'body'},
   storyStyles: `
 <style>
     body {

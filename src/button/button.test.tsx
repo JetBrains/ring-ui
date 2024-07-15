@@ -1,4 +1,3 @@
-import React from 'react';
 import {render, screen} from '@testing-library/react';
 
 import caretDownSVG from '@jetbrains/icons/caret-down-10px';

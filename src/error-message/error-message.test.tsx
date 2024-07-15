@@ -1,4 +1,3 @@
-import React from 'react';
 import {shallow, mount} from 'enzyme';
 
 import ErrorMessage, {ErrorMessageProps} from './error-message';

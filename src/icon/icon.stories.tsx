@@ -1,4 +1,3 @@
-import React from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import pencilIcon from '@jetbrains/icons/pencil';
@@ -138,7 +137,7 @@ export const jetBrainsProductLogosList = () => (
 jetBrainsProductLogosList.storyName = 'JetBrains product logos list';
 
 jetBrainsProductLogosList.parameters = {
-  hermione: {skip: true}, // Logos example is too big and have no much sense to test
+  screenshots: {skip: true}, // Logos example is too big and have no much sense to test
   storyStyles: `
 <style>
   .ring-icon {

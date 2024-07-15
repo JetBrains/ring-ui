@@ -1,4 +1,4 @@
-import React, {HTMLAttributes} from 'react';
+import {HTMLAttributes} from 'react';
 import {shallow, mount} from 'enzyme';
 
 import Group from './group';

@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import Button from '../button/button';
@@ -15,7 +15,7 @@ export default {
 
   parameters: {
     notes: 'Service for managing a stack of alerts.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 
@@ -23,7 +23,7 @@ export const alertService = () => {
   const MSG_TIMEOUT = 5000;
   const MSG_LONG_TIMEOUT = 30000;
 
-  class AlertServiceDemo extends React.Component {
+  class AlertServiceDemo extends Component {
     componentDidMount() {
       setTimeout(() => {
         alert.message('A initial message', MSG_TIMEOUT);

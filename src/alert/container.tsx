@@ -1,4 +1,4 @@
-import React, {Children, cloneElement, PureComponent, HTMLAttributes, isValidElement} from 'react';
+import {Children, cloneElement, PureComponent, HTMLAttributes, isValidElement} from 'react';
 import {createPortal} from 'react-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';

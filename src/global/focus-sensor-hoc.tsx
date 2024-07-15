@@ -1,9 +1,9 @@
-import React, {Component, ComponentType, Ref} from 'react';
+import {Component, ComponentType, Ref} from 'react';
 import PropTypes from 'prop-types';
 
 import {refObject} from './prop-types';
 
-import composeRefs from './composeRefs';
+import {createComposedRef} from './composeRefs';
 
 
 export interface FocusSensorOuterProps<T extends HTMLElement> {
@@ -91,6 +91,8 @@ export default function focusSensorHOC<
       }
     };
 
+    composedRef = createComposedRef<HTMLElement>();
+
     onFocusCapture = ({target}: FocusEvent) => {
       if (this._skipNextCapture) {
         this._skipNextCapture = false;
@@ -132,7 +134,7 @@ export default function focusSensorHOC<
       return (
         <ComposedComponent
           {...rest as JSX.LibraryManagedAttributes<C, P>}
-          innerRef={composeRefs(innerRef, this.onRefUpdate)}
+          innerRef={this.composedRef(innerRef, this.onRefUpdate)}
           focused={this.state.focused}
           onFocusReset={this.onFocusReset}
           onFocusRestore={this.onFocusRestore}

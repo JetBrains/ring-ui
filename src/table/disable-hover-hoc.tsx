@@ -1,4 +1,4 @@
-import React, {PureComponent, ComponentType} from 'react';
+import {PureComponent, ComponentType} from 'react';
 
 export interface DisableHoverAddProps {
   disabledHover: boolean

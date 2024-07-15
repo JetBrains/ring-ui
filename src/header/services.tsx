@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, PureComponent} from 'react';
+import {HTMLAttributes, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import servicesIcon from '@jetbrains/icons/services-20px';
 

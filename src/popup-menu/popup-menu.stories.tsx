@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import PopupMenu, {ListProps} from './popup-menu';
 
 export default {
@@ -8,7 +5,7 @@ export default {
 
   parameters: {
     notes: 'Displays a popup menu.',
-    hermione: {captureSelector: '*[data-test~=ring-popup]'},
+    screenshots: {captureSelector: '*[data-test~=ring-popup]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-popup]'}
   }
 };

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Link from '../link/link';
 
 import analytics from './analytics';
@@ -11,7 +9,7 @@ export default {
   parameters: {
     notes:
       'Provides a façade to Google Analytics and other web analytics services through a system of plugins.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

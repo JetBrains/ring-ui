@@ -1,10 +1,14 @@
-import React, {
+import {
   ReactNode,
   SyntheticEvent,
-  useCallback, useEffect,
-  useMemo, useRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
   useState
 } from 'react';
+
+import * as React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import searchIcon from '@jetbrains/icons/search';
 
@@ -65,6 +69,11 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
       icon: FLAG_DE_URL
     },
     {
+      label: 'With SVG icon',
+      key: 4,
+      rightGlyph: warningIcon
+    },
+    {
       label: 'With avatar',
       key: 5,
       avatar: avatarUrl
@@ -95,13 +104,13 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
 
   withAvatars.args = {
     data: tags,
-    selected: tags[4],
+    selected: tags[5],
     type: Select.Type.BUTTON
   };
 }
 
 withAFilterAndTags.storyName = 'with a filter and tags';
-withAFilterAndTags.parameters = {hermione: {skip: true}};
+withAFilterAndTags.parameters = {screenshots: {skip: true}};
 
 type StatefulProps = SingleSelectAttrs & {
   text?: ReactNode
@@ -155,7 +164,7 @@ WithAFilter.argTypes = {
 WithAFilter.storyName = 'with a filter';
 
 WithAFilter.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test~=ring-select]'},
       {
@@ -222,7 +231,7 @@ ButtonModeWithAFilter.argTypes = {
 ButtonModeWithAFilter.storyName = 'button mode with a filter';
 
 ButtonModeWithAFilter.parameters = {
-  hermione: {captureSelector: '*[data-test~=ring-select]'},
+  screenshots: {captureSelector: '*[data-test~=ring-select]'},
   a11y: {element: '#storybook-root,*[data-test~=ring-select]'},
   storyStyles: `
 <style>
@@ -280,7 +289,7 @@ InlineWithAFilter.argTypes = {
 InlineWithAFilter.storyName = 'inline with a filter';
 
 InlineWithAFilter.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test~=ring-select]'},
       {
@@ -346,7 +355,7 @@ InlineOpensToLeft.argTypes = {
 InlineOpensToLeft.storyName = 'inline (opens to left)';
 
 InlineOpensToLeft.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles: `
 <style>
   .demo-container {
@@ -409,7 +418,7 @@ WithDisabledMoveOverflow.argTypes = {
 WithDisabledMoveOverflow.storyName = 'with disabled move overflow';
 
 WithDisabledMoveOverflow.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles: `
 <style>
   .demo-container {
@@ -474,7 +483,7 @@ WithServerSideFiltering.args = {
 };
 
 WithServerSideFiltering.storyName = 'with server-side filtering';
-WithServerSideFiltering.parameters = {hermione: {skip: true}};
+WithServerSideFiltering.parameters = {screenshots: {skip: true}};
 WithServerSideFiltering.tags = ['skip-test'];
 
 export const WithFuzzySearchFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
@@ -524,7 +533,7 @@ WithFuzzySearchFilter.argTypes = {
 WithFuzzySearchFilter.storyName = 'with fuzzy search filter';
 
 WithFuzzySearchFilter.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles: `
 <style>
   .demo {
@@ -537,7 +546,7 @@ WithFuzzySearchFilter.parameters = {
 export const withALargeDataset: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 
 withALargeDataset.storyName = 'with a large dataset';
-withALargeDataset.parameters = {hermione: {skip: true}};
+withALargeDataset.parameters = {screenshots: {skip: true}};
 withALargeDataset.tags = ['skip-test'];
 
 export const withALargeDatasetAndDisabledScrollToActiveItem: StoryFn<SingleSelectAttrs> = args =>
@@ -546,7 +555,7 @@ export const withALargeDatasetAndDisabledScrollToActiveItem: StoryFn<SingleSelec
 withALargeDatasetAndDisabledScrollToActiveItem.storyName = 'with a large dataset and disabled scroll to active item';
 
 withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test~=ring-select]'},
       {
@@ -614,7 +623,7 @@ export const multipleWithADescription: StoryFn<MultipleSelectAttrs> = args => <S
 multipleWithADescription.storyName = 'multiple with a description';
 
 multipleWithADescription.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test~=ring-select]'},
       {
@@ -654,7 +663,7 @@ export const inputBased: StoryFn<SingleSelectAttrs> = args => <Select {...args}/
 inputBased.storyName = 'input-based';
 
 inputBased.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '[data-test~=ring-input]'},
       {
@@ -669,13 +678,32 @@ inputBased.parameters = {
 export const inputBasedInSuggestOnlyMode: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 
 inputBasedInSuggestOnlyMode.storyName = 'input-based in suggest-only mode';
-inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
+inputBasedInSuggestOnlyMode.parameters = {screenshots: {skip: true}};
 
 export const inputBasedWithError: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 inputBasedWithError.storyName = 'input-based with error';
 
 export const inputBasedWithFilterIcon: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
+
+export const inputWithoutControls: StoryFn<SingleSelectAttrs> = args => (
+  <Select {...args} className="wrapper"/>
+);
+
+inputWithoutControls.storyName = 'input without controls';
+
+inputWithoutControls.parameters = {
+  storyStyles: `
+<style>
+  .wrapper {
+    border: 1px solid var(--ring-borders-color);
+    border-radius: var(--ring-border-radius);
+  }
+</style>
+      `
+};
+
+inputWithoutControls.tags = ['skip-test'];
 
 {
   const data = [...Array(20)].map((elem, idx) => ({label: `Item ${idx}`, key: idx}));
@@ -708,6 +736,11 @@ inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
     clear: true,
     filterIcon: searchIcon
   };
+
+  inputWithoutControls.args = {
+    type: Select.Type.INPUT_WITHOUT_CONTROLS,
+    data
+  };
 }
 
 export const withSubLevelsForListElement: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
@@ -724,7 +757,7 @@ withSubLevelsForListElement.args = {
 };
 
 withSubLevelsForListElement.storyName = 'with sub levels for list element';
-withSubLevelsForListElement.parameters = {hermione: {skip: true}};
+withSubLevelsForListElement.parameters = {screenshots: {skip: true}};
 
 export const withDefaultFilterModeAndALoadingIndicator: StoryFn<SingleSelectAttrs> = args =>
   <Select {...args}/>;
@@ -744,7 +777,7 @@ export const withDefaultFilterModeAndALoadingIndicator: StoryFn<SingleSelectAttr
 }
 
 withDefaultFilterModeAndALoadingIndicator.storyName = 'with default filter mode and a loading indicator';
-withDefaultFilterModeAndALoadingIndicator.parameters = {hermione: {skip: true}};
+withDefaultFilterModeAndALoadingIndicator.parameters = {screenshots: {skip: true}};
 
 export const withACustomizedFilterAndAnAddItemButton: StoryFn<SingleSelectAttrs> = args =>
   <Select {...args}/>;
@@ -769,7 +802,7 @@ export const withACustomizedFilterAndAnAddItemButton: StoryFn<SingleSelectAttrs>
 }
 
 withACustomizedFilterAndAnAddItemButton.storyName = "with a customized filter and an 'Add item' button";
-withACustomizedFilterAndAnAddItemButton.parameters = {hermione: {skip: true}};
+withACustomizedFilterAndAnAddItemButton.parameters = {screenshots: {skip: true}};
 
 export const withCustomItemsAndAnAddItemButton: StoryFn<SingleSelectAttrs> = args =>
   <Select {...args}/>;
@@ -793,7 +826,7 @@ withCustomItemsAndAnAddItemButton.args = {
 withCustomItemsAndAnAddItemButton.storyName = "with custom items and an 'Add item' button";
 
 withCustomItemsAndAnAddItemButton.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles: `
 <style>
   .label {
@@ -825,7 +858,7 @@ withAnAlwaysVisibleAddItemButton.args = {
 };
 
 withAnAlwaysVisibleAddItemButton.storyName = "with an always visible 'Add item' button";
-withAnAlwaysVisibleAddItemButton.parameters = {hermione: {skip: true}};
+withAnAlwaysVisibleAddItemButton.parameters = {screenshots: {skip: true}};
 
 export const multipleWithCustomView: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
 {
@@ -849,7 +882,7 @@ export const multipleWithCustomView: StoryFn<MultipleSelectAttrs> = args => <Sel
 }
 
 multipleWithCustomView.storyName = 'multiple with custom view';
-multipleWithCustomView.parameters = {hermione: {skip: true}};
+multipleWithCustomView.parameters = {screenshots: {skip: true}};
 
 export const asADropdownWithoutFilter: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 asADropdownWithoutFilter.args = {
@@ -871,7 +904,7 @@ asADropdownWithoutFilter.args = {
 };
 
 asADropdownWithoutFilter.storyName = 'as a dropdown without filter';
-asADropdownWithoutFilter.parameters = {hermione: {skip: true}};
+asADropdownWithoutFilter.parameters = {screenshots: {skip: true}};
 
 interface DemoComponentItem {
   label: string
@@ -922,7 +955,7 @@ WithCustomInputAnchor.args = {
 };
 
 WithCustomInputAnchor.storyName = 'with custom input anchor';
-WithCustomInputAnchor.parameters = {hermione: {skip: true}};
+WithCustomInputAnchor.parameters = {screenshots: {skip: true}};
 
 export const withRenderOptimization: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
 withRenderOptimization.args = {
@@ -935,7 +968,7 @@ withRenderOptimization.args = {
 };
 
 withRenderOptimization.storyName = 'with render optimization';
-withRenderOptimization.parameters = {hermione: {skip: true}};
+withRenderOptimization.parameters = {screenshots: {skip: true}};
 
 export const fitsToScreen: StoryFn<SingleSelectAttrs> = args => (
   <div className="demo">
@@ -963,7 +996,7 @@ export const fitsToScreen: StoryFn<SingleSelectAttrs> = args => (
 fitsToScreen.storyName = 'fits to screen';
 
 fitsToScreen.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles: `
 <style>
   .demo {
@@ -1040,7 +1073,7 @@ export const WithFilteredFields = () => {
 WithFilteredFields.storyName = 'with filtered fields';
 
 WithFilteredFields.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles: `
 <style>
     .filters-block {
@@ -1073,7 +1106,7 @@ export const multipleWithSelectAll: StoryFn<MultipleSelectAttrs> = args => <Sele
 }
 
 multipleWithSelectAll.storyName = 'multiple with select all';
-multipleWithSelectAll.parameters = {hermione: {skip: true}};
+multipleWithSelectAll.parameters = {screenshots: {skip: true}};
 
 export const multipleWithSelectAllAndDisabledItem: StoryFn<MultipleSelectAttrs> = args =>
   <Select {...args}/>;
@@ -1097,7 +1130,7 @@ export const multipleWithSelectAllAndDisabledItem: StoryFn<MultipleSelectAttrs> 
 }
 
 multipleWithSelectAllAndDisabledItem.storyName = 'multiple with select all and disabled item';
-multipleWithSelectAllAndDisabledItem.parameters = {hermione: {skip: true}};
+multipleWithSelectAllAndDisabledItem.parameters = {screenshots: {skip: true}};
 
 export const multipleWithSelectAllAndCustomLabels = (args: SelectProps) => <Select {...args}/>;
 {
@@ -1123,7 +1156,7 @@ export const multipleWithSelectAllAndCustomLabels = (args: SelectProps) => <Sele
 }
 
 multipleWithSelectAllAndCustomLabels.storyName = 'multiple with select all and custom labels';
-multipleWithSelectAllAndCustomLabels.parameters = {hermione: {skip: true}};
+multipleWithSelectAllAndCustomLabels.parameters = {screenshots: {skip: true}};
 
 export const multipleWithLimit: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
 {
@@ -1147,7 +1180,7 @@ export const multipleWithLimit: StoryFn<MultipleSelectAttrs> = args => <Select {
 }
 
 multipleWithLimit.storyName = 'multiple with limit';
-multipleWithLimit.parameters = {hermione: {skip: true}};
+multipleWithLimit.parameters = {screenshots: {skip: true}};
 
 
 export const selectInPopup: StoryFn<SingleSelectAttrs> = args => (
@@ -1174,7 +1207,7 @@ selectInPopup.args = {
 selectInPopup.storyName = 'Select in Popup';
 
 selectInPopup.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles: `
 <style>
   .popup-test-class {

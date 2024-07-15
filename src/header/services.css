@@ -10,7 +10,7 @@
 }
 
 .active {
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 .item {

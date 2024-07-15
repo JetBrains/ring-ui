@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value header from "../island/island.css";
+@value header, scrollableWrapper from "../island/island.css";
 
 .container {
   position: fixed;
@@ -16,7 +16,18 @@
   justify-content: center;
 
   padding: calc(var(--ring-unit) * 4) var(--ring-unit);
+}
 
+.nativeDialog {
+  overflow: visible;
+
+  padding: 0;
+
+  border: none;
+}
+
+.container,
+.nativeDialog::backdrop {
   background-color: rgba(var(--ring-dialog-overlay-components), var(--ring-dialog-overlay-opacity));
 }
 
@@ -37,7 +48,7 @@
   cursor: default;
   overflow-wrap: break-word;
 
-  & [data-scrollable-container] {
+  & .scrollableWrapper {
     padding-bottom: var(--ring-unit);
   }
 
@@ -121,7 +132,7 @@
   }
 }
 
-.container .header {
+.innerContainer .header {
   padding-top: calc(var(--ring-unit) * 4);
 
   font-size: 24px;

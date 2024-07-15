@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import LoaderScreen from './loader-screen';
@@ -9,12 +9,12 @@ export default {
   parameters: {
     notes:
       'Displays a large animated loader with an optional caption. Typical use cases: page loading animation, major action animation.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 
 export const basic = () => {
-  class Example extends React.Component {
+  class Example extends Component {
     render() {
       return <LoaderScreen/>;
     }
@@ -26,7 +26,7 @@ export const basic = () => {
 basic.storyName = 'basic';
 
 export const withMessage = () => {
-  class Example extends React.Component {
+  class Example extends Component {
     render() {
       return <LoaderScreen message={'Some message'}/>;
     }

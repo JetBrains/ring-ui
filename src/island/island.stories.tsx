@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import Island, {AdaptiveIsland, Header, Content} from './island';
 
 export default {
@@ -8,7 +5,7 @@ export default {
 
   parameters: {
     notes: 'Displays an island.',
-    hermione: {captureSelector: '*[data-test~=ring-island]'}
+    screenshots: {captureSelector: '*[data-test~=ring-island]'}
   }
 };
 
@@ -24,7 +21,7 @@ basic.storyName = 'basic';
 export const withScroll = () => (
   <Island className="limited-island" narrow>
     <Header border>Title</Header>
-    <Content fade>
+    <Content fade tabIndex={0}>
       {`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
       been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
       galley of type and scrambled it to make a type specimen book. It has survived not only five
@@ -49,7 +46,7 @@ withScroll.parameters = {
 export const withResizeableHeader = () => (
   <AdaptiveIsland className="limited-island" narrow>
     <Header>Title</Header>
-    <Content fade>
+    <Content fade tabIndex={0}>
       {`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
       been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
       galley of type and scrambled it to make a type specimen book. It has survived not only five

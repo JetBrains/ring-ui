@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import Link from '../link/link';
@@ -15,7 +15,7 @@ export default {
 };
 
 export const simple = () => {
-  class AlertDemo extends React.Component {
+  class AlertDemo extends Component {
     state = {
       show: true,
       isClosing: false
@@ -58,7 +58,7 @@ interface AlertContainerState {
   alerts: Array<AlertItem>
 }
 export const alertContainer = () => {
-  class AlertContainerDemo extends React.Component<Record<string, never>, AlertContainerState> {
+  class AlertContainerDemo extends Component<Record<string, never>, AlertContainerState> {
     state = {
       alerts: [
         {type: Alert.Type.ERROR, key: 0, message: 'Test error', isClosing: false},
@@ -137,7 +137,7 @@ export const alertContainer = () => {
 };
 
 alertContainer.parameters = {
-  hermione: {
+  screenshots: {
     captureSelector: '*[data-test="alert-container"]'
   },
   a11y: {element: '#storybook-root,*[data-test="alert-container"]'}

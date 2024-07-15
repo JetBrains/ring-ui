@@ -1,4 +1,5 @@
-import React, {PropsWithChildren, useCallback, useId, useState} from 'react';
+import {PropsWithChildren, useCallback, useId, useState} from 'react';
+import * as React from 'react';
 
 import {CollapseContext} from './collapse-context';
 import {BASE_ANIMATION_DURATION} from './consts';

@@ -1,4 +1,4 @@
-import React, {CSSProperties, Fragment} from 'react';
+import {CSSProperties, Fragment} from 'react';
 
 
 import Button from '../button/button';
@@ -25,7 +25,7 @@ export const basic = () => (
 basic.storyName = 'basic';
 
 basic.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
       {type: 'wait', delay: 500},
@@ -75,7 +75,7 @@ export const displayedWhenNecessary = () => {
 displayedWhenNecessary.storyName = 'displayed when necessary';
 
 displayedWhenNecessary.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'mouseEvent', selector: '.lorem-ipsum__text', eventname: 'mouseover'},
       {type: 'capture', name: 'full text element', selector: '#storybook-root'},
@@ -108,7 +108,7 @@ export const nested = () => (
 nested.storyName = 'nested';
 
 nested.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
       {type: 'wait', delay: 500},

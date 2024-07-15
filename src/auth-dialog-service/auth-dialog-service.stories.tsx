@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import hubConfig from '../../.storybook/hub-config';
@@ -14,7 +14,7 @@ export default {
   parameters: {
     notes:
       'A wrapper for the AuthDialog component. Allows showing the auth dialog without mounting the AuthDialog component first. Can be used outside React.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   },
   tags: ['skip-test']
 };
@@ -30,7 +30,7 @@ interface AuthDialogDemoState {
 export const authDialogService = ({onConfirm, onCancel}: AuthDialogServiceArgs) => {
   const auth = new Auth(hubConfig);
 
-  class AuthDialogDemo extends React.Component<{}, AuthDialogDemoState> {
+  class AuthDialogDemo extends Component<{}, AuthDialogDemoState> {
     componentDidMount() {
       auth.init();
       this.showAuthDialog();

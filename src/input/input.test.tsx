@@ -1,4 +1,3 @@
-import React from 'react';
 import {shallow, mount} from 'enzyme';
 
 import Input, {InputAttrs} from './input';

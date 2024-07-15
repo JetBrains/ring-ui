@@ -6,16 +6,23 @@
 
 .sizeS {
   font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }
 
 .sizeM {
   font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
 }
 
 .sizeL {
   font-size: var(--ring-font-size-larger);
+  line-height: var(--ring-line-height-taller);
 }
 
 .info {
   color: var(--ring-secondary-color);
+}
+
+.bold {
+  font-weight: var(--ring-font-weight-bold);
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
 import addIcon from '@jetbrains/icons/add-20px';
@@ -56,7 +56,7 @@ interface HeaderArgs extends HeaderAttrs {
 }
 
 export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
-  class HeaderDemo extends React.Component {
+  class HeaderDemo extends Component {
     render() {
       const auth = new Auth(hubConfig);
       if (!blockAuth) {
@@ -90,7 +90,7 @@ export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
             <TrayIcon title="Search" icon={searchIcon}/>
             <DropdownMenu
               data={[{label: 'Test'}, {label: 'Test2'}]}
-              anchor={({active, pinned, ...ariaProps}) => (
+              anchor={({active}, ariaProps) => (
                 <TrayIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps}/>
               )}
               menuProps={{top: -12}}

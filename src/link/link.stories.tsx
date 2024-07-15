@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import classNames from 'classnames';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
@@ -21,7 +21,7 @@ interface CustomComponentProps extends ClickableLinkProps {
 }
 
 export const allVariants = () => {
-  class CustomComponent extends React.Component<CustomComponentProps> {
+  class CustomComponent extends Component<CustomComponentProps> {
     render() {
       const {active, activeClassName, onPlainLeftClick, className, href, children,
         ...props} = this.props;
@@ -34,7 +34,7 @@ export const allVariants = () => {
 
   const CustomLink = linkHOC(CustomComponent);
 
-  class LinkDemo extends React.Component<unknown> {
+  class LinkDemo extends Component<unknown> {
     render() {
       return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}} data-test="lik-example">
@@ -75,4 +75,4 @@ export const allVariants = () => {
 };
 
 allVariants.storyName = 'Link';
-allVariants.parameters = {hermione: {captureSelector: '*[data-test~=lik-example]'}};
+allVariants.parameters = {screenshots: {captureSelector: '*[data-test~=lik-example]'}};

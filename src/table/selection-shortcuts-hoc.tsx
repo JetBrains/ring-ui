@@ -1,4 +1,4 @@
-import React, {PureComponent, ComponentType} from 'react';
+import {PureComponent, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 
 import {ShortcutsMap} from '../shortcuts/core';

@@ -1,4 +1,5 @@
-import React, {ComponentType, HTMLAttributes, PureComponent, ReactNode} from 'react';
+import {ComponentType, HTMLAttributes, PureComponent, ReactNode} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
@@ -11,7 +12,7 @@ import Tooltip from '../tooltip/tooltip';
 import dataTests from '../global/data-tests';
 
 import getUID from '../global/get-uid';
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
 
 import {FocusSensorAddProps} from '../global/focus-sensor-hoc';
 
@@ -136,6 +137,8 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
     this.row = el;
   };
 
+  composedRowRef = createComposedRef<HTMLElement>();
+
   render() {
     const {
       item, columns: columnProps, selectable, selected,
@@ -254,7 +257,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
     return (
       <tr
         id={this.id}
-        ref={composeRefs(this.rowRef, innerRef)}
+        ref={this.composedRowRef(this.rowRef, innerRef)}
         className={classes}
         tabIndex={0}
         data-test={dataTests('ring-table-row', dataTest)}

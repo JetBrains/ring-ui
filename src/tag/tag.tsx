@@ -1,12 +1,10 @@
-import React, {
-  HTMLAttributes,
-  PureComponent,
-  ReactNode,
-  RefCallback
-} from 'react';
+import {HTMLAttributes, PureComponent, ReactNode, RefCallback} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close-12px';
+
+import deprecate from 'util-deprecate';
 
 import Icon, {IconType} from '../icon/icon';
 import Button from '../button/button';
@@ -33,10 +31,12 @@ export interface TagProps {
   icon?: string | undefined
   avatar?: string | null | undefined
   rgTagTitle?: string | undefined
-  angled?: boolean | null | undefined
+  angled?: boolean | null | undefined // TODO remove in 7.0
   textColor?: string | undefined
   backgroundColor?: string | undefined
 }
+
+const warnAngled = deprecate(() => {}, 'Tag angled prop is deprecated and will be removed in Ring UI 7.0');
 
 /**
  * @name Tag
@@ -176,6 +176,9 @@ export default class Tag extends PureComponent<TagProps> {
   }
 
   render() {
+    if (this.props.angled) {
+      warnAngled();
+    }
     const classes = classNames(
       'ring-js-shortcuts',
       styles.tag,

@@ -1,4 +1,4 @@
-import React, {Children, Component, HTMLAttributes, ReactNode} from 'react';
+import {Children, Component, HTMLAttributes, ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 

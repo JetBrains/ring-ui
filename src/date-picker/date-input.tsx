@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -48,6 +48,10 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
     locale: PropTypes.object
   };
 
+  componentDidMount() {
+    this.updateInput(this.props);
+  }
+
   componentDidUpdate(prevProps: DateInputProps) {
     const {text, active} = this.props;
     if (text !== prevProps.text || active !== prevProps.active) {
@@ -61,7 +65,6 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
   input?: HTMLInputElement | null;
   inputRef = (el: HTMLInputElement | null) => {
     this.input = el;
-    this.updateInput(this.props);
   };
 
   updateInput({text, active}: UpdateInputConfig) {
@@ -83,7 +86,17 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     this.props.onInput(e.currentTarget.value, e.currentTarget.dataset.name as Field);
 
-  handleKeyDown = (e: React.KeyboardEvent) => e.key === 'Enter' && this.props.onConfirm();
+  handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      // We have to prevent the default behavior, because restoring focus by TabTrap caused by
+      // pressing Enter will trigger the onClick event on the DatePicker Dropdown anchor,
+      // so DatePicker will be open again.
+      // https://youtrack.jetbrains.com/issue/RG-2450/Anchor-should-be-focused-after-closing-datepicker#focus=Comments-27-10044234.0-0.
+      e.preventDefault();
+
+      this.props.onConfirm();
+    }
+  };
 
   render() {
     const {

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 
 import Text from '../text/text';
@@ -116,6 +116,6 @@ export const withPopup = () => {
 
 withPopup.storyName = 'Theme Provider and Popup';
 withPopup.parameters = {
-  hermione: {skip: true},
+  screenshots: {skip: true},
   storyStyles
 };

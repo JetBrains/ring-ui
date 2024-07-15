@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 
 import Link from '../link/link';
 
@@ -12,7 +12,7 @@ export default {
   parameters: {
     notes:
       'Allows manipulation of the caret position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 
