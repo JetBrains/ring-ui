@@ -66,7 +66,7 @@
 
   margin-bottom: calc(var(--ring-unit));
 
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 :global(.ring-form__main-title) {
@@ -145,7 +145,7 @@
 /* End of special fix */
 
 :global(.ring-form__label_title) {
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 :global(.ring-form__control) {

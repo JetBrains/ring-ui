@@ -16,9 +16,8 @@
 
 .errorBubble {
   box-sizing: border-box;
-  min-height: calc(var(--ring-unit) * 3);
-  padding-right: calc(var(--ring-unit) * 2);
-  padding-left: calc(var(--ring-unit) * 2);
+  min-height: calc(var(--ring-unit) * 4);
+  padding: calc(var(--ring-unit) - 1px) calc(var(--ring-unit) * 1.5 - 1px);
 
   white-space: nowrap;
 
@@ -30,13 +29,13 @@
   background: var(--ring-popup-background-color);
   box-shadow: var(--ring-popup-shadow);
 
-  font-size: 12px;
-  line-height: 22px;
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }
 
 .errorBubble::before {
   position: absolute;
-  top: var(--ring-unit);
+  top: calc(var(--ring-unit) * 1.5);
   left: -4px;
 
   display: block;

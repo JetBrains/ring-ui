@@ -131,7 +131,7 @@
 }
 
 .highlight {
-  font-weight: 600;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 .service {

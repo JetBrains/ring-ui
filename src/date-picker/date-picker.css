@@ -259,7 +259,7 @@
 
   text-transform: capitalize;
 
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 
   @supports (flex-basis: 1px) {
     flex-basis: calc(var(--ring-unit) * 12);
@@ -462,7 +462,7 @@
 .today.today {
   position: relative;
 
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 .today::before {

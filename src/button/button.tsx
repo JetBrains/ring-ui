@@ -2,7 +2,7 @@ import {createRef, PureComponent, ButtonHTMLAttributes} from 'react';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import chevronDown from '@jetbrains/icons/chevron-10px';
+import chevronDown from '@jetbrains/icons/chevron-down';
 
 import Icon, {IconProps, IconType, Size} from '../icon/icon';
 import ClickableLink, {ClickableLinkProps} from '../link/clickableLink';
