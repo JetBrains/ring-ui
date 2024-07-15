@@ -9,4 +9,4 @@ build
 test_gen
 !.eslintrc.js
 !.storybook
-!.hermione.conf.js
+!.testplane.conf.js

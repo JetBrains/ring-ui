@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import ContentLayout from './content-layout';
 import Sidebar from './sidebar';
 

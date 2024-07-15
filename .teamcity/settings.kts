@@ -56,6 +56,7 @@ project {
         """.trimIndent())
         text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
         password("env.QODANA_TOKEN", "credentialsJSON:1b6fe259-bfcd-45f5-be23-e2625685a0f6", display = ParameterDisplay.HIDDEN)
+        param("github.com.builduser.name", "JetBrains Ring UI Automation")
     }
 
     features {
@@ -332,13 +333,13 @@ object Deploy : BuildType({
 })
 
 object GeminiTests : BuildType({
-    name = "Visual Regression Tests (Hermione)"
+    name = "Visual Regression Tests"
     description = "Screenshots based snapshot tests"
 
     allowExternalStatus = true
     artifactRules = """
-        packages/hermione/html-report/ => html-report.zip
-        packages/hermione/*.log
+        packages/screenshots/html-report/ => html-report.zip
+        packages/screenshots/*.log
     """.trimIndent()
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
     maxRunningBuilds = 1
@@ -356,6 +357,7 @@ object GeminiTests : BuildType({
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:175b3950-943c-4803-99c4-56d5f6ac422a")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
+        password("env.NGROK_TOKEN", "credentialsJSON:56069693-43e9-4c45-ac02-a0ca8913f080")
     }
 
     vcs {
@@ -364,7 +366,7 @@ object GeminiTests : BuildType({
 
     steps {
         script {
-            name = "Run hermione"
+            name = "Run screenshot tests"
             scriptContent = """
                 #!/bin/bash
                 set -e -x
@@ -376,12 +378,15 @@ object GeminiTests : BuildType({
                 mkdir -p node_modules
                 npm install
 
-                cd packages/hermione
+                cd packages/screenshots
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
             dockerImage = "node:20"
-            dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+            dockerRunParameters = "-p 4445:4445 -p 9999:9999 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+            param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
+            param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
+            param("org.jfrog.artifactory.selectedDeployableServer.uploadSpecSource", "Job configuration")
         }
     }
 
@@ -924,7 +929,7 @@ object PublishHotfixRelease : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:16"
+            dockerImage = "node:20"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1179,6 +1184,9 @@ object PublishToGitHubPages : BuildType({
             +:refs/heads/(release-4.2)
         """.trimIndent())
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
+        param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
+        param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
+        param("org.jfrog.artifactory.selectedDeployableServer.uploadSpecSource", "Job configuration")
     }
 
     vcs {
@@ -1210,7 +1218,7 @@ object PublishToGitHubPages : BuildType({
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
 
-                npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
+                npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%" --nojekyll
             """.trimIndent()
             dockerImage = "node:20"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"

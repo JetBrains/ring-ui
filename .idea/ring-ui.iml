@@ -8,11 +8,11 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/gemini/html-report" />
       <excludeFolder url="file://$MODULE_DIR$/packages/generator/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/generator/test_gen" />
-      <excludeFolder url="file://$MODULE_DIR$/packages/hermione/html-report" />
       <excludeFolder url="file://$MODULE_DIR$/.husky/_" />
       <excludeFolder url="file://$MODULE_DIR$/storybook-dist" />
       <excludeFolder url="file://$MODULE_DIR$/components" />
       <excludeFolder url="file://$MODULE_DIR$/.storybook/custom-header/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/screenshots/html-report" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -1,7 +1,9 @@
 /**
  * @name Pager
  */
-import React, {ComponentType, PureComponent, ReactNode} from 'react';
+import {ComponentType, PureComponent, ReactNode} from 'react';
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronLeftIcon from '@jetbrains/icons/chevron-left';

@@ -1,4 +1,3 @@
-import React from 'react';
 import {addDays} from 'date-fns/addDays';
 import {endOfMonth} from 'date-fns/endOfMonth';
 import {format} from 'date-fns/format';

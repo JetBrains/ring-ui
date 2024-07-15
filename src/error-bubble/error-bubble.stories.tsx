@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 
 
 import Select, {SingleSelectAttrs} from '../select/select';
@@ -27,17 +27,19 @@ export const basic = () => {
       const {value} = this.state;
 
       return (
-        <ErrorBubble<SingleSelectAttrs>
-          error={value ? null : 'Value is required'}
-          onSelect={selected => this.setState({value: selected})}
-          inputPlaceholder="enter something"
-        >
-          <Select
-            type={Select.Type.BUTTON}
-            size={Select.Size.M}
-            data={[{key: 0, label: 'One'}, {key: 1, label: 'Two'}]}
-          />
-        </ErrorBubble>
+        <div style={{height: 32}}>
+          <ErrorBubble<SingleSelectAttrs>
+            error={value ? null : 'Value is required'}
+            onSelect={selected => this.setState({value: selected})}
+            inputPlaceholder="enter something"
+          >
+            <Select
+              type={Select.Type.BUTTON}
+              size={Select.Size.M}
+              data={[{key: 0, label: 'One'}, {key: 1, label: 'Two'}]}
+            />
+          </ErrorBubble>
+        </div>
       );
     }
   }
@@ -89,6 +91,6 @@ export const inDialogForm = () => {
 inDialogForm.storyName = 'in dialog form';
 
 inDialogForm.parameters = {
-  hermione: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
+  screenshots: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
   a11y: {element: '#storybook-root,*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'}
 };

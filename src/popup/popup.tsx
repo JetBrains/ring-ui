@@ -2,7 +2,9 @@
  * @name Popup
  */
 
-import React, {PureComponent, ReactNode, CSSProperties, SyntheticEvent, ComponentType} from 'react';
+import {PureComponent, ReactNode, CSSProperties, SyntheticEvent, ComponentType} from 'react';
+
+import * as React from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

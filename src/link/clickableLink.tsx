@@ -1,4 +1,5 @@
-import React, {PureComponent, AnchorHTMLAttributes} from 'react';
+import {PureComponent, AnchorHTMLAttributes} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 const LEFT_BUTTON = 0;

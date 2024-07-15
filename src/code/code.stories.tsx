@@ -1,4 +1,3 @@
-import React from 'react';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 
@@ -86,5 +85,5 @@ export const taggedTemplate = () =>
 taggedTemplate.storyName = 'tagged template';
 
 taggedTemplate.parameters = {
-  hermione: {skip: true}
+  screenshots: {skip: true}
 };

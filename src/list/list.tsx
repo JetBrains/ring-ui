@@ -2,7 +2,7 @@
  * @name List
  */
 
-import React, {
+import {
   Component,
   ReactNode,
   ReactElement,

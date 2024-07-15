@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import Button from '../button/button';
 
 import ButtonGroup, {Caption} from './button-group';
@@ -62,6 +59,20 @@ export const buttonGroup = () => (
         <Button primary short>...</Button>
       </ButtonGroup>
     </div>
+    <div>
+      <ButtonGroup>
+        <Button>All<span className="info">3048</span></Button>
+        <Button>Label<span className="info">rp34</span></Button>
+        <Button>Label 3</Button>
+      </ButtonGroup>
+    </div>
+    <div>
+      <ButtonGroup label="Label" help="Help text">
+        <Button>Label 1</Button>
+        <Button>Label 2</Button>
+        <Button>Label 3</Button>
+      </ButtonGroup>
+    </div>
   </div>
 );
 
@@ -70,6 +81,10 @@ buttonGroup.parameters = {
     <style>
       .container > div {
         margin: 1em 0;
+      }
+      .info {
+        color: var(--ring-secondary-color);
+        margin-left: calc(var(--ring-unit) / 2);
       }
     </style>
   `

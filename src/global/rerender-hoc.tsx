@@ -1,11 +1,6 @@
-import React, {
-  Component,
-  forwardRef,
-  Ref,
-  ForwardedRef
-} from 'react';
+import {Component, forwardRef, Ref, ForwardedRef} from 'react';
 
-import composeRefs from './composeRefs';
+import {createComposedRef} from './composeRefs';
 
 export interface RerenderableComponent<P, S> extends Component<P, S> {
   node?: HTMLElement | null
@@ -31,8 +26,10 @@ export default function rerenderHOC<P extends {}, C extends Component<P, unknown
   class Rerenderer extends Component<RerendererProps<P, C>, P> {
     state = this.props.props;
 
+    composedRef = createComposedRef<C>();
+
     render() {
-      const ref = composeRefs(this.props.forwardedRef);
+      const ref = this.composedRef(this.props.forwardedRef);
       return (
         <ComposedComponent
           {...this.state}

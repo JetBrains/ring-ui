@@ -1,4 +1,4 @@
-import React, {PureComponent, Ref} from 'react';
+import {PureComponent, Ref} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import highlight from 'highlight.js/lib/core';

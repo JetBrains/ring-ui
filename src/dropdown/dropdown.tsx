@@ -1,10 +1,5 @@
-import React, {
-  cloneElement,
-  Component,
-  HTMLAttributes,
-  ReactNode,
-  ReactElement
-} from 'react';
+import {cloneElement, Component, HTMLAttributes, ReactNode, ReactElement} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 

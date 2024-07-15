@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 
 import Button from '../button/button';
@@ -14,7 +14,7 @@ export default {
 
   parameters: {
     notes: 'A component that shows an authentication dialog.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
   }
 };
@@ -24,7 +24,7 @@ interface AuthDialogArgs {
   onCancel: () => void
 }
 export const authDialog = ({onConfirm, onCancel}: AuthDialogArgs) => {
-  class AuthDialogDemo extends React.Component {
+  class AuthDialogDemo extends Component {
     state = {
       confirm: {
         show: true,

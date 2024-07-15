@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {createElement, useState, useEffect} from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import {StoryFn} from '@storybook/react';
 
@@ -25,7 +25,7 @@ export default {
 
   component: List,
   parameters: {
-    hermione: {captureSelector: '*[data-test~=ring-list]'}
+    screenshots: {captureSelector: '*[data-test~=ring-list]'}
   }
 };
 
@@ -69,7 +69,7 @@ withAHintBelow.args = {
 export const longList: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 longList.storyName = 'long list';
-longList.parameters = {hermione: {skip: true}};
+longList.parameters = {screenshots: {skip: true}};
 longList.args = {
   maxHeight: 400,
   compact: true,
@@ -184,7 +184,7 @@ withItemIcons.args = {
 export const withDeprecatedItemTypeParameter: StoryFn<ListAttrs> = args => <List {...args}/>;
 
 withDeprecatedItemTypeParameter.storyName = 'with deprecated item.type parameter';
-withDeprecatedItemTypeParameter.parameters = {hermione: {skip: true}};
+withDeprecatedItemTypeParameter.parameters = {screenshots: {skip: true}};
 withDeprecatedItemTypeParameter.args = {
   shortcuts: true,
   data: [
@@ -211,25 +211,25 @@ withCustomItems.args = {
     {
       key: '1',
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: React.createElement('span', {}, 'custom item')
+      template: createElement('span', {}, 'custom item')
     },
     {
       key: '2',
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: React.createElement('span', {}, 'custom item (disabled)'),
+      template: createElement('span', {}, 'custom item (disabled)'),
       disabled: true
     },
     {
       key: '3',
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: React.createElement('span', {}, 'custom item 3')
+      template: createElement('span', {}, 'custom item 3')
     }
   ]
 };
 
 export const WithUsers = () => {
-  const [listData, setListData] = React.useState<ListDataItem[] | null>(null);
-  const [selected, setSelected] = React.useState<ListDataItem | null>(null);
+  const [listData, setListData] = useState<ListDataItem[] | null>(null);
+  const [selected, setSelected] = useState<ListDataItem | null>(null);
   useEffect(() => {
     const auth = new Auth(hubConfig);
     const source = new Source(auth);
@@ -263,7 +263,7 @@ export const WithUsers = () => {
 };
 
 WithUsers.storyName = 'with users';
-WithUsers.parameters = {hermione: {skip: true}};
+WithUsers.parameters = {screenshots: {skip: true}};
 WithUsers.tags = ['skip-test'];
 
 export const withCustomTooltip: StoryFn<ListAttrs> = args => <List {...args}/>;

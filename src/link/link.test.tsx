@@ -1,4 +1,5 @@
-import React, {ComponentType} from 'react';
+import {ComponentType} from 'react';
+import * as React from 'react';
 import {shallow, mount, ShallowWrapper} from 'enzyme';
 
 import Link, {linkHOC, LinkProps} from './link';

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import {PureComponent} from 'react';
 import * as client from 'react-dom/client';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains-simple.svg';
 import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';

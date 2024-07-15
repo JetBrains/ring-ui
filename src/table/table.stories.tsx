@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState, useCallback, useEffect} from 'react';
 
 import {StoryFn} from '@storybook/react';
 
@@ -20,7 +20,7 @@ export default {
 
   component: BaseTable,
   parameters: {
-    hermione: {skip: true}
+    screenshots: {skip: true}
   },
   argTypes: {
     selection: {
@@ -42,15 +42,15 @@ interface BasicDemoProps extends TableAttrs<Item> {
 }
 export const Basic: StoryFn<BasicDemoProps> = args => {
   const {onSort, onSelect, withCaption, onReorder, ...restProps} = args;
-  const [data, setData] = React.useState<Item[]>([]);
-  const [selection, setSelection] = React.useState<Selection<Item>>(new Selection());
-  const [sortKey, setSortKey] = React.useState<string>('country');
-  const [sortOrder, setSortOrder] = React.useState<boolean>(true);
-  const [page, setPage] = React.useState<number>(1);
+  const [data, setData] = useState<Item[]>([]);
+  const [selection, setSelection] = useState<Selection<Item>>(new Selection());
+  const [sortKey, setSortKey] = useState<string>('country');
+  const [sortOrder, setSortOrder] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
 
-  const isItemSelectable = React.useCallback((item: Item) => item.id !== 14, []);
+  const isItemSelectable = useCallback((item: Item) => item.id !== 14, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let newData: Item[] = [...mock];
     newData.sort((a, b) =>
       String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
@@ -62,7 +62,7 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
     setSelection(newSelection);
   }, [isItemSelectable, page, sortKey, sortOrder]);
 
-  const handleSort = React.useCallback((event: SortParams) => {
+  const handleSort = useCallback((event: SortParams) => {
     onSort?.(event);
     setSortKey(event.column.id);
     setSortOrder(event.order);
@@ -219,8 +219,8 @@ const data1 = tableData.continents;
 const data2 = tableData.countries;
 
 export const MultiTableStory = () => {
-  const [selection1, setSelection1] = React.useState(new Selection({data: data1}));
-  const [selection2, setSelection2] = React.useState(new Selection({data: data2}));
+  const [selection1, setSelection1] = useState(new Selection({data: data1}));
+  const [selection2, setSelection2] = useState(new Selection({data: data2}));
 
   const columns1 = [
     {
@@ -272,7 +272,7 @@ export const MultiTableStory = () => {
 MultiTableStory.storyName = 'multi table';
 
 export const EmptyTable: StoryFn<TableAttrs<SelectionItem>> = ({onSelect, ...restProps}) => {
-  const [selection, setSelection] = React.useState(new Selection({}));
+  const [selection, setSelection] = useState(new Selection({}));
 
   return (
     <Table
@@ -311,7 +311,7 @@ type FlexItem={id:string, type:'A', valueA1:string, valueA2:string}|{id:string, 
 
 export const WithCustomColumns: StoryFn<TableAttrs<FlexItem>> = args => {
 
-  const [selection] = React.useState(new Selection<FlexItem>({}));
+  const [selection] = useState(new Selection<FlexItem>({}));
 
   return <Table {...args} selection={selection}/>;
 };

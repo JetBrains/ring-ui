@@ -1,7 +1,4 @@
-import React from 'react';
-
-
-import Heading, {H1, H2, H3, H4} from './heading';
+import Heading, {H2, H3, H4} from './heading';
 
 const lorem = (
   <div>
@@ -24,13 +21,13 @@ export const basic = () => (
   <div>
     <Heading level={Heading.Levels.H1}>Heading 1</Heading>
     {lorem}
-    <H1 caps>Heading 1 caps</H1>
-    {lorem}
     <H2>Heading 2</H2>
     {lorem}
     <H3>Heading 3</H3>
     {lorem}
     <H4>Heading 4</H4>
+    {lorem}
+    <H4 bold>Heading 4 bold</H4>
     {lorem}
   </div>
 );

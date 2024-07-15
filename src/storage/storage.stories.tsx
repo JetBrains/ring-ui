@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
 import Storage from './storage';
 
@@ -7,7 +7,7 @@ export default {
 
   parameters: {
     notes: 'Provides a façade to localStorage/sessionStorage/cookies.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

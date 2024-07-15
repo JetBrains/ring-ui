@@ -1,4 +1,4 @@
-import React, {createRef, PureComponent} from 'react';
+import {createRef, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';

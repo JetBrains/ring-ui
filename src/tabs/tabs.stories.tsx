@@ -1,10 +1,12 @@
-import React from 'react';
+import {useState, useCallback} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import warningIcon from '@jetbrains/icons/warning';
 
 
+import classNames from 'classnames';
+
 import Button from '../button/button';
-import Icon, {IconProps} from '../icon/icon';
+import Icon from '../icon/icon';
 
 import {CustomItem, SmartTabs, Tab, Tabs} from './tabs';
 
@@ -13,12 +15,33 @@ export default {
 
   parameters: {
     notes: 'Displays a tab set.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc710be093ab38d4212f'
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc710be093ab38d4212f',
+    storyStyles: `
+      <style>
+        .info {
+          color: var(--ring-secondary-color);
+          margin-left: calc(var(--ring-unit) / 2);
+        }
+
+        .icon {
+          margin-right: calc(var(--ring-unit) / 2);
+          color: var(--ring-icon-secondary-color)
+        }
+
+        .tab:hover .icon {
+          color: var(--ring-link-hover-color);
+        }
+
+        .selected .icon.icon {
+          color: var(--ring-text-color);
+        }
+      </style>
+    `
   }
 };
 
 export const Basic = () => {
-  const [selected, setSelected] = React.useState('first');
+  const [selected, setSelected] = useState('first');
 
   return (
     <Tabs selected={selected} onSelect={setSelected}>
@@ -44,7 +67,7 @@ export const Basic = () => {
 Basic.storyName = 'basic';
 
 export const AutoCollapseDemo = () => {
-  const [selected, setSelected] = React.useState('first');
+  const [selected, setSelected] = useState('first');
   const autocollapseData = [
     {
       id: 'first',
@@ -87,14 +110,14 @@ export const AutoCollapseDemo = () => {
       content: <Button text style={{padding: 0}}>Custom Item</Button>
     }
   ];
-  const [tabs, setTabs] = React.useState(autocollapseData.map(item => {
+  const [tabs, setTabs] = useState(autocollapseData.map(item => {
     const {content, ...tabProps} = item;
     const Host = item.custom === true ? CustomItem : Tab;
 
     return <Host key={item.id} {...tabProps}>{content}</Host>;
   }));
 
-  const addTab = React.useCallback(() => {
+  const addTab = useCallback(() => {
     setTabs(state => {
       const newTab = (
         <Tab
@@ -111,7 +134,7 @@ export const AutoCollapseDemo = () => {
     });
   }, []);
 
-  const selectHandler = React.useCallback((key: string) => {
+  const selectHandler = useCallback((key: string) => {
     setSelected(key);
   }, []);
 
@@ -147,19 +170,21 @@ export const smart = () => (
 );
 smart.storyName = 'smart';
 
-function Title({glyph, title, children, className}: Partial<IconProps>) {
-  return (
-    <span className={className}>
-      <Icon glyph={glyph} title={title} className="icon"/>
-      {children}
-    </span>
-  );
-}
 export const customTitles = () => (
   <SmartTabs>
-    <Tab title={<Title glyph={searchIcon}>First tab</Title>}>First tab content</Tab>
-    <Tab title={<Title glyph={warningIcon}>Second tab</Title>}>Second tab content</Tab>
-    <Tab title={<Title glyph={warningIcon}>Third tab (Link)</Title>} href="/">
+    <Tab
+      className="tab"
+      title={<>First tab<span className="info">10</span></>}
+    >First tab content</Tab>
+    <Tab
+      className="tab"
+      title={<>Second tab<span className="info">Help text</span></>}
+    >Second tab content</Tab>
+    <Tab
+      className="tab"
+      title={<>Third tab (Link)<span className="info">10</span></>}
+      href="/"
+    >
       Third tab content
     </Tab>
     <CustomItem>
@@ -169,34 +194,26 @@ export const customTitles = () => (
 );
 customTitles.storyName = 'custom titles';
 
-customTitles.parameters = {
-  storyStyles: `
-<style>
-  .icon.icon {
-    vertical-align: 1px;
-    line-height: normal;
-    margin-right: 4px;
-  }
-</style>
-      `
-};
-
 export const customTitlesFunction = () => (
   <SmartTabs>
     <Tab
+      className="tab"
       title={isSelected => (
-        <Title title={isSelected ? undefined : 'First tab'} glyph={searchIcon} className={isSelected ? 'has-content' : ''}>
-          {isSelected && 'First tab'}
-        </Title>
+        <span className={classNames({selected: isSelected})}>
+          <Icon glyph={searchIcon} className="icon"/>
+          {'First tab'}
+        </span>
       )}
     >
       First tab content
     </Tab>
     <Tab
+      className="tab"
       title={isSelected => (
-        <Title title={isSelected ? undefined : 'Second tab (Link)'} glyph={warningIcon} className={isSelected ? 'has-content' : ''}>
-          {isSelected && 'Second tab (Link)'}
-        </Title>
+        <span className={classNames({selected: isSelected})}>
+          <Icon glyph={warningIcon} className="icon"/>
+          {'Second tab (Link)'}
+        </span>
       )}
       href="/"
     >
@@ -205,18 +222,3 @@ export const customTitlesFunction = () => (
   </SmartTabs>
 );
 customTitlesFunction.storyName = 'custom titles (function)';
-
-customTitlesFunction.parameters = {
-  storyStyles: `
-<style>
-  .icon.icon {
-    vertical-align: 3px;
-    line-height: normal;
-  }
-
-  .has-content .icon.icon {
-    margin-right: 4px;
-  }
-</style>
-      `
-};

@@ -40,7 +40,7 @@
 .buttonGroup .button[disabled] {
   --ring-button-group-button-border-color: var(--ring-border-disabled-color);
 
-  /* stylelint-disable-next-line selector-max-specificity */
+  /* stylelint-disable selector-max-specificity */
   &::before,
   &::after {
     position: absolute;
@@ -57,15 +57,14 @@
     box-shadow: 0 1px var(--ring-border-disabled-color) inset, 0 -1px var(--ring-border-disabled-color) inset;
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
   &::before {
     left: calc(var(--ring-border-radius) * -1);
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
   &::after {
     right: calc(var(--ring-border-radius) * -1);
   }
+  /* stylelint-enable */
 }
 
 .buttonGroup > .button:first-child,
@@ -102,36 +101,32 @@
   }
 }
 
-/* stylelint-disable-next-line selector-max-specificity */
+/* stylelint-disable selector-max-specificity */
 .buttonGroup .button.button:hover:not(:disabled),
-/* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button.button:active:not(:disabled) {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-border-hover-color);
 }
 
-/* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button.button:focus-visible {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
 }
 
-/* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button.button.active {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-main-color);
 }
 
-/* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button:focus-visible.active {
   border-radius: var(--ring-border-radius);
   box-shadow: button-shadow var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
 }
 
-/* stylelint-disable-next-line selector-max-specificity */
 .buttonGroup .button.active[disabled] {
   box-shadow: button-shadow var(--ring-border-selected-disabled-color);
 }
+/* stylelint-enable */
 
 .split {
   composes: common;
@@ -172,13 +167,14 @@
   border-bottom-left-radius: var(--ring-border-radius);
 }
 
-/* stylelint-disable-next-line selector-max-specificity */
+/* stylelint-disable selector-max-specificity */
 .common > button:first-child > div:first-child,
 .common > .button:first-child > div:first-child,
 .common > :first-child .button > div:first-child {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+/* stylelint-enable */
 
 .common > .button:last-child,
 .common > button:last-child,
@@ -187,13 +183,14 @@
   border-bottom-right-radius: var(--ring-border-radius);
 }
 
-/* stylelint-disable-next-line selector-max-specificity */
+/* stylelint-disable selector-max-specificity */
 .common > .button:last-child > div:first-child,
 .common > button:last-child > div:first-child,
 .common > :last-child .button > div:first-child {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+/* stylelint-enable */
 
 .split .primary:not(:last-child) {
   margin-right: 1px;
@@ -233,4 +230,8 @@
       z-index: var(--ring-button-group-default-z-index);
     }
   }
+}
+
+.help {
+  margin-top: calc(var(--ring-unit) * 0.5);
 }

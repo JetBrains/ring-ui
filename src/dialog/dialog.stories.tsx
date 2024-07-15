@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import {useState} from '@storybook/preview-api';
 import type {StoryFn} from '@storybook/react';
 
@@ -17,7 +17,7 @@ export default {
 
   parameters: {
     notes: 'The Dialog component is a simple way to present content above an enclosing view.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
     zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71d1f136a8dec29cee'
   }
@@ -28,7 +28,7 @@ interface Args {
 }
 
 export const basic: StoryFn<Args> = ({onAction}) => {
-  class DialogDemo extends React.Component {
+  class DialogDemo extends Component {
     state = {
       show: true,
       text: '',
@@ -100,6 +100,79 @@ basic.parameters = {
 </style>`
 };
 
+export const native: StoryFn<Args> = ({onAction}) => {
+  class DialogDemo extends Component {
+    state = {
+      show: true,
+      text: '',
+      modal: true
+    };
+
+    doAction = () => {
+      onAction(`${this.state.text} performed`);
+      this.setState({show: false});
+    };
+
+    cancelDialog = () => {
+      this.setState({show: false});
+    };
+
+    render() {
+      const {show, text, modal} = this.state;
+      return (
+        <div className="long-page">
+          <Group>
+            <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
+            <Toggle
+              checked={modal}
+              onChange={() => this.setState({modal: !modal})}
+            >
+              Modal
+            </Toggle>
+          </Group>
+
+          <Dialog
+            label="Dialog"
+            show={show}
+            onCloseAttempt={this.cancelDialog}
+            native
+            modal={modal}
+            showCloseButton
+          >
+            <Header>Dialog title</Header>
+            <Content>
+              <Input
+                label="Enter action name"
+                value={text}
+                onChange={e => this.setState({text: e.target.value})}
+              />
+            </Content>
+            <Panel>
+              <Button primary onClick={this.doAction}>
+                OK
+              </Button>
+              <Button onClick={this.cancelDialog}>Cancel</Button>
+            </Panel>
+          </Dialog>
+        </div>
+      );
+    }
+  }
+  return <DialogDemo/>;
+};
+
+native.storyName = 'native';
+native.argTypes = {onAction: {}};
+
+native.parameters = {
+  storyStyles: `
+<style>
+  .long-page {
+    height: 200vh;
+  }
+</style>`
+};
+
 export const dense: StoryFn = () => (
   <Dialog show dense>
     <Header>Dialog title</Header>
@@ -120,7 +193,7 @@ book. It has survived not only five centuries, but also the leap into electronic
 typesetting, remaining essentially unchanged.`;
 
 export const withScroll: StoryFn<Args> = ({onAction}) => {
-  class DialogDemo extends React.Component {
+  class DialogDemo extends Component {
     state = {
       show: true
     };
@@ -149,7 +222,7 @@ export const withScroll: StoryFn<Args> = ({onAction}) => {
             showCloseButton
           >
             <Header>Dialog title</Header>
-            <Content>
+            <Content tabIndex={0}>
               <div>
                 <p>Dialog content (scrollable)</p>
                 <p>{lorem}</p>
@@ -217,7 +290,7 @@ WithOverflowScrollOnHtml.parameters = {
       }
     </style>
   `,
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'click', selector: '.button'},
       {type: 'capture', selector: '*[data-test~=ring-dialog-container]'}

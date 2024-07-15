@@ -1,7 +1,7 @@
 /**
  * @description Displays a popup with select's options.
  */
-import React, {
+import {
   ComponentType,
   CSSProperties,
   PureComponent,
@@ -9,6 +9,8 @@ import React, {
   Ref,
   SyntheticEvent
 } from 'react';
+
+import * as React from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search';
 import memoizeOne from 'memoize-one';
@@ -32,7 +34,7 @@ import Button from '../button/button';
 import Text from '../text/text';
 import {ControlsHeight} from '../global/controls-height';
 import {refObject} from '../global/prop-types';
-import composeRefs from '../global/composeRefs';
+import {createComposedRef} from '../global/composeRefs';
 
 import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 
@@ -124,6 +126,7 @@ export interface SelectPopupProps<T = unknown> {
   renderOptimization?: boolean | undefined
   style?: CSSProperties | undefined
   top?: number | undefined
+  offset?: number | undefined
   multiple: boolean | Multiple
   selected: ListDataItem<T> | readonly ListDataItem<T>[] | null
   tags: Tags | boolean | null
@@ -328,7 +331,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
             rgShortcutsMap={this.popupFilterShortcutsMap}
 
             value={this.props.filterValue}
-            inputRef={composeRefs(this.filterRef, this.props.filterRef)}
+            inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.onFilterFocus}
             className="ring-js-shortcuts"
@@ -561,6 +564,8 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     this.caret = el && new Caret(el);
   };
 
+  composedFilterRef = createComposedRef<HTMLInputElement>();
+
   shortcutsScope = getUID('select-popup-');
   shortcutsMap = {
     tab: this.tabPress
@@ -597,6 +602,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
       directions,
       top,
       left,
+      offset,
       style,
       dir,
       filter
@@ -627,6 +633,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               directions={directions}
               top={top}
               left={left}
+              offset={offset}
               onMouseDown={this.mouseDownHandler}
               target={this.props.ringPopupTarget}
               autoCorrectTopOverflow={false}

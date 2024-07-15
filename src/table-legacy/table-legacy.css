@@ -45,7 +45,7 @@
 }
 
 :global(.ring-table__title.ring-table__title_active) {
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 :global(.ring-table__title:first-child) {
@@ -203,7 +203,7 @@
 }
 
 :global(.ring-table__column-title) {
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 :global(.ring-table__column_wide) {
@@ -323,7 +323,7 @@
 }
 
 :global(.table__pager) {
-  padding: calc(4 * var(--ring-unit)) calc(4 * var(--ring-unit));
+  padding: calc(4 * var(--ring-unit));
 }
 
 :global(.table__pager-links) {

@@ -90,7 +90,7 @@
 
   padding: 0 calc(var(--ring-unit) * 4);
 
-  font-weight: bold;
+  font-weight: var(--ring-font-weight-bold);
 }
 
 :global(.ring-island__content) {

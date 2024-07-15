@@ -1,4 +1,5 @@
-import React, {PureComponent, ReactNode} from 'react';
+import {PureComponent, ReactNode} from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Dialog from '../dialog/dialog';
@@ -20,6 +21,7 @@ export interface ConfirmProps {
   onConfirm: ((event: React.MouseEvent<HTMLButtonElement>) => void)
   onReject: ((event?: React.MouseEvent<HTMLButtonElement>) => void)
   className?: string | undefined
+  native?: boolean
 }
 
 /**
@@ -73,7 +75,8 @@ export default class Confirm extends PureComponent<ConfirmProps> {
       confirmLabel,
       rejectLabel,
       onConfirm,
-      onReject
+      onReject,
+      native
     } = this.props;
 
     return (
@@ -84,6 +87,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
         show={show}
         trapFocus
         data-test="ring-confirm"
+        native={native}
       >
         {text && <Header>{text}</Header>}
         {description && (

@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import {useState, useEffect, createElement, useMemo} from 'react';
 import permissionIcon from '@jetbrains/icons/settings';
 
 import {StoryFn} from '@storybook/react';
@@ -32,10 +32,10 @@ export default {
 };
 
 export const Basic: StoryFn<QueryAssistAttrs> = args => {
-  const [authReady, setAuthReady] = React.useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const auth = useMemo(() => new Auth(hubConfig), []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     auth.init().then(() => setAuthReady(true));
   }, [auth]);
   const dataSource = useMemo(() => {
@@ -73,7 +73,7 @@ export const Basic: StoryFn<QueryAssistAttrs> = args => {
 };
 
 Basic.storyName = 'basic';
-Basic.parameters = {hermione: {skip: true}};
+Basic.parameters = {screenshots: {skip: true}};
 Basic.args = {
   query: 'test',
   focus: true,
@@ -138,7 +138,7 @@ noAuth.args = {
   })
 };
 noAuth.parameters = {
-  hermione: {
+  screenshots: {
     actions: [
       {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
       {type: 'click', selector: '[data-test=ring-query-assist-input]'},
@@ -181,7 +181,7 @@ withCustomRenderer.args = {
     ].map(i => ({
       ...i,
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: React.createElement(
+      template: createElement(
         'span',
         null,
         `My name is ${i.description}, my ${i.prefix} is ${i.option}`
@@ -191,13 +191,13 @@ withCustomRenderer.args = {
   })
 };
 withCustomRenderer.storyName = 'with custom renderer';
-withCustomRenderer.parameters = {hermione: {skip: true}};
+withCustomRenderer.parameters = {screenshots: {skip: true}};
 
 export const WithCustomActions: StoryFn<QueryAssistAttrs> = args => {
-  const [authReady, setAuthReady] = React.useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const auth = useMemo(() => new Auth(hubConfig), []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     auth.init().then(() => setAuthReady(true));
   }, [auth]);
 
@@ -239,14 +239,14 @@ WithCustomActions.args = {
   ]
 };
 WithCustomActions.storyName = 'with custom actions';
-WithCustomActions.parameters = {hermione: {skip: true}};
+WithCustomActions.parameters = {screenshots: {skip: true}};
 WithCustomActions.tags = ['skip-test'];
 
 export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
-  const [authReady, setAuthReady] = React.useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const auth = useMemo(() => new Auth(hubConfig), []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     auth.init().then(() => setAuthReady(true));
   }, [auth]);
 
@@ -278,7 +278,7 @@ export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
 };
 
 HugeOne.storyName = 'huge one';
-HugeOne.parameters = {hermione: {skip: true}};
+HugeOne.parameters = {screenshots: {skip: true}};
 HugeOne.args = {
   huge: true,
   query: 'test',
@@ -299,7 +299,7 @@ export const disabledOne: StoryFn<QueryAssistAttrs> = args => (
 );
 
 disabledOne.storyName = 'disabled one';
-disabledOne.parameters = {hermione: {skip: true}};
+disabledOne.parameters = {screenshots: {skip: true}};
 disabledOne.args = {
   query: ''
 };

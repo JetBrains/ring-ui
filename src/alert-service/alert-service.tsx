@@ -1,4 +1,4 @@
-import React, {ReactNode, Ref} from 'react';
+import {ReactNode, Ref} from 'react';
 
 import {createRoot} from 'react-dom/client';
 

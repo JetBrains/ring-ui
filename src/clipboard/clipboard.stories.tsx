@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import {Fragment} from 'react';
 
 import Link from '../link/link';
 
@@ -9,7 +9,7 @@ export default {
 
   parameters: {
     notes: 'Displays a link which copies test to clipboard.',
-    hermione: {skip: true}
+    screenshots: {skip: true}
   }
 };
 

@@ -1,4 +1,4 @@
-import React, {SyntheticEvent, ComponentType} from 'react';
+import {SyntheticEvent, ComponentType} from 'react';
 import PropTypes from 'prop-types';
 
 import Popup, {BasePopupProps, PopupProps} from '../popup/popup';

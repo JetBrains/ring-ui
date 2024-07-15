@@ -6,11 +6,11 @@ import {storyNameFromExport} from '@storybook/csf';
 
 export function getAllStoryFiles() {
   const srcDir = path.resolve(__dirname, '../src');
-  const storyFiles = glob.sync(path.join(srcDir, '**/*.stories.tsx'));
+  const storyFiles = glob.sync(path.join(srcDir, '**/*.stories.{js,ts,tsx}'));
 
   return storyFiles.map(filePath => {
     const storyFile = require(filePath);
-    const componentName = path.basename(filePath).replace(/\.stories\.tsx$/, '');
+    const componentName = path.basename(filePath).replace(/\.stories\.\w*$/, '');
     const dirName = path.dirname(filePath);
     const title =
       storyFile.default.title ||

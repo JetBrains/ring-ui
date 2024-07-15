@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-literals */
-import React, {ReactNode} from 'react';
+import {ReactNode} from 'react';
 
 import Link from '../link/link';
 import Badge from '../badge/badge';

@@ -1,5 +1,7 @@
-import React, {useState, Fragment} from 'react';
+import {useState, Fragment} from 'react';
 
+
+import {ControlLabel, LabelType} from '../control-label/control-label';
 
 import Radio from './radio';
 
@@ -17,9 +19,9 @@ export const Basic = () => {
   const [value, onChange] = useState('one');
   return (
     <Fragment>
-      Selected: {value}
+      <ControlLabel type={LabelType.FORM}>Group Description</ControlLabel>
       <Radio value={value} onChange={onChange}>
-        <Radio.Item value="one">One</Radio.Item>
+        <Radio.Item value="one" help="Help text">One</Radio.Item>
         <Radio.Item value="two">Two</Radio.Item>
         <Radio.Item value="three">Three</Radio.Item>
       </Radio>
@@ -33,7 +35,7 @@ export const Multiline = () => {
   const [value, onChange] = useState('one');
   return (
     <div style={{width: 200}}>
-      Selected: {value}
+      <ControlLabel>Group Description</ControlLabel>
       <Radio value={value} onChange={onChange}>
         <Radio.Item value="one">One</Radio.Item>
         <Radio.Item value="two">This is a multiline radio item that should wrap</Radio.Item>
@@ -55,7 +57,7 @@ export const uncontrolled = () => (
 );
 
 uncontrolled.storyName = 'uncontrolled';
-uncontrolled.parameters = {hermione: {skip: true}};
+uncontrolled.parameters = {screenshots: {skip: true}};
 
 export const disabled = () => (
   <Radio disabled>

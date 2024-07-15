@@ -1,5 +1,5 @@
 import './old-browsers-message.css';
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 
 import {stop} from './old-browsers-message';
 

@@ -11,6 +11,8 @@
   &:is(h4) {
     margin-top: var(--ring-line-height);
 
+    font-weight: var(--ring-font-weight-bold);
+
     &:first-child {
       margin-top: 0;
     }
@@ -65,4 +67,8 @@
 .caps {
   letter-spacing: 2px;
   text-transform: uppercase;
+}
+
+.heading.bold {
+  font-weight: var(--ring-font-weight-bold);
 }

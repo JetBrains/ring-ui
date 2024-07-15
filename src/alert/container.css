@@ -11,6 +11,8 @@
   align-items: flex-end;
   flex-direction: column;
 
+  max-height: calc(100vh - 2 * var(--ring-unit));
+
   pointer-events: none;
 
   font-family: var(--ring-font-family);
@@ -19,6 +21,8 @@
 
 .alertInContainer {
   composes: alert from "./alert.css";
+
+  overflow-y: auto;
 
   min-width: calc(var(--ring-unit) * 30);
   max-width: calc(var(--ring-unit) * 50);

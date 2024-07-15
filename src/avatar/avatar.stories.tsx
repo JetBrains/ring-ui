@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import Avatar, {Size} from './avatar';
 import {avatarDataUri} from './avatar-example-datauri';
 

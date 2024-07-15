@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import ContentEditable from './contenteditable';
 
 export default {
@@ -37,7 +34,7 @@ basic.parameters = {
 
     .my-input[disabled] {
       border: 1px solid var(--ring-border-disabled-color);
-      background-color: var(--ring-disabled-color);
+      background-color: var(--ring-disabled-background-color);
     }
 </style>`
 };
