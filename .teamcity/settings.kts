@@ -1053,6 +1053,7 @@ object PublishNext : BuildType({
                 chmod 644 ~/.ssh/config
 
                 # GitHub and NPM authorization
+                git config --system --add safe.directory '*' # Fix for "fatal: detected dubious ownership in repository"
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
 
@@ -1062,9 +1063,12 @@ object PublishNext : BuildType({
                 npm -v
 
                 if [ -n "${'$'}(git status --porcelain)" ]; then
+                  git status
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
+
+                npm whoami
 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir node_modules
@@ -1074,6 +1078,7 @@ object PublishNext : BuildType({
                 git checkout package.json package-lock.json
                 npm run build
                 npm run release-ci
+                cat package.json
 
                 ########## Here goes publishing of pre-built version
                 if [ ! -d "./dist" ]
