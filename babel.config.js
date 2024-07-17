@@ -1,4 +1,5 @@
 const browserslist = require('browserslist');
+const {createConfigItem} = require('@babel/core');
 
 module.exports = function config(api) {
   api.cache(true);
@@ -15,9 +16,9 @@ module.exports = function config(api) {
       }]
     ],
     plugins: [
-      ['babel-plugin-transform-define', {
+      createConfigItem(require('babel-plugin-transform-define'), {
         SUPPORTED_BROWSERS: browserslist()
-      }]
+      })
     ],
     env: {
       test: {
