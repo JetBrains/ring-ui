@@ -5,8 +5,8 @@
 :root.dark {
   --ring-line-components: 67, 69, 74;
   --ring-line-color: rgb(var(--ring-line-components)); /* #43454A */
-  --ring-borders-components: 90, 93, 99;
-  --ring-borders-color: rgb(var(--ring-borders-components)); /* #5A5D63 */
+  --ring-borders-components: 111, 115, 122;
+  --ring-borders-color: rgb(var(--ring-borders-components)); /* #6F737A */
   --ring-icon-components: 134, 138, 145;
   --ring-icon-color: rgb(var(--ring-icon-components)); /* #868A91 */
   --ring-icon-secondary-components: 134, 138, 145;
