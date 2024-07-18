@@ -46,6 +46,7 @@ export interface PagerProps {
   onPageChange?: ((prevPage: number, event?: React.MouseEvent) => void) | null | undefined
   className?: string | null | undefined
   hrefFunc?: ((page: number, pageSize: number | undefined) => string) | undefined
+  disableLastPageButton?: boolean
 }
 
 interface PagerSizeItem {
@@ -284,7 +285,8 @@ export default class Pager extends PureComponent<PagerProps> {
       buttons.push(this.getButton(i, i, i, i === currentPage));
     }
 
-    const lastPageButtonAvailable = (end < totalPages && !this.props.openTotal) ||
+    const lastPageButtonAvailable = !this.props.disableLastPageButton &&
+      (end < totalPages && !this.props.openTotal) ||
       (this.props.openTotal && this.props.canLoadLastPageWithOpenTotal);
 
     return (
