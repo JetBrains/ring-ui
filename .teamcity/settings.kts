@@ -57,6 +57,7 @@ project {
         text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
         password("env.QODANA_TOKEN", "credentialsJSON:1b6fe259-bfcd-45f5-be23-e2625685a0f6", display = ParameterDisplay.HIDDEN)
         param("github.com.builduser.name", "JetBrains Ring UI Automation")
+        param("env.GIT_LFS_SKIP_SMUDGE", "true")
     }
 
     features {
@@ -358,6 +359,7 @@ object GeminiTests : BuildType({
         param("npmjs.com.auth.key", "credentialsJSON:175b3950-943c-4803-99c4-56d5f6ac422a")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
         password("env.NGROK_TOKEN", "credentialsJSON:56069693-43e9-4c45-ac02-a0ca8913f080")
+        param("env.GIT_LFS_SKIP_SMUDGE", "false")
     }
 
     vcs {
@@ -453,6 +455,7 @@ object GeminiTests : BuildType({
     requirements {
         exists("docker.version")
         contains("docker.server.osType", "linux")
+        exists("teamcity.gitLfs.version")
     }
 })
 
@@ -839,6 +842,10 @@ object Publish : BuildType({
             onDependencyCancel = FailureAction.CANCEL
         }
     }
+
+    requirements {
+        exists("teamcity.gitLfs.version")
+    }
 })
 
 object PublishHotfixRelease : BuildType({
@@ -995,6 +1002,10 @@ object PublishHotfixRelease : BuildType({
             onDependencyFailure = FailureAction.CANCEL
             onDependencyCancel = FailureAction.CANCEL
         }
+    }
+
+    requirements {
+        exists("teamcity.gitLfs.version")
     }
 })
 
@@ -1172,6 +1183,10 @@ object PublishNext : BuildType({
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
+
+    requirements {
+        exists("teamcity.gitLfs.version")
+    }
 })
 
 object PublishToGitHubPages : BuildType({
@@ -1303,6 +1318,7 @@ object PublishToGitHubPages : BuildType({
 
     requirements {
         contains("system.agent.name", "Ubuntu")
+        exists("teamcity.gitLfs.version")
     }
 })
 
