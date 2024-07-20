@@ -62,7 +62,6 @@
     "typecheck": "tsc",
     "test-ci": "npm run test",
     "typecheck-ci": "node tsc-teamcity",
-    "prerelease-ci": "git pull",
     "release-ci": "npm version $NPM_VERSION_PARAMS && npm publish --access=public $NPM_PUBLISH_PARAMS",
     "postrelease-ci": "git push --follow-tags",
     "prerelease-built-ci": "node prepare-built-package.js",
