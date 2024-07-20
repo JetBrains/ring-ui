@@ -1046,6 +1046,15 @@ object PublishNext : BuildType({
 
     steps {
         script {
+          name = "LFS Pull"
+          scriptContent = """
+            #!/bin/bash
+            set -e -x
+
+            git lfs pull
+          """.trimIndent()
+        }
+        script {
             name = "Publish"
             id = "RUNNER_1461"
             scriptContent = """
@@ -1072,8 +1081,6 @@ object PublishNext : BuildType({
 
                 node -v
                 npm -v
-
-                git lfs pull
 
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
