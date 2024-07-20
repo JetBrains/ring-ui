@@ -1073,6 +1073,8 @@ object PublishNext : BuildType({
                 node -v
                 npm -v
 
+                git lfs pull
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
                   echo "Your git status is not clean. Aborting.";
