@@ -1047,6 +1047,7 @@ object PublishNext : BuildType({
     steps {
         script {
           name = "LFS Pull"
+          id = "RUNNER_1460"
           scriptContent = """
             #!/bin/bash
             set -e -x
@@ -1125,7 +1126,7 @@ object PublishNext : BuildType({
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
-        stepsOrder = arrayListOf("RUNNER_1461")
+        stepsOrder = arrayListOf("RUNNER_1460", "RUNNER_1461")
     }
 
     triggers {
