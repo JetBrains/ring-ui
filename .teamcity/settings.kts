@@ -1190,6 +1190,7 @@ object PublishNext : BuildType({
     dependencies {
         snapshot(GeminiTests) {
             onDependencyFailure = FailureAction.FAIL_TO_START
+            synchronizeRevisions = false
         }
     }
 
