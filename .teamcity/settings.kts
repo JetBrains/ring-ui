@@ -1053,6 +1053,12 @@ object PublishNext : BuildType({
             set -e -x
 
             git lfs pull
+
+            if [ -n "${'$'}(git status --porcelain)" ]; then
+              git status
+              echo "Your git status is not clean. Aborting.";
+              exit 1;
+            fi
           """.trimIndent()
         }
         script {
@@ -1082,12 +1088,6 @@ object PublishNext : BuildType({
 
                 node -v
                 npm -v
-
-                if [ -n "${'$'}(git status --porcelain)" ]; then
-                  git status
-                  echo "Your git status is not clean. Aborting.";
-                  exit 1;
-                fi
 
                 npm whoami
 
