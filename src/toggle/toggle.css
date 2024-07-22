@@ -25,7 +25,12 @@
   margin-left: var(--ring-unit);
 }
 
-.disabled .label {
+.help {
+  margin-top: calc(var(--ring-unit) / 2);
+}
+
+.disabled .label,
+.disabled .help {
   color: var(--ring-disabled-color);
 }
 

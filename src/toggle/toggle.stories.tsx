@@ -30,6 +30,9 @@ export const basic = () => (
     <div>
       <Toggle help="Help text">With help text</Toggle>
     </div>
+    <div>
+      <Toggle help="Help text" disabled>With help text disabled</Toggle>
+    </div>
     <h1>Size 16</h1>
     <div>
       <Toggle size={Size.Size16}>Unchecked by default</Toggle>
@@ -48,6 +51,9 @@ export const basic = () => (
     </div>
     <div>
       <Toggle size={Size.Size16} help="Help text">With help text</Toggle>
+    </div>
+    <div>
+      <Toggle help="Help text" disabled>With help text disabled</Toggle>
     </div>
     <h1>Size 20</h1>
     <div style={{lineHeight: '24px'}}>
@@ -68,6 +74,9 @@ export const basic = () => (
       </div>
       <div>
         <Toggle size={Size.Size20} help="Help text">With help text</Toggle>
+      </div>
+      <div>
+        <Toggle help="Help text" disabled>With help text disabled</Toggle>
       </div>
     </div>
   </div>
