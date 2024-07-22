@@ -49,6 +49,7 @@ export interface TableProps<T extends SelectionItem> extends
   alwaysShowDragHandle: boolean
   dragHandleTitle?: string
   stickyHeader: boolean
+  wideFirstColumn: boolean
   getItemLevel: (item: T) => number
   getItemClassName: (item: T) => string | null | undefined
   getMetaColumnClassName: (item: T) => string | null | undefined
@@ -97,7 +98,9 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     onItemClick: () => {},
     remoteSelection: false,
     isDisabledSelectionVisible: () => false,
-    getCheckboxTooltip: () => undefined
+    getCheckboxTooltip: () => undefined,
+    //TODO: change to false in 7.0
+    wideFirstColumn: true
   };
 
   state = {
@@ -207,6 +210,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 
     const classes = classNames(this.props.className, {
       [style.table]: true,
+      [style.wideFirstColumn]: this.props.wideFirstColumn,
       [style.multiSelection]: selection.getSelected().size > 0,
       [style.userSelectNone]: this.state.userSelectNone,
       [style.disabledHover]: this.props.disabledHover
@@ -349,6 +353,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
   getCheckboxTooltip: PropTypes.func,
   onItemDoubleClick: PropTypes.func,
   onItemClick: PropTypes.func,
+  wideFirstColumn: PropTypes.bool,
 
   // focusSensorHOC
   focused: PropTypes.bool,

@@ -170,7 +170,7 @@
   padding-right: calc(var(--ring-unit) * 4);
 }
 
-.cell:first-child {
+.wideFirstColumn .cell:first-child {
   min-width: calc(var(--ring-unit) * 37);
   max-width: calc(var(--ring-unit) * 77);
 }
@@ -199,10 +199,6 @@
 
 .metaColumn.headerMetaColumn {
   padding-top: 1px;
-}
-
-.narrowFirstColumn .cell:first-child {
-  min-width: 0;
 }
 
 @value top: -3px;

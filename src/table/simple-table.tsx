@@ -1,5 +1,4 @@
 import {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
@@ -18,16 +17,15 @@ const {
 
 export interface SimpleTableProps<T extends SelectionItem> extends
   Omit<TableAttrs<T>, 'selection' | 'onSelect' | 'selectable'> {
-  narrowFirstColumn?: boolean;
 }
 class SimpleTable<T extends SelectionItem> extends PureComponent<SimpleTableProps<T>> {
   static propTypes = {
-    narrowFirstColumn: PropTypes.bool,
     ...restPropTypes
   };
 
   static defaultProps = {
-    selectable: false
+    selectable: false,
+    wideFirstColumn: false
   };
 
 
@@ -37,8 +35,7 @@ class SimpleTable<T extends SelectionItem> extends PureComponent<SimpleTableProp
     })
   };
 
-  classes = classNames(style.disabledHover,
-    {[style.narrowFirstColumn]: this.props.narrowFirstColumn}, this.props.className);
+  classes = classNames(style.disabledHover, this.props.className);
 
   render() {
     return (

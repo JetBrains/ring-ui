@@ -11,7 +11,6 @@ import mock from './table.stories.json';
 import tableData from './table.examples2.json';
 
 import {SortParams} from './header-cell';
-
 /**
 * Simple stateless table without hover effect
  */
@@ -43,7 +42,6 @@ export const Basic: StoryFn<BasicDemoProps> = args => (
   <div>
     <SimpleTable
       {...args}
-      narrowFirstColumn
       data={tdata}
     />
   </div>
