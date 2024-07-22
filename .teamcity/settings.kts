@@ -57,6 +57,7 @@ project {
         text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
         password("env.QODANA_TOKEN", "credentialsJSON:1b6fe259-bfcd-45f5-be23-e2625685a0f6", display = ParameterDisplay.HIDDEN)
         param("github.com.builduser.name", "JetBrains Ring UI Automation")
+        param("env.GIT_LFS_SKIP_SMUDGE", "true")
     }
 
     features {
@@ -358,6 +359,7 @@ object GeminiTests : BuildType({
         param("npmjs.com.auth.key", "credentialsJSON:175b3950-943c-4803-99c4-56d5f6ac422a")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
         password("env.NGROK_TOKEN", "credentialsJSON:56069693-43e9-4c45-ac02-a0ca8913f080")
+        param("env.GIT_LFS_SKIP_SMUDGE", "false")
     }
 
     vcs {
@@ -453,6 +455,7 @@ object GeminiTests : BuildType({
     requirements {
         exists("docker.version")
         contains("docker.server.osType", "linux")
+        exists("teamcity.gitLfs.version")
     }
 })
 
@@ -732,6 +735,9 @@ object Publish : BuildType({
 
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
 
+                curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+                apt-get install git-lfs
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
                   echo "Your git status is not clean. Aborting.";
@@ -889,6 +895,9 @@ object PublishHotfixRelease : BuildType({
                 git config user.name "%github.com.builduser.name%"
 
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
+
+                curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+                apt-get install git-lfs
 
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
@@ -1061,6 +1070,9 @@ object PublishNext : BuildType({
 
                 node -v
                 npm -v
+
+                curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+                apt-get install git-lfs
 
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   git status
