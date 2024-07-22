@@ -43,8 +43,8 @@ class SimpleTable<T extends SelectionItem> extends PureComponent<SimpleTableProp
   render() {
     return (
       <Table
-        className={this.classes}
         {...this.props}
+        className={this.classes}
         {...this.state}
       />
     );
