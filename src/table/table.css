@@ -201,6 +201,10 @@
   padding-top: 1px;
 }
 
+.narrowFirstColumn .cell:first-child {
+  min-width: 0;
+}
+
 @value top: -3px;
 
 .dragHandle {
