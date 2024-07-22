@@ -170,7 +170,7 @@
   padding-right: calc(var(--ring-unit) * 4);
 }
 
-.cell:first-child {
+.wideFirstColumn .cell:first-child {
   min-width: calc(var(--ring-unit) * 37);
   max-width: calc(var(--ring-unit) * 77);
 }
