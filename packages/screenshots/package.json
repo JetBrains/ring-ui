@@ -34,7 +34,7 @@
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "testplane": "^8.17.2",
+    "testplane": "^8.18.0",
     "yauzl": "^3.1.3"
   }
 }
