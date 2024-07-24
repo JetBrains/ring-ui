@@ -119,6 +119,7 @@ export default class Dialog extends PureComponent<DialogProps> {
     const {show, modal} = this.props;
     if (this.nativeDialog.current != null) {
       if (show) {
+        this.nativeDialog.current.removeAttribute('open');
         modal ? this.nativeDialog.current.showModal() : this.nativeDialog.current.show();
       } else {
         this.nativeDialog.current.close();
