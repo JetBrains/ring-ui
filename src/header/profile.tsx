@@ -186,6 +186,7 @@ export default class Profile extends PureComponent<ProfileProps> {
             url={user.profile && user.profile.avatar && user.profile.avatar.url}
             size={size}
             round={round}
+            username={user.name}
           />
         </span>
         {showName && <span>{user.name}</span>}

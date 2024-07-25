@@ -11,6 +11,8 @@
   --ring-borders-color: rgb(var(--ring-borders-components)); /* #d3d5db */
   --ring-icon-components: 129, 133, 148;
   --ring-icon-color: rgb(var(--ring-icon-components)); /* #818594 */
+  --ring-icon-white-components: 255, 255, 255;
+  --ring-icon-white-color: rgb(var(--ring-icon-white-components)); /* #FFFFFF */
   --ring-icon-secondary-components: 129, 133, 148;
   --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #818594 */
   --ring-border-disabled-components: 235, 236, 240;
