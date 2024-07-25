@@ -5,7 +5,7 @@
 @value timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 
 .toggle {
-  display: flex;
+  display: inline-flex;
   align-items: baseline;
 
   cursor: pointer;
