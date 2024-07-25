@@ -10,13 +10,13 @@ import Popup from '../popup/popup';
 import Theme from '../global/theme';
 import darkStyles from '../global/variables_dark.css';
 
-import TrayIcon from './tray-icon';
+import HeaderIcon from './header-icon';
 import ServicesLink, {Service} from './services-link';
 import styles from './services.css';
 
 const makeAnchor = (loading: boolean | null | undefined) => {
   const Anchor = ({active}: AnchorProps) => (
-    <TrayIcon
+    <HeaderIcon
       loader={loading}
       active={active}
       icon={servicesIcon}
@@ -70,7 +70,7 @@ export default class Services extends PureComponent<ServicesProps> {
 
     if (!services) {
       return (
-        <TrayIcon
+        <HeaderIcon
           {...props}
           loader={loading}
           active={loading}
