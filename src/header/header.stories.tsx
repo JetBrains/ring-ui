@@ -1,11 +1,18 @@
 import {Component} from 'react';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
+import teamcityLogo from '@jetbrains/logos/teamcity/teamcity.svg';
 import addIcon from '@jetbrains/icons/add-20px';
 import giftIcon from '@jetbrains/icons/gift-20px';
 import helpIcon from '@jetbrains/icons/help-20px';
 import searchIcon from '@jetbrains/icons/search-20px';
 import settingsIcon from '@jetbrains/icons/settings-20px';
+import folderIcon from '@jetbrains/icons/folder-20px';
+import changesIcon from '@jetbrains/icons/changes-20px';
+import agentsIcon from '@jetbrains/icons/agents-20px';
+import hourglassIcon from '@jetbrains/icons/hourglass-20px';
+import bellIcon from '@jetbrains/icons/bell-20px';
+
 
 import {StoryFn} from '@storybook/react';
 
@@ -23,13 +30,14 @@ import Auth from '../auth/auth';
 
 import {ClickableLinkProps} from '../link/clickableLink';
 
-import Header, {HeaderAttrs} from './header';
+import Header, {HeaderAttrs, Profile} from './header';
 import Logo from './logo';
 
 import Tray from './tray';
-import TrayIcon from './tray-icon';
+import HeaderIcon from './header-icon';
 import SmartServices from './smart-services';
 import SmartProfile from './smart-profile';
+import ScrollableSection from './scrollable-section';
 
 const blockAuth = window.location.search.includes('block-auth');
 
@@ -84,14 +92,14 @@ export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
           <Link href="#">Spaces</Link>
           <Link href="#">Services</Link>
           <Tray>
-            <TrayIcon primary title="Create issue" icon={addIcon}/>
-            <TrayIcon title="Help" icon={helpIcon}/>
-            <TrayIcon title="What's new" icon={giftIcon}/>
-            <TrayIcon title="Search" icon={searchIcon}/>
+            <HeaderIcon primary title="Create issue" icon={addIcon}/>
+            <HeaderIcon title="Help" icon={helpIcon}/>
+            <HeaderIcon title="What's new" icon={giftIcon}/>
+            <HeaderIcon title="Search" icon={searchIcon}/>
             <DropdownMenu
               data={[{label: 'Test'}, {label: 'Test2'}]}
               anchor={({active}, ariaProps) => (
-                <TrayIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps}/>
+                <HeaderIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps}/>
               )}
               menuProps={{top: -12}}
             />
@@ -127,3 +135,34 @@ body {
 }
 </style>`
 };
+
+export const vertical: StoryFn<HeaderAttrs> = args => (
+  <Header vertical spaced={false} className="header" {...args}>
+    <a title="Hub" href="/">
+      <Logo glyph={teamcityLogo} size={Logo.Size.Size40}/>
+    </a>
+    <ScrollableSection>
+      <HeaderIcon title="Projects" icon={folderIcon}/>
+      <HeaderIcon title="Changes" icon={changesIcon}/>
+      <HeaderIcon title="Agents" icon={agentsIcon}/>
+      <HeaderIcon title="Queue" icon={hourglassIcon}/>
+      <HeaderIcon title="Settings" icon={settingsIcon}/>
+    </ScrollableSection>
+    <Tray>
+      <HeaderIcon title="Notifications" icon={bellIcon}/>
+      <HeaderIcon title="Help" icon={helpIcon}/>
+      <Profile round user={{id: '1', login: 'john.doe', name: 'John Doe'}}/>
+    </Tray>
+  </Header>
+);
+vertical.parameters = {storyStyles: `
+<style>
+body {
+  margin: 0 !important;
+}
+
+.header {
+  height: 100vh;
+}
+</style>
+`};

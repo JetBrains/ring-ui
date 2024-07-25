@@ -7,8 +7,9 @@ import Theme, {ThemeProvider} from '../global/theme';
 import styles from './header.css';
 
 interface HeaderProps extends HTMLAttributes<HTMLElement> {
-  spaced: boolean
+  spaced: boolean // only takes effect when vertical is false
   theme: Theme
+  vertical: boolean
 }
 
 /**
@@ -26,13 +27,14 @@ class Header extends Component<HeaderProps> {
 
   static defaultProps = {
     spaced: true,
-    theme: Theme.DARK
+    theme: Theme.DARK,
+    vertical: false
   };
 
   render() {
-    const {children, className, spaced, theme, ...restProps} = this.props;
-    const classes = classNames(styles.header, className, {
-      [styles.headerSpaced]: spaced
+    const {children, className, spaced, theme, vertical, ...restProps} = this.props;
+    const classes = classNames(vertical ? styles.headerVertical : styles.header, className, {
+      [styles.headerSpaced]: spaced && !vertical
     });
 
     const overrideOuterTheme = theme !== Theme.LIGHT;
@@ -62,6 +64,7 @@ export type HeaderAttrs = JSX.LibraryManagedAttributes<typeof Header, HeaderProp
 export default Header;
 export {default as Logo} from './logo';
 export {default as Tray} from './tray';
+export {default as HeaderIcon} from './header-icon';
 export {default as TrayIcon} from './tray-icon';
 export {default as Profile} from './profile';
 export {default as SmartProfile} from './smart-profile';
