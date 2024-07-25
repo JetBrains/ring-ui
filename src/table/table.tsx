@@ -69,6 +69,7 @@ export interface TableProps<T extends SelectionItem> extends
   caption?: string | null | undefined
   stickyHeaderOffset?: string | undefined
   renderEmpty?: (() => ReactNode) | null | undefined
+  RowComponent: typeof Row
 }
 /**
  * Interactive table with selection and keyboard navigation support.
@@ -99,6 +100,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     remoteSelection: false,
     isDisabledSelectionVisible: () => false,
     getCheckboxTooltip: () => undefined,
+    RowComponent: Row,
     //TODO: change to false in 7.0
     wideFirstColumn: true
   };
@@ -184,7 +186,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
-      onItemDoubleClick, onItemClick, renderEmpty, maxColSpan
+      onItemDoubleClick, onItemClick, renderEmpty, maxColSpan, RowComponent
     } = this.props;
 
 
@@ -246,7 +248,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       }
       const {ref, ...restProps} = props;
       const row = (
-        <Row<T>
+        <RowComponent<T>
           innerRef={ref}
           level={getItemLevel(value)}
           item={value}
