@@ -106,7 +106,7 @@
     "@types/chai-dom": "0.0.10",
     "@types/chai-enzyme": "^0.6.13",
     "@types/enzyme": "^3.10.18",
-    "@types/markdown-it": "^14.1.1",
+    "@types/markdown-it": "^14.1.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/sinon": "^17.0.3",
