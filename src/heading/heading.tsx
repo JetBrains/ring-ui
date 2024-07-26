@@ -53,18 +53,8 @@ Heading.Levels = Levels;
 
 export default Heading;
 
-export interface H1Props extends HTMLAttributes<HTMLHeadingElement> {
-  caps?: boolean | null | undefined // TODO remove in 7.0
-}
-
-const warnCaps = deprecate(() => {}, 'H1 caps prop is deprecated and will be removed in Ring UI 7.0');
-
-const H1 = memo(function H1({className, caps, ...restProps}: H1Props) {
-  if (caps) {
-    warnCaps();
-  }
-  const classes = classNames(className, {[styles.caps]: caps});
-  return <Heading {...restProps} level={Levels.H1} className={classes}/>;
+const H1 = memo(function H1(props: HTMLAttributes<HTMLHeadingElement>) {
+  return <Heading {...props} level={Levels.H1}/>;
 });
 
 const H2 = memo(function H2(props: HTMLAttributes<HTMLHeadingElement>) {
