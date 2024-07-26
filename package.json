@@ -199,7 +199,7 @@
     "@babel/core": "^7.24.9",
     "@babel/preset-typescript": "^7.24.7",
     "@jetbrains/babel-preset-jetbrains": "^2.4.0",
-    "@jetbrains/icons": "^4.2.0",
+    "@jetbrains/icons": "^4.4.0",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "@types/combokeys": "^2.4.9",
     "@types/deep-equal": "^1.0.4",
