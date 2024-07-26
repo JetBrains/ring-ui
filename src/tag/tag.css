@@ -127,7 +127,7 @@
   position: absolute;
   z-index: 1;
   top: 2px;
-  right: 1px;
+  right: 0;
 
   height: auto;
   padding: 0 calc(var(--ring-unit) / 2);
@@ -140,8 +140,8 @@
 }
 
 .icon {
-  margin-right: 5px;
-  margin-left: -3px;
+  margin-right: calc(var(--ring-unit) / 2);
+  margin-left: calc(var(--ring-unit) * -0.5);
 
   color: var(--ring-icon-secondary-color);
 

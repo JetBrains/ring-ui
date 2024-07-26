@@ -1,3 +1,8 @@
+## [7.0.0]
+
+### BREAKING CHANGES
+- Removed compensation margins in Icon to better match Figma
+
 ## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
 
 ### BREAKING CHANGES

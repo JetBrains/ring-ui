@@ -40,7 +40,7 @@
 .icons {
   position: absolute;
   top: 0;
-  right: 5px;
+  right: 6px;
   bottom: 0;
 
   transition: color var(--ring-ease);
@@ -73,7 +73,7 @@
 }
 
 .clearIcon {
-  padding: 0 3px;
+  padding: 0 2px;
 
   vertical-align: -1px;
 }
@@ -220,7 +220,7 @@
 }
 
 .chevron.chevron {
-  padding: 0 3px;
+  padding: 0 2px;
 
   transition: none;
   vertical-align: -1px;

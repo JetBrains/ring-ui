@@ -365,9 +365,9 @@
 }
 
 .dropdownIcon {
-  margin-right: -3px;
+  margin-right: calc(var(--ring-unit) * -0.5);
 
-  margin-left: 3px;
+  margin-left: 2px;
 
   transition: color var(--ring-ease);
 
