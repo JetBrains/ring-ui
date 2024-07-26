@@ -44,10 +44,7 @@
   position: absolute;
 
   top: 0;
-  left: 1px;
-
-  width: calc(var(--ring-unit) * 2);
-  height: calc(var(--ring-unit) * 2);
+  left: 0;
 
   opacity: 0;
   color: var(--ring-white-text-color);
