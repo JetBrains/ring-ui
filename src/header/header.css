@@ -95,10 +95,6 @@
 .headerVertical .logo {
   height: auto;
   padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 1.5);
-
-  & svg {
-    margin: 0;
-  }
 }
 
 .scrollableSection {
@@ -154,10 +150,6 @@
   text-align: center;
 
   vertical-align: top;
-
-  & svg {
-    margin: 0;
-  }
 }
 
 /* override button */
