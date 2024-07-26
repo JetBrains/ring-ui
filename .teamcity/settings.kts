@@ -1021,7 +1021,7 @@ object PublishNext : BuildType({
     allowExternalStatus = true
 
     params {
-        param("env.NPM_VERSION_PARAMS", "prepatch --preid beta")
+        param("env.NPM_VERSION_PARAMS", "prerelease --preid beta")
         param("env.NPM_PUBLISH_PARAMS", "--tag next")
 
         param("vcs.branch.spec", """
