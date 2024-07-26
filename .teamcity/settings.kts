@@ -52,6 +52,7 @@ project {
     params {
         param("vcs.branch.spec", """
             +:refs/heads/*
+            +:refs/(pull/*)/merge
             -:refs/heads/gh-pages
         """.trimIndent())
         text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
@@ -346,11 +347,6 @@ object GeminiTests : BuildType({
     maxRunningBuilds = 1
 
     params {
-        param("vcs.branch.spec", """
-            +:refs/heads/*
-            +:refs/(pull/*)/merge
-            -:refs/heads/(gh-pages)
-        """.trimIndent())
         param("github.com.builduser.name", "")
         password("env.BROWSERSTACK_KEY", "credentialsJSON:080a4e07-08b0-4450-8347-ddd8760b4f42", display = ParameterDisplay.HIDDEN)
         param("env.BROWSERSTACK_NAME", "sadf7")
@@ -469,11 +465,6 @@ object A11yAudit : BuildType({
     params {
         param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
-        param("vcs.branch.spec", """
-            +:refs/heads/*
-            +:refs/(pull/*)/merge
-            -:refs/heads/(gh-pages)
-        """.trimIndent())
         param("github.com.builduser.name", "")
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
@@ -533,11 +524,6 @@ object ConsoleErrors : BuildType({
     allowExternalStatus = true
 
     params {
-        param("vcs.branch.spec", """
-            +:refs/heads/*
-            +:refs/(pull/*)/merge
-            -:refs/heads/(gh-pages)
-        """.trimIndent())
         param("github.com.builduser.name", "")
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
@@ -604,11 +590,6 @@ object SecurityAudit : BuildType({
     artifactRules = "npm-audit.html"
 
     params {
-        param("vcs.branch.spec", """
-            +:refs/heads/*
-            +:refs/(pull/*)/merge
-            -:refs/heads/(gh-pages)
-        """.trimIndent())
         param("github.com.builduser.name", "")
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
@@ -698,11 +679,6 @@ object Publish : BuildType({
 
     params {
         param("env.NPM_VERSION_PARAMS", "patch")
-        param("vcs.branch.spec", """
-            +:refs/heads/(release-6.x)
-            -:<default>
-            -:refs/heads/master
-        """.trimIndent())
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
@@ -865,12 +841,12 @@ object PublishHotfixRelease : BuildType({
     params {
         param("env.NPM_VERSION_PARAMS", "patch --preid hotfix")
         param("env.NPM_PUBLISH_PARAMS", "--tag hotfix")
-        param("vcs.branch.spec", "+:refs/heads/(release-*)")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
         root(DslContext.settingsRoot)
+        branchFilter = "+:release-*"
     }
 
     steps {
@@ -1029,15 +1005,15 @@ object PublishNext : BuildType({
         param("env.NPM_VERSION_PARAMS", "prerelease --preid beta")
         param("env.NPM_PUBLISH_PARAMS", "--tag next")
 
-        param("vcs.branch.spec", """
-            +:refs/heads/*
-            -:refs/heads/gh-pages
-        """.trimIndent())
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
         root(DslContext.settingsRoot)
+        branchFilter = """
+            +:*
+            -:pull/*
+        """.trimIndent()
     }
 
     steps {
@@ -1194,10 +1170,6 @@ object PublishToGitHubPages : BuildType({
     maxRunningBuilds = 1
 
     params {
-        param("vcs.branch.spec", """
-            +:refs/heads/(master)
-            +:refs/heads/(release-*)
-        """.trimIndent())
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
         param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
         param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
@@ -1206,6 +1178,10 @@ object PublishToGitHubPages : BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
+        branchFilter = """
+            +:master
+            +:release-*
+        """.trimIndent()
     }
 
     steps {
@@ -1329,11 +1305,6 @@ object UnitTestsAndBuild : BuildType({
     """.trimIndent()
 
     params {
-        param("vcs.branch.spec", """
-            +:refs/heads/*
-            +:refs/(pull/*)/merge
-            -:refs/heads/gh-pages
-        """.trimIndent())
         param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "")
         param("env.GIT_AUTHOR_NAME", "")
         param("env.GIT_COMMITTER_EMAIL", "")
