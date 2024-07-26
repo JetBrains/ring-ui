@@ -698,7 +698,11 @@ object Publish : BuildType({
 
     params {
         param("env.NPM_VERSION_PARAMS", "patch")
-        param("vcs.branch.spec", "+:refs/heads/(release-6.x)")
+        param("vcs.branch.spec", """
+            +:refs/heads/(release-6.x)
+            -:<default>
+            -:refs/heads/master
+        """.trimIndent())
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
