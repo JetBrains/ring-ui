@@ -168,6 +168,10 @@ object AllChecks : BuildType({
         vcs {
             quietPeriodMode = VcsTrigger.QuietPeriodMode.DO_NOT_USE
             triggerRules = "-:user=npmjs-buildserver:**"
+            branchFilter = """
+                +:*
+                -:pull/*
+            """.trimIndent()
         }
         retryBuild {
             delaySeconds = 60
@@ -254,7 +258,10 @@ object Deploy : BuildType({
         vcs {
             enabled = false
             triggerRules = "-:user=npmjs-buildserver:**"
-            branchFilter = ""
+            branchFilter = """
+                +:*
+                -:pull/*
+            """.trimIndent()
         }
         retryBuild {
             delaySeconds = 60
@@ -497,7 +504,12 @@ object A11yAudit : BuildType({
     }
 
     triggers {
-        vcs {}
+        vcs {
+            branchFilter = """
+                +:*
+                -:pull/*
+            """.trimIndent()
+        }
     }
 
     dependencies {
@@ -555,7 +567,12 @@ object ConsoleErrors : BuildType({
     }
 
     triggers {
-        vcs {}
+        vcs {
+            branchFilter = """
+                +:*
+                -:pull/*
+            """.trimIndent()
+        }
     }
 
     failureConditions {
@@ -622,7 +639,12 @@ object SecurityAudit : BuildType({
     }
 
     triggers {
-        vcs {}
+        vcs {
+            branchFilter = """
+                +:*
+                -:pull/*
+            """.trimIndent()
+        }
         schedule {
             branchFilter = "+:<default>"
             triggerBuild = always()
@@ -659,6 +681,10 @@ object QodanaAnalysis : BuildType({
   }
   triggers {
     vcs {
+      branchFilter = """
+        +:*
+        -:pull/*
+      """.trimIndent()
     }
   }
   failureConditions {
