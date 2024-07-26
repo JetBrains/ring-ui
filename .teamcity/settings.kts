@@ -708,6 +708,7 @@ object Publish : BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
+        branchFilter = "+:release-6.x"
     }
 
     steps {
