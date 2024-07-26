@@ -1012,16 +1012,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
         if (!prevState.multipleMap[selected.key]) {
           nextSelection = currentSelection.concat(selected);
-          this.props.onSelect && this.props.onSelect(selected, event);
         } else {
           nextSelection = currentSelection.filter(item => item.key !== selected.key);
-          this.props.onDeselect && this.props.onDeselect(selected);
         }
-
-        (this.props.onChange as (selected: SelectItem<T>[], event?: Event) => void)(
-          nextSelection,
-          event
-        );
 
         const nextState: Partial<SelectState<T>> = {
           filterValue: '',
@@ -1049,6 +1042,17 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         return {...prevState, ...nextState};
 
       }, () => {
+        if (this.state.multipleMap[selected.key]) {
+          this.props.onSelect?.(selected, event);
+        } else {
+          this.props.onDeselect?.(selected);
+        }
+
+        (this.props.onChange as (selected: SelectItem<T>[], event?: Event) => void)(
+            this.state.selected as SelectItem<T>[],
+            event
+        );
+
         if (tryKeepOpen) {
           this._redrawPopup();
         }
