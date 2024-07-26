@@ -19,7 +19,7 @@ const branchesArr = Object.entries(branches).map(([version, branch]) => ({
   version,
   path: branch,
   // /^0\.1\.\d+$/
-  versionRE: new RegExp(`^${version.replace(/\./g, '\\.').replace(/\*/g, '\\d+')}$`)
+  versionRE: new RegExp(`^${version.replace(/\./g, '\\.').replace(/x/g, '\\d+')}$`)
 }));
 
 interface VersionProps {

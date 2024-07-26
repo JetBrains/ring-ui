@@ -687,7 +687,7 @@ object QodanaAnalysis : BuildType({
 
 object Publish : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
-    name = "Publish @latest (master)"
+    name = "Publish @latest"
 
     artifactRules = """
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
@@ -698,7 +698,7 @@ object Publish : BuildType({
 
     params {
         param("env.NPM_VERSION_PARAMS", "patch")
-        param("vcs.branch.spec", "+:refs/heads/(master)")
+        param("vcs.branch.spec", "+:refs/heads/(release-6.x)")
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
@@ -1027,19 +1027,12 @@ object PublishNext : BuildType({
         param("vcs.branch.spec", """
             +:refs/heads/*
             -:refs/heads/gh-pages
-            -:refs/heads/master
         """.trimIndent())
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
     }
 
     vcs {
         root(DslContext.settingsRoot)
-
-        branchFilter = """
-            +:*
-            -:<default>
-            -:refs/heads/master
-        """.trimIndent()
     }
 
     steps {
@@ -1198,7 +1191,7 @@ object PublishToGitHubPages : BuildType({
     params {
         param("vcs.branch.spec", """
             +:refs/heads/(master)
-            +:refs/heads/(release-4.2)
+            +:refs/heads/(release-*)
         """.trimIndent())
         param("env.NODE_OPTIONS", "--max-old-space-size=8192")
         param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
