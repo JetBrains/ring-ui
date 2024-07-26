@@ -2,6 +2,7 @@
 
 ### BREAKING CHANGES
 - Removed compensation margins in Icon to better match Figma
+- `caps` prop no longer supported in Heading
 
 ## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
 
