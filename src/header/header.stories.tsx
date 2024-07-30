@@ -37,7 +37,7 @@ import Tray from './tray';
 import HeaderIcon from './header-icon';
 import SmartServices from './smart-services';
 import SmartProfile from './smart-profile';
-import ScrollableSection from './scrollable-section';
+import Links from './links';
 
 const blockAuth = window.location.search.includes('block-auth');
 
@@ -141,13 +141,13 @@ export const vertical: StoryFn<HeaderAttrs> = args => (
     <a title="Hub" href="/">
       <Logo glyph={teamcityLogo} size={Logo.Size.Size40}/>
     </a>
-    <ScrollableSection>
+    <Links>
       <HeaderIcon title="Projects" icon={folderIcon}/>
       <HeaderIcon title="Changes" icon={changesIcon}/>
       <HeaderIcon title="Agents" icon={agentsIcon}/>
       <HeaderIcon title="Queue" icon={hourglassIcon}/>
       <HeaderIcon title="Settings" icon={settingsIcon}/>
-    </ScrollableSection>
+    </Links>
     <Tray>
       <HeaderIcon title="Notifications" icon={bellIcon}/>
       <HeaderIcon title="Help" icon={helpIcon}/>
