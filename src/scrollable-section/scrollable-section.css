@@ -1,0 +1,31 @@
+
+
+.scrollableSection {
+  --ring-scrollable-section-top-shadow: transparent;
+  --ring-scrollable-section-right-shadow: transparent;
+  --ring-scrollable-section-bottom-shadow: transparent;
+  --ring-scrollable-section-left-shadow: transparent;
+
+  overflow: auto;
+
+  box-shadow: inset 0 1px 0 var(--ring-scrollable-section-top-shadow),
+              inset -1px 0 0 var(--ring-scrollable-section-right-shadow),
+              inset 0 -1px 0 var(--ring-scrollable-section-bottom-shadow),
+              inset 1px 0 0 var(--ring-scrollable-section-left-shadow);
+}
+
+.withTopBorder {
+  --ring-scrollable-section-top-shadow: var(--ring-line-color);
+}
+
+.withRightBorder {
+  --ring-scrollable-section-right-shadow: var(--ring-line-color);
+}
+
+.withBottomBorder {
+  --ring-scrollable-section-bottom-shadow: var(--ring-line-color);
+}
+
+.withLeftBorder {
+  --ring-scrollable-section-left-shadow: var(--ring-line-color);
+}

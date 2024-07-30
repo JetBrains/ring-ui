@@ -97,24 +97,11 @@
   padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 1.5);
 }
 
-.scrollableSection {
+.links {
   display: flex;
-  overflow: auto;
   flex-direction: column;
 
   min-height: calc(var(--ring-unit) * 5);
-}
-
-.withTopBorder {
-  box-shadow: inset 0 1px 0 var(--ring-line-color);
-}
-
-.withBottomBorder {
-  box-shadow: inset 0 -1px 0 var(--ring-line-color);
-}
-
-.withTopBorder.withBottomBorder {
-  box-shadow: inset 0 -1px 0 var(--ring-line-color), inset 0 1px 0 var(--ring-line-color);
 }
 
 .tray {
