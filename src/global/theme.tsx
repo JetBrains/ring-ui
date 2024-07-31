@@ -6,7 +6,8 @@ import {
   forwardRef,
   Ref,
   useContext,
-  ReactElement
+  ReactElement,
+  createContext
 } from 'react';
 import classNames from 'classnames';
 
@@ -25,6 +26,10 @@ enum Theme {
   LIGHT= 'light',
   DARK= 'dark'
 }
+
+export const ThemeContext = createContext<{theme: Theme.LIGHT | Theme.DARK}>({theme: Theme.LIGHT});
+
+const GLOBAL_DARK_CLASS_NAME = 'ring-ui-theme-dark';
 
 const darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -46,6 +51,7 @@ export function useThemeClasses(theme: Theme) {
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   return classNames({
     [styles.dark]: resolvedTheme === Theme.DARK,
+    [GLOBAL_DARK_CLASS_NAME]: resolvedTheme === Theme.DARK,
     [defaultStyles.light]: resolvedTheme === Theme.LIGHT
   });
 }
@@ -63,10 +69,10 @@ export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLEleme
   if (theme === Theme.DARK) {
     container.classList.remove(defaultStyles.light);
     container.classList.add(styles.dark);
-    container.classList.add('ring-ui-theme-dark');
+    container.classList.add(GLOBAL_DARK_CLASS_NAME);
   } else {
     container.classList.remove(styles.dark);
-    container.classList.remove('ring-ui-theme-dark');
+    container.classList.remove(GLOBAL_DARK_CLASS_NAME);
     container.classList.add(defaultStyles.light);
   }
 }
@@ -88,6 +94,7 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   const id = useMemo(() => getUID('popups-with-theme-'), []);
+  const themeValue = useMemo(() => ({theme: resolvedTheme}), [resolvedTheme]);
   useEffect(() => {
     if (target != null) {
       applyTheme(resolvedTheme, target);
@@ -95,28 +102,31 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
   }, [resolvedTheme, target]);
   const themeClasses = useThemeClasses(theme);
   const parentTarget = useContext(PopupTargetContext);
+
   return (
-    <div
-      ref={ref}
-      className={target != null ? undefined : classNames(className, themeClasses)}
-      {...restProps}
-    >{
-        passToPopups
-          ? (
-            <PopupTarget id={id}>
-              {popupTarget => (
-                <>
-                  {children}
-                  {createPortal(
-                    <div className={themeClasses}>{popupTarget}</div>,
-                    parentTarget && getPopupContainer(parentTarget) || document.body)
-                  }
-                </>
-              )}
-            </PopupTarget>
-          )
-          : children}
-    </div>
+    <ThemeContext.Provider value={themeValue}>
+      <div
+        ref={ref}
+        className={target != null ? undefined : classNames(className, themeClasses)}
+        {...restProps}
+      >{
+          passToPopups
+            ? (
+              <PopupTarget id={id}>
+                {popupTarget => (
+                  <>
+                    {children}
+                    {createPortal(
+                      <div className={themeClasses}>{popupTarget}</div>,
+                      parentTarget && getPopupContainer(parentTarget) || document.body)
+                    }
+                  </>
+                )}
+              </PopupTarget>
+            )
+            : children}
+      </div>
+    </ThemeContext.Provider>
   );
 });
 
