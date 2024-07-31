@@ -1,7 +1,6 @@
 import {PureComponent, HTMLAttributes} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import deprecate from 'util-deprecate';
 
 import dataTests from '../global/data-tests';
 
@@ -14,8 +13,6 @@ export interface BadgeProps extends HTMLAttributes<HTMLElement> {
   disabled?: boolean | null | undefined
   'data-test'?: string | null | undefined
 }
-
-const warn = deprecate(() => {}, 'Badge is deprecated and will be removed in RingUI 7.0. Use Tag instead.');
 
 /**
  * @name Badge
@@ -33,7 +30,6 @@ export default class Badge extends PureComponent<BadgeProps> {
   };
 
   render() {
-    warn();
     const {
       // Modifiers
       gray,
