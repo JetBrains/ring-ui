@@ -1,6 +1,7 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -13,4 +14,17 @@ changeBuildType(RelativeId("PublishNext")) {
         "Unexpected paused: '$paused'"
     }
     paused = false
+
+    triggers {
+        add {
+            vcs {
+                id = "vcsTrigger"
+                triggerRules = """
+                    -:user=npmjs-buildserver:**
+                    +:comment=(?i)\[publish\]:**
+                """.trimIndent()
+                branchFilter = "+:<default>"
+            }
+        }
+    }
 }
