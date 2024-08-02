@@ -36,7 +36,11 @@ const getSVGFromSource = memoize((src: string) => {
   const svgContainer = document.createElement('div');
   svgContainer.innerHTML = src;
   const svg = svgContainer.firstElementChild as Element;
-  svg.remove ? svg.remove() : svgContainer.removeChild(svg);
+  if (svg.remove) {
+    svg.remove();
+  } else {
+    svgContainer.removeChild(svg);
+  }
   return {
     props: extractSVGProps(svg),
     html: svg.innerHTML

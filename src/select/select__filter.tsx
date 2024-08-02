@@ -28,7 +28,11 @@ export default class SelectFilter extends Component<SelectFilterProps> {
   focus() {
     const {input} = this;
     if (input && input !== document.activeElement) {
-      sniffr.browser.name === 'firefox' ? input.select() : input.focus();
+      if (sniffr.browser.name === 'firefox') {
+        input.select();
+      } else {
+        input.focus();
+      }
     }
   }
 

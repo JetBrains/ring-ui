@@ -111,11 +111,11 @@ class AlertService {
       timeout,
       isClosing: false,
       onCloseRequest: () => {
-        onCloseRequest && onCloseRequest();
+        onCloseRequest?.();
         this.startAlertClosing(alert);
       },
       onClose: () => {
-        onClose && onClose();
+        onClose?.();
         this.removeWithoutAnimation(alert.key);
       },
       ...restOptions
