@@ -3,6 +3,12 @@
 ### BREAKING CHANGES
 - Removed compensation margins in Icon to better match Figma
 - `caps` prop no longer supported in Heading
+- `composeRefs` utility is removed. Please use `createComposeRefs()` to get a memoized composer function
+- deprecated `setClient` utility is removed
+- Header: `TrayIcon` is renamed to `HeaderIcon`
+- `palette.css` is removed
+- Table: `wideFirstColumn` is now `false` by default
+- Tag: `angled` prop is removed
 
 ## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
 

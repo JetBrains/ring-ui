@@ -8,7 +8,7 @@ import Auth from '../../src/auth/auth';
 import IFrameFlow from '../../src/auth/iframe-flow';
 import Header, {
   Tray,
-  TrayIcon,
+  HeaderIcon,
   Logo,
   SmartProfile,
   Services
@@ -62,7 +62,7 @@ class SiteHeader extends PureComponent {
         </span>
 
         <Tray>
-          <TrayIcon
+          <HeaderIcon
             icon={gitHubLogo}
             iconSize={24}
             iconSuppressSizeWarning
