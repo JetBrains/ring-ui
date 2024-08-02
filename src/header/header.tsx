@@ -65,7 +65,6 @@ export default Header;
 export {default as Logo} from './logo';
 export {default as Tray} from './tray';
 export {default as HeaderIcon} from './header-icon';
-export {default as TrayIcon} from './tray-icon';
 export {default as Profile} from './profile';
 export {default as SmartProfile} from './smart-profile';
 export {default as Services} from './services';

@@ -101,8 +101,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     isDisabledSelectionVisible: () => false,
     getCheckboxTooltip: () => undefined,
     RowComponent: Row,
-    //TODO: change to false in 7.0
-    wideFirstColumn: true
+    wideFirstColumn: false
   };
 
   state = {
