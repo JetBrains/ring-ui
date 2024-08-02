@@ -107,7 +107,6 @@ module.exports = {
         }],
         '@typescript-eslint/no-unsafe-function-type': error,
         '@typescript-eslint/no-wrapper-object-types': error,
-        '@typescript-eslint/no-unused-expressions': ignore, // TODO enable and fix
         '@typescript-eslint/no-empty-object-type': ignore,
         'no-magic-numbers': ignore,
         '@typescript-eslint/no-magic-numbers': [error, {
@@ -133,7 +132,8 @@ module.exports = {
         'new-cap': [error, {
           capIsNewExceptionPattern: '^.*\.UNSAFE_'
         }],
-        '@typescript-eslint/no-non-null-assertion': ignore
+        '@typescript-eslint/no-non-null-assertion': ignore,
+        '@typescript-eslint/no-unused-expressions': ignore
       }
     },
     {

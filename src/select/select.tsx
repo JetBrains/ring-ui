@@ -940,7 +940,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         );
       });
     }
-    !this._popup?.isVisible() && this.props.onBeforeOpen();
+    if (!this._popup?.isVisible()) {
+      this.props.onBeforeOpen();
+    }
 
     this.setState({filterValue}, () => {
       this._showPopup();
@@ -956,7 +958,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   _redrawPopup = () => {
     if (this.props.multiple) {
       setTimeout(() => { //setTimeout solves events order and bubbling issue
-        this.isInputMode() && this.clearFilter();
+        if (this.isInputMode()) {
+          this.clearFilter();
+        }
         this._showPopup();
       }, 0);
     }
@@ -1079,13 +1083,13 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               find(selectedItem => item.key === selectedItem.key)
           ).
           forEach(item => {
-            this.props.onSelect && this.props.onSelect(item);
+            this.props.onSelect?.(item);
           });
       } else {
         nextSelection = [];
         currentSelection.
           forEach(item => {
-            this.props.onDeselect && this.props.onDeselect(item);
+            this.props.onDeselect?.(item);
           });
       }
 

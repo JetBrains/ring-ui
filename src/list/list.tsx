@@ -548,7 +548,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     const isString = typeof identificator === 'string' || identificator instanceof String;
     if (identificator && !isString) {
       warnEmptyKey();
-      `${itemProps.rgItemType}_${JSON.stringify(identificator)}`;
+      return `${itemProps.rgItemType}_${JSON.stringify(identificator)}`;
     }
     return `${itemProps.rgItemType}_${identificator}`;
   }

@@ -145,7 +145,7 @@ export class Input extends PureComponent<InputProps> {
   composedInputRef = createComposedRef<HTMLInputElement | HTMLTextAreaElement>();
 
   clear = (e: React.MouseEvent<HTMLButtonElement>) => {
-    this.props.onClear && this.props.onClear(e);
+    this.props.onClear?.(e);
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
