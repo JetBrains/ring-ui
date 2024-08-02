@@ -102,12 +102,13 @@ module.exports = {
         'no-shadow': ignore,
         '@typescript-eslint/no-shadow': error,
         '@typescript-eslint/no-unused-vars': [error, {
-          ignoreRestSiblings: true
+          ignoreRestSiblings: true,
+          caughtErrors: 'none'
         }],
-        '@typescript-eslint/ban-types': [error, {
-          extendDefaults: true,
-          types: {object: false, '{}': false}
-        }],
+        '@typescript-eslint/no-unsafe-function-type': error,
+        '@typescript-eslint/no-wrapper-object-types': error,
+        '@typescript-eslint/no-unused-expressions': ignore, // TODO enable and fix
+        '@typescript-eslint/no-empty-object-type': ignore,
         'no-magic-numbers': ignore,
         '@typescript-eslint/no-magic-numbers': [error, {
           ignore: [-1, 0, 1, 2],

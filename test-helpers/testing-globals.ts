@@ -23,16 +23,11 @@ const windowExtension = {
 type WindowExtension = typeof windowExtension;
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface Window extends WindowExtension {}
 }
 
-Object.assign(window, {
-  sinon,
-  sandbox: sinon.createSandbox(),
-  chai,
-  should: chai.should()
-});
+Object.assign(window, windowExtension);
 
 afterEach(function restoreSandbox() {
   window.sandbox.restore();

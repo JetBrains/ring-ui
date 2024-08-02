@@ -1,6 +1,6 @@
 import ExtendableError from 'es6-error';
 
-import Auth from '../auth/auth';
+import type Auth from '../auth/auth';
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
 
 /**

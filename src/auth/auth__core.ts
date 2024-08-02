@@ -2,7 +2,7 @@ import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners, {Handler} from '../global/listeners';
 import HTTP, {HTTPAuth, RequestParams} from '../http/http';
 import promiseWithTimeout from '../global/promise-with-timeout';
-import AuthDialogService from '../auth-dialog-service/auth-dialog-service';
+import type AuthDialogService from '../auth-dialog-service/auth-dialog-service';
 
 import {getTranslations, getTranslationsWithFallback, translate} from '../i18n/i18n';
 
