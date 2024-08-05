@@ -13,7 +13,17 @@ module.exports = () => {
     require('postcss-font-family-system-ui')({browsers: ['last 2 versions']}),
     require('postcss-flexbugs-fixes')(),
     require('@jetbrains/postcss-require-hover')(),
-    require('postcss-calc')({mediaQueries: true})
+    require('postcss-calc')({mediaQueries: true}),
+    require('postcss-assign-layer')([
+      {
+        include: '**/global/*.css',
+        layerName: 'ring-ui_global'
+      },
+      {
+        include: '**/!(global)/*.css',
+        layerName: 'ring-ui'
+      }
+    ])
   ];
 
   return {plugins};
