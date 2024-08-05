@@ -79,7 +79,7 @@
     "@babel/cli": "^7.24.8",
     "@babel/eslint-parser": "^7.25.1",
     "@csstools/css-parser-algorithms": "^3.0.0",
-    "@csstools/stylelint-no-at-nest-rule": "^2.0.0",
+    "@csstools/stylelint-no-at-nest-rule": "^3.0.0",
     "@jetbrains/eslint-config": "^5.4.2",
     "@jetbrains/logos": "3.0.0-canary.734b213.0",
     "@jetbrains/stylelint-config": "^4.0.2",
