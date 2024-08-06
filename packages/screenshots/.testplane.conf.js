@@ -11,7 +11,7 @@ const gridUrl = process.env.SELENIUM_GRID ||
 // Supports Firefox
 const windowSize = '1024x1000';
 const os = 'Windows';
-const os_version = '10';
+const os_version = '11';
 const maxDuration = 3600;
 const isTeamCity = process.argv.indexOf('--teamcity') !== -1;
 
@@ -54,7 +54,7 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Chrome',
         pageLoadStrategy: 'normal',
-        browser_version: '89.0',
+        browser_version: '127.0',
         chromeOptions: {
           excludeSwitches: ['enable-automation']
         },
@@ -71,9 +71,9 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Firefox',
         pageLoadStrategy: 'normal',
-        browser_version: '115.0',
+        browser_version: '128.0',
         os: 'OS X',
-        os_version: 'Catalina',
+        os_version: 'Sonoma',
         maxDuration
       },
       sessionEnvFlags: {
