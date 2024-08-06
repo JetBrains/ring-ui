@@ -227,7 +227,7 @@
     "just-debounce-it": "^3.2.0",
     "memoize-one": "^6.0.0",
     "postcss": "^8.4.41",
-    "postcss-calc": "^10.0.0",
+    "postcss-calc": "^10.0.1",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
     "postcss-loader": "^8.1.1",
