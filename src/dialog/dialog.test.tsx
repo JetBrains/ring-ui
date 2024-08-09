@@ -1,56 +1,40 @@
-import {mount} from 'enzyme';
+import {fireEvent, render, screen} from '@testing-library/react';
 
-import Dialog, {DialogAttrs} from './dialog';
-import styles from './dialog.css';
+import userEvent from '@testing-library/user-event';
+
+import Dialog from './dialog';
 
 describe('Dialog', () => {
-  const children = <div/>;
-  const mountDialog = (props: DialogAttrs) =>
-    mount<Dialog>(<Dialog label="Dialog" {...props} trapFocus={false}/>);
-
   it('should create component', () => {
-    mountDialog({show: true, children}).should.have.type(Dialog);
+    render(<Dialog show/>);
+    screen.getByRole('dialog').should.exist;
   });
 
   it('should wrap children with dialog wrapper', () => {
-    const {dialog} = mountDialog({show: true, children}).instance();
-    should.exist(dialog);
-    dialog?.should.match(`.${styles.container}`);
+    render(<Dialog show/>);
+    screen.getByTestId('ring-dialog-container').should.exist;
   });
 
   it('should use passed className', () => {
-    const {dialog} = mountDialog({show: true, children, className: 'test-class'}).instance();
-    should.exist(dialog);
-    dialog?.should.match('.test-class');
+    render(<Dialog show className="test-class"/>);
+    screen.getByTestId('ring-dialog-container').should.have.class('test-class');
   });
 
-  it('should call onOverlayClick and onCloseAttempt callbacks on click by overlay', () => {
+  it('should call onOverlayClick and onCloseAttempt callbacks on click by overlay', async () => {
     const closeSpy = sandbox.spy();
     const clickSpy = sandbox.spy();
-    const instance = mountDialog({
-      show: true,
-      children,
-      onOverlayClick: clickSpy,
-      onCloseAttempt: closeSpy
-    }).instance();
-    should.exist(instance.dialog);
-    instance.handleClick({target: instance.dialog} as never);
+    render(<Dialog show onOverlayClick={clickSpy} onCloseAttempt={closeSpy}/>);
+    await userEvent.click(screen.getByTestId('ring-dialog-overlay'));
 
     closeSpy.should.have.been.called;
     clickSpy.should.have.been.called;
   });
 
-  it('should call onEscPress and onCloseAttempt callbacks on click by overlay', () => {
+  it('should call onEscPress and onCloseAttempt callbacks on Escape press', () => {
     const closeSpy = sandbox.spy();
     const escSpy = sandbox.spy();
-    const instance = mountDialog({
-      show: true,
-      children,
-      onEscPress: escSpy,
-      onCloseAttempt: closeSpy
-    }).instance();
-
-    instance.getShortcutsMap().esc({} as KeyboardEvent);
+    render(<Dialog show onEscPress={escSpy} onCloseAttempt={closeSpy}/>);
+    fireEvent.keyDown(document.documentElement, {which: 27}); // Escape
 
     closeSpy.should.have.been.called;
     escSpy.should.have.been.called;
@@ -58,8 +42,8 @@ describe('Dialog', () => {
 
   it('should not call onEscPress if is hidden', () => {
     const escSpy = sandbox.spy();
-    const instance = mountDialog({show: false, children, onEscPress: escSpy}).instance();
-    instance.getShortcutsMap().esc({} as KeyboardEvent);
+    render(<Dialog onEscPress={escSpy}/>);
+    fireEvent.keyDown(document.documentElement, {which: 27}); // Escape
 
     escSpy.should.not.have.been.called;
   });

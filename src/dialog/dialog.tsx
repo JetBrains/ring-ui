@@ -165,6 +165,7 @@ export default class Dialog extends PureComponent<DialogProps> {
             role="presentation"
             className={styles.clickableOverlay}
             onClick={this.handleClick}
+            data-test="ring-dialog-overlay"
           />
         )}
         <div className={styles.innerContainer}>
