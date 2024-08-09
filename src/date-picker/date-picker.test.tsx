@@ -1,82 +1,78 @@
-import {mount, shallow, render} from 'enzyme';
+import {render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-import {I18nContextHolder} from '../i18n/i18n-context';
-
-import DatePicker, {DatePickerAttrs} from './date-picker';
-import styles from './date-picker.css';
+import DatePicker from './date-picker';
 
 describe('Date Picker', () => {
-  const shallowDatePicker = (params?: DatePickerAttrs) => shallow(
-    <I18nContextHolder messages={{}}>
-      <DatePicker {...params}/>
-    </I18nContextHolder>
-  );
-  const mountDatePicker = (params?: DatePickerAttrs) => mount(<DatePicker {...params}/>);
-  const renderDatePicker = (params?: DatePickerAttrs) => render(<DatePicker {...params}/>);
-
   it('should create component', () => {
-    mountDatePicker().should.have.type(DatePicker);
+    render(<DatePicker/>);
+    screen.getByTestId('ring-date-picker', {exact: false}).should.exist;
   });
 
   it('should render a div', () => {
-    shallowDatePicker().should.have.tagName('div');
+    render(<DatePicker/>);
+    screen.getByTestId('ring-date-picker', {exact: false}).should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    shallowDatePicker({className: 'test-class'}).find(DatePicker).should.have.className('test-class');
+    render(<DatePicker className="test-class"/>);
+    screen.getByTestId('ring-date-picker', {exact: false}).should.have.class('test-class');
   });
 
   it('should parse and display passed date', () => {
-    renderDatePicker({date: '01.11.16'}).should.have.text('1 Nov 2016');
+    render(<DatePicker date="01.11.16"/>);
+    screen.getByText('1 Nov 2016').should.exist;
   });
 
-  it('should display a placeholder when date unspecified or invalid',
+  it('should display a placeholder when date is invalid',
     () => {
-      renderDatePicker({
-        datePlaceholder: 'set date pls',
-        date: 'hbkj'
-      }).should.have.text('set date pls');
-      renderDatePicker({datePlaceholder: 'set date pls'}).should.have.text('set date pls');
+      render(<DatePicker datePlaceholder="set date pls" date="hbkj"/>);
+      screen.getByText('set date pls').should.exist;
+    }
+  );
+
+  it('should display a placeholder when date is unspecified',
+    () => {
+      render(<DatePicker datePlaceholder="set date pls"/>);
+      screen.getByText('set date pls').should.exist;
     }
   );
 
   it('should parse and display passed date and time', () => {
-    renderDatePicker({
-      withTime: true,
-      date: '01.11.16, 09:45'
-    }).should.have.text('1 Nov 2016, 09:45');
+    render(<DatePicker date="01.11.16, 09:45" withTime/>);
+    screen.getByText('1 Nov 2016, 09:45').should.exist;
   });
 
-  it('should display a placeholder when date unspecified or invalid (in case of withTime=true)',
+  it('should display a placeholder when date is invalid (in case of withTime=true)',
     () => {
-      renderDatePicker({
-        dateTimePlaceholder: 'set date & time',
-        withTime: true,
-        date: 'hbkj'
-      }).should.have.text('set date & time');
-      renderDatePicker({
-        dateTimePlaceholder: 'set date & time',
-        withTime: true,
-        date: ''
-      }).should.have.text('set date & time');
+      render(<DatePicker dateTimePlaceholder="set date & time" withTime date="hbkj"/>);
+      screen.getByText('set date & time').should.exist;
+    }
+  );
+
+  it('should display a placeholder when date is unspecified (in case of withTime=true)',
+    () => {
+      render(<DatePicker dateTimePlaceholder="set date & time" withTime/>);
+      screen.getByText('set date & time').should.exist;
     }
   );
 
   it('should accept a Date instance', () => {
-    renderDatePicker({date: new Date(0)}).should.have.text('1 Jan 1970');
+    render(<DatePicker date={new Date(0)}/>);
+    screen.getByText('1 Jan 1970').should.exist;
   });
 
-  it('should render a popup on button click', () => {
-    const picker = mountDatePicker();
-    picker.simulate('click');
-    document.body.should.contain(`.${styles.datePopup}`);
+  it('should render a popup on button click', async () => {
+    render(<DatePicker/>);
+    await userEvent.click(screen.getByRole('button'));
+    screen.getByTestId('ring-date-popup').should.exist;
   });
 
-  it('should display in the popup the component passed through its render prop', () => {
+  it('should display in the popup the component passed through its render prop', async () => {
     function customComponent() {
       return (
         <button
-          className="btn-today"
+          data-test="btn-today"
           type="button"
         >
           {'Today'}
@@ -84,13 +80,8 @@ describe('Date Picker', () => {
       );
     }
 
-    const picker = mountDatePicker({
-      renderAfterCalendar: customComponent
-    });
-    picker.simulate('click');
-
-    const today = document.body.querySelector('.btn-today');
-    should.exist(today);
-    today?.should.have.text('Today');
+    render(<DatePicker renderAfterCalendar={customComponent}/>);
+    await userEvent.click(screen.getByRole('button'));
+    screen.getByTestId('btn-today').should.have.text('Today');
   });
 });

@@ -267,6 +267,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
       <Dropdown
         className={classes}
         disabled={this.props.disabled}
+        data-test="ring-date-picker"
         anchor={
           inline
             ? (
