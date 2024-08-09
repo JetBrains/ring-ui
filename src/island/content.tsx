@@ -1,5 +1,4 @@
 import {forwardRef, Component, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import createResizeDetector from 'element-resize-detector';
 
@@ -24,16 +23,6 @@ export interface IslandContentInnerProps extends IslandContentProps {
 }
 
 class Content extends Component<IslandContentInnerProps> {
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    scrollableWrapperClassName: PropTypes.string,
-    fade: PropTypes.bool,
-    bottomBorder: PropTypes.bool,
-    onScroll: PropTypes.func,
-    onScrollToBottom: PropTypes.func
-  };
-
   static defaultProps = {
     fade: true,
     bottomBorder: false,

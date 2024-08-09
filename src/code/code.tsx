@@ -1,5 +1,4 @@
 import {PureComponent, Ref} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import highlight from 'highlight.js/lib/core';
 
@@ -35,19 +34,6 @@ export interface CodeProps {
  */
 
 export default class Code extends PureComponent<CodeProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    code: PropTypes.string.isRequired,
-    inline: PropTypes.bool,
-    softWrap: PropTypes.bool,
-    language: PropTypes.string,
-    replacer: PropTypes.func,
-    codeRef: PropTypes.oneOfType([
-      PropTypes.shape({current: PropTypes.instanceOf(Element)}),
-      PropTypes.func
-    ])
-  };
-
   static defaultProps = {
     inline: false,
     softWrap: false,

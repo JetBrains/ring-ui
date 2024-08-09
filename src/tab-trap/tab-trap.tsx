@@ -7,7 +7,6 @@ import {
   useRef
 } from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import {isNodeInVisiblePartOfPage} from '../global/dom';
 
@@ -195,13 +194,5 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap({
     </div>
   );
 });
-
-TabTrap.propTypes = {
-  children: PropTypes.node.isRequired,
-  trapDisabled: PropTypes.bool,
-  autoFocusFirst: PropTypes.bool,
-  focusBackOnClose: PropTypes.bool,
-  focusBackOnExit: PropTypes.bool
-};
 
 export default TabTrap;

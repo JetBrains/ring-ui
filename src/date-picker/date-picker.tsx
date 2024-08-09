@@ -1,6 +1,5 @@
 import {PureComponent, Ref} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import type {Locale} from 'date-fns';
 import {format as formatDate} from 'date-fns/format';
@@ -27,7 +26,7 @@ import {Size} from '../input/input';
 import {I18nContext} from '../i18n/i18n-context';
 
 import DatePopup, {DatePopupProps} from './date-popup';
-import {DateInputTranslations, DatePickerChange, dateType} from './consts';
+import {DateInputTranslations, DatePickerChange} from './consts';
 import styles from './date-picker.css';
 import formats from './formats';
 
@@ -69,15 +68,6 @@ const PopupComponent = ({
   </Popup>
 );
 
-PopupComponent.propTypes = {
-  hidden: PropTypes.bool,
-  className: PropTypes.string,
-  popupRef: PropTypes.func,
-  onClear: PropTypes.func,
-  datePopupProps: PropTypes.shape(DatePopup.propTypes),
-  onComplete: PropTypes.func
-};
-
 export interface DatePickerTranslations extends Partial<DateInputTranslations> {
   setDate: string
   setDateTime: string
@@ -108,35 +98,6 @@ export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateIn
  */
 
 export default class DatePicker extends PureComponent<DatePickerProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    popupClassName: PropTypes.string,
-    date: dateType,
-    withTime: PropTypes.bool,
-    range: PropTypes.bool,
-    from: dateType,
-    to: dateType,
-    clear: PropTypes.bool,
-    inline: PropTypes.bool,
-    displayFormat: PropTypes.func,
-    displayMonthFormat: PropTypes.func,
-    displayDayFormat: PropTypes.func,
-    displayTimeFormat: PropTypes.func,
-    parseDateInput: PropTypes.func,
-    applyTimeInput: PropTypes.func,
-    datePlaceholder: PropTypes.string,
-    dateTimePlaceholder: PropTypes.string,
-    rangePlaceholder: PropTypes.string,
-    onChange: PropTypes.func,
-    dropdownProps: PropTypes.object,
-    disabled: PropTypes.bool,
-    minDate: dateType,
-    maxDate: dateType,
-    translations: PropTypes.object,
-    locale: PropTypes.object,
-    size: PropTypes.oneOf(Object.values(Size))
-  };
-
   static defaultProps: DatePickerProps = {
     className: '',
     date: null,

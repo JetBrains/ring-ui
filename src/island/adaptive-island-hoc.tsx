@@ -13,8 +13,6 @@ export const ScrollHandlerContext = createContext<ScrollHandler | null>(null);
 export default function adaptiveIslandHOC<P>(ComposedComponent: ComponentType<P>) {
 
   return class AdaptiveIsland extends Component<P> {
-    static propTypes = ComposedComponent.propTypes;
-
     state = {
       phase: null
     };

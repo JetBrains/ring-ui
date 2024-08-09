@@ -3,7 +3,6 @@
  */
 
 import {PureComponent, ComponentType, SVGAttributes, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
 
@@ -31,17 +30,6 @@ export interface IconProps extends HTMLAttributes<HTMLElement> {
 }
 
 export default class Icon extends PureComponent<IconProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    color: PropTypes.string,
-    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]).isRequired,
-    height: PropTypes.number,
-    size: PropTypes.number,
-    width: PropTypes.number,
-    loading: PropTypes.bool,
-    suppressSizeWarning: PropTypes.bool
-  };
-
   static defaultProps = ({
     className: '',
     color: Color.DEFAULT,

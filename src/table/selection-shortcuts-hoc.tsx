@@ -1,5 +1,4 @@
 import {PureComponent, ComponentType} from 'react';
-import PropTypes from 'prop-types';
 
 import {ShortcutsMap} from '../shortcuts/core';
 
@@ -17,17 +16,6 @@ export interface SelectionShortcutsAddProps<T extends SelectionItem> {
   selectable: boolean
   onSelect: (selection: Selection<T>) => void
   shortcutsMap: ShortcutsMap
-}
-
-function extractPropTypes<
-  T extends SelectionItem,
-  P extends SelectionShortcutsAddProps<T>
->({propTypes}: ComponentType<P>) {
-  if (propTypes == null) {
-    return propTypes;
-  }
-  const {selection, selectable, onSelect, shortcutsMap, ...restPropTypes} = propTypes;
-  return restPropTypes;
 }
 
 export type SelectionShortcutsProps<T extends SelectionItem, P> =
@@ -193,13 +181,6 @@ export default function selectionShortcutsHOC<
       );
     }
   }
-  (SelectionShortcuts as ComponentType<unknown>).propTypes = {
-    ...extractPropTypes<T, P>(ComposedComponent),
-    selection: PropTypes.instanceOf(Selection).isRequired,
-    selectable: PropTypes.bool,
-    onSelect: PropTypes.func,
-    shortcuts: PropTypes.object
-  };
   (SelectionShortcuts as ComponentType<unknown>).defaultProps = {
     ...ComposedComponent.defaultProps,
     selectable: true,

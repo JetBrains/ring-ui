@@ -1,6 +1,5 @@
 import {PureComponent, ReactNode} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
@@ -29,22 +28,6 @@ export interface ConfirmProps {
  */
 
 export default class Confirm extends PureComponent<ConfirmProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    text: PropTypes.string,
-    description: PropTypes.node,
-
-    show: PropTypes.bool,
-    rejectOnEsc: PropTypes.bool,
-    inProgress: PropTypes.bool,
-    cancelIsDefault: PropTypes.bool,
-    confirmLabel: PropTypes.string,
-    rejectLabel: PropTypes.string,
-
-    onConfirm: PropTypes.func,
-    onReject: PropTypes.func
-  };
-
   static defaultProps = {
     text: null,
     description: null,

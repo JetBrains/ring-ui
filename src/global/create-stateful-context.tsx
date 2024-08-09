@@ -1,5 +1,4 @@
 import {createContext, memo, useContext, useEffect, useState, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 
 type Update<T> = (value: T) => void
 export interface ProviderProps {
@@ -24,9 +23,6 @@ export default function createStatefulContext<T>(initialValue: T, name = '') {
       </ValueContext.Provider>
     );
   }
-  Provider.propTypes = {
-    children: PropTypes.node
-  };
   Provider.displayName = `${name}Provider`;
 
   function useUpdate(value: T, skipUpdate?: boolean) {

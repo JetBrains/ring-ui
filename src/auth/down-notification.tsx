@@ -1,6 +1,5 @@
 import {ReactNode} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import alertService from '../alert-service/alert-service';
 import Alert from '../alert/alert';
@@ -46,14 +45,6 @@ function Message({translations, onCheckAgain}: BackendDownMessageProps) {
     </div>
   );
 }
-Message.propTypes = {
-  translations: PropTypes.shape({
-    backendIsNotAvailable: PropTypes.string,
-    checkAgain: PropTypes.string,
-    errorMessage: PropTypes.string
-  }),
-  onCheckAgain: PropTypes.func
-};
 
 export interface OnBackendDownParams {
   translations: BackendDownTranslations

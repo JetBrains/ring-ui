@@ -1,6 +1,5 @@
 import {Component, ReactElement, ReactNode} from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import Dropdown, {DropdownAttrs} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
@@ -23,15 +22,6 @@ export interface UserCardTooltipProps extends Omit<UserCardAttrs, 'children' | '
   renderNoUser: () => ReactNode
 }
 export default class UserCardTooltip extends Component<UserCardTooltipProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    dropdownProps: PropTypes.object,
-    user: PropTypes.object,
-    renderUserCard: PropTypes.func,
-    renderNoUser: PropTypes.func
-  };
-
   static defaultProps = {
     renderUserCard: (props: UserCardAttrs) => {
       const {user, ...restProps} = props;

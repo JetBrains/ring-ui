@@ -1,5 +1,4 @@
 import {memo, HTMLAttributes, ComponentType} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
 
@@ -42,12 +41,6 @@ const HeadingMemo: ComponentType<HeadingProps> =
   });
 
 const Heading = HeadingMemo as ComponentType<HeadingProps> & {Levels: typeof Levels};
-
-Heading.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  level: PropTypes.oneOf([Levels.H1, Levels.H2, Levels.H3, Levels.H4])
-};
 
 Heading.Levels = Levels;
 

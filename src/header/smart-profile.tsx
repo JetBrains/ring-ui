@@ -1,5 +1,4 @@
 import {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 
 import Auth, {
   USER_CHANGED_EVENT,
@@ -28,15 +27,6 @@ interface SmartProfileState {
 }
 
 export default class SmartProfile extends PureComponent<SmartProfileProps, SmartProfileState> {
-  static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
-    className: PropTypes.string,
-    translations: PropTypes.object,
-    profileUrl: PropTypes.string,
-    size: Profile.propTypes.size,
-    round: Profile.propTypes.round
-  };
-
   state: SmartProfileState = {
     user: null,
     size: Profile.defaultProps.size,

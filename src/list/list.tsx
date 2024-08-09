@@ -10,7 +10,6 @@ import {
   ComponentType,
   RefCallback
 } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import VirtualizedList, {ListRowProps} from 'react-virtualized/dist/es/List';
 import AutoSizer, {Size} from 'react-virtualized/dist/es/AutoSizer';
@@ -147,35 +146,6 @@ interface RenderVirtualizedInnerParams extends Partial<WindowScrollerChildProps>
  * Displays a list of items.
  */
 export default class List<T = unknown> extends Component<ListProps<T>, ListState<T>> {
-  static propTypes = {
-    id: PropTypes.string,
-    className: PropTypes.string,
-    hint: PropTypes.node,
-    hintOnSelection: PropTypes.string,
-    data: PropTypes.array,
-    maxHeight: PropTypes.number,
-    activeIndex: PropTypes.number,
-    restoreActiveIndex: PropTypes.bool,
-    activateSingleItem: PropTypes.bool,
-    activateFirstItem: PropTypes.bool,
-    shortcuts: PropTypes.bool,
-    shortcutsMap: PropTypes.object,
-    onMouseOut: PropTypes.func,
-    onSelect: PropTypes.func,
-    onScrollToBottom: PropTypes.func,
-    onResize: PropTypes.func,
-    useMouseUp: PropTypes.bool,
-    visible: PropTypes.bool,
-    renderOptimization: PropTypes.bool,
-    disableMoveOverflow: PropTypes.bool,
-    disableMoveDownOverflow: PropTypes.bool,
-    compact: PropTypes.bool,
-    disableScrollToActive: PropTypes.bool,
-    hidden: PropTypes.bool,
-    ariaLabel: PropTypes.string,
-    preventListOverscroll: PropTypes.bool
-  };
-
   static defaultProps = {
     data: [],
     restoreActiveIndex: false, // restore active item using its "key" property

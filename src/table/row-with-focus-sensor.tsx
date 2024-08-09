@@ -1,4 +1,4 @@
-import {PureComponent, ComponentType} from 'react';
+import {PureComponent} from 'react';
 
 import focusSensorHOC, {FocusSensorProps} from '../global/focus-sensor-hoc';
 
@@ -51,6 +51,3 @@ export default class RowWithFocusSensorCallbacks<T extends SelectionItem>
     );
   }
 }
-
-(RowWithFocusSensorCallbacks as ComponentType<unknown>).propTypes =
-  (Row as ComponentType<unknown>).propTypes;

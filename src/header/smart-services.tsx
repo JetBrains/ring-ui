@@ -1,5 +1,4 @@
 import {Component, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 
 import Auth from '../auth/auth';
 import HTTP from '../http/http';
@@ -14,10 +13,6 @@ export interface SmartServicesProps extends HTMLAttributes<HTMLElement> {
 }
 
 export default class SmartServices extends Component<SmartServicesProps> {
-  static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired
-  };
-
   state = {
     visible: true,
     loading: false,

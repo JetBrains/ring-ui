@@ -1,6 +1,5 @@
 import {HTMLAttributes, PureComponent} from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import dataTests from '../global/data-tests';
 
@@ -15,12 +14,6 @@ export interface LoaderInlineProps extends HTMLAttributes<HTMLDivElement> {
  */
 
 class LoaderInline extends PureComponent<LoaderInlineProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    'data-test': PropTypes.string,
-    children: PropTypes.node
-  };
-
   render() {
     const {className, 'data-test': dataTest, children, ...restProps} = this.props;
 

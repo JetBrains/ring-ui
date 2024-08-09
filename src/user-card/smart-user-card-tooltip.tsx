@@ -1,5 +1,4 @@
 import {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import LoaderInline from '../loader-inline/loader-inline';
 
@@ -11,11 +10,6 @@ export interface SmartUserCardTooltipProps extends UserCardTooltipAttrs {
   userDataSource: () => Promise<UserCardUser | null | undefined> | UserCardUser | null | undefined
 }
 export default class SmartUserCardTooltip extends Component<SmartUserCardTooltipProps> {
-  static propTypes = {
-    children: PropTypes.node,
-    userDataSource: PropTypes.func
-  };
-
   state = {
     user: null,
     loading: false

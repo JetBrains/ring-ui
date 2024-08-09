@@ -1,6 +1,5 @@
-import {PureComponent, ReactNode, ComponentType} from 'react';
+import {PureComponent, ReactNode} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -67,24 +66,3 @@ export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
     );
   }
 }
-
-(ListCustom as ComponentType<unknown>).propTypes = {
-  scrolling: PropTypes.bool.isRequired,
-  hover: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  rgItemType: PropTypes.number,
-  tabIndex: PropTypes.number.isRequired,
-  template: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.element,
-    PropTypes.string
-  ]),
-  onClick: PropTypes.func.isRequired,
-  onMouseOver: PropTypes.func.isRequired,
-  onMouseUp: PropTypes.func,
-  onCheckboxChange: PropTypes.func.isRequired,
-  role: PropTypes.string,
-  tagName: PropTypes.string,
-  'data-test': PropTypes.string
-};

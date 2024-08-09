@@ -25,7 +25,6 @@ const WHITE_LIST = [
   'highlight.js',
   'just-debounce-it',
   'memoize-one',
-  'prop-types',
   'react-movable',
   'react-virtualized',
   'react-waypoint',

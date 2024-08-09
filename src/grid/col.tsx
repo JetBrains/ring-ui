@@ -1,10 +1,7 @@
 import {Component, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import styles from './grid.css';
-
-const ModifierType = PropTypes.oneOfType([PropTypes.number, PropTypes.bool]);
 
 const classMap: Record<string, string> = {
   xs: 'col-xs',
@@ -43,20 +40,6 @@ function getClassNames(props: Omit<ColProps, 'children' | 'className' | 'reverse
 }
 
 export default class Col extends Component<ColProps> {
-  static propTypes = {
-    xs: ModifierType,
-    sm: ModifierType,
-    md: ModifierType,
-    lg: ModifierType,
-    xsOffset: PropTypes.number,
-    smOffset: PropTypes.number,
-    mdOffset: PropTypes.number,
-    lgOffset: PropTypes.number,
-    reverse: PropTypes.bool,
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
-
   render() {
     const {children, className, reverse, ...restProps} = this.props;
     const classes = classNames(styles.col, className, getClassNames(restProps), {

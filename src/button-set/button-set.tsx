@@ -1,6 +1,5 @@
 import {PureComponent, HTMLAttributes} from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import dataTests from '../global/data-tests';
 
@@ -14,12 +13,6 @@ export interface ButtonSetProps extends HTMLAttributes<HTMLElement> {
  * @name Button Set
  */
 export default class ButtonSet extends PureComponent<ButtonSetProps> {
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    'data-test': PropTypes.string
-  };
-
   render() {
     const {className, 'data-test': dataTest, children, ...restProps} = this.props;
     const classes = classNames(styles.buttonSet, className);

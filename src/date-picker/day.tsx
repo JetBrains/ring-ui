@@ -1,5 +1,4 @@
 import {Component} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {addDays} from 'date-fns/addDays';
 import {format} from 'date-fns/format';
@@ -11,7 +10,7 @@ import {isSameDay} from 'date-fns/isSameDay';
 import {isToday} from 'date-fns/isToday';
 import {startOfDay} from 'date-fns/startOfDay';
 
-import {MonthsProps, dateType, weekdays, getDayNumInWeek} from './consts';
+import {MonthsProps, weekdays, getDayNumInWeek} from './consts';
 import styles from './date-picker.css';
 
 export interface DayProps extends MonthsProps {
@@ -21,20 +20,6 @@ export interface DayProps extends MonthsProps {
 
 let hoverTO: number | null;
 export default class Day extends Component<DayProps> {
-  static propTypes = {
-    day: dateType,
-    from: dateType,
-    currentRange: PropTypes.arrayOf(dateType),
-    activeRange: PropTypes.arrayOf(dateType),
-    empty: PropTypes.bool,
-    onSelect: PropTypes.func,
-    parseDateInput: PropTypes.func,
-    onHover: PropTypes.func,
-    locale: PropTypes.object,
-    minDate: dateType,
-    maxDate: dateType
-  };
-
   handleClick = () => this.props.onSelect(this.props.day);
 
   handleMouseOver = () => {

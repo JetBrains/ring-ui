@@ -1,7 +1,6 @@
 // Inspired by https://github.com/sairion/svg-inline-react
 import {memo, SVGAttributes} from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import memoize from '../global/memoize';
 
@@ -75,11 +74,5 @@ function IconSVG({src, className, ...rest}: IconSVGProps) {
     />
   );
 }
-
-IconSVG.propTypes = {
-  className: PropTypes.string,
-  src: PropTypes.string.isRequired,
-  style: PropTypes.object
-};
 
 export default memo(IconSVG);

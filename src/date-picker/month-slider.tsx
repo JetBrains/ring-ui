@@ -1,5 +1,4 @@
 import {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';
 import {startOfDay} from 'date-fns/startOfDay';
@@ -8,7 +7,7 @@ import {subYears} from 'date-fns/subYears';
 import linearFunction, {LinearFunction} from '../global/linear-function';
 
 
-import units, {MonthsProps, dateType, yearScrollSpeed} from './consts';
+import units, {MonthsProps, yearScrollSpeed} from './consts';
 import styles from './date-picker.css';
 
 const COVERYEARS = 3;
@@ -22,15 +21,6 @@ interface MonthSliderState {
 }
 
 export default class MonthSlider extends PureComponent<MonthSliderProps> {
-  static propTypes = {
-    scrollDate: dateType,
-    onScroll: PropTypes.func,
-    pxToDate: PropTypes.shape({
-      x: PropTypes.func,
-      y: PropTypes.func
-    })
-  };
-
   state = {
     dragging: false
   };

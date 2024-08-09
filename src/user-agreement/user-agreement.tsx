@@ -3,7 +3,6 @@
  */
 
 import {PureComponent, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Dialog from '../dialog/dialog';
@@ -41,24 +40,6 @@ export interface UserAgreementProps {
  * A component that displays a user agreement dialog.
  */
 export default class UserAgreement extends PureComponent<UserAgreementProps> {
-  static propTypes = {
-    show: PropTypes.bool,
-    preview: PropTypes.bool,
-    onAccept: PropTypes.func,
-    onDecline: PropTypes.func,
-    onClose: PropTypes.func,
-    onRemindLater: PropTypes.func,
-    translations: PropTypes.shape({
-      userAgreement: PropTypes.string.isRequired,
-      accept: PropTypes.string.isRequired,
-      decline: PropTypes.string.isRequired,
-      close: PropTypes.string.isRequired,
-      scrollToAccept: PropTypes.string.isRequired,
-      remindLater: PropTypes.string.isRequired
-    }),
-    className: PropTypes.string
-  };
-
   static defaultProps = {
     show: false,
     onAccept: noop,

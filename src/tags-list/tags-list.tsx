@@ -1,6 +1,5 @@
 import {Component, ComponentType, HTMLAttributes, ReactNode} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Tag, {TagAttrs} from '../tag/tag';
@@ -28,19 +27,6 @@ export interface TagsListProps<T extends TagType> extends HTMLAttributes<HTMLEle
  */
 
 export default class TagsList<T extends TagType> extends Component<TagsListProps<T>> {
-  static propTypes = {
-    children: PropTypes.node,
-    tags: PropTypes.array,
-    customTagComponent: PropTypes.elementType,
-    activeIndex: PropTypes.number,
-    canNotBeEmpty: PropTypes.bool,
-    disabled: PropTypes.bool,
-    handleClick: PropTypes.func,
-    handleRemove: PropTypes.func,
-    className: PropTypes.string,
-    tagClassName: PropTypes.string
-  };
-
   static defaultProps = {
     customTagComponent: null,
     canNotBeEmpty: false,

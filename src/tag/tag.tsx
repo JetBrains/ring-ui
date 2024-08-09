@@ -1,6 +1,5 @@
 import {HTMLAttributes, PureComponent, ReactNode, RefCallback} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close-12px';
 
@@ -38,25 +37,6 @@ export interface TagProps {
  */
 
 export default class Tag extends PureComponent<TagProps> {
-  static propTypes = {
-    onRemove: PropTypes.func,
-    onClick: PropTypes.func,
-    rgTagIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    icon: PropTypes.string,
-    avatar: PropTypes.string,
-    rgTagTitle: PropTypes.string,
-    readOnly: PropTypes.bool,
-    disabled: PropTypes.bool,
-    focused: PropTypes.bool,
-
-    backgroundColor: PropTypes.string,
-    textColor: PropTypes.string,
-
-    children: PropTypes.node,
-    className: PropTypes.string,
-    render: PropTypes.func
-  };
-
   static defaultProps: TagProps = {
     onRemove: () => {},
     onClick: () => {},

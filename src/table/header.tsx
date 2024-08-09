@@ -1,5 +1,4 @@
 import {ChangeEventHandler, PureComponent, ReactNode, SyntheticEvent} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Checkbox from '../checkbox/checkbox';
@@ -35,21 +34,6 @@ declare module 'react-waypoint' {
 }
 
 export default class Header extends PureComponent<HeaderProps> {
-  static propTypes = {
-    caption: PropTypes.string,
-    selectable: PropTypes.bool,
-    draggable: PropTypes.bool,
-    checked: PropTypes.bool,
-    checkboxDisabled: PropTypes.bool,
-    sticky: PropTypes.bool,
-    topStickOffset: PropTypes.string,
-    onCheckboxChange: PropTypes.func,
-    columns: PropTypes.array.isRequired,
-    onSort: PropTypes.func,
-    sortKey: PropTypes.string,
-    sortOrder: PropTypes.bool
-  };
-
   static defaultProps = {
     selectable: true,
     draggable: false,

@@ -1,5 +1,4 @@
 import {Component, createContext, forwardRef, InputHTMLAttributes, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import getUID from '../global/get-uid';
@@ -20,15 +19,6 @@ export interface RadioItemInnerProps extends InputHTMLAttributes<HTMLInputElemen
   help?: ReactNode
 }
 export class RadioItemInner extends Component<RadioItemInnerProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node,
-    value: PropTypes.string,
-    name: PropTypes.string,
-    checked: PropTypes.bool,
-    onChange: PropTypes.func
-  };
-
   uid = getUID('ring-radio-item-');
 
   input?: HTMLElement | null;
@@ -85,5 +75,4 @@ const RadioItem = forwardRef<RadioItemInner, RadioItemProps>(function RadioItem(
     </RadioContext.Consumer>
   );
 });
-RadioItem.propTypes = RadioItemInner.propTypes as (typeof RadioItem)['propTypes'];
 export default RadioItem;

@@ -1,5 +1,4 @@
 import {Component} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {Content} from '../island/island';
@@ -33,26 +32,6 @@ export interface AuthDialogProps {
 }
 
 export default class AuthDialog extends Component<AuthDialogProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    title: PropTypes.string,
-    errorMessage: PropTypes.string,
-    serviceImage: PropTypes.string,
-    serviceName: PropTypes.string,
-    loginCaption: PropTypes.string,
-    loginToCaption: PropTypes.string,
-
-    show: PropTypes.bool,
-    cancelOnEsc: PropTypes.bool,
-    confirmLabel: PropTypes.string,
-    cancelLabel: PropTypes.string,
-    tryAgainLabel: PropTypes.string,
-
-    onConfirm: PropTypes.func,
-    onCancel: PropTypes.func,
-    onTryAgain: PropTypes.func
-  };
-
   static defaultProps = {
     loginCaption: 'Log in',
     loginToCaption: 'Log in to %serviceName%',

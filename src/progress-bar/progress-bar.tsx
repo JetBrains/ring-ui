@@ -1,14 +1,32 @@
 import {HTMLAttributes, PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import styles from './progress-bar.css';
 
 export interface ProgressBarProps extends HTMLAttributes<HTMLElement>{
+  /**
+   * A floating point number that specifies minimum completion rate for a task to be considered
+   * complete. Default value is 1.0.
+   * @type {number}
+   */
   max: number
+  /**
+   * A floating point number that specifies current task completion rate.
+   * @type {number}
+   */
   value: number
   label: string
+  /**
+   * Sets the ring-progress-bar_global class to position the progress bar on top of the screen.
+   * Should be placed directly inside body, will be positioned right below .ring-header
+   * if placed adjacent to it.
+   * @type {boolean}
+   */
   global?: boolean | null | undefined
+  /**
+   * Disables Disabled progress bar color animation and sets it to static color.
+   * @type {boolean}
+   */
   staticColor?: boolean;
 }
 
@@ -27,45 +45,6 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
     const percents = (value * HUNDRED_PERCENT) / max;
     return percents > HUNDRED_PERCENT ? HUNDRED_PERCENT : percents;
   }
-
-  static propTypes = {
-    label: PropTypes.string,
-
-    /**
-     * Sets the ring-progress-bar_global class to position the progress bar on top of the screen.
-     * Should be placed directly inside body, will be positioned right below .ring-header
-     * if placed adjacent to it.
-     * @type {boolean}
-     */
-    global: PropTypes.bool,
-
-    /**
-     * Custom class
-     * @type {string}
-     */
-    className: PropTypes.string,
-
-    style: PropTypes.object,
-
-    /**
-     * A floating point number that specifies minimum completion rate for a task to be considered
-     * complete. Default value is 1.0.
-     * @type {number}
-     */
-    max: PropTypes.number,
-
-    /**
-     * A floating point number that specifies current task completion rate.
-     * @type {number}
-     */
-    value: PropTypes.number,
-
-    /**
-     * Disables Disabled progress bar color animation and sets it to static color.
-     * @type {boolean}
-     */
-    staticColor: PropTypes.bool
-  };
 
   static defaultProps = {
     max: 1.0,

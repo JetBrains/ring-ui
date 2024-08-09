@@ -1,6 +1,5 @@
-import {ComponentType, LabelHTMLAttributes} from 'react';
+import {LabelHTMLAttributes} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import styles from './control-label.css';
@@ -30,12 +29,6 @@ export const ControlLabel: React.FC<ControlLabelProps> = (
     {...rest}
   >{children}</label>
 );
-
-(ControlLabel as ComponentType<unknown>).propTypes = {
-  label: PropTypes.node,
-  labelStyle: PropTypes.string,
-  disabled: PropTypes.bool
-};
 
 
 export default ControlLabel;

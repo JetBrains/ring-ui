@@ -1,5 +1,4 @@
 import {createRef, PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';
 import {getYear} from 'date-fns/getYear';
@@ -14,7 +13,7 @@ import linearFunction from '../global/linear-function';
 
 
 import styles from './date-picker.css';
-import units, {CalendarProps, dateType, DOUBLE, HALF, yearDuration} from './consts';
+import units, {CalendarProps, DOUBLE, HALF, yearDuration} from './consts';
 
 const {yearHeight, calHeight} = units;
 
@@ -28,12 +27,6 @@ interface YearsState {
 }
 
 export default class Years extends PureComponent<CalendarProps> {
-  static propTypes = {
-    scrollDate: dateType,
-    onScroll: PropTypes.func,
-    onScrollChange: PropTypes.func
-  };
-
   state = {scrollDate: null};
 
   componentDidMount() {

@@ -1,5 +1,4 @@
-import {PureComponent, ReactNode, ComponentType} from 'react';
-import PropTypes from 'prop-types';
+import {PureComponent, ReactNode} from 'react';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
@@ -215,33 +214,3 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
     );
   }
 }
-
-type ItemAttrs<T extends SelectionItem> = JSX.LibraryManagedAttributes<typeof Item, ItemProps<T>>
-(Item as ComponentType<ItemAttrs<SelectionItem>>).propTypes = {
-  item: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
-  }).isRequired,
-  title: PropTypes.node,
-  items: PropTypes.array,
-  className: PropTypes.string,
-  level: PropTypes.number,
-  parentShift: PropTypes.number,
-
-  itemFormatter: PropTypes.func.isRequired,
-
-  collapsible: PropTypes.bool,
-  collapsed: PropTypes.bool,
-  onCollapse: PropTypes.func,
-  onExpand: PropTypes.func,
-
-  showFocus: PropTypes.bool,
-  onFocus: PropTypes.func.isRequired,
-
-  selection: PropTypes.instanceOf(Selection).isRequired,
-  selectable: PropTypes.bool,
-  selected: PropTypes.bool,
-  onSelect: PropTypes.func.isRequired,
-
-  showMoreLessButton: PropTypes.number,
-  onItemMoreLess: PropTypes.func
-};

@@ -1,5 +1,4 @@
 import {memo, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 
 import Link, {LinkProps} from '../link/link';
 
@@ -27,11 +26,5 @@ function TabLink({isSelected, title, collapsed, ...restProps}: TabLinkProps) {
     </Link>
   );
 }
-
-TabLink.propTypes = {
-  isSelected: PropTypes.bool,
-  collapsed: PropTypes.bool,
-  title: PropTypes.oneOfType([PropTypes.func, PropTypes.string, PropTypes.node])
-};
 
 export default memo(TabLink);

@@ -7,22 +7,10 @@ import style from './table.css';
 import Table, {TableAttrs} from './table';
 import Selection, {SelectionItem} from './selection';
 
-const {
-  selection: __selection__,
-  onSelect: __onSelect__,
-  selectable: __selectable__,
-  disabledHover: __disabledHover__,
-  ...restPropTypes
-} = Table.propTypes ?? {};
-
 export interface SimpleTableProps<T extends SelectionItem> extends
   Omit<TableAttrs<T>, 'selection' | 'onSelect' | 'selectable'> {
 }
 class SimpleTable<T extends SelectionItem> extends PureComponent<SimpleTableProps<T>> {
-  static propTypes = {
-    ...restPropTypes
-  };
-
   static defaultProps = {
     selectable: false,
     wideFirstColumn: false

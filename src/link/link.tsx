@@ -1,5 +1,4 @@
 import {PureComponent, ReactNode, ComponentType, HTMLAttributes, MouseEventHandler} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -29,19 +28,6 @@ export function linkHOC<P extends ClickableLinkProps>(
   const isCustom = typeof ComposedComponent !== 'string' && ComposedComponent !== ClickableLink;
 
   return class Link extends PureComponent<LinkProps<P>> {
-    static propTypes = {
-      className: PropTypes.string,
-      active: PropTypes.bool,
-      inherit: PropTypes.bool,
-      pseudo: PropTypes.bool,
-      hover: PropTypes.bool,
-      children: PropTypes.node,
-      'data-test': PropTypes.string,
-      href: PropTypes.string,
-      onPlainLeftClick: PropTypes.func,
-      onClick: PropTypes.func
-    };
-
     render() {
       const {
         active,

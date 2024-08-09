@@ -2,32 +2,22 @@ import {
   forwardRef,
   useMemo,
   cloneElement,
-  ComponentType,
   ReactElement,
   ReactNodeArray,
   HTMLAttributes,
   SyntheticEvent,
   Ref
 } from 'react';
-import PropTypes from 'prop-types';
 
 import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
 import Dropdown, {AnchorProps, DropdownAttrs} from '../dropdown/dropdown';
-import PopupMenu, {PopupMenuAttrs, PopupMenuProps} from '../popup-menu/popup-menu';
+import PopupMenu, {PopupMenuAttrs} from '../popup-menu/popup-menu';
 import getUID from '../global/get-uid';
 import Anchor from '../dropdown/anchor';
 
 import {isArray} from '../global/typescript-utils';
 
 import {ListDataItem} from '../list/consts';
-
-const {children, ...dropdownPropTypes} = Dropdown.propTypes || {};
-const {
-  id: idPropType,
-  data: dataPropType,
-  ariaLabel: ariaLabelPropType,
-  onSelect: onSelectPropType
-} = (PopupMenu as ComponentType<PopupMenuProps>).propTypes || {};
 
 const defaultAriaLabel = 'Dropdown menu';
 
@@ -97,14 +87,6 @@ export interface DropdownMenuProps<T = unknown> extends
   menuProps?: PopupMenuAttrs<T> | null | undefined
 }
 
-DropdownAnchorWrapper.propTypes = {
-  anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.func]).isRequired,
-  pinned: PropTypes.bool,
-  active: PropTypes.bool,
-  activeListItemId: PropTypes.string,
-  listId: PropTypes.string
-};
-
 const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
   {id, anchor, ariaLabel, data, onSelect, menuProps, ...restDropdownProps}: DropdownMenuProps<T>,
   forwardedRef: Ref<PopupMenu<T>>
@@ -144,14 +126,5 @@ const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
     </ActiveItemContext.Provider>
   );
 }) as <T = unknown>(props: DropdownMenuProps<T> & { ref?: Ref<PopupMenu> }) => ReactElement | null;
-
-(DropdownMenu as ComponentType<unknown>).propTypes = {
-  id: idPropType,
-  data: dataPropType,
-  ariaLabel: ariaLabelPropType,
-  onSelect: onSelectPropType,
-  menuProps: PropTypes.object,
-  ...dropdownPropTypes
-};
 
 export default Object.assign(DropdownMenu, {ListProps: List.ListProps});

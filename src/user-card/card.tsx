@@ -1,6 +1,5 @@
 import {HTMLAttributes, PureComponent, ReactElement} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import copyIcon from '@jetbrains/icons/copy';
 
@@ -42,38 +41,7 @@ export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
   'data-test'?: string | null | undefined
 }
 
-const translationsShape = PropTypes.shape({
-  banned: PropTypes.string.isRequired,
-  online: PropTypes.string.isRequired,
-  offline: PropTypes.string.isRequired,
-  copyToClipboard: PropTypes.string,
-  copiedToClipboard: PropTypes.string,
-  copingToClipboardError: PropTypes.string,
-  unverified: PropTypes.string
-});
-
 export default class UserCard extends PureComponent<UserCardProps> {
-  static propTypes = {
-    children: PropTypes.node,
-    info: PropTypes.node,
-    className: PropTypes.string,
-
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      login: PropTypes.string.isRequired,
-      avatarUrl: PropTypes.string.isRequired,
-      email: PropTypes.string,
-      href: PropTypes.string,
-      online: PropTypes.bool,
-      banned: PropTypes.bool,
-      banReason: PropTypes.string,
-      unverifiedEmail: PropTypes.bool
-    }).isRequired,
-
-    wording: translationsShape,
-    translations: translationsShape
-  };
-
   static contextType = I18nContext;
   declare context: React.ContextType<typeof UserCard.contextType>;
 

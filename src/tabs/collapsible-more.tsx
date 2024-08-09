@@ -1,10 +1,8 @@
-import {memo, useCallback, useMemo, ComponentType, ReactElement, ReactNode} from 'react';
+import {memo, useCallback, useMemo, ReactElement, ReactNode} from 'react';
 
 import classNames from 'classnames';
 
 import chevronDownIcon from '@jetbrains/icons/chevron-10px';
-
-import PropTypes from 'prop-types';
 
 import {Directions} from '../popup/popup.consts';
 import PopupMenu, {ListProps} from '../popup-menu/popup-menu';
@@ -49,12 +47,6 @@ export const AnchorLink = ({
         className={styles.chevron}
       /></Link>
   );
-};
-
-AnchorLink.propTypes = {
-  hasActiveChildren: PropTypes.bool,
-  moreClassName: PropTypes.string,
-  moreActiveClassName: PropTypes.string
 };
 
 const morePopupDirections = [
@@ -160,19 +152,6 @@ export const MoreButton = memo(({
   );
 });
 
-(MoreButton as unknown as ComponentType<unknown>).propTypes = {
-  children: PropTypes.node,
-  items: PropTypes.array,
-  selected: PropTypes.string,
-  onSelect: PropTypes.func,
-  toMeasure: PropTypes.bool,
-  moreClassName: PropTypes.string,
-  moreActiveClassName: PropTypes.string,
-  morePopupClassName: PropTypes.string,
-  morePopupItemClassName: PropTypes.string,
-  morePopupBeforeEnd: PropTypes.element
-};
-
 MoreButton.displayName = 'MoreButton';
 
 export const FakeMoreButton = memo(({
@@ -190,9 +169,4 @@ export const FakeMoreButton = memo(({
     />
   </div>
 ));
-(FakeMoreButton as unknown as ComponentType<unknown>).propTypes = {
-  moreClassName: PropTypes.string,
-  moreActiveClassName: PropTypes.string,
-  hasActiveChildren: PropTypes.bool
-};
 FakeMoreButton.displayName = 'FakeMoreButton';

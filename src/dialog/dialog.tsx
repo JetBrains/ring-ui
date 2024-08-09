@@ -1,7 +1,6 @@
 import {createRef, PureComponent} from 'react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close';
 
@@ -24,11 +23,14 @@ export interface DialogProps extends Partial<TabTrapProps> {
   onOverlayClick: (event: React.MouseEvent<HTMLElement>) => void
   onEscPress: (event: KeyboardEvent) => void
   onCloseClick: (event: React.MouseEvent<HTMLElement>) => void
+  // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
+  // Use it if you don't need different behaviors for this cases.
   onCloseAttempt: (event: React.MouseEvent<HTMLElement> | KeyboardEvent) => void
   showCloseButton: boolean
   shortcutOptions: ShortcutsScopeOptions;
   closeButtonInside: boolean
   closeButtonTitle?: string
+  // focusTrap may break popups inside dialog, so use it carefully
   trapFocus: boolean
   contentClassName?: string | null | undefined
   portalTarget?: Element | null | undefined
@@ -45,32 +47,6 @@ export interface DialogProps extends Partial<TabTrapProps> {
 function noop() {}
 
 export default class Dialog extends PureComponent<DialogProps> {
-  static propTypes = {
-    label: PropTypes.string,
-    className: PropTypes.string,
-    contentClassName: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ]),
-    show: PropTypes.bool.isRequired,
-    showCloseButton: PropTypes.bool,
-    closeButtonInside: PropTypes.bool,
-    closeButtonTitle: PropTypes.string,
-    onOverlayClick: PropTypes.func,
-    onEscPress: PropTypes.func,
-    onCloseClick: PropTypes.func,
-    shortcutOptions: PropTypes.object,
-    // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
-    // Use it if you don't need different behaviors for this cases.
-    onCloseAttempt: PropTypes.func,
-    // focusTrap may break popups inside dialog, so use it carefully
-    trapFocus: PropTypes.bool,
-    portalTarget: PropTypes.instanceOf(HTMLElement),
-    autoFocusFirst: PropTypes.bool,
-    'data-test': PropTypes.string
-  };
-
   static defaultProps: Partial<DialogProps> = {
     label: 'Dialog',
     onOverlayClick: noop,

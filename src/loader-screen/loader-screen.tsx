@@ -1,6 +1,5 @@
 import {PureComponent} from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import Loader, {LoaderProps} from '../loader/loader';
 
@@ -14,12 +13,6 @@ export interface LoaderScreenProps extends LoaderProps {
  * @name Loader Screen
  */
 export default class LoaderScreen extends PureComponent<LoaderScreenProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    containerClassName: PropTypes.string,
-    message: PropTypes.string
-  };
-
   render() {
     const {message, className, containerClassName, ...restProps} = this.props;
 

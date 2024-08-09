@@ -1,5 +1,4 @@
 import {useEffect, useMemo, useRef} from 'react';
-import PropTypes from 'prop-types';
 import {addMonths} from 'date-fns/addMonths';
 import {getDay} from 'date-fns/getDay';
 import {getDaysInMonth} from 'date-fns/getDaysInMonth';
@@ -14,7 +13,7 @@ import useEventCallback from '../global/use-event-callback';
 import Month from './month';
 import MonthNames from './month-names';
 import styles from './date-picker.css';
-import units, {dateType, DOUBLE, HALF, MonthsProps, WEEK, weekdays} from './consts';
+import units, {DOUBLE, HALF, MonthsProps, WEEK, weekdays} from './consts';
 
 const {unit, cellSize, calHeight} = units;
 
@@ -128,8 +127,3 @@ export default function Months(props: MonthsProps) {
     </div>
   );
 }
-
-Months.propTypes = {
-  onScroll: PropTypes.func,
-  scrollDate: dateType
-};

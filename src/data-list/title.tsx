@@ -1,13 +1,10 @@
-import {PureComponent, ReactNode, ComponentType} from 'react';
-import PropTypes from 'prop-types';
+import {PureComponent, ReactNode} from 'react';
 import classNames from 'classnames';
 
 import focusSensorHOC, {FocusSensorAddProps} from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 
 import getUID from '../global/get-uid';
-
-import {refObject} from '../global/prop-types';
 
 import styles from './data-list.css';
 
@@ -90,23 +87,5 @@ class Title extends PureComponent<TitleProps> {
     );
   }
 }
-
-(Title as ComponentType<unknown>).propTypes = {
-  className: PropTypes.string,
-  title: PropTypes.node,
-  offset: PropTypes.number,
-  selectable: PropTypes.bool,
-  selected: PropTypes.bool,
-  onSelect: PropTypes.func.isRequired,
-  showFocus: PropTypes.bool,
-  collapserExpander: PropTypes.node,
-  innerRef: PropTypes.oneOfType([
-    refObject(PropTypes.instanceOf(HTMLDivElement)),
-    PropTypes.func
-  ]),
-
-  // focusSensorHOC
-  onFocusRestore: PropTypes.func.isRequired
-};
 
 export default focusSensorHOC<HTMLDivElement, TitleProps, typeof Title>(Title);

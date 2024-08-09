@@ -1,5 +1,4 @@
 import {PureComponent, Children, cloneElement, ReactElement} from 'react';
-import PropTypes from 'prop-types';
 
 import {TableAttrs} from './table';
 import {SelectionItem} from './selection';
@@ -9,10 +8,6 @@ export interface MultiTableProps {
 }
 
 export default class MultiTable extends PureComponent<MultiTableProps> {
-  static propTypes = {
-    children: PropTypes.any.isRequired
-  };
-
   componentDidUpdate(prevProps: MultiTableProps) {
     if (prevProps.children) {
       const prevSelections = prevProps.children.map(element => element.props.selection);

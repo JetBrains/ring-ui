@@ -1,5 +1,4 @@
 import {Component, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {interpolateLinear} from '../global/linear-function';
@@ -38,14 +37,6 @@ export interface IslandHeaderProps extends HTMLAttributes<HTMLElement> {
 }
 
 class Header extends Component<IslandHeaderProps> {
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    border: PropTypes.bool,
-    wrapWithTitle: PropTypes.bool,
-    phase: PropTypes.number
-  };
-
   static defaultProps = {
     wrapWithTitle: true
   };

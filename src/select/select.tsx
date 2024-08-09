@@ -13,7 +13,6 @@ import {
 
 import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import closeIcon from '@jetbrains/icons/close-12px';
 import deepEqual from 'deep-equal';
@@ -38,7 +37,6 @@ import {ListDataItem} from '../list/consts';
 import {Directions} from '../popup/popup.consts';
 
 import {createComposedRef} from '../global/composeRefs';
-import {refObject} from '../global/prop-types';
 import {isArray} from '../global/typescript-utils';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
@@ -1482,79 +1480,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     );
   }
 }
-
-(Select as unknown as ComponentType<unknown>).propTypes = {
-  className: PropTypes.string,
-  buttonClassName: PropTypes.string,
-  id: PropTypes.string,
-  multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  allowAny: PropTypes.bool,
-  filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  filterIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-  filterRef: PropTypes.oneOfType([
-    PropTypes.func,
-    refObject(PropTypes.instanceOf(HTMLInputElement))
-  ]),
-
-  getInitial: PropTypes.func,
-  onClose: PropTypes.func,
-  onOpen: PropTypes.func,
-  onDone: PropTypes.func,
-  onFilter: PropTypes.func,
-  onChange: PropTypes.func,
-  onReset: PropTypes.func,
-  onLoadMore: PropTypes.func,
-  onAdd: PropTypes.func,
-  onBeforeOpen: PropTypes.func,
-  onSelect: PropTypes.func,
-  onDeselect: PropTypes.func,
-  onOutsideClick: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onKeyDown: PropTypes.func,
-
-  selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  data: PropTypes.array,
-  tags: PropTypes.object,
-  targetElement: PropTypes.object,
-  loading: PropTypes.bool,
-  loadingMessage: PropTypes.string,
-  notFoundMessage: PropTypes.string,
-  maxHeight: PropTypes.number,
-  minWidth: PropTypes.number,
-  directions: PropTypes.array,
-  popupClassName: PropTypes.string,
-  popupStyle: PropTypes.object,
-  preventListOverscroll: PropTypes.bool,
-  top: PropTypes.number,
-  left: PropTypes.number,
-  renderOptimization: PropTypes.bool,
-  ringPopupTarget: PropTypes.string,
-  error: PropTypes.string,
-  hint: List.ListHint.propTypes.label,
-  add: PropTypes.object,
-  type: PropTypes.oneOf(Object.values(Type)),
-  disabled: PropTypes.bool,
-  hideSelected: PropTypes.bool,
-  label: PropTypes.string,
-  selectedLabel: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  inputPlaceholder: PropTypes.string,
-  clear: PropTypes.bool,
-  hideArrow: PropTypes.bool,
-  showPopup: PropTypes.bool,
-  tryKeepOpen: PropTypes.bool,
-  compact: PropTypes.bool,
-  size: PropTypes.oneOf(Object.values(Size)),
-  customAnchor: PropTypes.func,
-  disableMoveOverflow: PropTypes.bool,
-  disableScrollToActive: PropTypes.bool,
-  dir: PropTypes.oneOf(['ltr', 'rtl']),
-  'data-test': PropTypes.string
-};
 
 export type SingleSelectAttrs<T = unknown> =
   JSX.LibraryManagedAttributes<typeof Select, SingleSelectProps<T>>

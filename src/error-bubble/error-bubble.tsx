@@ -1,5 +1,4 @@
 import {Children, cloneElement, PureComponent, ReactElement} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Popup from '../popup/popup';
@@ -19,12 +18,6 @@ export type ErrorBubbleProps<P> = Partial<P> & {
  */
 
 export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
-  static propTypes = {
-    error: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
-
   render() {
     const {children, className, ...restProps} = this.props;
 

@@ -1,5 +1,4 @@
 import {Children, cloneElement, Component, HTMLAttributes, ReactElement} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Sidebar, {SidebarProps} from './sidebar';
@@ -15,13 +14,6 @@ export interface ContentLayoutProps extends HTMLAttributes<HTMLElement> {
  */
 
 export default class ContentLayout extends Component<ContentLayoutProps> {
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    contentClassName: PropTypes.string,
-    responsive: PropTypes.bool
-  };
-
   static defaultProps = {
     responsive: true
   };
