@@ -1,12 +1,13 @@
 import * as Sinon from 'sinon';
-import {
-  Simulate
-} from 'react-dom/test-utils';
-import {shallow, mount, ReactWrapper} from 'enzyme';
+
+import {fireEvent, render, screen} from '@testing-library/react';
+
+import userEvent from '@testing-library/user-event';
+
+import {act} from 'react';
 
 import Popup, {PopupProps} from '../popup/popup';
 
-import Anchor from './anchor';
 import Dropdown, {DropdownAttrs} from './dropdown';
 
 describe('Dropdown', () => {
@@ -29,15 +30,7 @@ describe('Dropdown', () => {
     >{'foo'}</Popup>
   );
 
-  const shallowDropdown = (props?: Partial<DropdownAttrs>, children = popupElement) => shallow(
-    <Dropdown
-      anchor={anchorElement}
-      {...props}
-    >
-      {children}
-    </Dropdown>
-  );
-  const mountDropdown = (props?: Partial<DropdownAttrs>, children = popupElement) => mount(
+  const renderDropdown = (props?: Partial<DropdownAttrs>, children = popupElement) => render(
     <Dropdown
       anchor={anchorElement}
       {...props}
@@ -47,48 +40,51 @@ describe('Dropdown', () => {
   );
 
   it('should create component', () => {
-    mountDropdown().should.have.type(Dropdown);
+    renderDropdown();
+    screen.getByTestId('ring-dropdown').should.exist;
   });
 
   it('should wrap children with div', () => {
-    shallowDropdown().should.have.tagName('div');
+    renderDropdown();
+    screen.getByTestId('ring-dropdown').should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    shallowDropdown({className: 'test-class'}).should.have.className('test-class');
+    renderDropdown({className: 'test-class'});
+    screen.getByTestId('ring-dropdown').should.have.class('test-class');
   });
 
   it('should not show popup by default', () => {
-    mountDropdown();
+    renderDropdown();
     should.exist(popup);
     popup?.isVisible().should.be.false;
   });
 
-  it('should show popup on anchor click', () => {
-    mountDropdown();
+  it('should show popup on anchor click', async () => {
+    renderDropdown();
     should.exist(anchor);
-    anchor && Simulate.click(anchor);
+    anchor && await userEvent.click(anchor);
     should.exist(popup);
     popup?.isVisible().should.be.true;
   });
 
-  it('should hide popup on second anchor click', () => {
-    mountDropdown();
+  it('should hide popup on second anchor click', async () => {
+    renderDropdown();
     should.exist(anchor);
-    anchor && Simulate.click(anchor);
-    anchor && Simulate.click(anchor);
+    anchor && await userEvent.click(anchor);
+    anchor && await userEvent.click(anchor);
     should.exist(popup);
     popup?.isVisible().should.be.false;
   });
 
   it('should hide popup on outside pointer down event', async () => {
-    mountDropdown();
+    renderDropdown();
     should.exist(anchor);
-    anchor && Simulate.click(anchor);
+    anchor && await userEvent.click(anchor);
 
     await new Promise<void>(resolve => {
       setTimeout(() => {
-        document.dispatchEvent(new PointerEvent('pointerdown'));
+        fireEvent.pointerDown(document);
         should.exist(popup);
         popup?.isVisible().should.be.false;
         resolve();
@@ -97,23 +93,23 @@ describe('Dropdown', () => {
   });
 
   it('should show popup when initialized with initShown=true', () => {
-    mountDropdown({initShown: true});
+    renderDropdown({initShown: true});
     should.exist(popup);
     popup?.isVisible().should.be.true;
   });
 
   it('should accept function as anchor', () => {
     const anchorFunc = sandbox.stub().returns(anchorElement);
-    mountDropdown({anchor: anchorFunc});
+    renderDropdown({anchor: anchorFunc});
 
     anchorFunc.should.have.been.calledWithMatch({active: false});
   });
 
-  it('should pass active property to anchor function', () => {
+  it('should pass active property to anchor function', async () => {
     const anchorFunc = sandbox.stub().returns(anchorElement);
-    mountDropdown({anchor: anchorFunc});
+    renderDropdown({anchor: anchorFunc});
     should.exist(anchor);
-    anchor && Simulate.click(anchor);
+    anchor && await userEvent.click(anchor);
 
     anchorFunc.should.have.been.calledTwice;
     anchorFunc.getCall(1).calledWithMatch({active: true}).should.be.true;
@@ -121,11 +117,11 @@ describe('Dropdown', () => {
 
   it('should render <Anchor> with child if type of anchor property is string', () => {
     const anchorText = 'Test anchor text';
-    shallowDropdown({anchor: anchorText}).find(Anchor).children().should.have.text(anchorText);
+    renderDropdown({anchor: anchorText});
+    screen.getByText(anchorText).should.exist;
   });
 
   describe('hoverMode', () => {
-    let wrapper: ReactWrapper;
     let popupEl: Popup | null;
     let clock: Sinon.SinonFakeTimers;
 
@@ -146,43 +142,47 @@ describe('Dropdown', () => {
         >{'foo'}</Popup>
       );
 
-      wrapper = mountDropdown(dropDownProps, popupComponent);
+      renderDropdown(dropDownProps, popupComponent);
     });
 
     it('should show popup on mouse enter', () => {
-      wrapper.simulate('mouseenter');
-      clock.tick(dropDownProps.hoverShowTimeOut);
+      const dropdown = screen.getByTestId('ring-dropdown');
+      fireEvent.mouseEnter(dropdown);
+      act(() => clock.tick(dropDownProps.hoverShowTimeOut));
 
       should.exist(popupEl);
       popupEl?.isVisible().should.be.true;
     });
 
     it('should hide popup on mouse leave', () => {
-      wrapper.simulate('mouseenter');
-      clock.tick(dropDownProps.hoverShowTimeOut);
+      const dropdown = screen.getByTestId('ring-dropdown');
+      fireEvent.mouseEnter(dropdown);
+      act(() => clock.tick(dropDownProps.hoverShowTimeOut));
 
-      wrapper.simulate('mouseleave');
-      clock.tick(dropDownProps.hoverHideTimeOut);
+      fireEvent.mouseLeave(dropdown);
+      act(() => clock.tick(dropDownProps.hoverHideTimeOut));
 
       should.exist(popupEl);
       popupEl?.isVisible().should.be.false;
     });
 
-    it('should no hide popup on mouse leave if wrapper was clicked', () => {
-      wrapper.simulate('click');
+    it('should not hide popup on mouse leave if wrapper was clicked', () => {
+      const dropdown = screen.getByTestId('ring-dropdown');
+      fireEvent.click(dropdown);
 
-      wrapper.simulate('mouseleave');
-      clock.tick(dropDownProps.hoverHideTimeOut);
+      fireEvent.mouseLeave(dropdown);
+      act(() => clock.tick(dropDownProps.hoverHideTimeOut));
 
       should.exist(popupEl);
       popupEl?.isVisible().should.be.true;
     });
 
-    it('should no hide popup on click if popup is already opened by hover popup', () => {
-      wrapper.simulate('mouseenter');
-      clock.tick(dropDownProps.hoverShowTimeOut);
+    it('should not hide popup on click if popup is already opened by hover popup', () => {
+      const dropdown = screen.getByTestId('ring-dropdown');
+      fireEvent.mouseEnter(dropdown);
+      act(() => clock.tick(dropDownProps.hoverShowTimeOut));
 
-      wrapper.simulate('click');
+      fireEvent.click(dropdown);
 
       should.exist(popupEl);
       popupEl?.isVisible().should.be.true;
