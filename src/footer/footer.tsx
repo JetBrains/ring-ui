@@ -5,11 +5,9 @@ import {
   memo,
   isValidElement,
   ReactNode,
-  ComponentType,
   HTMLAttributeAnchorTarget,
   ReactChild
 } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Link from '../link/link';
@@ -37,10 +35,6 @@ const FooterColumn = memo(function FooterColumn({position, children}: FooterColu
     </div>
   );
 });
-(FooterColumn as ComponentType<FooterColumnProps>).propTypes = {
-  position: PropTypes.oneOf(['left', 'center', 'right'] as const).isRequired,
-  children: PropTypes.node
-};
 
 /**
  * Return copyright string
@@ -110,13 +104,6 @@ const FooterLine = memo(function FooterLine(props: FooterLineProps) {
     </li>
   );
 });
-(FooterLine as unknown as ComponentType<unknown>).propTypes = {
-  item: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-    PropTypes.string
-  ])
-};
 
 type FooterItems = readonly (FooterItem | readonly FooterItem[])[]
 
@@ -167,11 +154,4 @@ const Footer = memo(function Footer({floating, className, left, center, right}: 
       }</footer>
   );
 });
-(Footer as ComponentType<FooterProps>).propTypes = {
-  className: PropTypes.string,
-  floating: PropTypes.bool,
-  left: PropTypes.array,
-  center: PropTypes.array,
-  right: PropTypes.array
-};
 export default Footer;

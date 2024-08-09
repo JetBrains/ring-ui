@@ -1,6 +1,5 @@
 import {AllHTMLAttributes, Component, createContext, ReactNode} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
@@ -32,15 +31,6 @@ export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, '
  * @name Tooltip
  */
 export default class Tooltip extends Component<TooltipProps> {
-  static propTypes = {
-    delay: PropTypes.number,
-    selfOverflowOnly: PropTypes.bool,
-    popupProps: PropTypes.object,
-    title: PropTypes.node,
-    children: PropTypes.node,
-    'data-test': PropTypes.string
-  };
-
   static defaultProps = {
     title: '',
     selfOverflowOnly: false,

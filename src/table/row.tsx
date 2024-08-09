@@ -1,6 +1,5 @@
-import {ComponentType, HTMLAttributes, PureComponent, ReactNode} from 'react';
+import {HTMLAttributes, PureComponent, ReactNode} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
@@ -41,10 +40,6 @@ const DragHandle = (
       icon={dragIcon}
     />
   );
-};
-DragHandle.propTypes = {
-  alwaysShowDragHandle: PropTypes.bool,
-  dragHandleTitle: PropTypes.string
 };
 
 export interface RowProps<T extends SelectionItem> extends Omit<
@@ -270,36 +265,6 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
     );
   }
 }
-
-(Row as ComponentType<unknown>).propTypes = {
-  className: PropTypes.string,
-  metaColumnClassName: PropTypes.string,
-  item: PropTypes.object.isRequired,
-  columns: PropTypes.oneOfType([PropTypes.array, PropTypes.func]).isRequired,
-  selectable: PropTypes.bool,
-  showFocus: PropTypes.bool,
-  draggable: PropTypes.bool,
-  alwaysShowDragHandle: PropTypes.bool,
-  selected: PropTypes.bool,
-  onHover: PropTypes.func,
-  onSelect: PropTypes.func,
-  onDoubleClick: PropTypes.func,
-  onClick: PropTypes.func,
-  onFocusRestore: PropTypes.func,
-  level: PropTypes.number,
-  collapsible: PropTypes.bool,
-  parentCollapsible: PropTypes.bool,
-  collapsed: PropTypes.bool,
-  onCollapse: PropTypes.func,
-  onExpand: PropTypes.func,
-  showDisabledSelection: PropTypes.bool,
-  checkboxTooltip: PropTypes.string,
-  innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  focused: PropTypes.bool,
-  autofocus: PropTypes.bool,
-  onFocusReset: PropTypes.func,
-  'data-test': PropTypes.string
-};
 
 export type RowAttrs<T extends SelectionItem> =
   JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;

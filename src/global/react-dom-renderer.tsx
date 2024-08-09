@@ -1,5 +1,4 @@
 import {Component} from 'react';
-import PropTypes from 'prop-types';
 
 export interface RendererProps {
   className?: string | undefined
@@ -7,11 +6,6 @@ export interface RendererProps {
 }
 
 export default class Renderer extends Component<RendererProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    nodes: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
-  };
-
   componentDidMount() {
     const {node} = this;
     const {nodes} = this.props;

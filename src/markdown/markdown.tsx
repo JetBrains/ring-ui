@@ -1,5 +1,4 @@
-import {ComponentType, PureComponent, ReactNode} from 'react';
-import PropTypes from 'prop-types';
+import {PureComponent, ReactNode} from 'react';
 import classNames from 'classnames';
 
 import headingStyles from '../heading/heading.css';
@@ -37,8 +36,3 @@ export default class Markdown extends PureComponent<MarkdownProps> {
     );
   }
 }
-
-(Markdown as ComponentType<unknown>).propTypes = {
-  inline: PropTypes.bool,
-  className: PropTypes.string
-};

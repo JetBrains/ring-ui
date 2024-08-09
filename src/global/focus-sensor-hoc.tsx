@@ -1,7 +1,4 @@
 import {Component, ComponentType, Ref} from 'react';
-import PropTypes from 'prop-types';
-
-import {refObject} from './prop-types';
 
 import {createComposedRef} from './composeRefs';
 
@@ -20,17 +17,6 @@ export interface FocusSensorAddProps<T extends HTMLElement> {
   focused: boolean
   onFocusReset: () => void
   onFocusRestore: () => void
-}
-
-function extractPropTypes<
-  T extends HTMLElement,
-  P extends FocusSensorAddProps<T>
->({propTypes}: ComponentType<P>) {
-  if (propTypes == null) {
-    return propTypes;
-  }
-  const {innerRef, focused, onFocusReset, onFocusRestore, ...restPropTypes} = propTypes;
-  return restPropTypes;
 }
 
 type RestProps<P, T extends HTMLElement> = Omit<P, keyof FocusSensorAddProps<T>>
@@ -142,14 +128,6 @@ export default function focusSensorHOC<
       );
     }
   }
-  (FocusSensor as ComponentType<unknown>).propTypes = {
-    ...extractPropTypes(ComposedComponent),
-    focused: PropTypes.bool,
-    autofocus: PropTypes.bool,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    innerRef: PropTypes.oneOfType([PropTypes.func, refObject(PropTypes.instanceOf(HTMLElement))])
-  };
   (FocusSensor as ComponentType<unknown>).defaultProps = {
     ...ComposedComponent.defaultProps,
     focused: false,

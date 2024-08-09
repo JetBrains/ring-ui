@@ -1,5 +1,4 @@
 import {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import type {Locale} from 'date-fns';
 import {endOfMonth} from 'date-fns/endOfMonth';
@@ -12,7 +11,7 @@ import {startOfYear} from 'date-fns/startOfYear';
 import linearFunction from '../global/linear-function';
 
 import MonthSlider from './month-slider';
-import {YEAR, MIDDLE_DAY, yearScrollSpeed, dateType, MonthsProps} from './consts';
+import {YEAR, MIDDLE_DAY, yearScrollSpeed, MonthsProps} from './consts';
 import styles from './date-picker.css';
 
 interface MonthNameProps {
@@ -22,12 +21,6 @@ interface MonthNameProps {
 }
 
 class MonthName extends PureComponent<MonthNameProps> {
-  static propTypes = {
-    month: dateType,
-    onScrollChange: PropTypes.func,
-    locale: PropTypes.object
-  };
-
   handleClick = () => {
     const end = endOfMonth(this.props.month);
     this.props.onScrollChange(end.getTime());
@@ -102,10 +95,3 @@ export default function MonthNames(props: MonthsProps) {
     </div>
   );
 }
-
-MonthNames.propTypes = {
-  scrollDate: dateType,
-  onScrollChange: PropTypes.func,
-  currentRange: PropTypes.arrayOf(dateType),
-  locale: PropTypes.object
-};

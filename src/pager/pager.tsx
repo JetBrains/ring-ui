@@ -1,10 +1,9 @@
 /**
  * @name Pager
  */
-import {ComponentType, PureComponent, ReactNode} from 'react';
+import {PureComponent, ReactNode} from 'react';
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronLeftIcon from '@jetbrains/icons/chevron-left';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
@@ -45,7 +44,7 @@ export interface PagerProps {
   onLoadPage: (nextPage: number) => void
   onPageChange?: ((prevPage: number, event?: React.MouseEvent) => void) | null | undefined
   className?: string | null | undefined
-  hrefFunc?: ((page: number, pageSize: number | undefined) => string) | undefined
+  hrefFunc?: ((page: number, pageSize: number | undefined) => string) | undefined //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
   disableLastPageButton?: boolean
 }
 
@@ -339,24 +338,5 @@ export default class Pager extends PureComponent<PagerProps> {
     );
   }
 }
-
-(Pager as ComponentType<unknown>).propTypes = {
-  total: PropTypes.number.isRequired,
-  currentPage: PropTypes.number,
-  pageSize: PropTypes.number,
-  pageSizes: PropTypes.arrayOf(PropTypes.number),
-  visiblePagesLimit: PropTypes.number,
-  disablePageSizeSelector: PropTypes.bool,
-  openTotal: PropTypes.bool,
-  canLoadLastPageWithOpenTotal: PropTypes.bool,
-  onPageChange: PropTypes.func,
-  onPageSizeChange: PropTypes.func,
-  onLoadPage: PropTypes.func,
-  className: PropTypes.string,
-  translations: PropTypes.object,
-  loader: PropTypes.bool,
-  loaderNavigation: PropTypes.bool,
-  hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
-};
 
 export type PagerAttrs = JSX.LibraryManagedAttributes<typeof Pager, PagerProps>

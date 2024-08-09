@@ -1,5 +1,4 @@
 import {InputHTMLAttributes, PureComponent, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -25,21 +24,6 @@ export interface ToggleProps extends Omit<InputHTMLAttributes<HTMLInputElement>,
   help?: ReactNode
 }
 class Toggle extends PureComponent<ToggleProps> {
-  static propTypes = {
-    children: PropTypes.node,
-    name: PropTypes.string,
-    className: PropTypes.string,
-    title: PropTypes.string,
-    leftLabel: PropTypes.node,
-    defaultChecked: PropTypes.bool,
-    checked: PropTypes.bool,
-    disabled: PropTypes.bool,
-    onChange: PropTypes.func,
-    onTransitionEnd: PropTypes.func,
-    size: PropTypes.oneOf(Object.values(Size)),
-    'data-test': PropTypes.string
-  };
-
   static defaultProps = {
     size: Size.Size14
   };

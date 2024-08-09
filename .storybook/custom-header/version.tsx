@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import DropdownMenu from '../../src/dropdown-menu/dropdown-menu';
 
 import branches from '../branches.json';
@@ -43,9 +41,5 @@ const Version = ({version}: VersionProps) => (
     }}
   />
 );
-
-Version.propTypes = {
-  version: PropTypes.string
-};
 
 export default Version;

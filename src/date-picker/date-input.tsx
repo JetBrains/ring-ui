@@ -1,6 +1,5 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import Input from '../input/input';
 
@@ -8,7 +7,7 @@ import {ControlsHeight} from '../global/controls-height';
 
 import {I18nContext} from '../i18n/i18n-context';
 
-import {DatePopupBaseProps, dateType, Field} from './consts';
+import {DatePopupBaseProps, Field} from './consts';
 import styles from './date-picker.css';
 
 export interface UpdateInputConfig {
@@ -28,26 +27,6 @@ export interface DateInputProps extends DatePopupBaseProps, UpdateInputConfig {
 }
 
 export default class DateInput extends React.PureComponent<DateInputProps> {
-  static propTypes = {
-    active: PropTypes.bool,
-    divider: PropTypes.bool,
-    name: PropTypes.string,
-    text: PropTypes.string,
-    hoverDate: dateType,
-    date: dateType,
-    time: PropTypes.string,
-    displayFormat: PropTypes.func,
-    translations: PropTypes.object,
-    fromPlaceholder: PropTypes.string,
-    toPlaceholder: PropTypes.string,
-    timePlaceholder: PropTypes.string,
-    onInput: PropTypes.func,
-    onActivate: PropTypes.func,
-    onConfirm: PropTypes.func,
-    onClear: PropTypes.func,
-    locale: PropTypes.object
-  };
-
   componentDidMount() {
     this.updateInput(this.props);
   }

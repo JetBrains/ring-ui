@@ -1,7 +1,6 @@
 import {PureComponent, ReactNode} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import exceptionIcon from '@jetbrains/icons/exception';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
@@ -60,10 +59,17 @@ const TypeToIconColor: Partial<Record<AlertType, Color>> = {
 export interface AlertProps {
   theme: Theme,
   timeout: number
+  /**
+   * Fires when alert starts closing if timeout is out or user clicks "Close" button
+   */
   onCloseRequest: ((event?: React.MouseEvent<HTMLElement>) => void)
   onClose: (() => void)
   isShaking: boolean
   isClosing: boolean
+  /**
+   * Whether an alert is rendered inside an **Alerts** container
+   * or standalone.
+   */
   inline: boolean
   showWithAnimation: boolean
   closeable: boolean
@@ -88,31 +94,6 @@ interface State {
  * **Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
  */
 export default class Alert extends PureComponent<AlertProps, State> {
-  static propTypes = {
-    timeout: PropTypes.number,
-    /**
-     * Fires when alert starts closing if timeout is out or user clicks "Close" button
-     */
-    onCloseRequest: PropTypes.func,
-    onClose: PropTypes.func,
-    isShaking: PropTypes.bool,
-    isClosing: PropTypes.bool,
-    /**
-     * Whether an alert is rendered inside an **Alerts** container
-     * or standalone.
-     */
-    inline: PropTypes.bool,
-    showWithAnimation: PropTypes.bool,
-    closeable: PropTypes.bool,
-    type: PropTypes.oneOf(Object.values(AlertType)),
-
-    children: PropTypes.node,
-    className: PropTypes.string,
-    captionClassName: PropTypes.string,
-    closeButtonClassName: PropTypes.string,
-    'data-test': PropTypes.string
-  };
-
   /** @override */
   static defaultProps = {
     theme: Theme.DARK,

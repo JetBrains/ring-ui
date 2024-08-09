@@ -1,6 +1,5 @@
 import {PureComponent, ReactElement} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import memoize from '../global/memoize';
@@ -30,17 +29,6 @@ export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'chil
 }
 
 class Tabs extends PureComponent<TabsProps> {
-  static propTypes = {
-    selected: PropTypes.string,
-    className: PropTypes.string,
-    tabContainerClassName: PropTypes.string,
-    href: PropTypes.string,
-    children: PropTypes.node.isRequired,
-    onSelect: PropTypes.func,
-    'data-test': PropTypes.string,
-    autoCollapse: PropTypes.bool
-  };
-
   static defaultProps = {
     onSelect() {}
   };

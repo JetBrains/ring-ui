@@ -1,11 +1,9 @@
 import {PureComponent, InputHTMLAttributes, CSSProperties, Ref, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import checkmarkIcon from '@jetbrains/icons/checkmark-12px';
 import minusIcon from '@jetbrains/icons/remove-12px';
 
 import Icon from '../icon/icon';
-import {refObject} from '../global/prop-types';
 import {createComposedRef} from '../global/composeRefs';
 
 import ControlHelp from '../control-help/control-help';
@@ -30,26 +28,6 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
  * Displays a checkbox.
  */
 export default class Checkbox extends PureComponent<CheckboxProps> {
-  static propTypes = {
-    name: PropTypes.string,
-    label: PropTypes.string,
-    className: PropTypes.string,
-    containerClassName: PropTypes.string,
-    containerStyle: PropTypes.object,
-    cellClassName: PropTypes.string,
-    labelClassName: PropTypes.string,
-    defaultChecked: PropTypes.bool,
-    checked: PropTypes.bool,
-    indeterminate: PropTypes.bool,
-    disabled: PropTypes.bool,
-    onChange: PropTypes.func,
-    children: PropTypes.node,
-    inputRef: PropTypes.oneOfType([
-      PropTypes.func,
-      refObject(PropTypes.instanceOf(HTMLInputElement))
-    ])
-  };
-
   static defaultProps = {
     indeterminate: false
   };

@@ -1,10 +1,8 @@
 import {Component, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import styles from './grid.css';
 
-const ModifierType = PropTypes.oneOf(['xs', 'sm', 'md', 'lg']);
 const modifierKeys = [
   'start', 'center', 'end', // text-align, justify-content
   'around', 'between', // justify-content
@@ -46,23 +44,6 @@ function getModifierClassNames(props: RowProps) {
 }
 
 export default class Row extends Component<RowProps> {
-  static propTypes = {
-    reverse: PropTypes.bool,
-    start: ModifierType,
-    center: ModifierType,
-    end: ModifierType,
-    top: ModifierType,
-    middle: ModifierType,
-    baseline: ModifierType,
-    bottom: ModifierType,
-    around: ModifierType,
-    between: ModifierType,
-    first: ModifierType,
-    last: ModifierType,
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
-
   render() {
     const {children, className, reverse, ...restProps} = this.props;
 

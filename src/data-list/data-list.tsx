@@ -2,8 +2,7 @@
   * @name Data List
   */
 
-import {PureComponent, Component, ComponentType} from 'react';
-import PropTypes from 'prop-types';
+import {PureComponent, Component} from 'react';
 import classNames from 'classnames';
 
 import focusSensorHOC, {
@@ -21,13 +20,9 @@ import Loader from '../loader/loader';
 
 import {SelectionItem} from '../table/selection';
 
-import {refObject} from '../global/prop-types';
-
 import Item, {FormattedItem, moreLessButtonStates} from './item';
 
 import styles from './data-list.css';
-import Selection from './selection';
-
 
 export interface DataListBaseProps<
   T extends SelectionItem
@@ -177,29 +172,6 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
   }
 }
 
-(DataList as ComponentType<unknown>).propTypes = {
-  className: PropTypes.string,
-  data: PropTypes.array.isRequired,
-  loading: PropTypes.bool,
-  focused: PropTypes.bool.isRequired,
-  disabledHover: PropTypes.bool,
-  selection: PropTypes.instanceOf(Selection).isRequired,
-  selectable: PropTypes.bool.isRequired,
-  shortcutsMap: PropTypes.shape({}).isRequired,
-  innerRef: PropTypes.oneOfType([
-    refObject(PropTypes.instanceOf(HTMLDivElement)),
-    PropTypes.func
-  ]),
-
-  itemFormatter: PropTypes.func.isRequired,
-
-  onItemMoreLess: PropTypes.func,
-  itemMoreLessState: PropTypes.func,
-  onSelect: PropTypes.func.isRequired,
-
-  remoteSelection: PropTypes.bool
-};
-
 type FocusableProps<T extends SelectionItem> = DataListBaseProps<T> &
   DisableHoverAddProps & FocusSensorOuterProps<HTMLDivElement> & SelectionShortcutsAddProps<T>
 export type DataListContainerProps<T extends SelectionItem> = DataListBaseProps<T> &
@@ -214,7 +186,6 @@ const getContainer = <T extends SelectionItem>() => disableHoverHOC(
 export default class DataListContainer<
   T extends SelectionItem
 > extends Component<DataListContainerProps<T>> {
-  static propTypes = getContainer().propTypes;
   // https://stackoverflow.com/a/53882322/6304152
   DataList = getContainer<T>();
 

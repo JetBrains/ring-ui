@@ -1,5 +1,4 @@
 import {Component, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import styles from './text.css';
@@ -24,14 +23,6 @@ const TextSize: Record<string, TextSize> = {
  */
 
 export default class Text extends Component<TextProps> {
-
-  static propTypes = {
-    children: PropTypes.node,
-    info: PropTypes.bool,
-    size: PropTypes.oneOf(Object.keys(TextSize).map(it => TextSize[it])),
-    className: PropTypes.string
-  };
-
   static Size = TextSize;
 
   render() {

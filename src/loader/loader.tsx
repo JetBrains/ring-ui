@@ -1,5 +1,4 @@
 import {HTMLAttributes, PureComponent} from 'react';
-import PropTypes from 'prop-types';
 
 import dataTests from '../global/data-tests';
 
@@ -16,16 +15,6 @@ export interface LoaderProps extends Partial<LoaderCoreProps>, HTMLAttributes<HT
  * Displays a large animated loader with an optional caption. Typical use cases: page loading animation, major action animation.
  */
 export default class Loader extends PureComponent<LoaderProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    size: PropTypes.number,
-    colors: PropTypes.array,
-    message: PropTypes.string,
-    'data-test': PropTypes.string,
-    stop: PropTypes.bool,
-    deterministic: PropTypes.bool
-  };
-
   componentDidUpdate(prevProps: LoaderProps) {
     if (this.loader) {
       if (!prevProps.stop && this.props.stop) {

@@ -1,5 +1,4 @@
 import {Component, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Icon, {IconType} from '../icon/icon';
@@ -24,17 +23,6 @@ export interface ErrorMessageProps {
  */
 
 export default class ErrorMessage extends Component<ErrorMessageProps> {
-  static propTypes = {
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    code: PropTypes.string,
-    message: PropTypes.string,
-    description: PropTypes.string,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    'data-test': PropTypes.string
-  };
-
-
   render() {
     const {className, icon, code, message, description, children,
       'data-test': dataTest} = this.props;

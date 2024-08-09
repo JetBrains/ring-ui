@@ -1,5 +1,4 @@
 import {Component, HTMLAttributes, Ref, ReactElement} from 'react';
-import PropTypes from 'prop-types';
 import {renderToStaticMarkup} from 'react-dom/server';
 
 /**
@@ -15,21 +14,7 @@ export interface ContentEditableBaseProps extends HTMLAttributes<HTMLElement> {
   __html: string
 }
 
-const commonPropTypes = {
-  disabled: PropTypes.bool,
-  tabIndex: PropTypes.number,
-  componentDidUpdate: PropTypes.func,
-  onComponentUpdate: PropTypes.func,
-  className: PropTypes.string,
-  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
-};
-
 class ContentEditableBase extends Component<ContentEditableBaseProps> {
-  static propTypes = {
-    ...commonPropTypes,
-    __html: PropTypes.string
-  };
-
   static defaultProps = {
     disabled: false,
     tabIndex: 0,
@@ -72,9 +57,5 @@ export type ContentEditableProps = Omit<ContentEditableBaseAttrs, '__html'>
 
 const ContentEditable = ({children, ...props}: ContentEditableProps) =>
   <ContentEditableBase {...props} __html={renderToStaticMarkup(children as ReactElement)}/>;
-ContentEditable.propTypes = {
-  ...commonPropTypes,
-  children: PropTypes.node
-};
 
 export default ContentEditable;

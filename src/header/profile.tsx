@@ -1,6 +1,5 @@
-import {Component, ComponentType, HTMLAttributes, PureComponent, ReactNode} from 'react';
+import {ComponentType, HTMLAttributes, PureComponent, ReactNode} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Avatar, {Size} from '../avatar/avatar';
@@ -57,48 +56,6 @@ export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSe
 }
 
 export default class Profile extends PureComponent<ProfileProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    activeClassName: PropTypes.string,
-    closeOnSelect: PropTypes.bool,
-    hasUpdates: PropTypes.bool,
-    loading: PropTypes.bool,
-    onLogin: PropTypes.func,
-    onLogout: PropTypes.func,
-    onSwitchUser: PropTypes.func,
-    profileUrl: PropTypes.string,
-    renderPopupItems: PropTypes.func,
-    LinkComponent: PropTypes.oneOfType([
-      PropTypes.instanceOf(Component),
-      PropTypes.func,
-      PropTypes.string
-    ]),
-    translations: PropTypes.shape({
-      profile: PropTypes.string,
-      login: PropTypes.string,
-      logout: PropTypes.string,
-      applyChangedUser: PropTypes.string,
-      switchUser: PropTypes.string
-    }),
-    user: PropTypes.shape({
-      guest: PropTypes.bool,
-      profile: PropTypes.object,
-      name: PropTypes.string
-    }),
-    size: PropTypes.number,
-    round: PropTypes.bool,
-    showName: PropTypes.bool,
-    showLogIn: PropTypes.bool,
-    showLogOut: PropTypes.bool,
-    showSwitchUser: PropTypes.bool,
-    showApplyChangedUser: PropTypes.bool,
-    onRevertPostponement: PropTypes.func,
-    renderGuest: PropTypes.func,
-    menuProps: PropTypes.object,
-    onShow: PropTypes.func,
-    onHide: PropTypes.func
-  };
-
   static defaultProps: ProfileProps = {
     closeOnSelect: true,
     renderPopupItems: items => items,

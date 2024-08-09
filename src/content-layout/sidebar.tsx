@@ -1,5 +1,4 @@
 import {Component, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Waypoint} from 'react-waypoint';
 
@@ -16,15 +15,6 @@ export interface SidebarProps extends HTMLAttributes<HTMLElement> {
 }
 
 export default class Sidebar extends Component<SidebarProps> {
-  static propTypes = {
-    right: PropTypes.bool,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    containerClassName: PropTypes.string,
-    fixedClassName: PropTypes.string,
-    contentNode: PropTypes.object
-  };
-
   state = {
     topIsOutside: true,
     bottomIsOutside: true,

@@ -14,7 +14,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search';
 import memoizeOne from 'memoize-one';
-import PropTypes from 'prop-types';
 
 import Icon, {IconType} from '../icon/icon';
 
@@ -33,7 +32,6 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import Text from '../text/text';
 import {ControlsHeight} from '../global/controls-height';
-import {refObject} from '../global/prop-types';
 import {createComposedRef} from '../global/composeRefs';
 
 import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
@@ -662,59 +660,6 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     );
   }
 }
-
-(SelectPopup as ComponentType<unknown>).propTypes = {
-  activeIndex: PropTypes.number,
-  anchorElement: PropTypes.instanceOf(HTMLElement),
-  className: PropTypes.string,
-  compact: PropTypes.bool,
-  data: PropTypes.array,
-  dir: PropTypes.oneOf(['ltr', 'rtl']),
-  directions: PropTypes.array,
-  disabled: PropTypes.bool,
-  disableMoveOverflow: PropTypes.bool,
-  disableScrollToActive: PropTypes.bool,
-  filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
-    value: PropTypes.string,
-    placeholder: PropTypes.string
-  })]),
-  filterValue: PropTypes.string,
-  filterIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-  filterRef: PropTypes.oneOfType([
-    PropTypes.func,
-    refObject(PropTypes.instanceOf(HTMLInputElement))
-  ]),
-  hidden: PropTypes.bool,
-  isInputMode: PropTypes.bool,
-  listId: PropTypes.string,
-  maxHeight: PropTypes.number,
-  message: PropTypes.string,
-  minWidth: PropTypes.number,
-  multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
-    label: PropTypes.string,
-    limit: PropTypes.number,
-    selectAll: PropTypes.bool
-  })]),
-  left: PropTypes.number,
-  loading: PropTypes.bool,
-  onClear: PropTypes.func,
-  onCloseAttempt: PropTypes.func,
-  onOutsideClick: PropTypes.func,
-  onEmptyPopupEnter: PropTypes.func,
-  onFilter: PropTypes.func,
-  onLoadMore: PropTypes.func,
-  onSelect: PropTypes.func,
-  onSelectAll: PropTypes.func,
-  renderOptimization: PropTypes.bool,
-  ringPopupTarget: PropTypes.string,
-  selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  style: PropTypes.object,
-  tags: PropTypes.object,
-  toolbar: PropTypes.node,
-  topbar: PropTypes.node,
-  top: PropTypes.number,
-  preventListOverscroll: PropTypes.bool
-};
 
 export type SelectPopupAttrs<T = unknown> =
   JSX.LibraryManagedAttributes<typeof SelectPopup, SelectPopupProps<T>>

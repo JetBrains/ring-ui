@@ -1,5 +1,4 @@
 import {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 
 import dataTests from '../global/data-tests';
 
@@ -10,12 +9,6 @@ export interface SmartTabsProps extends TabsAttrs {
   initSelected?: string | null | undefined
 }
 export default class SmartTabs extends PureComponent<SmartTabsProps> {
-  static propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    initSelected: PropTypes.string,
-    'data-test': PropTypes.string
-  };
-
   constructor(props: SmartTabsProps) {
     super(props);
 

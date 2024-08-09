@@ -1,6 +1,5 @@
 import {cloneElement, Component, HTMLAttributes, ReactNode, ReactElement} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -25,6 +24,10 @@ export interface DropdownChildProps {
 }
 
 export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
+  /**
+   * Can be string, React element, or a function accepting an object with {active, pinned} properties and returning a React element
+   * React element should render some interactive HTML element like `button` or `a`
+   */
   anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode)
   children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode)
   initShown: boolean
@@ -49,28 +52,6 @@ interface DropdownState {
  */
 
 export default class Dropdown extends Component<DropdownProps, DropdownState> {
-  static propTypes = {
-    /**
-     * Can be string, React element, or a function accepting an object with {active, pinned} properties and returning a React element
-     * React element should render some interactive HTML element like `button` or `a`
-     */
-    anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
-    initShown: PropTypes.bool,
-    className: PropTypes.string,
-    activeClassName: PropTypes.string,
-    clickMode: PropTypes.bool,
-    hoverMode: PropTypes.bool,
-    hoverShowTimeOut: PropTypes.number,
-    hoverHideTimeOut: PropTypes.number,
-    disabled: PropTypes.bool,
-    onShow: PropTypes.func,
-    onHide: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    'data-test': PropTypes.string
-  };
-
   static defaultProps = {
     initShown: false,
     clickMode: true,

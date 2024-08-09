@@ -1,6 +1,5 @@
 import {createRef, PureComponent, ButtonHTMLAttributes} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-down';
 
@@ -50,31 +49,6 @@ export type ButtonProps = ButtonButtonProps | ButtonLinkProps
  * A component for displaying variously styled buttons.
  */
 export class Button extends PureComponent<ButtonProps> {
-  static propTypes = {
-    active: PropTypes.bool,
-    danger: PropTypes.bool,
-    delayed: PropTypes.bool,
-    loader: PropTypes.bool,
-    primary: PropTypes.bool,
-    short: PropTypes.bool,
-    text: PropTypes.bool,
-    inline: PropTypes.bool,
-    dropdown: PropTypes.bool,
-
-    href: PropTypes.string,
-    target: PropTypes.string,
-
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    iconSize: PropTypes.number,
-    iconClassName: PropTypes.string,
-    iconSuppressSizeWarning: PropTypes.bool,
-
-    className: PropTypes.string,
-
-    children: PropTypes.node,
-    onClick: PropTypes.func
-  };
-
   static IconSize = Size;
   static contextType = ControlsHeightContext;
   declare context: React.ContextType<typeof ControlsHeightContext>;

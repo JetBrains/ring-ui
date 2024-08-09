@@ -1,5 +1,4 @@
 import {useMemo} from 'react';
-import PropTypes from 'prop-types';
 
 import getUID from '../global/get-uid';
 
@@ -152,9 +151,3 @@ export default function FallbackAvatar({username, size, round}: FallbackAvatarPr
     </svg>
   );
 }
-
-FallbackAvatar.propTypes = {
-  username: PropTypes.string.isRequired,
-  size: PropTypes.number.isRequired,
-  round: PropTypes.bool
-};

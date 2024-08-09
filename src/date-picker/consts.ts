@@ -1,5 +1,4 @@
 import {ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import {add} from 'date-fns/add';
 import type {Duration, Locale} from 'date-fns';
 
@@ -36,12 +35,6 @@ export const yearScrollSpeed = yearDuration / (YEAR * units.cellSize);
 
 export const DOUBLE = 2;
 export const HALF = 0.5;
-
-export const dateType = PropTypes.oneOfType([
-  PropTypes.instanceOf(Date),
-  PropTypes.string,
-  PropTypes.number
-]);
 
 export function parseTime(time: string) {
   let result = null;

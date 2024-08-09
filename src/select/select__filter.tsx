@@ -1,5 +1,4 @@
-import {Component, ComponentType, RefCallback} from 'react';
-import PropTypes from 'prop-types';
+import {Component, RefCallback} from 'react';
 import classNames from 'classnames';
 
 import Input, {InputAttrs} from '../input/input';
@@ -75,11 +74,3 @@ export default class SelectFilter extends Component<SelectFilterProps> {
     );
   }
 }
-
-(SelectFilter as ComponentType<unknown>).propTypes = {
-  placeholder: PropTypes.string,
-  className: PropTypes.string,
-  inputRef: PropTypes.func,
-  listId: PropTypes.string,
-  activeItemId: PropTypes.string
-};

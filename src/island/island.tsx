@@ -1,5 +1,4 @@
 import {Component, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -19,14 +18,6 @@ export interface IslandProps extends HTMLAttributes<HTMLElement> {
  */
 
 export default class Island extends Component<IslandProps> {
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    narrow: PropTypes.bool,
-    withoutPaddings: PropTypes.bool,
-    'data-test': PropTypes.string
-  };
-
   render() {
     const {
       children,

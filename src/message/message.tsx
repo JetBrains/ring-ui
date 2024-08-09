@@ -1,5 +1,4 @@
-import {Component, ComponentType, ReactNode} from 'react';
-import PropTypes from 'prop-types';
+import {Component, ReactNode} from 'react';
 import classNames from 'classnames';
 import gift from '@jetbrains/icons/gift';
 
@@ -199,21 +198,5 @@ export default class Message extends Component<MessageProps> {
     );
   }
 }
-
-(Message as ComponentType<unknown>).propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  tailClassName: PropTypes.string,
-  title: PropTypes.string,
-  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-  directions: PropTypes.arrayOf(PropTypes.string),
-  direction: PropTypes.string,
-  popupProps: PropTypes.object,
-  buttonProps: PropTypes.object,
-  tailOffset: PropTypes.number,
-  onClose: PropTypes.func,
-  onDismiss: PropTypes.func,
-  translations: PropTypes.object
-};
 
 export type MessageAttrs = JSX.LibraryManagedAttributes<typeof Message, MessageProps>

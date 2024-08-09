@@ -1,5 +1,4 @@
 import {Component, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Theme, {ThemeProvider} from '../global/theme';
@@ -19,12 +18,6 @@ interface HeaderProps extends HTMLAttributes<HTMLElement> {
  * Displays a configurable page header. See available presentation options in the knobs panel.
  */
 class Header extends Component<HeaderProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node,
-    spaced: PropTypes.bool
-  };
-
   static defaultProps = {
     spaced: true,
     theme: Theme.DARK,

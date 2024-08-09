@@ -1,5 +1,4 @@
 import {Component, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 
 import Dialog from '../dialog/dialog';
 import {Content} from '../island/island';
@@ -31,17 +30,6 @@ export interface LoginDialogProps {
  */
 
 export default class LoginDialog extends Component<LoginDialogProps> {
-  static propTypes = {
-    show: PropTypes.bool,
-    className: PropTypes.string,
-    url: PropTypes.string,
-    loader: PropTypes.bool,
-    loadingMessage: PropTypes.string,
-    showFallbackTimeout: PropTypes.number,
-    renderFallbackLink: PropTypes.func,
-    onCancel: PropTypes.func.isRequired
-  };
-
   static defaultProps = {
     show: false,
     url: 'about:blank',

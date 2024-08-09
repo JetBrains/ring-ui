@@ -1,5 +1,4 @@
-import {Component, PureComponent, ComponentType} from 'react';
-import PropTypes from 'prop-types';
+import {PureComponent} from 'react';
 import classNames from 'classnames';
 
 import Link, {linkHOC} from '../link/link';
@@ -53,23 +52,3 @@ export default class ListLink<T> extends PureComponent<ListDataItemProps<T>> {
     );
   }
 }
-
-(ListLink as ComponentType<unknown>).propTypes = {
-  ...Link.propTypes,
-  description: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string,
-    PropTypes.func
-  ]),
-  rgItemType: PropTypes.number,
-  scrolling: PropTypes.bool.isRequired,
-  url: PropTypes.string,
-  LinkComponent: PropTypes.oneOfType([
-    PropTypes.instanceOf(Component),
-    PropTypes.func,
-    PropTypes.string
-  ]),
-  onCheckboxChange: PropTypes.func.isRequired,
-  compact: PropTypes.bool
-};

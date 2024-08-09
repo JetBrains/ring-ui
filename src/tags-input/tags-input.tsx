@@ -1,6 +1,5 @@
-import {Component, PureComponent, SyntheticEvent, ReactNode, ComponentType} from 'react';
+import {PureComponent, SyntheticEvent, ReactNode, ComponentType} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import getEventKey from '../global/get-event-key';
@@ -39,6 +38,12 @@ export interface TagsInputRequestParams {
 }
 
 export interface TagsInputProps {
+  /**
+   * Datasource should return array(or promise) of suggestions.
+   * Each suggestion should contain key and label fields.
+   * DataSource should handle caching and response racing (when later request
+   * responded earlier) by himself.
+   */
   dataSource: (params: TagsInputRequestParams) =>
     readonly SelectItem[] | Promise<readonly SelectItem[]>
   onAddTag: (params: ToggleTagParams) => void
@@ -76,37 +81,6 @@ interface TagsInputState {
 }
 
 export default class TagsInput extends PureComponent<TagsInputProps, TagsInputState> {
-  static propTypes = {
-    className: PropTypes.string,
-    tags: PropTypes.array,
-    /**
-     * Datasource should return array(or promise) of suggestions.
-     * Each suggestion should contain key and label fields.
-     * DataSource should handle caching and response racing (when later request
-     * responded earlier) by himself.
-     */
-    dataSource: PropTypes.func,
-    onAddTag: PropTypes.func,
-    onRemoveTag: PropTypes.func,
-    customTagComponent: PropTypes.instanceOf(Component),
-    maxPopupHeight: PropTypes.number,
-    minPopupWidth: PropTypes.number,
-    placeholder: PropTypes.string,
-    canNotBeEmpty: PropTypes.bool,
-    disabled: PropTypes.bool,
-    autoOpen: PropTypes.bool,
-    renderOptimization: PropTypes.bool,
-    filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({fn: PropTypes.func})]),
-    size: PropTypes.string,
-    height: PropTypes.string,
-    label: PropTypes.node,
-
-    loadingMessage: PropTypes.string,
-    notFoundMessage: PropTypes.string,
-    hint: PropTypes.node,
-    allowAddNewTags: PropTypes.bool
-  };
-
   static defaultProps = {
     dataSource: noop,
     onAddTag: noop,

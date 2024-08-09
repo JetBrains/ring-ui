@@ -1,5 +1,4 @@
 import {PureComponent, ReactNode} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -21,14 +20,6 @@ export interface TabProps {
   collapsedActiveClassName?: string | null | undefined
 }
 export default class Tab extends PureComponent<TabProps> {
-  static propTypes = {
-    title: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
-    id: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    'data-test': PropTypes.string
-  };
-
   render() {
     const {className, children, 'data-test': dataTest} = this.props;
     return (

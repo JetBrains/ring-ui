@@ -1,5 +1,4 @@
 import {Component, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import styles from './grid.css';
@@ -9,11 +8,6 @@ import styles from './grid.css';
  */
 
 export class Grid extends Component<HTMLAttributes<HTMLDivElement>> {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
-
   render() {
     const {children, className, ...restProps} = this.props;
     const classes = classNames(styles['container-fluid'], className);

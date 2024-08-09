@@ -1,5 +1,4 @@
 import {Component} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Button, {ButtonAttrs} from '../button/button';
@@ -13,12 +12,6 @@ export interface HeaderIconSpecificProps {
 }
 
 export default class HeaderIcon extends Component<ButtonAttrs & HeaderIconSpecificProps> {
-  static propTypes = {
-    ...Button.propTypes,
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]).isRequired,
-    rotatable: PropTypes.bool
-  };
-
   render() {
     const {className, rotatable: rotatable, ...restProps} = this.props;
     const classes = classNames(styles.icon, className, {

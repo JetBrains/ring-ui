@@ -8,11 +8,9 @@ import {
 } from 'react';
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close-12px';
 
-import {refObject} from '../global/prop-types';
 import Button from '../button/button';
 
 import getUID from '../global/get-uid';
@@ -272,33 +270,6 @@ export class Input extends PureComponent<InputProps> {
     );
   }
 }
-
-(Input as ComponentType<unknown>).propTypes = {
-  value: PropTypes.string,
-  className: PropTypes.string,
-  inputClassName: PropTypes.string,
-  size: PropTypes.oneOf(Object.values(Size)).isRequired,
-  label: PropTypes.node,
-  error: PropTypes.string,
-  multiline: PropTypes.bool,
-  onChange: PropTypes.func,
-  onClear: PropTypes.func,
-  inputRef: PropTypes.oneOfType([
-    PropTypes.func,
-    refObject(PropTypes.instanceOf(HTMLInputElement)),
-    refObject(PropTypes.instanceOf(HTMLTextAreaElement))
-  ]),
-  children: PropTypes.string,
-  enableShortcuts: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.arrayOf(PropTypes.string.isRequired)
-  ]),
-  disabled: PropTypes.bool,
-  id: PropTypes.string,
-  placeholder: PropTypes.string,
-  translations: PropTypes.object,
-  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
-};
 
 export type ContainerProps<P extends InputProps> = JSX.LibraryManagedAttributes<typeof Input, P>
 

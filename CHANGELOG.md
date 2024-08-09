@@ -9,6 +9,7 @@
 - `palette.css` is removed
 - Table: `wideFirstColumn` is now `false` by default
 - Tag: `angled` prop is removed
+- propTypes are removed in favor of TypeScript
 
 ## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
 

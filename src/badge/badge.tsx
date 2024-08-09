@@ -1,5 +1,4 @@
 import {PureComponent, HTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
 
@@ -22,16 +21,6 @@ const warn = deprecate(() => {}, 'Badge is deprecated and will be removed in Rin
  */
 // TODO remove in 7.0
 export default class Badge extends PureComponent<BadgeProps> {
-  static propTypes = {
-    gray: PropTypes.bool,
-    valid: PropTypes.bool,
-    invalid: PropTypes.bool,
-    disabled: PropTypes.bool,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    'data-test': PropTypes.string
-  };
-
   render() {
     warn();
     const {

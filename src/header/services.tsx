@@ -1,5 +1,4 @@
 import {HTMLAttributes, PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import servicesIcon from '@jetbrains/icons/services-20px';
 
 import classNames from 'classnames';
@@ -24,10 +23,6 @@ const makeAnchor = (loading: boolean | null | undefined) => {
     />
   );
 
-  Anchor.propTypes = {
-    active: PropTypes.bool
-  };
-
   return Anchor;
 };
 
@@ -46,15 +41,6 @@ export default class Services extends PureComponent<ServicesProps> {
 
     return aApplicationName.localeCompare(bApplicationName) ||
       a.name.localeCompare(b.name);
-  };
-
-  static propTypes = {
-    className: PropTypes.string,
-    clientId: PropTypes.string,
-    initShown: PropTypes.bool,
-    loading: PropTypes.bool,
-    onClick: PropTypes.func,
-    services: PropTypes.arrayOf(ServicesLink.propTypes.service)
   };
 
   static defaultProps = {

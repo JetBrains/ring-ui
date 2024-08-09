@@ -1,5 +1,4 @@
-import {PureComponent, SyntheticEvent, ComponentType} from 'react';
-import PropTypes from 'prop-types';
+import {PureComponent, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -198,47 +197,3 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     );
   }
 }
-
-(ListItem as ComponentType<unknown>).propTypes = {
-  scrolling: PropTypes.bool,
-  hover: PropTypes.bool,
-  details: PropTypes.string,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  tabIndex: PropTypes.number,
-  checkbox: PropTypes.bool,
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.array
-  ]),
-  showGeneratedAvatar: PropTypes.bool,
-  username: PropTypes.string,
-  avatar: PropTypes.string,
-  subavatar: PropTypes.string,
-  glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-  icon: PropTypes.string,
-  iconSize: PropTypes.number,
-  rightNodes: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.array
-  ]),
-  leftNodes: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.array
-  ]),
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  title: PropTypes.string,
-  level: PropTypes.number,
-  rgItemType: PropTypes.number,
-  rightGlyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-  compact: PropTypes.bool,
-  onClick: PropTypes.func,
-  onCheckboxChange: PropTypes.func,
-  onMouseOver: PropTypes.func,
-  onMouseDown: PropTypes.func,
-  onMouseUp: PropTypes.func,
-  'data-test': PropTypes.string
-};

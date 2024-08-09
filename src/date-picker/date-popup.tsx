@@ -1,6 +1,5 @@
 import {Component} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import {isAfter} from 'date-fns/isAfter';
 import {isBefore} from 'date-fns/isBefore';
 import {isSameDay} from 'date-fns/isSameDay';
@@ -18,7 +17,6 @@ import {
   DatePickerChange,
   DatePopupBaseProps, DateSpecificPopupProps,
   DatePopupState,
-  dateType,
   parseTime, RangeSpecificPopupProps, TimeSpecificPopupProps,
   Field,
   CalendarProps
@@ -39,28 +37,6 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
     return next === prev;
   }
-
-  static propTypes = {
-    className: PropTypes.string,
-    date: dateType,
-    range: PropTypes.bool,
-    withTime: PropTypes.bool,
-    time: PropTypes.string,
-    from: dateType,
-    to: dateType,
-    renderAfterCalendar: PropTypes.func,
-    displayFormat: PropTypes.func,
-    parseDateInput: PropTypes.func,
-    onChange: PropTypes.func,
-    onComplete: PropTypes.func,
-    onClear: PropTypes.func,
-    minDate: dateType,
-    maxDate: dateType,
-    fromPlaceholder: PropTypes.string,
-    toPlaceholder: PropTypes.string,
-    timePlaceholder: PropTypes.string,
-    locale: PropTypes.object
-  };
 
   static defaultProps = {
     onChange() {}

@@ -1,12 +1,8 @@
-import {SyntheticEvent, ComponentType} from 'react';
-import PropTypes from 'prop-types';
+import {SyntheticEvent} from 'react';
 
-import Popup, {BasePopupProps, PopupProps} from '../popup/popup';
+import Popup, {BasePopupProps} from '../popup/popup';
 import List, {ListProps as ListPropsType} from '../list/list';
 import {ListDataItem} from '../list/consts';
-
-const {children, ...popupPropTypes} =
-  (Popup as unknown as ComponentType<PopupProps>).propTypes || {};
 
 export interface PopupMenuProps<T = unknown> extends
   Omit<ListPropsType<T>, 'maxHeight' | 'hidden'>, Omit<BasePopupProps, 'onMouseOut'> {
@@ -56,13 +52,6 @@ export default class PopupMenu<T = unknown> extends Popup<PopupMenuProps<T>> {
     );
   }
 }
-
-(PopupMenu as ComponentType<unknown>).propTypes = {
-  ...popupPropTypes,
-  ...List.propTypes,
-  maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  closeOnSelect: PropTypes.bool
-};
 
 export type PopupMenuAttrs<T = unknown> =
   JSX.LibraryManagedAttributes<typeof PopupMenu, PopupMenuProps<T>>

@@ -2,10 +2,9 @@
  * @name Table
  */
 
-import {Component, ComponentType, PureComponent, ReactNode, SyntheticEvent} from 'react';
+import {Component, PureComponent, ReactNode, SyntheticEvent} from 'react';
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {arrayMove, List} from 'react-movable';
 
@@ -16,7 +15,7 @@ import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
-import Selection, {SelectionItem} from './selection';
+import {SelectionItem} from './selection';
 import Header, {HeaderAttrs} from './header';
 import style from './table.css';
 import selectionShortcutsHOC, {
@@ -324,57 +323,6 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
   }
 }
 
-(Table as ComponentType<unknown>).propTypes = {
-  className: PropTypes.string,
-  loaderClassName: PropTypes.string,
-  data: PropTypes.array.isRequired,
-  columns: PropTypes.oneOfType([PropTypes.array, PropTypes.func]).isRequired,
-  caption: PropTypes.string,
-  isItemSelectable: PropTypes.func,
-  stickyHeader: PropTypes.bool,
-  stickyHeaderOffset: PropTypes.string,
-  loading: PropTypes.bool,
-  getItemKey: PropTypes.func,
-  getItemClassName: PropTypes.func,
-  getMetaColumnClassName: PropTypes.func,
-  getItemDataTest: PropTypes.func,
-  onSort: PropTypes.func,
-  onReorder: PropTypes.func,
-  sortKey: PropTypes.string,
-  sortOrder: PropTypes.bool,
-  draggable: PropTypes.bool,
-  alwaysShowDragHandle: PropTypes.bool,
-  getItemLevel: PropTypes.func,
-  isItemCollapsible: PropTypes.func,
-  isParentCollapsible: PropTypes.func,
-  isItemCollapsed: PropTypes.func,
-  onItemCollapse: PropTypes.func,
-  onItemExpand: PropTypes.func,
-  isDisabledSelectionVisible: PropTypes.func,
-  getCheckboxTooltip: PropTypes.func,
-  onItemDoubleClick: PropTypes.func,
-  onItemClick: PropTypes.func,
-  wideFirstColumn: PropTypes.bool,
-
-  // focusSensorHOC
-  focused: PropTypes.bool,
-  onFocusRestore: PropTypes.func,
-  innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.func]),
-
-  // selectionShortcutsHOC
-  selection: PropTypes.instanceOf(Selection).isRequired,
-  selectable: PropTypes.bool,
-  onSelect: PropTypes.func,
-  shortcutsMap: PropTypes.object,
-
-  // disableHoverHOC
-  disabledHover: PropTypes.bool,
-
-  remoteSelection: PropTypes.bool,
-
-  renderEmpty: PropTypes.func
-};
-
 const getContainer = <T extends SelectionItem>() =>
   disableHoverHOC(
     selectionShortcutsHOC<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>(
@@ -386,7 +334,6 @@ export type TableAttrs<T extends SelectionItem> = DisableHoverProps<SelectionSho
 // eslint-disable-next-line react/no-multi-comp
 export default class TableContainer<T extends SelectionItem> extends Component<TableAttrs<T>> {
   // https://stackoverflow.com/a/53882322/6304152
-  static propTypes = getContainer().propTypes;
   Table = getContainer<T>();
 
   render() {

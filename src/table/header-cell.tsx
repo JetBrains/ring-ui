@@ -1,5 +1,4 @@
 import {PureComponent, ReactNode, SyntheticEvent, ThHTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import sortableIcon from '@jetbrains/icons/unsorted-10px';
 import sortedIcon from '@jetbrains/icons/chevron-10px';
@@ -36,16 +35,6 @@ export interface HeaderCellProps extends ThHTMLAttributes<HTMLTableHeaderCellEle
 }
 
 export default class HeaderCell extends PureComponent<HeaderCellProps> {
-  static propTypes = {
-    children: PropTypes.any,
-    className: PropTypes.string,
-    column: PropTypes.object.isRequired,
-    onSort: PropTypes.func,
-    sortKey: PropTypes.string,
-    sortOrder: PropTypes.bool,
-    'data-test': PropTypes.string
-  };
-
   static defaultProps = {
     onSort: () => {}
   };

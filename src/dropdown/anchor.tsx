@@ -1,5 +1,4 @@
 import {memo} from 'react';
-import PropTypes from 'prop-types';
 import chevronDown from '@jetbrains/icons/chevron-10px';
 import classNames from 'classnames';
 
@@ -23,10 +22,5 @@ const Anchor = ({children, className, ...restProps}: ButtonAttrs) => (
     />
   </Button>
 );
-
-Anchor.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string
-};
 
 export default memo(Anchor);

@@ -1,5 +1,4 @@
 import {PureComponent, ImgHTMLAttributes} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {encodeURL, isDataURI, parseQueryString} from '../global/url';
@@ -35,19 +34,6 @@ export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
 }
 
 export default class Avatar extends PureComponent<AvatarProps> {
-  static propTypes = {
-    dpr: PropTypes.number,
-    className: PropTypes.string,
-    size: PropTypes.number,
-    style: PropTypes.object,
-    url: PropTypes.string,
-    round: PropTypes.bool,
-    subavatar: PropTypes.string,
-    subavatarSize: PropTypes.number,
-    username: PropTypes.string,
-    skipParams: PropTypes.bool
-  };
-
   static defaultProps = {
     dpr: getPixelRatio(),
     size: Size.Size20,

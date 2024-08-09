@@ -1,9 +1,7 @@
-import {ComponentType, ReactElement} from 'react';
+import {ReactElement} from 'react';
 import * as React from 'react';
 
 import classNames from 'classnames';
-
-import PropTypes from 'prop-types';
 
 import styles from './tabs.css';
 import TabLink from './tab-link';
@@ -64,14 +62,6 @@ const TabTitle = React.memo(function TabTitle({
     />
   );
 });
-
-(TabTitle as unknown as ComponentType<unknown>).propTypes = {
-  child: PropTypes.element,
-  handleSelect: PropTypes.func,
-  selected: PropTypes.bool,
-  collapsed: PropTypes.bool,
-  tabIndex: PropTypes.number
-};
 
 export interface TabTitlesParams extends Omit<Partial<TabTitleProps>, 'selected'> {
   items: ReactElement<TabProps>[]

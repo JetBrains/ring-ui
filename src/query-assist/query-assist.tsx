@@ -1,6 +1,5 @@
 import {Component, ComponentRef, ReactNode, SyntheticEvent} from 'react';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
@@ -77,28 +76,91 @@ export interface QueryAssistRequestParams {
 }
 
 export interface QueryAssistProps {
+  /**
+   * Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument
+   */
   onApply: (change: QueryAssistChange) => void
+  /**
+   * Called when the query is changed. An object with fields `caret` and `query` is passed as an argument
+   */
   onChange: (change: QueryAssistChange) => void
+  /**
+   * Called when the suggestion is applied
+   */
   onApplySuggestion: (suggestion: QueryAssistSuggestion, change: QueryAssistChange) => void
+  /**
+   * Called when the query is cleared. Called without arguments
+   */
   onClear: () => void
+  /**
+   * Called when the focus status is changed. An object with fields `focus` is passed as an argument
+   */
   onFocusChange: (change: FocusChange) => void
   translations?: QueryAssistTranslations | null | undefined
+  /**
+   * Open suggestions popup during the initial render
+   */
   autoOpen?: boolean | null | undefined | 'force'
+  /**
+   * Initial caret position
+   */
   caret?: number | null | undefined
+  /**
+   * Show clickable "cross" icon on the right which clears the query
+   */
   clear?: boolean | null | undefined
+  /**
+   * Additional class for the component
+   */
   className?: string | null | undefined
+  /**
+   * Additional class for the popup
+   */
   popupClassName?: string | null | undefined
+  /**
+   * Additional class for the input
+   */
   inputClassName?: string | null | undefined
+  /**
+   * Data source function
+   */
   dataSource: (params: QueryAssistRequestParams) => Promise<QueryAssistResponse> |
     QueryAssistResponse
+  /**
+   * Input debounce delay
+   */
   delay?: number | null | undefined
+  /**
+   * Disable the component
+   */
   disabled?: boolean | undefined
+  /**
+   * Initial focus
+   */
   focus?: boolean | null | undefined
+  /**
+   * Hint under the suggestions list
+   */
   hint?: string | null | undefined
+  /**
+   * Hint under the suggestions list visible when a suggestion is selected
+   */
   hintOnSelection?: string | null | undefined
+  /**
+   * Show clickable "glass" icon on the right which applies the query
+   */
   glass?: boolean | null | undefined
+  /**
+   * Show loader when a data request is in process
+   */
   loader?: boolean | null | undefined
+  /**
+   * Field placeholder value
+   */
   placeholder?: string | null | undefined
+  /**
+   * Initial query
+   */
   query?: string | null | undefined
   useCustomItemRender?: boolean | null | undefined
   actions?: ReactNode[] | null | undefined
@@ -175,99 +237,6 @@ interface HistoryEntry {
  + __icon__ \`string=\` Icon URI, Data URI is possible
  */
 export default class QueryAssist extends Component<QueryAssistProps> {
-  static propTypes = {
-    /**
-     * Open suggestions popup during the initial render
-     */
-    autoOpen: PropTypes.oneOf([true, false, 'force']),
-    /**
-     * Initial caret position
-     */
-    caret: PropTypes.number,
-    /**
-     * Show clickable "cross" icon on the right which clears the query
-     */
-    clear: PropTypes.bool,
-    /**
-     * Additional class for the component
-     */
-    className: PropTypes.string,
-    /**
-     * Additional class for the popup
-     */
-    popupClassName: PropTypes.string,
-    /**
-     * Additional class for the input
-     */
-    inputClassName: PropTypes.string,
-    /**
-     * Data source function
-     */
-    dataSource: PropTypes.func.isRequired,
-    /**
-     * Input debounce delay
-     */
-    delay: PropTypes.number,
-    /**
-     * Disable the component
-     */
-    disabled: PropTypes.bool,
-    /**
-     * Initial focus
-     */
-    focus: PropTypes.bool,
-    /**
-     * Hint under the suggestions list
-     */
-    hint: PropTypes.string,
-    /**
-     * Hint under the suggestions list visible when a suggestion is selected
-     */
-    hintOnSelection: PropTypes.string,
-    /**
-     * Show clickable "glass" icon on the right which applies the query
-     */
-    glass: PropTypes.bool,
-    /**
-     * Show loader when a data request is in process
-     */
-    loader: PropTypes.bool,
-    /**
-     * Field placeholder value
-     */
-    placeholder: PropTypes.string,
-    /**
-     * Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument
-     */
-    onApply: PropTypes.func,
-    /**
-     * Called when the query is changed. An object with fields `caret` and `query` is passed as an argument
-     */
-    onChange: PropTypes.func,
-    /**
-     * Called when the query is cleared. Called without arguments
-     */
-    onClear: PropTypes.func,
-    /**
-     * Called when the suggestion is applied
-     */
-    onApplySuggestion: PropTypes.func,
-    /**
-     * Called when the focus status is changed. An object with fields `focus` is passed as an argument
-     */
-    onFocusChange: PropTypes.func,
-    /**
-     * Initial query
-     */
-    query: PropTypes.string,
-    useCustomItemRender: PropTypes.bool,
-    translations: PropTypes.object,
-    actions: PropTypes.array,
-    'data-test': PropTypes.string,
-    huge: PropTypes.bool,
-    size: PropTypes.string
-  };
-
   static defaultProps = {
     onApply: noop,
     onChange: noop,

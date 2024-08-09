@@ -8,7 +8,6 @@ import {
   ReactElement,
   ReactNode
 } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import fastdom from 'fastdom';
@@ -287,18 +286,6 @@ export const CollapsibleTabs = ({
       </div>
     </div>
   );
-};
-
-CollapsibleTabs.propTypes = {
-  children: PropTypes.node.isRequired,
-  selected: PropTypes.string,
-  onSelect: PropTypes.func.isRequired,
-  moreClassName: PropTypes.string,
-  moreActiveClassName: PropTypes.string,
-  morePopupClassName: PropTypes.string,
-  morePopupItemClassName: PropTypes.string,
-  initialVisibleItems: PropTypes.number,
-  morePopupBeforeEnd: PropTypes.element
 };
 
 export default memo(CollapsibleTabs);

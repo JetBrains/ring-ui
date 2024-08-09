@@ -4,12 +4,9 @@ import {format} from 'date-fns/format';
 import {getDay} from 'date-fns/getDay';
 import {setDay} from 'date-fns/setDay';
 
-import PropTypes from 'prop-types';
-
 import Day from './day';
 import {
   MonthsProps,
-  dateType,
   WEEK,
   weekdays,
   shiftWeekArray,
@@ -54,8 +51,3 @@ export default function Month(props: MonthProps) {
     </div>
   );
 }
-
-Month.propTypes = {
-  month: dateType,
-  locale: PropTypes.object
-};

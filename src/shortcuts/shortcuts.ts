@@ -1,5 +1,4 @@
 import {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 
 import shortcuts, {ShortcutsMap, ShortcutsScopeOptions} from './core';
 
@@ -12,14 +11,6 @@ export interface ShortcutsProps {
 }
 
 export default class Shortcuts extends PureComponent<ShortcutsProps> {
-  static propTypes = {
-    map: PropTypes.object.isRequired,
-    scope: PropTypes.string.isRequired,
-    options: PropTypes.object,
-    disabled: PropTypes.bool,
-    children: PropTypes.node
-  };
-
   static defaultProps = {
     options: {}
   };

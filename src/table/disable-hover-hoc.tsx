@@ -10,7 +10,6 @@ export default function disableHoverHOC<P extends DisableHoverAddProps>(
   ComposedComponent: ComponentType<P>
 ) {
   return class DisableHover extends PureComponent<DisableHoverProps<P>> {
-    static propTypes = ComposedComponent.propTypes;
     static defaultProps = ComposedComponent.defaultProps;
 
     state = {
