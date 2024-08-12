@@ -29,7 +29,7 @@ enum Theme {
 
 export const ThemeContext = createContext<{theme: Theme.LIGHT | Theme.DARK}>({theme: Theme.LIGHT});
 
-const GLOBAL_DARK_CLASS_NAME = 'ring-ui-theme-dark';
+export const GLOBAL_DARK_CLASS_NAME = 'ring-ui-theme-dark';
 
 const darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
 

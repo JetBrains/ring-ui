@@ -5,7 +5,7 @@ import Text from '../text/text';
 
 import Select from '../select/select';
 
-import Theme, {ThemeProvider} from './theme';
+import Theme, {GLOBAL_DARK_CLASS_NAME, ThemeProvider} from './theme';
 
 export default {
   title: 'Components/Theme Provider'
@@ -29,7 +29,7 @@ const ThemedWrapper: React.FC<{children: React.ReactNode}> = ({children}) => (
 export const basic = () => {
   const ThemeExample: React.FC = () => (
     <div>
-      <div className="ring-ui-theme-dark">
+      <div className={GLOBAL_DARK_CLASS_NAME}>
         <ThemedWrapper>
           <Text>This is dark (via global css class)</Text>
         </ThemedWrapper>
