@@ -56,7 +56,8 @@ export default class SmartProfile extends PureComponent<SmartProfileProps, Smart
     try {
       await this.props.auth.login();
     } catch (err) {
-      // do nothing
+      // eslint-disable-next-line no-console
+      console.debug('Profile login errored', err);
     } finally {
       this.setState({loading: false});
     }
