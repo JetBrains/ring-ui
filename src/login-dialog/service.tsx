@@ -28,6 +28,9 @@ export default function showAuthDialog(props: LoginDialogAttrs = {onCancel: noop
   });
 
   return () => {
-    reactRoot.unmount();
+    renderLoginDialog({
+      ...props,
+      show: false
+    });
   };
 }
