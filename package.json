@@ -102,7 +102,7 @@
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
     "@types/chai": "^4.3.18",
-    "@types/chai-as-promised": "^7.1.8",
+    "@types/chai-as-promised": "^8.0.0",
     "@types/chai-dom": "0.0.10",
     "@types/chai-enzyme": "^0.6.13",
     "@types/enzyme": "^3.10.18",
