@@ -292,7 +292,10 @@ export default class Auth implements HTTPAuth {
     }
 
     if (this.config.reloadOnUserChange) {
-      this.addListener(USER_CHANGED_EVENT, () => this._reloadCurrentPage());
+      this.addListener(USER_CHANGED_EVENT, () => {
+        // Timeout is needed to ensure all other listeners triggered before stopping current page
+        setTimeout(() => this._reloadCurrentPage());
+      });
     }
 
     this.addListener(LOGOUT_POSTPONED_EVENT, () => this._setPostponed(true));

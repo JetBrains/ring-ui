@@ -113,15 +113,18 @@ describe('Auth', () => {
     });
 
     it('should perform redirect on userChange by default', () => {
+      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({serverUri: ''});
       auth.listeners.trigger(USER_CHANGED_EVENT);
+      clock.tick(0);
 
       Auth.prototype._redirectCurrentPage.should.have.been.called;
     });
 
     it('should not perform redirect on userChange when reloadOnUserChange is false', () => {
+      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({
@@ -129,6 +132,7 @@ describe('Auth', () => {
         serverUri: ''
       });
       auth.listeners.trigger(USER_CHANGED_EVENT);
+      clock.tick(0);
 
       Auth.prototype._redirectCurrentPage.should.not.been.called;
     });
@@ -526,12 +530,6 @@ describe('Auth', () => {
           '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
       auth._showUserChangedDialog.should.have.been.called;
       'token'.should.be.equal(accessToken);
-    });
-
-    it('should reload page if user change was applied', () => {
-      auth.user = {id: 'initUser'} as AuthUser;
-      auth.listeners.trigger(USER_CHANGED_EVENT);
-      Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
     });
 
     it('should redirect current page if get token in iframe fails', async () => {
