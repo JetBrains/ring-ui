@@ -24,6 +24,10 @@
   display: inline-block;
 
   margin-bottom: calc(var(--ring-unit) * 2);
+
+  & > * + * {
+    margin-left: calc(var(--ring-unit) * 3);
+  }
 }
 
 .titles {
@@ -75,10 +79,6 @@
 .title.titleLegacy {
   display: inline-flex;
   flex-direction: column;
-}
-
-.title + .title {
-  margin-left: calc(var(--ring-unit) * 3);
 }
 
 .title[disabled] {

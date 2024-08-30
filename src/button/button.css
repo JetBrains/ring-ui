@@ -5,98 +5,49 @@
 
 .heightS {
   --ring-button-height: calc(var(--ring-unit) * 3);
+  --ring-button-padding-block: calc(var(--ring-unit) * 0.5);
   --ring-button-font-size: var(--ring-font-size-smaller);
+  --ring-button-line-height: var(--ring-line-height-lowest);
+  --ring-button-icon-line-height: calc(var(--ring-unit) * 1.5);
 }
 
 .heightM {
   --ring-button-height: calc(var(--ring-unit) * 3.5);
+  --ring-button-padding-block: calc(var(--ring-unit) * 0.5);
   --ring-button-font-size: var(--ring-font-size);
+  --ring-button-line-height: var(--ring-line-height);
+  --ring-button-icon-line-height: calc(var(--ring-unit) * 2);
 }
 
 .heightL {
   --ring-button-height: calc(var(--ring-unit) * 4);
+  --ring-button-padding-block: calc(var(--ring-unit) * 0.75);
   --ring-button-font-size: var(--ring-font-size);
+  --ring-button-line-height: var(--ring-line-height);
+  --ring-button-icon-line-height: calc(var(--ring-unit) * 2);
 }
 
 .button {
-  position: relative;
-
-  display: inline-block;
+  --ring-button-focus-border-color: var(--ring-border-hover-color);
 
   box-sizing: border-box;
-  height: var(--ring-button-height);
   margin: 0;
-  padding: 0 calc(var(--ring-unit) * 2);
 
   cursor: pointer;
   transition: color var(--ring-ease), background-color var(--ring-ease), box-shadow var(--ring-ease);
   white-space: nowrap;
   text-decoration: none;
 
-  color: var(--ring-text-color);
-
   border: 0;
   border-radius: var(--ring-border-radius);
   outline: 0;
-  background-color: var(--ring-content-background-color);
-  box-shadow: button-shadow var(--ring-borders-color);
 
-  font-family: var(--ring-font-family);
-  font-size: var(--ring-button-font-size);
+  font-family: var(--ring-font-family), sans-serif;
 
-  line-height: var(--ring-button-height);
-
-  &:hover {
-    transition: none;
-
-    box-shadow: button-shadow var(--ring-border-hover-color);
-  }
-
-  &:active {
-    transition: none;
-
-    background-color: var(--ring-selected-background-color);
-    box-shadow: button-shadow var(--ring-border-hover-color);
-  }
-
+  &:hover,
+  &:active,
   &:focus-visible {
     transition: none;
-
-    box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
-  }
-
-  &.active {
-    transition: none;
-
-    background-color: var(--ring-hover-background-color);
-    box-shadow: button-shadow var(--ring-main-color);
-  }
-
-  &:focus-visible.active {
-    box-shadow: inset 0 0 0 2px var(--ring-main-color), 0 0 0 1px var(--ring-border-hover-color);
-  }
-
-  &[disabled] {
-    cursor: auto;
-
-    background-color: var(--ring-disabled-background-color);
-    box-shadow: button-shadow var(--ring-border-disabled-color);
-  }
-
-  &[disabled].active {
-    background-color: var(--ring-disabled-selected-background-color);
-    box-shadow: button-shadow var(--ring-border-selected-disabled-color);
-  }
-
-  &[disabled],
-  &[disabled].withIcon,
-  &[disabled]:hover {
-    color: var(--ring-disabled-color);
-  }
-
-  /* stylelint-disable-next-line selector-max-specificity */
-  &[disabled] .icon.icon {
-    color: var(--ring-icon-disabled-color);
   }
 
   &::-moz-focus-inner {
@@ -107,45 +58,113 @@
   }
 }
 
-.withIcon {
-  color: var(--ring-secondary-color);
-}
+.block {
+  --ring-button-background-color: var(--ring-content-background-color);
+  --ring-button-border-color: var(--ring-borders-color);
+  --ring-button-padding-inline: calc(var(--ring-unit) * 2);
 
-.primary {
-  color: var(--ring-white-text-color);
-  background-color: var(--ring-main-color);
-  box-shadow: none;
+  display: inline-block;
+
+  height: var(--ring-button-height);
+  padding: var(--ring-button-padding-block) var(--ring-button-padding-inline);
+
+  color: var(--ring-text-color);
+
+  background-color: var(--ring-button-background-color);
+  box-shadow: button-shadow var(--ring-button-border-color);
+
+  font-size: var(--ring-button-font-size);
+  line-height: var(--ring-button-line-height);
 
   &:hover {
-    transition: none;
-
-    background-color: var(--ring-main-hover-color);
-    box-shadow: none;
+    --ring-button-border-color: var(--ring-border-hover-color);
   }
 
-  &.withIcon,
-  &.withIcon:active,
-  &.withIcon.active {
-    color: var(--ring-action-link-color);
+  &:active {
+    --ring-button-background-color: var(--ring-selected-background-color);
+    --ring-button-border-color: var(--ring-border-hover-color);
+  }
+
+  &:focus-visible {
+    box-shadow: button-shadow var(--ring-button-focus-border-color), 0 0 0 1px var(--ring-button-focus-border-color);
+  }
+}
+
+.inline {
+  display: inline;
+
+  margin: 0;
+  padding: 0;
+
+  color: var(--ring-action-link-color);
+  background: transparent;
+
+  font-size: inherit;
+  line-height: inherit;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--ring-button-focus-border-color);
+  }
+}
+
+.icon {
+  margin-right: calc(var(--ring-unit) * 0.5);
+
+  transition: color var(--ring-ease);
+
+  color: inherit;
+
+  line-height: var(--ring-button-icon-line-height);
+}
+
+.inline .icon {
+  color: var(--ring-main-color);
+}
+
+.withNormalIcon .icon {
+  color: var(--ring-icon-color);
+}
+
+.inline {
+  &:hover,
+  &:active,
+  &.active {
+    color: var(--ring-link-hover-color);
+
+    & .icon {
+      color: inherit;
+    }
+  }
+}
+
+.primaryBlock {
+  --ring-button-background-color: var(--ring-main-color);
+  --ring-button-border-color: transparent;
+
+  color: var(--ring-white-text-color);
+
+  &:hover {
+    --ring-button-background-color: var(--ring-main-hover-color);
+    --ring-button-border-color: transparent;
   }
 
   &:focus-visible,
   &:active,
   &.active {
-    background-color: var(--ring-button-primary-background-color);
+    --ring-button-background-color: var(--ring-button-primary-background-color);
   }
 
   &:active,
   &.active {
-    box-shadow: button-shadow var(--ring-button-primary-border-color);
+    --ring-button-border-color: var(--ring-button-primary-border-color);
   }
 
-  &[disabled] {
-    background-color: var(--ring-disabled-background-color);
-    box-shadow: button-shadow var(--ring-border-disabled-color);
+  &.disabled {
+    --ring-button-background-color: var(--ring-disabled-background-color);
+    --ring-button-border-color: var(--ring-border-disabled-color);
   }
 
-  &[disabled].loader {
+  &.loader {
     color: var(--ring-white-text-color);
   }
 
@@ -170,145 +189,81 @@
 }
 
 .danger {
-  &,
-  &.withIcon,
-  &.withIcon:active,
-  &.withIcon.active,
-  &.text,
-  &.text:active,
-  &.text.active {
-    color: var(--ring-error-color);
-  }
+  --ring-button-focus-border-color: var(--ring-button-danger-hover-color);
+
+  color: var(--ring-error-color);
 
   &:active,
   &.active {
-    background-color: var(--ring-button-danger-active-color);
+    --ring-button-background-color: var(--ring-button-danger-active-color);
   }
 
   &:active,
   &.active,
-  &:focus-visible,
   &:hover {
-    box-shadow: button-shadow var(--ring-button-danger-hover-color);
+    --ring-button-border-color: var(--ring-button-danger-hover-color);
   }
+}
 
-  &:focus-visible,
-  &:hover {
+.disabled {
+  cursor: auto;
+
+  &, &:hover, &:active {
+    --ring-button-background-color: var(--ring-disabled-background-color);
+    --ring-button-border-color: var(--ring-border-disabled-color);
+
+    color: var(--ring-disabled-color);
+
+    & .icon {
+      color: var(--ring-icon-disabled-color);
+    }
+  }
+}
+
+.active {
+  &.block {
+    --ring-button-background-color: var(--ring-hover-background-color);
+    --ring-button-border-color: var(--ring-main-color);
+
     transition: none;
   }
-}
 
-.text.text,
-.withIcon.withIcon {
-  background-color: transparent;
-  box-shadow: none;
-
-  &:hover {
-    transition: none;
-  }
-
-  &:active,
-  &.active {
-    background-color: transparent;
-    box-shadow: none;
-  }
-
-  &:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--ring-border-hover-color);
+  &.disabled {
+    --ring-button-background-color: var(--ring-disabled-selected-background-color);
+    --ring-button-border-color: var(--ring-border-selected-disabled-color);
   }
 }
 
-.loader.text > .content {
-  animation-name: text-loading;
-  animation-duration: 1200ms;
-  animation-iteration-count: infinite;
-}
-
-.text.text:hover {
-  background-color: transparent;
-  box-shadow: none;
-}
-
-.withIcon:hover:not(:focus-visible) {
-  background-color: transparent;
-  box-shadow: none;
-}
-
-.text {
-  color: var(--ring-action-link-color);
-}
-
-.inline {
-  display: inline-block;
-
-  margin: 0;
-  padding: 0;
-
-  font-size: var(--ring-font-size);
-}
-
-.withIcon {
-  padding: 0 var(--ring-unit);
-}
-
-.text {
-  &:active,
-  &.active {
-    color: var(--ring-link-hover-color);
+.iconOnly {
+  &.heightS {
+    --ring-button-padding-block: calc(var(--ring-unit) * 0.75);
+    --ring-button-padding-inline: calc(var(--ring-unit) * 0.75);
   }
-}
 
-.withIcon {
-  &:active,
-  &.active {
-    color: var(--ring-action-link-color);
+  &.heightM {
+    --ring-button-padding-block: calc(var(--ring-unit) * 0.75);
+    --ring-button-padding-inline: var(--ring-unit);
   }
-}
 
-.withIcon:hover {
-  color: var(--ring-link-hover-color);
-}
-
-.text:hover {
-  color: var(--ring-link-hover-color);
-}
-
-.icon {
-  color: inherit;
-
-  line-height: normal;
-
-  &:not(:last-child) {
-    margin-right: calc(var(--ring-unit) * 0.5);
+  &.heightL {
+    --ring-button-padding-block: var(--ring-unit);
+    --ring-button-padding-inline: var(--ring-unit);
   }
-}
-
-.withNormalIcon .icon {
-  transition: color var(--ring-ease);
-
-  color: var(--ring-icon-color);
-}
-
-.withNormalIcon:active,
-.withNormalIcon.active {
-  color: var(--ring-main-color);
 
   & .icon {
-    transition: none;
+    margin: 0;
+  }
 
-    color: inherit;
+  &.block {
+    vertical-align: -2px;
+
+    & .icon {
+      vertical-align: 2px;
+    }
   }
 }
 
-.withNormalIcon:hover .icon,
-.withDangerIcon:hover .icon {
-  transition: none;
-
-  color: inherit;
-}
-
-.withDangerIcon .icon,
-.withDangerIcon:active .icon {
+.danger .icon {
   color: var(--ring-icon-error-color);
 }
 
@@ -316,9 +271,19 @@
   position: relative;
   z-index: 0;
 
-  pointer-events: none;
+  cursor: auto;
 
   background-color: transparent;
+
+  &:hover {
+    --ring-button-border-color: var(--ring-borders-color);
+  }
+}
+
+.loader.inline {
+  animation-name: text-loading;
+  animation-duration: 1200ms;
+  animation-iteration-count: infinite;
 }
 
 .loaderBackground {
@@ -355,29 +320,32 @@
   }
 }
 
-.delayed .content::after {
+.delayed::after {
   content: "…";
 }
 
 .short {
+  --ring-button-padding-inline: 0;
+
   width: calc(var(--ring-unit) * 4);
-  padding: 0;
 }
 
 .dropdownIcon {
-  margin-right: calc(var(--ring-unit) * -0.5);
-
   margin-left: 2px;
 
   transition: color var(--ring-ease);
 
-  color: var(--ring-icon-secondary-color);
+  .block & {
+    margin-right: calc(var(--ring-unit) * -0.5);
+
+    color: var(--ring-icon-secondary-color);
+  }
 
   .primary & {
     color: unset;
   }
 
-  line-height: normal;
+  line-height: var(--ring-button-icon-line-height);
 }
 
 .button:hover .dropdownIcon {

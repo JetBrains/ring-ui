@@ -41,8 +41,8 @@
   line-height: var(--ring-line-height-lowest);
 }
 
-.button {
-  margin-top: calc(var(--ring-unit) * 1.5);
+.gotIt {
+  margin: calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 2) 0 0;
 }
 
 .tail {

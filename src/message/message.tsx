@@ -178,7 +178,7 @@ export default class Message extends Component<MessageProps> {
                   {children && <div className={styles.description}>{children}</div>}
                   {(onClose || buttonProps) && (
                     <Button
-                      className={styles.button}
+                      className={styles.gotIt}
                       onClick={onClose}
                       primary
                       {...buttonProps}

@@ -43,14 +43,24 @@
   right: 6px;
   bottom: 0;
 
+  padding: calc(var(--ring-unit) * 0.5) 0;
+
   transition: color var(--ring-ease);
 
   color: var(--ring-icon-secondary-color);
 
-  line-height: normal;
+  line-height: var(--ring-line-height);
 
   .inputMode & {
     font-size: var(--ring-font-size);
+  }
+
+  .heightS & {
+    line-height: var(--ring-line-height-lowest);
+  }
+
+  .heightL & {
+    padding: calc(var(--ring-unit) * 0.75) 0;
   }
 }
 
@@ -73,9 +83,10 @@
 }
 
 .clearIcon {
+  margin-top: -1px;
   padding: 0 2px;
 
-  vertical-align: -1px;
+  vertical-align: 1px;
 }
 
 .sizeS {
@@ -209,7 +220,7 @@
 }
 
 .avatar {
-  margin-right: 4px;
+  margin: -2px 4px 0 0;
 
   vertical-align: -5px;
 }
@@ -223,7 +234,6 @@
   padding: 0 2px;
 
   transition: none;
-  vertical-align: -1px;
 
   color: inherit;
 }

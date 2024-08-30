@@ -154,7 +154,7 @@ export default class Pager extends PureComponent<PagerProps> {
 
     return !this.props.disablePageSizeSelector &&
       (
-        <div data-test="ring-pager-page-size-selector" style={{float: 'right'}}>
+        <div data-test="ring-pager-page-size-selector" className={style.pageSize}>
           <Select
             data={selectOptions.data}
             selected={selectOptions.selected}
@@ -292,34 +292,35 @@ export default class Pager extends PureComponent<PagerProps> {
       <div>
         {this.getPagerLinks()}
 
-        <ButtonToolbar>
-          {start > 1 &&
+        <div className={style.actions}>
+          <ButtonToolbar>
+            {start > 1 &&
             this.getButton(1, this.props.translations?.firstPage ?? translate('firstPage'))}
 
-          <ButtonGroup>
-            {start > 1 && this.getButton(start - 1, '...')}
+            <ButtonGroup>
+              {start > 1 && this.getButton(start - 1, '...')}
 
-            {buttons}
+              {buttons}
 
-            {end < totalPages && this.getButton(end + 1, '...')}
+              {end < totalPages && this.getButton(end + 1, '...')}
 
-            {end === totalPages && this.props.openTotal && (
-              <Button
-                href={this.generateHref(end + 1)}
-                disabled={this.props.loader}
-                {...this.getClickProps(this.handleLoadMore(end + 1))}
-              >{'...'}</Button>
+              {end === totalPages && this.props.openTotal && (
+                <Button
+                  href={this.generateHref(end + 1)}
+                  disabled={this.props.loader}
+                  {...this.getClickProps(this.handleLoadMore(end + 1))}
+                >{'...'}</Button>
+              )}
+            </ButtonGroup>
+
+            {lastPageButtonAvailable && this.getButton(
+              this.props.openTotal ? -1 : totalPages,
+              this.props.translations?.lastPage ?? translate('lastPage')
             )}
-          </ButtonGroup>
+          </ButtonToolbar>
 
-          {lastPageButtonAvailable && this.getButton(
-            this.props.openTotal ? -1 : totalPages,
-            this.props.translations?.lastPage ?? translate('lastPage')
-          )}
-        </ButtonToolbar>
-
-        {this.getPageSizeSelector()}
-
+          {this.getPageSizeSelector()}
+        </div>
       </div>
     );
   }

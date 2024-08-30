@@ -17,3 +17,12 @@
 .linkDisabled {
   color: var(--ring-secondary-color);
 }
+
+.actions {
+  display: flex;
+  align-items: baseline;
+}
+
+.pageSize {
+  margin-left: auto;
+}
