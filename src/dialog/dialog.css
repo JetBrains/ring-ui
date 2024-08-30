@@ -102,8 +102,8 @@
 }
 
 .closeButtonOutside {
-  top: 0;
-  right: calc(var(--ring-unit) * -4);
+  top: calc(var(--ring-unit) / 2);
+  right: calc(var(--ring-unit) * -3);
 }
 
 .closeButtonInside {

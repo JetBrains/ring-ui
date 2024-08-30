@@ -12,31 +12,34 @@ export function getButtonClasses({
   loader,
   primary,
   short,
-  text,
   inline,
   danger,
   delayed,
   icon,
-  height
+  height,
+  children
 }: ButtonProps) {
-  const withNormalIcon = icon && !active && !danger && !primary && !disabled;
+  const iconOnly = icon && !children;
+  const primaryBlock = primary && !inline;
+  const withNormalIcon = icon && !active && !danger && !primary && !disabled &&
+    (!inline || iconOnly);
 
   return classNames(
     styles.button,
     className,
     styles[`height${height}`],
+    inline ? styles.inline : styles.block,
     {
       [styles.active]: active,
       [styles.danger]: danger,
       [styles.delayed]: delayed,
-      [styles.withIcon]: icon,
       [styles.withNormalIcon]: withNormalIcon,
-      [styles.withDangerIcon]: icon && danger,
-      [styles.loader]: loader && !icon,
+      [styles.loader]: loader,
       [styles.primary]: primary,
+      [styles.primaryBlock]: primaryBlock,
       [styles.short]: short,
-      [styles.text]: text,
-      [styles.inline]: inline
+      [styles.disabled]: disabled,
+      [styles.iconOnly]: iconOnly
     }
   );
 }

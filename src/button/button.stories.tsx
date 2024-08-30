@@ -1,5 +1,6 @@
 import {Component, Fragment} from 'react';
 import pencilIcon from '@jetbrains/icons/pencil';
+import pencil12pxIcon from '@jetbrains/icons/pencil-12px';
 import hourglassIcon from '@jetbrains/icons/hourglass';
 
 
@@ -58,10 +59,42 @@ export const basic = () => (
       );
     })}
 
-    <Button text>Text action</Button>
+    <Button inline={false} icon={pencilIcon}>Icon button</Button>
+
+    {[
+      {label: 'primary', primary: true},
+      {label: 'danger', danger: true},
+      {label: 'disabled', disabled: true},
+      {label: 'primary-disabled', primary: true, disabled: true},
+      {label: 'danger-disabled', danger: true, disabled: true}
+    ].map(modifiers => (
+      <Button inline={false} key={modifiers.label} icon={pencilIcon} {...modifiers}>
+        Icon button {modifiers.label}
+      </Button>
+    ))}
+
+    <Button inline={false} icon={pencilIcon} title="Icon button"/>
+
+    {[
+      {label: 'primary', primary: true},
+      {label: 'danger', danger: true},
+      {label: 'disabled', disabled: true},
+      {label: 'primary-disabled', primary: true, disabled: true},
+      {label: 'danger-disabled', danger: true, disabled: true}
+    ].map(modifiers => (
+      <Button
+        key={modifiers.label}
+        title={`Just icon button (${modifiers.label})`}
+        inline={false}
+        icon={pencilIcon}
+        {...modifiers}
+      />
+    ))}
+
+    <Button inline>Text action</Button>
 
     {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
-      <Button text key={modifier} {...{[modifier]: true}}>
+      <Button inline key={modifier} {...{[modifier]: true}}>
         Text action {modifier}
       </Button>
     ))}
@@ -115,7 +148,7 @@ basic.parameters = {
     background: var(--ring-content-background-color);
   }
 
-  .buttons > button {
+  .buttons > :is(button, a) {
     margin: 8px;
   }
 </style>`
@@ -153,10 +186,42 @@ export const heightS = () => (
         );
       })}
 
-      <Button text>Text action</Button>
+      <Button inline={false} icon={pencil12pxIcon}>Icon button</Button>
+
+      {[
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map(modifiers => (
+        <Button inline={false} key={modifiers.label} icon={pencil12pxIcon} {...modifiers}>
+          Icon button {modifiers.label}
+        </Button>
+      ))}
+
+      <Button inline={false} icon={pencil12pxIcon} title="Icon button"/>
+
+      {[
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map(modifiers => (
+        <Button
+          key={modifiers.label}
+          title={`Just icon button (${modifiers.label})`}
+          inline={false}
+          icon={pencil12pxIcon}
+          {...modifiers}
+        />
+      ))}
+
+      <Button inline>Text action</Button>
 
       {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
-        <Button text key={modifier} {...{[modifier]: true}}>
+        <Button inline key={modifier} {...{[modifier]: true}}>
           Text action {modifier}
         </Button>
       ))}
@@ -228,10 +293,42 @@ export const heightL = () => (
         );
       })}
 
-      <Button text>Text action</Button>
+      <Button inline={false} icon={pencilIcon}>Icon button</Button>
+
+      {[
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map(modifiers => (
+        <Button inline={false} key={modifiers.label} icon={pencilIcon} {...modifiers}>
+          Icon button {modifiers.label}
+        </Button>
+      ))}
+
+      <Button inline={false} icon={pencilIcon} title="Icon button"/>
+
+      {[
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map(modifiers => (
+        <Button
+          key={modifiers.label}
+          title={`Just icon button (${modifiers.label})`}
+          inline={false}
+          icon={pencilIcon}
+          {...modifiers}
+        />
+      ))}
+
+      <Button inline>Text action</Button>
 
       {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
-        <Button text key={modifier} {...{[modifier]: true}}>
+        <Button inline key={modifier} {...{[modifier]: true}}>
           Text action {modifier}
         </Button>
       ))}

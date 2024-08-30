@@ -41,10 +41,11 @@ describe('Button', () => {
     render(<Button icon={caretDownSVG}/>);
 
     const element = screen.getByRole('button');
-    element.should.have.class(styles.withIcon);
+    const icon = element.querySelector('svg');
+    should.exist(icon);
     caretDownSVG.
       replace('/>', '></polygon>').
-      should.include(element.querySelector('svg')?.innerHTML);
+      should.include(icon!.innerHTML);
   });
 
   it('should set custom class', () => {

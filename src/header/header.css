@@ -130,6 +130,7 @@
 }
 
 .icon {
+  display: inline-block;
   flex-shrink: 0;
 
   width: calc(var(--ring-unit) * 5);

@@ -3,6 +3,8 @@ import * as React from 'react';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-down';
 
+import deprecate from 'util-deprecate';
+
 import Icon, {IconProps, IconType, Size} from '../icon/icon';
 import ClickableLink, {ClickableLinkProps} from '../link/clickableLink';
 
@@ -42,6 +44,8 @@ export interface ButtonLinkProps extends ClickableLinkProps, ButtonBaseProps {
 
 export type ButtonProps = ButtonButtonProps | ButtonLinkProps
 
+const warnText = deprecate(() => {}, 'Button: "text" prop is deprecated and will be removed in 8.0. Use inline instead.');
+
 /**
  * @name Button
  */
@@ -65,9 +69,8 @@ export class Button extends PureComponent<ButtonProps> {
       primary,
       short,
       text,
-      inline,
       dropdown,
-      height = this.context,
+      height,
 
       // Props
       icon,
@@ -76,41 +79,45 @@ export class Button extends PureComponent<ButtonProps> {
       iconSuppressSizeWarning,
       className,
       children,
+      inline,
       ...props
     } = this.props;
+    const isInline = inline ?? text ?? icon != null;
 
-    const classes = getButtonClasses({className, active, danger, delayed, icon, loader,
-      primary, short, text, inline, height});
+    if (text != null) {
+      warnText();
+    }
+
+    const classes = getButtonClasses({
+      ...this.props, inline: isInline, height: height ?? this.context
+    });
 
     const content = (
-      <span className={styles.content}>
+      <>
         {icon && (
-          <span className={classNames(styles.icon, iconClassName)}>
-            <Icon
-              glyph={icon}
-              size={iconSize}
-              loading={loader}
-              suppressSizeWarning={iconSuppressSizeWarning}
-            />
-          </span>
+          <Icon
+            className={classNames(styles.icon, iconClassName)}
+            glyph={icon}
+            size={iconSize}
+            loading={loader && isInline}
+            suppressSizeWarning={iconSuppressSizeWarning}
+          />
         )}
-        {children && (
-          <span>{children}</span>
-        )}
+        {children}
         {dropdown && (
           <Icon
             glyph={chevronDown}
             className={styles.dropdownIcon}
           />
         )}
-      </span>
+      </>
     );
     const commonProps = {
       tabIndex: loader ? -1 : 0,
       ...props,
       className: classes,
       children: <>
-        {loader && !text && !icon && <div className={styles.loaderBackground}/>}
+        {loader && !isInline && <div className={styles.loaderBackground}/>}
         {content}
       </>
     };
