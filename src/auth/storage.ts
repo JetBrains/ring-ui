@@ -78,11 +78,7 @@ export default class AuthStorage<M = unknown> {
     this._lastMessage = null;
 
     const StorageConstructor = config.storage || Storage;
-    this.stateQuota = Math.min(
-      config.stateQuota ||
-      DEFAULT_STATE_QUOTA,
-      Infinity
-    );
+    this.stateQuota = config.stateQuota || DEFAULT_STATE_QUOTA;
 
     this._stateStorage = new StorageConstructor({
       cookieName: 'ring-state'
