@@ -3,7 +3,6 @@ import mockedWindow from 'storage-mock';
 
 import {StorageInterface} from './storage';
 import LocalStorage from './storage__local';
-import FallbackStorage from './storage__fallback';
 
 function noop() {}
 
@@ -232,31 +231,5 @@ describe('Storage', () => {
         iterator.should.have.been.calledWith('invalid-json', 'invalid-json');
       });
     });
-  });
-
-  describe('Fallback', () => {
-    const cookieName = 'testCookie';
-
-    beforeEach(() => {
-      document.cookie = `${cookieName}=;`;
-    });
-
-    const storage = new FallbackStorage({
-      cookieName,
-      checkDelay: 200
-    });
-
-    const storageSession = new FallbackStorage({
-      cookieName,
-      checkDelay: 200,
-      type: 'session'
-    });
-    describe('Long-term', () => {
-      testStorage(storage);
-    });
-    describe('Session', () => {
-      testStorage(storageSession);
-    });
-    testStorageEvents(storage);
   });
 });
