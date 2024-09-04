@@ -11,6 +11,8 @@ const SECONDS_IN_DAY = 24 * 60 * 60 * 1000;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Data = Record<string, any>
 
+// TODO: Drop in Ring UI 7.0
+
 /**
  * @prop {string} cookieName
  *
