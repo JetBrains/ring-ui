@@ -81,7 +81,7 @@ export default class AuthStorage<M = unknown> {
     this.stateQuota = Math.min(
       config.stateQuota ||
       DEFAULT_STATE_QUOTA,
-      StorageConstructor.QUOTA || Infinity
+      Infinity
     );
 
     this._stateStorage = new StorageConstructor({
