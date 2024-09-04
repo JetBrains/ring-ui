@@ -2,7 +2,7 @@ import {Component, ComponentRef, ReactNode, SyntheticEvent} from 'react';
 import * as React from 'react';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
-import deepEqual from 'deep-equal';
+import {dequal} from 'dequal';
 import searchIcon from '@jetbrains/icons/search';
 import closeIcon from '@jetbrains/icons/close-12px';
 
@@ -625,7 +625,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       this.immediateState.suggestionsQuery = query;
 
       // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
-      if (!deepEqual(this.state.styleRanges, styleRanges)) {
+      if (!dequal(this.state.styleRanges, styleRanges)) {
         state.styleRanges = styleRanges;
       }
 

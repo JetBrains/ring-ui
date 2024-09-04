@@ -15,7 +15,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import closeIcon from '@jetbrains/icons/close-12px';
-import deepEqual from 'deep-equal';
+import {dequal} from 'dequal';
 
 import {Anchor} from '../dropdown/dropdown';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
@@ -506,7 +506,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       }
     }
 
-    if (prevMultiple !== multiple && !deepEqual(prevMultiple, multiple)) {
+    if (prevMultiple !== multiple && !dequal(prevMultiple, multiple)) {
       nextState.selected = multiple ? [] : null;
     }
 
@@ -551,7 +551,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       onOpen();
     }
 
-    if (multiple !== prevProps.multiple && !deepEqual(multiple, prevProps.multiple)) {
+    if (multiple !== prevProps.multiple && !dequal(multiple, prevProps.multiple)) {
       (onChange as (s: typeof selected) => void)(selected);
     }
   }
