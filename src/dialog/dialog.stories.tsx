@@ -100,6 +100,62 @@ basic.parameters = {
 </style>`
 };
 
+
+export const withCloseButtonInside: StoryFn<Args> = ({onAction}) => {
+  class DialogDemo extends Component {
+    state = {
+      show: true,
+      text: ''
+    };
+
+    doAction = () => {
+      onAction(`${this.state.text} performed`);
+      this.setState({show: false});
+    };
+
+    cancelDialog = () => {
+      this.setState({show: false});
+    };
+
+    render() {
+      const {show, text} = this.state;
+      return (
+        <Dialog
+          label="Dialog"
+          show={show}
+          onCloseAttempt={this.cancelDialog}
+          trapFocus
+          showCloseButton
+          closeButtonInside
+        >
+          <Header>Dialog title</Header>
+          <Content>
+            <Input
+              label="Enter action name"
+              value={text}
+              onChange={e => this.setState({text: e.target.value})}
+            />
+          </Content>
+          <Panel>
+            <Button primary onClick={this.doAction}>
+              OK
+            </Button>
+            <Button onClick={this.cancelDialog}>Cancel</Button>
+          </Panel>
+        </Dialog>
+      );
+    }
+  }
+  return <DialogDemo/>;
+};
+
+withCloseButtonInside.storyName = 'with close button inside';
+withCloseButtonInside.argTypes = {onAction: {}};
+
+withCloseButtonInside.parameters = {
+  screenshots: {skip: true}
+};
+
 export const native: StoryFn<Args> = ({onAction}) => {
   class DialogDemo extends Component {
     state = {
