@@ -90,6 +90,8 @@
   --ring-popup-background-color: rgb(var(--ring-popup-background-components)); /* #FFFFFF */
   --ring-sidebar-background-components: 247, 248, 250;
   --ring-sidebar-background-color: rgb(var(--ring-sidebar-background-components)); /* #F7F8FA */
+  --ring-secondary-background-components: 247, 248, 250;
+  --ring-secondary-background-color: rgb(var(--ring-secondary-background-components)); /* #F7F8FA */
   --ring-selected-background-components: 212, 226, 255;
   --ring-selected-background-color: rgb(var(--ring-selected-background-components)); /* #D4E2FF */
   --ring-hover-background-components: 237, 243, 255;

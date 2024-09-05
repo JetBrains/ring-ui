@@ -76,6 +76,8 @@
   --ring-popup-background-color: rgb(var(--ring-popup-background-components)); /* #393B40 */
   --ring-sidebar-background-components: 43, 45, 48;
   --ring-sidebar-background-color: rgb(var(--ring-sidebar-background-components)); /* #2B2D30 */
+  --ring-secondary-background-components: 43, 45, 48;
+  --ring-secondary-background-color: rgb(var(--ring-secondary-background-components)); /* #2B2D30 */
   --ring-selected-background-components: 46, 67, 110;
   --ring-selected-background-color: rgb(var(--ring-selected-background-components)); /* #2E436E */
   --ring-hover-background-components: 37, 50, 77;
