@@ -1,4 +1,4 @@
-import {Component, forwardRef, Ref, ForwardedRef} from 'react';
+import {Component, forwardRef, Ref, ForwardedRef, PropsWithoutRef} from 'react';
 
 import {createComposedRef} from './composeRefs';
 
@@ -40,7 +40,7 @@ export default function rerenderHOC<P extends {}, C extends Component<P, unknown
     }
   }
 
-  return forwardRef(function RerendererForwardRef(props: P, ref: ForwardedRef<C>) {
-    return <Rerenderer props={props} forwardedRef={ref}/>;
+  return forwardRef(function RerendererForwardRef(props: PropsWithoutRef<P>, ref: ForwardedRef<C>) {
+    return <Rerenderer props={props as P} forwardedRef={ref}/>;
   });
 }
