@@ -25,7 +25,7 @@ export interface ToggleProps extends Omit<InputHTMLAttributes<HTMLInputElement>,
 }
 class Toggle extends PureComponent<ToggleProps> {
   static defaultProps = {
-    size: Size.Size14
+    size: Size.Size16
   };
 
   render() {

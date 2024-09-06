@@ -13,6 +13,28 @@ export const basic = () => (
   <div>
     <h1>Size 14</h1>
     <div>
+      <Toggle size={Size.Size14}>Unchecked by default</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size14} defaultChecked>Checked by default</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size14} disabled>Disabled unchecked</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size14} disabled defaultChecked>Disabled checked</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size14} leftLabel="With label on the left"/>
+    </div>
+    <div>
+      <Toggle size={Size.Size14} help="Help text">With help text</Toggle>
+    </div>
+    <div>
+      <Toggle size={Size.Size14} help="Help text" disabled>With help text disabled</Toggle>
+    </div>
+    <h1>Size 16 (default)</h1>
+    <div>
       <Toggle>Unchecked by default</Toggle>
     </div>
     <div>
@@ -29,28 +51,6 @@ export const basic = () => (
     </div>
     <div>
       <Toggle help="Help text">With help text</Toggle>
-    </div>
-    <div>
-      <Toggle help="Help text" disabled>With help text disabled</Toggle>
-    </div>
-    <h1>Size 16</h1>
-    <div>
-      <Toggle size={Size.Size16}>Unchecked by default</Toggle>
-    </div>
-    <div>
-      <Toggle size={Size.Size16} defaultChecked>Checked by default</Toggle>
-    </div>
-    <div>
-      <Toggle size={Size.Size16} disabled>Disabled unchecked</Toggle>
-    </div>
-    <div>
-      <Toggle size={Size.Size16} disabled defaultChecked>Disabled checked</Toggle>
-    </div>
-    <div>
-      <Toggle size={Size.Size16} leftLabel="With label on the left"/>
-    </div>
-    <div>
-      <Toggle size={Size.Size16} help="Help text">With help text</Toggle>
     </div>
     <div>
       <Toggle help="Help text" disabled>With help text disabled</Toggle>
@@ -76,7 +76,7 @@ export const basic = () => (
         <Toggle size={Size.Size20} help="Help text">With help text</Toggle>
       </div>
       <div>
-        <Toggle help="Help text" disabled>With help text disabled</Toggle>
+        <Toggle size={Size.Size20} help="Help text" disabled>With help text disabled</Toggle>
       </div>
     </div>
   </div>
