@@ -572,10 +572,21 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     });
   };
 
+  isClickingSelect = false;
+
+  mouseDownHandler = () => {
+    this.isClickingSelect = true;
+  };
+
+  mouseUpHandler = () => {
+    this.isClickingSelect = false;
+  };
+
   private _blurHandler = () => {
     this.props.onBlur();
 
-    if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup) {
+    if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup &&
+      !this.isClickingSelect) {
       window.setTimeout(() => {
         this.setState({showPopup: false});
       });
@@ -1308,6 +1319,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             ref={this.nodeRef}
             className={classNames(classes, styles.inputMode)}
             data-test={dataTests('ring-select', dataTest)}
+            role="presentation" // has interactive elements inside
+            onMouseDown={this.mouseDownHandler}
+            onMouseUp={this.mouseUpHandler}
           >
             {shortcutsEnabled && (
               <Shortcuts
