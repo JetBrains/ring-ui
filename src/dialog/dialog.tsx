@@ -36,6 +36,7 @@ export interface DialogProps extends Partial<TabTrapProps> {
   dense?: boolean | null | undefined
   native?: boolean
   modal?: boolean
+  preventBodyScroll?: boolean
 }
 
 /**
@@ -68,7 +69,8 @@ export default class Dialog extends PureComponent<DialogProps> {
     trapFocus: PropTypes.bool,
     portalTarget: PropTypes.instanceOf(HTMLElement),
     autoFocusFirst: PropTypes.bool,
-    'data-test': PropTypes.string
+    'data-test': PropTypes.string,
+    preventBodyScroll: PropTypes.bool
   };
 
   static defaultProps: Partial<DialogProps> = {
@@ -82,7 +84,8 @@ export default class Dialog extends PureComponent<DialogProps> {
     shortcutOptions: {modal: false},
     trapFocus: false,
     autoFocusFirst: true,
-    modal: true
+    modal: true,
+    preventBodyScroll: true
   };
 
   state = {
@@ -128,6 +131,9 @@ export default class Dialog extends PureComponent<DialogProps> {
   }
 
   toggleScrollPreventer() {
+    if (!this.props.preventBodyScroll) {
+      return;
+    }
     if (this.props.show) {
       this.scrollPreventer.prevent();
     } else {
