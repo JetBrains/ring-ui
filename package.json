@@ -169,7 +169,7 @@
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.10",
     "typescript": "~5.5.4",
-    "vitest": "^2.0.5",
+    "vitest": "^2.1.0",
     "vitest-teamcity-reporter": "^0.3.1",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.94.0",
