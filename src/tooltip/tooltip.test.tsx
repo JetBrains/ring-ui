@@ -1,7 +1,7 @@
 import {
   isCompositeComponentWithType
 } from 'react-dom/test-utils';
-import {mount, render} from 'enzyme';
+import {mount} from 'enzyme';
 
 import Popup from '../popup/popup';
 
@@ -15,7 +15,6 @@ describe('Tooltip', () => {
   };
   const mountTooltip = (props?: TooltipAttrs) =>
     mount<Tooltip>(<Tooltip {...defaultProps} {...props}/>);
-  const renderTooltip = (props?: TooltipAttrs) => render(<Tooltip {...defaultProps} {...props}/>);
 
   it('should create component', () => {
     mountTooltip().should.have.type(Tooltip);
@@ -23,13 +22,13 @@ describe('Tooltip', () => {
 
   describe('Children', () => {
     it('should wrap text children', () => {
-      const wrapper = renderTooltip();
+      const wrapper = mountTooltip();
       wrapper.should.have.text('test elem');
       wrapper.should.have.tagName('span');
     });
 
     it('should wrap children', () => {
-      const wrapper = renderTooltip({
+      const wrapper = mountTooltip({
         title: 'test tooltip',
         children: <span>{'test span'}</span>
       });
