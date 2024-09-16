@@ -20,7 +20,7 @@ module.exports = {
       }
     },
     '@storybook/addon-a11y',
-    'storybook-addon-themes'
+    '@storybook/addon-themes'
   ],
   webpackFinal(config) {
     ringConfig.componentsPath.push(

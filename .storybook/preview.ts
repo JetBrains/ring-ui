@@ -6,11 +6,12 @@ import URLSearchParams from '@ungap/url-search-params';
 import {Component} from '@storybook/addon-docs';
 import {Parameters} from '@storybook/react';
 
-import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
+import Theme, {applyTheme} from '../src/global/theme';
 
 import styles from './preview.css';
 import strictModeDecorator from './strict-mode-decorator';
 import stylesDecorator from './styles-decorator';
+import themeDecorator from './theme-decorator';
 import {darkMatcher, theme} from './theme';
 
 const updateTheme = () => applyTheme(
@@ -42,14 +43,9 @@ export const parameters = {
     }
   },
   actions: {argTypesRegex: '^on.*'},
-  backgrounds: {disable: true},
-  themes: {
-    default: 'Light',
-    list: [
-      {name: 'Light', color: '#FFF'},
-      {name: 'Dark', class: GLOBAL_DARK_CLASS_NAME, color: '#23272b'}
-    ]
-  }
+  backgrounds: {disable: true}
 };
 
-export const decorators = [stylesDecorator(), strictModeDecorator()];
+export const decorators = [
+  themeDecorator(), stylesDecorator(), strictModeDecorator()
+];
