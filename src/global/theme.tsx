@@ -7,7 +7,8 @@ import {
   Ref,
   useContext,
   ReactElement,
-  createContext
+  createContext,
+  FunctionComponent
 } from 'react';
 import classNames from 'classnames';
 
@@ -80,6 +81,9 @@ export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLEleme
 export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
   theme?: Theme
   passToPopups?: boolean
+  WrapperComponent?: FunctionComponent<
+    HTMLAttributes<HTMLElement> & React.RefAttributes<HTMLElement>
+  >
   target?: HTMLElement
 }
 
@@ -88,9 +92,10 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
   className,
   passToPopups,
   children,
+  WrapperComponent = props => <div {...props as HTMLAttributes<HTMLDivElement>}/>,
   target,
   ...restProps
-}: ThemeProviderProps, ref: Ref<HTMLDivElement>) {
+}: ThemeProviderProps, ref: Ref<HTMLElement>) {
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   const id = useMemo(() => getUID('popups-with-theme-'), []);
@@ -105,7 +110,7 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
 
   return (
     <ThemeContext.Provider value={themeValue}>
-      <div
+      <WrapperComponent
         ref={ref}
         className={target != null ? undefined : classNames(className, themeClasses)}
         {...restProps}
@@ -125,7 +130,7 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
               </PopupTarget>
             )
             : children}
-      </div>
+      </WrapperComponent>
     </ThemeContext.Provider>
   );
 });

@@ -1,5 +1,5 @@
-import {AllHTMLAttributes, Component, createContext, ReactNode} from 'react';
 import * as React from 'react';
+import {AllHTMLAttributes, Component, createContext, ReactNode} from 'react';
 
 import classNames from 'classnames';
 
@@ -7,6 +7,8 @@ import Popup, {PopupAttrs} from '../popup/popup';
 import {Listeners} from '../global/dom';
 import dataTests from '../global/data-tests';
 import scheduleRAF from '../global/schedule-raf';
+
+import Theme, {ThemeProvider} from '../global/theme';
 
 import styles from './tooltip.css';
 
@@ -24,6 +26,7 @@ export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, '
   selfOverflowOnly?: boolean | null | undefined
   popupProps?: Partial<PopupAttrs> | null | undefined
   title?: ReactNode | null | undefined
+  theme?: Theme
   'data-test'?: string | null | undefined
   long?: boolean | null | undefined
 }
@@ -34,6 +37,7 @@ export default class Tooltip extends Component<TooltipProps> {
   static defaultProps = {
     title: '',
     selfOverflowOnly: false,
+    theme: Theme.DARK,
     popupProps: {}
   };
 
@@ -161,18 +165,25 @@ export default class Tooltip extends Component<TooltipProps> {
           data-test-title={typeof title === 'string' ? title : undefined}
         >
           {children}
-          <Popup
-            trapFocus={false}
-            hidden={!this.state.showPopup || this.state.showNestedPopup}
-            onCloseAttempt={this.hidePopup}
-            maxHeight={400}
-            className={classNames(styles.tooltip, {[styles.long]: long})}
-            attached={false}
-            top={4}
-            dontCloseOnAnchorClick
-            ref={this.popupRef}
-            {...popupProps}
-          >{title}</Popup>
+          <ThemeProvider
+            theme={Theme.DARK}
+            passToPopups
+            WrapperComponent={props => <span {...props}/>}
+          >
+            <Popup
+              trapFocus={false}
+              anchorElement={this.containerNode}
+              hidden={!this.state.showPopup || this.state.showNestedPopup}
+              onCloseAttempt={this.hidePopup}
+              maxHeight={400}
+              className={classNames(styles.tooltip, {[styles.long]: long})}
+              attached={false}
+              top={4}
+              dontCloseOnAnchorClick
+              ref={this.popupRef}
+              {...popupProps}
+            >{title}</Popup>
+          </ThemeProvider>
         </span>
       </TooltipContext.Provider>
     );
