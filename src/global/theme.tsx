@@ -78,12 +78,20 @@ export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLEleme
   }
 }
 
+type WrapperType = FunctionComponent<
+  HTMLAttributes<HTMLElement> & React.RefAttributes<HTMLElement>
+>;
+
+const DefaultWrapper = forwardRef(
+  function Wrapper(props: HTMLAttributes<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>) {
+    return <div {...props} ref={ref}/>;
+  }
+) as WrapperType;
+
 export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
   theme?: Theme
   passToPopups?: boolean
-  WrapperComponent?: FunctionComponent<
-    HTMLAttributes<HTMLElement> & React.RefAttributes<HTMLElement>
-  >
+  WrapperComponent?: WrapperType
   target?: HTMLElement
 }
 
@@ -92,7 +100,7 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
   className,
   passToPopups,
   children,
-  WrapperComponent = props => <div {...props as HTMLAttributes<HTMLDivElement>}/>,
+  WrapperComponent = DefaultWrapper,
   target,
   ...restProps
 }: ThemeProviderProps, ref: Ref<HTMLElement>) {
