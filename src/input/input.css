@@ -121,7 +121,7 @@
 
 .clear {
   position: absolute;
-  top: var(--ring-input-padding-block);
+  top: calc(var(--ring-input-padding-block) + 1px);
   right: var(--ring-input-padding-inline);
 
   height: auto;

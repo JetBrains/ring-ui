@@ -81,7 +81,7 @@
 .remove {
   position: absolute;
   z-index: 1;
-  top: 1px;
+  top: 2px;
   right: 0;
 
   height: auto;

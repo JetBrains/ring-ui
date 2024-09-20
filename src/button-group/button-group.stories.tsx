@@ -1,4 +1,9 @@
+import chevronDownIcon from '@jetbrains/icons/chevron-down';
+import chevron12pxDownIcon from '@jetbrains/icons/chevron-12px-down';
+
 import Button from '../button/button';
+
+import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
 import ButtonGroup, {Caption} from './button-group';
 
@@ -52,6 +57,20 @@ export const buttonGroup = () => (
         <Button>Split</Button>
         <Button short>...</Button>
       </ButtonGroup>
+    </div>
+    <div>
+      <ButtonGroup split>
+        <Button href="/">Arrow</Button>
+        <Button inline={false} icon={chevronDownIcon} aria-label="Show options"/>
+      </ButtonGroup>
+    </div>
+    <div>
+      <ControlsHeightContext.Provider value={ControlsHeight.S}>
+        <ButtonGroup split>
+          <Button href="/">Arrow height S</Button>
+          <Button inline={false} icon={chevron12pxDownIcon} aria-label="Show options"/>
+        </ButtonGroup>
+      </ControlsHeightContext.Provider>
     </div>
     <div>
       <ButtonGroup split>
