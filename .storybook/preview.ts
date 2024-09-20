@@ -1,8 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
 
-import URLSearchParams from '@ungap/url-search-params';
-
 import {Component} from '@storybook/addon-docs';
 import {Parameters} from '@storybook/react';
 

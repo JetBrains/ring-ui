@@ -206,7 +206,6 @@
     "@types/element-resize-detector": "^1.1.6",
     "@types/react-virtualized": "9.21.30",
     "@types/util-deprecate": "^1.0.3",
-    "@ungap/url-search-params": "^0.2.2",
     "babel-loader": "9.2.1",
     "babel-plugin-transform-define": "^2.1.4",
     "browserslist": "^4.23.3",
