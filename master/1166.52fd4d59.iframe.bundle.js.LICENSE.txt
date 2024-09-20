@@ -11,8 +11,6 @@
  * Released under the MIT License.
  */
 
-/*! (c) Andrea Giammarchi - ISC */
-
 /**
  * @license React
  * react-dom-test-utils.production.min.js
