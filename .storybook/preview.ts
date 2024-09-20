@@ -47,5 +47,5 @@ export const parameters = {
 };
 
 export const decorators = [
-  themeDecorator(), stylesDecorator(), strictModeDecorator()
+  stylesDecorator(), strictModeDecorator(), themeDecorator()
 ];
