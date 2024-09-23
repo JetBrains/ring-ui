@@ -147,7 +147,7 @@ export default class Tooltip extends Component<TooltipProps> {
 
   render() {
     const {children, 'data-test': dataTest,
-      title, delay, selfOverflowOnly, popupProps, long, ...restProps} = this.props;
+      title, delay, theme, selfOverflowOnly, popupProps, long, ...restProps} = this.props;
 
     const ariaProps = typeof title === 'string' && !!title
       ? {'aria-label': title, role: 'tooltip'}
@@ -166,7 +166,7 @@ export default class Tooltip extends Component<TooltipProps> {
         >
           {children}
           <ThemeProvider
-            theme={Theme.DARK}
+            theme={theme}
             passToPopups
             WrapperComponent={props => <span {...props}/>}
           >
