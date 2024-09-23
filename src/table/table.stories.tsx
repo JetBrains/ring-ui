@@ -302,8 +302,7 @@ EmptyTable.args = {
     }
   ],
   renderEmpty: () => 'Empty table',
-  selectable: false,
-  maxColSpan: 3
+  selectable: false
 };
 EmptyTable.storyName = 'empty table';
 
