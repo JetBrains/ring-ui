@@ -133,7 +133,13 @@ export default class Tooltip extends Component<TooltipProps> {
   addListeners() {
     if (this.containerNode != null) {
       this.listeners.add(this.containerNode, 'mouseover', this.tryToShowPopup);
-      this.listeners.add(this.containerNode, 'mouseout', this.hidePopup);
+      this.listeners.add(this.containerNode, 'mouseout', ev => {
+        if (ev.relatedTarget && this.popup?.container?.contains(ev.relatedTarget as Node)) {
+          return;
+        }
+
+        this.hidePopup();
+      });
     }
     this.listeners.add(document, 'scroll', () => scheduleScroll(this.hidePopup), {passive: true});
   }
@@ -178,6 +184,7 @@ export default class Tooltip extends Component<TooltipProps> {
             maxHeight={400}
             className={classNames(styles.tooltip, {[styles.long]: long})}
             attached={false}
+            onMouseOut={this.hidePopup}
             top={4}
             dontCloseOnAnchorClick
             ref={this.popupRef}
