@@ -1,4 +1,4 @@
-import {ChangeEventHandler, PureComponent, ReactNode, SyntheticEvent} from 'react';
+import {ChangeEventHandler, PureComponent, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 
 import Checkbox from '../checkbox/checkbox';
@@ -22,15 +22,6 @@ export interface HeaderProps {
   caption?: string | null | undefined
   checkboxDisabled?: boolean | undefined
   maxColSpan?: number
-}
-
-declare module 'react-waypoint' {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Waypoint {
-    interface WaypointProps {
-      children?: ReactNode
-    }
-  }
 }
 
 export default class Header extends PureComponent<HeaderProps> {
