@@ -192,9 +192,11 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
 
+    const columnsArray = typeof columns === 'function' ? columns(null) : columns;
+
     const headerProps: HeaderAttrs = {
       caption, selectable, draggable,
-      columns: typeof columns === 'function' ? columns(null) : columns, onSort, sortKey, sortOrder,
+      columns: columnsArray, onSort, sortKey, sortOrder,
       sticky: stickyHeader,
       topStickOffset: stickyHeaderOffset, maxColSpan: this.props.maxColSpan
     };
@@ -222,7 +224,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       const empty = (
         <tr>
           <td
-            colSpan={this.props.columns.length || 1}
+            colSpan={columnsArray.length || 1}
             className={style.tableMessage}
           >
             {renderEmpty ? renderEmpty() : null}
