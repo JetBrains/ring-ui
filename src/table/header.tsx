@@ -22,7 +22,6 @@ export interface HeaderProps {
   sortOrder: boolean
   caption?: string | null | undefined
   checkboxDisabled?: boolean | undefined
-  maxColSpan?: number
 }
 
 declare module 'react-waypoint' {
@@ -93,20 +92,14 @@ export default class Header extends PureComponent<HeaderProps> {
       </div>
     );
 
-    let colSpan = 0;
     return columns.map((column, index) => {
       const columnStyle = widths[index] ? {width: widths[index]} : undefined;
       const props = {column, onSort, sortKey, sortOrder, style: columnStyle};
-      colSpan += column.colSpan || 1;
-      if (colSpan > (this.props.maxColSpan || Infinity)) {
-        return null;
-      }
 
       return (
         <HeaderCell
           key={column.id}
           data-test={column.id}
-          colSpan={column.colSpan}
           {...props}
         >
           {index === 0 && (draggable || selectable) && metaColumn}
