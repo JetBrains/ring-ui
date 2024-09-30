@@ -53804,7 +53804,7 @@ Or();
 var ere = Z(ji(), 1), $o = Z(Qte(), 1);
 
 // src/manager-api/version.ts
-var Jte = "8.3.3";
+var Jte = "8.3.4";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: J$e } = Ae, Zte = (0, ere.default)(1)(() => {
