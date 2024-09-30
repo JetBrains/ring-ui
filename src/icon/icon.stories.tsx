@@ -123,6 +123,10 @@ allIconsList.parameters = {
   .secondary {
     fill: var(--ring-icon-disabled-color);
   }
+
+  .tertiary {
+    fill: var(--ring-icon-hover-color);
+  }
 </style>`
 };
 
