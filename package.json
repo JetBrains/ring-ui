@@ -198,7 +198,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/preset-typescript": "^7.24.7",
+    "@babel/preset-typescript": "^7.25.7",
     "@jetbrains/babel-preset-jetbrains": "^2.4.0",
     "@jetbrains/icons": "^4.6.0",
     "@jetbrains/postcss-require-hover": "^0.1.2",
