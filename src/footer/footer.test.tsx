@@ -1,74 +1,73 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import {shallow, mount, render} from 'enzyme';
+
+import {getAllByRole, render, screen} from '@testing-library/react';
 
 import Footer, {FooterProps} from './footer';
 
 describe('Footer', () => {
-  const shallowFooter = (props?: FooterProps) => shallow(<Footer {...props}/>);
-  const mountFooter = (props?: FooterProps) => mount(<Footer {...props}/>);
   const renderFooter = (props?: FooterProps) => render(<Footer {...props}/>);
 
   it('should create component', () => {
-    shallowFooter().should.exist;
+    renderFooter();
+    screen.getByRole('contentinfo').should.exist;
   });
 
   it('should be empty by default', () => {
-    const wrapper = shallowFooter();
-    wrapper.should.have.tagName('footer');
-    wrapper.should.be.blank();
+    renderFooter();
+    const footer = screen.getByRole('contentinfo');
+    footer.should.be.empty;
   });
 
   describe('should render items', () => {
     it('should add given class', () => {
-      const wrapper = shallowFooter({className: 'myClass'});
-
-      wrapper.should.have.className('myClass');
+      renderFooter({className: 'myClass'});
+      screen.getByRole('contentinfo').should.have.class('myClass');
     });
 
     it('add left column one line', () => {
-      const wrapper = renderFooter({left: ['One Line']});
-      wrapper.should.have.text('One Line');
-      wrapper.find('li').should.have.text('One Line');
+      renderFooter({left: ['One Line']});
+      screen.getByRole('contentinfo').should.contain.text('One Line');
+      screen.getByRole('listitem').should.contain.text('One Line');
     });
 
     it('add left column two lines', () => {
-      const wrapper = renderFooter({left: ['One Line', 'Second Line']});
-      wrapper.should.have.exactly(2).descendants('li');
+      renderFooter({left: ['One Line', 'Second Line']});
+      screen.getAllByRole('listitem').should.have.length(2);
     });
 
     it('add three columns two lines', () => {
-      const wrapper = mountFooter({
+      renderFooter({
         left: ['One Line', 'Second Line'],
         center: ['One Line', 'Second Line'],
         right: ['One Line', 'Second Line']
       });
 
-      wrapper.should.have.exactly(3).descendants('ul');
-      const uls = wrapper.find('ul');
+      const uls = screen.getAllByRole('list');
+      uls.should.have.length(3);
 
-      uls.forEach(ul => ul.should.have.exactly(2).descendants('li'));
+      uls.forEach(ul => getAllByRole(ul, 'listitem').should.have.length(2));
     });
 
   });
 
   it('should render copyright', () => {
-    const wrapper = renderFooter({
+    renderFooter({
       left: [
         {copyright: 2010, label: ' JetBrains'}
       ]
     });
 
-    wrapper.find('li').should.contain.text(`Copyright © 2010–${(new Date()).getFullYear()} JetBrains`);
+    screen.getByRole('listitem').should.contain.text(`Copyright © 2010–${(new Date()).getFullYear()} JetBrains`);
   });
 
   it('should render link', () => {
-    const wrapper = renderFooter({
+    renderFooter({
       left: [
         {url: 'http://jetbrains.com', label: 'JetBrains', title: 'JetBrains Official Site'}
       ]
     });
 
-    const link = wrapper.find('a');
+    const link = screen.getByRole('link');
 
     link.should.have.text('JetBrains');
     link.should.have.attr('href', 'http://jetbrains.com');
