@@ -47,7 +47,7 @@ export default class Col extends Component<ColProps> {
     });
 
     return (
-      <div className={classes}>
+      <div className={classes} data-test="ring-grid-column">
         {children}
       </div>
     );

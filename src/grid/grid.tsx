@@ -14,6 +14,7 @@ export class Grid extends Component<HTMLAttributes<HTMLDivElement>> {
 
     return (
       <div
+        data-test="ring-grid"
         {...restProps}
         className={classes}
       >
