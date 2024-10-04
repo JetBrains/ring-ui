@@ -24,7 +24,7 @@ export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
     const errorBubbleClasses = classNames(styles.errorBubble, className);
 
     return (
-      <div className={styles.errorBubbleWrapper}>
+      <div className={styles.errorBubbleWrapper} data-test="ring-error-bubble-wrapper">
         {Children.map(children as ErrorBubbleProps<P>['children'], (child: ReactElement<P>) =>
           cloneElement(child, {...child.props, ...restProps}))}
         {restProps.error && (

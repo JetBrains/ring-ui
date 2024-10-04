@@ -1,41 +1,39 @@
-import {shallow, mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
 import Input, {InputAttrs} from '../input/input';
 
 import ErrorBubble, {ErrorBubbleProps} from './error-bubble';
 
-const ERROR_BUBBLE_SELECTOR = '[data-test="ring-error-bubble"]';
-
 describe('Error Bubble', () => {
-  const shallowErrorBubble = (params?: Partial<ErrorBubbleProps<Omit<InputAttrs, 'ref'>>>) =>
-    shallow(
+  const renderErrorBubble = (params?: Partial<ErrorBubbleProps<Omit<InputAttrs, 'ref'>>>) =>
+    render(
       <ErrorBubble {...params}>
         <Input/>
       </ErrorBubble>
     );
-  const mountErrorBubble = (params?: Partial<ErrorBubbleProps<Omit<InputAttrs, 'ref'>>>) => mount(
-    <ErrorBubble {...params}>
-      <Input/>
-    </ErrorBubble>
-  );
 
   it('should create component', () => {
-    mountErrorBubble().should.have.type(ErrorBubble);
+    renderErrorBubble();
+    screen.getByTestId('ring-error-bubble-wrapper').should.exist;
   });
 
   it('should wrap children with div', () => {
-    shallowErrorBubble().should.have.tagName('div');
+    renderErrorBubble();
+    screen.getByTestId('ring-error-bubble-wrapper').should.have.tagName('div');
   });
 
   it('should not show error bubble by default', () => {
-    shallowErrorBubble().should.not.have.descendants(ERROR_BUBBLE_SELECTOR);
+    renderErrorBubble();
+    should.not.exist(screen.queryByTestId('ring-error-bubble'));
   });
 
   it('should show error bubble', () => {
-    shallowErrorBubble({error: 'test'}).should.have.descendants(ERROR_BUBBLE_SELECTOR);
+    renderErrorBubble({error: 'test'});
+    screen.getByTestId('ring-error-bubble').should.exist;
   });
 
   it('should use passed className', () => {
-    shallowErrorBubble({error: 'test', className: 'test-class'}).should.have.descendants('.test-class');
+    renderErrorBubble({error: 'test', className: 'test-class'});
+    screen.getByTestId('ring-error-bubble').should.have.class('test-class');
   });
 });
