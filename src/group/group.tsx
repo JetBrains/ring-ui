@@ -14,6 +14,7 @@ export default class Group extends Component<HTMLAttributes<HTMLSpanElement>> {
 
     return (
       <span
+        data-test="ring-group"
         {...restProps}
         className={classes}
       >
