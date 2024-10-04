@@ -52,7 +52,7 @@ export default class Row extends Component<RowProps> {
     });
 
     return (
-      <div className={classes}>
+      <div className={classes} data-test="ring-grid-row">
         {children}
       </div>
     );
