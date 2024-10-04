@@ -2,7 +2,7 @@ import * as Sinon from 'sinon';
 
 import {render} from '@testing-library/react';
 
-import {ReactElement} from 'react';
+import {act, ReactElement} from 'react';
 
 import Alert from '../alert/alert';
 
@@ -69,7 +69,8 @@ describe('Alert Service', () => {
 
   it('Should remove alert after timeout', () => {
     alertKey = alert.message('foo', ALERT_SHOW_TIME);
-    clock.tick(SMALL_TICK);
+    act(() => clock.tick(SMALL_TICK)); // alert timeout
+    act(() => clock.tick(SMALL_TICK)); // alert animation
     alert._getShowingAlerts().length.should.equal(0);
   });
 
@@ -91,7 +92,8 @@ describe('Alert Service', () => {
   it('should allow configuring default timeout', () => {
     alert.setDefaultTimeout(SMALL_TICK);
     alertKey = alert.message('foo');
-    clock.tick(BIG_TICK);
+    act(() => clock.tick(BIG_TICK)); // alert timeout
+    act(() => clock.tick(SMALL_TICK)); // alert animation
     alert._getShowingAlerts().length.should.equal(0);
   });
 });
