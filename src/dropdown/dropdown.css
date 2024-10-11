@@ -5,8 +5,8 @@
 }
 
 .anchor.anchor {
-  margin: 0 -3px;
-  padding: 0 3px;
+  margin-inline: -3px;
+  padding-inline: 3px;
 
   font: inherit;
 }
