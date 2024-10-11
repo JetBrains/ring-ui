@@ -340,6 +340,7 @@
   transition: color var(--ring-ease);
 
   .block & {
+    margin-top: -1px;
     margin-right: calc(var(--ring-unit) * -0.5);
 
     color: var(--ring-icon-secondary-color);
