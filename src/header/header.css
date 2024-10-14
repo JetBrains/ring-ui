@@ -65,7 +65,7 @@
 
   color: var(--ring-text-color);
 
-  background-color: var(--ring-sidebar-background-color);
+  background-color: var(--ring-navigation-background-color);
 
   /* override link */
   & .link {
@@ -75,6 +75,11 @@
   & .active {
     color: var(--ring-active-text-color);
   }
+}
+
+html.dark .headerVertical,
+html:global(.ring-ui-theme-dark) .headerVertical {
+  box-shadow: inset -1px 0 var(--ring-line-color);
 }
 
 .logo {
