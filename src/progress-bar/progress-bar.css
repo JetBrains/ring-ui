@@ -58,7 +58,7 @@
     left: 0;
 
     content: "";
-    animation: progress-bar 2500ms linear infinite;
+    animation: progress-bar-animation 2500ms linear infinite;
 
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--ring-progress-bar-line-background-color), rgba(0, 0, 0, 0));
     background-repeat: no-repeat;
@@ -71,7 +71,7 @@
   }
 }
 
-@keyframes progress-bar {
+@keyframes progress-bar-animation {
   from {
     transform: translateX(-100%);
   }
