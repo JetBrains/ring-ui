@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import Popup from './popup';
 
+const {Directions} = Popup.PopupProps;
 export default {
   title: 'Components/Popup',
 
@@ -19,7 +20,6 @@ interface PopupDemoState {
   bottomRight?: boolean
 }
 export const basic = () => {
-  const {Directions} = Popup.PopupProps;
 
   const directionMap = {
     topLeft: Directions.BOTTOM_RIGHT,
@@ -120,8 +120,6 @@ basic.parameters = {
 };
 
 export const autoPositioning = () => {
-  const Directions = Popup.PopupProps.Directions;
-
   const content = <span className="popup">This is a popup</span>;
   const PopupDemo = (
     <div>
@@ -350,3 +348,24 @@ fitsScreen.parameters = {
 </style>
       `
 };
+
+export const AllDirections = () => (
+  <div style={{padding: 32}}>
+    <div style={{margin: 'auto', width: 320, height: 80, border: '1px solid var(--ring-borders-color)', padding: '16px', boxSizing: 'border-box', textAlign: 'center'}}>
+      Anchor
+      <Popup directions={[Directions.BOTTOM_LEFT]}>Bottom left</Popup>
+      <Popup directions={[Directions.BOTTOM_CENTER]}>Bottom center</Popup>
+      <Popup directions={[Directions.BOTTOM_RIGHT]}>Bottom right</Popup>
+      <Popup directions={[Directions.TOP_LEFT]}>Top left</Popup>
+      <Popup directions={[Directions.TOP_CENTER]}>Top center</Popup>
+      <Popup directions={[Directions.TOP_RIGHT]}>Top right</Popup>
+      <Popup directions={[Directions.LEFT_BOTTOM]}>Left bottom</Popup>
+      <Popup directions={[Directions.LEFT_CENTER]}>Left center</Popup>
+      <Popup directions={[Directions.LEFT_TOP]}>Left top</Popup>
+      <Popup directions={[Directions.RIGHT_BOTTOM]}>Right bottom</Popup>
+      <Popup directions={[Directions.RIGHT_CENTER]}>Right center</Popup>
+      <Popup directions={[Directions.RIGHT_TOP]}>Right top</Popup>
+    </div>
+  </div>
+);
+AllDirections.parameters = {};
