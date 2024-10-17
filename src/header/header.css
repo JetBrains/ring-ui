@@ -58,7 +58,7 @@
 
 .headerVertical {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
 
   height: 100%;
@@ -104,6 +104,7 @@ html:global(.ring-ui-theme-dark) .headerVertical {
 
 .links {
   display: flex;
+  align-items: center;
   flex-direction: column;
 
   min-height: calc(var(--ring-unit) * 5);
@@ -122,7 +123,7 @@ html:global(.ring-ui-theme-dark) .headerVertical {
 }
 
 .headerVertical .tray {
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
 
   margin-top: auto;
