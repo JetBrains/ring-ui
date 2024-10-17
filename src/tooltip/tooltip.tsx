@@ -126,8 +126,8 @@ export default class Tooltip extends Component<TooltipProps> {
 
   addListeners() {
     if (this.containerNode != null) {
-      this.listeners.add(this.containerNode, 'mouseover', this.tryToShowPopup);
-      this.listeners.add(this.containerNode, 'mouseout', this.hidePopup);
+      this.listeners.add(this.containerNode, 'mouseenter', this.tryToShowPopup);
+      this.listeners.add(this.containerNode, 'mouseleave', this.hidePopup);
     }
     this.listeners.add(document, 'scroll', () => scheduleScroll(this.hidePopup), {passive: true});
   }
