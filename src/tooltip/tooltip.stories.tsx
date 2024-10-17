@@ -27,7 +27,7 @@ basic.storyName = 'basic';
 basic.parameters = {
   screenshots: {
     actions: [
-      {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
+      {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseenter'},
       {type: 'wait', delay: 500},
       {type: 'capture', name: '', selector: '#storybook-root'}
     ]
@@ -77,9 +77,9 @@ displayedWhenNecessary.storyName = 'displayed when necessary';
 displayedWhenNecessary.parameters = {
   screenshots: {
     actions: [
-      {type: 'mouseEvent', selector: '.lorem-ipsum__text', eventname: 'mouseover'},
+      {type: 'mouseEvent', selector: '.lorem-ipsum__text', eventname: 'mouseenter'},
       {type: 'capture', name: 'full text element', selector: '#storybook-root'},
-      {type: 'mouseEvent', selector: '.lorem-ipsum__text_overflow', eventname: 'mouseover'},
+      {type: 'mouseEvent', selector: '.lorem-ipsum__text_overflow', eventname: 'mouseenter'},
       {type: 'capture', name: 'cut text element', selector: '#storybook-root'}
     ]
   }
@@ -110,7 +110,7 @@ nested.storyName = 'nested';
 nested.parameters = {
   screenshots: {
     actions: [
-      {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
+      {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseenter'},
       {type: 'wait', delay: 500},
       {type: 'capture', name: '', selector: '#storybook-root'}
     ]
