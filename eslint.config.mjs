@@ -73,8 +73,6 @@ export default tseslint.config(
     },
 
     rules: {
-      //FIXME: src/select/select.stories.tsx
-      'no-lone-blocks': 0,
       'valid-jsdoc': 0,
       'import/no-commonjs': 0,
 
@@ -178,7 +176,7 @@ export default tseslint.config(
 
     languageOptions: {
       parser: tseslint.parser,
-      ecmaVersion: 5,
+      ecmaVersion: 6,
       sourceType: 'script',
 
       parserOptions: {
