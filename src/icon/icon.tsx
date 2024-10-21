@@ -89,7 +89,7 @@ export default class Icon extends PureComponent<IconProps> {
     );
 
     return (
-      <span {...restProps} className={classes}>
+      <span data-test="ring-icon" {...restProps} className={classes}>
         {typeof Glyph === 'string' ? (
           <IconSVG src={Glyph} style={this.getStyle()} />
         ) : (
