@@ -38,6 +38,7 @@ export interface DialogProps extends Partial<TabTrapProps> {
   dense?: boolean | null | undefined
   native?: boolean
   modal?: boolean
+  preventBodyScroll?: boolean
 }
 
 /**
@@ -58,7 +59,8 @@ export default class Dialog extends PureComponent<DialogProps> {
     shortcutOptions: {modal: false},
     trapFocus: false,
     autoFocusFirst: true,
-    modal: true
+    modal: true,
+    preventBodyScroll: true
   };
 
   state = {
@@ -108,6 +110,9 @@ export default class Dialog extends PureComponent<DialogProps> {
   }
 
   toggleScrollPreventer() {
+    if (!this.props.preventBodyScroll) {
+      return;
+    }
     if (this.props.show) {
       this.scrollPreventer.prevent();
     } else {
@@ -149,7 +154,7 @@ export default class Dialog extends PureComponent<DialogProps> {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
       portalTarget, label, closeButtonTitle, dense, shortcutOptions, native, modal,
-      ...restProps} = this.props;
+      preventBodyScroll, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
     const content = (

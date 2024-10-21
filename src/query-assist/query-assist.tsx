@@ -316,7 +316,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       props.focus !== this.props.focus ||
       props.actions !== this.props.actions ||
       props.loader !== this.props.loader ||
-      props.glass !== this.props.glass;
+      props.glass !== this.props.glass ||
+      props.className !== this.props.className;
   }
 
   componentDidUpdate(prevProps: QueryAssistProps) {

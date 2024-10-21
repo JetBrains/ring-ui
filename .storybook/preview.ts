@@ -4,7 +4,7 @@ import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ic
 import {Component} from '@storybook/addon-docs';
 import {Parameters} from '@storybook/react';
 
-import Theme, {applyTheme} from '../src/global/theme';
+import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
 
 import styles from './preview.css';
 import strictModeDecorator from './strict-mode-decorator';
@@ -41,7 +41,14 @@ export const parameters = {
     }
   },
   actions: {argTypesRegex: '^on.*'},
-  backgrounds: {disable: true}
+  backgrounds: {disable: true},
+  themes: {
+    default: 'Light',
+    list: [
+      {name: 'Light', color: '#FFF'},
+      {name: 'Dark', class: GLOBAL_DARK_CLASS_NAME, color: '#23272b'}
+    ]
+  }
 };
 
 export const decorators = [

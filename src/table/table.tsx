@@ -36,7 +36,6 @@ export interface TableProps<T extends SelectionItem> extends
   FocusSensorAddProps<HTMLTableRowElement>, SelectionShortcutsAddProps<T>, DisableHoverAddProps {
   data: readonly T[]
   columns: readonly Column<T>[] | ((item:T|null)=>readonly Column<T>[])
-  maxColSpan?:number;
   isItemSelectable: (item: T) => boolean
   loading: boolean
   onSort: (params: SortParams) => void
@@ -184,17 +183,19 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
-      onItemDoubleClick, onItemClick, renderEmpty, maxColSpan, RowComponent
+      onItemDoubleClick, onItemClick, renderEmpty, RowComponent
     } = this.props;
 
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
 
+    const columnsArray = typeof columns === 'function' ? columns(null) : columns;
+
     const headerProps: HeaderAttrs = {
       caption, selectable, draggable,
-      columns: typeof columns === 'function' ? columns(null) : columns, onSort, sortKey, sortOrder,
+      columns: columnsArray, onSort, sortKey, sortOrder,
       sticky: stickyHeader,
-      topStickOffset: stickyHeaderOffset, maxColSpan: this.props.maxColSpan
+      topStickOffset: stickyHeaderOffset
     };
 
     const selectedSize = selection.getSelected().size;
@@ -220,7 +221,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       const empty = (
         <tr>
           <td
-            colSpan={this.props.columns.length || 1}
+            colSpan={columnsArray.length || 1}
             className={style.tableMessage}
           >
             {renderEmpty ? renderEmpty() : null}
@@ -273,7 +274,6 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
           dragHandleTitle={dragHandleTitle}
           columns={columns}
           data-test={getItemDataTest(value)}
-          maxColSpan={maxColSpan}
           {...restProps}
           key={restProps.key ?? getItemKey(value)}
         />

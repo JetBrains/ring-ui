@@ -1,4 +1,4 @@
-import {PureComponent, Ref} from 'react';
+import {PureComponent, Ref, ButtonHTMLAttributes} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import type {Locale} from 'date-fns';
@@ -91,6 +91,7 @@ export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateIn
   disabled?: boolean | null | undefined
   parseDateInput: (input: string | null | undefined) => Date | null
   size?: Size
+  buttonAttributes?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>
 }
 
 /**
@@ -286,6 +287,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
                 className={styles.anchor}
                 text={false}
                 disabled={this.props.disabled ?? false}
+                {...this.props.buttonAttributes}
               >
                 {anchorContent}
               </Button>
