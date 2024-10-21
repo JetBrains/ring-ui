@@ -59,8 +59,8 @@ describe('Auth', () => {
       });
 
       it('should reject if accessToken is empty', () => {
-        // @ts-expect-error testing a wrong usage
         getToken.returns(
+          // @ts-expect-error testing a wrong usage
           Promise.resolve({
             accessToken: null,
             expires,
