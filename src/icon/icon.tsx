@@ -82,6 +82,7 @@ export default class Icon extends PureComponent<IconProps> {
 
     return (
       <span
+        data-test="ring-icon"
         {...restProps}
         className={classes}
       >
