@@ -14,21 +14,21 @@ import styles from './auth-dialog.css';
  */
 
 export interface AuthDialogProps {
-  className?: string | undefined
-  title?: string | null | undefined
-  errorMessage?: string | null | undefined
-  serviceImage?: string | null | undefined
-  serviceName?: string | null | undefined
-  loginCaption: string
-  loginToCaption: string
-  show: boolean
-  cancelOnEsc: boolean
-  confirmLabel: string
-  cancelLabel: string
-  tryAgainLabel: string
-  onConfirm: () => void
-  onCancel: () => void
-  onTryAgain?: () => void
+  className?: string | undefined;
+  title?: string | null | undefined;
+  errorMessage?: string | null | undefined;
+  serviceImage?: string | null | undefined;
+  serviceName?: string | null | undefined;
+  loginCaption: string;
+  loginToCaption: string;
+  show: boolean;
+  cancelOnEsc: boolean;
+  confirmLabel: string;
+  cancelLabel: string;
+  tryAgainLabel: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+  onTryAgain?: () => void;
 }
 
 export default class AuthDialog extends Component<AuthDialogProps> {
@@ -41,11 +41,11 @@ export default class AuthDialog extends Component<AuthDialogProps> {
     confirmLabel: 'Log in',
     cancelLabel: 'Remain a guest',
     onConfirm: () => {},
-    onCancel: () => {}
+    onCancel: () => {},
   };
 
   state = {
-    retrying: false
+    retrying: false,
   };
 
   componentDidMount() {
@@ -90,15 +90,15 @@ export default class AuthDialog extends Component<AuthDialogProps> {
       tryAgainLabel,
       onConfirm,
       onCancel,
-      onTryAgain
+      onTryAgain,
     } = this.props;
 
     const {retrying} = this.state;
 
     const defaultTitle = serviceName ? loginToCaption : loginCaption;
-    const title = (this.props.title || defaultTitle).
-      replace('%serviceName%', serviceName ?? '').
-      replace('{{serviceName}}', serviceName ?? '');
+    const title = (this.props.title || defaultTitle)
+      .replace('%serviceName%', serviceName ?? '')
+      .replace('{{serviceName}}', serviceName ?? '');
 
     return (
       <Dialog
@@ -112,23 +112,10 @@ export default class AuthDialog extends Component<AuthDialogProps> {
       >
         <Content>
           <div className={styles.content}>
-            {serviceImage && (
-              <img
-                alt={`${serviceName} logo`}
-                className={styles.logo}
-                src={serviceImage}
-              />
-            )}
+            {serviceImage && <img alt={`${serviceName} logo`} className={styles.logo} src={serviceImage} />}
             <H2 className={styles.title}>{title}</H2>
-            {errorMessage && (
-              <div className={styles.error}>{errorMessage}</div>
-            )}
-            <Button
-              primary
-              className={styles.firstButton}
-              data-test="auth-dialog-confirm-button"
-              onClick={onConfirm}
-            >
+            {errorMessage && <div className={styles.error}>{errorMessage}</div>}
+            <Button primary className={styles.firstButton} data-test="auth-dialog-confirm-button" onClick={onConfirm}>
               {confirmLabel}
             </Button>
             {onTryAgain && (
@@ -142,11 +129,7 @@ export default class AuthDialog extends Component<AuthDialogProps> {
                 {tryAgainLabel}
               </Button>
             )}
-            <Button
-              className={styles.button}
-              data-test="auth-dialog-cancel-button"
-              onClick={onCancel}
-            >
+            <Button className={styles.button} data-test="auth-dialog-cancel-button" onClick={onCancel}>
               {cancelLabel}
             </Button>
           </div>
@@ -155,4 +138,3 @@ export default class AuthDialog extends Component<AuthDialogProps> {
     );
   }
 }
-

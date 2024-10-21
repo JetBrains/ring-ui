@@ -9,19 +9,21 @@ describe('Auth', () => {
       });
 
       it('should convert keys to camelCase', () => {
-        location = 'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA' +
+        location =
+          'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA' +
           '&state=xyz&token_type=example&expires_in=3600';
         const parser = new AuthResponseParser();
         parser.readAuthResponseFromURL().should.be.deep.equal({
           accessToken: '2YotnFZFEjr1zCsicMWpAA',
           state: 'xyz',
           tokenType: 'example',
-          expiresIn: '3600'
+          expiresIn: '3600',
         });
       });
 
       it('should return correct response', () => {
-        location = 'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA' +
+        location =
+          'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA' +
           '&state=xyz&token_type=example&expires_in=3600';
 
         const parser = new AuthResponseParser();
@@ -31,7 +33,7 @@ describe('Auth', () => {
           accessToken: '2YotnFZFEjr1zCsicMWpAA',
           state: 'xyz',
           tokenType: 'example',
-          expiresIn: '3600'
+          expiresIn: '3600',
         });
       });
 
@@ -64,8 +66,7 @@ describe('Auth', () => {
         const parser = new AuthResponseParser();
         const response = parser.getAuthResponseFromURL();
         should.exist(response);
-        response?.should.be.deep.
-          equal({accessToken: '#2YotnFZFEjr1zCsicMWpAA#'});
+        response?.should.be.deep.equal({accessToken: '#2YotnFZFEjr1zCsicMWpAA#'});
       });
 
       it('should throw error on error in auth response', () => {
@@ -75,8 +76,9 @@ describe('Auth', () => {
       });
 
       it('should throw error with fields from request', () => {
-        location = 'http://localhost:8080/hub#error=access_denied&' +
-        'error_uri=http://error&error_description=Logged+in+user+is+banned&state=unique';
+        location =
+          'http://localhost:8080/hub#error=access_denied&' +
+          'error_uri=http://error&error_description=Logged+in+user+is+banned&state=unique';
         const parser = new AuthResponseParser();
 
         try {

@@ -11,10 +11,7 @@ export default class Panel extends PureComponent<HTMLAttributes<HTMLElement>> {
     const {className, children, ...props} = this.props;
     const classes = classNames(styles.panel, className);
     return (
-      <div
-        {...props}
-        className={classes}
-      >
+      <div {...props} className={classes}>
         {children}
       </div>
     );

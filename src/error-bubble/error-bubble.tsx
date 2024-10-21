@@ -8,10 +8,10 @@ import {Directions} from '../popup/popup.consts';
 import styles from './error-bubble.css';
 
 export type ErrorBubbleProps<P> = Partial<P> & {
-  className?: string | null | undefined
-  children: ReactElement<P> | ReactElement<P>[]
-  error?: string | null | undefined
-}
+  className?: string | null | undefined;
+  children: ReactElement<P> | ReactElement<P>[];
+  error?: string | null | undefined;
+};
 
 /**
  * @name Error Bubble
@@ -26,7 +26,8 @@ export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
     return (
       <div className={styles.errorBubbleWrapper} data-test="ring-error-bubble-wrapper">
         {Children.map(children as ErrorBubbleProps<P>['children'], (child: ReactElement<P>) =>
-          cloneElement(child, {...child.props, ...restProps}))}
+          cloneElement(child, {...child.props, ...restProps}),
+        )}
         {restProps.error && (
           <Popup
             trapFocus={false}
@@ -35,10 +36,7 @@ export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
             attached={false}
             directions={[Directions.RIGHT_CENTER, Directions.RIGHT_BOTTOM, Directions.RIGHT_TOP]}
           >
-            <div
-              className={errorBubbleClasses}
-              data-test="ring-error-bubble"
-            >
+            <div className={errorBubbleClasses} data-test="ring-error-bubble">
               {restProps.error}
             </div>
           </Popup>
@@ -47,4 +45,3 @@ export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
     );
   }
 }
-

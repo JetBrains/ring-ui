@@ -3,8 +3,8 @@ import {shallow, mount} from 'enzyme';
 import Island, {AdaptiveIsland, Content, Header, IslandProps} from './island';
 
 describe('Island', () => {
-  const shallowIsland = (params?: IslandProps) => shallow(<Island {...params}/>);
-  const mountIsland = (params?: IslandProps) => mount(<Island {...params}/>);
+  const shallowIsland = (params?: IslandProps) => shallow(<Island {...params} />);
+  const mountIsland = (params?: IslandProps) => mount(<Island {...params} />);
 
   it('should create Island component', () => {
     mountIsland().should.have.type(Island);
@@ -24,15 +24,15 @@ describe('Island', () => {
 
   describe('AdaptiveIsland', () => {
     it('should render AdaptiveIsland', () => {
-      mount(<AdaptiveIsland/>).should.have.type(AdaptiveIsland);
+      mount(<AdaptiveIsland />).should.have.type(AdaptiveIsland);
     });
 
     it('should change header size if content is scrolled', () => {
       const wrapper = mount<InstanceType<typeof AdaptiveIsland>>(
         <AdaptiveIsland>
-          <Header/>
-          <Content/>
-        </AdaptiveIsland>
+          <Header />
+          <Content />
+        </AdaptiveIsland>,
       );
 
       const headerNode = wrapper.find('[data-test="ring-island-header"]');
@@ -40,7 +40,7 @@ describe('Island', () => {
       wrapper.instance().onContentScroll({
         scrollTop: 10,
         scrollHeight: 100,
-        clientHeight: 50
+        clientHeight: 50,
       } as Element);
       headerNode.should.have.style('line-height', '24px');
     });
@@ -48,12 +48,12 @@ describe('Island', () => {
 
   describe('Header', () => {
     it('should render header', () => {
-      mount(<Header/>).should.have.type(Header);
+      mount(<Header />).should.have.type(Header);
     });
 
     it('should change header size', () => {
       const phase = 0.75;
-      const wrapper = shallow(<Header phase={phase}/>);
+      const wrapper = shallow(<Header phase={phase} />);
       wrapper.should.have.style('line-height', '22px');
     });
   });

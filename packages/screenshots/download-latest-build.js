@@ -15,8 +15,8 @@ const baseURL = 'https://teamcity.jetbrains.com/app/rest/';
 const teamCityClient = axios.create({
   baseURL,
   headers: {
-    Authorization: `Bearer ${process.env.TEAMCITY_TOKEN}`
-  }
+    Authorization: `Bearer ${process.env.TEAMCITY_TOKEN}`,
+  },
 });
 
 const fromBuffer = promisify(yauzl.fromBuffer);
@@ -31,16 +31,13 @@ function unzip(buffer) {
         resolver({
           value: {
             entry,
-            openReadStream: promisify(
-              zipfile.openReadStream.bind(zipfile, entry)
-            )
+            openReadStream: promisify(zipfile.openReadStream.bind(zipfile, entry)),
           },
-          done: false
+          done: false,
         });
       }
     });
-    zipfile.once('end', () =>
-      resolvers.forEach(resolver => resolver({done: true})));
+    zipfile.once('end', () => resolvers.forEach(resolver => resolver({done: true})));
     return zipfile;
   })();
 
@@ -52,9 +49,9 @@ function unzip(buffer) {
           const zipfile = await zipfilePromise;
           zipfile.readEntry();
           return result;
-        }
+        },
       };
-    }
+    },
   };
 }
 
@@ -68,7 +65,7 @@ async function downloadArtifacts(buildLocator, src, dest) {
     const url = `builds/${buildLocator}/artifacts/content/${src}`;
     console.log(`Downloading ${src} from ${baseURL}${url}`);
     const {data} = await teamCityClient.get(url, {
-      responseType: 'arraybuffer'
+      responseType: 'arraybuffer',
     });
     console.log(`Unzipping ${src}`);
     for await (const {entry, openReadStream} of unzip(data)) {
@@ -78,10 +75,9 @@ async function downloadArtifacts(buildLocator, src, dest) {
       }
       const [readStream, writeStream] = await Promise.all([
         openReadStream(),
-        ensureWriteStream(path.join(dest, entry.fileName))
+        ensureWriteStream(path.join(dest, entry.fileName)),
       ]);
-      const endPromise = new Promise(resolve =>
-        readStream.once('end', resolve));
+      const endPromise = new Promise(resolve => readStream.once('end', resolve));
       readStream.pipe(writeStream);
       await endPromise;
     }

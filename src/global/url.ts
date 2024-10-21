@@ -120,17 +120,14 @@ export function parseQueryString(queryString: string | null | undefined) {
 
   let matchedQueryPair;
   while ((matchedQueryPair = queryParameterPairRE.exec(queryString)) != null) {
-    urlParams[decode(matchedQueryPair[FIRST_PAIR_ELEMENT])] =
-      decode(matchedQueryPair[SECOND_PAIR_ELEMENT]);
+    urlParams[decode(matchedQueryPair[FIRST_PAIR_ELEMENT])] = decode(matchedQueryPair[SECOND_PAIR_ELEMENT]);
   }
 
   return urlParams;
 }
 
 function customEncodeURIComponent(str: unknown) {
-  return encodeURIComponent(String(str)).
-    replace(/%2C/g, ',').
-    replace(/%24/g, '$');
+  return encodeURIComponent(String(str)).replace(/%2C/g, ',').replace(/%24/g, '$');
 }
 
 /**
@@ -142,7 +139,7 @@ function customEncodeURIComponent(str: unknown) {
  */
 export function encodeURL(url: string, params: Record<string, unknown>) {
   const equalsSign = '=';
-  const firstSeparator = (url.indexOf('?') === -1) ? '?' : '&';
+  const firstSeparator = url.indexOf('?') === -1 ? '?' : '&';
 
   let res = url;
   let k;
@@ -150,8 +147,11 @@ export function encodeURL(url: string, params: Record<string, unknown>) {
 
   for (k in params) {
     if (params.hasOwnProperty(k) && params[k] != null) {
-      res += (i++ === 0 ? firstSeparator : '&') +
-        customEncodeURIComponent(k) + equalsSign + customEncodeURIComponent(params[k]);
+      res +=
+        (i++ === 0 ? firstSeparator : '&') +
+        customEncodeURIComponent(k) +
+        equalsSign +
+        customEncodeURIComponent(params[k]);
     }
   }
 

@@ -11,16 +11,16 @@ import Anchor from './anchor';
 import styles from './dropdown.css';
 
 export interface AnchorProps {
-  active: boolean
-  pinned: boolean
+  active: boolean;
+  pinned: boolean;
 }
 
 export interface DropdownChildProps {
-  hidden: boolean
-  onCloseAttempt: () => void
-  onMouseDown?: () => void | undefined
-  onContextMenu?: () => void | undefined
-  dontCloseOnAnchorClick: boolean
+  hidden: boolean;
+  onCloseAttempt: () => void;
+  onMouseDown?: () => void | undefined;
+  onContextMenu?: () => void | undefined;
+  dontCloseOnAnchorClick: boolean;
 }
 
 export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
@@ -28,23 +28,23 @@ export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'childr
    * Can be string, React element, or a function accepting an object with {active, pinned} properties and returning a React element
    * React element should render some interactive HTML element like `button` or `a`
    */
-  anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode)
-  children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode)
-  initShown: boolean
-  disabled?: boolean | null | undefined
-  clickMode: boolean
-  hoverMode: boolean
-  hoverShowTimeOut: number
-  hoverHideTimeOut: number
-  onShow: (() => void)
-  onHide: (() => void)
-  activeClassName?: string | null | undefined
-  'data-test'?: string | null | undefined
+  anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode);
+  children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode);
+  initShown: boolean;
+  disabled?: boolean | null | undefined;
+  clickMode: boolean;
+  hoverMode: boolean;
+  hoverShowTimeOut: number;
+  hoverHideTimeOut: number;
+  onShow: () => void;
+  onHide: () => void;
+  activeClassName?: string | null | undefined;
+  'data-test'?: string | null | undefined;
 }
 
 interface DropdownState {
-  show: boolean,
-  pinned: boolean
+  show: boolean;
+  pinned: boolean;
 }
 
 /**
@@ -62,12 +62,12 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
     onShow: () => {},
     onHide: () => {},
     onMouseEnter: () => {},
-    onMouseLeave: () => {}
+    onMouseLeave: () => {},
   };
 
   state = {
     show: this.props.initShown,
-    pinned: false
+    pinned: false,
   };
 
   onClick = () => {
@@ -158,14 +158,24 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
   render() {
     const {show, pinned} = this.state;
     const {
-      initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut,
-      children, anchor, className, activeClassName, hoverMode, clickMode, 'data-test': dataTest,
+      initShown,
+      onShow,
+      onHide,
+      hoverShowTimeOut,
+      hoverHideTimeOut,
+      children,
+      anchor,
+      className,
+      activeClassName,
+      hoverMode,
+      clickMode,
+      'data-test': dataTest,
       disabled,
       ...restProps
     } = this.props;
 
     const classes = classNames(styles.dropdown, className, {
-      [activeClassName ?? '']: activeClassName != null && show
+      [activeClassName ?? '']: activeClassName != null && show,
     });
 
     let anchorElement;
@@ -174,7 +184,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
 
     switch (typeof anchor) {
       case 'string':
-        anchorElement = (<Anchor active={active}>{anchor}</Anchor>);
+        anchorElement = <Anchor active={active}>{anchor}</Anchor>;
         break;
       case 'function':
         anchorElement = anchor({active: show, pinned});
@@ -193,7 +203,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
       onCloseAttempt: this.onChildCloseAttempt,
       onMouseDown: hoverMode ? this.handlePopupInteraction : undefined,
       onContextMenu: hoverMode ? this.handlePopupInteraction : undefined,
-      dontCloseOnAnchorClick: true
+      dontCloseOnAnchorClick: true,
     };
 
     return (
@@ -216,6 +226,6 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
   }
 }
 
-export type DropdownAttrs = JSX.LibraryManagedAttributes<typeof Dropdown, DropdownProps>
+export type DropdownAttrs = JSX.LibraryManagedAttributes<typeof Dropdown, DropdownProps>;
 
 export {Anchor};

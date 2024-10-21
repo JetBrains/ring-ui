@@ -1,4 +1,3 @@
-
 import MarkdownIt from 'markdown-it';
 import highlightJs from 'highlight.js';
 
@@ -14,8 +13,8 @@ export default {
 Renders markdown.
 Note: it is up to developer to pick the best option fore markdown rendering. We suggest using \`markdown-it\` or \`react-markdown\`.
 Be careful with passing user input down to \`dangerouslySetInnerHTML\`!
-  `
-  }
+  `,
+  },
 };
 
 export const basic = () => {
@@ -27,9 +26,8 @@ export const basic = () => {
       }
 
       return '';
-    }
-  }).
-    enable('table');
+    },
+  }).enable('table');
 
   const renderedMarkdown = markdownIt.render(
     `
@@ -77,13 +75,13 @@ const MyComponent = () => (
   </div>
 );
 \`\`\`
-`
+`,
   );
 
   return (
     <Markdown className={highlightStyles.highlightContainer}>
       {/* Be careful with passing user input down to `dangerouslySetInnerHTML`! */}
-      <div dangerouslySetInnerHTML={{__html: renderedMarkdown}}/>
+      <div dangerouslySetInnerHTML={{__html: renderedMarkdown}} />
     </Markdown>
   );
 };

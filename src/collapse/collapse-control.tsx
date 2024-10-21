@@ -29,11 +29,13 @@ export const CollapseControl: React.FC<Props> = ({children, 'data-test': dataTes
   }, [children, collapsed]);
 
   return (
-    <p data-test={dataTests(COLLAPSE_CONTROL_TEST_ID, dataTest)}>{cloneElement(child, {
-      onClick: setCollapsed,
-      'aria-controls': `collapse-content-${id}`,
-      'aria-expanded': String(!collapsed)
-    })}</p>
+    <p data-test={dataTests(COLLAPSE_CONTROL_TEST_ID, dataTest)}>
+      {cloneElement(child, {
+        onClick: setCollapsed,
+        'aria-controls': `collapse-content-${id}`,
+        'aria-expanded': String(!collapsed),
+      })}
+    </p>
   );
 };
 

@@ -21,7 +21,7 @@ const files = glob.sync(
     // Style-only components
     'components/form/form.css',
     'components/input/input-legacy.css',
-    'components/input-size/input-size.css'
+    'components/input-size/input-size.css',
   ],
   {
     ignore: [
@@ -29,9 +29,9 @@ const files = glob.sync(
       'components/error-page/*', // TODO Error page does not work because of importing GIF file
       'components/error-page-ng/*',
       'components/**/*.test.js',
-      'components/**/*.stories.js'
-    ]
-  }
+      'components/**/*.stories.js',
+    ],
+  },
 );
 
 const TARGET_DIR = 'dist';
@@ -55,12 +55,12 @@ export default {
       return `${dirName}/[name].js`;
     },
     chunkFileNames: '_helpers/[name].js',
-    assetFileNames: '[name][extname]' // effective for css styles
+    assetFileNames: '[name][extname]', // effective for css styles
   },
 
   plugins: [
     clear({
-      targets: [TARGET_DIR]
+      targets: [TARGET_DIR],
     }),
 
     json(),
@@ -70,14 +70,14 @@ export default {
     babel({
       babelHelpers: 'bundled',
       browserslistEnv: 'dist',
-      extensions
+      extensions,
     }),
 
     // NOTE: styles plugin runs 2 times. First time it applies all the PostCSS transforms
     styles({
       mode: 'emit',
       config: true,
-      minimize: false
+      minimize: false,
     }),
 
     // Second time it applies CSS Modules, extraction and minification. See why https://youtrack.jetbrains.com/issue/RG-2171#focus=Comments-27-5632562.0-0
@@ -90,16 +90,16 @@ export default {
           }
           return `${name}_rui_${getHash(filename)}`;
         },
-        mode: 'local'
+        mode: 'local',
       },
       mode: ['extract', 'style.css'],
       config: true,
-      minimize: true
+      minimize: true,
     }),
 
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
-      preventAssignment: true
-    })
-  ]
+      preventAssignment: true,
+    }),
+  ],
 };

@@ -23,34 +23,34 @@ const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24; // nobody will need auth state af
 const UPDATE_USER_TIMEOUT = 1000;
 
 export interface StoredToken {
-  accessToken: string
-  scopes?: string[]
-  expires?: number
-  lifeTime?: number
-  waitForRedirectTimeout?: number
+  accessToken: string;
+  scopes?: string[];
+  expires?: number;
+  lifeTime?: number;
+  waitForRedirectTimeout?: number;
 }
 
 export interface AuthState extends AuthResponse {
-  restoreLocation?: string
-  scopes?: string[]
-  nonRedirect?: boolean | null | undefined
-  created?: number
+  restoreLocation?: string;
+  scopes?: string[];
+  nonRedirect?: boolean | null | undefined;
+  created?: number;
 }
 
 export interface AuthStorageConfig {
-  stateKeyPrefix?: string | null | undefined
-  tokenKey?: string | null | undefined
-  messagePrefix?: string | null | undefined
-  userKey?: string | null | undefined
-  stateTTL?: number | null | undefined
-  storage?: StorageClass | null | undefined
-  stateQuota?: number | null | undefined
+  stateKeyPrefix?: string | null | undefined;
+  tokenKey?: string | null | undefined;
+  messagePrefix?: string | null | undefined;
+  userKey?: string | null | undefined;
+  stateTTL?: number | null | undefined;
+  storage?: StorageClass | null | undefined;
+  stateQuota?: number | null | undefined;
 }
 
 interface StateRemovalResult {
-  key: string
-  created: number
-  size: number
+  key: string;
+  created: number;
+  size: number;
 }
 
 export default class AuthStorage<M = unknown> {
@@ -81,16 +81,16 @@ export default class AuthStorage<M = unknown> {
     this.stateQuota = config.stateQuota || DEFAULT_STATE_QUOTA;
 
     this._stateStorage = new StorageConstructor({
-      cookieName: 'ring-state'
+      cookieName: 'ring-state',
     });
     this._tokenStorage = new StorageConstructor({
-      cookieName: 'ring-token'
+      cookieName: 'ring-token',
     });
     this._messagesStorage = new StorageConstructor({
-      cookieName: 'ring-message'
+      cookieName: 'ring-message',
     });
     this._currentUserStorage = new StorageConstructor({
-      cookieName: 'ring-user'
+      cookieName: 'ring-user',
     });
   }
 
@@ -159,52 +159,51 @@ export default class AuthStorage<M = unknown> {
   async cleanStates(removeStateId?: string) {
     const now = Date.now();
 
-    const removalResult = await this._stateStorage.each<StateRemovalResult | void>(
-      (key, value) => {
-        if (value == null) {
-          return undefined;
-        }
+    const removalResult = await this._stateStorage.each<StateRemovalResult | void>((key, value) => {
+      if (value == null) {
+        return undefined;
+      }
 
-        // Remove requested state
-        if (key === this.stateKeyPrefix + removeStateId) {
+      // Remove requested state
+      if (key === this.stateKeyPrefix + removeStateId) {
+        return this._stateStorage.remove(key);
+      }
+
+      if (key.indexOf(this.stateKeyPrefix) === 0) {
+        // Clean old states
+        const state = value as AuthState;
+        const created = state.created ?? Date.now();
+        if (created + this.stateTTL < now) {
           return this._stateStorage.remove(key);
         }
 
-        if (key.indexOf(this.stateKeyPrefix) === 0) {
-        // Clean old states
-          const state = value as AuthState;
-          const created = state.created ?? Date.now();
-          if (created + this.stateTTL < now) {
-            return this._stateStorage.remove(key);
-          }
+        // Data to clean up due quota
+        return {
+          key,
+          created,
+          size: JSON.stringify(state).length,
+        };
+      }
 
-          // Data to clean up due quota
-          return {
-            key,
-            created,
-            size: JSON.stringify(state).length
-          };
-        }
+      return undefined;
+    });
+    const currentStates = removalResult.filter((state): state is StateRemovalResult => state != null);
 
-        return undefined;
-      });
-    const currentStates =
-      removalResult.filter((state): state is StateRemovalResult => state != null);
-
-    let stateStorageSize = currentStates.
-      reduce((overallSize, state) => state.size + overallSize, 0);
+    let stateStorageSize = currentStates.reduce((overallSize, state) => state.size + overallSize, 0);
 
     if (stateStorageSize > this.stateQuota) {
       currentStates.sort((a, b) => a.created - b.created);
 
-      const removalPromises = currentStates.filter(state => {
-        if (stateStorageSize > this.stateQuota) {
-          stateStorageSize -= state.size;
-          return true;
-        }
+      const removalPromises = currentStates
+        .filter(state => {
+          if (stateStorageSize > this.stateQuota) {
+            stateStorageSize -= state.size;
+            return true;
+          }
 
-        return false;
-      }).map(state => this._stateStorage.remove(state.key));
+          return false;
+        })
+        .map(state => this._stateStorage.remove(state.key));
 
       return removalPromises.length && Promise.all(removalPromises);
     }
@@ -258,10 +257,11 @@ export default class AuthStorage<M = unknown> {
    */
   async getCachedUser(loadUser: () => Promise<AuthUser | null>): Promise<AuthUser | null> {
     const user = await this._currentUserStorage.get<AuthUser>(this.userKey);
-    const loadAndCache = () => loadUser().then(response => {
-      this._currentUserStorage.set(this.userKey, response);
-      return response;
-    });
+    const loadAndCache = () =>
+      loadUser().then(response => {
+        this._currentUserStorage.set(this.userKey, response);
+        return response;
+      });
 
     if (user && user.id) {
       setTimeout(loadAndCache, UPDATE_USER_TIMEOUT);

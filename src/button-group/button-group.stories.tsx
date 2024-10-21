@@ -12,8 +12,8 @@ export default {
 
   parameters: {
     notes: 'Allows to group several buttons.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc709f3bcaad55fd8530'
-  }
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc709f3bcaad55fd8530',
+  },
 };
 
 export const buttonGroup = () => (
@@ -23,14 +23,18 @@ export const buttonGroup = () => (
         <Button>1st button</Button>
         <Button active>2nd button</Button>
         <Button disabled>3rd button</Button>
-        <Button disabled active>4th button</Button>
-        <Button >5th button</Button>
+        <Button disabled active>
+          4th button
+        </Button>
+        <Button>5th button</Button>
       </ButtonGroup>
     </div>
     <div>
       <ButtonGroup>
         <Button disabled>1st disabled</Button>
-        <Button disabled active>2nd disabled</Button>
+        <Button disabled active>
+          2nd disabled
+        </Button>
         <Button disabled>3rd disabled</Button>
       </ButtonGroup>
     </div>
@@ -61,27 +65,33 @@ export const buttonGroup = () => (
     <div>
       <ButtonGroup split>
         <Button href="/">Arrow</Button>
-        <Button inline={false} icon={chevronDownIcon} aria-label="Show options"/>
+        <Button inline={false} icon={chevronDownIcon} aria-label="Show options" />
       </ButtonGroup>
     </div>
     <div>
       <ControlsHeightContext.Provider value={ControlsHeight.S}>
         <ButtonGroup split>
           <Button href="/">Arrow height S</Button>
-          <Button inline={false} icon={chevron12pxDownIcon} aria-label="Show options"/>
+          <Button inline={false} icon={chevron12pxDownIcon} aria-label="Show options" />
         </ButtonGroup>
       </ControlsHeightContext.Provider>
     </div>
     <div>
       <ButtonGroup split>
         <Button primary>Primary</Button>
-        <Button primary short>...</Button>
+        <Button primary short>
+          ...
+        </Button>
       </ButtonGroup>
     </div>
     <div>
       <ButtonGroup>
-        <Button>All<span className="info">3048</span></Button>
-        <Button>Label<span className="info">rp34</span></Button>
+        <Button>
+          All<span className="info">3048</span>
+        </Button>
+        <Button>
+          Label<span className="info">rp34</span>
+        </Button>
         <Button>Label 3</Button>
       </ButtonGroup>
     </div>
@@ -106,5 +116,5 @@ buttonGroup.parameters = {
         margin-left: calc(var(--ring-unit) / 2);
       }
     </style>
-  `
+  `,
 };

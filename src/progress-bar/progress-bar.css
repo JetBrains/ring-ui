@@ -60,11 +60,16 @@
     content: "";
     animation: progress-bar-animation 2500ms linear infinite;
 
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--ring-progress-bar-line-background-color), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0),
+      var(--ring-progress-bar-line-background-color),
+      rgba(0, 0, 0, 0)
+    );
     background-repeat: no-repeat;
   }
 
-  .staticLineColor &::after  {
+  .staticLineColor &::after {
     animation: none;
 
     background-image: var(--ring-progress-bar-line-background-color);

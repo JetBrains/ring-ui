@@ -8,7 +8,7 @@ import styles from './header.css';
 export default class Logo extends PureComponent<IconAttrs> {
   static defaultProps = {
     size: Size.Size48,
-    suppressSizeWarning: true
+    suppressSizeWarning: true,
   };
 
   static Size = Size;
@@ -19,7 +19,7 @@ export default class Logo extends PureComponent<IconAttrs> {
 
     return (
       <div className={classes}>
-        <Icon {...restProps}/>
+        <Icon {...restProps} />
       </div>
     );
   }

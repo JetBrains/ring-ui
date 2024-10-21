@@ -18,14 +18,7 @@ import TabTrap from '../tab-trap/tab-trap';
 
 import position, {PositionStyles} from './position';
 import styles from './popup.css';
-import {
-  DEFAULT_DIRECTIONS,
-  Dimension,
-  Directions,
-  Display,
-  MaxHeight,
-  MinWidth
-} from './popup.consts';
+import {DEFAULT_DIRECTIONS, Dimension, Directions, Display, MaxHeight, MinWidth} from './popup.consts';
 import {PopupTargetContext, PopupTarget} from './popup.target';
 
 export {PopupTargetContext, PopupTarget};
@@ -34,7 +27,8 @@ const isPossibleClientSideNavigation = (event: React.MouseEvent) => {
   const target = event.target as Element;
   const link = target.closest<HTMLAnchorElement>('a');
   // Taken from https://github.com/nanostores/router/blob/80a333db4cf0789fda21a02715ebabca15192642/index.js#L58-L69
-  return link &&
+  return (
+    link &&
     event.button === 0 && // Left mouse button
     link.target !== '_blank' && // Not for new tab
     link.origin === location.origin && // Not external link
@@ -45,7 +39,8 @@ const isPossibleClientSideNavigation = (event: React.MouseEvent) => {
     !event.metaKey && // Not open in new tab by user
     !event.ctrlKey && // Not open in new tab by user
     !event.shiftKey && // Not open in new window by user
-    !event.defaultPrevented;
+    !event.defaultPrevented
+  );
 };
 
 const stop = (event: React.MouseEvent) => {
@@ -54,63 +49,64 @@ const stop = (event: React.MouseEvent) => {
   }
 };
 
-export const getPopupContainer = (target: string | Element) => (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
+export const getPopupContainer = (target: string | Element) =>
+  typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target;
 
 export interface BasePopupProps {
-  hidden: boolean
-  onOutsideClick: (e: PointerEvent) => void
-  onEscPress: (e: KeyboardEvent) => void
+  hidden: boolean;
+  onOutsideClick: (e: PointerEvent) => void;
+  onEscPress: (e: KeyboardEvent) => void;
   // onCloseAttempt is a common callback for ESC pressing and outside clicking.
   // Use it if you don't need different behaviors for these cases.
-  onCloseAttempt: (e?: Event | SyntheticEvent, isEsc?: boolean | undefined) => void
-  dontCloseOnAnchorClick: boolean
-  shortcuts: boolean
-  keepMounted: boolean, // pass this prop to preserve the popup's DOM state while hidde
-  directions: readonly Directions[]
-  autoPositioning: boolean
-  autoPositioningOnScroll: boolean,
-  autoCorrectTopOverflow: boolean
-  left: number
-  top: number
-  sidePadding: number
+  onCloseAttempt: (e?: Event | SyntheticEvent, isEsc?: boolean | undefined) => void;
+  dontCloseOnAnchorClick: boolean;
+  shortcuts: boolean;
+  keepMounted: boolean; // pass this prop to preserve the popup's DOM state while hidde
+  directions: readonly Directions[];
+  autoPositioning: boolean;
+  autoPositioningOnScroll: boolean;
+  autoCorrectTopOverflow: boolean;
+  left: number;
+  top: number;
+  sidePadding: number;
 
-  attached: boolean // Popup adjacent to an input, without upper border and shado
+  attached: boolean; // Popup adjacent to an input, without upper border and shado
   // set to true whenever popup contains focusable and scrollable content
-  trapFocus: boolean
-  autoFocusFirst: boolean
-  offset: number
-  legacy: boolean
-  withTail?: boolean
-  tailOffset?: number
+  trapFocus: boolean;
+  autoFocusFirst: boolean;
+  offset: number;
+  legacy: boolean;
+  withTail?: boolean;
+  tailOffset?: number;
 
-  anchorElement?: HTMLElement | null | undefined
-  target?: string | Element | null | undefined
-  className?: string | null | undefined
-  style?: CSSProperties | undefined
-  'data-test'?: string | null | undefined
-  client?: boolean | null | undefined // true means that it's never used in SSR
+  anchorElement?: HTMLElement | null | undefined;
+  target?: string | Element | null | undefined;
+  className?: string | null | undefined;
+  style?: CSSProperties | undefined;
+  'data-test'?: string | null | undefined;
+  client?: boolean | null | undefined; // true means that it's never used in SSR
 
-  maxHeight?: number | 'screen' | null | undefined
-  minWidth?: number | 'target' | null | undefined
+  maxHeight?: number | 'screen' | null | undefined;
+  minWidth?: number | 'target' | null | undefined;
 
-  onMouseDown?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined
-  onMouseUp?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined
-  onMouseOver?: ((e: React.SyntheticEvent<HTMLElement>) => void) | undefined
-  onMouseOut?: ((e: React.SyntheticEvent<HTMLElement>) => void) | undefined
-  onContextMenu?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined
-  onDirectionChange?: ((direction: Directions) => void) | null | undefined
-  onShow?: (() => void) | null | undefined
-  children?: ReactNode
+  onMouseDown?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined;
+  onMouseUp?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined;
+  onMouseOver?: ((e: React.SyntheticEvent<HTMLElement>) => void) | undefined;
+  onMouseOut?: ((e: React.SyntheticEvent<HTMLElement>) => void) | undefined;
+  onContextMenu?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined;
+  onDirectionChange?: ((direction: Directions) => void) | null | undefined;
+  onShow?: (() => void) | null | undefined;
+  children?: ReactNode;
 }
 
 export interface PopupProps extends BasePopupProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 interface PopupState {
-  display: Display
-  client?: boolean
-  direction?: Directions
+  display: Display;
+  client?: boolean;
+  direction?: Directions;
 }
 
 /**
@@ -118,9 +114,7 @@ interface PopupState {
  * @name Popup
  * @extends {ReactComponent}
  */
-export default class Popup<
-  P extends BasePopupProps = PopupProps
-> extends PureComponent<P, PopupState> {
+export default class Popup<P extends BasePopupProps = PopupProps> extends PureComponent<P, PopupState> {
   static defaultProps = {
     shortcuts: true,
     hidden: false,
@@ -143,11 +137,11 @@ export default class Popup<
     trapFocus: false,
     autoFocusFirst: false,
 
-    legacy: false
+    legacy: false,
   };
 
   state: PopupState = {
-    display: Display.SHOWING
+    display: Display.SHOWING,
   };
 
   componentDidMount() {
@@ -162,7 +156,6 @@ export default class Popup<
   componentDidUpdate(prevProps: BasePopupProps, prevState: PopupState) {
     const {hidden} = this.props;
     if (this.props !== prevProps) {
-
       if (prevProps.hidden !== hidden) {
         this._setListenersEnabled(!hidden);
       }
@@ -200,16 +193,14 @@ export default class Popup<
   uid = getUID('popup-');
   calculateDisplay = (prevState: PopupState) => ({
     ...prevState,
-    display: this.props.hidden
-      ? Display.SHOWING
-      : Display.SHOWN
+    display: this.props.hidden ? Display.SHOWING : Display.SHOWN,
   });
 
   static PopupProps = {
     Directions,
     Dimension,
     MinWidth,
-    MaxHeight
+    MaxHeight,
   };
 
   portalRef = (el: HTMLElement | null) => {
@@ -235,17 +226,8 @@ export default class Popup<
   }
 
   position() {
-    const {
-      directions,
-      autoPositioning,
-      autoCorrectTopOverflow,
-      sidePadding,
-      top,
-      left,
-      offset,
-      maxHeight,
-      minWidth
-    } = this.props;
+    const {directions, autoPositioning, autoCorrectTopOverflow, sidePadding, top, left, offset, maxHeight, minWidth} =
+      this.props;
     const container = this.getContainer();
 
     return position({
@@ -260,7 +242,7 @@ export default class Popup<
       left,
       offset,
       maxHeight,
-      minWidth
+      minWidth,
     });
   }
 
@@ -358,13 +340,9 @@ export default class Popup<
    */
   private _onDocumentClick = (evt: PointerEvent) => {
     if (
-      this.container && evt.target instanceof Node && this.container.contains(evt.target) ||
+      (this.container && evt.target instanceof Node && this.container.contains(evt.target)) ||
       !this._listenersEnabled ||
-      (
-        this.props.dontCloseOnAnchorClick &&
-        evt.target instanceof Node &&
-        this._getAnchor()?.contains(evt.target)
-      )
+      (this.props.dontCloseOnAnchorClick && evt.target instanceof Node && this._getAnchor()?.contains(evt.target))
     ) {
       return;
     }
@@ -375,35 +353,44 @@ export default class Popup<
 
   getInternalContent() {
     const {trapFocus, autoFocusFirst, children} = this.props;
-    return trapFocus
-      ? (
-        <TabTrap autoFocusFirst={autoFocusFirst} focusBackOnExit>
-          {children}
-        </TabTrap>
-      )
-      : children;
+    return trapFocus ? (
+      <TabTrap autoFocusFirst={autoFocusFirst} focusBackOnExit>
+        {children}
+      </TabTrap>
+    ) : (
+      children
+    );
   }
 
   shortcutsScope = this.uid;
   shortcutsMap = {
-    esc: this._onEscPress
+    esc: this._onEscPress,
   };
 
   render() {
     const {
-      className, style, hidden, attached, keepMounted, client,
-      onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu, 'data-test': dataTest
+      className,
+      style,
+      hidden,
+      attached,
+      keepMounted,
+      client,
+      onMouseDown,
+      onMouseUp,
+      onMouseOver,
+      onMouseOut,
+      onContextMenu,
+      'data-test': dataTest,
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
 
     const classes = classNames(className, styles.popup, {
       [styles.attached]: attached,
       [styles.hidden]: hidden,
-      [styles.showing]: showing
+      [styles.showing]: showing,
     });
 
-    const direction = (this.state.direction || '').
-      toLowerCase().replace(/[_]/g, '-');
+    const direction = (this.state.direction || '').toLowerCase().replace(/[_]/g, '-');
 
     return (
       <PopupTargetContext.Consumer>
@@ -417,42 +404,37 @@ export default class Popup<
               role="presentation"
               ref={this.portalRef}
             >
-              {this.shouldUseShortcuts() &&
-              (
-                <Shortcuts
-                  map={this.shortcutsMap}
-                  scope={this.shortcutsScope}
-                />
-              )
-              }
+              {this.shouldUseShortcuts() && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
 
-              {(client || this.state.client) && (keepMounted || !hidden) && createPortal(
-                <PopupTarget
-                  id={this.uid}
-                  ref={this.containerRef}
-                  onMouseOver={onMouseOver}
-                  onFocus={onMouseOver}
-                  onMouseOut={onMouseOut}
-                  onBlur={onMouseOut}
-                  onContextMenu={onContextMenu}
-                >
-                  <div
-                    data-test={dataTests('ring-popup', dataTest)}
-                    data-test-shown={!hidden && !showing}
-                    data-test-direction={direction}
-                    ref={this.popupRef}
-                    className={classes}
-                    style={style}
-                    onMouseDown={onMouseDown}
-                    onMouseUp={onMouseUp}
-                    // mouse handlers are used to track clicking on inner elements
-                    role="presentation"
+              {(client || this.state.client) &&
+                (keepMounted || !hidden) &&
+                createPortal(
+                  <PopupTarget
+                    id={this.uid}
+                    ref={this.containerRef}
+                    onMouseOver={onMouseOver}
+                    onFocus={onMouseOver}
+                    onMouseOut={onMouseOut}
+                    onBlur={onMouseOut}
+                    onContextMenu={onContextMenu}
                   >
-                    {this.getInternalContent()}
-                  </div>
-                </PopupTarget>,
-                this.getContainer() || document.body
-              )}
+                    <div
+                      data-test={dataTests('ring-popup', dataTest)}
+                      data-test-shown={!hidden && !showing}
+                      data-test-direction={direction}
+                      ref={this.popupRef}
+                      className={classes}
+                      style={style}
+                      onMouseDown={onMouseDown}
+                      onMouseUp={onMouseUp}
+                      // mouse handlers are used to track clicking on inner elements
+                      role="presentation"
+                    >
+                      {this.getInternalContent()}
+                    </div>
+                  </PopupTarget>,
+                  this.getContainer() || document.body,
+                )}
             </span>
           );
         }}
@@ -461,5 +443,5 @@ export default class Popup<
   }
 }
 
-export type PopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, PopupProps>
+export type PopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, PopupProps>;
 export type BasePopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, BasePopupProps>;

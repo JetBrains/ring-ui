@@ -43,11 +43,11 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: jest.fn(), // deprecated
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn()
-  })
+    dispatchEvent: jest.fn(),
+  }),
 });
 
-setProjectAnnotations(require('../.storybook/preview'));
+setProjectAnnotations(require('../.storybook/preview.ts'));
 
 HTMLDialogElement.prototype.show = jest.fn();
 HTMLDialogElement.prototype.showModal = jest.fn();

@@ -1,11 +1,4 @@
-import {
-  getDocumentScrollLeft,
-  getDocumentScrollTop,
-  getRect,
-  getWindowHeight,
-  isMounted,
-  Rect
-} from '../global/dom';
+import {getDocumentScrollLeft, getDocumentScrollTop, getRect, getWindowHeight, isMounted, Rect} from '../global/dom';
 
 import {Dimension, Directions, MaxHeight, MinWidth} from './popup.consts';
 
@@ -15,13 +8,13 @@ function getScrollingCoordinates(container: Element | null) {
   if (container !== null) {
     return {
       top: container.scrollTop,
-      left: container.scrollLeft
+      left: container.scrollLeft,
     };
   }
 
   return {
     top: getDocumentScrollTop(),
-    left: getDocumentScrollLeft()
+    left: getDocumentScrollLeft(),
   };
 }
 
@@ -30,7 +23,7 @@ function getPositionStyles(
   anchorRect: Rect,
   anchorLeft: number,
   anchorTop: number,
-  offset: number
+  offset: number,
 ) {
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
@@ -57,47 +50,41 @@ function getPositionStyles(
     [Directions.LEFT_CENTER]: {left: popupLeft - offset, top: popupVerticalCenter},
     [Directions.RIGHT_BOTTOM]: {left: anchorRight + offset, top: anchorTop},
     [Directions.RIGHT_TOP]: {left: anchorRight + offset, top: popupBottomToTop},
-    [Directions.RIGHT_CENTER]: {left: anchorRight + offset, top: popupVerticalCenter}
+    [Directions.RIGHT_CENTER]: {left: anchorRight + offset, top: popupVerticalCenter},
   };
 }
 
 interface Position {
-  top: number,
-  left: number
+  top: number;
+  left: number;
 }
 
 export interface PositionStyles extends Position {
-  maxHeight?: number
-  minWidth?: number
+  maxHeight?: number;
+  minWidth?: number;
 }
 
 export interface PositionAttrs {
-  popup: HTMLElement | null | undefined
-  anchor: Element | null | undefined
-  container: Element | null
-  directions: readonly Directions[]
-  autoPositioning: boolean
-  sidePadding: number
-  top: number
-  left: number
-  offset: number
-  maxHeight: number | 'screen' | null | undefined
-  minWidth: number | 'target' | null | undefined
-  autoCorrectTopOverflow: boolean
+  popup: HTMLElement | null | undefined;
+  anchor: Element | null | undefined;
+  container: Element | null;
+  directions: readonly Directions[];
+  autoPositioning: boolean;
+  sidePadding: number;
+  top: number;
+  left: number;
+  offset: number;
+  maxHeight: number | 'screen' | null | undefined;
+  minWidth: number | 'target' | null | undefined;
+  autoCorrectTopOverflow: boolean;
 }
 
 interface OverflowAttrs extends PositionAttrs {
-  popup: HTMLElement
+  popup: HTMLElement;
 }
 
-function verticalOverflow(
-  styles: PositionStyles,
-  scrollingCoordinates: Position,
-  attrs: OverflowAttrs
-) {
-  const containerHeight = attrs.container !== null
-    ? attrs.container.clientHeight
-    : getWindowHeight();
+function verticalOverflow(styles: PositionStyles, scrollingCoordinates: Position, attrs: OverflowAttrs) {
+  const containerHeight = attrs.container !== null ? attrs.container.clientHeight : getWindowHeight();
   const viewportMinX = scrollingCoordinates.top + attrs.sidePadding;
   const viewportMaxX = scrollingCoordinates.top + containerHeight - attrs.sidePadding;
 
@@ -110,11 +97,7 @@ function verticalOverflow(
   return topOverflow + bottomOverflow;
 }
 
-function horizontalOverflow(
-  styles: PositionStyles,
-  scrollingCoordinates: Position,
-  attrs: OverflowAttrs
-) {
+function horizontalOverflow(styles: PositionStyles, scrollingCoordinates: Position, attrs: OverflowAttrs) {
   const containerWidth = attrs.container !== null ? attrs.container.clientWidth : window.innerWidth;
   const viewportMinY = scrollingCoordinates.left + attrs.sidePadding;
   const viewportMaxY = scrollingCoordinates.left + containerWidth - attrs.sidePadding;
@@ -137,44 +120,47 @@ export const positionPropKeys = [
   'left',
   'offset',
   'maxHeight',
-  'minWidth'
+  'minWidth',
 ] as const;
 
 const defaultcontainerRect = {
   top: 0,
-  left: 0
+  left: 0,
 };
 
 interface TopOffScreenParams {
-  sidePadding: number
-  styles: PositionStyles
-  anchorRect: Rect
-  maxHeight: number | 'screen' | null | undefined
-  popupScrollHeight: number
-  direction: Directions | null
-  scroll: Position
+  sidePadding: number;
+  styles: PositionStyles;
+  anchorRect: Rect;
+  maxHeight: number | 'screen' | null | undefined;
+  popupScrollHeight: number;
+  direction: Directions | null;
+  scroll: Position;
 }
 
 function handleTopOffScreen({
-  sidePadding, styles, anchorRect, maxHeight, popupScrollHeight, direction, scroll
+  sidePadding,
+  styles,
+  anchorRect,
+  maxHeight,
+  popupScrollHeight,
+  direction,
+  scroll,
 }: TopOffScreenParams) {
   const BORDER_COMPENSATION = 1;
   const {TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP} = Directions;
 
-  const openedToTop =
-    direction != null && [TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP].includes(direction);
+  const openedToTop = direction != null && [TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP].includes(direction);
 
   if (!openedToTop) {
     return styles;
   }
 
-  const isAttachedToAnchorTop =
-    direction != null && [TOP_LEFT, TOP_CENTER, TOP_RIGHT].includes(direction);
-  const attachingPointY = (isAttachedToAnchorTop ? anchorRect.top : anchorRect.bottom);
+  const isAttachedToAnchorTop = direction != null && [TOP_LEFT, TOP_CENTER, TOP_RIGHT].includes(direction);
+  const attachingPointY = isAttachedToAnchorTop ? anchorRect.top : anchorRect.bottom;
 
-  const effectiveHeight = maxHeight && typeof maxHeight === 'number'
-    ? Math.min(popupScrollHeight, maxHeight)
-    : popupScrollHeight;
+  const effectiveHeight =
+    maxHeight && typeof maxHeight === 'number' ? Math.min(popupScrollHeight, maxHeight) : popupScrollHeight;
   const hypotheticalTop = attachingPointY - effectiveHeight;
 
   if (hypotheticalTop <= sidePadding) {
@@ -185,25 +171,20 @@ function handleTopOffScreen({
   return styles;
 }
 
-
-export function maxHeightForDirection(
-  direction: Directions,
-  anchorNode: Element,
-  containerNode?: Element | null
-) {
+export function maxHeightForDirection(direction: Directions, anchorNode: Element, containerNode?: Element | null) {
   const container = containerNode || document.documentElement;
   const domRect = anchorNode.getBoundingClientRect();
   const containerRect = container.getBoundingClientRect();
-  const containerTop = domRect.top < 0
-    ? containerRect.top
-    : Math.max(containerRect.top, 0);
+  const containerTop = domRect.top < 0 ? containerRect.top : Math.max(containerRect.top, 0);
   const topMaxHeight = Math.max(domRect.top - containerTop, 0);
-  const containerHeight = Math.max(containerRect.height,
+  const containerHeight = Math.max(
+    containerRect.height,
     // XXX
     // If container is the document element
     // then we check client height too because we may have situation when
     // "height" from "getBoundingClientRect" less then "clientHeight".
-    container === document.documentElement ? container.clientHeight : 0);
+    container === document.documentElement ? container.clientHeight : 0,
+  );
   const bottomMaxHeight = Math.max(containerHeight - (topMaxHeight + domRect.height), 0);
   switch (direction) {
     case Directions.TOP_LEFT:
@@ -222,7 +203,7 @@ export function maxHeightForDirection(
       return domRect.height + topMaxHeight;
     case Directions.RIGHT_CENTER:
     case Directions.LEFT_CENTER:
-      return (domRect.height / 2) + Math.min(bottomMaxHeight / 2, topMaxHeight / 2);
+      return domRect.height / 2 + Math.min(bottomMaxHeight / 2, topMaxHeight / 2);
     default:
       return null;
   }
@@ -241,12 +222,12 @@ export default function position(attrs: PositionAttrs) {
     offset,
     maxHeight,
     minWidth,
-    autoCorrectTopOverflow = true
+    autoCorrectTopOverflow = true,
   } = attrs;
 
   let styles: PositionStyles = {
     top: 0,
-    left: 0
+    left: 0,
   };
   let chosenDirection = null;
 
@@ -264,17 +245,16 @@ export default function position(attrs: PositionAttrs) {
       styles = directionsMatrix[directions[0]];
       chosenDirection = directions[0];
     } else {
-      const sortedByIncreasingOverflow = directions.
+      const sortedByIncreasingOverflow = directions
         // Fall back to the first option
-        concat(directions[0]).filter(direction => directionsMatrix[direction]).
-        map(direction => ({styles: directionsMatrix[direction], direction})).
-        sort(({styles: stylesA}, {styles: stylesB}) => {
+        .concat(directions[0])
+        .filter(direction => directionsMatrix[direction])
+        .map(direction => ({styles: directionsMatrix[direction], direction}))
+        .sort(({styles: stylesA}, {styles: stylesB}) => {
           const overflowA =
-            verticalOverflow(stylesA, scroll, overflowAttrs) +
-            horizontalOverflow(stylesA, scroll, overflowAttrs);
+            verticalOverflow(stylesA, scroll, overflowAttrs) + horizontalOverflow(stylesA, scroll, overflowAttrs);
           const overflowB =
-            verticalOverflow(stylesB, scroll, overflowAttrs) +
-            horizontalOverflow(stylesB, scroll, overflowAttrs);
+            verticalOverflow(stylesB, scroll, overflowAttrs) + horizontalOverflow(stylesB, scroll, overflowAttrs);
           return overflowA - overflowB;
         });
       styles = sortedByIncreasingOverflow[0].styles;
@@ -304,7 +284,7 @@ export default function position(attrs: PositionAttrs) {
       maxHeight,
       direction: chosenDirection,
       popupScrollHeight: popup?.scrollHeight ?? 0,
-      scroll
+      scroll,
     });
   }
 

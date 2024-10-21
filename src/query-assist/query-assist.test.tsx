@@ -3,86 +3,85 @@
 import {Simulate} from 'react-dom/test-utils';
 import {mount, MountRendererProps} from 'enzyme';
 
-
 import simulateCombo from '../../test-helpers/simulate-combo';
 
 import {QueryAssistSuggestion} from './query-assist__suggestions';
 
-import QueryAssist, {
-  QueryAssistAttrs,
-  QueryAssistChange,
-  QueryAssistRequestParams
-} from './query-assist';
+import QueryAssist, {QueryAssistAttrs, QueryAssistChange, QueryAssistRequestParams} from './query-assist';
 import styles from './query-assist.css';
-
 
 describe('Query Assist', () => {
   const testQuery = 'oooooooooooo';
   const testQueryLength = testQuery.length;
 
-  const suggestions = [{
-    prefix: 'login: ',
-    option: 'test',
-    suffix: ' ',
-    description: 'logins',
-    matchingStart: 0,
-    matchingEnd: 4,
-    caret: 2,
-    completionStart: 0,
-    completionEnd: 4,
-    group: 'logins',
-    icon: 'data:uri'
-  }, {
-    prefix: 'login: ',
-    option: 'test.1',
-    suffix: ' ',
-    description: 'logins',
-    matchingStart: 0,
-    matchingEnd: 4,
-    caret: 2,
-    completionStart: 0,
-    completionEnd: 4,
-    group: 'logins',
-    icon: 'data:uri'
-  }, {
-    prefix: 'login: ',
-    option: 'test.2',
-    suffix: ' ',
-    description: 'logins',
-    matchingStart: 0,
-    matchingEnd: 4,
-    caret: 2,
-    completionStart: 0,
-    completionEnd: 4,
-    group: 'logins',
-    icon: 'data:uri'
-  }, {
-    prefix: 'login: ',
-    option: 'test.3',
-    suffix: ' ',
-    description: 'logins',
-    matchingStart: 0,
-    matchingEnd: 4,
-    caret: 2,
-    completionStart: 0,
-    completionEnd: 4,
-    group: 'logins',
-    icon: 'data:uri'
-  }];
+  const suggestions = [
+    {
+      prefix: 'login: ',
+      option: 'test',
+      suffix: ' ',
+      description: 'logins',
+      matchingStart: 0,
+      matchingEnd: 4,
+      caret: 2,
+      completionStart: 0,
+      completionEnd: 4,
+      group: 'logins',
+      icon: 'data:uri',
+    },
+    {
+      prefix: 'login: ',
+      option: 'test.1',
+      suffix: ' ',
+      description: 'logins',
+      matchingStart: 0,
+      matchingEnd: 4,
+      caret: 2,
+      completionStart: 0,
+      completionEnd: 4,
+      group: 'logins',
+      icon: 'data:uri',
+    },
+    {
+      prefix: 'login: ',
+      option: 'test.2',
+      suffix: ' ',
+      description: 'logins',
+      matchingStart: 0,
+      matchingEnd: 4,
+      caret: 2,
+      completionStart: 0,
+      completionEnd: 4,
+      group: 'logins',
+      icon: 'data:uri',
+    },
+    {
+      prefix: 'login: ',
+      option: 'test.3',
+      suffix: ' ',
+      description: 'logins',
+      matchingStart: 0,
+      matchingEnd: 4,
+      caret: 2,
+      completionStart: 0,
+      completionEnd: 4,
+      group: 'logins',
+      icon: 'data:uri',
+    },
+  ];
 
   const dataSource = ({query, caret}: QueryAssistRequestParams) => ({
     query,
     caret,
-    suggestions
+    suggestions,
   });
 
   const defaultProps = () => ({
     query: testQuery,
     focus: true,
-    dataSource: sandbox.spy(dataSource)
+    dataSource: sandbox.spy(dataSource),
   });
   const mountQueryAssist = (props?: Partial<QueryAssistAttrs>, options?: MountRendererProps) =>
-    mount(<QueryAssist {...defaultProps()} {...props}/>, options);
+    mount(<QueryAssist {...defaultProps()} {...props} />, options);
 
   describe('props to state passing', () => {
     it('should create component', () => {
@@ -119,7 +118,7 @@ describe('Query Assist', () => {
       const wrapper = mountQueryAssist({
         query: 'update',
         caret: 2,
-        focus: false
+        focus: false,
       });
 
       wrapper.find('QueryAssist').should.have.state('query', 'update');
@@ -129,8 +128,10 @@ describe('Query Assist', () => {
       const instance = mountQueryAssist({
         query: 'update',
         caret: 2,
-        focus: false
-      }).find<QueryAssist>(QueryAssist).instance();
+        focus: false,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       instance.immediateState.query.should.equal('update');
       instance.immediateState.caret.should.equal(2);
@@ -141,7 +142,7 @@ describe('Query Assist', () => {
       const wrapper = mountQueryAssist();
 
       wrapper.setProps({
-        query: undefined
+        query: undefined,
       });
 
       wrapper.find('QueryAssist').should.have.state('query', testQuery);
@@ -152,7 +153,7 @@ describe('Query Assist', () => {
       const instance = wrapper.find<QueryAssist>(QueryAssist).instance();
 
       wrapper.setProps({
-        query: 'update'
+        query: 'update',
       });
 
       wrapper.find('QueryAssist').should.have.state('query', 'update');
@@ -160,7 +161,6 @@ describe('Query Assist', () => {
       instance.immediateState.caret.should.equal(testQueryLength);
     });
   });
-
 
   describe('setFocus', () => {
     it('should set focus in query assist', () => {
@@ -180,7 +180,6 @@ describe('Query Assist', () => {
     });
   });
 
-
   describe('shortcuts', () => {
     it('should enable shortcuts when we set focus', () => {
       const instance = mountQueryAssist({focus: null}).find<QueryAssist>(QueryAssist).instance();
@@ -190,7 +189,6 @@ describe('Query Assist', () => {
       instance.state.shortcuts!.should.equal(true);
     });
 
-
     it('should disable shortcuts when we remove focus', () => {
       const instance = mountQueryAssist({focus: true}).find<QueryAssist>(QueryAssist).instance();
       instance.state.shortcuts!.should.equal(true);
@@ -198,7 +196,6 @@ describe('Query Assist', () => {
       instance.setFocus(false);
       instance.state.shortcuts!.should.equal(false);
     });
-
 
     it('should not enable shortcuts after rerender', () => {
       const wrapper = mountQueryAssist({focus: false, placeholder: 'bar'});
@@ -210,7 +207,6 @@ describe('Query Assist', () => {
     });
   });
 
-
   describe('init', () => {
     it('requestData should exist', () => {
       const instance = mountQueryAssist().find<QueryAssist>(QueryAssist).instance();
@@ -220,12 +216,13 @@ describe('Query Assist', () => {
 
     it('requestData should be debounced when delay set', () => {
       const instance = mountQueryAssist({
-        delay: 0
-      }).find<QueryAssist>(QueryAssist).instance();
+        delay: 0,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
       instance.requestData!.should.be.a('function');
       instance.requestData!.should.not.equal(instance.requestHandler);
     });
-
 
     it('should create popup when autoOpen', async () => {
       await new Promise<void>(resolve => {
@@ -235,7 +232,7 @@ describe('Query Assist', () => {
             params.should.not.have.property('omitSuggestions');
             resolve();
             return dataSource(params);
-          }
+          },
         });
       });
     });
@@ -247,7 +244,7 @@ describe('Query Assist', () => {
             params.should.have.property('omitSuggestions', true);
             resolve();
             return dataSource(params);
-          }
+          },
         });
       });
     });
@@ -257,8 +254,7 @@ describe('Query Assist', () => {
     const LETTER_CLASS = styles.letter;
 
     it('should pass className', () => {
-      const instance = mountQueryAssist({className: 'test-class'}).find<QueryAssist>(
-        QueryAssist).instance();
+      const instance = mountQueryAssist({className: 'test-class'}).find<QueryAssist>(QueryAssist).instance();
 
       instance.node!.className.should.contain('test-class');
     });
@@ -267,8 +263,7 @@ describe('Query Assist', () => {
       const instance = mountQueryAssist().find<QueryAssist>(QueryAssist).instance();
 
       instance.input!.should.contain(`.${LETTER_CLASS}`);
-      instance.input!.querySelectorAll(`.${LETTER_CLASS}`).
-        should.have.length(testQueryLength);
+      instance.input!.querySelectorAll(`.${LETTER_CLASS}`).should.have.length(testQueryLength);
     });
 
     it('should support undo', async () => {
@@ -286,19 +281,22 @@ describe('Query Assist', () => {
       });
     });
 
-
     it('should render nothing on empty query', () => {
       const instance = mountQueryAssist({
-        query: ''
-      }).find<QueryAssist>(QueryAssist).instance();
+        query: '',
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       instance.input!.textContent!.should.be.empty;
     });
 
     it('should render nothing on falsy query', () => {
       const instance = mountQueryAssist({
-        query: null
-      }).find<QueryAssist>(QueryAssist).instance();
+        query: null,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       instance.input!.textContent!.should.be.empty;
     });
@@ -316,8 +314,10 @@ describe('Query Assist', () => {
     it('should render placeholder when enabled on empty query', () => {
       const instance = mountQueryAssist({
         query: '',
-        placeholder: 'plz'
-      }).find<QueryAssist>(QueryAssist).instance();
+        placeholder: 'plz',
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       instance.placeholder!.should.exist;
       instance.placeholder!.should.have.text('plz');
@@ -325,8 +325,10 @@ describe('Query Assist', () => {
 
     it('should not render placeholder when disabled on empty query', () => {
       const instance = mountQueryAssist({
-        query: ''
-      }).find<QueryAssist>(QueryAssist).instance();
+        query: '',
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       should.not.exist(instance.placeholder);
     });
@@ -339,8 +341,8 @@ describe('Query Assist', () => {
           {start: 0, length: 1, style: 'text'},
           {start: 1, length: 1, style: 'field_value'},
           {start: 2, length: 1, style: 'field_name'},
-          {start: 3, length: 1, style: 'operator'}
-        ]
+          {start: 3, length: 1, style: 'operator'},
+        ],
       });
 
       const letters = wrapper.find<QueryAssist>(QueryAssist).instance().input!.querySelectorAll(`.${LETTER_CLASS}`);
@@ -353,15 +355,15 @@ describe('Query Assist', () => {
 
     it('should render last text range with default style when applied', () => {
       const wrapper = mountQueryAssist({
-        query: 'a a'
+        query: 'a a',
       });
 
       wrapper.find('QueryAssist').setState({
         dirty: true,
         styleRanges: [
           {start: 0, length: 1, style: 'text'},
-          {start: 2, length: 1, style: 'text'}
-        ]
+          {start: 2, length: 1, style: 'text'},
+        ],
       });
 
       const letters = wrapper.find<QueryAssist>(QueryAssist).instance().input!.querySelectorAll(`.${LETTER_CLASS}`);
@@ -373,14 +375,14 @@ describe('Query Assist', () => {
 
     it('should render last text range with text style when applied', () => {
       const wrapper = mountQueryAssist({
-        query: 'a a'
+        query: 'a a',
       });
 
       wrapper.find('QueryAssist').setState({
         styleRanges: [
           {start: 0, length: 1, style: 'text'},
-          {start: 2, length: 1, style: 'text'}
-        ]
+          {start: 2, length: 1, style: 'text'},
+        ],
       });
 
       const letters = wrapper.find<QueryAssist>(QueryAssist).instance().input!.querySelectorAll(`.${LETTER_CLASS}`);
@@ -392,40 +394,50 @@ describe('Query Assist', () => {
 
     it('should disable field when component disabled', () => {
       const instance = mountQueryAssist({
-        disabled: true
-      }).find<QueryAssist>(QueryAssist).instance();
+        disabled: true,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       instance.input!.should.have.attr('contenteditable', 'false');
     });
 
     it('should render glass when enabled', () => {
       const instance = mountQueryAssist({
-        glass: true
-      }).find<QueryAssist>(QueryAssist).instance();
+        glass: true,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       instance.glass!.should.exist;
     });
 
     it('should not render glass when disabled', () => {
       const instance = mountQueryAssist({
-        glass: false
-      }).find<QueryAssist>(QueryAssist).instance();
+        glass: false,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       should.not.exist(instance.glass);
     });
 
     it('should render clear when enabled', () => {
       const instance = mountQueryAssist({
-        clear: true
-      }).find<QueryAssist>(QueryAssist).instance();
+        clear: true,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       instance.clear!.should.exist;
     });
 
     it('should not render clear when disabled', () => {
       const instance = mountQueryAssist({
-        clear: false
-      }).find<QueryAssist>(QueryAssist).instance();
+        clear: false,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       should.not.exist(instance.clear);
     });
@@ -433,8 +445,10 @@ describe('Query Assist', () => {
     it('should not render clear when query is empty', () => {
       const instance = mountQueryAssist({
         clear: true,
-        query: ''
-      }).find<QueryAssist>(QueryAssist).instance();
+        query: '',
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       should.not.exist(instance.clear);
     });
@@ -442,7 +456,7 @@ describe('Query Assist', () => {
     it('should show loader on long request', () => {
       const wrapper = mountQueryAssist();
       wrapper.find('QueryAssist').setState({
-        loading: true
+        loading: true,
       });
 
       wrapper.find<QueryAssist>(QueryAssist).instance().loader!.should.exist;
@@ -455,9 +469,11 @@ describe('Query Assist', () => {
         dataSource: ({query, caret}) => ({
           query,
           caret,
-          suggestions: []
-        })
-      }).find<QueryAssist>(QueryAssist).instance();
+          suggestions: [],
+        }),
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       await instance.requestData!();
       instance._popup!.isVisible().should.be.false;
@@ -477,9 +493,11 @@ describe('Query Assist', () => {
         dataSource: ({query, caret}) => ({
           query,
           caret,
-          suggestions: currentSuggestions
-        })
-      }).find<QueryAssist>(QueryAssist).instance();
+          suggestions: currentSuggestions,
+        }),
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       await instance.requestData!();
       currentSuggestions = [];
@@ -506,7 +524,6 @@ describe('Query Assist', () => {
       wrapper.detach();
       document.body.removeChild(container);
     });
-
   });
 
   describe('completion', () => {
@@ -519,8 +536,10 @@ describe('Query Assist', () => {
 
     it('should complete by tab in the end of phrase', () => {
       const instance = mountQueryAssist({
-        query: completeQuery
-      }).find<QueryAssist>(QueryAssist).instance();
+        query: completeQuery,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       return Promise.resolve(instance.requestData!()).then(() => {
         simulateCombo('tab');
@@ -531,8 +550,10 @@ describe('Query Assist', () => {
 
     it('should complete selected suggestion by enter in the end of phrase', () => {
       const instance = mountQueryAssist({
-        query: completeQuery
-      }).find<QueryAssist>(QueryAssist).instance();
+        query: completeQuery,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       return Promise.resolve(instance.requestData!()).then(() => {
         simulateCombo('down enter');
@@ -544,8 +565,10 @@ describe('Query Assist', () => {
     it('should complete by tab in the middle of phrase', () => {
       const instance = mountQueryAssist({
         query: completeQuery,
-        caret: middleCaret
-      }).find<QueryAssist>(QueryAssist).instance();
+        caret: middleCaret,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       return Promise.resolve(instance.requestData!()).then(() => {
         simulateCombo('tab');
@@ -557,22 +580,25 @@ describe('Query Assist', () => {
     it('should complete selected suggestion by enter in the middle of phrase', () => {
       const instance = mountQueryAssist({
         query: completeQuery,
-        caret: middleCaret
-      }).find<QueryAssist>(QueryAssist).instance();
+        caret: middleCaret,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       return Promise.resolve(instance.requestData!()).then(() => {
         simulateCombo('down enter');
 
-        instance.input!.should.
-          have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
+        instance.input!.should.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
       });
     });
 
     it('should complete selected suggestion by tab in the middle of phrase', () => {
       const instance = mountQueryAssist({
         query: completeQuery,
-        caret: middleCaret
-      }).find<QueryAssist>(QueryAssist).instance();
+        caret: middleCaret,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       return Promise.resolve(instance.requestData!()).then(() => {
         simulateCombo('down down down tab');
@@ -584,8 +610,10 @@ describe('Query Assist', () => {
     it('should undo last applied completion', () => {
       const instance = mountQueryAssist({
         query: completeQuery,
-        caret: middleCaret
-      }).find<QueryAssist>(QueryAssist).instance();
+        caret: middleCaret,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       return Promise.resolve(instance.requestData!()).then(() => {
         simulateCombo('down down down tab');
@@ -604,25 +632,25 @@ describe('Query Assist', () => {
 
     it('should call onApply', () => {
       mountQueryAssist({
-        onApply
+        onApply,
       });
 
       simulateCombo('enter');
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
-        caret: testQueryLength
+        caret: testQueryLength,
       });
     });
 
     it('should call onApply when press ctrl/cmd + enter', () => {
       mountQueryAssist({
-        onApply
+        onApply,
       });
 
       simulateCombo('ctrl+enter');
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
-        caret: testQueryLength
+        caret: testQueryLength,
       });
     });
 
@@ -630,8 +658,10 @@ describe('Query Assist', () => {
       const onClear = sandbox.stub();
       const instance = mountQueryAssist({
         clear: true,
-        onClear
-      }).find<QueryAssist>(QueryAssist).instance();
+        onClear,
+      })
+        .find<QueryAssist>(QueryAssist)
+        .instance();
 
       Simulate.click(instance.clear!.buttonRef.current!);
       onClear.should.have.been.calledWithExactly();
@@ -645,31 +675,29 @@ describe('Query Assist', () => {
       const wrapper = mountQueryAssist();
       const instance = wrapper.find<QueryAssist>(QueryAssist).instance();
       const prevProps = instance.props;
-      wrapper.setProps({
-        delay: 100
-      }, () => {
-        instance.componentDidUpdate(prevProps);
-        wrapper.prop('dataSource').resetHistory();
+      wrapper.setProps(
+        {
+          delay: 100,
+        },
+        () => {
+          instance.componentDidUpdate(prevProps);
+          wrapper.prop('dataSource').resetHistory();
 
-        instance.requestData!();
-        instance.requestData!();
-        instance.requestData!();
-        sandbox.clock.tick(400);
+          instance.requestData!();
+          instance.requestData!();
+          instance.requestData!();
+          sandbox.clock.tick(400);
 
-        wrapper.prop('dataSource').should.have.been.calledOnce;
-      });
-
+          wrapper.prop('dataSource').should.have.been.calledOnce;
+        },
+      );
     });
   });
-
 
   describe('custom actions', () => {
     it('should allow to pass custom actions', () => {
       const wrapper = mountQueryAssist({
-        actions: [
-          <div id={'A'} key={'A'}/>,
-          <div id={'B'} key={'B'}/>
-        ]
+        actions: [<div id={'A'} key={'A'} />, <div id={'B'} key={'B'} />],
       });
 
       wrapper.find('#A').should.exist;

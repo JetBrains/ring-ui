@@ -9,14 +9,14 @@ import {Service} from './services-link';
 function noop() {}
 
 export interface SmartServicesProps extends HTMLAttributes<HTMLElement> {
-  auth: Auth
+  auth: Auth;
 }
 
 export default class SmartServices extends Component<SmartServicesProps> {
   state = {
     visible: true,
     loading: false,
-    services: null
+    services: null,
   };
 
   componentDidMount() {
@@ -24,11 +24,13 @@ export default class SmartServices extends Component<SmartServicesProps> {
 
     this.http = new HTTP(auth, auth.getAPIPath());
 
-    this.getServices(SmartServices.countFields)?.then(services => {
-      if (!services.length) {
-        this.setState({visible: false});
-      }
-    }).catch(noop);
+    this.getServices(SmartServices.countFields)
+      ?.then(services => {
+        if (!services.length) {
+          this.setState({visible: false});
+        }
+      })
+      .catch(noop);
   }
 
   static allFields = 'id,name,applicationName,homeUrl,iconUrl';
@@ -43,10 +45,12 @@ export default class SmartServices extends Component<SmartServicesProps> {
   getServicesContent = () => {
     this.setState({loading: true});
 
-    this.getServices(SmartServices.allFields)?.then(services => {
-      this.setState({services});
-      this.stopLoading();
-    }).catch(this.stopLoading);
+    this.getServices(SmartServices.allFields)
+      ?.then(services => {
+        this.setState({services});
+        this.stopLoading();
+      })
+      .catch(this.stopLoading);
   };
 
   getServices(fields: string) {

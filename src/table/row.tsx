@@ -22,53 +22,43 @@ import {Column} from './header-cell';
 import {SelectionItem} from './selection';
 
 interface DragHandleProps {
-  alwaysShowDragHandle: boolean
-  dragHandleTitle?: string
+  alwaysShowDragHandle: boolean;
+  dragHandleTitle?: string;
 }
-const DragHandle = (
-  {alwaysShowDragHandle, dragHandleTitle = 'Drag to reorder'}: DragHandleProps
-) => {
+const DragHandle = ({alwaysShowDragHandle, dragHandleTitle = 'Drag to reorder'}: DragHandleProps) => {
   const classes = classNames(style.dragHandle, {
-    [style.visibleDragHandle]: alwaysShowDragHandle
+    [style.visibleDragHandle]: alwaysShowDragHandle,
   });
 
-  return (
-    <Button
-      data-movable-handle
-      title={dragHandleTitle}
-      className={classes}
-      icon={dragIcon}
-    />
-  );
+  return <Button data-movable-handle title={dragHandleTitle} className={classes} icon={dragIcon} />;
 };
 
-export interface RowProps<T extends SelectionItem> extends Omit<
-  HTMLAttributes<HTMLTableRowElement>,
-  'onClick' | 'onDoubleClick' | 'onSelect'
->, FocusSensorAddProps<HTMLTableRowElement> {
-  item: T
-  columns: readonly Column<T>[] | ((item: T) => readonly Column<T>[])
-  selectable: boolean
-  showFocus: boolean
-  draggable: boolean
-  alwaysShowDragHandle: boolean
-  dragHandleTitle?: string
-  selected: boolean
-  onHover: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void
-  onSelect: (item: T, selected: boolean) => void
-  onDoubleClick: (item: T) => void
-  onClick: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void
-  level: number
-  collapsible: boolean
-  parentCollapsible: boolean
-  collapsed: boolean
-  onCollapse: (item: T) => void
-  onExpand: (item: T) => void
-  showDisabledSelection?: boolean | null | undefined
-  checkboxTooltip?: string | undefined
-  autofocus?: boolean | null | undefined
-  'data-test'?: string | null | undefined
-  metaColumnClassName?: string | null | undefined
+export interface RowProps<T extends SelectionItem>
+  extends Omit<HTMLAttributes<HTMLTableRowElement>, 'onClick' | 'onDoubleClick' | 'onSelect'>,
+    FocusSensorAddProps<HTMLTableRowElement> {
+  item: T;
+  columns: readonly Column<T>[] | ((item: T) => readonly Column<T>[]);
+  selectable: boolean;
+  showFocus: boolean;
+  draggable: boolean;
+  alwaysShowDragHandle: boolean;
+  dragHandleTitle?: string;
+  selected: boolean;
+  onHover: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void;
+  onSelect: (item: T, selected: boolean) => void;
+  onDoubleClick: (item: T) => void;
+  onClick: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void;
+  level: number;
+  collapsible: boolean;
+  parentCollapsible: boolean;
+  collapsed: boolean;
+  onCollapse: (item: T) => void;
+  onExpand: (item: T) => void;
+  showDisabledSelection?: boolean | null | undefined;
+  checkboxTooltip?: string | undefined;
+  autofocus?: boolean | null | undefined;
+  'data-test'?: string | null | undefined;
+  metaColumnClassName?: string | null | undefined;
 }
 export default class Row<T extends SelectionItem> extends PureComponent<RowProps<T>> {
   static defaultProps = {
@@ -86,7 +76,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
     parentCollapsible: false,
     collapsed: false,
     onCollapse: () => {},
-    onExpand: () => {}
+    onExpand: () => {},
   };
 
   id = getUID('table-row-');
@@ -135,23 +125,44 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
 
   render() {
     const {
-      item, columns: columnProps, selectable, selected,
-      showFocus, draggable, alwaysShowDragHandle, dragHandleTitle, level,
-      collapsible, parentCollapsible, collapsed,
-      onCollapse, onExpand, showDisabledSelection, onSelect,
-      checkboxTooltip, innerRef, focused, autofocus, onFocusReset,
-      onFocusRestore, onHover, className, metaColumnClassName, 'data-test': dataTest, ...restProps
+      item,
+      columns: columnProps,
+      selectable,
+      selected,
+      showFocus,
+      draggable,
+      alwaysShowDragHandle,
+      dragHandleTitle,
+      level,
+      collapsible,
+      parentCollapsible,
+      collapsed,
+      onCollapse,
+      onExpand,
+      showDisabledSelection,
+      onSelect,
+      checkboxTooltip,
+      innerRef,
+      focused,
+      autofocus,
+      onFocusReset,
+      onFocusRestore,
+      onHover,
+      className,
+      metaColumnClassName,
+      'data-test': dataTest,
+      ...restProps
     } = this.props;
 
     const classes = classNames(className, {
       [style.row]: true,
       [style.rowFocused]: showFocus,
-      [style.rowSelected]: selected
+      [style.rowSelected]: selected,
     });
 
     const testAttrs = {
       'data-test-focused': showFocus || undefined,
-      'data-test-selected': selected || undefined
+      'data-test-selected': selected || undefined,
     };
 
     const metaColumnClasses = classNames(metaColumnClassName, style.metaColumn);
@@ -160,64 +171,39 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
     const COLLAPSIBLE_PARENT_OFFSET = 20;
     const gap = level * SUBITEM_OFFSET + (parentCollapsible ? COLLAPSIBLE_PARENT_OFFSET : 0);
     const metaColumnStyle = {
-      paddingLeft: `${gap}px`
+      paddingLeft: `${gap}px`,
     };
 
     const metaColumn = (
       <div className={metaColumnClasses} style={metaColumnStyle}>
-        {draggable && (
-          <DragHandle
-            alwaysShowDragHandle={alwaysShowDragHandle}
-            dragHandleTitle={dragHandleTitle}
-          />
+        {draggable && <DragHandle alwaysShowDragHandle={alwaysShowDragHandle} dragHandleTitle={dragHandleTitle} />}
+
+        {selectable && (
+          <Tooltip title={checkboxTooltip}>
+            <Checkbox
+              aria-labelledby={this.id}
+              className={showFocus ? 'ring-checkbox_focus' : ''}
+              checked={selected}
+              onFocus={this.onCheckboxFocus}
+              onChange={this.onCheckboxChange}
+              tabIndex={-1}
+            />
+          </Tooltip>
         )}
 
-        {selectable &&
-          (
-            <Tooltip title={checkboxTooltip}>
-              <Checkbox
-                aria-labelledby={this.id}
-                className={showFocus ? 'ring-checkbox_focus' : ''}
-                checked={selected}
-                onFocus={this.onCheckboxFocus}
-                onChange={this.onCheckboxChange}
-                tabIndex={-1}
-              />
-            </Tooltip>
-          )
-        }
+        {!selectable && showDisabledSelection && (
+          <Tooltip title={checkboxTooltip}>
+            <Checkbox aria-labelledby={this.id} checked={selected} disabled />
+          </Tooltip>
+        )}
 
-        {!selectable && showDisabledSelection &&
-          (
-            <Tooltip title={checkboxTooltip}>
-              <Checkbox
-                aria-labelledby={this.id}
-                checked={selected}
-                disabled
-              />
-            </Tooltip>
-          )
-        }
+        {collapsible && collapsed && (
+          <Button className={style.rowCollapseExpandButton} icon={chevronRightIcon} onClick={() => onExpand(item)} />
+        )}
 
-        {collapsible && collapsed &&
-          (
-            <Button
-              className={style.rowCollapseExpandButton}
-              icon={chevronRightIcon}
-              onClick={() => onExpand(item)}
-            />
-          )
-        }
-
-        {collapsible && !collapsed &&
-          (
-            <Button
-              className={style.rowCollapseExpandButton}
-              icon={chevronDownIcon}
-              onClick={() => onCollapse(item)}
-            />
-          )
-        }
+        {collapsible && !collapsed && (
+          <Button className={style.rowCollapseExpandButton} icon={chevronDownIcon} onClick={() => onCollapse(item)} />
+        )}
       </div>
     );
 
@@ -228,17 +214,11 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
       const getDataTest = column.getDataTest || (() => column.id);
       const value = getValue(item, column);
       const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
-      const showMetaColumn =
-        draggable || selectable || collapsible || showDisabledSelection || !!level;
+      const showMetaColumn = draggable || selectable || collapsible || showDisabledSelection || !!level;
 
       return (
-        <Cell
-          colSpan={column.colSpan}
-          key={column.id}
-          className={cellClasses}
-          data-test={getDataTest(item, column)}
-        >
-          {index === 0 && (showMetaColumn) && metaColumn}
+        <Cell colSpan={column.colSpan} key={column.id} className={cellClasses} data-test={getDataTest(item, column)}>
+          {index === 0 && showMetaColumn && metaColumn}
           {value}
         </Cell>
       );
@@ -256,10 +236,11 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
         onMouseMove={this.onMouseEnter}
         onClick={this.onClick}
         onDoubleClick={this.onDoubleClick}
-      >{cells}</tr>
+      >
+        {cells}
+      </tr>
     );
   }
 }
 
-export type RowAttrs<T extends SelectionItem> =
-  JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;
+export type RowAttrs<T extends SelectionItem> = JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;

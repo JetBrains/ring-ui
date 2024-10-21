@@ -16,13 +16,7 @@ function roundToStep(value: number, step: number, min: number) {
   return Math.round((value - min) / step) * step + min;
 }
 
-export function calculateValue(
-  ref: RefObject<HTMLDivElement>,
-  x: number,
-  min: number,
-  max: number,
-  step: number
-) {
+export function calculateValue(ref: RefObject<HTMLDivElement>, x: number, min: number, max: number, step: number) {
   if (!ref.current) {
     return null;
   }
@@ -61,7 +55,7 @@ export function adjustValues(
   x: number,
   max: number,
   min: number,
-  step: number
+  step: number,
 ) {
   const nextValue = calculateValue(ref, x, min, max, step);
   const nextValues = [...values];
@@ -73,8 +67,5 @@ export function adjustValues(
 
 export function calculateMarks(min: number, max: number, step: number) {
   const numMarks = Math.floor((max - min) / step) + 1;
-  return Array.from(
-    {length: numMarks},
-    (_, index) => ({value: validateValue(min + step * index, min, max)})
-  );
+  return Array.from({length: numMarks}, (_, index) => ({value: validateValue(min + step * index, min, max)}));
 }

@@ -15,11 +15,7 @@ export default class IFrameFlow implements LoginFlow {
   private _promise?: Promise<string> | null;
   private _loginWindow?: Window;
 
-  constructor(
-    requestBuilder: AuthRequestBuilder,
-    storage: AuthStorage,
-    translations: AuthTranslations
-  ) {
+  constructor(requestBuilder: AuthRequestBuilder, storage: AuthStorage, translations: AuthTranslations) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
     this._translations = translations;
@@ -33,14 +29,13 @@ export default class IFrameFlow implements LoginFlow {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
       // eslint-disable-next-line camelcase
       {request_credentials: 'required', auth_mode: 'bypass_to_login'},
-      {nonRedirect: false}
+      {nonRedirect: false},
     );
 
     const renderFallbackLink = () => (
-      <Link
-        href={authRequest.url}
-        target="_self"
-      >{this._translations.nothingHappensLink}</Link>
+      <Link href={authRequest.url} target="_self">
+        {this._translations.nothingHappensLink}
+      </Link>
     );
 
     return new Promise((resolve, reject) => {
@@ -52,7 +47,7 @@ export default class IFrameFlow implements LoginFlow {
           cleanUp();
           this.stop();
         },
-        renderFallbackLink
+        renderFallbackLink,
       });
 
       this.reject = reject;

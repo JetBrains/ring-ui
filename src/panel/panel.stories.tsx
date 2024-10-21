@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Button from '../button/button';
 
 import Panel from './panel';
@@ -9,8 +8,8 @@ export default {
   title: 'Components/Panel',
 
   parameters: {
-    notes: 'Displays a button panel.'
-  }
+    notes: 'Displays a button panel.',
+  },
 };
 
 export const basic = () => {
@@ -25,7 +24,7 @@ export const basic = () => {
     }
   }
 
-  return <PanelDemo/>;
+  return <PanelDemo />;
 };
 
 basic.storyName = 'Panel';

@@ -1,15 +1,16 @@
-
-export type Serializable = string | number | boolean | null | undefined | {
-  [K in string | number]?: Serializable
-}
+export type Serializable =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | {
+      [K in string | number]?: Serializable;
+    };
 
 export interface AnalyticsPlugin {
-  trackEvent(
-    category: string,
-    action: string,
-    additionalData?: Record<string, Serializable>
-  ): void
-  trackPageView(path: string): void
+  trackEvent(category: string, action: string, additionalData?: Record<string, Serializable>): void;
+  trackPageView(path: string): void;
 }
 
 /**
@@ -26,11 +27,7 @@ export class Analytics {
     this._plugins = plugins;
   }
 
-  trackEvent(
-    category: string,
-    action: string,
-    additionalData?: Record<string, Serializable>
-  ) {
+  trackEvent(category: string, action: string, additionalData?: Record<string, Serializable>) {
     this._plugins.forEach(plugin => {
       plugin.trackEvent(category, action, additionalData);
     });

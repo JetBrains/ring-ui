@@ -9,7 +9,8 @@
 
   max-width: calc(var(--ring-unit) * 40);
 
-  padding: calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 5);
+  padding: calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 2)
+    calc(var(--ring-unit) * 5);
 
   text-align: left;
 

@@ -31,7 +31,9 @@
   height: calc(2 * var(--ring-unit));
 
   user-select: none;
-  transition: border-color var(--ring-ease), box-shadow var(--ring-ease);
+  transition:
+    border-color var(--ring-ease),
+    box-shadow var(--ring-ease);
   pointer-events: none;
 
   border: 1px solid var(--ring-borders-color);
@@ -48,7 +50,9 @@
 
     content: "";
 
-    transition: opacity var(--ring-fast-ease), transform var(--ring-fast-ease);
+    transition:
+      opacity var(--ring-fast-ease),
+      transform var(--ring-fast-ease);
 
     transform: scale(0) translateY(-50%);
 

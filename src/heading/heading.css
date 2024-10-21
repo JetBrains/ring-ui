@@ -18,7 +18,6 @@
     }
   }
 
-
   & :is(h1, h2),
   &:is(h1, h2) {
     margin-bottom: 8px;

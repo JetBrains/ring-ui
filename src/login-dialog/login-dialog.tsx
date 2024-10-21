@@ -15,14 +15,14 @@ const DEFAULT_WIDTH = 333;
 const DEFAULT_SHOW_FALLBACK_TIMEOUT = 5000;
 
 export interface LoginDialogProps {
-  onCancel: () => void
-  show: boolean,
-  url: string,
-  renderFallbackLink: (loggingIn: boolean) => ReactNode,
-  showFallbackTimeout: number,
-  className?: string | undefined,
-  loader?: boolean | null | undefined,
-  loadingMessage?: string | null | undefined,
+  onCancel: () => void;
+  show: boolean;
+  url: string;
+  renderFallbackLink: (loggingIn: boolean) => ReactNode;
+  showFallbackTimeout: number;
+  className?: string | undefined;
+  loader?: boolean | null | undefined;
+  loadingMessage?: string | null | undefined;
 }
 
 /**
@@ -34,7 +34,7 @@ export default class LoginDialog extends Component<LoginDialogProps> {
     show: false,
     url: 'about:blank',
     renderFallbackLink: () => null,
-    showFallbackTimeout: DEFAULT_SHOW_FALLBACK_TIMEOUT
+    showFallbackTimeout: DEFAULT_SHOW_FALLBACK_TIMEOUT,
   };
 
   state = {
@@ -42,7 +42,7 @@ export default class LoginDialog extends Component<LoginDialogProps> {
     loggingIn: false,
     showFallbackLink: false,
     height: DEFAULT_HEIGHT,
-    width: DEFAULT_WIDTH
+    width: DEFAULT_WIDTH,
   };
 
   componentDidMount() {
@@ -58,7 +58,7 @@ export default class LoginDialog extends Component<LoginDialogProps> {
   startFallbackCountdown() {
     this.showFallbackTimout = window.setTimeout(
       () => this.setState({showFallbackLink: true}),
-      this.props.showFallbackTimeout
+      this.props.showFallbackTimeout,
     );
   }
 
@@ -103,25 +103,15 @@ export default class LoginDialog extends Component<LoginDialogProps> {
         onCloseAttempt={onCancel}
       >
         <Content>
-          <iframe
-            title="Login dialog"
-            style={iFrameStyle}
-            src={url}
-            className={styles.iFrame}
-            scrolling="no"
-          />
+          <iframe title="Login dialog" style={iFrameStyle} src={url} className={styles.iFrame} scrolling="no" />
         </Content>
 
-        {loading && (
-          <LoaderScreen message={loadingMessage} containerClassName={styles.nonOpaqueLoader}/>
-        )}
+        {loading && <LoaderScreen message={loadingMessage} containerClassName={styles.nonOpaqueLoader} />}
 
-        {showFallbackLink && (
-          <div className={styles.fallbackLinkContainer}>{renderFallbackLink(loggingIn)}</div>
-        )}
+        {showFallbackLink && <div className={styles.fallbackLinkContainer}>{renderFallbackLink(loggingIn)}</div>}
       </Dialog>
     );
   }
 }
 
-export type LoginDialogAttrs = JSX.LibraryManagedAttributes<typeof LoginDialog, LoginDialogProps>
+export type LoginDialogAttrs = JSX.LibraryManagedAttributes<typeof LoginDialog, LoginDialogProps>;

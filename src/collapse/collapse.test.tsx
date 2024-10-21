@@ -20,14 +20,16 @@ const textMock = `This is very long text! This is very long text! This is very l
 const MIN_HEIGHT = 50;
 const CONTENT_HEIGHT = 75;
 const LARGE_HEIGHT = CONTENT_HEIGHT * 2;
-const TextWrapper: React.FC<PropsWithChildren> = ({children}) => <div style={{height: `${CONTENT_HEIGHT}px`}}>{children}</div>;
+const TextWrapper: React.FC<PropsWithChildren> = ({children}) => (
+  <div style={{height: `${CONTENT_HEIGHT}px`}}>{children}</div>
+);
 
 const onChangeMock = sandbox.stub();
 
 const Dummy = ({
   minHeight,
   disableAnimation,
-  controlAsFunc
+  controlAsFunc,
 }: {
   minHeight: number;
   disableAnimation: boolean;
@@ -42,18 +44,17 @@ const Dummy = ({
       </button>
       <Collapse onChange={onChangeMock} disableAnimation={disableAnimation}>
         <CollapseControl>
-          {controlAsFunc
-            ? (
-              <button type="button">{'Show text'}</button>
-            )
-            : (collapsed: boolean) => (
-              <button type="button">{collapsed ? 'Show text' : 'Hide text'}</button>
-            )
-          }
+          {controlAsFunc ? (
+            <button type="button">{'Show text'}</button>
+          ) : (
+            (collapsed: boolean) => <button type="button">{collapsed ? 'Show text' : 'Hide text'}</button>
+          )}
         </CollapseControl>
         <CollapseContent minHeight={minHeight}>
-          {/* eslint-disable-next-line react/no-array-index-key */}
-          {texts.map((text, index) => <TextWrapper key={index}>{text}</TextWrapper>)}
+          {texts.map((text, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <TextWrapper key={index}>{text}</TextWrapper>
+          ))}
         </CollapseContent>
       </Collapse>
     </>
@@ -61,13 +62,7 @@ const Dummy = ({
 };
 
 function renderComponent(minHeight = 0, disableAnimation = false, controlAsFunc = false) {
-  return render(
-    <Dummy
-      minHeight={minHeight}
-      disableAnimation={disableAnimation}
-      controlAsFunc={controlAsFunc}
-    />
-  );
+  return render(<Dummy minHeight={minHeight} disableAnimation={disableAnimation} controlAsFunc={controlAsFunc} />);
 }
 
 describe('<Collapse />', () => {
@@ -101,7 +96,7 @@ describe('<Collapse />', () => {
     content.style.opacity.should.equal('1');
   });
 
-  it.skip('should resize the collapsable container if content has been changed', async () => {
+  it.skip('should resize the collapsible container if content has been changed', async () => {
     renderComponent();
 
     const button = screen.getByRole('button', {name: 'Show text'});

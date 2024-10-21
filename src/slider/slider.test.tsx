@@ -8,8 +8,8 @@ import {Slider} from './slider';
 const DEFAULT_VALUE = 42;
 
 describe('Slider', () => {
-  const mountSlider = (params?: ComponentProps<typeof Slider>) => mount(<Slider {...params}/>);
-  const renderSlider = (params?: ComponentProps<typeof Slider>) => render(<Slider {...params}/>);
+  const mountSlider = (params?: ComponentProps<typeof Slider>) => mount(<Slider {...params} />);
+  const renderSlider = (params?: ComponentProps<typeof Slider>) => render(<Slider {...params} />);
 
   it('should create component', () => {
     mountSlider().should.have.type(Slider);
@@ -41,7 +41,9 @@ describe('Slider', () => {
   it.skip('should handle only 2 values in range', () => {
     const NEW_VALUE = 5;
     const onChange = sandbox.spy();
-    const {container: {firstElementChild}} = renderSlider({defaultValue: [1, 2, 1, 0], onChange});
+    const {
+      container: {firstElementChild},
+    } = renderSlider({defaultValue: [1, 2, 1, 0], onChange});
     should.exist(firstElementChild);
     fireEvent.mouseDown(firstElementChild!, {clientX: 50});
     fireEvent.mouseUp(firstElementChild!, {clientX: 50});

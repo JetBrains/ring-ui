@@ -2,44 +2,44 @@ import {Component, ComponentType, Ref} from 'react';
 
 import {createComposedRef} from './composeRefs';
 
-
 export interface FocusSensorOuterProps<T extends HTMLElement> {
-  focused?: boolean | undefined
-  autofocus?: boolean | undefined
+  focused?: boolean | undefined;
+  autofocus?: boolean | undefined;
   scrollOnTableFocus?: boolean;
-  onFocus?: (() => void) | undefined
-  onBlur?: (() => void) | undefined
-  innerRef?: Ref<T> | null | undefined
+  onFocus?: (() => void) | undefined;
+  onBlur?: (() => void) | undefined;
+  innerRef?: Ref<T> | null | undefined;
 }
 
 export interface FocusSensorAddProps<T extends HTMLElement> {
-  innerRef: Ref<T>
-  focused: boolean
-  onFocusReset: () => void
-  onFocusRestore: () => void
+  innerRef: Ref<T>;
+  focused: boolean;
+  onFocusReset: () => void;
+  onFocusRestore: () => void;
 }
 
-type RestProps<P, T extends HTMLElement> = Omit<P, keyof FocusSensorAddProps<T>>
+type RestProps<P, T extends HTMLElement> = Omit<P, keyof FocusSensorAddProps<T>>;
 export type FocusSensorProps<
   P extends FocusSensorAddProps<T>,
   T extends HTMLElement,
-  C extends ComponentType<P>
-> = RestProps<JSX.LibraryManagedAttributes<C, P>, T> & FocusSensorOuterProps<T>
+  C extends ComponentType<P>,
+> = RestProps<JSX.LibraryManagedAttributes<C, P>, T> & FocusSensorOuterProps<T>;
 
 export default function focusSensorHOC<
   T extends HTMLElement,
   P extends FocusSensorAddProps<T>,
-  C extends ComponentType<P>
->(
-  ComposedComponent: C
-): ComponentType<FocusSensorProps<P, T, typeof ComposedComponent>> {
+  C extends ComponentType<P>,
+>(ComposedComponent: C): ComponentType<FocusSensorProps<P, T, typeof ComposedComponent>> {
   class FocusSensor extends Component<FocusSensorProps<P, T, typeof ComposedComponent>> {
     state = {
-      focused: this.props.focused
+      focused: this.props.focused,
     };
 
     componentDidMount() {
-      const {props: {autofocus, scrollOnTableFocus}, node} = this;
+      const {
+        props: {autofocus, scrollOnTableFocus},
+        node,
+      } = this;
 
       node?.setAttribute('tabindex', '0');
       if (node != null) {
@@ -92,11 +92,13 @@ export default function focusSensorHOC<
     };
 
     onBlurCapture = ({target}: FocusEvent) => {
-      const {state: {focused}, node} = this;
+      const {
+        state: {focused},
+        node,
+      } = this;
       if (focused) {
         setTimeout(() => {
-          const blurred = target instanceof Node &&
-            node?.contains(target) && !node.contains(document.activeElement);
+          const blurred = target instanceof Node && node?.contains(target) && !node.contains(document.activeElement);
           if (blurred) {
             this.setState({focused: false});
             this.props.onBlur?.();
@@ -115,11 +117,10 @@ export default function focusSensorHOC<
     };
 
     render() {
-      const {autofocus, focused, onFocus, onBlur, innerRef, scrollOnTableFocus, ...rest} =
-        this.props;
+      const {autofocus, focused, onFocus, onBlur, innerRef, scrollOnTableFocus, ...rest} = this.props;
       return (
         <ComposedComponent
-          {...rest as JSX.LibraryManagedAttributes<C, P>}
+          {...(rest as JSX.LibraryManagedAttributes<C, P>)}
           innerRef={this.composedRef(innerRef, this.onRefUpdate)}
           focused={this.state.focused}
           onFocusReset={this.onFocusReset}
@@ -134,7 +135,7 @@ export default function focusSensorHOC<
     autofocus: false,
     scrollOnTableFocus: true,
     onFocus: () => {},
-    onBlur: () => {}
+    onBlur: () => {},
   };
   return FocusSensor;
 }

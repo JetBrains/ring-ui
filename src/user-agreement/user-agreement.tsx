@@ -17,24 +17,24 @@ import style from './user-agreement.css';
 function noop() {}
 
 export interface UserAgreementTranslations {
-  userAgreement: string
-  accept: string
-  decline: string
-  close: string
-  scrollToAccept: string
-  remindLater: string
+  userAgreement: string;
+  accept: string;
+  decline: string;
+  close: string;
+  scrollToAccept: string;
+  remindLater: string;
 }
 
 export interface UserAgreementProps {
-  translations?: UserAgreementTranslations | null | undefined
-  children: ReactNode
-  show: boolean
-  onAccept: () => void
-  onDecline: () => void
-  onClose: () => void
-  preview?: boolean | null | undefined
-  onRemindLater?: (() => void) | null | undefined
-  className?: string | null | undefined
+  translations?: UserAgreementTranslations | null | undefined;
+  children: ReactNode;
+  show: boolean;
+  onAccept: () => void;
+  onDecline: () => void;
+  onClose: () => void;
+  preview?: boolean | null | undefined;
+  onRemindLater?: (() => void) | null | undefined;
+  className?: string | null | undefined;
 }
 /**
  * A component that displays a user agreement dialog.
@@ -44,28 +44,18 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
     show: false,
     onAccept: noop,
     onDecline: noop,
-    onClose: noop
+    onClose: noop,
   };
 
   state = {
-    scrolledDown: false
+    scrolledDown: false,
   };
 
   onScrollToBottom = () => this.setState({scrolledDown: true});
 
   render() {
     const {scrolledDown} = this.state;
-    const {
-      translations,
-      onAccept,
-      onDecline,
-      onClose,
-      onRemindLater,
-      children,
-      show,
-      preview,
-      className
-    } = this.props;
+    const {translations, onAccept, onDecline, onClose, onRemindLater, children, show, preview, className} = this.props;
 
     return (
       <I18nContext.Consumer>
@@ -80,18 +70,13 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
             data-test="user-agreement"
           >
             <Header>{translations?.userAgreement ?? translate('userAgreement')}</Header>
-            <Content
-              fade
-              onScrollToBottom={this.onScrollToBottom}
-            >
+            <Content fade onScrollToBottom={this.onScrollToBottom}>
               {children}
             </Content>
             {!preview && (
               <Panel>
                 {onRemindLater && !scrolledDown && (
-                  <div className={style.suggestion}>
-                    {translations?.scrollToAccept ?? translate('scrollToAccept')}
-                  </div>
+                  <div className={style.suggestion}>{translations?.scrollToAccept ?? translate('scrollToAccept')}</div>
                 )}
                 <Button primary disabled={!scrolledDown} onClick={onAccept} data-test="accept">
                   {translations?.accept ?? translate('accept')}
@@ -106,11 +91,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
                   </span>
                 )}
                 {onRemindLater && (
-                  <Button
-                    className={style.remindLaterButton}
-                    onClick={onRemindLater}
-                    data-test="later"
-                  >
+                  <Button className={style.remindLaterButton} onClick={onRemindLater} data-test="later">
                     {translations?.remindLater ?? translate('remindLater')}
                   </Button>
                 )}
@@ -129,5 +110,4 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
     );
   }
 }
-export type UserAgreementAttrs =
-  JSX.LibraryManagedAttributes<typeof UserAgreement, UserAgreementProps>
+export type UserAgreementAttrs = JSX.LibraryManagedAttributes<typeof UserAgreement, UserAgreementProps>;

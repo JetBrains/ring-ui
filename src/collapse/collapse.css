@@ -1,40 +1,41 @@
 .container {
-    position: relative;
-    will-change: height, opacity;
+  position: relative;
+  will-change: height, opacity;
 
-    overflow: hidden;
-
+  overflow: hidden;
 }
 
 .transition {
-    transition: height var(--duration) ease-in-out 0s, opacity var(--duration) ease-in-out 0s;
+  transition:
+    height var(--duration) ease-in-out 0s,
+    opacity var(--duration) ease-in-out 0s;
 }
 
 .summary {
-    list-style: none;
+  list-style: none;
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .trigger {
-    cursor: pointer;
+  cursor: pointer;
 
-    border: none;
-    outline: none;
-    background: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 
 .fade {
-    position: absolute;
-    z-index: 10;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  bottom: 0;
+  left: 0;
 
-    height: calc(var(--ring-unit) * 3);
+  height: calc(var(--ring-unit) * 3);
 
-    pointer-events: none;
+  pointer-events: none;
 
-    color: var(--ring-content-background-color);
-    background-image: linear-gradient(to bottom, transparent 0%, currentColor 50%);
+  color: var(--ring-content-background-color);
+  background-image: linear-gradient(to bottom, transparent 0%, currentColor 50%);
 }

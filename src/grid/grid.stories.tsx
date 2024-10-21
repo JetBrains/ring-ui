@@ -5,8 +5,8 @@ export default {
 
   parameters: {
     notes:
-      'Implements a flexbox-like grid system for components placement. Inspired by react-flexbox-grid, see http://roylee0704.github.io/react-flexbox-grid/ and http://flexboxgrid.com/ for additional information.'
-  }
+      'Implements a flexbox-like grid system for components placement. Inspired by react-flexbox-grid, see http://roylee0704.github.io/react-flexbox-grid/ and http://flexboxgrid.com/ for additional information.',
+  },
 };
 
 export const responsive = () => (
@@ -33,7 +33,7 @@ responsive.parameters = {
   .cell {
     background-color: var(--ring-selected-background-color);
   }
-</style>`
+</style>`,
 };
 
 export const offset = () => (
@@ -112,7 +112,7 @@ offset.parameters = {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-</style>`
+</style>`,
 };
 
 export const autoSize = () => (
@@ -153,15 +153,12 @@ autoSize.parameters = {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-</style>`
+</style>`,
 };
 
 export const alignment = () => (
   <div>
-    <h4>
-      Add classes to align elements to the start or end of row as well as the top, bottom, or center
-      of a column
-    </h4>
+    <h4>Add classes to align elements to the start or end of row as well as the top, bottom, or center of a column</h4>
     <Grid data-test="alignment">
       <Row>
         <Col xs={12}>
@@ -197,7 +194,7 @@ export const alignment = () => (
               <div className="cell">top</div>
             </Col>
             <Col xs={6}>
-              <div className="cell cell_tall"/>
+              <div className="cell cell_tall" />
             </Col>
           </Row>
         </Col>
@@ -209,7 +206,7 @@ export const alignment = () => (
               <div className="cell">middle</div>
             </Col>
             <Col xs={6}>
-              <div className="cell cell_tall"/>
+              <div className="cell cell_tall" />
             </Col>
           </Row>
         </Col>
@@ -221,7 +218,7 @@ export const alignment = () => (
               <div className="cell">bottom</div>
             </Col>
             <Col xs={6}>
-              <div className="cell cell_tall"/>
+              <div className="cell cell_tall" />
             </Col>
           </Row>
         </Col>
@@ -241,7 +238,7 @@ alignment.parameters = {
   .cell_tall {
     height: 64px;
   }
-</style>`
+</style>`,
 };
 
 export const columnsDistribution = () => (
@@ -282,5 +279,5 @@ columnsDistribution.parameters = {
   .cell {
     background-color: var(--ring-selected-background-color);
   }
-</style>`
+</style>`,
 };

@@ -5,7 +5,7 @@ import {getAllByRole, render, screen} from '@testing-library/react';
 import Footer, {FooterProps} from './footer';
 
 describe('Footer', () => {
-  const renderFooter = (props?: FooterProps) => render(<Footer {...props}/>);
+  const renderFooter = (props?: FooterProps) => render(<Footer {...props} />);
 
   it('should create component', () => {
     renderFooter();
@@ -39,7 +39,7 @@ describe('Footer', () => {
       renderFooter({
         left: ['One Line', 'Second Line'],
         center: ['One Line', 'Second Line'],
-        right: ['One Line', 'Second Line']
+        right: ['One Line', 'Second Line'],
       });
 
       const uls = screen.getAllByRole('list');
@@ -47,24 +47,19 @@ describe('Footer', () => {
 
       uls.forEach(ul => getAllByRole(ul, 'listitem').should.have.length(2));
     });
-
   });
 
   it('should render copyright', () => {
     renderFooter({
-      left: [
-        {copyright: 2010, label: ' JetBrains'}
-      ]
+      left: [{copyright: 2010, label: ' JetBrains'}],
     });
 
-    screen.getByRole('listitem').should.contain.text(`Copyright © 2010–${(new Date()).getFullYear()} JetBrains`);
+    screen.getByRole('listitem').should.contain.text(`Copyright © 2010–${new Date().getFullYear()} JetBrains`);
   });
 
   it('should render link', () => {
     renderFooter({
-      left: [
-        {url: 'http://jetbrains.com', label: 'JetBrains', title: 'JetBrains Official Site'}
-      ]
+      left: [{url: 'http://jetbrains.com', label: 'JetBrains', title: 'JetBrains Official Site'}],
     });
 
     const link = screen.getByRole('link');

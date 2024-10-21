@@ -11,14 +11,12 @@ test('Get stories tree', () => {
       kind: title,
       stories: getStories({
         ...storyFile,
-        default: {...storyFile.default, title}
-      }).map(
-        ({name, story}) => ({
-          id: story.id,
-          name,
-          parameters: story.parameters.screenshots
-        }),
-      )
+        default: {...storyFile.default, title},
+      }).map(({name, story}) => ({
+        id: story.id,
+        name,
+        parameters: story.parameters.screenshots,
+      })),
     };
   });
 

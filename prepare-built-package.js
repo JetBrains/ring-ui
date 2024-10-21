@@ -31,7 +31,7 @@ const WHITE_LIST = [
   'scrollbar-width',
   'simply-uuid',
   'sniffr',
-  'util-deprecate'
+  'util-deprecate',
 ];
 
 function clearAndRenamePackage() {
@@ -50,7 +50,7 @@ function clearAndRenamePackage() {
     return {
       ...packageData,
       dependencies: filteredDependencies,
-      devDependencies: {}
+      devDependencies: {},
     };
   };
 
@@ -75,4 +75,3 @@ function clearAndRenamePackage() {
 }
 
 clearAndRenamePackage();
-

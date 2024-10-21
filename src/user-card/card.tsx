@@ -14,31 +14,31 @@ import {I18nContext} from '../i18n/i18n-context';
 import styles from './user-card.css';
 
 export interface UserCardUser {
-  name: string
-  login: string
-  avatarUrl?: string | null | undefined
-  email?: string | null | undefined
-  href?: string | null | undefined
-  online?: boolean | null | undefined
-  banned?: boolean | null | undefined
-  banReason?: string | undefined
-  unverifiedEmail?: boolean | null | undefined
+  name: string;
+  login: string;
+  avatarUrl?: string | null | undefined;
+  email?: string | null | undefined;
+  href?: string | null | undefined;
+  online?: boolean | null | undefined;
+  banned?: boolean | null | undefined;
+  banReason?: string | undefined;
+  unverifiedEmail?: boolean | null | undefined;
 }
 export interface UserCardTranslations {
-  banned: string
-  online: string
-  offline: string
-  copyToClipboard?: string
-  copiedToClipboard?: string
-  copingToClipboardError?: string
-  unverified?: string
+  banned: string;
+  online: string;
+  offline: string;
+  copyToClipboard?: string;
+  copiedToClipboard?: string;
+  copingToClipboardError?: string;
+  unverified?: string;
 }
 export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
-  user: UserCardUser
-  translations?: UserCardTranslations | null | undefined
-  info?: ReactElement | readonly ReactElement[] | string,
-  avatarInfo?: ReactElement | readonly ReactElement[] | string,
-  'data-test'?: string | null | undefined
+  user: UserCardUser;
+  translations?: UserCardTranslations | null | undefined;
+  info?: ReactElement | readonly ReactElement[] | string;
+  avatarInfo?: ReactElement | readonly ReactElement[] | string;
+  'data-test'?: string | null | undefined;
 }
 
 export default class UserCard extends PureComponent<UserCardProps> {
@@ -52,7 +52,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
     clipboard.copyText(
       this.props.user.email || '',
       translations?.copiedToClipboard ?? translate('copyToClipboard'),
-      translations?.copingToClipboardError ?? translate('copingToClipboardError')
+      translations?.copingToClipboardError ?? translate('copingToClipboardError'),
     );
   };
 
@@ -62,62 +62,44 @@ export default class UserCard extends PureComponent<UserCardProps> {
     const translations = this.props.translations;
 
     const classes = classNames(className, {});
-    const userActiveStatusClasses = classNames(
-      styles.userActiveStatus,
-      user.online ? styles.online : ''
-    );
+    const userActiveStatusClasses = classNames(styles.userActiveStatus, user.online ? styles.online : '');
 
     return (
       <div className={classes} {...restProps}>
         <div className={styles.userInformationContainer}>
           <div className={styles.userAvatar}>
-            <Avatar
-              size={AvatarSize.Size56}
-              url={user.avatarUrl}
-              round
-            />
+            <Avatar size={AvatarSize.Size56} url={user.avatarUrl} round />
             {!!avatarInfo && avatarInfo}
           </div>
           <div className={styles.userInformation}>
             <div className={styles.userInformationGeneral}>
               <div className={styles.userNameLine}>
                 {user.href && (
-                  <Link
-                    href={user.href}
-                    className={styles.userName}
-                  >
+                  <Link href={user.href} className={styles.userName}>
                     {user.name}
                   </Link>
                 )}
                 {!user.href && <span className={styles.userName}>{user.name}</span>}
-                {
-                  typeof user.online === 'boolean' &&
-                  (
-                    <span
-                      className={userActiveStatusClasses}
-                      title={user.online
+                {typeof user.online === 'boolean' && (
+                  <span
+                    className={userActiveStatusClasses}
+                    title={
+                      user.online
                         ? (translations?.online ?? translate('online'))
                         : (translations?.offline ?? translate('offline'))
-                      }
-                    />
-                  )
-                }
+                    }
+                  />
+                )}
                 {!!info && <span className={styles.userNameInfo}>{info}</span>}
-                {
-                  user.banned &&
-                  (
-                    <span
-                      className={classNames(badgeStyles.badge, badgeStyles.invalid)}
-                      title={user.banReason}
-                    >{translations?.banned ?? translate('banned')}</span>
-                  )
-                }
+                {user.banned && (
+                  <span className={classNames(badgeStyles.badge, badgeStyles.invalid)} title={user.banReason}>
+                    {translations?.banned ?? translate('banned')}
+                  </span>
+                )}
               </div>
               <div className={styles.userLogin}>{user.login}</div>
               {user.email && (
-                <span
-                  className={styles.userEmailWrapper}
-                >
+                <span className={styles.userEmailWrapper}>
                   <Link
                     href={`mailto:${user.email}`}
                     title={`mailto:${user.email}`}
@@ -126,13 +108,11 @@ export default class UserCard extends PureComponent<UserCardProps> {
                   >
                     {user.email}
                   </Link>
-                  {
-                    user.unverifiedEmail && (
-                      <span className={styles.unverifiedLabel}>
-                        {translations?.unverified ?? translate('unverified')}
-                      </span>
-                    )
-                  }
+                  {user.unverifiedEmail && (
+                    <span className={styles.unverifiedLabel}>
+                      {translations?.unverified ?? translate('unverified')}
+                    </span>
+                  )}
                   <Icon
                     title={translations?.copyToClipboard ?? translate('copyToClipboard')}
                     className={styles.userCopyIcon}
@@ -151,4 +131,4 @@ export default class UserCard extends PureComponent<UserCardProps> {
     );
   }
 }
-export type UserCardAttrs = JSX.LibraryManagedAttributes<typeof UserCard, UserCardProps>
+export type UserCardAttrs = JSX.LibraryManagedAttributes<typeof UserCard, UserCardProps>;

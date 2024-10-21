@@ -20,39 +20,39 @@ import styles from './header.css';
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
 export interface ProfileTranslations {
-  applyChangedUser?: string | null | undefined
-  login?: string | null | undefined
-  profile?: string | null | undefined
-  switchUser?: string | null | undefined
-  logout?: string | null | undefined
-  certificateMismatch?: string | null | undefined
+  applyChangedUser?: string | null | undefined;
+  login?: string | null | undefined;
+  profile?: string | null | undefined;
+  switchUser?: string | null | undefined;
+  logout?: string | null | undefined;
+  certificateMismatch?: string | null | undefined;
 }
 
 export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
-  closeOnSelect: boolean
-  renderPopupItems: (items: ListDataItem[]) => readonly ListDataItem[]
-  translations?: ProfileTranslations | null | undefined
-  size: Size
-  renderGuest: (props: ProfileProps) => ReactNode
-  hasUpdates?: boolean | null | undefined
-  loading?: boolean | undefined
-  onLogin?: (() => void) | undefined
-  onLogout?: (() => void) | null | undefined
-  onSwitchUser?: (() => void) | null | undefined
-  profileUrl?: string | undefined
-  LinkComponent?: ComponentType<ClickableLinkProps> | null | undefined
-  user?: AuthUser | null | undefined | void
-  round?: boolean | null | undefined
-  showName?: boolean | null | undefined
-  showLogIn?: boolean | null | undefined
-  showLogOut?: boolean | null | undefined
-  showSwitchUser?: boolean | null | undefined
-  showApplyChangedUser?: boolean | null | undefined
-  onRevertPostponement?: (() => void) | null | undefined,
-  menuProps?: PopupMenuAttrs | null | undefined,
-  activeClassName?: string | null | undefined
-  onShow?: (() => void)
-  onHide?: (() => void)
+  closeOnSelect: boolean;
+  renderPopupItems: (items: ListDataItem[]) => readonly ListDataItem[];
+  translations?: ProfileTranslations | null | undefined;
+  size: Size;
+  renderGuest: (props: ProfileProps) => ReactNode;
+  hasUpdates?: boolean | null | undefined;
+  loading?: boolean | undefined;
+  onLogin?: (() => void) | undefined;
+  onLogout?: (() => void) | null | undefined;
+  onSwitchUser?: (() => void) | null | undefined;
+  profileUrl?: string | undefined;
+  LinkComponent?: ComponentType<ClickableLinkProps> | null | undefined;
+  user?: AuthUser | null | undefined | void;
+  round?: boolean | null | undefined;
+  showName?: boolean | null | undefined;
+  showLogIn?: boolean | null | undefined;
+  showLogOut?: boolean | null | undefined;
+  showSwitchUser?: boolean | null | undefined;
+  showApplyChangedUser?: boolean | null | undefined;
+  onRevertPostponement?: (() => void) | null | undefined;
+  menuProps?: PopupMenuAttrs | null | undefined;
+  activeClassName?: string | null | undefined;
+  onShow?: () => void;
+  onHide?: () => void;
 }
 
 export default class Profile extends PureComponent<ProfileProps> {
@@ -63,22 +63,14 @@ export default class Profile extends PureComponent<ProfileProps> {
     renderGuest: ({loading, onLogin, className, translations}) => (
       <I18nContext.Consumer>
         {({translate}) => (
-          <div
-            className={classNames(styles.profileEmpty, className)}
-          >
-            <Button
-              primary
-              data-test="ring-header-login-button"
-              disabled={loading}
-              loader={loading}
-              onClick={onLogin}
-            >
+          <div className={classNames(styles.profileEmpty, className)}>
+            <Button primary data-test="ring-header-login-button" disabled={loading} loader={loading} onClick={onLogin}>
               {translations?.login ?? translate('login')}
             </Button>
           </div>
         )}
       </I18nContext.Consumer>
-    )
+    ),
   };
 
   static contextType = I18nContext;
@@ -108,7 +100,8 @@ export default class Profile extends PureComponent<ProfileProps> {
       translations,
       size,
       round,
-      loading, onLogin,
+      loading,
+      onLogin,
       menuProps,
       onShow,
       onHide,
@@ -119,11 +112,8 @@ export default class Profile extends PureComponent<ProfileProps> {
 
     if (!user) {
       return (
-        <div
-          {...props}
-          className={classNames(styles.profileEmpty, className)}
-        >
-          <Avatar size={size} round={round}/>
+        <div {...props} className={classNames(styles.profileEmpty, className)}>
+          <Avatar size={size} round={round} />
         </div>
       );
     }
@@ -133,7 +123,7 @@ export default class Profile extends PureComponent<ProfileProps> {
     }
 
     const avatarWrapper = classNames(styles.avatarWrapper, {
-      [styles.hasUpdates]: hasUpdates
+      [styles.hasUpdates]: hasUpdates,
     });
 
     const anchor = (
@@ -155,13 +145,13 @@ export default class Profile extends PureComponent<ProfileProps> {
         rgItemType,
         label: translations?.applyChangedUser ?? translate('applyChangedUser'),
         className: styles.profileMenuItem,
-        onClick: onRevertPostponement
+        onClick: onRevertPostponement,
       },
       showLogIn && {
         rgItemType,
         label: translations?.login ?? translate('login'),
         className: styles.profileMenuItem,
-        onClick: onRevertPostponement
+        onClick: onRevertPostponement,
       },
       {
         rgItemType: PopupMenu.ListProps.Type.LINK,
@@ -169,20 +159,20 @@ export default class Profile extends PureComponent<ProfileProps> {
 
         target: '_self', // Full page reload in Angular
         href: profileUrl,
-        LinkComponent
+        LinkComponent,
       },
       showSwitchUser && {
         rgItemType,
         label: translations?.switchUser ?? translate('switchUser'),
         className: styles.profileMenuItem,
-        onClick: onSwitchUser
+        onClick: onSwitchUser,
       },
       showLogOut && {
         rgItemType,
         label: translations?.logout ?? translate('logout'),
 
-        onClick: onLogout
-      }
+        onClick: onLogout,
+      },
     ].filter(isTruthy);
 
     return (
@@ -201,11 +191,11 @@ export default class Profile extends PureComponent<ProfileProps> {
           left: -2,
           top: -8,
           sidePadding: 32,
-          ...menuProps
+          ...menuProps,
         }}
       />
     );
   }
 }
 
-export type ProfileAttrs = JSX.LibraryManagedAttributes<typeof Profile, ProfileProps>
+export type ProfileAttrs = JSX.LibraryManagedAttributes<typeof Profile, ProfileProps>;

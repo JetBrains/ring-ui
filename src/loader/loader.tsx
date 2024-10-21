@@ -5,7 +5,7 @@ import dataTests from '../global/data-tests';
 import LoaderCore, {LoaderCoreProps} from './loader__core';
 
 export interface LoaderProps extends Partial<LoaderCoreProps>, HTMLAttributes<HTMLElement> {
-  'data-test'?: string | null | undefined
+  'data-test'?: string | null | undefined;
 }
 
 /**
@@ -37,22 +37,8 @@ export default class Loader extends PureComponent<LoaderProps> {
   };
 
   render() {
-    const {
-      message,
-      size,
-      colors,
-      'data-test': dataTest,
-      stop,
-      deterministic,
-      ...restProps
-    } = this.props;
+    const {message, size, colors, 'data-test': dataTest, stop, deterministic, ...restProps} = this.props;
 
-    return (
-      <div
-        data-test={dataTests('ring-loader', dataTest)}
-        {...restProps}
-        ref={this.initLoader}
-      />
-    );
+    return <div data-test={dataTests('ring-loader', dataTest)} {...restProps} ref={this.initLoader} />;
   }
 }

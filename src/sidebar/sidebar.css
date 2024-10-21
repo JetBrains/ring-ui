@@ -28,7 +28,9 @@
 
   padding-top: calc(2 * var(--ring-unit));
 
-  transition: right 0.5s ease, visibility 0.5s;
+  transition:
+    right 0.5s ease,
+    visibility 0.5s;
 
   border: solid 1px var(--ring-line-color);
   border-right-width: 0;

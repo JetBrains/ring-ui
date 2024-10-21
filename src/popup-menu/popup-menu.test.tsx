@@ -4,11 +4,9 @@ import List from '../list/list';
 
 import PopupMenu, {PopupMenuAttrs} from './popup-menu';
 
-
 describe('Popup Menu', () => {
-  const shallowPopupMenu = (props?: PopupMenuAttrs) => shallow(<PopupMenu {...props}/>);
-  const mountPopupMenu = (props?: Partial<PopupMenuAttrs>) =>
-    mount<PopupMenu>(<PopupMenu {...props}/>);
+  const shallowPopupMenu = (props?: PopupMenuAttrs) => shallow(<PopupMenu {...props} />);
+  const mountPopupMenu = (props?: Partial<PopupMenuAttrs>) => mount<PopupMenu>(<PopupMenu {...props} />);
 
   it('should create component', () => {
     shallowPopupMenu().should.exist;
@@ -23,9 +21,7 @@ describe('Popup Menu', () => {
   });
 
   it('should pass params to List', () => {
-    const wrapper = mountPopupMenu({data: [
-      {}
-    ]});
+    const wrapper = mountPopupMenu({data: [{}]});
 
     const maybeList = wrapper.instance().list;
     should.exist(maybeList);

@@ -1,20 +1,20 @@
 export interface PermissionType {
-  key: string
+  key: string;
 }
 
 export interface Project {
-  id: string
+  id: string;
 }
 
 export interface Permission {
-  permission: PermissionType
-  global?: boolean | null | undefined
-  projects?: readonly Project[] | null | undefined
+  permission: PermissionType;
+  global?: boolean | null | undefined;
+  projects?: readonly Project[] | null | undefined;
 }
 
 interface PermissionCacheItem {
-  global: boolean | null | undefined
-  projectIdSet: Record<string, boolean> | null
+  global: boolean | null | undefined;
+  projectIdSet: Record<string, boolean> | null;
 }
 
 /**
@@ -56,7 +56,7 @@ export default class PermissionCache {
   namesConverter: (name: string) => string | null | undefined;
   constructor(
     permissions?: readonly Permission[] | null | undefined,
-    namesConverter?: ((name: string) => string | null | undefined) | null | undefined
+    namesConverter?: ((name: string) => string | null | undefined) | null | undefined,
   ) {
     this.namesConverter = namesConverter || (key => key);
     this.set(permissions);
@@ -65,23 +65,21 @@ export default class PermissionCache {
   private _permissions?: readonly Permission[] | null;
   permissionCache?: Record<string, PermissionCacheItem>;
   set(permissions?: readonly Permission[] | null | undefined) {
-    const permissionCache = (permissions || []).reduce((
-      _permissionCache: Record<string, PermissionCacheItem>,
-      permission
-    ) => {
-      const key = this.namesConverter(permission.permission.key);
+    const permissionCache = (permissions || []).reduce(
+      (_permissionCache: Record<string, PermissionCacheItem>, permission) => {
+        const key = this.namesConverter(permission.permission.key);
 
-      if (key) {
-        _permissionCache[key] = {
-          global: permission.global,
-          projectIdSet: (this.constructor as typeof PermissionCache)._toProjectIdSet(
-            permission.projects
-          )
-        };
-      }
+        if (key) {
+          _permissionCache[key] = {
+            global: permission.global,
+            projectIdSet: (this.constructor as typeof PermissionCache)._toProjectIdSet(permission.projects),
+          };
+        }
 
-      return _permissionCache;
-    }, {});
+        return _permissionCache;
+      },
+      {},
+    );
 
     this._permissions = permissions;
     this.permissionCache = permissionCache;
@@ -185,7 +183,7 @@ export default class PermissionCache {
 
     while (lexems.length > 0 && lexems[0] !== ')') {
       if (lexems.shift() !== '|') {
-        throw new Error('Operator \'|\' was expected');
+        throw new Error("Operator '|' was expected");
       }
 
       result = this.and(lexems, projectId) || result;
@@ -229,7 +227,7 @@ export default class PermissionCache {
 
     const result = this.term(lexems, projectId);
 
-    return (notCounter % 2 === 0) ? result : !result;
+    return notCounter % 2 === 0 ? result : !result;
   }
 
   /**
@@ -250,7 +248,7 @@ export default class PermissionCache {
       result = this.or(lexems, projectId);
       // Expect ')'
       if (lexems.shift() !== ')') {
-        throw new Error('Operator \')\' was expected');
+        throw new Error("Operator ')' was expected");
       }
     } else {
       result = t != null && this.testPermission(t, projectId);
@@ -267,8 +265,7 @@ export default class PermissionCache {
   testPermission(permissionName: string, projectId?: string | null | undefined) {
     const permissionCache = this.permissionCache;
     const convertedName = this.namesConverter(permissionName);
-    const cachedPermission = permissionCache?.[permissionName] ||
-      convertedName && permissionCache?.[convertedName];
+    const cachedPermission = permissionCache?.[permissionName] || (convertedName && permissionCache?.[convertedName]);
 
     // Hasn't the permission in any project
     if (!cachedPermission) {
@@ -282,7 +279,7 @@ export default class PermissionCache {
 
     if (projectId) {
       // if projectId is specified check that the permission is given in the project
-      return cachedPermission.projectIdSet != null && (projectId in cachedPermission.projectIdSet);
+      return cachedPermission.projectIdSet != null && projectId in cachedPermission.projectIdSet;
     } else {
       return true;
     }

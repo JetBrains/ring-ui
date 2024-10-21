@@ -1,13 +1,4 @@
-import {
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-  useEffect,
-  memo,
-  ReactElement,
-  ReactNode
-} from 'react';
+import {useState, useRef, useMemo, useCallback, useEffect, memo, ReactElement, ReactNode} from 'react';
 import classNames from 'classnames';
 
 import fastdom from 'fastdom';
@@ -22,24 +13,24 @@ const DEFAULT_DEBOUNCE_INTERVAL = 100;
 const MEASURE_TOLERANCE = 0.5;
 
 export interface CollapsibleTabsProps {
-  children: ReactElement<TabProps>[]
-  selected?: string | undefined
-  onSelect: (key: string) => () => void
-  moreClassName?: string | null | undefined
-  moreActiveClassName?: string | null | undefined
-  morePopupClassName?: string | null | undefined
-  morePopupItemClassName?: string | undefined
-  initialVisibleItems?: number | null | undefined
-  morePopupBeforeEnd?: ReactNode
+  children: ReactElement<TabProps>[];
+  selected?: string | undefined;
+  onSelect: (key: string) => () => void;
+  moreClassName?: string | null | undefined;
+  moreActiveClassName?: string | null | undefined;
+  morePopupClassName?: string | null | undefined;
+  morePopupItemClassName?: string | undefined;
+  initialVisibleItems?: number | null | undefined;
+  morePopupBeforeEnd?: ReactNode;
 }
 interface Sizes {
-  tabs: number[]
-  more: number | undefined
+  tabs: number[];
+  more: number | undefined;
 }
 interface PreparedElements {
-  visible: ReactElement<TabProps>[]
-  hidden: ReactElement<TabProps>[]
-  ready?: boolean
+  visible: ReactElement<TabProps>[];
+  hidden: ReactElement<TabProps>[];
+  ready?: boolean;
 }
 export const CollapsibleTabs = ({
   children,
@@ -50,21 +41,22 @@ export const CollapsibleTabs = ({
   morePopupClassName,
   morePopupBeforeEnd,
   morePopupItemClassName,
-  initialVisibleItems
+  initialVisibleItems,
 }: CollapsibleTabsProps) => {
   const [sizes, setSizes] = useState<Sizes>({tabs: [], more: undefined});
   const [lastVisibleIndex, setLastVisibleIndex] = useState<number | null>(null);
   const elements = {sizes, lastVisibleIndex};
   const [preparedElements, setPreparedElements] = useState<PreparedElements>({
     visible: [],
-    hidden: []
+    hidden: [],
   });
 
   const measureRef = useRef<HTMLDivElement>(null);
 
-  const selectedIndex = useMemo(() => children.
-    filter(tab => tab.props.alwaysHidden !== true).
-    findIndex(tab => tab.props.id === selected) ?? null, [children, selected]);
+  const selectedIndex = useMemo(
+    () => children.filter(tab => tab.props.alwaysHidden !== true).findIndex(tab => tab.props.id === selected) ?? null,
+    [children, selected],
+  );
 
   const visibleElements = useMemo(() => {
     let items;
@@ -80,92 +72,91 @@ export const CollapsibleTabs = ({
     return getTabTitles({
       items,
       selected,
-      onSelect
+      onSelect,
     });
-  }, [
-    initialVisibleItems,
-    children,
-    preparedElements.ready,
-    preparedElements.visible,
-    onSelect,
-    selected
-  ]);
+  }, [initialVisibleItems, children, preparedElements.ready, preparedElements.visible, onSelect, selected]);
 
-  const adjustTabs = useCallback((entry: ResizeObserverEntry) => {
-    const containerWidth = entry.contentRect.width;
+  const adjustTabs = useCallback(
+    (entry: ResizeObserverEntry) => {
+      const containerWidth = entry.contentRect.width;
 
-    const {tabs: tabsSizes, more = 0} = elements.sizes;
+      const {tabs: tabsSizes, more = 0} = elements.sizes;
 
-    let renderMore = children.some(tab => tab.props.alwaysHidden);
+      let renderMore = children.some(tab => tab.props.alwaysHidden);
 
-    const tabsToRender: number[] = [];
-    let filledWidth = renderMore ? more ?? 0 : 0;
+      const tabsToRender: number[] = [];
+      let filledWidth = renderMore ? (more ?? 0) : 0;
 
-    for (let i = 0; i < tabsSizes.length; i++) {
-      if (filledWidth + tabsSizes[i] < containerWidth + MEASURE_TOLERANCE) {
-        filledWidth += tabsSizes[i];
-        tabsToRender.push(tabsSizes[i]);
-      } else {
-        break;
-      }
-    }
-
-    if (tabsToRender.length < tabsSizes.length && !renderMore) {
-      for (let i = tabsToRender.length - 1; i >= 0; i--) {
-        if (filledWidth + more < containerWidth + MEASURE_TOLERANCE) {
-          filledWidth += more;
-          renderMore = true;
-          break;
+      for (let i = 0; i < tabsSizes.length; i++) {
+        if (filledWidth + tabsSizes[i] < containerWidth + MEASURE_TOLERANCE) {
+          filledWidth += tabsSizes[i];
+          tabsToRender.push(tabsSizes[i]);
         } else {
-          filledWidth -= tabsToRender[i];
-          tabsToRender.pop();
+          break;
         }
       }
-    }
 
-    if (selectedIndex > tabsToRender.length - 1) {
-      const selectedWidth = tabsSizes[selectedIndex];
-      for (let i = tabsToRender.length - 1; i >= 0; i--) {
-        if (filledWidth + selectedWidth < containerWidth + MEASURE_TOLERANCE) {
-          filledWidth += selectedWidth;
-          break;
-        } else {
-          filledWidth -= tabsToRender[i];
-          tabsToRender.pop();
+      if (tabsToRender.length < tabsSizes.length && !renderMore) {
+        for (let i = tabsToRender.length - 1; i >= 0; i--) {
+          if (filledWidth + more < containerWidth + MEASURE_TOLERANCE) {
+            filledWidth += more;
+            renderMore = true;
+            break;
+          } else {
+            filledWidth -= tabsToRender[i];
+            tabsToRender.pop();
+          }
         }
       }
-    }
 
-    if (elements.lastVisibleIndex !== tabsToRender.length - 1) {
-      setLastVisibleIndex(tabsToRender.length - 1);
-    }
-  }, [children, elements.lastVisibleIndex, elements.sizes, selectedIndex]);
+      if (selectedIndex > tabsToRender.length - 1) {
+        const selectedWidth = tabsSizes[selectedIndex];
+        for (let i = tabsToRender.length - 1; i >= 0; i--) {
+          if (filledWidth + selectedWidth < containerWidth + MEASURE_TOLERANCE) {
+            filledWidth += selectedWidth;
+            break;
+          } else {
+            filledWidth -= tabsToRender[i];
+            tabsToRender.pop();
+          }
+        }
+      }
+
+      if (elements.lastVisibleIndex !== tabsToRender.length - 1) {
+        setLastVisibleIndex(tabsToRender.length - 1);
+      }
+    },
+    [children, elements.lastVisibleIndex, elements.sizes, selectedIndex],
+  );
 
   // Prepare list of visible and hidden elements
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const res = children.reduce((accumulator: PreparedElements, tab) => {
-        if (tab.props.alwaysHidden !== true &&
-          accumulator.visible.length - 1 < (elements.lastVisibleIndex ?? 0)) {
-          accumulator.visible.push(tab);
-        } else {
-          accumulator.hidden.push(tab);
-        }
+      const res = children.reduce(
+        (accumulator: PreparedElements, tab) => {
+          if (tab.props.alwaysHidden !== true && accumulator.visible.length - 1 < (elements.lastVisibleIndex ?? 0)) {
+            accumulator.visible.push(tab);
+          } else {
+            accumulator.hidden.push(tab);
+          }
 
-        return accumulator;
-      }, {visible: [], hidden: [], ready: elements.lastVisibleIndex !== null});
+          return accumulator;
+        },
+        {visible: [], hidden: [], ready: elements.lastVisibleIndex !== null},
+      );
 
       if (selectedIndex > (elements.lastVisibleIndex ?? 0)) {
-        const selectedItem =
-          children.find(tab => !tab.props.alwaysHidden && tab.props.id === selected);
+        const selectedItem = children.find(tab => !tab.props.alwaysHidden && tab.props.id === selected);
         if (selectedItem != null) {
           res.visible.push(selectedItem);
         }
       }
 
-      const allVisibleTheSame = res.visible.length === preparedElements.visible.length &&
+      const allVisibleTheSame =
+        res.visible.length === preparedElements.visible.length &&
         res.visible.every((item, index) => item === preparedElements.visible[index]);
-      const allHiddenTheSame = res.hidden.length === preparedElements.hidden.length &&
+      const allHiddenTheSame =
+        res.hidden.length === preparedElements.hidden.length &&
         res.hidden.every((item, index) => item === preparedElements.hidden[index]);
 
       if (!allVisibleTheSame || !allHiddenTheSame || preparedElements.ready !== res.ready) {
@@ -179,13 +170,10 @@ export const CollapsibleTabs = ({
   }, [children, elements.lastVisibleIndex, preparedElements, selected, selectedIndex]);
 
   // Get list of all possibly visible elements to render in a measure container
-  const childrenToMeasure = useMemo(
-    () => {
-      const items = children.filter(tab => tab.props.alwaysHidden !== true);
-      return getTabTitles({items, tabIndex: -1});
-    },
-    [children]
-  );
+  const childrenToMeasure = useMemo(() => {
+    const items = children.filter(tab => tab.props.alwaysHidden !== true);
+    return getTabTitles({items, tabIndex: -1});
+  }, [children]);
 
   // Initial measure for tabs and more button sizes
   useEffect(() => {
@@ -199,10 +187,9 @@ export const CollapsibleTabs = ({
       const moreButton = descendants.pop();
 
       let moreButtonWidth = moreButton?.offsetWidth ?? 0;
-      const {
-        marginLeft: moreButtonMarginLeft = '0',
-        marginRight: moreButtonMarginRight = '0'
-      } = moreButton ? getComputedStyle(moreButton) : {};
+      const {marginLeft: moreButtonMarginLeft = '0', marginRight: moreButtonMarginRight = '0'} = moreButton
+        ? getComputedStyle(moreButton)
+        : {};
       moreButtonWidth += +moreButtonMarginLeft.replace('px', '') + +moreButtonMarginRight.replace('px', '');
 
       const tabsWidth = descendants.map(node => {
@@ -211,13 +198,11 @@ export const CollapsibleTabs = ({
         return width + +marginLeft.replace('px', '') + +marginRight.replace('px', '');
       });
 
-      const newSummaryWidth = tabsWidth.reduce((acc, curr) => (acc + curr), 0);
-      const oldSummaryWidth = elements.sizes.tabs.reduce((acc, curr) => (acc + curr), 0);
+      const newSummaryWidth = tabsWidth.reduce((acc, curr) => acc + curr, 0);
+      const oldSummaryWidth = elements.sizes.tabs.reduce((acc, curr) => acc + curr, 0);
 
       if (elements.sizes.more !== moreButtonWidth || newSummaryWidth !== oldSummaryWidth) {
-        fastdom.mutate(() =>
-          setSizes({more: moreButtonWidth, tabs: tabsWidth})
-        );
+        fastdom.mutate(() => setSizes({more: moreButtonWidth, tabs: tabsWidth}));
       }
     });
 
@@ -248,14 +233,9 @@ export const CollapsibleTabs = ({
     };
   }, [adjustTabs]);
 
-  const isAdjusted = (elements.lastVisibleIndex !== null &&
-    preparedElements.ready === true) || initialVisibleItems;
+  const isAdjusted = (elements.lastVisibleIndex !== null && preparedElements.ready === true) || initialVisibleItems;
 
-  const className = classNames(
-    styles.titles,
-    styles.autoCollapse,
-    isAdjusted && styles.adjusted
-  );
+  const className = classNames(styles.titles, styles.autoCollapse, isAdjusted && styles.adjusted);
 
   return (
     <div className={styles.autoCollapseContainer}>
@@ -275,11 +255,9 @@ export const CollapsibleTabs = ({
       <div ref={measureRef} className={classNames(className, styles.measure)}>
         {childrenToMeasure}
         <FakeMoreButton
-          hasActiveChildren={
-            preparedElements.hidden.some(
-              item => item.props.alwaysHidden && item.props.id === selected
-            )
-          }
+          hasActiveChildren={preparedElements.hidden.some(
+            item => item.props.alwaysHidden && item.props.id === selected,
+          )}
           moreClassName={moreClassName}
           moreActiveClassName={moreActiveClassName}
         />

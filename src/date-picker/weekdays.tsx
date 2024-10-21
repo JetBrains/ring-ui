@@ -9,12 +9,13 @@ import {getWeekStartsOn, shiftWeekArray, weekdays} from './consts';
 import styles from './date-picker.css';
 
 interface WeekdaysProps {
-  locale: Locale | undefined
+  locale: Locale | undefined;
 }
 
 export default function Weekdays(props: WeekdaysProps) {
-  const days = shiftWeekArray(Object.values(weekdays), getWeekStartsOn(props.locale)).
-    map(value => startOfDay(setDay(new Date(), value)));
+  const days = shiftWeekArray(Object.values(weekdays), getWeekStartsOn(props.locale)).map(value =>
+    startOfDay(setDay(new Date(), value)),
+  );
 
   const {locale} = props;
 
@@ -22,12 +23,9 @@ export default function Weekdays(props: WeekdaysProps) {
     <div className={styles.weekdays}>
       {days.map(day => (
         <span
-          className={classNames(
-            styles.weekday,
-            {
-              [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day))
-            }
-          )}
+          className={classNames(styles.weekday, {
+            [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day)),
+          })}
           key={+day}
         >
           {format(day, 'EEEEEE', {locale})}

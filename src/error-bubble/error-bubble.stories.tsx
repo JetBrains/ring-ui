@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Select, {SingleSelectAttrs} from '../select/select';
 
 import Dialog from '../dialog/dialog';
@@ -15,8 +14,8 @@ export default {
 
   parameters: {
     notes:
-      'Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop. * Passes any prop except `className` down to the input.'
-  }
+      'Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop. * Passes any prop except `className` down to the input.',
+  },
 };
 
 export const basic = () => {
@@ -36,7 +35,10 @@ export const basic = () => {
             <Select
               type={Select.Type.BUTTON}
               size={Select.Size.M}
-              data={[{key: 0, label: 'One'}, {key: 1, label: 'Two'}]}
+              data={[
+                {key: 0, label: 'One'},
+                {key: 1, label: 'Two'},
+              ]}
             />
           </ErrorBubble>
         </div>
@@ -44,7 +46,7 @@ export const basic = () => {
     }
   }
 
-  return <ErrorBubbleDemo/>;
+  return <ErrorBubbleDemo />;
 };
 
 basic.storyName = 'basic';
@@ -62,7 +64,9 @@ export const inDialogForm = () => {
           <Content>
             <form className="ring-form">
               <div className="ring-form__group">
-                <label htmlFor="select" className="ring-form__label">Field name</label>
+                <label htmlFor="select" className="ring-form__label">
+                  Field name
+                </label>
                 <div className="ring-form__control ring-form__control_small">
                   <ErrorBubble<SingleSelectAttrs>
                     error={value ? null : 'Value is required'}
@@ -73,7 +77,10 @@ export const inDialogForm = () => {
                       id="select"
                       type={Select.Type.BUTTON}
                       size={Select.Size.M}
-                      data={[{key: 0, label: 'One'}, {key: 1, label: 'Two'}]}
+                      data={[
+                        {key: 0, label: 'One'},
+                        {key: 1, label: 'Two'},
+                      ]}
                     />
                   </ErrorBubble>
                 </div>
@@ -85,12 +92,12 @@ export const inDialogForm = () => {
     }
   }
 
-  return <ErrorBubbleDemo/>;
+  return <ErrorBubbleDemo />;
 };
 
 inDialogForm.storyName = 'in dialog form';
 
 inDialogForm.parameters = {
   screenshots: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
-  a11y: {element: '#storybook-root,*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'}
+  a11y: {element: '#storybook-root,*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'},
 };

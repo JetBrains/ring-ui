@@ -7,8 +7,8 @@ export default {
   title: 'Components/Group',
 
   parameters: {
-    notes: 'Places inner components with fixed spacing between them.'
-  }
+    notes: 'Places inner components with fixed spacing between them.',
+  },
 };
 
 export const basic = () => (

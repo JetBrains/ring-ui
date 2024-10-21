@@ -29,7 +29,7 @@ describe('Hub Users Groups Source', () => {
     await source.getUsers();
     source.usersSource.get.should.have.been.calledWith('', {
       fields: 'id,name,login,total,profile/avatar/url',
-      orderBy: 'name'
+      orderBy: 'name',
     });
   });
 
@@ -40,7 +40,7 @@ describe('Hub Users Groups Source', () => {
     await source.getUsers('nam');
     source.usersSource.get.should.have.been.calledWith('nam', {
       fields: sinon.match.string,
-      orderBy: sinon.match.string
+      orderBy: sinon.match.string,
     });
   });
 
@@ -54,13 +54,12 @@ describe('Hub Users Groups Source', () => {
   it('Should filter user by login on the client side', async () => {
     const source = new HubSourceUsersGroups(fakeAuth);
     const user1 = {name: 'some-name1', login: 'login1'};
-    sandbox.stub(source.usersSource, 'makeRequest').returns(Promise.resolve({
-      total: 2,
-      users: [
-        user1,
-        {name: 'some-name2', login: 'login2'}
-      ]
-    }));
+    sandbox.stub(source.usersSource, 'makeRequest').returns(
+      Promise.resolve({
+        total: 2,
+        users: [user1, {name: 'some-name2', login: 'login2'}],
+      }),
+    );
 
     const res = await source.getUsers('login1');
     res.length.should.equal(1);
@@ -74,13 +73,12 @@ describe('Hub Users Groups Source', () => {
     await source.getGroups();
     source.groupsSource.get.should.have.been.calledWith('', {
       fields: 'id,name,total,userCount,iconUrl',
-      orderBy: 'name'
+      orderBy: 'name',
     });
   });
 
   it('Should cache request for groups', async () => {
-    httpMock.get = sandbox.stub().
-      returns(Promise.resolve({total: 1, usergroups: []}));
+    httpMock.get = sandbox.stub().returns(Promise.resolve({total: 1, usergroups: []}));
 
     const source = new HubSourceUsersGroups(fakeAuth);
     await source.getGroups();

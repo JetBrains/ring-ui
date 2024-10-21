@@ -4,13 +4,11 @@ import {StoryFn} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
-
 import Loader from '../loader/loader';
 import Tooltip from '../tooltip/tooltip';
 import Auth from '../auth/auth';
 import Code from '../code/code';
 import ContentLayout, {Sidebar} from '../content-layout/content-layout';
-
 
 import List, {ListAttrs} from './list';
 import Source from './list__users-groups-source';
@@ -25,11 +23,11 @@ export default {
 
   component: List,
   parameters: {
-    screenshots: {captureSelector: '*[data-test~=ring-list]'}
-  }
+    screenshots: {captureSelector: '*[data-test~=ring-list]'},
+  },
 };
 
-export const basic: StoryFn<ListAttrs> = args => <List {...args}/>;
+export const basic: StoryFn<ListAttrs> = args => <List {...args} />;
 
 basic.storyName = 'basic';
 basic.args = {
@@ -41,11 +39,11 @@ basic.args = {
     {label: <b>foo</b>, key: 2, rgItemType: List.ListProps.Type.ITEM},
     {label: 'Active as default', key: 3, rgItemType: List.ListProps.Type.ITEM},
     {label: 'Four', key: 4, rgItemType: List.ListProps.Type.ITEM},
-    {label: 'Five', key: 5, rgItemType: List.ListProps.Type.ITEM}
-  ]
+    {label: 'Five', key: 5, rgItemType: List.ListProps.Type.ITEM},
+  ],
 };
 
-export const withAHintBelow: StoryFn<ListAttrs> = args => <List {...args}/>;
+export const withAHintBelow: StoryFn<ListAttrs> = args => <List {...args} />;
 
 withAHintBelow.storyName = 'with a hint below';
 withAHintBelow.args = {
@@ -61,12 +59,12 @@ withAHintBelow.args = {
     {
       label: 'Five (disabled)',
       rgItemType: List.ListProps.Type.ITEM,
-      disabled: true
-    }
-  ]
+      disabled: true,
+    },
+  ],
 };
 
-export const longList: StoryFn<ListAttrs> = args => <List {...args}/>;
+export const longList: StoryFn<ListAttrs> = args => <List {...args} />;
 
 longList.storyName = 'long list';
 longList.parameters = {screenshots: {skip: true}};
@@ -74,13 +72,15 @@ longList.args = {
   maxHeight: 400,
   compact: true,
   shortcuts: true,
-  data: Array(1000).fill(undefined).map((_, i) => ({
-    label: `Item ${i}`,
-    rgItemType: List.ListProps.Type.ITEM
-  }))
+  data: Array(1000)
+    .fill(undefined)
+    .map((_, i) => ({
+      label: `Item ${i}`,
+      rgItemType: List.ListProps.Type.ITEM,
+    })),
 };
 
-export const list2: StoryFn<ListAttrs> = args => <List {...args}/>;
+export const list2: StoryFn<ListAttrs> = args => <List {...args} />;
 
 list2.storyName = 'list #2';
 list2.args = {
@@ -89,50 +89,50 @@ list2.args = {
   data: [
     {
       rgItemType: List.ListProps.Type.SEPARATOR,
-      description: 'First separator'
+      description: 'First separator',
     },
     {label: 'Item 1', rgItemType: List.ListProps.Type.ITEM},
     {
       rgItemType: List.ListProps.Type.SEPARATOR,
-      description: 'Second sep'
+      description: 'Second sep',
     },
     {label: 'Item 2', rgItemType: List.ListProps.Type.ITEM},
     {
       rgItemType: List.ListProps.Type.TITLE,
       label: 'Group title',
-      description: 'With description'
+      description: 'With description',
     },
     {
       label: 'Item 3',
       rgItemType: List.ListProps.Type.ITEM,
       description: 'Foo bar',
-      hoverClassName: styles.hover
+      hoverClassName: styles.hover,
     },
     {
-      rgItemType: List.ListProps.Type.SEPARATOR
+      rgItemType: List.ListProps.Type.SEPARATOR,
     },
     {
       label: 'Item 4',
       rgItemType: List.ListProps.Type.ITEM,
-      description: 'Item description'
+      description: 'Item description',
     },
     {
       label: 'Item 5',
       rgItemType: List.ListProps.Type.ITEM,
       description: 'Item description',
-      details: 'Additional details line'
+      details: 'Additional details line',
     },
     {
       label: 'Item 6',
       rgItemType: List.ListProps.Type.ITEM,
       description: 'Item description',
       details:
-        'Additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text.'
-    }
-  ]
+        'Additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text.',
+    },
+  ],
 };
 
-export const withItemIcons: StoryFn<ListAttrs> = args => <List {...args}/>;
+export const withItemIcons: StoryFn<ListAttrs> = args => <List {...args} />;
 
 withItemIcons.storyName = 'with item icons';
 withItemIcons.args = {
@@ -141,27 +141,25 @@ withItemIcons.args = {
   data: [
     {
       label: 'Some item',
-      description:
-        'Long long long long long long long long long long long long long long long description',
+      description: 'Long long long long long long long long long long long long long long long description',
       key: '1',
       rgItemType: List.ListProps.Type.ITEM,
       glyph: warningIcon,
-      rightGlyph: warningIcon
+      rightGlyph: warningIcon,
     },
     {
       label: 'Some item with a long long label, much longer than description',
       key: '2',
       rgItemType: List.ListProps.Type.ITEM,
       description: 'Test item',
-      icon: FLAG_EN_URL
+      icon: FLAG_EN_URL,
     },
     {
       label: 'Some item with a long long label',
       key: '3',
       rgItemType: List.ListProps.Type.ITEM,
-      description:
-        'Long long long long long long long long long long long long long long long description',
-      checkbox: true
+      description: 'Long long long long long long long long long long long long long long long description',
+      checkbox: true,
     },
     //Link doesn't support icons
     {
@@ -169,19 +167,19 @@ withItemIcons.args = {
       key: '4',
       rgItemType: List.ListProps.Type.LINK,
       description: 'Test item',
-      icon: FLAG_EN_URL
+      icon: FLAG_EN_URL,
     },
     {
       label: 'Some item',
       key: '5',
       href: 'http://localhost:9999',
       description: 'Test item',
-      icon: FLAG_EN_URL
-    }
-  ]
+      icon: FLAG_EN_URL,
+    },
+  ],
 };
 
-export const withDeprecatedItemTypeParameter: StoryFn<ListAttrs> = args => <List {...args}/>;
+export const withDeprecatedItemTypeParameter: StoryFn<ListAttrs> = args => <List {...args} />;
 
 withDeprecatedItemTypeParameter.storyName = 'with deprecated item.type parameter';
 withDeprecatedItemTypeParameter.parameters = {screenshots: {skip: true}};
@@ -197,11 +195,11 @@ withDeprecatedItemTypeParameter.args = {
     // @ts-expect-error testing a wrong usage
     {label: 'Four', type: List.ListProps.Type.ITEM},
     // @ts-expect-error testing a wrong usage
-    {label: 'Five', type: List.ListProps.Type.ITEM}
-  ]
+    {label: 'Five', type: List.ListProps.Type.ITEM},
+  ],
 };
 
-export const withCustomItems: StoryFn<ListAttrs> = args => <List {...args}/>;
+export const withCustomItems: StoryFn<ListAttrs> = args => <List {...args} />;
 
 withCustomItems.storyName = 'with custom items';
 withCustomItems.args = {
@@ -211,20 +209,20 @@ withCustomItems.args = {
     {
       key: '1',
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: createElement('span', {}, 'custom item')
+      template: createElement('span', {}, 'custom item'),
     },
     {
       key: '2',
       rgItemType: List.ListProps.Type.CUSTOM,
       template: createElement('span', {}, 'custom item (disabled)'),
-      disabled: true
+      disabled: true,
     },
     {
       key: '3',
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: createElement('span', {}, 'custom item 3')
-    }
-  ]
+      template: createElement('span', {}, 'custom item 3'),
+    },
+  ],
 };
 
 export const WithUsers = () => {
@@ -243,36 +241,34 @@ export const WithUsers = () => {
     loadUsers();
   }, []);
 
-  return listData
-    ? (
-      <ContentLayout>
-        <Sidebar>
-          <List
-            className="list"
-            data={listData}
-            shortcuts
-            onSelect={setSelected}
-          />
-        </Sidebar>
-        {selected && (
-          <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)}/>
-        )}
-      </ContentLayout>
-    )
-    : <Loader/>;
+  return listData ? (
+    <ContentLayout>
+      <Sidebar>
+        <List className="list" data={listData} shortcuts onSelect={setSelected} />
+      </Sidebar>
+      {selected && <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)} />}
+    </ContentLayout>
+  ) : (
+    <Loader />
+  );
 };
 
 WithUsers.storyName = 'with users';
 WithUsers.parameters = {screenshots: {skip: true}};
 WithUsers.tags = ['skip-test'];
 
-export const withCustomTooltip: StoryFn<ListAttrs> = args => <List {...args}/>;
+export const withCustomTooltip: StoryFn<ListAttrs> = args => <List {...args} />;
 
 withCustomTooltip.storyName = 'with custom tooltip';
 withCustomTooltip.args = {
   shortcuts: true,
   renderOptimization: false,
   data: [
-    {label: 'Custom Tooltip', key: 1, title: '', labelWrapper: children => <Tooltip title={'Custom Tooltip'}>{children}</Tooltip>}
-  ]
+    {
+      label: 'Custom Tooltip',
+      key: 1,
+      title: '',
+      labelWrapper: children => <Tooltip title={'Custom Tooltip'}>{children}</Tooltip>,
+    },
+  ],
 };

@@ -18,56 +18,55 @@ import Loader from '../loader/loader';
 import {SelectionItem} from './selection';
 import Header, {HeaderAttrs} from './header';
 import style from './table.css';
-import selectionShortcutsHOC, {
-  SelectionShortcutsAddProps,
-  SelectionShortcutsProps
-} from './selection-shortcuts-hoc';
+import selectionShortcutsHOC, {SelectionShortcutsAddProps, SelectionShortcutsProps} from './selection-shortcuts-hoc';
 import disableHoverHOC, {DisableHoverAddProps, DisableHoverProps} from './disable-hover-hoc';
 import Row from './row-with-focus-sensor';
 import {Column, SortParams} from './header-cell';
 
 export interface ReorderParams<T> {
-  data: T[]
-  oldIndex: number
-  newIndex: number
+  data: T[];
+  oldIndex: number;
+  newIndex: number;
 }
 
-export interface TableProps<T extends SelectionItem> extends
-  FocusSensorAddProps<HTMLTableRowElement>, SelectionShortcutsAddProps<T>, DisableHoverAddProps {
-  data: readonly T[]
-  columns: readonly Column<T>[] | ((item:T|null)=>readonly Column<T>[])
-  isItemSelectable: (item: T) => boolean
-  loading: boolean
-  onSort: (params: SortParams) => void
-  onReorder: (params: ReorderParams<T>) => void
-  getItemKey: (item: T) => string | number
-  sortKey: string
-  sortOrder: boolean
-  draggable: boolean
-  alwaysShowDragHandle: boolean
-  dragHandleTitle?: string
-  stickyHeader: boolean
-  wideFirstColumn: boolean
-  getItemLevel: (item: T) => number
-  getItemClassName: (item: T) => string | null | undefined
-  getMetaColumnClassName: (item: T) => string | null | undefined
-  getItemDataTest: (item: T) => string | null | undefined
-  isItemCollapsible: (item: T) => boolean
-  isParentCollapsible: (item: T) => boolean
-  isItemCollapsed: (item: T) => boolean
-  onItemCollapse: (item: T) => void
-  onItemExpand: (item: T) => void
-  onItemDoubleClick: (item: T) => void
-  onItemClick: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void
-  remoteSelection: boolean
-  isDisabledSelectionVisible: (item: T) => boolean
-  getCheckboxTooltip: (item: T) => string | undefined
-  className?: string | null | undefined
-  loaderClassName?: string | undefined
-  caption?: string | null | undefined
-  stickyHeaderOffset?: string | undefined
-  renderEmpty?: (() => ReactNode) | null | undefined
-  RowComponent: typeof Row
+export interface TableProps<T extends SelectionItem>
+  extends FocusSensorAddProps<HTMLTableRowElement>,
+    SelectionShortcutsAddProps<T>,
+    DisableHoverAddProps {
+  data: readonly T[];
+  columns: readonly Column<T>[] | ((item: T | null) => readonly Column<T>[]);
+  isItemSelectable: (item: T) => boolean;
+  loading: boolean;
+  onSort: (params: SortParams) => void;
+  onReorder: (params: ReorderParams<T>) => void;
+  getItemKey: (item: T) => string | number;
+  sortKey: string;
+  sortOrder: boolean;
+  draggable: boolean;
+  alwaysShowDragHandle: boolean;
+  dragHandleTitle?: string;
+  stickyHeader: boolean;
+  wideFirstColumn: boolean;
+  getItemLevel: (item: T) => number;
+  getItemClassName: (item: T) => string | null | undefined;
+  getMetaColumnClassName: (item: T) => string | null | undefined;
+  getItemDataTest: (item: T) => string | null | undefined;
+  isItemCollapsible: (item: T) => boolean;
+  isParentCollapsible: (item: T) => boolean;
+  isItemCollapsed: (item: T) => boolean;
+  onItemCollapse: (item: T) => void;
+  onItemExpand: (item: T) => void;
+  onItemDoubleClick: (item: T) => void;
+  onItemClick: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void;
+  remoteSelection: boolean;
+  isDisabledSelectionVisible: (item: T) => boolean;
+  getCheckboxTooltip: (item: T) => string | undefined;
+  className?: string | null | undefined;
+  loaderClassName?: string | undefined;
+  caption?: string | null | undefined;
+  stickyHeaderOffset?: string | undefined;
+  renderEmpty?: (() => ReactNode) | null | undefined;
+  RowComponent: typeof Row;
 }
 /**
  * Interactive table with selection and keyboard navigation support.
@@ -99,12 +98,12 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     isDisabledSelectionVisible: () => false,
     getCheckboxTooltip: () => undefined,
     RowComponent: Row,
-    wideFirstColumn: false
+    wideFirstColumn: false,
   };
 
   state = {
     shortcutsScope: getUID('ring-table-'),
-    userSelectNone: false
+    userSelectNone: false,
   };
 
   componentDidMount() {
@@ -177,25 +176,55 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 
   render() {
     const {
-      data, selection, columns, caption, getItemKey, selectable, focused,
-      isItemSelectable, getItemLevel, getItemClassName, getMetaColumnClassName, getItemDataTest,
-      draggable, alwaysShowDragHandle, dragHandleTitle,
-      loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
-      stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
-      onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
-      onItemDoubleClick, onItemClick, renderEmpty, RowComponent
+      data,
+      selection,
+      columns,
+      caption,
+      getItemKey,
+      selectable,
+      focused,
+      isItemSelectable,
+      getItemLevel,
+      getItemClassName,
+      getMetaColumnClassName,
+      getItemDataTest,
+      draggable,
+      alwaysShowDragHandle,
+      dragHandleTitle,
+      loading,
+      onSort,
+      sortKey,
+      sortOrder,
+      loaderClassName,
+      stickyHeader,
+      stickyHeaderOffset,
+      isItemCollapsible,
+      isParentCollapsible,
+      isItemCollapsed,
+      onItemCollapse,
+      onItemExpand,
+      isDisabledSelectionVisible,
+      getCheckboxTooltip,
+      onItemDoubleClick,
+      onItemClick,
+      renderEmpty,
+      RowComponent,
     } = this.props;
-
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
 
     const columnsArray = typeof columns === 'function' ? columns(null) : columns;
 
     const headerProps: HeaderAttrs = {
-      caption, selectable, draggable,
-      columns: columnsArray, onSort, sortKey, sortOrder,
+      caption,
+      selectable,
+      draggable,
+      columns: columnsArray,
+      onSort,
+      sortKey,
+      sortOrder,
       sticky: stickyHeader,
-      topStickOffset: stickyHeaderOffset
+      topStickOffset: stickyHeaderOffset,
     };
 
     const selectedSize = selection.getSelected().size;
@@ -206,7 +235,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,
-      [style.loading]: loading
+      [style.loading]: loading,
     });
 
     const classes = classNames(this.props.className, {
@@ -214,26 +243,21 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       [style.wideFirstColumn]: this.props.wideFirstColumn,
       [style.multiSelection]: selection.getSelected().size > 0,
       [style.userSelectNone]: this.state.userSelectNone,
-      [style.disabledHover]: this.props.disabledHover
+      [style.disabledHover]: this.props.disabledHover,
     });
 
     const renderList = ({children, props}: Partial<RenderListParams>) => {
       const empty = (
         <tr>
-          <td
-            colSpan={columnsArray.length || 1}
-            className={style.tableMessage}
-          >
+          <td colSpan={columnsArray.length || 1} className={style.tableMessage}>
             {renderEmpty ? renderEmpty() : null}
           </td>
         </tr>
       );
-      const tbody = Array.isArray(children) && children.length > 0
-        ? children
-        : empty;
+      const tbody = Array.isArray(children) && children.length > 0 ? children : empty;
       return (
         <table className={classes} data-test="ring-table">
-          <Header {...headerProps}/>
+          <Header {...headerProps} />
           <tbody {...props} data-test="ring-table-body">
             {tbody}
           </tbody>
@@ -279,43 +303,31 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
         />
       );
 
-      return isDragged
-        ? (
-          <table style={{...props.style}} className={style.draggingTable}>
-            <tbody>{row}</tbody>
-          </table>
-        )
-        : row;
+      return isDragged ? (
+        <table style={{...props.style}} className={style.draggingTable}>
+          <tbody>{row}</tbody>
+        </table>
+      ) : (
+        row
+      );
     };
 
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper" ref={this.props.innerRef}>
-        {focused &&
-          (
-            <Shortcuts
-              map={this.props.shortcutsMap}
-              scope={this.state.shortcutsScope}
-            />
-          )
-        }
+        {focused && <Shortcuts map={this.props.shortcutsMap} scope={this.state.shortcutsScope} />}
 
         {/* Handler detects that user holds Shift key */}
         <div role="presentation" onMouseDown={this.onMouseDown}>
-          {draggable
-            ? (
-              <List
-                values={data as T[]}
-                renderList={renderList}
-                renderItem={renderItem}
-                onChange={this.onSortEnd}
-              />
-            )
-            : renderList({children: data.map((value, index) => renderItem({value, index}))})}
+          {draggable ? (
+            <List values={data as T[]} renderList={renderList} renderItem={renderItem} onChange={this.onSortEnd} />
+          ) : (
+            renderList({children: data.map((value, index) => renderItem({value, index}))})
+          )}
         </div>
 
         {loading && (
           <div className={style.loadingOverlay}>
-            <Loader className={loaderClassName}/>
+            <Loader className={loaderClassName} />
           </div>
         )}
       </div>
@@ -326,10 +338,13 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 const getContainer = <T extends SelectionItem>() =>
   disableHoverHOC(
     selectionShortcutsHOC<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>(
-      focusSensorHOC<HTMLTableRowElement, TableProps<T>, typeof Table>(Table)));
+      focusSensorHOC<HTMLTableRowElement, TableProps<T>, typeof Table>(Table),
+    ),
+  );
 
-export type TableAttrs<T extends SelectionItem> = DisableHoverProps<SelectionShortcutsProps<T,
-  FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>>
+export type TableAttrs<T extends SelectionItem> = DisableHoverProps<
+  SelectionShortcutsProps<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>
+>;
 
 // eslint-disable-next-line react/no-multi-comp
 export default class TableContainer<T extends SelectionItem> extends Component<TableAttrs<T>> {
@@ -337,6 +352,6 @@ export default class TableContainer<T extends SelectionItem> extends Component<T
   Table = getContainer<T>();
 
   render() {
-    return <this.Table {...this.props}/>;
+    return <this.Table {...this.props} />;
   }
 }

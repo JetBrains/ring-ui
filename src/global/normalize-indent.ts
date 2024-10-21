@@ -22,13 +22,9 @@ export default function normalizeIndent(string: string) {
     }
   }
 
-  const indents = lines.
-    filter(line => nonemptyRE.test(line)).
-    map(line => line.match(indentRE)?.[0].length ?? 0);
+  const indents = lines.filter(line => nonemptyRE.test(line)).map(line => line.match(indentRE)?.[0].length ?? 0);
 
   const minIndent = Math.min(...indents);
 
-  return lines.
-    map(line => line.slice(minIndent)).
-    join('\n');
+  return lines.map(line => line.slice(minIndent)).join('\n');
 }

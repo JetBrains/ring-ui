@@ -13,7 +13,7 @@ const normalizeKey: Record<string, string> = {
   Menu: 'ContextMenu',
   Apps: 'ContextMenu',
   Scroll: 'ScrollLock',
-  MozPrintableKey: 'Unidentified'
+  MozPrintableKey: 'Unidentified',
 };
 
 const translateToKey: Record<number, string> = {
@@ -52,7 +52,7 @@ const translateToKey: Record<number, string> = {
   123: 'F12',
   144: 'NumLock',
   145: 'ScrollLock',
-  224: 'Meta'
+  224: 'Meta',
 };
 
 const ENTER = 13;
@@ -81,7 +81,6 @@ function getEventCharCode(nativeEvent: KeyboardEvent | React.KeyboardEvent) {
   }
   return 0;
 }
-
 
 export default function getEventKey(nativeEvent: KeyboardEvent | React.KeyboardEvent) {
   if (nativeEvent.key) {

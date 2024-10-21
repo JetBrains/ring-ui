@@ -2,7 +2,6 @@ import {useState, useCallback} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import warningIcon from '@jetbrains/icons/warning';
 
-
 import classNames from 'classnames';
 
 import Button from '../button/button';
@@ -36,8 +35,8 @@ export default {
           color: var(--ring-text-color);
         }
       </style>
-    `
-  }
+    `,
+  },
 };
 
 export const Basic = () => {
@@ -72,50 +71,60 @@ export const AutoCollapseDemo = () => {
     {
       id: 'first',
       title: 'First tab',
-      content: 'First tab content'
+      content: 'First tab content',
     },
     {
       id: 'second',
       title: 'Second tab',
-      content: 'Second tab content'
+      content: 'Second tab content',
     },
     {
       id: 'third',
       title: 'Third tab',
-      content: 'Third tab content'
+      content: 'Third tab content',
     },
     {
       id: 'fourth',
       title: 'Fourth tab (Link)',
       href: '/',
-      content: 'Fourth tab content'
+      content: 'Fourth tab content',
     },
     {
       id: 'disabled1',
       title: 'Disabled tab',
       content: 'Disabled tab content',
-      disabled: true
+      disabled: true,
     },
     {
       id: 'fifth',
       title: 'Fifth tab (Always hidden)',
       alwaysHidden: true,
       href: '/',
-      content: 'Hidden tab content'
+      content: 'Hidden tab content',
     },
     {
       id: 'custom',
       alwaysHidden: true,
       custom: true,
-      content: <Button text style={{padding: 0}}>Custom Item</Button>
-    }
+      content: (
+        <Button text style={{padding: 0}}>
+          Custom Item
+        </Button>
+      ),
+    },
   ];
-  const [tabs, setTabs] = useState(autocollapseData.map(item => {
-    const {content, ...tabProps} = item;
-    const Host = item.custom === true ? CustomItem : Tab;
+  const [tabs, setTabs] = useState(
+    autocollapseData.map(item => {
+      const {content, ...tabProps} = item;
+      const Host = item.custom === true ? CustomItem : Tab;
 
-    return <Host key={item.id} {...tabProps}>{content}</Host>;
-  }));
+      return (
+        <Host key={item.id} {...tabProps}>
+          {content}
+        </Host>
+      );
+    }),
+  );
 
   const addTab = useCallback(() => {
     setTabs(state => {
@@ -127,10 +136,7 @@ export const AutoCollapseDemo = () => {
         >{`Example ${state.length + 1} tab content`}</Tab>
       );
 
-      return [
-        ...state,
-        newTab
-      ];
+      return [...state, newTab];
     });
   }, []);
 
@@ -140,13 +146,10 @@ export const AutoCollapseDemo = () => {
 
   return (
     <>
-      <Button onClick={addTab} title={'Add tab'} style={{margin: '10px 0'}}>{'Add tab'}</Button>
-      <Tabs
-        selected={selected}
-        onSelect={selectHandler}
-        autoCollapse
-        initialVisibleItems={3}
-      >
+      <Button onClick={addTab} title={'Add tab'} style={{margin: '10px 0'}}>
+        {'Add tab'}
+      </Button>
+      <Tabs selected={selected} onSelect={selectHandler} autoCollapse initialVisibleItems={3}>
         {tabs}
       </Tabs>
     </>
@@ -174,15 +177,31 @@ export const customTitles = () => (
   <SmartTabs>
     <Tab
       className="tab"
-      title={<>First tab<span className="info">10</span></>}
-    >First tab content</Tab>
+      title={
+        <>
+          First tab<span className="info">10</span>
+        </>
+      }
+    >
+      First tab content
+    </Tab>
     <Tab
       className="tab"
-      title={<>Second tab<span className="info">Help text</span></>}
-    >Second tab content</Tab>
+      title={
+        <>
+          Second tab<span className="info">Help text</span>
+        </>
+      }
+    >
+      Second tab content
+    </Tab>
     <Tab
       className="tab"
-      title={<>Third tab (Link)<span className="info">10</span></>}
+      title={
+        <>
+          Third tab (Link)<span className="info">10</span>
+        </>
+      }
       href="/"
     >
       Third tab content
@@ -200,7 +219,7 @@ export const customTitlesFunction = () => (
       className="tab"
       title={isSelected => (
         <span className={classNames({selected: isSelected})}>
-          <Icon glyph={searchIcon} className="icon"/>
+          <Icon glyph={searchIcon} className="icon" />
           {'First tab'}
         </span>
       )}
@@ -211,7 +230,7 @@ export const customTitlesFunction = () => (
       className="tab"
       title={isSelected => (
         <span className={classNames({selected: isSelected})}>
-          <Icon glyph={warningIcon} className="icon"/>
+          <Icon glyph={warningIcon} className="icon" />
           {'Second tab (Link)'}
         </span>
       )}

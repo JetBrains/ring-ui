@@ -3,9 +3,7 @@ import classNames from 'classnames';
 
 import styles from './header.css';
 
-const wrapChild = (child: ReactNode) => child && (
-  <div className={styles.trayItem}>{child}</div>
-);
+const wrapChild = (child: ReactNode) => child && <div className={styles.trayItem}>{child}</div>;
 
 export default class Tray extends Component<HTMLAttributes<HTMLElement>> {
   render() {
@@ -13,10 +11,7 @@ export default class Tray extends Component<HTMLAttributes<HTMLElement>> {
     const classes = classNames(styles.tray, className);
 
     return (
-      <div
-        {...restProps}
-        className={classes}
-      >
+      <div {...restProps} className={classes}>
         {Children.map(children, wrapChild)}
       </div>
     );

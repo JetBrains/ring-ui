@@ -38,7 +38,7 @@ import Auth from './auth__core';
 Auth.DEFAULT_CONFIG = {
   ...Auth.DEFAULT_CONFIG,
   EmbeddedLoginFlow: WindowFlow,
-  onBackendDown: defaultOnBackendDown
+  onBackendDown: defaultOnBackendDown,
 };
 
 export * from './auth__core';

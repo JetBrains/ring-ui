@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import styles from './list.css';
 
 export interface ListHintProps {
-  label: ReactNode
+  label: ReactNode;
 }
 
 /**
@@ -14,10 +14,9 @@ export interface ListHintProps {
 export default class ListHint extends PureComponent<ListHintProps> {
   render() {
     return (
-      <span
-        className={classnames(styles.item, styles.hint)}
-        data-test="ring-list-hint"
-      >{this.props.label}</span>
+      <span className={classnames(styles.item, styles.hint)} data-test="ring-list-hint">
+        {this.props.label}
+      </span>
     );
   }
 }

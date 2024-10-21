@@ -5,14 +5,12 @@ import Link, {LinkProps} from '../link/link';
 import styles from './tabs.css';
 
 export interface TabLinkProps extends Omit<LinkProps, 'title' | 'children'> {
-  isSelected: boolean
-  collapsed?: boolean
-  title: ReactNode | ((isSelected: boolean, collapsed: boolean | undefined) => ReactNode)
+  isSelected: boolean;
+  collapsed?: boolean;
+  title: ReactNode | ((isSelected: boolean, collapsed: boolean | undefined) => ReactNode);
 }
 function TabLink({isSelected, title, collapsed, ...restProps}: TabLinkProps) {
-  const renderedTitle = typeof title === 'function'
-    ? title(isSelected, collapsed)
-    : title;
+  const renderedTitle = typeof title === 'function' ? title(isSelected, collapsed) : title;
 
   return (
     <Link {...restProps}>

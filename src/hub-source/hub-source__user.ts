@@ -12,21 +12,15 @@ export function convertUserForCard(hubUser: AuthUser, serverUri = ''): UserCardU
     banReason: hubUser.banReason,
     email: hubUser.profile?.email?.email,
     avatarUrl: hubUser.profile?.avatar?.url,
-    href: `${serverUri}users/${hubUser.id}`
+    href: `${serverUri}users/${hubUser.id}`,
   };
 }
 
-export function createHubUserCardSource(
-  auth: Auth,
-  userId: string | number,
-  fields = DEFAULT_FIELDS
-) {
+export function createHubUserCardSource(auth: Auth, userId: string | number, fields = DEFAULT_FIELDS) {
   const http = new HTTP(auth);
 
   return async function getHubUser() {
-    const hubUser = await http.get<AuthUser>(
-      `${auth.config.serverUri}api/rest/users/${userId}?fields=${fields}`
-    );
+    const hubUser = await http.get<AuthUser>(`${auth.config.serverUri}api/rest/users/${userId}?fields=${fields}`);
 
     return convertUserForCard(hubUser, auth.config.serverUri);
   };

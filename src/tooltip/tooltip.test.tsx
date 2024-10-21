@@ -1,6 +1,4 @@
-import {
-  isCompositeComponentWithType
-} from 'react-dom/test-utils';
+import {isCompositeComponentWithType} from 'react-dom/test-utils';
 import {mount} from 'enzyme';
 
 import Popup from '../popup/popup';
@@ -11,10 +9,9 @@ describe('Tooltip', () => {
   const defaultProps: TooltipAttrs = {
     title: 'test tooltip',
     className: 'test-class',
-    children: 'test elem'
+    children: 'test elem',
   };
-  const mountTooltip = (props?: TooltipAttrs) =>
-    mount<Tooltip>(<Tooltip {...defaultProps} {...props}/>);
+  const mountTooltip = (props?: TooltipAttrs) => mount<Tooltip>(<Tooltip {...defaultProps} {...props} />);
 
   it('should create component', () => {
     mountTooltip().should.have.type(Tooltip);
@@ -30,7 +27,7 @@ describe('Tooltip', () => {
     it('should wrap children', () => {
       const wrapper = mountTooltip({
         title: 'test tooltip',
-        children: <span>{'test span'}</span>
+        children: <span>{'test span'}</span>,
       });
 
       wrapper.should.have.tagName('span');
@@ -54,7 +51,7 @@ describe('Tooltip', () => {
       const bindEvents = sandbox.spy(wrapper.getDOMNode(), 'removeEventListener');
 
       wrapper.setProps({
-        title: ''
+        title: '',
       });
 
       bindEvents.should.have.been.calledTwice;
@@ -70,7 +67,7 @@ describe('Tooltip', () => {
 
     it('should not render popup when empty title is provided', () => {
       const wrapper = mountTooltip({
-        title: ''
+        title: '',
       });
       const instance = wrapper.instance();
 
@@ -81,14 +78,13 @@ describe('Tooltip', () => {
     it('should render with delay when provided', () => {
       const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
       const wrapper = mountTooltip({
-        delay: 100
+        delay: 100,
       });
       const instance = wrapper.instance();
 
       instance.tryToShowPopup();
 
       instance.popup!.isVisible().should.be.false;
-
 
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
       clock.tick(200);
@@ -98,8 +94,8 @@ describe('Tooltip', () => {
     it('should pass custom props to popup', () => {
       const wrapper = mountTooltip({
         popupProps: {
-          className: 'tooltip-test-popup'
-        }
+          className: 'tooltip-test-popup',
+        },
       });
       const instance = wrapper.instance();
 

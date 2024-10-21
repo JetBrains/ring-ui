@@ -8,7 +8,7 @@ import {
   ReactNode,
   Ref,
   RefCallback,
-  SyntheticEvent
+  SyntheticEvent,
 } from 'react';
 
 import * as React from 'react';
@@ -46,7 +46,6 @@ import inputStyles from '../input/input.css';
 import SelectPopup, {Filter, FilterFn, Multiple, Tags} from './select__popup';
 import styles from './select.css';
 
-
 /**
  * @name Select
  */
@@ -61,24 +60,24 @@ export enum Type {
   INPUT = 'INPUT',
   CUSTOM = 'CUSTOM',
   INLINE = 'INLINE',
-  INPUT_WITHOUT_CONTROLS = 'INPUT_WITHOUT_CONTROLS'
+  INPUT_WITHOUT_CONTROLS = 'INPUT_WITHOUT_CONTROLS',
 }
 
 const ICONS_OFFSET = 5;
 const ICON_WIDTH = 20;
 const getStyle = memoize((iconsLength: number) => ({
-  paddingRight: ICONS_OFFSET + iconsLength * ICON_WIDTH
+  paddingRight: ICONS_OFFSET + iconsLength * ICON_WIDTH,
 }));
 
 const isInputMode = (type: Type) => type === Type.INPUT || type === Type.INPUT_WITHOUT_CONTROLS;
 
 type SelectItemData<T> = T & {
-  key: string | number
-  isResetItem?: boolean | null | undefined
-  separator?: boolean | null | undefined
-}
+  key: string | number;
+  isResetItem?: boolean | null | undefined;
+  separator?: boolean | null | undefined;
+};
 
-export type SelectItem<T = unknown> = ListDataItem<SelectItemData<T>>
+export type SelectItem<T = unknown> = ListDataItem<SelectItemData<T>>;
 
 function getLowerCaseLabel<T>(item: SelectItem<T>) {
   if (
@@ -110,16 +109,12 @@ function getFilterFn<T>(filter: Filter<T> | boolean): FilterFn<T> {
 
     if (filter.fuzzy) {
       return (itemToCheck, checkString) =>
-        doesLabelMatch(itemToCheck, lowerCaseLabel =>
-          fuzzyHighlight(checkString, lowerCaseLabel).matched
-        );
+        doesLabelMatch(itemToCheck, lowerCaseLabel => fuzzyHighlight(checkString, lowerCaseLabel).matched);
     }
   }
 
   return (itemToCheck, checkString) =>
-    doesLabelMatch(itemToCheck, lowerCaseLabel =>
-      lowerCaseLabel.indexOf(checkString) >= 0
-    );
+    doesLabelMatch(itemToCheck, lowerCaseLabel => lowerCaseLabel.indexOf(checkString) >= 0);
 }
 
 function buildMultipleMap<T>(selected: SelectItem<T>[]) {
@@ -130,144 +125,149 @@ function buildMultipleMap<T>(selected: SelectItem<T>[]) {
 }
 
 export interface Add {
-  alwaysVisible?: boolean | null | undefined
-  regexp?: RegExp | null | undefined
-  minlength?: number | null | undefined
-  label?: ((filterString: string) => string) | string | null | undefined
-  prefix?: string | null | undefined
-  delayed?: boolean | null | undefined
+  alwaysVisible?: boolean | null | undefined;
+  regexp?: RegExp | null | undefined;
+  minlength?: number | null | undefined;
+  label?: ((filterString: string) => string) | string | null | undefined;
+  prefix?: string | null | undefined;
+  delayed?: boolean | null | undefined;
 }
 
 export interface DataTestProps {
-  'data-test'?: string | null | undefined
+  'data-test'?: string | null | undefined;
 }
 
 export interface CustomAnchorProps {
-  wrapperProps: HTMLAttributes<HTMLElement> & DataTestProps & {ref: RefCallback<HTMLElement>}
-  buttonProps: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'id' | 'disabled' | 'children'> &
-    {onClick: () => void} &
-    DataTestProps,
-  popup: ReactNode
+  wrapperProps: HTMLAttributes<HTMLElement> & DataTestProps & {ref: RefCallback<HTMLElement>};
+  buttonProps: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'id' | 'disabled' | 'children'> & {
+    onClick: () => void;
+  } & DataTestProps;
+  popup: ReactNode;
 }
 
-export type CustomAnchor = ((props: CustomAnchorProps) => ReactNode);
+export type CustomAnchor = (props: CustomAnchorProps) => ReactNode;
 
 export interface BaseSelectProps<T = unknown> {
-  data: readonly SelectItem<T>[]
-  filter: boolean | Filter<T>
-  filterIcon?: string | ComponentType | null | undefined
-  filterRef?: Ref<HTMLInputElement>
-  clear: boolean
-  loading: boolean
-  disabled: boolean
-  loadingMessage?: string
-  notFoundMessage?: string
-  type: Type
-  size: Size
-  hideSelected: boolean
-  allowAny: boolean
-  maxHeight: number
-  hideArrow: boolean
-  showPopup: boolean
-  directions: readonly Directions[]
-  label: string | null
-  selectedLabel: ReactNode
-  labelType?: LabelType
-  inputPlaceholder: string
-  shortcutsEnabled: boolean
-  tryKeepOpen?: boolean
-  onBeforeOpen: () => void
-  onLoadMore: () => void
-  onOpen: () => void
-  onFilter: (value: string) => void
-  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void
-  onBlur: () => void
-  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
-  onSelect: (selected: SelectItem<T> | null, event?: Event | SyntheticEvent) => void
-  onDeselect: (selected: SelectItem<T> | null) => void
-  onOutsideClick: (e: PointerEvent) => void
-  onAdd: (value: string) => void
-  onDone: () => void
-  onReset: () => void
-  dir: 'ltr' | 'rtl'
-  renderBottomToolbar?: () => ReactNode
-  renderTopToolbar?: () => ReactNode
-  height?: ControlsHeight | undefined
-  targetElement?: HTMLElement | null | undefined
-  className?: string | null | undefined
-  buttonClassName?: string | null | undefined
-  id?: string | undefined
-  getInitial?: (() => string) | null | undefined
-  minWidth?: number | undefined
-  popupClassName?: string | null | undefined
-  popupStyle?: CSSProperties | undefined
-  top?: number | undefined
-  left?: number | undefined
-  offset?: number | undefined
-  renderOptimization?: boolean | undefined
-  ringPopupTarget?: string | null | undefined
-  preventListOverscroll?: boolean | undefined
-  error?: ReactNode | null | undefined
-  hint?: ReactNode
-  add?: Add | null | undefined
-  compact?: boolean | null | undefined
-  customAnchor?: CustomAnchor | null | undefined
-  disableMoveOverflow?: boolean | null | undefined
-  disableScrollToActive?: boolean | null | undefined
-  'data-test'?: string | null | undefined
+  data: readonly SelectItem<T>[];
+  filter: boolean | Filter<T>;
+  filterIcon?: string | ComponentType | null | undefined;
+  filterRef?: Ref<HTMLInputElement>;
+  clear: boolean;
+  loading: boolean;
+  disabled: boolean;
+  loadingMessage?: string;
+  notFoundMessage?: string;
+  type: Type;
+  size: Size;
+  hideSelected: boolean;
+  allowAny: boolean;
+  maxHeight: number;
+  hideArrow: boolean;
+  showPopup: boolean;
+  directions: readonly Directions[];
+  label: string | null;
+  selectedLabel: ReactNode;
+  labelType?: LabelType;
+  inputPlaceholder: string;
+  shortcutsEnabled: boolean;
+  tryKeepOpen?: boolean;
+  onBeforeOpen: () => void;
+  onLoadMore: () => void;
+  onOpen: () => void;
+  onFilter: (value: string) => void;
+  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
+  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onSelect: (selected: SelectItem<T> | null, event?: Event | SyntheticEvent) => void;
+  onDeselect: (selected: SelectItem<T> | null) => void;
+  onOutsideClick: (e: PointerEvent) => void;
+  onAdd: (value: string) => void;
+  onDone: () => void;
+  onReset: () => void;
+  dir: 'ltr' | 'rtl';
+  renderBottomToolbar?: () => ReactNode;
+  renderTopToolbar?: () => ReactNode;
+  height?: ControlsHeight | undefined;
+  targetElement?: HTMLElement | null | undefined;
+  className?: string | null | undefined;
+  buttonClassName?: string | null | undefined;
+  id?: string | undefined;
+  getInitial?: (() => string) | null | undefined;
+  minWidth?: number | undefined;
+  popupClassName?: string | null | undefined;
+  popupStyle?: CSSProperties | undefined;
+  top?: number | undefined;
+  left?: number | undefined;
+  offset?: number | undefined;
+  renderOptimization?: boolean | undefined;
+  ringPopupTarget?: string | null | undefined;
+  preventListOverscroll?: boolean | undefined;
+  error?: ReactNode | null | undefined;
+  hint?: ReactNode;
+  add?: Add | null | undefined;
+  compact?: boolean | null | undefined;
+  customAnchor?: CustomAnchor | null | undefined;
+  disableMoveOverflow?: boolean | null | undefined;
+  disableScrollToActive?: boolean | null | undefined;
+  'data-test'?: string | null | undefined;
 }
 
 export interface SingleSelectProps<T = unknown> extends BaseSelectProps<T> {
-  multiple: false
-  onClose: (selected: SelectItem<T> | null) => void
-  onChange: (selected: SelectItem<T> | null, event?: Event | SyntheticEvent) => void
-  selected?: SelectItem<T> | null | undefined
-  tags?: null | undefined
+  multiple: false;
+  onClose: (selected: SelectItem<T> | null) => void;
+  onChange: (selected: SelectItem<T> | null, event?: Event | SyntheticEvent) => void;
+  selected?: SelectItem<T> | null | undefined;
+  tags?: null | undefined;
 }
 
 export interface MultipleSelectProps<T = unknown> extends BaseSelectProps<T> {
-  multiple: true | Multiple
-  selected: readonly SelectItem<T>[]
-  onClose: (selected: SelectItem<T>[]) => void
-  onChange: (selected: SelectItem<T>[], event?: Event | SyntheticEvent) => void
-  tags?: Tags | boolean | null | undefined
+  multiple: true | Multiple;
+  selected: readonly SelectItem<T>[];
+  onClose: (selected: SelectItem<T>[]) => void;
+  onChange: (selected: SelectItem<T>[], event?: Event | SyntheticEvent) => void;
+  tags?: Tags | boolean | null | undefined;
 }
 
-export type SelectProps<T = unknown> = SingleSelectProps<T> | MultipleSelectProps<T>
+export type SelectProps<T = unknown> = SingleSelectProps<T> | MultipleSelectProps<T>;
 
 interface AddButton {
-  prefix: string | null | undefined
-  label: string
-  delayed: boolean
+  prefix: string | null | undefined;
+  label: string;
+  delayed: boolean;
 }
 
 export interface SelectState<T = unknown> {
-  data: SelectItem<T>[]
-  shownData: SelectItem<T>[]
-  selected: SelectItem<T> | SelectItem<T>[] | null | undefined
-  selectedIndex: number | null
-  filterValue: string
-  shortcutsEnabled: boolean
-  popupShortcuts: boolean
-  showPopup: boolean
-  prevData: readonly SelectItem<T>[]
-  prevSelected: SelectItem<T> | readonly SelectItem<T>[] | null | undefined
-  prevMultiple: Multiple | boolean | null | undefined
-  multipleMap: Record<string, boolean>
-  addButton: AddButton | null
-  focused?: boolean
+  data: SelectItem<T>[];
+  shownData: SelectItem<T>[];
+  selected: SelectItem<T> | SelectItem<T>[] | null | undefined;
+  selectedIndex: number | null;
+  filterValue: string;
+  shortcutsEnabled: boolean;
+  popupShortcuts: boolean;
+  showPopup: boolean;
+  prevData: readonly SelectItem<T>[];
+  prevSelected: SelectItem<T> | readonly SelectItem<T>[] | null | undefined;
+  prevMultiple: Multiple | boolean | null | undefined;
+  multipleMap: Record<string, boolean>;
+  addButton: AddButton | null;
+  focused?: boolean;
 }
 
 function getListItems<T = unknown>(
   props: SelectProps<T>,
   state: Partial<SelectState<T>>,
   rawFilterString: string,
-  data = props.data
+  data = props.data,
 ) {
   let filterString = rawFilterString.trim();
 
-  if (isInputMode(props.type) && !props.allowAny && state.selected &&
-    !Array.isArray(state.selected) && filterString === state.selected.label) {
+  if (
+    isInputMode(props.type) &&
+    !props.allowAny &&
+    state.selected &&
+    !Array.isArray(state.selected) &&
+    filterString === state.selected.label
+  ) {
     filterString = ''; // ignore multiple if it is exactly the selected item
   }
   const lowerCaseString = filterString.toLowerCase();
@@ -280,10 +280,9 @@ function getListItems<T = unknown>(
   for (let i = 0; i < data.length; i++) {
     const item = {...data[i]};
     if (check(item, lowerCaseString, data)) {
-      exactMatch = (item.label === filterString);
+      exactMatch = item.label === filterString;
 
-      if (props.multiple &&
-        !(typeof props.multiple === 'object' && props.multiple.removeSelectedItems)) {
+      if (props.multiple && !(typeof props.multiple === 'object' && props.multiple.removeSelectedItems)) {
         item.checkbox = !!state.multipleMap?.[item.key];
       }
 
@@ -293,16 +292,19 @@ function getListItems<T = unknown>(
         props.multiple.limit &&
         Array.isArray(state.selected)
       ) {
-        item.disabled = props.multiple.limit === state.selected.length &&
+        item.disabled =
+          props.multiple.limit === state.selected.length &&
           !state.selected.find(selectedItem => selectedItem.key === item.key);
       }
 
       // Ignore item if it's multiple and is already selected
       if (
-        !(props.multiple &&
+        !(
+          props.multiple &&
           typeof props.multiple === 'object' &&
           props.multiple.removeSelectedItems &&
-          state.multipleMap?.[item.key])
+          state.multipleMap?.[item.key]
+        )
       ) {
         filteredData.push(item);
       }
@@ -311,20 +313,15 @@ function getListItems<T = unknown>(
 
   let addButton = null;
   const {add} = props;
-  if (
-    (add && filterString && !exactMatch) ||
-    (add && add.alwaysVisible)
-  ) {
+  if ((add && filterString && !exactMatch) || (add && add.alwaysVisible)) {
     if (
-      !(add.regexp && !add.regexp.test(filterString)) &&
-      !(add.minlength && filterString.length < +add.minlength) ||
+      (!(add.regexp && !add.regexp.test(filterString)) && !(add.minlength && filterString.length < +add.minlength)) ||
       add.alwaysVisible
     ) {
       let label;
 
       if (add.label) {
-        label = (typeof add.label === 'function') ? add.label(filterString) : add.label;
-
+        label = typeof add.label === 'function' ? add.label(filterString) : add.label;
       } else {
         label = filterString;
       }
@@ -332,7 +329,7 @@ function getListItems<T = unknown>(
       addButton = {
         prefix: add.prefix,
         label,
-        delayed: add.delayed ?? true
+        delayed: add.delayed ?? true,
       };
     }
   }
@@ -342,7 +339,7 @@ function getListItems<T = unknown>(
 
 function getSelectedIndex<T>(
   selected: SelectItem<T> | readonly SelectItem<T>[] | null | undefined,
-  data: readonly SelectItem<T>[]
+  data: readonly SelectItem<T>[],
 ) {
   const firstSelected = Array.isArray(selected) ? selected[0] : selected;
   if (firstSelected == null) {
@@ -364,20 +361,18 @@ function getSelectedIndex<T>(
   return null;
 }
 
-const getItemLabel = <T, >({selectedLabel, label}: SelectItem<T>): string => {
+const getItemLabel = <T,>({selectedLabel, label}: SelectItem<T>): string => {
   if (selectedLabel != null) {
     return selectedLabel;
   }
   return typeof label === 'string' ? label : '';
 };
 
-const getValueForFilter = <T, >(
+const getValueForFilter = <T,>(
   selected: SelectItem<T> | readonly SelectItem<T>[] | null | undefined,
   type: Type,
-  filterValue: string
-): string => (selected && !isArray(selected) && isInputMode(type)
-    ? getItemLabel(selected)
-    : filterValue);
+  filterValue: string,
+): string => (selected && !isArray(selected) && isInputMode(type) ? getItemLabel(selected) : filterValue);
 
 function isSameSelected<T>(prevSelected: SelectItem<T>[], selected: SelectItem<T>[]) {
   if (!prevSelected || !selected || prevSelected.length !== selected.length) {
@@ -423,7 +418,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       Popup.PopupProps.Directions.BOTTOM_RIGHT,
       Popup.PopupProps.Directions.BOTTOM_LEFT,
       Popup.PopupProps.Directions.TOP_LEFT,
-      Popup.PopupProps.Directions.TOP_RIGHT
+      Popup.PopupProps.Directions.TOP_RIGHT,
     ],
 
     selected: null, // current selection (item / array of items)
@@ -457,19 +452,16 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     tags: null,
     ringPopupTarget: null,
     dir: 'ltr',
-    offset: 4
+    offset: 4,
   };
 
-  static getDerivedStateFromProps<T = unknown>(
-    nextProps: SelectProps<T>,
-    prevState: SelectState<T>
-  ) {
+  static getDerivedStateFromProps<T = unknown>(nextProps: SelectProps<T>, prevState: SelectState<T>) {
     const {multiple, data, type} = nextProps;
     const {prevSelected, prevData, prevMultiple, filterValue} = prevState;
     const nextState: Partial<SelectState<T>> = {
       prevData: data,
       prevSelected: nextProps.selected,
-      prevMultiple: multiple
+      prevMultiple: multiple,
     };
 
     if ('data' in nextProps && data !== prevData) {
@@ -478,11 +470,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
       if (prevState.selected) {
         Object.assign(nextState, {
-          selectedIndex: getSelectedIndex(
-            prevState.selected,
-            data,
-          ),
-          filterValue: getValueForFilter(prevState.selected, type, filterValue)
+          selectedIndex: getSelectedIndex(prevState.selected, data),
+          filterValue: getValueForFilter(prevState.selected, type, filterValue),
         });
       }
     }
@@ -490,18 +479,14 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if ('selected' in nextProps && nextProps.selected !== prevSelected) {
       const selected = nextProps.selected || (multiple ? [] : null);
 
-      const selectedIndex = getSelectedIndex(
-        selected,
-        data || prevData,
-      );
+      const selectedIndex = getSelectedIndex(selected, data || prevData);
 
       Object.assign(nextState, {
         selected,
-        filterValue: getValueForFilter(selected, type, filterValue)
+        filterValue: getValueForFilter(selected, type, filterValue),
       });
 
-      if (!Array.isArray(prevSelected) || !Array.isArray(selected) ||
-        !isSameSelected(prevSelected, selected)) {
+      if (!Array.isArray(prevSelected) || !Array.isArray(selected) || !isSameSelected(prevSelected, selected)) {
         Object.assign(nextState, {selectedIndex});
       }
     }
@@ -527,10 +512,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   state: SelectState<T> = {
     data: [],
     shownData: [],
-    selected: (this.props.multiple ? [] : null),
+    selected: this.props.multiple ? [] : null,
     selectedIndex: null,
-    filterValue: this.props.filter && typeof this.props.filter === 'object' &&
-      this.props.filter.value || '',
+    filterValue: (this.props.filter && typeof this.props.filter === 'object' && this.props.filter.value) || '',
     shortcutsEnabled: false,
     popupShortcuts: false,
     showPopup: this.props.showPopup,
@@ -538,7 +522,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     prevSelected: null,
     prevMultiple: this.props.multiple,
     multipleMap: {},
-    addButton: null
+    addButton: null,
   };
 
   componentDidUpdate(prevProps: SelectProps<T>, prevState: SelectState<T>) {
@@ -568,7 +552,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     this.setState({
       shortcutsEnabled: true,
-      focused: true
+      focused: true,
     });
   };
 
@@ -585,8 +569,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   private _blurHandler = () => {
     this.props.onBlur();
 
-    if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup &&
-      !this.isClickingSelect) {
+    if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup && !this.isClickingSelect) {
       window.setTimeout(() => {
         this.setState({showPopup: false});
       });
@@ -595,7 +578,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if (!this._popup?.isClickingPopup) {
       this.setState({
         shortcutsEnabled: false,
-        focused: false
+        focused: false,
       });
     }
   };
@@ -614,8 +597,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   };
 
   focus = () => {
-    const focusableSelectExists =
-      this.node?.querySelector<HTMLElement>('[data-test~=ring-select__focus]');
+    const focusableSelectExists = this.node?.querySelector<HTMLElement>('[data-test~=ring-select__focus]');
     const restoreFocusNode = this.props.targetElement || focusableSelectExists;
     restoreFocusNode?.focus();
   };
@@ -643,16 +625,19 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     const selected = {
       key: Math.random(),
-      label: this.props.getInitial()
+      label: this.props.getInitial(),
     } as SelectItem<T>;
 
-    this.setState({
-      selected,
-      filterValue: this.getValueForFilter(selected)
-    }, () => {
-      (this.props.onChange as (s: typeof selected, e?: Event) => void)(selected, event);
-      this.props.onReset();
-    });
+    this.setState(
+      {
+        selected,
+        filterValue: this.getValueForFilter(selected),
+      },
+      () => {
+        (this.props.onChange as (s: typeof selected, e?: Event) => void)(selected, event);
+        this.props.onReset();
+      },
+    );
 
     return undefined;
   };
@@ -669,7 +654,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
   _getSelectedIndex(
     selected: SelectItem<T> | readonly SelectItem<T>[] | null | undefined,
-    data: readonly SelectItem<T>[]
+    data: readonly SelectItem<T>[],
   ) {
     return getSelectedIndex(selected, data);
   }
@@ -680,9 +665,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
   _getResetOption(): SelectItem<T> | null {
     const isOptionsSelected = Array.isArray(this.state.selected) && this.state.selected.length;
-    const reset = this.props.tags && typeof this.props.tags === 'object'
-      ? this.props.tags.reset
-      : null;
+    const reset = this.props.tags && typeof this.props.tags === 'object' ? this.props.tags.reset : null;
     if (!isOptionsSelected || !reset) {
       return null;
     }
@@ -693,7 +676,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       this.props.onFilter('');
       this.setState(prevState => ({
         shownData: prevState.shownData.slice(reset.separator ? 2 : 1),
-        multipleMap: {}
+        multipleMap: {},
       }));
       this._redrawPopup();
     };
@@ -704,17 +687,12 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       key: reset.label,
       rgItemType: List.ListProps.Type.CUSTOM,
       template: (
-        <Button
-          text
-          className={styles.button}
-          data-test="ring-select-reset-tags-button"
-          height={ControlsHeight.S}
-        >
+        <Button text className={styles.button} data-test="ring-select-reset-tags-button" height={ControlsHeight.S}>
           {reset.label}
         </Button>
       ),
       glyph: reset.glyph,
-      onClick: resetHandler
+      onClick: resetHandler,
     } as SelectItem<T>;
   }
 
@@ -724,7 +702,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       const resetItems = [resetOption];
       if (resetOption.separator) {
         resetItems.push({
-          rgItemType: List.ListProps.Type.SEPARATOR
+          rgItemType: List.ListProps.Type.SEPARATOR,
         } as SelectItem<T>);
       }
       return resetItems.concat(shownData);
@@ -806,7 +784,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const shownData = this.getListItems(this.filterValue());
     this.setState({
       showPopup: true,
-      shownData
+      shownData,
     });
   };
 
@@ -814,7 +792,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if (this.node && this.state.showPopup) {
       this.setState(prevState => ({
         showPopup: false,
-        filterValue: this.props.allowAny ? prevState.filterValue : ''
+        filterValue: this.props.allowAny ? prevState.filterValue : '',
       }));
 
       if (tryFocusAnchor) {
@@ -840,7 +818,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     return (
       <div
         className={classNames({
-          [styles.toolbar]: Boolean(this.state.addButton || renderBottomToolbar)
+          [styles.toolbar]: Boolean(this.state.addButton || renderBottomToolbar),
         })}
         data-test="ring-select-toolbar"
       >
@@ -856,12 +834,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             {prefix ? `${prefix} ${label}` : label}
           </Button>
         )}
-        {hint && (
-          <List.ListHint
-            label={hint}
-            data-test="ring-select-toolbar-hint"
-          />
-        )}
+        {hint && <List.ListHint label={hint} data-test="ring-select-toolbar-hint" />}
       </div>
     );
   }
@@ -884,8 +857,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     return filteredData;
   }
 
-  filterValue(): string
-  filterValue(setValue: string): void
+  filterValue(): string;
+  filterValue(setValue: string): void;
   filterValue(setValue?: string) {
     if (typeof setValue === 'string' || typeof setValue === 'number') {
       this.setState({filterValue: setValue});
@@ -936,18 +909,18 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if (this.props.allowAny) {
       const fakeSelected = {
         key: Math.random(),
-        label: filterValue
+        label: filterValue,
       } as SelectItem<T>;
-      this.setState({
-        selected: filterValue === '' ? null : fakeSelected,
-        selectedIndex: null
-      }, () => {
-        this.props.onSelect(fakeSelected, event);
-        (this.props.onChange as (selected: SelectItem<T>, event?: SyntheticEvent) => void)(
-          fakeSelected,
-          event
-        );
-      });
+      this.setState(
+        {
+          selected: filterValue === '' ? null : fakeSelected,
+          selectedIndex: null,
+        },
+        () => {
+          this.props.onSelect(fakeSelected, event);
+          (this.props.onChange as (selected: SelectItem<T>, event?: SyntheticEvent) => void)(fakeSelected, event);
+        },
+      );
     }
     if (!this._popup?.isVisible()) {
       this.props.onBeforeOpen();
@@ -966,7 +939,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
   _redrawPopup = () => {
     if (this.props.multiple) {
-      setTimeout(() => { //setTimeout solves events order and bubbling issue
+      setTimeout(() => {
+        //setTimeout solves events order and bubbling issue
         if (this.isInputMode()) {
           this.clearFilter();
         }
@@ -975,11 +949,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
   };
 
-  _listSelectHandler = (
-    selected: SelectItem<T>,
-    event?: Event,
-    opts: SelectHandlerParams = {}
-  ) => {
+  _listSelectHandler = (selected: SelectItem<T>, event?: Event, opts: SelectHandlerParams = {}) => {
     const isItem = (item: SelectItem<T>) => List.isItemType(List.ListProps.Type.ITEM, item);
     const isCustomItem = (item: SelectItem<T>) => List.isItemType(List.ListProps.Type.CUSTOM, item);
     const isSelectItemEvent = event && (event.type === 'select' || event.type === 'keydown');
@@ -987,9 +957,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       event.preventDefault();
     }
 
-    if ((!isItem(selected) && !isCustomItem(selected)) ||
-      selected.disabled ||
-      selected.isResetItem) {
+    if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled || selected.isResetItem) {
       return;
     }
 
@@ -999,18 +967,19 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       if (!tryKeepOpen) {
         this._hidePopup(isSelectItemEvent);
       }
-      this.setState({
-        selected,
-        selectedIndex: this._getSelectedIndex(selected, this.props.data)
-      }, () => {
-        const newFilterValue = this.isInputMode() && !this.props.hideSelected
-          ? getItemLabel(selected)
-          : '';
-        this.filterValue(newFilterValue);
-        this.props.onFilter(newFilterValue);
-        this.props.onSelect(selected, event);
-        (this.props.onChange as (selected: SelectItem<T>, event?: Event) => void)(selected, event);
-      });
+      this.setState(
+        {
+          selected,
+          selectedIndex: this._getSelectedIndex(selected, this.props.data),
+        },
+        () => {
+          const newFilterValue = this.isInputMode() && !this.props.hideSelected ? getItemLabel(selected) : '';
+          this.filterValue(newFilterValue);
+          this.props.onFilter(newFilterValue);
+          this.props.onSelect(selected, event);
+          (this.props.onChange as (selected: SelectItem<T>, event?: Event) => void)(selected, event);
+        },
+      );
     } else {
       if (!tryKeepOpen) {
         this._hidePopup(isSelectItemEvent);
@@ -1019,57 +988,59 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
-      this.setState(prevState => {
-        const currentSelection = prevState.selected as SelectItem<T>[];
-        let nextSelection: SelectItem<T>[];
+      this.setState(
+        prevState => {
+          const currentSelection = prevState.selected as SelectItem<T>[];
+          let nextSelection: SelectItem<T>[];
 
-        if (!prevState.multipleMap[selected.key]) {
-          nextSelection = currentSelection.concat(selected);
-        } else {
-          nextSelection = currentSelection.filter(item => item.key !== selected.key);
-        }
+          if (!prevState.multipleMap[selected.key]) {
+            nextSelection = currentSelection.concat(selected);
+          } else {
+            nextSelection = currentSelection.filter(item => item.key !== selected.key);
+          }
 
-        const nextState: Partial<SelectState<T>> = {
-          filterValue: '',
-          selected: nextSelection,
-          selectedIndex: this._getSelectedIndex(selected, this.props.data)
-        };
+          const nextState: Partial<SelectState<T>> = {
+            filterValue: '',
+            selected: nextSelection,
+            selectedIndex: this._getSelectedIndex(selected, this.props.data),
+          };
 
-        if (
-          typeof this.props.multiple === 'object' && this.props.multiple.limit &&
-          nextSelection.length === this.props.multiple.limit
-        ) {
-          nextState.shownData = prevState.shownData.
-            map(item => (nextSelection.find(selectedItem => selectedItem.key === item.key)
-              ? item
-              : {...item, disabled: true}));
-        }
+          if (
+            typeof this.props.multiple === 'object' &&
+            this.props.multiple.limit &&
+            nextSelection.length === this.props.multiple.limit
+          ) {
+            nextState.shownData = prevState.shownData.map(item =>
+              nextSelection.find(selectedItem => selectedItem.key === item.key) ? item : {...item, disabled: true},
+            );
+          }
 
-        if (!prevState.multipleMap[selected.key]) {
-          nextState.multipleMap = {...prevState.multipleMap, [selected.key]: true};
-        } else {
-          const {[selected.key]: _, ...restMultipleMap} = prevState.multipleMap;
-          nextState.multipleMap = restMultipleMap;
-        }
+          if (!prevState.multipleMap[selected.key]) {
+            nextState.multipleMap = {...prevState.multipleMap, [selected.key]: true};
+          } else {
+            const {[selected.key]: _, ...restMultipleMap} = prevState.multipleMap;
+            nextState.multipleMap = restMultipleMap;
+          }
 
-        return {...prevState, ...nextState};
+          return {...prevState, ...nextState};
+        },
+        () => {
+          if (this.state.multipleMap[selected.key]) {
+            this.props.onSelect?.(selected, event);
+          } else {
+            this.props.onDeselect?.(selected);
+          }
 
-      }, () => {
-        if (this.state.multipleMap[selected.key]) {
-          this.props.onSelect?.(selected, event);
-        } else {
-          this.props.onDeselect?.(selected);
-        }
-
-        (this.props.onChange as (selected: SelectItem<T>[], event?: Event) => void)(
+          (this.props.onChange as (selected: SelectItem<T>[], event?: Event) => void)(
             this.state.selected as SelectItem<T>[],
-            event
-        );
+            event,
+          );
 
-        if (tryKeepOpen) {
-          this._redrawPopup();
-        }
-      });
+          if (tryKeepOpen) {
+            this._redrawPopup();
+          }
+        },
+      );
     }
   };
 
@@ -1082,43 +1053,27 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       let nextSelection: SelectItem<T>[];
 
       if (isSelectAll) {
-        nextSelection = this.props.data.filter(
-          item => (isItem(item) || isCustomItem(item)) &&
-            !item.disabled
-        );
-        nextSelection.
-          filter(
-            item => !(this.props.selected as SelectItem<T>[]).
-              find(selectedItem => item.key === selectedItem.key)
-          ).
-          forEach(item => {
+        nextSelection = this.props.data.filter(item => (isItem(item) || isCustomItem(item)) && !item.disabled);
+        nextSelection
+          .filter(item => !(this.props.selected as SelectItem<T>[]).find(selectedItem => item.key === selectedItem.key))
+          .forEach(item => {
             this.props.onSelect?.(item);
           });
       } else {
         nextSelection = [];
-        currentSelection.
-          forEach(item => {
-            this.props.onDeselect?.(item);
-          });
+        currentSelection.forEach(item => {
+          this.props.onDeselect?.(item);
+        });
       }
 
-      (this.props.onChange as (selected: SelectItem<T>[], event?: Event) => void)(
-        nextSelection,
-        event
-      );
+      (this.props.onChange as (selected: SelectItem<T>[], event?: Event) => void)(nextSelection, event);
 
       return {
         filterValue: '',
         selected: nextSelection,
-        selectedIndex: isSelectAll
-          ? this._getSelectedIndex(
-            nextSelection, this.props.data
-          )
-          : null,
+        selectedIndex: isSelectAll ? this._getSelectedIndex(nextSelection, this.props.data) : null,
         shownData: prevState.shownData.map(item => ({...item, checkbox: isSelectAll})),
-        multipleMap: isSelectAll
-          ? buildMultipleMap(this.props.data.filter(item => !item.disabled))
-          : {}
+        multipleMap: isSelectAll ? buildMultipleMap(this.props.data.filter(item => !item.disabled)) : {},
       };
     }, this._redrawPopup);
   };
@@ -1134,7 +1089,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       }
     }
 
-    const isTagRemoved = this.props.tags && event && event.target &&
+    const isTagRemoved =
+      this.props.tags &&
+      event &&
+      event.target &&
       event.target instanceof Element &&
       event.target.matches('[data-test="ring-tag-remove"]');
 
@@ -1153,25 +1111,29 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
     const empty = this.props.multiple ? [] : null;
 
-    this.setState({
-      selected: empty,
-      selectedIndex: null,
-      filterValue: ''
-    }, () => {
-      if (this.props.onChange) {
-        (this.props.onChange as (
-          selected: SelectItem<T> | SelectItem<T>[] | null,
-          event?: Event | SyntheticEvent
-        ) => void)(empty, event);
-      }
-    });
+    this.setState(
+      {
+        selected: empty,
+        selectedIndex: null,
+        filterValue: '',
+      },
+      () => {
+        if (this.props.onChange) {
+          (
+            this.props.onChange as (
+              selected: SelectItem<T> | SelectItem<T>[] | null,
+              event?: Event | SyntheticEvent,
+            ) => void
+          )(empty, event);
+        }
+      },
+    );
 
     return false;
   };
 
   _selectionIsEmpty() {
-    return (Array.isArray(this.state.selected) && !this.state.selected.length) ||
-      !this.state.selected;
+    return (Array.isArray(this.state.selected) && !this.state.selected.length) || !this.state.selected;
   }
 
   private _getLabel() {
@@ -1213,7 +1175,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           disabled={this.props.disabled}
           onClick={this._clickHandler}
           style={{backgroundImage: `url(${selected.icon})`}}
-        />
+        />,
       );
     }
 
@@ -1228,7 +1190,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           onClick={this.clear}
           height={height}
           icon={closeIcon}
-        />
+        />,
       );
     }
 
@@ -1243,7 +1205,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           disabled={this.props.disabled}
           height={height}
           onClick={this._clickHandler}
-        />
+        />,
       );
     }
 
@@ -1251,14 +1213,16 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   }
 
   private _getAvatar() {
-    return !Array.isArray(this.state.selected) &&
+    return (
+      !Array.isArray(this.state.selected) &&
       (this.state.selected?.avatar || this.state.selected?.showGeneratedAvatar) && (
-      <Avatar
-        className={styles.avatar}
-        url={this.state.selected.avatar}
-        username={this.state.selected.username}
-        size={AvatarSize.Size20}
-      />
+        <Avatar
+          className={styles.avatar}
+          url={this.state.selected.avatar}
+          username={this.state.selected.username}
+          size={AvatarSize.Size20}
+        />
+      )
     );
   }
 
@@ -1279,7 +1243,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       left: noop,
       'shift+up': noop,
       'shift+down': noop,
-      space: noop
+      space: noop,
     };
   }
 
@@ -1287,10 +1251,16 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const dataTest = this.props['data-test'];
     const {selectedLabel} = this.props;
     const {shortcutsEnabled} = this.state;
-    const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, styles[`height${this.props.height || this.context}`], {
-      [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
-      [styles.disabled]: this.props.disabled
-    });
+    const classes = classNames(
+      styles.select,
+      'ring-js-shortcuts',
+      this.props.className,
+      styles[`height${this.props.height || this.context}`],
+      {
+        [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
+        [styles.disabled]: this.props.disabled,
+      },
+    );
 
     let style: CSSProperties | undefined;
     let iconsNode;
@@ -1303,77 +1273,69 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     const ariaProps = this.state.showPopup
       ? {
-        'aria-owns': this.listId,
-        'aria-activedescendant': activeItemId,
-        'aria-label': this.props.label ?? undefined
-      }
+          'aria-owns': this.listId,
+          'aria-activedescendant': activeItemId,
+          'aria-label': this.props.label ?? undefined,
+        }
       : {
-        'aria-label': this.props.label ?? undefined
-      };
+          'aria-label': this.props.label ?? undefined,
+        };
 
     switch (this.props.type) {
       case Type.INPUT_WITHOUT_CONTROLS:
-      case Type.INPUT: return (
-        <>
-          <div
-            ref={this.nodeRef}
-            className={classNames(classes, styles.inputMode)}
-            data-test={dataTests('ring-select', dataTest)}
-            role="presentation" // has interactive elements inside
-            onMouseDown={this.mouseDownHandler}
-            onMouseUp={this.mouseUpHandler}
-          >
-            {shortcutsEnabled && (
-              <Shortcuts
-                map={this.getShortcutsMap()}
-                scope={this.shortcutsScope}
-              />
-            )}
-            <Input
-              {...ariaProps}
-              height={this.props.height}
-              autoComplete="off"
-              id={this.props.id}
-              onClick={this._clickHandler}
-              inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
-              disabled={this.props.disabled}
-              value={this.state.filterValue}
-              borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
-              style={style}
-              size={Size.FULL}
-              onChange={this._filterChangeHandler}
-              onFocus={this._focusHandler}
-              onBlur={this._blurHandler}
-
-              // Input with error style without description
-              error={this.props.error != null ? '' : null}
-              label={this.props.type === Type.INPUT ? this._getLabel() : null}
-              placeholder={this.props.inputPlaceholder}
-              onKeyDown={this.props.onKeyDown}
-              data-test="ring-select__focus"
-              enableShortcuts={shortcutsEnabled
-                ? Object.keys({
-                  ...this.getShortcutsMap(),
-                  ...this._popup?.list?.shortcutsMap
-                })
-                : undefined}
-              icon={this.props.filterIcon}
-              afterInput={iconsNode}
-            />
-            {this._renderPopup()}
-          </div>
-          {this.props.error && (
+      case Type.INPUT:
+        return (
+          <>
             <div
-              className={classNames(
-                inputStyles.errorText,
-                inputStyles[`size${this.props.size}`],
-              )}
+              ref={this.nodeRef}
+              className={classNames(classes, styles.inputMode)}
+              data-test={dataTests('ring-select', dataTest)}
+              role="presentation" // has interactive elements inside
+              onMouseDown={this.mouseDownHandler}
+              onMouseUp={this.mouseUpHandler}
             >
-              {this.props.error}
+              {shortcutsEnabled && <Shortcuts map={this.getShortcutsMap()} scope={this.shortcutsScope} />}
+              <Input
+                {...ariaProps}
+                height={this.props.height}
+                autoComplete="off"
+                id={this.props.id}
+                onClick={this._clickHandler}
+                inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
+                disabled={this.props.disabled}
+                value={this.state.filterValue}
+                borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
+                style={style}
+                size={Size.FULL}
+                onChange={this._filterChangeHandler}
+                onFocus={this._focusHandler}
+                onBlur={this._blurHandler}
+                // Input with error style without description
+                error={this.props.error != null ? '' : null}
+                label={this.props.type === Type.INPUT ? this._getLabel() : null}
+                placeholder={this.props.inputPlaceholder}
+                onKeyDown={this.props.onKeyDown}
+                data-test="ring-select__focus"
+                enableShortcuts={
+                  shortcutsEnabled
+                    ? Object.keys({
+                        ...this.getShortcutsMap(),
+                        ...this._popup?.list?.shortcutsMap,
+                      })
+                    : undefined
+                }
+                icon={this.props.filterIcon}
+                afterInput={iconsNode}
+              />
+              {this._renderPopup()}
             </div>
-          )}
-        </>
-      );
+            {this.props.error && (
+              <div className={classNames(inputStyles.errorText, inputStyles[`size${this.props.size}`])}>
+                {this.props.error}
+              </div>
+            )}
+          </>
+        );
       case Type.BUTTON:
         return (
           <div
@@ -1382,32 +1344,21 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             data-test={dataTests('ring-select', dataTest)}
           >
             {selectedLabel && (
-              <ControlLabel
-                type={this.props.labelType}
-                disabled={this.props.disabled}
-                htmlFor={this.props.id}
-              >{selectedLabel}</ControlLabel>
+              <ControlLabel type={this.props.labelType} disabled={this.props.disabled} htmlFor={this.props.id}>
+                {selectedLabel}
+              </ControlLabel>
             )}
-            {shortcutsEnabled && (
-              <Shortcuts
-                map={this.getShortcutsMap()}
-                scope={this.shortcutsScope}
-              />
-            )}
+            {shortcutsEnabled && <Shortcuts map={this.getShortcutsMap()} scope={this.shortcutsScope} />}
             <div className={styles.buttonContainer}>
               <Button
                 {...ariaProps}
                 height={this.props.height}
                 id={this.props.id}
                 onClick={this._clickHandler}
-                className={classNames(
-                  this.props.buttonClassName,
-                  styles.buttonValue,
-                  {
-                    [styles.buttonValueOpen]: this.state.showPopup,
-                    [styles.buttonValueEmpty]: this._selectionIsEmpty()
-                  })
-                }
+                className={classNames(this.props.buttonClassName, styles.buttonValue, {
+                  [styles.buttonValueOpen]: this.state.showPopup,
+                  [styles.buttonValueEmpty]: this._selectionIsEmpty(),
+                })}
                 disabled={this.props.disabled}
                 style={style}
                 data-test="ring-select__button ring-select__focus"
@@ -1423,17 +1374,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
       case Type.INLINE:
         return (
-          <div
-            className={classes}
-            ref={this.nodeRef}
-            data-test={dataTests('ring-select', dataTest)}
-          >
-            {shortcutsEnabled && (
-              <Shortcuts
-                map={this.getShortcutsMap()}
-                scope={this.shortcutsScope}
-              />
-            )}
+          <div className={classes} ref={this.nodeRef} data-test={dataTests('ring-select', dataTest)}>
+            {shortcutsEnabled && <Shortcuts map={this.getShortcutsMap()} scope={this.shortcutsScope} />}
             <Anchor
               {...ariaProps}
               className={this.props.buttonClassName ?? undefined}
@@ -1452,16 +1394,11 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         if (this.props.customAnchor) {
           return (
             <Fragment>
-              {shortcutsEnabled && (
-                <Shortcuts
-                  map={this.getShortcutsMap()}
-                  scope={this.shortcutsScope}
-                />
-              )}
+              {shortcutsEnabled && <Shortcuts map={this.getShortcutsMap()} scope={this.shortcutsScope} />}
               {this.props.customAnchor({
                 wrapperProps: {
                   ref: this.nodeRef,
-                  'data-test': dataTests('ring-select', dataTest)
+                  'data-test': dataTests('ring-select', dataTest),
                 },
                 buttonProps: {
                   ...ariaProps,
@@ -1469,9 +1406,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                   onClick: this._clickHandler,
                   disabled: this.props.disabled,
                   children: this._getPlaceholder(),
-                  'data-test': 'ring-select__focus'
+                  'data-test': 'ring-select__focus',
                 },
-                popup: this._renderPopup()
+                popup: this._renderPopup(),
               })}
             </Fragment>
           );
@@ -1495,10 +1432,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   }
 }
 
-export type SingleSelectAttrs<T = unknown> =
-  JSX.LibraryManagedAttributes<typeof Select, SingleSelectProps<T>>
-export type MultipleSelectAttrs<T = unknown> =
-  JSX.LibraryManagedAttributes<typeof Select, MultipleSelectProps<T>>
-export type SelectAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof Select, SelectProps<T>>
+export type SingleSelectAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof Select, SingleSelectProps<T>>;
+export type MultipleSelectAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof Select, MultipleSelectProps<T>>;
+export type SelectAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof Select, SelectProps<T>>;
 
 export const RerenderableSelect = rerenderHOC(Select);

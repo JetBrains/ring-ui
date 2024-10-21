@@ -5,24 +5,30 @@ module.exports = function config(api) {
 
   return {
     presets: [
-      ['@jetbrains/babel-preset-jetbrains', {
-        typeScript: true,
-        useBuiltIns: 'usage',
-        corejs: '3',
-        react: {
-          runtime: 'automatic'
-        }
-      }]
+      [
+        '@jetbrains/babel-preset-jetbrains',
+        {
+          typeScript: true,
+          useBuiltIns: 'usage',
+          corejs: '3',
+          react: {
+            runtime: 'automatic',
+          },
+        },
+      ],
     ],
     plugins: [
-      ['babel-plugin-transform-define', {
-        SUPPORTED_BROWSERS: browserslist()
-      }]
+      [
+        'babel-plugin-transform-define',
+        {
+          SUPPORTED_BROWSERS: browserslist(),
+        },
+      ],
     ],
     env: {
       test: {
-        plugins: ['require-context-hook']
-      }
-    }
+        plugins: ['require-context-hook'],
+      },
+    },
   };
 };

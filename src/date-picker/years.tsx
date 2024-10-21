@@ -11,7 +11,6 @@ import {subYears} from 'date-fns/subYears';
 
 import linearFunction from '../global/linear-function';
 
-
 import styles from './date-picker.css';
 import units, {CalendarProps, DOUBLE, HALF, yearDuration} from './consts';
 
@@ -23,7 +22,7 @@ const YEARSBACK = 5;
 const scrollDelay = 100;
 
 interface YearsState {
-  scrollDate: Date | null
+  scrollDate: Date | null;
 }
 
 export default class Years extends PureComponent<CalendarProps> {
@@ -54,9 +53,7 @@ export default class Years extends PureComponent<CalendarProps> {
 
     this.setState({scrollDate: null});
 
-    this.props.onScroll(
-      Number(setYear(this.props.scrollDate, getYear(date)))
-    );
+    this.props.onScroll(Number(setYear(this.props.scrollDate, getYear(date))));
   }
 
   componentRef = createRef<HTMLDivElement>();
@@ -68,7 +65,7 @@ export default class Years extends PureComponent<CalendarProps> {
     e.preventDefault();
     const newScrollDate = linearFunction(0, Number(date), yearDuration / yearHeight).y(e.deltaY);
     this.setState({
-      scrollDate: newScrollDate
+      scrollDate: newScrollDate,
     });
     if (scrollTO) {
       window.clearTimeout(scrollTO);
@@ -95,24 +92,19 @@ export default class Years extends PureComponent<CalendarProps> {
         ref={this.componentRef}
         style={{
           transition: this.stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
-          top: Math.floor(calHeight * HALF - pxToDate.x(Number(date)))
+          top: Math.floor(calHeight * HALF - pxToDate.x(Number(date))),
         }}
       >
         {years.map(item => (
           <button
             type="button"
             key={+item}
-            className={classNames(
-              styles.year,
-              {
-                [styles.currentYear]: isSameYear(item, date),
-                [styles.today]: isThisYear(item)
-              }
-            )}
+            className={classNames(styles.year, {
+              [styles.currentYear]: isSameYear(item, date),
+              [styles.today]: isThisYear(item),
+            })}
             onClick={function handleClick() {
-              onScrollChange(
-                Number(setYear(scrollDate, getYear(item)))
-              );
+              onScrollChange(Number(setYear(scrollDate, getYear(item))));
             }}
           >
             {format(item, 'yyyy')}

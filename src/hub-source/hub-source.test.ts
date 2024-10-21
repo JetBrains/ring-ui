@@ -19,8 +19,7 @@ describe('Hub Source', () => {
   });
 
   it('Should merge objects', () => {
-    HubSource.mergeParams({foo: 'bar'}, {test: 'foo'}).
-      should.be.deep.equal({foo: 'bar', test: 'foo'});
+    HubSource.mergeParams({foo: 'bar'}, {test: 'foo'}).should.be.deep.equal({foo: 'bar', test: 'foo'});
   });
 
   it('Should make request', async () => {
@@ -59,8 +58,7 @@ describe('Hub Source', () => {
     source.isClientSideSearch = true;
     source.filterFn = source.getDefaultFilterFn('testQuery');
 
-    const res = source.
-      processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}], total: 2});
+    const res = source.processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}], total: 2});
 
     res.should.deep.equal([{name: 'contain testQuery'}]);
   });
@@ -70,8 +68,7 @@ describe('Hub Source', () => {
     source.isClientSideSearch = false;
     source.filterFn = source.getDefaultFilterFn('testQuery');
 
-    const res = source.
-      processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}], total: 2});
+    const res = source.processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}], total: 2});
 
     res.should.deep.equal([{name: 'not test query'}, {name: 'contain testQuery'}]);
   });
@@ -87,8 +84,7 @@ describe('Hub Source', () => {
   });
 
   it('Should detect client-side filtering if total is smaller than threshold', async () => {
-    httpMock.get = sandbox.stub().
-      returns(Promise.resolve({total: 10, testItems: []}));
+    httpMock.get = sandbox.stub().returns(Promise.resolve({total: 10, testItems: []}));
 
     const source = new HubSource(fakeAuth, 'testItems', {searchSideThreshold: 15});
 
@@ -97,8 +93,7 @@ describe('Hub Source', () => {
   });
 
   it('Should detect server-side filtering if total is smaller than threshold', async () => {
-    httpMock.get = sandbox.stub().
-      returns(Promise.resolve({total: 20, testItems: []}));
+    httpMock.get = sandbox.stub().returns(Promise.resolve({total: 20, testItems: []}));
 
     const source = new HubSource(fakeAuth, 'testItems', {searchSideThreshold: 15});
 
@@ -108,11 +103,12 @@ describe('Hub Source', () => {
 
   it('Should do cached request and filter on client-side', async () => {
     const source = new HubSource(fakeAuth, 'testItems');
-    source.makeCachedRequest = sandbox.stub().returns(Promise.resolve({
-      total: 20,
-      testItems: []
-    }));
-
+    source.makeCachedRequest = sandbox.stub().returns(
+      Promise.resolve({
+        total: 20,
+        testItems: [],
+      }),
+    );
 
     await source.doClientSideSearch();
     source.makeCachedRequest.should.have.been.calledWith({$top: -1});
@@ -120,16 +116,17 @@ describe('Hub Source', () => {
 
   it('Should do not cached request to server-side', async () => {
     const source = new HubSource(fakeAuth, 'testItems', {searchMax: 142});
-    source.makeRequest = sandbox.stub().returns(Promise.resolve({
-      total: 20,
-      testItems: []
-    }));
-
+    source.makeRequest = sandbox.stub().returns(
+      Promise.resolve({
+        total: 20,
+        testItems: [],
+      }),
+    );
 
     await source.doServerSideSearch({}, 'test-query');
     source.makeRequest.should.have.been.calledWith({
       $top: 142,
-      query: sinon.match.string
+      query: sinon.match.string,
     });
   });
 
@@ -150,7 +147,7 @@ describe('Hub Source', () => {
 
   it('Should support custom queryFormatter', () => {
     const source = new HubSource(fakeAuth, 'testItems', {
-      queryFormatter: query => `${query} custom format`
+      queryFormatter: query => `${query} custom format`,
     });
     source.formatQuery('foo').should.equal('foo custom format');
   });
@@ -167,8 +164,7 @@ describe('Hub Source', () => {
 
     it('Should do side detection request first', () => {
       const source = new HubSource(fakeAuth, 'testItems');
-      source.sideDetectionRequest = sandbox.stub().
-        returns(Promise.resolve({total: 20, testItems: []}));
+      source.sideDetectionRequest = sandbox.stub().returns(Promise.resolve({total: 20, testItems: []}));
 
       source.get('testQuery', {testParams: 'test'});
 
@@ -177,8 +173,7 @@ describe('Hub Source', () => {
 
     it('Should do client-side filtering if previously detected', () => {
       const source = new HubSource(fakeAuth, 'testItems');
-      source.doClientSideSearch = sandbox.stub().
-        returns(Promise.resolve({total: 20, testItems: []}));
+      source.doClientSideSearch = sandbox.stub().returns(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = true;
 
       source.get('testQuery', {testParams: 'test'});
@@ -188,8 +183,7 @@ describe('Hub Source', () => {
 
     it('Should do server-side filtering if previously detected', () => {
       const source = new HubSource(fakeAuth, 'testItems');
-      source.doServerSideSearch = sandbox.stub().
-        returns(Promise.resolve({total: 20, testItems: []}));
+      source.doServerSideSearch = sandbox.stub().returns(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = false;
 
       source.get('testQuery', {testParams: 'test'});

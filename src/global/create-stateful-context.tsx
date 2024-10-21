@@ -1,12 +1,12 @@
 import {createContext, memo, useContext, useEffect, useState, ReactNode} from 'react';
 
-type Update<T> = (value: T) => void
+type Update<T> = (value: T) => void;
 export interface ProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 export interface UpdaterProps<T> {
-  value: T
-  skipUpdate?: boolean
+  value: T;
+  skipUpdate?: boolean;
 }
 
 export default function createStatefulContext<T>(initialValue: T, name = '') {
@@ -17,9 +17,7 @@ export default function createStatefulContext<T>(initialValue: T, name = '') {
     const [value, update] = useState(initialValue);
     return (
       <ValueContext.Provider value={value}>
-        <UpdateContext.Provider value={update}>
-          {children}
-        </UpdateContext.Provider>
+        <UpdateContext.Provider value={update}>{children}</UpdateContext.Provider>
       </ValueContext.Provider>
     );
   }
@@ -46,6 +44,6 @@ export default function createStatefulContext<T>(initialValue: T, name = '') {
     UpdateContext,
     Provider,
     useUpdate,
-    Updater: memo(Updater)
+    Updater: memo(Updater),
   };
 }

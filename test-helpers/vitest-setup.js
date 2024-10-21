@@ -1,7 +1,6 @@
-/*global globalThis*/
 import {configure} from '@testing-library/react';
 
-import './testing-globals';
+import './testing-globals.ts';
 import './enzyme-configuration';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
@@ -9,7 +8,6 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 configure({testIdAttribute: 'data-test'});
 
 window.PointerEvent = window.PointerEvent || window.Event;
-
 
 class Observer {
   observe() {
@@ -40,6 +38,6 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: () => {},
     addEventListener: () => {},
     removeEventListener: () => {},
-    dispatchEvent: () => {}
-  })
+    dispatchEvent: () => {},
+  }),
 });

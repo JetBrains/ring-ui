@@ -6,7 +6,7 @@ import dataTests from '../global/data-tests';
 import styles from './loader-inline.css';
 
 export interface LoaderInlineProps extends HTMLAttributes<HTMLDivElement> {
-  'data-test'?: string | null | undefined
+  'data-test'?: string | null | undefined;
 }
 
 /**
@@ -17,30 +17,20 @@ class LoaderInline extends PureComponent<LoaderInlineProps> {
   render() {
     const {className, 'data-test': dataTest, children, ...restProps} = this.props;
 
-    const classes = classNames(
-      styles.loader,
-      className,
-    );
+    const classes = classNames(styles.loader, className);
 
-    const loader = (
-      <div
-        {...restProps}
-        data-test={dataTests('ring-loader-inline', dataTest)}
-        className={classes}
-      />
-    );
+    const loader = <div {...restProps} data-test={dataTests('ring-loader-inline', dataTest)} className={classes} />;
 
-    return children
-      ? (
-        <>
-          {loader}
-          <span className={styles.children}>{children}</span>
-        </>
-      )
-      : loader;
+    return children ? (
+      <>
+        {loader}
+        <span className={styles.children}>{children}</span>
+      </>
+    ) : (
+      loader
+    );
   }
 }
 
-export type LoaderInlineAtrrs =
-  JSX.LibraryManagedAttributes<typeof LoaderInline, LoaderInlineProps>;
+export type LoaderInlineAtrrs = JSX.LibraryManagedAttributes<typeof LoaderInline, LoaderInlineProps>;
 export default LoaderInline;

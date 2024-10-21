@@ -30,11 +30,11 @@ function noop() {}
 const POPUP_VERTICAL_SHIFT = 2;
 
 export interface ToggleTagParams {
-  tag: TagType
+  tag: TagType;
 }
 
 export interface TagsInputRequestParams {
-  query: string
+  query: string;
 }
 
 export interface TagsInputProps {
@@ -44,40 +44,39 @@ export interface TagsInputProps {
    * DataSource should handle caching and response racing (when later request
    * responded earlier) by himself.
    */
-  dataSource: (params: TagsInputRequestParams) =>
-    readonly SelectItem[] | Promise<readonly SelectItem[]>
-  onAddTag: (params: ToggleTagParams) => void
-  onRemoveTag: (params: ToggleTagParams) => void
-  customTagComponent: ComponentType<TagAttrs>
-  maxPopupHeight: number
-  minPopupWidth: number
-  canNotBeEmpty: boolean
-  disabled: boolean
-  autoOpen: boolean
-  renderOptimization: boolean
-  allowAddNewTags: boolean
-  filter: boolean | Filter
-  placeholder: string
-  className?: string | null | undefined
-  tags?: readonly TagType[] | null | undefined
-  loadingMessage?: string | undefined
-  notFoundMessage?: string | undefined
-  hint?: ReactNode | null | undefined
-  size: Size
-  height?: ControlsHeight | undefined
-  label?: ReactNode
-  labelType?: LabelType
-  id?: string | undefined
+  dataSource: (params: TagsInputRequestParams) => readonly SelectItem[] | Promise<readonly SelectItem[]>;
+  onAddTag: (params: ToggleTagParams) => void;
+  onRemoveTag: (params: ToggleTagParams) => void;
+  customTagComponent: ComponentType<TagAttrs>;
+  maxPopupHeight: number;
+  minPopupWidth: number;
+  canNotBeEmpty: boolean;
+  disabled: boolean;
+  autoOpen: boolean;
+  renderOptimization: boolean;
+  allowAddNewTags: boolean;
+  filter: boolean | Filter;
+  placeholder: string;
+  className?: string | null | undefined;
+  tags?: readonly TagType[] | null | undefined;
+  loadingMessage?: string | undefined;
+  notFoundMessage?: string | undefined;
+  hint?: ReactNode | null | undefined;
+  size: Size;
+  height?: ControlsHeight | undefined;
+  label?: ReactNode;
+  labelType?: LabelType;
+  id?: string | undefined;
 }
 
 interface TagsInputState {
-  tags: TagType[]
-  prevTags: TagType[] | null
-  suggestions: SelectItem[]
-  loading: boolean
-  focused: boolean
-  query: string
-  activeIndex: number | null | undefined
+  tags: TagType[];
+  prevTags: TagType[] | null;
+  suggestions: SelectItem[];
+  loading: boolean;
+  focused: boolean;
+  query: string;
+  activeIndex: number | null | undefined;
 }
 
 export default class TagsInput extends PureComponent<TagsInputProps, TagsInputState> {
@@ -95,7 +94,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     allowAddNewTags: false,
     filter: {fn: () => true},
     placeholder: 'Select an option',
-    size: Size.M
+    size: Size.M,
   };
 
   constructor(props: TagsInputProps) {
@@ -110,7 +109,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     loading: true,
     focused: false,
     query: '',
-    activeIndex: 0
+    activeIndex: 0,
   };
 
   static getDerivedStateFromProps({tags}: TagsInputProps, {prevTags}: TagsInputState) {
@@ -175,7 +174,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
     if (isUniqueTag) {
       this.setState(prevState => ({
-        tags: prevState.tags.concat([tag])
+        tags: prevState.tags.concat([tag]),
       }));
       this.props.onAddTag({tag});
       this.setActiveIndex();
@@ -183,15 +182,14 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
   };
 
   onRemoveTag(tagToRemove: TagType) {
-    return Promise.resolve(this.props.onRemoveTag({tag: tagToRemove})).
-      then(() => {
-        const tags = this.state.tags.filter(tag => tag !== tagToRemove);
-        if (this.node) {
-          this.setState({tags});
-          this.focusInput();
-        }
-        return tags;
-      }, this.focusInput);
+    return Promise.resolve(this.props.onRemoveTag({tag: tagToRemove})).then(() => {
+      const tags = this.state.tags.filter(tag => tag !== tagToRemove);
+      if (this.node) {
+        this.setState({tags});
+        this.focusInput();
+      }
+      return tags;
+    }, this.focusInput);
   }
 
   clickHandler = (event: SyntheticEvent) => {
@@ -211,9 +209,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     this.setState({loading: true, query}, async () => {
       try {
         const suggestionsResult = this.props.dataSource({query});
-        const allSuggestions = Array.isArray(suggestionsResult)
-          ? suggestionsResult
-          : await suggestionsResult;
+        const allSuggestions = Array.isArray(suggestionsResult) ? suggestionsResult : await suggestionsResult;
 
         const suggestions = this.filterExistingTags(allSuggestions);
         if (this.node && query === this.state.query) {
@@ -234,9 +230,8 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
   };
 
   selectTag = (moveForward?: boolean) => {
-    const activeIndex = typeof this.state.activeIndex === 'number'
-      ? this.state.activeIndex
-      : this.state.tags.length + 1;
+    const activeIndex =
+      typeof this.state.activeIndex === 'number' ? this.state.activeIndex : this.state.tags.length + 1;
     let newActiveIndex = activeIndex + (moveForward ? 1 : -1);
 
     if (newActiveIndex >= this.state.tags.length) {
@@ -252,8 +247,8 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
   handleKeyDown = (event: React.KeyboardEvent) => {
     const key = getEventKey(event);
-    const isInputFocused = () => event.target instanceof Element &&
-      event.target.matches(this.getInputNode()?.tagName ?? '');
+    const isInputFocused = () =>
+      event.target instanceof Element && event.target.matches(this.getInputNode()?.tagName ?? '');
 
     if (key === ' ' && this.props.allowAddNewTags) {
       event.stopPropagation();
@@ -267,7 +262,6 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     if (this.select?._popup?.isVisible()) {
       return true;
     }
-
 
     if (key === 'ArrowLeft') {
       if (this.getInputNode() && this.caret != null && Number(this.caret.getPosition()) > 0) {
@@ -299,10 +293,12 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
         return false;
       }
 
-      if ((key === 'Delete' || key === 'Backspace') && this.state.activeIndex != null &&
-        this.state.tags[this.state.activeIndex]) {
-        this.onRemoveTag(this.state.tags[this.state.activeIndex]).
-          then(() => this.selectTag(true));
+      if (
+        (key === 'Delete' || key === 'Backspace') &&
+        this.state.activeIndex != null &&
+        this.state.tags[this.state.activeIndex]
+      ) {
+        this.onRemoveTag(this.state.tags[this.state.activeIndex]).then(() => this.selectTag(true));
         return false;
       }
     }
@@ -329,8 +325,14 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     const {focused, tags, activeIndex} = this.state;
 
     const {
-      disabled, canNotBeEmpty, allowAddNewTags, filter,
-      size, labelType, height = this.context, label
+      disabled,
+      canNotBeEmpty,
+      allowAddNewTags,
+      filter,
+      size,
+      labelType,
+      height = this.context,
+      label,
     } = this.props;
 
     const classes = classNames(
@@ -339,9 +341,10 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
       [inputStyles[`height${height}`]],
       {
         [styles.tagsInputDisabled]: disabled,
-        [styles.tagsInputFocused]: focused
+        [styles.tagsInputFocused]: focused,
       },
-      this.props.className);
+      this.props.className,
+    );
 
     return (
       <div
@@ -353,11 +356,9 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
         ref={this.nodeRef}
       >
         {label && (
-          <ControlLabel
-            htmlFor={this.id}
-            disabled={disabled}
-            type={labelType}
-          >{label}</ControlLabel>
+          <ControlLabel htmlFor={this.id} disabled={disabled} type={labelType}>
+            {label}
+          </ControlLabel>
         )}
 
         <TagsList
@@ -394,7 +395,6 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
             onBeforeOpen={this.loadSuggestions}
             onKeyDown={this.handleKeyDown}
             disabled={this.props.disabled}
-
             loadingMessage={this.props.loadingMessage}
             notFoundMessage={this.props.notFoundMessage}
             hint={this.props.hint}
@@ -406,4 +406,4 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 }
 
 export const RerenderableTagsInput = rerenderHOC(TagsInput);
-export type TagsInputAttrs = JSX.LibraryManagedAttributes<typeof TagsInput, TagsInputProps>
+export type TagsInputAttrs = JSX.LibraryManagedAttributes<typeof TagsInput, TagsInputProps>;

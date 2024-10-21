@@ -15,12 +15,16 @@ describe('Alert', () => {
   });
 
   it('should transfer className', () => {
-    render(<Alert className="foo"/>);
+    render(<Alert className="foo" />);
     screen.getByTestId('alert').should.have.class('foo');
   });
 
   it('should render component', () => {
-    render(<Alert type={Alert.Type.MESSAGE}><div>{'foo'}</div></Alert>);
+    render(
+      <Alert type={Alert.Type.MESSAGE}>
+        <div>{'foo'}</div>
+      </Alert>,
+    );
     screen.getByText('foo').should.exist;
   });
 
@@ -54,7 +58,11 @@ describe('Alert', () => {
   it('should call onCloseRequest on timeout', () => {
     const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
     const closeSpy = sandbox.spy();
-    render(<Alert timeout={TIMEOUT} onCloseRequest={closeSpy}>{'Test element'}</Alert>);
+    render(
+      <Alert timeout={TIMEOUT} onCloseRequest={closeSpy}>
+        {'Test element'}
+      </Alert>,
+    );
 
     act(() => {
       clock.tick(TICK);

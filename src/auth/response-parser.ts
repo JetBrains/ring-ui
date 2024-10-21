@@ -3,15 +3,15 @@ import ExtendableError from 'es6-error';
 import {parseQueryString} from '../global/url';
 
 export interface AuthResponse {
-  accessToken?: string
-  state?: string
-  token_type?: string
-  expiresIn?: string
-  scope?: string
-  error?: string | Error
-  errorDescription?: string
-  errorUri?: string
-  restoreAuthState?: string
+  accessToken?: string;
+  state?: string;
+  token_type?: string;
+  expiresIn?: string;
+  scope?: string;
+  error?: string | Error;
+  errorDescription?: string;
+  errorUri?: string;
+  restoreAuthState?: string;
 }
 
 export class AuthError extends ExtendableError {
@@ -71,10 +71,7 @@ export default class AuthResponseParser {
    * @throws {Error} if the auth server returned an error
    * @return {?AuthResponse}
    */
-  validateAuthResponse(
-    authResponse: AuthResponse
-  ): AuthResponse | null {
-
+  validateAuthResponse(authResponse: AuthResponse): AuthResponse | null {
     // Check for errors
     if (authResponse.error) {
       throw new AuthResponseParser.AuthError(authResponse);

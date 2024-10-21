@@ -9,7 +9,7 @@ export enum Color {
   GREEN = 'green',
   MAGENTA = 'magenta',
   RED = 'red',
-  WHITE = 'white'
+  WHITE = 'white',
 }
 
 /**
@@ -27,5 +27,5 @@ export enum Size {
   Size48 = 48,
   Size64 = 64,
   Size96 = 96,
-  Size128 = 128
+  Size128 = 128,
 }

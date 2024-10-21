@@ -5,7 +5,7 @@ import ButtonToolbar from './button-toolbar';
 
 describe('Button Toolbar', () => {
   const renderButtonToolbar = (params?: HTMLAttributes<HTMLElement>) => {
-    render(<ButtonToolbar {...params}/>);
+    render(<ButtonToolbar {...params} />);
     return screen.getByTestId('ring-button-toolbar');
   };
 

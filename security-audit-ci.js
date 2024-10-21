@@ -32,13 +32,12 @@ try {
 } catch (e) {
   const {advisories} = JSON.parse(e.stdout.toString());
 
-  Object.values(advisories).
-    forEach(({id, severity, overview, recommendation, references}) =>
-      tsm.buildProblem({
-        identity: id,
-        description: `[${severity} severity] ${overview}.
+  Object.values(advisories).forEach(({id, severity, overview, recommendation, references}) =>
+    tsm.buildProblem({
+      identity: id,
+      description: `[${severity} severity] ${overview}.
 ${recommendation}
-${references}`
-      })
-    );
+${references}`,
+    }),
+  );
 }

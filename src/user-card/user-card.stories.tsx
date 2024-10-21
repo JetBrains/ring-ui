@@ -13,8 +13,8 @@ export default {
   title: 'Components/User Card',
 
   parameters: {
-    notes: 'A component that displays user details.'
-  }
+    notes: 'A component that displays user details.',
+  },
 };
 
 export const inline = () => {
@@ -23,13 +23,13 @@ export const inline = () => {
     name: 'Test User',
     email: 'testuser@mail.com',
     avatarUrl: avatarDataUri,
-    href: `${hubConfig.serverUri}/users/0`
+    href: `${hubConfig.serverUri}/users/0`,
   };
 
   return (
     <div>
       <div>Inline user card:</div>
-      <UserCard user={user} data-test="user-card-inline"/>
+      <UserCard user={user} data-test="user-card-inline" />
 
       <UserCardTooltip user={user} info={<Badge gray>{'Reporter'}</Badge>}>
         <span>Hover this text see card in tooltip mode</span>
@@ -49,7 +49,7 @@ export const smartTooltip = () => {
     href: `${hubConfig.serverUri}/users/0`,
     banned: true,
     online: false,
-    banReason: 'Bad guy: is accused of stealing potatoes!'
+    banReason: 'Bad guy: is accused of stealing potatoes!',
   };
 
   function loadUser() {

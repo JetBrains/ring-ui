@@ -20,7 +20,7 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
   duration = BASE_ANIMATION_DURATION,
   disableAnimation = false,
   className = '',
-  onChange = () => {}
+  onChange = () => {},
 }) => {
   const [collapsed, toggle] = useState(true);
   const id = useId();
@@ -38,7 +38,7 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
           setCollapsed,
           duration,
           disableAnimation,
-          id
+          id,
         }}
       >
         {children}

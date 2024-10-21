@@ -1,20 +1,22 @@
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 
-
 import TagsList from './tags-list';
 
 export default {
   title: 'Components/Tags List',
 
   parameters: {
-    notes: 'Displays a list of tags.'
-  }
+    notes: 'Displays a list of tags.',
+  },
 };
 
 export const basic = () => (
   <TagsList
     className="test-additional-class"
-    tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}
+    tags={[
+      {key: 'test1', label: 'test1'},
+      {key: 'test2', label: 'test2'},
+    ]}
   />
 );
 
@@ -24,7 +26,7 @@ export const withIcons = () => (
   <TagsList
     tags={[
       {key: 'test1', label: 'test1', rgTagIcon: checkmarkIcon},
-      {key: 'test2', label: 'test2'}
+      {key: 'test2', label: 'test2'},
     ]}
   />
 );
@@ -32,7 +34,13 @@ export const withIcons = () => (
 withIcons.storyName = 'with icons';
 
 export const disabled = () => (
-  <TagsList disabled tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}/>
+  <TagsList
+    disabled
+    tags={[
+      {key: 'test1', label: 'test1'},
+      {key: 'test2', label: 'test2'},
+    ]}
+  />
 );
 
 disabled.storyName = 'disabled';

@@ -9,10 +9,7 @@ export default class Content extends PureComponent<HTMLAttributes<HTMLElement>> 
     const classes = classNames('ring-island__content', className);
 
     return (
-      <div
-        {...restProps}
-        className={classes}
-      >
+      <div {...restProps} className={classes}>
         {children}
       </div>
     );

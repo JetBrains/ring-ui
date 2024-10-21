@@ -8,23 +8,22 @@ import getUID from '../global/get-uid';
 
 import styles from './data-list.css';
 
-
 export interface TitleProps extends FocusSensorAddProps<HTMLDivElement> {
-  onSelect: (selected: boolean) => void
-  selectable?: boolean | undefined
-  selected?: boolean | undefined
-  showFocus?: boolean | undefined
-  offset?: number | undefined
-  className?: string | null | undefined
-  title?: ReactNode
-  collapserExpander?: ReactNode
+  onSelect: (selected: boolean) => void;
+  selectable?: boolean | undefined;
+  selected?: boolean | undefined;
+  showFocus?: boolean | undefined;
+  offset?: number | undefined;
+  className?: string | null | undefined;
+  title?: ReactNode;
+  collapserExpander?: ReactNode;
 }
 
 class Title extends PureComponent<TitleProps> {
   static defaultProps = {
     selectable: false,
     selected: false,
-    showFocus: false
+    showFocus: false,
   };
 
   id = getUID('data-list-title');
@@ -45,39 +44,29 @@ class Title extends PureComponent<TitleProps> {
   }
 
   render() {
-    const {
-      className, title, offset, showFocus, innerRef,
-      selectable, selected, collapserExpander
-    } = this.props;
+    const {className, title, offset, showFocus, innerRef, selectable, selected, collapserExpander} = this.props;
 
     const classes = classNames(className, {
       [styles.title]: true,
       [styles.titleFocused]: showFocus,
-      [styles.titleSelected]: selected
+      [styles.titleSelected]: selected,
     });
 
     return (
-      <div
-        id={this.id}
-        className={classes}
-        style={{paddingLeft: offset}}
-        ref={innerRef}
-      >
+      <div id={this.id} className={classes} style={{paddingLeft: offset}} ref={innerRef}>
         <div className={styles.boxes}>
-          {selectable &&
-            (
-              <div className={styles.checkboxBox}>
-                <Checkbox
-                  aria-labelledby={this.id}
-                  className={showFocus ? 'ring-checkbox_focus' : ''}
-                  checked={selected}
-                  onFocus={this.onCheckboxFocus}
-                  onChange={this.onCheckboxChange}
-                  tabIndex={-1}
-                />
-              </div>
-            )
-          }
+          {selectable && (
+            <div className={styles.checkboxBox}>
+              <Checkbox
+                aria-labelledby={this.id}
+                className={showFocus ? 'ring-checkbox_focus' : ''}
+                checked={selected}
+                onFocus={this.onCheckboxFocus}
+                onChange={this.onCheckboxChange}
+                tabIndex={-1}
+              />
+            </div>
+          )}
 
           {collapserExpander}
         </div>

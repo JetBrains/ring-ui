@@ -26,17 +26,15 @@ const waitForCondition = (condition: () => boolean, rejectMessage: string) =>
   });
 
 describe('Dropdown Menu', () => {
-  const renderDropdownMenu = <T, >(props: DropdownMenuProps<T>) =>
-    render(<DropdownMenu id="test-list-id" {...props}/>);
+  const renderDropdownMenu = <T,>(props: DropdownMenuProps<T>) => render(<DropdownMenu id="test-list-id" {...props} />);
 
-  const renderAndWaitForMenuContent = async <T, >(props: DropdownMenuProps<T>) => {
+  const renderAndWaitForMenuContent = async <T,>(props: DropdownMenuProps<T>) => {
     renderDropdownMenu(props);
 
     await userEvent.click(screen.getByRole('button'));
-    await act(() => waitForCondition(
-      () => !!screen.queryByTestId('ring-popup'),
-      'List was not rendered in a dropdown menu'
-    ));
+    await act(() =>
+      waitForCondition(() => !!screen.queryByTestId('ring-popup'), 'List was not rendered in a dropdown menu'),
+    );
   };
 
   it('should create component', async () => {
@@ -57,7 +55,7 @@ describe('Dropdown Menu', () => {
   it('should pass params to List', async () => {
     await renderAndWaitForMenuContent({
       anchor: 'Anchor text',
-      data: [{key: 'key1'}]
+      data: [{key: 'key1'}],
     });
 
     should.exist(screen.getByTestId('ring-list').querySelector('[data-test~=ring-list-item]'));
@@ -66,7 +64,7 @@ describe('Dropdown Menu', () => {
   it('should add accessibility attributes to anchor', async () => {
     await renderAndWaitForMenuContent({
       anchor: 'Anchor text',
-      data: [{key: 'key1'}, {key: 'key2'}]
+      data: [{key: 'key1'}, {key: 'key2'}],
     });
 
     const anchor = screen.getByRole('button', {name: /^Anchor text/});

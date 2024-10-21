@@ -6,7 +6,8 @@ require('dotenv').config();
 
 const baseUrl = `http://${ip.address()}:9999/`;
 
-const gridUrl = process.env.SELENIUM_GRID ||
+const gridUrl =
+  process.env.SELENIUM_GRID ||
   `https://${process.env.BROWSERSTACK_NAME}:${process.env.BROWSERSTACK_KEY}@hub-cloud.browserstack.com:443/wd/hub`;
 // Supports Firefox
 const windowSize = '1024x1000';
@@ -28,24 +29,19 @@ module.exports = {
   windowSize,
   plugins: {
     '@jetbrains/testplane-teamcity-reporter': {
-      enabled: isTeamCity
+      enabled: isTeamCity,
     },
     'html-reporter/testplane': {
-      defaultView: 'all'
-    }
+      defaultView: 'all',
+    },
   },
   screenshotsDir: test =>
-    path.join(
-      'testplane',
-      test.browserId,
-      test.parent.title.toLowerCase(),
-      test.title.toLowerCase()
-    ),
+    path.join('testplane', test.browserId, test.parent.title.toLowerCase(), test.title.toLowerCase()),
 
   desiredCapabilities: {
     project: 'Ring UI',
     build: `Screenshots comparison [build ${process.env.BUILD_NUMBER || `local ${Date.now()}`}]`,
-    'browserstack.local': true
+    'browserstack.local': true,
   },
   // See all platforms here https://www.browserstack.com/automate/capabilities
   browsers: {
@@ -56,13 +52,13 @@ module.exports = {
         pageLoadStrategy: 'normal',
         browser_version: '127.0',
         chromeOptions: {
-          excludeSwitches: ['enable-automation']
+          excludeSwitches: ['enable-automation'],
         },
         os,
         os_version,
-        maxDuration
+        maxDuration,
       },
-      sessionsPerBrowser: 4
+      sessionsPerBrowser: 4,
     },
     firefox: {
       httpTimeout: 300000,
@@ -74,12 +70,12 @@ module.exports = {
         browser_version: '128.0',
         os: 'OS X',
         os_version: 'Sonoma',
-        maxDuration
+        maxDuration,
       },
       sessionEnvFlags: {
-        isW3C: true
+        isW3C: true,
       },
-      sessionsPerBrowser: 4
-    }
-  }
+      sessionsPerBrowser: 4,
+    },
+  },
 };

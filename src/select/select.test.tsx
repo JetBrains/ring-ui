@@ -8,13 +8,7 @@ import List from '../list/list';
 import Input from '../input/input';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
-import Select, {
-  MultipleSelectAttrs,
-  SelectAttrs,
-  SelectItem,
-  SelectState,
-  SingleSelectAttrs
-} from './select';
+import Select, {MultipleSelectAttrs, SelectAttrs, SelectItem, SelectState, SingleSelectAttrs} from './select';
 import styles from './select.css';
 
 import {Tags} from './select__popup';
@@ -32,7 +26,7 @@ describe('Select', () => {
     {key: 1, label: 'first1', rgItemType: List.ListProps.Type.ITEM},
     {key: 2, label: 'test2', rgItemType: List.ListProps.Type.ITEM},
     {key: 3, label: 'test3', rgItemType: List.ListProps.Type.ITEM},
-    {key: 4, label: 'four4', selectedLabel: '', rgItemType: List.ListProps.Type.ITEM}
+    {key: 4, label: 'four4', selectedLabel: '', rgItemType: List.ListProps.Type.ITEM},
   ];
 
   const defaultProps = () => ({
@@ -42,15 +36,17 @@ describe('Select', () => {
     onFilter: sandbox.spy(),
     onFocus: sandbox.spy(),
     onBlur: sandbox.spy(),
-    filter: true
+    filter: true,
   });
 
-  let mountWrapper: ReactWrapper<SingleSelectAttrs, SelectState, Select> |
-    ReactWrapper<MultipleSelectAttrs, SelectState, Select> | null;
+  let mountWrapper:
+    | ReactWrapper<SingleSelectAttrs, SelectState, Select>
+    | ReactWrapper<MultipleSelectAttrs, SelectState, Select>
+    | null;
   const shallowSelect = (props?: SingleSelectAttrs) =>
-    shallow<Select, SelectAttrs>(<Select {...defaultProps()} {...props}/>);
+    shallow<Select, SelectAttrs>(<Select {...defaultProps()} {...props} />);
   const mountSelect = (props?: SingleSelectAttrs) => {
-    const wrapper = mount<Select, SingleSelectAttrs>(<Select {...defaultProps()} {...props}/>);
+    const wrapper = mount<Select, SingleSelectAttrs>(<Select {...defaultProps()} {...props} />);
     mountWrapper = wrapper;
     return wrapper;
   };
@@ -99,8 +95,10 @@ describe('Select', () => {
   it('Should use selectedLabel for select button title if provided', () => {
     const wrapper = shallowSelect({
       selected: {
-        key: 1, label: 'test1', selectedLabel: 'testLabel'
-      }
+        key: 1,
+        label: 'test1',
+        selectedLabel: 'testLabel',
+      },
     });
     const instance = wrapper.instance();
     const selectedLabel = instance._getSelectedString();
@@ -229,7 +227,6 @@ describe('Select', () => {
   });
 
   describe('Derived state', () => {
-
     let wrapper: ShallowWrapper<SelectAttrs, SelectState, Select>;
     beforeEach(() => {
       wrapper = shallowSelect();
@@ -277,7 +274,7 @@ describe('Select', () => {
 
       wrapper.setProps({
         selected: selectedItem,
-        data: [createItem(), selectedItem]
+        data: [createItem(), selectedItem],
       });
 
       wrapper.state().selectedIndex!.should.equal(1);
@@ -289,7 +286,7 @@ describe('Select', () => {
       wrapper.setProps({
         multiple: true,
         selected: [selectedItem],
-        data: [createItem(), selectedItem]
+        data: [createItem(), selectedItem],
       });
 
       wrapper.state().selectedIndex!.should.equal(1);
@@ -302,11 +299,11 @@ describe('Select', () => {
       wrapper.setProps({
         multiple: true,
         selected: [secondItem],
-        data: [firstItem, secondItem]
+        data: [firstItem, secondItem],
       });
 
       wrapper.setProps({
-        selected: [firstItem]
+        selected: [firstItem],
       });
 
       wrapper.state().selectedIndex!.should.equal(0);
@@ -327,7 +324,7 @@ describe('Select', () => {
 
     it('Should disable select button if needed', () => {
       const wrapper = mountSelect({
-        disabled: true
+        disabled: true,
       });
       wrapper.should.have.className(styles.disabled);
       wrapper.find('button[data-test*="ring-select__button"]').should.have.prop('disabled');
@@ -335,7 +332,7 @@ describe('Select', () => {
 
     it('Should not disable select button if not needed', () => {
       const wrapper = mountSelect({
-        disabled: false
+        disabled: false,
       });
       wrapper.find('button[data-test*="ring-select__button"]').should.have.prop('disabled');
     });
@@ -355,8 +352,8 @@ describe('Select', () => {
         selected: {
           key: 1,
           label: 'test',
-          icon: 'fakeImageUrl'
-        }
+          icon: 'fakeImageUrl',
+        },
       });
       wrapper.should.have.descendants(selectedIconSelector);
     });
@@ -371,8 +368,8 @@ describe('Select', () => {
         selected: {
           key: 1,
           label: 'test',
-          icon: 'http://fake.image/'
-        }
+          icon: 'http://fake.image/',
+        },
       });
       const icon = wrapper.find(selectedIconSelector).getDOMNode<HTMLElement>();
       icon.style.backgroundImage.should.contain('http://fake.image/');
@@ -412,8 +409,8 @@ describe('Select', () => {
       it('Should add "Add" button if alwaysVisible is set', () => {
         const wrapper = mountSelect({
           add: {
-            alwaysVisible: true
-          }
+            alwaysVisible: true,
+          },
         });
         const instance = wrapper.instance();
         instance._showPopup();
@@ -424,13 +421,12 @@ describe('Select', () => {
         const wrapper = mountSelect({
           add: {
             alwaysVisible: true,
-            label: 'Add Something'
-          }
+            label: 'Add Something',
+          },
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        const addButton = instance._popup!.popup!.popup!.
-          querySelector('[data-test~="ring-select-toolbar-button"]');
+        const addButton = instance._popup!.popup!.popup!.querySelector('[data-test~="ring-select-toolbar-button"]');
 
         addButton!.should.contain.text('Add Something');
       });
@@ -438,21 +434,20 @@ describe('Select', () => {
       it('Should process filterValue into a label at the "Add" button if "add.label" prop is a function', () => {
         const wrapper = mountSelect({
           add: {
-            label: value => `--${value}--`
-          }
+            label: value => `--${value}--`,
+          },
         });
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('test');
         instance._showPopup();
-        const addButton = instance._popup!.popup!.popup!.
-          querySelector('[data-test~="ring-select-toolbar-button"]');
+        const addButton = instance._popup!.popup!.popup!.querySelector('[data-test~="ring-select-toolbar-button"]');
 
         addButton!.should.contain.text('--test--');
       });
 
       it('Should add hint if specified', () => {
         const wrapper = mountSelect({
-          hint: 'blah blah'
+          hint: 'blah blah',
         });
         const instance = wrapper.instance();
         instance._showPopup();
@@ -462,7 +457,7 @@ describe('Select', () => {
       it('Hint should be placed under "add" button', () => {
         const wrapper = mountSelect({
           add: {},
-          hint: 'blah blah'
+          hint: 'blah blah',
         });
         const instance = wrapper.instance();
         instance._showPopup();
@@ -490,11 +485,13 @@ describe('Select', () => {
     });
 
     it('Should not filter separators', () => {
-      const separators = [{
-        rgItemType: List.ListProps.Type.SEPARATOR,
-        key: 1,
-        description: 'test'
-      }];
+      const separators = [
+        {
+          rgItemType: List.ListProps.Type.SEPARATOR,
+          key: 1,
+          description: 'test',
+        },
+      ];
       const wrapper = shallowSelect({data: separators});
       const instance = wrapper.instance();
 
@@ -503,11 +500,13 @@ describe('Select', () => {
     });
 
     it('Should not filter hints', () => {
-      const hints = [{
-        rgItemType: List.ListProps.Type.HINT,
-        key: 1,
-        description: 'test'
-      }];
+      const hints = [
+        {
+          rgItemType: List.ListProps.Type.HINT,
+          key: 1,
+          description: 'test',
+        },
+      ];
       const wrapper = shallowSelect({data: hints});
       const instance = wrapper.instance();
 
@@ -516,12 +515,14 @@ describe('Select', () => {
     });
 
     it('Should filter custom items with label', () => {
-      const customItems = [{
-        rgItemType: List.ListProps.Type.CUSTOM,
-        key: 1,
-        label: 'bar',
-        template: <div/>
-      }];
+      const customItems = [
+        {
+          rgItemType: List.ListProps.Type.CUSTOM,
+          key: 1,
+          label: 'bar',
+          template: <div />,
+        },
+      ];
       const wrapper = shallowSelect({data: customItems});
       const instance = wrapper.instance();
 
@@ -530,10 +531,12 @@ describe('Select', () => {
     });
 
     it('Should not filter items without label', () => {
-      const items = [{
-        key: 1,
-        description: 'test'
-      }];
+      const items = [
+        {
+          key: 1,
+          description: 'test',
+        },
+      ];
       const wrapper = shallowSelect({data: items});
       const instance = wrapper.instance();
 
@@ -545,7 +548,7 @@ describe('Select', () => {
       const filterStub = sandbox.stub().returns(true);
 
       const wrapper = shallowSelect({
-        filter: {fn: filterStub}
+        filter: {fn: filterStub},
       });
       const instance = wrapper.instance();
 
@@ -558,8 +561,8 @@ describe('Select', () => {
     it('Should write filter query on add button if enabled', () => {
       const wrapper = shallowSelect({
         add: {
-          prefix: 'Add some'
-        }
+          prefix: 'Add some',
+        },
       });
       const instance = wrapper.instance();
 
@@ -575,7 +578,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
       wrapper.setState({
         focused: true,
-        showPopup: true
+        showPopup: true,
       });
       simulateInput(instance._popup!.filter!, 'a');
       wrapper.prop('onFilter')!.should.be.called;
@@ -664,18 +667,13 @@ describe('Select', () => {
     selected: testData.slice(0, 2),
     filter: true,
     multiple: true,
-    onChange: sandbox.spy()
+    onChange: sandbox.spy(),
   });
 
-  const shallowSelectMultiple = (props?: MultipleSelectAttrs) => shallow<Select>(
-    <Select {...defaultPropsMultiple()} {...props}/>
-  );
-  const mountSelectMultiple = (
-    props?: MultipleSelectAttrs
-  ): ReactWrapper<MultipleSelectAttrs, SelectState, Select> => {
-    const wrapper = mount<Select, MultipleSelectAttrs>(
-      <Select {...defaultPropsMultiple()} {...props}/>
-    );
+  const shallowSelectMultiple = (props?: MultipleSelectAttrs) =>
+    shallow<Select>(<Select {...defaultPropsMultiple()} {...props} />);
+  const mountSelectMultiple = (props?: MultipleSelectAttrs): ReactWrapper<MultipleSelectAttrs, SelectState, Select> => {
+    const wrapper = mount<Select, MultipleSelectAttrs>(<Select {...defaultPropsMultiple()} {...props} />);
     mountWrapper = wrapper;
     return wrapper;
   };
@@ -701,7 +699,7 @@ describe('Select', () => {
 
     it('Should skip empty labels', () => {
       const wrapper = shallowSelectMultiple({
-        selected: testData.slice(2)
+        selected: testData.slice(2),
       });
       const instance = wrapper.instance();
       const selectedLabel = instance._getSelectedString();
@@ -803,14 +801,13 @@ describe('Select', () => {
 
       it('Should call onDeselect on deselecting item', () => {
         const wrapper = mountSelectMultiple({
-          onDeselect: sandbox.spy()
+          onDeselect: sandbox.spy(),
         });
         const instance = wrapper.instance();
         instance._listSelectHandler(testData[0]);
         wrapper.prop('onDeselect')!.should.be.calledWith(testData[0]);
       });
     });
-
   });
 
   describe('On selecting', () => {
@@ -822,7 +819,7 @@ describe('Select', () => {
       instance._listSelectHandler({
         key: 1,
         label: 'test',
-        disabled: true
+        disabled: true,
       });
 
       instance.setState.should.not.be.called;
@@ -836,7 +833,7 @@ describe('Select', () => {
       instance._listSelectHandler({
         key: 1,
         label: 'test',
-        rgItemType: List.ListProps.Type.SEPARATOR
+        rgItemType: List.ListProps.Type.SEPARATOR,
       });
 
       instance.setState.should.not.be.called;
@@ -850,7 +847,7 @@ describe('Select', () => {
       instance._listSelectHandler({
         key: 1,
         label: 'test',
-        rgItemType: List.ListProps.Type.CUSTOM
+        rgItemType: List.ListProps.Type.CUSTOM,
       });
 
       instance.setState.should.be.called;
@@ -865,7 +862,7 @@ describe('Select', () => {
 
     it('Should set call onSelect on selecting', () => {
       const wrapper = mountSelect({
-        onSelect: sandbox.spy()
+        onSelect: sandbox.spy(),
       });
       const instance = wrapper.instance();
       instance._listSelectHandler(testData[1]);
@@ -874,7 +871,7 @@ describe('Select', () => {
 
     it('Should set call onChange on selecting', () => {
       const wrapper = mountSelect({
-        onChange: sandbox.spy()
+        onChange: sandbox.spy(),
       });
       const instance = wrapper.instance();
       instance._listSelectHandler(testData[1]);
@@ -915,7 +912,7 @@ describe('Select', () => {
       const wrapper = mountSelectMultiple({
         onSelect: sandbox.spy(),
         selected: [],
-        data: testData
+        data: testData,
       });
       const instance = wrapper.instance();
       instance._listSelectAllHandler();
@@ -926,7 +923,7 @@ describe('Select', () => {
       const wrapper = mountSelectMultiple({
         onSelect: sandbox.spy(),
         selected: [testData[0]],
-        data: testData
+        data: testData,
       });
       const instance = wrapper.instance();
       instance._listSelectAllHandler();
@@ -937,7 +934,7 @@ describe('Select', () => {
       const wrapper = mountSelectMultiple({
         onDeselect: sandbox.spy(),
         selected: [testData[0], testData[1], testData[2]],
-        data: testData
+        data: testData,
       });
       const instance = wrapper.instance();
       instance._listSelectAllHandler(false);
@@ -948,7 +945,7 @@ describe('Select', () => {
       const wrapper = mountSelectMultiple({
         onChange: sandbox.spy(),
         selected: [testData[0]],
-        data: testData
+        data: testData,
       });
       const instance = wrapper.instance();
       instance._listSelectAllHandler();
@@ -959,12 +956,9 @@ describe('Select', () => {
   describe('Popup', () => {
     let container: HTMLElement | null;
     const mountSelectToContainer = (props: SelectAttrs) => {
-      mountWrapper = mount(
-        <Select {...props}/>,
-        {
-          attachTo: container
-        }
-      );
+      mountWrapper = mount(<Select {...props} />, {
+        attachTo: container,
+      });
     };
     beforeEach(() => {
       container = document.createElement('div');
@@ -1028,15 +1022,13 @@ describe('Select', () => {
     it('Should restore focus on select in button mode after closing popup', () => {
       mountSelectToContainer({
         data: testData,
-        filter: true
+        filter: true,
       });
       const instance = mountWrapper!.instance();
 
       instance._showPopup();
       instance._hidePopup(true);
-      document.activeElement!.should.equal(
-        mountWrapper!.find('button[data-test*="ring-select__button"]').getDOMNode()
-      );
+      document.activeElement!.should.equal(mountWrapper!.find('button[data-test*="ring-select__button"]').getDOMNode());
     });
 
     describe('Focus after close', () => {
@@ -1049,7 +1041,7 @@ describe('Select', () => {
         mountSelectToContainer({
           data: testData,
           filter: true,
-          targetElement: targetInput
+          targetElement: targetInput,
         });
         instance = mountWrapper!.instance();
 
@@ -1084,7 +1076,6 @@ describe('Select', () => {
         targetInput!.should.not.equal(document.activeElement);
       });
     });
-
   });
 
   describe('_getResetOption', () => {
@@ -1099,12 +1090,12 @@ describe('Select', () => {
           glyph: 'glyph',
           rgItemType: List.ListProps.Type.CUSTOM,
           className: 'cssClass',
-          onClick: () => {}
-        }
+          onClick: () => {},
+        },
       };
       instance = shallowSelectMultiple({
         selected: [{key: 0}, {key: 1}],
-        tags: tagsMock
+        tags: tagsMock,
       }).instance();
 
       const resetOption = instance._getResetOption()!;
@@ -1116,7 +1107,7 @@ describe('Select', () => {
 
     it('should not create tags reset option if it is not provided', () => {
       instance = shallowSelectMultiple({
-        selected: [{key: 0}, {key: 1}]
+        selected: [{key: 0}, {key: 1}],
       }).instance();
 
       should.not.exist(instance._getResetOption());
@@ -1125,13 +1116,12 @@ describe('Select', () => {
     it('should not create tags reset option without selected elements', () => {
       instance = shallowSelectMultiple({
         selected: [],
-        tags: {reset: {}}
+        tags: {reset: {}},
       }).instance();
 
       should.not.exist(instance._getResetOption());
     });
   });
-
 
   describe('_prependResetOption', () => {
     let instance;
@@ -1161,7 +1151,7 @@ describe('Select', () => {
 
     function getInstance(resetWithSeparator?: boolean, selected?: SelectItem[]) {
       const resetMock: Tags = {
-        reset: {}
+        reset: {},
       };
       if (resetWithSeparator) {
         resetMock.reset!.separator = true;
@@ -1169,11 +1159,10 @@ describe('Select', () => {
 
       return shallowSelectMultiple({
         selected: selected || [{key: 0}, {key: 1}],
-        tags: resetMock
+        tags: resetMock,
       }).instance();
     }
   });
-
 
   describe('_redrawPopup', () => {
     let clock: Sinon.SinonFakeTimers;
@@ -1193,7 +1182,7 @@ describe('Select', () => {
 
     it('should redraw a popup in multiselect mode', () => {
       const instance = shallowSelectMultiple({
-        selected: testData.slice(1)
+        selected: testData.slice(1),
       }).instance();
 
       sandbox.stub(instance, '_showPopup');

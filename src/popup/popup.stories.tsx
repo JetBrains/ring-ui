@@ -1,7 +1,6 @@
 import {Component, ReactNode} from 'react';
 import classNames from 'classnames';
 
-
 import Popup from './popup';
 
 const {Directions} = Popup.PopupProps;
@@ -9,23 +8,22 @@ export default {
   title: 'Components/Popup',
 
   parameters: {
-    notes: 'Displays a popup.'
-  }
+    notes: 'Displays a popup.',
+  },
 };
 
 interface PopupDemoState {
-  topLeft?: boolean
-  topRight?: boolean
-  bottomLeft?: boolean
-  bottomRight?: boolean
+  topLeft?: boolean;
+  topRight?: boolean;
+  bottomLeft?: boolean;
+  bottomRight?: boolean;
 }
 export const basic = () => {
-
   const directionMap = {
     topLeft: Directions.BOTTOM_RIGHT,
     topRight: Directions.BOTTOM_LEFT,
     bottomLeft: Directions.TOP_RIGHT,
-    bottomRight: Directions.TOP_LEFT
+    bottomRight: Directions.TOP_LEFT,
   };
 
   const directionKeys = Object.keys(directionMap) as (keyof typeof directionMap)[];
@@ -66,7 +64,7 @@ export const basic = () => {
     }
   }
 
-  return <PopupDemo/>;
+  return <PopupDemo />;
 };
 
 basic.storyName = 'basic';
@@ -116,7 +114,7 @@ basic.parameters = {
     background-color: orange;
   }
 </style>
-      `
+      `,
 };
 
 export const autoPositioning = () => {
@@ -201,12 +199,12 @@ autoPositioning.parameters = {
     top: 0;
   }
 </style>
-      `
+      `,
 };
 
 export const popupInAPopup = () => {
   interface PopupBoxProps {
-    children?: ReactNode
+    children?: ReactNode;
   }
   class PopupBox extends Component<PopupBoxProps> {
     state = {hidden: false};
@@ -259,7 +257,7 @@ popupInAPopup.parameters = {
     margin: 8px;
   }
 </style>
-      `
+      `,
 };
 
 export const insideAScrollableContainer = () => (
@@ -299,7 +297,7 @@ insideAScrollableContainer.parameters = {
       display: inline-block;
     }
 </style>
-      `
+      `,
 };
 
 export const fitsScreen = () => {
@@ -346,12 +344,22 @@ fitsScreen.parameters = {
       bottom: 20px;
     }
 </style>
-      `
+      `,
 };
 
 export const AllDirections = () => (
   <div style={{padding: 32}}>
-    <div style={{margin: 'auto', width: 320, height: 80, border: '1px solid var(--ring-borders-color)', padding: '16px', boxSizing: 'border-box', textAlign: 'center'}}>
+    <div
+      style={{
+        margin: 'auto',
+        width: 320,
+        height: 80,
+        border: '1px solid var(--ring-borders-color)',
+        padding: '16px',
+        boxSizing: 'border-box',
+        textAlign: 'center',
+      }}
+    >
       Anchor
       <Popup directions={[Directions.BOTTOM_LEFT]}>Bottom left</Popup>
       <Popup directions={[Directions.BOTTOM_CENTER]}>Bottom center</Popup>

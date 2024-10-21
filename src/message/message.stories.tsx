@@ -2,7 +2,6 @@ import searchIcon from '@jetbrains/icons/search';
 
 import {StoryFn} from '@storybook/react';
 
-
 import Popup from '../popup/popup';
 import Icon from '../icon/icon';
 
@@ -19,15 +18,16 @@ export default {
   args: {
     title: 'This is title',
     direction: Directions.TOP_RIGHT,
-    children: 'This is long long long long long long long long long long long long long long long long long long description'
-  }
+    children:
+      'This is long long long long long long long long long long long long long long long long long long description',
+  },
 };
 
 export const basic: StoryFn<MessageAttrs> = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
-      <Message {...args}/>
+      <Message {...args} />
     </span>
   </div>
 );
@@ -35,28 +35,28 @@ export const basic: StoryFn<MessageAttrs> = args => (
 basic.storyName = 'basic';
 basic.args = {
   tailOffset: 32,
-  onClose: () => {}
+  onClose: () => {},
 };
 
 export const light: StoryFn<MessageAttrs> = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
-      <Message {...args}/>
+      <Message {...args} />
     </span>
   </div>
 );
 light.args = {
   theme: Theme.LIGHT,
   onClose: () => {},
-  onDismiss: () => {}
+  onDismiss: () => {},
 };
 
 export const withOnDissmiss: StoryFn<MessageAttrs> = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
-      <Message {...args}/>
+      <Message {...args} />
     </span>
   </div>
 );
@@ -65,19 +65,19 @@ withOnDissmiss.storyName = 'with onDissmiss';
 withOnDissmiss.args = {
   tailOffset: 32,
   onClose: () => {},
-  onDismiss: () => {}
+  onDismiss: () => {},
 };
 
 export const wishNarrowAnchor: StoryFn<MessageAttrs> = args => (
   <div style={{padding: 200}}>
     <span>
-      <Icon glyph={searchIcon}/>
-      <Message {...args}/>
+      <Icon glyph={searchIcon} />
+      <Message {...args} />
     </span>
   </div>
 );
 
 wishNarrowAnchor.storyName = 'with narrow anchor';
 wishNarrowAnchor.args = {
-  popupProps: {left: -8}
+  popupProps: {left: -8},
 };

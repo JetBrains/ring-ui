@@ -5,7 +5,7 @@ import {render, screen} from '@testing-library/react';
 import Group from './group';
 
 describe('Group', () => {
-  const renderGroup = (props?: HTMLAttributes<HTMLDivElement>) => render(<Group {...props}/>);
+  const renderGroup = (props?: HTMLAttributes<HTMLDivElement>) => render(<Group {...props} />);
 
   it('should create component', () => {
     renderGroup();

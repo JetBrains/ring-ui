@@ -18,27 +18,27 @@ import {preventerFactory as scrollPreventerFactory} from './dialog__body-scroll-
 import styles from './dialog.css';
 
 export interface DialogProps extends Partial<TabTrapProps> {
-  show: boolean
-  label: string
-  onOverlayClick: (event: React.MouseEvent<HTMLElement>) => void
-  onEscPress: (event: KeyboardEvent) => void
-  onCloseClick: (event: React.MouseEvent<HTMLElement>) => void
+  show: boolean;
+  label: string;
+  onOverlayClick: (event: React.MouseEvent<HTMLElement>) => void;
+  onEscPress: (event: KeyboardEvent) => void;
+  onCloseClick: (event: React.MouseEvent<HTMLElement>) => void;
   // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
   // Use it if you don't need different behaviors for this cases.
-  onCloseAttempt: (event: React.MouseEvent<HTMLElement> | KeyboardEvent) => void
-  showCloseButton: boolean
+  onCloseAttempt: (event: React.MouseEvent<HTMLElement> | KeyboardEvent) => void;
+  showCloseButton: boolean;
   shortcutOptions: ShortcutsScopeOptions;
-  closeButtonInside: boolean
-  closeButtonTitle?: string
+  closeButtonInside: boolean;
+  closeButtonTitle?: string;
   // focusTrap may break popups inside dialog, so use it carefully
-  trapFocus: boolean
-  contentClassName?: string | null | undefined
-  portalTarget?: Element | null | undefined
-  'data-test'?: string | null | undefined
-  dense?: boolean | null | undefined
-  native?: boolean
-  modal?: boolean
-  preventBodyScroll?: boolean
+  trapFocus: boolean;
+  contentClassName?: string | null | undefined;
+  portalTarget?: Element | null | undefined;
+  'data-test'?: string | null | undefined;
+  dense?: boolean | null | undefined;
+  native?: boolean;
+  modal?: boolean;
+  preventBodyScroll?: boolean;
 }
 
 /**
@@ -60,11 +60,11 @@ export default class Dialog extends PureComponent<DialogProps> {
     trapFocus: false,
     autoFocusFirst: true,
     modal: true,
-    preventBodyScroll: true
+    preventBodyScroll: true,
   };
 
   state = {
-    shortcutsScope: getUID('ring-dialog-')
+    shortcutsScope: getUID('ring-dialog-'),
   };
 
   componentDidMount() {
@@ -139,7 +139,7 @@ export default class Dialog extends PureComponent<DialogProps> {
     };
 
     return {
-      esc: onEscape
+      esc: onEscape,
     };
   };
 
@@ -151,19 +151,34 @@ export default class Dialog extends PureComponent<DialogProps> {
   nativeDialog = createRef<HTMLDialogElement>();
 
   render() {
-    const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
-      children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
-      portalTarget, label, closeButtonTitle, dense, shortcutOptions, native, modal,
-      preventBodyScroll, ...restProps} = this.props;
+    const {
+      show,
+      showCloseButton,
+      onOverlayClick,
+      onCloseAttempt,
+      onEscPress,
+      onCloseClick,
+      children,
+      className,
+      contentClassName,
+      trapFocus,
+      'data-test': dataTest,
+      closeButtonInside,
+      portalTarget,
+      label,
+      closeButtonTitle,
+      dense,
+      shortcutOptions,
+      native,
+      modal,
+      preventBodyScroll,
+      ...restProps
+    } = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
     const content = (
       <>
-        <Shortcuts
-          map={shortcutsMap}
-          scope={this.state.shortcutsScope}
-          options={this.props.shortcutOptions}
-        />
+        <Shortcuts map={shortcutsMap} scope={this.state.shortcutsScope} options={this.props.shortcutOptions} />
         {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
           <div
             // click handler is duplicated in close button
@@ -181,22 +196,20 @@ export default class Dialog extends PureComponent<DialogProps> {
             aria-label={label}
           >
             {children}
-            {showCloseButton &&
-              (
-                <Button
-                  icon={closeIcon}
-                  data-test="ring-dialog-close-button"
-                  className={classNames(styles.closeButton, {
-                    [styles.closeButtonOutside]: !closeButtonInside,
-                    [styles.closeButtonInside]: closeButtonInside
-                  })}
-                  iconClassName={styles.closeIcon}
-                  onClick={this.onCloseClick}
-                  title={closeButtonTitle}
-                  aria-label={closeButtonTitle || 'close dialog'}
-                />
-              )
-            }
+            {showCloseButton && (
+              <Button
+                icon={closeIcon}
+                data-test="ring-dialog-close-button"
+                className={classNames(styles.closeButton, {
+                  [styles.closeButtonOutside]: !closeButtonInside,
+                  [styles.closeButtonInside]: closeButtonInside,
+                })}
+                iconClassName={styles.closeIcon}
+                onClick={this.onCloseClick}
+                title={closeButtonTitle}
+                aria-label={closeButtonTitle || 'close dialog'}
+              />
+            )}
           </AdaptiveIsland>
         </div>
       </>
@@ -206,16 +219,22 @@ export default class Dialog extends PureComponent<DialogProps> {
       return (
         <dialog className={classNames(styles.nativeDialog, className)} ref={this.nativeDialog}>
           <PopupTarget id={this.uid} className={styles.popupTarget}>
-            {target => <>{content}{target}</>}
+            {target => (
+              <>
+                {content}
+                {target}
+              </>
+            )}
           </PopupTarget>
         </dialog>
       );
     }
 
-    return show && createPortal(
-      <PopupTarget id={this.uid} className={styles.popupTarget}>
-        {
-          target => (
+    return (
+      show &&
+      createPortal(
+        <PopupTarget id={this.uid} className={styles.popupTarget}>
+          {target => (
             <TabTrap
               trapDisabled={!trapFocus}
               data-test={dataTests('ring-dialog-container', dataTest)}
@@ -227,12 +246,12 @@ export default class Dialog extends PureComponent<DialogProps> {
               {content}
               {target}
             </TabTrap>
-          )
-        }
-      </PopupTarget>,
-      portalTarget instanceof HTMLElement ? portalTarget : document.body
+          )}
+        </PopupTarget>,
+        portalTarget instanceof HTMLElement ? portalTarget : document.body,
+      )
     );
   }
 }
 
-export type DialogAttrs = JSX.LibraryManagedAttributes<typeof Dialog, DialogProps>
+export type DialogAttrs = JSX.LibraryManagedAttributes<typeof Dialog, DialogProps>;

@@ -1,6 +1,5 @@
 import {PureComponent} from 'react';
 
-
 import TableSelection from '../table/selection';
 
 import DataList from './data-list';
@@ -12,8 +11,8 @@ export default {
   title: 'Components/DataList',
 
   parameters: {
-    notes: 'A component for rendering interactive hierarchical tables.'
-  }
+    notes: 'A component for rendering interactive hierarchical tables.',
+  },
 };
 
 export const basic = () => {
@@ -35,8 +34,8 @@ export const basic = () => {
       selection: new Selection({
         data: mock,
         isItemSelectable: item => item.selectable,
-        getChildren: this.getChildren
-      })
+        getChildren: this.getChildren,
+      }),
     };
 
     moreExpandableItems = new Set([mock[0].id]);
@@ -44,9 +43,7 @@ export const basic = () => {
 
     itemMoreLessState = (item: FormattedItem<Item>) => {
       if (item.id != null && this.moreExpandableItems.has(item.id)) {
-        return this.moreExpandedItems.has(item.id)
-          ? moreLessButtonStates.LESS
-          : moreLessButtonStates.MORE;
+        return this.moreExpandedItems.has(item.id) ? moreLessButtonStates.LESS : moreLessButtonStates.MORE;
       } else {
         return moreLessButtonStates.UNUSED;
       }
@@ -94,7 +91,7 @@ export const basic = () => {
         collapsible,
         collapsed,
         onCollapse,
-        onExpand
+        onExpand,
       };
     };
 
@@ -112,7 +109,7 @@ export const basic = () => {
     }
   }
 
-  return <DataListDemo/>;
+  return <DataListDemo />;
 };
 
 basic.storyName = 'DataList';

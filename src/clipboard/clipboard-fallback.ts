@@ -9,10 +9,7 @@ export function copyTextToClipboard(str: string) {
 
   const selection = document.getSelection();
   // Should restore previous selection
-  const selected =
-    (selection && selection.rangeCount > 0)
-      ? selection.getRangeAt(0)
-      : false;
+  const selected = selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
 
   el.select();
 
@@ -36,10 +33,7 @@ export function copyHTMLToClipboard(str: string) {
 
   const selection = document.getSelection();
   // Should restore previous selection
-  const selected =
-    (selection && selection.rangeCount > 0)
-      ? selection.getRangeAt(0)
-      : false;
+  const selected = selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
 
   selection?.removeAllRanges();
   const range = document.createRange();

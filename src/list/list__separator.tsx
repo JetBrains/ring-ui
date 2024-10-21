@@ -9,13 +9,9 @@ export default class ListSeparator<T> extends PureComponent<ListDataItemProps<T>
     const {description, isFirst, className} = this.props;
 
     const classes = classNames(styles.separator, className, {
-      [styles.separator_first]: isFirst
+      [styles.separator_first]: isFirst,
     });
 
-    return (
-      <span
-        className={classes}
-      >{description}</span>
-    );
+    return <span className={classes}>{description}</span>;
   }
 }

@@ -13,21 +13,29 @@ describe('List Users Groups Source', () => {
   it('Should convert users to list model', async () => {
     const source = new ListUsersGroupsSource(fakeAuth);
 
-    sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
-      id: 'test-user',
-      name: 'test user',
-      login: 'testUser',
-      type: 'user',
-      profile: {avatar: {url: 'http://test.com.url'}}
-    }]));
+    sandbox.stub(source, 'getUsers').returns(
+      Promise.resolve([
+        {
+          id: 'test-user',
+          name: 'test user',
+          login: 'testUser',
+          type: 'user',
+          profile: {avatar: {url: 'http://test.com.url'}},
+        },
+      ]),
+    );
 
-    sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
-      id: 'test-group',
-      name: 'test group',
-      type: 'userGroup',
-      userCount: 123,
-      iconUrl: 'http://foo.bar'
-    }]));
+    sandbox.stub(source, 'getGroups').returns(
+      Promise.resolve([
+        {
+          id: 'test-group',
+          name: 'test group',
+          type: 'userGroup',
+          userCount: 123,
+          iconUrl: 'http://foo.bar',
+        },
+      ]),
+    );
 
     const dataForList = await source.getForList();
     dataForList.should.deep.contain({
@@ -39,28 +47,35 @@ describe('List Users Groups Source', () => {
       type: 'user',
       label: 'test user',
       description: 'testUser',
-      avatar: 'http://test.com.url'
+      avatar: 'http://test.com.url',
     });
-
   });
 
   it('Should convert usergroups to list model', async () => {
     const source = new ListUsersGroupsSource(fakeAuth);
 
-    sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
-      id: 'test-user',
-      name: 'test user',
-      login: 'test user',
-      profile: {avatar: {url: 'http://test.com.url'}}
-    }]));
+    sandbox.stub(source, 'getUsers').returns(
+      Promise.resolve([
+        {
+          id: 'test-user',
+          name: 'test user',
+          login: 'test user',
+          profile: {avatar: {url: 'http://test.com.url'}},
+        },
+      ]),
+    );
 
-    sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
-      id: 'test-group',
-      name: 'test group',
-      type: 'userGroup',
-      userCount: 123,
-      iconUrl: 'http://foo.bar'
-    }]));
+    sandbox.stub(source, 'getGroups').returns(
+      Promise.resolve([
+        {
+          id: 'test-group',
+          name: 'test group',
+          type: 'userGroup',
+          userCount: 123,
+          iconUrl: 'http://foo.bar',
+        },
+      ]),
+    );
 
     const dataForList = await source.getForList();
     dataForList.should.deep.contain({
@@ -73,27 +88,35 @@ describe('List Users Groups Source', () => {
       userCount: 123,
       avatar: 'http://foo.bar',
       glyph: null,
-      iconUrl: 'http://foo.bar'
+      iconUrl: 'http://foo.bar',
     });
   });
 
   it('Should support userCount plural formatter', async () => {
     const source = new ListUsersGroupsSource(fakeAuth, {
-      getPluralForUserCount: count => `${count} text`
+      getPluralForUserCount: count => `${count} text`,
     });
 
-    sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
-      id: 'test-user',
-      name: 'test user',
-      login: 'test user',
-      profile: {avatar: {url: 'http://test.com.url'}}
-    }]));
+    sandbox.stub(source, 'getUsers').returns(
+      Promise.resolve([
+        {
+          id: 'test-user',
+          name: 'test user',
+          login: 'test user',
+          profile: {avatar: {url: 'http://test.com.url'}},
+        },
+      ]),
+    );
 
-    sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
-      id: 'test-group',
-      name: 'test group',
-      userCount: 123
-    }]));
+    sandbox.stub(source, 'getGroups').returns(
+      Promise.resolve([
+        {
+          id: 'test-group',
+          name: 'test group',
+          userCount: 123,
+        },
+      ]),
+    );
 
     const dataForList = await source.getForList();
     dataForList[3].description.should.equal('123 text');
@@ -104,8 +127,7 @@ describe('List Users Groups Source', () => {
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([]));
 
-    sandbox.stub(source, 'getGroups').
-      returns(Promise.resolve([{id: 'test-group', name: 'test group', userCount: 0}]));
+    sandbox.stub(source, 'getGroups').returns(Promise.resolve([{id: 'test-group', name: 'test group', userCount: 0}]));
 
     const dataForList = await source.getForList();
     dataForList[0].description.should.equal('No users');
@@ -114,12 +136,16 @@ describe('List Users Groups Source', () => {
   it('Should display "No groups" title if no groups found', async () => {
     const source = new ListUsersGroupsSource(fakeAuth, {});
 
-    sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
-      id: 'test-group',
-      name: 'test user',
-      login: 'test user',
-      profile: {avatar: {url: 'http://test.com.url'}}
-    }]));
+    sandbox.stub(source, 'getUsers').returns(
+      Promise.resolve([
+        {
+          id: 'test-group',
+          name: 'test user',
+          login: 'test user',
+          profile: {avatar: {url: 'http://test.com.url'}},
+        },
+      ]),
+    );
 
     sandbox.stub(source, 'getGroups').returns(Promise.resolve([]));
 

@@ -8,11 +8,6 @@ export default class Caption extends PureComponent<HTMLAttributes<HTMLElement>> 
     const {className} = this.props;
     const classes = classNames(styles.caption, className);
 
-    return (
-      <span
-        {...this.props}
-        className={classes}
-      />
-    );
+    return <span {...this.props} className={classes} />;
   }
 }

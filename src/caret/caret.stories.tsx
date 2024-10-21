@@ -12,8 +12,8 @@ export default {
   parameters: {
     notes:
       'Allows manipulation of the caret position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).',
-    screenshots: {skip: true}
-  }
+    screenshots: {skip: true},
+  },
 };
 
 export const Basic = () => {
@@ -42,7 +42,9 @@ dolor sit amet`}
             caret.current?.setPosition(4);
             event.preventDefault();
           }}
-        >Set caret position</Link>
+        >
+          Set caret position
+        </Link>
       </div>
     </>
   );

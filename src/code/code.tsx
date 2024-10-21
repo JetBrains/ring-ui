@@ -20,13 +20,13 @@ const registerLanguage = memoize(async (language: string) => {
 });
 
 export interface CodeProps {
-  code: string
-  inline: boolean
-  softWrap: boolean
-  replacer: ((element: HTMLElement | null) => void)
-  className?: string | null | undefined
-  language?: string | null | undefined
-  codeRef?: Ref<HTMLElement> | null | undefined
+  code: string;
+  inline: boolean;
+  softWrap: boolean;
+  replacer: (element: HTMLElement | null) => void;
+  className?: string | null | undefined;
+  language?: string | null | undefined;
+  codeRef?: Ref<HTMLElement> | null | undefined;
 }
 
 /**
@@ -37,7 +37,7 @@ export default class Code extends PureComponent<CodeProps> {
   static defaultProps = {
     inline: false,
     softWrap: false,
-    replacer: noop
+    replacer: noop,
   };
 
   componentDidMount() {
@@ -91,7 +91,7 @@ export default class Code extends PureComponent<CodeProps> {
     const Tag = inline ? 'span' : 'pre';
     const classes = classNames(styles.code, className, language, {
       [styles.inline]: inline,
-      [styles.softWrap]: softWrap
+      [styles.softWrap]: softWrap,
     });
 
     return (
@@ -109,6 +109,6 @@ export default class Code extends PureComponent<CodeProps> {
   }
 }
 
-const code = trivialTemplateTag((source: string) => <Code code={source}/>);
+const code = trivialTemplateTag((source: string) => <Code code={source} />);
 
 export {code, highlight};

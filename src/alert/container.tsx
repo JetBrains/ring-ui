@@ -10,7 +10,7 @@ import styles from './container.css';
  * @extends {PureComponent}
  */
 
-export type AlertContainerProps = HTMLAttributes<HTMLDivElement>
+export type AlertContainerProps = HTMLAttributes<HTMLDivElement>;
 
 export default class Alerts extends PureComponent<AlertContainerProps> {
   render() {
@@ -23,12 +23,7 @@ export default class Alerts extends PureComponent<AlertContainerProps> {
     }
 
     return createPortal(
-      <div
-        data-test="alert-container"
-        className={classes}
-        aria-live="polite"
-        {...restProps}
-      >
+      <div data-test="alert-container" className={classes} aria-live="polite" {...restProps}>
         {Children.map(children, child => {
           if (!isValidElement(child)) {
             return child;
@@ -37,11 +32,11 @@ export default class Alerts extends PureComponent<AlertContainerProps> {
           const alertClassNames = classNames(styles.alertInContainer, child.props.className);
 
           return cloneElement(child, {
-            className: alertClassNames
+            className: alertClassNames,
           } as Partial<unknown>);
         })}
       </div>,
-      document.body
+      document.body,
     );
   }
 }

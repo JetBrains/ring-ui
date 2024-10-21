@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Button from '../button/button';
 
 import AuthDialog from './auth-dialog';
@@ -8,20 +7,19 @@ import AuthDialog from './auth-dialog';
 // eslint-disable-next-line import/order
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 
-
 export default {
   title: 'Components/Auth Dialog',
 
   parameters: {
     notes: 'A component that shows an authentication dialog.',
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
-  }
+    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
+  },
 };
 
 interface AuthDialogArgs {
-  onConfirm: () => void
-  onCancel: () => void
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 export const authDialog = ({onConfirm, onCancel}: AuthDialogArgs) => {
   class AuthDialogDemo extends Component {
@@ -29,8 +27,8 @@ export const authDialog = ({onConfirm, onCancel}: AuthDialogArgs) => {
       confirm: {
         show: true,
         onConfirm: () => {},
-        onReject: () => {}
-      }
+        onReject: () => {},
+      },
     };
 
     componentDidMount() {
@@ -55,12 +53,12 @@ export const authDialog = ({onConfirm, onCancel}: AuthDialogArgs) => {
             onCancel: () => {
               this.hideAuthDialog();
               reject();
-            }
-          }
+            },
+          },
         });
-      }).
-        then(onConfirm).
-        catch(onCancel);
+      })
+        .then(onConfirm)
+        .catch(onCancel);
 
     render() {
       return (
@@ -79,7 +77,7 @@ export const authDialog = ({onConfirm, onCancel}: AuthDialogArgs) => {
     }
   }
 
-  return <AuthDialogDemo/>;
+  return <AuthDialogDemo />;
 };
 
 authDialog.argTypes = {onConfirm: {}, onCancel: {}};

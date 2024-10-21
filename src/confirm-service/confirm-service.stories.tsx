@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Button from '../button/button';
 
 import confirm, {hideConfirm} from './confirm-service';
@@ -12,13 +11,13 @@ export default {
     notes:
       ' wrapper for the Confirm component. Allows showing the confirmation dialog * without mounting the Confirm component first. Can be used outside React.',
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
-  }
+    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
+  },
 };
 
 interface ConfirmServiceArgs {
-  onConfirm: () => void
-  onCancel: () => void
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 export const confirmService = ({onConfirm, onCancel}: ConfirmServiceArgs) => {
   class ConfirmDemo extends Component {
@@ -30,10 +29,7 @@ export const confirmService = ({onConfirm, onCancel}: ConfirmServiceArgs) => {
       hideConfirm();
     }
 
-    showConfirm = () =>
-      confirm({text: 'Do you really wish to proceed?'}).
-        then(onConfirm).
-        catch(onCancel);
+    showConfirm = () => confirm({text: 'Do you really wish to proceed?'}).then(onConfirm).catch(onCancel);
 
     showWithAnotherText = () =>
       confirm({
@@ -42,10 +38,10 @@ export const confirmService = ({onConfirm, onCancel}: ConfirmServiceArgs) => {
         confirmLabel: 'OK',
         rejectLabel: 'Cancel',
         cancelIsDefault: true,
-        onBeforeConfirm: () => new Promise(resolve => setTimeout(resolve, 1000))
-      }).
-        then(onConfirm).
-        catch(onCancel);
+        onBeforeConfirm: () => new Promise(resolve => setTimeout(resolve, 1000)),
+      })
+        .then(onConfirm)
+        .catch(onCancel);
 
     render() {
       return (
@@ -57,7 +53,7 @@ export const confirmService = ({onConfirm, onCancel}: ConfirmServiceArgs) => {
     }
   }
 
-  return <ConfirmDemo/>;
+  return <ConfirmDemo />;
 };
 
 confirmService.argTypes = {onConfirm: {}, onCancel: {}};

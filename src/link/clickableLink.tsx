@@ -7,13 +7,10 @@ const isPlainLeftClick = (e: React.MouseEvent) =>
   e.button === LEFT_BUTTON && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey;
 
 export interface ClickableLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  onConditionalClick?:
-    | ((isPlainLeft: boolean, e: React.MouseEvent<HTMLAnchorElement>) => void)
-    | null
-    | undefined
-  onPlainLeftClick?: ((e: React.MouseEvent<HTMLAnchorElement>) => void) | null | undefined
-  activeClassName?: string | null | undefined
-  disabled?: boolean | undefined
+  onConditionalClick?: ((isPlainLeft: boolean, e: React.MouseEvent<HTMLAnchorElement>) => void) | null | undefined;
+  onPlainLeftClick?: ((e: React.MouseEvent<HTMLAnchorElement>) => void) | null | undefined;
+  activeClassName?: string | null | undefined;
+  disabled?: boolean | undefined;
 }
 
 export default class ClickableLink extends PureComponent<ClickableLinkProps> {
@@ -37,13 +34,12 @@ export default class ClickableLink extends PureComponent<ClickableLinkProps> {
   };
 
   render() {
-    const {
-      onConditionalClick, onPlainLeftClick, activeClassName,
-      href,
-      children,
-      ...restProps
-    } = this.props;
+    const {onConditionalClick, onPlainLeftClick, activeClassName, href, children, ...restProps} = this.props;
 
-    return <a href={href} {...restProps} onClick={this.onClick}>{children}</a>;
+    return (
+      <a href={href} {...restProps} onClick={this.onClick}>
+        {children}
+      </a>
+    );
   }
 }

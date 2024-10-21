@@ -23,13 +23,13 @@ function renderAlert(message: ReactNode, type = Alert.Type.WARNING) {
 }
 
 export interface BackendDownTranslations {
-  backendIsNotAvailable: string
-  checkAgain: string
-  errorMessage: string
+  backendIsNotAvailable: string;
+  checkAgain: string;
+  errorMessage: string;
 }
 export interface BackendDownMessageProps {
-  translations: BackendDownTranslations
-  onCheckAgain: (e: React.MouseEvent) => void
+  translations: BackendDownTranslations;
+  onCheckAgain: (e: React.MouseEvent) => void;
 }
 
 function Message({translations, onCheckAgain}: BackendDownMessageProps) {
@@ -41,14 +41,16 @@ function Message({translations, onCheckAgain}: BackendDownMessageProps) {
         <div className={styles.title}>{backendIsNotAvailable}</div>
       </Group>
       <span className={styles.error}>{errorMessage} </span>
-      <Link onClick={onCheckAgain} data-test="check-again">{checkAgain}</Link>
+      <Link onClick={onCheckAgain} data-test="check-again">
+        {checkAgain}
+      </Link>
     </div>
   );
 }
 
 export interface OnBackendDownParams {
-  translations: BackendDownTranslations
-  onCheckAgain: () => void
+  translations: BackendDownTranslations;
+  onCheckAgain: () => void;
 }
 
 export default function onBackendDown({onCheckAgain, translations}: OnBackendDownParams) {
@@ -59,21 +61,11 @@ export default function onBackendDown({onCheckAgain, translations}: OnBackendDow
       renderAlert('Connecting...', Alert.Type.LOADING);
       await onCheckAgain();
     } catch (err) {
-      renderAlert(
-        <Message
-          translations={translations}
-          onCheckAgain={checkAgainWithoutClosing}
-        />
-      );
+      renderAlert(<Message translations={translations} onCheckAgain={checkAgainWithoutClosing} />);
     }
   }
 
-  renderAlert(
-    <Message
-      translations={translations}
-      onCheckAgain={checkAgainWithoutClosing}
-    />
-  );
+  renderAlert(<Message translations={translations} onCheckAgain={checkAgainWithoutClosing} />);
 
   return () => alertService.remove(key);
 }

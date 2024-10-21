@@ -11,7 +11,7 @@ export enum LabelType {
 
 const classNameByType: Record<LabelType, string> = {
   [LabelType.SECONDARY]: styles.secondaryLabel,
-  [LabelType.FORM]: styles.formLabel
+  [LabelType.FORM]: styles.formLabel,
 };
 
 interface ControlLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
@@ -19,16 +19,20 @@ interface ControlLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   type?: LabelType;
 }
 
-export const ControlLabel: React.FC<ControlLabelProps> = (
-  {children, type = LabelType.SECONDARY, disabled, ...rest}
-) => (
+export const ControlLabel: React.FC<ControlLabelProps> = ({
+  children,
+  type = LabelType.SECONDARY,
+  disabled,
+  ...rest
+}) => (
   <label
     className={classNames(styles.label, classNameByType[type], {
-      [styles.disabledLabel]: disabled
+      [styles.disabledLabel]: disabled,
     })}
     {...rest}
-  >{children}</label>
+  >
+    {children}
+  </label>
 );
-
 
 export default ControlLabel;

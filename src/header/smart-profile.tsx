@@ -1,29 +1,24 @@
 import {PureComponent} from 'react';
 
-import Auth, {
-  USER_CHANGED_EVENT,
-  LOGOUT_POSTPONED_EVENT,
-  USER_CHANGE_POSTPONED_EVENT, AuthUser
-} from '../auth/auth';
+import Auth, {USER_CHANGED_EVENT, LOGOUT_POSTPONED_EVENT, USER_CHANGE_POSTPONED_EVENT, AuthUser} from '../auth/auth';
 import alertService from '../alert-service/alert-service';
 
 import {Size} from '../avatar/avatar';
 
 import Profile, {ProfileAttrs} from './profile';
 
-
 const CERTIFICATE_MISMATCH_HEADER = 'x-client-certificate-token-mismatch';
 
 export interface SmartProfileProps extends ProfileAttrs {
-  auth: Auth
+  auth: Auth;
 }
 
 interface SmartProfileState {
-  user: AuthUser | null | undefined | void,
-  size: Size,
-  isLogoutPostponed: boolean,
-  isUserChangePostponed: boolean
-  loading?: boolean
+  user: AuthUser | null | undefined | void;
+  size: Size;
+  isLogoutPostponed: boolean;
+  isUserChangePostponed: boolean;
+  loading?: boolean;
 }
 
 export default class SmartProfile extends PureComponent<SmartProfileProps, SmartProfileState> {
@@ -31,7 +26,7 @@ export default class SmartProfile extends PureComponent<SmartProfileProps, Smart
     user: null,
     size: Profile.defaultProps.size,
     isLogoutPostponed: false,
-    isUserChangePostponed: false
+    isUserChangePostponed: false,
   };
 
   componentDidMount() {
@@ -77,7 +72,7 @@ export default class SmartProfile extends PureComponent<SmartProfileProps, Smart
         this.setState({
           user: newUser,
           isLogoutPostponed: false,
-          isUserChangePostponed: false
+          isUserChangePostponed: false,
         });
       });
 
@@ -97,7 +92,9 @@ export default class SmartProfile extends PureComponent<SmartProfileProps, Smart
     const {auth, translations} = this.props;
     const userMeta = auth.http.getMetaForResponse(user);
     if (userMeta?.headers?.has(CERTIFICATE_MISMATCH_HEADER)) {
-      const message = translations?.certificateMismatch || `You are authenticated as ${user.login || user.name}. To authenticate with the client certificate for your account, log out, then click the "Log in with certificate" option on the login page.`;
+      const message =
+        translations?.certificateMismatch ||
+        `You are authenticated as ${user.login || user.name}. To authenticate with the client certificate for your account, log out, then click the "Log in with certificate" option on the login page.`;
       alertService.warning(message, 0);
     }
   }

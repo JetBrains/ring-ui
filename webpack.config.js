@@ -14,8 +14,8 @@ function createConfig() {
       {
         loader: require.resolve('style-loader'),
         options: {
-          esModule: false
-        }
+          esModule: false,
+        },
       },
       {
         loader: require.resolve('css-loader'),
@@ -23,29 +23,24 @@ function createConfig() {
           modules: {
             namedExport: false,
             exportLocalsConvention: 'as-is',
-            localIdentName: '[local]_[hash:4]'
+            localIdentName: '[local]_[hash:4]',
           },
-          importLoaders: 1
-        }
+          importLoaders: 1,
+        },
       },
       {
         loader: require.resolve('postcss-loader'),
         options: {
-          implementation: require('postcss')
-        }
-      }
-    ]
+          implementation: require('postcss'),
+        },
+      },
+    ],
   };
 
   const externalCssLoader = {
     test: /\.css$/,
-    include: [
-      path.dirname(require.resolve('highlight.js/package.json'))
-    ],
-    use: [
-      require.resolve('style-loader'),
-      require.resolve('css-loader')
-    ]
+    include: [path.dirname(require.resolve('highlight.js/package.json'))],
+    use: [require.resolve('style-loader'), require.resolve('css-loader')],
   };
 
   const babelLoader = {
@@ -55,35 +50,35 @@ function createConfig() {
     loader: require.resolve('babel-loader'),
     options: {
       configFile: path.join(__dirname, 'babel.config.js'),
-      cacheDirectory: true
-    }
+      cacheDirectory: true,
+    },
   };
 
   const gifLoader = {
     test: /\.gif$/,
     include: componentsPath,
-    loader: require.resolve('url-loader')
+    loader: require.resolve('url-loader'),
   };
 
   const loaders = {
     cssLoader,
     externalCssLoader,
     babelLoader,
-    gifLoader
+    gifLoader,
   };
 
   return {
     // Minimal config for building components
     config: {
       module: {
-        rules: loadersObjectToArray(loaders)
+        rules: loadersObjectToArray(loaders),
       },
       resolve: {
-        extensions: ['.js', '.ts', '.tsx']
-      }
+        extensions: ['.js', '.ts', '.tsx'],
+      },
     },
     componentsPath,
-    loaders
+    loaders,
   };
 }
 
@@ -93,5 +88,5 @@ module.exports = {
   createConfig,
   config,
   componentsPath,
-  loaders
+  loaders,
 };

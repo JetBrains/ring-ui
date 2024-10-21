@@ -12,5 +12,5 @@ module.exports = {
    *  to merge testRunnerConfig properties with your own
    * @see https://jestjs.io/docs/configuration
    */
-  reporters: process.env.TEAMCITY_VERSION ? ['jest-teamcity'] : undefined
+  reporters: process.env.TEAMCITY_VERSION ? ['jest-teamcity'] : undefined,
 };

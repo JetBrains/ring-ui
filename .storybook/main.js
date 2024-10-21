@@ -9,38 +9,35 @@ module.exports = {
   stories: [
     // Make welcome stories default
     '../src/welcome.stories.tsx',
-    '../src/**/*.stories.{js,ts,tsx}'
+    '../src/**/*.stories.{js,ts,tsx}',
   ],
   addons: [
     {
       name: '@storybook/addon-essentials',
       options: {
         actions: false,
-        docs: true
-      }
+        docs: true,
+      },
     },
     '@storybook/addon-a11y',
-    '@storybook/addon-themes'
+    '@storybook/addon-themes',
   ],
   webpackFinal(config) {
-    ringConfig.componentsPath.push(
-      __dirname,
-      path.resolve(__dirname, '../src')
-    );
+    ringConfig.componentsPath.push(__dirname, path.resolve(__dirname, '../src'));
 
     config.module.rules = [
       ...ringConfig.config.module.rules,
       config.module.rules.find(rule => /react-docgen-loader\.js$/.test(rule.loader)),
       {
         test: /\.md$/,
-        loader: 'raw-loader'
+        loader: 'raw-loader',
       },
       {
         test: /\.svg$/,
         loader: require.resolve('svg-inline-loader'),
         options: {removeSVGTagAttrs: false},
-        include: [/@primer\/octicons/, /@jetbrains\/logos/]
-      }
+        include: [/@primer\/octicons/, /@jetbrains\/logos/],
+      },
     ];
 
     const serverUri = pkgConfig.hub;
@@ -53,13 +50,13 @@ module.exports = {
   },
   framework: {
     name: '@storybook/react-webpack5',
-    options: {}
+    options: {},
   },
   docs: {
-    autodocs: true
+    autodocs: true,
   },
   staticDirs: ['./custom-header/dist'],
   typescript: {
-    reactDocgen: 'react-docgen'
-  }
+    reactDocgen: 'react-docgen',
+  },
 };

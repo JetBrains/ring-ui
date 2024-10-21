@@ -6,25 +6,17 @@ import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
 import packageInfo from '../../package.json';
 import Auth from '../../src/auth/auth';
 import IFrameFlow from '../../src/auth/iframe-flow';
-import Header, {
-  Tray,
-  HeaderIcon,
-  Logo,
-  SmartProfile,
-  Services
-} from '../../src/header/header';
+import Header, {Tray, HeaderIcon, Logo, SmartProfile, Services} from '../../src/header/header';
 import hubConfig from '../hub-config';
 import authDialogService from '../../src/auth-dialog-service/auth-dialog-service';
 
 import Version from './version';
 import styles from './header-styles.css';
 
-
 /* eslint-disable import/no-unresolved */
 import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
 import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
 /* eslint-enable */
-
 
 class SiteHeader extends PureComponent {
   async componentDidMount() {
@@ -42,23 +34,19 @@ class SiteHeader extends PureComponent {
 
   auth = new Auth({
     ...hubConfig,
-    EmbeddedLoginFlow: IFrameFlow
+    EmbeddedLoginFlow: IFrameFlow,
   });
 
   render() {
     return (
       <Header className={styles.header}>
         <a href=".">
-          <Logo
-            className={styles.logo}
-            glyph={jetbrainsLogo}
-            size={Logo.Size.Size48}
-          />
+          <Logo className={styles.logo} glyph={jetbrainsLogo} size={Logo.Size.Size48} />
         </a>
 
         <span className={styles.headerItem}>
           {'Version '}
-          <Version version={packageInfo.version}/>
+          <Version version={packageInfo.version} />
         </span>
 
         <Tray>
@@ -79,17 +67,17 @@ class SiteHeader extends PureComponent {
                 id: 'youtrack',
                 name: 'Issues',
                 iconUrl: youtrackLogo,
-                homeUrl: 'https://youtrack.jetbrains.com/issues/RG'
+                homeUrl: 'https://youtrack.jetbrains.com/issues/RG',
               },
               {
                 id: 'teamcity',
                 name: 'Builds',
                 iconUrl: teamcityLogo,
-                homeUrl: 'https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview'
-              }
+                homeUrl: 'https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview',
+              },
             ]}
           />
-          <SmartProfile auth={this.auth}/>
+          <SmartProfile auth={this.auth} />
         </Tray>
       </Header>
     );
@@ -103,7 +91,7 @@ const observer = new MutationObserver(() => {
   if (document.body) {
     observer.disconnect();
     document.body.insertAdjacentElement('afterbegin', node);
-    root.render(<SiteHeader/>);
+    root.render(<SiteHeader />);
   }
 });
 observer.observe(document.documentElement, {childList: true});

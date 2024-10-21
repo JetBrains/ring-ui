@@ -5,57 +5,64 @@ describe('fuzzyHighlight', () => {
     fuzzyHighlight('cartwheel', 'cartwheel').should.deep.equal({
       matched: true,
       matches: [{from: 0, to: 9}],
-      highlight: '**cartwheel**'
+      highlight: '**cartwheel**',
     });
   });
   it('should match part of the haystack', () => {
     fuzzyHighlight('car', 'cartwheel').should.deep.equal({
       matched: true,
       matches: [{from: 0, to: 3}],
-      highlight: '**car**twheel'
+      highlight: '**car**twheel',
     });
     fuzzyHighlight('cwhl', 'cartwheel').should.deep.equal({
       matched: true,
-      matches: [{from: 0, to: 1}, {from: 4, to: 6}, {from: 8, to: 9}],
-      highlight: '**c**art**wh**ee**l**'
+      matches: [
+        {from: 0, to: 1},
+        {from: 4, to: 6},
+        {from: 8, to: 9},
+      ],
+      highlight: '**c**art**wh**ee**l**',
     });
     fuzzyHighlight('cwheel', 'cartwheel').should.deep.equal({
       matched: true,
-      matches: [{from: 0, to: 1}, {from: 4, to: 9}],
-      highlight: '**c**art**wheel**'
+      matches: [
+        {from: 0, to: 1},
+        {from: 4, to: 9},
+      ],
+      highlight: '**c**art**wheel**',
     });
   });
-  it('shouldn\'t match needle with extra symbols', () => {
+  it("shouldn't match needle with extra symbols", () => {
     fuzzyHighlight('cwheeel', 'cartwheel').should.deep.equal({
       matched: false,
       matches: [],
-      highlight: 'cartwheel'
+      highlight: 'cartwheel',
     });
   });
-  it('shouldn\'t match needle with false order', () => {
+  it("shouldn't match needle with false order", () => {
     fuzzyHighlight('lw', 'cartwheel').should.deep.equal({
       matched: false,
       matches: [],
-      highlight: 'cartwheel'
+      highlight: 'cartwheel',
     });
   });
   it('should be case-insensitive by default', () => {
     fuzzyHighlight('cAr', 'Cartwheel').should.deep.equal({
       matched: true,
       matches: [{from: 0, to: 3}],
-      highlight: '**Car**twheel'
+      highlight: '**Car**twheel',
     });
   });
   it('should allow case-sensitivity as an option', () => {
     fuzzyHighlight('cAr', 'Cartwheel', true).should.deep.equal({
       matched: false,
       matches: [],
-      highlight: 'Cartwheel'
+      highlight: 'Cartwheel',
     });
     fuzzyHighlight('Car', 'Cartwheel', true).should.deep.equal({
       matched: true,
       matches: [{from: 0, to: 3}],
-      highlight: '**Car**twheel'
+      highlight: '**Car**twheel',
     });
   });
 });

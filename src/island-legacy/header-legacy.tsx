@@ -9,13 +9,8 @@ export default class Header extends PureComponent<HTMLAttributes<HTMLElement>> {
     const classes = classNames('ring-island__header', className);
 
     return (
-      <div
-        {...restProps}
-        className={classes}
-      >
-        <div className="ring-island__title">
-          {children}
-        </div>
+      <div {...restProps} className={classes}>
+        <div className="ring-island__title">{children}</div>
       </div>
     );
   }

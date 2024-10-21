@@ -6,8 +6,8 @@ export default {
   parameters: {
     notes: 'Displays a popup menu.',
     screenshots: {captureSelector: '*[data-test~=ring-popup]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-popup]'}
-  }
+    a11y: {element: '#storybook-root,*[data-test~=ring-popup]'},
+  },
 };
 
 export const basic = () => {
@@ -19,15 +19,15 @@ export const basic = () => {
     {
       rgItemType: ListProps.Type.LINK,
       label: 'Link Item With Additional Class',
-      className: 'test'
+      className: 'test',
     },
     {rgItemType: ListProps.Type.SEPARATOR, description: 'Separator With Description'},
     {rgItemType: ListProps.Type.TITLE, label: 'Title'},
     {rgItemType: ListProps.Type.ITEM, label: '1 Element in group'},
-    {rgItemType: ListProps.Type.ITEM, label: '2 Element in group'}
+    {rgItemType: ListProps.Type.ITEM, label: '2 Element in group'},
   ];
 
-  return <PopupMenu data={data}/>;
+  return <PopupMenu data={data} />;
 };
 
 basic.storyName = 'PopupMenu';

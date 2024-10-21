@@ -34,7 +34,7 @@ export default class ListLink<T> extends PureComponent<ListDataItemProps<T>> {
     const classes = classNames(styles.item, className, {
       [styles.actionLink]: !disabled,
       [styles.compact]: compact,
-      [styles.scrolling]: scrolling
+      [styles.scrolling]: scrolling,
     });
 
     const Comp = LinkComponent ? linkHOC(LinkComponent) : Link;

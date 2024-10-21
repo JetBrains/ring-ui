@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import LoaderScreen from './loader-screen';
 
 export default {
@@ -9,18 +8,18 @@ export default {
   parameters: {
     notes:
       'Displays a large animated loader with an optional caption. Typical use cases: page loading animation, major action animation.',
-    screenshots: {skip: true}
-  }
+    screenshots: {skip: true},
+  },
 };
 
 export const basic = () => {
   class Example extends Component {
     render() {
-      return <LoaderScreen/>;
+      return <LoaderScreen />;
     }
   }
 
-  return <Example/>;
+  return <Example />;
 };
 
 basic.storyName = 'basic';
@@ -28,11 +27,11 @@ basic.storyName = 'basic';
 export const withMessage = () => {
   class Example extends Component {
     render() {
-      return <LoaderScreen message={'Some message'}/>;
+      return <LoaderScreen message={'Some message'} />;
     }
   }
 
-  return <Example/>;
+  return <Example />;
 };
 
 withMessage.storyName = 'with message';

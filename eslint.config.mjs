@@ -7,6 +7,7 @@ import babelParser from '@babel/eslint-parser';
 import tseslint from 'typescript-eslint';
 import importPlugin from 'eslint-plugin-import';
 import storybook from 'eslint-plugin-storybook';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import js from '@eslint/js';
 import {FlatCompat} from '@eslint/eslintrc';
 
@@ -72,6 +73,8 @@ export default tseslint.config(
     },
 
     rules: {
+      //FIXME: src/select/select.stories.tsx
+      'no-lone-blocks': 0,
       'valid-jsdoc': 0,
       'import/no-commonjs': 0,
 
@@ -284,4 +287,5 @@ export default tseslint.config(
     rules: {'import/no-unresolved': 'off'},
   },
 
+  eslintPluginPrettierRecommended,
 );

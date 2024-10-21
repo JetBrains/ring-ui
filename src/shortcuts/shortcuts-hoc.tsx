@@ -6,16 +6,15 @@ import Shortcuts from './shortcuts';
 import {ShortcutsMap, ShortcutsScopeOptions} from './core';
 
 export interface ShortcutsHOCOptions extends ShortcutsScopeOptions {
-  disabled?: boolean | null | undefined
+  disabled?: boolean | null | undefined;
 }
 
 export interface ShortcutsHOCProps {
-  rgShortcutsOptions: ShortcutsHOCOptions
-  rgShortcutsMap: ShortcutsMap
+  rgShortcutsOptions: ShortcutsHOCOptions;
+  rgShortcutsMap: ShortcutsMap;
 }
 
 export default function shortcutsHOC<P extends {}>(ComposedComponent: ComponentType<P> | string) {
-
   return class WithShortcuts extends Component<P & ShortcutsHOCProps> {
     _shortcutsScopeUid = getUID('rg-shortcuts-');
 
@@ -29,7 +28,7 @@ export default function shortcutsHOC<P extends {}>(ComposedComponent: ComponentT
           options={rgShortcutsOptions}
           disabled={rgShortcutsOptions.disabled}
         >
-          <ComposedComponent {...props as unknown as P}/>
+          <ComposedComponent {...(props as unknown as P)} />
         </Shortcuts>
       );
     }

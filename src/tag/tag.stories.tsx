@@ -1,7 +1,6 @@
 import {Component} from 'react';
 import tagIcon from '@jetbrains/icons/tag';
 
-
 import Tag from './tag';
 
 export default {
@@ -9,8 +8,8 @@ export default {
 
   parameters: {
     notes: 'Displays a tag.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc712fd372a8e13e7d5e'
-  }
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc712fd372a8e13e7d5e',
+  },
 };
 
 export const demo = () => {
@@ -30,16 +29,24 @@ export const demo = () => {
           <Tag avatar={avatarUrl} readOnly={false}>
             With avatar
           </Tag>
-          <Tag render={({children, ...restProps}) => <a href="/" {...restProps}>{children}</a>}>
+          <Tag
+            render={({children, ...restProps}) => (
+              <a href="/" {...restProps}>
+                {children}
+              </a>
+            )}
+          >
             With custom render
           </Tag>
-          <Tag disabled readOnly>Disabled</Tag>
+          <Tag disabled readOnly>
+            Disabled
+          </Tag>
         </div>
       );
     }
   }
 
-  return <TagDemo/>;
+  return <TagDemo />;
 };
 
 demo.storyName = 'Tag';

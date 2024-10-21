@@ -9,17 +9,9 @@ import Button, {ButtonAttrs} from '../button/button';
 import styles from './dropdown.css';
 
 const Anchor = ({children, className, ...restProps}: ButtonAttrs) => (
-  <Button
-    data-test-ring-dropdown-anchor
-    text
-    className={classNames(styles.anchor, className)}
-    {...restProps}
-  >
+  <Button data-test-ring-dropdown-anchor text className={classNames(styles.anchor, className)} {...restProps}>
     {children}
-    <Icon
-      glyph={chevronDown}
-      className={styles.chevron}
-    />
+    <Icon glyph={chevronDown} className={styles.chevron} />
   </Button>
 );
 

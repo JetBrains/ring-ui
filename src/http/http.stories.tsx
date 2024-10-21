@@ -11,9 +11,9 @@ export default {
 
   parameters: {
     notes: 'Provides a way to perform authorized network requests.',
-    screenshots: {skip: true}
+    screenshots: {skip: true},
   },
-  tags: ['skip-test']
+  tags: ['skip-test'],
 };
 
 export const Basic = () => {
@@ -29,7 +29,7 @@ export const Basic = () => {
       const user = await http.get(`${hubConfig.serverUri}/api/rest/users/me?fields=name,login`);
 
       setOutput(JSON.stringify(user));
-    }());
+    })();
   }, []);
 
   return <div id="output">{output}</div>;

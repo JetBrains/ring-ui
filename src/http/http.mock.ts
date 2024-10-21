@@ -3,12 +3,12 @@ import HTTP, {FetchParams} from './http';
 const authMock = {
   requestToken: () => 'mock token',
   shouldRefreshToken: () => false,
-  forceTokenUpdate: () => Promise.resolve(null)
+  forceTokenUpdate: () => Promise.resolve(null),
 };
 
 export interface HTTPMockRequest {
-  url: string,
-  params: FetchParams
+  url: string;
+  params: FetchParams;
 }
 
 export default class HTTPMock extends HTTP {
@@ -24,19 +24,22 @@ export default class HTTPMock extends HTTP {
   }
 
   _fetch(url: string, params: RequestInit) {
-    this.requests = [...this.requests, {
-      url,
-      params: {
-        ...params,
-        body: typeof params.body === 'string' ? JSON.parse(params.body) : params.body
-      }
-    }];
+    this.requests = [
+      ...this.requests,
+      {
+        url,
+        params: {
+          ...params,
+          body: typeof params.body === 'string' ? JSON.parse(params.body) : params.body,
+        },
+      },
+    ];
 
     return Promise.resolve({
       status: 200,
       ok: true,
       headers: new Headers({'content-type': 'application/json'}),
-      json: () => Promise.resolve((this._getResponseForUrl(url) || this.defaultResponse))
+      json: () => Promise.resolve(this._getResponseForUrl(url) || this.defaultResponse),
     } as Response);
   }
 

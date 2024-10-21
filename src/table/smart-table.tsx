@@ -3,21 +3,20 @@ import {PureComponent} from 'react';
 import Table, {TableAttrs} from './table';
 import Selection, {SelectionItem} from './selection';
 
-export interface SmartTableProps<T extends SelectionItem> extends
-  Omit<TableAttrs<T>, 'selection' | 'onSelect'> {
-  onSelectionChange: (selection: Selection<T>) => void
-  selection?: Selection<T>
+export interface SmartTableProps<T extends SelectionItem> extends Omit<TableAttrs<T>, 'selection' | 'onSelect'> {
+  onSelectionChange: (selection: Selection<T>) => void;
+  selection?: Selection<T>;
 }
 class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<T>> {
   static defaultProps = {
-    onSelectionChange: () => {}
+    onSelectionChange: () => {},
   };
 
   state = {
     selection: new Selection({
       data: this.props.data,
-      isItemSelectable: this.props.isItemSelectable
-    })
+      isItemSelectable: this.props.isItemSelectable,
+    }),
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: SmartTableProps<T>) {
@@ -26,7 +25,7 @@ class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<
       this.setState({selection});
     } else if (this.props.data !== data || this.props.isItemSelectable !== isItemSelectable) {
       this.setState({
-        selection: new Selection({data, isItemSelectable})
+        selection: new Selection({data, isItemSelectable}),
       });
     }
   }
@@ -37,13 +36,7 @@ class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<
   };
 
   render() {
-    return (
-      <Table
-        {...this.props}
-        selection={this.state.selection}
-        onSelect={this.onSelect}
-      />
-    );
+    return <Table {...this.props} selection={this.state.selection} onSelect={this.onSelect} />;
   }
 }
 

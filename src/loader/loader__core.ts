@@ -5,22 +5,22 @@ import styles from './loader.css';
 const INITIAL_TICKS = 100;
 
 export interface Color {
-  r: number
-  g: number
-  b: number
+  r: number;
+  g: number;
+  b: number;
 }
 
 interface ParticleConfig {
-  x: number
-  y: number
-  radius: number
-  color: Color
+  x: number;
+  y: number;
+  radius: number;
+  color: Color;
 }
 
 interface ParticleType {
-  step(): void
-  isAlive(): boolean
-  draw(ctx: CanvasRenderingContext2D): void
+  step(): void;
+  isAlive(): boolean;
+  draw(ctx: CanvasRenderingContext2D): void;
 }
 
 class Particle implements ParticleType {
@@ -65,11 +65,11 @@ function deterministic() {
 }
 
 export interface LoaderCoreProps {
-  size: number
-  stop: boolean
-  deterministic: boolean
-  colors: Color[]
-  message?: string | null | undefined
+  size: number;
+  stop: boolean;
+  deterministic: boolean;
+  colors: Color[];
+  message?: string | null | undefined;
 }
 
 export default class LoaderCore {
@@ -84,8 +84,8 @@ export default class LoaderCore {
       {r: 37, g: 183, b: 255}, //#25B7FF
       {r: 89, g: 189, b: 0}, //#59BD00
       {r: 251, g: 172, b: 2}, //#FBAC02
-      {r: 227, g: 37, b: 129} //#E32581
-    ]
+      {r: 227, g: 37, b: 129}, //#E32581
+    ],
   };
 
   static calculateGradient(startColor: Color, stopColor: Color, position: number) {
@@ -94,7 +94,7 @@ export default class LoaderCore {
     return {
       r: calculateChannelValue(startColor.r, stopColor.r),
       g: calculateChannelValue(startColor.g, stopColor.g),
-      b: calculateChannelValue(startColor.b, stopColor.b)
+      b: calculateChannelValue(startColor.b, stopColor.b),
     };
   }
 
@@ -194,7 +194,7 @@ export default class LoaderCore {
     const randomFunc = this.props.deterministic ? deterministic : Math.random;
     const randomizedSpeedChange = randomFunc() - this.baseSpeed / 2;
 
-    if (coord + (radius * 2) + this.baseSpeed >= limit) {
+    if (coord + radius * 2 + this.baseSpeed >= limit) {
       return -(this.baseSpeed + randomizedSpeedChange);
     } else if (coord <= this.baseSpeed) {
       return this.baseSpeed + randomizedSpeedChange;
@@ -245,12 +245,14 @@ export default class LoaderCore {
     this.calculateNextRadius();
     this.particles.forEach(particle => particle.step());
 
-    this.particles.push(new Particle({
-      x: this.x,
-      y: this.y,
-      radius: this.radius,
-      color: this.getNextColor()
-    }));
+    this.particles.push(
+      new Particle({
+        x: this.x,
+        y: this.y,
+        radius: this.radius,
+        color: this.getNextColor(),
+      }),
+    );
   }
 
   removeDeadParticles() {

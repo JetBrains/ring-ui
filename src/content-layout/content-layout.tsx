@@ -5,8 +5,8 @@ import Sidebar, {SidebarProps} from './sidebar';
 import styles from './content-layout.css';
 
 export interface ContentLayoutProps extends HTMLAttributes<HTMLElement> {
-  responsive: boolean
-  contentClassName?: string | null | undefined
+  responsive: boolean;
+  contentClassName?: string | null | undefined;
 }
 
 /**
@@ -15,11 +15,11 @@ export interface ContentLayoutProps extends HTMLAttributes<HTMLElement> {
 
 export default class ContentLayout extends Component<ContentLayoutProps> {
   static defaultProps = {
-    responsive: true
+    responsive: true,
   };
 
   state = {
-    contentNode: null
+    contentNode: null,
   };
 
   saveContentNode = (contentNode: HTMLElement | null) => {
@@ -30,7 +30,7 @@ export default class ContentLayout extends Component<ContentLayoutProps> {
     const {children, className, contentClassName, responsive, ...restProps} = this.props;
 
     const classes = classNames(styles.contentLayout, className, {
-      [styles.contentLayoutResponsive]: responsive
+      [styles.contentLayoutResponsive]: responsive,
     });
 
     const contentClasses = classNames(styles.contentLayoutContent, contentClassName);
@@ -38,25 +38,20 @@ export default class ContentLayout extends Component<ContentLayoutProps> {
     const childrenArray = Children.toArray(children);
     const sidebarChild = childrenArray.filter(
       (child): child is ReactElement<SidebarProps, typeof Sidebar> =>
-        child != null && typeof child === 'object' && 'type' in child && child.type === Sidebar
+        child != null && typeof child === 'object' && 'type' in child && child.type === Sidebar,
     )[0];
 
-    const sidebar = sidebarChild && cloneElement(sidebarChild, {
-      contentNode: this.state.contentNode
-    });
+    const sidebar =
+      sidebarChild &&
+      cloneElement(sidebarChild, {
+        contentNode: this.state.contentNode,
+      });
     const contentChildren = childrenArray.filter(child => child !== sidebarChild);
 
     return (
-      <div
-        data-test="content-layout"
-        {...restProps}
-        className={classes}
-      >
+      <div data-test="content-layout" {...restProps} className={classes}>
         {sidebar}
-        <main
-          className={contentClasses}
-          ref={this.saveContentNode}
-        >
+        <main className={contentClasses} ref={this.saveContentNode}>
           {contentChildren}
         </main>
       </div>

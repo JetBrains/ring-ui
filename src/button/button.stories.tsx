@@ -3,7 +3,6 @@ import pencilIcon from '@jetbrains/icons/pencil';
 import pencil12pxIcon from '@jetbrains/icons/pencil-12px';
 import hourglassIcon from '@jetbrains/icons/hourglass';
 
-
 import Loader from '../loader-inline/loader-inline';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
@@ -15,16 +14,16 @@ export default {
 
   component: Button,
   parameters: {
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc70fc4aa2a937f165ad'
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc70fc4aa2a937f165ad',
   },
   argTypes: {
     blue: {
-      table: {disable: true}
-    }
-  }
+      table: {disable: true},
+    },
+  },
 };
 
-export const single = (args: ButtonProps) => <Button {...args}/>;
+export const single = (args: ButtonProps) => <Button {...args} />;
 single.args = {children: 'Label'};
 single.parameters = {screenshots: {skip: true}};
 
@@ -59,28 +58,30 @@ export const basic = () => (
       );
     })}
 
-    <Button inline={false} icon={pencilIcon}>Icon button</Button>
+    <Button inline={false} icon={pencilIcon}>
+      Icon button
+    </Button>
 
     {[
       {label: 'primary', primary: true},
       {label: 'danger', danger: true},
       {label: 'disabled', disabled: true},
       {label: 'primary-disabled', primary: true, disabled: true},
-      {label: 'danger-disabled', danger: true, disabled: true}
+      {label: 'danger-disabled', danger: true, disabled: true},
     ].map(modifiers => (
       <Button inline={false} key={modifiers.label} icon={pencilIcon} {...modifiers}>
         Icon button {modifiers.label}
       </Button>
     ))}
 
-    <Button inline={false} icon={pencilIcon} title="Icon button"/>
+    <Button inline={false} icon={pencilIcon} title="Icon button" />
 
     {[
       {label: 'primary', primary: true},
       {label: 'danger', danger: true},
       {label: 'disabled', disabled: true},
       {label: 'primary-disabled', primary: true, disabled: true},
-      {label: 'danger-disabled', danger: true, disabled: true}
+      {label: 'danger-disabled', danger: true, disabled: true},
     ].map(modifiers => (
       <Button
         key={modifiers.label}
@@ -106,28 +107,23 @@ export const basic = () => (
       {label: 'danger', danger: true},
       {label: 'disabled', disabled: true},
       {label: 'primary-disabled', primary: true, disabled: true},
-      {label: 'danger-disabled', danger: true, disabled: true}
+      {label: 'danger-disabled', danger: true, disabled: true},
     ].map(modifiers => (
       <Button key={modifiers.label} icon={pencilIcon} {...modifiers}>
         Icon action {modifiers.label}
       </Button>
     ))}
 
-    <Button icon={pencilIcon} title="Icon action"/>
+    <Button icon={pencilIcon} title="Icon action" />
 
     {[
       {label: 'primary', primary: true},
       {label: 'danger', danger: true},
       {label: 'disabled', disabled: true},
       {label: 'primary-disabled', primary: true, disabled: true},
-      {label: 'danger-disabled', danger: true, disabled: true}
+      {label: 'danger-disabled', danger: true, disabled: true},
     ].map(modifiers => (
-      <Button
-        key={modifiers.label}
-        title={`Just icon action (${modifiers.label})`}
-        icon={pencilIcon}
-        {...modifiers}
-      />
+      <Button key={modifiers.label} title={`Just icon action (${modifiers.label})`} icon={pencilIcon} {...modifiers} />
     ))}
   </div>
 );
@@ -139,8 +135,8 @@ basic.parameters = {
     actions: [
       {type: 'capture', name: '', selector: '#storybook-root'},
       {type: 'focus', selector: '[data-test=button-active]'},
-      {type: 'capture', name: 'focus active', selector: '#storybook-root'}
-    ]
+      {type: 'capture', name: 'focus active', selector: '#storybook-root'},
+    ],
   },
   storyStyles: `
 <style>
@@ -151,7 +147,7 @@ basic.parameters = {
   .buttons > :is(button, a) {
     margin: 8px;
   }
-</style>`
+</style>`,
 };
 
 export const heightS = () => (
@@ -186,28 +182,30 @@ export const heightS = () => (
         );
       })}
 
-      <Button inline={false} icon={pencil12pxIcon}>Icon button</Button>
+      <Button inline={false} icon={pencil12pxIcon}>
+        Icon button
+      </Button>
 
       {[
         {label: 'primary', primary: true},
         {label: 'danger', danger: true},
         {label: 'disabled', disabled: true},
         {label: 'primary-disabled', primary: true, disabled: true},
-        {label: 'danger-disabled', danger: true, disabled: true}
+        {label: 'danger-disabled', danger: true, disabled: true},
       ].map(modifiers => (
         <Button inline={false} key={modifiers.label} icon={pencil12pxIcon} {...modifiers}>
           Icon button {modifiers.label}
         </Button>
       ))}
 
-      <Button inline={false} icon={pencil12pxIcon} title="Icon button"/>
+      <Button inline={false} icon={pencil12pxIcon} title="Icon button" />
 
       {[
         {label: 'primary', primary: true},
         {label: 'danger', danger: true},
         {label: 'disabled', disabled: true},
         {label: 'primary-disabled', primary: true, disabled: true},
-        {label: 'danger-disabled', danger: true, disabled: true}
+        {label: 'danger-disabled', danger: true, disabled: true},
       ].map(modifiers => (
         <Button
           key={modifiers.label}
@@ -233,21 +231,21 @@ export const heightS = () => (
         {label: 'danger', danger: true},
         {label: 'disabled', disabled: true},
         {label: 'primary-disabled', primary: true, disabled: true},
-        {label: 'danger-disabled', danger: true, disabled: true}
+        {label: 'danger-disabled', danger: true, disabled: true},
       ].map(modifiers => (
         <Button key={modifiers.label} icon={pencilIcon} {...modifiers}>
           Icon action {modifiers.label}
         </Button>
       ))}
 
-      <Button icon={pencilIcon} title="Icon action"/>
+      <Button icon={pencilIcon} title="Icon action" />
 
       {[
         {label: 'primary', primary: true},
         {label: 'danger', danger: true},
         {label: 'disabled', disabled: true},
         {label: 'primary-disabled', primary: true, disabled: true},
-        {label: 'danger-disabled', danger: true, disabled: true}
+        {label: 'danger-disabled', danger: true, disabled: true},
       ].map(modifiers => (
         <Button
           key={modifiers.label}
@@ -293,28 +291,30 @@ export const heightL = () => (
         );
       })}
 
-      <Button inline={false} icon={pencilIcon}>Icon button</Button>
+      <Button inline={false} icon={pencilIcon}>
+        Icon button
+      </Button>
 
       {[
         {label: 'primary', primary: true},
         {label: 'danger', danger: true},
         {label: 'disabled', disabled: true},
         {label: 'primary-disabled', primary: true, disabled: true},
-        {label: 'danger-disabled', danger: true, disabled: true}
+        {label: 'danger-disabled', danger: true, disabled: true},
       ].map(modifiers => (
         <Button inline={false} key={modifiers.label} icon={pencilIcon} {...modifiers}>
           Icon button {modifiers.label}
         </Button>
       ))}
 
-      <Button inline={false} icon={pencilIcon} title="Icon button"/>
+      <Button inline={false} icon={pencilIcon} title="Icon button" />
 
       {[
         {label: 'primary', primary: true},
         {label: 'danger', danger: true},
         {label: 'disabled', disabled: true},
         {label: 'primary-disabled', primary: true, disabled: true},
-        {label: 'danger-disabled', danger: true, disabled: true}
+        {label: 'danger-disabled', danger: true, disabled: true},
       ].map(modifiers => (
         <Button
           key={modifiers.label}
@@ -340,21 +340,21 @@ export const heightL = () => (
         {label: 'danger', danger: true},
         {label: 'disabled', disabled: true},
         {label: 'primary-disabled', primary: true, disabled: true},
-        {label: 'danger-disabled', danger: true, disabled: true}
+        {label: 'danger-disabled', danger: true, disabled: true},
       ].map(modifiers => (
         <Button key={modifiers.label} icon={pencilIcon} {...modifiers}>
           Icon action {modifiers.label}
         </Button>
       ))}
 
-      <Button icon={pencilIcon} title="Icon action"/>
+      <Button icon={pencilIcon} title="Icon action" />
 
       {[
         {label: 'primary', primary: true},
         {label: 'danger', danger: true},
         {label: 'disabled', disabled: true},
         {label: 'primary-disabled', primary: true, disabled: true},
-        {label: 'danger-disabled', danger: true, disabled: true}
+        {label: 'danger-disabled', danger: true, disabled: true},
       ].map(modifiers => (
         <Button
           key={modifiers.label}
@@ -371,7 +371,7 @@ heightL.parameters = basic.parameters;
 export const longAction = () => {
   class Sleeper extends Component {
     state = {
-      loading: false
+      loading: false,
     };
 
     load = () => {
@@ -397,14 +397,14 @@ export const longAction = () => {
           <Button loader={loading} onClick={this.load}>
             Sleep
           </Button>
-          <Button title="Sleep" loader={loading} icon={hourglassIcon} onClick={this.load}/>
-          {loading && <Loader/>}
+          <Button title="Sleep" loader={loading} icon={hourglassIcon} onClick={this.load} />
+          {loading && <Loader />}
         </Fragment>
       );
     }
   }
 
-  return <Sleeper/>;
+  return <Sleeper />;
 };
 
 longAction.storyName = 'long action';

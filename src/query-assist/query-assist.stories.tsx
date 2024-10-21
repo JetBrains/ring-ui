@@ -5,18 +5,13 @@ import {StoryFn} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
-
 import Auth from '../auth/auth';
 import HTTP from '../http/http';
 import List from '../list/list';
 import Icon from '../icon/icon';
 import {Size} from '../input/input';
 
-import QueryAssist, {
-  QueryAssistAttrs,
-  QueryAssistRequestParams,
-  QueryAssistResponse
-} from './query-assist';
+import QueryAssist, {QueryAssistAttrs, QueryAssistRequestParams, QueryAssistResponse} from './query-assist';
 
 export default {
   title: 'Components/Query Assist',
@@ -27,8 +22,8 @@ export default {
     glass: true,
     clear: true,
     hint: 'hint',
-    hintOnSelection: 'hint on selection'
-  }
+    hintOnSelection: 'hint on selection',
+  },
 };
 
 export const Basic: StoryFn<QueryAssistAttrs> = args => {
@@ -45,8 +40,8 @@ export const Basic: StoryFn<QueryAssistAttrs> = args => {
       const params = {
         query: {
           ...props,
-          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-        }
+          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
+        },
       };
 
       return http.get<QueryAssistResponse>('users/queryAssist', params);
@@ -59,15 +54,8 @@ export const Basic: StoryFn<QueryAssistAttrs> = args => {
 
   return (
     <>
-      <QueryAssist
-        {...args}
-        dataSource={dataSource}
-      />
-      <QueryAssist
-        {...args}
-        dataSource={dataSource}
-        size={Size.S}
-      />
+      <QueryAssist {...args} dataSource={dataSource} />
+      <QueryAssist {...args} dataSource={dataSource} size={Size.S} />
     </>
   );
 };
@@ -80,11 +68,11 @@ Basic.args = {
   hint: 'lol',
   hintOnSelection: 'lol selected',
   popupClassName: 'test',
-  className: 'custom-class'
+  className: 'custom-class',
 };
 Basic.tags = ['skip-test'];
 
-export const noAuth: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
+export const noAuth: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args} />;
 
 noAuth.storyName = 'no auth';
 noAuth.args = {
@@ -95,7 +83,7 @@ noAuth.args = {
       {start: 0, length: 1, style: 'text'},
       {start: 1, length: 1, style: 'field_value'},
       {start: 2, length: 1, style: 'field_name'},
-      {start: 3, length: 1, style: 'operator'}
+      {start: 3, length: 1, style: 'operator'},
     ],
     suggestions: [
       {
@@ -108,7 +96,7 @@ noAuth.args = {
         caret: 2,
         completionStart: 0,
         completionEnd: query.length,
-        group: 'Logins'
+        group: 'Logins',
       },
       {
         prefix: 'login: ',
@@ -120,7 +108,7 @@ noAuth.args = {
         caret: 2,
         completionStart: 0,
         completionEnd: query.length,
-        group: 'Logins'
+        group: 'Logins',
       },
       {
         prefix: 'name: ',
@@ -132,10 +120,10 @@ noAuth.args = {
         caret: 2,
         completionStart: 0,
         completionEnd: query.length,
-        group: 'Names'
-      }
-    ]
-  })
+        group: 'Names',
+      },
+    ],
+  }),
 };
 noAuth.parameters = {
   screenshots: {
@@ -146,13 +134,13 @@ noAuth.parameters = {
       {
         type: 'capture',
         name: 'withPopup',
-        selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']
-      }
-    ]
-  }
+        selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]'],
+      },
+    ],
+  },
 };
 
-export const withCustomRenderer: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args}/>;
+export const withCustomRenderer: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args} />;
 
 withCustomRenderer.args = {
   useCustomItemRender: true,
@@ -163,32 +151,28 @@ withCustomRenderer.args = {
       {start: 0, length: 1, style: 'text'},
       {start: 1, length: 1, style: 'field_value'},
       {start: 2, length: 1, style: 'field_name'},
-      {start: 3, length: 1, style: 'operator'}
+      {start: 3, length: 1, style: 'operator'},
     ],
     suggestions: [
       {
         prefix: 'login:',
         option: 'John.Abrams',
         description: 'John Abrams',
-        group: 'Logins'
+        group: 'Logins',
       },
       {
         prefix: 'login:',
         option: 'lenni',
         description: 'Lenni Joy',
-        group: 'Names'
-      }
+        group: 'Names',
+      },
     ].map(i => ({
       ...i,
       rgItemType: List.ListProps.Type.CUSTOM,
-      template: createElement(
-        'span',
-        null,
-        `My name is ${i.description}, my ${i.prefix} is ${i.option}`
-      ),
-      data: i
-    }))
-  })
+      template: createElement('span', null, `My name is ${i.description}, my ${i.prefix} is ${i.option}`),
+      data: i,
+    })),
+  }),
 };
 withCustomRenderer.storyName = 'with custom renderer';
 withCustomRenderer.parameters = {screenshots: {skip: true}};
@@ -208,8 +192,8 @@ export const WithCustomActions: StoryFn<QueryAssistAttrs> = args => {
       const params = {
         query: {
           ...props,
-          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-        }
+          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
+        },
       };
 
       return http.get<QueryAssistResponse>('users/queryAssist', params);
@@ -220,12 +204,7 @@ export const WithCustomActions: StoryFn<QueryAssistAttrs> = args => {
     return <span>Loading...</span>;
   }
 
-  return (
-    <QueryAssist
-      {...args}
-      dataSource={dataSource}
-    />
-  );
+  return <QueryAssist {...args} dataSource={dataSource} />;
 };
 
 WithCustomActions.args = {
@@ -234,9 +213,7 @@ WithCustomActions.args = {
   hint: 'lol',
   hintOnSelection: 'lol selected',
   popupClassName: 'test',
-  actions: [
-    <Icon glyph={permissionIcon} key="custom-action" style={{color: 'var(--ring-icon-color)'}}/>
-  ]
+  actions: [<Icon glyph={permissionIcon} key="custom-action" style={{color: 'var(--ring-icon-color)'}} />],
 };
 WithCustomActions.storyName = 'with custom actions';
 WithCustomActions.parameters = {screenshots: {skip: true}};
@@ -257,8 +234,8 @@ export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
       const params = {
         query: {
           ...props,
-          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-        }
+          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
+        },
       };
 
       return http.get<QueryAssistResponse>('users/queryAssist', params);
@@ -269,12 +246,7 @@ export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
     return <span>Loading...</span>;
   }
 
-  return (
-    <QueryAssist
-      {...args}
-      dataSource={dataSource}
-    />
-  );
+  return <QueryAssist {...args} dataSource={dataSource} />;
 };
 
 HugeOne.storyName = 'huge one';
@@ -286,20 +258,16 @@ HugeOne.args = {
   hint: 'lol',
   hintOnSelection: 'lol selected',
   popupClassName: 'test',
-  className: 'custom-class'
+  className: 'custom-class',
 };
 HugeOne.tags = ['skip-test'];
 
 export const disabledOne: StoryFn<QueryAssistAttrs> = args => (
-  <QueryAssist
-    {...args}
-    disabled
-    dataSource={() => [] as QueryAssistResponse}
-  />
+  <QueryAssist {...args} disabled dataSource={() => [] as QueryAssistResponse} />
 );
 
 disabledOne.storyName = 'disabled one';
 disabledOne.parameters = {screenshots: {skip: true}};
 disabledOne.args = {
-  query: ''
+  query: '',
 };

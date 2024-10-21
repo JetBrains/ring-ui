@@ -14,9 +14,9 @@ export default {
 
   parameters: {
     notes: 'Authenticates a user in [Hub](https://www.jetbrains.com/hub/).',
-    screenshots: {skip: true}
+    screenshots: {skip: true},
   },
-  tags: ['skip-test']
+  tags: ['skip-test'],
 };
 
 export const basic = () => {
@@ -46,7 +46,9 @@ export const basic = () => {
         const newToken = await auth.forceTokenUpdate();
         console.log('Token has been refreshed:', newToken);
       }}
-    >Force token update</Link>
+    >
+      Force token update
+    </Link>
   );
 };
 
@@ -57,7 +59,7 @@ export const InIFrame = () => {
 
   const auth = new Auth({
     ...hubConfig,
-    EmbeddedLoginFlow: IFrameFlow
+    EmbeddedLoginFlow: IFrameFlow,
   });
   auth.setAuthDialogService(authDialogService);
 
@@ -75,7 +77,7 @@ export const InIFrame = () => {
     }
   })();
 
-  return <div dangerouslySetInnerHTML={{__html: data}}/>;
+  return <div dangerouslySetInnerHTML={{__html: data}} />;
 };
 
 InIFrame.storyName = 'in IFrame';

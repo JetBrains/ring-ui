@@ -4,9 +4,7 @@ import classNames from 'classnames';
 
 import styles from './scrollable-section.css';
 
-export default function ScrollableSection(
-  {className, ...restProps}: HTMLAttributes<HTMLDivElement>
-) {
+export default function ScrollableSection({className, ...restProps}: HTMLAttributes<HTMLDivElement>) {
   const [scrolledToTop, setScrolledToTop] = useState(false);
   const [scrolledToRight, setScrolledToRight] = useState(false);
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
@@ -15,14 +13,7 @@ export default function ScrollableSection(
 
   const calculateScrollPosition = useCallback(() => {
     if (ref.current != null) {
-      const {
-        scrollTop,
-        scrollLeft,
-        scrollHeight,
-        scrollWidth,
-        offsetHeight,
-        offsetWidth
-      } = ref.current;
+      const {scrollTop, scrollLeft, scrollHeight, scrollWidth, offsetHeight, offsetWidth} = ref.current;
       setScrolledToTop(scrollTop === 0);
       setScrolledToRight(offsetWidth + scrollLeft >= scrollWidth);
       setScrolledToBottom(offsetHeight + scrollTop >= scrollHeight);
@@ -43,7 +34,7 @@ export default function ScrollableSection(
         [styles.withTopBorder]: !scrolledToTop,
         [styles.withRightBorder]: !scrolledToRight,
         [styles.withBottomBorder]: !scrolledToBottom,
-        [styles.withLeftBorder]: !scrolledToLeft
+        [styles.withLeftBorder]: !scrolledToLeft,
       })}
       ref={ref}
       onScroll={calculateScrollPosition}

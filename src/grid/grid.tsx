@@ -13,11 +13,7 @@ export class Grid extends Component<HTMLAttributes<HTMLDivElement>> {
     const classes = classNames(styles['container-fluid'], className);
 
     return (
-      <div
-        data-test="ring-grid"
-        {...restProps}
-        className={classes}
-      >
+      <div data-test="ring-grid" {...restProps} className={classes}>
         {children}
       </div>
     );

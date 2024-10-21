@@ -56,7 +56,6 @@
   --ring-popup-shadow: 0 2px 8px var(--ring-popup-shadow-color), 0 1px 2px var(--ring-popup-secondary-shadow-color);
   --ring-dialog-shadow: 0 4px 24px var(--ring-popup-shadow-color), 0 2px 6px var(--ring-popup-secondary-shadow-color);
 
-
   /* Text */
   --ring-search-components: 112, 156, 245;
   --ring-search-color: rgb(var(--ring-search-components)); /* #709CF5 */
@@ -165,13 +164,7 @@
   --ring-ease: 0.3s ease-out;
   --ring-fast-ease: 0.15s ease-out;
   --ring-font-family: system-ui, Arial, sans-serif;
-  --ring-font-family-monospace:
-    Menlo,
-    "Bitstream Vera Sans Mono",
-    "Ubuntu Mono",
-    Consolas,
-    "Courier New",
-    Courier,
+  --ring-font-family-monospace: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier,
     monospace;
   --ring-font-weight-bold: 600;
 

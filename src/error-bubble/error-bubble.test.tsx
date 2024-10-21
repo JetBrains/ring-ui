@@ -8,8 +8,8 @@ describe('Error Bubble', () => {
   const renderErrorBubble = (params?: Partial<ErrorBubbleProps<Omit<InputAttrs, 'ref'>>>) =>
     render(
       <ErrorBubble {...params}>
-        <Input/>
-      </ErrorBubble>
+        <Input />
+      </ErrorBubble>,
     );
 
   it('should create component', () => {

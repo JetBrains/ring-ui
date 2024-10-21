@@ -12,11 +12,9 @@ const reactRoot = createRoot(containerElement);
  */
 function renderLoginDialog(props: LoginDialogAttrs) {
   reactRoot.render(
-    (
-      <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
-        <LoginDialog {...props}/>
-      </ControlsHeightContext.Provider>
-    ),
+    <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
+      <LoginDialog {...props} />
+    </ControlsHeightContext.Provider>,
   );
 }
 
@@ -24,13 +22,13 @@ function noop() {}
 export default function showAuthDialog(props: LoginDialogAttrs = {onCancel: noop}) {
   renderLoginDialog({
     ...props,
-    show: true
+    show: true,
   });
 
   return () => {
     renderLoginDialog({
       ...props,
-      show: false
+      show: false,
     });
   };
 }

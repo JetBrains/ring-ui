@@ -27,17 +27,17 @@ describe('Dropdown', () => {
       ref={function popupRef(el) {
         popup = el;
       }}
-    >{'foo'}</Popup>
+    >
+      {'foo'}
+    </Popup>
   );
 
-  const renderDropdown = (props?: Partial<DropdownAttrs>, children = popupElement) => render(
-    <Dropdown
-      anchor={anchorElement}
-      {...props}
-    >
-      {children}
-    </Dropdown>
-  );
+  const renderDropdown = (props?: Partial<DropdownAttrs>, children = popupElement) =>
+    render(
+      <Dropdown anchor={anchorElement} {...props}>
+        {children}
+      </Dropdown>,
+    );
 
   it('should create component', () => {
     renderDropdown();
@@ -63,7 +63,7 @@ describe('Dropdown', () => {
   it('should show popup on anchor click', async () => {
     renderDropdown();
     should.exist(anchor);
-    anchor && await userEvent.click(anchor);
+    anchor && (await userEvent.click(anchor));
     should.exist(popup);
     popup?.isVisible().should.be.true;
   });
@@ -71,8 +71,8 @@ describe('Dropdown', () => {
   it('should hide popup on second anchor click', async () => {
     renderDropdown();
     should.exist(anchor);
-    anchor && await userEvent.click(anchor);
-    anchor && await userEvent.click(anchor);
+    anchor && (await userEvent.click(anchor));
+    anchor && (await userEvent.click(anchor));
     should.exist(popup);
     popup?.isVisible().should.be.false;
   });
@@ -80,7 +80,7 @@ describe('Dropdown', () => {
   it('should hide popup on outside pointer down event', async () => {
     renderDropdown();
     should.exist(anchor);
-    anchor && await userEvent.click(anchor);
+    anchor && (await userEvent.click(anchor));
 
     await new Promise<void>(resolve => {
       setTimeout(() => {
@@ -109,7 +109,7 @@ describe('Dropdown', () => {
     const anchorFunc = sandbox.stub().returns(anchorElement);
     renderDropdown({anchor: anchorFunc});
     should.exist(anchor);
-    anchor && await userEvent.click(anchor);
+    anchor && (await userEvent.click(anchor));
 
     anchorFunc.should.have.been.calledTwice;
     anchorFunc.getCall(1).calledWithMatch({active: true}).should.be.true;
@@ -128,7 +128,7 @@ describe('Dropdown', () => {
     const dropDownProps = {
       hoverMode: true,
       hoverShowTimeOut: 100,
-      hoverHideTimeOut: 300
+      hoverHideTimeOut: 300,
     };
 
     beforeEach(() => {
@@ -139,7 +139,9 @@ describe('Dropdown', () => {
           ref={function popupRef(el) {
             popupEl = el;
           }}
-        >{'foo'}</Popup>
+        >
+          {'foo'}
+        </Popup>
       );
 
       renderDropdown(dropDownProps, popupComponent);

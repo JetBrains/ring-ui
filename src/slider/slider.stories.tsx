@@ -4,13 +4,13 @@ export default {
   title: 'Components/Slider',
 
   parameters: {
-    notes: 'Displays a Slider'
-  }
+    notes: 'Displays a Slider',
+  },
 };
 
 export const Basic = () => (
   <div className={'container'}>
-    <Slider defaultValue={25}/>
+    <Slider defaultValue={25} />
   </div>
 );
 
@@ -23,15 +23,12 @@ Basic.parameters = {
         padding: 8px 16px;
       }
     </style>
-  `
+  `,
 };
 
 export const WithTag = () => (
   <div className={'container'}>
-    <Slider
-      defaultValue={21}
-      showTag
-    />
+    <Slider defaultValue={21} showTag />
   </div>
 );
 
@@ -40,7 +37,7 @@ WithTag.parameters = Basic.parameters;
 
 export const WithTicks = () => (
   <div className={'container'}>
-    <Slider defaultValue={50} step={10} showTag showTicks/>
+    <Slider defaultValue={50} step={10} showTag showTicks />
   </div>
 );
 
@@ -49,13 +46,7 @@ WithTicks.parameters = Basic.parameters;
 
 export const WithMarks = () => (
   <div className={'container'}>
-    <Slider
-      defaultValue={25}
-      step={25}
-      marks
-      showTicks
-      showTag
-    />
+    <Slider defaultValue={25} step={25} marks showTicks showTag />
   </div>
 );
 
@@ -75,7 +66,7 @@ export const WithCustomMarksAndTag = () => (
         {value: 0, label: '0MB'},
         {value: 128, label: '128MB'},
         {value: 256, label: '256MB'},
-        {value: 512, label: '512MB'}
+        {value: 512, label: '512MB'},
       ]}
     />
   </div>
@@ -86,7 +77,7 @@ WithCustomMarksAndTag.parameters = Basic.parameters;
 
 export const Range = () => (
   <div className={'container'}>
-    <Slider defaultValue={[2, 4]} max={6} showTicks marks showTag/>
+    <Slider defaultValue={[2, 4]} max={6} showTicks marks showTag />
   </div>
 );
 
@@ -95,7 +86,7 @@ Range.parameters = Basic.parameters;
 
 export const Disabled = () => (
   <div className={'container'}>
-    <Slider defaultValue={2} max={4} showTag showTicks marks disabled/>
+    <Slider defaultValue={2} max={4} showTag showTicks marks disabled />
   </div>
 );
 

@@ -31,7 +31,10 @@
   height: checkboxSize;
 
   user-select: none;
-  transition: border-color var(--ring-ease), background-color var(--ring-ease), box-shadow var(--ring-ease);
+  transition:
+    border-color var(--ring-ease),
+    background-color var(--ring-ease),
+    box-shadow var(--ring-ease);
   vertical-align: middle;
   pointer-events: none;
 

@@ -8,7 +8,7 @@ import {
   useContext,
   ReactElement,
   createContext,
-  FunctionComponent
+  FunctionComponent,
 } from 'react';
 import classNames from 'classnames';
 
@@ -23,9 +23,9 @@ import styles from './variables_dark.css';
 import getUID from './get-uid';
 
 enum Theme {
-  AUTO= 'auto',
-  LIGHT= 'light',
-  DARK= 'dark'
+  AUTO = 'auto',
+  LIGHT = 'light',
+  DARK = 'dark',
 }
 
 export const ThemeContext = createContext<{theme: Theme.LIGHT | Theme.DARK}>({theme: Theme.LIGHT});
@@ -53,13 +53,13 @@ export function useThemeClasses(theme: Theme) {
   return classNames({
     [styles.dark]: resolvedTheme === Theme.DARK,
     [GLOBAL_DARK_CLASS_NAME]: resolvedTheme === Theme.DARK,
-    [defaultStyles.light]: resolvedTheme === Theme.LIGHT
+    [defaultStyles.light]: resolvedTheme === Theme.LIGHT,
   });
 }
 
 export interface WithThemeClassesProps {
-  theme: Theme
-  children: (classes: string) => ReactElement
+  theme: Theme;
+  children: (classes: string) => ReactElement;
 }
 export function WithThemeClasses({theme, children}: WithThemeClassesProps) {
   const themeClasses = useThemeClasses(theme);
@@ -78,32 +78,34 @@ export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLEleme
   }
 }
 
-type WrapperType = FunctionComponent<
-  HTMLAttributes<HTMLElement> & React.RefAttributes<HTMLElement>
->;
+type WrapperType = FunctionComponent<HTMLAttributes<HTMLElement> & React.RefAttributes<HTMLElement>>;
 
-const DefaultWrapper = forwardRef(
-  function Wrapper(props: HTMLAttributes<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>) {
-    return <div {...props} ref={ref}/>;
-  }
-) as WrapperType;
+const DefaultWrapper = forwardRef(function Wrapper(
+  props: HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
+  return <div {...props} ref={ref} />;
+}) as WrapperType;
 
 export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
-  theme?: Theme
-  passToPopups?: boolean
-  WrapperComponent?: WrapperType
-  target?: HTMLElement
+  theme?: Theme;
+  passToPopups?: boolean;
+  WrapperComponent?: WrapperType;
+  target?: HTMLElement;
 }
 
-export const ThemeProvider = forwardRef(function ThemeProvider({
-  theme = Theme.AUTO,
-  className,
-  passToPopups,
-  children,
-  WrapperComponent = DefaultWrapper,
-  target,
-  ...restProps
-}: ThemeProviderProps, ref: Ref<HTMLElement>) {
+export const ThemeProvider = forwardRef(function ThemeProvider(
+  {
+    theme = Theme.AUTO,
+    className,
+    passToPopups,
+    children,
+    WrapperComponent = DefaultWrapper,
+    target,
+    ...restProps
+  }: ThemeProviderProps,
+  ref: Ref<HTMLElement>,
+) {
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   const id = useMemo(() => getUID('popups-with-theme-'), []);
@@ -122,26 +124,25 @@ export const ThemeProvider = forwardRef(function ThemeProvider({
         ref={ref}
         className={target != null ? undefined : classNames(className, themeClasses)}
         {...restProps}
-      >{
-          passToPopups
-            ? (
-              <PopupTarget id={id}>
-                {popupTarget => (
-                  <>
-                    {children}
-                    {createPortal(
-                      <div className={themeClasses}>{popupTarget}</div>,
-                      parentTarget && getPopupContainer(parentTarget) || document.body)
-                    }
-                  </>
+      >
+        {passToPopups ? (
+          <PopupTarget id={id}>
+            {popupTarget => (
+              <>
+                {children}
+                {createPortal(
+                  <div className={themeClasses}>{popupTarget}</div>,
+                  (parentTarget && getPopupContainer(parentTarget)) || document.body,
                 )}
-              </PopupTarget>
-            )
-            : children}
+              </>
+            )}
+          </PopupTarget>
+        ) : (
+          children
+        )}
       </WrapperComponent>
     </ThemeContext.Provider>
   );
 });
 
 export default Theme;
-

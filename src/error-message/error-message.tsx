@@ -9,13 +9,13 @@ import dataTests from '../global/data-tests';
 import styles from './error-message.css';
 
 export interface ErrorMessageProps {
-  children?: ReactNode
-  icon?: string | IconType | null | undefined
-  code?: string | null | undefined
-  message?: string | null | undefined
-  description?: string | null | undefined
-  className?: string | null | undefined
-  'data-test'?: string | null | undefined
+  children?: ReactNode;
+  icon?: string | IconType | null | undefined;
+  code?: string | null | undefined;
+  message?: string | null | undefined;
+  description?: string | null | undefined;
+  className?: string | null | undefined;
+  'data-test'?: string | null | undefined;
 }
 
 /**
@@ -24,29 +24,17 @@ export interface ErrorMessageProps {
 
 export default class ErrorMessage extends Component<ErrorMessageProps> {
   render() {
-    const {className, icon, code, message, description, children,
-      'data-test': dataTest} = this.props;
+    const {className, icon, code, message, description, children, 'data-test': dataTest} = this.props;
     const classes = classNames(styles.errorMessage, className);
 
     return (
       <div className={classes} data-test={dataTests('ring-error-message', dataTest)}>
-        {icon && (
-          <Icon
-            className={styles.icon}
-            glyph={icon}
-            size={Size.Size64}
-            suppressSizeWarning
-          />
-        )}
+        {icon && <Icon className={styles.icon} glyph={icon} size={Size.Size64} suppressSizeWarning />}
         <div className={styles.content}>
           <div className={styles.title} data-test="ring-error-message-title">
             {code && `${code}:`} {message}
           </div>
-          {description && (
-            <div className={styles.description}>
-              {description}
-            </div>
-          )}
+          {description && <div className={styles.description}>{description}</div>}
           {children}
         </div>
       </div>

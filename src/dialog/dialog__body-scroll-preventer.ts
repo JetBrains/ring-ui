@@ -16,7 +16,8 @@ const prevent = (key: string | number) => {
     return;
   }
 
-  const documentHasScroll = document.documentElement.scrollHeight > window.innerHeight ||
+  const documentHasScroll =
+    document.documentElement.scrollHeight > window.innerHeight ||
     getComputedStyle(document.documentElement).overflowY === 'scroll';
   document.documentElement.classList.add(styles.documentWithoutScroll);
 
@@ -52,7 +53,7 @@ export const preventerFactory = (key: string | number) => {
 
   return {
     prevent: () => prevent(preventerKey),
-    reset: () => reset(preventerKey)
+    reset: () => reset(preventerKey),
   };
 };
 

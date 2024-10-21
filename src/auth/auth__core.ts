@@ -29,81 +29,77 @@ export const USER_CHANGE_POSTPONED_EVENT = 'changePostponed';
 function noop() {}
 
 export interface AuthUser {
-  guest?: boolean
-  id: string
-  name: string
-  login: string
-  banned?: boolean
-  banReason?: string
+  guest?: boolean;
+  id: string;
+  name: string;
+  login: string;
+  banned?: boolean;
+  banReason?: string;
   profile?: {
     avatar?: {
-      url?: string
-    }
+      url?: string;
+    };
     email?: {
-      email?: string
-    }
-  }
+      email?: string;
+    };
+  };
 }
 
 export interface AuthTranslations {
-  login: string
-  loginTo: string
-  cancel: string
-  postpone: string
-  youHaveLoggedInAs: string
-  applyChange: string
-  backendIsNotAvailable: string
-  checkAgain: string
-  tryAgainLabel: string
-  nothingHappensLink: string
-  errorMessage: string
+  login: string;
+  loginTo: string;
+  cancel: string;
+  postpone: string;
+  youHaveLoggedInAs: string;
+  applyChange: string;
+  backendIsNotAvailable: string;
+  checkAgain: string;
+  tryAgainLabel: string;
+  nothingHappensLink: string;
+  errorMessage: string;
 }
 
 export interface LoginFlow {
-  stop(): void
-  authorize(): Promise<unknown>
+  stop(): void;
+  authorize(): Promise<unknown>;
 }
 
 export interface LoginFlowClass {
-  new (
-    requestBuilder: AuthRequestBuilder,
-    storage: AuthStorage,
-    translations: AuthTranslations
-  ): LoginFlow
+  new (requestBuilder: AuthRequestBuilder, storage: AuthStorage, translations: AuthTranslations): LoginFlow;
 }
 
 export interface BackendDownParams {
-  onCheckAgain(): Promise<void>
-  onPostpone(): void
-  backendError: Error
-  translations: AuthTranslations
+  onCheckAgain(): Promise<void>;
+  onPostpone(): void;
+  backendError: Error;
+  translations: AuthTranslations;
 }
 
 export interface AuthConfig extends TokenValidatorConfig {
-  serverUri: string
-  redirectUri: string
-  requestCredentials: string
-  clientId: string
-  redirect: boolean
-  cleanHash: boolean
-  userFields: readonly string[]
-  fetchCredentials?: RequestCredentials | null | undefined
-  cacheCurrentUser: boolean
-  reloadOnUserChange: boolean
-  embeddedLogin: boolean
-  EmbeddedLoginFlow?: LoginFlowClass | null | undefined
-  backgroundRefreshTimeout?: number | null | undefined
-  onLogout?: (() => void) | null | undefined
-  onPostponeChangedUser: (prevUser: AuthUser | null, nextUser: AuthUser | null) => void
-  onPostponeLogout: () => void
-  enableBackendStatusCheck: boolean
-  backendCheckTimeout: number
-  checkBackendIsUp: () => Promise<unknown>
-  onBackendDown: (params: BackendDownParams) => () => void
-  defaultExpiresIn: number
-  translations?: AuthTranslations | null | undefined
-  userParams?: RequestParams | undefined
-  waitForRedirectTimeout: number
+  serverUri: string;
+  redirectUri: string;
+  requestCredentials: string;
+  clientId: string;
+  redirect: boolean;
+  cleanHash: boolean;
+  userFields: readonly string[];
+  fetchCredentials?: RequestCredentials | null | undefined;
+  cacheCurrentUser: boolean;
+  reloadOnUserChange: boolean;
+  embeddedLogin: boolean;
+  EmbeddedLoginFlow?: LoginFlowClass | null | undefined;
+  backgroundRefreshTimeout?: number | null | undefined;
+  onLogout?: (() => void) | null | undefined;
+  onPostponeChangedUser: (prevUser: AuthUser | null, nextUser: AuthUser | null) => void;
+  onPostponeLogout: () => void;
+  enableBackendStatusCheck: boolean;
+  backendCheckTimeout: number;
+  checkBackendIsUp: () => Promise<unknown>;
+  onBackendDown: (params: BackendDownParams) => () => void;
+  defaultExpiresIn: number;
+  translations?: AuthTranslations | null | undefined;
+  userParams?: RequestParams | undefined;
+  waitForRedirectTimeout: number;
 }
 
 const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
@@ -129,48 +125,48 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
 
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   waitForRedirectTimeout: DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT,
-  translations: null
+  translations: null,
 };
 
 type AuthPayloadMap = {
-  userChange: [AuthUser | undefined | void, void]
-  logout: [void, void]
-  logoutPostponed: [void, void]
-  changePostponed: [void, void]
-}
+  userChange: [AuthUser | undefined | void, void];
+  logout: [void, void];
+  logoutPostponed: [void, void];
+  changePostponed: [void, void];
+};
 
 export interface AuthService {
-  serviceName: string
-  serviceImage: string
+  serviceName: string;
+  serviceImage: string;
 }
 
 interface Deferred<T> {
-  promise?: Promise<T>
-  resolve?: (value: T) => void
-  reject?: (reason: unknown) => void
+  promise?: Promise<T>;
+  resolve?: (value: T) => void;
+  reject?: (reason: unknown) => void;
 }
 
 interface AuthDialogParams {
-  nonInteractive?: boolean
-  error?: Error
-  canCancel?: boolean
-  onTryAgain?: () => Promise<void>
+  nonInteractive?: boolean;
+  error?: Error;
+  canCancel?: boolean;
+  onTryAgain?: () => Promise<void>;
 }
 
 interface UserChange {
-  userID: number | string | null | undefined,
-  serviceID: string
+  userID: number | string | null | undefined;
+  serviceID: string;
 }
 
 interface UserChangedDialogParams {
-  newUser: AuthUser
-  onApply: () => void
-  onPostpone: () => void
+  newUser: AuthUser;
+  onApply: () => void;
+  onPostpone: () => void;
 }
 
 declare global {
   interface HTMLLinkElement {
-    pr?: string
+    pr?: string;
   }
 }
 
@@ -208,12 +204,16 @@ export default class Auth implements HTTPAuth {
     }
 
     if (config.serverUri == null) {
-      throw new Error('\"serverUri\" property is required');
+      throw new Error('"serverUri" property is required');
     }
 
-    const unsupportedParams = ['redirect_uri', 'request_credentials', 'client_id'].filter(param => config.hasOwnProperty(param));
+    const unsupportedParams = ['redirect_uri', 'request_credentials', 'client_id'].filter(param =>
+      config.hasOwnProperty(param),
+    );
     if (unsupportedParams.length !== 0) {
-      throw new Error(`The following parameters are no longer supported: ${unsupportedParams.join(', ')}. Please change them from snake_case to camelCase.`);
+      throw new Error(
+        `The following parameters are no longer supported: ${unsupportedParams.join(', ')}. Please change them from snake_case to camelCase.`,
+      );
     }
 
     config.userFields = config.userFields || [];
@@ -229,8 +229,8 @@ export default class Auth implements HTTPAuth {
 
     this.config.userParams = {
       query: {
-        fields: [...new Set(Auth.DEFAULT_CONFIG.userFields.concat(config.userFields))].join()
-      }
+        fields: [...new Set(Auth.DEFAULT_CONFIG.userFields.concat(config.userFields))].join(),
+      },
     };
 
     if (!scope.includes(Auth.DEFAULT_CONFIG.clientId)) {
@@ -241,42 +241,39 @@ export default class Auth implements HTTPAuth {
       messagePrefix: `${clientId}-message-`,
       stateKeyPrefix: `${clientId}-states-`,
       tokenKey: `${clientId}-token`,
-      userKey: `${clientId}-user-`
+      userKey: `${clientId}-user-`,
     });
 
     this._domainStorage = new AuthStorage({messagePrefix: 'domain-message-'});
 
-    this._requestBuilder = new AuthRequestBuilder({
-      authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
-      clientId,
-      redirect,
-      redirectUri,
-      requestCredentials,
-      scopes: scope
-    }, this._storage);
+    this._requestBuilder = new AuthRequestBuilder(
+      {
+        authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
+        clientId,
+        redirect,
+        redirectUri,
+        requestCredentials,
+        scopes: scope,
+      },
+      this._storage,
+    );
 
     let {backgroundRefreshTimeout} = this.config;
     if (!backgroundRefreshTimeout) {
-      backgroundRefreshTimeout = this.config.embeddedLogin
-        ? DEFAULT_BACKGROUND_TIMEOUT
-        : BACKGROUND_REDIRECT_TIMEOUT;
+      backgroundRefreshTimeout = this.config.embeddedLogin ? DEFAULT_BACKGROUND_TIMEOUT : BACKGROUND_REDIRECT_TIMEOUT;
     }
 
-    this._backgroundFlow = new BackgroundFlow(
-      this._requestBuilder, this._storage, backgroundRefreshTimeout
-    );
+    this._backgroundFlow = new BackgroundFlow(this._requestBuilder, this._storage, backgroundRefreshTimeout);
     if (this.config.EmbeddedLoginFlow) {
       this._embeddedFlow = new this.config.EmbeddedLoginFlow(
         this._requestBuilder,
         this._storage,
-        this.config.translations ?? getTranslationsWithFallback()
+        this.config.translations ?? getTranslationsWithFallback(),
       );
     }
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
-    const fetchConfig = config.fetchCredentials
-      ? {credentials: config.fetchCredentials}
-      : undefined;
+    const fetchConfig = config.fetchCredentials ? {credentials: config.fetchCredentials} : undefined;
     this.http = new HTTP(this, API_BASE, fetchConfig);
 
     const getUser = async (token: string) => {
@@ -323,7 +320,7 @@ export default class Auth implements HTTPAuth {
   private _updateDomainUser(userID: number | string | null | undefined) {
     this._domainStorage.sendMessage(DOMAIN_USER_CHANGED_EVENT, {
       userID,
-      serviceID: this.config.clientId
+      serviceID: this.config.clientId,
     });
   }
 
@@ -409,9 +406,10 @@ export default class Auth implements HTTPAuth {
       // Check if there is a valid token
       await this._tokenValidator?.validateToken();
 
-
       // Checking if there is a message left by another app on this domain
-      const message = await this._domainStorage._messagesStorage.get<UserChange>(`domain-message-${DOMAIN_USER_CHANGED_EVENT}`);
+      const message = await this._domainStorage._messagesStorage.get<UserChange>(
+        `domain-message-${DOMAIN_USER_CHANGED_EVENT}`,
+      );
       if (message) {
         const {userID, serviceID} = message;
         if (serviceID !== this.config.clientId && (!userID || this.user?.id !== userID)) {
@@ -516,7 +514,7 @@ export default class Auth implements HTTPAuth {
       if (Auth.storageIsUnavailable) {
         return null; // Forever guest if storage is unavailable
       }
-      return await this._tokenValidator?.validateTokenLocally() ?? null;
+      return (await this._tokenValidator?.validateTokenLocally()) ?? null;
     } catch (e) {
       return this.forceTokenUpdate();
     }
@@ -539,7 +537,7 @@ export default class Auth implements HTTPAuth {
     }
 
     try {
-      return await this._backgroundFlow?.authorize() ?? null;
+      return (await this._backgroundFlow?.authorize()) ?? null;
     } catch (error) {
       if (!(error instanceof Error)) {
         return null;
@@ -555,7 +553,7 @@ export default class Auth implements HTTPAuth {
                 this._showAuthDialog({
                   nonInteractive: true,
                   error: retryError,
-                  onTryAgain
+                  onTryAgain,
                 });
               }
               throw retryError;
@@ -564,7 +562,7 @@ export default class Auth implements HTTPAuth {
           this._showAuthDialog({
             nonInteractive: true,
             error: error as Error,
-            onTryAgain
+            onTryAgain,
           });
         });
       } else {
@@ -583,10 +581,11 @@ export default class Auth implements HTTPAuth {
       return;
     }
     try {
-      const {serviceName, iconUrl: serviceImage} = await this.http.get<{
-        serviceName: string
-        iconUrl: string
-      }>(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
+      const {serviceName, iconUrl: serviceImage} =
+        (await this.http.get<{
+          serviceName: string;
+          iconUrl: string;
+        }>(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`)) || {};
       this.setCurrentService({serviceImage, serviceName});
     } catch (e) {
       // noop
@@ -602,12 +601,8 @@ export default class Auth implements HTTPAuth {
    */
   getUser(accessToken?: string | null | undefined) {
     if (this.config.cacheCurrentUser) {
-      return this._storage?.getCachedUser(
-        () => this.http.authorizedFetch(
-          Auth.API_PROFILE_PATH,
-          accessToken,
-          this.config.userParams
-        )
+      return this._storage?.getCachedUser(() =>
+        this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams),
       );
     } else {
       return this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
@@ -669,9 +664,8 @@ export default class Auth implements HTTPAuth {
         onPostpone: () => {
           this.listeners.trigger(USER_CHANGE_POSTPONED_EVENT);
           this.config.onPostponeChangedUser(this.user, user);
-        }
+        },
       });
-
     }
   }
 
@@ -741,7 +735,7 @@ export default class Auth implements HTTPAuth {
       errorMessage: this._extractErrorMessage(error, true),
       onConfirm,
       onCancel,
-      onTryAgain: onTryAgain ? onTryAgainClick : undefined
+      onTryAgain: onTryAgain ? onTryAgainClick : undefined,
     });
 
     const stopTokenListening = this._storage?.onTokenChange(token => {
@@ -751,10 +745,7 @@ export default class Auth implements HTTPAuth {
       }
     });
 
-    const stopMessageListening = this._storage?.onMessage(
-      Auth.CLOSE_WINDOW_MESSAGE,
-      () => this._embeddedFlow?.stop()
-    );
+    const stopMessageListening = this._storage?.onMessage(Auth.CLOSE_WINDOW_MESSAGE, () => this._embeddedFlow?.stop());
   }
 
   _showUserChangedDialog({newUser, onApply, onPostpone}: UserChangedDialogParams) {
@@ -770,9 +761,11 @@ export default class Auth implements HTTPAuth {
 
     const hide = this._authDialogService?.({
       ...this._service,
-      title: translations?.youHaveLoggedInAs ?? translate('youHaveLoggedInAs').
-        replace('%userName%', newUser.name ?? '').
-        replace('{{userName}}', newUser.name ?? ''),
+      title:
+        translations?.youHaveLoggedInAs ??
+        translate('youHaveLoggedInAs')
+          .replace('%userName%', newUser.name ?? '')
+          .replace('{{userName}}', newUser.name ?? ''),
       loginCaption: translations?.login ?? translate('login'),
       loginToCaption: translations?.loginTo ?? translate('loginTo'),
       confirmLabel: translations?.applyChange ?? translate('applyChange'),
@@ -785,7 +778,7 @@ export default class Auth implements HTTPAuth {
       onCancel: () => {
         done();
         onPostpone();
-      }
+      },
     });
   }
 
@@ -801,7 +794,13 @@ export default class Auth implements HTTPAuth {
     try {
       // We've got some error from this list
       // https://www.jetbrains.com/help/youtrack/devportal/OAuth-2.0-Errors.html
-      if ('code' in error && error.code && typeof error.code === 'object' && 'code' in error.code && typeof error.code.code === 'string') {
+      if (
+        'code' in error &&
+        error.code &&
+        typeof error.code === 'object' &&
+        'code' in error.code &&
+        typeof error.code.code === 'string'
+      ) {
         const readableCode = error.code.code.split('_').join(' ');
         return `Authorization error: ${readableCode}`;
       }
@@ -828,14 +827,11 @@ export default class Auth implements HTTPAuth {
         clearTimeout(timerId);
       };
 
-      const stopListeningCloseMessage = this._storage?.onMessage(
-        Auth.CLOSE_BACKEND_DOWN_MESSAGE,
-        () => {
-          stopListeningCloseMessage?.();
-          done();
-          resolve();
-        }
-      );
+      const stopListeningCloseMessage = this._storage?.onMessage(Auth.CLOSE_BACKEND_DOWN_MESSAGE, () => {
+        stopListeningCloseMessage?.();
+        done();
+        resolve();
+      });
 
       const onCheckAgain = async () => {
         await this._checkBackendsAreUp();
@@ -849,8 +845,10 @@ export default class Auth implements HTTPAuth {
       };
 
       const hide = onBackendDown({
-        onCheckAgain, onPostpone, backendError,
-        translations: translations ?? getTranslationsWithFallback()
+        onCheckAgain,
+        onPostpone,
+        backendError,
+        translations: translations ?? getTranslationsWithFallback(),
       });
 
       window.addEventListener('online', onCheckAgain);
@@ -873,7 +871,7 @@ export default class Auth implements HTTPAuth {
     const requestParams = {
       // eslint-disable-next-line camelcase
       request_credentials: 'required',
-      ...extraParams
+      ...extraParams,
     };
 
     await this._checkBackendsStatusesIfEnabled();
@@ -950,7 +948,7 @@ export default class Auth implements HTTPAuth {
     return {
       restoreLocation: state,
       created: Date.now(),
-      scopes: defaultScope
+      scopes: defaultScope,
     };
   }
 
@@ -1005,7 +1003,7 @@ export default class Auth implements HTTPAuth {
       this.setHash('');
     }
     const stateId = authResponse?.restoreAuthState;
-    return await (stateId && this._storage?.getState(stateId)) || {};
+    return (await (stateId && this._storage?.getState(stateId))) || {};
   }
 
   _checkBackendsAreUp() {
@@ -1018,13 +1016,15 @@ export default class Auth implements HTTPAuth {
         backendCheckTimeout,
         {
           error: new Error('The authorization server is taking too long to respond. Please try again later.'),
-          onTimeout: () => abortCtrl.abort()
-        }
+          onTimeout: () => abortCtrl.abort(),
+        },
       ),
-      this.config.checkBackendIsUp()
+      this.config.checkBackendIsUp(),
     ]).catch(err => {
       if (err instanceof TypeError) {
-        throw new TypeError('Could not connect to the server due to network error. Please check your connection and try again.');
+        throw new TypeError(
+          'Could not connect to the server due to network error. Please check your connection and try again.',
+        );
       }
       throw err;
     });
@@ -1089,10 +1089,7 @@ export default class Auth implements HTTPAuth {
       // a record in history.
       // NB! URL to redirect is formed manually because baseURI could be messed up,
       // in which case it's not obvious where redirect will lead.
-      const cleanedUrl = [
-        window.location.pathname,
-        window.location.search
-      ].join('');
+      const cleanedUrl = [window.location.pathname, window.location.search].join('');
 
       const hashIfExist = hash ? `#${hash}` : '';
 

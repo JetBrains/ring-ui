@@ -8,7 +8,7 @@ import {RowProps} from './row';
 import {ColProps} from './col';
 
 describe('Grid', () => {
-  const renderGrid = (props?: HTMLAttributes<HTMLDivElement>) => render(<Grid {...props}/>);
+  const renderGrid = (props?: HTMLAttributes<HTMLDivElement>) => render(<Grid {...props} />);
 
   it('should create component', () => {
     renderGrid();
@@ -27,7 +27,7 @@ describe('Grid', () => {
 });
 
 describe('Row', () => {
-  const renderRow = (props?: RowProps) => render(<Row {...props}/>);
+  const renderRow = (props?: RowProps) => render(<Row {...props} />);
 
   it('should create component', () => {
     renderRow();
@@ -56,7 +56,7 @@ describe('Row', () => {
 });
 
 describe('Col', () => {
-  const renderCol = (props?: ColProps) => render(<Col {...props}/>);
+  const renderCol = (props?: ColProps) => render(<Col {...props} />);
 
   it('should create component', () => {
     renderCol();

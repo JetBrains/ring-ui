@@ -27,8 +27,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
 
   stopBubbling = (e: SyntheticEvent) => e.stopPropagation();
 
-  private _isString = (val: unknown): val is string =>
-    typeof val === 'string' || val instanceof String;
+  private _isString = (val: unknown): val is string => typeof val === 'string' || val instanceof String;
 
   render() {
     const {
@@ -73,18 +72,16 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       [styles.hover]: hover && !disabled,
       [styles.compact]: compact,
       [styles.scrolling]: scrolling,
-      [styles.disabled]: disabled
+      [styles.disabled]: disabled,
     });
 
     const detailsClasses = classNames({
       [styles.details]: details,
-      [styles.padded]: icon !== undefined ||
-        checkbox !== undefined ||
-        glyph !== undefined
+      [styles.padded]: icon !== undefined || checkbox !== undefined || glyph !== undefined,
     });
 
     const style = {
-      paddingLeft: `${(Number(level) || 0) * RING_UNIT + DEFAULT_PADDING + (showCheckbox ? CHECKBOX_WIDTH : 0)}px`
+      paddingLeft: `${(Number(level) || 0) * RING_UNIT + DEFAULT_PADDING + (showCheckbox ? CHECKBOX_WIDTH : 0)}px`,
     };
 
     let computedTitle = null;
@@ -97,26 +94,25 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       computedTitle = this._isString(label) ? label : '';
     }
 
-    const dataTest = dataTests({
-      'ring-list-item': ((restProps['data-test'] || '') as string).indexOf('ring-list-item') === -1,
-      'ring-list-item-action': !disabled,
-      'ring-list-item-selected': checkbox
-    }, restProps['data-test']);
+    const dataTest = dataTests(
+      {
+        'ring-list-item': ((restProps['data-test'] || '') as string).indexOf('ring-list-item') === -1,
+        'ring-list-item-action': !disabled,
+        'ring-list-item-selected': checkbox,
+      },
+      restProps['data-test'],
+    );
 
     const labelElement = (
-      <span
-        className={styles.label}
-        title={computedTitle}
-        data-test="ring-list-item-label"
-      >{label}</span>
+      <span className={styles.label} title={computedTitle} data-test="ring-list-item-label">
+        {label}
+      </span>
     );
 
     return (
       <div className={styles.itemContainer} data-test={dataTest}>
         {showCheckbox && (
-          <div
-            className={styles.checkboxContainer}
-          >
+          <div className={styles.checkboxContainer}>
             <Checkbox
               aria-labelledby={this.id}
               checked={checkbox}
@@ -166,10 +162,9 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
             {labelWrapper ? labelWrapper(labelElement) : labelElement}
 
             {description && (
-              <span
-                className={styles.description}
-                data-test="ring-list-item-description"
-              >{description}</span>
+              <span className={styles.description} data-test="ring-list-item-description">
+                {description}
+              </span>
             )}
 
             <div className={styles.right}>
@@ -181,12 +176,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
                   size={this.props.iconSize}
                 />
               )}
-              {icon && (
-                <div
-                  className={styles.icon}
-                  style={{backgroundImage: `url("${icon}")`}}
-                />
-              )}
+              {icon && <div className={styles.icon} style={{backgroundImage: `url("${icon}")`}} />}
               {rightNodes}
             </div>
           </div>

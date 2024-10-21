@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Input from '../input/input';
 import Button from '../button/button';
 import Link from '../link/link';
@@ -13,8 +12,8 @@ export default {
 
   parameters: {
     notes: 'Disallows tabbing out of a designated area.',
-    screenshots: {skip: true}
-  }
+    screenshots: {skip: true},
+  },
 };
 
 export const basic = () => {
@@ -26,7 +25,7 @@ export const basic = () => {
 
           <h4>Trap start</h4>
           <TabTrap>
-            <Input placeholder="inside trap" autoFocus/>
+            <Input placeholder="inside trap" autoFocus />
             <Group>
               <Button>Test</Button>
               <Link href="#">Test link</Link>
@@ -41,7 +40,7 @@ export const basic = () => {
     }
   }
 
-  return <TabTrapDemo/>;
+  return <TabTrapDemo />;
 };
 
 basic.storyName = 'TabTrap';

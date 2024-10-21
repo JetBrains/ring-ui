@@ -1,7 +1,6 @@
 import {useRef, useState} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 
-
 import Button from '../button/button';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
@@ -15,8 +14,8 @@ export default {
 
   parameters: {
     notes: 'Text input fields of varying size.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc70ab2b23a8ca449004'
-  }
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc70ab2b23a8ca449004',
+  },
 };
 
 export const Basic = () => {
@@ -25,9 +24,9 @@ export const Basic = () => {
 
   return (
     <form className="inputs">
-      <Input label="Labeled input"/>
-      <Input name="login" label="Label and hint" placeholder="Hint"/>
-      <Input label="Label and value" defaultValue="Default value"/>
+      <Input label="Labeled input" />
+      <Input name="login" label="Label and hint" placeholder="Hint" />
+      <Input label="Label and value" defaultValue="Default value" />
       <Input
         label="Clearable input"
         value={clearableInputValue}
@@ -41,8 +40,8 @@ export const Basic = () => {
         onClear={() => {}}
         disabled
       />
-      <Input label="Input with icon" icon={searchIcon} defaultValue="Default value"/>
-      <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint"/>
+      <Input label="Input with icon" icon={searchIcon} defaultValue="Default value" />
+      <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint" />
       <Input
         placeholder="Hint"
         value={borderlessInputValue}
@@ -50,16 +49,13 @@ export const Basic = () => {
         onClear={() => setBorderlessInputValue('')}
         borderless
       />
-      <Input label="Disabled input" disabled defaultValue="Default value"/>
-      <Input
-        label="Invalid input"
-        error="Error description that wraps over lines because of being really long"
-      />
-      <Input label="Error without description" error=""/>
-      <Input label="Input with help" help="Help text"/>
-      <Input label="Short input" size={Size.S}/>
-      <Input label="Long input" size={Size.L}/>
-      <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
+      <Input label="Disabled input" disabled defaultValue="Default value" />
+      <Input label="Invalid input" error="Error description that wraps over lines because of being really long" />
+      <Input label="Error without description" error="" />
+      <Input label="Input with help" help="Help text" />
+      <Input label="Short input" size={Size.S} />
+      <Input label="Long input" size={Size.L} />
+      <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'} />
     </form>
   );
 };
@@ -85,7 +81,7 @@ Basic.parameters = {
     margin: 0 -16px;
     padding: 8px 16px;
   }
-</style>`
+</style>`,
 };
 
 export const HeightS = () => {
@@ -95,9 +91,9 @@ export const HeightS = () => {
   return (
     <ControlsHeightContext.Provider value={ControlsHeight.S}>
       <form className="inputs">
-        <Input label="Labeled input"/>
-        <Input name="login" label="Label and hint" placeholder="Hint"/>
-        <Input label="Label and value" defaultValue="Default value"/>
+        <Input label="Labeled input" />
+        <Input name="login" label="Label and hint" placeholder="Hint" />
+        <Input label="Label and value" defaultValue="Default value" />
         <Input
           label="Clearable input"
           value={clearableInputValue}
@@ -111,8 +107,8 @@ export const HeightS = () => {
           onClear={() => {}}
           disabled
         />
-        <Input label="Input with icon" icon={searchIcon} defaultValue="Default value"/>
-        <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint"/>
+        <Input label="Input with icon" icon={searchIcon} defaultValue="Default value" />
+        <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint" />
         <Input
           placeholder="Hint"
           value={borderlessInputValue}
@@ -120,16 +116,13 @@ export const HeightS = () => {
           onClear={() => setBorderlessInputValue('')}
           borderless
         />
-        <Input label="Disabled input" disabled defaultValue="Default value"/>
-        <Input
-          label="Invalid input"
-          error="Error description that wraps over lines because of being really long"
-        />
-        <Input label="Error without description" error=""/>
-        <Input label="Input with help" help="Help text"/>
-        <Input label="Short input" size={Size.S}/>
-        <Input label="Long input" size={Size.L}/>
-        <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'}/>
+        <Input label="Disabled input" disabled defaultValue="Default value" />
+        <Input label="Invalid input" error="Error description that wraps over lines because of being really long" />
+        <Input label="Error without description" error="" />
+        <Input label="Input with help" help="Help text" />
+        <Input label="Short input" size={Size.S} />
+        <Input label="Long input" size={Size.L} />
+        <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'} />
       </form>
     </ControlsHeightContext.Provider>
   );
@@ -147,8 +140,10 @@ export const SelectAll = () => {
 
   return (
     <>
-      <Input defaultValue="Value" inputRef={ref} label="Label"/>
-      <Button style={{marginTop: 4}} data-test-select onClick={select}>Select all</Button>
+      <Input defaultValue="Value" inputRef={ref} label="Label" />
+      <Button style={{marginTop: 4}} data-test-select onClick={select}>
+        Select all
+      </Button>
     </>
   );
 };
@@ -157,7 +152,7 @@ SelectAll.parameters = {
   screenshots: {
     actions: [
       {type: 'click', selector: '[data-test-select]'},
-      {type: 'capture', selector: '#storybook-root'}
-    ]
-  }
+      {type: 'capture', selector: '#storybook-root'},
+    ],
+  },
 };

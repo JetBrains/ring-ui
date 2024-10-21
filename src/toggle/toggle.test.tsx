@@ -4,7 +4,7 @@ import Toggle, {ToggleAttrs} from './toggle';
 import styles from './toggle.css';
 
 describe('Toggle', () => {
-  const mountToggle = (props?: ToggleAttrs) => mount(<Toggle {...props}/>);
+  const mountToggle = (props?: ToggleAttrs) => mount(<Toggle {...props} />);
   const getToggleLabel = (props?: ToggleAttrs) => mountToggle(props).find('label');
 
   it('should create component', () => {
@@ -17,7 +17,7 @@ describe('Toggle', () => {
 
   it('should use passed className', () => {
     getToggleLabel({
-      className: 'test-class'
+      className: 'test-class',
     }).should.have.className('test-class');
   });
 

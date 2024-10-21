@@ -6,9 +6,9 @@ import Theme, {ThemeProvider} from '../global/theme';
 import styles from './header.css';
 
 interface HeaderProps extends HTMLAttributes<HTMLElement> {
-  spaced: boolean // only takes effect when vertical is false
-  theme: Theme
-  vertical: boolean
+  spaced: boolean; // only takes effect when vertical is false
+  theme: Theme;
+  vertical: boolean;
 }
 
 /**
@@ -21,32 +21,25 @@ class Header extends Component<HeaderProps> {
   static defaultProps = {
     spaced: true,
     theme: Theme.DARK,
-    vertical: false
+    vertical: false,
   };
 
   render() {
     const {children, className, spaced, theme, vertical, ...restProps} = this.props;
     const classes = classNames(vertical ? styles.headerVertical : styles.header, className, {
-      [styles.headerSpaced]: spaced && !vertical
+      [styles.headerSpaced]: spaced && !vertical,
     });
 
     const overrideOuterTheme = theme !== Theme.LIGHT;
 
     const header = (
-      <header
-        {...restProps}
-        className={classes}
-      >
+      <header {...restProps} className={classes}>
         {children}
       </header>
     );
 
     if (overrideOuterTheme) {
-      return (
-        <ThemeProvider theme={theme}>
-          {header}
-        </ThemeProvider>
-      );
+      return <ThemeProvider theme={theme}>{header}</ThemeProvider>;
     }
 
     return header;

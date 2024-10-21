@@ -16,18 +16,18 @@ export function isMounted(node: Node | Range | null | undefined) {
 }
 
 export interface Rect {
-  top: number
-  right: number
-  bottom: number
-  left: number
-  width: number
-  height: number
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+  width: number;
+  height: number;
 }
 
 const rectStub: Rect = {top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0};
 
 export function getRect(node: Element | Range | null | undefined): Rect {
-  if (node instanceof Range || node != null && isMounted(node)) {
+  if (node instanceof Range || (node != null && isMounted(node))) {
     const {top, right, bottom, left, width, height} = node.getBoundingClientRect();
     return {top, right, bottom, left, width, height};
   } else {
@@ -53,21 +53,21 @@ export function isNodeInVisiblePartOfPage(node: Element | Range) {
 }
 
 export function getDocumentScrollTop() {
-  return (document.documentElement && document.documentElement.scrollTop) ||
-    document.body.scrollTop;
+  return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 }
 
 export function getDocumentScrollLeft() {
-  return (document.documentElement && document.documentElement.scrollLeft) ||
-    document.body.scrollLeft;
+  return (document.documentElement && document.documentElement.scrollLeft) || document.body.scrollLeft;
 }
 
-export const applyMethodToClasses = (method: 'add' | 'remove') => (classList: DOMTokenList, classes = '') => {
-  classes.
-    split(/\s+/g).
-    filter(className => !!className).
-    forEach(className => classList[method](className));
-};
+export const applyMethodToClasses =
+  (method: 'add' | 'remove') =>
+  (classList: DOMTokenList, classes = '') => {
+    classes
+      .split(/\s+/g)
+      .filter(className => !!className)
+      .forEach(className => classList[method](className));
+  };
 
 export const addClasses = applyMethodToClasses('add');
 export const removeClasses = applyMethodToClasses('remove');
@@ -82,13 +82,10 @@ export function setRootStyleProperties(properties: PropertiesHyphen = {}) {
   });
 }
 
-export function resetRootStyleProperties(
-  properties: Partial<Record<keyof PropertiesHyphen, unknown>> = {}
-) {
+export function resetRootStyleProperties(properties: Partial<Record<keyof PropertiesHyphen, unknown>> = {}) {
   const rootStyle = document.documentElement.style;
 
-  Object.keys(properties).
-    forEach(key => rootStyle.removeProperty(key));
+  Object.keys(properties).forEach(key => rootStyle.removeProperty(key));
 }
 
 export class Listeners {
@@ -99,21 +96,21 @@ export class Listeners {
     event: K,
     handler: (this: HTMLElement, ev: HTMLElementEventMap[K]) => void,
     options?: boolean | AddEventListenerOptions,
-  ): () => void
+  ): () => void;
 
   add<K extends keyof WindowEventMap>(
     el: Window,
     event: K,
     handler: (this: Window, ev: WindowEventMap[K]) => void,
     options?: boolean | AddEventListenerOptions,
-  ): () => void
+  ): () => void;
 
   add<K extends keyof DocumentEventMap>(
     el: Document,
     event: K,
     handler: (this: Window, ev: DocumentEventMap[K]) => void,
     options?: boolean | AddEventListenerOptions,
-  ): () => void
+  ): () => void;
 
   add(
     el: HTMLElement | Window | Document,

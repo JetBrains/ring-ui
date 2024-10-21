@@ -6,10 +6,9 @@ import {ShortcutsMap} from './core';
 
 import shortcutsHOC, {ShortcutsHOCOptions} from './shortcuts-hoc';
 
-
 interface FactoryProps {
-  options: ShortcutsHOCOptions
-  map: ShortcutsMap
+  options: ShortcutsHOCOptions;
+  map: ShortcutsMap;
 }
 
 describe('ShortcutsHOC', () => {
@@ -18,14 +17,11 @@ describe('ShortcutsHOC', () => {
 
     const createShortcutsMap = (): FactoryProps => ({
       options: {},
-      map: {enter: sandbox.spy()}
+      map: {enter: sandbox.spy()},
     });
 
     const factory = (shortcuts: FactoryProps) => (
-      <InputWithShortcuts
-        rgShortcutsOptions={shortcuts.options}
-        rgShortcutsMap={shortcuts.map}
-      />
+      <InputWithShortcuts rgShortcutsOptions={shortcuts.options} rgShortcutsMap={shortcuts.map} />
     );
 
     const shallowInputWithShortcuts = (shortcuts: FactoryProps) => shallow(factory(shortcuts));
@@ -36,7 +32,6 @@ describe('ShortcutsHOC', () => {
       shallowInputWithShortcuts(shortcuts).should.exist;
     });
 
-
     it('should call shortcut handler', () => {
       const shortcuts = createShortcutsMap();
       mountInputWithShortcuts(shortcuts);
@@ -44,7 +39,6 @@ describe('ShortcutsHOC', () => {
 
       shortcuts.map.enter.should.be.called;
     });
-
 
     it('should disable shortcuts', () => {
       const shortcuts = createShortcutsMap();

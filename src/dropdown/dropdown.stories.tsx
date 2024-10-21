@@ -1,6 +1,5 @@
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
-
 import {ActiveItemContext} from '../list/list';
 
 import Popup from '../popup/popup';
@@ -24,11 +23,11 @@ export default {
         {
           type: 'capture',
           name: 'dropdown',
-          selector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]']
-        }
-      ]
-    }
-  }
+          selector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]'],
+        },
+      ],
+    },
+  },
 };
 
 export const basic = () => (
@@ -41,7 +40,7 @@ basic.storyName = 'basic';
 
 export const withCustomAnchorAndPopup = () => (
   <Dropdown anchor={<Button delayed>Edit</Button>}>
-    <PopupMenu closeOnSelect data={['Cut', 'Copy', 'Paste'].map(label => ({label}))}/>
+    <PopupMenu closeOnSelect data={['Cut', 'Copy', 'Paste'].map(label => ({label}))} />
   </Dropdown>
 );
 
@@ -50,21 +49,20 @@ export const withCustomAnchorAndPopupAndContentAccessibilityHandling = () => {
 
   return (
     <ActiveItemContext.Provider>
-      <Dropdown anchor={({active}) => (
-        <ActiveItemContext.ValueContext.Consumer>
-          {activeItemId => {
-            const anchorAriaProps = active && activeItemId
-              ? {'aria-owns': listId, 'aria-activedescendant': activeItemId}
-              : {};
-            return (
-              <Button
-                {...anchorAriaProps}
-                delayed
-              >Edit</Button>
-            );
-          }}
-        </ActiveItemContext.ValueContext.Consumer>
-      )}
+      <Dropdown
+        anchor={({active}) => (
+          <ActiveItemContext.ValueContext.Consumer>
+            {activeItemId => {
+              const anchorAriaProps =
+                active && activeItemId ? {'aria-owns': listId, 'aria-activedescendant': activeItemId} : {};
+              return (
+                <Button {...anchorAriaProps} delayed>
+                  Edit
+                </Button>
+              );
+            }}
+          </ActiveItemContext.ValueContext.Consumer>
+        )}
       >
         <PopupMenu
           id={listId}
@@ -81,11 +79,7 @@ export const withCustomAnchorAndPopupAndContentAccessibilityHandling = () => {
 withCustomAnchorAndPopup.storyName = 'with custom anchor and popup';
 
 export const withActiveClassName = () => (
-  <Dropdown
-    className="chevron"
-    activeClassName="rotated"
-    anchor={<Button title="Details" icon={chevronDownIcon}/>}
-  >
+  <Dropdown className="chevron" activeClassName="rotated" anchor={<Button title="Details" icon={chevronDownIcon} />}>
     <Popup>Popup content</Popup>
   </Dropdown>
 );
@@ -104,7 +98,7 @@ withActiveClassName.parameters = {
   .rotated svg {
     transform: rotate(180deg);
   }
-</style>`
+</style>`,
 };
 
 export const withHoverMode = () => (
@@ -128,13 +122,13 @@ withHoverModeAndDisabledClickMode.parameters = {screenshots: {skip: true}};
 
 export const autofocusOnOpen = () => (
   <div>
-    <div style={{height: '90vh'}}/>
+    <div style={{height: '90vh'}} />
     <Dropdown anchor="Scroll and then click me">
       <Popup trapFocus autoFocusFirst>
-        <Input className="ring-js-shortcuts"/>
+        <Input className="ring-js-shortcuts" />
       </Popup>
     </Dropdown>
-    <div style={{height: '50vh'}}/>
+    <div style={{height: '50vh'}} />
   </div>
 );
 
@@ -143,7 +137,13 @@ autofocusOnOpen.parameters = {screenshots: {skip: true}};
 
 export const renderProps = () => (
   <Dropdown anchor="Click me">
-    {props => <Popup {...props}><Button onClick={props.onCloseAttempt} text>Close</Button></Popup>}
+    {props => (
+      <Popup {...props}>
+        <Button onClick={props.onCloseAttempt} text>
+          Close
+        </Button>
+      </Popup>
+    )}
   </Dropdown>
 );
 renderProps.parameters = {screenshots: {skip: true}};

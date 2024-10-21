@@ -15,7 +15,7 @@ process.stdout.write = function write(error) {
         id: errorCode,
         name: errorCode,
         category: 'TypeScript errors',
-        description: 'Errors reported by TypeScript'
+        description: 'Errors reported by TypeScript',
       });
       registeredErrorCodes.add(errorCode);
     }

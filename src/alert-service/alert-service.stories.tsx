@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Button from '../button/button';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 
@@ -15,8 +14,8 @@ export default {
 
   parameters: {
     notes: 'Service for managing a stack of alerts.',
-    screenshots: {skip: true}
-  }
+    screenshots: {skip: true},
+  },
 };
 
 export const alertService = () => {
@@ -49,8 +48,8 @@ export const alertService = () => {
         {
           className: styles.customAlert,
           closeButtonClassName: styles.closeButton,
-          theme: Theme.LIGHT
-        }
+          theme: Theme.LIGHT,
+        },
       );
     };
 
@@ -59,10 +58,7 @@ export const alertService = () => {
     };
 
     showRandomWarning = () => {
-      this.lastKey = alert.warning(
-        `Warning! Something bad is going to happen (${Math.random()})`,
-        MSG_LONG_TIMEOUT
-      );
+      this.lastKey = alert.warning(`Warning! Something bad is going to happen (${Math.random()})`, MSG_LONG_TIMEOUT);
     };
 
     showMessage = () => {
@@ -80,9 +76,7 @@ export const alertService = () => {
           <Button onClick={this.showMessage} primary>
             Show message
           </Button>
-          <Button onClick={this.showCustomMessage}>
-            Show custom message
-          </Button>
+          <Button onClick={this.showCustomMessage}>Show custom message</Button>
           <Button onClick={this.showRandomWarning}>Show warning</Button>
           <Button onClick={this.removeLastAlert}>Remove last alert</Button>
         </ButtonToolbar>
@@ -90,5 +84,5 @@ export const alertService = () => {
     }
   }
 
-  return <AlertServiceDemo/>;
+  return <AlertServiceDemo />;
 };

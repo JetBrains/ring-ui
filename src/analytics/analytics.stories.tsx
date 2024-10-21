@@ -7,10 +7,9 @@ export default {
   title: 'Components/Analytics',
 
   parameters: {
-    notes:
-      'Provides a façade to Google Analytics and other web analytics services through a system of plugins.',
-    screenshots: {skip: true}
-  }
+    notes: 'Provides a façade to Google Analytics and other web analytics services through a system of plugins.',
+    screenshots: {skip: true},
+  },
 };
 
 export const Analytics = () => {
@@ -20,7 +19,7 @@ export const Analytics = () => {
     // eslint-disable-next-line no-console
     events => console.log('Custom plugin receives:', events[0].category, events[0].action),
     false,
-    FLUSH_INTERVAL
+    FLUSH_INTERVAL,
   );
 
   analytics.config([customPlugin]);

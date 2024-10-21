@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Link from '../link/link';
 import Button from '../button/button';
 
@@ -11,14 +10,14 @@ import Alert, {Container} from './alert';
 export default {
   title: 'Components/Alert',
 
-  component: Alert
+  component: Alert,
 };
 
 export const simple = () => {
   class AlertDemo extends Component {
     state = {
       show: true,
-      isClosing: false
+      isClosing: false,
     };
 
     onClose = () => {
@@ -49,13 +48,13 @@ export const simple = () => {
     }
   }
 
-  return <AlertDemo/>;
+  return <AlertDemo />;
 };
 
 simple.storyName = 'simple';
 
 interface AlertContainerState {
-  alerts: Array<AlertItem>
+  alerts: Array<AlertItem>;
 }
 export const alertContainer = () => {
   class AlertContainerDemo extends Component<Record<string, never>, AlertContainerState> {
@@ -73,9 +72,9 @@ export const alertContainer = () => {
               Message <Link href="#">with link</Link>
             </span>
           ),
-          isClosing: false
-        }
-      ]
+          isClosing: false,
+        },
+      ],
     };
 
     yetAnotherMessage = () => {
@@ -85,17 +84,17 @@ export const alertContainer = () => {
           {
             type: Alert.Type.MESSAGE,
             key: Date.now(),
-            message: `Another message at ${new Date()}`
+            message: `Another message at ${new Date()}`,
           },
-          ...prevState.alerts
-        ]
+          ...prevState.alerts,
+        ],
       }));
     };
 
     onCloseAlert = (closedAlert: AlertItem) => {
       this.setState(prevState => ({
         ...prevState,
-        alerts: prevState.alerts.filter(alert => alert !== closedAlert)
+        alerts: prevState.alerts.filter(alert => alert !== closedAlert),
       }));
     };
 
@@ -104,7 +103,7 @@ export const alertContainer = () => {
       alertToClose.isClosing = true;
       this.setState(prevState => ({
         ...prevState,
-        alerts: [...prevState.alerts]
+        alerts: [...prevState.alerts],
       }));
     };
 
@@ -133,12 +132,12 @@ export const alertContainer = () => {
     }
   }
 
-  return <AlertContainerDemo/>;
+  return <AlertContainerDemo />;
 };
 
 alertContainer.parameters = {
   screenshots: {
-    captureSelector: '*[data-test="alert-container"]'
+    captureSelector: '*[data-test="alert-container"]',
   },
-  a11y: {element: '#storybook-root,*[data-test="alert-container"]'}
+  a11y: {element: '#storybook-root,*[data-test="alert-container"]'},
 };
