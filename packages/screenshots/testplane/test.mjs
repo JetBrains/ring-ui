@@ -5,9 +5,8 @@ import filenamify from 'filenamify';
 
 import Actions from './actions';
 
-// FIXME: no such file
-// import items from './stories.json' with {type: 'json'};
-const items = [];
+// eslint-disable-next-line import/no-unresolved
+import items from './stories.json' with {type: 'json'};
 
 function addTestName(name, storyName) {
   return `${storyName}${name ? `-${name}` : ''}`;
