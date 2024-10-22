@@ -110,7 +110,6 @@ export interface PopupProps extends BasePopupProps {
 
 interface PopupState {
   display: Display
-  client?: boolean
   direction?: Directions
 }
 
@@ -152,9 +151,6 @@ export default class Popup<
   };
 
   componentDidMount() {
-    if (!this.props.client) {
-      this.setState({client: true});
-    }
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
@@ -307,13 +303,16 @@ export default class Popup<
   }
 
   private _listenersEnabled?: boolean;
+
+  private _prevTimeout?: number;
   /**
    * @param {boolean} enable
    * @private
    */
   private _setListenersEnabled(enable: boolean) {
     if (enable && !this._listenersEnabled) {
-      setTimeout(() => {
+      clearTimeout(this._prevTimeout);
+      this._prevTimeout = window.setTimeout(() => {
         this._listenersEnabled = true;
         this.listeners.add(window, 'resize', this._redraw);
         if (this.props.autoPositioningOnScroll) {
@@ -332,6 +331,7 @@ export default class Popup<
 
     if (!enable && this._listenersEnabled) {
       this.listeners.removeAll();
+      clearTimeout(this._prevTimeout);
       this._listenersEnabled = false;
     }
   }
@@ -427,7 +427,7 @@ export default class Popup<
               )
               }
 
-              {(client || this.state.client) && (keepMounted || !hidden) && createPortal(
+              {client !== false && (keepMounted || !hidden) && createPortal(
                 <PopupTarget
                   id={this.uid}
                   ref={this.containerRef}
