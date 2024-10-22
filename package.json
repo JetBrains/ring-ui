@@ -137,7 +137,6 @@
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-formatter-jslint-xml": "^8.40.0",
-    "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-import-resolver-webpack": "^0.13.9",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.1",

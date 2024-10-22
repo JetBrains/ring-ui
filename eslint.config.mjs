@@ -284,6 +284,7 @@ export default tseslint.config(
     files: ['eslint.config.mjs', 'test-helpers/vitest-setup.js'],
     rules: {'import/no-unresolved': 'off'},
   },
+  {files: ['**/*.mjs'], rules: {'import/extensions': ['error', 'ignorePackages']}},
 
   eslintPluginPrettierRecommended,
 );
