@@ -8,10 +8,10 @@ import {renderToStaticMarkup} from 'react-dom/server';
 function noop() {}
 
 export interface ContentEditableBaseProps extends HTMLAttributes<HTMLElement> {
-  disabled: boolean
-  onComponentUpdate: ((prevProps: ContentEditableBaseProps) => void)
-  inputRef?: Ref<HTMLDivElement> | null | undefined
-  __html: string
+  disabled: boolean;
+  onComponentUpdate: (prevProps: ContentEditableBaseProps) => void;
+  inputRef?: Ref<HTMLDivElement> | null | undefined;
+  __html: string;
 }
 
 class ContentEditableBase extends Component<ContentEditableBaseProps> {
@@ -19,12 +19,11 @@ class ContentEditableBase extends Component<ContentEditableBaseProps> {
     disabled: false,
     tabIndex: 0,
     onInput: noop,
-    onComponentUpdate: noop
+    onComponentUpdate: noop,
   };
 
   shouldComponentUpdate(nextProps: ContentEditableBaseProps) {
-    return nextProps.disabled !== this.props.disabled ||
-      nextProps.__html !== this.props.__html;
+    return nextProps.disabled !== this.props.disabled || nextProps.__html !== this.props.__html;
   }
 
   componentDidUpdate(prevProps: ContentEditableBaseProps) {
@@ -50,12 +49,12 @@ class ContentEditableBase extends Component<ContentEditableBaseProps> {
   }
 }
 
-type ContentEditableBaseAttrs =
-  JSX.LibraryManagedAttributes<typeof ContentEditableBase, ContentEditableBaseProps>
+type ContentEditableBaseAttrs = JSX.LibraryManagedAttributes<typeof ContentEditableBase, ContentEditableBaseProps>;
 
-export type ContentEditableProps = Omit<ContentEditableBaseAttrs, '__html'>
+export type ContentEditableProps = Omit<ContentEditableBaseAttrs, '__html'>;
 
-const ContentEditable = ({children, ...props}: ContentEditableProps) =>
-  <ContentEditableBase {...props} __html={renderToStaticMarkup(children as ReactElement)}/>;
+const ContentEditable = ({children, ...props}: ContentEditableProps) => (
+  <ContentEditableBase {...props} __html={renderToStaticMarkup(children as ReactElement)} />
+);
 
 export default ContentEditable;

@@ -8,17 +8,17 @@ const ABOVE = 'above';
 const INSIDE = 'inside';
 
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
-  right?: boolean | null | undefined
-  containerClassName?: string | null | undefined
-  fixedClassName?: string | null | undefined
-  contentNode?: HTMLElement | null | undefined
+  right?: boolean | null | undefined;
+  containerClassName?: string | null | undefined;
+  fixedClassName?: string | null | undefined;
+  contentNode?: HTMLElement | null | undefined;
 }
 
 export default class Sidebar extends Component<SidebarProps> {
   state = {
     topIsOutside: true,
     bottomIsOutside: true,
-    sidebarVisibleHeight: undefined
+    sidebarVisibleHeight: undefined,
   };
 
   sidebarNode?: HTMLElement | null;
@@ -30,7 +30,7 @@ export default class Sidebar extends Component<SidebarProps> {
   handleBottomWaypoint = ({currentPosition, waypointTop}: Waypoint.CallbackArgs) => {
     this.setState({
       sidebarVisibleHeight: waypointTop,
-      bottomIsOutside: currentPosition !== INSIDE
+      bottomIsOutside: currentPosition !== INSIDE,
     });
   };
 
@@ -53,51 +53,37 @@ export default class Sidebar extends Component<SidebarProps> {
   };
 
   render() {
-    const {right, children, className, containerClassName,
-      fixedClassName, contentNode, ...restProps} = this.props;
+    const {right, children, className, containerClassName, fixedClassName, contentNode, ...restProps} = this.props;
     const {topIsOutside, bottomIsOutside, sidebarVisibleHeight} = this.state;
 
     const shouldFixateTop = bottomIsOutside && topIsOutside && this.shouldUseFixation();
     const shouldFixateBottom = this.shouldFixateBottom();
 
     const containerClasses = classNames(styles.sidebarContainer, containerClassName, {
-      [styles.sidebarContainerRight]: right
+      [styles.sidebarContainerRight]: right,
     });
 
     const classes = classNames(styles.sidebar, className, {
       [styles.sidebarRight]: right,
       [styles.sidebarFixedTop]: shouldFixateTop,
       [styles.sidebarFixedBottom]: shouldFixateBottom,
-      [fixedClassName ?? '']: shouldFixateTop || shouldFixateBottom
+      [fixedClassName ?? '']: shouldFixateTop || shouldFixateBottom,
     });
 
     const style = {
-      maxHeight: shouldFixateBottom && sidebarVisibleHeight ? `${sidebarVisibleHeight}px` : undefined
+      maxHeight: shouldFixateBottom && sidebarVisibleHeight ? `${sidebarVisibleHeight}px` : undefined,
     };
 
     return (
-      <aside
-        className={containerClasses}
-        ref={this.sidebarRef}
-      >
-        <Waypoint
-          onEnter={this.handleTopWaypoint}
-          onLeave={this.handleTopWaypoint}
-        />
+      <aside className={containerClasses} ref={this.sidebarRef}>
+        <Waypoint onEnter={this.handleTopWaypoint} onLeave={this.handleTopWaypoint} />
 
-        <div
-          {...restProps}
-          style={style}
-          className={classes}
-        >
+        <div {...restProps} style={style} className={classes}>
           {children}
         </div>
 
         <div className={styles.bottomMarker}>
-          <Waypoint
-            onEnter={this.handleBottomWaypoint}
-            onLeave={this.handleBottomWaypoint}
-          />
+          <Waypoint onEnter={this.handleBottomWaypoint} onLeave={this.handleBottomWaypoint} />
         </div>
       </aside>
     );

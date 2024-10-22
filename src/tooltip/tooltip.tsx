@@ -15,20 +15,20 @@ import styles from './tooltip.css';
 const scheduleScroll = scheduleRAF();
 
 interface Context {
-  onNestedTooltipShow: () => void
-  onNestedTooltipHide: () => void
+  onNestedTooltipShow: () => void;
+  onNestedTooltipHide: () => void;
 }
 
 const TooltipContext = createContext<Context | undefined>(undefined);
 
 export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, 'title'> {
-  delay?: number | null | undefined
-  selfOverflowOnly?: boolean | null | undefined
-  popupProps?: Partial<PopupAttrs> | null | undefined
-  title?: ReactNode | null | undefined
-  theme?: Theme
-  'data-test'?: string | null | undefined
-  long?: boolean | null | undefined
+  delay?: number | null | undefined;
+  selfOverflowOnly?: boolean | null | undefined;
+  popupProps?: Partial<PopupAttrs> | null | undefined;
+  title?: ReactNode | null | undefined;
+  theme?: Theme;
+  'data-test'?: string | null | undefined;
+  long?: boolean | null | undefined;
 }
 /**
  * @name Tooltip
@@ -38,12 +38,12 @@ export default class Tooltip extends Component<TooltipProps> {
     title: '',
     selfOverflowOnly: false,
     theme: Theme.DARK,
-    popupProps: {}
+    popupProps: {},
   };
 
   state = {
     showPopup: false,
-    showNestedPopup: false
+    showNestedPopup: false,
   };
 
   componentDidMount() {
@@ -152,12 +152,19 @@ export default class Tooltip extends Component<TooltipProps> {
   };
 
   render() {
-    const {children, 'data-test': dataTest,
-      title, delay, theme, selfOverflowOnly, popupProps, long, ...restProps} = this.props;
+    const {
+      children,
+      'data-test': dataTest,
+      title,
+      delay,
+      theme,
+      selfOverflowOnly,
+      popupProps,
+      long,
+      ...restProps
+    } = this.props;
 
-    const ariaProps = typeof title === 'string' && !!title
-      ? {'aria-label': title, role: 'tooltip'}
-      : {};
+    const ariaProps = typeof title === 'string' && !!title ? {'aria-label': title, role: 'tooltip'} : {};
 
     const {onNestedTooltipShow, onNestedTooltipHide} = this;
 
@@ -171,11 +178,7 @@ export default class Tooltip extends Component<TooltipProps> {
           data-test-title={typeof title === 'string' ? title : undefined}
         >
           {children}
-          <ThemeProvider
-            theme={theme}
-            passToPopups
-            WrapperComponent={props => <span {...props}/>}
-          >
+          <ThemeProvider theme={theme} passToPopups WrapperComponent={props => <span {...props} />}>
             <Popup
               trapFocus={false}
               anchorElement={this.containerNode}
@@ -189,11 +192,13 @@ export default class Tooltip extends Component<TooltipProps> {
               dontCloseOnAnchorClick
               ref={this.popupRef}
               {...popupProps}
-            >{title}</Popup>
+            >
+              {title}
+            </Popup>
           </ThemeProvider>
         </span>
       </TooltipContext.Provider>
     );
   }
 }
-export type TooltipAttrs = JSX.LibraryManagedAttributes<typeof Tooltip, TooltipProps>
+export type TooltipAttrs = JSX.LibraryManagedAttributes<typeof Tooltip, TooltipProps>;

@@ -8,10 +8,8 @@ import Popup, {PopupAttrs} from './popup';
 import {MinWidth} from './popup.consts';
 
 describe('Popup', () => {
-  const shallowPopup = (props?: Partial<PopupAttrs>) =>
-    shallow(<Popup {...{children: '', ...props}}/>);
-  const mountPopup = (props?: Partial<PopupAttrs>) =>
-    mount<Popup>(<Popup {...{children: '', ...props}}/>);
+  const shallowPopup = (props?: Partial<PopupAttrs>) => shallow(<Popup {...{children: '', ...props}} />);
+  const mountPopup = (props?: Partial<PopupAttrs>) => mount<Popup>(<Popup {...{children: '', ...props}} />);
 
   it('should create component', () => {
     const popup = shallowPopup();
@@ -37,7 +35,7 @@ describe('Popup', () => {
   describe('close by pointer down', () => {
     const downEvent = new PointerEvent('pointerdown', {
       bubbles: true,
-      cancelable: false
+      cancelable: false,
     });
     let clock: Sinon.SinonFakeTimers;
 
@@ -67,7 +65,7 @@ describe('Popup', () => {
       const onCloseAttempt = sandbox.stub();
       mountPopup({
         hidden: true,
-        onCloseAttempt
+        onCloseAttempt,
       });
 
       clock.tick(0);
@@ -78,7 +76,7 @@ describe('Popup', () => {
     it('should be closed by pointer down event outside the element after show', () => {
       const onCloseAttempt = sandbox.stub();
       const wrapper = mountPopup({
-        onCloseAttempt
+        onCloseAttempt,
       });
 
       wrapper.setProps({hidden: false}, () => {
@@ -88,7 +86,7 @@ describe('Popup', () => {
       });
     });
 
-    it('shouldn\'t be closed by pointer down event inside the element', () => {
+    it("shouldn't be closed by pointer down event inside the element", () => {
       const onCloseAttempt = sandbox.stub();
       const instance = mountPopup({onCloseAttempt}).instance();
 
@@ -115,41 +113,35 @@ describe('Popup', () => {
 
     it('top-left direction', () => {
       element = document.createElement('div');
-      element.setAttribute(
-        'style',
-        'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;'
-      );
+      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
       const instance = mountPopup({
         directions: [Popup.PopupProps.Directions.TOP_LEFT],
-        anchorElement: element
+        anchorElement: element,
       }).instance();
 
       should.exist(instance.popup);
       const popupElement = instance.popup as HTMLElement;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).
-        should.equal(elementOffset.left + elementOffset.width - popupElement.offsetWidth);
-      parseInt(getStyles(popupElement).top, 10).
-        should.equal(elementOffset.top - popupElement.offsetHeight);
+      parseInt(getStyles(popupElement).left, 10).should.equal(
+        elementOffset.left + elementOffset.width - popupElement.offsetWidth,
+      );
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top - popupElement.offsetHeight);
     });
 
     it('should limit top by sidePadding if opens to the top', () => {
       const SIDE_PADDING = 8;
       element = document.createElement('div');
-      element.setAttribute(
-        'style',
-        'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;'
-      );
+      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
       const instance = mountPopup({
         directions: [Popup.PopupProps.Directions.TOP_LEFT],
         anchorElement: element,
         sidePadding: SIDE_PADDING,
-        children: <div style={{height: '300px'}}>{'foo'}</div>
+        children: <div style={{height: '300px'}}>{'foo'}</div>,
       }).instance();
 
       should.exist(instance.popup);
@@ -158,51 +150,41 @@ describe('Popup', () => {
 
     it('bottom-right corner', () => {
       element = document.createElement('div');
-      element.setAttribute(
-        'style',
-        'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;'
-      );
+      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
       const instance = mountPopup({
         directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
-        anchorElement: element
+        anchorElement: element,
       }).instance();
 
       should.exist(instance.popup);
       const popupElement = instance.popup as HTMLElement;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).
-        should.equal(elementOffset.left);
-      parseInt(getStyles(popupElement).top, 10).
-        should.equal(elementOffset.top + elementOffset.height);
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
     });
 
     it('should add specified offset', () => {
       const OFFSET = 10;
       element = document.createElement('div');
-      element.setAttribute(
-        'style',
-        'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;'
-      );
+      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
       const instance = mountPopup({
         directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
         anchorElement: element,
         left: OFFSET,
-        top: OFFSET
+        top: OFFSET,
       }).instance();
 
       should.exist(instance.popup);
       const popupElement = instance.popup as HTMLElement;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).
-        should.equal(elementOffset.left + OFFSET);
-      parseInt(getStyles(popupElement).top, 10).
-        should.equal(elementOffset.top + elementOffset.height + OFFSET);
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + OFFSET);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
     });
 
     it('Should support minWidth = MinWidth.TARGET', () => {
@@ -213,7 +195,7 @@ describe('Popup', () => {
       const instance = mountPopup({
         minWidth: MinWidth.TARGET,
         anchorElement: element,
-        hidden: false
+        hidden: false,
       }).instance();
 
       should.exist(instance.popup);
@@ -229,7 +211,9 @@ describe('Popup', () => {
 
       const WIDTH = 345;
       const instance = mountPopup({
-        minWidth: WIDTH, hidden: false, anchorElement: element
+        minWidth: WIDTH,
+        hidden: false,
+        anchorElement: element,
       }).instance();
 
       should.exist(instance.popup);
@@ -245,7 +229,9 @@ describe('Popup', () => {
       document.body.append(element);
 
       const instance = mountPopup({
-        minWidth: 20, hidden: false, anchorElement: element
+        minWidth: 20,
+        hidden: false,
+        anchorElement: element,
       }).instance();
 
       should.exist(instance.popup);

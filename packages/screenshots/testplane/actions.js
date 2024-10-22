@@ -7,7 +7,7 @@ module.exports = {
       selectors.map(async selectorString => {
         const element = await browser.$(selectorString);
         return element.waitForDisplayed({timeout: TIMEOUT});
-      })
+      }),
     );
     await browser.assertView(name.toLowerCase(), selector);
   },
@@ -16,16 +16,13 @@ module.exports = {
     return element.click();
   },
   executeJS: (browser, {script}) => browser.execute(script),
-  focus: (browser, {selector}) =>
-    browser.execute(`document.querySelector('${selector}').focus()`),
+  focus: (browser, {selector}) => browser.execute(`document.querySelector('${selector}').focus()`),
   mouseMove: async (browser, {selector, x, y}) => {
     const element = await browser.$(selector);
     return element.moveTo({xOffset: x, yOffset: y});
   },
   mouseEvent: (browser, {selector, eventname}) =>
-    browser.execute(
-      `document.querySelector('${selector}').dispatchEvent(new MouseEvent('${eventname}'))`
-    ),
+    browser.execute(`document.querySelector('${selector}').dispatchEvent(new MouseEvent('${eventname}'))`),
   sendKeys: async (browser, {selector, value}) => {
     const element = await browser.$(selector);
     return element.addValue(value);
@@ -34,19 +31,18 @@ module.exports = {
     browser.execute(
       `var element = document.querySelector('${selector}');
       ${y && `element.scrollTop += ${y};`}
-      ${x && `element.scrollLeft += ${x};`}`
+      ${x && `element.scrollLeft += ${x};`}`,
     ),
-  setWindowSize: (browser, {width, height}) =>
-    browser.setWindowSize(width, height),
+  setWindowSize: (browser, {width, height}) => browser.setWindowSize(width, height),
   waitForElementToShow: async (browser, {timeout, selector, hidden}) => {
     const element = await browser.$(selector);
     return element.waitForDisplayed({timeout, reverse: hidden});
   },
-  waitForJSCondition: (browser, {condition}) =>
-    browser.waitUntil(() => browser.execute(condition)),
+  waitForJSCondition: (browser, {condition}) => browser.waitUntil(() => browser.execute(condition)),
   wait: (_, {delay}) => new Promise(resolve => setTimeout(resolve, delay)),
-  setDarkTheme: browser => browser.execute(() => {
-    document.documentElement.classList.add('ring-ui-theme-dark');
-    document.body.classList.add('ring-ui-theme-dark');
-  })
+  setDarkTheme: browser =>
+    browser.execute(() => {
+      document.documentElement.classList.add('ring-ui-theme-dark');
+      document.body.classList.add('ring-ui-theme-dark');
+    }),
 };

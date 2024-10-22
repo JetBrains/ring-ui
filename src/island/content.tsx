@@ -12,14 +12,14 @@ const noop = () => {};
 const END_DISTANCE = 16;
 
 export interface IslandContentProps extends Omit<HTMLAttributes<HTMLElement>, 'onScroll'> {
-  fade?: boolean | null | undefined
-  onScrollToBottom?: (() => void) | null | undefined
-  scrollableWrapperClassName?: string | null | undefined
+  fade?: boolean | null | undefined;
+  onScrollToBottom?: (() => void) | null | undefined;
+  scrollableWrapperClassName?: string | null | undefined;
 }
 
 export interface IslandContentInnerProps extends IslandContentProps {
-  onScroll: (node: HTMLElement) => void
-  bottomBorder: boolean
+  onScroll: (node: HTMLElement) => void;
+  bottomBorder: boolean;
 }
 
 class Content extends Component<IslandContentInnerProps> {
@@ -27,12 +27,12 @@ class Content extends Component<IslandContentInnerProps> {
     fade: true,
     bottomBorder: false,
     onScroll: noop,
-    onScrollToBottom: noop
+    onScrollToBottom: noop,
   };
 
   state = {
     scrolledToTop: true,
-    scrolledToBottom: false
+    scrolledToBottom: false,
   };
 
   componentWillUnmount() {
@@ -54,22 +54,23 @@ class Content extends Component<IslandContentInnerProps> {
     this.resizeDetector.listenTo(node, this.calculateScrollPosition);
   };
 
-  calculateScrollPosition = () => scheduleScrollAction(() => {
-    const {scrollableNode} = this;
-    if (!scrollableNode) {
-      return;
-    }
-    this.props.onScroll(scrollableNode);
-    const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
-    const scrolledToTop = scrollTop === 0;
-    const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - END_DISTANCE;
+  calculateScrollPosition = () =>
+    scheduleScrollAction(() => {
+      const {scrollableNode} = this;
+      if (!scrollableNode) {
+        return;
+      }
+      this.props.onScroll(scrollableNode);
+      const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
+      const scrolledToTop = scrollTop === 0;
+      const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - END_DISTANCE;
 
-    if (scrolledToBottom) {
-      this.props.onScrollToBottom?.();
-    }
+      if (scrolledToBottom) {
+        this.props.onScrollToBottom?.();
+      }
 
-    this.setState({scrolledToTop, scrolledToBottom});
-  });
+      this.setState({scrolledToTop, scrolledToBottom});
+    });
 
   scrollableNode?: HTMLElement | null;
   setScrollableNodeAndCalculatePosition = (node: HTMLElement | null) => {
@@ -82,8 +83,15 @@ class Content extends Component<IslandContentInnerProps> {
 
   render() {
     const {
-      children, className, bottomBorder, scrollableWrapperClassName,
-      onScroll, onScrollToBottom, fade, tabIndex, ...restProps
+      children,
+      className,
+      bottomBorder,
+      scrollableWrapperClassName,
+      onScroll,
+      onScrollToBottom,
+      fade,
+      tabIndex,
+      ...restProps
     } = this.props;
     const {scrolledToTop, scrolledToBottom} = this.state;
 
@@ -91,31 +99,20 @@ class Content extends Component<IslandContentInnerProps> {
       [styles.contentWithTopFade]: fade && !scrolledToTop,
       [styles.contentWithBottomFade]: fade && !scrolledToBottom,
       [styles.withTransparentBottomBorder]: bottomBorder,
-      [styles.withBottomBorder]: bottomBorder && !scrolledToBottom
+      [styles.withBottomBorder]: bottomBorder && !scrolledToBottom,
     });
 
-    const scrollableWrapperClasses = classNames(
-      styles.scrollableWrapper,
-      scrollableWrapperClassName
-    );
+    const scrollableWrapperClasses = classNames(styles.scrollableWrapper, scrollableWrapperClassName);
 
     return (
-      <div
-        {...restProps}
-        data-test="ring-island-content"
-        className={classes}
-      >
+      <div {...restProps} data-test="ring-island-content" className={classes}>
         <div
           tabIndex={tabIndex}
           className={scrollableWrapperClasses}
           ref={this.setScrollableNodeAndCalculatePosition}
           onScroll={fade ? this.calculateScrollPosition : noop}
         >
-          {fade && (
-            <div ref={this.setWrapper}>
-              {children}
-            </div>
-          )}
+          {fade && <div ref={this.setWrapper}>{children}</div>}
 
           {!fade && children}
         </div>
@@ -128,7 +125,7 @@ const ContentWrapper = forwardRef<Content, IslandContentProps>((props, ref) => (
   <ScrollHandlerContext.Consumer>
     {onScroll => {
       const addProps = onScroll != null ? {onScroll, bottomBorder: true} : {};
-      return <Content {...props} {...addProps} ref={ref}/>;
+      return <Content {...props} {...addProps} ref={ref} />;
     }}
   </ScrollHandlerContext.Consumer>
 ));

@@ -12,9 +12,10 @@ describe('Pager', () => {
   const shallowPager = (params?: Partial<PagerAttrs>) =>
     shallow(
       <I18nContextHolder messages={{}}>
-        <Pager {...{...props, ...params}}/>
-      </I18nContextHolder>);
-  const mountPager = (params?: Partial<PagerAttrs>) => mount(<Pager {...{...props, ...params}}/>);
+        <Pager {...{...props, ...params}} />
+      </I18nContextHolder>,
+    );
+  const mountPager = (params?: Partial<PagerAttrs>) => mount(<Pager {...{...props, ...params}} />);
 
   it('should create component', () => {
     mountPager().should.have.type(Pager);
@@ -23,7 +24,7 @@ describe('Pager', () => {
   it('should render page buttons when total is more than pageSize', () => {
     const wrapper = mountPager({
       total: 2,
-      pageSize: 1
+      pageSize: 1,
     });
     wrapper.should.have.descendants(ButtonToolbar);
     wrapper.should.descendants(`div.${styles.links}`);
@@ -38,9 +39,7 @@ describe('Pager', () => {
   it('should render page size selector even when total is less than 2', () => {
     const wrapper = mountPager({total: 1});
     wrapper.should.have.data('test', 'ring-pager');
-    should.exist(
-      wrapper.getDOMNode()?.querySelector('[data-test^=ring-pager-page-size-selector]')
-    );
+    should.exist(wrapper.getDOMNode()?.querySelector('[data-test^=ring-pager-page-size-selector]'));
   });
 
   it('should wrap children with div', () => {
@@ -56,7 +55,7 @@ describe('Pager', () => {
       total: 10,
       pageSize: 10,
       currentPage: 1,
-      openTotal: true
+      openTotal: true,
     });
     wrapper.should.have.descendants(ButtonToolbar);
   });

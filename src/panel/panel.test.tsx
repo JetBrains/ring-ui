@@ -4,11 +4,11 @@ import Panel from './panel';
 
 describe('Panel', () => {
   it('should create component', () => {
-    mount(<Panel/>).should.have.type(Panel);
+    mount(<Panel />).should.have.type(Panel);
   });
 
   it('should use provided className', () => {
-    const wrapper = shallow(<Panel className="custom-class"/>);
+    const wrapper = shallow(<Panel className="custom-class" />);
     wrapper.should.have.className('custom-class');
   });
 

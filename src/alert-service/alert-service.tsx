@@ -4,17 +4,12 @@ import {createRoot} from 'react-dom/client';
 
 import getUID from '../global/get-uid';
 
-import Alert, {
-  AlertProps,
-  AlertType,
-  ANIMATION_TIME,
-  Container as AlertContainer
-} from '../alert/alert';
+import Alert, {AlertProps, AlertType, ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';
 
 export interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
-  key: string | number,
-  message: ReactNode
-  ref?: Ref<Alert>
+  key: string | number;
+  message: ReactNode;
+  ref?: Ref<Alert>;
 }
 
 /**
@@ -34,7 +29,7 @@ class AlertService {
 
   renderAlertContainer(alerts: readonly AlertItem[]) {
     if (alerts.length === 0) {
-      return <span/>;
+      return <span />;
     }
 
     return (
@@ -42,10 +37,9 @@ class AlertService {
         {alerts.map(alert => {
           const {message, key, ...rest} = alert;
           return (
-            <Alert
-              key={key}
-              {...rest}
-            >{message}</Alert>
+            <Alert key={key} {...rest}>
+              {message}
+            </Alert>
           );
         })}
       </AlertContainer>
@@ -93,7 +87,7 @@ class AlertService {
     message: ReactNode,
     type?: AlertType | undefined,
     timeout: number = this.defaultTimeout,
-    options: Partial<AlertItem> = {}
+    options: Partial<AlertItem> = {},
   ) {
     const {onCloseRequest, onClose, ...restOptions} = options;
     const sameAlert = this.findSameAlert(message, type);
@@ -118,7 +112,7 @@ class AlertService {
         onClose?.();
         this.removeWithoutAnimation(alert.key);
       },
-      ...restOptions
+      ...restOptions,
     };
 
     this.showingAlerts = [alert, ...this.showingAlerts];

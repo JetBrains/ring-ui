@@ -18,63 +18,51 @@ import {Type} from './consts';
 const RAF_TIMEOUT = 100;
 
 describe('List', () => {
-  const shallowList = (props: ListAttrs) => shallow<List>(<List {...props}/>);
-  const mountList = (props: ListAttrs) => mount<List>(<List {...props}/>);
+  const shallowList = (props: ListAttrs) => shallow<List>(<List {...props} />);
+  const mountList = (props: ListAttrs) => mount<List>(<List {...props} />);
 
   describe('virtualized', () => {
     function createItemMock(itemType: Type) {
       return {
         rgItemType: itemType,
-        label: getUID('list-test-')
+        label: getUID('list-test-'),
       };
     }
 
     it('should pad the list with top/bottom margins', () => {
-      const data = [
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM)
-      ];
+      const data = [createItemMock(List.ListProps.Type.ITEM), createItemMock(List.ListProps.Type.ITEM)];
 
       const instance = shallowList({data}).instance();
 
-      shallow(
-        instance.renderItem({index: 0}),
-        {disableLifecycleMethods: true}
-      ).should.have.tagName('div');
-      shallow(
-        instance.renderItem({index: 3}),
-        {disableLifecycleMethods: true}
-      ).should.have.tagName('div');
+      shallow(instance.renderItem({index: 0}), {disableLifecycleMethods: true}).should.have.tagName('div');
+      shallow(instance.renderItem({index: 3}), {disableLifecycleMethods: true}).should.have.tagName('div');
     });
 
     it('should apply styles from virtualized', () => {
-      const data = [
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM)
-      ];
+      const data = [createItemMock(List.ListProps.Type.ITEM), createItemMock(List.ListProps.Type.ITEM)];
 
       const instance = shallowList({data}).instance();
       const style = {
-        top: -1000
+        top: -1000,
       };
       const parent = {} as ListRowProps['parent'];
 
-      shallow(
-        instance.renderItem({index: 0, style, parent}),
-        {disableLifecycleMethods: true}
-      ).should.have.style('top', '-1000px');
-      shallow(
-        instance.renderItem({index: 1, style, parent}),
-        {disableLifecycleMethods: true}
-      ).should.have.style('top', '-1000px');
-      shallow(
-        instance.renderItem({index: 2, style, parent}),
-        {disableLifecycleMethods: true}
-      ).should.have.style('top', '-1000px');
-      shallow(
-        instance.renderItem({index: 3, style, parent}),
-        {disableLifecycleMethods: true}
-      ).should.have.style('top', '-1000px');
+      shallow(instance.renderItem({index: 0, style, parent}), {disableLifecycleMethods: true}).should.have.style(
+        'top',
+        '-1000px',
+      );
+      shallow(instance.renderItem({index: 1, style, parent}), {disableLifecycleMethods: true}).should.have.style(
+        'top',
+        '-1000px',
+      );
+      shallow(instance.renderItem({index: 2, style, parent}), {disableLifecycleMethods: true}).should.have.style(
+        'top',
+        '-1000px',
+      );
+      shallow(instance.renderItem({index: 3, style, parent}), {disableLifecycleMethods: true}).should.have.style(
+        'top',
+        '-1000px',
+      );
     });
 
     it('should scroll to the active item', () => {
@@ -84,7 +72,7 @@ describe('List', () => {
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM)
+        createItemMock(List.ListProps.Type.ITEM),
       ];
 
       const activeIndex = 1;
@@ -92,20 +80,20 @@ describe('List', () => {
       const wrapper = mountList({data});
       wrapper.setState({
         activeIndex,
-        needScrollToActive: true
+        needScrollToActive: true,
       });
 
       wrapper.find(VirtualizedList).should.have.prop('scrollToIndex', 2);
     });
 
-    it('should\'n scroll to the active item when needScrollToActive is false', () => {
+    it("should'n scroll to the active item when needScrollToActive is false", () => {
       const data = [
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM)
+        createItemMock(List.ListProps.Type.ITEM),
       ];
 
       const activeIndex = 1;
@@ -113,7 +101,7 @@ describe('List', () => {
       const wrapper = mountList({data});
       wrapper.setState({
         activeIndex,
-        needScrollToActive: false
+        needScrollToActive: false,
       });
 
       wrapper.find(VirtualizedList).should.not.have.prop('scrollToIndex', 2);
@@ -122,7 +110,7 @@ describe('List', () => {
 
   it('should check type of item', () => {
     const itemMock = {
-      rgItemType: Type.SEPARATOR
+      rgItemType: Type.SEPARATOR,
     };
 
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
@@ -137,10 +125,8 @@ describe('List', () => {
 
   it('should deselect item', () => {
     const instance = shallowList({
-      data: [
-        {}
-      ],
-      activeIndex: 0
+      data: [{}],
+      activeIndex: 0,
     }).instance();
 
     instance.clearSelected();
@@ -159,7 +145,7 @@ describe('List', () => {
       wrapper = mountList({
         data: [{key: 0}, {key: 1}, {key: 2}],
         activeIndex: 0,
-        restoreActiveIndex: true
+        restoreActiveIndex: true,
       });
       instance = wrapper.instance();
     });
@@ -176,11 +162,11 @@ describe('List', () => {
       (1).should.equal(wrapper.state('activeItem')?.key);
     });
 
-    it('should reset activeIndex when it\'s changed in props', () => {
+    it("should reset activeIndex when it's changed in props", () => {
       instance.hoverHandler(1)();
       const activeIndex = 2;
       wrapper.setProps({
-        activeIndex
+        activeIndex,
       });
       wrapper.should.have.state('activeIndex', activeIndex);
       activeIndex.should.equal(wrapper.state('activeItem')?.key);
@@ -189,16 +175,16 @@ describe('List', () => {
     it('should reset activeIndex when data changed', () => {
       instance.hoverHandler(1)();
       wrapper.setProps({
-        data: [{key: 5}]
+        data: [{key: 5}],
       });
       wrapper.should.have.state('activeIndex', null);
       wrapper.should.have.state('activeItem', null);
     });
 
-    it('shouldn\'t reset activeIndex when it isn\'t changed in props', async () => {
+    it("shouldn't reset activeIndex when it isn't changed in props", async () => {
       instance.hoverHandler(1)();
       wrapper.setProps({
-        activeIndex: 0
+        activeIndex: 0,
       });
       await new Promise<void>(resolve => setTimeout(resolve, RAF_TIMEOUT));
       wrapper.should.have.state('activeIndex', 1);
@@ -207,14 +193,11 @@ describe('List', () => {
   });
 
   describe('should render items', () => {
-    const mountFirstItem = (instance: List) =>
-      mount(instance.renderItem({index: 1}));
+    const mountFirstItem = (instance: List) => mount(instance.renderItem({index: 1}));
 
     it('should render for empty element', () => {
       const instance = shallowList({
-        data: [
-          {}
-        ]
+        data: [{}],
       }).instance();
       const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
       firstItemWrapper.should.have.className(styles.action);
@@ -223,20 +206,15 @@ describe('List', () => {
 
     it('should render instance item if type is not defined', () => {
       const instance = shallowList({
-        data: [
-          {label: 'Hello!'}
-        ]
+        data: [{label: 'Hello!'}],
       }).instance();
 
-      mount(instance.renderItem({index: 1})).
-        should.have.descendants('[data-test~="ring-list-item"]');
+      mount(instance.renderItem({index: 1})).should.have.descendants('[data-test~="ring-list-item"]');
     });
 
     it('should render a if href defined', () => {
       const instance = shallowList({
-        data: [
-          {label: 'Hello!', href: 'http://www.jetbrains.com'}
-        ]
+        data: [{label: 'Hello!', href: 'http://www.jetbrains.com'}],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListLink);
@@ -249,9 +227,7 @@ describe('List', () => {
 
     it('should render a if url defined', () => {
       const instance = shallowList({
-        data: [
-          {label: 'Hello!', url: 'http://www.jetbrains.com'}
-        ]
+        data: [{label: 'Hello!', url: 'http://www.jetbrains.com'}],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListLink);
@@ -264,9 +240,7 @@ describe('List', () => {
 
     it('should render separator', () => {
       const instance = shallowList({
-        data: [
-          {rgItemType: List.ListProps.Type.SEPARATOR, label: 'test'}
-        ]
+        data: [{rgItemType: List.ListProps.Type.SEPARATOR, label: 'test'}],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListSeparator);
@@ -276,9 +250,7 @@ describe('List', () => {
 
     it('should render title', () => {
       const instance = shallowList({
-        data: [
-          {rgItemType: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
-        ]
+        data: [{rgItemType: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListTitle);
@@ -288,9 +260,7 @@ describe('List', () => {
 
     it('should render pseudo link if link without href', () => {
       const instance = shallowList({
-        data: [
-          {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
-        ]
+        data: [{label: 'Hello!', rgItemType: List.ListProps.Type.LINK}],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListLink);
@@ -302,9 +272,7 @@ describe('List', () => {
 
     it('should not render icon if not provided', () => {
       const instance = shallowList({
-        data: [
-          {label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}
-        ]
+        data: [{label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListItem);
@@ -313,9 +281,7 @@ describe('List', () => {
 
     it('should render icon if provided', () => {
       const instance = shallowList({
-        data: [
-          {label: 'Hello!', icon: 'http://some.url/', rgItemType: List.ListProps.Type.ITEM}
-        ]
+        data: [{label: 'Hello!', icon: 'http://some.url/', rgItemType: List.ListProps.Type.ITEM}],
       }).instance();
 
       const icon = mountFirstItem(instance).find(`.${styles.icon}`);
@@ -326,9 +292,7 @@ describe('List', () => {
 
     it('should not render glyph if not provided', () => {
       const instance = shallowList({
-        data: [
-          {label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}
-        ]
+        data: [{label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}],
       }).instance();
 
       mountFirstItem(instance).find('use').should.be.empty;
@@ -336,9 +300,7 @@ describe('List', () => {
 
     it('should render glyph if provided', () => {
       const instance = shallowList({
-        data: [
-          {label: 'Hello!', glyph: checkmarkIcon, rgItemType: List.ListProps.Type.ITEM}
-        ]
+        data: [{label: 'Hello!', glyph: checkmarkIcon, rgItemType: List.ListProps.Type.ITEM}],
       }).instance();
 
       mountFirstItem(instance).find(Icon).should.have.prop('glyph', checkmarkIcon);
@@ -349,8 +311,8 @@ describe('List', () => {
         const instance = shallowList({
           data: [
             // @ts-expect-error testing a wrong usage
-            {label: 'Hello!', rgItemType: 'none'}
-          ]
+            {label: 'Hello!', rgItemType: 'none'},
+          ],
         }).instance();
 
         mountFirstItem(instance);
@@ -361,9 +323,7 @@ describe('List', () => {
       const clicked = sandbox.stub();
 
       const instance = mountList({
-        data: [
-          {label: 'Hello!', onClick: clicked}
-        ]
+        data: [{label: 'Hello!', onClick: clicked}],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
@@ -376,7 +336,7 @@ describe('List', () => {
 
       const instance = mountList({
         onSelect,
-        data: [{label: 'Hello!'}]
+        data: [{label: 'Hello!'}],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
@@ -390,9 +350,9 @@ describe('List', () => {
           {
             template: createElement('span', {}, 'custom item'),
             key: 1,
-            rgItemType: List.ListProps.Type.CUSTOM
-          }
-        ]
+            rgItemType: List.ListProps.Type.CUSTOM,
+          },
+        ],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
@@ -407,9 +367,9 @@ describe('List', () => {
             template: createElement('span', {}, 'custom item'),
             key: 1,
             rgItemType: List.ListProps.Type.CUSTOM,
-            onClick
-          }
-        ]
+            onClick,
+          },
+        ],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
@@ -424,9 +384,9 @@ describe('List', () => {
             template: createElement('span', {}, 'custom item'),
             key: 1,
             rgItemType: List.ListProps.Type.CUSTOM,
-            disabled: true
-          }
-        ]
+            disabled: true,
+          },
+        ],
       }).instance();
 
       const firstItemWrapper = mountFirstItem(instance).find(ListCustom);

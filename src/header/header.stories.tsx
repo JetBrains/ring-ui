@@ -13,13 +13,11 @@ import agentsIcon from '@jetbrains/icons/agents-20px';
 import hourglassIcon from '@jetbrains/icons/hourglass-20px';
 import bellIcon from '@jetbrains/icons/bell-20px';
 
-
 import {StoryFn} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
 import Link from '../link/link';
-
 
 import DropdownMenu from '../dropdown-menu/dropdown-menu';
 import showAuthDialog from '../auth-dialog-service/auth-dialog-service';
@@ -46,21 +44,20 @@ export default {
 
   component: Header,
   parameters: {
-
     storyStyles: `
 <style>
   body {
     margin: 0 !important;
   }
 </style>`,
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71a88a41a987ba9918'
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71a88a41a987ba9918',
   },
-  tags: ['skip-test']
+  tags: ['skip-test'],
 };
 
 interface HeaderArgs extends HeaderAttrs {
-  isCompact: boolean
-  dark: boolean
+  isCompact: boolean;
+  dark: boolean;
 }
 
 export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
@@ -74,16 +71,13 @@ export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
 
       const Comp = (props: ClickableLinkProps) => <a {...props}>This is component</a>;
       return (
-        <Header
-          {...args}
-          theme={dark ? Theme.DARK : Theme.LIGHT}
-          className={isCompact ? 'compactHeader' : ''}
-        >
+        <Header {...args} theme={dark ? Theme.DARK : Theme.LIGHT} className={isCompact ? 'compactHeader' : ''}>
           <a title="Hub" href="/">
-            {isCompact
-              ? <Logo className="compactLogo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
-              : <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
-            }
+            {isCompact ? (
+              <Logo className="compactLogo" glyph={hubTextLogo} size={Logo.Size.Size96} />
+            ) : (
+              <Logo glyph={hubLogo} size={Logo.Size.Size48} />
+            )}
           </a>
           <Link active href="#">
             Users
@@ -92,26 +86,26 @@ export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
           <Link href="#">Spaces</Link>
           <Link href="#">Services</Link>
           <Tray>
-            <HeaderIcon primary title="Create issue" icon={addIcon}/>
-            <HeaderIcon title="Help" icon={helpIcon}/>
-            <HeaderIcon title="What's new" icon={giftIcon}/>
-            <HeaderIcon title="Search" icon={searchIcon}/>
+            <HeaderIcon primary title="Create issue" icon={addIcon} />
+            <HeaderIcon title="Help" icon={helpIcon} />
+            <HeaderIcon title="What's new" icon={giftIcon} />
+            <HeaderIcon title="Search" icon={searchIcon} />
             <DropdownMenu
               data={[{label: 'Test'}, {label: 'Test2'}]}
               anchor={({active}, ariaProps) => (
-                <HeaderIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps}/>
+                <HeaderIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps} />
               )}
               menuProps={{top: -12}}
             />
-            <SmartServices auth={auth}/>
-            <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
+            <SmartServices auth={auth} />
+            <SmartProfile auth={auth} hasUpdates LinkComponent={Comp} />
           </Tray>
         </Header>
       );
     }
   }
 
-  return <HeaderDemo/>;
+  return <HeaderDemo />;
 };
 
 header.parameters = {notes: 'See available presentation options in knobs panel'};
@@ -133,29 +127,30 @@ body {
   position: relative;
   top: -2px;
 }
-</style>`
+</style>`,
 };
 
 export const vertical: StoryFn<HeaderAttrs> = args => (
   <Header vertical spaced={false} className="header" {...args}>
     <a title="Hub" href="/">
-      <Logo glyph={teamcityLogo} size={Logo.Size.Size40}/>
+      <Logo glyph={teamcityLogo} size={Logo.Size.Size40} />
     </a>
     <Links>
-      <HeaderIcon title="Projects" icon={folderIcon}/>
-      <HeaderIcon title="Changes" icon={changesIcon}/>
-      <HeaderIcon title="Agents" icon={agentsIcon}/>
-      <HeaderIcon title="Queue" icon={hourglassIcon}/>
-      <HeaderIcon title="Settings" icon={settingsIcon}/>
+      <HeaderIcon title="Projects" icon={folderIcon} />
+      <HeaderIcon title="Changes" icon={changesIcon} />
+      <HeaderIcon title="Agents" icon={agentsIcon} />
+      <HeaderIcon title="Queue" icon={hourglassIcon} />
+      <HeaderIcon title="Settings" icon={settingsIcon} />
     </Links>
     <Tray>
-      <HeaderIcon title="Notifications" icon={bellIcon}/>
-      <HeaderIcon title="Help" icon={helpIcon}/>
-      <Profile round user={{id: '1', login: 'john.doe', name: 'John Doe'}}/>
+      <HeaderIcon title="Notifications" icon={bellIcon} />
+      <HeaderIcon title="Help" icon={helpIcon} />
+      <Profile round user={{id: '1', login: 'john.doe', name: 'John Doe'}} />
     </Tray>
   </Header>
 );
-vertical.parameters = {storyStyles: `
+vertical.parameters = {
+  storyStyles: `
 <style>
 body {
   margin: 0 !important;
@@ -165,4 +160,5 @@ body {
   height: 100vh;
 }
 </style>
-`};
+`,
+};

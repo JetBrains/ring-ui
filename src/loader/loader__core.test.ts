@@ -23,11 +23,7 @@ describe('Loader', () => {
   afterEach(() => loader.destroy());
 
   it('Should calculate gradient', () => {
-    const middleColor = LoaderCore.calculateGradient(
-      {r: 0, g: 0, b: 0},
-      {r: 255, g: 255, b: 255},
-      0.5
-    );
+    const middleColor = LoaderCore.calculateGradient({r: 0, g: 0, b: 0}, {r: 255, g: 255, b: 255}, 0.5);
     middleColor.should.deep.equal({r: 128, g: 128, b: 128});
   });
 
@@ -121,7 +117,7 @@ describe('Loader', () => {
     LoaderCore.calculateGradient.should.have.been.calledWith(
       loader.props.colors[1],
       loader.props.colors[2],
-      sandbox.match(Number)
+      sandbox.match(Number),
     );
   });
 
@@ -186,7 +182,7 @@ describe('Loader', () => {
     loader.particles = [
       {isAlive: () => true, step: noop, draw: noop},
       {isAlive: () => false, step: noop, draw: noop},
-      {isAlive: () => true, step: noop, draw: noop}
+      {isAlive: () => true, step: noop, draw: noop},
     ];
 
     loader.removeDeadParticles();

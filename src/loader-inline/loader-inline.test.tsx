@@ -3,7 +3,7 @@ import {mount} from 'enzyme';
 import LoaderInline, {LoaderInlineAtrrs} from './loader-inline';
 
 describe('Loader Inline', () => {
-  const mountLoaderInline = (props?: LoaderInlineAtrrs) => mount(<LoaderInline {...props}/>);
+  const mountLoaderInline = (props?: LoaderInlineAtrrs) => mount(<LoaderInline {...props} />);
   const getLoaderInlineDiv = (props?: LoaderInlineAtrrs) => mountLoaderInline(props).find('div');
 
   it('should create component', () => {
@@ -12,7 +12,7 @@ describe('Loader Inline', () => {
 
   it('should add custom class', () => {
     const wrapper = getLoaderInlineDiv({
-      className: 'test'
+      className: 'test',
     });
 
     wrapper.should.have.className('test');

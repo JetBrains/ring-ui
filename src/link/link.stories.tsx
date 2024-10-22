@@ -2,7 +2,6 @@ import {Component} from 'react';
 import classNames from 'classnames';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
-
 import Icon from '../icon/icon';
 
 import Link, {linkHOC} from './link';
@@ -12,23 +11,26 @@ export default {
   title: 'Components/Link',
 
   parameters: {
-    notes: 'Displays a link.'
-  }
+    notes: 'Displays a link.',
+  },
 };
 
 interface CustomComponentProps extends ClickableLinkProps {
-  active?: boolean
+  active?: boolean;
 }
 
 export const allVariants = () => {
   class CustomComponent extends Component<CustomComponentProps> {
     render() {
-      const {active, activeClassName, onPlainLeftClick, className, href, children,
-        ...props} = this.props;
+      const {active, activeClassName, onPlainLeftClick, className, href, children, ...props} = this.props;
       const classes = classNames(className, {
-        [activeClassName ?? '']: active
+        [activeClassName ?? '']: active,
       });
-      return <a href={href} {...props} className={classes}>{children}</a>;
+      return (
+        <a href={href} {...props} className={classes}>
+          {children}
+        </a>
+      );
     }
   }
 
@@ -48,14 +50,16 @@ export const allVariants = () => {
             Pseudo link (no underline on hover)
           </Link>
 
-          <Link href="/" hover>Hovered link</Link>
+          <Link href="/" hover>
+            Hovered link
+          </Link>
 
           <Link href="/">Link with a very long text, wrapping over lines</Link>
 
           <Link href="/">Link with a very long text, wrapping over lines</Link>
 
           <Link href="/" className="hub-link">
-            <Icon key="icon" glyph={hubLogo} className="hub-icon"/>
+            <Icon key="icon" glyph={hubLogo} className="hub-icon" />
             <div key="text">
               <span>Link with non-text content</span>
             </div>
@@ -71,7 +75,7 @@ export const allVariants = () => {
     }
   }
 
-  return <LinkDemo/>;
+  return <LinkDemo />;
 };
 
 allVariants.storyName = 'Link';

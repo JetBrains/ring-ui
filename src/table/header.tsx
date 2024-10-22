@@ -9,18 +9,18 @@ import style from './table.css';
 import HeaderCell, {Column, SortParams} from './header-cell';
 
 export interface HeaderProps {
-  columns: readonly Column[]
-  selectable: boolean
-  draggable: boolean
-  checked: boolean
-  sticky: boolean
-  topStickOffset: string
-  onSort: (params: SortParams) => void
-  onCheckboxChange: ChangeEventHandler<HTMLInputElement>
-  sortKey: string
-  sortOrder: boolean
-  caption?: string | null | undefined
-  checkboxDisabled?: boolean | undefined
+  columns: readonly Column[];
+  selectable: boolean;
+  draggable: boolean;
+  checked: boolean;
+  sticky: boolean;
+  topStickOffset: string;
+  onSort: (params: SortParams) => void;
+  onCheckboxChange: ChangeEventHandler<HTMLInputElement>;
+  sortKey: string;
+  sortOrder: boolean;
+  caption?: string | null | undefined;
+  checkboxDisabled?: boolean | undefined;
 }
 
 export default class Header extends PureComponent<HeaderProps> {
@@ -33,9 +33,8 @@ export default class Header extends PureComponent<HeaderProps> {
     onSort: () => {},
     onCheckboxChange: () => {},
     sortKey: 'id',
-    sortOrder: true
+    sortOrder: true,
   };
-
 
   id = getUID('table-header-');
 
@@ -43,19 +42,15 @@ export default class Header extends PureComponent<HeaderProps> {
     event.currentTarget.blur();
   };
 
-
   createCells(widths = []) {
-    const {
-      selectable, draggable, columns, checked, checkboxDisabled,
-      onCheckboxChange, onSort, sortKey, sortOrder
-    } = this.props;
+    const {selectable, draggable, columns, checked, checkboxDisabled, onCheckboxChange, onSort, sortKey, sortOrder} =
+      this.props;
 
     const metaColumnClasses = classNames(style.metaColumn, style.headerMetaColumn);
 
     const metaColumn = (
       <div className={metaColumnClasses}>
-        {selectable &&
-        (
+        {selectable && (
           <Checkbox
             aria-labelledby={this.id}
             disabled={checkboxDisabled}
@@ -72,11 +67,7 @@ export default class Header extends PureComponent<HeaderProps> {
       const props = {column, onSort, sortKey, sortOrder, style: columnStyle};
 
       return (
-        <HeaderCell
-          key={column.id}
-          data-test={column.id}
-          {...props}
-        >
+        <HeaderCell key={column.id} data-test={column.id} {...props}>
           {index === 0 && (draggable || selectable) && metaColumn}
         </HeaderCell>
       );
@@ -95,7 +86,7 @@ export default class Header extends PureComponent<HeaderProps> {
         style={{top: topStickOffset}}
         className={classNames({
           [style.tableHead]: true,
-          [style.subHeaderSticky]: sticky
+          [style.subHeaderSticky]: sticky,
         })}
       >
         {caption && (
@@ -104,17 +95,18 @@ export default class Header extends PureComponent<HeaderProps> {
               className={classNames(style.headerCell, style.caption)}
               colSpan={regularCells.length + 1}
               data-test="ring-table-header-cell"
-            >{caption}</th>
+            >
+              {caption}
+            </th>
           </tr>
         )}
 
-        <tr
-          className={style.subHeader}
-          data-test="ring-table-header-row"
-        >{regularCells}</tr>
+        <tr className={style.subHeader} data-test="ring-table-header-row">
+          {regularCells}
+        </tr>
       </thead>
     );
   }
 }
 
-export type HeaderAttrs = JSX.LibraryManagedAttributes<typeof Header, HeaderProps>
+export type HeaderAttrs = JSX.LibraryManagedAttributes<typeof Header, HeaderProps>;

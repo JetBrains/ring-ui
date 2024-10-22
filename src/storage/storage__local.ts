@@ -8,17 +8,18 @@ import {StorageInterface, StorageConfig} from './storage';
  * @constructor
  */
 export default class LocalStorage implements StorageInterface {
-  static async safePromise<T>(resolver: (
-    resolve: (value: T | PromiseLike<T>) => void,
-    reject: (reason?: unknown) => void
-  ) => void) {
+  static async safePromise<T>(
+    resolver: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: unknown) => void) => void,
+  ) {
     try {
       return await new Promise(resolver);
     } catch (e) {
       if (e instanceof Error && e.name === 'NS_ERROR_FILE_CORRUPTED') {
-        alert.error('Sorry, it looks like your browser storage is corrupted. ' +
-        'Please clear your storage by going to Tools -> Clear Recent History -> Cookies' +
-        ' and setting time range to "Everything". This will remove the corrupted browser storage across all sites.');
+        alert.error(
+          'Sorry, it looks like your browser storage is corrupted. ' +
+            'Please clear your storage by going to Tools -> Clear Recent History -> Cookies' +
+            ' and setting time range to "Everything". This will remove the corrupted browser storage across all sites.',
+        );
       }
       throw e;
     }

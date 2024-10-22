@@ -8,9 +8,9 @@ import adaptiveIslandHOC from './adaptive-island-hoc';
 import styles from './island.css';
 
 export interface IslandProps extends HTMLAttributes<HTMLElement> {
-  narrow?: boolean | null | undefined
-  withoutPaddings?: boolean | null | undefined
-  'data-test'?: string | null | undefined
+  narrow?: boolean | null | undefined;
+  withoutPaddings?: boolean | null | undefined;
+  'data-test'?: string | null | undefined;
 }
 
 /**
@@ -19,25 +19,14 @@ export interface IslandProps extends HTMLAttributes<HTMLElement> {
 
 export default class Island extends Component<IslandProps> {
   render() {
-    const {
-      children,
-      className,
-      narrow,
-      withoutPaddings,
-      'data-test': dataTest,
-      ...restProps
-    } = this.props;
+    const {children, className, narrow, withoutPaddings, 'data-test': dataTest, ...restProps} = this.props;
     const classes = classNames(styles.island, className, {
       [styles.narrowIsland]: narrow,
-      [styles.withoutPaddings]: withoutPaddings
+      [styles.withoutPaddings]: withoutPaddings,
     });
 
     return (
-      <div
-        {...restProps}
-        className={classes}
-        data-test={dataTests('ring-island', dataTest)}
-      >
+      <div {...restProps} className={classes} data-test={dataTests('ring-island', dataTest)}>
         {children}
       </div>
     );

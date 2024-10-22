@@ -10,43 +10,45 @@ import styles from './toggle.css';
 export const Size = {
   Size14: styles.size14,
   Size16: styles.size16,
-  Size20: styles.size20
+  Size20: styles.size20,
 };
 
 /**
-  * @name Toggle
-  */
+ * @name Toggle
+ */
 
 export interface ToggleProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
-  size: string
-  leftLabel?: ReactNode
-  'data-test'?: string | null | undefined
-  help?: ReactNode
+  size: string;
+  leftLabel?: ReactNode;
+  'data-test'?: string | null | undefined;
+  help?: ReactNode;
 }
 class Toggle extends PureComponent<ToggleProps> {
   static defaultProps = {
-    size: Size.Size16
+    size: Size.Size16,
   };
 
   render() {
-    const {className, children, disabled, title, leftLabel, size = Size.Size16,
-      'data-test': dataTest, help, onTransitionEnd, ...restProps} = this.props;
-
-    const classes = classNames(
+    const {
       className,
-      size,
-      styles.toggle,
-      disabled && styles.disabled
-    );
+      children,
+      disabled,
+      title,
+      leftLabel,
+      size = Size.Size16,
+      'data-test': dataTest,
+      help,
+      onTransitionEnd,
+      ...restProps
+    } = this.props;
+
+    const classes = classNames(className, size, styles.toggle, disabled && styles.disabled);
 
     return (
-      <label
-        className={classes}
-        title={title}
-        data-test={dataTests('ring-toggle', dataTest)}
-      >
+      <label className={classes} title={title} data-test={dataTests('ring-toggle', dataTest)}>
         {leftLabel && (
-          <span className={styles.leftLabel}>{leftLabel}
+          <span className={styles.leftLabel}>
+            {leftLabel}
             {help && <ControlHelp className={styles.help}>{help}</ControlHelp>}
           </span>
         )}
@@ -60,10 +62,7 @@ class Toggle extends PureComponent<ToggleProps> {
             className={styles.input}
           />
 
-          <span
-            className={styles.switch}
-            onTransitionEnd={onTransitionEnd}
-          />
+          <span className={styles.switch} onTransitionEnd={onTransitionEnd} />
         </span>
 
         {children && (
@@ -76,5 +75,5 @@ class Toggle extends PureComponent<ToggleProps> {
     );
   }
 }
-export type ToggleAttrs = JSX.LibraryManagedAttributes<typeof Toggle, ToggleProps>
+export type ToggleAttrs = JSX.LibraryManagedAttributes<typeof Toggle, ToggleProps>;
 export default Toggle;

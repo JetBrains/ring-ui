@@ -10,26 +10,26 @@ import {ControlsHeight} from '../global/controls-height';
 import styles from './tag.css';
 
 export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
-  disabled: boolean,
-  ref: RefCallback<HTMLElement>
-  'data-test': string
+  disabled: boolean;
+  ref: RefCallback<HTMLElement>;
+  'data-test': string;
 }
 
 export interface TagProps {
-  onRemove: (event: React.MouseEvent<HTMLElement>) => void
-  onClick: (event: React.MouseEvent<HTMLElement>) => void
-  readOnly: boolean
-  disabled: boolean
-  focused: boolean
-  render: (props: TagRenderProps) => ReactNode
-  children?: ReactNode
-  className?: string | null | undefined
-  rgTagIcon?: string | IconType | null | undefined
-  icon?: string | undefined
-  avatar?: string | null | undefined
-  rgTagTitle?: string | undefined
-  textColor?: string | undefined
-  backgroundColor?: string | undefined
+  onRemove: (event: React.MouseEvent<HTMLElement>) => void;
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+  readOnly: boolean;
+  disabled: boolean;
+  focused: boolean;
+  render: (props: TagRenderProps) => ReactNode;
+  children?: ReactNode;
+  className?: string | null | undefined;
+  rgTagIcon?: string | IconType | null | undefined;
+  icon?: string | undefined;
+  avatar?: string | null | undefined;
+  rgTagTitle?: string | undefined;
+  textColor?: string | undefined;
+  backgroundColor?: string | undefined;
 }
 
 /**
@@ -43,11 +43,11 @@ export default class Tag extends PureComponent<TagProps> {
     readOnly: false,
     disabled: false,
     focused: false,
-    render: props => <button type="button" {...props}/>
+    render: props => <button type="button" {...props} />,
   };
 
   state = {
-    focused: false
+    focused: false,
   };
 
   componentDidUpdate(prevProps: TagProps) {
@@ -86,13 +86,7 @@ export default class Tag extends PureComponent<TagProps> {
 
   renderCustomIcon() {
     if (this.props.rgTagIcon) {
-      return (
-        <Icon
-          className={styles.icon}
-          title={this.props.rgTagTitle}
-          glyph={this.props.rgTagIcon}
-        />
-      );
+      return <Icon className={styles.icon} title={this.props.rgTagTitle} glyph={this.props.rgTagIcon} />;
     }
     return null;
   }
@@ -100,15 +94,9 @@ export default class Tag extends PureComponent<TagProps> {
   private _renderImageElement(avatarSrc?: string) {
     const classes = classNames({
       [styles.customIcon]: this.props.icon,
-      [styles.avatarIcon]: avatarSrc
+      [styles.avatarIcon]: avatarSrc,
     });
-    return (
-      <img
-        alt={avatarSrc ? 'Avatar' : 'Icon'}
-        className={classes}
-        src={avatarSrc || this.props.icon}
-      />
-    );
+    return <img alt={avatarSrc ? 'Avatar' : 'Icon'} className={classes} src={avatarSrc || this.props.icon} />;
   }
 
   renderImage() {
@@ -120,13 +108,7 @@ export default class Tag extends PureComponent<TagProps> {
 
   renderAvatar() {
     if (this.props.avatar) {
-      return (
-        <span
-          className={styles.avatarContainer}
-        >
-          {this._renderImageElement(this.props.avatar)}
-        </span>
-      );
+      return <span className={styles.avatarContainer}>{this._renderImageElement(this.props.avatar)}</span>;
     }
     return null;
   }
@@ -156,9 +138,9 @@ export default class Tag extends PureComponent<TagProps> {
       {
         [styles.focused]: this.state.focused,
         [styles.disabled]: this.props.disabled,
-        [styles.withRemove]: !this.props.readOnly
+        [styles.withRemove]: !this.props.readOnly,
       },
-      this.props.className
+      this.props.className,
     );
 
     const {backgroundColor, textColor, render} = this.props;
@@ -178,7 +160,8 @@ export default class Tag extends PureComponent<TagProps> {
               {this.renderCustomIcon()}
               {this.renderImage()}
               <span className={styles.content}>{this.props.children}</span>
-            </>)
+            </>
+          ),
         })}
         {this.renderRemoveIcon()}
       </span>
@@ -186,4 +169,4 @@ export default class Tag extends PureComponent<TagProps> {
   }
 }
 
-export type TagAttrs = JSX.LibraryManagedAttributes<typeof Tag, TagProps>
+export type TagAttrs = JSX.LibraryManagedAttributes<typeof Tag, TagProps>;

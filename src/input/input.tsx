@@ -1,11 +1,4 @@
-import {
-  PureComponent,
-  Ref,
-  ComponentType,
-  InputHTMLAttributes,
-  TextareaHTMLAttributes,
-  ReactNode
-} from 'react';
+import {PureComponent, Ref, ComponentType, InputHTMLAttributes, TextareaHTMLAttributes, ReactNode} from 'react';
 
 import * as React from 'react';
 import classNames from 'classnames';
@@ -27,7 +20,6 @@ import ControlHelp from '../control-help/control-help';
 
 import styles from './input.css';
 
-
 function noop() {}
 
 /**
@@ -39,56 +31,53 @@ enum Size {
   S = 'S',
   M = 'M',
   L = 'L',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 export interface InputTranslations {
-  clear: string
+  clear: string;
 }
 
 export interface InputBaseProps {
-  size: Size
-  enableShortcuts: boolean | string[]
-  children?: string | undefined
-  inputClassName?: string | null | undefined
-  label?: ReactNode
-  labelType?: LabelType
-  error?: ReactNode | null | undefined
-  help?: ReactNode | null | undefined
-  borderless?: boolean | null | undefined
-  onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
-  icon?: string | ComponentType | null | undefined
-  height?: ControlsHeight | undefined
-  afterInput?: ReactNode
-  translations?: InputTranslations | null | undefined
+  size: Size;
+  enableShortcuts: boolean | string[];
+  children?: string | undefined;
+  inputClassName?: string | null | undefined;
+  label?: ReactNode;
+  labelType?: LabelType;
+  error?: ReactNode | null | undefined;
+  help?: ReactNode | null | undefined;
+  borderless?: boolean | null | undefined;
+  onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined;
+  icon?: string | ComponentType | null | undefined;
+  height?: ControlsHeight | undefined;
+  afterInput?: ReactNode;
+  translations?: InputTranslations | null | undefined;
 }
 
-type Override<D, S> = Omit<D, keyof S> & S
+type Override<D, S> = Omit<D, keyof S> & S;
 
 export type InputSpecificProps = Override<InputHTMLAttributes<HTMLInputElement>, InputBaseProps> & {
-  multiline?: false | undefined
-  inputRef: Ref<HTMLInputElement>
-}
-type TextAreaSpecificProps = Override<
-  TextareaHTMLAttributes<HTMLTextAreaElement>,
-  InputBaseProps
-> & {
-  multiline: true
-  inputRef: Ref<HTMLTextAreaElement>
-}
+  multiline?: false | undefined;
+  inputRef: Ref<HTMLInputElement>;
+};
+type TextAreaSpecificProps = Override<TextareaHTMLAttributes<HTMLTextAreaElement>, InputBaseProps> & {
+  multiline: true;
+  inputRef: Ref<HTMLTextAreaElement>;
+};
 
-export type InputProps = InputSpecificProps | TextAreaSpecificProps
+export type InputProps = InputSpecificProps | TextAreaSpecificProps;
 
 export class Input extends PureComponent<InputProps> {
   static defaultProps = {
     size: Size.M,
     onChange: noop,
     inputRef: noop,
-    enableShortcuts: ['esc']
+    enableShortcuts: ['esc'],
   };
 
   state = {
-    empty: true
+    empty: true,
   };
 
   componentDidMount() {
@@ -115,11 +104,10 @@ export class Input extends PureComponent<InputProps> {
 
   checkValue() {
     this.setState({
-      empty: !this.input?.value
+      empty: !this.input?.value,
     });
 
-    if (this.props.multiline &&
-      this.input != null && this.input.scrollHeight >= this.input.clientHeight) {
+    if (this.props.multiline && this.input != null && this.input.scrollHeight >= this.input.clientHeight) {
       this.stretch(this.input);
     }
   }
@@ -178,7 +166,8 @@ export class Input extends PureComponent<InputProps> {
       value,
       onClear,
       disabled,
-      inputRef, onChange,
+      inputRef,
+      onChange,
       enableShortcuts,
       id,
       placeholder,
@@ -191,20 +180,14 @@ export class Input extends PureComponent<InputProps> {
 
     const {empty} = this.state;
     const clearable = !!onClear;
-    const classes = classNames(
-      className,
-      styles.outerContainer,
-      [styles[`size${size}`]],
-      [styles[`height${height}`]],
-      {
-        'ring-js-shortcuts': enableShortcuts === true,
-        [styles.error]: error != null,
-        [styles.empty]: empty,
-        [styles.withIcon]: icon != null,
-        [styles.clearable]: clearable,
-        [styles.borderless]: borderless
-      }
-    );
+    const classes = classNames(className, styles.outerContainer, [styles[`size${size}`]], [styles[`height${height}`]], {
+      'ring-js-shortcuts': enableShortcuts === true,
+      [styles.error]: error != null,
+      [styles.empty]: empty,
+      [styles.withIcon]: icon != null,
+      [styles.clearable]: clearable,
+      [styles.borderless]: borderless,
+    });
 
     const inputClasses = classNames(styles.input, inputClassName);
 
@@ -218,7 +201,7 @@ export class Input extends PureComponent<InputProps> {
       id: this.getId(),
       placeholder,
       'aria-label': typeof label === 'string' && label ? label : placeholder,
-      'data-enabled-shortcuts': Array.isArray(enableShortcuts) ? enableShortcuts.join(',') : null
+      'data-enabled-shortcuts': Array.isArray(enableShortcuts) ? enableShortcuts.join(',') : null,
     };
 
     return (
@@ -226,30 +209,26 @@ export class Input extends PureComponent<InputProps> {
         {({translate}) => (
           <div className={classes} data-test="ring-input">
             {label && (
-              <ControlLabel
-                htmlFor={this.getId()}
-                disabled={disabled}
-                type={labelType}
-              >{label}</ControlLabel>
+              <ControlLabel htmlFor={this.getId()} disabled={disabled} type={labelType}>
+                {label}
+              </ControlLabel>
             )}
             <div className={styles.container}>
-              {icon && <Icon glyph={icon} className={styles.icon}/>}
-              {multiline
-                ? (
-                  <textarea
-                    onChange={this.handleTextareaChange}
-                    rows={1}
-                    {...commonProps}
-                    {...restProps as TextareaHTMLAttributes<HTMLTextAreaElement>}
-                  />
-                )
-                : (
-                  <input
-                    onChange={this.handleInputChange}
-                    {...commonProps}
-                    {...restProps as InputHTMLAttributes<HTMLInputElement>}
-                  />
-                )}
+              {icon && <Icon glyph={icon} className={styles.icon} />}
+              {multiline ? (
+                <textarea
+                  onChange={this.handleTextareaChange}
+                  rows={1}
+                  {...commonProps}
+                  {...(restProps as TextareaHTMLAttributes<HTMLTextAreaElement>)}
+                />
+              ) : (
+                <input
+                  onChange={this.handleInputChange}
+                  {...commonProps}
+                  {...(restProps as InputHTMLAttributes<HTMLInputElement>)}
+                />
+              )}
               {clearable && !disabled && (
                 <Button
                   title={translations?.clear ?? translate('clear')}
@@ -261,9 +240,11 @@ export class Input extends PureComponent<InputProps> {
               )}
               {afterInput}
             </div>
-            {error
-              ? <div className={styles.errorText}>{error}</div>
-              : (help && <ControlHelp className={styles.helpText}>{help}</ControlHelp>)}
+            {error ? (
+              <div className={styles.errorText}>{error}</div>
+            ) : (
+              help && <ControlHelp className={styles.helpText}>{help}</ControlHelp>
+            )}
           </div>
         )}
       </I18nContext.Consumer>
@@ -271,7 +252,7 @@ export class Input extends PureComponent<InputProps> {
   }
 }
 
-export type ContainerProps<P extends InputProps> = JSX.LibraryManagedAttributes<typeof Input, P>
+export type ContainerProps<P extends InputProps> = JSX.LibraryManagedAttributes<typeof Input, P>;
 
 export type InputSpecificAttrs = ContainerProps<InputSpecificProps>;
 export type TextAreaSpecificAttrs = ContainerProps<TextAreaSpecificProps>;

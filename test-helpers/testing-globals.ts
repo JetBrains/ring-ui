@@ -6,6 +6,7 @@ import sinonChai from 'sinon-chai';
 import chaiEnzyme from 'chai-enzyme';
 import sinon from 'sinon';
 
+// eslint-disable-next-line react/no-deprecated
 import {unmountComponentAtNode} from 'react-dom';
 
 chai.use(chaiAsPromised);
@@ -17,13 +18,12 @@ const windowExtension = {
   sinon,
   sandbox: sinon.createSandbox(),
   chai,
-  should: chai.should()
+  should: chai.should(),
 };
 
 type WindowExtension = typeof windowExtension;
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface Window extends WindowExtension {}
 }
 

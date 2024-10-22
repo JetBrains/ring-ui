@@ -2,7 +2,6 @@ import {Component} from 'react';
 import {useState} from '@storybook/preview-api';
 import type {StoryFn} from '@storybook/react';
 
-
 import {Header, Content} from '../island/island';
 import Button from '../button/button';
 import Input from '../input/input';
@@ -19,12 +18,12 @@ export default {
     notes: 'The Dialog component is a simple way to present content above an enclosing view.',
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71d1f136a8dec29cee'
-  }
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71d1f136a8dec29cee',
+  },
 };
 
 interface Args {
-  onAction(action: string): void
+  onAction(action: string): void;
 }
 
 export const basic: StoryFn<Args> = ({onAction}) => {
@@ -32,7 +31,7 @@ export const basic: StoryFn<Args> = ({onAction}) => {
     state = {
       show: true,
       text: '',
-      autoFocusEnabled: true
+      autoFocusEnabled: true,
     };
 
     doAction = () => {
@@ -68,11 +67,7 @@ export const basic: StoryFn<Args> = ({onAction}) => {
           >
             <Header>Dialog title</Header>
             <Content>
-              <Input
-                label="Enter action name"
-                value={text}
-                onChange={e => this.setState({text: e.target.value})}
-              />
+              <Input label="Enter action name" value={text} onChange={e => this.setState({text: e.target.value})} />
             </Content>
             <Panel>
               <Button primary onClick={this.doAction}>
@@ -85,7 +80,7 @@ export const basic: StoryFn<Args> = ({onAction}) => {
       );
     }
   }
-  return <DialogDemo/>;
+  return <DialogDemo />;
 };
 
 basic.storyName = 'basic';
@@ -97,15 +92,14 @@ basic.parameters = {
   .long-page {
     height: 200vh;
   }
-</style>`
+</style>`,
 };
-
 
 export const withCloseButtonInside: StoryFn<Args> = ({onAction}) => {
   class DialogDemo extends Component {
     state = {
       show: true,
-      text: ''
+      text: '',
     };
 
     doAction = () => {
@@ -130,11 +124,7 @@ export const withCloseButtonInside: StoryFn<Args> = ({onAction}) => {
         >
           <Header>Dialog title</Header>
           <Content>
-            <Input
-              label="Enter action name"
-              value={text}
-              onChange={e => this.setState({text: e.target.value})}
-            />
+            <Input label="Enter action name" value={text} onChange={e => this.setState({text: e.target.value})} />
           </Content>
           <Panel>
             <Button primary onClick={this.doAction}>
@@ -146,14 +136,14 @@ export const withCloseButtonInside: StoryFn<Args> = ({onAction}) => {
       );
     }
   }
-  return <DialogDemo/>;
+  return <DialogDemo />;
 };
 
 withCloseButtonInside.storyName = 'with close button inside';
 withCloseButtonInside.argTypes = {onAction: {}};
 
 withCloseButtonInside.parameters = {
-  screenshots: {skip: true}
+  screenshots: {skip: true},
 };
 
 export const native: StoryFn<Args> = ({onAction}) => {
@@ -161,7 +151,7 @@ export const native: StoryFn<Args> = ({onAction}) => {
     state = {
       show: true,
       text: '',
-      modal: true
+      modal: true,
     };
 
     doAction = () => {
@@ -179,29 +169,15 @@ export const native: StoryFn<Args> = ({onAction}) => {
         <div className="long-page">
           <Group>
             <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
-            <Toggle
-              checked={modal}
-              onChange={() => this.setState({modal: !modal})}
-            >
+            <Toggle checked={modal} onChange={() => this.setState({modal: !modal})}>
               Modal
             </Toggle>
           </Group>
 
-          <Dialog
-            label="Dialog"
-            show={show}
-            onCloseAttempt={this.cancelDialog}
-            native
-            modal={modal}
-            showCloseButton
-          >
+          <Dialog label="Dialog" show={show} onCloseAttempt={this.cancelDialog} native modal={modal} showCloseButton>
             <Header>Dialog title</Header>
             <Content>
-              <Input
-                label="Enter action name"
-                value={text}
-                onChange={e => this.setState({text: e.target.value})}
-              />
+              <Input label="Enter action name" value={text} onChange={e => this.setState({text: e.target.value})} />
             </Content>
             <Panel>
               <Button primary onClick={this.doAction}>
@@ -214,7 +190,7 @@ export const native: StoryFn<Args> = ({onAction}) => {
       );
     }
   }
-  return <DialogDemo/>;
+  return <DialogDemo />;
 };
 
 native.storyName = 'native';
@@ -226,14 +202,14 @@ native.parameters = {
   .long-page {
     height: 200vh;
   }
-</style>`
+</style>`,
 };
 
 export const dense: StoryFn = () => (
   <Dialog show dense>
     <Header>Dialog title</Header>
     <Content>
-      <Input label="Enter action name"/>
+      <Input label="Enter action name" />
     </Content>
     <Panel>
       <Button primary>OK</Button>
@@ -251,7 +227,7 @@ typesetting, remaining essentially unchanged.`;
 export const withScroll: StoryFn<Args> = ({onAction}) => {
   class DialogDemo extends Component {
     state = {
-      show: true
+      show: true,
     };
 
     doAction = () => {
@@ -270,13 +246,7 @@ export const withScroll: StoryFn<Args> = ({onAction}) => {
             <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
           </div>
 
-          <Dialog
-            label="Dialog"
-            show={this.state.show}
-            onCloseAttempt={this.cancelDialog}
-            trapFocus
-            showCloseButton
-          >
+          <Dialog label="Dialog" show={this.state.show} onCloseAttempt={this.cancelDialog} trapFocus showCloseButton>
             <Header>Dialog title</Header>
             <Content tabIndex={0}>
               <div>
@@ -302,7 +272,7 @@ export const withScroll: StoryFn<Args> = ({onAction}) => {
     }
   }
 
-  return <DialogDemo/>;
+  return <DialogDemo />;
 };
 
 withScroll.storyName = 'with scroll';
@@ -314,7 +284,9 @@ export const WithOverflowScrollOnHtml = () => {
   return (
     <div className="container">
       <div>Scroll down</div>
-      <Button className="button" onClick={() => setOpen(true)}>Show dialog</Button>
+      <Button className="button" onClick={() => setOpen(true)}>
+        Show dialog
+      </Button>
       <Dialog label="Dialog" show={open} onCloseAttempt={() => setOpen(false)}>
         <Header>Dialog title</Header>
       </Dialog>
@@ -349,7 +321,7 @@ WithOverflowScrollOnHtml.parameters = {
   screenshots: {
     actions: [
       {type: 'click', selector: '.button'},
-      {type: 'capture', selector: '*[data-test~=ring-dialog-container]'}
-    ]
-  }
+      {type: 'capture', selector: '*[data-test~=ring-dialog-container]'},
+    ],
+  },
 };

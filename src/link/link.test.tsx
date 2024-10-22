@@ -7,10 +7,8 @@ import ClickableLink, {ClickableLinkProps} from './clickableLink';
 import styles from './link.css';
 
 describe('Link', () => {
-  const shallowLink = (props?: Partial<LinkProps>) =>
-    shallow(<Link {...{children: '', ...props}}/>);
-  const mountLink = (props?: Partial<LinkProps>) =>
-    mount(<Link {...{children: '', ...props}}/>);
+  const shallowLink = (props?: Partial<LinkProps>) => shallow(<Link {...{children: '', ...props}} />);
+  const mountLink = (props?: Partial<LinkProps>) => mount(<Link {...{children: '', ...props}} />);
 
   it('should create component', () => {
     mountLink().should.have.type(Link);
@@ -49,19 +47,19 @@ describe('Link', () => {
     });
 
     it('should pass activeClassName to wrapped component', () => {
-      const CustomComponent: ComponentType<ClickableLinkProps> = () => <span/>;
+      const CustomComponent: ComponentType<ClickableLinkProps> = () => <span />;
       const CustomLink = linkHOC(CustomComponent);
       mount(<CustomLink>{null}</CustomLink>).should.containMatchingElement(
-        <CustomComponent activeClassName={styles.active}/>
+        <CustomComponent activeClassName={styles.active} />,
       );
     });
 
     it('should pass custom props to wrapped component', () => {
-      const CustomComponent: ComponentType<ClickableLinkProps & {custom: string}> = () => <span/>;
+      const CustomComponent: ComponentType<ClickableLinkProps & {custom: string}> = () => <span />;
       const CustomLink = linkHOC(CustomComponent);
 
       mount(<CustomLink custom="test">{null}</CustomLink>).should.containMatchingElement(
-        <CustomComponent custom="test"/>
+        <CustomComponent custom="test" />,
       );
     });
 
@@ -82,18 +80,17 @@ describe('Link', () => {
       const Buttons = {
         LEFT: 0,
         MIDDLE: 1,
-        RIGHT: 2
+        RIGHT: 2,
       };
 
       let onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-      let onConditionalClick:
-        (isPlainLeft: boolean, e: React.MouseEvent<HTMLAnchorElement>) => void;
+      let onConditionalClick: (isPlainLeft: boolean, e: React.MouseEvent<HTMLAnchorElement>) => void;
       let onPlainLeftClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
       let wrapper: ShallowWrapper;
 
       const makeEvent = (e: Partial<MouseEvent>) => ({
         ...e,
-        preventDefault: sandbox.spy()
+        preventDefault: sandbox.spy(),
       });
 
       beforeEach(() => {
@@ -106,7 +103,9 @@ describe('Link', () => {
             onConditionalClick={onConditionalClick}
             onPlainLeftClick={onPlainLeftClick}
             href="/"
-          >{'foo'}</ClickableLink>
+          >
+            {'foo'}
+          </ClickableLink>,
         );
       });
 

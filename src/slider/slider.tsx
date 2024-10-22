@@ -8,20 +8,12 @@ import getUID from '../global/get-uid';
 import {ShortcutsMap} from '../shortcuts/core';
 
 import styles from './slider.css';
-import {
-  adjustValues,
-  calculateMarks,
-  calculateValue,
-  HUNDRED,
-  toPercent,
-  toRange,
-  validateValue
-} from './slider.utils';
+import {adjustValues, calculateMarks, calculateValue, HUNDRED, toPercent, toRange, validateValue} from './slider.utils';
 
 type Mark = {
   value: number;
   label?: ReactNode;
-}
+};
 
 type Props = {
   defaultValue?: number | number[];
@@ -30,7 +22,7 @@ type Props = {
   max?: number;
   step?: number;
   disabled?: boolean;
-  marks?: Mark[] | boolean
+  marks?: Mark[] | boolean;
   showTicks?: boolean;
   showTag?: boolean;
   className?: string;
@@ -50,15 +42,12 @@ export const Slider: React.FC<Props> = ({
   showTag,
   className,
   renderTag,
-  onChange
+  onChange,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const previouslyDragged = useRef(false);
   const [values, setValues] = useState(defaultValue ?? min);
-  const validValues: number[] = useMemo(
-    () => toRange(value ?? values, min, max),
-    [max, min, value, values]
-  );
+  const validValues: number[] = useMemo(() => toRange(value ?? values, min, max), [max, min, value, values]);
   const validStep = step < 0 ? 0 : step;
   const isRange = isArray(defaultValue ?? value);
   const [isDragging, setIsDragging] = useState(false);
@@ -83,17 +72,20 @@ export const Slider: React.FC<Props> = ({
 
   const trackStart = useMemo(
     () => toPercent(isRange ? Math.min(...validValues) : min, min, max),
-    [isRange, max, min, validValues]
+    [isRange, max, min, validValues],
   );
   const trackLength = useMemo(
     () => toPercent(Math.max(...validValues), min, max) - trackStart,
-    [max, min, trackStart, validValues]
+    [max, min, trackStart, validValues],
   );
 
-  const handleValueChange = useCallback((nextValues: number[]) => {
-    setValues(nextValues);
-    onChange?.(isRange ? nextValues : nextValues[0]);
-  }, [isRange, onChange]);
+  const handleValueChange = useCallback(
+    (nextValues: number[]) => {
+      setValues(nextValues);
+      onChange?.(isRange ? nextValues : nextValues[0]);
+    },
+    [isRange, onChange],
+  );
 
   const shortcutsMap = useMemo(() => {
     const setValueAndSwap = (nextValue: number, index: number) => {
@@ -103,14 +95,13 @@ export const Slider: React.FC<Props> = ({
         const previousValue = nextValues[index];
         nextValues.reverse();
         const thumb: HTMLButtonElement | null | undefined = ref.current?.querySelector(
-          `[role="slider"][data-index="${nextValues.indexOf(previousValue)}"]`
+          `[role="slider"][data-index="${nextValues.indexOf(previousValue)}"]`,
         );
         thumb?.focus();
       }
       handleValueChange(nextValues);
     };
-    const getIndex = (target: EventTarget | null) =>
-      Number((target as Element)?.getAttribute('data-index'));
+    const getIndex = (target: EventTarget | null) => Number((target as Element)?.getAttribute('data-index'));
 
     const map: ShortcutsMap = {};
 
@@ -135,46 +126,53 @@ export const Slider: React.FC<Props> = ({
     return map;
   }, [disabled, handleValueChange, max, min, validStep, validValues]);
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
 
-    if (disabled) {
-      return;
-    }
+      if (disabled) {
+        return;
+      }
 
-    const index = e.currentTarget.getAttribute('data-index');
-    const nextValue = calculateValue(ref, e.pageX, min, max, validStep);
-    if (nextValue !== null && !isNaN(nextValue) && !index) {
-      const rangeIndex = Number(
-        Math.abs(validValues[0] - nextValue) > Math.abs(validValues[1] - nextValue)
-      );
-      setDraggedIndex(isRange ? rangeIndex : 0);
-    } else {
-      setDraggedIndex(Number(index));
-    }
-    setIsDragging(true);
-    previouslyDragged.current = false;
-  }, [disabled, isRange, max, min, validStep, validValues]);
+      const index = e.currentTarget.getAttribute('data-index');
+      const nextValue = calculateValue(ref, e.pageX, min, max, validStep);
+      if (nextValue !== null && !isNaN(nextValue) && !index) {
+        const rangeIndex = Number(Math.abs(validValues[0] - nextValue) > Math.abs(validValues[1] - nextValue));
+        setDraggedIndex(isRange ? rangeIndex : 0);
+      } else {
+        setDraggedIndex(Number(index));
+      }
+      setIsDragging(true);
+      previouslyDragged.current = false;
+    },
+    [disabled, isRange, max, min, validStep, validValues],
+  );
 
-  const handleMouseUp = useCallback(({pageX}: MouseEvent) => {
-    const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
-    if (nextValues[0] > nextValues[1]) {
-      nextValues.reverse();
-    }
-    handleValueChange(nextValues);
-    setDraggedIndex(-1);
-    setIsDragging(false);
-    previouslyDragged.current = true;
-  }, [validValues, draggedIndex, handleValueChange, max, min, validStep]);
+  const handleMouseUp = useCallback(
+    ({pageX}: MouseEvent) => {
+      const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
+      if (nextValues[0] > nextValues[1]) {
+        nextValues.reverse();
+      }
+      handleValueChange(nextValues);
+      setDraggedIndex(-1);
+      setIsDragging(false);
+      previouslyDragged.current = true;
+    },
+    [validValues, draggedIndex, handleValueChange, max, min, validStep],
+  );
 
-  const handleMouseMove = useCallback(({pageX}: MouseEvent) => {
-    const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
-    if (nextValues[0] > nextValues[1]) {
-      nextValues.reverse();
-      setDraggedIndex(prevState => (prevState === 0 ? 1 : 0));
-    }
-    handleValueChange(nextValues);
-  }, [validValues, draggedIndex, max, min, validStep, handleValueChange]);
+  const handleMouseMove = useCallback(
+    ({pageX}: MouseEvent) => {
+      const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
+      if (nextValues[0] > nextValues[1]) {
+        nextValues.reverse();
+        setDraggedIndex(prevState => (prevState === 0 ? 1 : 0));
+      }
+      handleValueChange(nextValues);
+    },
+    [validValues, draggedIndex, max, min, validStep, handleValueChange],
+  );
 
   useEffect(() => {
     if (disabled) {
@@ -200,28 +198,26 @@ export const Slider: React.FC<Props> = ({
       role="presentation" // contains interactive elements
       className={classNames(styles.slider, className, {
         [styles.disabled]: disabled,
-        [styles.marked]: !!marks || showTag
+        [styles.marked]: !!marks || showTag,
       })}
       tabIndex={-1}
       onMouseDown={handleMouseDown}
     >
-      <Shortcuts
-        map={shortcutsMap}
-        scope={shortcutsScope}
-      />
-      <div className={classNames(styles.rail, {
-        [styles.rounded]: !showTicks,
-        [styles.disabled]: disabled
-      })}
+      <Shortcuts map={shortcutsMap} scope={shortcutsScope} />
+      <div
+        className={classNames(styles.rail, {
+          [styles.rounded]: !showTicks,
+          [styles.disabled]: disabled,
+        })}
       />
       <div
         style={{
           left: `${trackStart}%`,
-          width: `${trackLength}%`
+          width: `${trackLength}%`,
         }}
         className={classNames(styles.track, {
           [styles.rounded]: !showTicks,
-          [styles.disabled]: disabled
+          [styles.disabled]: disabled,
         })}
       />
       {validValues.map((numValue, index) => {
@@ -240,7 +236,7 @@ export const Slider: React.FC<Props> = ({
               style={{left: `${percent}%`}}
               className={classNames(styles.thumb, {
                 [styles.disabled]: disabled,
-                [styles.dragged]: isDragging && draggedIndex === index
+                [styles.dragged]: isDragging && draggedIndex === index,
               })}
               onMouseDown={handleMouseDown}
             />
@@ -280,7 +276,7 @@ export const Slider: React.FC<Props> = ({
             key={index}
             className={classNames(styles.tick, {
               [styles.active]: isActive,
-              [styles.disabled]: disabled
+              [styles.disabled]: disabled,
             })}
             style={{left: `${percent}%`}}
           />

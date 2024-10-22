@@ -1,7 +1,6 @@
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 
-
 import Code, {code, highlight} from './code';
 
 highlight.registerLanguage('javascript', javascript);
@@ -21,8 +20,8 @@ You can also preload the languages you need:
 \`import 1c from 'highlight.js/lib/languages/1c';\`
 
 \`highlight.registerLanguage('1c', 1c);\`
-    `
-  }
+    `,
+  },
 };
 
 export const basic = () => (
@@ -85,5 +84,5 @@ export const taggedTemplate = () =>
 taggedTemplate.storyName = 'tagged template';
 
 taggedTemplate.parameters = {
-  screenshots: {skip: true}
+  screenshots: {skip: true},
 };

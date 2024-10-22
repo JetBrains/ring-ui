@@ -7,8 +7,8 @@ export default {
 
   parameters: {
     notes: 'Provides a façade to localStorage/sessionStorage/cookies.',
-    screenshots: {skip: true}
-  }
+    screenshots: {skip: true},
+  },
 };
 
 export const Basic = () => {

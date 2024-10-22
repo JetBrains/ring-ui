@@ -1,13 +1,13 @@
 import {getRect} from '../global/dom';
 
 export interface PositionParams {
-  avoidFocus?: boolean | null | undefined
+  avoidFocus?: boolean | null | undefined;
 }
 
 export interface Position {
-  startOffset: number
-  endOffset: number
-  position: number
+  startOffset: number;
+  endOffset: number;
+  position: number;
 }
 
 /**
@@ -93,22 +93,22 @@ export default class Caret {
       range2.setEnd(range1.endContainer, range1.endOffset);
       const _curNode = range1.startContainer;
       if (this.target === _curNode) {
-        return range1.startOffset === 0 || _curNode.textContent == null
-          ? 0
-          : _curNode.textContent.length;
+        return range1.startOffset === 0 || _curNode.textContent == null ? 0 : _curNode.textContent.length;
       } else if (!this.target.contains(_curNode)) {
         return -1;
       } else if (!_curNode) {
-        return 'selectionStart' in this.target && this.target.selectionStart || -1;
+        return ('selectionStart' in this.target && this.target.selectionStart) || -1;
       }
       const curPos = this.getAbsolutePosition(_curNode);
       if (range1.startContainer === range1.endContainer) {
         if (range1.startOffset === range1.endOffset) {
           return curPos + range1.startOffset;
         } else {
-          return {startOffset: curPos + range1.startOffset,
+          return {
+            startOffset: curPos + range1.startOffset,
             endOffset: curPos + range1.endOffset,
-            position: range2.toString().length};
+            position: range2.toString().length,
+          };
         }
       } else {
         const startOffset = curPos + range1.startOffset;
@@ -118,7 +118,7 @@ export default class Caret {
       }
     }
 
-    return 'selectionStart' in this.target && this.target.selectionStart || -1;
+    return ('selectionStart' in this.target && this.target.selectionStart) || -1;
   }
 
   /**
@@ -203,7 +203,6 @@ export default class Caret {
       } catch (e) {
         // Do nothing
       }
-
     } else if ('setSelectionRange' in this.target && typeof correctedPosition === 'number') {
       this.target.setSelectionRange(correctedPosition, correctedPosition);
     }
@@ -231,7 +230,7 @@ export default class Caret {
       offset =
         getRect(range).right -
         getRect(this.target).left -
-        (range.startContainer instanceof HTMLElement && range.startContainer.offsetLeft || 0);
+        ((range.startContainer instanceof HTMLElement && range.startContainer.offsetLeft) || 0);
     }
 
     return offset;

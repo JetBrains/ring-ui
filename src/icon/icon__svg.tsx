@@ -28,7 +28,7 @@ function serializeAttrs(map: NamedNodeMap) {
 
 function extractSVGProps(svgNode: Element) {
   const map = svgNode.attributes;
-  return (map.length > 0) ? serializeAttrs(map) : null;
+  return map.length > 0 ? serializeAttrs(map) : null;
 }
 
 const getSVGFromSource = memoize((src: string) => {
@@ -42,24 +42,28 @@ const getSVGFromSource = memoize((src: string) => {
   }
   return {
     props: extractSVGProps(svg),
-    html: svg.innerHTML
+    html: svg.innerHTML,
   };
 });
 
 function isCompatibilityMode(iconSrc: string) {
-  const hasWidth = /width="[\d\.]+"/ig.test(iconSrc);
-  const hasHeight = /height="[\d\.]+"/ig.test(iconSrc);
+  const hasWidth = /width="[\d\.]+"/gi.test(iconSrc);
+  const hasHeight = /height="[\d\.]+"/gi.test(iconSrc);
   return !hasWidth || !hasHeight;
 }
 
 export interface IconSVGProps extends SVGAttributes<SVGSVGElement> {
-  src: string,
+  src: string;
 }
 
 function IconSVG({src, className, ...rest}: IconSVGProps) {
-  const glyphClasses = classNames(styles.glyph, {
-    [styles.compatibilityMode]: isCompatibilityMode(src)
-  }, className);
+  const glyphClasses = classNames(
+    styles.glyph,
+    {
+      [styles.compatibilityMode]: isCompatibilityMode(src),
+    },
+    className,
+  );
 
   const {props, html} = getSVGFromSource(src);
 
@@ -69,7 +73,7 @@ function IconSVG({src, className, ...rest}: IconSVGProps) {
       {...rest}
       className={glyphClasses}
       dangerouslySetInnerHTML={{
-        __html: html
+        __html: html,
       }}
     />
   );

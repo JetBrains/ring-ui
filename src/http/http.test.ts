@@ -6,7 +6,6 @@ const OK = 200;
 const METHOD_NOT_ALLOWED = 405;
 const SERVER_ERROR = 500;
 
-
 describe('HTTP', () => {
   const FAKE_TOKEN = 'fake-token';
   class FakeAuth implements HTTPAuth {
@@ -17,7 +16,7 @@ describe('HTTP', () => {
   let fakeAuth: FakeAuth;
   let http: HTTP;
   let fetchResult: {
-    isResponseOk: boolean
+    isResponseOk: boolean;
   };
 
   function mockFetch(httpInstance: HTTP) {
@@ -25,7 +24,7 @@ describe('HTTP', () => {
       status: OK,
       ok: true,
       headers: new Headers({'content-type': 'application/json'}),
-      json: () => Promise.resolve(fetchResult)
+      json: () => Promise.resolve(fetchResult),
     } as Response);
   }
 
@@ -33,7 +32,7 @@ describe('HTTP', () => {
     fakeAuth = new FakeAuth();
 
     fetchResult = {
-      isResponseOk: true
+      isResponseOk: true,
     };
 
     http = new HTTP(fakeAuth);
@@ -52,10 +51,10 @@ describe('HTTP', () => {
       cache: 'default',
       headers: {
         ...defaultFetchConfig.headers,
-        Authorization: `Bearer ${FAKE_TOKEN}`
+        Authorization: `Bearer ${FAKE_TOKEN}`,
       },
       credentials: 'same-origin',
-      body: undefined
+      body: undefined,
     });
   });
 
@@ -67,7 +66,7 @@ describe('HTTP', () => {
     http._fetch.should.have.been.calledWith('testurl', {
       cache: 'default',
       headers: undefined,
-      body: undefined
+      body: undefined,
     });
   });
 
@@ -82,7 +81,7 @@ describe('HTTP', () => {
       ok: true,
       headers: new Headers({'content-type': 'text/html'}),
       json: () => sandbox.spy(),
-      text: () => 'some text'
+      text: () => 'some text',
     });
 
     const res = await http.request<{data: string}>('testurl');
@@ -103,7 +102,7 @@ describe('HTTP', () => {
       ok: true,
       headers: new Headers({'content-type': 'text/html'}),
       json: () => sandbox.spy(),
-      text: () => 'some text'
+      text: () => 'some text',
     });
     const res = await http.request<{}>('testurl');
 
@@ -112,15 +111,15 @@ describe('HTTP', () => {
     'text/html'.should.equal(meta?.headers?.get('content-type'));
   });
 
-
   it('should encode query params in url', async () => {
-    await http.request('http://testurl', {query: {
-      foo: 'bar',
-      test: ['a', 'b']
-    }});
+    await http.request('http://testurl', {
+      query: {
+        foo: 'bar',
+        test: ['a', 'b'],
+      },
+    });
 
-    http._fetch.should.have.been.
-      calledWith('http://testurl?foo=bar&test=a,b', sinon.match(Object));
+    http._fetch.should.have.been.calledWith('http://testurl?foo=bar&test=a,b', sinon.match(Object));
   });
 
   it('should support base url setting', async () => {
@@ -132,12 +131,12 @@ describe('HTTP', () => {
   it('should perform request convert "body" as object into string', async () => {
     await http.request('testurl', {
       method: 'POST',
-      body: {foo: 'bar'}
+      body: {foo: 'bar'},
     });
 
     http._fetch.should.have.been.calledWithMatch('testurl', {
       method: 'POST',
-      body: '{"foo":"bar"}'
+      body: '{"foo":"bar"}',
     });
   });
 
@@ -150,7 +149,7 @@ describe('HTTP', () => {
     (http._fetch as Sinon.SinonStub).resolves({
       status: METHOD_NOT_ALLOWED,
       ok: false,
-      json: () => fetchResult
+      json: () => fetchResult,
     });
 
     const onError = sandbox.spy();
@@ -164,12 +163,12 @@ describe('HTTP', () => {
       status: SERVER_ERROR,
       ok: false,
       headers: {
-        get: () => 'application/json'
+        get: () => 'application/json',
       },
       json: () => ({
         error: 'Failed',
-        errorDescription: 'Failure description'
-      })
+        errorDescription: 'Failure description',
+      }),
     });
 
     try {
@@ -181,7 +180,7 @@ describe('HTTP', () => {
 
       e.data.should.be.deep.equal({
         error: 'Failed',
-        errorDescription: 'Failure description'
+        errorDescription: 'Failure description',
       });
     }
   });
@@ -189,18 +188,20 @@ describe('HTTP', () => {
   it('should refresh token and request again if invalid token error returned', async () => {
     (fakeAuth.constructor as typeof FakeAuth).shouldRefreshToken.returns(true);
 
-    (http._fetch as Sinon.SinonStub).
-      onFirstCall().resolves({
+    (http._fetch as Sinon.SinonStub)
+      .onFirstCall()
+      .resolves({
         status: METHOD_NOT_ALLOWED,
         ok: false,
         json: () => ({error: 'invalid_token'}),
-        headers: new Headers({'content-type': 'application/json'})
-      }).
-      onSecondCall().resolves({
+        headers: new Headers({'content-type': 'application/json'}),
+      })
+      .onSecondCall()
+      .resolves({
         status: OK,
         ok: true,
         json: () => fetchResult,
-        headers: new Headers({'content-type': 'application/json'})
+        headers: new Headers({'content-type': 'application/json'}),
       });
 
     const res = await http.request<typeof fetchResult>('testurl');
@@ -241,10 +242,12 @@ describe('HTTP', () => {
   describe('abortify', () => {
     it('should abort request', () => {
       const abortSpy = sandbox.spy();
-      sandbox.stub(window, 'AbortController').value(class FakeAbortController {
-        signal = '';
-        abort = abortSpy;
-      });
+      sandbox.stub(window, 'AbortController').value(
+        class FakeAbortController {
+          signal = '';
+          abort = abortSpy;
+        },
+      );
 
       const {abort} = http.abortify(http.request<{id: string}>)('test');
 

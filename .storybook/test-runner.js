@@ -9,13 +9,12 @@ module.exports = {
     const storyContext = await getStoryContext(page, context);
     const {rules} = storyContext.parameters?.a11y?.options || {};
     await configureAxe(page, {
-      rules: rules &&
-        Object.entries(rules).map(([id, value]) => ({id, ...value}))
+      rules: rules && Object.entries(rules).map(([id, value]) => ({id, ...value})),
     });
     await checkA11y(page, '#storybook-root', {
       verbose: false,
-      detailedReport: true
+      detailedReport: true,
     });
   },
-  tags: {skip: ['skip-test']}
+  tags: {skip: ['skip-test']},
 };

@@ -4,7 +4,7 @@ import Header, {HeaderAttrs} from './header';
 
 describe('Header', () => {
   const getHeaderDiv = (props?: HeaderAttrs) => {
-    render(<Header {...props}/>);
+    render(<Header {...props} />);
     return screen.getByRole('banner');
   };
 

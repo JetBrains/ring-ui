@@ -7,8 +7,8 @@ export default {
   title: 'Components/Button Toolbar',
 
   parameters: {
-    notes: 'Displays a toolbar with several buttons.'
-  }
+    notes: 'Displays a toolbar with several buttons.',
+  },
 };
 
 export const buttonToolbar = () => (

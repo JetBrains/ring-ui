@@ -2,7 +2,6 @@ import {Component} from 'react';
 
 import {StoryFn} from '@storybook/react';
 
-
 import alert from '../alert-service/alert-service';
 
 import UserAgreement, {UserAgreementAttrs} from './user-agreement';
@@ -15,38 +14,38 @@ export default {
   component: UserAgreement,
   parameters: {
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
-  }
+    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
+  },
 };
 
 export const dialog: StoryFn<UserAgreementAttrs> = args => (
   <div>
-    <UserAgreement {...args}/>
+    <UserAgreement {...args} />
   </div>
 );
 
 dialog.args = {
   show: true,
   children: <div style={{whiteSpace: 'pre-wrap'}}>{text}</div>,
-  onRemindLater: null
+  onRemindLater: null,
 };
 dialog.argTypes = {
-  onRemindLater: {}
+  onRemindLater: {},
 };
 dialog.parameters = {
-  actions: {argTypesRegex: '^on(?!RemindLater).*'}
+  actions: {argTypesRegex: '^on(?!RemindLater).*'},
 };
 dialog.storyName = 'dialog';
 
 function noop() {}
 interface ServiceArgs {
-  onGetUserAgreement?: ((agreement: Agreement) => void) | undefined
-  onGetUserConsent?: ((response: ConsentResponse) => void) | undefined
-  onSetUserConsent?: ((consent: Consent) => void) | undefined
-  onAccept?: (() => void) | null | undefined
-  onDecline?: (() => void) | null | undefined
-  onDialogShow?: (() => void) | null | undefined
-  onDialogHide?: (() => void) | null | undefined
+  onGetUserAgreement?: ((agreement: Agreement) => void) | undefined;
+  onGetUserConsent?: ((response: ConsentResponse) => void) | undefined;
+  onSetUserConsent?: ((consent: Consent) => void) | undefined;
+  onAccept?: (() => void) | null | undefined;
+  onDecline?: (() => void) | null | undefined;
+  onDialogShow?: (() => void) | null | undefined;
+  onDialogHide?: (() => void) | null | undefined;
 }
 export const service: StoryFn<ServiceArgs> = ({
   onGetUserAgreement = noop,
@@ -55,21 +54,21 @@ export const service: StoryFn<ServiceArgs> = ({
   onAccept,
   onDecline,
   onDialogShow,
-  onDialogHide
+  onDialogHide,
 }) => {
   const fakeUserAgreement: Agreement = {
     enabled: true,
     majorVersion: 1.0,
-    content: <div style={{whiteSpace: 'pre-wrap'}}>{text}</div>
+    content: <div style={{whiteSpace: 'pre-wrap'}}>{text}</div>,
   };
 
   const fakeUserConsent: Consent = {
-    accepted: false
+    accepted: false,
   };
 
   const fakeUserConsentResponse: ConsentResponse = {
     guest: true,
-    endUserAgreementConsent: fakeUserConsent
+    endUserAgreementConsent: fakeUserConsent,
   };
 
   const agreementService = new UserAgreementService({
@@ -89,7 +88,7 @@ export const service: StoryFn<ServiceArgs> = ({
     onDecline,
     onDialogShow,
     onDialogHide,
-    interval: 10000
+    interval: 10000,
   });
 
   class UserAgreementServiceDemo extends Component {
@@ -107,7 +106,7 @@ export const service: StoryFn<ServiceArgs> = ({
     }
   }
 
-  return <UserAgreementServiceDemo/>;
+  return <UserAgreementServiceDemo />;
 };
 
 service.argTypes = {
@@ -117,10 +116,10 @@ service.argTypes = {
   onAccept: {},
   onDecline: {},
   onDialogShow: {},
-  onDialogHide: {}
+  onDialogHide: {},
 };
 service.storyName = 'service';
 service.parameters = {
   screenshots: {skip: true},
-  a11y: {element: '#storybook-root,*[data-test="alert-container"]'}
+  a11y: {element: '#storybook-root,*[data-test="alert-container"]'},
 };

@@ -5,26 +5,20 @@ import getUID from '../global/get-uid';
 
 import Shortcuts, {ShortcutsProps} from './shortcuts';
 
-type ShortcutsAttrs = JSX.LibraryManagedAttributes<typeof Shortcuts, ShortcutsProps>
-type FactoryProps = Omit<ShortcutsAttrs, 'map' | 'scope'>
+type ShortcutsAttrs = JSX.LibraryManagedAttributes<typeof Shortcuts, ShortcutsProps>;
+type FactoryProps = Omit<ShortcutsAttrs, 'map' | 'scope'>;
 
 describe('ShortcutsComponent', () => {
   const factory = (props?: FactoryProps) => (
-    <Shortcuts
-      map={{enter: sandbox.spy()}}
-      scope={getUID('shortcuts-test-')}
-      {...props}
-    />
+    <Shortcuts map={{enter: sandbox.spy()}} scope={getUID('shortcuts-test-')} {...props} />
   );
 
   const shallowShortcuts = (props?: FactoryProps) => shallow(factory(props));
   const mountShortcuts = (props?: FactoryProps) => mount(factory(props));
 
-
   it('should initialize', () => {
     shallowShortcuts().should.exist;
   });
-
 
   it('should call shortcut handler', () => {
     const wrapper = mountShortcuts();

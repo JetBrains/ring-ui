@@ -3,7 +3,7 @@ import {Component, forwardRef, Ref, ForwardedRef, PropsWithoutRef} from 'react';
 import {createComposedRef} from './composeRefs';
 
 export interface RerenderableComponent<P, S> extends Component<P, S> {
-  node?: HTMLElement | null
+  node?: HTMLElement | null;
 }
 
 export interface RerenderableComponentClass<P, S> {
@@ -17,12 +17,11 @@ export interface RerenderableComponentClass<P, S> {
  * @returns {Rerenderer}
  */
 
+type RerendererProps<P, C> = {props: P; forwardedRef: Ref<C>};
 
-type RerendererProps<P, C> ={props: P, forwardedRef: Ref<C>};
-
-export default function rerenderHOC<P extends {}, C extends Component<P, unknown>>(
-  ComposedComponent: { new (props: P): C }
-) {
+export default function rerenderHOC<P extends {}, C extends Component<P, unknown>>(ComposedComponent: {
+  new (props: P): C;
+}) {
   class Rerenderer extends Component<RerendererProps<P, C>, P> {
     state = this.props.props;
 
@@ -33,14 +32,13 @@ export default function rerenderHOC<P extends {}, C extends Component<P, unknown
       return (
         <ComposedComponent
           {...this.state}
-          ref={instance =>
-            ref(instance != null ? {...instance, rerender: this.setState.bind(this)} : null)}
+          ref={instance => ref(instance != null ? {...instance, rerender: this.setState.bind(this)} : null)}
         />
       );
     }
   }
 
   return forwardRef(function RerendererForwardRef(props: PropsWithoutRef<P>, ref: ForwardedRef<C>) {
-    return <Rerenderer props={props as P} forwardedRef={ref}/>;
+    return <Rerenderer props={props as P} forwardedRef={ref} />;
   });
 }

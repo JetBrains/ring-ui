@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import hubConfig from '../../.storybook/hub-config';
 
 import Auth from '../auth/auth';
@@ -14,18 +13,18 @@ export default {
   parameters: {
     notes:
       'A wrapper for the AuthDialog component. Allows showing the auth dialog without mounting the AuthDialog component first. Can be used outside React.',
-    screenshots: {skip: true}
+    screenshots: {skip: true},
   },
-  tags: ['skip-test']
+  tags: ['skip-test'],
 };
 
 interface AuthDialogServiceArgs {
-  onConfirm: () => void
-  onCancel: () => void
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 
 interface AuthDialogDemoState {
-  serviceDetails: unknown
+  serviceDetails: unknown;
 }
 export const authDialogService = ({onConfirm, onCancel}: AuthDialogServiceArgs) => {
   const auth = new Auth(hubConfig);
@@ -47,7 +46,7 @@ export const authDialogService = ({onConfirm, onCancel}: AuthDialogServiceArgs) 
       this.hideAuthDialog = showAuthDialog({
         errorMessage: 'Error message',
         onConfirm,
-        onCancel
+        onCancel,
       });
     };
 
@@ -60,7 +59,7 @@ export const authDialogService = ({onConfirm, onCancel}: AuthDialogServiceArgs) 
     }
   }
 
-  return <AuthDialogDemo/>;
+  return <AuthDialogDemo />;
 };
 
 authDialogService.argTypes = {onConfirm: {}, onCancel: {}};

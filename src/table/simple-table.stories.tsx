@@ -12,57 +12,54 @@ import tableData from './table.examples2.json';
 
 import {SortParams} from './header-cell';
 /**
-* Simple stateless table without hover effect
+ * Simple stateless table without hover effect
  */
 export default {
   title: 'Components/Simple Table',
 
   component: SimpleTable,
   parameters: {
-    screenshots: {skip: true}
+    screenshots: {skip: true},
   },
   argTypes: {
     selection: {
-      control: {disable: true}
-    }
-  }
+      control: {disable: true},
+    },
+  },
 };
 
 interface Item extends SelectionItem {
-  country: string
-  city: string
-  url: string
-  children?: Item[]
+  country: string;
+  city: string;
+  url: string;
+  children?: Item[];
 }
 interface BasicDemoProps extends TableAttrs<Item> {
-  withCaption: boolean
+  withCaption: boolean;
 }
 const tdata = tableData.countries;
 export const Basic: StoryFn<BasicDemoProps> = args => (
   <div>
-    <SimpleTable
-      {...args}
-      data={tdata}
-    />
+    <SimpleTable {...args} data={tdata} />
   </div>
 );
 Basic.args = {
   columns: [
     {
       id: 'country',
-      title: 'Country'
+      title: 'Country',
     },
 
     {
       id: 'id',
       title: 'ID',
-      rightAlign: true
+      rightAlign: true,
     },
 
     {
       id: 'city',
       title: 'City',
-      getDataTest: item => item.city
+      getDataTest: item => item.city,
     },
 
     {
@@ -70,11 +67,11 @@ Basic.args = {
       title: 'URL',
       getValue({url}) {
         return <Link href={url}>{url}</Link>;
-      }
-    }
+      },
+    },
   ],
   autofocus: true,
-  isItemSelectable: item => item.id !== 14
+  isItemSelectable: item => item.id !== 14,
 };
 Basic.storyName = 'basic';
 
@@ -88,49 +85,41 @@ export const WithSorting: StoryFn<BasicDemoProps> = args => {
 
   useEffect(() => {
     const newData: Item[] = [...mock];
-    newData.sort((a, b) =>
-      String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
-
+    newData.sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
 
     setData(newData);
   }, [isItemSelectable, sortKey, sortOrder]);
 
-  const handleSort = useCallback((event: SortParams) => {
-    onSort?.(event);
-    setSortKey(event.column.id);
-    setSortOrder(event.order);
-  }, [onSort]);
-
-
-  return (
-    <SimpleTable
-      {...restProps}
-      data={data}
-      onSort={handleSort}
-      sortKey={sortKey}
-      sortOrder={sortOrder}
-    />
+  const handleSort = useCallback(
+    (event: SortParams) => {
+      onSort?.(event);
+      setSortKey(event.column.id);
+      setSortOrder(event.order);
+    },
+    [onSort],
   );
+
+  return <SimpleTable {...restProps} data={data} onSort={handleSort} sortKey={sortKey} sortOrder={sortOrder} />;
 };
 WithSorting.args = {
   columns: [
     {
       id: 'country',
       title: 'Country',
-      sortable: true
+      sortable: true,
     },
 
     {
       id: 'id',
       title: 'ID',
-      rightAlign: true
+      rightAlign: true,
     },
 
     {
       id: 'city',
       title: 'City',
       getDataTest: item => item.city,
-      sortable: true
+      sortable: true,
     },
 
     {
@@ -138,25 +127,24 @@ WithSorting.args = {
       title: 'URL',
       getValue({url}) {
         return <Link href={url}>{url}</Link>;
-      }
-    }
+      },
+    },
   ],
   autofocus: true,
-  isItemSelectable: item => item.id !== 14
+  isItemSelectable: item => item.id !== 14,
 };
 WithSorting.argTypes = {
   data: {
-    control: {disable: true}
+    control: {disable: true},
   },
   sortKey: {
-    control: {disable: true}
+    control: {disable: true},
   },
   sortOrder: {
-    control: {disable: true}
+    control: {disable: true},
   },
   caption: {
-    control: {disable: true}
-  }
+    control: {disable: true},
+  },
 };
 WithSorting.storyName = 'with sorting';
-

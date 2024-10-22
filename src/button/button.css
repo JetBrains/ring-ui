@@ -34,7 +34,10 @@
   margin: 0;
 
   cursor: pointer;
-  transition: color var(--ring-ease), background-color var(--ring-ease), box-shadow var(--ring-ease);
+  transition:
+    color var(--ring-ease),
+    background-color var(--ring-ease),
+    box-shadow var(--ring-ease);
   white-space: nowrap;
   text-decoration: none;
 
@@ -86,7 +89,9 @@
   }
 
   &:focus-visible {
-    box-shadow: button-shadow var(--ring-button-focus-border-color), 0 0 0 1px var(--ring-button-focus-border-color);
+    box-shadow:
+      button-shadow var(--ring-button-focus-border-color),
+      0 0 0 1px var(--ring-button-focus-border-color);
   }
 }
 
@@ -181,13 +186,12 @@
     border-radius: var(--ring-border-radius);
 
     &::before {
-      background-image:
-        linear-gradient(
-          to right,
-          var(--ring-main-color),
-          var(--ring-button-loader-background) 40%,
-          var(--ring-main-color) 80%
-        );
+      background-image: linear-gradient(
+        to right,
+        var(--ring-main-color),
+        var(--ring-button-loader-background) 40%,
+        var(--ring-main-color) 80%
+      );
     }
   }
 }
@@ -212,7 +216,9 @@
 .disabled {
   cursor: auto;
 
-  &, &:hover, &:active {
+  &,
+  &:hover,
+  &:active {
     --ring-button-background-color: var(--ring-disabled-background-color);
     --ring-button-border-color: var(--ring-border-disabled-color);
 
@@ -311,13 +317,12 @@
     content: "";
     animation: progress 1s linear infinite;
 
-    background-image:
-      linear-gradient(
-        to right,
-        var(--ring-content-background-color),
-        var(--ring-selected-background-color) 40%,
-        var(--ring-content-background-color) 80%
-      );
+    background-image: linear-gradient(
+      to right,
+      var(--ring-content-background-color),
+      var(--ring-selected-background-color) 40%,
+      var(--ring-content-background-color) 80%
+    );
 
     background-repeat: repeat;
     background-size: loaderWidth;

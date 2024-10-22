@@ -10,7 +10,6 @@ import {ListDataItem} from '../list/consts';
 
 import SelectPopup, {SelectPopupAttrs} from './select__popup';
 
-
 describe('SelectPopup', () => {
   const factory = (props?: SelectPopupAttrs) => (
     <SelectPopup
@@ -39,7 +38,6 @@ describe('SelectPopup', () => {
     });
   });
 
-
   describe('visible', () => {
     function createListItemMock(): ListDataItem {
       const key = getUID('popup-test-');
@@ -48,24 +46,18 @@ describe('SelectPopup', () => {
       return {
         key,
         label,
-        rgItemType: List.ListProps.Type.ITEM
+        rgItemType: List.ListProps.Type.ITEM,
       };
     }
 
-
     let testData: ListDataItem[];
     beforeEach(() => {
-      testData = [
-        createListItemMock(),
-        createListItemMock()
-      ];
+      testData = [createListItemMock(), createListItemMock()];
     });
-
 
     it('should initialize', () => {
       shallowSelectPopup().should.exist;
     });
-
 
     it('should call close handler when user press tab', () => {
       const wrapper = mountSelectPopup({data: testData});
@@ -77,7 +69,6 @@ describe('SelectPopup', () => {
       wrapper.prop('onCloseAttempt').should.be.called;
     });
 
-
     describe('popup without data', () => {
       it('should not throw error when user press tab but we do not have the list', () => {
         const wrapper = mountSelectPopup();
@@ -88,7 +79,6 @@ describe('SelectPopup', () => {
       });
     });
 
-
     describe('navigation', () => {
       it('should highlight first item', () => {
         const wrapper = mountSelectPopup({data: testData});
@@ -97,7 +87,6 @@ describe('SelectPopup', () => {
 
         wrapper.instance().list!.getSelected()!.should.be.equal(firstItem);
       });
-
 
       it('should highlight last item', () => {
         const wrapper = mountSelectPopup({data: testData});
@@ -108,7 +97,6 @@ describe('SelectPopup', () => {
 
         wrapper.instance().list!.getSelected()!.should.be.equal(lastItem);
       });
-
 
       it('should select item', () => {
         const wrapper = mountSelectPopup({data: testData});
@@ -126,8 +114,8 @@ describe('SelectPopup', () => {
         fn.should.be.calledWith({
           popupFilterShortcutsOptions: {
             modal: true,
-            disabled: value
-          }
+            disabled: value,
+          },
         });
       }
 
@@ -141,7 +129,6 @@ describe('SelectPopup', () => {
 
         expectPopupFilterShortcutsDisabled(instance.setState, false);
       });
-
 
       it('should disable shortcuts on blur', () => {
         const wrapper = mountSelectPopup({data: testData});

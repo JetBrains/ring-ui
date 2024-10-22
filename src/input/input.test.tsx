@@ -7,13 +7,8 @@ describe('Input', () => {
   const inputRef = (el: HTMLElement | null) => {
     input = el;
   };
-  const shallowInput = (props?: InputAttrs) => shallow(<Input {...props}/>);
-  const mountInput = (props?: InputAttrs) => mount(
-    <Input
-      inputRef={inputRef}
-      {...props}
-    />
-  );
+  const shallowInput = (props?: InputAttrs) => shallow(<Input {...props} />);
+  const mountInput = (props?: InputAttrs) => mount(<Input inputRef={inputRef} {...props} />);
 
   it('should create component', () => {
     mountInput().type().should.equal(Input);

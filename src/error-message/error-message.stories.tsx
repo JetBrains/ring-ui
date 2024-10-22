@@ -1,6 +1,5 @@
 import frownIcon from '@jetbrains/icons/frown';
 
-
 import Link from '../link/link';
 
 import ErrorMessage from './error-message';
@@ -9,9 +8,8 @@ export default {
   title: 'Components/Error Message',
 
   parameters: {
-    notes:
-      'Displays an error message centered both vertically and horizontally inside the parent container.'
-  }
+    notes: 'Displays an error message centered both vertically and horizontally inside the parent container.',
+  },
 };
 
 export const basic = () => (

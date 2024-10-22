@@ -1,25 +1,19 @@
-import {
-  forwardRef,
-  HTMLAttributes,
-  ReactNode,
-  useCallback,
-  useEffect, useImperativeHandle,
-  useRef
-} from 'react';
+import {forwardRef, HTMLAttributes, ReactNode, useCallback, useEffect, useImperativeHandle, useRef} from 'react';
 import * as React from 'react';
 
 import {isNodeInVisiblePartOfPage} from '../global/dom';
 
 import styles from './tab-trap.css';
 
-export const FOCUSABLE_ELEMENTS = 'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';
+export const FOCUSABLE_ELEMENTS =
+  'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';
 
 export interface TabTrapProps extends HTMLAttributes<HTMLElement> {
-  children: ReactNode
-  trapDisabled?: boolean
-  autoFocusFirst?: boolean
-  focusBackOnClose?: boolean
-  focusBackOnExit?: boolean
+  children: ReactNode;
+  trapDisabled?: boolean;
+  autoFocusFirst?: boolean;
+  focusBackOnClose?: boolean;
+  focusBackOnExit?: boolean;
 }
 
 /**
@@ -27,18 +21,21 @@ export interface TabTrapProps extends HTMLAttributes<HTMLElement> {
  */
 
 interface TabTrap {
-  node: HTMLElement | null
+  node: HTMLElement | null;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-shadow
-const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap({
-  children,
-  trapDisabled = false,
-  autoFocusFirst = true,
-  focusBackOnClose = true,
-  focusBackOnExit = false,
-  ...restProps
-}, ref) {
+const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
+  {
+    children,
+    trapDisabled = false,
+    autoFocusFirst = true,
+    focusBackOnClose = true,
+    focusBackOnExit = false,
+    ...restProps
+  },
+  ref,
+) {
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const trapButtonNodeRef = useRef<HTMLDivElement | null>(null);
   const previousFocusedNodeRef = useRef<Element | null>(null);
@@ -71,18 +68,13 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap({
       focusFirst();
     } else if (!trapDisabled) {
       const previousFocusedElementIsInContainer =
-        previousFocusedNodeRef.current &&
-        nodeRef.current?.contains(previousFocusedNodeRef.current);
+        previousFocusedNodeRef.current && nodeRef.current?.contains(previousFocusedNodeRef.current);
 
       // The component wrapped in TabTrap can already have a focused element (e.g. Date Picker),
       // so we need to check if it does. If so, we don't need to focus anything.
-      const currentlyFocusedElementIsInContainer = nodeRef.current?.
-        contains(document.activeElement);
+      const currentlyFocusedElementIsInContainer = nodeRef.current?.contains(document.activeElement);
 
-      if (
-        !nodeRef.current ||
-        (!previousFocusedElementIsInContainer && !currentlyFocusedElementIsInContainer)
-      ) {
+      if (!nodeRef.current || (!previousFocusedElementIsInContainer && !currentlyFocusedElementIsInContainer)) {
         trapWithoutFocusRef.current = true;
         trapButtonNodeRef.current?.focus();
       }
@@ -116,8 +108,7 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap({
       return;
     }
 
-    const tabables = [...node.querySelectorAll<HTMLElement>(FOCUSABLE_ELEMENTS)].
-      filter(item => item.tabIndex >= 0);
+    const tabables = [...node.querySelectorAll<HTMLElement>(FOCUSABLE_ELEMENTS)].filter(item => item.tabIndex >= 0);
 
     const toBeFocused = first ? tabables[0] : tabables[tabables.length - 1];
 
@@ -126,15 +117,18 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap({
     }
   }
 
-
   function focusLastIfEnabled(event: React.FocusEvent) {
     if (trapWithoutFocusRef.current) {
       return;
     }
     if (focusBackOnExit) {
       const prevFocused = event.nativeEvent.relatedTarget;
-      if (prevFocused != null && nodeRef.current != null && prevFocused instanceof Element &&
-        nodeRef.current.contains(prevFocused)) {
+      if (
+        prevFocused != null &&
+        nodeRef.current != null &&
+        prevFocused instanceof Element &&
+        nodeRef.current.contains(prevFocused)
+      ) {
         restoreFocus();
       }
     } else {
@@ -169,10 +163,7 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap({
   }
 
   return (
-    <div
-      ref={nodeRef}
-      {...restProps}
-    >
+    <div ref={nodeRef} {...restProps}>
       <div
         // It never actually stays focused
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex

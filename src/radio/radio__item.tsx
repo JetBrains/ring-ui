@@ -8,15 +8,14 @@ import ControlHelp from '../control-help/control-help';
 import styles from './radio.css';
 
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-  value?: string | undefined
-  onChange?: ((value: string) => void) | null | undefined
+  value?: string | undefined;
+  onChange?: ((value: string) => void) | null | undefined;
 }
 
 export const RadioContext = createContext<RadioProps>({});
 
-
 export interface RadioItemInnerProps extends InputHTMLAttributes<HTMLInputElement> {
-  help?: ReactNode
+  help?: ReactNode;
 }
 export class RadioItemInner extends Component<RadioItemInnerProps> {
   uid = getUID('ring-radio-item-');
@@ -38,14 +37,8 @@ export class RadioItemInner extends Component<RadioItemInnerProps> {
 
     return (
       <label ref={this.labelRef} className={classes} htmlFor={this.uid}>
-        <input
-          id={this.uid}
-          {...restProps}
-          ref={this.inputRef}
-          className={styles.input}
-          type="radio"
-        />
-        <span className={styles.circle}/>
+        <input id={this.uid} {...restProps} ref={this.inputRef} className={styles.input} type="radio" />
+        <span className={styles.circle} />
         <span className={styles.label}>
           {children}
           {help && <ControlHelp>{help}</ControlHelp>}
@@ -56,11 +49,10 @@ export class RadioItemInner extends Component<RadioItemInnerProps> {
 }
 
 export interface RadioItemProps extends RadioItemInnerProps {
-  value: string
+  value: string;
 }
 
-const RadioItem = forwardRef<RadioItemInner, RadioItemProps>(function RadioItem(
-  props, ref) {
+const RadioItem = forwardRef<RadioItemInner, RadioItemProps>(function RadioItem(props, ref) {
   return (
     <RadioContext.Consumer>
       {({value, onChange, ...restContext}) => (

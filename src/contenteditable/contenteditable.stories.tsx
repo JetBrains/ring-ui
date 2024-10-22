@@ -4,8 +4,8 @@ export default {
   title: 'Components/ContentEditable',
 
   parameters: {
-    notes: 'Provides a ContentEditable component.'
-  }
+    notes: 'Provides a ContentEditable component.',
+  },
 };
 
 export const basic = () => (
@@ -36,5 +36,5 @@ basic.parameters = {
       border: 1px solid var(--ring-border-disabled-color);
       background-color: var(--ring-disabled-background-color);
     }
-</style>`
+</style>`,
 };

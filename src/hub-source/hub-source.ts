@@ -2,23 +2,23 @@ import Auth from '../auth/auth';
 import HTTP from '../http/http';
 
 export interface Item {
-  name: string
+  name: string;
 }
 
 export type Response<I extends Item, U extends string> = Partial<Record<U, I[]>> & {
-  total: number
-}
+  total: number;
+};
 
 export interface HubSourceOptions {
-  searchMax: number
-  searchSideThreshold: number
-  queryFormatter: (query: string) => string
+  searchMax: number;
+  searchSideThreshold: number;
+  queryFormatter: (query: string) => string;
 }
 
 const defaultOptions: HubSourceOptions = {
   searchMax: 20,
   searchSideThreshold: 100,
-  queryFormatter: query => `${query} or ${query}*`
+  queryFormatter: query => `${query} or ${query}*`,
 };
 
 /**
@@ -40,7 +40,6 @@ export default class HubSource<I extends Item, U extends string> {
     this.http = auth.http;
     this.relativeUrl = relativeUrl;
     this.options = Object.assign({}, defaultOptions, options);
-
 
     this.storedData = null;
     this.isClientSideSearch = null;
@@ -92,17 +91,17 @@ export default class HubSource<I extends Item, U extends string> {
     const items: I[] = res[this.relativeUrl] || [];
 
     if (this.isClientSideSearch) {
-      return items.
-        filter(it => this.filterFn(it)).
-        slice(0, this.options.searchMax);
+      return items.filter(it => this.filterFn(it)).slice(0, this.options.searchMax);
     }
     return items;
   }
 
   async sideDetectionRequest(params?: Record<string, unknown>, query?: string) {
-    const res = await this.makeCachedRequest(HubSource.mergeParams(params, {
-      $top: this.options.searchSideThreshold
-    }));
+    const res = await this.makeCachedRequest(
+      HubSource.mergeParams(params, {
+        $top: this.options.searchSideThreshold,
+      }),
+    );
     this.isClientSideSearch = this.checkIsClientSideSearch(res);
 
     if (!this.isClientSideSearch) {
@@ -113,22 +112,25 @@ export default class HubSource<I extends Item, U extends string> {
   }
 
   doClientSideSearch(params?: Record<string, unknown>) {
-    return this.makeCachedRequest(HubSource.mergeParams(params, {
-      $top: (this.constructor as typeof HubSource).TOP_ALL
-    }));
+    return this.makeCachedRequest(
+      HubSource.mergeParams(params, {
+        $top: (this.constructor as typeof HubSource).TOP_ALL,
+      }),
+    );
   }
 
   doServerSideSearch(params?: Record<string, unknown>, query?: string) {
-    return this.makeRequest(HubSource.mergeParams(params, {
-      query: this.formatQuery(query),
-      $top: this.options.searchMax
-    }));
+    return this.makeRequest(
+      HubSource.mergeParams(params, {
+        query: this.formatQuery(query),
+        $top: this.options.searchMax,
+      }),
+    );
   }
 
   getValueFromSuitableSource(query?: string, params?: Record<string, unknown>) {
     if (this.isClientSideSearch === null) {
-      return this.sideDetectionRequest(params, query) as
-        Promise<NonNullable<typeof this.storedData>>;
+      return this.sideDetectionRequest(params, query) as Promise<NonNullable<typeof this.storedData>>;
     }
 
     if (this.isClientSideSearch) {

@@ -5,18 +5,11 @@ import {getDay} from 'date-fns/getDay';
 import {setDay} from 'date-fns/setDay';
 
 import Day from './day';
-import {
-  MonthsProps,
-  WEEK,
-  weekdays,
-  shiftWeekArray,
-  getWeekStartsOn,
-  FIFTH_DAY
-} from './consts';
+import {MonthsProps, WEEK, weekdays, shiftWeekArray, getWeekStartsOn, FIFTH_DAY} from './consts';
 import styles from './date-picker.css';
 
 export interface MonthProps extends MonthsProps {
-  month: Date
+  month: Date;
 }
 
 export default function Month(props: MonthProps) {
@@ -37,16 +30,9 @@ export default function Month(props: MonthProps) {
 
   return (
     <div className={styles.month}>
-      <span className={styles.monthTitle}>
-        {format(props.month, 'LLLL', {locale})}
-      </span>
+      <span className={styles.monthTitle}>{format(props.month, 'LLLL', {locale})}</span>
       {days.map(date => (
-        <Day
-          {...props}
-          day={date}
-          empty={date < start}
-          key={+date}
-        />
+        <Day {...props} day={date} empty={date < start} key={+date} />
       ))}
     </div>
   );

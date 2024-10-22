@@ -12,7 +12,7 @@ describe('dataTests', () => {
   it('should support map-like arguments', () => {
     dataTests('foo', {
       bar: true,
-      notBar: false
+      notBar: false,
     }).should.be.equal('foo bar');
   });
 });

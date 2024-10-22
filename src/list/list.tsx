@@ -2,14 +2,7 @@
  * @name List
  */
 
-import {
-  Component,
-  ReactNode,
-  ReactElement,
-  SyntheticEvent,
-  ComponentType,
-  RefCallback
-} from 'react';
+import {Component, ReactNode, ReactElement, SyntheticEvent, ComponentType, RefCallback} from 'react';
 import classNames from 'classnames';
 import VirtualizedList, {ListRowProps} from 'react-virtualized/dist/es/List';
 import AutoSizer, {Size} from 'react-virtualized/dist/es/AutoSizer';
@@ -35,12 +28,7 @@ import ListCustom from './list__custom';
 import ListTitle from './list__title';
 import ListSeparator from './list__separator';
 import ListHint from './list__hint';
-import {
-  DEFAULT_ITEM_TYPE,
-  Dimension,
-  ListDataItem, ListDataItemProps,
-  Type
-} from './consts';
+import {DEFAULT_ITEM_TYPE, Dimension, ListDataItem, ListDataItemProps, Type} from './consts';
 
 import styles from './list.css';
 
@@ -50,7 +38,7 @@ function noop() {}
 
 const warnEmptyKey = deprecate(
   () => {},
-  'No key passed for list item with non-string label. It is considered as a bad practice and has been deprecated, please provide a key.'
+  'No key passed for list item with non-string label. It is considered as a bad practice and has been deprecated, please provide a key.',
 );
 
 /**
@@ -65,11 +53,7 @@ function isItemType<T>(listItemType: Type, item: ListDataItem<T>) {
   return type === listItemType;
 }
 
-const nonActivatableTypes: Array<Type | null | undefined> = [
-  Type.SEPARATOR,
-  Type.TITLE,
-  Type.MARGIN
-];
+const nonActivatableTypes: Array<Type | null | undefined> = [Type.SEPARATOR, Type.TITLE, Type.MARGIN];
 
 function isActivatable<T>(item: ListDataItem<T> | null) {
   return item != null && !nonActivatableTypes.includes(item.rgItemType) && !item.disabled;
@@ -80,61 +64,60 @@ function getDataHash<T>(data: readonly ListDataItem<T>[]): string {
 }
 
 export interface SelectHandlerParams {
-  tryKeepOpen?: boolean
+  tryKeepOpen?: boolean;
 }
 
 export interface ListProps<T = unknown> {
-  data: readonly ListDataItem<T>[]
-  restoreActiveIndex: boolean
-  activateSingleItem: boolean
-  activateFirstItem: boolean
-  onMouseOut: (e: SyntheticEvent<HTMLElement>) => void
-  onSelect: (item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) =>
-    void
-  onScrollToBottom: () => void
-  onResize: (info: Size) => void
-  shortcuts: boolean
+  data: readonly ListDataItem<T>[];
+  restoreActiveIndex: boolean;
+  activateSingleItem: boolean;
+  activateFirstItem: boolean;
+  onMouseOut: (e: SyntheticEvent<HTMLElement>) => void;
+  onSelect: (item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) => void;
+  onScrollToBottom: () => void;
+  onResize: (info: Size) => void;
+  shortcuts: boolean;
   shortcutsMap?: ShortcutsMap;
-  renderOptimization: boolean
-  disableMoveDownOverflow: boolean
-  ariaLabel: string
-  id?: string | undefined
-  className?: string | null | undefined
-  hint?: ReactNode
-  hintOnSelection?: string | null | undefined
-  maxHeight?: number | null | undefined
-  activeIndex?: number | null | undefined
-  useMouseUp?: boolean | null | undefined
-  visible?: boolean | null | undefined
-  disableMoveOverflow?: boolean | null | undefined
-  compact?: boolean | null | undefined
-  disableScrollToActive?: boolean | null | undefined
-  hidden?: boolean | null | undefined
-  preventListOverscroll?: boolean | undefined
+  renderOptimization: boolean;
+  disableMoveDownOverflow: boolean;
+  ariaLabel: string;
+  id?: string | undefined;
+  className?: string | null | undefined;
+  hint?: ReactNode;
+  hintOnSelection?: string | null | undefined;
+  maxHeight?: number | null | undefined;
+  activeIndex?: number | null | undefined;
+  useMouseUp?: boolean | null | undefined;
+  visible?: boolean | null | undefined;
+  disableMoveOverflow?: boolean | null | undefined;
+  compact?: boolean | null | undefined;
+  disableScrollToActive?: boolean | null | undefined;
+  hidden?: boolean | null | undefined;
+  preventListOverscroll?: boolean | undefined;
 }
 
-const shouldActivateFirstItem = <T, >(props: ListProps<T>) => props.activateFirstItem ||
-    props.activateSingleItem && props.data.length === 1;
+const shouldActivateFirstItem = <T,>(props: ListProps<T>) =>
+  props.activateFirstItem || (props.activateSingleItem && props.data.length === 1);
 
 export const ActiveItemContext = createStatefulContext<string | undefined>(undefined, 'ActiveItem');
 
 export interface ListState<T = unknown> {
-  activeIndex: number | null
-  prevActiveIndex: number | null
-  prevData: ListDataItem<T>[]
-  activeItem: ListDataItem<T> | null
-  needScrollToActive: boolean
-  scrolling: boolean
-  hasOverflow: boolean
-  disabledHover: boolean
-  scrolledToBottom: boolean
+  activeIndex: number | null;
+  prevActiveIndex: number | null;
+  prevData: ListDataItem<T>[];
+  activeItem: ListDataItem<T> | null;
+  needScrollToActive: boolean;
+  scrolling: boolean;
+  hasOverflow: boolean;
+  disabledHover: boolean;
+  scrolledToBottom: boolean;
 }
 
 interface RenderVirtualizedInnerParams extends Partial<WindowScrollerChildProps> {
-  height: number
-  maxHeight?: number
-  autoHeight?: boolean
-  rowCount: number
+  height: number;
+  maxHeight?: number;
+  autoHeight?: boolean;
+  rowCount: number;
 }
 
 /**
@@ -158,7 +141,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     shortcuts: false,
     renderOptimization: true,
     disableMoveDownOverflow: false,
-    ariaLabel: 'List'
+    ariaLabel: 'List',
   };
 
   state: ListState<T> = {
@@ -170,7 +153,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     scrolling: false,
     hasOverflow: false,
     disabledHover: false,
-    scrolledToBottom: false
+    scrolledToBottom: false,
   };
 
   static getDerivedStateFromProps(nextProps: ListProps, prevState: ListState) {
@@ -181,7 +164,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     if (data !== prevData) {
       Object.assign(nextState, {
         activeIndex: null,
-        activeItem: null
+        activeItem: null,
       });
     }
 
@@ -189,20 +172,15 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       Object.assign(nextState, {
         activeIndex,
         activeItem: data[activeIndex],
-        needScrollToActive: true
+        needScrollToActive: true,
       });
-    } else if (
-      data !== prevData &&
-      restoreActiveIndex &&
-      activeItem != null &&
-      activeItem.key != null
-    ) {
+    } else if (data !== prevData && restoreActiveIndex && activeItem != null && activeItem.key != null) {
       // Restore active index if there is an item with the same "key" property
       const index = data.findIndex(item => item.key === activeItem.key);
       if (index >= 0) {
         Object.assign(nextState, {
           activeIndex: index,
-          activeItem: data[index]
+          activeItem: data[index],
         });
       }
     }
@@ -220,9 +198,10 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   }
 
   shouldComponentUpdate(nextProps: ListProps<T>, nextState: ListState<T>) {
-    return nextProps !== this.props ||
-      (Object.keys(nextState) as Array<keyof ListState>).
-        some(key => nextState[key] !== this.state[key]);
+    return (
+      nextProps !== this.props ||
+      (Object.keys(nextState) as Array<keyof ListState>).some(key => nextState[key] !== this.state[key])
+    );
   }
 
   componentDidUpdate(prevProps: ListProps<T>) {
@@ -230,7 +209,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       this.virtualizedList.recomputeRowHeights();
     }
 
-    if (this.props.activeIndex == null &&
+    if (
+      this.props.activeIndex == null &&
       getDataHash(this.props.data) !== getDataHash(prevProps.data) &&
       shouldActivateFirstItem(this.props)
     ) {
@@ -255,27 +235,28 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
 
   static ListProps = {
     Type,
-    Dimension
+    Dimension,
   };
 
   virtualizedList?: VirtualizedList | null;
   unmounted?: boolean;
   container?: HTMLElement | null;
 
-  hoverHandler = memoize((index: number) => () =>
-    this.scheduleHoverListener(() => {
-      if (this.state.disabledHover) {
-        return;
-      }
+  hoverHandler = memoize(
+    (index: number) => () =>
+      this.scheduleHoverListener(() => {
+        if (this.state.disabledHover) {
+          return;
+        }
 
-      if (this.container) {
-        this.setState({
-          activeIndex: index,
-          activeItem: this.props.data[index],
-          needScrollToActive: false
-        });
-      }
-    })
+        if (this.container) {
+          this.setState({
+            activeIndex: index,
+            activeItem: this.props.data[index],
+            needScrollToActive: false,
+          });
+        }
+      }),
   );
 
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -309,7 +290,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   private _cache = new CellMeasurerCache({
     defaultHeight: this.defaultItemHeight(),
     fixedWidth: true,
-    keyMapper: this.sizeCacheKey
+    keyMapper: this.sizeCacheKey,
   });
 
   private _hasActivatableItems = memoizeOne(items => items.some(isActivatable));
@@ -323,27 +304,25 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       this.setState({
         activeIndex: firstActivatableIndex,
         activeItem: this.props.data[firstActivatableIndex],
-        needScrollToActive: true
+        needScrollToActive: true,
       });
     }
   };
 
-  selectHandler = memoize((index: number) =>
-    (event: Event | SyntheticEvent, tryKeepOpen = false) => {
-      const item = this.props.data[index];
-      if (!this.props.useMouseUp && item.onClick) {
-        item.onClick(item, event);
-      } else if (this.props.useMouseUp && item.onMouseUp) {
-        item.onMouseUp(item, event);
-      }
+  selectHandler = memoize((index: number) => (event: Event | SyntheticEvent, tryKeepOpen = false) => {
+    const item = this.props.data[index];
+    if (!this.props.useMouseUp && item.onClick) {
+      item.onClick(item, event);
+    } else if (this.props.useMouseUp && item.onMouseUp) {
+      item.onMouseUp(item, event);
+    }
 
-      if (this.props.onSelect) {
-        this.props.onSelect(item, event, {tryKeepOpen});
-      }
-    });
+    if (this.props.onSelect) {
+      this.props.onSelect(item, event, {tryKeepOpen});
+    }
+  });
 
-  checkboxHandler =
-    memoize((index: number) => (event: SyntheticEvent) => this.selectHandler(index)(event, true));
+  checkboxHandler = memoize((index: number) => (event: SyntheticEvent) => this.selectHandler(index)(event, true));
 
   upHandler = (e: KeyboardEvent) => {
     const {data, disableMoveOverflow} = this.props;
@@ -419,7 +398,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       {
         activeIndex: correctedIndex,
         activeItem: item,
-        needScrollToActive: true
+        needScrollToActive: true,
       },
       function onSet() {
         if (!isActivatable(item)) {
@@ -430,7 +409,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
         if (e.key !== 'Home' && e.key !== 'End') {
           preventDefault(e);
         }
-      }
+      },
     );
   }
 
@@ -463,9 +442,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   };
 
   getFirst() {
-    return this.props.data.find(
-      item => item.rgItemType === Type.ITEM || item.rgItemType === Type.CUSTOM
-    );
+    return this.props.data.find(item => item.rgItemType === Type.ITEM || item.rgItemType === Type.CUSTOM);
   }
 
   getSelected() {
@@ -475,7 +452,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   clearSelected = () => {
     this.setState({
       activeIndex: null,
-      needScrollToActive: false
+      needScrollToActive: false,
     });
   };
 
@@ -483,28 +460,27 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     return this.props.compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
   }
 
-  scrollEndHandler = () => this.scheduleScrollListener(() => {
-    const innerContainer = this.inner;
-    if (innerContainer) {
-      const maxScrollingPosition = innerContainer.scrollHeight;
-      const sensitivity = this.defaultItemHeight() / 2;
-      const currentScrollingPosition =
-        innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
-      const scrolledToBottom =
-        maxScrollingPosition > 0 && currentScrollingPosition >= maxScrollingPosition;
-      if (!this.unmounted) {
-        this.setState({scrolledToBottom});
+  scrollEndHandler = () =>
+    this.scheduleScrollListener(() => {
+      const innerContainer = this.inner;
+      if (innerContainer) {
+        const maxScrollingPosition = innerContainer.scrollHeight;
+        const sensitivity = this.defaultItemHeight() / 2;
+        const currentScrollingPosition = innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
+        const scrolledToBottom = maxScrollingPosition > 0 && currentScrollingPosition >= maxScrollingPosition;
+        if (!this.unmounted) {
+          this.setState({scrolledToBottom});
+        }
+        if (scrolledToBottom) {
+          this.props.onScrollToBottom();
+        }
       }
-      if (scrolledToBottom) {
-        this.props.onScrollToBottom();
-      }
-    }
-  });
+    });
 
   checkOverflow = () => {
     if (this.inner) {
       this.setState({
-        hasOverflow: this.inner.scrollHeight - this.inner.clientHeight > 1
+        hasOverflow: this.inner.scrollHeight - this.inner.clientHeight > 1,
       });
     }
   };
@@ -539,9 +515,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     // top and bottom margins
     if (index === 0 || index === this.props.data.length + 1 || item.rgItemType === Type.MARGIN) {
       itemKey = key || `${Type.MARGIN}_${index}`;
-      el = <div style={{height: Dimension.MARGIN}}/>;
+      el = <div style={{height: Dimension.MARGIN}} />;
     } else {
-
       // Hack around SelectNG implementation
       const {selectedLabel, originalModel, ...restProps} = item;
       const cleanedProps = restProps as ListDataItem<T>;
@@ -551,13 +526,11 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       if (cleanedProps.href) {
         cleanedProps.rgItemType = Type.LINK;
       }
-      const itemProps =
-        Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, restProps) as ListDataItemProps<T>;
-
+      const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, restProps) as ListDataItemProps<T>;
 
       itemKey = key || itemId;
 
-      itemProps.hover = (realIndex === this.state.activeIndex);
+      itemProps.hover = realIndex === this.state.activeIndex;
       if (itemProps.hoverClassName != null && itemProps.hover) {
         itemProps.className = classNames(itemProps.className, itemProps.hoverClassName);
       }
@@ -605,32 +578,22 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
           throw new Error(`Unknown menu element type: ${itemProps.rgItemType}`);
       }
 
-      el = <ItemComponent {...itemProps} key={itemProps.key}/>;
+      el = <ItemComponent {...itemProps} key={itemProps.key} />;
     }
 
-    return parent
-      ? (
-        <CellMeasurer
-          cache={this._cache}
-          key={itemKey}
-          parent={parent}
-          rowIndex={index}
-          columnIndex={0}
-        >
-          {({registerChild}) => (
-            <div ref={registerChild as RefCallback<Element>} style={style} role="row" id={itemId}>
-              <div role="cell">
-                {el}
-              </div>
-            </div>
-          )}
-        </CellMeasurer>
-      )
-      : (
-        <div role="row" id={itemId} key={itemKey}>
-          <div role="cell">{el}</div>
-        </div>
-      );
+    return parent ? (
+      <CellMeasurer cache={this._cache} key={itemKey} parent={parent} rowIndex={index} columnIndex={0}>
+        {({registerChild}) => (
+          <div ref={registerChild as RefCallback<Element>} style={style} role="row" id={itemId}>
+            <div role="cell">{el}</div>
+          </div>
+        )}
+      </CellMeasurer>
+    ) : (
+      <div role="row" id={itemId} key={itemKey}>
+        <div role="cell">{el}</div>
+      </div>
+    );
   };
 
   addItemDataTestToProp = (props: ListDataItemProps<T>) => {
@@ -662,7 +625,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     isScrolling,
     onChildScroll = noop,
     scrollTop,
-    registerChild
+    registerChild,
   }: RenderVirtualizedInnerParams) {
     const dirOverride = {direction: 'inherit'} as const; // Virtualized sets "direction: ltr" by default https://github.com/bvaughn/react-virtualized/issues/457
     return (
@@ -672,8 +635,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
             <VirtualizedList
               aria-label={this.props.ariaLabel}
               ref={this.virtualizedListRef}
-              className={classNames('ring-list__i',
-                {[styles.overscrollNone]: this.props.preventListOverscroll})}
+              className={classNames('ring-list__i', {[styles.overscrollNone]: this.props.preventListOverscroll})}
               autoHeight={autoHeight}
               style={maxHeight ? {maxHeight, height: 'auto', ...dirOverride} : dirOverride}
               autoContainerWidth
@@ -690,14 +652,10 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
               rowHeight={this._cache.rowHeight}
               rowRenderer={this.renderItem}
               overscanRowCount={this._bufferSize}
-
               // ensure rerendering
               noop={() => {}}
-
               scrollToIndex={
-                !this.props.disableScrollToActive &&
-                  this.state.needScrollToActive &&
-                  this.state.activeIndex != null
+                !this.props.disableScrollToActive && this.state.needScrollToActive && this.state.activeIndex != null
                   ? this.state.activeIndex + 1
                   : undefined
               }
@@ -717,9 +675,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     }
 
     return (
-      <WindowScroller>
-        {props => this.renderVirtualizedInner({...props, rowCount, autoHeight: true})}
-      </WindowScroller>
+      <WindowScroller>{props => this.renderVirtualizedInner({...props, rowCount, autoHeight: true})}</WindowScroller>
     );
   }
 
@@ -727,10 +683,12 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     const items = [];
 
     for (let index = 0; index < rowCount; index++) {
-      items.push(this.renderItem({
-        index,
-        isScrolling: this.state.scrolling
-      }));
+      items.push(
+        this.renderItem({
+          index,
+          isScrolling: this.state.scrolling,
+        }),
+      );
     }
 
     return (
@@ -742,10 +700,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
         <div
           aria-label={this.props.ariaLabel}
           role="grid"
-          style={maxHeight
-            ? {maxHeight: this.getVisibleListHeight(maxHeight)}
-            : undefined
-          }
+          style={maxHeight ? {maxHeight: this.getVisibleListHeight(maxHeight)} : undefined}
         >
           {items}
         </div>
@@ -764,12 +719,12 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     'meta+enter': this.enterHandler,
     'ctrl+enter': this.enterHandler,
     'command+enter': this.enterHandler,
-    'shift+enter': this.enterHandler
+    'shift+enter': this.enterHandler,
   };
 
   /** @override */
   render() {
-    const hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
+    const hint = (this.getSelected() && this.props.hintOnSelection) || this.props.hint;
     const fadeStyles = hint ? {bottom: Dimension.ITEM_HEIGHT} : undefined;
 
     const rowCount = this.props.data.length + 2;
@@ -793,35 +748,21 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
           onMouseLeave={this.clearSelected}
           data-test="ring-list"
         >
-          {this.props.shortcuts &&
-          (
+          {this.props.shortcuts && (
             <Shortcuts
-              map={this.props.shortcutsMap
-                ? {...this.shortcutsMap, ...this.props.shortcutsMap}
-                : this.shortcutsMap}
+              map={this.props.shortcutsMap ? {...this.shortcutsMap, ...this.props.shortcutsMap} : this.shortcutsMap}
               scope={this.shortcutsScope}
             />
-          )
-          }
+          )}
           {this.props.renderOptimization
             ? this.renderVirtualized(maxHeight, rowCount)
-            : this.renderSimple(maxHeight, rowCount)
-          }
-          {this.state.hasOverflow && !this.state.scrolledToBottom && (
-            <div
-              className={styles.fade}
-              style={fadeStyles}
-            />
-          )}
-          {hint && (
-            <ListHint
-              label={hint}
-            />
-          )}
+            : this.renderSimple(maxHeight, rowCount)}
+          {this.state.hasOverflow && !this.state.scrolledToBottom && <div className={styles.fade} style={fadeStyles} />}
+          {hint && <ListHint label={hint} />}
         </div>
       </>
     );
   }
 }
 
-export type ListAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof List, ListProps<T>>
+export type ListAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof List, ListProps<T>>;

@@ -4,8 +4,8 @@ import {Children, Fragment, ReactNode} from 'react';
 import styles from './breadcrumbs.css';
 
 export interface BreadcrumbsSeparatorAttrs {
-  separatorClassName?: string | null | undefined
-  children?: ReactNode
+  separatorClassName?: string | null | undefined;
+  children?: ReactNode;
 }
 
 export default function Breadcrumbs({separatorClassName, children}: BreadcrumbsSeparatorAttrs) {

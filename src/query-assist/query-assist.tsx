@@ -25,15 +25,11 @@ import inputStyles from '../input/input.css';
 
 import {I18nContext} from '../i18n/i18n-context';
 
-import QueryAssistSuggestions, {
-  QueryAssistSuggestion,
-  SuggestionItem
-} from './query-assist__suggestions';
+import QueryAssistSuggestions, {QueryAssistSuggestion, SuggestionItem} from './query-assist__suggestions';
 
 import styles from './query-assist.css';
 
-const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
-  PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
+const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING + PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 
 const ngModelStateField = 'query';
 
@@ -44,157 +40,156 @@ function cleanText(text: string) {
 }
 
 export interface QueryAssistTranslations {
-  searchTitle: string
-  clearTitle: string
+  searchTitle: string;
+  clearTitle: string;
 }
 
 export interface FocusChange {
-  focus: boolean
+  focus: boolean;
 }
 
 export interface QueryAssistChange {
-  query: string
+  query: string;
   prevCaret?: number | null;
-  caret: number
-  focus?: boolean
-  selection?: Position | number | null
-  dirty?: boolean
-  suggestionsQuery?: string
+  caret: number;
+  focus?: boolean;
+  selection?: Position | number | null;
+  dirty?: boolean;
+  suggestionsQuery?: string;
 }
 
 export interface QueryAssistResponse {
-  query?: string | undefined
-  caret?: number | undefined
-  styleRanges?: readonly StyleRange[] | undefined
-  suggestions?: readonly QueryAssistSuggestion[] | undefined
+  query?: string | undefined;
+  caret?: number | undefined;
+  styleRanges?: readonly StyleRange[] | undefined;
+  suggestions?: readonly QueryAssistSuggestion[] | undefined;
 }
 
 export interface QueryAssistRequestParams {
-  query: string
-  caret: number
-  omitSuggestions?: boolean
+  query: string;
+  caret: number;
+  omitSuggestions?: boolean;
 }
 
 export interface QueryAssistProps {
   /**
    * Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument
    */
-  onApply: (change: QueryAssistChange) => void
+  onApply: (change: QueryAssistChange) => void;
   /**
    * Called when the query is changed. An object with fields `caret` and `query` is passed as an argument
    */
-  onChange: (change: QueryAssistChange) => void
+  onChange: (change: QueryAssistChange) => void;
   /**
    * Called when the suggestion is applied
    */
-  onApplySuggestion: (suggestion: QueryAssistSuggestion, change: QueryAssistChange) => void
+  onApplySuggestion: (suggestion: QueryAssistSuggestion, change: QueryAssistChange) => void;
   /**
    * Called when the query is cleared. Called without arguments
    */
-  onClear: () => void
+  onClear: () => void;
   /**
    * Called when the focus status is changed. An object with fields `focus` is passed as an argument
    */
-  onFocusChange: (change: FocusChange) => void
-  translations?: QueryAssistTranslations | null | undefined
+  onFocusChange: (change: FocusChange) => void;
+  translations?: QueryAssistTranslations | null | undefined;
   /**
    * Open suggestions popup during the initial render
    */
-  autoOpen?: boolean | null | undefined | 'force'
+  autoOpen?: boolean | null | undefined | 'force';
   /**
    * Initial caret position
    */
-  caret?: number | null | undefined
+  caret?: number | null | undefined;
   /**
    * Show clickable "cross" icon on the right which clears the query
    */
-  clear?: boolean | null | undefined
+  clear?: boolean | null | undefined;
   /**
    * Additional class for the component
    */
-  className?: string | null | undefined
+  className?: string | null | undefined;
   /**
    * Additional class for the popup
    */
-  popupClassName?: string | null | undefined
+  popupClassName?: string | null | undefined;
   /**
    * Additional class for the input
    */
-  inputClassName?: string | null | undefined
+  inputClassName?: string | null | undefined;
   /**
    * Data source function
    */
-  dataSource: (params: QueryAssistRequestParams) => Promise<QueryAssistResponse> |
-    QueryAssistResponse
+  dataSource: (params: QueryAssistRequestParams) => Promise<QueryAssistResponse> | QueryAssistResponse;
   /**
    * Input debounce delay
    */
-  delay?: number | null | undefined
+  delay?: number | null | undefined;
   /**
    * Disable the component
    */
-  disabled?: boolean | undefined
+  disabled?: boolean | undefined;
   /**
    * Initial focus
    */
-  focus?: boolean | null | undefined
+  focus?: boolean | null | undefined;
   /**
    * Hint under the suggestions list
    */
-  hint?: string | null | undefined
+  hint?: string | null | undefined;
   /**
    * Hint under the suggestions list visible when a suggestion is selected
    */
-  hintOnSelection?: string | null | undefined
+  hintOnSelection?: string | null | undefined;
   /**
    * Show clickable "glass" icon on the right which applies the query
    */
-  glass?: boolean | null | undefined
+  glass?: boolean | null | undefined;
   /**
    * Show loader when a data request is in process
    */
-  loader?: boolean | null | undefined
+  loader?: boolean | null | undefined;
   /**
    * Field placeholder value
    */
-  placeholder?: string | null | undefined
+  placeholder?: string | null | undefined;
   /**
    * Initial query
    */
-  query?: string | null | undefined
-  useCustomItemRender?: boolean | null | undefined
-  actions?: ReactNode[] | null | undefined
-  'data-test'?: string | null | undefined
-  huge?: boolean | null | undefined
-  size: Size
+  query?: string | null | undefined;
+  useCustomItemRender?: boolean | null | undefined;
+  actions?: ReactNode[] | null | undefined;
+  'data-test'?: string | null | undefined;
+  huge?: boolean | null | undefined;
+  size: Size;
 }
 
 export interface StyleRange {
-  style: string
-  start: number
-  length: number
+  style: string;
+  start: number;
+  length: number;
 }
 
 interface QueryAssistState {
-  dirty: boolean | undefined
-  query: string | null | undefined
-  placeholderEnabled: boolean
-  shortcuts?: boolean
-  suggestions: readonly QueryAssistSuggestion[]
-  showPopup: boolean
-  prevQuery?: string | null | undefined
-  loading?: boolean
-  styleRanges?: readonly StyleRange[]
+  dirty: boolean | undefined;
+  query: string | null | undefined;
+  placeholderEnabled: boolean;
+  shortcuts?: boolean;
+  suggestions: readonly QueryAssistSuggestion[];
+  showPopup: boolean;
+  prevQuery?: string | null | undefined;
+  loading?: boolean;
+  styleRanges?: readonly StyleRange[];
 }
 
 interface CaretPositionParams {
-  fromContentEditable?: boolean | null | undefined
-  forceSetCaret?: boolean | null | undefined
+  fromContentEditable?: boolean | null | undefined;
+  forceSetCaret?: boolean | null | undefined;
 }
 
 interface HistoryEntry {
-  query: string | null | undefined
-  caret: Position | number
+  query: string | null | undefined;
+  caret: Position | number;
 }
 
 /**
@@ -243,7 +238,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     onApplySuggestion: noop,
     onClear: noop,
     onFocusChange: noop,
-    size: Size.L
+    size: Size.L,
   };
 
   static getDerivedStateFromProps({query}: QueryAssistProps, {prevQuery}: QueryAssistState) {
@@ -262,10 +257,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     this.immediateState = {
       query,
-      caret: typeof props.caret === 'number' && Number.isFinite(props.caret)
-        ? props.caret
-        : query.length,
-      focus: Boolean(props.autoOpen || props.focus)
+      caret: typeof props.caret === 'number' && Number.isFinite(props.caret) ? props.caret : query.length,
+      focus: Boolean(props.autoOpen || props.focus),
     };
   }
 
@@ -275,7 +268,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     placeholderEnabled: !this.props.query,
     shortcuts: !!this.props.focus,
     suggestions: [],
-    showPopup: false
+    showPopup: false,
   };
 
   componentDidMount() {
@@ -283,17 +276,15 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     this.immediateState = {
       query,
-      caret: typeof this.props.caret === 'number' && Number.isFinite(this.props.caret)
-        ? this.props.caret
-        : query.length,
-      focus: Boolean(this.props.autoOpen || this.props.focus)
+      caret:
+        typeof this.props.caret === 'number' && Number.isFinite(this.props.caret) ? this.props.caret : query.length,
+      focus: Boolean(this.props.autoOpen || this.props.focus),
     };
 
     this.setupRequestHandler(this.props.delay);
 
-    if (this.props.autoOpen === 'force' || this.props.autoOpen && query.length > 0) {
-      this.requestHandler().
-        catch(noop);
+    if (this.props.autoOpen === 'force' || (this.props.autoOpen && query.length > 0)) {
+      this.requestHandler().catch(noop);
     } else {
       this.requestStyleRanges().catch(noop);
     }
@@ -303,7 +294,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   }
 
   shouldComponentUpdate(props: QueryAssistProps, state: QueryAssistState) {
-    return state.query !== this.state.query ||
+    return (
+      state.query !== this.state.query ||
       state.dirty !== this.state.dirty ||
       state.loading !== this.state.loading ||
       state.showPopup !== this.state.showPopup ||
@@ -317,7 +309,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       props.actions !== this.props.actions ||
       props.loader !== this.props.loader ||
       props.glass !== this.props.glass ||
-      props.className !== this.props.className;
+      props.className !== this.props.className
+    );
   }
 
   componentDidUpdate(prevProps: QueryAssistProps) {
@@ -336,7 +329,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     if (typeof query === 'string' && queryChanged && query !== this.immediateState.query) {
       this.immediateState.query = query;
 
-      if (query && (this.props.autoOpen === 'force' || prevProps.autoOpen && query.length > 0)) {
+      if (query && (this.props.autoOpen === 'force' || (prevProps.autoOpen && query.length > 0))) {
         this.requestData?.();
       } else if (query) {
         this.requestStyleRanges();
@@ -393,24 +386,26 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
   setCaretPosition = (params: CaretPositionParams = {}) => {
     const queryLength = this.immediateState.query != null ? this.immediateState.query.length : 0;
-    const newCaretPosition =
-       this.immediateState.caret < queryLength
-         ? this.immediateState.caret
-         : queryLength;
+    const newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
     if (params.fromContentEditable) {
       this.immediateState.selection = this.immediateState.selection
         ? this.immediateState.selection
-        : this.state.query && this.state.query.length || null;
+        : (this.state.query && this.state.query.length) || null;
     }
     if (this.immediateState.focus && !this.props.disabled) {
-      if (typeof this.immediateState.selection === 'number' &&
-        Number.isInteger(this.immediateState.selection) && this.immediateState.selection > -1) {
+      if (
+        typeof this.immediateState.selection === 'number' &&
+        Number.isInteger(this.immediateState.selection) &&
+        this.immediateState.selection > -1
+      ) {
         // Set to end of field value if newCaretPosition is inappropriate
         this.caret?.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
         this.scrollInput();
-      } else if (this.immediateState.selection &&
+      } else if (
+        this.immediateState.selection &&
         typeof this.immediateState.selection === 'object' &&
-        this.immediateState.selection.startOffset !== undefined) {
+        this.immediateState.selection.startOffset !== undefined
+      ) {
         this.caret?.setPosition(this.immediateState.selection);
       } else if (this.immediateState.selection === undefined || params.forceSetCaret) {
         this.caret?.setPosition(-1);
@@ -421,8 +416,12 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   scrollInput() {
     const caretOffset = this.caret?.getOffset();
 
-    if (this.input?.clientWidth !== this.input?.scrollWidth && caretOffset != null &&
-      this.input?.clientWidth != null && caretOffset > this.input.clientWidth) {
+    if (
+      this.input?.clientWidth !== this.input?.scrollWidth &&
+      caretOffset != null &&
+      this.input?.clientWidth != null &&
+      caretOffset > this.input.clientWidth
+    ) {
       this.input.scrollLeft += caretOffset;
     }
   }
@@ -453,10 +452,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const props = {
       dirty: true,
       query: this.getQuery(),
-      caret: typeof currentCaret === 'number'
-        ? currentCaret
-        : currentCaret?.position ?? 0,
-      focus: true
+      caret: typeof currentCaret === 'number' ? currentCaret : (currentCaret?.position ?? 0),
+      focus: true,
     };
 
     if (this.immediateState.query === props.query && !this.isComposing) {
@@ -472,25 +469,24 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     if (this.state.query) {
       let i = 0;
-      while (
-        this.state.query[i] === this.immediateState.query[i] && i < this.state.query.length - 1
-      ) {
+      while (this.state.query[i] === this.immediateState.query[i] && i < this.state.query.length - 1) {
         i++;
       }
       const diff = this.immediateState.query.length - this.state.query.length;
       const originalIndex = this.immediateState.caret - diff;
       const ranges = [...(this.state.styleRanges ?? [])];
 
-      const range = ranges.
-        find(r => originalIndex >= r.start && originalIndex <= r.start + r.length);
+      const range = ranges.find(r => originalIndex >= r.start && originalIndex <= r.start + r.length);
 
       if (range) {
         range.length += diff;
       }
 
-      ranges.filter(r => r.start > originalIndex).forEach(r => {
-        r.start += diff;
-      });
+      ranges
+        .filter(r => r.start > originalIndex)
+        .forEach(r => {
+          r.start += diff;
+        });
     }
 
     this.props.onChange(props);
@@ -542,13 +538,12 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     if (queryIsSet && !queryIsSame) {
       this.historyStack.unshift({
         query: state.query,
-        caret: this.caret?.getPosition({avoidFocus: true}) ?? -1
+        caret: this.caret?.getPosition({avoidFocus: true}) ?? -1,
       });
     }
   }
 
   undo = (e: Event) => {
-
     const previous = this.historyStack.splice(0, 2)[1];
     if (!previous) {
       return;
@@ -576,10 +571,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     }
 
     const currentCaret = this.caret?.getPosition();
-    const caret = typeof currentCaret === 'number'
-      ? currentCaret
-      : currentCaret?.position ?? 0;
-    const popupHidden = (!this.state.showPopup) && e.type === 'click';
+    const caret = typeof currentCaret === 'number' ? currentCaret : (currentCaret?.position ?? 0);
+    const popupHidden = !this.state.showPopup && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
       this.immediateState.prevCaret = this.immediateState.caret;
@@ -595,47 +588,44 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     }
   };
 
-  handleStyleRangesResponse = ({suggestions, ...restProps}: QueryAssistResponse) =>
-    this.handleResponse(restProps);
+  handleStyleRangesResponse = ({suggestions, ...restProps}: QueryAssistResponse) => this.handleResponse(restProps);
 
-  handleResponse = ({
-    query = '',
-    caret = 0,
-    styleRanges,
-    suggestions = []
-  }: QueryAssistResponse, afterCompletion = false) => new Promise<void>((resolve, reject) => {
-    if (
-      query === this.getQuery() &&
-      (caret === this.immediateState.caret ||
-        this.immediateState.caret === undefined)
-    ) {
-      // Do not setState on unmounted component
-      if (!this.node) {
-        return;
+  handleResponse = (
+    {query = '', caret = 0, styleRanges, suggestions = []}: QueryAssistResponse,
+    afterCompletion = false,
+  ) =>
+    new Promise<void>((resolve, reject) => {
+      if (
+        query === this.getQuery() &&
+        (caret === this.immediateState.caret || this.immediateState.caret === undefined)
+      ) {
+        // Do not setState on unmounted component
+        if (!this.node) {
+          return;
+        }
+
+        const state: QueryAssistState = {
+          dirty: this.immediateState.dirty,
+          loading: false,
+          placeholderEnabled: !query,
+          query,
+          suggestions,
+          showPopup: !!suggestions.length && (this.props.autoOpen === 'force' || !afterCompletion),
+        };
+
+        this.immediateState.suggestionsQuery = query;
+
+        // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
+        if (!dequal(this.state.styleRanges, styleRanges)) {
+          state.styleRanges = styleRanges;
+        }
+
+        this.immediateState.selection = this.caret?.getPosition({avoidFocus: true});
+        this.setState(state, resolve);
+      } else {
+        reject(new Error('Current and response queries mismatch'));
       }
-
-      const state: QueryAssistState = {
-        dirty: this.immediateState.dirty,
-        loading: false,
-        placeholderEnabled: !query,
-        query,
-        suggestions,
-        showPopup: !!suggestions.length && (this.props.autoOpen === 'force' || !afterCompletion)
-      };
-
-      this.immediateState.suggestionsQuery = query;
-
-      // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
-      if (!dequal(this.state.styleRanges, styleRanges)) {
-        state.styleRanges = styleRanges;
-      }
-
-      this.immediateState.selection = this.caret?.getPosition({avoidFocus: true});
-      this.setState(state, resolve);
-    } else {
-      reject(new Error('Current and response queries mismatch'));
-    }
-  });
+    });
 
   handleApply = () => {
     this.closePopup();
@@ -664,7 +654,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       prevCaret: currentCaret,
       caret: suggestion.caret ?? 0,
       selection: suggestion.caret ?? 0,
-      query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
+      query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix,
     };
 
     if (typeof replace === 'boolean' && replace) {
@@ -682,7 +672,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     if (state.query !== this.immediateState.query) {
       this.setState({
         placeholderEnabled: !state.query,
-        query: state.query
+        query: state.query,
       });
     }
 
@@ -703,9 +693,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       return Promise.reject(new Error('Query is empty'));
     }
 
-    return this.sendRequest({query, caret, omitSuggestions: true}).
-      then(this.handleStyleRangesResponse).
-      catch(noop);
+    return this.sendRequest({query, caret, omitSuggestions: true}).then(this.handleStyleRangesResponse).catch(noop);
   };
 
   requestHandler = (afterCompletion = false) => {
@@ -715,9 +703,9 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     const {query, caret} = this.immediateState;
 
-    return this.sendRequest({query, caret}).
-      then(data => this.handleResponse(data, afterCompletion)).
-      catch(noop);
+    return this.sendRequest({query, caret})
+      .then(data => this.handleResponse(data, afterCompletion))
+      .catch(noop);
   };
 
   sendRequest(params: QueryAssistRequestParams) {
@@ -729,7 +717,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const timeout = window.setTimeout(() => {
       if (this.node) {
         this.setState({
-          loading: true
+          loading: true,
         });
       }
 
@@ -738,9 +726,9 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       }
     }, CLOSE_POPUP_TIMEOUT);
 
-    dataPromise.
-      then(() => window.clearTimeout(timeout)).
-      catch(() => {
+    dataPromise
+      .then(() => window.clearTimeout(timeout))
+      .catch(() => {
         window.clearTimeout(timeout);
         this.setState({loading: false});
       });
@@ -760,18 +748,16 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const suggestion = suggestions && suggestions[0];
 
     // Check if suggestion begins not from the end
-    const completionStart = suggestion &&
-      suggestion.completionStart !== suggestion.completionEnd &&
-      suggestion.completionStart;
+    const completionStart =
+      suggestion && suggestion.completionStart !== suggestion.completionEnd && suggestion.completionStart;
 
-    const inputChildren = this.input.firstChild instanceof Element &&
-      this.input.firstChild.children;
-    const completionStartNode = inputChildren &&
+    const inputChildren = this.input.firstChild instanceof Element && this.input.firstChild.children;
+    const completionStartNode =
+      inputChildren &&
       typeof completionStart === 'number' &&
       inputChildren[Math.min(completionStart, inputChildren.length - 1)];
 
-    let offset = completionStartNode &&
-      (getRect(completionStartNode).right - getRect(this.input).left);
+    let offset = completionStartNode && getRect(completionStartNode).right - getRect(this.input).left;
 
     if (!offset) {
       const caret = this.caret?.getOffset() ?? 0;
@@ -815,7 +801,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       dirty: false,
       caret: 0,
       query: '',
-      focus: true
+      focus: true,
     };
 
     this.props.onChange(state);
@@ -826,7 +812,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       dirty: false,
       query: '',
       placeholderEnabled: true,
-      loading: false
+      loading: false,
     });
   };
 
@@ -868,7 +854,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       description,
       group,
       rgItemType: ITEM,
-      data: suggestion
+      data: suggestion,
     };
   }
 
@@ -899,23 +885,26 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       });
     }
 
-    return query && Array.from(query).map((letter, index, letters) => {
-      const className = classNames(styles.letter, classes[index] || LETTER_DEFAULT_CLASS);
+    return (
+      query &&
+      Array.from(query).map((letter, index, letters) => {
+        const className = classNames(styles.letter, classes[index] || LETTER_DEFAULT_CLASS);
 
-      const dataTest = (letters.length - 1 === index)
-        ? 'ring-query-assist-last-letter'
-        : null;
+        const dataTest = letters.length - 1 === index ? 'ring-query-assist-last-letter' : null;
 
-      // \u00a0 === &nbsp;
-      return (
-        <span
-          // eslint-disable-next-line react/no-array-index-key
-          key={index + letter}
-          className={className}
-          data-test={dataTest}
-        >{letter === ' ' ? '\u00a0' : letter}</span>
-      );
-    });
+        // \u00a0 === &nbsp;
+        return (
+          <span
+            // eslint-disable-next-line react/no-array-index-key
+            key={index + letter}
+            className={className}
+            data-test={dataTest}
+          >
+            {letter === ' ' ? '\u00a0' : letter}
+          </span>
+        );
+      })
+    );
   }
 
   setFocus(focus: boolean | null | undefined) {
@@ -981,12 +970,12 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     left: noop,
     space: noop,
     home: noop,
-    end: noop
+    end: noop,
   };
 
   listShortcutsMap: ShortcutsMap = {
     home: noop,
-    end: noop
+    end: noop,
   };
 
   renderActions() {
@@ -1006,7 +995,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               data-test="query-assist-clear-icon"
             />
           )}
-        </I18nContext.Consumer>
+        </I18nContext.Consumer>,
       );
     }
 
@@ -1014,9 +1003,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   }
 
   render() {
-    const {
-      glass, 'data-test': dataTest, className, useCustomItemRender, huge, size, translations
-    } = this.props;
+    const {glass, 'data-test': dataTest, className, useCustomItemRender, huge, size, translations} = this.props;
 
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderLoader = this.props.loader !== false && this.state.loading;
@@ -1027,20 +1014,20 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       [styles.queryAssist]: true,
       [styles.withIcon]: (renderGlass && !huge) || renderLoader,
       [styles.huge]: huge,
-      [styles.queryAssistDisabled]: this.props.disabled
+      [styles.queryAssistDisabled]: this.props.disabled,
     });
 
     const inputClasses = classNames(this.props.inputClassName, {
       [`${styles.input} ring-js-shortcuts`]: true,
-      [styles.inputGap]: actions.length || this.isRenderingGlassOrLoader() && !glass,
+      [styles.inputGap]: actions.length || (this.isRenderingGlassOrLoader() && !glass),
       [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
-      [styles.inputRevertOrder]: !glass || huge
+      [styles.inputRevertOrder]: !glass || huge,
     });
 
     const placeholderStyles = classNames({
       [styles.placeholder]: true,
       [styles.hugePlaceholder]: huge,
-      [styles.withoutGlass]: !glass || (!renderLoader && huge)
+      [styles.withoutGlass]: !glass || (!renderLoader && huge),
     });
 
     return (
@@ -1053,12 +1040,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               role="presentation"
               ref={this.nodeRef}
             >
-              {this.state.shortcuts && (
-                <Shortcuts
-                  map={this.shortcutsMap}
-                  scope={this.shortcutsScope}
-                />
-              )}
+              {this.state.shortcuts && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
 
               {renderGlass && !huge && (
                 <Icon
@@ -1074,11 +1056,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 <div
                   className={classNames(styles.icon, styles.loader, {
                     [styles.loaderOnTheRight]: !glass && !huge,
-                    [styles.loaderActive]: renderLoader
+                    [styles.loaderActive]: renderLoader,
                   })}
                   ref={this.loaderRef}
                 >
-                  <LoaderInline/>
+                  <LoaderInline />
                 </div>
               )}
 
@@ -1089,7 +1071,6 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 inputRef={this.inputRef}
                 disabled={this.props.disabled}
                 onComponentUpdate={() => this.setCaretPosition({fromContentEditable: true})}
-
                 onBlur={this.handleFocusChange}
                 onClick={this.handleCaretMove}
                 onCompositionStart={this.trackCompositionState}
@@ -1099,9 +1080,10 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 onKeyUp={this.handleInput} // to handle input and key up
                 onKeyDown={this.handleEnter}
                 onPaste={this.handlePaste}
-
                 spellCheck="false"
-              >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
+              >
+                {this.state.query && <span>{this.renderQuery()}</span>}
+              </ContentEditable>
 
               {renderPlaceholder && (
                 <button
@@ -1116,14 +1098,11 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 </button>
               )}
 
-              {actions.length
-                ? (
-                  <div
-                    data-test="ring-query-assist-actions"
-                    className={styles.actions}
-                  >{actions}</div>
-                )
-                : null}
+              {actions.length ? (
+                <div data-test="ring-query-assist-actions" className={styles.actions}>
+                  {actions}
+                </div>
+              ) : null}
 
               <PopupMenu
                 hidden={!this.state.showPopup}

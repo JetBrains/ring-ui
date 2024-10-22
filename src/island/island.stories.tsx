@@ -5,8 +5,8 @@ export default {
 
   parameters: {
     notes: 'Displays an island.',
-    screenshots: {captureSelector: '*[data-test~=ring-island]'}
-  }
+    screenshots: {captureSelector: '*[data-test~=ring-island]'},
+  },
 };
 
 export const basic = () => (
@@ -40,7 +40,7 @@ withScroll.parameters = {
     width: 200px;
   }
 </style>
-      `
+      `,
 };
 
 export const withResizeableHeader = () => (
@@ -65,5 +65,5 @@ withResizeableHeader.parameters = {
     width: 200px;
   }
 </style>
-      `
+      `,
 };

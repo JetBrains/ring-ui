@@ -3,14 +3,12 @@ import {shallow} from 'enzyme';
 import Markdown, {MarkdownProps} from './markdown';
 
 describe('Markdown', () => {
-  const shallowMarkdown = (props?: Partial<MarkdownProps>) => shallow(
-    <Markdown
-      {...props}
-    >
-      <div dangerouslySetInnerHTML={{__html: '<p>test</p>'}}/>
-    </Markdown>
-  );
-
+  const shallowMarkdown = (props?: Partial<MarkdownProps>) =>
+    shallow(
+      <Markdown {...props}>
+        <div dangerouslySetInnerHTML={{__html: '<p>test</p>'}} />
+      </Markdown>,
+    );
 
   it('should wrap children with div', () => {
     shallowMarkdown().should.have.tagName('div');

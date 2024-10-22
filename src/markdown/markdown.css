@@ -10,7 +10,7 @@
 }
 
 .markdown {
-  composes: font from  "../global/global.css";
+  composes: font from "../global/global.css";
 
   & ol,
   & ul {

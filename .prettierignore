@@ -1,0 +1,5 @@
+.github
+.devcontainer
+qodana.yaml
+tsconfig.json
+*.md

@@ -1,6 +1,5 @@
 import {CSSProperties, Fragment} from 'react';
 
-
 import Button from '../button/button';
 
 import Tooltip from './tooltip';
@@ -10,8 +9,8 @@ export default {
 
   parameters: {
     notes: 'Displays a tooltip.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71cc9f8daafc0afcfa'
-  }
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71cc9f8daafc0afcfa',
+  },
 };
 
 export const basic = () => (
@@ -29,9 +28,9 @@ basic.parameters = {
     actions: [
       {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseenter'},
       {type: 'wait', delay: 500},
-      {type: 'capture', name: '', selector: '#storybook-root'}
-    ]
-  }
+      {type: 'capture', name: '', selector: '#storybook-root'},
+    ],
+  },
 };
 
 export const displayedWhenNecessary = () => {
@@ -47,7 +46,7 @@ export const displayedWhenNecessary = () => {
     display: 'block',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
   };
 
   return (
@@ -58,13 +57,7 @@ export const displayedWhenNecessary = () => {
         </Tooltip>
       </div>
       <div style={{paddingBottom: '200px'}}>
-        <Tooltip
-          long
-          title={loremIpsum}
-          selfOverflowOnly
-          style={overflowStyles}
-          className="lorem-ipsum__text_overflow"
-        >
+        <Tooltip long title={loremIpsum} selfOverflowOnly style={overflowStyles} className="lorem-ipsum__text_overflow">
           <b>Tooltip will be displayed:</b> {loremIpsum}
         </Tooltip>
       </div>
@@ -80,16 +73,15 @@ displayedWhenNecessary.parameters = {
       {type: 'mouseEvent', selector: '.lorem-ipsum__text', eventname: 'mouseenter'},
       {type: 'capture', name: 'full text element', selector: '#storybook-root'},
       {type: 'mouseEvent', selector: '.lorem-ipsum__text_overflow', eventname: 'mouseenter'},
-      {type: 'capture', name: 'cut text element', selector: '#storybook-root'}
-    ]
-  }
+      {type: 'capture', name: 'cut text element', selector: '#storybook-root'},
+    ],
+  },
 };
 
 export const nested = () => (
   <div style={{paddingBottom: '100px'}}>
     <Tooltip title="Explanation">
       Some text with an explanation.
-
       <Tooltip title="Nested Explanation">
         <strong> Some text inside with a separate explanation. </strong>
 
@@ -99,7 +91,6 @@ export const nested = () => (
 
         <strong> Some text inside with a separate explanation. </strong>
       </Tooltip>
-
       Some text with an explanation.
     </Tooltip>
   </div>
@@ -112,7 +103,7 @@ nested.parameters = {
     actions: [
       {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseenter'},
       {type: 'wait', delay: 500},
-      {type: 'capture', name: '', selector: '#storybook-root'}
-    ]
-  }
+      {type: 'capture', name: '', selector: '#storybook-root'},
+    ],
+  },
 };

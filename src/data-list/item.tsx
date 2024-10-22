@@ -25,33 +25,33 @@ const ITEM_LEFT_OFFSET = 32;
 const LIST_LEFT_OFFSET = 24;
 
 export interface BaseFormattedItem<T> {
-  items?: readonly T[]
-  title?: ReactNode
-  collapsible?: boolean | null | undefined
-  collapsed?: boolean | null | undefined
-  onCollapse?: () => void
-  onExpand?: () => void
-  selectable?: boolean | undefined
+  items?: readonly T[];
+  title?: ReactNode;
+  collapsible?: boolean | null | undefined;
+  collapsed?: boolean | null | undefined;
+  onCollapse?: () => void;
+  onExpand?: () => void;
+  selectable?: boolean | undefined;
 }
 
 export interface FormattedItem<T> extends BaseFormattedItem<T> {
-  key?: string | null | undefined
-  id?: string | number | null | undefined
+  key?: string | null | undefined;
+  id?: string | number | null | undefined;
 }
 
 export interface ItemProps<T extends SelectionItem> extends BaseFormattedItem<T> {
-  item: T
-  onFocus: (item: T) => void
-  onSelect: (item: T, selected: boolean) => void
-  itemFormatter: (item: T) => FormattedItem<T>
-  level: number
-  parentShift: number
-  showMoreLessButton: moreLessButtonStates
-  onItemMoreLess: (item: T, more: boolean) => void
-  className?: string | null | undefined
-  showFocus?: boolean | undefined
-  selection: Selection<T>
-  selected?: boolean | undefined
+  item: T;
+  onFocus: (item: T) => void;
+  onSelect: (item: T, selected: boolean) => void;
+  itemFormatter: (item: T) => FormattedItem<T>;
+  level: number;
+  parentShift: number;
+  showMoreLessButton: moreLessButtonStates;
+  onItemMoreLess: (item: T, more: boolean) => void;
+  className?: string | null | undefined;
+  showFocus?: boolean | undefined;
+  selection: Selection<T>;
+  selected?: boolean | undefined;
 }
 
 export default class Item<T extends SelectionItem> extends PureComponent<ItemProps<T>> {
@@ -60,9 +60,8 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
     level: 0,
     parentShift: 0,
     showMoreLessButton: moreLessButtonStates.UNUSED,
-    onItemMoreLess: () => {}
+    onItemMoreLess: () => {},
   };
-
 
   onShowMore = () => {
     const {onItemMoreLess, item} = this.props;
@@ -85,10 +84,7 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
   };
 
   renderItem = (model: T, parentShift: number) => {
-    const {
-      onFocus, onSelect, selection, level,
-      itemFormatter
-    } = this.props;
+    const {onFocus, onSelect, selection, level, itemFormatter} = this.props;
 
     const item = itemFormatter(model);
 
@@ -100,17 +96,13 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
         items={item.items}
         level={level + 1}
         parentShift={parentShift}
-
         itemFormatter={itemFormatter}
-
         collapsible={item.collapsible}
         collapsed={item.collapsed}
         onCollapse={item.onCollapse}
         onExpand={item.onExpand}
-
         showFocus={selection.isFocused(model)}
         onFocus={onFocus}
-
         selection={selection}
         selectable={item.selectable}
         selected={selection.isSelected(model)}
@@ -121,35 +113,38 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
 
   render() {
     const {
-      title, items, showMoreLessButton,
-      level, parentShift, showFocus,
-      selectable, selected,
-      collapsible, collapsed, onCollapse, onExpand
+      title,
+      items,
+      showMoreLessButton,
+      level,
+      parentShift,
+      showFocus,
+      selectable,
+      selected,
+      collapsible,
+      collapsed,
+      onCollapse,
+      onExpand,
     } = this.props;
 
     let moreLessButton;
-    if (showMoreLessButton === moreLessButtonStates.MORE ||
-      showMoreLessButton === moreLessButtonStates.MORE_LOADING) {
+    if (showMoreLessButton === moreLessButtonStates.MORE || showMoreLessButton === moreLessButtonStates.MORE_LOADING) {
       moreLessButton = (
         <Text info>
-          <Link
-            inherit
-            pseudo
-            onClick={this.onShowMore}
-          >{'Show more'}</Link>
-          {showMoreLessButton === moreLessButtonStates.MORE_LOADING &&
-            <LoaderInline className={styles.showMoreLoader}/>
-          }
+          <Link inherit pseudo onClick={this.onShowMore}>
+            {'Show more'}
+          </Link>
+          {showMoreLessButton === moreLessButtonStates.MORE_LOADING && (
+            <LoaderInline className={styles.showMoreLoader} />
+          )}
         </Text>
       );
     } else if (showMoreLessButton === moreLessButtonStates.LESS) {
       moreLessButton = (
         <Text info>
-          <Link
-            inherit
-            pseudo
-            onClick={this.onShowLess}
-          >{'Show less'}</Link>
+          <Link inherit pseudo onClick={this.onShowLess}>
+            {'Show less'}
+          </Link>
         </Text>
       );
     }
@@ -198,18 +193,15 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
           offset={offset}
         />
 
-        {!itemIsEmpty
-          ? (
-            <ul className={styles.itemContent}>
-              {items.map(model => this.renderItem(model, parentShift))}
+        {!itemIsEmpty ? (
+          <ul className={styles.itemContent}>
+            {items.map(model => this.renderItem(model, parentShift))}
 
-              {showMoreLessButton !== moreLessButtonStates.UNUSED
-                ? <li className={styles.showMore}>{moreLessButton}</li>
-                : null
-              }
-            </ul>
-          )
-          : null}
+            {showMoreLessButton !== moreLessButtonStates.UNUSED ? (
+              <li className={styles.showMore}>{moreLessButton}</li>
+            ) : null}
+          </ul>
+        ) : null}
       </li>
     );
   }

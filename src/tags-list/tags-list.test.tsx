@@ -6,10 +6,8 @@ import TagsList, {TagsListAttrs} from './tags-list';
 describe('Tags List', () => {
   let tagsList;
   const tagsMock = [{key: 1, label: 'test1'}];
-  const shallowTagsList = (props?: Partial<TagsListAttrs>) =>
-    shallow(<TagsList tags={tagsMock} {...props}/>);
-  const renderTagsList = (props?: Partial<TagsListAttrs>) =>
-    render(<TagsList tags={tagsMock} {...props}/>);
+  const shallowTagsList = (props?: Partial<TagsListAttrs>) => shallow(<TagsList tags={tagsMock} {...props} />);
+  const renderTagsList = (props?: Partial<TagsListAttrs>) => render(<TagsList tags={tagsMock} {...props} />);
 
   describe('DOM', () => {
     it('should render tags list', () => {
@@ -23,12 +21,12 @@ describe('Tags List', () => {
     it('should render custom tag', () => {
       class CustomTag extends Component {
         render() {
-          return (<span data-test="custom-tag" className="custom-tag"/>);
+          return <span data-test="custom-tag" className="custom-tag" />;
         }
       }
 
       tagsList = renderTagsList({
-        customTagComponent: CustomTag
+        customTagComponent: CustomTag,
       });
 
       tagsList.find('.custom-tag').should.have.data('test', 'custom-tag');
@@ -36,7 +34,7 @@ describe('Tags List', () => {
 
     it('Should use passed className', () => {
       tagsList = shallowTagsList({
-        className: 'test-class'
+        className: 'test-class',
       });
 
       tagsList.should.have.className('test-class');

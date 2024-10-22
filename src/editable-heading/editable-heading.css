@@ -146,9 +146,12 @@
   content: "";
   pointer-events: none;
 
-  background: linear-gradient(to bottom, rgba(var(--ring-content-background-components), 0), rgba(var(--ring-content-background-components), 1));
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--ring-content-background-components), 0),
+    rgba(var(--ring-content-background-components), 1)
+  );
 }
-
 
 .textareaWrapper {
   position: relative;

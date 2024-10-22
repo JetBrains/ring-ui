@@ -4,9 +4,10 @@ import Popup, {BasePopupProps} from '../popup/popup';
 import List, {ListProps as ListPropsType} from '../list/list';
 import {ListDataItem} from '../list/consts';
 
-export interface PopupMenuProps<T = unknown> extends
-  Omit<ListPropsType<T>, 'maxHeight' | 'hidden'>, Omit<BasePopupProps, 'onMouseOut'> {
-  closeOnSelect: boolean
+export interface PopupMenuProps<T = unknown>
+  extends Omit<ListPropsType<T>, 'maxHeight' | 'hidden'>,
+    Omit<BasePopupProps, 'onMouseOut'> {
+  closeOnSelect: boolean;
 }
 
 /**
@@ -20,7 +21,7 @@ export default class PopupMenu<T = unknown> extends Popup<PopupMenuProps<T>> {
     ...List.defaultProps,
     ...Popup.defaultProps,
     renderOptimization: false,
-    closeOnSelect: false
+    closeOnSelect: false,
   };
 
   onSelect = (item: ListDataItem<T>, event: Event | SyntheticEvent) => {
@@ -53,7 +54,6 @@ export default class PopupMenu<T = unknown> extends Popup<PopupMenuProps<T>> {
   }
 }
 
-export type PopupMenuAttrs<T = unknown> =
-  JSX.LibraryManagedAttributes<typeof PopupMenu, PopupMenuProps<T>>
+export type PopupMenuAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof PopupMenu, PopupMenuProps<T>>;
 
 export const {ListProps} = List;

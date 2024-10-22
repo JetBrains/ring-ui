@@ -7,26 +7,17 @@ import styles from './button.css';
 
 describe('Button', () => {
   it('should create component', () => {
-    render(<Button/>);
+    render(<Button />);
     screen.getByRole('button').should.exist;
   });
 
   it('should set _default modifier', () => {
-    render(<Button/>);
+    render(<Button />);
     screen.getByRole('button').className.should.include(styles.button);
   });
 
   it('should set modifiers', () => {
-    render(
-      <Button
-        active
-        danger
-        delayed
-        loader
-        primary
-        short
-      />
-    );
+    render(<Button active danger delayed loader primary short />);
 
     const className = screen.getByRole('button').className;
     className.should.include(styles.active);
@@ -38,26 +29,24 @@ describe('Button', () => {
   });
 
   it('should add icon', () => {
-    render(<Button icon={caretDownSVG}/>);
+    render(<Button icon={caretDownSVG} />);
 
     const element = screen.getByRole('button');
     const icon = element.querySelector('svg');
     should.exist(icon);
-    caretDownSVG.
-      replace('/>', '></polygon>').
-      should.include(icon!.innerHTML);
+    caretDownSVG.replace('/>', '></polygon>').should.include(icon!.innerHTML);
   });
 
   it('should set custom class', () => {
     const CUSTOM_CLASS = 'test';
 
-    render(<Button className={CUSTOM_CLASS}/>);
+    render(<Button className={CUSTOM_CLASS} />);
 
     screen.getByRole('button').should.have.class(CUSTOM_CLASS);
   });
 
   it('should render link instead of button if href specified', () => {
-    render(<Button href="http://www.jetbrains.com"/>);
+    render(<Button href="http://www.jetbrains.com" />);
 
     screen.getByRole('link').should.have.attr('href', 'http://www.jetbrains.com');
   });

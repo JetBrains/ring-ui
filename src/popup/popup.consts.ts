@@ -10,7 +10,7 @@ export enum Directions {
   RIGHT_CENTER = 'RIGHT_CENTER',
   LEFT_TOP = 'LEFT_TOP',
   LEFT_BOTTOM = 'LEFT_BOTTOM',
-  LEFT_CENTER = 'LEFT_CENTER'
+  LEFT_CENTER = 'LEFT_CENTER',
 }
 
 /**
@@ -18,8 +18,14 @@ export enum Directions {
  * @type {Array.<string>}
  */
 export const DEFAULT_DIRECTIONS = [
-  Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
-  Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM
+  Directions.BOTTOM_RIGHT,
+  Directions.BOTTOM_LEFT,
+  Directions.TOP_LEFT,
+  Directions.TOP_RIGHT,
+  Directions.RIGHT_TOP,
+  Directions.RIGHT_BOTTOM,
+  Directions.LEFT_TOP,
+  Directions.LEFT_BOTTOM,
 ];
 
 /**
@@ -27,19 +33,19 @@ export const DEFAULT_DIRECTIONS = [
  */
 export enum Dimension {
   MARGIN = 16,
-  BORDER_WIDTH = 1
+  BORDER_WIDTH = 1,
 }
 
 export enum MinWidth {
-  TARGET = -1
+  TARGET = -1,
 }
 
 export enum MaxHeight {
-  SCREEN = -1
+  SCREEN = -1,
 }
 
 export enum Display {
   HIDDEN = 0,
   SHOWING = 1,
-  SHOWN = 2
+  SHOWN = 2,
 }

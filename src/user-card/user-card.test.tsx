@@ -13,17 +13,17 @@ describe('UserCard', () => {
     name: 'Test User',
     email: 'testuser@mail.com',
     avatarUrl: 'http://some-url',
-    href: 'http://foo'
+    href: 'http://foo',
   };
 
   describe('Card', () => {
-    const shallowCard = (props?: Partial<UserCardAttrs>) => shallow(
-      <I18nContextHolder messages={{}}>
-        <UserCard user={fakeUser} {...props}/>
-      </I18nContextHolder>
-    );
-    const mountCard = (props?: Partial<UserCardAttrs>) =>
-      mount(<UserCard user={fakeUser} {...props}/>);
+    const shallowCard = (props?: Partial<UserCardAttrs>) =>
+      shallow(
+        <I18nContextHolder messages={{}}>
+          <UserCard user={fakeUser} {...props} />
+        </I18nContextHolder>,
+      );
+    const mountCard = (props?: Partial<UserCardAttrs>) => mount(<UserCard user={fakeUser} {...props} />);
 
     it('should create component', () => {
       mountCard().should.have.type(UserCard);
@@ -34,13 +34,11 @@ describe('UserCard', () => {
     });
 
     it('should render link', () => {
-      shallowCard({user: {...fakeUser, href: null}}).
-        should.not.have.descendants('a[href="http://foo"]');
+      shallowCard({user: {...fakeUser, href: null}}).should.not.have.descendants('a[href="http://foo"]');
     });
 
     it('should not render link if user has no href', () => {
-      shallowCard({user: {...fakeUser, href: null}}).
-        should.not.have.descendants('a');
+      shallowCard({user: {...fakeUser, href: null}}).should.not.have.descendants('a');
     });
 
     it('should use passed className', () => {
@@ -55,11 +53,12 @@ describe('UserCard', () => {
   describe('UserCardTooltip', () => {
     const anchor = <span data-test="anchor">{'foo'}</span>;
 
-    const mountTooltip = (props?: UserCardTooltipAttrs) => mount(
-      <UserCardTooltip user={fakeUser} {...props}>
-        {anchor}
-      </UserCardTooltip>
-    );
+    const mountTooltip = (props?: UserCardTooltipAttrs) =>
+      mount(
+        <UserCardTooltip user={fakeUser} {...props}>
+          {anchor}
+        </UserCardTooltip>,
+      );
 
     it('should render anchor', () => {
       const wrapper = mountTooltip();
@@ -68,12 +67,13 @@ describe('UserCard', () => {
     });
 
     it('should allow to render multiple children', () => {
-      const tooltip = (props?: UserCardTooltipAttrs) => mount(
-        <UserCardTooltip user={fakeUser} {...props}>
-          <span data-test="anchor">{'foo'}</span>
-          <span data-test="anchor">{'foo'}</span>
-        </UserCardTooltip>
-      );
+      const tooltip = (props?: UserCardTooltipAttrs) =>
+        mount(
+          <UserCardTooltip user={fakeUser} {...props}>
+            <span data-test="anchor">{'foo'}</span>
+            <span data-test="anchor">{'foo'}</span>
+          </UserCardTooltip>,
+        );
 
       const wrapper = tooltip();
       wrapper.should.have.descendants('[data-test="anchor"]');
@@ -87,11 +87,12 @@ describe('UserCard', () => {
       return fakeUser;
     }
 
-    const mountTooltip = (props?: SmartUserCardTooltipProps) => mount<SmartUserCardTooltip>(
-      <SmartUserCardTooltip userDataSource={userSource} {...props}>
-        {anchor}
-      </SmartUserCardTooltip>
-    );
+    const mountTooltip = (props?: SmartUserCardTooltipProps) =>
+      mount<SmartUserCardTooltip>(
+        <SmartUserCardTooltip userDataSource={userSource} {...props}>
+          {anchor}
+        </SmartUserCardTooltip>,
+      );
 
     it('should load user on hover', () => {
       const wrapper = mountTooltip();

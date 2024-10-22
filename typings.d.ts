@@ -32,12 +32,10 @@ declare module 'combokeys/test/lib/key-event' {
     keyCode: number,
     modifiers?: ('shift' | 'ctrl' | 'alt' | 'meta')[],
     element?: Element,
-    repeat?: number
+    repeat?: number,
   ): void;
 }
 
 declare module 'scrollbar-width' {
-  export default function getScrollbarWidth(
-    recalculate?: boolean
-  ): number | null;
+  export default function getScrollbarWidth(recalculate?: boolean): number | null;
 }

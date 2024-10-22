@@ -1,16 +1,12 @@
-
-type AttrsMap = Record<string, boolean | null | undefined>
+type AttrsMap = Record<string, boolean | null | undefined>;
 
 function expandMap(attrsMap: AttrsMap) {
-  return Object.entries(attrsMap).
-    reduce<string[]>((result, [key, value]) => (value ? [...result, key] : result), []);
+  return Object.entries(attrsMap).reduce<string[]>((result, [key, value]) => (value ? [...result, key] : result), []);
 }
 
-export default function joinDataTestAttributes(
-  ...attrs: Array<string | AttrsMap | null | undefined>
-) {
-  return attrs.
-    reduce<string[]>((result, attr) => {
+export default function joinDataTestAttributes(...attrs: Array<string | AttrsMap | null | undefined>) {
+  return attrs
+    .reduce<string[]>((result, attr) => {
       if (!attr) {
         return result;
       }
@@ -18,6 +14,6 @@ export default function joinDataTestAttributes(
         return [...result, ...expandMap(attr)];
       }
       return [...result, attr];
-    }, []).
-    join(' ');
+    }, [])
+    .join(' ');
 }

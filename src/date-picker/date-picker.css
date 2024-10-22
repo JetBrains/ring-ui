@@ -280,7 +280,9 @@
   margin: 0;
 
   cursor: pointer;
-  transition: background-color var(--ring-ease), color var(--ring-ease);
+  transition:
+    background-color var(--ring-ease),
+    color var(--ring-ease);
   text-align: center;
 
   &::before,

@@ -17,29 +17,24 @@ export function getAllStoryFiles() {
       (dirName === srcDir
         ? componentName
         : path.relative(
-          srcDir,
-          path.basename(dirName) === componentName
-            ? dirName
-            : path.join(dirName, componentName),
-        ));
+            srcDir,
+            path.basename(dirName) === componentName ? dirName : path.join(dirName, componentName),
+          ));
     return {storyFile, title};
   });
 }
 
-const getStoryName = originalStory => (typeof originalStory === 'function'
-  ? storyNameFromExport(originalStory.name)
-  : originalStory.name);
+const getStoryName = originalStory =>
+  typeof originalStory === 'function' ? storyNameFromExport(originalStory.name) : originalStory.name;
 
 export const getStories = storyFile =>
   Object.entries(composeStories(storyFile)).map(([name, story]) => {
     const originalStory = storyFile[name];
 
     return {
-      name: originalStory.storyName ?? (
-        originalStory.name != null
-          ? getStoryName(originalStory)
-          : storyNameFromExport(name)
-      ),
-      story
+      name:
+        originalStory.storyName ??
+        (originalStory.name != null ? getStoryName(originalStory) : storyNameFromExport(name)),
+      story,
     };
   });

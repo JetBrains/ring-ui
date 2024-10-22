@@ -31,11 +31,11 @@ import styles from './date-picker.css';
 import formats from './formats';
 
 interface PopupComponentProps extends Partial<PopupAttrs> {
-  hidden?: boolean
-  popupRef: Ref<Popup>
-  datePopupProps: Omit<DatePopupProps, 'onComplete' | 'hidden'>
-  onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
-  onComplete: () => void
+  hidden?: boolean;
+  popupRef: Ref<Popup>;
+  datePopupProps: Omit<DatePopupProps, 'onComplete' | 'hidden'>;
+  onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined;
+  onComplete: () => void;
 }
 
 const PopupComponent = ({
@@ -55,44 +55,40 @@ const PopupComponent = ({
       Popup.PopupProps.Directions.BOTTOM_RIGHT,
       Popup.PopupProps.Directions.BOTTOM_LEFT,
       Popup.PopupProps.Directions.TOP_LEFT,
-      Popup.PopupProps.Directions.TOP_RIGHT
+      Popup.PopupProps.Directions.TOP_RIGHT,
     ]}
     {...restProps}
     trapFocus
   >
-    <DatePopup
-      onClear={onClear}
-      {...datePopupProps as DatePopupProps}
-      onComplete={onComplete}
-    />
+    <DatePopup onClear={onClear} {...(datePopupProps as DatePopupProps)} onComplete={onComplete} />
   </Popup>
 );
 
 export interface DatePickerTranslations extends Partial<DateInputTranslations> {
-  setDate: string
-  setDateTime: string
-  setPeriod: string
+  setDate: string;
+  setDateTime: string;
+  setPeriod: string;
 }
 
 export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateInput' | 'onComplete' | 'hidden'> & {
-  className: string
-  clear: boolean
-  inline: boolean
-  popupClassName?: string | null | undefined
-  dropdownProps?: Partial<DropdownAttrs>
-  translations?: DatePickerTranslations | null | undefined,
-  displayMonthFormat: (date: Date, locale: Locale | undefined) => string
-  displayDayFormat: (date: Date, locale: Locale | undefined) => string
-  displayTimeFormat: (date: Date, locale: Locale | undefined) => string
-  applyTimeInput: (date: Date, time: string | null | undefined) => Date
-  datePlaceholder?: string
-  dateTimePlaceholder?: string
-  rangePlaceholder?: string
-  disabled?: boolean | null | undefined
-  parseDateInput: (input: string | null | undefined) => Date | null
-  size?: Size
-  buttonAttributes?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>
-}
+  className: string;
+  clear: boolean;
+  inline: boolean;
+  popupClassName?: string | null | undefined;
+  dropdownProps?: Partial<DropdownAttrs>;
+  translations?: DatePickerTranslations | null | undefined;
+  displayMonthFormat: (date: Date, locale: Locale | undefined) => string;
+  displayDayFormat: (date: Date, locale: Locale | undefined) => string;
+  displayTimeFormat: (date: Date, locale: Locale | undefined) => string;
+  applyTimeInput: (date: Date, time: string | null | undefined) => Date;
+  datePlaceholder?: string;
+  dateTimePlaceholder?: string;
+  rangePlaceholder?: string;
+  disabled?: boolean | null | undefined;
+  parseDateInput: (input: string | null | undefined) => Date | null;
+  size?: Size;
+  buttonAttributes?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>;
+};
 
 /**
  * @name Date Picker
@@ -132,7 +128,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
         }
       }
       return null;
-    }
+    },
   };
 
   static contextType = I18nContext;
@@ -141,9 +137,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   handleChange = (change: DatePickerChange | Date | null | undefined) => {
     const {onChange, withTime, applyTimeInput} = this.props;
     const adjustedChange =
-      withTime && !(change instanceof Date) && change?.date != null
-        ? applyTimeInput(change.date, change.time)
-        : change;
+      withTime && !(change instanceof Date) && change?.date != null ? applyTimeInput(change.date, change.time) : change;
     onChange(adjustedChange as Date & DatePickerChange);
   };
 
@@ -198,7 +192,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
       displayMonthFormat,
       displayDayFormat,
       translations,
-      locale
+      locale,
     } = this.props;
     const {translate} = this.context;
 
@@ -208,14 +202,12 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     const time = this.formatTime();
 
     if (!range && !withTime) {
-      return date
-        ? displayFormat(date, locale)
-        : (datePlaceholder ?? translations?.setDate ?? translate('setDate'));
+      return date ? displayFormat(date, locale) : (datePlaceholder ?? translations?.setDate ?? translate('setDate'));
     } else if (!range && withTime) {
       if (!date && !time) {
         return dateTimePlaceholder ?? translations?.setDateTime ?? translate('setDateTime');
       } else {
-        return `${date && displayFormat(date, locale) || '—'}, ${time || '—'}`;
+        return `${(date && displayFormat(date, locale)) || '—'}, ${time || '—'}`;
       }
     } else if (from && to) {
       if (!isSameYear(from, to)) {
@@ -239,30 +231,17 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   render() {
     const anchorContent = (
       <div className={styles.anchorContent}>
-        <Icon glyph={calendarIcon} className={styles.calendarIcon}/>
+        <Icon glyph={calendarIcon} className={styles.calendarIcon} />
         {this.getAnchorText()}
-        <Icon glyph={chevronDownIcon} className={styles.chevronDownIcon}/>
+        <Icon glyph={chevronDownIcon} className={styles.chevronDownIcon} />
       </div>
     );
 
-    const {
-      className,
-      popupClassName,
-      clear,
-      inline,
-      dropdownProps,
-      translations,
-      ...datePopupProps
-    } = this.props;
+    const {className, popupClassName, clear, inline, dropdownProps, translations, ...datePopupProps} = this.props;
 
-    const classes = classNames(
-      styles.datePicker,
-      className,
-      styles[`size${this.props.size}`],
-      {
-        [styles.inline]: inline
-      }
-    );
+    const classes = classNames(styles.datePicker, className, styles[`size${this.props.size}`], {
+      [styles.inline]: inline,
+    });
 
     return (
       <Dropdown
@@ -270,28 +249,26 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
         disabled={this.props.disabled}
         data-test="ring-date-picker"
         anchor={
-          inline
-            ? (
-              <Link
-                data-test-ring-dropdown-anchor
-                className={styles.anchor}
-                disabled={this.props.disabled ?? false}
-                pseudo
-              >
-                {this.getAnchorText()}
-              </Link>
-            )
-            : (
-              <Button
-                data-test-ring-dropdown-anchor
-                className={styles.anchor}
-                text={false}
-                disabled={this.props.disabled ?? false}
-                {...this.props.buttonAttributes}
-              >
-                {anchorContent}
-              </Button>
-            )
+          inline ? (
+            <Link
+              data-test-ring-dropdown-anchor
+              className={styles.anchor}
+              disabled={this.props.disabled ?? false}
+              pseudo
+            >
+              {this.getAnchorText()}
+            </Link>
+          ) : (
+            <Button
+              data-test-ring-dropdown-anchor
+              className={styles.anchor}
+              text={false}
+              disabled={this.props.disabled ?? false}
+              {...this.props.buttonAttributes}
+            >
+              {anchorContent}
+            </Button>
+          )
         }
         {...dropdownProps}
       >
@@ -304,7 +281,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
             translations,
             onChange: this.handleChange,
             parseDateInput: this.parse,
-            time: this.formatTime()
+            time: this.formatTime(),
           }}
           onComplete={this.closePopup}
         />
@@ -313,4 +290,4 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   }
 }
 
-export type DatePickerAttrs = JSX.LibraryManagedAttributes<typeof DatePicker, DatePickerProps>
+export type DatePickerAttrs = JSX.LibraryManagedAttributes<typeof DatePicker, DatePickerProps>;

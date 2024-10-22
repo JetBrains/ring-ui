@@ -9,18 +9,18 @@ import Panel from '../panel/panel';
 import styles from './confirm.css';
 
 export interface ConfirmProps {
-  text: string
-  description: ReactNode
-  show: boolean
-  rejectOnEsc: boolean
-  inProgress: boolean
-  cancelIsDefault: boolean
-  confirmLabel: string
-  rejectLabel: string
-  onConfirm: ((event: React.MouseEvent<HTMLButtonElement>) => void)
-  onReject: ((event?: React.MouseEvent<HTMLButtonElement>) => void)
-  className?: string | undefined
-  native?: boolean
+  text: string;
+  description: ReactNode;
+  show: boolean;
+  rejectOnEsc: boolean;
+  inProgress: boolean;
+  cancelIsDefault: boolean;
+  confirmLabel: string;
+  rejectLabel: string;
+  onConfirm: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onReject: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string | undefined;
+  native?: boolean;
 }
 
 /**
@@ -38,7 +38,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
     confirmLabel: 'OK',
     rejectLabel: 'Cancel',
     onConfirm: () => {},
-    onReject: () => {}
+    onReject: () => {},
   };
 
   onEscPress = () => {
@@ -59,7 +59,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
       rejectLabel,
       onConfirm,
       onReject,
-      native
+      native,
     } = this.props;
 
     return (
@@ -88,12 +88,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
           >
             {confirmLabel}
           </Button>
-          <Button
-            data-test="confirm-reject-button"
-            onClick={onReject}
-            disabled={inProgress}
-            primary={cancelIsDefault}
-          >
+          <Button data-test="confirm-reject-button" onClick={onReject} disabled={inProgress} primary={cancelIsDefault}>
             {rejectLabel}
           </Button>
         </Panel>
@@ -102,4 +97,4 @@ export default class Confirm extends PureComponent<ConfirmProps> {
   }
 }
 
-export type ConfirmAttributes = JSX.LibraryManagedAttributes<typeof Confirm, ConfirmProps>
+export type ConfirmAttributes = JSX.LibraryManagedAttributes<typeof Confirm, ConfirmProps>;

@@ -5,6 +5,7 @@ All messages should be stored in a messages.json, using that format https://www.
 ### How to use
 
 1. Using your project i18n tooling, construct an object with localised messages, like:
+
 ```
 // You can use https://ttag.js.org/ for example:
 const localised = {
@@ -25,15 +26,13 @@ const localised = {
 setTranslations(localised);
 ```
 
-3. Add I18nContextHolder into your root React tree. If you replace "localised" object with another one, consumers would be updated automatically.  
+3. Add I18nContextHolder into your root React tree. If you replace "localised" object with another one, consumers would be updated automatically.
 
 ```
   <I18nContextHolder messages={localised}>
     <App />
   </I18nContextHolder>
-```  
-
-
+```
 
 ### Utilities
 

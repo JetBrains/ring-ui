@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-
 import Text from '../text/text';
 
 import Select from '../select/select';
@@ -8,7 +7,7 @@ import Select from '../select/select';
 import Theme, {GLOBAL_DARK_CLASS_NAME, ThemeProvider} from './theme';
 
 export default {
-  title: 'Components/Theme Provider'
+  title: 'Components/Theme Provider',
 };
 
 const storyStyles = `
@@ -77,24 +76,29 @@ export const basic = () => {
     </div>
   );
 
-  return <ThemeExample/>;
+  return <ThemeExample />;
 };
 
 basic.storyName = 'Theme Provider';
 basic.parameters = {storyStyles};
 
-const selectTestData = [{
-  key: 'label-1', label: 'Hello'
-}, {
-  key: 'label-2', label: 'World'
-}];
+const selectTestData = [
+  {
+    key: 'label-1',
+    label: 'Hello',
+  },
+  {
+    key: 'label-2',
+    label: 'World',
+  },
+];
 
 export const withPopup = () => {
   const ThemeExample: React.FC = () => (
     <div>
       <ThemeProvider theme={Theme.DARK} passToPopups>
         <ThemedWrapper>
-          <Select data={selectTestData} label="Dark popup"/>
+          <Select data={selectTestData} label="Dark popup" />
         </ThemedWrapper>
       </ThemeProvider>
 
@@ -103,7 +107,7 @@ export const withPopup = () => {
           <Text>There will be Light inside Dark</Text>
           <ThemeProvider theme={Theme.LIGHT}>
             <ThemedWrapper>
-              <Select data={selectTestData} label="Light popup"/>
+              <Select data={selectTestData} label="Light popup" />
             </ThemedWrapper>
           </ThemeProvider>
         </ThemedWrapper>
@@ -111,11 +115,11 @@ export const withPopup = () => {
     </div>
   );
 
-  return <ThemeExample/>;
+  return <ThemeExample />;
 };
 
 withPopup.storyName = 'Theme Provider and Popup';
 withPopup.parameters = {
   screenshots: {skip: true},
-  storyStyles
+  storyStyles,
 };

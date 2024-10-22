@@ -3,19 +3,17 @@ import querystring from 'querystring';
 
 import filenamify from 'filenamify';
 
-import items from './stories.json' assert { type: "json" };
-
 import Actions from './actions.js';
+
+// eslint-disable-next-line import/no-unresolved
+import items from './stories.json' with {type: 'json'};
 
 function addTestName(name, storyName) {
   return `${storyName}${name ? `-${name}` : ''}`;
 }
 
 for (const {kind, stories} of items) {
-  const kindName = kind.
-    split(/\//g).
-    map(filenamify).
-    join('/');
+  const kindName = kind.split(/\//g).map(filenamify).join('/');
   describe(kindName, () => {
     for (const story of stories) {
       const {name, id, parameters = {}} = story;
@@ -23,13 +21,13 @@ for (const {kind, stories} of items) {
       const {
         captureSelector = '[id=storybook-root]',
         skip,
-        actions = [{type: 'capture', name: '', selector: captureSelector}]
+        actions = [{type: 'capture', name: '', selector: captureSelector}],
       } = parameters;
 
       const allActions = [
         ...actions,
         {type: 'setDarkTheme'},
-        {type: 'capture', name: 'dark', selector: captureSelector}
+        {type: 'capture', name: 'dark', selector: captureSelector},
       ];
 
       if (skip === true) {
@@ -45,10 +43,7 @@ for (const {kind, stories} of items) {
         );
 
         for (const action of allActions) {
-          await Actions[action.type](
-            this.browser,
-            {...action, name: addTestName(action.name, name)}
-          );
+          await Actions[action.type](this.browser, {...action, name: addTestName(action.name, name)});
         }
       });
     }

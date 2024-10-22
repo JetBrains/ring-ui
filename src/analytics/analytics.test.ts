@@ -26,7 +26,6 @@ describe('Analytics', () => {
     });
 
     describe('#enabled', () => {
-
       let customPlugin: AnalyticsCustomPlugin;
       beforeEach(() => {
         customPlugin = new AnalyticsCustomPlugin(send);
@@ -37,28 +36,32 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
         clock.tick(TICK_INTERVAL);
 
-        send.should.have.been.calledWith([{
-          category: 'test-category',
-          action: 'test-action',
-          timestamp: sinon.match.number
-        }]);
+        send.should.have.been.calledWith([
+          {
+            category: 'test-category',
+            action: 'test-action',
+            timestamp: sinon.match.number,
+          },
+        ]);
       });
 
       it('should support configuration via method config', () => {
         const flushingFunction = sandbox.spy();
         customPlugin.config({
-          send: flushingFunction
+          send: flushingFunction,
         });
 
         analyticsInstance.trackEvent('test-category', 'test-action');
         clock.tick(TICK_INTERVAL);
 
         send.should.not.have.been.called;
-        flushingFunction.should.have.been.calledWith([{
-          category: 'test-category',
-          action: 'test-action',
-          timestamp: sinon.match.number
-        }]);
+        flushingFunction.should.have.been.calledWith([
+          {
+            category: 'test-category',
+            action: 'test-action',
+            timestamp: sinon.match.number,
+          },
+        ]);
       });
 
       it('should send request on achieving max pack size', () => {
@@ -76,7 +79,7 @@ describe('Analytics', () => {
       it('should configure max pack size via config', () => {
         customPlugin.config({
           send,
-          flushMaxPackSize: MAX_PACK_SIZE + 2
+          flushMaxPackSize: MAX_PACK_SIZE + 2,
         });
 
         for (let i = 0; i < MAX_PACK_SIZE + 1; ++i) {
@@ -94,12 +97,14 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action', {type: 'test-type'});
         clock.tick(TICK_INTERVAL);
 
-        send.should.have.been.calledWith([{
-          category: 'test-category',
-          action: 'test-action',
-          timestamp: sinon.match.number,
-          data: {type: 'test-type'}
-        }]);
+        send.should.have.been.calledWith([
+          {
+            category: 'test-category',
+            action: 'test-action',
+            timestamp: sinon.match.number,
+            data: {type: 'test-type'},
+          },
+        ]);
       });
     });
     describe('#disabled', () => {

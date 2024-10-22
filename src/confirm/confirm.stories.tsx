@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Button from '../button/button';
 
 import Confirm from './confirm';
@@ -11,13 +10,13 @@ export default {
   parameters: {
     notes: 'A component that shows a confirmation dialog.',
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'}
-  }
+    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
+  },
 };
 
 interface ConfirmArgs {
-  onConfirm: () => void
-  onCancel: () => void
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 export const confirm = ({onConfirm, onCancel}: ConfirmArgs) => {
   class ConfirmDemo extends Component {
@@ -28,8 +27,8 @@ export const confirm = ({onConfirm, onCancel}: ConfirmArgs) => {
         description: 'A description of an action that is about to take place.',
         inProgress: false,
         onConfirm: () => {},
-        onReject: () => {}
-      }
+        onReject: () => {},
+      },
     };
 
     componentDidMount() {
@@ -54,12 +53,12 @@ export const confirm = ({onConfirm, onCancel}: ConfirmArgs) => {
             onReject: () => {
               this.hideConfirm();
               reject();
-            }
-          }
+            },
+          },
         });
-      }).
-        then(onConfirm).
-        catch(onCancel);
+      })
+        .then(onConfirm)
+        .catch(onCancel);
 
     showWithAnotherText = () =>
       new Promise<void>((resolve, reject) => {
@@ -74,12 +73,12 @@ export const confirm = ({onConfirm, onCancel}: ConfirmArgs) => {
             onReject: () => {
               this.hideConfirm();
               reject();
-            }
-          }
+            },
+          },
         });
-      }).
-        then(onConfirm).
-        catch(onCancel);
+      })
+        .then(onConfirm)
+        .catch(onCancel);
 
     render() {
       return (
@@ -101,7 +100,7 @@ export const confirm = ({onConfirm, onCancel}: ConfirmArgs) => {
     }
   }
 
-  return <ConfirmDemo/>;
+  return <ConfirmDemo />;
 };
 
 confirm.argTypes = {onConfirm: {}, onCancel: {}};

@@ -7,6 +7,6 @@ export default function selectionAdapter(getSelection: () => Selection<Selection
     },
     get items() {
       return [...getSelection().getActive()];
-    }
+    },
   };
 }

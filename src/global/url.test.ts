@@ -1,12 +1,4 @@
-import {
-  encodeURL,
-  fixUrl,
-  joinBaseURLAndPath,
-  getBaseURI,
-  getOrigin,
-  isDataURI,
-  parseQueryString
-} from './url';
+import {encodeURL, fixUrl, joinBaseURLAndPath, getBaseURI, getOrigin, isDataURI, parseQueryString} from './url';
 
 describe('Url', () => {
   describe('fixUrl', () => {
@@ -45,8 +37,7 @@ describe('Url', () => {
     });
 
     it('should ignore base url if path is absolute url', () => {
-      joinBaseURLAndPath('http://base.com', 'http://absolute.com').
-        should.be.equal('http://absolute.com');
+      joinBaseURLAndPath('http://base.com', 'http://absolute.com').should.be.equal('http://absolute.com');
     });
 
     afterEach(() => {
@@ -70,14 +61,13 @@ describe('Url', () => {
 
   describe('parseQueryString', () => {
     it('should parse urls correctly', () => {
-      const queryString = 'access_token=2YotnFZFEjr1zCsicMWpAA' +
-        '&state=xyz&token_type=example&expires_in=3600';
+      const queryString = `access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600`;
       /* eslint-disable camelcase */
       parseQueryString(queryString).should.be.deep.equal({
         access_token: '2YotnFZFEjr1zCsicMWpAA',
         state: 'xyz',
         token_type: 'example',
-        expires_in: '3600'
+        expires_in: '3600',
       });
       /* eslint-enable camelcase */
     });
@@ -95,39 +85,34 @@ describe('Url', () => {
     it('should build URL correctly', () => {
       encodeURL('http://localhost:8080/hub', {
         a: 'a',
-        b: 'b'
-      }).
-        should.be.equal('http://localhost:8080/hub?a=a&b=b');
+        b: 'b',
+      }).should.be.equal('http://localhost:8080/hub?a=a&b=b');
     });
 
     it('should accept relative URI', () => {
-      encodeURL('hub', {a: 'a', b: 'b'}).
-        should.be.equal('hub?a=a&b=b');
+      encodeURL('hub', {a: 'a', b: 'b'}).should.be.equal('hub?a=a&b=b');
     });
 
     it('should not encode null and undefined values', () => {
-      encodeURL('hub', {a: 'a', b: null, c: undefined, d: '', e: false}).
-        should.be.equal('hub?a=a&d=&e=false');
+      encodeURL('hub', {a: 'a', b: null, c: undefined, d: '', e: false}).should.be.equal('hub?a=a&d=&e=false');
     });
 
     it('should handle already existing query parameters', () => {
-      encodeURL('hub?c=c', {a: 'a', b: 'b'}).
-        should.be.equal('hub?c=c&a=a&b=b');
+      encodeURL('hub?c=c', {a: 'a', b: 'b'}).should.be.equal('hub?c=c&a=a&b=b');
     });
 
     it('should encode query parameters', () => {
-      encodeURL('hub', {'i am naughty': 'with%23some+problems'}).
-        should.be.equal('hub?i%20am%20naughty=with%2523some%2Bproblems');
+      encodeURL('hub', {'i am naughty': 'with%23some+problems'}).should.be.equal(
+        'hub?i%20am%20naughty=with%2523some%2Bproblems',
+      );
     });
 
     it('should not encode comma', () => {
-      encodeURL('hub', {test: 'with(some,allowed)'}).
-        should.be.equal('hub?test=with(some,allowed)');
+      encodeURL('hub', {test: 'with(some,allowed)'}).should.be.equal('hub?test=with(some,allowed)');
     });
 
     it('should not encode dollar', () => {
-      encodeURL('hub', {$top: '1'}).
-        should.be.equal('hub?$top=1');
+      encodeURL('hub', {$top: '1'}).should.be.equal('hub?$top=1');
     });
   });
 

@@ -21,11 +21,9 @@ export default {
     notes: 'The "Collapse" component hides content and shows more when clicked, saving space and keeping it tidy.',
 
     screenshots: {
-      actions: [
-        {type: 'click', selector: '[data-test~=ring-collapse-control] button'}
-      ]
-    }
-  }
+      actions: [{type: 'click', selector: '[data-test~=ring-collapse-control] button'}],
+    },
+  },
 };
 const text = `This is very long text! This is very long text! This is very long text! This is very
             long text! This is very long text! This is very long text! This is very long text! This
@@ -62,13 +60,7 @@ export const ShowOnExtend = () => {
         </CollapseControl>
         <CollapseContent>
           <div className={styles.loaderWrapper}>
-            {showDelayedContent
-              ? (
-                <div className={styles.content}>loaded content</div>
-              )
-              : (
-                <LoaderInline/>
-              )}
+            {showDelayedContent ? <div className={styles.content}>loaded content</div> : <LoaderInline />}
           </div>
         </CollapseContent>
       </Collapse>
@@ -96,13 +88,11 @@ export const WithIcon = () => (
     <Collapse>
       <CollapseControl>
         {(collapsed: boolean) =>
-          (collapsed
-            ? (
-              <Button aria-label="Expand" icon={ChevronDownIcon} className={styles.check}/>
-            )
-            : (
-              <Button aria-label="Collapse" icon={ChevronUpIcon} className={styles.check}/>
-            ))
+          collapsed ? (
+            <Button aria-label="Expand" icon={ChevronDownIcon} className={styles.check} />
+          ) : (
+            <Button aria-label="Collapse" icon={ChevronUpIcon} className={styles.check} />
+          )
         }
       </CollapseControl>
       <CollapseContent>{text}</CollapseContent>

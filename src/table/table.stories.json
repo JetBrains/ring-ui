@@ -1,21 +1,45 @@
 [
-  {"id": 1, "country": "Russia", "city": "Moscow", "url": "https://en.wikipedia.org/wiki/Russia", "children": [
-    {"id": 11, "country": "Tatarstan", "city": "Kazan", "url": "https://en.wikipedia.org/wiki/Tatarstan"},
-    {"id": 12, "country": "Chechnya", "city": "Grosniy", "url": "https://en.wikipedia.org/wiki/Chechnya"}
-  ]},
+  {
+    "id": 1,
+    "country": "Russia",
+    "city": "Moscow",
+    "url": "https://en.wikipedia.org/wiki/Russia",
+    "children": [
+      {"id": 11, "country": "Tatarstan", "city": "Kazan", "url": "https://en.wikipedia.org/wiki/Tatarstan"},
+      {"id": 12, "country": "Chechnya", "city": "Grosniy", "url": "https://en.wikipedia.org/wiki/Chechnya"}
+    ]
+  },
   {"id": 2, "country": "France", "city": "Paris", "url": "https://en.wikipedia.org/wiki/France"},
   {"id": 3, "country": "Sweden", "city": "Stockholm", "url": "https://en.wikipedia.org/wiki/Sweden"},
-  {"id": 4, "country": "USA", "city": "NYC", "url": "https://en.wikipedia.org/wiki/USA", "children": [
-    {"id": 41, "country": "California", "city": "Los Angeles", "url": "https://en.wikipedia.org/wiki/California"},
-    {"id": 42, "country": "New York", "city": "NYC", "url": "https://en.wikipedia.org/wiki/New York", "children": [
-      {"id": 421, "country": "NYC", "city": "NYC", "url": "https://en.wikipedia.org/wiki/NYC", "children": [
-        {"id": 4211, "country": "Manhattan", "city": "NYC", "url": "https://en.wikipedia.org/wiki/Manhattan"},
-        {"id": 4212, "country": "Brooklyn", "city": "NYC", "url": "https://en.wikipedia.org/wiki/Brooklyn"},
-        {"id": 4213, "country": "Queens", "city": "NYC", "url": "https://en.wikipedia.org/wiki/Queens"}
-      ]}
-    ]},
-    {"id": 43, "country": "Texas", "city": "Houston", "url": "https://en.wikipedia.org/wiki/Texas"}
-  ]},
+  {
+    "id": 4,
+    "country": "USA",
+    "city": "NYC",
+    "url": "https://en.wikipedia.org/wiki/USA",
+    "children": [
+      {"id": 41, "country": "California", "city": "Los Angeles", "url": "https://en.wikipedia.org/wiki/California"},
+      {
+        "id": 42,
+        "country": "New York",
+        "city": "NYC",
+        "url": "https://en.wikipedia.org/wiki/New York",
+        "children": [
+          {
+            "id": 421,
+            "country": "NYC",
+            "city": "NYC",
+            "url": "https://en.wikipedia.org/wiki/NYC",
+            "children": [
+              {"id": 4211, "country": "Manhattan", "city": "NYC", "url": "https://en.wikipedia.org/wiki/Manhattan"},
+              {"id": 4212, "country": "Brooklyn", "city": "NYC", "url": "https://en.wikipedia.org/wiki/Brooklyn"},
+              {"id": 4213, "country": "Queens", "city": "NYC", "url": "https://en.wikipedia.org/wiki/Queens"}
+            ]
+          }
+        ]
+      },
+      {"id": 43, "country": "Texas", "city": "Houston", "url": "https://en.wikipedia.org/wiki/Texas"}
+    ]
+  },
   {"id": 5, "country": "South Africa", "city": "Johannesburg", "url": "https://en.wikipedia.org/wiki/South Africa"},
   {"id": 6, "country": "Finland", "city": "Helsinki", "url": "https://en.wikipedia.org/wiki/Finland"},
   {"id": 7, "country": "Latvia", "city": "Riga", "url": "https://en.wikipedia.org/wiki/Latvia"},
@@ -24,7 +48,12 @@
   {"id": 11, "country": "China", "city": "Beijing", "url": "https://en.wikipedia.org/wiki/China"},
   {"id": 12, "country": "Germany", "city": "Berlin", "url": "https://en.wikipedia.org/wiki/Germany"},
   {"id": 13, "country": "Luxembourg", "city": "Luxembourg", "url": "https://en.wikipedia.org/wiki/Luxembourg"},
-  {"id": 14, "country": "Belgium", "city": "Brussels", "url": "http://statbel.fgov.be/fr/statistiques/chiffres/population/structure/natact/beletr/"},
+  {
+    "id": 14,
+    "country": "Belgium",
+    "city": "Brussels",
+    "url": "http://statbel.fgov.be/fr/statistiques/chiffres/population/structure/natact/beletr/"
+  },
   {"id": 15, "country": "Italy", "city": "Rome", "url": "https://en.wikipedia.org/wiki/Italy"},
   {"id": 16, "country": "Spain", "city": "Madrid", "url": "https://en.wikipedia.org/wiki/Spain"},
   {"id": 17, "country": "Portugal", "city": "Lisbon", "url": "https://en.wikipedia.org/wiki/Portugal"},

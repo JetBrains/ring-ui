@@ -40,20 +40,18 @@ export default class Selection<T extends SelectionItem> extends TableSelection<T
   }
 
   private _selectDescendants(item: T, selected: Set<T>) {
-    this._getDescendants(this._getChildren(item)).
-      forEach(it => selected.add(it));
+    this._getDescendants(this._getChildren(item)).forEach(it => selected.add(it));
   }
 
   private _deselectDescendants(item: T, selected: Set<T>) {
-    this._getDescendants(this._getChildren(item)).
-      forEach(it => selected.delete(it));
+    this._getDescendants(this._getChildren(item)).forEach(it => selected.delete(it));
   }
 
   private _selectAncestors(item: T, selected: Set<T>) {
     this._getAncestors(item).forEach(ancestor => {
-      const groupIsSelected = this._getChildren(ancestor).
-        filter(it => this._isItemSelectable(it)).
-        every(it => selected.has(it));
+      const groupIsSelected = this._getChildren(ancestor)
+        .filter(it => this._isItemSelectable(it))
+        .every(it => selected.has(it));
 
       if (groupIsSelected) {
         selected.add(ancestor);

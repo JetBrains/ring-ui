@@ -10,13 +10,12 @@ export interface I18nContextProps {
 
 export const I18nContext = React.createContext<I18nContextProps>({
   messages: getTranslations(),
-  translate
+  translate,
 });
-
 
 interface I18nContextHolderProps {
   messages: Messages;
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 export const I18nContextHolder: React.FC<I18nContextHolderProps> = ({children, messages}) => {
@@ -24,9 +23,5 @@ export const I18nContextHolder: React.FC<I18nContextHolderProps> = ({children, m
     setTranslations(messages);
   }, [messages]);
 
-  return (
-    <I18nContext.Provider value={{messages, translate}}>
-      {children}
-    </I18nContext.Provider>
-  );
+  return <I18nContext.Provider value={{messages, translate}}>{children}</I18nContext.Provider>;
 };

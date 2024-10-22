@@ -18,10 +18,10 @@ const HOUR = 3600;
 
 describe('Auth', () => {
   beforeEach(() => {
-    sandbox.stub(window, 'addEventListener').
-      value((...args: unknown[]) => mockedWindow.addEventListener(...args));
-    sandbox.stub(window, 'removeEventListener').
-      value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
+    sandbox.stub(window, 'addEventListener').value((...args: unknown[]) => mockedWindow.addEventListener(...args));
+    sandbox
+      .stub(window, 'removeEventListener')
+      .value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
     sandbox.stub(window, 'localStorage').value(mockedWindow.localStorage);
     sandbox.stub(window, 'sessionStorage').value(mockedWindow.sessionStorage);
     localStorage.clear();
@@ -35,40 +35,41 @@ describe('Auth', () => {
     });
 
     it('should throw on unsupported params usage', () => {
-      (() => new Auth({
-        serverUri: 'value',
-        /* eslint-disable camelcase */
-        // @ts-expect-error testing a wrong usage
-        redirect_uri: 'value',
-        request_credentials: 'value',
-        client_id: 'value'
-        /* eslint-enable camelcase */
-      })).
-        should.
-        throw(Error, 'The following parameters are no longer supported: redirect_uri, request_credentials, client_id. Please change them from snake_case to camelCase.');
+      (() =>
+        new Auth({
+          serverUri: 'value',
+          /* eslint-disable camelcase */
+          // @ts-expect-error testing a wrong usage
+          redirect_uri: 'value',
+          request_credentials: 'value',
+          client_id: 'value',
+          /* eslint-enable camelcase */
+        })).should.throw(
+        Error,
+        'The following parameters are no longer supported: redirect_uri, request_credentials, client_id. Please change them from snake_case to camelCase.',
+      );
     });
 
     it('should require provide server uri', () => {
-      (() => new Auth({
-        // @ts-expect-error testing a wrong usage
-        serverUri: null
-      })).should.throw(Error, '\"serverUri\" property is required');
+      (() =>
+        new Auth({
+          // @ts-expect-error testing a wrong usage
+          serverUri: null,
+        })).should.throw(Error, '"serverUri" property is required');
 
       // @ts-expect-error testing a wrong usage
-      (() => new Auth({})).
-        should.throw(Error, '\"serverUri\" property is required');
+      (() => new Auth({})).should.throw(Error, '"serverUri" property is required');
     });
 
     it('should fix serverUri', () => {
       new Auth({serverUri: ''}).config.serverUri.should.equal('');
-      new Auth({serverUri: 'http://localhost'}).config.serverUri.
-        should.equal('http://localhost/');
+      new Auth({serverUri: 'http://localhost'}).config.serverUri.should.equal('http://localhost/');
       new Auth({serverUri: '.'}).config.serverUri.should.equal('./');
     });
 
     it('should merge passed config with default config', () => {
       const config = {
-        serverUri: 'http://localhost/'
+        serverUri: 'http://localhost/',
       };
 
       const auth = new Auth(config);
@@ -80,14 +81,14 @@ describe('Auth', () => {
     it('should set config.userParams with proper fields property', () => {
       const config = {
         serverUri: 'http://localhost/',
-        userFields: ['name', 'profile/email']
+        userFields: ['name', 'profile/email'],
       };
       const auth = new Auth(config);
 
       const expectedParams = {
         query: {
-          fields: 'guest,id,name,login,profile/avatar/url,profile/email'
-        }
+          fields: 'guest,id,name,login,profile/avatar/url,profile/email',
+        },
       };
       expectedParams.should.deep.equal(auth.config.userParams);
     });
@@ -104,7 +105,7 @@ describe('Auth', () => {
 
       const auth = new Auth({
         serverUri: '',
-        onLogout
+        onLogout,
       });
 
       auth.listeners.trigger(LOGOUT_EVENT);
@@ -129,7 +130,7 @@ describe('Auth', () => {
 
       const auth = new Auth({
         reloadOnUserChange: false,
-        serverUri: ''
+        serverUri: '',
       });
       auth.listeners.trigger(USER_CHANGED_EVENT);
       clock.tick(0);
@@ -142,9 +143,7 @@ describe('Auth', () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const auth = new Auth(config);
 
-      should.exist(
-        document.querySelector(`[rel=preconnect][href="${config.serverUri}"]`)
-      );
+      should.exist(document.querySelector(`[rel=preconnect][href="${config.serverUri}"]`));
     });
   });
 
@@ -155,7 +154,7 @@ describe('Auth', () => {
       redirectUri: 'http://localhost:8080/hub',
       clientId: '1-1-1-1-1',
       scope: ['0-0-0-0-0', 'youtrack'],
-      optionalScopes: ['youtrack']
+      optionalScopes: ['youtrack'],
     });
 
     beforeEach(() => {
@@ -171,7 +170,7 @@ describe('Auth', () => {
       await auth._storage?.saveToken({
         accessToken: 'token',
         expires: TokenValidator._epoch() + HOUR,
-        scopes: ['0-0-0-0-0']
+        scopes: ['0-0-0-0-0'],
       });
       auth.init().should.eventually.be.undefined;
     });
@@ -179,9 +178,12 @@ describe('Auth', () => {
     it('should fetch auth response from query parameters', async () => {
       const frozenTime = TokenValidator._epoch();
 
-      sandbox.stub(AuthResponseParser.prototype, 'getLocation').
-        returns('http://localhost:8080/hub' +
-          '#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
+      sandbox
+        .stub(AuthResponseParser.prototype, 'getLocation')
+        .returns(
+          'http://localhost:8080/hub' +
+            '#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600',
+        );
       sandbox.stub(TokenValidator, '_epoch').returns(frozenTime);
 
       auth = new Auth({
@@ -189,11 +191,11 @@ describe('Auth', () => {
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
       });
       await auth._storage?.saveState('xyz', {
         restoreLocation: 'http://localhost:8080/hub/users',
-        scopes: ['0-0-0-0-0']
+        scopes: ['0-0-0-0-0'],
       });
       const restoreLocation = await auth.init();
       'http://localhost:8080/hub/users'.should.be.equal(restoreLocation);
@@ -202,22 +204,22 @@ describe('Auth', () => {
         accessToken: '2YotnFZFEjr1zCsicMWpAA',
         scopes: ['0-0-0-0-0'],
         expires: frozenTime + HOUR,
-        lifeTime: 3600
+        lifeTime: 3600,
       };
       expectedToken.should.be.deep.equal(token);
     });
 
     it('should throw error if user does not have state in local storage (RG-2380)', () => {
-      sandbox.stub(AuthResponseParser.prototype, 'getLocation').
-        returns('http://localhost:8080/hub' +
-          '#access_token=000&state=state&token_type=token&expires_in=3600');
+      sandbox
+        .stub(AuthResponseParser.prototype, 'getLocation')
+        .returns('http://localhost:8080/hub#access_token=000&state=state&token_type=token&expires_in=3600');
 
       auth = new Auth({
         serverUri: '',
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
       });
 
       return auth.init().should.be.rejectedWith(Error, 'Could not create state where stateId="state');
@@ -225,35 +227,39 @@ describe('Auth', () => {
 
     it('should get target URL from state field, if valid URL (RG-2380)', () => {
       const origin = window.location.origin;
-      sandbox.stub(AuthResponseParser.prototype, 'getLocation').
-        returns('http://localhost:8080/hub' +
-        `#access_token=000&state=${origin}/test&token_type=token&expires_in=3600`);
+      sandbox
+        .stub(AuthResponseParser.prototype, 'getLocation')
+        .returns(`http://localhost:8080/hub#access_token=000&state=${origin}/test&token_type=token&expires_in=3600`);
 
       auth = new Auth({
         serverUri: '',
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
       });
 
       return auth.init().should.be.eventually.equal(`${origin}/test`);
     });
 
     it('should throw error if target URL from state field has different origin (RG-2380)', () => {
-      sandbox.stub(AuthResponseParser.prototype, 'getLocation').
-        returns('http://localhost:8080/hub' +
-        '#access_token=000&state=http://google.com/test&token_type=token&expires_in=3600');
+      sandbox
+        .stub(AuthResponseParser.prototype, 'getLocation')
+        .returns(
+          'http://localhost:8080/hub#access_token=000&state=http://google.com/test&token_type=token&expires_in=3600',
+        );
 
       auth = new Auth({
         serverUri: '',
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
       });
 
-      return auth.init().should.be.rejectedWith(Error, 'State contains URL with different origin: "http://google.com/test"');
+      return auth
+        .init()
+        .should.be.rejectedWith(Error, 'State contains URL with different origin: "http://google.com/test"');
     });
 
     it('should redirect to auth when there is no valid token', async () => {
@@ -267,17 +273,18 @@ describe('Auth', () => {
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack'],
-        waitForRedirectTimeout: 0
+        waitForRedirectTimeout: 0,
       });
       try {
         await act(() => auth.init());
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
-        Auth.prototype._redirectCurrentPage.
-          should.be.calledWith('api/rest/oauth2/auth?response_type=token' +
-          '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
-          '&request_credentials=default&client_id=1-1-1-1-1' +
-          '&scope=0-0-0-0-0%20youtrack');
+        Auth.prototype._redirectCurrentPage.should.be.calledWith(
+          'api/rest/oauth2/auth?response_type=token' +
+            '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+            '&request_credentials=default&client_id=1-1-1-1-1' +
+            '&scope=0-0-0-0-0%20youtrack',
+        );
         reject.authRedirect.should.be.true;
       }
     });
@@ -285,14 +292,13 @@ describe('Auth', () => {
     it('should clear location hash if cleanHash = true', async () => {
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
-      sandbox.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').
-        returns({});
+      sandbox.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').returns({});
 
       auth = new Auth({
         serverUri: '',
         redirect: true,
         cleanHash: true,
-        waitForRedirectTimeout: 0
+        waitForRedirectTimeout: 0,
       });
 
       try {
@@ -302,38 +308,15 @@ describe('Auth', () => {
       }
     });
 
-    it(
-      'should not clear location hash if cleanHash = true and there is nothing to clear',
-      async () => {
-        sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-        sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
-
-        auth = new Auth({
-          serverUri: '',
-          redirect: true,
-          cleanHash: true,
-          waitForRedirectTimeout: 0
-        });
-
-        try {
-          await auth.init();
-        } catch (e) {
-          auth.setHash.should.not.have.been.called;
-        }
-      }
-    );
-
-    it('should not clear location hash if cleanHash = false', async () => {
+    it('should not clear location hash if cleanHash = true and there is nothing to clear', async () => {
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
-      sandbox.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').
-        returns({});
 
       auth = new Auth({
         serverUri: '',
         redirect: true,
-        cleanHash: false,
-        waitForRedirectTimeout: 0
+        cleanHash: true,
+        waitForRedirectTimeout: 0,
       });
 
       try {
@@ -341,7 +324,25 @@ describe('Auth', () => {
       } catch (e) {
         auth.setHash.should.not.have.been.called;
       }
+    });
 
+    it('should not clear location hash if cleanHash = false', async () => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      sandbox.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').returns({});
+
+      auth = new Auth({
+        serverUri: '',
+        redirect: true,
+        cleanHash: false,
+        waitForRedirectTimeout: 0,
+      });
+
+      try {
+        await auth.init();
+      } catch (e) {
+        auth.setHash.should.not.have.been.called;
+      }
     });
 
     it('should pass through request_credentials value', async () => {
@@ -353,15 +354,16 @@ describe('Auth', () => {
         redirect: true,
         redirectUri: 'http://localhost:8080/hub',
         requestCredentials: 'skip',
-        waitForRedirectTimeout: 0
+        waitForRedirectTimeout: 0,
       });
       try {
         await auth.init();
       } catch (e) {
-        Auth.prototype._redirectCurrentPage.
-          should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
-          '&request_credentials=skip&client_id=0-0-0-0-0&scope=0-0-0-0-0');
+        Auth.prototype._redirectCurrentPage.should.be.calledWith(
+          'api/rest/oauth2/auth?response_type=token&' +
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+            '&request_credentials=skip&client_id=0-0-0-0-0&scope=0-0-0-0-0',
+        );
       }
     });
   });
@@ -371,8 +373,9 @@ describe('Auth', () => {
     let _getValidatedToken: Stub<TokenValidator['_getValidatedToken']>;
 
     beforeEach(() => {
-      _getValidatedToken = sandbox.stub(TokenValidator.prototype, '_getValidatedToken').
-        returns(Promise.reject(new TokenValidationError('error')));
+      _getValidatedToken = sandbox
+        .stub(TokenValidator.prototype, '_getValidatedToken')
+        .returns(Promise.reject(new TokenValidationError('error')));
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       sandbox.stub(Auth.prototype, 'getUser');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
@@ -384,12 +387,11 @@ describe('Auth', () => {
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack'],
-        waitForRedirectTimeout: 0
+        waitForRedirectTimeout: 0,
       });
 
       if (auth._storage != null) {
-        auth._storage._tokenStorage = auth._storage._stateStorage =
-        auth._storage._messagesStorage = new LocalStorage();
+        auth._storage._tokenStorage = auth._storage._stateStorage = auth._storage._messagesStorage = new LocalStorage();
       }
 
       if (auth._domainStorage != null) {
@@ -398,27 +400,25 @@ describe('Auth', () => {
     });
 
     it('should initiate when there is no valid token', async () => {
-      _getValidatedToken.onCall(1).
-        returns(Promise.resolve('token'));
+      _getValidatedToken.onCall(1).returns(Promise.resolve('token'));
 
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage?.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0'],
-          waitForRedirectTimeout: 0
+          waitForRedirectTimeout: 0,
         });
       });
 
       await auth.init();
 
-      BackgroundFlow.prototype._redirectFrame.
-        should.have.been.calledWithMatch(
-          sinon.match.any,
-          'api/rest/oauth2/auth?response_type=token&state=unique' +
+      BackgroundFlow.prototype._redirectFrame.should.have.been.calledWithMatch(
+        sinon.match.any,
+        'api/rest/oauth2/auth?response_type=token&state=unique' +
           '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
-          '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack'
-        );
+          '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+      );
 
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
 
@@ -430,7 +430,7 @@ describe('Auth', () => {
         auth._storage?.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
-          scopes: ['0-0-0-0-0']
+          scopes: ['0-0-0-0-0'],
         });
       });
 
@@ -439,19 +439,19 @@ describe('Auth', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
         // Background loading
-        BackgroundFlow.prototype._redirectFrame.should.have.been.
-          calledWithMatch(
-            sinon.match.any,
-            'api/rest/oauth2/auth?response_type=token' +
+        BackgroundFlow.prototype._redirectFrame.should.have.been.calledWithMatch(
+          sinon.match.any,
+          'api/rest/oauth2/auth?response_type=token' +
             '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
-            '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack'
-          );
+            '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+        );
 
         // Fallback redirect after second check fail
-        Auth.prototype._redirectCurrentPage.should.have.been.
-          calledWith('api/rest/oauth2/auth?response_type=token&state=unique' +
+        Auth.prototype._redirectCurrentPage.should.have.been.calledWith(
+          'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default' +
-            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+        );
 
         TokenValidator.prototype._getValidatedToken.should.have.been.calledTwice;
 
@@ -469,16 +469,19 @@ describe('Auth', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
         // Background loading
-        BackgroundFlow.prototype._redirectFrame.should.have.been.
-          calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
+        BackgroundFlow.prototype._redirectFrame.should.have.been.calledWithMatch(
+          sinon.match.any,
+          'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
-            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+        );
 
         // Fallback redirect after background fail
-        Auth.prototype._redirectCurrentPage.should.have.been.
-          calledWith('api/rest/oauth2/auth?response_type=token&state=unique' +
+        Auth.prototype._redirectCurrentPage.should.have.been.calledWith(
+          'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default' +
-            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+        );
 
         TokenValidator.prototype._getValidatedToken.should.have.been.calledOnce;
 
@@ -501,7 +504,7 @@ describe('Auth', () => {
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack'],
-        embeddedLogin: true
+        embeddedLogin: true,
       });
 
       if (auth._storage != null) {
@@ -519,7 +522,7 @@ describe('Auth', () => {
       await auth._storage?.saveToken({
         accessToken: 'token',
         expires: TokenValidator._epoch() + HOUR,
-        scopes: ['0-0-0-0-0']
+        scopes: ['0-0-0-0-0'],
       });
       const token = await auth.requestToken();
       'token'.should.be.equal(token);
@@ -530,14 +533,16 @@ describe('Auth', () => {
         auth._storage?.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
-          scopes: ['0-0-0-0-0']
+          scopes: ['0-0-0-0-0'],
         });
       });
       const accessToken = await auth.requestToken();
-      BackgroundFlow.prototype._redirectFrame.should.have.been.
-        calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
+      BackgroundFlow.prototype._redirectFrame.should.have.been.calledWithMatch(
+        sinon.match.any,
+        'api/rest/oauth2/auth?response_type=token&state=unique' +
           '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
-          '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+          '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+      );
 
       'token'.should.be.equal(accessToken);
     });
@@ -548,7 +553,7 @@ describe('Auth', () => {
         auth._storage?.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
-          scopes: ['0-0-0-0-0']
+          scopes: ['0-0-0-0-0'],
         });
       });
       sandbox.stub(Auth.prototype, '_showUserChangedDialog');
@@ -557,10 +562,12 @@ describe('Auth', () => {
       // _detectUserChange is called by localStorage event in real life
       await auth._detectUserChange('token');
 
-      BackgroundFlow.prototype._redirectFrame.should.have.been.
-        calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token' +
+      BackgroundFlow.prototype._redirectFrame.should.have.been.calledWithMatch(
+        sinon.match.any,
+        'api/rest/oauth2/auth?response_type=token' +
           '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
-          '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+          '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+      );
       auth._showUserChangedDialog.should.have.been.called;
       'token'.should.be.equal(accessToken);
     });
@@ -576,13 +583,17 @@ describe('Auth', () => {
         await auth.requestToken();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
-        BackgroundFlow.prototype._redirectFrame.should.have.been.
-          calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
+        BackgroundFlow.prototype._redirectFrame.should.have.been.calledWithMatch(
+          sinon.match.any,
+          'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
-            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
-        Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth' +
-          '?response_type=token&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
-          '&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+        );
+        Auth.prototype._redirectCurrentPage.should.have.been.calledWith(
+          'api/rest/oauth2/auth' +
+            '?response_type=token&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+            '&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+        );
 
         reject.authRedirect.should.be.true;
       }
@@ -598,10 +609,12 @@ describe('Auth', () => {
 
       auth.requestToken();
 
-      await new Promise<void>(resolve => setTimeout(() => {
-        Auth.prototype._showAuthDialog.should.have.been.called;
-        resolve();
-      }, TIMEOUT * 2));
+      await new Promise<void>(resolve =>
+        setTimeout(() => {
+          Auth.prototype._showAuthDialog.should.have.been.called;
+          resolve();
+        }, TIMEOUT * 2),
+      );
     });
   });
 
@@ -614,7 +627,7 @@ describe('Auth', () => {
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
       });
 
       sandbox.stub(Auth.prototype, 'getUser').resolves({name: 'APIuser'});
@@ -646,7 +659,7 @@ describe('Auth', () => {
       await auth._storage?.saveToken({
         accessToken: 'token',
         expires: TokenValidator._epoch() + HOUR,
-        scopes: ['0-0-0-0-0']
+        scopes: ['0-0-0-0-0'],
       });
       await auth._tokenValidator?.validateToken();
 
@@ -665,7 +678,7 @@ describe('Auth', () => {
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
       });
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
@@ -686,23 +699,21 @@ describe('Auth', () => {
       HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
       const matchParams = sinon.match({
         query: {
-          fields: 'guest,id,name,login,profile/avatar/url'
-        }
+          fields: 'guest,id,name,login,profile/avatar/url',
+        },
       });
-      HTTP.prototype.authorizedFetch.should.have.been.
-        calledWithMatch('users/me', 'token', matchParams);
+      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', matchParams);
       user.should.deep.equal({name: 'APIuser'});
     });
   });
 
   describe('login', () => {
     const auth = new Auth({
-      serverUri: ''
+      serverUri: '',
     });
 
     beforeEach(() => {
-      sandbox.stub(BackgroundFlow.prototype, 'authorize').
-        returns(Promise.resolve('token'));
+      sandbox.stub(BackgroundFlow.prototype, 'authorize').returns(Promise.resolve('token'));
       sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
       sandbox.stub(Auth.prototype, LOGOUT_EVENT);
       sandbox.stub(auth.listeners, 'trigger');
@@ -721,8 +732,7 @@ describe('Auth', () => {
 
       await auth.login();
 
-      auth.listeners.trigger.should.have.been.
-        calledWithMatch(USER_CHANGED_EVENT, sinon.match({name: 'APIuser'}));
+      auth.listeners.trigger.should.have.been.calledWithMatch(USER_CHANGED_EVENT, sinon.match({name: 'APIuser'}));
     });
 
     it('should update user in instance', async () => {
@@ -759,7 +769,7 @@ describe('Auth', () => {
       redirectUri: 'http://localhost:8080/hub',
       clientId: '1-1-1-1-1',
       scope: ['0-0-0-0-0', 'youtrack'],
-      optionalScopes: ['youtrack']
+      optionalScopes: ['youtrack'],
     });
 
     beforeEach(() => {
@@ -770,12 +780,11 @@ describe('Auth', () => {
 
     it('should clear access token and redirect to logout', async () => {
       await auth.logout();
-      Auth.prototype._redirectCurrentPage.should.have.been.
-        calledWith(
-          'api/rest/oauth2/auth?response_type=token&' +
+      Auth.prototype._redirectCurrentPage.should.have.been.calledWith(
+        'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack'
-        );
+          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+      );
 
       const storedToken = await auth._storage?.getToken();
       should.not.exist(storedToken);
@@ -784,21 +793,20 @@ describe('Auth', () => {
       should.exist(state);
       state?.should.contain.all.keys({
         restoreLocation: window.location.href,
-        scopes: ['0-0-0-0-0', 'youtrack']
+        scopes: ['0-0-0-0-0', 'youtrack'],
       });
     });
 
     it('should pass error message to server', async () => {
       await auth.logout({
-        message: 'access denied'
+        message: 'access denied',
       });
-      Auth.prototype._redirectCurrentPage.should.have.been.
-        calledWith(
-          'api/rest/oauth2/auth?response_type=token&' +
+      Auth.prototype._redirectCurrentPage.should.have.been.calledWith(
+        'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
           'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
-          'message=access%20denied'
-        );
+          'message=access%20denied',
+      );
     });
 
     it('should logout when no onLogout passed', () => auth.logout().should.be.fulfilled);
@@ -807,7 +815,7 @@ describe('Auth', () => {
       const onLogout = sandbox.spy();
       const logoutAuth = new Auth({
         serverUri: '',
-        onLogout
+        onLogout,
       });
 
       await logoutAuth.logout();
@@ -817,7 +825,7 @@ describe('Auth', () => {
     it('should fail pass when onLogout returns rejected promise', () => {
       const logoutAuth = new Auth({
         serverUri: '',
-        onLogout: () => Promise.reject()
+        onLogout: () => Promise.reject(),
       });
 
       return logoutAuth.logout().should.be.rejected;
@@ -829,7 +837,7 @@ describe('Auth', () => {
       const onLogout = sandbox.spy();
       const logoutAuth = new Auth({
         serverUri: '',
-        onLogout
+        onLogout,
       });
 
       await logoutAuth.logout();
@@ -839,7 +847,7 @@ describe('Auth', () => {
     it('should fail pass when onLogout returns rejected promise', () => {
       const logoutAuth = new Auth({
         serverUri: '',
-        onLogout: () => Promise.reject()
+        onLogout: () => Promise.reject(),
       });
 
       return logoutAuth.logout().should.be.rejected;

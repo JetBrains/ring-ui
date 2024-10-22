@@ -3,33 +3,33 @@ import Combokeys from 'combokeys';
 import sniffr from '../global/sniffer';
 
 export interface ShortcutsScopeOptions {
-  modal?: boolean | null | undefined
+  modal?: boolean | null | undefined;
 }
 
 export interface ShortcutsScope {
-  scopeId: string
-  options: ShortcutsScopeOptions
+  scopeId: string;
+  options: ShortcutsScopeOptions;
 }
 
-type ShortcutsHandler = (e: KeyboardEvent, key: string, scopeId: string) => boolean | null | void
+type ShortcutsHandler = (e: KeyboardEvent, key: string, scopeId: string) => boolean | null | void;
 
 export interface ShortcutsOptions {
-  scope?: string | null | undefined
-  type?: string | undefined
+  scope?: string | null | undefined;
+  type?: string | undefined;
 }
 
-export interface ShortcutsParams extends ShortcutsOptions{
-  key: string | string[],
-  handler: ShortcutsHandler
+export interface ShortcutsParams extends ShortcutsOptions {
+  key: string | string[];
+  handler: ShortcutsHandler;
 }
 
-export type ShortcutsMap = Record<string, ShortcutsHandler>
+export type ShortcutsMap = Record<string, ShortcutsHandler>;
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
   ROOT_SCOPE = {
     scopeId: 'ROOT',
-    options: {}
+    options: {},
   };
 
   _scopes: Record<string, Record<string, ShortcutsHandler> | null> = {};
@@ -115,7 +115,7 @@ class Shortcuts {
    */
   bindMap(map: ShortcutsMap, options?: ShortcutsOptions) {
     if (!(map instanceof Object)) {
-      throw new Error('Shortcuts map shouldn\'t be empty');
+      throw new Error("Shortcuts map shouldn't be empty");
     }
 
     for (const key in map) {
@@ -208,7 +208,7 @@ class Shortcuts {
   }
 
   hasKey(key: string, scope: string) {
-    return !!(this._scopes[scope]?.[key]);
+    return !!this._scopes[scope]?.[key];
   }
 
   private _defaultFilter = (e: Event, element: Element | Document, key?: string): boolean => {
@@ -219,16 +219,14 @@ class Shortcuts {
       key == null ||
       element.matches(this.ALLOW_SHORTCUTS_SELECTOR) ||
       element.closest(this.ALLOW_SHORTCUTS_SELECTOR) != null ||
-      (
-        element.dataset.enabledShortcuts != null &&
-        element.dataset.enabledShortcuts.split(',').includes(key)
-      )
+      (element.dataset.enabledShortcuts != null && element.dataset.enabledShortcuts.split(',').includes(key))
     ) {
       return false;
     }
 
     const elementContentEditableAttribute = element.contentEditable;
-    const isElementContentEditable = elementContentEditableAttribute === 'true' || elementContentEditableAttribute === 'plaintext-only';
+    const isElementContentEditable =
+      elementContentEditableAttribute === 'true' || elementContentEditableAttribute === 'plaintext-only';
 
     // stop for input, select, textarea and content-editable elements
     return element.matches('input:not([type=checkbox]),select,textarea') || isElementContentEditable;
@@ -236,7 +234,11 @@ class Shortcuts {
 
   private _getKeyboardEventType(params: ShortcutsParams) {
     if (!params.type && sniffr.os.name === 'windows') {
-      const isSystemShortcut = typeof params.key === 'string' && params.key.match(/ctrl/i) && params.key.match(/shift/i) && params.key.match(/[0-9]/);
+      const isSystemShortcut =
+        typeof params.key === 'string' &&
+        params.key.match(/ctrl/i) &&
+        params.key.match(/shift/i) &&
+        params.key.match(/[0-9]/);
       /**
        * Windows system shortcuts (ctrl+shift+[0-9] are caught by the OS on 'keydown', so let's use 'keyup'
        */

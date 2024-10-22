@@ -8,7 +8,6 @@ import styles from '../auth-dialog/auth-dialog.css';
 
 import authDialog, {reactRoot} from './auth-dialog-service';
 
-
 describe('Auth Dialog Service', () => {
   const getContainer = () => document.querySelector('*[data-test~="ring-auth-dialog"]');
   let hideAuthDialog: () => void;
@@ -23,8 +22,7 @@ describe('Auth Dialog Service', () => {
 
   it('should show auth dialog', () => {
     hideAuthDialog = authDialog();
-    const container = getContainer()?.
-      querySelector(`.${styles.content.split(' ').join('.')}`);
+    const container = getContainer()?.querySelector(`.${styles.content.split(' ').join('.')}`);
     should.exist(container);
   });
 
@@ -83,7 +81,6 @@ describe('Auth Dialog Service', () => {
     const okButton = getContainer()?.querySelector('*[data-test="auth-dialog-confirm-button"]');
     should.exist(okButton);
     Simulate.click(okButton as Element);
-
 
     onConfirm.should.have.been.called;
   });

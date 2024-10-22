@@ -6,8 +6,8 @@ export default {
   title: 'Components/Button Set',
 
   parameters: {
-    notes: 'Allows to group several buttons and ensures that margins between them are consistent.'
-  }
+    notes: 'Allows to group several buttons and ensures that margins between them are consistent.',
+  },
 };
 
 export const buttonSet = () => (

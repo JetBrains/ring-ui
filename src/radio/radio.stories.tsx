@@ -1,6 +1,5 @@
 import {useState, Fragment} from 'react';
 
-
 import {ControlLabel, LabelType} from '../control-label/control-label';
 
 import Radio from './radio';
@@ -9,10 +8,9 @@ export default {
   title: 'Components/Radio',
 
   parameters: {
-    notes:
-      'Displays a radio button. Adopted from [react-radio-group](https://github.com/chenglou/react-radio-group).',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc703afd36a8d65af24c'
-  }
+    notes: 'Displays a radio button. Adopted from [react-radio-group](https://github.com/chenglou/react-radio-group).',
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc703afd36a8d65af24c',
+  },
 };
 
 export const Basic = () => {
@@ -21,7 +19,9 @@ export const Basic = () => {
     <Fragment>
       <ControlLabel type={LabelType.FORM}>Group Description</ControlLabel>
       <Radio value={value} onChange={onChange}>
-        <Radio.Item value="one" help="Help text">One</Radio.Item>
+        <Radio.Item value="one" help="Help text">
+          One
+        </Radio.Item>
         <Radio.Item value="two">Two</Radio.Item>
         <Radio.Item value="three">Three</Radio.Item>
       </Radio>

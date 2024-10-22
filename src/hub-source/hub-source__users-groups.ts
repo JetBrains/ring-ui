@@ -3,20 +3,20 @@ import Auth, {AuthUser} from '../auth/auth';
 import HubSource, {Item} from './hub-source';
 
 export interface HubSourceUsersGroupsOptions {
-  searchMax: number
-  searchSideThreshold: number
+  searchMax: number;
+  searchSideThreshold: number;
 }
 
 const defaultOptions: HubSourceUsersGroupsOptions = {
   searchMax: 20,
-  searchSideThreshold: 200
+  searchSideThreshold: 200,
 };
 
 export interface UserGroup extends Item {
-  id: string,
-  total?: number,
-  userCount: number,
-  iconUrl?: string
+  id: string;
+  total?: number;
+  userCount: number;
+  iconUrl?: string;
 }
 
 export default class HubSourceUsersGroups {
@@ -31,11 +31,12 @@ export default class HubSourceUsersGroups {
     this.usersSource = new HubSource(auth, 'users', {
       searchMax: this.options.searchMax,
       searchSideThreshold: this.options.searchSideThreshold,
-      queryFormatter: query => `nameStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)} or loginStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)}`
+      queryFormatter: query =>
+        `nameStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)} or loginStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)}`,
     });
     this.groupsSource = new HubSource(auth, 'usergroups', {
       searchMax: this.options.searchMax,
-      searchSideThreshold: this.options.searchSideThreshold
+      searchSideThreshold: this.options.searchSideThreshold,
     });
   }
 
@@ -52,23 +53,25 @@ export default class HubSourceUsersGroups {
     }
     const normalizedQuery = query.toLowerCase();
 
-    return (it: AuthUser) => (
-      it.name.toLowerCase().indexOf(normalizedQuery) !== -1 ||
-      it.login.toLowerCase().indexOf(normalizedQuery) !== -1
-    );
+    return (it: AuthUser) =>
+      it.name.toLowerCase().indexOf(normalizedQuery) !== -1 || it.login.toLowerCase().indexOf(normalizedQuery) !== -1;
   }
 
   getUsers(query = '') {
-    return this.usersSource.get(query, {
-      fields: 'id,name,login,total,profile/avatar/url',
-      orderBy: 'name'
-    }, this.createUsersFilterFn(query));
+    return this.usersSource.get(
+      query,
+      {
+        fields: 'id,name,login,total,profile/avatar/url',
+        orderBy: 'name',
+      },
+      this.createUsersFilterFn(query),
+    );
   }
 
   getGroups(query = '') {
     return this.groupsSource.get(query, {
       fields: 'id,name,total,userCount,iconUrl',
-      orderBy: 'name'
+      orderBy: 'name',
     });
   }
 

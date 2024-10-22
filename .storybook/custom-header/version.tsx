@@ -17,11 +17,11 @@ const branchesArr = Object.entries(branches).map(([version, branch]) => ({
   version,
   path: branch,
   // /^0\.1\.\d+$/
-  versionRE: new RegExp(`^${version.replace(/\./g, '\\.').replace(/x/g, '\\d+')}$`)
+  versionRE: new RegExp(`^${version.replace(/\./g, '\\.').replace(/x/g, '\\d+')}$`),
 }));
 
 interface VersionProps {
-  version: string
+  version: string;
 }
 const Version = ({version}: VersionProps) => (
   <DropdownMenu
@@ -33,11 +33,12 @@ const Version = ({version}: VersionProps) => (
         rgItemType,
         active,
         href: `${HOST}/${branch.path}/${currentPath()}`,
-        label: active ? version : branch.version
+        label: active ? version : branch.version,
       };
     })}
     menuProps={{
-      top: -16, left: -16
+      top: -16,
+      left: -16,
     }}
   />
 );

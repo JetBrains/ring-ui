@@ -6,11 +6,11 @@ import dataTests from '../global/data-tests';
 import style from './badge.css';
 
 export interface BadgeProps extends HTMLAttributes<HTMLElement> {
-  gray?: boolean | null | undefined
-  valid?: boolean | null | undefined
-  invalid?: boolean | null | undefined
-  disabled?: boolean | null | undefined
-  'data-test'?: string | null | undefined
+  gray?: boolean | null | undefined;
+  valid?: boolean | null | undefined;
+  invalid?: boolean | null | undefined;
+  disabled?: boolean | null | undefined;
+  'data-test'?: string | null | undefined;
 }
 
 /**
@@ -33,23 +33,15 @@ export default class Badge extends PureComponent<BadgeProps> {
       ...props
     } = this.props;
 
-    const classes = classNames(
-      style.badge,
-      className,
-      {
-        [style.gray]: gray,
-        [style.valid]: valid,
-        [style.invalid]: invalid,
-        [style.disabled]: disabled
-      }
-    );
+    const classes = classNames(style.badge, className, {
+      [style.gray]: gray,
+      [style.valid]: valid,
+      [style.invalid]: invalid,
+      [style.disabled]: disabled,
+    });
 
     return (
-      <span
-        {...props}
-        data-test={dataTests('ring-badge', dataTest)}
-        className={classes}
-      >
+      <span {...props} data-test={dataTests('ring-badge', dataTest)} className={classes}>
         {children}
       </span>
     );

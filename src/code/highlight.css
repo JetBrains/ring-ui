@@ -31,7 +31,9 @@
 
   & :global(.hljs-tag) {
     background: var(--ring-code-tag-background-color);
-    box-shadow: 0 1px var(--ring-code-tag-background-color), 0 -1px var(--ring-code-tag-background-color);
+    box-shadow:
+      0 1px var(--ring-code-tag-background-color),
+      0 -1px var(--ring-code-tag-background-color);
   }
 
   & :global(.hljs-section),

@@ -3,20 +3,19 @@ import Auth from '../auth/auth__core';
 import PermissionCache, {Permission} from './permissions__cache';
 
 export interface PermissionsConfig {
-  prefix?: string | null | undefined
-  namesConverter?: ((name: string) => string) | null | undefined
-  services?: readonly string[] | null | undefined
-  datasource?: ((query: string | undefined) => Promise<readonly Permission[] | null | undefined>)
-    | null | undefined
+  prefix?: string | null | undefined;
+  namesConverter?: ((name: string) => string) | null | undefined;
+  services?: readonly string[] | null | undefined;
+  datasource?: ((query: string | undefined) => Promise<readonly Permission[] | null | undefined>) | null | undefined;
 }
 
 interface PermissionsCacheControl {
-  NO_CACHE?: boolean | null | undefined
-  NO_STORE?: boolean | null | undefined
+  NO_CACHE?: boolean | null | undefined;
+  NO_STORE?: boolean | null | undefined;
 }
 
 export interface PermissionsLoadOptions {
-  cacheControl?: PermissionsCacheControl | null | undefined
+  cacheControl?: PermissionsCacheControl | null | undefined;
 }
 
 /**
@@ -52,17 +51,14 @@ export default class Permissions {
   query: string | undefined;
   namesConverter: ((name: string) => string) | null | undefined;
   private _auth: Auth;
-  private _datasource: (query: string | undefined) =>
-    Promise<readonly Permission[] | null | undefined>;
+  private _datasource: (query: string | undefined) => Promise<readonly Permission[] | null | undefined>;
 
   _promise: Promise<PermissionCache> | null;
   private _subscribed: boolean;
   private _permissionCache: PermissionCache;
   constructor(auth: Auth, config: PermissionsConfig = {}) {
     this.query = Permissions.getPermissionQuery(config.services);
-    this.namesConverter = config.prefix
-      ? Permissions.getDefaultNamesConverter(config.prefix)
-      : config.namesConverter;
+    this.namesConverter = config.prefix ? Permissions.getDefaultNamesConverter(config.prefix) : config.namesConverter;
 
     if (!auth) {
       throw new Error('Parameter auth is required');
@@ -75,14 +71,13 @@ export default class Permissions {
     this._permissionCache = new PermissionCache(null, this.namesConverter);
   }
 
-  private _defaultDatasource = (query: string | undefined) => (
+  private _defaultDatasource = (query: string | undefined) =>
     this._auth.http.get<Permission[]>(Permissions.API_PERMISSION_CACHE_PATH, {
       query: {
         fields: 'permission/key,global,projects(id)',
-        query
-      }
-    })
-  );
+        query,
+      },
+    });
 
   /**
    * Returns function, which cuts off prefix from server-side permission name
@@ -148,18 +143,18 @@ export default class Permissions {
     }
 
     if (hasCacheControl('NO_STORE', options)) {
-      return this._loadPermissions().
-        then(cachedPermissions => new PermissionCache(cachedPermissions, this.namesConverter));
+      return this._loadPermissions().then(
+        cachedPermissions => new PermissionCache(cachedPermissions, this.namesConverter),
+      );
     }
 
-    const permissions = this._loadPermissions().
-      then(cachedPermissions => this.set(cachedPermissions));
+    const permissions = this._loadPermissions().then(cachedPermissions => this.set(cachedPermissions));
     this._setCache(permissions);
     return permissions;
 
     function hasCacheControl(
       value: keyof PermissionsCacheControl,
-      _options: PermissionsLoadOptions | null | undefined
+      _options: PermissionsLoadOptions | null | undefined,
     ) {
       if (_options && _options.cacheControl) {
         return _options.cacheControl[value];
@@ -216,14 +211,13 @@ export default class Permissions {
     object: {[key in K]?: boolean},
     propertyName: K,
     permissions?: string | null | undefined,
-    projectId?: string | null | undefined
+    projectId?: string | null | undefined,
   ) {
     object[propertyName] = false;
 
-    return this.check(permissions, projectId).
-      then(permitted => {
-        object[propertyName] = permitted;
-        return permitted;
-      });
+    return this.check(permissions, projectId).then(permitted => {
+      object[propertyName] = permitted;
+      return permitted;
+    });
   }
 }

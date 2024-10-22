@@ -41,8 +41,7 @@ describe('Caret', () => {
       target.focus.should.have.been.called;
     });
 
-
-    it('Shouldn\'t focus on get when prohibited', () => {
+    it("Shouldn't focus on get when prohibited", () => {
       caret.getPosition({avoidFocus: true});
 
       target.should.not.equal(document.activeElement);
@@ -50,21 +49,18 @@ describe('Caret', () => {
 
     it('Should get correct position with simple deep markup', () => {
       target.innerHTML = '<span>foo<span>test<span>hello</span></span><span>123</span></span>';
-      window.getSelection()?.collapse(target.children[0].children[0].children[0].firstChild,
-        2);
+      window.getSelection()?.collapse(target.children[0].children[0].children[0].firstChild, 2);
       caret.getPosition().should.equal(9);
     });
 
     it('Should get correct position with difficult deep markup 2', () => {
-      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
-        '</span><span>span3</span>';
+      target.innerHTML = `<span>span1<span>span11</span></span><span>span2<span>span21</span></span><span>span3</span>`;
       window.getSelection()?.collapse(target.children[1].children[0].firstChild, 4);
       caret.getPosition().should.equal(20);
     });
 
     it('Should get correct positions for the same node selection - second node', () => {
-      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
-        '</span><span>span3</span>';
+      target.innerHTML = `<span>span1<span>span11</span></span><span>span2<span>span21</span></span><span>span3</span>`;
       const range = new Range();
       const node = target.children[1].children[0].firstChild;
       if (node != null) {
@@ -77,8 +73,7 @@ describe('Caret', () => {
     });
 
     it('Should get correct positions for the same node selection - first node', () => {
-      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
-        '</span><span>span3</span>';
+      target.innerHTML = `<span>span1<span>span11</span></span><span>span2<span>span21</span></span><span>span3</span>`;
       const range = new Range();
       range.setStart(target.children[0].childNodes[0], 0);
       range.setEnd(target.children[0].childNodes[0], 5);
@@ -88,8 +83,7 @@ describe('Caret', () => {
     });
 
     it('Should get correct positions for different nodes selection', () => {
-      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
-        '</span><span>span3</span>';
+      target.innerHTML = `<span>span1<span>span11</span></span><span>span2<span>span21</span></span><span>span3</span>`;
       const range = new Range();
       const startNode = target.children[0].children[0].firstChild;
       startNode && range.setStart(startNode, 1);
@@ -101,8 +95,7 @@ describe('Caret', () => {
     });
 
     it('Should get correct positions for different nodes selection - whole text', () => {
-      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
-        '</span><span>span3</span>';
+      target.innerHTML = `<span>span1<span>span11</span></span><span>span2<span>span21</span></span><span>span3</span>`;
       const range = new Range();
       range.setStart(target.children[0].childNodes[0], 0);
       const endNode = target.children[2].firstChild;
@@ -114,7 +107,7 @@ describe('Caret', () => {
   });
 
   describe('setPosition', () => {
-    it('Shouldn\'t change caret position if we don\'t position', () => {
+    it("Shouldn't change caret position if we don't position", () => {
       should.not.exist(caret.setPosition());
 
       caret.getPosition().should.equal(0);

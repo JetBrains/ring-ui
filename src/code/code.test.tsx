@@ -9,16 +9,11 @@ highlight.registerLanguage('css', css);
 highlight.registerLanguage('javascript', javascript);
 highlight.registerLanguage('xml', xml);
 
-type CodeAttributes = JSX.LibraryManagedAttributes<typeof Code, CodeProps>
+type CodeAttributes = JSX.LibraryManagedAttributes<typeof Code, CodeProps>;
 
 describe('Code', () => {
   const renderCode = (props?: Omit<CodeAttributes, 'code'> & Partial<Pick<CodeAttributes, 'code'>>) => {
-    render(
-      <Code
-        code=""
-        {...props}
-      />
-    );
+    render(<Code code="" {...props} />);
     return screen.getByTestId('ring-code');
   };
 
@@ -45,7 +40,7 @@ describe('Code', () => {
             <ChildComponent prop="value" />
           </div>
         );
-      `
+      `,
     });
 
     code.should.contain('.javascript');
@@ -59,7 +54,7 @@ describe('Code', () => {
           display: inline-block;
           font-size: 18px;
         }
-      `
+      `,
     });
     code.should.contain('.css');
   });
@@ -70,14 +65,14 @@ describe('Code', () => {
         <body>
           <div id="app"></div>
         </body>
-      `
+      `,
     });
     code.should.contain('.xml');
   });
 
   it('should parse and highlight the code', () => {
     const code = renderCode({
-      code: '"foo"'
+      code: '"foo"',
     });
     const token = code.querySelector('.hljs-string');
     should.exist(token?.textContent);
@@ -85,8 +80,8 @@ describe('Code', () => {
   });
 
   it('should parse and highlight the code after props update', () => {
-    const {rerender} = render(<Code code="'foo'"/>);
-    rerender(<Code code="'bar'"/>);
+    const {rerender} = render(<Code code="'foo'" />);
+    rerender(<Code code="'bar'" />);
     const token = document.querySelector('.hljs-string');
     should.exist(token?.textContent);
     token?.textContent?.should.equal("'bar'");

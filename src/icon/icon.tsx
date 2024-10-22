@@ -14,27 +14,27 @@ const warnSize = deprecate(
   () => {},
   `\`size\`, \`width\` and \`height\` props are not recommended to use in Ring UI \`Icon\` component. The intrinsic sizes of SVG icon (\`width\` and \`height\` SVG attributes) are used instead.
 
-We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.'`
+We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.'`,
 );
 
-export type IconType = ComponentType<SVGAttributes<SVGSVGElement>>
+export type IconType = ComponentType<SVGAttributes<SVGSVGElement>>;
 
 export interface IconProps extends HTMLAttributes<HTMLElement> {
-  color: Color
-  glyph: string | IconType | null
-  height?: number | undefined
-  size?: Size | number | null | undefined
-  width?: number | undefined
-  loading?: boolean | null | undefined
-  suppressSizeWarning?: boolean | null | undefined
+  color: Color;
+  glyph: string | IconType | null;
+  height?: number | undefined;
+  size?: Size | number | null | undefined;
+  width?: number | undefined;
+  loading?: boolean | null | undefined;
+  suppressSizeWarning?: boolean | null | undefined;
 }
 
 export default class Icon extends PureComponent<IconProps> {
-  static defaultProps = ({
+  static defaultProps = {
     className: '',
     color: Color.DEFAULT,
-    glyph: ''
-  });
+    glyph: '',
+  };
 
   static Color = Color;
   static Size = Size;
@@ -56,7 +56,7 @@ export default class Icon extends PureComponent<IconProps> {
       this.warnSize();
       return {
         width: size,
-        height: size
+        height: size,
       };
     }
     return undefined;
@@ -64,7 +64,14 @@ export default class Icon extends PureComponent<IconProps> {
 
   render() {
     const {
-      className, size, color, loading, glyph: Glyph, width, height, suppressSizeWarning,
+      className,
+      size,
+      color,
+      loading,
+      glyph: Glyph,
+      width,
+      height,
+      suppressSizeWarning,
       ...restProps
     } = this.props;
 
@@ -72,29 +79,27 @@ export default class Icon extends PureComponent<IconProps> {
       return null;
     }
 
-    const classes = classNames(styles.icon,
+    const classes = classNames(
+      styles.icon,
       {
         [styles[color]]: !!color,
-        [styles.loading]: loading
+        [styles.loading]: loading,
       },
-      className
+      className,
     );
 
     return (
-      <span
-        data-test="ring-icon"
-        {...restProps}
-        className={classes}
-      >
-        {typeof Glyph === 'string'
-          ? <IconSVG src={Glyph} style={this.getStyle()}/>
-          : <Glyph className={styles.glyph} style={this.getStyle()}/>
-        }
+      <span data-test="ring-icon" {...restProps} className={classes}>
+        {typeof Glyph === 'string' ? (
+          <IconSVG src={Glyph} style={this.getStyle()} />
+        ) : (
+          <Glyph className={styles.glyph} style={this.getStyle()} />
+        )}
       </span>
     );
   }
 }
 
-export type IconAttrs = JSX.LibraryManagedAttributes<typeof Icon, IconProps>
+export type IconAttrs = JSX.LibraryManagedAttributes<typeof Icon, IconProps>;
 
 export {Color, Size};

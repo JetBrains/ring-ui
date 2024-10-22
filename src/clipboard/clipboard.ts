@@ -13,17 +13,18 @@ function getClipboardImplementation(): ClipboardImplementation {
   if (navigator.clipboard && !window.isSecureContext) {
     return {
       copy: (text: string) => navigator.clipboard.writeText(text),
-      copyHTML: (html: string) => navigator.clipboard.write([
-        new ClipboardItem({
-          ['text/html']: new Blob([html], {type: 'text/html'})
-        })
-      ])
+      copyHTML: (html: string) =>
+        navigator.clipboard.write([
+          new ClipboardItem({
+            ['text/html']: new Blob([html], {type: 'text/html'}),
+          }),
+        ]),
     };
   }
 
   return {
     copy: (str: string) => Promise.resolve(copyTextToClipboard(str)),
-    copyHTML: (html: string) => Promise.resolve(copyHTMLToClipboard(html))
+    copyHTML: (html: string) => Promise.resolve(copyHTMLToClipboard(html)),
   };
 }
 
@@ -32,7 +33,7 @@ async function copy(
   successMessage?: string | undefined,
   errorMessage?: string | undefined,
   delay: number = ALERT_DELAY,
-  isHtml = false
+  isHtml = false,
 ) {
   try {
     const clipboardImpl = getClipboardImplementation();
@@ -55,15 +56,15 @@ const clipboard = {
     text: string,
     successMessage?: string | undefined,
     errorMessage?: string | undefined,
-    delay: number = ALERT_DELAY
+    delay: number = ALERT_DELAY,
   ) => await copy(text, successMessage, errorMessage, delay),
 
   copyHTML: async (
     html: string,
     successMessage?: string | undefined,
     errorMessage?: string | undefined,
-    delay: number = ALERT_DELAY
-  ) => await copy(html, successMessage, errorMessage, delay, true)
+    delay: number = ALERT_DELAY,
+  ) => await copy(html, successMessage, errorMessage, delay, true),
 };
 
 export default clipboard;

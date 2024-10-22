@@ -5,26 +5,25 @@ import {ShortcutsMap} from '../shortcuts/core';
 import Selection, {SelectionItem} from './selection';
 
 export interface SelectionShortcutsOuterProps<T extends SelectionItem> {
-  selection: Selection<T>
-  selectable?: boolean | undefined
-  onSelect?: ((selection: Selection<T>) => void) | undefined
-  shortcuts?: ShortcutsMap | undefined
+  selection: Selection<T>;
+  selectable?: boolean | undefined;
+  onSelect?: ((selection: Selection<T>) => void) | undefined;
+  shortcuts?: ShortcutsMap | undefined;
 }
 
 export interface SelectionShortcutsAddProps<T extends SelectionItem> {
-  selection: Selection<T>
-  selectable: boolean
-  onSelect: (selection: Selection<T>) => void
-  shortcutsMap: ShortcutsMap
+  selection: Selection<T>;
+  selectable: boolean;
+  onSelect: (selection: Selection<T>) => void;
+  shortcutsMap: ShortcutsMap;
 }
 
-export type SelectionShortcutsProps<T extends SelectionItem, P> =
-  Omit<P, keyof SelectionShortcutsAddProps<T>> & SelectionShortcutsOuterProps<T>
+export type SelectionShortcutsProps<T extends SelectionItem, P> = Omit<P, keyof SelectionShortcutsAddProps<T>> &
+  SelectionShortcutsOuterProps<T>;
 
-export default function selectionShortcutsHOC<
-  T extends SelectionItem,
-  P extends SelectionShortcutsAddProps<T>
->(ComposedComponent: ComponentType<P>): ComponentType<SelectionShortcutsProps<T, P>> {
+export default function selectionShortcutsHOC<T extends SelectionItem, P extends SelectionShortcutsAddProps<T>>(
+  ComposedComponent: ComponentType<P>,
+): ComponentType<SelectionShortcutsProps<T, P>> {
   class SelectionShortcuts extends PureComponent<SelectionShortcutsProps<T, P>> {
     onUpPress = () => {
       const {selection, onSelect} = this.props;
@@ -165,14 +164,14 @@ export default function selectionShortcutsHOC<
       space: this.onSpacePress,
       esc: this.onEscPress,
       'command+a': this.onCmdAPress,
-      'ctrl+a': this.onCmdAPress
+      'ctrl+a': this.onCmdAPress,
     };
 
     render() {
       const {selection, selectable, onSelect, shortcuts, ...restProps} = this.props;
       return (
         <ComposedComponent
-          {...restProps as P}
+          {...(restProps as P)}
           selection={selection}
           selectable={selectable}
           onSelect={onSelect}
@@ -185,7 +184,7 @@ export default function selectionShortcutsHOC<
     ...ComposedComponent.defaultProps,
     selectable: true,
     onSelect: () => {},
-    shortcuts: {}
+    shortcuts: {},
   };
   return SelectionShortcuts;
 }

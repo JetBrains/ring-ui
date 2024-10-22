@@ -11,13 +11,13 @@ import styles from './select-popup.css';
 function noop() {}
 
 type SelectFilterProps = InputAttrs & {
-  inputRef: RefCallback<HTMLInputElement | HTMLTextAreaElement>
-  listId?: string | undefined
-}
+  inputRef: RefCallback<HTMLInputElement | HTMLTextAreaElement>;
+  listId?: string | undefined;
+};
 
 export default class SelectFilter extends Component<SelectFilterProps> {
   static defaultProps = {
-    inputRef: noop
+    inputRef: noop,
   };
 
   componentWillUnmount() {

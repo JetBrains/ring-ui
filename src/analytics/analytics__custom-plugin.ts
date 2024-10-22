@@ -4,17 +4,17 @@ const DEFAULT_FLUSH_INTERVAL = 10000;
 const DEFAULT_FLUSH_MAX_PACK_SIZE = 100;
 
 export interface AnalyticsCustomPluginData {
-  category: string
-  action: string
-  data?: Record<string, Serializable>
-  timestamp: number
+  category: string;
+  action: string;
+  data?: Record<string, Serializable>;
+  timestamp: number;
 }
 
 export interface AnalyticsCustomPluginConfig {
-  send: (data: AnalyticsCustomPluginData[]) => void
-  isDevelopment?: boolean | undefined
-  flushInterval?: number | undefined
-  flushMaxPackSize?: number | undefined
+  send: (data: AnalyticsCustomPluginData[]) => void;
+  isDevelopment?: boolean | undefined;
+  flushInterval?: number | undefined;
+  flushMaxPackSize?: number | undefined;
 }
 
 export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
@@ -28,13 +28,13 @@ export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
   constructor(
     send: AnalyticsCustomPluginConfig['send'],
     isDevelopment?: AnalyticsCustomPluginConfig['isDevelopment'],
-    flushInterval?: AnalyticsCustomPluginConfig['flushInterval']
+    flushInterval?: AnalyticsCustomPluginConfig['flushInterval'],
   ) {
     this._data = [];
     this.config({
       send,
       isDevelopment,
-      flushInterval
+      flushInterval,
     });
   }
 

@@ -110,7 +110,6 @@
   --ring-added-subtle-background-components: 37, 54, 39;
   --ring-added-subtle-background-color: rgb(var(--ring-added-subtle-background-components)); /* #253627 */
 
-
   /* Code */
   --ring-code-background-components: 30, 31, 34;
   --ring-code-background-color: rgb(var(--ring-code-background-components)); /* #1E1F22 */

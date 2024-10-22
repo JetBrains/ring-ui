@@ -6,7 +6,6 @@ import {RadioProps} from './radio__item';
 
 import Radio from './radio';
 
-
 describe('Radio', () => {
   const factory = (
     props?: RadioProps,
@@ -14,16 +13,10 @@ describe('Radio', () => {
     refTwo?: Ref<ComponentRef<typeof Radio.Item>>,
   ) => (
     <Radio {...props}>
-      <Radio.Item
-        ref={refOne}
-        value="one"
-      >
+      <Radio.Item ref={refOne} value="one">
         {'One'}
       </Radio.Item>
-      <Radio.Item
-        ref={refTwo}
-        value="two"
-      >
+      <Radio.Item ref={refTwo} value="two">
         {'Two'}
       </Radio.Item>
       <Radio.Item value="three">{'Three'}</Radio.Item>
@@ -42,8 +35,8 @@ describe('Radio', () => {
   it('should pass only child as is', () => {
     const radio = shallow(
       <Radio>
-        <section/>
-      </Radio>
+        <section />
+      </Radio>,
     );
 
     radio.should.have.tagName('section');
@@ -65,24 +58,23 @@ describe('Radio', () => {
         },
         itemRef2 => {
           item2 = itemRef2!;
-        }
+        },
       );
       const name = item1!.input!.getAttribute('name') ?? undefined;
 
       item2!.input!.should.have.attribute('name', name);
     });
 
-
     it('should select item with value equal to one provided to group', () => {
       let item: ComponentRef<typeof Radio.Item>;
       mountRadio(
         {
           onChange: () => {}, // avoid "checked without onChange" warning
-          value: 'one'
+          value: 'one',
         },
         itemRef => {
           item = itemRef!;
-        }
+        },
       );
 
       item!.input!.should.have.property('checked', true);

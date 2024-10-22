@@ -19,7 +19,7 @@ const macSymbolsMap: Record<string, string> = {
   left: '←',
   up: '↑',
   right: '→',
-  down: '↓'
+  down: '↓',
 };
 
 const winSymbolsMap: Record<string, string> = {
@@ -41,7 +41,7 @@ const winSymbolsMap: Record<string, string> = {
   left: '←',
   up: '↑',
   right: '→',
-  down: '↓'
+  down: '↓',
 };
 
 export function getShortcutTitle(shortcut: string) {
@@ -49,8 +49,8 @@ export function getShortcutTitle(shortcut: string) {
   const KEY_SEPARATOR = MAC_OS ? '' : '+';
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 
-  return shortcut.
-    split(/\+/g).
-    map(symbol => symbolsMap[symbol] || symbol.toUpperCase()).
-    join(KEY_SEPARATOR);
+  return shortcut
+    .split(/\+/g)
+    .map(symbol => symbolsMap[symbol] || symbol.toUpperCase())
+    .join(KEY_SEPARATOR);
 }

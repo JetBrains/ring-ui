@@ -1,8 +1,6 @@
 import {useCallback, useLayoutEffect, useRef} from 'react';
 
-export default function useEventCallback<I extends unknown[], O>(
-  fn: (...args: I) => O,
-): (...args: I) => O {
+export default function useEventCallback<I extends unknown[], O>(fn: (...args: I) => O): (...args: I) => O {
   const ref = useRef<(...args: I) => O>();
   useLayoutEffect(() => {
     ref.current = fn;

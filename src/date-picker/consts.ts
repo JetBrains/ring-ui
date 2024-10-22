@@ -8,7 +8,7 @@ const units = {
   /* eslint-disable @typescript-eslint/no-magic-numbers */
   cellSize: unit * 3,
   calHeight: unit * 36,
-  yearHeight: unit * 4
+  yearHeight: unit * 4,
   /* eslint-enable */
 };
 
@@ -24,7 +24,7 @@ export const weekdays = {
   TH: 4,
   FR: 5,
   SA: 6,
-  SU: 0
+  SU: 0,
 };
 export const MIDDLE_DAY = 15;
 
@@ -62,82 +62,81 @@ export function getDayNumInWeek(locale: Locale | undefined, day: number): number
 }
 
 export interface DateInputTranslations {
-  addFirstDate?: string
-  addSecondDate?: string
-  addTime?: string
-  selectName?: string
+  addFirstDate?: string;
+  addSecondDate?: string;
+  addTime?: string;
+  selectName?: string;
 }
 
 export interface DateSpecificPopupProps {
-  withTime?: false | undefined
-  range?: false | undefined
-  onChange: (date: Date | null | undefined) => void
+  withTime?: false | undefined;
+  range?: false | undefined;
+  onChange: (date: Date | null | undefined) => void;
 }
 
 export interface DatePickerChange {
-  from?: Date | null | undefined
-  to?: Date | null | undefined
-  date?: Date | null | undefined
-  time?: string | null | undefined
+  from?: Date | null | undefined;
+  to?: Date | null | undefined;
+  date?: Date | null | undefined;
+  time?: string | null | undefined;
 }
 
 export interface TimeSpecificPopupProps {
-  withTime: true
-  range?: false | undefined
-  onChange: (change: DatePickerChange) => void
+  withTime: true;
+  range?: false | undefined;
+  onChange: (change: DatePickerChange) => void;
 }
 
 export interface RangeSpecificPopupProps {
-  withTime?: false | undefined
-  range: true
-  onChange: (change: DatePickerChange) => void
+  withTime?: false | undefined;
+  range: true;
+  onChange: (change: DatePickerChange) => void;
 }
 
 export interface DatePopupState {
-  active: Field
-  text: string | null
-  hoverDate: Date | null
-  scrollDate: number | null
+  active: Field;
+  text: string | null;
+  hoverDate: Date | null;
+  scrollDate: number | null;
 }
 export interface DatePopupBaseProps {
-  date?: Date | number | string | null | undefined
-  time?: string | null | undefined
-  from?: Date | number | string | null | undefined
-  to?: Date | number | string | null | undefined
-  minDate?: string | null | undefined
-  maxDate?: string | null | undefined
-  translations?: DateInputTranslations | null | undefined
-  fromPlaceholder?: string | null | undefined
-  toPlaceholder?: string | null | undefined
-  timePlaceholder?: string | null | undefined
-  locale?: Locale | undefined
-  parseDateInput: (text: Date | number | string | null | undefined) => Date | null
-  displayFormat: (date: Date, locale: Locale | undefined) => string
-  onComplete: () => void
-  onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined
-  renderAfterCalendar?: ((state: DatePopupState) => ReactNode) | undefined
+  date?: Date | number | string | null | undefined;
+  time?: string | null | undefined;
+  from?: Date | number | string | null | undefined;
+  to?: Date | number | string | null | undefined;
+  minDate?: string | null | undefined;
+  maxDate?: string | null | undefined;
+  translations?: DateInputTranslations | null | undefined;
+  fromPlaceholder?: string | null | undefined;
+  toPlaceholder?: string | null | undefined;
+  timePlaceholder?: string | null | undefined;
+  locale?: Locale | undefined;
+  parseDateInput: (text: Date | number | string | null | undefined) => Date | null;
+  displayFormat: (date: Date, locale: Locale | undefined) => string;
+  onComplete: () => void;
+  onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined;
+  renderAfterCalendar?: ((state: DatePopupState) => ReactNode) | undefined;
 }
 
 export interface Dates {
-  from?: Date | null | undefined
-  to?: Date | null | undefined
-  date?: Date | null | undefined
-  time?: never
+  from?: Date | null | undefined;
+  to?: Date | null | undefined;
+  date?: Date | null | undefined;
+  time?: never;
 }
 
-export interface CalendarProps extends
-  Omit<DatePopupBaseProps, 'date' | 'from' | 'to' | 'time'>, Dates {
-  activeDate: Date | null
-  scrollDate: number | Date
-  currentRange: [Date, Date] | null
-  activeRange: [Date, Date] | null
-  onScroll: (to: number) => void
-  onScrollChange: (date: number) => void
+export interface CalendarProps extends Omit<DatePopupBaseProps, 'date' | 'from' | 'to' | 'time'>, Dates {
+  activeDate: Date | null;
+  scrollDate: number | Date;
+  currentRange: [Date, Date] | null;
+  activeRange: [Date, Date] | null;
+  onScroll: (to: number) => void;
+  onScrollChange: (date: number) => void;
 }
 
 export interface MonthsProps extends CalendarProps {
-  onSelect: (date: Date) => void
-  onHover: (date: Date) => void
+  onSelect: (date: Date) => void;
+  onHover: (date: Date) => void;
 }
 
 export type Field = 'date' | 'time' | 'from' | 'to';

@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react';
 import ErrorMessage, {ErrorMessageProps} from './error-message';
 
 describe('Error Message', () => {
-  const renderErrorMessage = (props?: ErrorMessageProps) => render(<ErrorMessage {...props}/>);
+  const renderErrorMessage = (props?: ErrorMessageProps) => render(<ErrorMessage {...props} />);
 
   it('should create component', () => {
     renderErrorMessage();

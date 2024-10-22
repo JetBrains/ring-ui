@@ -4,11 +4,11 @@ import userEvent from '@testing-library/user-event';
 
 import Checkbox, {CheckboxProps} from './checkbox';
 
-type CheckboxAttributes = JSX.LibraryManagedAttributes<typeof Checkbox, CheckboxProps>
+type CheckboxAttributes = JSX.LibraryManagedAttributes<typeof Checkbox, CheckboxProps>;
 
 describe('Checkbox', () => {
   const renderCheckbox = (props?: CheckboxAttributes) => {
-    render(<Checkbox {...props}/>);
+    render(<Checkbox {...props} />);
     return screen.getByRole<HTMLInputElement>('checkbox');
   };
 
@@ -41,7 +41,7 @@ describe('Checkbox', () => {
 
     const checkbox = renderCheckbox({
       disabled: true,
-      onChange
+      onChange,
     });
 
     userEvent.click(checkbox);
@@ -62,7 +62,7 @@ describe('Checkbox', () => {
 
   it('should be disabled', () => {
     const checkbox = renderCheckbox({
-      disabled: true
+      disabled: true,
     });
 
     checkbox.should.be.disabled;
@@ -71,8 +71,8 @@ describe('Checkbox', () => {
   it('should check control on change event', () => {
     const eventMock = {
       target: {
-        checked: true
-      } as HTMLInputElement
+        checked: true,
+      } as HTMLInputElement,
     };
     const checkbox = renderCheckbox();
 

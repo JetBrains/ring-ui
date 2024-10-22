@@ -13,11 +13,7 @@ export default class Group extends Component<HTMLAttributes<HTMLSpanElement>> {
     const classes = classNames(styles.group, className);
 
     return (
-      <span
-        data-test="ring-group"
-        {...restProps}
-        className={classes}
-      >
+      <span data-test="ring-group" {...restProps} className={classes}>
         {children}
       </span>
     );

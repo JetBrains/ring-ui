@@ -21,11 +21,11 @@ function changeSmileClickListener(event: Event) {
   smileChanges++;
 
   function rand(min: number, max: number) {
-    return Math.round((Math.random() * (max - min))) + min;
+    return Math.round(Math.random() * (max - min)) + min;
   }
 
   function getRandomEye() {
-    return eyes[rand(0, (eyes.length - 1))];
+    return eyes[rand(0, eyes.length - 1)];
   }
 
   function getRandomSmile() {
@@ -71,7 +71,6 @@ function startOldBrowsersDetector(onOldBrowserDetected?: () => void) {
 function stopOldBrowserDetector() {
   window.onerror = previousWindowErrorHandler;
 }
-
 
 //Start javascript error detection
 startOldBrowsersDetector(() => {

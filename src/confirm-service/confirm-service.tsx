@@ -3,18 +3,14 @@ import {ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
 
 import Confirm, {ConfirmAttributes} from '../confirm/confirm';
-import {
-  ControlsHeight,
-  ControlsHeightContext,
-  getGlobalControlsHeight
-} from '../global/controls-height';
+import {ControlsHeight, ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
 
 /**
  * @name Confirm Service
  */
 
 export type Props = ConfirmAttributes & {
-  buttonsHeight?: ControlsHeight
+  buttonsHeight?: ControlsHeight;
 };
 
 const containerElement = document.createElement('div');
@@ -27,19 +23,19 @@ function renderConfirm(props: Props) {
   const {buttonsHeight = getGlobalControlsHeight(), ...restProps} = props;
   reactRoot.render(
     <ControlsHeightContext.Provider value={buttonsHeight}>
-      <Confirm {...restProps}/>
-    </ControlsHeightContext.Provider>
+      <Confirm {...restProps} />
+    </ControlsHeightContext.Provider>,
   );
 }
 
 export interface ConfirmServiceParams {
-  text?: string | undefined
-  description?: ReactNode
-  cancelIsDefault?: boolean | undefined
-  confirmLabel?: string | undefined
-  rejectLabel?: string | undefined
-  onBeforeConfirm?: (() => void) | undefined
-  buttonsHeight?: ControlsHeight | undefined
+  text?: string | undefined;
+  description?: ReactNode;
+  cancelIsDefault?: boolean | undefined;
+  confirmLabel?: string | undefined;
+  rejectLabel?: string | undefined;
+  onBeforeConfirm?: (() => void) | undefined;
+  buttonsHeight?: ControlsHeight | undefined;
 }
 
 export default function confirm({
@@ -49,7 +45,7 @@ export default function confirm({
   rejectLabel = 'Cancel',
   cancelIsDefault,
   onBeforeConfirm,
-  buttonsHeight
+  buttonsHeight,
 }: ConfirmServiceParams) {
   return new Promise<void>((resolve, reject) => {
     const props = {
@@ -64,12 +60,12 @@ export default function confirm({
       onConfirm: () => {
         if (onBeforeConfirm) {
           renderConfirm({...props, inProgress: true});
-          return Promise.resolve(onBeforeConfirm()).
-            then(() => {
+          return Promise.resolve(onBeforeConfirm())
+            .then(() => {
               renderConfirm({...props, show: false});
               resolve();
-            }).
-            catch(err => {
+            })
+            .catch(err => {
               renderConfirm({...props, show: false});
               reject(err);
             });
@@ -81,7 +77,7 @@ export default function confirm({
       onReject: () => {
         renderConfirm({...props, show: false});
         reject(new Error('Confirm(@jetbrains/ring-ui): null exception'));
-      }
+      },
     };
 
     renderConfirm(props);

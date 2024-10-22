@@ -4,7 +4,7 @@ import {TableAttrs} from './table';
 import {SelectionItem} from './selection';
 
 export interface MultiTableProps {
-  children: ReactElement<TableAttrs<SelectionItem>>[]
+  children: ReactElement<TableAttrs<SelectionItem>>[];
 }
 
 export default class MultiTable extends PureComponent<MultiTableProps> {
@@ -85,17 +85,17 @@ export default class MultiTable extends PureComponent<MultiTableProps> {
     down: this.onDownPress,
     esc: this.onEscPress,
     'command+a': this.onCmdAPress,
-    'ctrl+a': this.onCmdAPress
+    'ctrl+a': this.onCmdAPress,
   };
 
   render() {
     return (
-      <div data-test="ring-multitable">{
-        Children.map<ReactElement, ReactElement>(this.props.children, child => {
+      <div data-test="ring-multitable">
+        {Children.map<ReactElement, ReactElement>(this.props.children, child => {
           const props = {shortcuts: this.shortcuts};
           return cloneElement(child, props);
-        })
-      }</div>
+        })}
+      </div>
     );
   }
 }

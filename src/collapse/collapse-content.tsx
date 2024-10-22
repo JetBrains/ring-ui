@@ -29,7 +29,7 @@ type Props = {
 export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   children,
   minHeight = DEFAULT_HEIGHT,
-  'data-test': dataTest
+  'data-test': dataTest,
 }) => {
   const {collapsed, duration, id, disableAnimation} = useContext(CollapseContext);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   const contentHeight = useRef<number>(DEFAULT_HEIGHT);
   const [dimensions, setDimensions] = useState({
     width: 0,
-    height: 0
+    height: 0,
   });
   const [height, setHeight] = useState<string>(toPx(minHeight));
   const [showFade, setShowFade] = useState<boolean>(true);
@@ -81,7 +81,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
     return {
       '--duration': `${calculatedDuration}ms`,
       height,
-      opacity: collapsed && !minHeight ? HIDDEN : VISIBLE
+      opacity: collapsed && !minHeight ? HIDDEN : VISIBLE,
     };
   }, [duration, height, collapsed, minHeight]);
 
@@ -98,7 +98,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
       <div ref={contentRef} data-test={dataTests(COLLAPSE_CONTENT_TEST_ID, dataTest)}>
         {children}
       </div>
-      {fadeShouldBeVisible && <div className={styles.fade}/>}
+      {fadeShouldBeVisible && <div className={styles.fade} />}
     </div>
   );
 };

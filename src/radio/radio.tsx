@@ -14,11 +14,6 @@ export default class Radio extends Component<RadioProps> {
   uid = getUID('ring-radio-');
 
   render() {
-    return (
-      <RadioContext.Provider value={{name: this.uid, ...this.props}}>
-        {this.props.children}
-      </RadioContext.Provider>
-    );
+    return <RadioContext.Provider value={{name: this.uid, ...this.props}}>{this.props.children}</RadioContext.Provider>;
   }
 }
-

@@ -125,7 +125,9 @@
   padding: 0 0 3px;
 
   cursor: pointer;
-  transition: color var(--ring-ease), border-color var(--ring-ease);
+  transition:
+    color var(--ring-ease),
+    border-color var(--ring-ease);
   text-align: left;
   vertical-align: top;
 

@@ -7,32 +7,24 @@ import linkStyles from '../link/link.css';
 import styles from './markdown.css';
 
 export interface MarkdownProps {
-  inline?: boolean | null | undefined
-  children: ReactNode
-  className?: string | null | undefined
+  inline?: boolean | null | undefined;
+  children: ReactNode;
+  className?: string | null | undefined;
 }
 
 /**
-  * @name Markdown
-*/
+ * @name Markdown
+ */
 
 export default class Markdown extends PureComponent<MarkdownProps> {
   render() {
     const {className, children, inline} = this.props;
 
-    const classes = classNames(className,
-      headingStyles.contentWithHeadings,
-      linkStyles.withLinks,
-      {
-        [styles.markdown]: !inline,
-        [styles.inline]: inline
-      }
-    );
+    const classes = classNames(className, headingStyles.contentWithHeadings, linkStyles.withLinks, {
+      [styles.markdown]: !inline,
+      [styles.inline]: inline,
+    });
 
-    return (
-      <div className={classes}>
-        {children}
-      </div>
-    );
+    return <div className={classes}>{children}</div>;
   }
 }

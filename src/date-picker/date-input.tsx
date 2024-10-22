@@ -11,19 +11,19 @@ import {DatePopupBaseProps, Field} from './consts';
 import styles from './date-picker.css';
 
 export interface UpdateInputConfig {
-  active: boolean
-  text: string | null
+  active: boolean;
+  text: string | null;
 }
 
 export interface DateInputProps extends DatePopupBaseProps, UpdateInputConfig {
-  divider: boolean
-  name: Field
-  hoverDate: Date | null
-  date: Date | null | undefined
-  time?: string | null | undefined
-  onInput: (value: string, name: Field) => void
-  onActivate: () => void
-  onConfirm: () => void
+  divider: boolean;
+  name: Field;
+  hoverDate: Date | null;
+  date: Date | null | undefined;
+  time?: string | null | undefined;
+  onInput: (value: string, name: Field) => void;
+  onActivate: () => void;
+  onConfirm: () => void;
 }
 
 export default class DateInput extends React.PureComponent<DateInputProps> {
@@ -79,11 +79,21 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
 
   render() {
     const {
-      active, divider, text,
-      time, name, hoverDate,
-      date, displayFormat, translations,
-      onActivate, onClear,
-      fromPlaceholder, toPlaceholder, timePlaceholder, locale
+      active,
+      divider,
+      text,
+      time,
+      name,
+      hoverDate,
+      date,
+      displayFormat,
+      translations,
+      onActivate,
+      onClear,
+      fromPlaceholder,
+      toPlaceholder,
+      timePlaceholder,
+      locale,
     } = this.props;
     const {translate} = this.context;
 
@@ -107,9 +117,9 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
         case 'time':
           return timePlaceholder || (translations?.addTime ?? translate('addTime'));
         default:
-          return (translations?.selectName ?? translate('selectName')).
-            replace('%name%', name).
-            replace('{{name}}', name);
+          return (translations?.selectName ?? translate('selectName'))
+            .replace('%name%', name)
+            .replace('{{name}}', name);
       }
     })();
 
@@ -117,7 +127,7 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
       styles.filter,
       styles[`${name}Input`],
       divider && styles[`${name}InputWithDivider`],
-      'ring-js-shortcuts'
+      'ring-js-shortcuts',
     );
 
     return (

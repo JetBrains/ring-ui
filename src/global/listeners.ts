@@ -1,15 +1,12 @@
 // PM = payload map
-export type Handler<PM extends Record<string, [unknown, unknown]>, E extends keyof PM> =
-  (data: PM[E][0]) => PM[E][1] | Promise<PM[E][1]>
+export type Handler<PM extends Record<string, [unknown, unknown]>, E extends keyof PM> = (
+  data: PM[E][0],
+) => PM[E][1] | Promise<PM[E][1]>;
 
-export default class Listeners<
-  PM extends Record<string, [unknown, unknown]> = Record<string, [void, unknown]>
-> {
+export default class Listeners<PM extends Record<string, [unknown, unknown]> = Record<string, [void, unknown]>> {
   _all = new Map<keyof PM, Set<Handler<PM, keyof PM>>>();
 
-  trigger<E extends keyof PM>(
-    ...[event, data]: PM[E][0] extends void ? [E] : [E, PM[E][0]]
-  ): Promise<PM[E][1][]> {
+  trigger<E extends keyof PM>(...[event, data]: PM[E][0] extends void ? [E] : [E, PM[E][0]]): Promise<PM[E][1][]> {
     const handlers = this._all.get(event);
 
     if (handlers) {

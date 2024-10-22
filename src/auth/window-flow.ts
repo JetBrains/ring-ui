@@ -32,11 +32,7 @@ export default class WindowFlow implements LoginFlow {
     const top = (window.screen.height - height - NAVBAR_HEIGHT) / screenHalves;
     const left = (window.screen.width - width) / screenHalves;
 
-    return window.open(
-      url,
-      'HubLoginWindow',
-      `height=${height}, width=${width}, left=${left}, top=${top}`
-    );
+    return window.open(url, 'HubLoginWindow', `height=${height}, width=${width}, left=${left}, top=${top}`);
   }
 
   /**
@@ -46,7 +42,7 @@ export default class WindowFlow implements LoginFlow {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
       // eslint-disable-next-line camelcase
       {request_credentials: 'required', auth_mode: 'bypass_to_login'},
-      {nonRedirect: true}
+      {nonRedirect: true},
     );
 
     return new Promise((resolve, reject) => {

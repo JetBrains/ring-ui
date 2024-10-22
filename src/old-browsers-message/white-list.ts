@@ -15,18 +15,17 @@ const SUPPORTED = SUPPORTED_BROWSERS || [];
 
 const WHITE_LISTED_BROWSERS = ['chrome', 'firefox', 'safari', 'edge'];
 
-export const WHITE_LIST = SUPPORTED.
-  reduce((acc: Record<string, number>, item) => {
-    const [, browserName, version] = item.match(/(\S+)\s(\S+)/) ?? [];
-    if (!WHITE_LISTED_BROWSERS.includes(browserName)) {
-      return acc;
-    }
+export const WHITE_LIST = SUPPORTED.reduce((acc: Record<string, number>, item) => {
+  const [, browserName, version] = item.match(/(\S+)\s(\S+)/) ?? [];
+  if (!WHITE_LISTED_BROWSERS.includes(browserName)) {
+    return acc;
+  }
 
-    return {
-      ...acc,
-      [browserName]: parseInt(version, 10)
-    };
-  }, {});
+  return {
+    ...acc,
+    [browserName]: parseInt(version, 10),
+  };
+}, {});
 
 export function isBrowserInWhiteList() {
   return sniffer.browser.version[MAJOR_VERSION_INDEX] >= WHITE_LIST[sniffer.browser.name];

@@ -11,14 +11,14 @@ import ControlHelp from '../control-help/control-help';
 import styles from './checkbox.css';
 
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string | null | undefined
-  containerClassName?: string | null | undefined
-  containerStyle?: CSSProperties | undefined
-  cellClassName?: string | null | undefined
-  labelClassName?: string | null | undefined
-  indeterminate: boolean
-  inputRef?: Ref<HTMLInputElement>
-  help?: ReactNode
+  label?: string | null | undefined;
+  containerClassName?: string | null | undefined;
+  containerStyle?: CSSProperties | undefined;
+  cellClassName?: string | null | undefined;
+  labelClassName?: string | null | undefined;
+  indeterminate: boolean;
+  inputRef?: Ref<HTMLInputElement>;
+  help?: ReactNode;
 }
 
 /**
@@ -29,7 +29,7 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
  */
 export default class Checkbox extends PureComponent<CheckboxProps> {
   static defaultProps = {
-    indeterminate: false
+    indeterminate: false,
   };
 
   componentDidMount() {
@@ -77,11 +77,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
     const labelClasses = classNames(styles.label, labelClassName);
 
     return (
-      <label
-        className={containerClasses}
-        style={containerStyle}
-        data-test="ring-checkbox"
-      >
+      <label className={containerClasses} style={containerStyle} data-test="ring-checkbox">
         <input
           {...restProps}
           data-checked={restProps.checked}
@@ -91,14 +87,8 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
         />
         <div className={styles.cellWrapper}>
           <span className={cellClasses}>
-            <Icon
-              glyph={checkmarkIcon}
-              className={styles.check}
-            />
-            <Icon
-              glyph={minusIcon}
-              className={styles.minus}
-            />
+            <Icon glyph={checkmarkIcon} className={styles.check} />
+            <Icon glyph={minusIcon} className={styles.minus} />
           </span>
         </div>
         <span className={labelClasses}>

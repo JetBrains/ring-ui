@@ -5,12 +5,12 @@ import {encodeURL} from '../global/url';
 import AuthStorage, {AuthState} from './storage';
 
 export interface AuthRequestBuilderConfig {
-  authorization: string
-  redirectUri?: string | null | undefined
-  requestCredentials?: string | null | undefined
-  clientId?: string | null | undefined
-  scopes: readonly string[]
-  redirect?: boolean | null | undefined
+  authorization: string;
+  redirectUri?: string | null | undefined;
+  requestCredentials?: string | null | undefined;
+  clientId?: string | null | undefined;
+  scopes: readonly string[];
+  redirect?: boolean | null | undefined;
 }
 
 export default class AuthRequestBuilder {
@@ -43,36 +43,39 @@ export default class AuthRequestBuilder {
    * @param {object=} extraState additional state parameters to save
    * @return {Promise.<string>} promise that is resolved to authURL
    */
-  async prepareAuthRequest(
-    extraParams?: Record<string, unknown> | null | undefined,
-    extraState?: Partial<AuthState>
-  ) {
+  async prepareAuthRequest(extraParams?: Record<string, unknown> | null | undefined, extraState?: Partial<AuthState>) {
     const stateId = AuthRequestBuilder._uuid();
     const scopes = this.config.scopes.map(scope => encodeURIComponent(scope));
 
     /* eslint-disable camelcase */
-    const request = Object.assign({
-      response_type: 'token',
-      state: stateId,
-      redirect_uri: this.config.redirectUri,
-      request_credentials: this.config.requestCredentials,
-      client_id: this.config.clientId,
-      scope: scopes.join(' ')
-    }, extraParams || {});
+    const request = Object.assign(
+      {
+        response_type: 'token',
+        state: stateId,
+        redirect_uri: this.config.redirectUri,
+        request_credentials: this.config.requestCredentials,
+        client_id: this.config.clientId,
+        scope: scopes.join(' '),
+      },
+      extraParams || {},
+    );
     /* eslint-enable camelcase */
 
     const authURL = encodeURL(this.config.authorization, request);
 
-    const state = Object.assign({
-      restoreLocation: window.location.href,
-      scopes: this.config.scopes
-    }, extraState || {});
+    const state = Object.assign(
+      {
+        restoreLocation: window.location.href,
+        scopes: this.config.scopes,
+      },
+      extraState || {},
+    );
 
     await this._saveState(stateId, state);
-    return ({
+    return {
       url: authURL,
-      stateId
-    });
+      stateId,
+    };
   }
 
   /**

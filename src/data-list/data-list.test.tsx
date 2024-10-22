@@ -9,22 +9,22 @@ const data: SelectionItem[] = [];
 const props: DataListContainerProps<SelectionItem> = {
   data,
   selection: new Selection({data, isItemSelectable: item => Boolean(item.selectable)}),
-  itemFormatter: () => ({})
+  itemFormatter: () => ({}),
 };
 
 describe('Data List', () => {
   it('should create component', () => {
-    render(<DataList {...props}/>);
+    render(<DataList {...props} />);
     screen.getByTestId('ring-data-list').should.exist;
   });
 
   it('should wrap children with div', () => {
-    render(<DataList {...props}/>);
+    render(<DataList {...props} />);
     screen.getByTestId('ring-data-list').should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    render(<DataList {...props} className="test-class"/>);
+    render(<DataList {...props} className="test-class" />);
     screen.getByRole('list').should.have.class('test-class');
   });
 });

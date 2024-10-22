@@ -33,7 +33,7 @@ export enum AlertType {
   MESSAGE = 'message',
   SUCCESS = 'success',
   WARNING = 'warning',
-  LOADING = 'loading'
+  LOADING = 'loading',
 }
 
 /**
@@ -43,7 +43,7 @@ export enum AlertType {
 const TypeToIcon: Partial<Record<AlertType, string>> = {
   [AlertType.ERROR]: exceptionIcon,
   [AlertType.SUCCESS]: checkmarkIcon,
-  [AlertType.WARNING]: warningIcon
+  [AlertType.WARNING]: warningIcon,
 };
 
 /**
@@ -53,36 +53,36 @@ const TypeToIcon: Partial<Record<AlertType, string>> = {
 const TypeToIconColor: Partial<Record<AlertType, Color>> = {
   [AlertType.ERROR]: Color.RED,
   [AlertType.SUCCESS]: Color.GREEN,
-  [AlertType.WARNING]: Color.WHITE
+  [AlertType.WARNING]: Color.WHITE,
 };
 
 export interface AlertProps {
-  theme: Theme,
-  timeout: number
+  theme: Theme;
+  timeout: number;
   /**
    * Fires when alert starts closing if timeout is out or user clicks "Close" button
    */
-  onCloseRequest: ((event?: React.MouseEvent<HTMLElement>) => void)
-  onClose: (() => void)
-  isShaking: boolean
-  isClosing: boolean
+  onCloseRequest: (event?: React.MouseEvent<HTMLElement>) => void;
+  onClose: () => void;
+  isShaking: boolean;
+  isClosing: boolean;
   /**
    * Whether an alert is rendered inside an **Alerts** container
    * or standalone.
    */
-  inline: boolean
-  showWithAnimation: boolean
-  closeable: boolean
-  type: AlertType
-  children?: ReactNode
-  className?: string | null | undefined
-  captionClassName?: string | null | undefined
-  closeButtonClassName?: string | null | undefined
-  'data-test'?: string | null | undefined
+  inline: boolean;
+  showWithAnimation: boolean;
+  closeable: boolean;
+  type: AlertType;
+  children?: ReactNode;
+  className?: string | null | undefined;
+  captionClassName?: string | null | undefined;
+  closeButtonClassName?: string | null | undefined;
+  'data-test'?: string | null | undefined;
 }
 
 interface State {
-  height: number | null
+  height: number | null;
 }
 
 /**
@@ -105,11 +105,11 @@ export default class Alert extends PureComponent<AlertProps, State> {
     isShaking: false,
     timeout: 0,
     onClose: () => {},
-    onCloseRequest: () => {}
+    onCloseRequest: () => {},
   };
 
   state = {
-    height: null
+    height: null,
   };
 
   componentDidMount() {
@@ -167,7 +167,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
     return (
       <span
         className={classNames(styles.caption, this.props.captionClassName, {
-          [styles.withCloseButton]: this.props.closeable
+          [styles.withCloseButton]: this.props.closeable,
         })}
         onClick={this._handleCaptionsLinksClick}
         // We only process clicks on `a` elements, see above
@@ -186,17 +186,9 @@ export default class Alert extends PureComponent<AlertProps, State> {
     const glyph = TypeToIcon[this.props.type];
 
     if (glyph) {
-      return (
-        <Icon
-          glyph={glyph}
-          className={styles.icon}
-          color={TypeToIconColor[this.props.type] || Color.DEFAULT}
-        />
-      );
+      return <Icon glyph={glyph} className={styles.icon} color={TypeToIconColor[this.props.type] || Color.DEFAULT} />;
     } else if (this.props.type === AlertType.LOADING) {
-      return (
-        <Loader className={styles.loader}/>
-      );
+      return <Loader className={styles.loader} />;
     }
 
     return '';
@@ -207,8 +199,17 @@ export default class Alert extends PureComponent<AlertProps, State> {
   };
 
   render() {
-    const {type, inline, isClosing, isShaking, closeButtonClassName,
-      showWithAnimation, className, 'data-test': dataTest, theme} = this.props;
+    const {
+      type,
+      inline,
+      isClosing,
+      isShaking,
+      closeButtonClassName,
+      showWithAnimation,
+      className,
+      'data-test': dataTest,
+      theme,
+    } = this.props;
 
     const classes = classNames(className, {
       [styles.alert]: true,
@@ -216,7 +217,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
       [styles.error]: type === 'error',
       [styles.alertInline]: inline,
       [styles.animationClosing]: isClosing,
-      [styles.animationShaking]: isShaking
+      [styles.animationShaking]: isShaking,
     });
 
     const height = this.state.height;
@@ -233,19 +234,17 @@ export default class Alert extends PureComponent<AlertProps, State> {
       >
         {this._getIcon()}
         {this._getCaption()}
-        {
-          this.props.closeable
-            ? (
-              <Button
-                icon={closeIcon}
-                className={classNames(styles.close, closeButtonClassName)}
-                data-test="alert-close"
-                aria-label="close alert"
-                onClick={this.closeRequest}
-              />
-            )
-            : ''
-        }
+        {this.props.closeable ? (
+          <Button
+            icon={closeIcon}
+            className={classNames(styles.close, closeButtonClassName)}
+            data-test="alert-close"
+            aria-label="close alert"
+            onClick={this.closeRequest}
+          />
+        ) : (
+          ''
+        )}
       </ThemeProvider>
     );
   }

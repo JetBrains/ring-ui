@@ -20,51 +20,51 @@ export const showMessage = 'userAgreementShow';
 export const hideMessage = 'userAgreementHide';
 
 export interface Consent {
-  accepted?: boolean | null | undefined
-  majorVersion?: number | null | undefined
-  minorVersion?: number | null | undefined
+  accepted?: boolean | null | undefined;
+  majorVersion?: number | null | undefined;
+  minorVersion?: number | null | undefined;
 }
 const DEFAULT_CONSENT: Consent = {
   accepted: false,
   majorVersion: 0,
-  minorVersion: 0
+  minorVersion: 0,
 };
 
 export interface ConsentResponse {
-  guest?: boolean | null | undefined
-  endUserAgreementConsent?: Consent | null | undefined
+  guest?: boolean | null | undefined;
+  endUserAgreementConsent?: Consent | null | undefined;
 }
 
 export interface Agreement {
-  content: ReactNode
-  enabled?: boolean | null | undefined
-  majorVersion?: number | null | undefined
-  minorVersion?: number | null | undefined
-  requiredForREST?: boolean | null | undefined
+  content: ReactNode;
+  enabled?: boolean | null | undefined;
+  majorVersion?: number | null | undefined;
+  minorVersion?: number | null | undefined;
+  requiredForREST?: boolean | null | undefined;
 }
 const DEFAULT_AGREEMENT: Agreement = {
   enabled: false,
   majorVersion: 0,
   minorVersion: 0,
   requiredForREST: false,
-  content: ''
+  content: '',
 };
 
 export interface UserAgreementServiceTranslations extends UserAgreementTranslations {
-  reviewNow: string
+  reviewNow: string;
 }
 
 export interface UserAgreementServiceConfig {
-  getUserAgreement: () => Promise<Agreement | null | undefined> | Agreement | null | undefined
-  getUserConsent: () => Promise<ConsentResponse> | ConsentResponse
-  setUserConsent: () => Promise<Consent> | Consent
-  interval?: number | null | undefined
-  translations?: UserAgreementServiceTranslations | undefined
-  onDialogShow?: (() => void) | null | undefined
-  onDialogHide?: (() => void) | null | undefined
-  onRemindLater?: (() => void) | null | undefined
-  onAccept?: (() => void) | null | undefined
-  onDecline?: (() => void) | null | undefined
+  getUserAgreement: () => Promise<Agreement | null | undefined> | Agreement | null | undefined;
+  getUserConsent: () => Promise<ConsentResponse> | ConsentResponse;
+  setUserConsent: () => Promise<Consent> | Consent;
+  interval?: number | null | undefined;
+  translations?: UserAgreementServiceTranslations | undefined;
+  onDialogShow?: (() => void) | null | undefined;
+  onDialogHide?: (() => void) | null | undefined;
+  onRemindLater?: (() => void) | null | undefined;
+  onAccept?: (() => void) | null | undefined;
+  onDecline?: (() => void) | null | undefined;
 }
 export default class UserAgreementService {
   config: UserAgreementServiceConfig;
@@ -166,10 +166,7 @@ export default class UserAgreementService {
 
   checkConsent = async () => {
     if (!this.checkingPromise) {
-      this.checkingPromise = Promise.all([
-        this.getUserAgreement(),
-        this.getUserConsent()
-      ]);
+      this.checkingPromise = Promise.all([this.getUserAgreement(), this.getUserConsent()]);
     }
 
     const [userAgreement, userConsent] = await this.checkingPromise;
@@ -187,7 +184,7 @@ export default class UserAgreementService {
       return this._alertPromise;
     }
     this._alertPromise = new Promise<void>((resolve, reject) => {
-      const {userAgreement, reviewNow, remindLater} = (this.config.translations || {});
+      const {userAgreement, reviewNow, remindLater} = this.config.translations || {};
       const onRemind = () => {
         this.hideDialogAndAlert(withoutNotifications);
         reject('Postponed');
@@ -202,8 +199,12 @@ export default class UserAgreementService {
       const message = (
         <Group>
           <span>{userAgreement || 'User Agreement'}</span>
-          <Link onClick={onReview} data-test="review">{reviewNow || 'Review now'}</Link>
-          <Link onClick={onRemind} data-test="later">{remindLater || 'Remind me later'}</Link>
+          <Link onClick={onReview} data-test="review">
+            {reviewNow || 'Review now'}
+          </Link>
+          <Link onClick={onRemind} data-test="later">
+            {remindLater || 'Remind me later'}
+          </Link>
         </Group>
       );
       this.alertKey = alertService.addAlert(message, Alert.Type.WARNING, 0, {closeable: false});
@@ -232,11 +233,7 @@ export default class UserAgreementService {
     }
   };
 
-  showDialog = (
-    withoutNotifications?: boolean,
-    preview = false,
-    restOptions?: Partial<UserAgreementAttrs>
-  ) => {
+  showDialog = (withoutNotifications?: boolean, preview = false, restOptions?: Partial<UserAgreementAttrs>) => {
     const {translations, onDialogShow} = this.config;
     const {content} = this.userAgreement;
     const show = true;
@@ -262,15 +259,14 @@ export default class UserAgreementService {
           onDecline,
           onClose,
           translations,
-          preview, ...restOptions
+          preview,
+          ...restOptions,
         };
 
         this.reactRoot.render(
-          (
-            <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
-              <UserAgreement {...props}/>
-            </ControlsHeightContext.Provider>
-          ),
+          <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
+            <UserAgreement {...props} />
+          </ControlsHeightContext.Provider>,
         );
 
         if (onDialogShow) {
@@ -304,7 +300,7 @@ export default class UserAgreementService {
   showDialogOrAlert = (
     withoutNotifications?: boolean,
     preview?: boolean,
-    restOptions?: Partial<UserAgreementAttrs>
+    restOptions?: Partial<UserAgreementAttrs>,
   ) => {
     if (this.guest && !this.userAgreement.requiredForREST) {
       return this.showAlert(withoutNotifications);

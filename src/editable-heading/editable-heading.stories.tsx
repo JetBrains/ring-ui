@@ -10,10 +10,9 @@ import EditableHeading, {EditableHeadingProps, Levels} from './editable-heading'
 
 const lorem = (
   <div>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
   </div>
 );
 
@@ -21,8 +20,8 @@ export default {
   title: 'Components/Editable Heading',
 
   parameters: {
-    notes: 'A component for editable rendering h1-h5 tags.'
-  }
+    notes: 'A component for editable rendering h1-h5 tags.',
+  },
 };
 
 export const basic = () => {
@@ -57,14 +56,16 @@ export const basic = () => {
         className="example-editable-heading"
         isSaving={isSaving}
         {...restProps}
-      >{children}</EditableHeading>
+      >
+        {children}
+      </EditableHeading>
     );
   };
 
   const renderMenu = () => (
     <>
-      <Button icon={pencilIcon} className="example-editable-heading__menu-button" title="Edit"/>
-      <Button icon={moreOptionsIcon} className="example-editable-heading__menu-button" title="More Options"/>
+      <Button icon={pencilIcon} className="example-editable-heading__menu-button" title="Edit" />
+      <Button icon={moreOptionsIcon} className="example-editable-heading__menu-button" title="More Options" />
     </>
   );
 
@@ -79,16 +80,24 @@ export const basic = () => {
       <ExampleEditableHeading level={Levels.H3}>Editable Heading 3</ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading level={Levels.H1} size={Size.S}>S size</ExampleEditableHeading>
+      <ExampleEditableHeading level={Levels.H1} size={Size.S}>
+        S size
+      </ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading level={Levels.H1} size={Size.M}>M size</ExampleEditableHeading>
+      <ExampleEditableHeading level={Levels.H1} size={Size.M}>
+        M size
+      </ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading level={Levels.H1} size={Size.L}>L size</ExampleEditableHeading>
+      <ExampleEditableHeading level={Levels.H1} size={Size.L}>
+        L size
+      </ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading level={Levels.H1} size={Size.FULL}>FULL size</ExampleEditableHeading>
+      <ExampleEditableHeading level={Levels.H1} size={Size.FULL}>
+        FULL size
+      </ExampleEditableHeading>
       {lorem}
 
       <ExampleEditableHeading renderMenu={renderMenu}>Heading with menu</ExampleEditableHeading>
@@ -99,27 +108,21 @@ export const basic = () => {
       </ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading size={Size.M}>
-        Too long long long long long long long heading
-      </ExampleEditableHeading>
+      <ExampleEditableHeading size={Size.M}>Too long long long long long long long heading</ExampleEditableHeading>
       {lorem}
 
       <ExampleEditableHeading multiline maxInputRows={5}>
-        Multiline Heading.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio tellus.
-        Suspendisse ut elit orci. Pellentesque sagittis pharetra lacus, id vehicula mauris.
-        Donec lacinia tincidunt risus, et sollicitudin risus dignissim sit amet.
-        Duis eu lectus ac odio pharetra egestas in eget ipsum. Curabitur luctus lacinia molestie.
-        Nullam id metus tortor.
+        Multiline Heading. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio tellus. Suspendisse
+        ut elit orci. Pellentesque sagittis pharetra lacus, id vehicula mauris. Donec lacinia tincidunt risus, et
+        sollicitudin risus dignissim sit amet. Duis eu lectus ac odio pharetra egestas in eget ipsum. Curabitur luctus
+        lacinia molestie. Nullam id metus tortor.
       </ExampleEditableHeading>
       {lorem}
 
       <ExampleEditableHeading error="">Invalid Heading</ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading error="Some error message">
-        Invalid Heading with an error message
-      </ExampleEditableHeading>
+      <ExampleEditableHeading error="Some error message">Invalid Heading with an error message</ExampleEditableHeading>
       {lorem}
 
       <ExampleEditableHeading disabled>Disabled Heading</ExampleEditableHeading>
@@ -141,6 +144,5 @@ basic.parameters = {
     padding: 0;
     margin-left: var(--ring-unit);
   }
-</style>`
+</style>`,
 };
-

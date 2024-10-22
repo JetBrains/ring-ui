@@ -13,8 +13,8 @@ A footer consists of three sections, each optional:
 - center
 - right
     `,
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/5b2a6042114b24a11a8ac153'
-  }
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/5b2a6042114b24a11a8ac153',
+  },
 };
 
 export const basic = () => (
@@ -24,11 +24,11 @@ export const basic = () => (
       [
         {
           url: 'http://www.jetbrains.com/teamcity/?fromserver',
-          label: 'TeamCity'
+          label: 'TeamCity',
         },
-        ' by JetBrains'
+        ' by JetBrains',
       ],
-      'Enterprise 8.0.2 EAP (build 27448)'
+      'Enterprise 8.0.2 EAP (build 27448)',
     ]}
     center={[
       [{copyright: 2000, label: ' JetBrains'}],
@@ -36,15 +36,14 @@ export const basic = () => (
         url: 'https://teamcity.jetbrains.com/showAgreement.html',
         label: 'License agreement',
         title: 'read me!',
-        target: '_blank'
-      }
+        target: '_blank',
+      },
     ]}
     right={[
       {
-        url:
-          'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent',
-        label: 'Feedback'
-      }
+        url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent',
+        label: 'Feedback',
+      },
     ]}
   />
 );

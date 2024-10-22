@@ -12,12 +12,12 @@ const TOKEN_TYPE = 'Bearer';
 export const defaultFetchConfig: RequestInit = {
   headers: {
     'Content-Type': 'application/json',
-    Accept: 'application/json'
+    Accept: 'application/json',
   },
-  credentials: 'same-origin'
+  credentials: 'same-origin',
 };
 
-export type HTTPErrorData = Record<string, unknown>
+export type HTTPErrorData = Record<string, unknown>;
 
 export class HTTPError extends ExtendableError {
   data: HTTPErrorData;
@@ -30,37 +30,31 @@ export class HTTPError extends ExtendableError {
 }
 
 export const CODE = {
-  UNAUTHORIZED: 401
+  UNAUTHORIZED: 401,
 };
 
 type Method<T> = (url: string, params?: RequestParams) => Promise<T>;
 
 export interface FetchParams<T = unknown> extends Omit<RequestInit, 'body' | 'headers'> {
-  body?: T
-  query?: Record<string, unknown> | undefined
-  headers?: HeadersInit | Record<string, null | undefined>
+  body?: T;
+  query?: Record<string, unknown> | undefined;
+  headers?: HeadersInit | Record<string, null | undefined>;
 }
 
-export interface RequestParams<
-  RawBody extends boolean = true | false
-> extends FetchParams<
-  RawBody extends true ? (BodyInit | null) : unknown
-> {
+export interface RequestParams<RawBody extends boolean = true | false>
+  extends FetchParams<RawBody extends true ? BodyInit | null : unknown> {
   sendRawBody?: RawBody;
 }
 
-export type RequestParamsWithoutMethod<
-  RawBody extends boolean = boolean
-  > = Omit<RequestParams<RawBody>, 'method'>;
+export type RequestParamsWithoutMethod<RawBody extends boolean = boolean> = Omit<RequestParams<RawBody>, 'method'>;
 
 function isRawBody(params: RequestParams): params is RequestParams<true> {
   return params.sendRawBody === true;
 }
 
-
 export interface HTTPAuth {
-  requestToken(): Promise<string | null> | string | null
-  forceTokenUpdate(): Promise<string | null>
+  requestToken(): Promise<string | null> | string | null;
+  forceTokenUpdate(): Promise<string | null>;
 }
 
 export default class HTTP implements Partial<HTTPAuth> {
@@ -84,8 +78,8 @@ export default class HTTP implements Partial<HTTPAuth> {
       ...fetchConfig,
       headers: {
         ...headers,
-        ...fetchConfig.headers
-      }
+        ...fetchConfig.headers,
+      },
     };
   }
 
@@ -108,17 +102,13 @@ export default class HTTP implements Partial<HTTPAuth> {
     return joinBaseURLAndPath(this.baseUrl, urlWithQuery);
   }
 
-  private _performRequest(
-    url: string,
-    token?: string | null | boolean,
-    params: RequestParams = {}
-  ) {
+  private _performRequest(url: string, token?: string | null | boolean, params: RequestParams = {}) {
     const {headers, body, query = {}, sendRawBody, ...fetchConfig} = params;
 
     const combinedHeaders = {
       ...this.fetchConfig.headers,
       ...(token ? {Authorization: `${TOKEN_TYPE} ${token}`} : {}),
-      ...headers
+      ...headers,
     };
 
     Object.entries(combinedHeaders).forEach(([key, header]) => {
@@ -131,26 +121,21 @@ export default class HTTP implements Partial<HTTPAuth> {
     if (isRawBody(params)) {
       bodyToSend = params.body;
     } else {
-      bodyToSend = params.body === null || params.body === undefined || params.body === ''
-        ? params.body
-        : JSON.stringify(body);
+      bodyToSend =
+        params.body === null || params.body === undefined || params.body === '' ? params.body : JSON.stringify(body);
     }
 
-    return this._fetch(
-      this._makeRequestUrl(url, query),
-      {
-        ...this.fetchConfig,
-        headers: combinedHeaders as HeadersInit,
-        ...fetchConfig,
-        body: bodyToSend
-      }
-    );
+    return this._fetch(this._makeRequestUrl(url, query), {
+      ...this.fetchConfig,
+      headers: combinedHeaders as HeadersInit,
+      ...fetchConfig,
+      body: bodyToSend,
+    });
   }
 
   private _storeRequestMeta(parsedResponse: object, rawResponse: Partial<Response>) {
     const {headers, ok, redirected, status, statusText, type, url} = rawResponse;
-    this._requestsMeta.
-      set(parsedResponse, {headers, ok, redirected, status, statusText, type, url});
+    this._requestsMeta.set(parsedResponse, {headers, ok, redirected, status, statusText, type, url});
   }
 
   private async _processResponse(response: Response) {
@@ -180,14 +165,11 @@ export default class HTTP implements Partial<HTTPAuth> {
   fetch = async <T = unknown>(url: string, params: FetchParams = {}): Promise<T> => {
     const {body, query = {}, ...fetchConfig} = params;
 
-    const response = await this._fetch(
-      this._makeRequestUrl(url, query),
-      {
-        ...fetchConfig,
-        headers: fetchConfig.headers as HeadersInit | undefined,
-        body: body !== null && body !== undefined && body !== '' ? JSON.stringify(body) : body
-      }
-    );
+    const response = await this._fetch(this._makeRequestUrl(url, query), {
+      ...fetchConfig,
+      headers: fetchConfig.headers as HeadersInit | undefined,
+      body: body !== null && body !== undefined && body !== '' ? JSON.stringify(body) : body,
+    });
 
     return this._processResponse(response);
   };
@@ -210,9 +192,8 @@ export default class HTTP implements Partial<HTTPAuth> {
         throw error;
       }
 
-      const shouldRefreshToken = typeof error.data.error === 'string'
-        ? this.shouldRefreshToken?.(error.data.error)
-        : false;
+      const shouldRefreshToken =
+        typeof error.data.error === 'string' ? this.shouldRefreshToken?.(error.data.error) : false;
 
       if (shouldRefreshToken) {
         token = await this.forceTokenUpdate?.();
@@ -227,40 +208,36 @@ export default class HTTP implements Partial<HTTPAuth> {
 
   getMetaForResponse = (response: object) => this._requestsMeta.get(response);
 
-  get = <T = unknown>(url: string, params?: RequestParamsWithoutMethod): Promise<T> => (
+  get = <T = unknown>(url: string, params?: RequestParamsWithoutMethod): Promise<T> =>
     this.request<T>(url, {
       ...params,
-      method: 'GET'
-    })
-  );
+      method: 'GET',
+    });
 
-  post = <T = unknown>(url: string, params?: RequestParamsWithoutMethod): Promise<T> => (
+  post = <T = unknown>(url: string, params?: RequestParamsWithoutMethod): Promise<T> =>
     this.request<T>(url, {
       ...params,
-      method: 'POST'
-    })
-  );
+      method: 'POST',
+    });
 
-  delete = <T = unknown>(url: string, params?: RequestParamsWithoutMethod): Promise<T> => (
+  delete = <T = unknown>(url: string, params?: RequestParamsWithoutMethod): Promise<T> =>
     this.request<T>(url, {
       ...params,
-      method: 'DELETE'
-    })
-  );
+      method: 'DELETE',
+    });
 
-  put = <T = unknown>(url: string, params?: RequestParamsWithoutMethod): Promise<T> => (
+  put = <T = unknown>(url: string, params?: RequestParamsWithoutMethod): Promise<T> =>
     this.request<T>(url, {
       ...params,
-      method: 'PUT'
-    })
-  );
+      method: 'PUT',
+    });
 
   /**
    * Usage: const {promise, abort} = http.abortify(http.get<{id: string}>)('http://test.com');
    * @param method
    */
-  abortify = <T>(method: Method<T>):
-    ((...p: Parameters<Method<T>>) => ({promise: Promise<T>; abort: () => void;})) =>
+  abortify =
+    <T>(method: Method<T>): ((...p: Parameters<Method<T>>) => {promise: Promise<T>; abort: () => void}) =>
     (...[url, params]: Parameters<Method<T>>) => {
       const ctrl = new AbortController();
 
@@ -270,7 +247,7 @@ export default class HTTP implements Partial<HTTPAuth> {
 
       return {
         promise: method.call(this, url, params),
-        abort: () => ctrl.abort()
+        abort: () => ctrl.abort(),
       };
     };
 }

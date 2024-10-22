@@ -14,37 +14,38 @@ import styles from './button.css';
 import {getButtonClasses} from './button__classes';
 
 export interface ButtonBaseProps {
-  height?: ControlsHeight | undefined
-  active?: boolean | null | undefined
-  danger?: boolean | null | undefined
-  delayed?: boolean | null | undefined
-  loader?: boolean | null | undefined
-  primary?: boolean | null | undefined
-  short?: boolean | null | undefined
-  text?: boolean | null | undefined
-  inline?: boolean | null | undefined
-  dropdown?: boolean | null | undefined
-  disabled?: boolean | undefined
-  icon?: string | IconType | null | undefined
-  iconSize?: IconProps['size']
-  iconClassName?: string | null | undefined
-  iconSuppressSizeWarning?: boolean | null | undefined
+  height?: ControlsHeight | undefined;
+  active?: boolean | null | undefined;
+  danger?: boolean | null | undefined;
+  delayed?: boolean | null | undefined;
+  loader?: boolean | null | undefined;
+  primary?: boolean | null | undefined;
+  short?: boolean | null | undefined;
+  text?: boolean | null | undefined;
+  inline?: boolean | null | undefined;
+  dropdown?: boolean | null | undefined;
+  disabled?: boolean | undefined;
+  icon?: string | IconType | null | undefined;
+  iconSize?: IconProps['size'];
+  iconClassName?: string | null | undefined;
+  iconSuppressSizeWarning?: boolean | null | undefined;
 }
 
-export interface ButtonButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    ButtonBaseProps {
-  href?: undefined
+export interface ButtonButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, ButtonBaseProps {
+  href?: undefined;
 }
 
 export interface ButtonLinkProps extends ClickableLinkProps, ButtonBaseProps {
-  autoFocus?: never
-  href: string
+  autoFocus?: never;
+  href: string;
 }
 
-export type ButtonProps = ButtonButtonProps | ButtonLinkProps
+export type ButtonProps = ButtonButtonProps | ButtonLinkProps;
 
-const warnText = deprecate(() => {}, 'Button: "text" prop is deprecated and will be removed in 8.0. Use inline instead.');
+const warnText = deprecate(
+  () => {},
+  'Button: "text" prop is deprecated and will be removed in 8.0. Use inline instead.',
+);
 
 /**
  * @name Button
@@ -89,7 +90,9 @@ export class Button extends PureComponent<ButtonProps> {
     }
 
     const classes = getButtonClasses({
-      ...this.props, inline: isInline, height: height ?? this.context
+      ...this.props,
+      inline: isInline,
+      height: height ?? this.context,
     });
 
     const content = (
@@ -104,46 +107,33 @@ export class Button extends PureComponent<ButtonProps> {
           />
         )}
         {children}
-        {dropdown && (
-          <Icon
-            glyph={chevronDown}
-            className={styles.dropdownIcon}
-          />
-        )}
+        {dropdown && <Icon glyph={chevronDown} className={styles.dropdownIcon} />}
       </>
     );
     const commonProps = {
       tabIndex: loader ? -1 : 0,
       ...props,
       className: classes,
-      children: <>
-        {loader && !isInline && <div className={styles.loaderBackground}/>}
-        {content}
-      </>
+      children: (
+        <>
+          {loader && !isInline && <div className={styles.loaderBackground} />}
+          {content}
+        </>
+      ),
     };
 
-    return commonProps.href != null
-      ? (
-        <ClickableLink
-          {...commonProps}
-        />
-      )
-      : (
-        <button
-          ref={this.buttonRef}
-          type="button"
-          {...commonProps}
-        />
-      );
+    return commonProps.href != null ? (
+      <ClickableLink {...commonProps} />
+    ) : (
+      <button ref={this.buttonRef} type="button" {...commonProps} />
+    );
   }
 }
 
 export {Size as IconSize};
 
-export type ContainerProps<T extends ButtonProps> = JSX.LibraryManagedAttributes<typeof Button, T>
+export type ContainerProps<T extends ButtonProps> = JSX.LibraryManagedAttributes<typeof Button, T>;
 
-export type ButtonAttrs = ContainerProps<ButtonButtonProps> | ContainerProps<ButtonLinkProps>
+export type ButtonAttrs = ContainerProps<ButtonButtonProps> | ContainerProps<ButtonLinkProps>;
 
 export default Button;
-
-

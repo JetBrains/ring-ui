@@ -36,17 +36,18 @@ export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
     const classes = classNames(styles.item, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
-      [styles.scrolling]: scrolling
+      [styles.scrolling]: scrolling,
     });
 
+    const dataTest = dataTests(
+      'ring-list-item-custom',
+      {
+        'ring-list-item-action': !disabled,
+      },
+      restProps['data-test'],
+    );
 
-    const dataTest = dataTests('ring-list-item-custom', {
-      'ring-list-item-action': !disabled
-    }, restProps['data-test']);
-
-    const content: ReactNode = (typeof template === 'function')
-      ? template(this.props as ListDataItemProps<T>)
-      : template;
+    const content: ReactNode = typeof template === 'function' ? template(this.props as ListDataItemProps<T>) : template;
     const TagName: keyof JSX.IntrinsicElements = tagName || 'span';
 
     return (

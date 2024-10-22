@@ -31,7 +31,7 @@ describe('DOM', () => {
       isMounted(element).should.equal(true);
     });
 
-    it('should return false for an element that\'s not attached to DOM', () => {
+    it("should return false for an element that's not attached to DOM", () => {
       const element = create();
       isMounted(element).should.equal(false);
     });
@@ -41,14 +41,14 @@ describe('DOM', () => {
       isMounted(textNode).should.equal(true);
     });
 
-    it('should return false for textNode that\'s not attached to DOM', () => {
+    it("should return false for textNode that's not attached to DOM", () => {
       const textNode = document.createTextNode('Lorem ipsum dolor sit amet.');
       isMounted(textNode).should.equal(false);
     });
   });
 
   describe('getStyles', () => {
-    it('should return css-property that has been set via setAttribute(\'style\')', () => {
+    it("should return css-property that has been set via setAttribute('style')", () => {
       const element = attach(create());
       element.setAttribute('style', 'width: 100px;');
 
@@ -71,22 +71,21 @@ describe('DOM', () => {
   });
 
   describe.skip('getRect', () => {
-    const style = 'position: absolute; width: 100px; height: 100px; top: 10px; left: 10px; padding: 3px; margin: 4px; border: 2px solid;';
+    const style =
+      'position: absolute; width: 100px; height: 100px; top: 10px; left: 10px; padding: 3px; margin: 4px; border: 2px solid;';
 
     it('should return DOMRect-like object for an element', () => {
       const element = attach(create());
       element.setAttribute('style', style);
 
-      getRect(element).should.
-        deep.equal({top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110});
+      getRect(element).should.deep.equal({top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110});
     });
 
     it('should return DOMRect-like stub for unmounted element', () => {
       const element = create();
       element.setAttribute('style', style);
 
-      getRect(element).should.
-        deep.equal({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
+      getRect(element).should.deep.equal({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
     });
 
     it('should return DOMRect-like object for a range', () => {

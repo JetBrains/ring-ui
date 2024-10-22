@@ -1,6 +1,5 @@
 import {Component} from 'react';
 
-
 import Pager from './pager';
 
 function getDataFromUrl(name: string, defaultValue: number) {
@@ -23,15 +22,15 @@ export default {
 
   parameters: {
     notes: 'Displays a pager.',
-    screenshots: {captureSelector: '*[data-test~=ring-pager]'}
-  }
+    screenshots: {captureSelector: '*[data-test~=ring-pager]'},
+  },
 };
 
 export const basic = () => {
   class PagerDemo extends Component {
     state = {
       total: 750,
-      currentPage: 1
+      currentPage: 1,
     };
 
     render() {
@@ -47,7 +46,7 @@ export const basic = () => {
     }
   }
 
-  return <PagerDemo/>;
+  return <PagerDemo />;
 };
 
 basic.storyName = 'basic';
@@ -56,7 +55,7 @@ export const customFrameSize = () => {
   class PagerDemo extends Component {
     state = {
       total: 750,
-      currentPage: 1
+      currentPage: 1,
     };
 
     render() {
@@ -73,7 +72,7 @@ export const customFrameSize = () => {
     }
   }
 
-  return <PagerDemo/>;
+  return <PagerDemo />;
 };
 
 customFrameSize.storyName = 'custom frame size';
@@ -83,7 +82,7 @@ export const customFrameSize2 = () => {
   class PagerDemo extends Component {
     state = {
       total: 250,
-      currentPage: 1
+      currentPage: 1,
     };
 
     render() {
@@ -100,7 +99,7 @@ export const customFrameSize2 = () => {
     }
   }
 
-  return <PagerDemo/>;
+  return <PagerDemo />;
 };
 
 customFrameSize2.storyName = 'custom frame size #2';
@@ -110,7 +109,7 @@ export const customFrameSize3 = () => {
   class PagerDemo extends Component {
     state = {
       total: 400,
-      currentPage: 1
+      currentPage: 1,
     };
 
     render() {
@@ -127,7 +126,7 @@ export const customFrameSize3 = () => {
     }
   }
 
-  return <PagerDemo/>;
+  return <PagerDemo />;
 };
 
 customFrameSize3.storyName = 'custom frame size #3';
@@ -138,7 +137,7 @@ export const pageSizeSelector = () => {
     state = {
       total: 100,
       currentPage: 1,
-      pageSize: 50
+      pageSize: 50,
     };
 
     render() {
@@ -155,7 +154,7 @@ export const pageSizeSelector = () => {
     }
   }
 
-  return <PagerDemo/>;
+  return <PagerDemo />;
 };
 
 pageSizeSelector.storyName = 'page size selector';
@@ -165,7 +164,7 @@ export const openTotal = () => {
     state = {
       total: 10,
       currentPage: 1,
-      pageSize: 10
+      pageSize: 10,
     };
 
     render() {
@@ -185,31 +184,27 @@ export const openTotal = () => {
     }
   }
 
-  return <PagerDemo/>;
+  return <PagerDemo />;
 };
 
 openTotal.storyName = 'open total';
 
 export const openTotalAndHistorySupport = () => {
   interface PagerDemoState {
-    total: number
-    currentPage: number
-    pageSize: number
+    total: number;
+    currentPage: number;
+    pageSize: number;
   }
 
   class PagerDemo extends Component {
     state = {
       total: 999,
       currentPage: getDataFromUrl('page', 1),
-      pageSize: getDataFromUrl('pageSize', 20)
+      pageSize: getDataFromUrl('pageSize', 20),
     };
 
     componentDidMount() {
-      history.replaceState(
-        this.state,
-        '',
-        hrefGenerator(this.state.currentPage, this.state.pageSize)
-      );
+      history.replaceState(this.state, '', hrefGenerator(this.state.currentPage, this.state.pageSize));
       window.addEventListener('popstate', this.onPopstate);
     }
 
@@ -218,27 +213,17 @@ export const openTotalAndHistorySupport = () => {
     }
 
     onPopstate = () => {
-      if (
-        window.history.state &&
-        window.history.state.currentPage &&
-        window.history.state.pageSize
-      ) {
+      if (window.history.state && window.history.state.currentPage && window.history.state.pageSize) {
         this.setState({
           pageSize: window.history.state.pageSize,
-          currentPage: window.history.state.currentPage
+          currentPage: window.history.state.currentPage,
         });
       }
     };
 
-    handlePageChange(
-      update: Partial<PagerDemoState> | ((prevState: PagerDemoState) => Partial<PagerDemoState>)
-    ) {
+    handlePageChange(update: Partial<PagerDemoState> | ((prevState: PagerDemoState) => Partial<PagerDemoState>)) {
       this.setState(update, () =>
-        history.pushState(
-          this.state,
-          '',
-          hrefGenerator(this.state.currentPage, this.state.pageSize)
-        )
+        history.pushState(this.state, '', hrefGenerator(this.state.currentPage, this.state.pageSize)),
       );
     }
 
@@ -254,15 +239,13 @@ export const openTotalAndHistorySupport = () => {
           openTotal={total < 2000}
           onPageChange={cp => this.handlePageChange({currentPage: cp})}
           onPageSizeChange={ps => this.handlePageChange({currentPage: 1, pageSize: ps})}
-          onLoadPage={cp =>
-            this.handlePageChange(prevState => ({currentPage: cp, total: prevState.total + 500}))
-          }
+          onLoadPage={cp => this.handlePageChange(prevState => ({currentPage: cp, total: prevState.total + 500}))}
         />
       );
     }
   }
 
-  return <PagerDemo/>;
+  return <PagerDemo />;
 };
 
 openTotalAndHistorySupport.storyName = 'open total and history support';
@@ -273,7 +256,7 @@ export const reloadOnCurrentPageChange = () => {
     state = {
       total: 120,
       currentPage: getDataFromUrl('page', 1),
-      pageSize: getDataFromUrl('pageSize', 20)
+      pageSize: getDataFromUrl('pageSize', 20),
     };
 
     render() {
@@ -290,7 +273,7 @@ export const reloadOnCurrentPageChange = () => {
     }
   }
 
-  return <PagerDemo/>;
+  return <PagerDemo />;
 };
 
 reloadOnCurrentPageChange.storyName = 'reload on current page change';

@@ -3,26 +3,26 @@ import classNames from 'classnames';
 
 import styles from './progress-bar.css';
 
-export interface ProgressBarProps extends HTMLAttributes<HTMLElement>{
+export interface ProgressBarProps extends HTMLAttributes<HTMLElement> {
   /**
    * A floating point number that specifies minimum completion rate for a task to be considered
    * complete. Default value is 1.0.
    * @type {number}
    */
-  max: number
+  max: number;
   /**
    * A floating point number that specifies current task completion rate.
    * @type {number}
    */
-  value: number
-  label: string
+  value: number;
+  label: string;
   /**
    * Sets the ring-progress-bar_global class to position the progress bar on top of the screen.
    * Should be placed directly inside body, will be positioned right below .ring-header
    * if placed adjacent to it.
    * @type {boolean}
    */
-  global?: boolean | null | undefined
+  global?: boolean | null | undefined;
   /**
    * Disables Disabled progress bar color animation and sets it to static color.
    * @type {boolean}
@@ -49,15 +49,15 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
   static defaultProps = {
     max: 1.0,
     value: 0,
-    label: 'Progress'
+    label: 'Progress',
   };
 
-  progressbarWrapper?: (HTMLElement | null);
+  progressbarWrapper?: HTMLElement | null;
   progressbarWrapperRef = (el: HTMLElement | null) => {
     this.progressbarWrapper = el;
   };
 
-  progressbar?: (HTMLElement | null);
+  progressbar?: HTMLElement | null;
   progressbarRef = (el: HTMLElement | null) => {
     this.progressbar = el;
   };
@@ -68,15 +68,11 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
     const width = value ? `${ProgressBar.toPercent(value, max)}%` : undefined;
     const classes = classNames(styles.progressBar, className, {
       [styles.globalMode]: global,
-      [styles.staticLineColor]: staticColor
+      [styles.staticLineColor]: staticColor,
     });
 
     return (
-      <div
-        {...otherProps}
-        className={classes}
-        ref={this.progressbarWrapperRef}
-      >
+      <div {...otherProps} className={classes} ref={this.progressbarWrapperRef}>
         <div
           className={styles.line}
           ref={this.progressbarRef}
@@ -92,4 +88,4 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
   }
 }
 
-export type ProgressBarAttrs = JSX.LibraryManagedAttributes<typeof ProgressBar, ProgressBarProps>
+export type ProgressBarAttrs = JSX.LibraryManagedAttributes<typeof ProgressBar, ProgressBarProps>;

@@ -4,8 +4,8 @@ export default {
   title: 'Style-only/Island',
 
   parameters: {
-    notes: 'Displays an island.'
-  }
+    notes: 'Displays an island.',
+  },
 };
 
 export const basic = () => (

@@ -6,16 +6,16 @@ import styles from './text.css';
 type TextSize = 's' | 'm' | 'l';
 
 export interface TextProps extends HTMLAttributes<HTMLElement> {
-  info?: boolean | null | undefined,
-  size?: TextSize,
-  'data-test'?: string | null | undefined
-  bold?: boolean | null | undefined
+  info?: boolean | null | undefined;
+  size?: TextSize;
+  'data-test'?: string | null | undefined;
+  bold?: boolean | null | undefined;
 }
 
 const TextSize: Record<string, TextSize> = {
   S: 's',
   M: 'm',
-  L: 'l'
+  L: 'l',
 };
 
 /**
@@ -33,11 +33,13 @@ export default class Text extends Component<TextProps> {
       [styles.bold]: bold,
       [styles.sizeS]: size === Text.Size.S,
       [styles.sizeM]: size === Text.Size.M,
-      [styles.sizeL]: size === Text.Size.L
+      [styles.sizeL]: size === Text.Size.L,
     });
 
     return (
-      <span className={classes} {...restProps}>{children}</span>
+      <span className={classes} {...restProps}>
+        {children}
+      </span>
     );
   }
 }

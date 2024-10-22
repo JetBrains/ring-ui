@@ -11,15 +11,14 @@ const stylesDecorator = (Story: StoryFn, context: StoryContext) => {
   useEffect(() => {
     if (storyStyles != null) {
       // We want styles string to contain "<style>" tag to push WebStorm to parse it as CSS
-      const pureStyles = storyStyles.replace('<style>', '').
-        replace('</style>', '');
+      const pureStyles = storyStyles.replace('<style>', '').replace('</style>', '');
       const stylesNode = injectStyleSheet(pureStyles);
       return () => stylesNode.remove();
     }
     return undefined;
   }, [storyStyles]);
 
-  return <Story/>;
+  return <Story />;
 };
 
 export default () => stylesDecorator;

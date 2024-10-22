@@ -7,12 +7,12 @@ import styles from './user-card.css';
 import {UserCardUser} from './card';
 
 export interface SmartUserCardTooltipProps extends UserCardTooltipAttrs {
-  userDataSource: () => Promise<UserCardUser | null | undefined> | UserCardUser | null | undefined
+  userDataSource: () => Promise<UserCardUser | null | undefined> | UserCardUser | null | undefined;
 }
 export default class SmartUserCardTooltip extends Component<SmartUserCardTooltipProps> {
   state = {
     user: null,
-    loading: false
+    loading: false,
   };
 
   loadUser = async () => {
@@ -31,15 +31,14 @@ export default class SmartUserCardTooltip extends Component<SmartUserCardTooltip
     }
   };
 
-  renderNoUser = () => (
-    this.state.loading
-      ? (
-        <div className={styles.userCardSpaced}>
-          <LoaderInline/>
-        </div>
-      )
-      : ''
-  );
+  renderNoUser = () =>
+    this.state.loading ? (
+      <div className={styles.userCardSpaced}>
+        <LoaderInline />
+      </div>
+    ) : (
+      ''
+    );
 
   render() {
     const {user} = this.state;
@@ -47,16 +46,11 @@ export default class SmartUserCardTooltip extends Component<SmartUserCardTooltip
 
     const dropdownProps = {
       onMouseEnter: this.loadUser,
-      ...UserCardTooltip.defaultProps.dropdownProps
+      ...UserCardTooltip.defaultProps.dropdownProps,
     };
 
     return (
-      <UserCardTooltip
-        user={user}
-        renderNoUser={this.renderNoUser}
-        dropdownProps={dropdownProps}
-        {...restProps}
-      >
+      <UserCardTooltip user={user} renderNoUser={this.renderNoUser} dropdownProps={dropdownProps} {...restProps}>
         {children}
       </UserCardTooltip>
     );

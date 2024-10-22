@@ -7,8 +7,8 @@ import LocalStorage from './storage__local';
 function noop() {}
 
 type Circular = {
-  circular?: Circular
-}
+  circular?: Circular;
+};
 
 function testStorage(storage: StorageInterface) {
   describe('set', () => {
@@ -55,20 +55,16 @@ function testStorage(storage: StorageInterface) {
 
     it('should be fulfilled when is correct', async () => {
       await storage.set('empty', {});
-      storage.remove('empty').
-        should.be.fulfilled;
+      storage.remove('empty').should.be.fulfilled;
     });
 
-    it('should be fulfilled for missing element', () => (
-      storage.remove('missing').should.be.fulfilled
-    ));
+    it('should be fulfilled for missing element', () => storage.remove('missing').should.be.fulfilled);
   });
 
   describe('each', () => {
     it('should be fulfilled', async () => {
       await storage.set('test1', '');
-      storage.each(noop).
-        should.be.fulfilled;
+      storage.each(noop).should.be.fulfilled;
     });
 
     it('should iterate over items', async () => {
@@ -161,7 +157,7 @@ function testStorageEvents(storage: StorageInterface) {
       change.should.become(null);
     });
 
-    it('on after set with other key shouldn\'t be fired', () => {
+    it("on after set with other key shouldn't be fired", () => {
       const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
       const spy = sandbox.stub();
 
@@ -190,10 +186,10 @@ function testStorageEvents(storage: StorageInterface) {
 describe('Storage', () => {
   describe('Local', () => {
     beforeEach(() => {
-      sandbox.stub(window, 'addEventListener').
-        value((...args: unknown[]) => mockedWindow.addEventListener(...args));
-      sandbox.stub(window, 'removeEventListener').
-        value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
+      sandbox.stub(window, 'addEventListener').value((...args: unknown[]) => mockedWindow.addEventListener(...args));
+      sandbox
+        .stub(window, 'removeEventListener')
+        .value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
       sandbox.stub(window, 'localStorage').value(mockedWindow.localStorage);
       sandbox.stub(window, 'sessionStorage').value(mockedWindow.sessionStorage);
       localStorage.clear();
@@ -202,7 +198,7 @@ describe('Storage', () => {
 
     const storage = new LocalStorage();
     const storageSession = new LocalStorage({
-      type: 'session'
+      type: 'session',
     });
 
     describe('Long-term', () => {
@@ -218,11 +214,9 @@ describe('Storage', () => {
         localStorage.setItem('invalid-json', 'invalid-json');
       });
 
-      it('should get non-parseable values', () => (
-        storage.get('invalid-json').should.be.become('invalid-json')
-      ));
+      it('should get non-parseable values', () => storage.get('invalid-json').should.be.become('invalid-json'));
 
-      it('shouldn\'t break iteration on non-parseable values', () => storage.each(noop).should.be.fulfilled);
+      it("shouldn't break iteration on non-parseable values", () => storage.each(noop).should.be.fulfilled);
 
       it('should iterate over items with non-parseable values', async () => {
         const iterator = sandbox.stub();

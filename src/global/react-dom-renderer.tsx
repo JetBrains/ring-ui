@@ -1,7 +1,7 @@
 import {Component} from 'react';
 
 export interface RendererProps {
-  className?: string | undefined
+  className?: string | undefined;
   nodes: readonly Node[] | NodeList;
 }
 
@@ -12,8 +12,7 @@ export default class Renderer extends Component<RendererProps> {
     if (!node || !nodes || !nodes.length) {
       return;
     }
-    Array.from(this.props.nodes).
-      forEach(nodeToRender => node.appendChild(nodeToRender));
+    Array.from(this.props.nodes).forEach(nodeToRender => node.appendChild(nodeToRender));
   }
 
   node?: HTMLElement | null;
@@ -23,11 +22,6 @@ export default class Renderer extends Component<RendererProps> {
 
   render() {
     const {className} = this.props;
-    return (
-      <div
-        className={className}
-        ref={this.nodeRef}
-      />
-    );
+    return <div className={className} ref={this.nodeRef} />;
   }
 }

@@ -3,16 +3,16 @@ import {PureComponent} from 'react';
 import shortcuts, {ShortcutsMap, ShortcutsScopeOptions} from './core';
 
 export interface ShortcutsProps {
-  map: ShortcutsMap
-  scope: string
-  options: ShortcutsScopeOptions
-  children?: React.ReactNode
-  disabled?: boolean | null | undefined
+  map: ShortcutsMap;
+  scope: string;
+  options: ShortcutsScopeOptions;
+  children?: React.ReactNode;
+  disabled?: boolean | null | undefined;
 }
 
 export default class Shortcuts extends PureComponent<ShortcutsProps> {
   static defaultProps = {
-    options: {}
+    options: {},
   };
 
   componentDidMount() {

@@ -8,19 +8,12 @@ describe('Radio Item', () => {
   function noop() {}
 
   const factory = (props?: InputHTMLAttributes<HTMLInputElement>) => (
-    <RadioItemInner
-      checked={false}
-      onChange={noop}
-      value="test"
-      {...props}
-    >
+    <RadioItemInner checked={false} onChange={noop} value="test" {...props}>
       {'test'}
     </RadioItemInner>
   );
-  const mountRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) =>
-    mount<RadioItemInner>(factory(props));
-  const shallowRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) =>
-    shallow(factory(props));
+  const mountRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) => mount<RadioItemInner>(factory(props));
+  const shallowRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) => shallow(factory(props));
 
   it('should create component', () => {
     shallowRadioItem().should.exist;
@@ -43,7 +36,7 @@ describe('Radio Item', () => {
 
   it('should set custom id', () => {
     const radioItem = mountRadioItem({
-      id: 'test'
+      id: 'test',
     });
 
     radioItem.instance().input!.should.have.id('test');
@@ -51,7 +44,7 @@ describe('Radio Item', () => {
 
   it('should set name', () => {
     const radioItem = mountRadioItem({
-      name: 'test'
+      name: 'test',
     });
 
     radioItem.instance().input!.should.have.property('name', 'test');
@@ -60,7 +53,7 @@ describe('Radio Item', () => {
   it('should call handler for click event', () => {
     const clickHandler = sandbox.stub();
     const radioItem = mountRadioItem({
-      onClick: clickHandler
+      onClick: clickHandler,
     });
 
     Simulate.click(radioItem.instance().input!);
@@ -76,7 +69,7 @@ describe('Radio Item', () => {
   it('should check control', () => {
     const radioItem = mountRadioItem({
       checked: true,
-      onChange: () => {} // avoid "checked without onChange" warning
+      onChange: () => {}, // avoid "checked without onChange" warning
     });
 
     radioItem.instance().input!.should.have.property('checked', true);
@@ -84,12 +77,11 @@ describe('Radio Item', () => {
 
   it('should be disabled', () => {
     const radioItem = mountRadioItem({
-      disabled: true
+      disabled: true,
     });
 
     radioItem.instance().input!.should.be.disabled;
   });
-
 
   it('should connect labels with input by id', () => {
     const radioItem = mountRadioItem();

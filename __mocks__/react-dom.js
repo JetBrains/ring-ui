@@ -3,7 +3,7 @@ const originalModule = jest.requireActual('react-dom');
 
 module.exports = {
   ...originalModule,
-  createPortal: node => node
+  createPortal: node => node,
 };
 
 export {};

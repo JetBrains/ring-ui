@@ -16,21 +16,20 @@ import {TabProps} from './tab';
 
 export {CustomItem};
 
-export type Children =
-  readonly (Children | null | boolean)[] | ReactElement<TabProps> | null | boolean;
+export type Children = readonly (Children | null | boolean)[] | ReactElement<TabProps> | null | boolean;
 
 export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'children'> {
-  children: Children
-  onSelect: (key: string) => void
-  className?: string | null | undefined
-  tabContainerClassName?: string | null | undefined
-  autoCollapse?: boolean | null | undefined
-  'data-test'?: string | null | undefined
+  children: Children;
+  onSelect: (key: string) => void;
+  className?: string | null | undefined;
+  tabContainerClassName?: string | null | undefined;
+  autoCollapse?: boolean | null | undefined;
+  'data-test'?: string | null | undefined;
 }
 
 class Tabs extends PureComponent<TabsProps> {
   static defaultProps = {
-    onSelect() {}
+    onSelect() {},
   };
 
   handleSelect = memoize((key: string) => () => this.props.onSelect(key));
@@ -44,14 +43,9 @@ class Tabs extends PureComponent<TabsProps> {
     const {title, titleProps, id, disabled, href, className, activeClassName} = child.props;
     const key = id || String(i);
     const isSelected = key === selected;
-    const titleClasses = classNames(
-      styles.title,
-      className,
-      isSelected && activeClassName,
-      {
-        [styles.selected]: isSelected
-      }
-    );
+    const titleClasses = classNames(styles.title, className, isSelected && activeClassName, {
+      [styles.selected]: isSelected,
+    });
 
     return (
       <TabLink
@@ -79,24 +73,17 @@ class Tabs extends PureComponent<TabsProps> {
     } = this.props;
 
     const classes = classNames(styles.tabs, className);
-    const childrenArray = React.Children.toArray(children).
-      filter(Boolean) as ReactElement<TabProps>[];
+    const childrenArray = React.Children.toArray(children).filter(Boolean) as ReactElement<TabProps>[];
 
     return (
       <div className={classes} data-test={dataTests('ring-dumb-tabs', dataTest)}>
-        {autoCollapse === true
-          ? (
-            <CollapsibleTabs
-              {...restProps}
-              onSelect={this.handleSelect}
-              selected={selected}
-            >{childrenArray}</CollapsibleTabs>
-          )
-          : (
-            <div className={styles.titles}>
-              {childrenArray.map(this.getTabTitle)}
-            </div>
-          )}
+        {autoCollapse === true ? (
+          <CollapsibleTabs {...restProps} onSelect={this.handleSelect} selected={selected}>
+            {childrenArray}
+          </CollapsibleTabs>
+        ) : (
+          <div className={styles.titles}>{childrenArray.map(this.getTabTitle)}</div>
+        )}
         <div className={classNames(tabContainerClassName)}>
           {childrenArray.find(({props}, i) => (props.id || String(i)) === selected)}
         </div>
@@ -104,5 +91,5 @@ class Tabs extends PureComponent<TabsProps> {
     );
   }
 }
-export type TabsAttrs = JSX.LibraryManagedAttributes<typeof Tabs, TabsProps>
+export type TabsAttrs = JSX.LibraryManagedAttributes<typeof Tabs, TabsProps>;
 export default Tabs;

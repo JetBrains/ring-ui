@@ -1,37 +1,29 @@
 /**
  * @name Footer
  */
-import {
-  memo,
-  isValidElement,
-  ReactNode,
-  HTMLAttributeAnchorTarget,
-  ReactChild
-} from 'react';
+import {memo, isValidElement, ReactNode, HTMLAttributeAnchorTarget, ReactChild} from 'react';
 import classNames from 'classnames';
 
 import Link from '../link/link';
 
 import styles from './footer.css';
 
-type Position = 'left' | 'center' | 'right'
+type Position = 'left' | 'center' | 'right';
 
 interface FooterColumnProps {
-  position: Position
-  children: ReactNode
+  position: Position;
+  children: ReactNode;
 }
 
 const FooterColumn = memo(function FooterColumn({position, children}: FooterColumnProps) {
   const classes = classNames({
     [styles.columnLeft]: position === 'left',
     [styles.columnCenter]: position === 'center',
-    [styles.columnRight]: position === 'right'
+    [styles.columnRight]: position === 'right',
   });
   return (
     <div className={classes}>
-      <ul className={styles.columnItem}>
-        {children}
-      </ul>
+      <ul className={styles.columnItem}>{children}</ul>
     </div>
   );
 });
@@ -42,7 +34,7 @@ const FooterColumn = memo(function FooterColumn({position, children}: FooterColu
  * @returns {string}
  */
 export function copyright(year: number) {
-  const currentYear = (new Date()).getUTCFullYear();
+  const currentYear = new Date().getUTCFullYear();
   const ndash = '–';
   let ret = 'Copyright © ';
 
@@ -56,17 +48,17 @@ export function copyright(year: number) {
 }
 
 export interface FooterLinkItem {
-  copyright?: number | null | undefined
-  label?: string | null | undefined
-  url?: string | null | undefined
-  target?: HTMLAttributeAnchorTarget | undefined
-  title?: string | undefined
+  copyright?: number | null | undefined;
+  label?: string | null | undefined;
+  url?: string | null | undefined;
+  target?: HTMLAttributeAnchorTarget | undefined;
+  title?: string | undefined;
 }
 
-type FooterItem = FooterLinkItem | ReactChild
+type FooterItem = FooterLinkItem | ReactChild;
 
 interface FooterLineProps {
-  item: FooterItem | readonly FooterItem[]
+  item: FooterItem | readonly FooterItem[];
 }
 
 /**
@@ -86,33 +78,26 @@ const FooterLine = memo(function FooterLine(props: FooterLineProps) {
 
     if (item.url) {
       return (
-        <Link
-          href={item.url}
-          target={item.target}
-          key={item.url + item.title}
-          title={item.title}
-        >{element}</Link>
+        <Link href={item.url} target={item.target} key={item.url + item.title} title={item.title}>
+          {element}
+        </Link>
       );
     }
 
     return element;
   }
 
-  return (
-    <li className={styles.line}>
-      {items.map(renderItem)}
-    </li>
-  );
+  return <li className={styles.line}>{items.map(renderItem)}</li>;
 });
 
-type FooterItems = readonly (FooterItem | readonly FooterItem[])[]
+type FooterItems = readonly (FooterItem | readonly FooterItem[])[];
 
 export interface FooterProps {
-  className?: string | null | undefined
-  floating?: boolean | null | undefined
-  left?: FooterItems | null | undefined
-  center?: FooterItems | null | undefined
-  right?: FooterItems | null | undefined
+  className?: string | null | undefined;
+  floating?: boolean | null | undefined;
+  left?: FooterItems | null | undefined;
+  center?: FooterItems | null | undefined;
+  right?: FooterItems | null | undefined;
 }
 
 const Footer = memo(function Footer({floating, className, left, center, right}: FooterProps) {
@@ -122,10 +107,7 @@ const Footer = memo(function Footer({floating, className, left, center, right}: 
     }
 
     return (
-      <FooterColumn
-        key={position}
-        position={position}
-      >
+      <FooterColumn key={position} position={position}>
         {elements.map((item, idx) => (
           <FooterLine
             // eslint-disable-next-line react/no-array-index-key
@@ -138,20 +120,13 @@ const Footer = memo(function Footer({floating, className, left, center, right}: 
   }
 
   const classes = classNames(styles.footer, className, {
-    [styles.footerFloating]: floating
+    [styles.footerFloating]: floating,
   });
 
   return (
-    <footer
-      className={classes}
-      data-test="ring-footer"
-    >{
-        [
-          content(left, 'left'),
-          content(center, 'center'),
-          content(right, 'right')
-        ]
-      }</footer>
+    <footer className={classes} data-test="ring-footer">
+      {[content(left, 'left'), content(center, 'center'), content(right, 'right')]}
+    </footer>
   );
 });
 export default Footer;

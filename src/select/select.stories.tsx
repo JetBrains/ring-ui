@@ -1,12 +1,4 @@
-import {
-  ReactNode,
-  SyntheticEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
+import {ReactNode, SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import * as React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
@@ -44,17 +36,17 @@ export default {
 
   component: Select,
   parameters: {
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/61a4a19882fc3297f0165b3f'
+    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/61a4a19882fc3297f0165b3f',
   },
   args: {
     type,
     size,
-    directions
-  }
+    directions,
+  },
 };
 
-export const withAFilterAndTags: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
-export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const withAFilterAndTags: StoryFn<MultipleSelectAttrs> = args => <Select {...args} />;
+export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 
 {
   const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
@@ -66,46 +58,46 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
     {
       label: 'With icon',
       key: 4,
-      icon: FLAG_DE_URL
+      icon: FLAG_DE_URL,
     },
     {
       label: 'With SVG icon',
       key: 4,
-      rightGlyph: warningIcon
+      rightGlyph: warningIcon,
     },
     {
       label: 'With avatar',
       key: 5,
-      avatar: avatarUrl
+      avatar: avatarUrl,
     },
     {
       label: 'With generated avatar',
       showGeneratedAvatar: true,
       username: 'With generated avatar',
-      key: 6
-    }
+      key: 6,
+    },
   ];
 
   withAFilterAndTags.args = {
     multiple: true,
     filter: {
-      placeholder: 'Search'
+      placeholder: 'Search',
     },
     tags: {
       reset: {
         separator: true,
         label: 'Reset the list',
-        glyph: warningIcon
-      }
+        glyph: warningIcon,
+      },
     },
     data: tags,
-    selected: [tags[0]]
+    selected: [tags[0]],
   };
 
   withAvatars.args = {
     data: tags,
     selected: tags[5],
-    type: Select.Type.BUTTON
+    type: Select.Type.BUTTON,
   };
 }
 
@@ -113,26 +105,25 @@ withAFilterAndTags.storyName = 'with a filter and tags';
 withAFilterAndTags.parameters = {screenshots: {skip: true}};
 
 type StatefulProps = SingleSelectAttrs & {
-  text?: ReactNode
-}
+  text?: ReactNode;
+};
 
 export const WithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback((option: SelectItem | null) => {
-    setSelected(option);
-    onSelect?.(option);
-  }, [onSelect]);
+  const handleSelect = useCallback(
+    (option: SelectItem | null) => {
+      setSelected(option);
+      onSelect?.(option);
+    },
+    [onSelect],
+  );
 
   return (
     <div className="demo-container">
       <div className="demo">
         {text}
-        <Select
-          {...restArgs}
-          selected={selected}
-          onSelect={handleSelect}
-        />
+        <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
 
       <Link pseudo onClick={() => setSelected(null)}>
@@ -152,13 +143,13 @@ WithAFilter.args = {
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
     {label: 'Three', key: '3', type: 'user'},
-    {label: 'With icon', key: 4, icon: FLAG_DE_URL}
-  ]
+    {label: 'With icon', key: 4, icon: FLAG_DE_URL},
+  ],
 };
 WithAFilter.argTypes = {
   selected: {
-    control: {disable: true}
-  }
+    control: {disable: true},
+  },
 };
 
 WithAFilter.storyName = 'with a filter';
@@ -170,9 +161,9 @@ WithAFilter.parameters = {
       {
         type: 'capture',
         name: 'selectWithPopup',
-        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-      }
-    ]
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+      },
+    ],
   },
   storyStyles: `
 <style>
@@ -180,26 +171,25 @@ WithAFilter.parameters = {
     padding: 16px 0;
   }
 </style>
-      `
+      `,
 };
 
 export const ButtonModeWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback((option: SelectItem | null) => {
-    setSelected(option);
-    onSelect?.(option);
-  }, [onSelect]);
+  const handleSelect = useCallback(
+    (option: SelectItem | null) => {
+      setSelected(option);
+      onSelect?.(option);
+    },
+    [onSelect],
+  );
 
   return (
     <div className="demo-container">
       <div className="demo">
         {text}
-        <Select
-          {...restArgs}
-          selected={selected}
-          onSelect={handleSelect}
-        />
+        <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
 
       <Link pseudo onClick={() => setSelected(null)}>
@@ -219,13 +209,13 @@ ButtonModeWithAFilter.args = {
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
     {label: 'Three', key: '3', type: 'user'},
-    {label: 'With icon', key: 4, icon: FLAG_DE_URL}
-  ]
+    {label: 'With icon', key: 4, icon: FLAG_DE_URL},
+  ],
 };
 ButtonModeWithAFilter.argTypes = {
   selected: {
-    control: {disable: true}
-  }
+    control: {disable: true},
+  },
 };
 
 ButtonModeWithAFilter.storyName = 'button mode with a filter';
@@ -239,26 +229,25 @@ ButtonModeWithAFilter.parameters = {
     margin: 32px 0 16px 0;
   }
 </style>
-      `
+      `,
 };
 
 export const InlineWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback((option: SelectItem | null) => {
-    setSelected(option);
-    onSelect?.(option);
-  }, [onSelect]);
+  const handleSelect = useCallback(
+    (option: SelectItem | null) => {
+      setSelected(option);
+      onSelect?.(option);
+    },
+    [onSelect],
+  );
 
   return (
     <div className="demo-container">
       <div className="demo">
         {text}
-        <Select
-          {...restArgs}
-          selected={selected}
-          onSelect={handleSelect}
-        />
+        <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
 
       <Link pseudo onClick={() => setSelected(null)}>
@@ -276,14 +265,14 @@ InlineWithAFilter.args = {
   data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
-    {label: 'Three', key: '3', type: 'user'}
+    {label: 'Three', key: '3', type: 'user'},
   ],
-  filterIcon: searchIcon
+  filterIcon: searchIcon,
 };
 InlineWithAFilter.argTypes = {
   selected: {
-    control: {disable: true}
-  }
+    control: {disable: true},
+  },
 };
 
 InlineWithAFilter.storyName = 'inline with a filter';
@@ -295,9 +284,9 @@ InlineWithAFilter.parameters = {
       {
         type: 'capture',
         name: 'selectWithPopup',
-        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-      }
-    ]
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+      },
+    ],
   },
   storyStyles: `
 <style>
@@ -305,26 +294,25 @@ InlineWithAFilter.parameters = {
     margin: 16px 0;
   }
 </style>
-      `
+      `,
 };
 
 export const InlineOpensToLeft: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback((option: SelectItem | null) => {
-    setSelected(option);
-    onSelect?.(option);
-  }, [onSelect]);
+  const handleSelect = useCallback(
+    (option: SelectItem | null) => {
+      setSelected(option);
+      onSelect?.(option);
+    },
+    [onSelect],
+  );
 
   return (
     <div className="demo-container">
       <div className="demo">
         {text}
-        <Select
-          {...restArgs}
-          selected={selected}
-          onSelect={handleSelect}
-        />
+        <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
 
       <Link pseudo onClick={() => setSelected(null)}>
@@ -343,13 +331,13 @@ InlineOpensToLeft.args = {
   data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
-    {label: 'Three', key: '3', type: 'user'}
-  ]
+    {label: 'Three', key: '3', type: 'user'},
+  ],
 };
 InlineOpensToLeft.argTypes = {
   selected: {
-    control: {disable: true}
-  }
+    control: {disable: true},
+  },
 };
 
 InlineOpensToLeft.storyName = 'inline (opens to left)';
@@ -368,26 +356,25 @@ InlineOpensToLeft.parameters = {
     margin: 16px 0;
   }
 </style>
-      `
+      `,
 };
 
 export const WithDisabledMoveOverflow: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback((option: SelectItem | null) => {
-    setSelected(option);
-    onSelect?.(option);
-  }, [onSelect]);
+  const handleSelect = useCallback(
+    (option: SelectItem | null) => {
+      setSelected(option);
+      onSelect?.(option);
+    },
+    [onSelect],
+  );
 
   return (
     <div className="demo-container">
       <div className="demo">
         {text}
-        <Select
-          {...restArgs}
-          selected={selected}
-          onSelect={handleSelect}
-        />
+        <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
 
       <Link pseudo onClick={() => setSelected(null)}>
@@ -406,13 +393,13 @@ WithDisabledMoveOverflow.args = {
   data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
-    {label: 'Three', key: '3', type: 'user'}
-  ]
+    {label: 'Three', key: '3', type: 'user'},
+  ],
 };
 WithDisabledMoveOverflow.argTypes = {
   selected: {
-    control: {disable: true}
-  }
+    control: {disable: true},
+  },
 };
 
 WithDisabledMoveOverflow.storyName = 'with disabled move overflow';
@@ -429,7 +416,7 @@ WithDisabledMoveOverflow.parameters = {
   .demo {
     margin: 16px 0;
   }
-</style>`
+</style>`,
 };
 
 const alwaysTrue = () => true;
@@ -441,20 +428,23 @@ export const WithServerSideFiltering: StoryFn<SingleSelectAttrs> = args => {
   const auth = useMemo(() => new Auth(hubConfig), []);
   const source = useMemo(() => new Source(auth, {searchMax: 8}), [auth]);
   const {onFilter} = args;
-  const loadData = useCallback(async (query = '') => {
-    onFilter?.(query);
-    const request = source.getForList(query);
-    requestRef.current = request;
-    setLoading(true);
+  const loadData = useCallback(
+    async (query = '') => {
+      onFilter?.(query);
+      const request = source.getForList(query);
+      requestRef.current = request;
+      setLoading(true);
 
-    const data = await request;
+      const data = await request;
 
-    // only the latest request is relevant
-    if (requestRef.current === request) {
-      setLoading(false);
-      setUsers(data);
-    }
-  }, [onFilter, source]);
+      // only the latest request is relevant
+      if (requestRef.current === request) {
+        setLoading(false);
+        setUsers(data);
+      }
+    },
+    [onFilter, source],
+  );
 
   useEffect(() => {
     (async () => {
@@ -463,14 +453,7 @@ export const WithServerSideFiltering: StoryFn<SingleSelectAttrs> = args => {
     })();
   }, [auth, loadData]);
 
-  return (
-    <Select
-      {...args}
-      data={users}
-      onFilter={loadData}
-      loading={loading}
-    />
-  );
+  return <Select {...args} data={users} onFilter={loadData} loading={loading} />;
 };
 
 WithServerSideFiltering.args = {
@@ -478,8 +461,8 @@ WithServerSideFiltering.args = {
   selectedLabel: 'Owner',
   filter: {
     placeholder: 'Search user or group',
-    fn: alwaysTrue // disable client filtering
-  }
+    fn: alwaysTrue, // disable client filtering
+  },
 };
 
 WithServerSideFiltering.storyName = 'with server-side filtering';
@@ -489,20 +472,19 @@ WithServerSideFiltering.tags = ['skip-test'];
 export const WithFuzzySearchFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback((option: SelectItem | null) => {
-    setSelected(option);
-    onSelect?.(option);
-  }, [onSelect]);
+  const handleSelect = useCallback(
+    (option: SelectItem | null) => {
+      setSelected(option);
+      onSelect?.(option);
+    },
+    [onSelect],
+  );
 
   return (
     <div className="demo-container">
       <div className="demo">
         {text}
-        <Select
-          {...restArgs}
-          selected={selected}
-          onSelect={handleSelect}
-        />
+        <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
 
       <Link pseudo onClick={() => setSelected(null)}>
@@ -521,13 +503,13 @@ WithFuzzySearchFilter.args = {
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'},
-    {label: 'With icon', key: 4, icon: FLAG_DE_URL}
-  ]
+    {label: 'With icon', key: 4, icon: FLAG_DE_URL},
+  ],
 };
 WithFuzzySearchFilter.argTypes = {
   selected: {
-    control: {disable: true}
-  }
+    control: {disable: true},
+  },
 };
 
 WithFuzzySearchFilter.storyName = 'with fuzzy search filter';
@@ -540,17 +522,16 @@ WithFuzzySearchFilter.parameters = {
     margin: 32px 0 16px 0;
   }
 </style>
-      `
+      `,
 };
 
-export const withALargeDataset: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const withALargeDataset: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 
 withALargeDataset.storyName = 'with a large dataset';
 withALargeDataset.parameters = {screenshots: {skip: true}};
 withALargeDataset.tags = ['skip-test'];
 
-export const withALargeDatasetAndDisabledScrollToActiveItem: StoryFn<SingleSelectAttrs> = args =>
-  <Select {...args}/>;
+export const withALargeDatasetAndDisabledScrollToActiveItem: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 
 withALargeDatasetAndDisabledScrollToActiveItem.storyName = 'with a large dataset and disabled scroll to active item';
 
@@ -561,10 +542,10 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
       {
         type: 'capture',
         name: 'selectWithPopup',
-        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-      }
-    ]
-  }
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+      },
+    ],
+  },
 };
 
 {
@@ -573,14 +554,14 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
   const dataset = [...Array(elementsNum)].map((elem, idx) => ({
     label: `element ${idx}`,
     key: idx,
-    type: 'user'
+    type: 'user',
   }));
 
   withALargeDataset.args = {
     filter: true,
     compact: true,
     selected: dataset[selectedIndex],
-    data: dataset
+    data: dataset,
   };
 
   withALargeDatasetAndDisabledScrollToActiveItem.args = {
@@ -588,11 +569,11 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
     compact: true,
     selected: dataset[selectedIndex],
     data: dataset,
-    disableScrollToActive: true
+    disableScrollToActive: true,
   };
 }
 
-export const multipleWithADescription: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const multipleWithADescription: StoryFn<MultipleSelectAttrs> = args => <Select {...args} />;
 
 {
   const deFlag =
@@ -609,14 +590,14 @@ export const multipleWithADescription: StoryFn<MultipleSelectAttrs> = args => <S
     key: idx,
     description: `description ${idx}`,
     icon: icons[idx % 3],
-    avatar: idx % 2 ? avatarUrl : null
+    avatar: idx % 2 ? avatarUrl : null,
   }));
 
   multipleWithADescription.args = {
     filter: true,
     selected: [dataset[0], dataset[3]],
     multiple: true,
-    data: dataset
+    data: dataset,
   };
 }
 
@@ -629,19 +610,19 @@ multipleWithADescription.parameters = {
       {
         type: 'capture',
         name: 'selectWithPopup',
-        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-      }
-    ]
-  }
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+      },
+    ],
+  },
 };
 
 export const disabled = () => (
   <div>
     <div className="demo-wrapper">
-      <Select disabled loading/>
+      <Select disabled loading />
     </div>
     <div className="demo-wrapper">
-      <Select disabled loading type={Select.Type.BUTTON}/>
+      <Select disabled loading type={Select.Type.BUTTON} />
     </div>
   </div>
 );
@@ -655,10 +636,10 @@ disabled.parameters = {
     margin: 8px;
   }
 </style>
-      `
+      `,
 };
 
-export const inputBased: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const inputBased: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 
 inputBased.storyName = 'input-based';
 
@@ -669,26 +650,24 @@ inputBased.parameters = {
       {
         type: 'capture',
         name: 'selectWithPopup',
-        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-      }
-    ]
-  }
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+      },
+    ],
+  },
 };
 
-export const inputBasedInSuggestOnlyMode: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const inputBasedInSuggestOnlyMode: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 
 inputBasedInSuggestOnlyMode.storyName = 'input-based in suggest-only mode';
 inputBasedInSuggestOnlyMode.parameters = {screenshots: {skip: true}};
 
-export const inputBasedWithError: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const inputBasedWithError: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 inputBasedWithError.storyName = 'input-based with error';
 
-export const inputBasedWithFilterIcon: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const inputBasedWithFilterIcon: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
 
-export const inputWithoutControls: StoryFn<SingleSelectAttrs> = args => (
-  <Select {...args} className="wrapper"/>
-);
+export const inputWithoutControls: StoryFn<SingleSelectAttrs> = args => <Select {...args} className="wrapper" />;
 
 inputWithoutControls.storyName = 'input without controls';
 
@@ -700,7 +679,7 @@ inputWithoutControls.parameters = {
     border-radius: var(--ring-border-radius);
   }
 </style>
-      `
+      `,
 };
 
 inputWithoutControls.tags = ['skip-test'];
@@ -711,7 +690,7 @@ inputWithoutControls.tags = ['skip-test'];
   inputBased.args = {
     type: Select.Type.INPUT,
     data,
-    clear: true
+    clear: true,
   };
 
   inputBasedInSuggestOnlyMode.args = {
@@ -720,30 +699,30 @@ inputWithoutControls.tags = ['skip-test'];
     hideArrow: true,
     label: 'Placeholder without arrow',
     data,
-    selected: data[1]
+    selected: data[1],
   };
 
   inputBasedWithError.args = {
     type: Select.Type.INPUT,
     data,
     clear: true,
-    error: 'Error description that wraps over lines because of being really long'
+    error: 'Error description that wraps over lines because of being really long',
   };
 
   inputBasedWithFilterIcon.args = {
     type: Select.Type.INPUT,
     data,
     clear: true,
-    filterIcon: searchIcon
+    filterIcon: searchIcon,
   };
 
   inputWithoutControls.args = {
     type: Select.Type.INPUT_WITHOUT_CONTROLS,
-    data
+    data,
   };
 }
 
-export const withSubLevelsForListElement: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const withSubLevelsForListElement: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 
 withSubLevelsForListElement.args = {
   filter: true,
@@ -752,60 +731,57 @@ withSubLevelsForListElement.args = {
     {label: 'Two', key: '2', disabled: true},
     {label: 'Two One', key: '2.1', level: 1},
     {label: 'Two Two', key: '2.2', level: 1},
-    {label: 'Three', key: '3'}
-  ]
+    {label: 'Three', key: '3'},
+  ],
 };
 
 withSubLevelsForListElement.storyName = 'with sub levels for list element';
 withSubLevelsForListElement.parameters = {screenshots: {skip: true}};
 
-export const withDefaultFilterModeAndALoadingIndicator: StoryFn<SingleSelectAttrs> = args =>
-  <Select {...args}/>;
+export const withDefaultFilterModeAndALoadingIndicator: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 {
   const data = [
     {label: 'One', key: '1'},
     {label: 'Group', key: '2'},
-    {label: 'Three', key: '3'}
+    {label: 'Three', key: '3'},
   ];
 
   withDefaultFilterModeAndALoadingIndicator.args = {
     filter: true,
     loading: true,
     data,
-    selected: data[1]
+    selected: data[1],
   };
 }
 
 withDefaultFilterModeAndALoadingIndicator.storyName = 'with default filter mode and a loading indicator';
 withDefaultFilterModeAndALoadingIndicator.parameters = {screenshots: {skip: true}};
 
-export const withACustomizedFilterAndAnAddItemButton: StoryFn<SingleSelectAttrs> = args =>
-  <Select {...args}/>;
+export const withACustomizedFilterAndAnAddItemButton: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 {
   const data = [...Array(100)].map((elem, idx) => ({
     label: `Item long long long long long long long long label ${idx}`,
-    key: idx
+    key: idx,
   }));
 
   withACustomizedFilterAndAnAddItemButton.args = {
     filter: {
       placeholder: 'Select me',
-      value: 'One'
+      value: 'One',
     },
     hint: 'Press down to do something',
     add: {
-      prefix: 'Add name'
+      prefix: 'Add name',
     },
     data,
-    selected: data[49]
+    selected: data[49],
   };
 }
 
 withACustomizedFilterAndAnAddItemButton.storyName = "with a customized filter and an 'Add item' button";
 withACustomizedFilterAndAnAddItemButton.parameters = {screenshots: {skip: true}};
 
-export const withCustomItemsAndAnAddItemButton: StoryFn<SingleSelectAttrs> = args =>
-  <Select {...args}/>;
+export const withCustomItemsAndAnAddItemButton: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 withCustomItemsAndAnAddItemButton.args = {
   data: [...Array(100)].map((elem, idx) => {
     const label = `Label ${idx}`;
@@ -813,14 +789,14 @@ withCustomItemsAndAnAddItemButton.args = {
       label,
       key: label,
       template: <span className="label">{label}</span>,
-      rgItemType: List.ListProps.Type.CUSTOM
+      rgItemType: List.ListProps.Type.CUSTOM,
     };
   }),
   filter: true,
   hint: 'Press down to do something',
   add: {
-    prefix: 'Add label'
-  }
+    prefix: 'Add label',
+  },
 };
 
 withCustomItemsAndAnAddItemButton.storyName = "with custom items and an 'Add item' button";
@@ -837,35 +813,34 @@ withCustomItemsAndAnAddItemButton.parameters = {
     margin: 2px 0;
   }
 </style>
-      `
+      `,
 };
 
-export const withAnAlwaysVisibleAddItemButton: StoryFn<SingleSelectAttrs> = args =>
-  <Select {...args}/>;
+export const withAnAlwaysVisibleAddItemButton: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 withAnAlwaysVisibleAddItemButton.args = {
   data: [...Array(10)].map((elem, idx) => ({
     key: idx,
-    label: `Item ${idx}`
+    label: `Item ${idx}`,
   })),
   filter: {
     placeholder: 'Select me',
-    value: 'One'
+    value: 'One',
   },
   add: {
     alwaysVisible: true,
-    label: 'Create New Blah Blah'
-  }
+    label: 'Create New Blah Blah',
+  },
 };
 
 withAnAlwaysVisibleAddItemButton.storyName = "with an always visible 'Add item' button";
 withAnAlwaysVisibleAddItemButton.parameters = {screenshots: {skip: true}};
 
-export const multipleWithCustomView: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const multipleWithCustomView: StoryFn<MultipleSelectAttrs> = args => <Select {...args} />;
 {
   const data = [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
-    {label: 'Three long label', key: '3'}
+    {label: 'Three long label', key: '3'},
   ];
 
   const multipleConfig = {label: 'Change selected items', removeSelectedItems: false};
@@ -873,58 +848,61 @@ export const multipleWithCustomView: StoryFn<MultipleSelectAttrs> = args => <Sel
   multipleWithCustomView.args = {
     filter: true,
     add: {
-      prefix: 'Add some item'
+      prefix: 'Add some item',
     },
     multiple: multipleConfig,
     selected: [data[1]],
-    data
+    data,
   };
 }
 
 multipleWithCustomView.storyName = 'multiple with custom view';
 multipleWithCustomView.parameters = {screenshots: {skip: true}};
 
-export const asADropdownWithoutFilter: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const asADropdownWithoutFilter: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 asADropdownWithoutFilter.args = {
   data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
     description: `Description for the item lalalalala ${idx}`,
-    key: idx
+    key: idx,
   })),
   type: Select.Type.CUSTOM,
   label: 'Click me',
   customAnchor({wrapperProps, buttonProps, popup}) {
     return (
       <span {...wrapperProps}>
-        <button type="button" {...buttonProps}/>
+        <button type="button" {...buttonProps} />
         {popup}
       </span>
     );
-  }
+  },
 };
 
 asADropdownWithoutFilter.storyName = 'as a dropdown without filter';
 asADropdownWithoutFilter.parameters = {screenshots: {skip: true}};
 
 interface DemoComponentItem {
-  label: string
+  label: string;
 }
 
 type DemoComponentProps = Omit<SingleSelectAttrs<DemoComponentItem>, 'onChange'> & {
-  onChange: (e: SyntheticEvent) => void
-}
+  onChange: (e: SyntheticEvent) => void;
+};
 
 export const WithCustomInputAnchor: StoryFn<DemoComponentProps> = ({onChange, ...restArgs}) => {
   const [inputValue, setInputValue] = React.useState('');
   const selectRef = React.useRef<Select<DemoComponentItem>>(null);
 
-  const onInputChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e);
-    setInputValue(e.currentTarget.value);
-    if (selectRef.current) {
-      selectRef.current._filterChangeHandler(e);
-    }
-  }, [onChange]);
+  const onInputChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(e);
+      setInputValue(e.currentTarget.value);
+      if (selectRef.current) {
+        selectRef.current._filterChangeHandler(e);
+      }
+    },
+    [onChange],
+  );
 
   return (
     <Select
@@ -949,22 +927,22 @@ WithCustomInputAnchor.args = {
   data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
     description: `Description for the item lalalalala ${idx}`,
-    key: idx
+    key: idx,
   })),
-  type: Select.Type.CUSTOM
+  type: Select.Type.CUSTOM,
 };
 
 WithCustomInputAnchor.storyName = 'with custom input anchor';
 WithCustomInputAnchor.parameters = {screenshots: {skip: true}};
 
-export const withRenderOptimization: StoryFn<SingleSelectAttrs> = args => <Select {...args}/>;
+export const withRenderOptimization: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 withRenderOptimization.args = {
   data: [...Array(1000)].map((item, idx) => ({
     label: `Label ${idx}`,
     key: idx,
-    rgItemType: idx % 10 ? List.ListProps.Type.ITEM : List.ListProps.Type.TITLE
+    rgItemType: idx % 10 ? List.ListProps.Type.ITEM : List.ListProps.Type.TITLE,
   })),
-  filter: true
+  filter: true,
 };
 
 withRenderOptimization.storyName = 'with render optimization';
@@ -972,7 +950,7 @@ withRenderOptimization.parameters = {screenshots: {skip: true}};
 
 export const fitsToScreen: StoryFn<SingleSelectAttrs> = args => (
   <div className="demo">
-    <Select {...args}/>
+    <Select {...args} />
   </div>
 );
 
@@ -980,7 +958,7 @@ export const fitsToScreen: StoryFn<SingleSelectAttrs> = args => (
   const dataset = [...Array(1000)].map((item, idx) => ({
     label: `element ${idx}`,
     key: idx,
-    type: 'user'
+    type: 'user',
   }));
   const selectedIndex = dataset.length / 2;
 
@@ -989,7 +967,7 @@ export const fitsToScreen: StoryFn<SingleSelectAttrs> = args => (
     filter: true,
     compact: true,
     selected: dataset[selectedIndex],
-    data: dataset
+    data: dataset,
   };
 }
 
@@ -1004,42 +982,51 @@ fitsToScreen.parameters = {
     bottom: 20px;
   }
 </style>
-      `
+      `,
 };
 
 export const WithFilteredFields = () => {
-  const data = useMemo(() => [...Array(100)].map((item, idx) => {
-    const label = `Label ${idx}`;
-    return {
-      key: idx,
-      label,
-      template: <span className="label">{label}</span>,
-      rgItemType: List.ListProps.Type.CUSTOM
-    };
-  }), []);
+  const data = useMemo(
+    () =>
+      [...Array(100)].map((item, idx) => {
+        const label = `Label ${idx}`;
+        return {
+          key: idx,
+          label,
+          template: <span className="label">{label}</span>,
+          rgItemType: List.ListProps.Type.CUSTOM,
+        };
+      }),
+    [],
+  );
 
-  const filtersData = useMemo(() => [
-    {label: 'Show odd', key: '1'},
-    {label: 'Show even', key: '2'},
-    {label: 'Show all', key: '3'}
-  ], []);
+  const filtersData = useMemo(
+    () => [
+      {label: 'Show odd', key: '1'},
+      {label: 'Show even', key: '2'},
+      {label: 'Show all', key: '3'},
+    ],
+    [],
+  );
 
   const [filteredData, setFilteredData] = useState(data.filter(item => item.key % 2));
 
   const [selectedDataKey, setSelectedDataKey] = useState<string | number | null>(null);
 
-  const [
-    selectedFilterKey,
-    setSelectedFilterKey
-  ] = useState<string | number | undefined>(filtersData[0].key);
+  const [selectedFilterKey, setSelectedFilterKey] = useState<string | number | undefined>(filtersData[0].key);
 
-  const handleFilterSelect = useCallback((selected: SelectItem | null) => {
-    setFilteredData(selected?.label === 'Show all'
-      ? [...data]
-      : data.filter(item => !!(Number(item.key) % 2) === (selected?.label === 'Show odd')));
-    setSelectedFilterKey(selected?.key);
-    setSelectedDataKey(null);
-  }, [data]);
+  const handleFilterSelect = useCallback(
+    (selected: SelectItem | null) => {
+      setFilteredData(
+        selected?.label === 'Show all'
+          ? [...data]
+          : data.filter(item => !!(Number(item.key) % 2) === (selected?.label === 'Show odd')),
+      );
+      setSelectedFilterKey(selected?.key);
+      setSelectedDataKey(null);
+    },
+    [data],
+  );
 
   const handleDataSelect = useCallback((selected: SelectItem | null) => {
     setSelectedDataKey(selected && selected.key);
@@ -1084,15 +1071,15 @@ WithFilteredFields.parameters = {
       margin-left: 20px;
     }
 </style>
-      `
+      `,
 };
 
-export const multipleWithSelectAll: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const multipleWithSelectAll: StoryFn<MultipleSelectAttrs> = args => <Select {...args} />;
 {
   const data = [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
-    {label: 'Three long label', key: '3'}
+    {label: 'Three long label', key: '3'},
   ];
 
   const multipleConfig = {selectAll: true};
@@ -1101,22 +1088,21 @@ export const multipleWithSelectAll: StoryFn<MultipleSelectAttrs> = args => <Sele
     filter: true,
     multiple: multipleConfig,
     selected: [data[1]],
-    data
+    data,
   };
 }
 
 multipleWithSelectAll.storyName = 'multiple with select all';
 multipleWithSelectAll.parameters = {screenshots: {skip: true}};
 
-export const multipleWithSelectAllAndDisabledItem: StoryFn<MultipleSelectAttrs> = args =>
-  <Select {...args}/>;
+export const multipleWithSelectAllAndDisabledItem: StoryFn<MultipleSelectAttrs> = args => <Select {...args} />;
 {
   const data = [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
     {label: 'Three long label', key: '3'},
     {label: 'Four long label', key: '4', disabled: true},
-    {label: 'Four long selected and disabled', key: '5', disabled: true}
+    {label: 'Four long selected and disabled', key: '5', disabled: true},
   ];
 
   const multipleConfig = {selectAll: true};
@@ -1125,40 +1111,40 @@ export const multipleWithSelectAllAndDisabledItem: StoryFn<MultipleSelectAttrs> 
     filter: true,
     multiple: multipleConfig,
     selected: [data[1], data[4]],
-    data
+    data,
   };
 }
 
 multipleWithSelectAllAndDisabledItem.storyName = 'multiple with select all and disabled item';
 multipleWithSelectAllAndDisabledItem.parameters = {screenshots: {skip: true}};
 
-export const multipleWithSelectAllAndCustomLabels = (args: SelectProps) => <Select {...args}/>;
+export const multipleWithSelectAllAndCustomLabels = (args: SelectProps) => <Select {...args} />;
 {
   const data = [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
-    {label: 'Three long label', key: '3'}
+    {label: 'Three long label', key: '3'},
   ];
 
   const multipleConfig: Multiple = {
     selectAll: true,
     selectAllLabel: 'All Items',
     deselectAllLabel: 'None Items',
-    renderSelectedItemsDescription: selected => <Text info>{`${selected.length} items selected`}</Text>
+    renderSelectedItemsDescription: selected => <Text info>{`${selected.length} items selected`}</Text>,
   };
 
   multipleWithSelectAllAndCustomLabels.args = {
     filter: true,
     multiple: multipleConfig,
     selected: [data[1]],
-    data
+    data,
   };
 }
 
 multipleWithSelectAllAndCustomLabels.storyName = 'multiple with select all and custom labels';
 multipleWithSelectAllAndCustomLabels.parameters = {screenshots: {skip: true}};
 
-export const multipleWithLimit: StoryFn<MultipleSelectAttrs> = args => <Select {...args}/>;
+export const multipleWithLimit: StoryFn<MultipleSelectAttrs> = args => <Select {...args} />;
 {
   const data = [
     {label: 'One long label', key: '1'},
@@ -1166,7 +1152,7 @@ export const multipleWithLimit: StoryFn<MultipleSelectAttrs> = args => <Select {
     {label: 'Three long label', key: '3'},
     {label: 'Four long label', key: '4'},
     {label: 'Five long label', key: '5'},
-    {label: 'Six long label', key: '6'}
+    {label: 'Six long label', key: '6'},
   ];
 
   const multipleConfig = {limit: 2};
@@ -1175,20 +1161,17 @@ export const multipleWithLimit: StoryFn<MultipleSelectAttrs> = args => <Select {
     filter: true,
     multiple: multipleConfig,
     selected: [data[1]],
-    data
+    data,
   };
 }
 
 multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {screenshots: {skip: true}};
 
-
 export const selectInPopup: StoryFn<SingleSelectAttrs> = args => (
-  <Dropdown
-    anchor="Open dropdown"
-  >
+  <Dropdown anchor="Open dropdown">
     <Popup className={'popup-test-class'} maxHeight={100}>
-      <Select {...args}/>
+      <Select {...args} />
     </Popup>
   </Dropdown>
 );
@@ -1199,9 +1182,9 @@ selectInPopup.args = {
     {label: 'Three long label', key: '3'},
     {label: 'Four long label', key: '4'},
     {label: 'Five long label', key: '5'},
-    {label: 'Six long label', key: '6'}
+    {label: 'Six long label', key: '6'},
   ],
-  filter: true
+  filter: true,
 };
 
 selectInPopup.storyName = 'Select in Popup';
@@ -1215,10 +1198,10 @@ selectInPopup.parameters = {
     height: 300px;
   }
 </style>
-      `
+      `,
 };
 
 export const heightS = () => {
   const data = [{label: 'One', key: 1, showGeneratedAvatar: true, username: 'User'}];
-  return <Select height={ControlsHeight.S} data={data} selected={data[0]} clear/>;
+  return <Select height={ControlsHeight.S} data={data} selected={data[0]} clear />;
 };

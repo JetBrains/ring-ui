@@ -74,7 +74,7 @@ describe('Shortcuts', () => {
       (() => {
         // @ts-expect-error testing a wrong usage
         shortcuts.bindMap();
-      }).should.throw(Error, 'Shortcuts map shouldn\'t be empty');
+      }).should.throw(Error, "Shortcuts map shouldn't be empty");
     });
 
     it('should throw with wrong handler', () => {
@@ -291,7 +291,7 @@ describe('Shortcuts', () => {
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
-      ('keyup').should.not.equal(eventType);
+      'keyup'.should.not.equal(eventType);
     });
   });
 });

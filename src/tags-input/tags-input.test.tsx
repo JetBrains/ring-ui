@@ -9,10 +9,8 @@ import TagsInput, {TagsInputAttrs} from './tags-input';
 describe('Tags Input', () => {
   const fakeTags = [{key: 1, label: 'test1'}];
 
-  const shallowTagsInput = (props?: TagsInputAttrs) =>
-    shallow<TagsInput>(<TagsInput tags={fakeTags} {...props}/>);
-  const mountTagsInput = (props?: TagsInputAttrs) =>
-    mount<TagsInput>(<TagsInput tags={fakeTags} {...props}/>);
+  const shallowTagsInput = (props?: TagsInputAttrs) => shallow<TagsInput>(<TagsInput tags={fakeTags} {...props} />);
+  const mountTagsInput = (props?: TagsInputAttrs) => mount<TagsInput>(<TagsInput tags={fakeTags} {...props} />);
 
   describe('DOM', () => {
     it('should render select in input_without_controls mode', () => {
@@ -21,12 +19,11 @@ describe('Tags Input', () => {
 
     it('Should use passed className', () => {
       const wrapper = shallowTagsInput({
-        className: 'test-class'
+        className: 'test-class',
       });
       wrapper.should.have.className('test-class');
     });
   });
-
 
   describe('Select', () => {
     it('should auto open popup', () => {
@@ -76,7 +73,6 @@ describe('Tags Input', () => {
     });
   });
 
-
   describe('DataSource', () => {
     it('Should call datasource and set suggestions returned', async () => {
       const suggestions = [{key: 14, label: 'suggestion 14'}];
@@ -107,7 +103,6 @@ describe('Tags Input', () => {
     });
   });
 
-
   describe('Loading', () => {
     it('Should turn on loading message immediately after initialization', () => {
       const wrapper = mountTagsInput();
@@ -131,22 +126,22 @@ describe('Tags Input', () => {
     const instance = wrapper.instance();
     const notAddedSuggestions = instance.filterExistingTags([
       {key: 1, label: 'test1'},
-      {key: 2, label: 'test2'}
+      {key: 2, label: 'test2'},
     ]);
 
     notAddedSuggestions.should.be.deep.equal([{key: 2, label: 'test2'}]);
   });
 
-
   describe('Shortcuts', () => {
     describe('Keyboard handling', () => {
-      const getEventMock = (keyboardKey: string) => Object.assign({
-        key: keyboardKey,
-        preventDefault: sandbox.spy(),
-        target: {
-          matches: () => true
-        }
-      });
+      const getEventMock = (keyboardKey: string) =>
+        Object.assign({
+          key: keyboardKey,
+          preventDefault: sandbox.spy(),
+          target: {
+            matches: () => true,
+          },
+        });
 
       it('Should remove last tag on pressing backspace if input is empty', () => {
         const wrapper = mountTagsInput();
@@ -173,7 +168,7 @@ describe('Tags Input', () => {
         const instance = wrapper.instance();
         sandbox.spy(instance, 'onRemoveTag');
         wrapper.setState({
-          activeIndex: 0
+          activeIndex: 0,
         });
         instance.handleKeyDown(getEventMock('Delete'));
         instance.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
@@ -202,7 +197,7 @@ describe('Tags Input', () => {
         sandbox.spy(instance, 'selectTag');
         instance.getInputNode();
         instance.caret = {
-          getPosition: () => 1
+          getPosition: () => 1,
         } as Caret;
         instance.handleKeyDown(getEventMock('ArrowLeft'));
 
@@ -213,7 +208,7 @@ describe('Tags Input', () => {
         const wrapper = mountTagsInput();
         const instance = wrapper.instance();
         instance.caret = {
-          getPosition: sandbox.spy()
+          getPosition: sandbox.spy(),
         } as never;
         instance.handleKeyDown(getEventMock('ArrowLeft'));
 

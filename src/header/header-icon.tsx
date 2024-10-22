@@ -7,8 +7,8 @@ import {IconType} from '../icon/icon';
 import styles from './header.css';
 
 export interface HeaderIconSpecificProps {
-  icon: string | IconType
-  rotatable?: boolean | null | undefined
+  icon: string | IconType;
+  rotatable?: boolean | null | undefined;
 }
 
 export default class HeaderIcon extends Component<ButtonAttrs & HeaderIconSpecificProps> {
@@ -16,13 +16,8 @@ export default class HeaderIcon extends Component<ButtonAttrs & HeaderIconSpecif
     const {className, rotatable: rotatable, ...restProps} = this.props;
     const classes = classNames(styles.icon, className, {
       [styles.rotatable]: rotatable,
-      [styles.rotated]: rotatable && restProps.active
+      [styles.rotated]: rotatable && restProps.active,
     });
-    return (
-      <Button
-        {...restProps}
-        className={classes}
-      />
-    );
+    return <Button {...restProps} className={classes} />;
   }
 }

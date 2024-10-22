@@ -15,9 +15,9 @@ import {YEAR, MIDDLE_DAY, yearScrollSpeed, MonthsProps} from './consts';
 import styles from './date-picker.css';
 
 interface MonthNameProps {
-  month: Date
-  onScrollChange: (to: number) => void
-  locale: Locale | undefined
+  month: Date;
+  onScrollChange: (to: number) => void;
+  locale: Locale | undefined;
 }
 
 class MonthName extends PureComponent<MonthNameProps> {
@@ -32,12 +32,9 @@ class MonthName extends PureComponent<MonthNameProps> {
     return (
       <button
         type="button"
-        className={classNames(
-          styles.monthName,
-          {
-            [styles.today]: isThisMonth(month)
-          }
-        )}
+        className={classNames(styles.monthName, {
+          [styles.today]: isThisMonth(month),
+        })}
         onClick={this.handleClick}
       >
         {format(month, 'LLL', {locale})}
@@ -54,44 +51,29 @@ export default function MonthNames(props: MonthsProps) {
     months.push(startOfDay(middleDay));
   }
 
-  const pxToDate = linearFunction(
-    0,
-    Number(startOfYear(scrollDate)),
-    yearScrollSpeed
-  );
+  const pxToDate = linearFunction(0, Number(startOfYear(scrollDate)), yearScrollSpeed);
 
   let top = 0;
   let bottom = 0;
   if (props.currentRange) {
-    [top, bottom] = props.currentRange.
-      map(date => Math.floor(pxToDate.x(Number(date))));
+    [top, bottom] = props.currentRange.map(date => Math.floor(pxToDate.x(Number(date))));
   }
 
   return (
     <div className={styles.monthNames}>
       {months.map(month => (
-        <MonthName
-          key={+month}
-          month={month}
-          onScrollChange={props.onScrollChange}
-          locale={locale}
-        />
+        <MonthName key={+month} month={month} onScrollChange={props.onScrollChange} locale={locale} />
       ))}
-      {props.currentRange &&
-        (
-          <div
-            className={styles.range}
-            style={{
-              top: top - 1,
-              height: (bottom + 1) - (top - 1)
-            }}
-          />
-        )
-      }
-      <MonthSlider
-        {...props}
-        pxToDate={pxToDate}
-      />
+      {props.currentRange && (
+        <div
+          className={styles.range}
+          style={{
+            top: top - 1,
+            height: bottom + 1 - (top - 1),
+          }}
+        />
+      )}
+      <MonthSlider {...props} pxToDate={pxToDate} />
     </div>
   );
 }
