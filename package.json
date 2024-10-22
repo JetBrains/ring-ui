@@ -32,7 +32,8 @@
   },
   "scripts": {
     "apply-resolutions": "npx npm-force-resolutions@0.0.10",
-    "postinstall": "husky",
+    "postinstall": "husky && npm run postinstall:gitconfig",
+    "postinstall:gitconfig": "git config blame.ignoreRevsFile .git-blame-ignore-revs",
     "prepare": "webpack -c .storybook/custom-header/webpack.config.js",
     "prea11y-audit": "playwright install",
     "a11y-audit": "test-storybook --url http://localhost:9999",

@@ -1,0 +1,7 @@
+# This file is intended to ignore commits with bulk changes concerning formatting
+# Please consider adding full commit hashes here when performing similar operations
+# Requires git v2.23.0
+# To enable execute `git config blame.ignoreRevsFile .git-blame-ignore-revs`
+
+# apply prettier suggestions
+4e172a0aa40cfe1e5725b83ffed099f5796cbe57
