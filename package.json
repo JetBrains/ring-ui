@@ -148,7 +148,7 @@
     "events": "^3.3.0",
     "glob": "^11.0.0",
     "globals": "^15.11.0",
-    "html-webpack-plugin": "^5.6.2",
+    "html-webpack-plugin": "^5.6.3",
     "http-server": "^14.1.1",
     "husky": "^9.1.6",
     "identity-obj-proxy": "^3.0.0",
