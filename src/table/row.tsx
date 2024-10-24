@@ -210,7 +210,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
     const columns = typeof columnProps === 'function' ? columnProps(item) : columnProps;
 
     const cells = columns.map((column, index) => {
-      const getValue = column.getValue || (() => item[column.id] as ReactNode);
+      const getValue = column.getValue || (() => item[column.id as keyof T] as ReactNode);
       const getDataTest = column.getDataTest || (() => column.id);
       const value = getValue(item, column);
       const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);

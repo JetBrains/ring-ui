@@ -5,8 +5,12 @@ import {SelectionItem} from '../table/selection';
 import DataList, {DataListContainerProps} from './data-list';
 import Selection from './selection';
 
-const data: SelectionItem[] = [];
-const props: DataListContainerProps<SelectionItem> = {
+interface DateListTestItem extends SelectionItem {
+  selectable: boolean;
+}
+
+const data: DateListTestItem[] = [];
+const props: DataListContainerProps<DateListTestItem> = {
   data,
   selection: new Selection({data, isItemSelectable: item => Boolean(item.selectable)}),
   itemFormatter: () => ({}),
