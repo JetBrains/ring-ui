@@ -43,7 +43,7 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
   const {onSort, onSelect, withCaption, onReorder, ...restProps} = args;
   const [data, setData] = useState<Item[]>([]);
   const [selection, setSelection] = useState<Selection<Item>>(new Selection());
-  const [sortKey, setSortKey] = useState<string>('country');
+  const [sortKey, setSortKey] = useState<keyof Item>('country');
   const [sortOrder, setSortOrder] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
 
@@ -63,7 +63,7 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
   const handleSort = useCallback(
     (event: SortParams) => {
       onSort?.(event);
-      setSortKey(event.column.id);
+      setSortKey(event.column.id as keyof Item);
       setSortOrder(event.order);
     },
     [onSort],

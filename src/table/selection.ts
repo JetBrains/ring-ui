@@ -1,6 +1,5 @@
 export interface SelectionItem {
   id: string | number;
-  [key: string]: unknown; // TODO: Ring UI 7.0 drop this index type as it forces users to have index type in their data
 }
 
 export interface TableSelectionConfig<T extends SelectionItem> {
