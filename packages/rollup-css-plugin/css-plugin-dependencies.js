@@ -1,3 +1,5 @@
+const MAX_PASSES = 999999;
+
 class DependencyGraph {
   constructor() {
     this.graph = new Map();
@@ -20,12 +22,17 @@ class DependencyGraph {
   If a dependency is found after the current module, it's moved to just before the current module.
   This process repeats until no more reordering is needed.
    */
+  // eslint-disable-next-line complexity
   topologicalSort() {
     const order = this.initialTopologicalSort();
     let reordered;
+    let counter = 0;
 
     do {
       reordered = false;
+      if (counter++ > MAX_PASSES) {
+        throw new Error('Circular dependency detected');
+      }
       for (let i = 0; i < order.length; i++) {
         const module = order[i];
         const dependencies = this.graph.get(module) || new Set();

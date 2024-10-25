@@ -4,7 +4,7 @@
   "description": "Plugin with custom logic for Ring UI",
   "main": "css-plugin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test css-plugin-dependencies.test.js"
   },
   "keywords": [],
   "author": "Andrey Skladchikov",
