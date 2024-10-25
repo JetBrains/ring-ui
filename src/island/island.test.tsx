@@ -1,60 +1,72 @@
-import {shallow, mount} from 'enzyme';
+import {fireEvent, render, screen} from '@testing-library/react';
 
 import Island, {AdaptiveIsland, Content, Header, IslandProps} from './island';
 
 describe('Island', () => {
-  const shallowIsland = (params?: IslandProps) => shallow(<Island {...params} />);
-  const mountIsland = (params?: IslandProps) => mount(<Island {...params} />);
+  const renderIsland = (params?: IslandProps) => render(<Island {...params} />);
 
   it('should create Island component', () => {
-    mountIsland().should.have.type(Island);
+    renderIsland();
+    screen.getByTestId('ring-island').should.exist;
   });
 
   it('should wrap children with div', () => {
-    shallowIsland().should.have.tagName('div');
+    renderIsland();
+    screen.getByTestId('ring-island').should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    shallowIsland({className: 'test-class'}).should.have.className('test-class');
+    renderIsland({className: 'test-class'});
+    screen.getByTestId('ring-island').should.have.class('test-class');
   });
 
   it('should join with passed data-test', () => {
-    shallowIsland({['data-test']: 'foobar'}).should.have.attr('data-test', 'ring-island foobar');
+    renderIsland({['data-test']: 'foobar'});
+    screen.getByTestId('ring-island foobar').should.exist;
   });
 
   describe('AdaptiveIsland', () => {
     it('should render AdaptiveIsland', () => {
-      mount(<AdaptiveIsland />).should.have.type(AdaptiveIsland);
+      render(<AdaptiveIsland />);
+      screen.getByTestId('ring-island').should.exist;
     });
 
     it('should change header size if content is scrolled', () => {
-      const wrapper = mount<InstanceType<typeof AdaptiveIsland>>(
+      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+        cb(0);
+        return 0;
+      });
+
+      render(
         <AdaptiveIsland>
           <Header />
-          <Content />
+          <Content fade />
         </AdaptiveIsland>,
       );
 
-      const headerNode = wrapper.find('[data-test="ring-island-header"]');
+      const headerNode = screen.getByTestId('ring-island-header');
+      const scrollableContainer = screen.getByTestId('ring-island-content').firstChild as HTMLElement;
 
-      wrapper.instance().onContentScroll({
-        scrollTop: 10,
-        scrollHeight: 100,
-        clientHeight: 50,
-      } as Element);
+      scrollableContainer.scrollTop = 10;
+      Object.defineProperties(scrollableContainer, {
+        scrollHeight: {value: 100},
+        clientHeight: {value: 50},
+      });
+      fireEvent.scroll(scrollableContainer);
       headerNode.should.have.style('line-height', '24px');
     });
   });
 
   describe('Header', () => {
     it('should render header', () => {
-      mount(<Header />).should.have.type(Header);
+      render(<Header />);
+      screen.getByTestId('ring-island-header').should.exist;
     });
 
     it('should change header size', () => {
       const phase = 0.75;
-      const wrapper = shallow(<Header phase={phase} />);
-      wrapper.should.have.style('line-height', '22px');
+      render(<Header phase={phase} />);
+      screen.getByTestId('ring-island-header').should.have.style('line-height', '22px');
     });
   });
 });
