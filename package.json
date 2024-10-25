@@ -85,7 +85,7 @@
     "@eslint/compat": "^1.2.1",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
-    "@jetbrains/eslint-config": "^6.0.2",
+    "@jetbrains/eslint-config": "^6.0.3",
     "@jetbrains/logos": "3.0.0-canary.734b213.0",
     "@jetbrains/stylelint-config": "^4.0.2",
     "@primer/octicons": "^19.12.0",
