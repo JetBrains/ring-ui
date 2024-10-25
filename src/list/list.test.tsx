@@ -138,10 +138,6 @@ describe('List', () => {
     let wrapper: ReactWrapper<ListProps, ListState, List>;
     let instance: List;
     beforeEach(() => {
-      sandbox.stub(window, 'requestAnimationFrame').callsFake(cb => {
-        cb(0);
-        return 0;
-      });
       wrapper = mountList({
         data: [{key: 0}, {key: 1}, {key: 2}],
         activeIndex: 0,

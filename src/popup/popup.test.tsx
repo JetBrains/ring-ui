@@ -96,10 +96,10 @@ describe('Popup', () => {
     });
   });
 
-  describe.skip('positioning', () => {
+  describe('positioning', () => {
     let element: HTMLElement;
     beforeEach(() => {
-      sandbox.stub(window, 'requestAnimationFrame').callsFake(cb => {
+      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
         cb(0);
         return 0;
       });
@@ -111,7 +111,7 @@ describe('Popup', () => {
       }
     });
 
-    it('top-left direction', () => {
+    it.skip('top-left direction', () => {
       element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
@@ -187,7 +187,7 @@ describe('Popup', () => {
       parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
     });
 
-    it('Should support minWidth = MinWidth.TARGET', () => {
+    it.skip('Should support minWidth = MinWidth.TARGET', () => {
       element = document.createElement('div');
       element.setAttribute('style', 'width: 50px; padding-left: 20px;');
       document.body.append(element);
@@ -221,7 +221,7 @@ describe('Popup', () => {
       parseInt(popupElement.style.minWidth, 10).should.equal(WIDTH);
     });
 
-    it('Should use width of anchor if it is bigger than minWidth', () => {
+    it.skip('Should use width of anchor if it is bigger than minWidth', () => {
       const WIDTH = 345;
 
       element = document.createElement('div');
