@@ -8,6 +8,7 @@ const loadPostcssConfig = require('postcss-load-config');
 const postcss = require('postcss');
 const postcssImport = require('postcss-import');
 const cssModules = require('postcss-modules');
+const FileSystemLoader = require('postcss-modules/build/FileSystemLoader').default;
 const {createFilter} = require('@rollup/pluginutils');
 
 const {DependencyGraph} = require('./css-plugin-dependencies');
@@ -45,13 +46,31 @@ module.exports = function cssPlugin(options = {}) {
     name: 'css',
 
     async transform(code, id) {
-      if (!filter(id)) return null;
+      if (!filter(id)) {
+        return null;
+      }
+      let plugins = [];
 
       const cssModulesCache = new Map();
       sourcesList.push(id);
       const postcssConfig = await postcssConfigPromise;
 
-      const plugins = [
+      async function compileIfNeeded(resolvedPath) {
+        if (compiledCodeMap.has(resolvedPath)) {
+          return;
+        }
+        const fileContent = await fs.readFile(resolvedPath, 'utf-8');
+        const result = await postcss(plugins).process(fileContent, {
+          from: resolvedPath,
+          to: resolvedPath,
+          map: false,
+        });
+        log('compileIfNeeded.compiled', resolvedPath);
+
+        compiledCodeMap.set(resolvedPath, result.css);
+      }
+
+      plugins = [
         postcssImport({
           resolve: (fileId, basedir) => {
             const resolvedPath = path.resolve(basedir, fileId);
@@ -60,24 +79,12 @@ module.exports = function cssPlugin(options = {}) {
             return resolvedPath;
           },
           load: async filename => {
-            if (!compiledCodeMap.has(filename)) {
-              const fileContent = await fs.readFile(filename, 'utf-8');
-              const result = await postcss(plugins).process(fileContent, {
-                from: filename,
-                to: filename,
-                map: {inline: false, annotation: false},
-              });
-              log('postcssImport.compiled', filename);
-              compiledCodeMap.set(filename, result.css);
-            }
+            await compileIfNeeded(filename);
 
-            return `/* Import of "${path.basename(filename)}" extracted */\n`;
+            return `/* "@import" of "${path.basename(filename)}" extracted */\n`;
           },
         }),
         ...(postcssConfig.plugins || []),
-      ];
-
-      plugins.push(
         cssModules({
           generateScopedName(name, filename) {
             return `${name}_rui_${getHash(filename)}`;
@@ -85,24 +92,31 @@ module.exports = function cssPlugin(options = {}) {
           getJSON: (filepath, json) => {
             cssModulesCache.set(filepath, json);
           },
+          // Override Loader to prevent css-modules from inlining content of imported files for @value bar form '../foo.css' syntax
+          // See https://github.com/madyankin/postcss-modules/blob/bd64c71ddfd81b615104b0727ce9a623da0eaef6/src/FileSystemLoader.js#L68
+          Loader: class CustomLoader extends FileSystemLoader {
+            async fetch(file, relativeTo, _trace) {
+              const res = await super.fetch(file, relativeTo, _trace);
+              const normalizedFile = file.replace(/^["']|["']$/g, '');
+              const resolvedPath = path.join(path.dirname(relativeTo), normalizedFile);
+
+              await compileIfNeeded(resolvedPath);
+              depGraph.addDependency(id, resolvedPath);
+
+              this.sources[resolvedPath] = `/* "@value" import of "${path.basename(resolvedPath)}" extracted */\n`;
+
+              return res;
+            }
+          },
           resolve: async (file, importer) => {
             const resolvedPath = path.resolve(path.dirname(importer), file);
             log('cssModules.resolve', file, importer, resolvedPath);
-            if (!compiledCodeMap.has(resolvedPath)) {
-              const fileContent = await fs.readFile(resolvedPath, 'utf-8');
-              const result = await postcss(plugins).process(fileContent, {
-                from: resolvedPath,
-                to: resolvedPath,
-                map: false,
-              });
-              log('cssModules.compiled', resolvedPath);
-              compiledCodeMap.set(resolvedPath, result.css);
-            }
+            await compileIfNeeded(resolvedPath);
             depGraph.addDependency(id, resolvedPath);
             return resolvedPath;
           },
         }),
-      );
+      ];
 
       const result = await postcss(plugins).process(code, {
         from: id,

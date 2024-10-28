@@ -2,6 +2,7 @@
 import React from '@jetbrains/ring-ui-built/node_modules/react';
 
 import '@jetbrains/ring-ui-built/dist/style.css';
+import DatePicker from '@jetbrains/ring-ui-built/dist/date-picker/date-picker';
 import Toggle from '@jetbrains/ring-ui-built/dist/toggle/toggle';
 import Heading from '@jetbrains/ring-ui-built/dist/heading/heading';
 import {SmartTabs, Tab} from '@jetbrains/ring-ui-built/dist/tabs/tabs';
@@ -24,6 +25,8 @@ export default function App() {
   return (
     <ThemeProvider className="App" theme={dark ? Theme.DARK : Theme.LIGHT}>
       <Heading className="component">Start editing to see some magic happen!</Heading>
+
+      <DatePicker withTime/>
 
       <Toggle defaultChecked={dark} className="component" onChange={e => setDark(e.target.checked)}>
         Dark theme
