@@ -140,7 +140,7 @@
     "eslint-formatter-jslint-xml": "^8.40.0",
     "eslint-import-resolver-webpack": "^0.13.9",
     "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jsx-a11y": "^6.10.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
