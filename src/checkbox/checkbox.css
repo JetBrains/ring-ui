@@ -1,8 +1,8 @@
 @import "../global/variables.css";
 
-@value checkboxSize: 14px;
-
 .checkbox {
+  --ring-checkbox-size: 14px;
+
   position: relative;
 
   display: inline-flex;
@@ -27,8 +27,8 @@
   display: inline-block;
 
   box-sizing: border-box;
-  width: checkboxSize;
-  height: checkboxSize;
+  width: var(--ring-checkbox-size);
+  height: var(--ring-checkbox-size);
 
   user-select: none;
   transition:

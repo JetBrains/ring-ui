@@ -1,8 +1,8 @@
 @import "../global/variables.css";
 
-@value height, compensate from "../table/table.css";
-
 .dataListWrapper {
+  --ring-table-compensate: 2px;
+
   position: relative;
 }
 
@@ -25,7 +25,7 @@
 
   box-sizing: content-box;
   height: calc(4 * var(--ring-unit));
-  padding: 0 calc(var(--ring-unit) * 5) compensate 0;
+  padding: 0 calc(var(--ring-unit) * 5) var(--ring-table-compensate) 0;
 
   outline: none;
 

@@ -1,5 +1,3 @@
-@value dark from "../global/variables_dark.css";
-
 .slider {
   --ring-slider-thumb-color: var(--ring-content-background-color);
   --ring-slider-thumb-border: var(--ring-main-color);
@@ -22,7 +20,6 @@
   }
 }
 
-.dark,
 :global(.ring-ui-theme-dark) {
   .slider {
     --ring-slider-thumb-color: var(--ring-main-color);

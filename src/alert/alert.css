@@ -1,9 +1,9 @@
 @import "../global/variables.css";
 
-@value animation-duration: 300ms;
-@value animation-easing: ease-out;
-
 .alert {
+  --ring-alert-animation-duration: 300ms;
+  --ring-alert-animation-easing: ease-out;
+
   position: relative;
 
   display: flex;
@@ -15,9 +15,9 @@
   padding: 0 calc(var(--ring-unit) * 2);
 
   transition:
-    transform animation-duration animation-easing,
-    margin-bottom animation-duration animation-easing,
-    opacity animation-duration animation-easing;
+    transform var(--ring-alert-animation-duration) var(--ring-alert-animation-easing),
+    margin-bottom var(--ring-alert-animation-duration) var(--ring-alert-animation-easing),
+    opacity var(--ring-alert-animation-duration) var(--ring-alert-animation-easing);
   white-space: nowrap;
   pointer-events: auto;
 
@@ -124,7 +124,7 @@
 
 .animationOpen {
   animation-name: show;
-  animation-duration: animation-duration;
+  animation-duration: var(--ring-alert-animation-duration);
 }
 
 .animationClosing {

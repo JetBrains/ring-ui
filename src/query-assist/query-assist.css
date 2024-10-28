@@ -1,9 +1,6 @@
 @import "../global/variables.css";
 @import "../button/button.css";
 
-@value overInputZIndex: 2;
-@value inputGap: calc(var(--ring-unit) * 3);
-
 .queryAssist {
   --ring-input-icon-offset: calc(var(--ring-unit) * 2.5);
   --ring-input-padding-inline: var(--ring-unit);

@@ -1,20 +1,19 @@
 @import "../global/variables.css";
 
-@value dark from "../global/variables_dark.css";
 @value link, active from "../link/link.css";
-@value compensate: 3px;
-@value compensated: calc(calc(var(--ring-unit) * 8) - compensate);
 
 :root {
   --ring-header-link-color: var(--ring-link-color);
 }
 
-.dark,
 :global(.ring-ui-theme-dark) {
   --ring-header-link-color: var(--ring-text-color);
 }
 
 .header {
+  --ring-header-compensate: 3px;
+  --ring-header-compensated: calc(calc(var(--ring-unit) * 8) - var(--ring-header-compensate));
+
   display: flex;
   overflow: hidden;
   align-items: center;
@@ -26,14 +25,14 @@
 
   background-color: var(--ring-navigation-background-color);
 
-  line-height: compensated;
+  line-height: var(--ring-header-compensated);
 
   & > * {
     display: inline-block;
 
     box-sizing: border-box;
     height: calc(var(--ring-unit) * 8);
-    padding: 0 calc(var(--ring-unit) * 1.5) compensate;
+    padding: 0 calc(var(--ring-unit) * 1.5) var(--ring-header-compensate);
   }
 
   /* override link */
@@ -77,7 +76,6 @@
   }
 }
 
-html.dark .headerVertical,
 html:global(.ring-ui-theme-dark) .headerVertical {
   box-shadow: inset -1px 0 var(--ring-line-color);
 }
@@ -114,7 +112,7 @@ html:global(.ring-ui-theme-dark) .headerVertical {
   align-items: flex-end;
 
   margin-left: auto;
-  padding: 0 0 compensate;
+  padding: 0 0 var(--ring-header-compensate);
 }
 
 /* override .header > * */
@@ -132,7 +130,7 @@ html:global(.ring-ui-theme-dark) .headerVertical {
 }
 
 .trayItemContent {
-  height: compensated;
+  height: var(--ring-header-compensated);
 }
 
 .icon {
@@ -148,11 +146,11 @@ html:global(.ring-ui-theme-dark) .headerVertical {
 
 /* override button */
 .icon.icon {
-  height: compensated;
+  height: var(--ring-header-compensated);
 
   padding-top: calc(var(--ring-unit) / 2);
 
-  line-height: compensated;
+  line-height: var(--ring-header-compensated);
 }
 
 .headerVertical .icon {
@@ -182,7 +180,7 @@ html:global(.ring-ui-theme-dark) .headerVertical {
   align-items: center;
 
   width: auto;
-  height: compensated;
+  height: var(--ring-header-compensated);
   padding-left: var(--ring-unit);
 
   vertical-align: bottom;
@@ -196,7 +194,7 @@ html:global(.ring-ui-theme-dark) .headerVertical {
 .profile {
   composes: profileEmpty;
 
-  height: compensated;
+  height: var(--ring-header-compensated);
 
   cursor: pointer;
 }

@@ -1,8 +1,8 @@
 @import "../global/variables.css";
 
-@value max-height: 20px;
-
 .tag {
+  --ring-tag-max-height: 20px;
+
   composes: resetButton from "../global/global.css";
 
   position: relative;
@@ -12,7 +12,7 @@
 
   box-sizing: border-box;
   max-width: 100%;
-  height: max-height;
+  height: var(--ring-tag-max-height);
 
   padding: 0 var(--ring-unit);
 
@@ -110,8 +110,8 @@
   overflow: hidden;
 
   box-sizing: border-box;
-  width: max-height;
-  height: max-height;
+  width: var(--ring-tag-max-height);
+  height: var(--ring-tag-max-height);
   margin-right: calc(var(--ring-unit) / 2);
   margin-left: calc(var(--ring-unit) * -1);
 
@@ -131,7 +131,7 @@
 }
 
 .avatarIcon {
-  width: max-height;
+  width: var(--ring-tag-max-height);
 
   margin-right: -4px;
 
