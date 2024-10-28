@@ -30,6 +30,8 @@ function removeDuplicatePaths(paths) {
   });
 }
 
+const postcssConfigPromise = loadPostcssConfig();
+
 module.exports = function cssPlugin(options = {}) {
   const filter = createFilter(options.include || '**/*.css', options.exclude);
   const extractPath = options.extract || 'bundle.css';
@@ -47,7 +49,7 @@ module.exports = function cssPlugin(options = {}) {
 
       const cssModulesCache = new Map();
       sourcesList.push(id);
-      const postcssConfig = loadPostcssConfig();
+      const postcssConfig = await postcssConfigPromise;
 
       const plugins = [
         postcssImport({
