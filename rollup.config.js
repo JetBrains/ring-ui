@@ -71,7 +71,7 @@ export default {
       exclude: 'node_modules/**',
       extract: 'style.css',
       // log: console.log, // Uncomment to log CSS processing
-      minimize: false,
+      minimize: true,
     }),
 
     replace({
