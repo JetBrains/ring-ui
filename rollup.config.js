@@ -63,7 +63,6 @@ export default {
     babel({
       babelHelpers: 'bundled',
       browserslistEnv: 'dist',
-      // minified: false,
       extensions,
     }),
 
@@ -71,7 +70,7 @@ export default {
       include: '**/*.css',
       exclude: 'node_modules/**',
       extract: 'style.css',
-      // log: console.log,
+      // log: console.log, // Uncomment to log CSS processing
       minimize: true,
     }),
 
