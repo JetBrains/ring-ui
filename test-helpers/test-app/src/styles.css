@@ -1,0 +1,26 @@
+html,
+body {
+  margin: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+
+  padding: calc(2 * var(--ring-unit));
+
+  color: var(--ring-text-color);
+
+  background-color: var(--ring-content-background-color);
+
+  font-family: var(--ring-font-family);
+  font-size: var(--ring-font-size);
+}
+
+.component {
+  margin: var(--ring-unit);
+}
+
+.popup {
+  padding: var(--ring-unit);
+}

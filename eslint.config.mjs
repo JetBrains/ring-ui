@@ -25,6 +25,7 @@ export default tseslint.config(
       '**/coverage',
       '**/dist',
       '**/components',
+      '**/test-app',
       '**/storybook-dist',
       '**/docs',
       '**/html-report',

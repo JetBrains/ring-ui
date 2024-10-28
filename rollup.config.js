@@ -1,19 +1,12 @@
 import path from 'path';
-import crypto from 'crypto';
 
 import {babel} from '@rollup/plugin-babel';
-import styles from 'rollup-plugin-styles';
+import cssPlugin from '@jetbrains/rollup-css-plugin';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
 import clear from 'rollup-plugin-clear';
 import glob from 'glob';
-
-function getHash(input) {
-  const HASH_LEN = 4;
-  const hash = crypto.createHash('md5').update(input).digest('hex');
-  return hash.substr(0, HASH_LEN);
-}
 
 const files = glob.sync(
   [
@@ -73,28 +66,12 @@ export default {
       extensions,
     }),
 
-    // NOTE: styles plugin runs 2 times. First time it applies all the PostCSS transforms
-    styles({
-      mode: 'emit',
-      config: true,
+    cssPlugin({
+      include: '**/*.css',
+      exclude: 'node_modules/**',
+      extract: 'style.css',
+      // log: console.log, // Uncomment to log CSS processing
       minimize: false,
-    }),
-
-    // Second time it applies CSS Modules, extraction and minification. See why https://youtrack.jetbrains.com/issue/RG-2171#focus=Comments-27-5632562.0-0
-    styles({
-      modules: {
-        generateScopedName(name, filename) {
-          if (name.startsWith('light')) {
-            // RG-2283 Hack for Ring UI's light theme being multiplied for every import
-            return `${name}_rui_${getHash(name)}`;
-          }
-          return `${name}_rui_${getHash(filename)}`;
-        },
-        mode: 'local',
-      },
-      mode: ['extract', 'style.css'],
-      config: true,
-      minimize: true,
     }),
 
     replace({
