@@ -1,5 +1,8 @@
 @import "../global/variables.css";
 
+/* ensure styles order */
+@import "../input/input.css";
+
 @value outerContainer, container, input from "../input/input.css";
 
 .tagsInput {

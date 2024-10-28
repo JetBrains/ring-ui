@@ -1,6 +1,9 @@
 @import "../global/variables.css";
 @import "../global/global.css";
 
+/* ensure styles order */
+@import "../input/input.css";
+
 @value cellSize: calc(var(--ring-unit) * 3);
 @value calHeight: calc(var(--ring-unit) * 36);
 @value calWidth: calc(var(--ring-unit) * 37);
