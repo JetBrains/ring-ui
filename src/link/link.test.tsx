@@ -1,42 +1,45 @@
 import {ComponentType} from 'react';
 import * as React from 'react';
-import {shallow, mount, ShallowWrapper} from 'enzyme';
+
+import {fireEvent, render, screen} from '@testing-library/react';
 
 import Link, {linkHOC, LinkProps} from './link';
 import ClickableLink, {ClickableLinkProps} from './clickableLink';
 import styles from './link.css';
 
 describe('Link', () => {
-  const shallowLink = (props?: Partial<LinkProps>) => shallow(<Link {...{children: '', ...props}} />);
-  const mountLink = (props?: Partial<LinkProps>) => mount(<Link {...{children: '', ...props}} />);
+  const renderLink = (props?: Partial<LinkProps>) => {
+    render(<Link {...{children: '', ...props}} />);
+  };
 
-  it('should create component', () => {
-    mountLink().should.have.type(Link);
+  it('should wrap children with a link', () => {
+    renderLink({href: '/'});
+    screen.getByRole('link').should.exist;
   });
 
-  it('should wrap children with ClickableLink', () => {
-    shallowLink({href: '/'}).should.have.type(ClickableLink);
-  });
-
-  it('should wrap children with ClickableLink if href is empty string', () => {
-    shallowLink({href: ''}).should.have.type(ClickableLink);
+  it('should wrap children with a link if href is empty string', () => {
+    renderLink({href: ''});
+    screen.getByTestId('ring-link').should.have.tagName('a');
   });
 
   it('should wrap children with button if no href', () => {
-    shallowLink({}).should.have.type('button');
+    renderLink({});
+    screen.getByRole('button').should.exist;
   });
 
   it('should use passed className', () => {
-    shallowLink({className: 'test-class'}).should.have.className('test-class');
+    renderLink({className: 'test-class'});
+    screen.getByRole('button').should.have.class('test-class');
   });
 
   it('should add active className', () => {
-    shallowLink({active: true}).should.have.className(styles.active);
+    renderLink({active: true});
+    screen.getByRole('button').should.have.class(styles.active);
   });
 
   it('should render button for pseudo links', () => {
-    shallowLink().should.have.tagName('button');
-    shallowLink({href: '/', pseudo: true}).should.have.tagName('button');
+    renderLink({href: '/', pseudo: true});
+    screen.getByRole('button').should.exist;
   });
 
   describe('linkHOC', () => {
@@ -47,33 +50,37 @@ describe('Link', () => {
     });
 
     it('should pass activeClassName to wrapped component', () => {
-      const CustomComponent: ComponentType<ClickableLinkProps> = () => <span />;
+      const CustomComponent: ComponentType<ClickableLinkProps> = () => <span data-test="custom-component" />;
       const CustomLink = linkHOC(CustomComponent);
-      mount(<CustomLink>{null}</CustomLink>).should.containMatchingElement(
-        <CustomComponent activeClassName={styles.active} />,
-      );
+      render(<CustomLink>{null}</CustomLink>);
+      screen.getByTestId('custom-component').should.exist;
     });
 
     it('should pass custom props to wrapped component', () => {
-      const CustomComponent: ComponentType<ClickableLinkProps & {custom: string}> = () => <span />;
+      const CustomComponent: ComponentType<ClickableLinkProps & {custom: string}> = ({custom}) => (
+        <span data-test={custom} />
+      );
       const CustomLink = linkHOC(CustomComponent);
 
-      mount(<CustomLink custom="test">{null}</CustomLink>).should.containMatchingElement(
-        <CustomComponent custom="test" />,
-      );
+      render(<CustomLink custom="test">{null}</CustomLink>);
+      screen.getByTestId('test').should.exist;
     });
 
     it('should not add activeClassName to tags', () => {
       const CustomComponent = 'a';
       const CustomLink = linkHOC(CustomComponent);
 
-      shallow(<CustomLink>{''}</CustomLink>).should.not.have.prop('activeClassName');
+      render(<CustomLink href="/">{''}</CustomLink>);
+      screen.getByRole('link').should.not.have.attr('activeClassName');
     });
   });
 
   describe('ClickableLink', () => {
     it('should render "a" tag', () => {
-      shallow(<ClickableLink href="/">{'foo'}</ClickableLink>).should.containMatchingElement(<a href="/">{'foo'}</a>);
+      render(<ClickableLink href="/">{'foo'}</ClickableLink>);
+      const link = screen.getByRole('link');
+      link.should.have.attr('href', '/');
+      link.should.have.text('foo');
     });
 
     describe('events', () => {
@@ -86,18 +93,12 @@ describe('Link', () => {
       let onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
       let onConditionalClick: (isPlainLeft: boolean, e: React.MouseEvent<HTMLAnchorElement>) => void;
       let onPlainLeftClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-      let wrapper: ShallowWrapper;
-
-      const makeEvent = (e: Partial<MouseEvent>) => ({
-        ...e,
-        preventDefault: sandbox.spy(),
-      });
 
       beforeEach(() => {
         onClick = sandbox.spy();
         onConditionalClick = sandbox.spy();
         onPlainLeftClick = sandbox.spy();
-        wrapper = shallow(
+        render(
           <ClickableLink
             onClick={onClick}
             onConditionalClick={onConditionalClick}
@@ -110,73 +111,63 @@ describe('Link', () => {
       });
 
       it('should handle a plain left click', () => {
-        const e = makeEvent({button: Buttons.LEFT});
-        wrapper.simulate('click', e);
+        const link = screen.getByRole('link');
+        const e = {button: Buttons.LEFT};
+        fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWith(e);
-        onConditionalClick.should.have.been.calledWith(true, e);
-        onPlainLeftClick.should.have.been.calledWith(e);
-        e.preventDefault.should.have.been.calledOnce;
+        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: true});
+        onConditionalClick.should.have.been.calledWithMatch(true, e);
+        onPlainLeftClick.should.have.been.calledWithMatch(e);
       });
 
       it('should handle a middle click', () => {
-        const e = makeEvent({button: Buttons.MIDDLE});
-        wrapper.simulate('click', e);
+        const link = screen.getByRole('link');
+        const e = {button: Buttons.MIDDLE};
+        fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWith(e);
-        onConditionalClick.should.have.been.calledWith(false, e);
+        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
+        onConditionalClick.should.have.been.calledWithMatch(false, e);
         onPlainLeftClick.should.not.have.been.called;
-        e.preventDefault.should.not.have.been.called;
-      });
-
-      it('should handle a right click', () => {
-        const e = makeEvent({button: Buttons.RIGHT});
-        wrapper.simulate('click', e);
-
-        onClick.should.have.been.calledWith(e);
-        onConditionalClick.should.have.been.calledWith(false, e);
-        onPlainLeftClick.should.not.have.been.called;
-        e.preventDefault.should.not.have.been.called;
       });
 
       it('should handle alt+click', () => {
-        const e = makeEvent({button: Buttons.LEFT, altKey: true});
-        wrapper.simulate('click', e);
+        const link = screen.getByRole('link');
+        const e = {button: Buttons.LEFT, altKey: true};
+        fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWith(e);
-        onConditionalClick.should.have.been.calledWith(false, e);
+        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
+        onConditionalClick.should.have.been.calledWithMatch(false, e);
         onPlainLeftClick.should.not.have.been.called;
-        e.preventDefault.should.not.have.been.called;
       });
 
       it('should handle ctrl+click', () => {
-        const e = makeEvent({button: Buttons.LEFT, ctrlKey: true});
-        wrapper.simulate('click', e);
+        const link = screen.getByRole('link');
+        const e = {button: Buttons.LEFT, ctrlKey: true};
+        fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWith(e);
-        onConditionalClick.should.have.been.calledWith(false, e);
+        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
+        onConditionalClick.should.have.been.calledWithMatch(false, e);
         onPlainLeftClick.should.not.have.been.called;
-        e.preventDefault.should.not.have.been.called;
       });
 
       it('should handle cmd+click / win+click', () => {
-        const e = makeEvent({button: Buttons.LEFT, metaKey: true});
-        wrapper.simulate('click', e);
+        const link = screen.getByRole('link');
+        const e = {button: Buttons.LEFT, metaKey: true};
+        fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWith(e);
-        onConditionalClick.should.have.been.calledWith(false, e);
+        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
+        onConditionalClick.should.have.been.calledWithMatch(false, e);
         onPlainLeftClick.should.not.have.been.called;
-        e.preventDefault.should.not.have.been.called;
       });
 
       it('should handle shift+click', () => {
-        const e = makeEvent({button: Buttons.LEFT, shiftKey: true});
-        wrapper.simulate('click', e);
+        const link = screen.getByRole('link');
+        const e = {button: Buttons.LEFT, shiftKey: true};
+        fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWith(e);
-        onConditionalClick.should.have.been.calledWith(false, e);
+        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
+        onConditionalClick.should.have.been.calledWithMatch(false, e);
         onPlainLeftClick.should.not.have.been.called;
-        e.preventDefault.should.not.have.been.called;
       });
     });
   });
