@@ -2,35 +2,36 @@
 
 @value breakpoint-small, breakpoint-middle, breakpoint-large  from "../global/global.css";
 @value large-screen-media, middle-screen-media, small-screen-media from "../global/global.css";
-@value gutterWidth: (var(--ring-unit) * 2);
-@value gutterCompensation: calc(gutterWidth / -2);
-@value outerMargin: calc(var(--ring-unit) * 2);
-@value containerSmall: calc(breakpoint-small + gutterWidth);
-@value containerMedium: calc(breakpoint-middle + gutterWidth);
-@value containerLarge: calc(breakpoint-large + gutterWidth);
-@value width-1: 8.3333%;
-@value width-2: 16.6667%;
-@value width-3: 25%;
-@value width-4: 33.3333%;
-@value width-5: 41.6667%;
-@value width-6: 50%;
-@value width-7: 58.3333%;
-@value width-8: 66.6667%;
-@value width-9: 75%;
-@value width-10: 83.3333%;
-@value width-11: 91.6667%;
-@value width-12: 100%;
 
 .container-fluid,
 .container {
+  --ring-grid-gutter-width: calc(var(--ring-unit) * 2);
+  --ring-grid-gutter-compensation: calc(var(--ring-grid-gutter-width) / -2);
+  --ring-grid-outer-margin: calc(var(--ring-unit) * 2);
+  --ring-grid-container-small: calc(breakpoint-small + var(--ring-grid-gutter-width));
+  --ring-grid-container-medium: calc(breakpoint-middle + var(--ring-grid-gutter-width));
+  --ring-grid-container-large: calc(breakpoint-large + var(--ring-grid-gutter-width));
+  --ring-grid-width-1: 8.3333%;
+  --ring-grid-width-2: 16.6667%;
+  --ring-grid-width-3: 25%;
+  --ring-grid-width-4: 33.3333%;
+  --ring-grid-width-5: 41.6667%;
+  --ring-grid-width-6: 50%;
+  --ring-grid-width-7: 58.3333%;
+  --ring-grid-width-8: 66.6667%;
+  --ring-grid-width-9: 75%;
+  --ring-grid-width-10: 83.3333%;
+  --ring-grid-width-11: 91.6667%;
+  --ring-grid-width-12: 100%;
+
   margin-right: auto;
   margin-left: auto;
 }
 
 .container-fluid {
   min-width: calc(var(--ring-unit) * 40);
-  padding-right: outerMargin;
-  padding-left: outerMargin;
+  padding-right: var(--ring-grid-outer-margin);
+  padding-left: var(--ring-grid-outer-margin);
 }
 
 .row {
@@ -39,8 +40,8 @@
   flex-flow: row wrap;
 
   box-sizing: border-box;
-  margin-right: gutterCompensation;
-  margin-left: gutterCompensation;
+  margin-right: var(--ring-grid-gutter-compensation);
+  margin-left: var(--ring-grid-gutter-compensation);
 }
 
 .row.reverse {
@@ -85,8 +86,8 @@
   flex: 0 0 auto;
 
   box-sizing: border-box;
-  padding-right: calc(gutterWidth / 2);
-  padding-left: calc(gutterWidth / 2);
+  padding-right: calc(var(--ring-grid-gutter-width) / 2);
+  padding-left: calc(var(--ring-grid-gutter-width) / 2);
 }
 
 .col-xs {
@@ -97,75 +98,75 @@
 }
 
 .col-xs-1 {
-  flex-basis: width-1;
+  flex-basis: var(--ring-grid-width-1);
 
-  max-width: width-1;
+  max-width: var(--ring-grid-width-1);
 }
 
 .col-xs-2 {
-  flex-basis: width-2;
+  flex-basis: var(--ring-grid-width-2);
 
-  max-width: width-2;
+  max-width: var(--ring-grid-width-2);
 }
 
 .col-xs-3 {
-  flex-basis: width-3;
+  flex-basis: var(--ring-grid-width-3);
 
-  max-width: width-3;
+  max-width: var(--ring-grid-width-3);
 }
 
 .col-xs-4 {
-  flex-basis: width-4;
+  flex-basis: var(--ring-grid-width-4);
 
-  max-width: width-4;
+  max-width: var(--ring-grid-width-4);
 }
 
 .col-xs-5 {
-  flex-basis: width-5;
+  flex-basis: var(--ring-grid-width-5);
 
-  max-width: width-5;
+  max-width: var(--ring-grid-width-5);
 }
 
 .col-xs-6 {
-  flex-basis: width-6;
+  flex-basis: var(--ring-grid-width-6);
 
-  max-width: width-6;
+  max-width: var(--ring-grid-width-6);
 }
 
 .col-xs-7 {
-  flex-basis: width-7;
+  flex-basis: var(--ring-grid-width-7);
 
-  max-width: width-7;
+  max-width: var(--ring-grid-width-7);
 }
 
 .col-xs-8 {
-  flex-basis: width-8;
+  flex-basis: var(--ring-grid-width-8);
 
-  max-width: width-8;
+  max-width: var(--ring-grid-width-8);
 }
 
 .col-xs-9 {
-  flex-basis: width-9;
+  flex-basis: var(--ring-grid-width-9);
 
-  max-width: width-9;
+  max-width: var(--ring-grid-width-9);
 }
 
 .col-xs-10 {
-  flex-basis: width-10;
+  flex-basis: var(--ring-grid-width-10);
 
-  max-width: width-10;
+  max-width: var(--ring-grid-width-10);
 }
 
 .col-xs-11 {
-  flex-basis: width-11;
+  flex-basis: var(--ring-grid-width-11);
 
-  max-width: width-11;
+  max-width: var(--ring-grid-width-11);
 }
 
 .col-xs-12 {
-  flex-basis: width-12;
+  flex-basis: var(--ring-grid-width-12);
 
-  max-width: width-12;
+  max-width: var(--ring-grid-width-12);
 }
 
 .col-xs-offset-0 {
@@ -173,47 +174,47 @@
 }
 
 .col-xs-offset-1 {
-  margin-left: width-1;
+  margin-left: var(--ring-grid-width-1);
 }
 
 .col-xs-offset-2 {
-  margin-left: width-2;
+  margin-left: var(--ring-grid-width-2);
 }
 
 .col-xs-offset-3 {
-  margin-left: width-3;
+  margin-left: var(--ring-grid-width-3);
 }
 
 .col-xs-offset-4 {
-  margin-left: width-4;
+  margin-left: var(--ring-grid-width-4);
 }
 
 .col-xs-offset-5 {
-  margin-left: width-5;
+  margin-left: var(--ring-grid-width-5);
 }
 
 .col-xs-offset-6 {
-  margin-left: width-6;
+  margin-left: var(--ring-grid-width-6);
 }
 
 .col-xs-offset-7 {
-  margin-left: width-7;
+  margin-left: var(--ring-grid-width-7);
 }
 
 .col-xs-offset-8 {
-  margin-left: width-8;
+  margin-left: var(--ring-grid-width-8);
 }
 
 .col-xs-offset-9 {
-  margin-left: width-9;
+  margin-left: var(--ring-grid-width-9);
 }
 
 .col-xs-offset-10 {
-  margin-left: width-10;
+  margin-left: var(--ring-grid-width-10);
 }
 
 .col-xs-offset-11 {
-  margin-left: width-11;
+  margin-left: var(--ring-grid-width-11);
 }
 
 .start-xs {
@@ -268,7 +269,7 @@
 
 @media small-screen-media {
   .container {
-    width: containerSmall;
+    width: var(--ring-grid-container-small);
   }
 
   .col-sm,
@@ -300,8 +301,8 @@
     flex: 0 0 auto;
 
     box-sizing: border-box;
-    padding-right: calc(gutterWidth / 2);
-    padding-left: calc(gutterWidth / 2);
+    padding-right: calc(var(--ring-grid-gutter-width) / 2);
+    padding-left: calc(var(--ring-grid-gutter-width) / 2);
   }
 
   .col-sm {
@@ -312,75 +313,75 @@
   }
 
   .col-sm-1 {
-    flex-basis: width-1;
+    flex-basis: var(--ring-grid-width-1);
 
-    max-width: width-1;
+    max-width: var(--ring-grid-width-1);
   }
 
   .col-sm-2 {
-    flex-basis: width-2;
+    flex-basis: var(--ring-grid-width-2);
 
-    max-width: width-2;
+    max-width: var(--ring-grid-width-2);
   }
 
   .col-sm-3 {
-    flex-basis: width-3;
+    flex-basis: var(--ring-grid-width-3);
 
-    max-width: width-3;
+    max-width: var(--ring-grid-width-3);
   }
 
   .col-sm-4 {
-    flex-basis: width-4;
+    flex-basis: var(--ring-grid-width-4);
 
-    max-width: width-4;
+    max-width: var(--ring-grid-width-4);
   }
 
   .col-sm-5 {
-    flex-basis: width-5;
+    flex-basis: var(--ring-grid-width-5);
 
-    max-width: width-5;
+    max-width: var(--ring-grid-width-5);
   }
 
   .col-sm-6 {
-    flex-basis: width-6;
+    flex-basis: var(--ring-grid-width-6);
 
-    max-width: width-6;
+    max-width: var(--ring-grid-width-6);
   }
 
   .col-sm-7 {
-    flex-basis: width-7;
+    flex-basis: var(--ring-grid-width-7);
 
-    max-width: width-7;
+    max-width: var(--ring-grid-width-7);
   }
 
   .col-sm-8 {
-    flex-basis: width-8;
+    flex-basis: var(--ring-grid-width-8);
 
-    max-width: width-8;
+    max-width: var(--ring-grid-width-8);
   }
 
   .col-sm-9 {
-    flex-basis: width-9;
+    flex-basis: var(--ring-grid-width-9);
 
-    max-width: width-9;
+    max-width: var(--ring-grid-width-9);
   }
 
   .col-sm-10 {
-    flex-basis: width-10;
+    flex-basis: var(--ring-grid-width-10);
 
-    max-width: width-10;
+    max-width: var(--ring-grid-width-10);
   }
 
   .col-sm-11 {
-    flex-basis: width-11;
+    flex-basis: var(--ring-grid-width-11);
 
-    max-width: width-11;
+    max-width: var(--ring-grid-width-11);
   }
 
   .col-sm-12 {
-    flex-basis: width-12;
+    flex-basis: var(--ring-grid-width-12);
 
-    max-width: width-12;
+    max-width: var(--ring-grid-width-12);
   }
 
   .col-sm-offset-0 {
@@ -388,47 +389,47 @@
   }
 
   .col-sm-offset-1 {
-    margin-left: width-1;
+    margin-left: var(--ring-grid-width-1);
   }
 
   .col-sm-offset-2 {
-    margin-left: width-2;
+    margin-left: var(--ring-grid-width-2);
   }
 
   .col-sm-offset-3 {
-    margin-left: width-3;
+    margin-left: var(--ring-grid-width-3);
   }
 
   .col-sm-offset-4 {
-    margin-left: width-4;
+    margin-left: var(--ring-grid-width-4);
   }
 
   .col-sm-offset-5 {
-    margin-left: width-5;
+    margin-left: var(--ring-grid-width-5);
   }
 
   .col-sm-offset-6 {
-    margin-left: width-6;
+    margin-left: var(--ring-grid-width-6);
   }
 
   .col-sm-offset-7 {
-    margin-left: width-7;
+    margin-left: var(--ring-grid-width-7);
   }
 
   .col-sm-offset-8 {
-    margin-left: width-8;
+    margin-left: var(--ring-grid-width-8);
   }
 
   .col-sm-offset-9 {
-    margin-left: width-9;
+    margin-left: var(--ring-grid-width-9);
   }
 
   .col-sm-offset-10 {
-    margin-left: width-10;
+    margin-left: var(--ring-grid-width-10);
   }
 
   .col-sm-offset-11 {
-    margin-left: width-11;
+    margin-left: var(--ring-grid-width-11);
   }
 
   .start-sm {
@@ -484,7 +485,7 @@
 
 @media middle-screen-media {
   .container {
-    width: containerMedium;
+    width: var(--ring-grid-container-medium);
   }
 
   .col-md,
@@ -516,8 +517,8 @@
     flex: 0 0 auto;
 
     box-sizing: border-box;
-    padding-right: calc(gutterWidth / 2);
-    padding-left: calc(gutterWidth / 2);
+    padding-right: calc(var(--ring-grid-gutter-width) / 2);
+    padding-left: calc(var(--ring-grid-gutter-width) / 2);
   }
 
   .col-md {
@@ -528,75 +529,75 @@
   }
 
   .col-md-1 {
-    flex-basis: width-1;
+    flex-basis: var(--ring-grid-width-1);
 
-    max-width: width-1;
+    max-width: var(--ring-grid-width-1);
   }
 
   .col-md-2 {
-    flex-basis: width-2;
+    flex-basis: var(--ring-grid-width-2);
 
-    max-width: width-2;
+    max-width: var(--ring-grid-width-2);
   }
 
   .col-md-3 {
-    flex-basis: width-3;
+    flex-basis: var(--ring-grid-width-3);
 
-    max-width: width-3;
+    max-width: var(--ring-grid-width-3);
   }
 
   .col-md-4 {
-    flex-basis: width-4;
+    flex-basis: var(--ring-grid-width-4);
 
-    max-width: width-4;
+    max-width: var(--ring-grid-width-4);
   }
 
   .col-md-5 {
-    flex-basis: width-5;
+    flex-basis: var(--ring-grid-width-5);
 
-    max-width: width-5;
+    max-width: var(--ring-grid-width-5);
   }
 
   .col-md-6 {
-    flex-basis: width-6;
+    flex-basis: var(--ring-grid-width-6);
 
-    max-width: width-6;
+    max-width: var(--ring-grid-width-6);
   }
 
   .col-md-7 {
-    flex-basis: width-7;
+    flex-basis: var(--ring-grid-width-7);
 
-    max-width: width-7;
+    max-width: var(--ring-grid-width-7);
   }
 
   .col-md-8 {
-    flex-basis: width-8;
+    flex-basis: var(--ring-grid-width-8);
 
-    max-width: width-8;
+    max-width: var(--ring-grid-width-8);
   }
 
   .col-md-9 {
-    flex-basis: width-9;
+    flex-basis: var(--ring-grid-width-9);
 
-    max-width: width-9;
+    max-width: var(--ring-grid-width-9);
   }
 
   .col-md-10 {
-    flex-basis: width-10;
+    flex-basis: var(--ring-grid-width-10);
 
-    max-width: width-10;
+    max-width: var(--ring-grid-width-10);
   }
 
   .col-md-11 {
-    flex-basis: width-11;
+    flex-basis: var(--ring-grid-width-11);
 
-    max-width: width-11;
+    max-width: var(--ring-grid-width-11);
   }
 
   .col-md-12 {
-    flex-basis: width-12;
+    flex-basis: var(--ring-grid-width-12);
 
-    max-width: width-12;
+    max-width: var(--ring-grid-width-12);
   }
 
   .col-md-offset-0 {
@@ -604,47 +605,47 @@
   }
 
   .col-md-offset-1 {
-    margin-left: width-1;
+    margin-left: var(--ring-grid-width-1);
   }
 
   .col-md-offset-2 {
-    margin-left: width-2;
+    margin-left: var(--ring-grid-width-2);
   }
 
   .col-md-offset-3 {
-    margin-left: width-3;
+    margin-left: var(--ring-grid-width-3);
   }
 
   .col-md-offset-4 {
-    margin-left: width-4;
+    margin-left: var(--ring-grid-width-4);
   }
 
   .col-md-offset-5 {
-    margin-left: width-5;
+    margin-left: var(--ring-grid-width-5);
   }
 
   .col-md-offset-6 {
-    margin-left: width-6;
+    margin-left: var(--ring-grid-width-6);
   }
 
   .col-md-offset-7 {
-    margin-left: width-7;
+    margin-left: var(--ring-grid-width-7);
   }
 
   .col-md-offset-8 {
-    margin-left: width-8;
+    margin-left: var(--ring-grid-width-8);
   }
 
   .col-md-offset-9 {
-    margin-left: width-9;
+    margin-left: var(--ring-grid-width-9);
   }
 
   .col-md-offset-10 {
-    margin-left: width-10;
+    margin-left: var(--ring-grid-width-10);
   }
 
   .col-md-offset-11 {
-    margin-left: width-11;
+    margin-left: var(--ring-grid-width-11);
   }
 
   .start-md {
@@ -700,7 +701,7 @@
 
 @media large-screen-media {
   .container {
-    width: containerLarge;
+    width: var(--ring-grid-container-large);
   }
 
   .col-lg,
@@ -732,8 +733,8 @@
     flex: 0 0 auto;
 
     box-sizing: border-box;
-    padding-right: calc(gutterWidth / 2);
-    padding-left: calc(gutterWidth / 2);
+    padding-right: calc(var(--ring-grid-gutter-width) / 2);
+    padding-left: calc(var(--ring-grid-gutter-width) / 2);
   }
 
   .col-lg {
@@ -744,75 +745,75 @@
   }
 
   .col-lg-1 {
-    flex-basis: width-1;
+    flex-basis: var(--ring-grid-width-1);
 
-    max-width: width-1;
+    max-width: var(--ring-grid-width-1);
   }
 
   .col-lg-2 {
-    flex-basis: width-2;
+    flex-basis: var(--ring-grid-width-2);
 
-    max-width: width-2;
+    max-width: var(--ring-grid-width-2);
   }
 
   .col-lg-3 {
-    flex-basis: width-3;
+    flex-basis: var(--ring-grid-width-3);
 
-    max-width: width-3;
+    max-width: var(--ring-grid-width-3);
   }
 
   .col-lg-4 {
-    flex-basis: width-4;
+    flex-basis: var(--ring-grid-width-4);
 
-    max-width: width-4;
+    max-width: var(--ring-grid-width-4);
   }
 
   .col-lg-5 {
-    flex-basis: width-5;
+    flex-basis: var(--ring-grid-width-5);;
 
-    max-width: width-5;
+    max-width: var(--ring-grid-width-5);
   }
 
   .col-lg-6 {
-    flex-basis: width-6;
+    flex-basis: var(--ring-grid-width-6);
 
-    max-width: width-6;
+    max-width: var(--ring-grid-width-6);
   }
 
   .col-lg-7 {
-    flex-basis: width-7;
+    flex-basis: var(--ring-grid-width-7);
 
-    max-width: width-7;
+    max-width: var(--ring-grid-width-7);
   }
 
   .col-lg-8 {
-    flex-basis: width-8;
+    flex-basis: var(--ring-grid-width-8);
 
-    max-width: width-8;
+    max-width: var(--ring-grid-width-8);
   }
 
   .col-lg-9 {
-    flex-basis: width-9;
+    flex-basis: var(--ring-grid-width-9);
 
-    max-width: width-9;
+    max-width: var(--ring-grid-width-9);
   }
 
   .col-lg-10 {
-    flex-basis: width-10;
+    flex-basis: var(--ring-grid-width-10);
 
-    max-width: width-10;
+    max-width: var(--ring-grid-width-10);
   }
 
   .col-lg-11 {
-    flex-basis: width-11;
+    flex-basis: var(--ring-grid-width-11);
 
-    max-width: width-11;
+    max-width: var(--ring-grid-width-11);
   }
 
   .col-lg-12 {
-    flex-basis: width-12;
+    flex-basis: var(--ring-grid-width-12);
 
-    max-width: width-12;
+    max-width: var(--ring-grid-width-12);
   }
 
   .col-lg-offset-0 {
@@ -820,47 +821,47 @@
   }
 
   .col-lg-offset-1 {
-    margin-left: width-1;
+    margin-left: var(--ring-grid-width-1);
   }
 
   .col-lg-offset-2 {
-    margin-left: width-2;
+    margin-left: var(--ring-grid-width-2);
   }
 
   .col-lg-offset-3 {
-    margin-left: width-3;
+    margin-left: var(--ring-grid-width-3);
   }
 
   .col-lg-offset-4 {
-    margin-left: width-4;
+    margin-left: var(--ring-grid-width-4);
   }
 
   .col-lg-offset-5 {
-    margin-left: width-5;
+    margin-left: var(--ring-grid-width-5);
   }
 
   .col-lg-offset-6 {
-    margin-left: width-6;
+    margin-left: var(--ring-grid-width-6);
   }
 
   .col-lg-offset-7 {
-    margin-left: width-7;
+    margin-left: var(--ring-grid-width-7);
   }
 
   .col-lg-offset-8 {
-    margin-left: width-8;
+    margin-left: var(--ring-grid-width-8);
   }
 
   .col-lg-offset-9 {
-    margin-left: width-9;
+    margin-left: var(--ring-grid-width-9);
   }
 
   .col-lg-offset-10 {
-    margin-left: width-10;
+    margin-left: var(--ring-grid-width-10);
   }
 
   .col-lg-offset-11 {
-    margin-left: width-11;
+    margin-left: var(--ring-grid-width-11);
   }
 
   .start-lg {

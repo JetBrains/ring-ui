@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value button, active, primary, button-shadow from "../button/button.css";
+@value button, active, primary from "../button/button.css";
 
 :root {
   --ring-button-group-default-z-index: 1;
@@ -22,7 +22,7 @@
 
   border-radius: var(--ring-border-radius);
 
-  box-shadow: button-shadow var(--ring-borders-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-borders-color);
 
   line-height: normal;
 }
@@ -115,30 +115,30 @@
 .buttonGroup .button.button:hover:not(:disabled),
 .buttonGroup .button.button:active:not(:disabled) {
   border-radius: var(--ring-border-radius);
-  box-shadow: button-shadow var(--ring-border-hover-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-border-hover-color);
 }
 
 .buttonGroup .button.button:focus-visible {
   border-radius: var(--ring-border-radius);
   box-shadow:
-    button-shadow var(--ring-border-hover-color),
+    var(--ring-button-shadow) var(--ring-border-hover-color),
     0 0 0 1px var(--ring-border-hover-color);
 }
 
 .buttonGroup .button.button.active {
   border-radius: var(--ring-border-radius);
-  box-shadow: button-shadow var(--ring-main-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-main-color);
 }
 
 .buttonGroup .button:focus-visible.active {
   border-radius: var(--ring-border-radius);
   box-shadow:
-    button-shadow var(--ring-main-color),
+    var(--ring-button-shadow) var(--ring-main-color),
     0 0 0 1px var(--ring-border-hover-color);
 }
 
 .buttonGroup .button.active[disabled] {
-  box-shadow: button-shadow var(--ring-border-selected-disabled-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-border-selected-disabled-color);
 }
 /* stylelint-enable */
 

@@ -1,10 +1,10 @@
 @import "../global/variables.css";
 
-@value padding: 2px;
-@value duration: 300ms;
-@value timing-function: cubic-bezier(0.23, 1, 0.32, 1);
-
 .toggle {
+  --ring-toggle-padding: 2px;
+  --ring-toggle-duration: 300ms;
+  --ring-toggle-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+
   display: inline-flex;
   align-items: baseline;
 
@@ -70,7 +70,7 @@
   width: 100%;
   height: 100%;
 
-  transition: background-color timing-function duration;
+  transition: background-color var(--ring-toggle-timing-function) var(--ring-toggle-duration);
 
   border: solid 1px var(--ring-toggle-border-color);
 
@@ -94,9 +94,9 @@
 
     content: "";
 
-    transition: transform timing-function duration;
+    transition: transform var(--ring-toggle-timing-function) var(--ring-toggle-duration);
 
-    transform: translateX(padding) translateY(-50%);
+    transform: translateX(var(--ring-toggle-padding)) translateY(-50%);
 
     border: solid 1px var(--ring-switch-border-color);
 
@@ -134,7 +134,7 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .input:checked + ::before {
-    transform: translateX(calc(var(--ring-unit) * 1.5 - padding)) translateY(-50%);
+    transform: translateX(calc(var(--ring-unit) * 1.5 - var(--ring-toggle-padding))) translateY(-50%);
   }
 }
 
@@ -184,7 +184,7 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .input:checked + ::before {
-    transform: translateX(calc(var(--ring-unit) * 2 - padding)) translateY(-50%);
+    transform: translateX(calc(var(--ring-unit) * 2 - var(--ring-toggle-padding))) translateY(-50%);
   }
 }
 

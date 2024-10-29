@@ -1,7 +1,5 @@
 @import "../global/variables.css";
 
-@value p-margin: 10px;
-
 .inline {
   &,
   & p {
@@ -10,6 +8,8 @@
 }
 
 .markdown {
+  --ring-markdown-p-margin: 10px;
+
   composes: font from "../global/global.css";
 
   & ol,
@@ -23,12 +23,12 @@
     margin: 0;
 
     &:not(:first-child) {
-      margin-top: p-margin;
+      margin-top: var(--ring-markdown-p-margin);
     }
   }
 
   & li {
-    margin-top: p-margin;
+    margin-top: var(--ring-markdown-p-margin);
   }
 
   & li {
@@ -42,7 +42,7 @@
   }
 
   & hr {
-    margin: p-margin 0;
+    margin: var(--ring-markdown-p-margin) 0;
 
     border: none;
     border-bottom: 1px solid var(--ring-line-color);

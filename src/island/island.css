@@ -1,9 +1,9 @@
 @import "../global/variables.css";
 
-@value gradientStart: rgba(255, 255, 255, 0);
-@value gradientStop: var(--ring-content-background-color);
-
 .island {
+  --ring-island-gradient-start: rgba(255, 255, 255, 0);
+  --ring-island-gradient-stop: var(--ring-content-background-color);
+
   display: flex;
   flex-direction: column;
 
@@ -103,7 +103,7 @@
 
   opacity: 0.8;
 
-  background: linear-gradient(to top, gradientStart, gradientStop);
+  background: linear-gradient(to top, var(--ring-island-gradient-start), var(--ring-island-gradient-stop));
 }
 
 .contentWithTopFade:first-child::before {
@@ -127,5 +127,5 @@
   opacity: 0.8;
   border-bottom-right-radius: var(--ring-border-radius);
   border-bottom-left-radius: var(--ring-border-radius);
-  background: linear-gradient(to bottom, gradientStart, gradientStop);
+  background: linear-gradient(to bottom, var(--ring-island-gradient-start), var(--ring-island-gradient-stop));
 }

@@ -1,7 +1,5 @@
 @import "../global/variables.css";
 
-@value button-shadow from "../button/button.css";
-
 .select {
   position: relative;
 
@@ -174,11 +172,11 @@
 }
 
 .buttonValue:focus-visible {
-  box-shadow: button-shadow var(--ring-main-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-main-color);
 }
 
 .buttonValueOpen.buttonValueOpen {
-  box-shadow: button-shadow var(--ring-main-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-main-color);
 }
 
 .buttonValueEmpty.buttonValueEmpty {

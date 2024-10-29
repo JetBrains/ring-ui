@@ -1,9 +1,10 @@
 @import "../global/variables.css";
 
 @value extra-small-screen-media, small-screen-media from "../global/global.css";
-@value sidebarWidth: calc(var(--ring-unit) * 30);
 
 .contentLayout {
+  --ring-content-layout-sidebar-width: calc(var(--ring-unit) * 30);
+
   position: relative;
 
   display: flex;
@@ -19,8 +20,8 @@
 }
 
 .sidebarContainer {
-  min-width: sidebarWidth;
-  max-width: sidebarWidth;
+  min-width: var(--ring-content-layout-sidebar-width);
+  max-width: var(--ring-content-layout-sidebar-width);
 }
 
 .sidebarContainerRight {
@@ -31,8 +32,8 @@
   overflow: auto;
 
   box-sizing: border-box;
-  min-width: sidebarWidth;
-  max-width: sidebarWidth;
+  min-width: var(--ring-content-layout-sidebar-width);
+  max-width: var(--ring-content-layout-sidebar-width);
   height: 100%;
   padding-right: calc(var(--ring-unit) * 2);
   padding-left: calc(var(--ring-unit) * 4);

@@ -1,9 +1,10 @@
 @import "../global/variables.css";
 
-@value compensate: 2px;
-@value compensated: calc(calc(4 * var(--ring-unit)) - compensate);
-
 .tableWrapper {
+  --ring-table-compensate: 2px;
+  --ring-table-compensated:  calc(calc(4 * var(--ring-unit)) - var(--ring-table-compensate));
+  --ring-table-top: -3px;
+
   position: relative;
 }
 
@@ -109,7 +110,7 @@
 .row {
   outline: none;
 
-  line-height: compensated;
+  line-height: var(--ring-table-compensated);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
@@ -194,17 +195,15 @@
   float: left;
 
   height: 16px;
-  padding-right: compensate;
+  padding-right: var(--ring-table-compensate);
 }
 
 .metaColumn.headerMetaColumn {
   padding-top: 1px;
 }
 
-@value top: -3px;
-
 .dragHandle {
-  top: top;
+  top: var(--ring-table-top);
   left: calc(-2 * var(--ring-unit));
 
   cursor: grab;
@@ -216,7 +215,7 @@
 .dragHandle.dragHandle {
   position: absolute;
 
-  height: calc(calc(4 * var(--ring-unit)) - top);
+  height: calc(calc(4 * var(--ring-unit)) - var(--ring-table-top));
   padding: 0;
 }
 

@@ -1,13 +1,10 @@
 @import "../global/variables.css";
 
-@value dark from "../global/variables_dark.css";
-
 :root {
   /* stylelint-disable-next-line color-no-hex */
   --ring-loader-inline-stops: #ff00eb, #bd3bff, #008eff, #58ba00, #f48700, #ff00eb;
 }
 
-.dark,
 :global(.ring-ui-theme-dark) {
   /* stylelint-disable-next-line color-no-hex */
   --ring-loader-inline-stops: #ff2eef, #d178ff, #289fff, #88d444, #ffe000, #ff2eef;

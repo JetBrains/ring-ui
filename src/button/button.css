@@ -1,7 +1,10 @@
 @import "../global/variables.css";
 
-@value button-shadow: inset 0 0 0 1px;
-@value loaderWidth: calc(var(--ring-unit) * 8);
+:root {
+  --ring-button-focus-border-color: var(--ring-border-hover-color);
+  --ring-button-shadow: inset 0 0 0 1px;
+  --ring-button-loader-width: calc(var(--ring-unit) * 8);
+}
 
 .heightS {
   --ring-button-height: calc(var(--ring-unit) * 3);
@@ -28,8 +31,6 @@
 }
 
 .button {
-  --ring-button-focus-border-color: var(--ring-border-hover-color);
-
   box-sizing: border-box;
   margin: 0;
 
@@ -74,7 +75,7 @@
   color: var(--ring-text-color);
 
   background-color: var(--ring-button-background-color);
-  box-shadow: button-shadow var(--ring-button-border-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-button-border-color);
 
   font-size: var(--ring-button-font-size);
   line-height: var(--ring-button-line-height);
@@ -90,7 +91,7 @@
 
   &:focus-visible {
     box-shadow:
-      button-shadow var(--ring-button-focus-border-color),
+      var(--ring-button-shadow) var(--ring-button-focus-border-color),
       0 0 0 1px var(--ring-button-focus-border-color);
   }
 }
@@ -311,7 +312,7 @@
   &::before {
     display: block;
 
-    width: calc(100% + loaderWidth);
+    width: calc(100% + var(--ring-button-loader-width));
     height: 100%;
 
     content: "";
@@ -325,7 +326,7 @@
     );
 
     background-repeat: repeat;
-    background-size: loaderWidth;
+    background-size: var(--ring-button-loader-width);
   }
 }
 

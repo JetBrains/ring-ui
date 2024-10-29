@@ -4,12 +4,6 @@
 /* ensure styles order */
 @import "../input/input.css";
 
-@value cellSize: calc(var(--ring-unit) * 3);
-@value calHeight: calc(var(--ring-unit) * 36);
-@value calWidth: calc(var(--ring-unit) * 37);
-@value yearHeight: calc(var(--ring-unit) * 4);
-@value yearWidth: calc(var(--ring-unit) * 6);
-
 :root {
   /* stylelint-disable-next-line color-no-hex */
   --ring-date-picker-hover-color: var(--ring-border-hover-color);
@@ -88,6 +82,12 @@
 }
 
 .datePopup {
+  --ring-date-picker-cell-size: calc(var(--ring-unit) * 3);
+  --ring-date-picker-cal-height: calc(var(--ring-unit) * 36);
+  --ring-date-picker-cal-width: calc(var(--ring-unit) * 37);
+  --ring-date-picker-year-height: calc(var(--ring-unit) * 4);
+  --ring-date-picker-year-width: calc(var(--ring-unit) * 6);
+
   width: min-content;
 
   user-select: none;
@@ -201,7 +201,7 @@
 .weekday.weekday {
   display: inline-block;
 
-  width: cellSize;
+  width: var(--ring-date-picker-cell-size);
 
   text-align: center;
   text-transform: capitalize;
@@ -216,8 +216,8 @@
 
   overflow: hidden;
 
-  width: calWidth;
-  height: calHeight;
+  width: var(--ring-date-picker-cal-width);
+  height: var(--ring-date-picker-cal-height);
 
   box-shadow: 0 -1px var(--ring-line-color);
 }
@@ -225,7 +225,7 @@
 .months.months {
   position: absolute;
   top: 0;
-  right: yearWidth;
+  right: var(--ring-date-picker-year-width);
   bottom: 0;
   left: 0;
 }
@@ -246,9 +246,9 @@
 .month.month > * {
   flex-shrink: 0;
 
-  height: cellSize;
+  height: var(--ring-date-picker-cell-size);
 
-  line-height: cellSize;
+  line-height: var(--ring-date-picker-cell-size);
 }
 
 .monthTitle {
@@ -278,7 +278,7 @@
 .day.day {
   position: relative;
 
-  flex-basis: cellSize;
+  flex-basis: var(--ring-date-picker-cell-size);
 
   margin: 0;
 
@@ -516,12 +516,12 @@
 
   width: 100%;
 
-  height: cellSize;
+  height: var(--ring-date-picker-cell-size);
   padding-left: calc(var(--ring-unit) * 1.5);
 
   text-transform: capitalize;
 
-  line-height: cellSize;
+  line-height: var(--ring-date-picker-cell-size);
 }
 
 .monthSlider {
@@ -568,7 +568,7 @@
   top: 0;
   right: 0;
 
-  width: yearWidth;
+  width: var(--ring-date-picker-year-width);
 
   background-color: var(--ring-content-background-color);
   box-shadow: -1px 0 var(--ring-line-color);
@@ -586,13 +586,13 @@
 
   width: 100%;
 
-  height: yearHeight;
+  height: var(--ring-date-picker-year-height);
 
   text-align: center;
 
   color: var(--ring-secondary-color);
 
-  line-height: yearHeight;
+  line-height: var(--ring-date-picker-year-height);
 }
 
 .currentYear.currentYear {

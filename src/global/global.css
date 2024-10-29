@@ -86,9 +86,6 @@
   }
 }
 
-/* Note: footer also has top margin which isn't taken into account here */
-@value footer-height: calc(var(--ring-unit) * 8);
-
 /* Media breakpoints (minimal values) */
 @value breakpoint-small: 640px;
 @value breakpoint-middle: 960px;
