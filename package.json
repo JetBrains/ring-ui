@@ -82,7 +82,7 @@
     "@babel/plugin-syntax-import-assertions": "^7.26.0",
     "@csstools/css-parser-algorithms": "^3.0.3",
     "@csstools/stylelint-no-at-nest-rule": "^4.0.0",
-    "@eslint/compat": "^1.2.1",
+    "@eslint/compat": "^1.2.2",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
     "@jetbrains/eslint-config": "^6.0.4",
