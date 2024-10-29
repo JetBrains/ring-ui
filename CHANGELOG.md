@@ -11,6 +11,7 @@
 - Tag: `angled` prop is removed
 - propTypes are removed in favor of TypeScript
 - Button `text` prop now behaves in the same way as `inline`, it removes paddings and borders and inherits the font size and line height from parent. The `text` prop is deprecated in favor of `inline`. `inline` prop is false by default for buttons without icons and true for buttons with icons.
+- `island-legacy` and `table-legacy` components are removed
 
 ## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
 
