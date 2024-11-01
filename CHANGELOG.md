@@ -1,16 +1,16 @@
 ## [7.0.0]
 
 ### BREAKING CHANGES
-- Removed compensation margins in Icon to better match Figma
-- `caps` prop no longer supported in Heading
-- `composeRefs` utility is removed. Please use `createComposeRefs()` to get a memoized composer function
+- Removed compensation margins in Icon to better match Figma [28c0869](https://github.com/JetBrains/ring-ui/commit/28c0869302784d12fbe8587510fc3258c626e382)
+- `caps` prop no longer supported in Heading [0547783](https://github.com/JetBrains/ring-ui/commit/05477832d8a00707ac5ada5bbd47f768f846548e)
+- `composeRefs` utility is removed. Please use `createComposeRefs()` to get a memoized composer function [9a28d41](https://github.com/JetBrains/ring-ui/commit/9a28d4166cb5b4cb55002be0843f66a3454c46fd)
 - deprecated `setClient` utility is removed
-- Header: `TrayIcon` is renamed to `HeaderIcon`
-- `palette.css` is removed
-- Table: `wideFirstColumn` is now `false` by default
-- Tag: `angled` prop is removed
+- Header: `TrayIcon` is renamed to `HeaderIcon` [ebddeda](https://github.com/JetBrains/ring-ui/commit/ebddedac6f38bd9c910a529e14ab60028c9738bd)
+- `palette.css` is removed [9a28d41](https://github.com/JetBrains/ring-ui/commit/9a28d4166cb5b4cb55002be0843f66a3454c46fd)
+- Table: `wideFirstColumn` is now `false` by default [9a28d41](https://github.com/JetBrains/ring-ui/commit/9a28d4166cb5b4cb55002be0843f66a3454c46fd)
+- Tag: `angled` prop is removed [9a28d41](https://github.com/JetBrains/ring-ui/commit/9a28d4166cb5b4cb55002be0843f66a3454c46fd)
 - propTypes are removed in favor of TypeScript [#7625](https://github.com/JetBrains/ring-ui/pull/7625)
-- Button `text` prop now behaves in the same way as `inline`, it removes paddings and borders and inherits the font size and line height from parent. The `text` prop is deprecated in favor of `inline`. `inline` prop is false by default for buttons without icons and true for buttons with icons.
+- Button `text` prop now behaves in the same way as `inline`, it removes paddings and borders and inherits the font size and line height from parent. The `text` prop is deprecated in favor of `inline`. `inline` prop is false by default for buttons without icons and true for buttons with icons. [847c71a](https://github.com/JetBrains/ring-ui/commit/847c71a078f3af19277418b05daec088d7db5e52)
 - `island-legacy` and `table-legacy` components are removed [#7875](https://github.com/JetBrains/ring-ui/pull/7875)
 
 ## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
