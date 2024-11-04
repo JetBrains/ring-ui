@@ -12,8 +12,8 @@
 - propTypes are removed in favor of TypeScript [#7625](https://github.com/JetBrains/ring-ui/pull/7625)
 - Button `text` prop now behaves in the same way as `inline`, it removes paddings and borders and inherits the font size and line height from parent. The `text` prop is deprecated in favor of `inline`. `inline` prop is false by default for buttons without icons and true for buttons with icons. [847c71a](https://github.com/JetBrains/ring-ui/commit/847c71a078f3af19277418b05daec088d7db5e52)
 - `island-legacy` and `table-legacy` components are removed [#7875](https://github.com/JetBrains/ring-ui/pull/7875)
-- `Tag` now don't show "cross" icon if `onRemove` callback is not passed
-- `Badge` component is removed, use `Tag` instead
+- `Tag` now don't show "cross" icon if `onRemove` callback is not passed [#7895](https://github.com/JetBrains/ring-ui/pull/7895)
+- `Badge` component is removed, use `Tag` instead [#7895](https://github.com/JetBrains/ring-ui/pull/7895)
 
 ## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
 
