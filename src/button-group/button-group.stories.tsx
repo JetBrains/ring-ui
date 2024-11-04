@@ -62,11 +62,11 @@ export const buttonGroup = () => (
     </div>
     <div>
       <ButtonGroup label="Icon only group">
-        <Button inline={false} active icon={pencil12pxIcon} />
-        <Button inline={false} icon={pencil12pxIcon} />
-        <Button inline={false} disabled icon={help12pxIcon} />
-        <Button inline={false} active disabled icon={help12pxIcon} />
-        <Button inline={false} icon={user12pxIcon} />
+        <Button inline={false} active icon={pencil12pxIcon} aria-label="pencil" />
+        <Button inline={false} icon={pencil12pxIcon} aria-label="pencil" />
+        <Button inline={false} disabled icon={help12pxIcon} aria-label="help" />
+        <Button inline={false} active disabled icon={help12pxIcon} aria-label="help" />
+        <Button inline={false} icon={user12pxIcon} aria-label="user" />
       </ButtonGroup>
     </div>
     <div>
