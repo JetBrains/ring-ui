@@ -24,7 +24,7 @@ export const inline = () => {
     email: 'testuser@mail.com',
     avatarUrl: avatarDataUri,
     banned: true,
-    banReason: 'asdadsad',
+    banReason: 'Bad guy: is accused of stealing potatoes!',
     href: `${hubConfig.serverUri}/users/0`,
   };
 
