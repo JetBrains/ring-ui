@@ -2,7 +2,7 @@
 import {ReactNode} from 'react';
 
 import Link from '../link/link';
-import Badge from '../badge/badge';
+import Tag from '../tag/tag';
 import {SelectionItem} from '../table/selection';
 
 export interface Item extends SelectionItem {
@@ -80,7 +80,7 @@ const items: Item[] = [
           <span>
             <Link href="#">JetProfile</Link>
             <span> </span>
-            <Badge gray>duplicate</Badge>
+            <Tag>duplicate</Tag>
           </span>
         ),
       },
@@ -209,7 +209,7 @@ const items: Item[] = [
       <span>
         <strong>Developer</strong>
         <span> in 57 projects </span>
-        <Badge>team role</Badge>
+        <Tag>team role</Tag>
       </span>
     ),
     items: [
@@ -256,7 +256,7 @@ export const moreItems = [
       <span>
         <Link href="#">More item 1</Link>
         <span> </span>
-        <Badge gray>duplicate</Badge>
+        <Tag>duplicate</Tag>
       </span>
     ),
   },
@@ -269,7 +269,7 @@ export const moreItems = [
       <span>
         <Link href="#">More item 2</Link>
         <span> </span>
-        <Badge gray>duplicate</Badge>
+        <Tag>duplicate</Tag>
       </span>
     ),
   },

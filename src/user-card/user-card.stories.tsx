@@ -5,7 +5,7 @@ import {createHubUserCardSource} from '../hub-source/hub-source__user';
 
 import {avatarDataUri} from '../avatar/avatar-example-datauri';
 
-import Badge from '../badge/badge';
+import Tag from '../tag/tag';
 
 import {UserCard, UserCardTooltip, SmartUserCardTooltip} from './user-card';
 
@@ -23,6 +23,8 @@ export const inline = () => {
     name: 'Test User',
     email: 'testuser@mail.com',
     avatarUrl: avatarDataUri,
+    banned: true,
+    banReason: 'asdadsad',
     href: `${hubConfig.serverUri}/users/0`,
   };
 
@@ -31,7 +33,7 @@ export const inline = () => {
       <div>Inline user card:</div>
       <UserCard user={user} data-test="user-card-inline" />
 
-      <UserCardTooltip user={user} info={<Badge gray>{'Reporter'}</Badge>}>
+      <UserCardTooltip user={user} info={<Tag>{'Reporter'}</Tag>}>
         <span>Hover this text see card in tooltip mode</span>
       </UserCardTooltip>
     </div>
