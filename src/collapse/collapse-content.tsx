@@ -1,5 +1,4 @@
-import {useState, useEffect, useRef, useContext, useMemo, PropsWithChildren} from 'react';
-import * as React from 'react';
+import React, {useState, useEffect, useRef, useContext, useMemo, PropsWithChildren} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -36,19 +35,34 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   const contentRef = useRef<HTMLDivElement | null>(null);
   const initialContentHeight = useRef<number>(minHeight);
   const contentHeight = useRef<number>(DEFAULT_HEIGHT);
-  const [dimensions, setDimensions] = useState({
-    width: 0,
-    height: 0,
-  });
+
+  const [dimensions, setDimensions] = useState({width: 0, height: 0});
   const [height, setHeight] = useState<string>(toPx(minHeight));
-  const [showFade, setShowFade] = useState<boolean>(true);
+  const [showFade, setShowFade] = useState<boolean>(collapsed);
+
+  const [shouldHideContent, setShouldHideContent] = useState<boolean>(collapsed && minHeight <= DEFAULT_HEIGHT);
 
   useEffect(() => {
-    if (!collapsed) {
-      setShowFade(false);
-    } else {
-      setShowFade(true);
+    function onTransitionEnd() {
+      if (initialContentHeight.current <= DEFAULT_HEIGHT) {
+        setShouldHideContent(collapsed);
+      }
     }
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('transitionend', onTransitionEnd);
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener('transitionend', onTransitionEnd);
+      }
+    };
+  }, [collapsed]);
+
+  useEffect(() => {
+    setShowFade(collapsed);
+    if (!collapsed) setShouldHideContent(false);
   }, [collapsed]);
 
   useEffect(() => {
@@ -87,6 +101,8 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
 
   const fadeShouldBeVisible = useMemo(() => Boolean(minHeight && showFade), [minHeight, showFade]);
 
+  const shouldRenderContent = disableAnimation ? !collapsed : !shouldHideContent;
+
   return (
     <div
       ref={containerRef}
@@ -96,7 +112,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
       style={style}
     >
       <div ref={contentRef} data-test={dataTests(COLLAPSE_CONTENT_TEST_ID, dataTest)}>
-        {children}
+        {shouldRenderContent ? children : null}
       </div>
       {fadeShouldBeVisible && <div className={styles.fade} />}
     </div>
