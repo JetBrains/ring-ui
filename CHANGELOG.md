@@ -5,6 +5,7 @@
 - `caps` prop no longer supported in Heading [0547783](https://github.com/JetBrains/ring-ui/commit/05477832d8a00707ac5ada5bbd47f768f846548e)
 - `composeRefs` utility is removed. Please use `createComposeRefs()` to get a memoized composer function [9a28d41](https://github.com/JetBrains/ring-ui/commit/9a28d4166cb5b4cb55002be0843f66a3454c46fd)
 - deprecated `setClient` utility is removed
+- `<Table/>`: `SelectionItem` interface dones't have indexing type anymore [#7853](https://github.com/JetBrains/ring-ui/pull/7853)
 - Header: `TrayIcon` is renamed to `HeaderIcon` [ebddeda](https://github.com/JetBrains/ring-ui/commit/ebddedac6f38bd9c910a529e14ab60028c9738bd)
 - `palette.css` is removed [9a28d41](https://github.com/JetBrains/ring-ui/commit/9a28d4166cb5b4cb55002be0843f66a3454c46fd)
 - Table: `wideFirstColumn` is now `false` by default [9a28d41](https://github.com/JetBrains/ring-ui/commit/9a28d4166cb5b4cb55002be0843f66a3454c46fd)
