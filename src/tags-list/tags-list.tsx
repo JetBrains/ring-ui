@@ -31,8 +31,8 @@ export default class TagsList<T extends TagType> extends Component<TagsListProps
     customTagComponent: null,
     canNotBeEmpty: false,
     disabled: false,
-    handleClick: noop,
-    handleRemove: noop,
+    handleClick: () => noop,
+    handleRemove: () => noop,
   };
 
   renderTag(tag: T, focusTag: boolean) {

@@ -16,7 +16,7 @@ export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
 }
 
 export interface TagProps {
-  onRemove: (event: React.MouseEvent<HTMLElement>) => void;
+  onRemove?: ((event: React.MouseEvent<HTMLElement>) => void) | null;
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
   readOnly: boolean;
   disabled: boolean;
@@ -38,7 +38,6 @@ export interface TagProps {
 
 export default class Tag extends PureComponent<TagProps> {
   static defaultProps: TagProps = {
-    onRemove: () => {},
     onClick: () => {},
     readOnly: false,
     disabled: false,
@@ -114,7 +113,7 @@ export default class Tag extends PureComponent<TagProps> {
   }
 
   renderRemoveIcon() {
-    if (!this.props.readOnly) {
+    if (!this.props.readOnly && this.props.onRemove) {
       return (
         <Button
           title="Remove"
@@ -138,7 +137,7 @@ export default class Tag extends PureComponent<TagProps> {
       {
         [styles.focused]: this.state.focused,
         [styles.disabled]: this.props.disabled,
-        [styles.withRemove]: !this.props.readOnly,
+        [styles.withRemove]: !this.props.readOnly && this.props.onRemove,
       },
       this.props.className,
     );

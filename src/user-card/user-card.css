@@ -106,6 +106,10 @@
   margin-bottom: 3px;
 }
 
+.banLabel {
+  color: var(--ring-error-color);
+}
+
 .userActiveStatus {
   display: inline-block;
 

@@ -1,4 +1,4 @@
-import Badge from '../badge/badge';
+import Tag from '../tag/tag';
 import Link from '../link/link';
 
 import Group from './group';
@@ -13,7 +13,7 @@ export default {
 
 export const basic = () => (
   <Group>
-    <Badge valid>Badge</Badge>
+    <Tag>Tag</Tag>
     <span>Text</span>
     <Link>Link</Link>
   </Group>
