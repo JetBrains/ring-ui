@@ -6,10 +6,10 @@ import copyIcon from '@jetbrains/icons/copy';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Link from '../link/link';
 import clipboard from '../clipboard/clipboard';
-import badgeStyles from '../badge/badge.css';
+import Tag from '../tag/tag';
 import Icon, {Size as IconSize} from '../icon/icon';
-
 import {I18nContext} from '../i18n/i18n-context';
+import Tooltip from '../tooltip/tooltip';
 
 import styles from './user-card.css';
 
@@ -92,9 +92,9 @@ export default class UserCard extends PureComponent<UserCardProps> {
                 )}
                 {!!info && <span className={styles.userNameInfo}>{info}</span>}
                 {user.banned && (
-                  <span className={classNames(badgeStyles.badge, badgeStyles.invalid)} title={user.banReason}>
-                    {translations?.banned ?? translate('banned')}
-                  </span>
+                  <Tooltip title={user.banReason}>
+                    <Tag className={styles.banLabel}>{translations?.banned ?? translate('banned')}</Tag>
+                  </Tooltip>
                 )}
               </div>
               <div className={styles.userLogin}>{user.login}</div>

@@ -77,6 +77,8 @@ export default tseslint.config(
       'valid-jsdoc': 0,
       'import/no-commonjs': 0,
 
+      'consistent-return': 0, // as we rely on tsconfig's noImplicitReturns
+
       'import/no-extraneous-dependencies': [
         2,
         {

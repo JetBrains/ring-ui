@@ -40,8 +40,6 @@
 }
 
 .buttonGroup .button[disabled] {
-  --ring-button-group-button-border-color: var(--ring-border-disabled-color);
-
   /* stylelint-disable selector-max-specificity */
   &::before,
   &::after {
@@ -57,8 +55,8 @@
     background-color: var(--ring-disabled-background-color);
 
     box-shadow:
-      0 1px var(--ring-border-disabled-color) inset,
-      0 -1px var(--ring-border-disabled-color) inset;
+      0 1px var(--ring-button-group-button-border-color) inset,
+      0 -1px var(--ring-button-group-button-border-color) inset;
   }
 
   &::before {

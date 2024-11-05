@@ -1,6 +1,10 @@
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import chevron12pxDownIcon from '@jetbrains/icons/chevron-12px-down';
 
+import pencil12pxIcon from '@jetbrains/icons/pencil-12px';
+import help12pxIcon from '@jetbrains/icons/help-12px';
+import user12pxIcon from '@jetbrains/icons/user-12px';
+
 import Button from '../button/button';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
@@ -54,6 +58,15 @@ export const buttonGroup = () => (
           <Button>2nd button</Button>
         </span>
         <Button>3rd button</Button>
+      </ButtonGroup>
+    </div>
+    <div>
+      <ButtonGroup label="Icon only group">
+        <Button inline={false} active icon={pencil12pxIcon} aria-label="pencil" />
+        <Button inline={false} icon={pencil12pxIcon} aria-label="pencil" />
+        <Button inline={false} disabled icon={help12pxIcon} aria-label="help" />
+        <Button inline={false} active disabled icon={help12pxIcon} aria-label="help" />
+        <Button inline={false} icon={user12pxIcon} aria-label="user" />
       </ButtonGroup>
     </div>
     <div>
