@@ -17,7 +17,7 @@ const WHITE_LIST = [
   'classnames',
   'combokeys',
   'date-fns',
-  'deep-equal',
+  'dequal',
   'element-resize-detector',
   'es6-error',
   'fastdom',
