@@ -6,7 +6,7 @@
 This collection of UI components aims to provide all the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 
 ## Try now
-* Try the [codesandbox](https://codesandbox.io/p/sandbox/ring-ui-sandbox-6-0-demo-qk5vgv), based on `create-react-app` tooling, to see and try the UI components
+* Try the [codesandbox](https://codesandbox.io/p/sandbox/ring-ui-7-0-demo-z6v6ym), based on `create-react-app` tooling, to see and try the UI components
 * Check out [list of examples](https://jetbrains.github.io/ring-ui/master/index.html) for each component
 
 ## Installation
