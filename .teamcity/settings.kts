@@ -710,7 +710,7 @@ object Publish : BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
-        branchFilter = "+:release-6.x"
+        branchFilter = "+:refs/heads/(master)"
     }
 
     steps {
@@ -1038,6 +1038,7 @@ object PublishNext : BuildType({
         root(DslContext.settingsRoot)
         branchFilter = """
             +:*
+            -:refs/heads/master
             -:pull/*
         """.trimIndent()
     }
