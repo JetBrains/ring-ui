@@ -11,6 +11,9 @@
 }
 
 .common {
+  position: relative;
+  z-index: 0; /* this creates an isolated z-index context */
+
   display: inline-block;
 
   white-space: nowrap;
@@ -143,9 +146,6 @@
 .split {
   composes: common;
   composes: buttonGroup from "../button-toolbar/button-toolbar.css";
-
-  position: relative;
-  z-index: 0;
 }
 
 .common button,
