@@ -15,7 +15,6 @@
 - `island-legacy` and `table-legacy` components are removed [#7875](https://github.com/JetBrains/ring-ui/pull/7875)
 - `Tag` now doesn't show "cross" icon if `onRemove` callback is not passed [#7895](https://github.com/JetBrains/ring-ui/pull/7895)
 - `Badge` component is removed, use `Tag` instead [#7895](https://github.com/JetBrains/ring-ui/pull/7895)
-- `Grid`: `<Row/>` component could not be used outside the `<Grid/>` component [#7868](https://github.com/JetBrains/ring-ui/pull/7868)
 
 ## [6.0.0](https://youtrack.jetbrains.com/issue/RG-2303/Release-Ring-UI-6.0)
 

@@ -4,7 +4,8 @@
 @value large-screen-media, middle-screen-media, small-screen-media from "../global/global.css";
 
 .container-fluid,
-.container {
+.container
+.row {
   --ring-grid-gutter-width: calc(var(--ring-unit) * 2);
   --ring-grid-gutter-compensation: calc(var(--ring-grid-gutter-width) / -2);
   --ring-grid-outer-margin: calc(var(--ring-unit) * 2);
@@ -23,7 +24,10 @@
   --ring-grid-width-10: 83.3333%;
   --ring-grid-width-11: 91.6667%;
   --ring-grid-width-12: 100%;
+}
 
+.container-fluid,
+.container {
   margin-right: auto;
   margin-left: auto;
 }
