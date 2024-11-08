@@ -31,7 +31,6 @@ Object.assign(window, windowExtension);
 
 afterEach(function restoreSandbox() {
   window.sandbox.restore();
-  vi.unstubAllGlobals();
 
   Array.from(document.body.children).forEach(child => {
     if ('_reactRootContainer' in child) {

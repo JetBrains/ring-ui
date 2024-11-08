@@ -1,25 +1,18 @@
 import {createElement} from 'react';
-import {shallow, mount, ReactWrapper} from 'enzyme';
-import VirtualizedList, {ListRowProps} from 'react-virtualized/dist/es/List';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 
-import getUID from '../global/get-uid';
-import Icon from '../icon/icon';
+import {getByRole, render, screen} from '@testing-library/react';
 
-import List, {ListAttrs, ListProps, ListState} from './list';
-import ListItem from './list__item';
-import ListCustom from './list__custom';
-import ListLink from './list__link';
-import ListTitle from './list__title';
-import ListSeparator from './list__separator';
+import userEvent from '@testing-library/user-event';
+
+import getUID from '../global/get-uid';
+
+import List, {ListAttrs} from './list';
 import styles from './list.css';
 import {Type} from './consts';
 
-const RAF_TIMEOUT = 100;
-
 describe('List', () => {
-  const shallowList = (props: ListAttrs) => shallow<List>(<List {...props} />);
-  const mountList = (props: ListAttrs) => mount<List>(<List {...props} />);
+  const renderList = (props: ListAttrs) => render(<List renderOptimization={false} {...props} />);
 
   describe('virtualized', () => {
     function createItemMock(itemType: Type) {
@@ -32,79 +25,10 @@ describe('List', () => {
     it('should pad the list with top/bottom margins', () => {
       const data = [createItemMock(List.ListProps.Type.ITEM), createItemMock(List.ListProps.Type.ITEM)];
 
-      const instance = shallowList({data}).instance();
-
-      shallow(instance.renderItem({index: 0}), {disableLifecycleMethods: true}).should.have.tagName('div');
-      shallow(instance.renderItem({index: 3}), {disableLifecycleMethods: true}).should.have.tagName('div');
-    });
-
-    it('should apply styles from virtualized', () => {
-      const data = [createItemMock(List.ListProps.Type.ITEM), createItemMock(List.ListProps.Type.ITEM)];
-
-      const instance = shallowList({data}).instance();
-      const style = {
-        top: -1000,
-      };
-      const parent = {} as ListRowProps['parent'];
-
-      shallow(instance.renderItem({index: 0, style, parent}), {disableLifecycleMethods: true}).should.have.style(
-        'top',
-        '-1000px',
-      );
-      shallow(instance.renderItem({index: 1, style, parent}), {disableLifecycleMethods: true}).should.have.style(
-        'top',
-        '-1000px',
-      );
-      shallow(instance.renderItem({index: 2, style, parent}), {disableLifecycleMethods: true}).should.have.style(
-        'top',
-        '-1000px',
-      );
-      shallow(instance.renderItem({index: 3, style, parent}), {disableLifecycleMethods: true}).should.have.style(
-        'top',
-        '-1000px',
-      );
-    });
-
-    it('should scroll to the active item', () => {
-      const data = [
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-      ];
-
-      const activeIndex = 1;
-
-      const wrapper = mountList({data});
-      wrapper.setState({
-        activeIndex,
-        needScrollToActive: true,
-      });
-
-      wrapper.find(VirtualizedList).should.have.prop('scrollToIndex', 2);
-    });
-
-    it("should'n scroll to the active item when needScrollToActive is false", () => {
-      const data = [
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-      ];
-
-      const activeIndex = 1;
-
-      const wrapper = mountList({data});
-      wrapper.setState({
-        activeIndex,
-        needScrollToActive: false,
-      });
-
-      wrapper.find(VirtualizedList).should.not.have.prop('scrollToIndex', 2);
+      renderList({data});
+      screen.getAllByRole('row')[0].should.have.tagName('div');
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      screen.getAllByRole('row')[3].should.have.tagName('div');
     });
   });
 
@@ -123,225 +47,235 @@ describe('List', () => {
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(false);
   });
 
-  it('should deselect item', () => {
-    const instance = shallowList({
+  it('should deselect items on mouseleave', async () => {
+    renderList({
       data: [{}],
       activeIndex: 0,
-    }).instance();
+    });
 
-    instance.clearSelected();
+    const user = userEvent.setup();
+    const list = screen.getByTestId('ring-list');
+    await user.hover(list);
+    await user.unhover(list);
 
-    should.not.exist(instance.getSelected());
+    should.not.exist(screen.queryByRole('row', {selected: true}));
   });
 
   describe('should track activeIndex', () => {
-    let wrapper: ReactWrapper<ListProps, ListState, List>;
-    let instance: List;
+    let rerender: (ui: React.ReactNode) => void;
+    const props = {
+      data: [
+        {key: 0, label: 'Item 0'},
+        {key: 1, label: 'Item 1'},
+        {key: 2, label: 'Item 2'},
+      ],
+      activeIndex: 0,
+      restoreActiveIndex: true,
+    };
     beforeEach(() => {
-      wrapper = mountList({
-        data: [{key: 0}, {key: 1}, {key: 2}],
-        activeIndex: 0,
-        restoreActiveIndex: true,
+      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+        cb(0);
+        return 0;
       });
-      instance = wrapper.instance();
+      rerender = renderList(props).rerender;
     });
 
-    it('should set activeIndex from props', () => {
-      wrapper.should.have.state('activeIndex', 0);
-      (0).should.equal(wrapper.state('activeItem')?.key);
+    it('should select active item from props', () => {
+      screen.getByRole('row', {selected: true}).should.have.text('Item 0');
     });
 
     it('should activate item', async () => {
-      instance.hoverHandler(1)();
-      await new Promise<void>(resolve => setTimeout(resolve, RAF_TIMEOUT));
-      wrapper.should.have.state('activeIndex', 1);
-      (1).should.equal(wrapper.state('activeItem')?.key);
+      const user = userEvent.setup();
+      const item1 = screen.getByRole('row', {name: 'Item 1'});
+      await user.hover(getByRole(item1, 'button'));
+      screen.getByRole('row', {selected: true}).should.have.text('Item 1');
     });
 
-    it("should reset activeIndex when it's changed in props", () => {
-      instance.hoverHandler(1)();
-      const activeIndex = 2;
-      wrapper.setProps({
-        activeIndex,
-      });
-      wrapper.should.have.state('activeIndex', activeIndex);
-      activeIndex.should.equal(wrapper.state('activeItem')?.key);
+    it("should reset active item when it's changed in props", async () => {
+      const user = userEvent.setup();
+      const item1 = screen.getByRole('row', {name: 'Item 1'});
+      await user.hover(getByRole(item1, 'button'));
+      rerender(<List renderOptimization={false} {...props} activeIndex={2} />);
+      screen.getByRole('row', {selected: true}).should.have.text('Item 2');
     });
 
-    it('should reset activeIndex when data changed', () => {
-      instance.hoverHandler(1)();
-      wrapper.setProps({
-        data: [{key: 5}],
-      });
-      wrapper.should.have.state('activeIndex', null);
-      wrapper.should.have.state('activeItem', null);
+    it('should reset active item when data changed', async () => {
+      const user = userEvent.setup();
+      const item1 = screen.getByRole('row', {name: 'Item 1'});
+      await user.hover(getByRole(item1, 'button'));
+      rerender(<List renderOptimization={false} {...props} data={[{key: 5}]} />);
+
+      should.not.exist(screen.queryByRole('row', {selected: true}));
     });
 
     it("shouldn't reset activeIndex when it isn't changed in props", async () => {
-      instance.hoverHandler(1)();
-      wrapper.setProps({
-        activeIndex: 0,
-      });
-      await new Promise<void>(resolve => setTimeout(resolve, RAF_TIMEOUT));
-      wrapper.should.have.state('activeIndex', 1);
-      (1).should.equal(wrapper.state('activeItem')?.key);
+      const user = userEvent.setup();
+      const item1 = screen.getByRole('row', {name: 'Item 1'});
+      await user.hover(getByRole(item1, 'button'));
+      rerender(<List renderOptimization={false} {...props} />);
+
+      screen.getByRole('row', {selected: true}).should.have.text('Item 1');
     });
   });
 
   describe('should render items', () => {
-    const mountFirstItem = (instance: List) => mount(instance.renderItem({index: 1}));
-
     it('should render for empty element', () => {
-      const instance = shallowList({
+      renderList({
         data: [{}],
-      }).instance();
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
-      firstItemWrapper.should.have.className(styles.action);
-      firstItemWrapper.should.have.text('');
+      });
+      const firstItem = screen.getByRole('button');
+      firstItem.should.have.class(styles.action);
+      firstItem.should.have.text('');
     });
 
     it('should render instance item if type is not defined', () => {
-      const instance = shallowList({
+      renderList({
         data: [{label: 'Hello!'}],
-      }).instance();
+      });
 
-      mount(instance.renderItem({index: 1})).should.have.descendants('[data-test~="ring-list-item"]');
+      screen.getByTestId('ring-list-item-action ring-list-item').should.exist;
     });
 
     it('should render a if href defined', () => {
-      const instance = shallowList({
+      renderList({
         data: [{label: 'Hello!', href: 'http://www.jetbrains.com'}],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListLink);
-      firstItemWrapper.should.exist;
-      firstItemWrapper.should.have.data('test', 'ring-link ring-list-link ring-list-item');
-      firstItemWrapper.should.have.text('Hello!');
-      firstItemWrapper.should.have.tagName('a');
-      firstItemWrapper.should.have.attr('href', 'http://www.jetbrains.com');
+      const firstItem = screen.getByRole('link');
+      firstItem.should.exist;
+      firstItem.should.have.attr('data-test', 'ring-link ring-list-link ring-list-item');
+      firstItem.should.have.text('Hello!');
+      firstItem.should.have.tagName('a');
+      firstItem.should.have.attr('href', 'http://www.jetbrains.com');
     });
 
     it('should render a if url defined', () => {
-      const instance = shallowList({
+      renderList({
         data: [{label: 'Hello!', url: 'http://www.jetbrains.com'}],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListLink);
-      firstItemWrapper.should.exist;
-      firstItemWrapper.should.have.data('test', 'ring-link ring-list-link ring-list-item');
-      firstItemWrapper.should.have.text('Hello!');
-      firstItemWrapper.should.have.tagName('a');
-      firstItemWrapper.should.have.attr('href', 'http://www.jetbrains.com');
+      const firstItem = screen.getByRole('link');
+      firstItem.should.exist;
+      firstItem.should.have.attr('data-test', 'ring-link ring-list-link ring-list-item');
+      firstItem.should.have.text('Hello!');
+      firstItem.should.have.tagName('a');
+      firstItem.should.have.attr('href', 'http://www.jetbrains.com');
     });
 
     it('should render separator', () => {
-      const instance = shallowList({
+      renderList({
         data: [{rgItemType: List.ListProps.Type.SEPARATOR, label: 'test'}],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListSeparator);
-      firstItemWrapper.should.exist;
-      firstItemWrapper.should.have.className(styles.separator);
+      const firstItem = screen.getByTestId('ring-list-separator');
+      firstItem.should.exist;
+      firstItem.should.have.class(styles.separator);
     });
 
     it('should render title', () => {
-      const instance = shallowList({
+      renderList({
         data: [{rgItemType: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListTitle);
-      firstItemWrapper.should.exist;
-      firstItemWrapper.should.have.text('FooBar');
+      const firstItem = screen.getByTestId('ring-list-title');
+      firstItem.should.exist;
+      firstItem.should.have.text('FooBar');
     });
 
     it('should render pseudo link if link without href', () => {
-      const instance = shallowList({
+      renderList({
         data: [{label: 'Hello!', rgItemType: List.ListProps.Type.LINK}],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListLink);
-      firstItemWrapper.should.exist;
-      firstItemWrapper.should.have.data('test', 'ring-link ring-list-link ring-list-item');
-      firstItemWrapper.should.have.text('Hello!');
-      firstItemWrapper.should.have.tagName('button');
+      const firstItem = screen.getByRole('button');
+      firstItem.should.exist;
+      firstItem.should.have.attr('data-test', 'ring-link ring-list-link ring-list-item');
+      firstItem.should.have.text('Hello!');
     });
 
     it('should not render icon if not provided', () => {
-      const instance = shallowList({
+      renderList({
         data: [{label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
-      firstItemWrapper.should.not.have.descendants(`.${styles.icon}`);
+      const firstItem = screen.getByTestId('ring-list-item-action ring-list-item');
+      firstItem.should.not.have.descendants(`.${styles.icon}`);
     });
 
     it('should render icon if provided', () => {
-      const instance = shallowList({
+      renderList({
         data: [{label: 'Hello!', icon: 'http://some.url/', rgItemType: List.ListProps.Type.ITEM}],
-      }).instance();
+      });
 
-      const icon = mountFirstItem(instance).find(`.${styles.icon}`);
-      const backgroundImage = icon.prop('style')?.backgroundImage;
+      const icon = screen
+        .getByTestId('ring-list-item-action ring-list-item')
+        .querySelector<HTMLElement>(`.${styles.icon}`);
+      const backgroundImage = icon?.style?.backgroundImage;
       should.exist(backgroundImage);
       backgroundImage?.should.contain('http://some.url');
     });
 
     it('should not render glyph if not provided', () => {
-      const instance = shallowList({
+      renderList({
         data: [{label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}],
-      }).instance();
+      });
 
-      mountFirstItem(instance).find('use').should.be.empty;
+      should.not.exist(screen.queryByTestId('ring-icon'));
     });
 
     it('should render glyph if provided', () => {
-      const instance = shallowList({
+      renderList({
         data: [{label: 'Hello!', glyph: checkmarkIcon, rgItemType: List.ListProps.Type.ITEM}],
-      }).instance();
+      });
 
-      mountFirstItem(instance).find(Icon).should.have.prop('glyph', checkmarkIcon);
+      screen
+        .getByTestId('ring-icon')
+        .querySelector('svg')!
+        .outerHTML.replace(' class="glyph"', '')
+        .should.equal(checkmarkIcon.replace('/>', '></path>'));
     });
 
     it('should throw error on unknown type', () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {});
       (() => {
-        const instance = shallowList({
+        renderList({
           data: [
             // @ts-expect-error testing a wrong usage
             {label: 'Hello!', rgItemType: 'none'},
           ],
-        }).instance();
-
-        mountFirstItem(instance);
+        });
       }).should.throw(Error, 'Unknown menu element type: none');
     });
 
-    it('should handle click', () => {
+    it('should handle click', async () => {
       const clicked = sandbox.stub();
 
-      const instance = mountList({
+      renderList({
         data: [{label: 'Hello!', onClick: clicked}],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
-      firstItemWrapper.simulate('click');
+      const firstItem = screen.getByRole('button');
+      const user = userEvent.setup();
+      await user.click(firstItem);
       clicked.should.have.been.called;
     });
 
-    it('should handle select', () => {
+    it('should handle select', async () => {
       const onSelect = sandbox.stub();
 
-      const instance = mountList({
+      renderList({
         onSelect,
         data: [{label: 'Hello!'}],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
-      firstItemWrapper.simulate('click');
+      const firstItem = screen.getByRole('button');
+      const user = userEvent.setup();
+      await user.click(firstItem);
       onSelect.should.have.been.called;
     });
 
     it('Should support custom elements', () => {
-      const instance = shallowList({
+      renderList({
         data: [
           {
             template: createElement('span', {}, 'custom item'),
@@ -349,15 +283,15 @@ describe('List', () => {
             rgItemType: List.ListProps.Type.CUSTOM,
           },
         ],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
-      firstItemWrapper.should.have.text('custom item');
+      const firstItem = screen.getByRole('button');
+      firstItem.should.have.text('custom item');
     });
 
-    it('Should support click on custom elements', () => {
+    it('Should support click on custom elements', async () => {
       const onClick = sandbox.stub();
-      const instance = mountList({
+      renderList({
         data: [
           {
             template: createElement('span', {}, 'custom item'),
@@ -366,15 +300,16 @@ describe('List', () => {
             onClick,
           },
         ],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
-      firstItemWrapper.simulate('click');
+      const firstItem = screen.getByRole('button');
+      const user = userEvent.setup();
+      await user.click(firstItem);
       onClick.should.have.been.called;
     });
 
     it('Should support disable property for custom elements', () => {
-      const instance = shallowList({
+      renderList({
         data: [
           {
             template: createElement('span', {}, 'custom item'),
@@ -383,10 +318,10 @@ describe('List', () => {
             disabled: true,
           },
         ],
-      }).instance();
+      });
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
-      firstItemWrapper.should.not.have.className(styles.action);
+      const firstItem = screen.getByRole('button');
+      firstItem.should.not.have.class(styles.action);
     });
   });
 });
