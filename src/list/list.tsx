@@ -512,6 +512,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     const item = this.props.data[realIndex];
 
     const itemId = this.getId(item);
+    const isActive = realIndex === this.state.activeIndex;
     // top and bottom margins
     if (index === 0 || index === this.props.data.length + 1 || item.rgItemType === Type.MARGIN) {
       itemKey = key || `${Type.MARGIN}_${index}`;
@@ -530,7 +531,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
 
       itemKey = key || itemId;
 
-      itemProps.hover = realIndex === this.state.activeIndex;
+      itemProps.hover = isActive;
       if (itemProps.hoverClassName != null && itemProps.hover) {
         itemProps.className = classNames(itemProps.className, itemProps.hoverClassName);
       }
@@ -584,13 +585,19 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     return parent ? (
       <CellMeasurer cache={this._cache} key={itemKey} parent={parent} rowIndex={index} columnIndex={0}>
         {({registerChild}) => (
-          <div ref={registerChild as RefCallback<Element>} style={style} role="row" id={itemId}>
+          <div
+            ref={registerChild as RefCallback<Element>}
+            style={style}
+            role="row"
+            aria-selected={isActive}
+            id={itemId}
+          >
             <div role="cell">{el}</div>
           </div>
         )}
       </CellMeasurer>
     ) : (
-      <div role="row" id={itemId} key={itemKey}>
+      <div role="row" aria-selected={isActive} id={itemId} key={itemKey}>
         <div role="cell">{el}</div>
       </div>
     );

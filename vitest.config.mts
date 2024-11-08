@@ -7,7 +7,8 @@ export default defineConfig({
     globals: true,
     watch: false,
     environment: 'jsdom',
-    clearMocks: true,
+    restoreMocks: true,
+    unstubGlobals: true,
     alias: [
       {
         find: /.*\.css$/,

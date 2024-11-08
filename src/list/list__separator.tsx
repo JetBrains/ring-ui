@@ -12,6 +12,10 @@ export default class ListSeparator<T> extends PureComponent<ListDataItemProps<T>
       [styles.separator_first]: isFirst,
     });
 
-    return <span className={classes}>{description}</span>;
+    return (
+      <span data-test="ring-list-separator" className={classes}>
+        {description}
+      </span>
+    );
   }
 }
