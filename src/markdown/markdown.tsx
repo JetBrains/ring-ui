@@ -25,6 +25,10 @@ export default class Markdown extends PureComponent<MarkdownProps> {
       [styles.inline]: inline,
     });
 
-    return <div className={classes}>{children}</div>;
+    return (
+      <div data-test="ring-markdown" className={classes}>
+        {children}
+      </div>
+    );
   }
 }
