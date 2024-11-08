@@ -1,20 +1,20 @@
-import {mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
 import LoaderInline, {LoaderInlineAtrrs} from './loader-inline';
 
 describe('Loader Inline', () => {
-  const mountLoaderInline = (props?: LoaderInlineAtrrs) => mount(<LoaderInline {...props} />);
-  const getLoaderInlineDiv = (props?: LoaderInlineAtrrs) => mountLoaderInline(props).find('div');
+  const renderLoaderInline = (props?: LoaderInlineAtrrs) => {
+    render(<LoaderInline {...props} />);
+    return screen.getByTestId('ring-loader-inline');
+  };
 
   it('should create component', () => {
-    mountLoaderInline().type().should.equal(LoaderInline);
+    renderLoaderInline().should.exist;
   });
 
   it('should add custom class', () => {
-    const wrapper = getLoaderInlineDiv({
+    renderLoaderInline({
       className: 'test',
-    });
-
-    wrapper.should.have.className('test');
+    }).should.have.class('test');
   });
 });
