@@ -23,7 +23,7 @@ changeBuildType(RelativeId("PublishNext")) {
                     -:user=npmjs-buildserver:**
                     +:comment=(?i)\[publish\]:**
                 """.trimIndent()
-                branchFilter = "+:<default>"
+                branchFilter = "-:<default>"
             }
         }
     }
