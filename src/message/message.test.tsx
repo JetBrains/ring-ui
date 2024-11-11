@@ -1,27 +1,21 @@
-import {mount} from 'enzyme';
-
-import Popup from '../popup/popup';
+import {render, screen} from '@testing-library/react';
 
 import Message, {MessageAttrs} from './message';
 
 describe('Message', () => {
-  const mountMessage = (props: MessageAttrs) => mount(<Message {...props} />);
-
-  it('should create component', () => {
-    mountMessage({title: 'foo'}).should.have.type(Message);
-  });
+  const renderMessage = (props: MessageAttrs) => {
+    render(<Message {...props} />);
+    return screen.getByTestId('ring-popup');
+  };
 
   it('should wrap children with Popup', () => {
-    mountMessage({title: 'foo'}).find(Popup).should.exist;
+    renderMessage({title: 'foo'}).should.exist;
   });
 
   it('should use passed className', () => {
-    mountMessage({
+    renderMessage({
       title: 'foo',
       className: 'test-class',
-    })
-      .find(Popup)
-      .props()
-      .className.should.include('test-class');
+    }).should.have.class('test-class');
   });
 });
