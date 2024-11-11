@@ -1,6 +1,4 @@
-import {shallow, mount} from 'enzyme';
-
-import ButtonToolbar from '../button-toolbar/button-toolbar';
+import {getByTestId, queryByTestId, render, screen} from '@testing-library/react';
 
 import {I18nContextHolder} from '../i18n/i18n-context';
 
@@ -9,54 +7,55 @@ import styles from './pager.css';
 
 describe('Pager', () => {
   const props = {total: 100, currentPage: 1, onPageChange: () => {}};
-  const shallowPager = (params?: Partial<PagerAttrs>) =>
-    shallow(
+  const renderPager = (params?: Partial<PagerAttrs>) => {
+    render(
       <I18nContextHolder messages={{}}>
         <Pager {...{...props, ...params}} />
       </I18nContextHolder>,
     );
-  const mountPager = (params?: Partial<PagerAttrs>) => mount(<Pager {...{...props, ...params}} />);
+    return screen.getByTestId('ring-pager');
+  };
 
   it('should create component', () => {
-    mountPager().should.have.type(Pager);
+    renderPager().should.exist;
   });
 
   it('should render page buttons when total is more than pageSize', () => {
-    const wrapper = mountPager({
+    const pager = renderPager({
       total: 2,
       pageSize: 1,
     });
-    wrapper.should.have.descendants(ButtonToolbar);
-    wrapper.should.descendants(`div.${styles.links}`);
+
+    getByTestId(pager, 'ring-button-toolbar').should.exist;
+    pager.should.have.descendants(`div.${styles.links}`);
   });
 
   it('should not render page buttons when total is less than 1', () => {
-    const wrapper = shallowPager({total: 1});
-    wrapper.should.not.have.descendants(ButtonToolbar);
-    wrapper.should.not.descendants(`div.${styles.links}`);
+    const pager = renderPager({total: 1});
+    should.not.exist(queryByTestId(pager, 'ring-button-toolbar'));
+    pager.should.not.have.descendants(`div.${styles.links}`);
   });
 
   it('should render page size selector even when total is less than 2', () => {
-    const wrapper = mountPager({total: 1});
-    wrapper.should.have.data('test', 'ring-pager');
-    should.exist(wrapper.getDOMNode()?.querySelector('[data-test^=ring-pager-page-size-selector]'));
+    const pager = renderPager({total: 1});
+    should.exist(getByTestId(pager, 'ring-pager-page-size-selector'));
   });
 
   it('should wrap children with div', () => {
-    shallowPager().should.have.tagName('div');
+    renderPager().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    shallowPager({className: 'test-class'}).find(Pager).should.have.className('test-class');
+    renderPager({className: 'test-class'}).should.have.class('test-class');
   });
 
   it('should render page buttons even when currentPage==total if openTotal is true', () => {
-    const wrapper = mountPager({
+    const pager = renderPager({
       total: 10,
       pageSize: 10,
       currentPage: 1,
       openTotal: true,
     });
-    wrapper.should.have.descendants(ButtonToolbar);
+    getByTestId(pager, 'ring-button-toolbar').should.exist;
   });
 });
