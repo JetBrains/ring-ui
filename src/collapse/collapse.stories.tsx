@@ -164,3 +164,17 @@ export const WithDynamicContent = () => {
 };
 
 WithDynamicContent.storyName = 'With dynamic content';
+
+export const ExpandedByDefault = () => (
+  <div className={styles.container}>
+    <Collapse defaultExpanded>
+      <CollapseControl>
+        {(collapsed: boolean) => <Button>{collapsed ? 'Show more' : 'Show less'}</Button>}
+      </CollapseControl>
+      <CollapseContent>{text}</CollapseContent>
+    </Collapse>
+  </div>
+);
+
+ExpandedByDefault.storyName = 'Expanded by default';
+ExpandedByDefault.parameters = {screenshots: {actions: []}};

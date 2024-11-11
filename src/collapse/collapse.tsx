@@ -9,6 +9,7 @@ type Props = {
   duration?: number;
   disableAnimation?: boolean;
   className?: string;
+  defaultExpanded?: boolean;
 };
 
 /**
@@ -21,8 +22,9 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
   disableAnimation = false,
   className = '',
   onChange = () => {},
+  defaultExpanded = false,
 }) => {
-  const [collapsed, toggle] = useState(true);
+  const [collapsed, toggle] = useState(!defaultExpanded);
   const id = useId();
 
   const setCollapsed = useCallback(() => {

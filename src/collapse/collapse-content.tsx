@@ -50,13 +50,10 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
     }
 
     const container = containerRef.current;
-    if (container) {
-      container.addEventListener('transitionend', onTransitionEnd);
-    }
+    container?.addEventListener('transitionend', onTransitionEnd);
+
     return () => {
-      if (container) {
-        container.removeEventListener('transitionend', onTransitionEnd);
-      }
+      container?.removeEventListener('transitionend', onTransitionEnd);
     };
   }, [collapsed]);
 

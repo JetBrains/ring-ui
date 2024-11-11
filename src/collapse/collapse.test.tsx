@@ -30,10 +30,12 @@ const Dummy = ({
   minHeight,
   disableAnimation,
   controlAsFunc,
+  defaultExpanded = false,
 }: {
   minHeight: number;
   disableAnimation: boolean;
   controlAsFunc: boolean;
+  defaultExpanded: boolean;
 }) => {
   const [texts, setTexts] = useState([textMock]);
 
@@ -42,7 +44,7 @@ const Dummy = ({
       <button type="button" onClick={() => setTexts([...texts, textMock])}>
         {'More text'}
       </button>
-      <Collapse onChange={onChangeMock} disableAnimation={disableAnimation}>
+      <Collapse onChange={onChangeMock} disableAnimation={disableAnimation} defaultExpanded={defaultExpanded}>
         <CollapseControl>
           {controlAsFunc ? (
             <button type="button">{'Show text'}</button>
@@ -61,8 +63,15 @@ const Dummy = ({
   );
 };
 
-function renderComponent(minHeight = 0, disableAnimation = false, controlAsFunc = false) {
-  return render(<Dummy minHeight={minHeight} disableAnimation={disableAnimation} controlAsFunc={controlAsFunc} />);
+function renderComponent(minHeight = 0, disableAnimation = false, controlAsFunc = false, defaultExpanded = false) {
+  return render(
+    <Dummy
+      minHeight={minHeight}
+      disableAnimation={disableAnimation}
+      controlAsFunc={controlAsFunc}
+      defaultExpanded={defaultExpanded}
+    />,
+  );
 }
 
 describe('<Collapse />', () => {
@@ -126,5 +135,13 @@ describe('<Collapse />', () => {
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
     content.className.should.not.include(styles.transition);
+  });
+
+  it('should be able to expand by default', () => {
+    renderComponent(0, true, false, true);
+
+    const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
+
+    content.should.contain.text(textMock);
   });
 });
