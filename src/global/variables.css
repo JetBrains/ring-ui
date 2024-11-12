@@ -167,6 +167,7 @@
   --ring-font-family-monospace: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier,
     monospace;
   --ring-font-weight-bold: 600;
+  --ring-font-variant-numeric: lining-nums tabular-nums slashed-zero;
 
   /* Common z-index-values */
 

@@ -6,6 +6,7 @@
   --ring-table-top: -3px;
 
   position: relative;
+  font-variant-numeric: var(--ring-font-variant-numeric);
 }
 
 .table {
