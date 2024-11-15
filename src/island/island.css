@@ -8,7 +8,7 @@
   flex-direction: column;
 
   border: 1px solid var(--ring-line-color);
-  border-radius: var(--ring-border-radius);
+  border-radius: var(--ring-unit);
 
   background-color: var(--ring-content-background-color);
   box-shadow: 0 1px 4px var(--ring-popup-shadow-color);
