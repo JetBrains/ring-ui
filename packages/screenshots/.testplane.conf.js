@@ -37,6 +37,7 @@ module.exports = {
   },
   screenshotsDir: test =>
     path.join('testplane', test.browserId, test.parent.title.toLowerCase(), test.title.toLowerCase()),
+  antialiasingTolerance: 10,
 
   desiredCapabilities: {
     project: 'Ring UI',
