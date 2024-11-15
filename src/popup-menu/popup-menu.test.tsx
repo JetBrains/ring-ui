@@ -1,32 +1,31 @@
-import {shallow, mount} from 'enzyme';
-
-import List from '../list/list';
+import {getByTestId, queryAllByTestId, render, screen} from '@testing-library/react';
 
 import PopupMenu, {PopupMenuAttrs} from './popup-menu';
 
 describe('Popup Menu', () => {
-  const shallowPopupMenu = (props?: PopupMenuAttrs) => shallow(<PopupMenu {...props} />);
-  const mountPopupMenu = (props?: Partial<PopupMenuAttrs>) => mount<PopupMenu>(<PopupMenu {...props} />);
+  const renderPopupMenu = (props?: PopupMenuAttrs) => {
+    render(<PopupMenu {...props} />);
+    return screen.getByTestId('ring-popup');
+  };
 
   it('should create component', () => {
-    shallowPopupMenu().should.exist;
+    renderPopupMenu().should.exist;
   });
 
   it('should have List', () => {
-    const list = mountPopupMenu().instance().list;
-    should.exist(list);
+    renderPopupMenu();
+    const list = screen.getByRole('grid');
 
     // We need it to maintain compatibility between Popup Menu and List
-    list?.props.data.length.should.equal(0);
+    queryAllByTestId(list, 'ring-list-item-action ring-list-item').should.have.length(0);
   });
 
   it('should pass params to List', () => {
-    const wrapper = mountPopupMenu({data: [{}]});
+    renderPopupMenu({data: [{}]});
 
-    const maybeList = wrapper.instance().list;
+    const maybeList = screen.getByRole('grid');
     should.exist(maybeList);
-    const list = maybeList as List;
 
-    shallow(list.renderItem({index: 1})).should.exist;
+    getByTestId(maybeList, 'ring-list-item-action ring-list-item').should.exist;
   });
 });
