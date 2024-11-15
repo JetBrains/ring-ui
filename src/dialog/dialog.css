@@ -82,12 +82,24 @@
   cursor: pointer;
 }
 
-.clickableOverlay:hover + * .closeIcon {
+.closeIconOutside.closeIconOutside {
   color: var(--ring-icon-hover-color);
 }
 
-.closeButton:hover .closeIcon {
+.clickableOverlay:hover + * .closeIconInside {
   color: var(--ring-icon-hover-color);
+}
+
+.clickableOverlay:hover + * .closeIconOutside {
+  color: var(--ring-main-hover-color);
+}
+
+.closeButton:hover .closeIconInside {
+  color: var(--ring-icon-hover-color);
+}
+
+.closeButton:hover .closeIconOutside {
+  color: var(--ring-main-hover-color);
 }
 
 .clickableOverlay:active + * .closeIcon {

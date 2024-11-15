@@ -204,7 +204,10 @@ export default class Dialog extends PureComponent<DialogProps> {
                   [styles.closeButtonOutside]: !closeButtonInside,
                   [styles.closeButtonInside]: closeButtonInside,
                 })}
-                iconClassName={styles.closeIcon}
+                iconClassName={classNames(styles.closeIcon, {
+                  [styles.closeIconOutside]: !closeButtonInside,
+                  [styles.closeIconInside]: closeButtonInside,
+                })}
                 onClick={this.onCloseClick}
                 title={closeButtonTitle}
                 aria-label={closeButtonTitle || 'close dialog'}
