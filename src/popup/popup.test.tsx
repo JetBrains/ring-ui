@@ -1,5 +1,6 @@
 import * as Sinon from 'sinon';
-import {shallow, mount} from 'enzyme';
+
+import {render, screen, fireEvent, getByTestId} from '@testing-library/react';
 
 import {getRect, getStyles} from '../global/dom';
 import simulateCombo from '../../test-helpers/simulate-combo';
@@ -8,24 +9,22 @@ import Popup, {PopupAttrs} from './popup';
 import {MinWidth} from './popup.consts';
 
 describe('Popup', () => {
-  const shallowPopup = (props?: Partial<PopupAttrs>) => shallow(<Popup {...{children: '', ...props}} />);
-  const mountPopup = (props?: Partial<PopupAttrs>) => mount<Popup>(<Popup {...{children: '', ...props}} />);
+  const renderPopup = (props?: Partial<PopupAttrs>) => render(<Popup {...{children: '', ...props}} />);
 
   it('should create component', () => {
-    const popup = shallowPopup();
-    popup.should.exist;
+    renderPopup();
+    screen.getByTestId('ring-popup').should.exist;
   });
 
   it('should allow pass DOM node as a target', () => {
     const targetNode = document.createElement('div');
-    const instance = mountPopup({target: targetNode}).instance();
-    const popupElement = instance.popup;
-    (popupElement != null && targetNode.contains(popupElement)).should.be.true;
+    renderPopup({target: targetNode});
+    getByTestId(targetNode, 'ring-popup').should.exist;
   });
 
   it('should attempt to close by pressing esc', () => {
     const onCloseAttempt = sandbox.stub();
-    mountPopup({onCloseAttempt});
+    renderPopup({onCloseAttempt});
 
     simulateCombo('esc');
 
@@ -45,53 +44,53 @@ describe('Popup', () => {
 
     it('should attempt to close by pointer down outside the element', () => {
       const onCloseAttempt = sandbox.stub();
-      mountPopup({onCloseAttempt});
+      renderPopup({onCloseAttempt});
 
       clock.tick(0);
-      document.body.dispatchEvent(downEvent);
+      fireEvent(document.body, downEvent);
       onCloseAttempt.should.have.been.called;
     });
 
     it('should pass event to onCloseAttempt callback when closing by document pointer down event', () => {
       const onCloseAttempt = sandbox.stub();
-      mountPopup({onCloseAttempt});
+      renderPopup({onCloseAttempt});
 
       clock.tick(0);
-      document.body.dispatchEvent(downEvent);
+      fireEvent(document.body, downEvent);
       onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'pointerdown'}));
     });
 
     it('should not close popup if popup hidden', () => {
       const onCloseAttempt = sandbox.stub();
-      mountPopup({
+      renderPopup({
         hidden: true,
         onCloseAttempt,
       });
 
       clock.tick(0);
-      document.body.dispatchEvent(downEvent);
+      fireEvent(document.body, downEvent);
       onCloseAttempt.should.not.have.been.called;
     });
 
     it('should be closed by pointer down event outside the element after show', () => {
       const onCloseAttempt = sandbox.stub();
-      const wrapper = mountPopup({
+      const popup = renderPopup({
         onCloseAttempt,
       });
 
-      wrapper.setProps({hidden: false}, () => {
-        clock.tick(0);
-        document.body.dispatchEvent(downEvent);
-        onCloseAttempt.should.have.been.called;
-      });
+      popup.rerender(<Popup {...{children: '', onCloseAttempt, hidden: false}} />);
+      clock.tick(0);
+      fireEvent(document.body, downEvent);
+      onCloseAttempt.should.have.been.called;
     });
 
     it("shouldn't be closed by pointer down event inside the element", () => {
       const onCloseAttempt = sandbox.stub();
-      const instance = mountPopup({onCloseAttempt}).instance();
+      renderPopup({onCloseAttempt});
 
       clock.tick(0);
-      instance.popup?.dispatchEvent(downEvent);
+      const popup = screen.getByTestId('ring-popup');
+      fireEvent(popup, downEvent);
       onCloseAttempt.should.not.have.been.called;
     });
   });
@@ -116,13 +115,13 @@ describe('Popup', () => {
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
-      const instance = mountPopup({
+      renderPopup({
         directions: [Popup.PopupProps.Directions.TOP_LEFT],
         anchorElement: element,
-      }).instance();
+      });
 
-      should.exist(instance.popup);
-      const popupElement = instance.popup as HTMLElement;
+      const popupElement = screen.getByTestId('ring-popup');
+      should.exist(popupElement);
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).should.equal(
@@ -137,15 +136,16 @@ describe('Popup', () => {
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
-      const instance = mountPopup({
+      renderPopup({
         directions: [Popup.PopupProps.Directions.TOP_LEFT],
         anchorElement: element,
         sidePadding: SIDE_PADDING,
         children: <div style={{height: '300px'}}>{'foo'}</div>,
-      }).instance();
+      });
 
-      should.exist(instance.popup);
-      getStyles(instance.popup as HTMLElement).top.should.equal(`${SIDE_PADDING}px`);
+      const popupElement = screen.getByTestId('ring-popup');
+      should.exist(popupElement);
+      getStyles(popupElement).top.should.equal(`${SIDE_PADDING}px`);
     });
 
     it('bottom-right corner', () => {
@@ -153,13 +153,13 @@ describe('Popup', () => {
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
-      const instance = mountPopup({
+      renderPopup({
         directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
         anchorElement: element,
-      }).instance();
+      });
 
-      should.exist(instance.popup);
-      const popupElement = instance.popup as HTMLElement;
+      const popupElement = screen.getByTestId('ring-popup');
+      should.exist(popupElement);
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
@@ -172,15 +172,15 @@ describe('Popup', () => {
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
-      const instance = mountPopup({
+      renderPopup({
         directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
         anchorElement: element,
         left: OFFSET,
         top: OFFSET,
-      }).instance();
+      });
 
-      should.exist(instance.popup);
-      const popupElement = instance.popup as HTMLElement;
+      const popupElement = screen.getByTestId('ring-popup');
+      should.exist(popupElement);
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + OFFSET);
@@ -192,15 +192,16 @@ describe('Popup', () => {
       element.setAttribute('style', 'width: 50px; padding-left: 20px;');
       document.body.append(element);
 
-      const instance = mountPopup({
+      renderPopup({
         minWidth: MinWidth.TARGET,
         anchorElement: element,
         hidden: false,
-      }).instance();
+      });
 
-      should.exist(instance.popup);
+      const popupElement = screen.getByTestId('ring-popup');
+      should.exist(popupElement);
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      parseInt(getStyles(instance.popup as HTMLElement).minWidth, 10).should.equal(70);
+      parseInt(getStyles(popupElement).minWidth, 10).should.equal(70);
       element.remove();
     });
 
@@ -210,14 +211,14 @@ describe('Popup', () => {
       document.body.append(element);
 
       const WIDTH = 345;
-      const instance = mountPopup({
+      renderPopup({
         minWidth: WIDTH,
         hidden: false,
         anchorElement: element,
-      }).instance();
+      });
 
-      should.exist(instance.popup);
-      const popupElement = instance.popup as HTMLElement;
+      const popupElement = screen.getByTestId('ring-popup');
+      should.exist(popupElement);
       parseInt(popupElement.style.minWidth, 10).should.equal(WIDTH);
     });
 
@@ -228,14 +229,14 @@ describe('Popup', () => {
       element.setAttribute('style', `width: ${WIDTH}px;`);
       document.body.append(element);
 
-      const instance = mountPopup({
+      renderPopup({
         minWidth: 20,
         hidden: false,
         anchorElement: element,
-      }).instance();
+      });
 
-      should.exist(instance.popup);
-      const popupElement = instance.popup as HTMLElement;
+      const popupElement = screen.getByTestId('ring-popup');
+      should.exist(popupElement);
       parseInt(popupElement.style.minWidth, 10).should.equal(WIDTH);
     });
   });
