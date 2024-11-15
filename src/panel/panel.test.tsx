@@ -1,19 +1,20 @@
-import {shallow, mount, render} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
 import Panel from './panel';
 
 describe('Panel', () => {
   it('should create component', () => {
-    mount(<Panel />).should.have.type(Panel);
+    render(<Panel />);
+    screen.getByTestId('ring-panel').should.exist;
   });
 
   it('should use provided className', () => {
-    const wrapper = shallow(<Panel className="custom-class" />);
-    wrapper.should.have.className('custom-class');
+    render(<Panel className="custom-class" />);
+    screen.getByTestId('ring-panel').should.have.class('custom-class');
   });
 
   it('should render children', () => {
-    const wrapper = render(<Panel>{'text'}</Panel>);
-    wrapper.should.have.text('text');
+    render(<Panel>{'text'}</Panel>);
+    screen.getByText('text').should.exist;
   });
 });
