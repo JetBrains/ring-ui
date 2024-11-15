@@ -100,16 +100,18 @@
 
 .closeButton.closeButton {
   position: absolute;
+
+  line-height: calc(var(--ring-unit) * 2);
 }
 
 .closeButtonOutside {
-  top: calc(var(--ring-unit) / 2);
+  top: var(--ring-unit);
   right: calc(var(--ring-unit) * -3);
 }
 
 .closeButtonInside {
-  top: calc(var(--ring-unit) * 1.5);
-  right: var(--ring-unit);
+  top: calc(var(--ring-unit) * 2);
+  right: calc(var(--ring-unit) * 2);
 }
 
 .documentWithoutScroll {
