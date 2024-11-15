@@ -1,7 +1,7 @@
 import searchIcon from '@jetbrains/icons/search';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import pencilIcon from '@jetbrains/icons/pencil';
-import add10pxIcon from '@jetbrains/icons/add-10px';
+import add12pxIcon from '@jetbrains/icons/add-12px';
 import add20pxIcon from '@jetbrains/icons/add-20px';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import starFilledIcon from '@jetbrains/icons/star-filled';
@@ -46,7 +46,7 @@ export const inText = () => (
     {'Some text '}
     <Icon glyph={chevronDownIcon} />
     {' Text '}
-    <Icon glyph={add10pxIcon} />
+    <Icon glyph={add12pxIcon} />
     {' text '}
     <Icon glyph={starFilledIcon} />
     {' text '}

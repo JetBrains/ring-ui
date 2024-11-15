@@ -2,16 +2,16 @@ import {memo, useCallback, useMemo, ReactElement, ReactNode} from 'react';
 
 import classNames from 'classnames';
 
-import chevronDownIcon from '@jetbrains/icons/chevron-10px';
-
 import {Directions} from '../popup/popup.consts';
 import PopupMenu, {ListProps} from '../popup-menu/popup-menu';
 
 import Dropdown from '../dropdown/dropdown';
 
-import Link, {LinkProps} from '../link/link';
-import Icon from '../icon/icon';
 import {ListDataItem} from '../list/consts';
+
+import {ButtonButtonProps, ContainerProps} from '../button/button';
+
+import Anchor from '../dropdown/anchor';
 
 import styles from './tabs.css';
 import getTabTitles from './collapsible-tab';
@@ -28,7 +28,7 @@ export const AnchorLink = ({
   moreClassName,
   moreActiveClassName,
   ...restProps
-}: Omit<LinkProps, 'children'> & FakeMoreButtonProps) => {
+}: Omit<ContainerProps<ButtonButtonProps>, 'children'> & FakeMoreButtonProps) => {
   const classnames = classNames(
     styles.title,
     hasActiveChildren && styles.selected,
@@ -36,10 +36,9 @@ export const AnchorLink = ({
     moreClassName,
   );
   return (
-    <Link title={'More'} className={classnames} {...restProps}>
+    <Anchor title={'More'} className={classnames} {...restProps}>
       {'More'}
-      <Icon glyph={chevronDownIcon} className={styles.chevron} />
-    </Link>
+    </Anchor>
   );
 };
 

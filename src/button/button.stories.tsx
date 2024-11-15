@@ -94,7 +94,7 @@ export const basic = () => (
 
     <Button inline>Text action</Button>
 
-    {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
+    {['primary', 'danger', 'disabled', 'loader', 'dropdown'].map(modifier => (
       <Button inline key={modifier} {...{[modifier]: true}}>
         Text action {modifier}
       </Button>
@@ -218,7 +218,7 @@ export const heightS = () => (
 
       <Button inline>Text action</Button>
 
-      {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
+      {['primary', 'danger', 'disabled', 'loader', 'dropdown'].map(modifier => (
         <Button inline key={modifier} {...{[modifier]: true}}>
           Text action {modifier}
         </Button>
@@ -327,7 +327,7 @@ export const heightL = () => (
 
       <Button inline>Text action</Button>
 
-      {['primary', 'danger', 'disabled', 'loader'].map(modifier => (
+      {['primary', 'danger', 'disabled', 'loader', 'dropdown'].map(modifier => (
         <Button inline key={modifier} {...{[modifier]: true}}>
           Text action {modifier}
         </Button>

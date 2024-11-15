@@ -1,7 +1,7 @@
 import {PureComponent, ReactNode, SyntheticEvent, ThHTMLAttributes} from 'react';
 import classNames from 'classnames';
-import sortableIcon from '@jetbrains/icons/unsorted-10px';
-import sortedIcon from '@jetbrains/icons/chevron-10px';
+import sortableIcon from '@jetbrains/icons/unsorted-12px';
+import sortedIcon from '@jetbrains/icons/chevron-12px-down';
 
 import Icon from '../icon/icon';
 import dataTests from '../global/data-tests';

@@ -2,6 +2,7 @@ import {createRef, PureComponent, ButtonHTMLAttributes} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-down';
+import chevron12pxDown from '@jetbrains/icons/chevron-12px-down';
 
 import deprecate from 'util-deprecate';
 
@@ -107,7 +108,7 @@ export class Button extends PureComponent<ButtonProps> {
           />
         )}
         {children}
-        {dropdown && <Icon glyph={chevronDown} className={styles.dropdownIcon} />}
+        {dropdown && <Icon glyph={isInline ? chevron12pxDown : chevronDown} className={styles.dropdownIcon} />}
       </>
     );
     const commonProps = {

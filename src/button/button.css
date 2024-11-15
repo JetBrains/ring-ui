@@ -1,5 +1,7 @@
 @import "../global/variables.css";
 
+@value glyph from "../icon/icon.css";
+
 :root {
   --ring-button-focus-border-color: var(--ring-border-hover-color);
   --ring-button-shadow: inset 0 0 0 1px;
@@ -341,15 +343,18 @@
 }
 
 .dropdownIcon {
-  margin-left: 2px;
-
-  transition: color var(--ring-ease);
-
   .block & {
     margin-top: -1px;
     margin-right: calc(var(--ring-unit) * -0.5);
+    margin-left: 2px;
+
+    transition: color var(--ring-ease);
 
     color: var(--ring-icon-secondary-color);
+  }
+
+  .inline & .glyph {
+    vertical-align: -2px;
   }
 
   .primary & {
@@ -359,7 +364,7 @@
   line-height: var(--ring-button-icon-line-height);
 }
 
-.button:hover .dropdownIcon {
+.block:hover .dropdownIcon {
   transition: none;
 
   color: var(--ring-main-color);
