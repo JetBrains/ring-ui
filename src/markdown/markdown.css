@@ -66,7 +66,7 @@
     padding: 0;
 
     list-style-position: inside;
-    font-variant-numeric: tabular-nums;
+    font-variant-numeric: var(--ring-font-variant-numeric);
   }
 
   & ul {

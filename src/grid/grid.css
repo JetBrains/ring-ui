@@ -4,7 +4,7 @@
 @value large-screen-media, middle-screen-media, small-screen-media from "../global/global.css";
 
 .container-fluid,
-.container
+.container,
 .row {
   --ring-grid-gutter-width: calc(var(--ring-unit) * 2);
   --ring-grid-gutter-compensation: calc(var(--ring-grid-gutter-width) / -2);
