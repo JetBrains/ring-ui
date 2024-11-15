@@ -152,6 +152,7 @@
   --ring-code-deletion-color: rgb(var(--ring-code-deletion-components)); /* #DFE1E5 */
 
   /* Metrics */
+  --ring-border-radius-large: var(--ring-unit);
   --ring-border-radius: 4px;
   --ring-border-radius-small: 2px;
   --ring-font-size-larger: 16px;
