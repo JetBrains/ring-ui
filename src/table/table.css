@@ -58,10 +58,11 @@
 
 .headerCell .sorter {
   position: absolute;
+  top: 5px;
 
   display: none;
 
-  margin-left: 6px;
+  margin-left: 5px;
 
   user-select: none;
 }
@@ -72,7 +73,7 @@
 
 .sortedUp .icon {
   transform: rotate(180deg);
-  transform-origin: center 53%;
+  transform-origin: center 44%;
 }
 
 .caption {

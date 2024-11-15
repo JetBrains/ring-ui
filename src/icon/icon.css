@@ -11,6 +11,7 @@
 
   pointer-events: none;
 
+  /* TODO remove in 8.0 */
   &[width="10"] {
     vertical-align: -1px;
   }
