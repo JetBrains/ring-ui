@@ -28,7 +28,7 @@ export interface DialogProps extends Partial<TabTrapProps> {
   onCloseAttempt: (event: React.MouseEvent<HTMLElement> | KeyboardEvent) => void;
   showCloseButton: boolean;
   shortcutOptions: ShortcutsScopeOptions;
-  closeButtonInside: boolean;
+  closeButtonInside: boolean; // TODO make it always true in 8.0
   closeButtonTitle?: string;
   // focusTrap may break popups inside dialog, so use it carefully
   trapFocus: boolean;
