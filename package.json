@@ -229,7 +229,7 @@
     "es6-error": "^4.1.1",
     "fastdom": "^1.0.12",
     "file-loader": "^6.2.0",
-    "focus-trap": "^7.6.1",
+    "focus-trap": "^7.6.2",
     "highlight.js": "^10.7.2",
     "just-debounce-it": "^3.2.0",
     "memoize-one": "^6.0.0",
