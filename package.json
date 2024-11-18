@@ -83,7 +83,7 @@
     "@csstools/css-parser-algorithms": "^3.0.4",
     "@csstools/stylelint-no-at-nest-rule": "^4.0.0",
     "@eslint/compat": "^1.2.3",
-    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.15.0",
     "@jetbrains/eslint-config": "^6.0.4",
     "@jetbrains/logos": "3.0.0-canary.734b213.0",
