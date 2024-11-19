@@ -8,8 +8,6 @@ import TabLink from './tab-link';
 import {CustomItem} from './custom-item';
 import {TabProps} from './tab';
 
-function noop() {}
-
 export interface TabTitleProps {
   selected: boolean;
   child: ReactElement<TabProps> | null;
@@ -20,7 +18,7 @@ export interface TabTitleProps {
 const TabTitle = React.memo(function TabTitle({
   selected,
   child,
-  handleSelect = noop,
+  handleSelect,
   collapsed = false,
   tabIndex,
 }: TabTitleProps) {

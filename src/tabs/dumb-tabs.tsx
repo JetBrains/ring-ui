@@ -20,7 +20,7 @@ export type Children = readonly (Children | null | boolean)[] | ReactElement<Tab
 
 export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'children'> {
   children: Children;
-  onSelect: (key: string) => void;
+  onSelect?: ((key: string) => void) | null | undefined;
   className?: string | null | undefined;
   tabContainerClassName?: string | null | undefined;
   autoCollapse?: boolean | null | undefined;
@@ -28,18 +28,14 @@ export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'chil
 }
 
 class Tabs extends PureComponent<TabsProps> {
-  static defaultProps = {
-    onSelect() {},
-  };
-
-  handleSelect = memoize((key: string) => () => this.props.onSelect(key));
+  handleSelect = memoize((key: string) => () => this.props.onSelect?.(key));
 
   getTabTitle = (child: ReactElement<TabProps>, i: number) => {
     if (child == null || typeof child !== 'object' || child.type === CustomItem) {
       return child;
     }
 
-    const {selected} = this.props;
+    const {selected, onSelect} = this.props;
     const {title, titleProps, id, disabled, href, className, activeClassName} = child.props;
     const key = id || String(i);
     const isSelected = key === selected;
@@ -55,7 +51,7 @@ class Tabs extends PureComponent<TabsProps> {
         href={href}
         className={titleClasses}
         disabled={disabled}
-        onPlainLeftClick={this.handleSelect(key)}
+        onPlainLeftClick={onSelect != null ? this.handleSelect(key) : undefined}
         {...titleProps}
       />
     );
@@ -69,6 +65,7 @@ class Tabs extends PureComponent<TabsProps> {
       selected,
       autoCollapse,
       'data-test': dataTest,
+      onSelect,
       ...restProps
     } = this.props;
 
@@ -78,7 +75,11 @@ class Tabs extends PureComponent<TabsProps> {
     return (
       <div className={classes} data-test={dataTests('ring-dumb-tabs', dataTest)}>
         {autoCollapse === true ? (
-          <CollapsibleTabs {...restProps} onSelect={this.handleSelect} selected={selected}>
+          <CollapsibleTabs
+            {...restProps}
+            onSelect={onSelect != null ? this.handleSelect : undefined}
+            selected={selected}
+          >
             {childrenArray}
           </CollapsibleTabs>
         ) : (

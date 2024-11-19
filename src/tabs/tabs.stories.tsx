@@ -63,7 +63,26 @@ export const Basic = () => {
   );
 };
 
-Basic.storyName = 'basic';
+export const Links = () => {
+  const {search} = window.location;
+  const selected = new URLSearchParams(search).get('selected') ?? 'first';
+
+  return (
+    <Tabs selected={selected}>
+      <Tab id="first" title="First tab" href={`${search}&selected=first`}>
+        First tab content
+      </Tab>
+      <Tab id="second" title="Second tab" href={`${search}&selected=second`}>
+        Second tab content
+      </Tab>
+      <Tab id="third" title="Third tab" href={`${search}&selected=third`}>
+        Third tab content
+      </Tab>
+    </Tabs>
+  );
+};
+
+Links.storyName = 'links';
 
 export const AutoCollapseDemo = () => {
   const [selected, setSelected] = useState('first');
