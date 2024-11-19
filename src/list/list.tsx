@@ -109,7 +109,6 @@ export interface ListState<T = unknown> {
   needScrollToActive: boolean;
   scrolling: boolean;
   hasOverflow: boolean;
-  disabledHover: boolean;
   scrolledToBottom: boolean;
 }
 
@@ -152,7 +151,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     needScrollToActive: false,
     scrolling: false,
     hasOverflow: false,
-    disabledHover: false,
     scrolledToBottom: false,
   };
 
@@ -189,9 +187,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   }
 
   componentDidMount() {
-    document.addEventListener('mousemove', this.onDocumentMouseMove);
-    document.addEventListener('keydown', this.onDocumentKeyDown, true);
-
     if (this.props.activeIndex == null && shouldActivateFirstItem(this.props)) {
       this.activateFirst();
     }
@@ -222,12 +217,9 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
 
   componentWillUnmount() {
     this.unmounted = true;
-    document.removeEventListener('mousemove', this.onDocumentMouseMove);
-    document.removeEventListener('keydown', this.onDocumentKeyDown, true);
   }
 
   scheduleScrollListener = scheduleRAF();
-  scheduleHoverListener = scheduleRAF();
 
   static isItemType = isItemType;
 
@@ -241,23 +233,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   virtualizedList?: VirtualizedList | null;
   unmounted?: boolean;
   container?: HTMLElement | null;
-
-  hoverHandler = memoize(
-    (index: number) => () =>
-      this.scheduleHoverListener(() => {
-        if (this.state.disabledHover) {
-          return;
-        }
-
-        if (this.container) {
-          this.setState({
-            activeIndex: index,
-            activeItem: this.props.data[index],
-            needScrollToActive: false,
-          });
-        }
-      }),
-  );
 
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   private _bufferSize = 10; // keep X items above and below of the visible area
@@ -370,19 +345,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     this.moveHandler(this.props.data.length - 1, this.upHandler, e);
   };
 
-  onDocumentMouseMove = () => {
-    if (this.state.disabledHover) {
-      this.setState({disabledHover: false});
-    }
-  };
-
-  onDocumentKeyDown = (e: KeyboardEvent) => {
-    const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line @typescript-eslint/no-magic-numbers
-    if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
-      this.setState({disabledHover: true});
-    }
-  };
-
   moveHandler(index: number, retryCallback: (e: KeyboardEvent) => void, e: KeyboardEvent) {
     let correctedIndex;
     if (this.props.data.length === 0 || !this.hasActivatableItems()) {
@@ -448,13 +410,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   getSelected() {
     return this.state.activeIndex != null ? this.props.data[this.state.activeIndex] : null;
   }
-
-  clearSelected = () => {
-    this.setState({
-      activeIndex: null,
-      needScrollToActive: false,
-    });
-  };
 
   defaultItemHeight() {
     return this.props.compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
@@ -535,7 +490,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       if (itemProps.hoverClassName != null && itemProps.hover) {
         itemProps.className = classNames(itemProps.className, itemProps.hoverClassName);
       }
-      itemProps.onMouseOver = this.hoverHandler(realIndex);
       itemProps.tabIndex = -1;
       itemProps.scrolling = isScrolling;
 
@@ -752,7 +706,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
           className={classes}
           onMouseOut={this.props.onMouseOut}
           onBlur={this.props.onMouseOut}
-          onMouseLeave={this.clearSelected}
           data-test="ring-list"
         >
           {this.props.shortcuts && (
