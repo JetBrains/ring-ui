@@ -1,4 +1,4 @@
-import {memo, useCallback, useMemo, ReactElement, ReactNode} from 'react';
+import {memo, useMemo, ReactElement, ReactNode} from 'react';
 
 import classNames from 'classnames';
 
@@ -46,7 +46,7 @@ const morePopupDirections = [Directions.BOTTOM_CENTER, Directions.BOTTOM_LEFT, D
 export interface MoreButtonProps {
   items: ReactElement<TabProps>[];
   selected?: string | undefined;
-  onSelect: (key: string) => () => void;
+  onSelect?: ((key: string) => () => void) | null | undefined;
   moreClassName?: string | null | undefined;
   moreActiveClassName?: string | null | undefined;
   morePopupClassName?: string | null | undefined;
@@ -64,15 +64,18 @@ export const MoreButton = memo(
     morePopupItemClassName,
     morePopupBeforeEnd,
   }: MoreButtonProps) => {
-    const onSelectHandler = useCallback(
-      (listItem: ListDataItem) => {
-        if (listItem.disabled === true || listItem.custom === true) {
-          return;
-        }
+    const onSelectHandler = useMemo(
+      () =>
+        onSelect != null
+          ? (listItem: ListDataItem) => {
+              if (listItem.disabled === true || listItem.custom === true) {
+                return;
+              }
 
-        const cb = onSelect(String(listItem.key));
-        cb();
-      },
+              const cb = onSelect(String(listItem.key));
+              cb();
+            }
+          : undefined,
       [onSelect],
     );
 

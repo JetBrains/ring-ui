@@ -15,7 +15,7 @@ const MEASURE_TOLERANCE = 0.5;
 export interface CollapsibleTabsProps {
   children: ReactElement<TabProps>[];
   selected?: string | undefined;
-  onSelect: (key: string) => () => void;
+  onSelect?: ((key: string) => () => void) | undefined;
   moreClassName?: string | null | undefined;
   moreActiveClassName?: string | null | undefined;
   morePopupClassName?: string | null | undefined;
