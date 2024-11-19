@@ -179,7 +179,12 @@
   transition: none;
 }
 
-.hover:not(.error) {
+.item:hover:not(.error) {
+  background-color: var(--ring-hover-background-color);
+}
+
+/* TODO rename .hover to .selected in 8.0 */
+.item.hover:not(.error) {
   background-color: var(--ring-selected-background-color);
 }
 

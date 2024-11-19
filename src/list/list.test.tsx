@@ -1,11 +1,13 @@
-import {createElement} from 'react';
+import {act, createElement} from 'react';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 
-import {getByRole, render, screen} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
 
 import getUID from '../global/get-uid';
+
+import simulateCombo from '../../test-helpers/simulate-combo';
 
 import List, {ListAttrs} from './list';
 import styles from './list.css';
@@ -47,20 +49,6 @@ describe('List', () => {
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(false);
   });
 
-  it('should deselect items on mouseleave', async () => {
-    renderList({
-      data: [{}],
-      activeIndex: 0,
-    });
-
-    const user = userEvent.setup();
-    const list = screen.getByTestId('ring-list');
-    await user.hover(list);
-    await user.unhover(list);
-
-    should.not.exist(screen.queryByRole('row', {selected: true}));
-  });
-
   describe('should track activeIndex', () => {
     let rerender: (ui: React.ReactNode) => void;
     const props = {
@@ -71,12 +59,9 @@ describe('List', () => {
       ],
       activeIndex: 0,
       restoreActiveIndex: true,
+      shortcuts: true,
     };
     beforeEach(() => {
-      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-        cb(0);
-        return 0;
-      });
       rerender = renderList(props).rerender;
     });
 
@@ -84,34 +69,26 @@ describe('List', () => {
       screen.getByRole('row', {selected: true}).should.have.text('Item 0');
     });
 
-    it('should activate item', async () => {
-      const user = userEvent.setup();
-      const item1 = screen.getByRole('row', {name: 'Item 1'});
-      await user.hover(getByRole(item1, 'button'));
+    it('should activate item', () => {
+      act(() => simulateCombo('down'));
       screen.getByRole('row', {selected: true}).should.have.text('Item 1');
     });
 
-    it("should reset active item when it's changed in props", async () => {
-      const user = userEvent.setup();
-      const item1 = screen.getByRole('row', {name: 'Item 1'});
-      await user.hover(getByRole(item1, 'button'));
+    it("should reset active item when it's changed in props", () => {
+      act(() => simulateCombo('down'));
       rerender(<List renderOptimization={false} {...props} activeIndex={2} />);
       screen.getByRole('row', {selected: true}).should.have.text('Item 2');
     });
 
-    it('should reset active item when data changed', async () => {
-      const user = userEvent.setup();
-      const item1 = screen.getByRole('row', {name: 'Item 1'});
-      await user.hover(getByRole(item1, 'button'));
+    it('should reset active item when data changed', () => {
+      act(() => simulateCombo('down'));
       rerender(<List renderOptimization={false} {...props} data={[{key: 5}]} />);
 
       should.not.exist(screen.queryByRole('row', {selected: true}));
     });
 
-    it("shouldn't reset activeIndex when it isn't changed in props", async () => {
-      const user = userEvent.setup();
-      const item1 = screen.getByRole('row', {name: 'Item 1'});
-      await user.hover(getByRole(item1, 'button'));
+    it("shouldn't reset activeIndex when it isn't changed in props", () => {
+      act(() => simulateCombo('down'));
       rerender(<List renderOptimization={false} {...props} />);
 
       screen.getByRole('row', {selected: true}).should.have.text('Item 1');
