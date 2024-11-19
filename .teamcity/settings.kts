@@ -890,6 +890,8 @@ object PublishHotfixRelease : BuildType({
 
                 chmod 644 ~/.ssh/config
 
+                ls -la
+
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
