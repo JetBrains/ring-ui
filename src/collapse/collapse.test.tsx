@@ -30,12 +30,14 @@ const Dummy = ({
   minHeight,
   disableAnimation,
   controlAsFunc,
-  defaultExpanded = false,
+  defaultCollapsed = true,
+  collapsed = null,
 }: {
   minHeight: number;
   disableAnimation: boolean;
   controlAsFunc: boolean;
-  defaultExpanded: boolean;
+  defaultCollapsed: boolean;
+  collapsed: boolean | null;
 }) => {
   const [texts, setTexts] = useState([textMock]);
 
@@ -44,12 +46,17 @@ const Dummy = ({
       <button type="button" onClick={() => setTexts([...texts, textMock])}>
         {'More text'}
       </button>
-      <Collapse onChange={onChangeMock} disableAnimation={disableAnimation} defaultExpanded={defaultExpanded}>
+      <Collapse
+        onChange={onChangeMock}
+        disableAnimation={disableAnimation}
+        defaultCollapsed={defaultCollapsed}
+        collapsed={collapsed}
+      >
         <CollapseControl>
           {controlAsFunc ? (
             <button type="button">{'Show text'}</button>
           ) : (
-            (collapsed: boolean) => <button type="button">{collapsed ? 'Show text' : 'Hide text'}</button>
+            (isCollapsed: boolean) => <button type="button">{isCollapsed ? 'Show text' : 'Hide text'}</button>
           )}
         </CollapseControl>
         <CollapseContent minHeight={minHeight}>
@@ -63,13 +70,20 @@ const Dummy = ({
   );
 };
 
-function renderComponent(minHeight = 0, disableAnimation = false, controlAsFunc = false, defaultExpanded = false) {
+function renderComponent(
+  minHeight = 0,
+  disableAnimation = false,
+  controlAsFunc = false,
+  defaultCollapsed = true,
+  collapsed = null,
+) {
   return render(
     <Dummy
       minHeight={minHeight}
       disableAnimation={disableAnimation}
       controlAsFunc={controlAsFunc}
-      defaultExpanded={defaultExpanded}
+      defaultCollapsed={defaultCollapsed}
+      collapsed={collapsed}
     />,
   );
 }
@@ -138,7 +152,7 @@ describe('<Collapse />', () => {
   });
 
   it('should be able to expand by default', () => {
-    renderComponent(0, true, false, true);
+    renderComponent(0, true, false, false);
 
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 

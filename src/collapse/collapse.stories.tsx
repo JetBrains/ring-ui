@@ -167,7 +167,7 @@ WithDynamicContent.storyName = 'With dynamic content';
 
 export const ExpandedByDefault = () => (
   <div className={styles.container}>
-    <Collapse defaultExpanded>
+    <Collapse defaultCollapsed={false}>
       <CollapseControl>
         {(collapsed: boolean) => <Button>{collapsed ? 'Show more' : 'Show less'}</Button>}
       </CollapseControl>
@@ -178,3 +178,31 @@ export const ExpandedByDefault = () => (
 
 ExpandedByDefault.storyName = 'Expanded by default';
 ExpandedByDefault.parameters = {screenshots: {actions: []}};
+
+export const WithControlledCollapseState = () => {
+  const [collapsed, toggle] = useState(true);
+
+  const onClick = () => {
+    toggle(!collapsed);
+  };
+
+  return (
+    <>
+      <div className={styles.container}>
+        <Button data-test="trigger" onClick={onClick}>
+          {collapsed ? 'Show more' : 'Show less'}
+        </Button>
+      </div>
+      <div className={styles.container}>
+        <Collapse collapsed={collapsed}>
+          <CollapseContent>{text}</CollapseContent>
+        </Collapse>
+      </div>
+    </>
+  );
+};
+
+WithControlledCollapseState.storyName = 'With controlled collapse state';
+WithControlledCollapseState.parameters = {
+  screenshots: {actions: [{type: 'click', selector: '[data-test~=trigger]'}]},
+};
