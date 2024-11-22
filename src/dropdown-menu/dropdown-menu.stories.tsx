@@ -152,7 +152,7 @@ export const nested = () => {
     return acc;
   }, [] as ListDataItem[]);
 
-  return <DropdownMenu anchor="Click me" data={data} menuProps={{minWidth: 200}} />;
+  return <DropdownMenu anchor="Click me" data={data} menuProps={{minWidth: 200, activateFirstItem: false}} />;
 };
 
 nested.storyName = 'DropdownMenu nested';
