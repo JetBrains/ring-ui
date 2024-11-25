@@ -1,4 +1,4 @@
-import {PropsWithChildren, useCallback, useId, useState} from 'react';
+import {PropsWithChildren, useCallback, useId, useMemo, useState} from 'react';
 import * as React from 'react';
 
 import {CollapseContext} from './collapse-context';
@@ -9,6 +9,8 @@ type Props = {
   duration?: number;
   disableAnimation?: boolean;
   className?: string;
+  defaultCollapsed?: boolean;
+  collapsed?: boolean | null;
 };
 
 /**
@@ -21,20 +23,24 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
   disableAnimation = false,
   className = '',
   onChange = () => {},
+  defaultCollapsed = true,
+  collapsed = null,
 }) => {
-  const [collapsed, toggle] = useState(true);
+  const [innerCollapsed, setInnerCollapsed] = useState(defaultCollapsed);
   const id = useId();
 
+  const finalCollapsedValue = useMemo(() => collapsed ?? innerCollapsed, [innerCollapsed, collapsed]);
+
   const setCollapsed = useCallback(() => {
-    toggle(!collapsed);
-    onChange(!collapsed);
-  }, [toggle, onChange, collapsed]);
+    setInnerCollapsed(!finalCollapsedValue);
+    onChange(!finalCollapsedValue);
+  }, [setInnerCollapsed, onChange, finalCollapsedValue]);
 
   return (
     <div className={className}>
       <CollapseContext.Provider
         value={{
-          collapsed,
+          collapsed: finalCollapsedValue,
           setCollapsed,
           duration,
           disableAnimation,
