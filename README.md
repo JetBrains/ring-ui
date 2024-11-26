@@ -8,6 +8,7 @@ This collection of UI components aims to provide all the necessary building bloc
 ## Try now
 * Try the [codesandbox](https://codesandbox.io/p/sandbox/ring-ui-7-0-demo-z6v6ym), based on `create-react-app` tooling, to see and try the UI components
 * Check out [list of examples](https://jetbrains.github.io/ring-ui/master/index.html) for each component
+* Check out [Ring UI Design Guidelines](http://www.jetbrains.com/help/ring-ui)
 
 ## Installation
 
