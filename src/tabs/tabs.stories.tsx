@@ -126,7 +126,7 @@ export const AutoCollapseDemo = () => {
       alwaysHidden: true,
       custom: true,
       content: (
-        <Button text style={{padding: 0}}>
+        <Button inline style={{padding: 0}}>
           Custom Item
         </Button>
       ),
@@ -226,7 +226,7 @@ export const customTitles = () => (
       Third tab content
     </Tab>
     <CustomItem>
-      <Button text>Action</Button>
+      <Button inline>Action</Button>
     </CustomItem>
   </SmartTabs>
 );

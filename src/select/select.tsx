@@ -687,7 +687,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       key: reset.label,
       rgItemType: List.ListProps.Type.CUSTOM,
       template: (
-        <Button text className={styles.button} data-test="ring-select-reset-tags-button" height={ControlsHeight.S}>
+        <Button inline className={styles.button} data-test="ring-select-reset-tags-button" height={ControlsHeight.S}>
           {reset.label}
         </Button>
       ),
@@ -825,7 +825,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         {renderBottomToolbar && renderBottomToolbar()}
         {this.state.addButton && (
           <Button
-            text
+            inline
             delayed={delayed}
             className={classNames(styles.button, styles.buttonSpaced)}
             onClick={this.addHandler}

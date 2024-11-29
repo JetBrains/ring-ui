@@ -185,7 +185,7 @@ export default class Message extends Component<MessageProps> {
                     </Button>
                   )}
                   {onDismiss && (
-                    <Button onClick={onDismiss} text>
+                    <Button onClick={onDismiss} inline>
                       {translations?.dismiss ?? translate('dismiss')}
                     </Button>
                   )}

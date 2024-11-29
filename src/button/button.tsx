@@ -22,6 +22,9 @@ export interface ButtonBaseProps {
   loader?: boolean | null | undefined;
   primary?: boolean | null | undefined;
   short?: boolean | null | undefined;
+  /**
+   * @deprecated Use inline instead
+   */
   text?: boolean | null | undefined;
   inline?: boolean | null | undefined;
   dropdown?: boolean | null | undefined;
