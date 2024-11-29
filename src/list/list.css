@@ -48,20 +48,24 @@
 
   box-sizing: border-box;
 
-  width: 100%;
+  width: calc(100% - 2 * var(--ring-unit));
 
   text-align: left;
   vertical-align: bottom;
   white-space: nowrap;
   text-decoration: none;
 
+  border-radius: var(--ring-border-radius);
+
   outline: none;
 
   font-size: var(--ring-font-size);
+
+  margin-inline: var(--ring-unit);
 }
 
 .item.item {
-  padding: 3px calc(var(--ring-unit) * 2) 5px;
+  padding: 3px var(--ring-unit) 5px;
 
   line-height: calc(var(--ring-unit) * 3);
 }
@@ -160,12 +164,17 @@
 
 /* Override :last-child */
 .hint.hint {
+  width: 100%;
+
   margin-bottom: 0;
 
   border-top: 1px solid var(--ring-line-color);
+  border-radius: 0;
   background-color: var(--ring-sidebar-background-color);
 
   font-size: var(--ring-font-size-smaller);
+  margin-inline: 0;
+  padding-inline: calc(2 * var(--ring-unit));
 }
 
 .action {

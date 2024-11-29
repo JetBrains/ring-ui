@@ -606,6 +606,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               target={this.props.ringPopupTarget}
               autoCorrectTopOverflow={false}
               style={style}
+              largeBorderRadius
             >
               <div dir={dir}>
                 {!hidden && filter && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
