@@ -1,5 +1,13 @@
 @import "../global/variables.css";
 
+:root {
+  --ring-checkbox-disabled-check-color: var(--ring-white-text-color);
+}
+
+:global(.ring-ui-theme-dark) {
+  --ring-checkbox-disabled-check-color: var(--ring-icon-color);
+}
+
 .checkbox {
   --ring-checkbox-size: 14px;
 
@@ -114,13 +122,13 @@
 
   &[disabled]:checked + .cellWrapper .cell,
   &[disabled]:indeterminate + .cellWrapper .cell {
-    border-color: var(--ring-border-selected-disabled-color);
-    background-color: var(--ring-border-selected-disabled-color);
+    border-color: var(--ring-border-disabled-active-color);
+    background-color: var(--ring-border-disabled-active-color);
   }
 
   &[disabled]:checked + .cellWrapper .check,
   &[disabled]:indeterminate + .cellWrapper .minus {
-    color: var(--ring-disabled-background-color);
+    color: var(--ring-checkbox-disabled-check-color);
   }
 
   &:indeterminate:indeterminate + .cellWrapper .check {
