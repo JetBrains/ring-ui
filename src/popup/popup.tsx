@@ -78,6 +78,7 @@ export interface BasePopupProps {
   legacy: boolean;
   withTail?: boolean;
   tailOffset?: number;
+  largeBorderRadius?: boolean;
 
   anchorElement?: HTMLElement | null | undefined;
   target?: string | Element | null | undefined;
@@ -381,6 +382,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
       onMouseOut,
       onContextMenu,
       'data-test': dataTest,
+      largeBorderRadius,
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
 
@@ -388,6 +390,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
       [styles.attached]: attached,
       [styles.hidden]: hidden,
       [styles.showing]: showing,
+      [styles.largeBorderRadius]: largeBorderRadius,
     });
 
     const direction = (this.state.direction || '').toLowerCase().replace(/[_]/g, '-');

@@ -19,6 +19,10 @@
   box-shadow: var(--ring-popup-shadow);
 }
 
+.largeBorderRadius {
+  border-radius: var(--ring-border-radius-large);
+}
+
 .hidden {
   display: none;
 }

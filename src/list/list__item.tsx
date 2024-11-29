@@ -19,7 +19,7 @@ import {ListDataItemProps} from './consts';
  */
 
 const RING_UNIT = 8;
-const DEFAULT_PADDING = 16;
+const DEFAULT_PADDING = 8;
 const CHECKBOX_WIDTH = 28;
 
 export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {

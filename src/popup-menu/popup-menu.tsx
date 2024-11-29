@@ -22,6 +22,7 @@ export default class PopupMenu<T = unknown> extends Popup<PopupMenuProps<T>> {
     ...Popup.defaultProps,
     renderOptimization: false,
     closeOnSelect: false,
+    largeBorderRadius: true,
   };
 
   onSelect = (item: ListDataItem<T>, event: Event | SyntheticEvent) => {
