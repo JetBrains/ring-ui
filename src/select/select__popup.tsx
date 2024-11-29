@@ -467,7 +467,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           {activeFilters.length === 0 ? (
             <span />
           ) : (
-            <Button text inline onClick={this.handleSelectAll}>
+            <Button inline onClick={this.handleSelectAll}>
               {activeFilters.length !== this.props.selected.length
                 ? multiple.selectAllLabel || 'Select all'
                 : multiple.deselectAllLabel || 'Deselect all'}

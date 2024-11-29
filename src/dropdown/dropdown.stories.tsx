@@ -139,7 +139,7 @@ export const renderProps = () => (
   <Dropdown anchor="Click me">
     {props => (
       <Popup {...props}>
-        <Button onClick={props.onCloseAttempt} text>
+        <Button onClick={props.onCloseAttempt} inline>
           Close
         </Button>
       </Popup>
