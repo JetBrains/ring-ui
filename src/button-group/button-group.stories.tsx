@@ -1,9 +1,9 @@
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import chevron12pxDownIcon from '@jetbrains/icons/chevron-12px-down';
 
-import pencil12pxIcon from '@jetbrains/icons/pencil-12px';
-import help12pxIcon from '@jetbrains/icons/help-12px';
-import user12pxIcon from '@jetbrains/icons/user-12px';
+import pencilIcon from '@jetbrains/icons/pencil';
+import helpIcon from '@jetbrains/icons/help';
+import userIcon from '@jetbrains/icons/user';
 
 import Button from '../button/button';
 
@@ -62,11 +62,11 @@ export const buttonGroup = () => (
     </div>
     <div>
       <ButtonGroup label="Icon only group">
-        <Button inline={false} active icon={pencil12pxIcon} aria-label="pencil" />
-        <Button inline={false} icon={pencil12pxIcon} aria-label="pencil" />
-        <Button inline={false} disabled icon={help12pxIcon} aria-label="help" />
-        <Button inline={false} active disabled icon={help12pxIcon} aria-label="help" />
-        <Button inline={false} icon={user12pxIcon} aria-label="user" />
+        <Button inline={false} active icon={pencilIcon} aria-label="pencil" />
+        <Button inline={false} icon={pencilIcon} aria-label="pencil" />
+        <Button inline={false} disabled icon={helpIcon} aria-label="help" />
+        <Button inline={false} active disabled icon={helpIcon} aria-label="help" />
+        <Button inline={false} icon={userIcon} aria-label="user" />
       </ButtonGroup>
     </div>
     <div>

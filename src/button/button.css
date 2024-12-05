@@ -255,7 +255,7 @@
 
   &.heightM {
     --ring-button-padding-block: calc(var(--ring-unit) * 0.75);
-    --ring-button-padding-inline: var(--ring-unit);
+    --ring-button-padding-inline: calc(var(--ring-unit) * 0.75);
   }
 
   &.heightL {
