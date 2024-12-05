@@ -41,8 +41,8 @@
   --ring-pinned-shadow-components: 0, 0, 0;
   --ring-pinned-shadow-color: rgb(var(--ring-pinned-shadow-components)); /* #000 */
   --ring-button-danger-hover-color: var(--ring-error-color);
-  --ring-button-primary-border-components: 53, 116, 240;
-  --ring-button-primary-border-color: rgb(var(--ring-button-primary-border-components)); /* #3574F0 */
+  --ring-button-primary-border-components: 153, 187, 255;
+  --ring-button-primary-border-color: rgb(var(--ring-button-primary-border-components)); /* #99BBFF */
   --ring-dialog-overlay-components: 0, 0, 0;
   --ring-dialog-overlay-opacity: 0.7;
   --ring-popup-shadow: 0 2px 8px var(--ring-popup-shadow-color), 0 1px 2px var(--ring-popup-secondary-shadow-color);
