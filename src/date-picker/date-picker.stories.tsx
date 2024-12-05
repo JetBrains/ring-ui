@@ -65,7 +65,7 @@ singleDate.storyName = 'single date';
 export const singleDateAndTime: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
-      date: '8 January 2020, 9:45',
+      date: '8 January 2018, 9:45',
     };
 
     setDate = (date: Date | null | undefined) => {
@@ -360,7 +360,7 @@ rangeWithCustomPlaceholders.parameters = {
 export const renderInline: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
     state = {
-      date: '8 January 2020, 9:45',
+      date: '8 January 2018, 9:45',
     };
 
     setDate = (date: Date | null | undefined) => {
@@ -392,7 +392,7 @@ renderInline.storyName = 'inline';
 export const allSizes = () => {
   class DatePickerExample extends Component {
     state = {
-      date: '8 January 2020, 9:45',
+      date: '8 January 2018, 9:45',
     };
 
     setDate = (date: Date | null | undefined) => {
@@ -445,7 +445,7 @@ allSizes.parameters = {
 
 export const startsFromSunday: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
-    state = {date: '01.01.25'};
+    state = {date: '01.01.18'};
 
     setDate = (date: Date | null | undefined) => {
       this.setState({date});
