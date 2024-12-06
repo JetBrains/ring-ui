@@ -233,13 +233,14 @@
     left: 0;
 
     border-radius: var(--ring-border-radius);
+    background-color: var(--ring-main-color);
 
     &::before {
       background-image: linear-gradient(
         to right,
-        var(--ring-main-color),
+        transparent,
         var(--ring-button-loader-background) 40%,
-        var(--ring-main-color) 80%
+        transparent 80%
       );
     }
   }
