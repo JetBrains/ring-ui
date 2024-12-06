@@ -38,6 +38,7 @@ module.exports = {
   screenshotsDir: test =>
     path.join('testplane', test.browserId, test.parent.title.toLowerCase(), test.title.toLowerCase()),
   antialiasingTolerance: 10,
+  system: {mochaOpts: {timeout: 180000}},
 
   desiredCapabilities: {
     project: 'Ring UI',
