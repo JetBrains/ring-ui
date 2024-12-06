@@ -19,7 +19,7 @@
     "@jetbrains/testplane-teamcity-reporter": "^1.2.2",
     "axios": "^1.7.9",
     "browserstack-local": "^1.5.5",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "filenamify": "^6.0.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.2.0",
