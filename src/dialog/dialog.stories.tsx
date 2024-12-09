@@ -9,6 +9,8 @@ import Group from '../group/group';
 import Toggle from '../toggle/toggle';
 import Panel from '../panel/panel';
 
+import Popup from '../popup/popup';
+
 import Dialog from './dialog';
 
 export default {
@@ -324,4 +326,50 @@ WithOverflowScrollOnHtml.parameters = {
       {type: 'capture', selector: '*[data-test~=ring-dialog-container]'},
     ],
   },
+};
+
+export const DialogInPopup: StoryFn = () => {
+  const [showPopup, setShowPopup] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
+  return (
+    <Popup hidden={!showPopup} onCloseAttempt={() => setShowPopup(false)}>
+      <Button onClick={() => setShowDialog(true)}>Show dialog</Button>
+      <Dialog show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
+        <Header>Dialog title</Header>
+        <Content>
+          <Input label="Enter action name" />
+        </Content>
+        <Panel>
+          <Button primary>OK</Button>
+          <Button>Cancel</Button>
+        </Panel>
+      </Dialog>
+    </Popup>
+  );
+};
+DialogInPopup.parameters = {
+  screenshots: {skip: true},
+};
+
+export const NativeDialogInPopup: StoryFn = () => {
+  const [showPopup, setShowPopup] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
+  return (
+    <Popup hidden={!showPopup} onCloseAttempt={() => setShowPopup(false)}>
+      <Button onClick={() => setShowDialog(true)}>Show dialog</Button>
+      <Dialog native show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
+        <Header>Dialog title</Header>
+        <Content>
+          <Input label="Enter action name" />
+        </Content>
+        <Panel>
+          <Button primary>OK</Button>
+          <Button>Cancel</Button>
+        </Panel>
+      </Dialog>
+    </Popup>
+  );
+};
+NativeDialogInPopup.parameters = {
+  screenshots: {skip: true},
 };
