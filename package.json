@@ -107,7 +107,7 @@
     "@storybook/test-runner": "^0.20.1",
     "@storybook/theming": "8.4.7",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.0.1",
+    "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
     "@types/chai": "^5.0.1",
     "@types/chai-as-promised": "^8.0.1",
