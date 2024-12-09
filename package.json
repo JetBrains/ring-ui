@@ -144,7 +144,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-storybook": "^0.11.1",
     "events": "^3.3.0",
     "glob": "^11.0.0",
