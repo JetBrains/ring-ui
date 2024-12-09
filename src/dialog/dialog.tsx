@@ -11,8 +11,10 @@ import Shortcuts from '../shortcuts/shortcuts';
 import TabTrap, {TabTrapProps} from '../tab-trap/tab-trap';
 import Button from '../button/button';
 
-import {PopupTarget} from '../popup/popup.target';
+import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
 import type {ShortcutsScopeOptions} from '../shortcuts/core';
+
+import {getPopupContainer} from '../popup/popup';
 
 import {preventerFactory as scrollPreventerFactory} from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
@@ -234,24 +236,38 @@ export default class Dialog extends PureComponent<DialogProps> {
     }
 
     return (
-      show &&
-      createPortal(
-        <PopupTarget id={this.uid} className={styles.popupTarget}>
-          {target => (
-            <TabTrap
-              trapDisabled={!trapFocus}
-              data-test={dataTests('ring-dialog-container', dataTest)}
-              ref={this.dialogRef}
-              className={classes}
-              role="presentation"
-              {...restProps}
-            >
-              {content}
-              {target}
-            </TabTrap>
-          )}
-        </PopupTarget>,
-        portalTarget instanceof HTMLElement ? portalTarget : document.body,
+      show && (
+        <PopupTargetContext.Consumer>
+          {contextTarget => {
+            let targetElement: Element = document.body;
+            if (portalTarget instanceof HTMLElement) {
+              targetElement = portalTarget;
+            } else if (contextTarget != null) {
+              const container = getPopupContainer(contextTarget);
+              if (container != null) {
+                targetElement = container;
+              }
+            }
+            return createPortal(
+              <PopupTarget id={this.uid} className={styles.popupTarget}>
+                {target => (
+                  <TabTrap
+                    trapDisabled={!trapFocus}
+                    data-test={dataTests('ring-dialog-container', dataTest)}
+                    ref={this.dialogRef}
+                    className={classes}
+                    role="presentation"
+                    {...restProps}
+                  >
+                    {content}
+                    {target}
+                  </TabTrap>
+                )}
+              </PopupTarget>,
+              targetElement,
+            );
+          }}
+        </PopupTargetContext.Consumer>
       )
     );
   }
