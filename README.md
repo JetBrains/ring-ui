@@ -3,6 +3,12 @@
 
 [![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)](https://github.com/JetBrains#jetbrains-on-github)
 
+- [Living style guide][docsite]
+- [GitHub repository](https://github.com/JetBrains/ring-ui)
+- [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
+- [Builds in TeamCity][ci-project]
+- [npm package][npm-package]
+
 This collection of UI components aims to provide all the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 
 ## Try now
@@ -83,14 +89,6 @@ in a same build process, you can use the following configuration:
 ## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md)
-
-## Links
-
-- [Living style guide][docsite]
-- [GitHub repository](https://github.com/JetBrains/ring-ui)
-- [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
-- [Builds in TeamCity][ci-project]
-- [npm package][npm-package]
 
 [docsite]: https://jetbrains.github.io/ring-ui
 [ci-project]: https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview
