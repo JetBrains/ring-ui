@@ -53,4 +53,4 @@ export default class UserCardTooltip extends Component<UserCardTooltipProps> {
     );
   }
 }
-export type UserCardTooltipAttrs = JSX.LibraryManagedAttributes<typeof UserCardTooltip, UserCardTooltipProps>;
+export type UserCardTooltipAttrs = React.JSX.LibraryManagedAttributes<typeof UserCardTooltip, UserCardTooltipProps>;

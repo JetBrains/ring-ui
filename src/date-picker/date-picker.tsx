@@ -290,4 +290,4 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   }
 }
 
-export type DatePickerAttrs = JSX.LibraryManagedAttributes<typeof DatePicker, DatePickerProps>;
+export type DatePickerAttrs = React.JSX.LibraryManagedAttributes<typeof DatePicker, DatePickerProps>;

@@ -168,4 +168,4 @@ export default class Tag extends PureComponent<TagProps> {
   }
 }
 
-export type TagAttrs = JSX.LibraryManagedAttributes<typeof Tag, TagProps>;
+export type TagAttrs = React.JSX.LibraryManagedAttributes<typeof Tag, TagProps>;

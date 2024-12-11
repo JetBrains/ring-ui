@@ -324,4 +324,4 @@ export default class Pager extends PureComponent<PagerProps> {
   }
 }
 
-export type PagerAttrs = JSX.LibraryManagedAttributes<typeof Pager, PagerProps>;
+export type PagerAttrs = React.JSX.LibraryManagedAttributes<typeof Pager, PagerProps>;

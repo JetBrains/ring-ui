@@ -11,7 +11,7 @@ import AuthDialog, {AuthDialogProps} from '../auth-dialog/auth-dialog';
 const containerElement = document.createElement('div');
 export const reactRoot = createRoot(containerElement);
 
-type AuthDialogAttributes = JSX.LibraryManagedAttributes<typeof AuthDialog, AuthDialogProps>;
+type AuthDialogAttributes = React.JSX.LibraryManagedAttributes<typeof AuthDialog, AuthDialogProps>;
 
 /**
  * Renders AuthDialog into virtual node to skip maintaining container

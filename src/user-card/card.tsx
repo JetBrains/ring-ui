@@ -131,4 +131,4 @@ export default class UserCard extends PureComponent<UserCardProps> {
     );
   }
 }
-export type UserCardAttrs = JSX.LibraryManagedAttributes<typeof UserCard, UserCardProps>;
+export type UserCardAttrs = React.JSX.LibraryManagedAttributes<typeof UserCard, UserCardProps>;

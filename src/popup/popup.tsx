@@ -446,5 +446,5 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
   }
 }
 
-export type PopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, PopupProps>;
-export type BasePopupAttrs = JSX.LibraryManagedAttributes<typeof Popup, BasePopupProps>;
+export type PopupAttrs = React.JSX.LibraryManagedAttributes<typeof Popup, PopupProps>;
+export type BasePopupAttrs = React.JSX.LibraryManagedAttributes<typeof Popup, BasePopupProps>;

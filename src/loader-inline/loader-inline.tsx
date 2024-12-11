@@ -32,5 +32,5 @@ class LoaderInline extends PureComponent<LoaderInlineProps> {
   }
 }
 
-export type LoaderInlineAtrrs = JSX.LibraryManagedAttributes<typeof LoaderInline, LoaderInlineProps>;
+export type LoaderInlineAtrrs = React.JSX.LibraryManagedAttributes<typeof LoaderInline, LoaderInlineProps>;
 export default LoaderInline;

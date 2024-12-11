@@ -97,4 +97,4 @@ export default class Confirm extends PureComponent<ConfirmProps> {
   }
 }
 
-export type ConfirmAttributes = JSX.LibraryManagedAttributes<typeof Confirm, ConfirmProps>;
+export type ConfirmAttributes = React.JSX.LibraryManagedAttributes<typeof Confirm, ConfirmProps>;

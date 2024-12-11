@@ -109,4 +109,4 @@ export default class Header extends PureComponent<HeaderProps> {
   }
 }
 
-export type HeaderAttrs = JSX.LibraryManagedAttributes<typeof Header, HeaderProps>;
+export type HeaderAttrs = React.JSX.LibraryManagedAttributes<typeof Header, HeaderProps>;

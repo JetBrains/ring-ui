@@ -406,4 +406,4 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 }
 
 export const RerenderableTagsInput = rerenderHOC(TagsInput);
-export type TagsInputAttrs = JSX.LibraryManagedAttributes<typeof TagsInput, TagsInputProps>;
+export type TagsInputAttrs = React.JSX.LibraryManagedAttributes<typeof TagsInput, TagsInputProps>;

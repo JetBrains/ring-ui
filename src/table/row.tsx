@@ -243,4 +243,4 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
   }
 }
 
-export type RowAttrs<T extends SelectionItem> = JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;
+export type RowAttrs<T extends SelectionItem> = React.JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;

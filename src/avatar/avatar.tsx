@@ -146,4 +146,4 @@ export default class Avatar extends PureComponent<AvatarProps> {
   }
 }
 
-export type AvatarAttrs = JSX.LibraryManagedAttributes<typeof Avatar, AvatarProps>;
+export type AvatarAttrs = React.JSX.LibraryManagedAttributes<typeof Avatar, AvatarProps>;

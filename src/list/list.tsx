@@ -725,4 +725,4 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   }
 }
 
-export type ListAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof List, ListProps<T>>;
+export type ListAttrs<T = unknown> = React.JSX.LibraryManagedAttributes<typeof List, ListProps<T>>;

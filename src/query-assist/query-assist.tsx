@@ -1146,6 +1146,6 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   }
 }
 
-export type QueryAssistAttrs = JSX.LibraryManagedAttributes<typeof QueryAssist, QueryAssistProps>;
+export type QueryAssistAttrs = React.JSX.LibraryManagedAttributes<typeof QueryAssist, QueryAssistProps>;
 
 export const RerenderableQueryAssist = rerenderHOC(QueryAssist);

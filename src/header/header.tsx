@@ -46,7 +46,7 @@ class Header extends Component<HeaderProps> {
   }
 }
 
-export type HeaderAttrs = JSX.LibraryManagedAttributes<typeof Header, HeaderProps>;
+export type HeaderAttrs = React.JSX.LibraryManagedAttributes<typeof Header, HeaderProps>;
 export default Header;
 export {default as Logo} from './logo';
 export {default as Tray} from './tray';

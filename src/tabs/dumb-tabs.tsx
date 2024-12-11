@@ -92,5 +92,5 @@ class Tabs extends PureComponent<TabsProps> {
     );
   }
 }
-export type TabsAttrs = JSX.LibraryManagedAttributes<typeof Tabs, TabsProps>;
+export type TabsAttrs = React.JSX.LibraryManagedAttributes<typeof Tabs, TabsProps>;
 export default Tabs;

@@ -226,6 +226,6 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
   }
 }
 
-export type DropdownAttrs = JSX.LibraryManagedAttributes<typeof Dropdown, DropdownProps>;
+export type DropdownAttrs = React.JSX.LibraryManagedAttributes<typeof Dropdown, DropdownProps>;
 
 export {Anchor};

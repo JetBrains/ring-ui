@@ -273,4 +273,4 @@ export default class Dialog extends PureComponent<DialogProps> {
   }
 }
 
-export type DialogAttrs = JSX.LibraryManagedAttributes<typeof Dialog, DialogProps>;
+export type DialogAttrs = React.JSX.LibraryManagedAttributes<typeof Dialog, DialogProps>;

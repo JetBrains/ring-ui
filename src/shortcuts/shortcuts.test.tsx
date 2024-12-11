@@ -5,7 +5,7 @@ import getUID from '../global/get-uid';
 
 import Shortcuts, {ShortcutsProps} from './shortcuts';
 
-type ShortcutsAttrs = JSX.LibraryManagedAttributes<typeof Shortcuts, ShortcutsProps>;
+type ShortcutsAttrs = React.JSX.LibraryManagedAttributes<typeof Shortcuts, ShortcutsProps>;
 type FactoryProps = Omit<ShortcutsAttrs, 'map' | 'scope'>;
 
 describe('ShortcutsComponent', () => {
