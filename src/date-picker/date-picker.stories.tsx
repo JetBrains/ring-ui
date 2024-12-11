@@ -496,7 +496,7 @@ allSizes.parameters = {
 
 export const startsFromSunday: StoryFn<DatePickerAttrs> = args => {
   class DatePickerExample extends Component {
-    state = {date: '01.01.25'};
+    state = {date: '01.01.24'};
 
     setDate = (date: Date | null | undefined) => {
       this.setState({date});
