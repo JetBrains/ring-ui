@@ -21,6 +21,8 @@ export interface ButtonBaseProps {
   delayed?: boolean | null | undefined;
   loader?: boolean | null | undefined;
   primary?: boolean | null | undefined;
+  success?: boolean | null | undefined;
+  error?: boolean | null | undefined;
   short?: boolean | null | undefined;
   /**
    * @deprecated Use inline instead
@@ -72,6 +74,8 @@ export class Button extends PureComponent<ButtonProps> {
       delayed,
       loader,
       primary,
+      success,
+      error,
       short,
       text,
       dropdown,
