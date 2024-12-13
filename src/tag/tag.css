@@ -91,14 +91,14 @@
 }
 
 .removeIcon.removeIcon {
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 }
 
 .icon {
   margin-right: calc(var(--ring-unit) / 2);
   margin-left: calc(var(--ring-unit) * -0.5);
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 
   && svg {
     vertical-align: -3.5px;

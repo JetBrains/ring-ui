@@ -36,7 +36,7 @@
 .error {
   word-wrap: break-word;
 
-  color: var(--ring-icon-error-color);
+  color: var(--ring-error-color);
 }
 
 .icon {

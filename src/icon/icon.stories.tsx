@@ -114,16 +114,16 @@ allIconsList.parameters = {
   }
 
   .ring-icon {
-    color: var(--ring-icon-color);
+    color: var(--ring-secondary-color);
     margin-right: 4px;
   }
 
   .secondary {
-    fill: var(--ring-icon-disabled-color);
+    fill: var(--ring-disabled-color);
   }
 
   .tertiary {
-    fill: var(--ring-icon-hover-color);
+    fill: var(--ring-link-hover-color);
   }
 </style>`,
 };

@@ -20,7 +20,7 @@ export function getButtonClasses({
 }: ButtonProps) {
   const iconOnly = icon && !children;
   const primaryBlock = primary && !inline;
-  const withNormalIcon = icon && !active && !danger && !primary && !disabled && (!inline || iconOnly);
+  const withNormalIcon = iconOnly && inline && !active && !danger && !primary && !disabled;
 
   return classNames(styles.button, className, styles[`height${height}`], inline ? styles.inline : styles.block, {
     [styles.active]: active,

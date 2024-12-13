@@ -45,7 +45,7 @@
 
   transition: color var(--ring-ease);
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 
   line-height: var(--ring-line-height);
 

@@ -54,7 +54,7 @@
 }
 
 :global(.ring-sidebar__toggle-icon) {
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 }
 
 :global(.ring-sidebar__avatar) {
@@ -130,7 +130,7 @@
 
   text-align: center;
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 
   font-size: 12px;
 }

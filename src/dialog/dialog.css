@@ -86,28 +86,12 @@
   color: var(--ring-icon-hover-color);
 }
 
-.clickableOverlay:hover + * .closeIconInside {
-  color: var(--ring-icon-hover-color);
+.clickableOverlay:hover + * .closeIcon {
+  color: var(--ring-link-hover-color);
 }
 
-.clickableOverlay:hover + * .closeIconOutside {
-  color: var(--ring-main-hover-color);
-}
-
-.closeButton:hover .closeIconInside {
-  color: var(--ring-icon-hover-color);
-}
-
-.closeButton:hover .closeIconOutside {
-  color: var(--ring-main-hover-color);
-}
-
-.clickableOverlay:active + * .closeIcon {
-  color: var(--ring-main-color);
-}
-
-.closeButton:active .closeIcon {
-  color: var(--ring-main-color);
+.closeButton:hover .closeIcon {
+  color: var(--ring-link-hover-color);
 }
 
 .closeButton.closeButton {

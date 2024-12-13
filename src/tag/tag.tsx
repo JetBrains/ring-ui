@@ -122,7 +122,7 @@ export default class Tag extends PureComponent<TagProps> {
           className={styles.remove}
           iconClassName={styles.removeIcon}
           onClick={this.props.onRemove}
-          style={{'--ring-icon-secondary-color': this.props.textColor}}
+          style={{'--ring-secondary-color': this.props.textColor}}
           height={ControlsHeight.M}
         />
       );

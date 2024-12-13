@@ -9,36 +9,36 @@
   --ring-line-color: rgb(var(--ring-line-components)); /* #dfe1e5 */
   --ring-borders-components: 211, 213, 219;
   --ring-borders-color: rgb(var(--ring-borders-components)); /* #d3d5db */
-  --ring-icon-components: 129, 133, 148;
-  --ring-icon-color: rgb(var(--ring-icon-components)); /* #818594 */
+  --ring-icon-components: 108, 112, 126;
+  --ring-icon-color: rgb(var(--ring-icon-components)); /* #6C707E */ /* TODO: remove in 8.0 in favor of --ring-secondary-color */
   --ring-icon-white-components: 255, 255, 255;
-  --ring-icon-white-color: rgb(var(--ring-icon-white-components)); /* #FFFFFF */
-  --ring-icon-secondary-components: 129, 133, 148;
-  --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #818594 */
+  --ring-icon-white-color: rgb(var(--ring-icon-white-components)); /* #FFFFFF */ /* TODO: remove in 8.0 in favor of --ring-white-text-color */
+  --ring-icon-secondary-components: 108, 112, 126;
+  --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #6C707E */ /* TODO: remove in 8.0 in favor of --ring-secondary-color */
   --ring-border-disabled-components: 235, 236, 240;
   --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #ebecf0 */
   --ring-border-selected-disabled-components: 201, 204, 214;
   --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #c9ccd6 */
   --ring-border-disabled-active-components: 171, 213, 246;
   --ring-border-disabled-active-color: rgb(var(--ring-border-disabled-active-components)); /* #abd5f6 */
-  --ring-icon-disabled-components: 211, 213, 219;
-  --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #d3d5db */
+  --ring-icon-disabled-components: 168, 173, 189;
+  --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #A8ADBD */ /* TODO: remove in 8.0 in favor of --ring-disabled-color */
   --ring-border-hover-components: 160, 189, 248;
   --ring-border-hover-color: rgb(var(--ring-border-hover-components)); /* #a0bdf8 */
   --ring-icon-hover-components: 90, 93, 107;
-  --ring-icon-hover-color: rgb(var(--ring-icon-hover-components)); /* #5a5d6b */
+  --ring-icon-hover-color: rgb(var(--ring-icon-hover-components)); /* #5a5d6b */ /* TODO: remove in 8.0 */
   --ring-main-components: 53, 116, 240;
   --ring-main-color: rgb(var(--ring-main-components)); /* #3574f0 */
   --ring-action-link-components: 46, 85, 163;
-  --ring-action-link-color: rgb(var(--ring-action-link-components)); /* #2E55A3 */
+  --ring-action-link-color: rgb(var(--ring-action-link-components)); /* #2E55A3 */ /* TODO: remove in 8.0 in favor of --ring-link-color */
   --ring-main-hover-components: 51, 105, 214;
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #3369d6 */
-  --ring-icon-error-components: 219, 59, 75;
-  --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #db3b4b */
-  --ring-icon-warning-components: 255, 175, 15;
-  --ring-icon-warning-color: rgb(var(--ring-icon-warning-components)); /* #ffaf0f */
-  --ring-icon-success-components: 85, 167, 106;
-  --ring-icon-success-color: rgb(var(--ring-icon-success-components)); /* #55a76a */
+  --ring-icon-error-components: 204, 54, 69;
+  --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #CC3645 */ /* TODO: remove in 8.0 in favor of --ring-error-color */
+  --ring-icon-warning-components: 164, 103, 4;
+  --ring-icon-warning-color: rgb(var(--ring-icon-warning-components)); /* #A46704 */ /* TODO: remove in 8.0 in favor of --ring-warning-color */
+  --ring-icon-success-components: 31, 117, 54;
+  --ring-icon-success-color: rgb(var(--ring-icon-success-components)); /* #1F7536 */ /* TODO: remove in 8.0 in favor of --ring-success-color */
   --ring-pale-control-components: 194, 214, 252;
   --ring-pale-control-color: rgb(var(--ring-pale-control-components)); /* #C2D6FC */
   --ring-popup-border-components: 0, 28, 54;
@@ -48,9 +48,9 @@
   --ring-popup-secondary-shadow-color: rgba(var(--ring-popup-border-components), 0.04);
   --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);
   --ring-pinned-shadow-components: 108, 112, 126;
-  --ring-pinned-shadow-color: rgb(var(--ring-pinned-shadow-components)); /* #6C707E */
-  --ring-button-danger-hover-components: var(--ring-icon-error-color);
-  --ring-button-danger-hover-color: var(--ring-icon-error-color);
+  --ring-pinned-shadow-color: rgb(var(--ring-pinned-shadow-components)); /* #6C707E */ /* TODO remove in 8.0 */
+  --ring-button-danger-hover-components: 219, 59, 75;
+  --ring-button-danger-hover-color: rgb(var(--ring-button-danger-hover-components)); /* #DB3B4B */
   --ring-button-primary-border-components: 46, 85, 163;
   --ring-button-primary-border-color: rgb(var(--ring-button-primary-border-components)); /* #2E55A3 */
   --ring-dialog-overlay-components: 0, 0, 0;
@@ -62,7 +62,7 @@
   --ring-search-components: 112, 156, 245;
   --ring-search-color: rgb(var(--ring-search-components)); /* #709CF5 */
   --ring-hint-components: 46, 85, 163;
-  --ring-hint-color: rgb(var(--ring-hint-components)); /* #2E55A3 */
+  --ring-hint-color: rgb(var(--ring-hint-components)); /* #2E55A3 */ /* TODO: remove in 8.0 */
   --ring-link-components: 46, 85, 163;
   --ring-link-color: rgb(var(--ring-link-components)); /* #2E55A3 */
   --ring-link-hover-components: 34, 60, 114;

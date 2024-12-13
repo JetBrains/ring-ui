@@ -115,7 +115,7 @@
 .calendarIcon {
   margin-right: calc(var(--ring-unit) / 2);
 
-  color: var(--ring-icon-color);
+  color: var(--ring-secondary-color);
 }
 
 .anchor {
@@ -141,7 +141,7 @@
 .chevronDownIcon {
   margin-left: auto;
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 }
 
 .fromInput {

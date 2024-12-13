@@ -24,7 +24,7 @@ export default {
 
         .icon {
           margin-right: calc(var(--ring-unit) / 2);
-          color: var(--ring-icon-secondary-color)
+          color: var(--ring-secondary-color)
         }
 
         .tab:hover .icon {
