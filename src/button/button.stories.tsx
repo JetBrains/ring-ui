@@ -37,6 +37,8 @@ export const basic = () => (
         {[
           {inline: false},
           {primary: true, inline: false},
+          {success: true, inline: false},
+          {error: true, inline: false},
           {danger: true, inline: false},
           {inline: true},
           {primary: true, inline: true},

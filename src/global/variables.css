@@ -25,6 +25,10 @@
   --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #A8ADBD */ /* TODO: remove in 8.0 in favor of --ring-disabled-color */
   --ring-border-hover-components: 160, 189, 248;
   --ring-border-hover-color: rgb(var(--ring-border-hover-components)); /* #a0bdf8 */
+  --ring-border-hover-success-components: 197, 229, 204;
+  --ring-border-hover-success-color: rgb(var(--ring-border-hover-success-components)); /* #C5E5CC */
+  --ring-border-hover-error-components: 250, 212, 216;
+  --ring-border-hover-error-color: rgb(var(--ring-border-hover-error-components)); /* #FAD4D8 */
   --ring-icon-hover-components: 90, 93, 107;
   --ring-icon-hover-color: rgb(var(--ring-icon-hover-components)); /* #5a5d6b */ /* TODO: remove in 8.0 */
   --ring-main-components: 53, 116, 240;
@@ -33,6 +37,14 @@
   --ring-action-link-color: rgb(var(--ring-action-link-components)); /* #2E55A3 */ /* TODO: remove in 8.0 in favor of --ring-link-color */
   --ring-main-hover-components: 51, 105, 214;
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #3369d6 */
+  --ring-main-success-components: 32, 138, 60;
+  --ring-main-success-color: rgb(var(--ring-main-success-components)); /* #208A3C */
+  --ring-main-success-hover-components: 31, 128, 57;
+  --ring-main-success-hover-color: rgb(var(--ring-main-success-hover-components)); /* #1F8039 */
+  --ring-main-error-components: 204, 54, 69;
+  --ring-main-error-color: rgb(var(--ring-main-error-components)); /* #CC3645 */
+  --ring-main-error-hover-components: 188, 48, 62;
+  --ring-main-error-hover-color: rgb(var(--ring-main-error-hover-components)); /* #BC303E */
   --ring-icon-error-components: 204, 54, 69;
   --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #CC3645 */ /* TODO: remove in 8.0 in favor of --ring-error-color */
   --ring-icon-warning-components: 164, 103, 4;
