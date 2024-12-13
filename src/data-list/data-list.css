@@ -75,7 +75,7 @@
 }
 
 .collapseIcon.collapseIcon {
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 }
 
 .loadingOverlay {

@@ -75,7 +75,7 @@
 .userCopyIcon svg {
   margin-left: 4px;
 
-  color: var(--ring-icon-color);
+  color: var(--ring-secondary-color);
 }
 
 .userCopyIcon:hover svg {
@@ -119,9 +119,9 @@
   margin-left: 6px;
 
   border-radius: 50%;
-  background-color: var(--ring-icon-secondary-color);
+  background-color: var(--ring-secondary-color);
 }
 
 .userActiveStatus.online {
-  background-color: var(--ring-icon-success-color);
+  background-color: var(--ring-success-color);
 }

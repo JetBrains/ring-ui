@@ -225,7 +225,7 @@
 
   margin-right: var(--ring-unit);
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 }
 
 .avatar {

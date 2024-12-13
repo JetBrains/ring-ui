@@ -45,15 +45,15 @@
 }
 
 .gray {
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 }
 
 .hover {
-  color: var(--ring-icon-hover-color);
+  color: var(--ring-link-hover-color);
 }
 
 .green {
-  color: var(--ring-icon-success-color);
+  color: var(--ring-success-color);
 }
 
 .magenta {
@@ -61,7 +61,7 @@
 }
 
 .red {
-  color: var(--ring-icon-error-color);
+  color: var(--ring-error-color);
 }
 
 .blue {

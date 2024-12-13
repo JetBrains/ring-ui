@@ -123,7 +123,7 @@
     margin-bottom: 1px;
 
     border-bottom-width: 2px;
-    border-bottom-color: var(--ring-icon-error-color);
+    border-bottom-color: var(--ring-error-color);
   }
 }
 

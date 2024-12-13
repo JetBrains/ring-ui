@@ -60,7 +60,7 @@ Input
   }
 
   .error & {
-    border-color: var(--ring-icon-error-color);
+    border-color: var(--ring-error-color);
   }
 
   &:focus {
@@ -91,7 +91,7 @@ Input
 }
 
 :global(.ring-input_error) {
-  border-color: var(--ring-icon-error-color);
+  border-color: var(--ring-error-color);
 }
 
 :global(.ring-input_filter-popup) {

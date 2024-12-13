@@ -61,7 +61,7 @@
   }
 
   .error & {
-    border-color: var(--ring-icon-error-color);
+    border-color: var(--ring-error-color);
   }
 
   &:focus {
@@ -111,7 +111,7 @@
 
   pointer-events: none;
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 
   [dir="rtl"] & {
     right: var(--ring-unit);

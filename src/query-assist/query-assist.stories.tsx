@@ -213,7 +213,7 @@ WithCustomActions.args = {
   hint: 'lol',
   hintOnSelection: 'lol selected',
   popupClassName: 'test',
-  actions: [<Icon glyph={permissionIcon} key="custom-action" style={{color: 'var(--ring-icon-color)'}} />],
+  actions: [<Icon glyph={permissionIcon} key="custom-action" style={{color: 'var(--ring-secondary-color)'}} />],
 };
 WithCustomActions.storyName = 'with custom actions';
 WithCustomActions.parameters = {screenshots: {skip: true}};

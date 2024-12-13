@@ -52,7 +52,7 @@
   }
 
   .error & {
-    border-color: var(--ring-icon-error-color);
+    border-color: var(--ring-error-color);
   }
 }
 
@@ -124,7 +124,7 @@
 .letter-error {
   padding-bottom: 1px;
 
-  border-bottom: 1px solid var(--ring-icon-error-color);
+  border-bottom: 1px solid var(--ring-error-color);
 }
 
 .highlight {
@@ -188,7 +188,7 @@
 .icon {
   padding-right: var(--ring-input-padding-inline);
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 
   [dir="rtl"] & {
     padding: 0 0 0 var(--ring-input-padding-inline);
@@ -202,7 +202,7 @@
 
   transition: border-color var(--ring-ease);
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-secondary-color);
 
   border: 1px solid var(--ring-borders-color);
   border-right: 0;
