@@ -10,7 +10,7 @@
 }
 
 :global(.ring-ui-theme-dark) {
-  --ring-button-flat-disabled-color: var(--ring-secondary-color);
+  --ring-button-flat-disabled-color: var(--ring-disabled-color);
 }
 
 
@@ -74,6 +74,7 @@
   --ring-button-background-color: var(--ring-content-background-color);
   --ring-button-border-color: var(--ring-borders-color);
   --ring-button-padding-inline: calc(var(--ring-unit) * 2);
+  --ring-button-loader-components: var(--ring-main-components);
 
   display: inline-block;
 
@@ -152,6 +153,7 @@
 
 .danger {
   --ring-button-focus-border-color: var(--ring-button-danger-hover-color);
+  --ring-button-loader-components: var(--ring-main-error-components);
 
   color: var(--ring-error-color);
 
@@ -188,6 +190,7 @@
 .flat {
   --ring-button-background-color: var(--ring-flat-button-background-color);
   --ring-button-border-color: transparent;
+  --ring-button-loader-components: var(--ring-white-text-components);
 
   color: var(--ring-white-text-color);
 
@@ -195,22 +198,10 @@
     --ring-button-border-color: transparent;
   }
 
-  &:focus-visible {
-    --ring-button-background-color: var(--ring-flat-button-background-color);
-  }
-
   &.disabled {
     --ring-button-border-color: transparent;
 
     color: var(--ring-button-flat-disabled-color);
-
-    & .icon {
-      color: var(--ring-button-flat-disabled-color);
-    }
-  }
-
-  &.loader {
-    color: var(--ring-white-text-color);
   }
 
   & .loaderBackground {
@@ -220,16 +211,6 @@
     left: 0;
 
     border-radius: var(--ring-border-radius);
-    background-color: var(--ring-flat-button-background-color);
-
-    &::before {
-      background-image: linear-gradient(
-        to right,
-        transparent,
-        var(--ring-button-loader-background) 40%,
-        transparent 80%
-      );
-    }
   }
 }
 
@@ -353,7 +334,8 @@
 
   overflow: hidden;
 
-  border-radius: var(--ring-border-radius-small);
+  border-radius: calc(var(--ring-border-radius) - 1px);
+  background-color: var(--ring-button-background-color);
 
   &::before {
     display: block;
@@ -366,9 +348,9 @@
 
     background-image: linear-gradient(
       to right,
-      var(--ring-content-background-color),
-      var(--ring-selected-background-color) 40%,
-      var(--ring-content-background-color) 80%
+      transparent,
+      rgba(var(--ring-button-loader-components), 0.4) 40%,
+      transparent 80%
     );
 
     background-repeat: repeat;
