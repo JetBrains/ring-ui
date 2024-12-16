@@ -23,13 +23,15 @@ export interface DropdownChildProps {
   dontCloseOnAnchorClick: boolean;
 }
 
+export type DropdownChildren = ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode);
+
 export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
   /**
    * Can be string, React element, or a function accepting an object with {active, pinned} properties and returning a React element
    * React element should render some interactive HTML element like `button` or `a`
    */
   anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode);
-  children: ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode);
+  children: DropdownChildren;
   initShown: boolean;
   disabled?: boolean | null | undefined;
   clickMode: boolean;
