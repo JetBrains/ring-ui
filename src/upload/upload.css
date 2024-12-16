@@ -1,0 +1,23 @@
+@import "../global/variables.css";
+
+.upload {
+  overflow: hidden;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  padding: calc(var(--ring-unit)* 1.5);
+
+  cursor: pointer;
+
+  transition: background var(--ring-ease);
+
+  color: var(--ring-secondary-color);
+  border: 1px dashed var(--ring-borders-color);
+
+  border-radius: var(--ring-border-radius);
+}
+
+.dragOver {
+  background: var(--ring-hover-background-color);
+}
