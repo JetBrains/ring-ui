@@ -28,7 +28,7 @@ export interface ProfileTranslations {
   certificateMismatch?: string | null | undefined;
 }
 
-export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+export interface ProfileProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'children'> {
   closeOnSelect: boolean;
   renderPopupItems: (items: ListDataItem[]) => readonly ListDataItem[];
   translations?: ProfileTranslations | null | undefined;
