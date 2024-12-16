@@ -6,6 +6,7 @@
   transition: color var(--ring-fast-ease);
 
   color: var(--ring-link-color);
+  border-radius: var(--ring-border-radius);
 
   outline: none;
 
