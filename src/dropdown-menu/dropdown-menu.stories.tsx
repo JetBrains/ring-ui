@@ -2,11 +2,15 @@ import * as React from 'react';
 
 import chevronRight from '@jetbrains/icons/chevron-right';
 
+import List from '../list/list';
+
 import {Directions} from '../popup/popup.consts';
 import Icon from '../icon';
 import Group from '../group/group';
 
 import {ListDataItem} from '../list/consts';
+
+import PopupMenu from '../popup-menu/popup-menu';
 
 import DropdownMenu, {DropdownMenuProps} from './dropdown-menu';
 
@@ -192,3 +196,29 @@ nested.parameters = {
   }
 </style>`,
 };
+
+export const withCustomChildren = () => {
+  return (
+    <DropdownMenu anchor={'Click me'} menuProps={{closeOnSelect: false}}>
+      {props => (
+        <PopupMenu
+          data={[
+            {
+              rgItemType: List.ListProps.Type.CUSTOM,
+              template: (
+                <DropdownMenu
+                  data={[{label: 'Sub-item 1'}, {label: 'Sub-item 2'}]}
+                  anchor={'Submenu'}
+                  onSelect={() => props.onCloseAttempt?.()}
+                />
+              ),
+            },
+          ]}
+          {...props}
+        />
+      )}
+    </DropdownMenu>
+  );
+};
+
+withCustomChildren.storyName = 'DropdownMenu with custom children';

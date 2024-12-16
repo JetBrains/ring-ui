@@ -1,17 +1,9 @@
-import {
-  forwardRef,
-  useMemo,
-  cloneElement,
-  ReactElement,
-  ReactNodeArray,
-  HTMLAttributes,
-  SyntheticEvent,
-  Ref,
-} from 'react';
+import {forwardRef, useMemo, cloneElement, ReactElement, HTMLAttributes, SyntheticEvent, Ref, ReactNode} from 'react';
 
 import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
-import Dropdown, {AnchorProps, DropdownAttrs} from '../dropdown/dropdown';
+import Dropdown, {AnchorProps, DropdownAttrs, DropdownChildren} from '../dropdown/dropdown';
 import PopupMenu, {PopupMenuAttrs} from '../popup-menu/popup-menu';
+import {PopupAttrs} from '../popup/popup';
 import getUID from '../global/get-uid';
 import Anchor from '../dropdown/anchor';
 
@@ -24,11 +16,24 @@ const defaultAriaLabel = 'Dropdown menu';
 export interface DropdownAnchorWrapperProps extends AnchorProps {
   anchor:
     | ReactElement
-    | ReactNodeArray
+    | ReactNode[]
     | string
     | ((props: AnchorProps, ariaProps: HTMLAttributes<HTMLElement>) => ReactElement | null);
   activeListItemId?: string | null | undefined;
   listId?: string | undefined;
+}
+
+interface DropdownMenuChildren<T> {
+  children?: DropdownChildren;
+  popupMenuProps: {
+    ref: Ref<PopupMenu<T>>;
+    data: readonly ListDataItem<T>[] | undefined;
+    id: string;
+    ariaLabel: string;
+    closeOnSelect: boolean;
+    activateFirstItem: boolean;
+    onSelect?: OnSelectHandler<T>;
+  } & PopupMenuAttrs<T>;
 }
 
 function DropdownAnchorWrapper({
@@ -67,23 +72,52 @@ function DropdownAnchorWrapper({
   return <div {...anchorAriaProps}>{anchor}</div>;
 }
 
+function renderDropdownMenuChildren<T>({children, popupMenuProps}: DropdownMenuChildren<T>) {
+  if (!children) {
+    return <PopupMenu {...popupMenuProps} />;
+  }
+  if (typeof children === 'function') {
+    const {data, ...restPopupMenuProps} = popupMenuProps;
+    return (popupProps: Omit<PopupAttrs, 'children'>) => children({...popupProps, ...restPopupMenuProps});
+  }
+  return cloneElement(children as ReactElement<PopupAttrs>, popupMenuProps);
+}
+
+type OnSelectHandler<T> =
+  | ((item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) => void)
+  | undefined;
+
 export interface DropdownMenuProps<T = unknown> extends Omit<DropdownAttrs, 'anchor' | 'onSelect' | 'children'> {
   anchor:
     | ReactElement
-    | ReactNodeArray
+    | ReactNode[]
     | string
     | ((props: AnchorProps, ariaProps: HTMLAttributes<HTMLElement>) => ReactElement | null);
   data?: readonly ListDataItem<T>[] | undefined;
   ariaLabel?: string | null | undefined;
-  onSelect?: ((item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) => void) | undefined;
+  onSelect?: OnSelectHandler<T>;
   menuProps?: PopupMenuAttrs<T> | null | undefined;
+  children?: DropdownChildren;
 }
 
 const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
-  {id, anchor, ariaLabel, data, onSelect, menuProps, ...restDropdownProps}: DropdownMenuProps<T>,
+  {id, anchor, ariaLabel, data, onSelect, menuProps, children, ...restDropdownProps}: DropdownMenuProps<T>,
   forwardedRef: Ref<PopupMenu<T>>,
 ) {
   const listId = useMemo(() => id || getUID('dropdown-menu-list'), [id]);
+  const popupMenuProps: DropdownMenuChildren<T>['popupMenuProps'] = useMemo(
+    () => ({
+      ref: forwardedRef,
+      id: listId,
+      ariaLabel: ariaLabel || defaultAriaLabel,
+      closeOnSelect: true,
+      activateFirstItem: true,
+      data,
+      onSelect,
+      ...menuProps,
+    }),
+    [ariaLabel, data, forwardedRef, listId, menuProps, onSelect],
+  );
 
   return (
     <ActiveItemContext.Provider>
@@ -104,16 +138,7 @@ const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
         )}
         {...restDropdownProps}
       >
-        <PopupMenu
-          ref={forwardedRef}
-          id={listId}
-          ariaLabel={ariaLabel || defaultAriaLabel}
-          closeOnSelect
-          activateFirstItem
-          data={data}
-          onSelect={onSelect}
-          {...menuProps}
-        />
+        {renderDropdownMenuChildren<T>({children, popupMenuProps})}
       </Dropdown>
     </ActiveItemContext.Provider>
   );
