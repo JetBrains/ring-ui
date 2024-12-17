@@ -16,7 +16,7 @@ import Icon from '../icon';
 
 import styles from './upload.css';
 
-export type PickFileState = 'empty' | 'error' | 'success';
+export type UploadVariant = 'empty' | 'error' | 'success';
 
 interface Props extends HTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -27,7 +27,7 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   renderIcon?: () => ReactNode;
   accept?: HTMLInputElement['accept'];
   disabled?: boolean;
-  state?: PickFileState;
+  variant?: UploadVariant;
 
   children?: ReactNode;
 }
@@ -42,7 +42,7 @@ export const Upload: FunctionComponent<Props> = ({
   onFilesSelected,
   onFilesRejected,
   validate = () => true,
-  state = 'empty',
+  variant = 'empty',
   multiple,
   renderIcon = () => <Icon className={styles.attachmentIcon} glyph={attachmentIcon} />,
   accept,
@@ -95,8 +95,8 @@ export const Upload: FunctionComponent<Props> = ({
       className={classNames(className, styles.upload, {
         [styles.disabled]: disabled,
         [styles.dragOver]: dragOver,
-        [styles.success]: state === 'success',
-        [styles.error]: state === 'error',
+        [styles.success]: variant === 'success',
+        [styles.error]: variant === 'error',
       })}
       ref={containerRef}
       data-test="ring-upload"

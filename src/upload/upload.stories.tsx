@@ -5,7 +5,7 @@ import {Meta, StoryFn} from '@storybook/react';
 
 import Button from '../button/button';
 
-import Upload, {PickFileState, UploadContext} from './upload';
+import Upload, {UploadVariant, UploadContext} from './upload';
 
 type Story = StoryFn<typeof Upload>;
 
@@ -26,7 +26,7 @@ const meta: Meta<typeof Upload> = {
     disabled: {
       control: 'boolean',
     },
-    state: {
+    variant: {
       control: {
         type: 'select',
         labels: {
@@ -38,7 +38,7 @@ const meta: Meta<typeof Upload> = {
     },
   },
   args: {
-    state: 'empty',
+    variant: 'empty',
     onFilesSelected: files => console.info('Accepted files', files),
     onFilesRejected: files => console.error('Rejected files', files),
   },
@@ -118,15 +118,15 @@ small.parameters = {
 export const filePickerScenario: Story = () => {
   function UploadDemo() {
     const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
-    const [uploaderState, setUploaderState] = React.useState<PickFileState>('empty');
+    const [variant, setVariant] = React.useState<UploadVariant>('empty');
 
     const filesSelected = React.useCallback((files: File[]) => {
-      setUploaderState('success');
+      setVariant('success');
       setSelectedFiles(files);
     }, []);
 
     const onFilesRejected = React.useCallback((files: File[]) => {
-      setUploaderState('error');
+      setVariant('error');
       setSelectedFiles(files);
     }, []);
 
@@ -138,7 +138,7 @@ export const filePickerScenario: Story = () => {
         validate={validate}
         onFilesSelected={filesSelected}
         onFilesRejected={onFilesRejected}
-        state={uploaderState}
+        variant={variant}
       >
         <div>
           {selectedFiles.length
