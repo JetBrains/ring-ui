@@ -5,14 +5,18 @@ import {SinonStub} from 'sinon';
 
 import {beforeEach} from 'vitest';
 
+import userEvent from '@testing-library/user-event';
+
 import Upload from './upload';
 import styles from './upload.css';
 
 describe('<Upload />', () => {
   let onFilesSelectedMock: SinonStub;
+  let onFilesRejectedMock: SinonStub;
 
   beforeEach(() => {
     onFilesSelectedMock = sandbox.stub();
+    onFilesRejectedMock = sandbox.stub();
   });
 
   const testFile = new File(['test-content'], 'test-file.txt', {type: 'text/plain'});
@@ -31,52 +35,41 @@ describe('<Upload />', () => {
     expect(child).not.toBeNull();
   });
 
-  it('triggers `onFilesSelected` when files are dropped', () => {
+  it('triggers `onFilesSelected` when files are dropped', async () => {
     render(<Upload onFilesSelected={onFilesSelectedMock}>Drop files here</Upload>);
 
-    const dropZone = screen.getByText('Drop files here');
+    const fileInput = screen.getByTestId('ring-file-input');
 
-    const dataTransfer = {
-      items: [
-        {
-          kind: 'file',
-          getAsFile: () => testFile,
-        },
-      ],
-    };
-
-    fireEvent.drop(dropZone, {dataTransfer});
+    await userEvent.upload(fileInput, testFile);
 
     onFilesSelectedMock.should.have.been.calledOnce;
     onFilesSelectedMock.should.have.been.calledWith([testFile]);
   });
 
+  it('triggers `onFilesRejected` when file validation returns false', async () => {
+    render(
+      <Upload onFilesSelected={onFilesSelectedMock} onFilesRejected={onFilesRejectedMock} validate={() => false}>
+        Drop files here
+      </Upload>,
+    );
+
+    const fileInput = screen.getByTestId('ring-file-input');
+
+    await userEvent.upload(fileInput, testFile);
+
+    onFilesSelectedMock.should.not.have.been.calledOnce;
+    onFilesRejectedMock.should.have.been.calledOnceWith([testFile]);
+  });
+
   it('should update style on drag enter/leave', () => {
     render(<Upload onFilesSelected={onFilesSelectedMock}>Drop files here</Upload>);
     const dropZone = screen.getByText('Drop files here');
+    const fileInput = screen.getByTestId('ring-file-input');
 
     dropZone.className.should.not.include(styles.dragOver);
-    fireEvent.dragEnter(dropZone);
+    fireEvent.dragEnter(fileInput);
     dropZone.className.should.include(styles.dragOver);
-    fireEvent.dragLeave(dropZone);
+    fireEvent.dragLeave(fileInput);
     dropZone.className.should.not.include(styles.dragOver);
-  });
-
-  it('ignores non-file items during drop', () => {
-    render(<Upload onFilesSelected={onFilesSelectedMock}>Drop files here</Upload>);
-
-    const dropZone = screen.getByTestId('ring-upload');
-
-    const dataTransfer = {
-      items: [
-        {
-          kind: 'string',
-          getAsFile: () => null,
-        },
-      ],
-    };
-
-    fireEvent.drop(dropZone, {dataTransfer});
-    onFilesSelectedMock.should.not.been.called;
   });
 });
