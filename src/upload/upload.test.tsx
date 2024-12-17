@@ -1,11 +1,19 @@
 /* eslint-disable react/jsx-no-literals */
 import {render, screen, fireEvent} from '@testing-library/react';
 
+import {SinonStub} from 'sinon';
+
+import {beforeEach} from 'vitest';
+
 import Upload from './upload';
 import styles from './upload.css';
 
 describe('<Upload />', () => {
-  const onFilesSelectedMock = sandbox.stub();
+  let onFilesSelectedMock: SinonStub;
+
+  beforeEach(() => {
+    onFilesSelectedMock = sandbox.stub();
+  });
 
   const testFile = new File(['test-content'], 'test-file.txt', {type: 'text/plain'});
 
