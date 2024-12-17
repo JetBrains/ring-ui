@@ -1,22 +1,14 @@
 @import "../global/variables.css";
 
-.uploadButton {
-  all: unset;
-
-  display: flex;
-
-  &:active,
-  &:focus {
-    border-color: var(--ring-selected-background-color);
-    outline: 1px solid var(--ring-selected-background-color);
-  }
-}
-
 .upload {
   --ring-upload-text-color: var(--ring-text-color);
   --ring-upload-border-color: var(--ring-borders-color);
   --ring-upload-background-color: transparent;
+  --ring-upload-cursor: pointer;
 
+  position: relative;
+
+  display: flex;
 
   overflow: hidden;
   flex-direction: column;
@@ -25,7 +17,7 @@
 
   padding: calc(var(--ring-unit)* 1.5);
 
-  cursor: pointer;
+  cursor: var(--ring-upload-cursor);
 
   transition: background var(--ring-ease), color var(--ring-ease), border-color var(--ring-ease);
 
@@ -35,22 +27,50 @@
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-upload-background-color);
 
+  &:active,
+  &:focus-within,
+  &:focus {
+    border-color: var(--ring-selected-background-color);
+    outline: 1px solid var(--ring-selected-background-color);
+  }
+
+  &.success {
+    --ring-upload-text-color: var(--ring-secondary-color);
+    --ring-upload-border-color: var(--ring-added-background-color);
+    --ring-upload-background-color: var(--ring-added-subtle-background-color);
+  }
+
+  &.error {
+    --ring-upload-text-color: var(--ring-error-color);
+    --ring-upload-border-color: var(--ring-icon-error-color);
+    --ring-upload-background-color: var(--ring-removed-subtle-background-color);
+  }
+
   &.dragOver {
     --ring-upload-text-color: var(--ring-main-color);
     --ring-upload-border-color: var(--ring-main-color);
     --ring-upload-background-color: var(--ring-hover-background-color);
   }
 
-
-  &[disabled] {
+  &.disabled,
+  &:active.disabled {
     --ring-upload-text-color: var(--ring-disabled-color);
     --ring-upload-border-color: var(--ring-border-disabled-color);
     --ring-upload-background-color: transparent;
+    --ring-upload-cursor: default;
 
-    cursor: default;
+    outline: 0;
   }
 }
 
-.fileInput {
-  display: none;
+.invisibleFileInput {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  cursor: var(--ring-upload-cursor);
+
+  opacity: 0;
 }

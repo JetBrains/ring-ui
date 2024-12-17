@@ -1,95 +1,103 @@
-import {DragEventHandler, FunctionComponent, PropsWithChildren, useCallback, useRef, useState} from 'react';
+import {
+  createContext,
+  DragEventHandler,
+  FunctionComponent,
+  ReactNode,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 
 import styles from './upload.css';
+
+export type PickFileState = 'empty' | 'error' | 'success';
 
 type Props = {
   className?: string;
   onFilesSelected: (files: File[]) => void;
   onFilesRejected?: (files: File[]) => void;
+  validate?: (file: File) => boolean; // return false or error message if file does is not valid
   multiple?: HTMLInputElement['multiple'];
   accept?: HTMLInputElement['accept'];
   disabled?: boolean;
+  state?: PickFileState;
+
+  children?: ReactNode;
 };
 
-export const Upload: FunctionComponent<PropsWithChildren<Props>> = ({
+type UploadContext = {openFilePicker: () => void};
+
+export const UploadContext = createContext<UploadContext>({openFilePicker: () => {}});
+
+export const Upload: FunctionComponent<Props> = ({
   children,
   className,
   onFilesSelected,
   onFilesRejected,
+  validate,
+  state = 'empty',
   multiple,
   accept,
   disabled,
 }) => {
-  const containerRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const fleInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
 
   const handleSelectedFiles = useCallback(
     (files: File[]) => {
-      const accepted = files.filter(file => (accept ? accept.split(',').includes(file.type) : true));
-      const rejected = files.filter(file => (accept ? !accept.split(',').includes(file.type) : false));
+      if (!files.length) {
+        return;
+      }
+      const rejected = files.filter(file => (validate ? validate?.(file) !== true : false));
 
-      if (!multiple && files.length > 1) {
+      if (rejected.length > 0) {
         onFilesRejected?.(files);
         return;
       }
 
-      if (accepted.length) {
-        onFilesSelected(accepted);
-      }
-      if (rejected.length) {
-        onFilesRejected?.(rejected);
-      }
+      onFilesSelected(files);
     },
-    [accept, multiple, onFilesRejected, onFilesSelected],
+    [onFilesRejected, onFilesSelected, validate],
   );
 
   const onDragEnter: DragEventHandler = useCallback(() => setDragOver(true), []);
 
   const onDragOver: DragEventHandler = useCallback(e => e.preventDefault(), []);
 
-  const onDrop: DragEventHandler = useCallback(
-    e => {
-      setDragOver(false);
-      e.preventDefault();
-
-      const files = Array.from(e.dataTransfer.items)
-        .filter(item => item.kind === 'file')
-        .map(item => item.getAsFile())
-        .filter(it => it != null);
-
-      handleSelectedFiles(files);
-    },
-    [handleSelectedFiles],
-  );
-
   const onDragLeave: DragEventHandler = useCallback(() => setDragOver(false), []);
 
-  const onDropZoneClick = useCallback(() => fleInputRef.current?.click(), []);
+  const context: UploadContext = useMemo(
+    () => ({
+      openFilePicker: () => fleInputRef.current?.click(),
+    }),
+    [],
+  );
 
   const onInputChange = useCallback(() => {
+    setDragOver(false);
     if (fleInputRef.current?.files) {
       handleSelectedFiles(Array.from(fleInputRef.current.files));
     }
   }, [handleSelectedFiles]);
 
   return (
-    <button
-      type="button"
-      className={classNames(className, styles.uploadButton, styles.upload, {
+    <div
+      className={classNames(className, styles.upload, {
+        [styles.disabled]: disabled,
         [styles.dragOver]: dragOver,
+        [styles.success]: state === 'success',
+        [styles.error]: state === 'error',
       })}
-      disabled={disabled}
       ref={containerRef}
-      onDragEnter={onDragEnter}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-      onClick={onDropZoneClick}
       data-test="ring-upload"
     >
       <input
+        onDragEnter={onDragEnter}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
         disabled={disabled}
         ref={fleInputRef}
         data-test="ring-file-input"
@@ -98,11 +106,12 @@ export const Upload: FunctionComponent<PropsWithChildren<Props>> = ({
         onChange={onInputChange}
         type="file"
         autoComplete="off"
+        aria-label="file-picker"
         tabIndex={-1}
-        className={styles.fileInput}
+        className={styles.invisibleFileInput}
       />
-      {children}
-    </button>
+      <UploadContext.Provider value={context}>{children}</UploadContext.Provider>
+    </div>
   );
 };
 
