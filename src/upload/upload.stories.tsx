@@ -5,7 +5,7 @@ import {Meta, StoryFn} from '@storybook/react';
 
 import Button from '../button/button';
 
-import Upload, {UploadContext} from './upload';
+import Upload, {PickFileState, UploadContext} from './upload';
 
 type Story = StoryFn<typeof Upload>;
 
@@ -59,7 +59,7 @@ export const basic: Story = args => {
 
     return (
       <Upload onFilesSelected={filesSelected} {...rest}>
-        <div>{selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Drop files here'}</div>
+        <div>{selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Browse or Drop a File'}</div>
       </Upload>
     );
   }
@@ -75,6 +75,43 @@ basic.args = {
 
 basic.storyName = 'Upload';
 
+export const filePickerScenario: Story = () => {
+  function UploadDemo() {
+    const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
+    const [uploaderState, setUploaderState] = React.useState<PickFileState>('empty');
+
+    const filesSelected = React.useCallback((files: File[]) => {
+      setUploaderState('success');
+      setSelectedFiles(files);
+    }, []);
+
+    const onFilesRejected = React.useCallback((files: File[]) => {
+      setUploaderState('error');
+      setSelectedFiles(files);
+    }, []);
+
+    const validate = React.useCallback((file: File) => file.size < 100000, []);
+
+    return (
+      <Upload
+        multiple={false}
+        validate={validate}
+        onFilesSelected={filesSelected}
+        onFilesRejected={onFilesRejected}
+        state={uploaderState}
+      >
+        <div>
+          {selectedFiles.length
+            ? selectedFiles.map(f => f.name).join(', ')
+            : 'Browse or Drop a file with size less than 100Kb'}
+        </div>
+      </Upload>
+    );
+  }
+
+  return <UploadDemo />;
+};
+
 export const programmaticOpen: Story = args => {
   const {onFilesSelected, ...rest} = args;
 
@@ -86,7 +123,7 @@ export const programmaticOpen: Story = args => {
       setSelectedFiles(files);
       onFilesSelected(files);
     }, []);
-    console.log('openFn', openFnRef.current);
+
     return (
       <div>
         <Upload onFilesSelected={filesSelected} {...rest}>

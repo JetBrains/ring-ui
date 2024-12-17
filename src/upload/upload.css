@@ -11,7 +11,7 @@
   display: flex;
 
   overflow: hidden;
-  flex-direction: column;
+  flex-direction: row;
 
   box-sizing: border-box;
 
@@ -73,4 +73,8 @@
   cursor: var(--ring-upload-cursor);
 
   opacity: 0;
+}
+
+.attachmentIcon {
+  margin-right: var(--ring-unit);
 }
