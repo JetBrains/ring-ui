@@ -6,11 +6,12 @@
   --ring-button-focus-border-color: var(--ring-border-hover-color);
   --ring-button-shadow: inset 0 0 0 1px;
   --ring-button-loader-width: calc(var(--ring-unit) * 8);
-  --ring-button-flat-disabled-color: var(--ring-white-text-color);
+  --ring-button-disabled-text-color: var(--ring-disabled-color);
+  --ring-button-white-text-disabled-color: var(--ring-white-text-color);
 }
 
 :global(.ring-ui-theme-dark) {
-  --ring-button-flat-disabled-color: var(--ring-disabled-color);
+  --ring-button-white-text-disabled-color: var(--ring-disabled-color);
 }
 
 
@@ -50,6 +51,8 @@
   white-space: nowrap;
   text-decoration: none;
 
+  color: var(--ring-button-text-color);
+
   border: 0;
   border-radius: var(--ring-border-radius);
   outline: 0;
@@ -71,8 +74,19 @@
 }
 
 .block {
-  --ring-button-background-color: var(--ring-content-background-color);
-  --ring-button-border-color: var(--ring-borders-color);
+  --ring-button-default-background-color: var(--ring-content-background-color);
+  --ring-button-background-color: var(--ring-button-default-background-color);
+  --ring-button-hover-background-color: var(--ring-content-background-color);
+  --ring-button-pressed-background-color: var(--ring-selected-background-color);
+  --ring-button-active-background-color: var(--ring-hover-background-color);
+  --ring-button-disabled-background-color: var(--ring-disabled-background-color);
+  --ring-button-default-border-color: var(--ring-borders-color);
+  --ring-button-border-color: var(--ring-button-default-border-color);
+  --ring-button-hover-border-color: var(--ring-border-hover-color);
+  --ring-button-pressed-border-color: var(--ring-border-hover-color);
+  --ring-button-active-border-color: var(--ring-main-color);
+  --ring-button-disabled-border-color: var(--ring-border-disabled-color);
+  --ring-button-text-color: var(--ring-text-color);
   --ring-button-padding-inline: calc(var(--ring-unit) * 2);
   --ring-button-loader-components: var(--ring-main-components);
 
@@ -81,8 +95,6 @@
   height: var(--ring-button-height);
   padding: var(--ring-button-padding-block) var(--ring-button-padding-inline);
 
-  color: var(--ring-text-color);
-
   background-color: var(--ring-button-background-color);
   box-shadow: var(--ring-button-shadow) var(--ring-button-border-color);
 
@@ -90,12 +102,13 @@
   line-height: var(--ring-button-line-height);
 
   &:hover {
-    --ring-button-border-color: var(--ring-border-hover-color);
+    --ring-button-background-color: var(--ring-button-hover-background-color);
+    --ring-button-border-color: var(--ring-button-hover-border-color);
   }
 
   &:active {
-    --ring-button-background-color: var(--ring-selected-background-color);
-    --ring-button-border-color: var(--ring-border-hover-color);
+    --ring-button-background-color: var(--ring-button-pressed-background-color);
+    --ring-button-border-color: var(--ring-button-pressed-border-color);
   }
 
   &:focus-visible {
@@ -106,12 +119,13 @@
 }
 
 .inline {
+  --ring-button-text-color: var(--ring-action-link-color);
+
   display: inline;
 
   margin: 0;
   padding: 0;
 
-  color: var(--ring-action-link-color);
   background: transparent;
 
   font-size: inherit;
@@ -133,76 +147,54 @@
 }
 
 .withNormalIcon {
-  color: var(--ring-secondary-color);
+  --ring-button-text-color: var(--ring-secondary-color);
 }
 
 .inline {
   &:hover,
   &:active,
   &.active {
-    color: var(--ring-link-hover-color);
+    --ring-button-text-color: var(--ring-link-hover-color);
   }
 }
 
-.active.block {
-  --ring-button-background-color: var(--ring-hover-background-color);
-  --ring-button-border-color: var(--ring-main-color);
+.active {
+  --ring-button-disabled-background-color: var(--ring-disabled-selected-background-color);
+  --ring-button-disabled-border-color: var(--ring-border-selected-disabled-color);
 
   transition: none;
 }
 
-.danger {
-  --ring-button-focus-border-color: var(--ring-button-danger-hover-color);
-  --ring-button-loader-components: var(--ring-main-error-components);
-
-  color: var(--ring-error-color);
-
-  &:active,
-  &.active {
-    --ring-button-background-color: var(--ring-button-danger-active-color);
-  }
-
-  &:active,
-  &.active,
-  &:hover {
-    --ring-button-border-color: var(--ring-button-danger-hover-color);
-  }
+.active.block {
+  --ring-button-background-color: var(--ring-button-active-background-color);
+  --ring-button-border-color: var(--ring-button-active-border-color);
 }
 
 .disabled {
   cursor: auto;
 
-  &,
-  &:hover,
-  &:active {
-    --ring-button-background-color: var(--ring-disabled-background-color);
-    --ring-button-border-color: var(--ring-border-disabled-color);
+  color: var(--ring-button-disabled-text-color);
+  background-color: var(--ring-button-disabled-background-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-button-disabled-border-color);
+}
 
-    color: var(--ring-disabled-color);
-  }
-
-  &.active {
-    --ring-button-background-color: var(--ring-disabled-selected-background-color);
-    --ring-button-border-color: var(--ring-border-selected-disabled-color);
-  }
+.danger {
+  --ring-button-pressed-background-color: var(--ring-button-danger-active-color);
+  --ring-button-active-background-color: var(--ring-button-danger-active-color);
+  --ring-button-focus-border-color: var(--ring-button-danger-hover-color);
+  --ring-button-hover-border-color: var(--ring-button-danger-hover-color);;
+  --ring-button-pressed-border-color: var(--ring-button-danger-hover-color);;
+  --ring-button-active-border-color: var(--ring-button-danger-hover-color);;
+  --ring-button-text-color: var(--ring-error-color);
+  --ring-button-loader-components: var(--ring-main-error-components);
 }
 
 .flat {
-  --ring-button-background-color: var(--ring-flat-button-background-color);
-  --ring-button-border-color: transparent;
-  --ring-button-loader-components: var(--ring-white-text-components);
-
-  color: var(--ring-white-text-color);
-
-  &:hover {
-    --ring-button-border-color: transparent;
-  }
-
-  &.disabled {
-    --ring-button-border-color: transparent;
-
-    color: var(--ring-button-flat-disabled-color);
-  }
+  --ring-button-default-border-color: transparent;
+  --ring-button-hover-border-color: transparent;
+  --ring-button-pressed-border-color: transparent;
+  --ring-button-active-border-color: transparent;
+  --ring-button-disabled-border-color: transparent;
 
   & .loaderBackground {
     top: 0;
@@ -214,66 +206,60 @@
   }
 }
 
+.whiteText {
+  --ring-button-text-color: var(--ring-white-text-color);
+  --ring-button-disabled-text-color: var(--ring-button-white-text-disabled-color);
+  --ring-button-loader-components: var(--ring-white-text-components);
+}
+
 .primaryBlock {
-  --ring-flat-button-background-color: var(--ring-button-primary-background-color);
+  --ring-button-default-background-color: var(--ring-button-primary-background-color);
+  --ring-button-hover-background-color: var(--ring-main-hover-color);
+  --ring-button-pressed-background-color: var(--ring-button-primary-background-color);
+  --ring-button-active-background-color: var(--ring-button-primary-background-color);
+  --ring-button-disabled-background-color: var(--ring-border-disabled-active-color);
+  --ring-button-pressed-border-color: var(--ring-button-primary-border-color);
+  --ring-button-active-border-color: var(--ring-button-primary-border-color);
 
   composes: flat;
-
-  &:hover {
-    --ring-button-background-color: var(--ring-main-hover-color);
-  }
-
-  &:active,
-  &.active {
-    --ring-button-background-color: var(--ring-button-primary-background-color);
-    --ring-button-border-color: var(--ring-button-primary-border-color);
-  }
-
-  &.disabled {
-    --ring-button-background-color: var(--ring-border-disabled-active-color);
-  }
+  composes: whiteText;
 }
 
 .success {
-  --ring-flat-button-background-color: var(--ring-main-success-color);
+  --ring-button-default-background-color: var(--ring-main-success-color);
+  --ring-button-hover-background-color: var(--ring-main-success-hover-color);
+  --ring-button-pressed-background-color: var(--ring-main-success-hover-color);
+  --ring-button-active-background-color: var(--ring-main-success-hover-color);
+  --ring-button-disabled-background-color: var(--ring-added-background-color);
   --ring-button-focus-border-color: var(--ring-border-hover-success-color);
+  --ring-button-pressed-border-color: var(--ring-success-color);
+  --ring-button-active-border-color: var(--ring-success-color);
+
 
   composes: flat;
-
-  &:hover {
-    --ring-button-background-color: var(--ring-main-success-hover-color);
-  }
-
-  &:active,
-  &.active {
-    --ring-button-background-color: var(--ring-main-success-hover-color);
-    --ring-button-border-color: var(--ring-success-color);
-  }
-
-  &.disabled {
-    --ring-button-background-color: var(--ring-added-background-color);
-  }
+  composes: whiteText;
 }
 
 .error {
-  --ring-flat-button-background-color: var(--ring-main-error-color);
+  --ring-button-default-background-color: var(--ring-main-error-color);
+  --ring-button-hover-background-color: var(--ring-main-error-hover-color);
+  --ring-button-pressed-background-color: var(--ring-main-error-hover-color);
+  --ring-button-active-background-color: var(--ring-main-error-hover-color);
+  --ring-button-disabled-background-color: var(--ring-removed-background-color);
   --ring-button-focus-border-color: var(--ring-border-hover-error-color);
+  --ring-button-pressed-border-color: var(--ring-error-color);
+  --ring-button-active-border-color: var(--ring-error-color);
 
   composes: flat;
+  composes: whiteText;
+}
 
-  &:hover {
-    --ring-button-background-color: var(--ring-main-error-hover-color);
-  }
+.secondary {
+  --ring-button-default-background-color: var(--ring-tag-background-color);
+  --ring-button-hover-background-color: var(--ring-tag-hover-background-color);
+  --ring-button-loader-components: var(--ring-secondary-components);
 
-  &:active,
-  &.active {
-    --ring-button-background-color: var(--ring-main-error-hover-color);
-    --ring-button-border-color: var(--ring-error-color);
-  }
-
-  &.disabled {
-    --ring-button-background-color: var(--ring-removed-background-color);
-  }
+  composes: flat;
 }
 
 .iconOnly {
@@ -311,11 +297,8 @@
 
   cursor: auto;
 
-  background-color: transparent;
-
-  &:hover {
-    --ring-button-border-color: var(--ring-borders-color);
-  }
+  background-color: var(--ring-button-default-background-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-button-default-border-color);
 }
 
 .loader.inline {
@@ -335,7 +318,7 @@
   overflow: hidden;
 
   border-radius: calc(var(--ring-border-radius) - 1px);
-  background-color: var(--ring-button-background-color);
+  background-color: var(--ring-button-default-background-color);
 
   &::before {
     display: block;

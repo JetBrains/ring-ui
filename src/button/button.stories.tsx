@@ -39,13 +39,14 @@ export const basic = () => (
           {primary: true, inline: false},
           {success: true, inline: false},
           {error: true, inline: false},
+          {secondary: true, inline: false},
           {danger: true, inline: false},
           {inline: true},
           {primary: true, inline: true},
           {danger: true, inline: true},
         ].map(typeProps => (
           <Fragment key={JSON.stringify(typeProps)}>
-            {[{}, {active: true}, {disabled: true}, {active: true, disabled: true}, {loader: true}].map(stateProps => {
+            {[{}, {active: true}, {disabled: true}, {loader: true}].map(stateProps => {
               const icon = height === ControlsHeight.S && !typeProps.inline ? pencil12pxIcon : pencilIcon;
               return (
                 <Row key={JSON.stringify(stateProps)}>
