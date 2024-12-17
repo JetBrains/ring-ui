@@ -3,7 +3,9 @@ import React from 'react';
 
 import {Meta, StoryFn} from '@storybook/react';
 
-import Upload from './upload';
+import Button from '../button/button';
+
+import Upload, {UploadContext} from './upload';
 
 type Story = StoryFn<typeof Upload>;
 
@@ -24,8 +26,19 @@ const meta: Meta<typeof Upload> = {
     disabled: {
       control: 'boolean',
     },
+    state: {
+      control: {
+        type: 'select',
+        labels: {
+          empty: 'empty',
+          success: 'success',
+          error: 'error',
+        },
+      },
+    },
   },
   args: {
+    state: 'empty',
     onFilesSelected: files => console.info('Accepted files', files),
     onFilesRejected: files => console.error('Rejected files', files),
   },
@@ -46,7 +59,7 @@ export const basic: Story = args => {
 
     return (
       <Upload onFilesSelected={filesSelected} {...rest}>
-        {selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Drop files here'}
+        <div>{selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Drop files here'}</div>
       </Upload>
     );
   }
@@ -61,3 +74,41 @@ basic.args = {
 };
 
 basic.storyName = 'Upload';
+
+export const programmaticOpen: Story = args => {
+  const {onFilesSelected, ...rest} = args;
+
+  function UploadDemo() {
+    const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
+    const openFnRef = React.useRef<() => void>();
+
+    const filesSelected = React.useCallback((files: File[]) => {
+      setSelectedFiles(files);
+      onFilesSelected(files);
+    }, []);
+    console.log('openFn', openFnRef.current);
+    return (
+      <div>
+        <Upload onFilesSelected={filesSelected} {...rest}>
+          <UploadContext.Consumer>
+            {ctx => {
+              openFnRef.current = ctx.openFilePicker;
+              return null;
+            }}
+          </UploadContext.Consumer>
+          <div>{selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Drop files here'}</div>
+        </Upload>
+
+        <Button onClick={() => openFnRef.current?.()}>Click to select file</Button>
+      </div>
+    );
+  }
+
+  return <UploadDemo />;
+};
+
+programmaticOpen.args = {
+  multiple: false,
+};
+
+programmaticOpen.storyName = 'Programmatic open';
