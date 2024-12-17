@@ -152,6 +152,10 @@ export const filePickerScenario: Story = () => {
   return <UploadDemo />;
 };
 
+filePickerScenario.parameters = {
+  screenshots: {skip: true},
+};
+
 export const programmaticOpen: Story = args => {
   const {onFilesSelected, ...rest} = args;
 

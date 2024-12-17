@@ -1,7 +1,7 @@
 @import "../global/variables.css";
 
 .upload {
-  --ring-upload-text-color: var(--ring-text-color);
+  --ring-upload-text-color: var(--ring-secondary-color);
   --ring-upload-border-color: var(--ring-borders-color);
   --ring-upload-background-color: transparent;
   --ring-upload-cursor: pointer;
@@ -27,15 +27,18 @@
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-upload-background-color);
 
+  &:hover {
+    --ring-upload-border-color: var(--ring-border-hover-color);
+  }
+
   &:active,
   &:focus-within,
   &:focus {
-    border-color: var(--ring-selected-background-color);
-    outline: 1px solid var(--ring-selected-background-color);
+    border-color: var(--ring-borders-color);
+    outline: 2px solid var(--ring-border-hover-color);
   }
 
   &.success {
-    --ring-upload-text-color: var(--ring-secondary-color);
     --ring-upload-border-color: var(--ring-added-background-color);
     --ring-upload-background-color: var(--ring-added-subtle-background-color);
 
