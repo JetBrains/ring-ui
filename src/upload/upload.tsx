@@ -114,7 +114,6 @@ export const Upload: FunctionComponent<Props> = ({
         type="file"
         autoComplete="off"
         aria-label="file-picker"
-        tabIndex={-1}
         className={styles.invisibleFileInput}
         {...rest}
       />
