@@ -188,4 +188,8 @@ programmaticOpen.args = {
   multiple: false,
 };
 
+programmaticOpen.parameters = {
+  screenshots: {skip: true},
+};
+
 programmaticOpen.storyName = 'Programmatic open';
