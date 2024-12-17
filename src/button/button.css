@@ -181,10 +181,10 @@
 .danger {
   --ring-button-pressed-background-color: var(--ring-button-danger-active-color);
   --ring-button-active-background-color: var(--ring-button-danger-active-color);
-  --ring-button-focus-border-color: var(--ring-button-danger-hover-color);
-  --ring-button-hover-border-color: var(--ring-button-danger-hover-color);;
-  --ring-button-pressed-border-color: var(--ring-button-danger-hover-color);;
-  --ring-button-active-border-color: var(--ring-button-danger-hover-color);;
+  --ring-button-focus-border-color: var(--ring-removed-background-color);
+  --ring-button-hover-border-color: var(--ring-button-danger-hover-color);
+  --ring-button-pressed-border-color: var(--ring-button-danger-hover-color);
+  --ring-button-active-border-color: var(--ring-button-danger-hover-color);
   --ring-button-text-color: var(--ring-error-color);
   --ring-button-loader-components: var(--ring-main-error-components);
 }
