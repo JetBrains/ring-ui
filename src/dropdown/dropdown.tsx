@@ -23,7 +23,9 @@ export interface DropdownChildProps {
   dontCloseOnAnchorClick: boolean;
 }
 
-export type DropdownChildren = ReactElement<PopupAttrs> | ((props: Omit<PopupAttrs, 'children'>) => ReactNode);
+export type DropdownChildrenFunction = (props: Omit<PopupAttrs, 'children'>) => ReactNode;
+
+export type DropdownChildren = ReactElement<PopupAttrs> | DropdownChildrenFunction;
 
 export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
   /**
