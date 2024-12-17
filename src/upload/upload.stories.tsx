@@ -50,6 +50,7 @@ export const basic: Story = args => {
   const {onFilesSelected, ...rest} = args;
 
   function UploadDemo() {
+    const isSmall = 'small' in args && args.small;
     const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
 
     const filesSelected = React.useCallback((files: File[]) => {
@@ -58,7 +59,7 @@ export const basic: Story = args => {
     }, []);
 
     return (
-      <Upload onFilesSelected={filesSelected} {...rest}>
+      <Upload onFilesSelected={filesSelected} {...rest} className={isSmall ? 'smallUpload' : ''}>
         <div>{selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Browse or Drop a File'}</div>
       </Upload>
     );
@@ -73,7 +74,46 @@ basic.args = {
   disabled: false,
 };
 
+basic.parameters = {
+  storyStyles: `
+.smallUpload {
+  width: calc(var(--ring-unit) * 18);
+  height: calc(var(--ring-unit) * 12);
+}
+`,
+};
+
 basic.storyName = 'Upload';
+
+export const small: Story = args => {
+  const {onFilesSelected, ...rest} = args;
+
+  function UploadDemo() {
+    const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
+
+    const filesSelected = React.useCallback((files: File[]) => {
+      setSelectedFiles(files);
+      onFilesSelected(files);
+    }, []);
+
+    return (
+      <Upload onFilesSelected={filesSelected} {...rest} className="smallUpload">
+        <div>{selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Browse or Drop a File'}</div>
+      </Upload>
+    );
+  }
+
+  return <UploadDemo />;
+};
+
+small.parameters = {
+  storyStyles: `
+.smallUpload {
+  width: calc(var(--ring-unit) * 18);
+  height: calc(var(--ring-unit) * 12);
+}
+`,
+};
 
 export const filePickerScenario: Story = () => {
   function UploadDemo() {

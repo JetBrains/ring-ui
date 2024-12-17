@@ -38,12 +38,16 @@
     --ring-upload-text-color: var(--ring-secondary-color);
     --ring-upload-border-color: var(--ring-added-background-color);
     --ring-upload-background-color: var(--ring-added-subtle-background-color);
+
+    border-style: solid;
   }
 
   &.error {
     --ring-upload-text-color: var(--ring-error-color);
     --ring-upload-border-color: var(--ring-icon-error-color);
     --ring-upload-background-color: var(--ring-removed-subtle-background-color);
+
+    border-style: solid;
   }
 
   &.dragOver {
