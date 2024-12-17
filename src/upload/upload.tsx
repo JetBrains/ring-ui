@@ -1,5 +1,4 @@
-import {DragEventHandler, PropsWithChildren, useState} from 'react';
-import * as React from 'react';
+import {DragEventHandler, FunctionComponent, PropsWithChildren, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
 
 import styles from './upload.css';
@@ -7,18 +6,48 @@ import styles from './upload.css';
 type Props = {
   className?: string;
   onFilesSelected: (files: File[]) => void;
-  validateFiles?: (files: File[]) => null | string;
+  onFilesRejected?: (files: File[]) => void;
+  multiple?: HTMLInputElement['multiple'];
+  accept?: HTMLInputElement['accept'];
 };
 
-export const Upload: React.FC<PropsWithChildren<Props>> = ({children, className, onFilesSelected}) => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
+export const Upload: FunctionComponent<PropsWithChildren<Props>> = ({
+  children,
+  className,
+  onFilesSelected,
+  onFilesRejected,
+  multiple,
+  accept,
+}) => {
+  const containerRef = useRef<HTMLButtonElement>(null);
+  const fleInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
 
-  const onDragEnter: DragEventHandler = React.useCallback(() => setDragOver(true), []);
+  const handleSelectedFiles = useCallback(
+    (files: File[]) => {
+      const accepted = files.filter(file => (accept ? accept.split(',').includes(file.type) : true));
+      const rejected = files.filter(file => (accept ? !accept.split(',').includes(file.type) : false));
 
-  const onDragOver: DragEventHandler = React.useCallback(e => e.preventDefault(), []);
+      if (!multiple && files.length > 1) {
+        onFilesRejected?.(files);
+        return;
+      }
 
-  const onDrop: DragEventHandler = React.useCallback(
+      if (accepted.length) {
+        onFilesSelected(accepted);
+      }
+      if (rejected.length) {
+        onFilesRejected?.(rejected);
+      }
+    },
+    [accept, multiple, onFilesRejected, onFilesSelected],
+  );
+
+  const onDragEnter: DragEventHandler = useCallback(() => setDragOver(true), []);
+
+  const onDragOver: DragEventHandler = useCallback(e => e.preventDefault(), []);
+
+  const onDrop: DragEventHandler = useCallback(
     e => {
       setDragOver(false);
       e.preventDefault();
@@ -28,20 +57,25 @@ export const Upload: React.FC<PropsWithChildren<Props>> = ({children, className,
         .map(item => item.getAsFile())
         .filter(it => it != null);
 
-      if (!files.length) {
-        return;
-      }
-
-      onFilesSelected(files);
+      handleSelectedFiles(files);
     },
-    [onFilesSelected],
+    [handleSelectedFiles],
   );
 
-  const onDragLeave: DragEventHandler = React.useCallback(() => setDragOver(false), []);
+  const onDragLeave: DragEventHandler = useCallback(() => setDragOver(false), []);
+
+  const onDropZoneClick = useCallback(() => fleInputRef.current?.click(), []);
+
+  const onInputChange = useCallback(() => {
+    if (fleInputRef.current?.files) {
+      handleSelectedFiles(Array.from(fleInputRef.current.files));
+    }
+  }, [handleSelectedFiles]);
 
   return (
-    <div
-      className={classNames(className, styles.upload, {
+    <button
+      type="button"
+      className={classNames(className, styles.uploadButton, styles.upload, {
         [styles.dragOver]: dragOver,
       })}
       ref={containerRef}
@@ -49,10 +83,22 @@ export const Upload: React.FC<PropsWithChildren<Props>> = ({children, className,
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
+      onClick={onDropZoneClick}
       data-test="ring-upload"
     >
+      <input
+        ref={fleInputRef}
+        data-test="ring-file-input"
+        multiple={multiple}
+        accept={accept}
+        onChange={onInputChange}
+        type="file"
+        autoComplete="off"
+        tabIndex={-1}
+        className={styles.fileInput}
+      />
       {children}
-    </div>
+    </button>
   );
 };
 
