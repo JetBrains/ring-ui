@@ -202,6 +202,7 @@ export const withCustomChildren = () => {
     <DropdownMenu anchor={'Click me'} menuProps={{closeOnSelect: false}}>
       {props => (
         <PopupMenu
+          {...props}
           data={[
             {
               rgItemType: List.ListProps.Type.CUSTOM,
@@ -214,7 +215,6 @@ export const withCustomChildren = () => {
               ),
             },
           ]}
-          {...props}
         />
       )}
     </DropdownMenu>

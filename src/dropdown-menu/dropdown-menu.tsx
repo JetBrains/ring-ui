@@ -1,7 +1,7 @@
 import {forwardRef, useMemo, cloneElement, ReactElement, HTMLAttributes, SyntheticEvent, Ref, ReactNode} from 'react';
 
 import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
-import Dropdown, {AnchorProps, DropdownAttrs, DropdownChildren} from '../dropdown/dropdown';
+import Dropdown, {AnchorProps, DropdownAttrs, DropdownChildrenFunction} from '../dropdown/dropdown';
 import PopupMenu, {PopupMenuAttrs} from '../popup-menu/popup-menu';
 import {PopupAttrs} from '../popup/popup';
 import getUID from '../global/get-uid';
@@ -24,7 +24,7 @@ export interface DropdownAnchorWrapperProps extends AnchorProps {
 }
 
 interface DropdownMenuChildren<T> {
-  children?: DropdownChildren;
+  children?: DropdownChildrenFunction;
   popupMenuProps: {
     ref: Ref<PopupMenu<T>>;
     data: readonly ListDataItem<T>[] | undefined;
@@ -76,11 +76,7 @@ function renderDropdownMenuChildren<T>({children, popupMenuProps}: DropdownMenuC
   if (!children) {
     return <PopupMenu {...popupMenuProps} />;
   }
-  if (typeof children === 'function') {
-    const {data, ...restPopupMenuProps} = popupMenuProps;
-    return (popupProps: Omit<PopupAttrs, 'children'>) => children({...popupProps, ...restPopupMenuProps});
-  }
-  return cloneElement(children as ReactElement<PopupAttrs>, popupMenuProps);
+  return (popupProps: Omit<PopupAttrs, 'children'>) => children({...popupProps, ...popupMenuProps});
 }
 
 type OnSelectHandler<T> =
@@ -97,7 +93,7 @@ export interface DropdownMenuProps<T = unknown> extends Omit<DropdownAttrs, 'anc
   ariaLabel?: string | null | undefined;
   onSelect?: OnSelectHandler<T>;
   menuProps?: PopupMenuAttrs<T> | null | undefined;
-  children?: DropdownChildren;
+  children?: DropdownChildrenFunction;
 }
 
 const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
