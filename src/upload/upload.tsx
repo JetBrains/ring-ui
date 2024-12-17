@@ -2,6 +2,7 @@ import {
   createContext,
   DragEventHandler,
   FunctionComponent,
+  HTMLAttributes,
   ReactNode,
   useCallback,
   useMemo,
@@ -9,23 +10,27 @@ import {
   useState,
 } from 'react';
 import classNames from 'classnames';
+import attachmentIcon from '@jetbrains/icons/attachment';
+
+import Icon from '../icon';
 
 import styles from './upload.css';
 
 export type PickFileState = 'empty' | 'error' | 'success';
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLInputElement> {
   className?: string;
   onFilesSelected: (files: File[]) => void;
   onFilesRejected?: (files: File[]) => void;
-  validate?: (file: File) => boolean; // return false or error message if file does is not valid
+  validate?: (file: File) => boolean; // return false if file is not valid
   multiple?: HTMLInputElement['multiple'];
+  renderIcon?: () => ReactNode;
   accept?: HTMLInputElement['accept'];
   disabled?: boolean;
   state?: PickFileState;
 
   children?: ReactNode;
-};
+}
 
 type UploadContext = {openFilePicker: () => void};
 
@@ -36,11 +41,13 @@ export const Upload: FunctionComponent<Props> = ({
   className,
   onFilesSelected,
   onFilesRejected,
-  validate,
+  validate = () => true,
   state = 'empty',
   multiple,
+  renderIcon = () => <Icon className={styles.attachmentIcon} glyph={attachmentIcon} />,
   accept,
   disabled,
+  ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const fleInputRef = useRef<HTMLInputElement>(null);
@@ -51,7 +58,7 @@ export const Upload: FunctionComponent<Props> = ({
       if (!files.length) {
         return;
       }
-      const rejected = files.filter(file => (validate ? validate?.(file) !== true : false));
+      const rejected = files.filter(file => !validate(file));
 
       if (rejected.length > 0) {
         onFilesRejected?.(files);
@@ -109,8 +116,12 @@ export const Upload: FunctionComponent<Props> = ({
         aria-label="file-picker"
         tabIndex={-1}
         className={styles.invisibleFileInput}
+        {...rest}
       />
-      <UploadContext.Provider value={context}>{children}</UploadContext.Provider>
+      <UploadContext.Provider value={context}>
+        {renderIcon()}
+        {children}
+      </UploadContext.Provider>
     </div>
   );
 };
