@@ -13,6 +13,11 @@
 }
 
 .upload {
+  --ring-upload-text-color: var(--ring-text-color);
+  --ring-upload-border-color: var(--ring-borders-color);
+  --ring-upload-background-color: transparent;
+
+
   overflow: hidden;
   flex-direction: column;
 
@@ -22,18 +27,30 @@
 
   cursor: pointer;
 
-  transition: background var(--ring-ease);
+  transition: background var(--ring-ease), color var(--ring-ease), border-color var(--ring-ease);
 
-  color: var(--ring-secondary-color);
-  border: 1px dashed var(--ring-borders-color);
+  color: var(--ring-upload-text-color);
+  border: 1px dashed var(--ring-upload-border-color);
 
   border-radius: var(--ring-border-radius);
+  background-color: var(--ring-upload-background-color);
+
+  &.dragOver {
+    --ring-upload-text-color: var(--ring-main-color);
+    --ring-upload-border-color: var(--ring-main-color);
+    --ring-upload-background-color: var(--ring-hover-background-color);
+  }
+
+
+  &[disabled] {
+    --ring-upload-text-color: var(--ring-disabled-color);
+    --ring-upload-border-color: var(--ring-border-disabled-color);
+    --ring-upload-background-color: transparent;
+
+    cursor: default;
+  }
 }
 
 .fileInput {
   display: none;
-}
-
-.dragOver {
-  background: var(--ring-hover-background-color);
 }

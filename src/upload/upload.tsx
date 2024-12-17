@@ -9,6 +9,7 @@ type Props = {
   onFilesRejected?: (files: File[]) => void;
   multiple?: HTMLInputElement['multiple'];
   accept?: HTMLInputElement['accept'];
+  disabled?: boolean;
 };
 
 export const Upload: FunctionComponent<PropsWithChildren<Props>> = ({
@@ -18,6 +19,7 @@ export const Upload: FunctionComponent<PropsWithChildren<Props>> = ({
   onFilesRejected,
   multiple,
   accept,
+  disabled,
 }) => {
   const containerRef = useRef<HTMLButtonElement>(null);
   const fleInputRef = useRef<HTMLInputElement>(null);
@@ -78,6 +80,7 @@ export const Upload: FunctionComponent<PropsWithChildren<Props>> = ({
       className={classNames(className, styles.uploadButton, styles.upload, {
         [styles.dragOver]: dragOver,
       })}
+      disabled={disabled}
       ref={containerRef}
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
@@ -87,6 +90,7 @@ export const Upload: FunctionComponent<PropsWithChildren<Props>> = ({
       data-test="ring-upload"
     >
       <input
+        disabled={disabled}
         ref={fleInputRef}
         data-test="ring-file-input"
         multiple={multiple}
