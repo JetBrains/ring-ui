@@ -7,7 +7,9 @@ import {beforeEach} from 'vitest';
 
 import userEvent from '@testing-library/user-event';
 
-import Upload from './upload';
+import {createRef} from 'react';
+
+import Upload, {UploadHandle} from './upload';
 import styles from './upload.css';
 
 describe('<Upload />', () => {
@@ -33,6 +35,17 @@ describe('<Upload />', () => {
 
     expect(component).not.toBeNull();
     expect(child).not.toBeNull();
+  });
+
+  it('should expose imperative API', () => {
+    const ref = createRef<UploadHandle>();
+    render(
+      <Upload onFilesSelected={onFilesSelectedMock} ref={ref}>
+        <div data-test="upload-content">{'Drop files here'}</div>
+      </Upload>,
+    );
+
+    expect(ref.current?.openFilePicker).toBeDefined();
   });
 
   it('triggers `onFilesSelected` when files are dropped', async () => {

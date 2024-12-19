@@ -5,7 +5,7 @@ import {Meta, StoryFn} from '@storybook/react';
 
 import Button from '../button/button';
 
-import Upload, {UploadVariant, UploadContext} from './upload';
+import Upload, {UploadHandle, UploadVariant} from './upload';
 
 type Story = StoryFn<typeof Upload>;
 
@@ -161,7 +161,7 @@ export const programmaticOpen: Story = args => {
 
   function UploadDemo() {
     const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
-    const openFnRef = React.useRef<() => void>();
+    const uploadRef = React.useRef<UploadHandle>(null);
 
     const filesSelected = React.useCallback((files: File[]) => {
       setSelectedFiles(files);
@@ -170,17 +170,11 @@ export const programmaticOpen: Story = args => {
 
     return (
       <div>
-        <Upload onFilesSelected={filesSelected} {...rest}>
-          <UploadContext.Consumer>
-            {ctx => {
-              openFnRef.current = ctx.openFilePicker;
-              return null;
-            }}
-          </UploadContext.Consumer>
+        <Upload onFilesSelected={filesSelected} {...rest} ref={uploadRef}>
           <div>{selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Drop files here'}</div>
         </Upload>
 
-        <Button onClick={() => openFnRef.current?.()}>Click to select file</Button>
+        <Button onClick={() => uploadRef.current?.openFilePicker()}>Click to select file</Button>
       </div>
     );
   }

@@ -1,13 +1,4 @@
-import {
-  createContext,
-  DragEventHandler,
-  FunctionComponent,
-  ReactNode,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import {DragEventHandler, forwardRef, ReactNode, useCallback, useImperativeHandle, useRef, useState} from 'react';
 import classNames from 'classnames';
 import attachmentIcon from '@jetbrains/icons/attachment';
 
@@ -31,25 +22,29 @@ interface Props {
   children?: ReactNode;
 }
 
-type UploadContext = {openFilePicker: () => void};
+export type UploadHandle = {
+  openFilePicker: () => void;
+};
 
-export const UploadContext = createContext<UploadContext>({openFilePicker: () => {}});
-
-export const Upload: FunctionComponent<Props> = ({
-  children,
-  className,
-  onFilesSelected,
-  onFilesRejected,
-  validate = () => true,
-  variant = 'empty',
-  multiple,
-  renderIcon = () => <Icon className={styles.attachmentIcon} glyph={attachmentIcon} />,
-  accept,
-  disabled,
-}) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+export const Upload = forwardRef<UploadHandle, Props>(function Upload(
+  {
+    children,
+    className,
+    onFilesSelected,
+    onFilesRejected,
+    validate = () => true,
+    variant = 'empty',
+    multiple,
+    renderIcon = () => <Icon className={styles.attachmentIcon} glyph={attachmentIcon} />,
+    accept,
+    disabled,
+  },
+  ref,
+) {
   const fleInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
+
+  useImperativeHandle(ref, () => ({openFilePicker: () => fleInputRef.current?.click()}), []);
 
   const handleSelectedFiles = useCallback(
     (files: File[]) => {
@@ -74,13 +69,6 @@ export const Upload: FunctionComponent<Props> = ({
 
   const onDragLeave: DragEventHandler = useCallback(() => setDragOver(false), []);
 
-  const context: UploadContext = useMemo(
-    () => ({
-      openFilePicker: () => fleInputRef.current?.click(),
-    }),
-    [],
-  );
-
   const onInputChange = useCallback(() => {
     setDragOver(false);
     if (fleInputRef.current?.files) {
@@ -96,7 +84,6 @@ export const Upload: FunctionComponent<Props> = ({
         [styles.success]: variant === 'success',
         [styles.error]: variant === 'error',
       })}
-      ref={containerRef}
       data-test="ring-upload"
     >
       <input
@@ -114,12 +101,10 @@ export const Upload: FunctionComponent<Props> = ({
         aria-label="file-picker"
         className={styles.invisibleFileInput}
       />
-      <UploadContext.Provider value={context}>
-        {renderIcon()}
-        {children}
-      </UploadContext.Provider>
+      {renderIcon()}
+      {children}
     </div>
   );
-};
+});
 
 export default Upload;
