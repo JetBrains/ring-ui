@@ -1,4 +1,4 @@
-import {PureComponent, HTMLAttributes, ReactNode} from 'react';
+import {PureComponent, HTMLAttributes, ReactNode, Children} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -22,7 +22,11 @@ export interface ButtonGroupProps extends HTMLAttributes<HTMLElement> {
 export default class ButtonGroup extends PureComponent<ButtonGroupProps> {
   render() {
     const {className, split, 'data-test': dataTest, label, help, ...restProps} = this.props;
-    const classes = classNames(split ? styles.split : styles.buttonGroup, className);
+    const classes = classNames(split ? styles.split : styles.buttonGroup, className, {
+      [styles.disabled]: Children.toArray(this.props.children).every(
+        child => child != null && typeof child === 'object' && 'props' in child && child.props.disabled,
+      ),
+    });
 
     return (
       <>
