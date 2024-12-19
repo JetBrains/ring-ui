@@ -191,6 +191,8 @@
   border-bottom: none;
   box-shadow: none;
 
+  line-height: calc(var(--ring-unit) * 3);
+
   &:hover {
     box-shadow: none;
   }
