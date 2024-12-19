@@ -41,10 +41,10 @@ export const Upload = forwardRef<UploadHandle, Props>(function Upload(
   },
   ref,
 ) {
-  const fleInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
 
-  useImperativeHandle(ref, () => ({openFilePicker: () => fleInputRef.current?.click()}), []);
+  useImperativeHandle(ref, () => ({openFilePicker: () => fileInputRef.current?.click()}), []);
 
   const handleSelectedFiles = useCallback(
     (files: File[]) => {
@@ -71,8 +71,8 @@ export const Upload = forwardRef<UploadHandle, Props>(function Upload(
 
   const onInputChange = useCallback(() => {
     setDragOver(false);
-    if (fleInputRef.current?.files) {
-      handleSelectedFiles(Array.from(fleInputRef.current.files));
+    if (fileInputRef.current?.files) {
+      handleSelectedFiles(Array.from(fileInputRef.current.files));
     }
   }, [handleSelectedFiles]);
 
@@ -91,7 +91,7 @@ export const Upload = forwardRef<UploadHandle, Props>(function Upload(
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         disabled={disabled}
-        ref={fleInputRef}
+        ref={fileInputRef}
         data-test="ring-file-input"
         multiple={multiple}
         accept={accept}
