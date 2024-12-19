@@ -7,7 +7,7 @@ import Loader from '../loader-inline/loader-inline';
 
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 
-import {Grid} from '../grid/grid';
+import {Col, Grid} from '../grid/grid';
 import Row from '../grid/row';
 
 import Button, {ButtonProps} from './button';
@@ -40,16 +40,18 @@ export const basic = () => (
           {success: true, inline: false},
           {error: true, inline: false},
           {secondary: true, inline: false},
+          {ghost: true, inline: false},
           {danger: true, inline: false},
           {inline: true},
           {primary: true, inline: true},
+          {ghost: true, inline: true},
           {danger: true, inline: true},
         ].map(typeProps => (
           <Fragment key={JSON.stringify(typeProps)}>
             {[{}, {active: true}, {disabled: true}, {loader: true}].map(stateProps => {
               const icon = height === ControlsHeight.S && !typeProps.inline ? pencil12pxIcon : pencilIcon;
               return (
-                <Row key={JSON.stringify(stateProps)}>
+                <Row key={JSON.stringify(stateProps)} baseline="xs">
                   {[
                     {children: 'Button'},
                     {children: '...', short: true},
@@ -59,13 +61,14 @@ export const basic = () => (
                     {children: 'Button dropdown', dropdown: true},
                     {title: 'Just icon button', icon},
                   ].map(contentProps => (
-                    <Button
-                      data-test={stateProps.active ? 'button-active' : undefined}
-                      key={JSON.stringify(contentProps)}
-                      {...typeProps}
-                      {...stateProps}
-                      {...contentProps}
-                    />
+                    <Col key={JSON.stringify(contentProps)}>
+                      <Button
+                        data-test={stateProps.active ? 'button-active' : undefined}
+                        {...typeProps}
+                        {...stateProps}
+                        {...contentProps}
+                      />
+                    </Col>
                   ))}
                 </Row>
               );
@@ -95,7 +98,7 @@ basic.parameters = {
   }
 
   .buttons :is(button, a) {
-    margin: 8px;
+    margin: 0 8px;
   }
 </style>`,
 };
