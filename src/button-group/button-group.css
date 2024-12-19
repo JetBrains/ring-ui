@@ -20,19 +20,23 @@
 }
 
 .buttonGroup {
+  --ring-button-group-button-border-color: var(--ring-borders-color);
+
   composes: common;
   composes: buttonGroup from "../button-toolbar/button-toolbar.css";
 
   border-radius: var(--ring-border-radius);
 
-  box-shadow: var(--ring-button-shadow) var(--ring-borders-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-button-group-button-border-color);
 
   line-height: normal;
 }
 
-.buttonGroup .button {
-  --ring-button-group-button-border-color: var(--ring-borders-color);
+.disabled {
+  --ring-button-group-button-border-color: var(--ring-border-disabled-color);
+}
 
+.buttonGroup .button {
   position: relative;
 
   transition: none;
@@ -54,8 +58,6 @@
     width: var(--ring-border-radius);
 
     content: "";
-
-    background-color: var(--ring-disabled-background-color);
 
     box-shadow:
       0 1px var(--ring-button-group-button-border-color) inset,
@@ -139,7 +141,7 @@
 }
 
 .buttonGroup .button.active[disabled] {
-  box-shadow: var(--ring-button-shadow) var(--ring-border-selected-disabled-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-border-disabled-active-color);
 }
 /* stylelint-enable */
 
