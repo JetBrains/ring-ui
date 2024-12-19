@@ -24,6 +24,7 @@ export interface ButtonBaseProps {
   success?: boolean | null | undefined;
   error?: boolean | null | undefined;
   secondary?: boolean | null | undefined;
+  ghost?: boolean | null | undefined;
   short?: boolean | null | undefined;
   /**
    * @deprecated Use inline instead
@@ -78,6 +79,7 @@ export class Button extends PureComponent<ButtonProps> {
       success,
       error,
       secondary,
+      ghost,
       short,
       text,
       dropdown,
@@ -112,7 +114,6 @@ export class Button extends PureComponent<ButtonProps> {
             className={classNames(styles.icon, iconClassName)}
             glyph={icon}
             size={iconSize}
-            loading={loader && isInline}
             suppressSizeWarning={iconSuppressSizeWarning}
           />
         )}
@@ -126,7 +127,7 @@ export class Button extends PureComponent<ButtonProps> {
       className: classes,
       children: (
         <>
-          {loader && !isInline && <div className={styles.loaderBackground} />}
+          {loader && <div className={styles.loaderBackground} />}
           {content}
         </>
       ),

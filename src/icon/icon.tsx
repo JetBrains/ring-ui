@@ -25,7 +25,7 @@ export interface IconProps extends HTMLAttributes<HTMLElement> {
   height?: number | undefined;
   size?: Size | number | null | undefined;
   width?: number | undefined;
-  loading?: boolean | null | undefined;
+  loading?: boolean | null | undefined; // TODO: remove in 8.0
   suppressSizeWarning?: boolean | null | undefined;
 }
 

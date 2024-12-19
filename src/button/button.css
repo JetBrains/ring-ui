@@ -7,7 +7,9 @@
   --ring-button-shadow: inset 0 0 0 1px;
   --ring-button-loader-width: calc(var(--ring-unit) * 8);
   --ring-button-disabled-text-color: var(--ring-disabled-color);
+  --ring-button-loader-components: var(--ring-main-components);
   --ring-button-white-text-disabled-color: var(--ring-white-text-color);
+  --ring-button-icon-line-height: calc(var(--ring-unit) * 2);
 }
 
 :global(.ring-ui-theme-dark) {
@@ -20,7 +22,6 @@
   --ring-button-padding-block: calc(var(--ring-unit) * 0.5);
   --ring-button-font-size: var(--ring-font-size-smaller);
   --ring-button-line-height: var(--ring-line-height-lowest);
-  --ring-button-icon-line-height: calc(var(--ring-unit) * 1.5);
 }
 
 .heightM {
@@ -28,7 +29,6 @@
   --ring-button-padding-block: calc(var(--ring-unit) * 0.5);
   --ring-button-font-size: var(--ring-font-size);
   --ring-button-line-height: var(--ring-line-height);
-  --ring-button-icon-line-height: calc(var(--ring-unit) * 2);
 }
 
 .heightL {
@@ -36,10 +36,16 @@
   --ring-button-padding-block: calc(var(--ring-unit) * 0.75);
   --ring-button-font-size: var(--ring-font-size);
   --ring-button-line-height: var(--ring-line-height);
-  --ring-button-icon-line-height: calc(var(--ring-unit) * 2);
 }
 
 .button {
+  --ring-button-default-background-color: var(--ring-content-background-color);
+  --ring-button-background-color: var(--ring-button-default-background-color);
+  --ring-button-hover-background-color: var(--ring-content-background-color);
+  --ring-button-pressed-background-color: var(--ring-selected-background-color);
+  --ring-button-active-background-color: var(--ring-hover-background-color);
+  --ring-button-disabled-background-color: var(--ring-content-background-color);
+
   box-sizing: border-box;
   margin: 0;
 
@@ -56,6 +62,8 @@
   border: 0;
   border-radius: var(--ring-border-radius);
   outline: 0;
+
+  background-color: var(--ring-button-background-color);
 
   font-family: var(--ring-font-family), sans-serif;
 
@@ -74,12 +82,6 @@
 }
 
 .block {
-  --ring-button-default-background-color: var(--ring-content-background-color);
-  --ring-button-background-color: var(--ring-button-default-background-color);
-  --ring-button-hover-background-color: var(--ring-content-background-color);
-  --ring-button-pressed-background-color: var(--ring-selected-background-color);
-  --ring-button-active-background-color: var(--ring-hover-background-color);
-  --ring-button-disabled-background-color: var(--ring-content-background-color);
   --ring-button-default-border-color: var(--ring-borders-color);
   --ring-button-border-color: var(--ring-button-default-border-color);
   --ring-button-hover-border-color: var(--ring-border-hover-color);
@@ -88,14 +90,12 @@
   --ring-button-disabled-border-color: var(--ring-border-disabled-color);
   --ring-button-text-color: var(--ring-text-color);
   --ring-button-padding-inline: calc(var(--ring-unit) * 2);
-  --ring-button-loader-components: var(--ring-main-components);
 
   display: inline-block;
 
   height: var(--ring-button-height);
   padding: var(--ring-button-padding-block) var(--ring-button-padding-inline);
 
-  background-color: var(--ring-button-background-color);
   box-shadow: var(--ring-button-shadow) var(--ring-button-border-color);
 
   font-size: var(--ring-button-font-size);
@@ -116,17 +116,20 @@
       var(--ring-button-shadow) var(--ring-button-focus-border-color),
       0 0 0 1px var(--ring-button-focus-border-color);
   }
+
+  &.heightS {
+    --ring-button-icon-line-height: calc(var(--ring-unit) * 1.5);
+  }
 }
 
 .inline {
   --ring-button-text-color: var(--ring-action-link-color);
+  --ring-button-background-color: transparent;
 
   display: inline;
 
   margin: 0;
   padding: 0;
-
-  background: transparent;
 
   font-size: inherit;
   line-height: inherit;
@@ -196,15 +199,6 @@
   --ring-button-pressed-border-color: transparent;
   --ring-button-active-border-color: transparent;
   --ring-button-disabled-border-color: transparent;
-
-  & .loaderBackground {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    border-radius: var(--ring-border-radius);
-  }
 }
 
 .whiteText {
@@ -264,7 +258,36 @@
   composes: flat;
 }
 
+.ghost {
+  --ring-button-hover-background-color: var(--ring-tag-hover-background-color);
+  --ring-button-text-color: var(--ring-secondary-color);
+
+  composes: flat;
+
+  &.inline {
+    &:hover {
+    --ring-button-background-color: var(--ring-tag-background-color);
+    }
+
+    &:active {
+      --ring-button-background-color: var(--ring-button-pressed-background-color);
+    }
+
+    &.active {
+      --ring-button-background-color: var(--ring-button-active-background-color);
+    }
+  }
+
+  &.block {
+    --ring-button-loader-components: var(--ring-secondary-components);
+  }
+}
+
 .iconOnly {
+  &.inline {
+    line-height: var(--ring-button-icon-line-height);
+  }
+
   &.heightS {
     --ring-button-padding-block: calc(var(--ring-unit) * 0.75);
     --ring-button-padding-inline: calc(var(--ring-unit) * 0.75);
@@ -300,13 +323,10 @@
   cursor: auto;
 
   background-color: var(--ring-button-default-background-color);
-  box-shadow: var(--ring-button-shadow) var(--ring-button-default-border-color);
 }
 
-.loader.inline {
-  animation-name: text-loading;
-  animation-duration: 1200ms;
-  animation-iteration-count: infinite;
+.loader.block {
+  box-shadow: var(--ring-button-shadow) var(--ring-button-default-border-color);
 }
 
 .loaderBackground {
@@ -343,6 +363,16 @@
   }
 }
 
+.flat .loaderBackground,
+.inline .loaderBackground {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    border-radius: var(--ring-border-radius);
+}
+
 .delayed::after {
   content: "…";
 }
@@ -374,11 +404,5 @@
 
   to {
     transform: translateX(0);
-  }
-}
-
-@keyframes text-loading {
-  50% {
-    opacity: 0.5;
   }
 }
