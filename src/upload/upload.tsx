@@ -2,7 +2,6 @@ import {
   createContext,
   DragEventHandler,
   FunctionComponent,
-  HTMLAttributes,
   ReactNode,
   useCallback,
   useMemo,
@@ -18,7 +17,7 @@ import styles from './upload.css';
 
 export type UploadVariant = 'empty' | 'error' | 'success';
 
-interface Props extends HTMLAttributes<HTMLInputElement> {
+interface Props {
   className?: string;
   onFilesSelected: (files: File[]) => void;
   onFilesRejected?: (files: File[]) => void;
@@ -47,7 +46,6 @@ export const Upload: FunctionComponent<Props> = ({
   renderIcon = () => <Icon className={styles.attachmentIcon} glyph={attachmentIcon} />,
   accept,
   disabled,
-  ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const fleInputRef = useRef<HTMLInputElement>(null);
@@ -115,7 +113,6 @@ export const Upload: FunctionComponent<Props> = ({
         autoComplete="off"
         aria-label="file-picker"
         className={styles.invisibleFileInput}
-        {...rest}
       />
       <UploadContext.Provider value={context}>
         {renderIcon()}
