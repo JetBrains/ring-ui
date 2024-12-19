@@ -6,9 +6,7 @@
   Hackish handle Strotybooks fixed position
  */
 /* stylelint-disable-next-line selector-max-specificity */
-:global(#storybook-root) > div:nth-child(2) {
-  top: 64px;
-
+:global(#root) > div {
   height: calc(100vh - 64px);
 }
 
