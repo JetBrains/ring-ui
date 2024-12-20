@@ -37,3 +37,6 @@ yarn-error.log
 yarn.lock
 /metadata-messages.json
 npm-audit.html
+
+# Secrets
+.env
