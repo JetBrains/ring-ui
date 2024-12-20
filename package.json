@@ -183,7 +183,7 @@
     "vitest-teamcity-reporter": "^0.3.1",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.97.1",
-    "webpack-cli": "^5.1.4",
+    "webpack-cli": "^6.0.0",
     "xmlappend": "^1.0.4"
   },
   "peerDependencies": {
