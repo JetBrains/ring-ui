@@ -8,7 +8,6 @@ export default {
 
   parameters: {
     notes: 'Displays a tag.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc712fd372a8e13e7d5e',
   },
 };
 
