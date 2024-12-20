@@ -9,7 +9,6 @@ export default {
 
   parameters: {
     notes: 'Displays a radio button. Adopted from [react-radio-group](https://github.com/chenglou/react-radio-group).',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc703afd36a8d65af24c',
   },
 };
 
