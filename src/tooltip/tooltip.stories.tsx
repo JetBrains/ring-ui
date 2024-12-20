@@ -9,7 +9,6 @@ export default {
 
   parameters: {
     notes: 'Displays a tooltip.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc71cc9f8daafc0afcfa',
   },
 };
 

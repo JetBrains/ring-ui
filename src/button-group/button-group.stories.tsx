@@ -16,7 +16,6 @@ export default {
 
   parameters: {
     notes: 'Allows to group several buttons.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc709f3bcaad55fd8530',
   },
 };
 

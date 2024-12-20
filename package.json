@@ -2,7 +2,9 @@
   "name": "@jetbrains/ring-ui",
   "version": "7.0.16",
   "description": "JetBrains UI library",
-  "author": "JetBrains",
+  "author": {
+    "name": "JetBrains"
+  },
   "license": "Apache-2.0",
   "packageManager": "npm@8.11.0",
   "files": [
@@ -46,6 +48,8 @@
     "screenshots-test-ci": "npm --prefix packages/screenshots run test-ci",
     "screenshots-gather": "npm --prefix packages/screenshots run gather",
     "build-stories": "storybook build --quiet -c .storybook -o storybook-dist",
+    "chromatic": "npx chromatic --build-script-name build-stories --exit-once-uploaded",
+    "chromatic-local": "dotenv -- npm run publish-stories",
     "prebuild": "rimraf components && tsc --project tsconfig-build.json && cpy './**/*' '!**/*.ts' '!**/*.tsx' '!**/__mocks__/**' ../components --parents --cwd=src/",
     "build": "./node_modules/.bin/rollup -c --bundleConfigAsCjs",
     "postbuild": "cpy './**/*.d.ts' ../dist --parents --cwd=components/",
@@ -73,7 +77,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://github.com/JetBrains/ring-ui.git"
+    "url": "git+ssh://git@github.com/JetBrains/ring-ui.git"
   },
   "readmeFilename": "README.md",
   "devDependencies": {
@@ -87,8 +91,8 @@
     "@eslint/js": "^9.17.0",
     "@jetbrains/eslint-config": "^6.0.4",
     "@jetbrains/logos": "3.0.0-canary.734b213.0",
-    "@jetbrains/stylelint-config": "^4.0.2",
     "@jetbrains/rollup-css-plugin": "./packages/rollup-css-plugin",
+    "@jetbrains/stylelint-config": "^4.0.2",
     "@primer/octicons": "^19.14.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-json": "^6.1.0",
@@ -133,8 +137,10 @@
     "chai-dom": "^1.10.0",
     "chai-enzyme": "1.0.0-beta.1",
     "cheerio": "^1.0.0-rc.12",
+    "chromatic": "^11.20.2",
     "core-js": "^3.39.0",
     "cpy-cli": "^5.0.0",
+    "dotenv-cli": "^7.4.4",
     "enzyme": "^3.11.0",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
@@ -254,5 +260,9 @@
   "engines": {
     "node": ">=14.0",
     "npm": ">=6.0.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/JetBrains/ring-ui/issues"
+  },
+  "homepage": "https://github.com/JetBrains/ring-ui#readme"
 }

@@ -5,7 +5,6 @@ export default {
 
   parameters: {
     notes: 'Displays a checkbox as an animated on/off toggle.',
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc7012b7bdaa2dae6aa9',
   },
 };
 

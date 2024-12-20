@@ -8,9 +8,6 @@ export default {
   title: 'Components/Checkbox',
 
   component: Checkbox,
-  parameters: {
-    zeplinLink: 'https://app.zeplin.io/project/5afd8f5511c2d1c625752bb0/screen/6193bc70c6d749a970988caa',
-  },
 };
 
 export const controls = (args: CheckboxProps) => <Checkbox {...args} />;
