@@ -9,6 +9,12 @@ To apply the patch, change the buildType with id = 'PublishToGitHubPages'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("PublishToGitHubPages")) {
+    params {
+        add {
+            password("env.CHROMATIC_PROJECT_TOKEN", "credentialsJSON:14b73cdb-03e5-4b8f-b8c1-77d370951b9f")
+        }
+    }
+
     vcs {
 
         check(branchFilter == """
