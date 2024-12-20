@@ -906,6 +906,7 @@ object PublishHotfixRelease : BuildType({
                 chmod 644 ~/.ssh/config
 
                 # GitHub and NPM authorization
+                git config --system --add safe.directory '*' # Fix for "fatal: detected dubious ownership in repository"
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
 

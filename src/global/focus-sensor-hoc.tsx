@@ -56,7 +56,9 @@ export default function focusSensorHOC<
 
     componentDidUpdate(prevProps: FocusSensorProps<P, T, typeof ComposedComponent>) {
       const {focused} = this.props;
-      if (focused && !prevProps.focused) {
+      const isInFocus = this.node?.contains(document.activeElement);
+
+      if (focused && (!isInFocus || !prevProps.focused)) {
         this.onFocusRestore();
       } else if (!focused && prevProps.focused) {
         this.onFocusReset();

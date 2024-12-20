@@ -192,7 +192,9 @@ export default class Dialog extends PureComponent<DialogProps> {
         )}
         <div className={styles.innerContainer}>
           <AdaptiveIsland
-            className={classNames(styles.content, contentClassName, {[styles.dense]: dense})}
+            className={classNames(styles.content, contentClassName, {
+              [styles.dense]: dense,
+            })}
             data-test="ring-dialog"
             role="dialog"
             aria-label={label}

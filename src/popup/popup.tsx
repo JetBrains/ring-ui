@@ -146,9 +146,6 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
   };
 
   componentDidMount() {
-    if (!this.props.client) {
-      this.setState({client: true});
-    }
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
@@ -289,13 +286,16 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
   }
 
   private _listenersEnabled?: boolean;
+
+  private _prevTimeout?: number;
   /**
    * @param {boolean} enable
    * @private
    */
   private _setListenersEnabled(enable: boolean) {
     if (enable && !this._listenersEnabled) {
-      setTimeout(() => {
+      clearTimeout(this._prevTimeout);
+      this._prevTimeout = window.setTimeout(() => {
         this._listenersEnabled = true;
         this.listeners.add(window, 'resize', this._redraw);
         if (this.props.autoPositioningOnScroll) {
@@ -314,6 +314,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
 
     if (!enable && this._listenersEnabled) {
       this.listeners.removeAll();
+      clearTimeout(this._prevTimeout);
       this._listenersEnabled = false;
     }
   }
@@ -409,7 +410,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
             >
               {this.shouldUseShortcuts() && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
 
-              {(client || this.state.client) &&
+              {client !== false &&
                 (keepMounted || !hidden) &&
                 createPortal(
                   <PopupTarget
