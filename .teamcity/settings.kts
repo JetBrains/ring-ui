@@ -791,6 +791,14 @@ object Publish : BuildType({
     }
 
     triggers {
+        vcs {
+            id = "vcsTrigger"
+            triggerRules = """
+                -:user=npmjs-buildserver:**
+                +:comment=(?i)\[publish\]:**
+            """.trimIndent()
+            branchFilter = "+:master"
+        }
         retryBuild {
             id = "retryBuildTrigger"
             delaySeconds = 60
@@ -1017,7 +1025,7 @@ object PublishHotfixRelease : BuildType({
 object PublishNext : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
     name = "Publish @next"
-    paused = true
+    paused = false
 
     artifactRules = """
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
@@ -1123,7 +1131,12 @@ object PublishNext : BuildType({
 
     triggers {
         vcs {
-            enabled = false
+            id = "vcsTrigger"
+            triggerRules = """
+                -:user=npmjs-buildserver:**
+                +:comment=(?i)\[publish\]:**
+            """.trimIndent()
+            branchFilter = "-:<default>"
         }
         retryBuild {
             enabled = false
@@ -1201,12 +1214,14 @@ object PublishToGitHubPages : BuildType({
         param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
         param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
         param("org.jfrog.artifactory.selectedDeployableServer.uploadSpecSource", "Job configuration")
+        password("env.CHROMATIC_PROJECT_TOKEN", "credentialsJSON:14b73cdb-03e5-4b8f-b8c1-77d370951b9f")
     }
 
     vcs {
         root(DslContext.settingsRoot)
         branchFilter = """
             +:master
+            +:<default>
             +:release-*
         """.trimIndent()
     }
@@ -1237,6 +1252,7 @@ object PublishToGitHubPages : BuildType({
                 git config user.name "%github.com.builduser.name%"
 
                 npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%" --nojekyll
+                npm run chromatic
             """.trimIndent()
             dockerImage = "node:20"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
