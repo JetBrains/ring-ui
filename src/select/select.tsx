@@ -566,6 +566,16 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     this.isClickingSelect = false;
   };
 
+  isClickingSelect = false;
+
+  mouseDownHandler = () => {
+    this.isClickingSelect = true;
+  };
+
+  mouseUpHandler = () => {
+    this.isClickingSelect = false;
+  };
+
   private _blurHandler = () => {
     this.props.onBlur();
 
@@ -1023,6 +1033,13 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           }
 
           return {...prevState, ...nextState};
+        },
+        () => {
+          if (this.state.multipleMap[selected.key]) {
+            this.props.onSelect?.(selected, event);
+          } else {
+            this.props.onDeselect?.(selected);
+          }
         },
         () => {
           if (this.state.multipleMap[selected.key]) {
