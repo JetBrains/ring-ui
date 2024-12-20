@@ -93,6 +93,7 @@ export default tseslint.config(
             '**/*.stories.js',
             '**/*.stories.ts',
             '**/*.stories.tsx',
+            '**/*.figma.tsx',
             'eslint.config.mjs',
             '.storybook/**',
             'packages/screenshots/**',
