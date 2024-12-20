@@ -37,6 +37,7 @@ yarn-error.log
 yarn.lock
 /metadata-messages.json
 npm-audit.html
+build-storybook.log
 
 # Secrets
 .env
