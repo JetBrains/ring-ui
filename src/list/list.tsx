@@ -581,6 +581,9 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       if (cleanedProps.href) {
         cleanedProps.rgItemType = Type.LINK;
       }
+      cleanedProps.description = typeof cleanedProps.description === 'string'
+        ? cleanedProps.description.trim()
+        : cleanedProps.description;
       const itemProps =
         Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, restProps) as ListDataItemProps<T>;
 
