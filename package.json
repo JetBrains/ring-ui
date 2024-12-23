@@ -145,7 +145,7 @@
     "chromatic": "^11.20.2",
     "core-js": "^3.39.0",
     "cpy-cli": "^5.0.0",
-    "dotenv-cli": "^7.4.4",
+    "dotenv-cli": "^8.0.0",
     "enzyme": "^3.11.0",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
