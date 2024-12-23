@@ -178,7 +178,7 @@
     "react-test-renderer": "^19.0.0",
     "regenerator-runtime": "^0.14.1",
     "rimraf": "^6.0.1",
-    "rollup": "^4.28.1",
+    "rollup": "^4.29.1",
     "rollup-plugin-clear": "^2.0.7",
     "sinon": "^19.0.2",
     "sinon-chai": "^4.0.0",
