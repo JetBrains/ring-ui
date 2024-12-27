@@ -245,8 +245,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['**/*.stories.*'],
-    ignores: ['**/*.stories.{json,css}'],
+    files: ['**/*.stories.{js,ts,tsx}'],
 
     languageOptions: {
       globals: {
