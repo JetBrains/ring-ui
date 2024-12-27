@@ -1,8 +1,12 @@
 import {PureComponent, ImgHTMLAttributes} from 'react';
 import classNames from 'classnames';
 
+import deprecate from 'util-deprecate';
+
 import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
+
+import memoize from '../global/memoize';
 
 import styles from './avatar.css';
 import FallbackAvatar from './fallback-avatar';
@@ -12,14 +16,14 @@ import FallbackAvatar from './fallback-avatar';
  */
 
 export enum Size {
-  Size18 = 18,
+  Size18 = 18, // deprecated
   Size20 = 20,
   Size24 = 24,
   Size28 = 28,
   Size32 = 32,
   Size40 = 40,
-  Size48 = 48,
-  Size56 = 56,
+  Size48 = 48, // deprecated
+  Size56 = 56, // deprecated
 }
 
 export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -32,6 +36,13 @@ export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
   username?: string | null | undefined;
   skipParams?: boolean | null | undefined;
 }
+
+const warnSize = memoize((size: Size) =>
+  deprecate(
+    () => {},
+    `Avatar: Size${size} is deprecated and will be removed in 8.0. The supported sizes are: Size20, Size24, Size28, Size32, Size40.`,
+  ),
+);
 
 export default class Avatar extends PureComponent<AvatarProps> {
   static defaultProps = {
@@ -55,6 +66,9 @@ export default class Avatar extends PureComponent<AvatarProps> {
 
   render() {
     const {size, url, dpr, style, round, subavatar, subavatarSize, username, skipParams, ...restProps} = this.props;
+    if ([Size.Size18, Size.Size48, Size.Size56].includes(size)) {
+      warnSize(size)();
+    }
     const sizeString = `${size}px`;
     const subavatarSizeString = `${subavatarSize}px`;
     const borderRadius = size <= Size.Size18 ? 'var(--ring-border-radius-small)' : 'var(--ring-border-radius)';

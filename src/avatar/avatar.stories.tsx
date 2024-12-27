@@ -13,17 +13,15 @@ export const avatar = () => {
   function Example() {
     return (
       <div>
-        {Object.entries(Size).map(([key, size]) =>
-          typeof size === 'number' ? (
-            <div className="avatar-demo" key={key}>
-              <Avatar size={size} url={avatarDataUri} />
-              <Avatar size={size} username="Jet Brains" />
-              <Avatar size={size} username="👹🙀" />
-              <Avatar size={size} username="Jet Brains" round />
-              <Avatar size={size} />
-            </div>
-          ) : null,
-        )}
+        {[Size.Size20, Size.Size24, Size.Size28, Size.Size32, Size.Size40].map(size => (
+          <div className="avatar-demo" key={size}>
+            <Avatar size={size} url={avatarDataUri} />
+            <Avatar size={size} username="Jet Brains" />
+            <Avatar size={size} username="👹🙀" />
+            <Avatar size={size} username="Jet Brains" round />
+            <Avatar size={size} />
+          </div>
+        ))}
       </div>
     );
   }
