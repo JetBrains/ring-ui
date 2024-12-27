@@ -38,6 +38,10 @@ module.exports = {
         options: {removeSVGTagAttrs: false},
         include: [/@primer\/octicons/, /@jetbrains\/logos/],
       },
+      {
+        test: /\.png$/,
+        type: 'asset/resource',
+      },
     ];
 
     const serverUri = pkgConfig.hub;
