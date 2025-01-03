@@ -131,7 +131,7 @@
     "@types/sinon-chai": "^4.0.0",
     "@types/webpack-env": "^1.18.5",
     "@vitejs/plugin-react": "^4.3.4",
-    "@vitest/eslint-plugin": "^1.1.22",
+    "@vitest/eslint-plugin": "^1.1.24",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "acorn": "^8.14.0",
     "axe-playwright": "^2.0.3",
