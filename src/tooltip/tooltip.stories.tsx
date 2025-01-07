@@ -1,6 +1,7 @@
 import {CSSProperties, Fragment} from 'react';
 
 import Button from '../button/button';
+import Link from '../link/link';
 
 import Tooltip from './tooltip';
 
@@ -105,4 +106,26 @@ nested.parameters = {
       {type: 'capture', name: '', selector: '#storybook-root'},
     ],
   },
+};
+
+export const complexMarkup = () => (
+  <div>
+    <Tooltip
+      title={
+        <>
+          Explanation <Link href="https://google.com">with</Link>
+          <div>
+            <b>complex</b>
+          </div>{' '}
+          markup
+        </>
+      }
+    >
+      <Button id="button-with-tooltip">Button that requires a complex explanation</Button>
+    </Tooltip>
+  </div>
+);
+
+complexMarkup.parameters = {
+  screenshots: {skip: true},
 };

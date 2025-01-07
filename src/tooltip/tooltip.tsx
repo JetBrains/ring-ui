@@ -138,6 +138,13 @@ export default class Tooltip extends Component<TooltipProps> {
     this.listeners.add(document, 'scroll', () => scheduleScroll(this.hidePopup), {passive: true});
   }
 
+  hideIfMovedOutsidePopup = (ev: React.SyntheticEvent<HTMLElement>) => {
+    if (!('relatedTarget' in ev) || this.popup?.container?.contains(ev.relatedTarget as Node | null)) {
+      return;
+    }
+    this.hidePopup();
+  };
+
   popup?: Popup | null;
   popupRef = (el: Popup | null) => {
     this.popup = el;
@@ -187,7 +194,7 @@ export default class Tooltip extends Component<TooltipProps> {
               maxHeight={400}
               className={classNames(styles.tooltip, {[styles.long]: long})}
               attached={false}
-              onMouseOut={this.hidePopup}
+              onMouseOut={this.hideIfMovedOutsidePopup}
               top={4}
               dontCloseOnAnchorClick
               ref={this.popupRef}
