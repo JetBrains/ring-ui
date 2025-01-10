@@ -11,7 +11,7 @@ export default {
 };
 
 export const avatarStack = () =>
-  [Size.Size20, Size.Size24, Size.Size28, Size.Size32, Size.Size40].map(size => (
+  [Size.Size20, Size.Size24, Size.Size28, Size.Size32, Size.Size40, Size.Size56].map(size => (
     <div key={size}>
       <AvatarStack
         size={size}

@@ -28,6 +28,12 @@
   --ring-avatar-stack-extra-font-size: var(--ring-font-size-larger);
 }
 
+.size56 {
+  --ring-avatar-stack-offset: 42px;
+  --ring-avatar-stack-mask-image: url('avatar-stack.mask-56.svg');
+  --ring-avatar-stack-extra-font-size: 22px;
+}
+
 .avatarStack {
   position: relative;
 
