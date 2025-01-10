@@ -23,7 +23,7 @@ export enum Size {
   Size32 = 32,
   Size40 = 40,
   Size48 = 48, // deprecated
-  Size56 = 56, // deprecated
+  Size56 = 56,
 }
 
 export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -66,7 +66,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
 
   render() {
     const {size, url, dpr, style, round, subavatar, subavatarSize, username, skipParams, ...restProps} = this.props;
-    if ([Size.Size18, Size.Size48, Size.Size56].includes(size)) {
+    if ([Size.Size18, Size.Size48].includes(size)) {
       warnSize(size)();
     }
     const sizeString = `${size}px`;
