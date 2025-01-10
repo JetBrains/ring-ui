@@ -13,7 +13,7 @@ export const avatar = () => {
   function Example() {
     return (
       <div>
-        {[Size.Size20, Size.Size24, Size.Size28, Size.Size32, Size.Size40].map(size => (
+        {[Size.Size20, Size.Size24, Size.Size28, Size.Size32, Size.Size40, Size.Size56].map(size => (
           <div className="avatar-demo" key={size}>
             <Avatar size={size} url={avatarDataUri} />
             <Avatar size={size} username="Jet Brains" />
