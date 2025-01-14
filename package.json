@@ -244,7 +244,7 @@
     "highlight.js": "^10.7.2",
     "just-debounce-it": "^3.2.0",
     "memoize-one": "^6.0.0",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.0",
     "postcss-calc": "^10.1.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
