@@ -192,13 +192,13 @@ export default class Tooltip extends Component<TooltipProps> {
               hidden={!this.state.showPopup || this.state.showNestedPopup}
               onCloseAttempt={this.hidePopup}
               maxHeight={400}
-              className={classNames(styles.tooltip, {[styles.long]: long})}
               attached={false}
               onMouseOut={this.hideIfMovedOutsidePopup}
               top={4}
               dontCloseOnAnchorClick
               ref={this.popupRef}
               {...popupProps}
+              className={classNames(styles.tooltip, {[styles.long]: long}, popupProps?.className)}
             >
               {title}
             </Popup>
