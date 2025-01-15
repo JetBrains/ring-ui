@@ -78,18 +78,6 @@
   line-height: calc(var(--ring-unit) * 2);
 }
 
-.error {
-  cursor: default;
-
-  /* Override ring-link */
-  &,
-  &:hover,
-  &:focus,
-  &:visited {
-    color: var(--ring-error-color);
-  }
-}
-
 .add {
   padding: var(--ring-unit) calc(2 * var(--ring-unit));
 
@@ -188,12 +176,12 @@
   transition: none;
 }
 
-.item:hover:not(.error) {
+.action:hover {
   background-color: var(--ring-hover-background-color);
 }
 
 /* TODO rename .hover to .selected in 8.0 */
-.item.hover:not(.error) {
+.action.hover {
   background-color: var(--ring-selected-background-color);
 }
 
@@ -310,7 +298,10 @@
 }
 
 .disabled {
-  pointer-events: none;
-
   color: var(--ring-disabled-color);
+}
+
+.item:not(.action),
+.disabled {
+  pointer-events: none;
 }
