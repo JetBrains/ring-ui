@@ -100,7 +100,7 @@ describe('Tooltip', () => {
       const instance = wrapper.instance();
 
       instance.tryToShowPopup();
-      instance.popup!.popup!.should.have.class('tooltip-test-popup');
+      instance.popup!.popup!.should.have.class('tooltip-test-popup').and.have.class('tooltip');
     });
 
     it('should close popup on unmount', () => {
