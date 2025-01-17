@@ -172,8 +172,11 @@
 }
 
 /* override link */
-.actionLink.actionLink {
+.actionLink.actionLink.actionLink {
   transition: none;
+  text-decoration-line: none;
+
+  color: var(--ring-text-color);
 }
 
 .action:hover {
