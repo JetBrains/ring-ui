@@ -7,11 +7,11 @@ import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon/icon';
 
 import getUID from '../global/get-uid';
-import globalStyles from '../global/global.css';
 
 import styles from './list.css';
 
 import {ListDataItemProps} from './consts';
+import {getListClasses} from './list__classes';
 
 /**
  * @constructor
@@ -31,8 +31,6 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
 
   render() {
     const {
-      scrolling,
-      className,
       disabled,
       checkbox,
       avatar,
@@ -45,10 +43,8 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       title,
       details,
       hover,
-      rgItemType,
       level,
       tabIndex,
-      compact,
       onClick,
       onCheckboxChange,
       onMouseOver,
@@ -59,7 +55,6 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       showGeneratedAvatar,
       username,
       labelWrapper,
-      ...restProps
     } = this.props;
 
     const checkable = checkbox !== undefined;
@@ -67,13 +62,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     const hasLeftNodes = leftNodes || glyph || avatar || shouldShowGeneratedAvatar;
     const showCheckbox = checkable && (checkbox || !hasLeftNodes || (hover && !disabled));
 
-    const classes = classNames(styles.item, globalStyles.resetButton, className, {
-      [styles.action]: !disabled,
-      [styles.hover]: hover && !disabled,
-      [styles.compact]: compact,
-      [styles.scrolling]: scrolling,
-      [styles.disabled]: disabled,
-    });
+    const classes = getListClasses(this.props);
 
     const detailsClasses = classNames({
       [styles.details]: details,
@@ -96,11 +85,11 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
 
     const dataTest = dataTests(
       {
-        'ring-list-item': ((restProps['data-test'] || '') as string).indexOf('ring-list-item') === -1,
+        'ring-list-item': ((this.props['data-test'] || '') as string).indexOf('ring-list-item') === -1,
         'ring-list-item-action': !disabled,
         'ring-list-item-selected': checkbox,
       },
-      restProps['data-test'],
+      this.props['data-test'],
     );
 
     const labelElement = (
