@@ -10,6 +10,12 @@
   border-radius: var(--ring-border-radius);
 }
 
+.avatarShadow {
+  /* See https://stackoverflow.com/questions/21414925/why-doesnt-inset-box-shadow-work-over-images */
+
+  filter: url('avatar-shadow-filter.svg#inset-shadow');
+}
+
 .subavatar {
   position: absolute;
   top: 15px;
