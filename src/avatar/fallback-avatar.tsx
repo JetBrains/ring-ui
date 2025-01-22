@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 
 import getUID from '../global/get-uid';
 
-import {Size} from './avatar';
+import {Size} from './avatar-size';
 
 const colorPairs = [
   ['#60A800', '#D5CA00'],
@@ -29,8 +29,13 @@ const colorPairs = [
 ];
 
 interface Position {
-  x: number;
-  y: number;
+  x: number | string;
+  y: number | string;
+}
+
+interface Rectangle extends Position {
+  width: number;
+  height: number;
 }
 
 interface SizesEntry {
@@ -38,40 +43,141 @@ interface SizesEntry {
   text: Position;
   fontSize: string;
   textAnchor?: string;
-  underscore?: Position;
+  dominantBaseline?: string;
+  underscore?: Rectangle;
   letterSpacing?: number;
 }
 
-const Sizes: Record<number, SizesEntry> = {
-  18: {
-    radius: 2,
+const SizesSquare: Record<Size, SizesEntry> = {
+  [Size.Size16]: {
+    radius: 4,
+    text: {x: 7.5, y: 11},
+    fontSize: '8px',
+    textAnchor: 'middle',
+  },
+  [Size.Size18]: {
+    radius: 4,
     text: {x: 9, y: 13},
     fontSize: '11px',
     textAnchor: 'middle',
   },
-  24: {
-    radius: 3,
-    text: {x: 2, y: 13},
+  [Size.Size20]: {
+    radius: 4,
+    text: {x: 2, y: 10},
+    fontSize: '9px',
+    underscore: {x: 3, y: 16, width: 7, height: 1},
+  },
+  [Size.Size24]: {
+    radius: 4,
+    text: {x: 2, y: 12},
     fontSize: '11px',
-    underscore: {x: 3, y: 17},
+    underscore: {x: 3, y: 18.5, width: 9, height: 1.5},
   },
-  32: {
-    radius: 3,
-    text: {x: 3, y: 17},
+  [Size.Size28]: {
+    radius: 4,
+    text: {x: 2, y: 14},
     fontSize: '13px',
-    letterSpacing: 1,
-    underscore: {x: 4, y: 22},
+    underscore: {x: 3, y: 22, width: 11, height: 2},
   },
-  40: {
-    radius: 3,
-    text: {x: 5, y: 19},
+  [Size.Size32]: {
+    radius: 4,
+    text: {x: 3, y: 17},
     fontSize: '15px',
     letterSpacing: 1,
-    underscore: {x: 6, y: 28},
+    underscore: {x: 4, y: 26, width: 12, height: 2},
+  },
+  [Size.Size40]: {
+    radius: 4,
+    text: {x: 3, y: 21},
+    fontSize: '19px',
+    letterSpacing: 1,
+    underscore: {x: 5, y: 32, width: 15, height: 2.5},
+  },
+  [Size.Size48]: {
+    radius: 4,
+    text: {x: 3, y: 21},
+    fontSize: '19px',
+    letterSpacing: 1,
+    underscore: {x: 5, y: 32, width: 15, height: 2.5},
+  },
+  [Size.Size56]: {
+    radius: 4,
+    text: {x: 4, y: 28},
+    fontSize: '26px',
+    letterSpacing: 1,
+    underscore: {x: 7, y: 45, width: 21, height: 3.5},
   },
 };
 
-const sizeKeys = Object.keys(Sizes).map(Number);
+const SizesRound: Record<Size, SizesEntry> = {
+  [Size.Size16]: {
+    radius: 4,
+    fontSize: '8px',
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+  },
+  [Size.Size18]: {
+    radius: 4,
+    fontSize: '11px',
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+  },
+  [Size.Size20]: {
+    radius: 4,
+    fontSize: '9px',
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+  },
+  [Size.Size24]: {
+    radius: 4,
+    fontSize: '11px',
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+  },
+  [Size.Size28]: {
+    radius: 4,
+    fontSize: '13px',
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+  },
+  [Size.Size32]: {
+    radius: 4,
+    fontSize: '15px',
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+    letterSpacing: 1,
+  },
+  [Size.Size40]: {
+    radius: 4,
+    fontSize: '19px',
+    letterSpacing: 1,
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+  },
+  [Size.Size48]: {
+    radius: 4,
+    fontSize: '19px',
+    letterSpacing: 1,
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+  },
+  [Size.Size56]: {
+    radius: 4,
+    fontSize: '26px',
+    letterSpacing: 1,
+    text: {x: '50%', y: '54%'},
+    textAnchor: 'middle',
+    dominantBaseline: 'middle',
+  },
+};
 
 function extractLetters(name: string) {
   const names = name
@@ -111,13 +217,12 @@ export interface FallbackAvatarProps {
 export default function FallbackAvatar({username, size, round}: FallbackAvatarProps) {
   const hash = Math.abs(hashCode(username.toLowerCase()));
   const [fromColor, toColor] = colorPairs[hash % colorPairs.length];
-  const possibleSizeKeys = sizeKeys.filter(key => key >= size);
-  const sizeKey = possibleSizeKeys.length > 0 ? Math.min(...possibleSizeKeys) : Math.max(...sizeKeys);
-  const sizes = Sizes[sizeKey];
+  const sizes = round ? SizesRound[size] : SizesSquare[size];
+  const underscore = sizes.underscore;
   const radius = round ? '50%' : sizes.radius;
   const gradientId = useMemo(() => getUID('gradient-'), []);
   return (
-    <svg viewBox={`0 0 ${sizeKey} ${sizeKey}`} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox={`0 0 ${size} ${size}`} xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
           <stop stopColor={fromColor} offset="0" />
@@ -125,24 +230,24 @@ export default function FallbackAvatar({username, size, round}: FallbackAvatarPr
         </linearGradient>
       </defs>
       <g>
-        <rect fill={`url(#${gradientId})`} x="0" y="0" width={sizeKey} height={sizeKey} rx={radius} ry={radius} />
+        <rect fill={`url(#${gradientId})`} x="0" y="0" width={size} height={size} rx={radius} ry={radius} />
         <text
           x={sizes.text.x}
           y={sizes.text.y}
-          fontFamily="Arial, Helvetica, sans-serif"
+          fontFamily="var(--ring-font-family, 'Arial, Helvetica, sans-serif')"
           fontSize={sizes.fontSize}
+          fontWeight="600"
           letterSpacing={sizes.letterSpacing}
           fill="#FFFFFF"
+          dominantBaseline={sizes.dominantBaseline}
           textAnchor={sizes.textAnchor}
           cursor="default"
         >
           <tspan>{extractLetters(username)}</tspan>
-          {sizes.underscore && (
-            <tspan x={sizes.underscore.x} y={sizes.underscore.y}>
-              {'_'}
-            </tspan>
-          )}
         </text>
+        {underscore && (
+          <rect fill="#FFFFFF" x={underscore.x} y={underscore.y} width={underscore.width} height={underscore.height} />
+        )}
         <title>{username}</title>
       </g>
     </svg>

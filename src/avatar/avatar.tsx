@@ -10,23 +10,9 @@ import memoize from '../global/memoize';
 
 import styles from './avatar.css';
 import FallbackAvatar from './fallback-avatar';
+import {Size} from './avatar-size';
 
-/**
- * @name Avatar
- */
-
-export enum Size {
-  /** @deprecated */
-  Size18 = 18,
-  Size20 = 20,
-  Size24 = 24,
-  Size28 = 28,
-  Size32 = 32,
-  Size40 = 40,
-  /** @deprecated */
-  Size48 = 48,
-  Size56 = 56,
-}
+export {Size};
 
 export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
   dpr: number;
