@@ -29,7 +29,7 @@ export const avatar = () => {
                 <Avatar size={size} url={avatarSrc} />
               </div>
               <div className="avatar-demo-cell">
-                <Avatar size={size} username="Samuel Morse" />
+                <Avatar size={size} username={`Samuel${size} Morse${size}`} />
               </div>
               <div className="avatar-demo-cell">
                 <Avatar size={size} info="5" />
@@ -42,7 +42,7 @@ export const avatar = () => {
                 <Avatar size={size} url={avatarSrc} round />
               </div>
               <div className="avatar-demo-cell">
-                <Avatar size={size} username="Samuel Morse" round />
+                <Avatar size={size} username={`Samuel${size} Morse${size}`} round />
               </div>
               <div className="avatar-demo-cell">
                 <Avatar size={size} info="5" round />
