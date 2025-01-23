@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+  <defs>
+    <filter id="inset-shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feComponentTransfer in="SourceAlpha">
+        <feFuncA type="table" tableValues="1 0" />
+      </feComponentTransfer>
+      <feGaussianBlur stdDeviation="4"/>
+      <feOffset dx="0" dy="0" result="offsetblur"/>
+      <feFlood flood-color="rgba(0, 0, 0, 0.07)"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feComposite in="SourceAlpha" operator="in" />
+      <feMerge>
+        <feMergeNode in="SourceGraphic" />
+        <feMergeNode />
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
