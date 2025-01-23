@@ -16,6 +16,7 @@ export interface CollapsibleTabsProps {
   children: ReactElement<TabProps>[];
   selected?: string | undefined;
   onSelect?: ((key: string) => () => void) | undefined;
+  onLastVisibleIndexChange?: ((index: number) => void) | null | undefined;
   moreClassName?: string | null | undefined;
   moreActiveClassName?: string | null | undefined;
   morePopupClassName?: string | null | undefined;
@@ -36,6 +37,7 @@ export const CollapsibleTabs = ({
   children,
   selected,
   onSelect,
+  onLastVisibleIndexChange,
   moreClassName,
   moreActiveClassName,
   morePopupClassName,
@@ -122,11 +124,13 @@ export const CollapsibleTabs = ({
         }
       }
 
-      if (elements.lastVisibleIndex !== tabsToRender.length - 1) {
-        setLastVisibleIndex(tabsToRender.length - 1);
+      const newLastVisibleIndex = tabsToRender.length - 1;
+      if (elements.lastVisibleIndex !== newLastVisibleIndex) {
+        setLastVisibleIndex(newLastVisibleIndex);
+        onLastVisibleIndexChange?.(newLastVisibleIndex);
       }
     },
-    [children, elements.lastVisibleIndex, elements.sizes, selectedIndex],
+    [children, elements.lastVisibleIndex, elements.sizes, onLastVisibleIndexChange, selectedIndex],
   );
 
   // Prepare list of visible and hidden elements

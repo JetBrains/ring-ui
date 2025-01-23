@@ -21,6 +21,7 @@ export type Children = readonly (Children | null | boolean)[] | ReactElement<Tab
 export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'children'> {
   children: Children;
   onSelect?: ((key: string) => void) | null | undefined;
+  onLastVisibleIndexChange?: ((index: number) => void) | null | undefined;
   className?: string | null | undefined;
   tabContainerClassName?: string | null | undefined;
   autoCollapse?: boolean | null | undefined;
