@@ -1,4 +1,4 @@
-import {PureComponent, ImgHTMLAttributes} from 'react';
+import {PureComponent, ImgHTMLAttributes, ReactNode} from 'react';
 import classNames from 'classnames';
 
 import deprecate from 'util-deprecate';
@@ -10,23 +10,10 @@ import memoize from '../global/memoize';
 
 import styles from './avatar.css';
 import FallbackAvatar from './fallback-avatar';
+import {Size} from './avatar-size';
+import AvatarInfo from './avatar-info';
 
-/**
- * @name Avatar
- */
-
-export enum Size {
-  /** @deprecated */
-  Size18 = 18,
-  Size20 = 20,
-  Size24 = 24,
-  Size28 = 28,
-  Size32 = 32,
-  Size40 = 40,
-  /** @deprecated */
-  Size48 = 48,
-  Size56 = 56,
-}
+export {Size};
 
 export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
   dpr: number;
@@ -36,6 +23,7 @@ export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
   round?: boolean | null | undefined;
   subavatar?: string | null | undefined;
   username?: string | null | undefined;
+  info?: ReactNode; // renders a avatar-like node with the provided content
   skipParams?: boolean | null | undefined;
 }
 
@@ -67,7 +55,8 @@ export default class Avatar extends PureComponent<AvatarProps> {
   };
 
   render() {
-    const {size, url, dpr, style, round, subavatar, subavatarSize, username, skipParams, ...restProps} = this.props;
+    const {size, url, dpr, style, round, subavatar, subavatarSize, username, info, skipParams, ...restProps} =
+      this.props;
     if ([Size.Size18, Size.Size48].includes(size)) {
       warnSize(size)();
     }
@@ -93,10 +82,13 @@ export default class Avatar extends PureComponent<AvatarProps> {
         <span
           {...restProps}
           data-test="avatar"
-          className={classNames(styles.avatar, this.props.className, {[styles.empty]: username == null})}
+          className={classNames(styles.avatar, this.props.className, {
+            [styles.empty]: username == null && info == null,
+          })}
           style={styleObj}
         >
           {username != null && <FallbackAvatar size={size} round={round} username={username} />}
+          {info != null && <AvatarInfo size={size}>{info}</AvatarInfo>}
         </span>
       );
     }
@@ -128,7 +120,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
             {...restProps}
             onError={this.handleError}
             onLoad={this.handleSuccess}
-            className={classNames(styles.avatar, this.props.className)}
+            className={classNames(styles.avatar, styles.avatarShadow, this.props.className)}
             style={styleObj}
             src={src}
             alt="User avatar"
@@ -152,7 +144,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
           data-test="avatar"
           onError={this.handleError}
           onLoad={this.handleSuccess}
-          className={classNames(styles.avatar, this.props.className)}
+          className={classNames(styles.avatar, styles.avatarShadow, this.props.className)}
           style={styleObj}
           src={src}
           alt="User avatar"
