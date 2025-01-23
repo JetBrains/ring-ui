@@ -16,6 +16,19 @@
   filter: url('avatar-shadow-filter.svg#inset-shadow');
 }
 
+.avatarInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+
+  color: var(--ring-secondary-color);
+  border-radius: inherit;
+
+  background-color: var(--ring-disabled-background-color);
+}
+
 .subavatar {
   position: absolute;
   top: 15px;
