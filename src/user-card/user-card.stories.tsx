@@ -3,8 +3,6 @@ import hubConfig from '../../.storybook/hub-config';
 import Auth from '../auth/auth';
 import {createHubUserCardSource} from '../hub-source/hub-source__user';
 
-import {avatarDataUri} from '../avatar/avatar-example-datauri';
-
 import Tag from '../tag/tag';
 
 import {UserCard, UserCardTooltip, SmartUserCardTooltip} from './user-card';
@@ -22,7 +20,7 @@ export const inline = () => {
     login: 'testuser',
     name: 'Test User',
     email: 'testuser@mail.com',
-    avatarUrl: avatarDataUri,
+    avatarUrl: undefined,
     banned: true,
     banReason: 'Bad guy: is accused of stealing potatoes!',
     href: `${hubConfig.serverUri}/users/0`,
@@ -47,7 +45,7 @@ export const smartTooltip = () => {
     login: 'testuser',
     name: 'Test User',
     email: 'testuser@mail.com',
-    avatarUrl: avatarDataUri,
+    avatarUrl: undefined,
     href: `${hubConfig.serverUri}/users/0`,
     banned: true,
     online: false,
