@@ -224,9 +224,9 @@ export default function FallbackAvatar({username, size, round}: FallbackAvatarPr
   return (
     <svg viewBox={`0 0 ${size} ${size}`} xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={gradientId} x1="1" y1="1" x2="0" y2="0">
           <stop stopColor={fromColor} offset="0" />
-          <stop stopColor={toColor} offset="1" />
+          <stop stopColor={toColor} offset="0.8" />
         </linearGradient>
       </defs>
       <g>
