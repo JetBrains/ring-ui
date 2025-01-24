@@ -78,6 +78,16 @@ export const CollapsibleTabs = ({
     });
   }, [initialVisibleItems, children, preparedElements.ready, preparedElements.visible, onSelect, selected]);
 
+  const hiddenElements = useMemo(() => {
+    if (preparedElements.ready) {
+      return preparedElements.hidden;
+    } else if (initialVisibleItems) {
+      return children.filter(item => !visibleElements.some(visibleItem => visibleItem.props.child === item));
+    } else {
+      return [];
+    }
+  }, [children, preparedElements.hidden, preparedElements.ready, visibleElements, initialVisibleItems]);
+
   const adjustTabs = useCallback(
     (entry: ResizeObserverEntry) => {
       const containerWidth = entry.contentRect.width;
@@ -251,7 +261,7 @@ export const CollapsibleTabs = ({
           morePopupClassName={morePopupClassName}
           morePopupBeforeEnd={morePopupBeforeEnd}
           morePopupItemClassName={morePopupItemClassName}
-          items={preparedElements.hidden}
+          items={hiddenElements}
           selected={selected}
           onSelect={onSelect}
         />
@@ -259,9 +269,7 @@ export const CollapsibleTabs = ({
       <div ref={measureRef} className={classNames(className, styles.measure)}>
         {childrenToMeasure}
         <FakeMoreButton
-          hasActiveChildren={preparedElements.hidden.some(
-            item => item.props.alwaysHidden && item.props.id === selected,
-          )}
+          hasActiveChildren={hiddenElements.some(item => item.props.alwaysHidden && item.props.id === selected)}
           moreClassName={moreClassName}
           moreActiveClassName={moreActiveClassName}
         />
