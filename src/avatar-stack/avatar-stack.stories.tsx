@@ -26,3 +26,11 @@ export const avatarStack = () =>
       </AvatarStack>
     </div>
   ));
+
+export const noExtraItems = () => (
+  <AvatarStack extraItems={[]}>
+    <Avatar url={avatar1} />
+    <Avatar url={avatar2} />
+    <Avatar url={avatar3} />
+  </AvatarStack>
+);

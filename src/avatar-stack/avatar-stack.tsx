@@ -44,7 +44,7 @@ export default function AvatarStack({
           {child}
         </div>
       ))}
-      {extraItems?.length && (
+      {extraItems?.length ? (
         <DropdownMenu
           hoverMode
           hoverShowTimeOut={10}
@@ -57,7 +57,7 @@ export default function AvatarStack({
           menuProps={{offset: 4, ...dropdownMenuProps?.menuProps}}
           {...dropdownMenuProps}
         />
-      )}
+      ) : null}
     </div>
   );
 }
