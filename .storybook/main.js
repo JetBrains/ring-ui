@@ -42,6 +42,7 @@ module.exports = {
         test: /\.png$/,
         type: 'asset/resource',
       },
+      {test: /\.m?js$/, resolve: {fullySpecified: false}},
     ];
 
     const serverUri = pkgConfig.hub;
