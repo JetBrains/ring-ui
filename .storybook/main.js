@@ -19,9 +19,9 @@ module.exports = {
         docs: true,
       },
     },
-    '@storybook/addon-a11y',
+    !process.env.SKIP_A11Y_ADDON && '@storybook/addon-a11y',
     '@storybook/addon-themes',
-  ],
+  ].filter(Boolean),
   webpackFinal(config) {
     ringConfig.componentsPath.push(__dirname, path.resolve(__dirname, '../src'));
 
