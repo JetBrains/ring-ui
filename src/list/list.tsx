@@ -625,6 +625,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
               scrollToAlignment="center"
               deferredMeasurementCache={this._cache}
               onRowsRendered={this.checkOverflow}
+              containerRole="none" // row role is set by rowRenderer
             />
           </div>
         )}
