@@ -304,7 +304,7 @@
   color: var(--ring-disabled-color);
 }
 
-.item:not(.action),
+.item:not(.action, .hint),
 .disabled {
   pointer-events: none;
 }

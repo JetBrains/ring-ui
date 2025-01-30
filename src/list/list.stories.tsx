@@ -10,6 +10,8 @@ import Auth from '../auth/auth';
 import Code from '../code/code';
 import ContentLayout, {Sidebar} from '../content-layout/content-layout';
 
+import Link from '../link/link';
+
 import List, {ListAttrs} from './list';
 import Source from './list__users-groups-source';
 import styles from './list.stories.css';
@@ -49,7 +51,14 @@ withAHintBelow.storyName = 'with a hint below';
 withAHintBelow.args = {
   shortcuts: true,
   activeIndex: 2,
-  hint: 'Hint about the list',
+  hint: (
+    <>
+      <Link href="http://example.com" target="_blank" rel="noreferrer">
+        Hint
+      </Link>
+      {' about the list'}
+    </>
+  ),
   renderOptimization: false,
   data: [
     {label: 'One', rgItemType: List.ListProps.Type.ITEM},
