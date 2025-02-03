@@ -5719,7 +5719,15 @@ var Ca = 1e3, Zd = 1e4, mn = class mn {
         return !e.includeDocsOnly && i.parameters.docsOnly || (o[s] = Object.entries(i).reduce(
           (p, [u, d]) => u === "moduleExport" || typeof d == "function" ? p : Array.isArray(d) ? Object.assign(p, { [u]: d.slice().sort() }) :
           Object.assign(p, { [u]: d }),
-          { args: i.initialArgs }
+          {
+            //
+            args: i.initialArgs,
+            globals: {
+              ...this.userGlobals.initialGlobals,
+              ...this.userGlobals.globals,
+              ...i.storyGlobals
+            }
+          }
         )), o;
       },
       {}

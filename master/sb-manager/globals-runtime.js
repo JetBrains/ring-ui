@@ -40503,7 +40503,7 @@ We();
 var CM = I(Hn(), 1), an = I(SM(), 1);
 
 // src/manager-api/version.ts
-var EM = "8.5.2";
+var EM = "8.5.3";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: h0e } = H, xM = (0, CM.default)(1)(() => {
