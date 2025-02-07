@@ -1,6 +1,7 @@
 import {InputHTMLAttributes} from 'react';
 import {Simulate} from 'react-dom/test-utils';
-import {shallow, mount} from 'enzyme';
+
+import {screen, render} from '@testing-library/react';
 
 import {RadioItemInner} from './radio__item';
 
@@ -12,81 +13,79 @@ describe('Radio Item', () => {
       {'test'}
     </RadioItemInner>
   );
-  const mountRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) => mount<RadioItemInner>(factory(props));
-  const shallowRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) => shallow(factory(props));
-
-  it('should create component', () => {
-    shallowRadioItem().should.exist;
-  });
+  const renderRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) => {
+    render(factory(props));
+    return screen.getAllByRole('radio')[0];
+  };
 
   it('should render radio item', () => {
-    mountRadioItem().instance().input!.should.have.property('type', 'radio');
+    renderRadioItem().should.exist;
   });
 
   it('should generate id if not passed', () => {
-    mountRadioItem().instance().input!.should.have.property('id');
+    renderRadioItem().should.have.property('id');
   });
 
   it('should generate unique id', () => {
-    const firstRadioItem = mountRadioItem();
-    const secondRadioItem = mountRadioItem();
-    const secondRadioId = secondRadioItem.instance().input!.getAttribute('id') ?? '';
-    firstRadioItem.instance().input!.should.not.have.id(secondRadioId);
+    renderRadioItem();
+    renderRadioItem();
+    const [firstRadioItem, secondRadioItem] = screen.getAllByRole('radio');
+    const secondRadioId = secondRadioItem.getAttribute('id') ?? '';
+    firstRadioItem.should.not.have.id(secondRadioId);
   });
 
   it('should set custom id', () => {
-    const radioItem = mountRadioItem({
+    const radioItem = renderRadioItem({
       id: 'test',
     });
 
-    radioItem.instance().input!.should.have.id('test');
+    radioItem.should.have.id('test');
   });
 
   it('should set name', () => {
-    const radioItem = mountRadioItem({
+    const radioItem = renderRadioItem({
       name: 'test',
     });
 
-    radioItem.instance().input!.should.have.property('name', 'test');
+    radioItem.should.have.property('name', 'test');
   });
 
   it('should call handler for click event', () => {
     const clickHandler = sandbox.stub();
-    const radioItem = mountRadioItem({
+    const radioItem = renderRadioItem({
       onClick: clickHandler,
     });
 
-    Simulate.click(radioItem.instance().input!);
+    Simulate.click(radioItem);
     clickHandler.should.have.been.called;
   });
 
   it('should be unchecked by default', () => {
-    const radioItem = mountRadioItem();
+    const radioItem = renderRadioItem();
 
-    radioItem.instance().input!.should.not.have.property('checked', true);
+    radioItem.should.not.have.property('checked', true);
   });
 
   it('should check control', () => {
-    const radioItem = mountRadioItem({
+    const radioItem = renderRadioItem({
       checked: true,
       onChange: () => {}, // avoid "checked without onChange" warning
     });
 
-    radioItem.instance().input!.should.have.property('checked', true);
+    radioItem.should.have.property('checked', true);
   });
 
   it('should be disabled', () => {
-    const radioItem = mountRadioItem({
+    const radioItem = renderRadioItem({
       disabled: true,
     });
 
-    radioItem.instance().input!.should.be.disabled;
+    radioItem.should.be.disabled;
   });
 
-  it('should connect labels with input by id', () => {
-    const radioItem = mountRadioItem();
-    const id = radioItem.instance().input!.getAttribute('id') ?? '';
+  it('should connect labels with input', () => {
+    renderRadioItem();
 
-    radioItem.instance().label!.should.have.attribute('for', id);
+    screen.getByRole('radio', {name: 'test'}).should.exist;
   });
 });
