@@ -127,7 +127,7 @@ export class Button extends PureComponent<ButtonProps> {
       className: classes,
       children: (
         <>
-          {loader && <div className={styles.loaderBackground} />}
+          {loader && !isInline && <div className={styles.loaderBackground} />}
           {content}
         </>
       ),

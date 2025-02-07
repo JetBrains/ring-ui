@@ -331,6 +331,12 @@
   box-shadow: var(--ring-button-shadow) var(--ring-button-default-border-color);
 }
 
+.loader.inline {
+  animation-name: text-loading;
+  animation-duration: 1200ms;
+  animation-iteration-count: infinite;
+}
+
 .loaderBackground {
   position: absolute;
   z-index: -1;
@@ -365,8 +371,7 @@
   }
 }
 
-.flat .loaderBackground,
-.inline .loaderBackground {
+.flat .loaderBackground {
     top: 0;
     right: 0;
     bottom: 0;
@@ -406,5 +411,11 @@
 
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes text-loading {
+  50% {
+    opacity: 0.5;
   }
 }
