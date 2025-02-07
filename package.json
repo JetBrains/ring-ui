@@ -134,7 +134,7 @@
     "@vitest/eslint-plugin": "^1.1.25",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "acorn": "^8.14.0",
-    "axe-playwright": "^2.0.3",
+    "axe-playwright": "^2.1.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "caniuse-lite": "^1.0.30001697",
     "chai": "^5.1.2",
