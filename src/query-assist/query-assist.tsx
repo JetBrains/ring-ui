@@ -302,6 +302,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       state.suggestions !== this.state.suggestions ||
       state.styleRanges !== this.state.styleRanges ||
       state.placeholderEnabled !== this.state.placeholderEnabled ||
+      state.shortcuts !== this.state.shortcuts ||
       props.placeholder !== this.props.placeholder ||
       props.disabled !== this.props.disabled ||
       props.clear !== this.props.clear ||
@@ -309,7 +310,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       props.actions !== this.props.actions ||
       props.loader !== this.props.loader ||
       props.glass !== this.props.glass ||
-      props.className !== this.props.className
+      props.className !== this.props.className ||
+      props.delay !== this.props.delay
     );
   }
 
@@ -366,7 +368,9 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       this.props.onFocusChange({focus});
     }
 
-    this.setState({shortcuts: focus});
+    if (this.state.shortcuts !== focus) {
+      this.setState({shortcuts: focus});
+    }
   };
 
   node?: HTMLElement | null;

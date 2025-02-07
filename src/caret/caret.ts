@@ -39,7 +39,7 @@ export default class Caret {
   }
 
   isContentEditable() {
-    return this.target.contentEditable === 'true';
+    return this.target.contentEditable === 'true' || this.target.getAttribute('contenteditable') === 'true'; // workaround for https://github.com/jsdom/jsdom/issues/1670
   }
 
   /**
