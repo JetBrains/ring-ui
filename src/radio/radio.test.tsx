@@ -1,6 +1,7 @@
 import {ComponentRef, Ref} from 'react';
 import {Simulate} from 'react-dom/test-utils';
-import {shallow, mount} from 'enzyme';
+
+import {render, screen} from '@testing-library/react';
 
 import {RadioProps} from './radio__item';
 
@@ -22,36 +23,32 @@ describe('Radio', () => {
       <Radio.Item value="three">{'Three'}</Radio.Item>
     </Radio>
   );
-  const shallowRadio = (
+  const renderRadio = (
     props?: RadioProps,
     refOne?: Ref<ComponentRef<typeof Radio.Item>>,
     refTwo?: Ref<ComponentRef<typeof Radio.Item>>,
-  ) => shallow(factory(props, refOne, refTwo));
+  ) => render(factory(props, refOne, refTwo));
 
   it('should create component', () => {
-    shallowRadio().should.exist;
+    renderRadio();
+    screen.getAllByRole('radio').should.exist;
   });
 
   it('should pass only child as is', () => {
-    const radio = shallow(
+    render(
       <Radio>
         <section />
       </Radio>,
     );
 
-    radio.should.have.tagName('section');
+    document.querySelector('section')!.should.exist;
   });
 
   describe('refs', () => {
-    const mountRadio = (
-      props?: RadioProps,
-      refOne?: Ref<ComponentRef<typeof Radio.Item>>,
-      refTwo?: Ref<ComponentRef<typeof Radio.Item>>,
-    ) => mount(factory(props, refOne, refTwo));
     it('should generate same name for items', () => {
       let item1: ComponentRef<typeof Radio.Item>;
       let item2: ComponentRef<typeof Radio.Item>;
-      mountRadio(
+      renderRadio(
         {},
         itemRef => {
           item1 = itemRef!;
@@ -67,7 +64,7 @@ describe('Radio', () => {
 
     it('should select item with value equal to one provided to group', () => {
       let item: ComponentRef<typeof Radio.Item>;
-      mountRadio(
+      renderRadio(
         {
           onChange: () => {}, // avoid "checked without onChange" warning
           value: 'one',
@@ -83,7 +80,7 @@ describe('Radio', () => {
     it('should call handler for onChange event', () => {
       const onChange = sandbox.spy();
       let item: ComponentRef<typeof Radio.Item>;
-      mountRadio({onChange}, itemRef => {
+      renderRadio({onChange}, itemRef => {
         item = itemRef!;
       });
       Simulate.change(item!.input!);
