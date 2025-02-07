@@ -22,7 +22,6 @@ import createStatefulContext from '../global/create-stateful-context';
 
 import {ShortcutsMap} from '../shortcuts/core';
 
-import ListLink from './list__link';
 import ListItem from './list__item';
 import ListCustom from './list__custom';
 import ListTitle from './list__title';
@@ -516,9 +515,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
           itemProps.isFirst = isFirst;
           break;
         case Type.LINK:
-          ItemComponent = ListLink;
-          this.addItemDataTestToProp(itemProps);
-          break;
         case Type.ITEM:
           ItemComponent = ListItem;
           this.addItemDataTestToProp(itemProps);

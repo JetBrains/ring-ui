@@ -170,7 +170,6 @@ withItemIcons.args = {
       description: 'Long long long long long long long long long long long long long long long description',
       checkbox: true,
     },
-    //Link doesn't support icons
     {
       label: 'Some item',
       key: '4',

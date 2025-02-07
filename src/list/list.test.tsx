@@ -120,7 +120,7 @@ describe('List', () => {
 
       const firstItem = screen.getByRole('link');
       firstItem.should.exist;
-      firstItem.should.have.attr('data-test', 'ring-link ring-list-link ring-list-item');
+      firstItem.parentElement!.getAttribute('data-test')!.should.include('ring-list-link');
       firstItem.should.have.text('Hello!');
       firstItem.should.have.tagName('a');
       firstItem.should.have.attr('href', 'http://www.jetbrains.com');
@@ -133,7 +133,7 @@ describe('List', () => {
 
       const firstItem = screen.getByRole('link');
       firstItem.should.exist;
-      firstItem.should.have.attr('data-test', 'ring-link ring-list-link ring-list-item');
+      firstItem.parentElement!.getAttribute('data-test')!.should.include('ring-list-link');
       firstItem.should.have.text('Hello!');
       firstItem.should.have.tagName('a');
       firstItem.should.have.attr('href', 'http://www.jetbrains.com');
@@ -166,7 +166,7 @@ describe('List', () => {
 
       const firstItem = screen.getByRole('button');
       firstItem.should.exist;
-      firstItem.should.have.attr('data-test', 'ring-link ring-list-link ring-list-item');
+      firstItem.parentElement!.getAttribute('data-test')!.should.include('ring-list-link');
       firstItem.should.have.text('Hello!');
     });
 
