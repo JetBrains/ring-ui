@@ -1,4 +1,4 @@
-import {PureComponent, SyntheticEvent} from 'react';
+import {HTMLAttributes, PureComponent, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -8,9 +8,11 @@ import Icon from '../icon/icon';
 
 import getUID from '../global/get-uid';
 
+import Link, {linkHOC} from '../link/link';
+
 import styles from './list.css';
 
-import {ListDataItemProps} from './consts';
+import {ListDataItemProps, Type} from './consts';
 import {getListClasses} from './list__classes';
 
 /**
@@ -44,17 +46,22 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       details,
       hover,
       level,
-      tabIndex,
-      onClick,
       onCheckboxChange,
-      onMouseOver,
-      onMouseDown,
-      onMouseUp,
       rightNodes,
       leftNodes,
       showGeneratedAvatar,
       username,
       labelWrapper,
+      rgItemType,
+      scrolling,
+      'data-test': dataTest,
+      className,
+      url,
+      LinkComponent,
+      compact,
+      hoverClassName,
+      children,
+      ...restProps
     } = this.props;
 
     const checkable = checkbox !== undefined;
@@ -83,47 +90,31 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       computedTitle = this._isString(label) ? label : '';
     }
 
-    const dataTest = dataTests(
+    const isLink = rgItemType === Type.LINK;
+    const combinedDataTest = dataTests(
       {
-        'ring-list-item': ((this.props['data-test'] || '') as string).indexOf('ring-list-item') === -1,
+        'ring-list-item': ((dataTest || '') as string).indexOf('ring-list-item') === -1,
         'ring-list-item-action': !disabled,
         'ring-list-item-selected': checkbox,
+        'ring-list-link': isLink,
       },
-      this.props['data-test'],
+      dataTest,
     );
 
     const labelElement = (
       <span className={styles.label} title={computedTitle} data-test="ring-list-item-label">
-        {label}
+        {label ?? children}
       </span>
     );
 
-    return (
-      <div className={styles.itemContainer} data-test={dataTest}>
-        {showCheckbox && (
-          <div className={styles.checkboxContainer}>
-            <Checkbox
-              aria-labelledby={this.id}
-              checked={checkbox}
-              disabled={disabled}
-              onChange={onCheckboxChange}
-              onClick={this.stopBubbling}
-            />
-          </div>
-        )}
-        <button
-          id={this.id}
-          type="button"
-          tabIndex={tabIndex}
-          onClick={onClick}
-          onMouseOver={onMouseOver}
-          onMouseDown={onMouseDown}
-          onFocus={onMouseOver}
-          onMouseUp={onMouseUp}
-          className={classes}
-          style={style}
-          disabled={disabled}
-        >
+    const commonProps = {
+      ...restProps,
+      id: this.id,
+      className: classes,
+      style,
+      disabled,
+      children: (
+        <>
           <div className={styles.top} onMouseOut={this.stopBubbling} onBlur={this.stopBubbling}>
             {!showCheckbox && (
               <div className={styles.left}>
@@ -171,7 +162,29 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
           </div>
 
           {details && <div className={detailsClasses}>{details}</div>}
-        </button>
+        </>
+      ),
+    };
+    const LinkComponentToUse = LinkComponent ? linkHOC(LinkComponent) : Link;
+
+    return (
+      <div className={styles.itemContainer} data-test={combinedDataTest}>
+        {showCheckbox && (
+          <div className={styles.checkboxContainer}>
+            <Checkbox
+              aria-labelledby={this.id}
+              checked={checkbox}
+              disabled={disabled}
+              onChange={onCheckboxChange}
+              onClick={this.stopBubbling}
+            />
+          </div>
+        )}
+        {isLink ? (
+          <LinkComponentToUse pseudo={!restProps.href} {...commonProps} />
+        ) : (
+          <button type="button" {...(commonProps as HTMLAttributes<HTMLElement>)} />
+        )}
       </div>
     );
   }
