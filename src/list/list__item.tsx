@@ -1,4 +1,4 @@
-import {HTMLAttributes, PureComponent, SyntheticEvent} from 'react';
+import {PureComponent, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -46,7 +46,12 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       details,
       hover,
       level,
+      tabIndex,
+      onClick,
       onCheckboxChange,
+      onMouseOver,
+      onMouseDown,
+      onMouseUp,
       rightNodes,
       leftNodes,
       showGeneratedAvatar,
@@ -61,7 +66,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       compact,
       hoverClassName,
       children,
-      ...restProps
+      ...restLinkProps // TODO use an allow list in 8.0
     } = this.props;
 
     const checkable = checkbox !== undefined;
@@ -108,8 +113,13 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     );
 
     const commonProps = {
-      ...restProps,
       id: this.id,
+      tabIndex,
+      onClick,
+      onMouseOver,
+      onMouseDown,
+      onFocus: onMouseOver,
+      onMouseUp,
       className: classes,
       style,
       disabled,
@@ -181,9 +191,9 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
           </div>
         )}
         {isLink ? (
-          <LinkComponentToUse pseudo={!restProps.href} {...commonProps} />
+          <LinkComponentToUse pseudo={!restLinkProps.href} {...commonProps} {...restLinkProps} />
         ) : (
-          <button type="button" {...(commonProps as HTMLAttributes<HTMLElement>)} />
+          <button type="button" {...commonProps} />
         )}
       </div>
     );
