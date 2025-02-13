@@ -40253,7 +40253,7 @@ We();
 var wM = P($n(), 1), ln = P(gM(), 1);
 
 // src/manager-api/version.ts
-var vM = "8.5.4";
+var vM = "8.5.5";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: n0e } = j, yM = (0, wM.default)(1)(() => {
