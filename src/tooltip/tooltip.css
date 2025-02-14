@@ -1,17 +1,31 @@
 @import "../global/variables.css";
 
+:root {
+  --ring-tooltip-background-color: var(--ring-content-background-color);
+}
+
+:global(.ring-ui-theme-dark) {
+  --ring-tooltip-background-color: var(--ring-tag-background-color);
+}
+
 .tooltip {
   max-width: calc(var(--ring-unit) * 50);
-  padding: var(--ring-unit);
+  padding: 6px var(--ring-unit);
 
   text-align: left;
 
   color: var(--ring-text-color);
+  border-color: var(--ring-line-color);
+  background-color: var(--ring-tooltip-background-color);
+  box-shadow: 0 2px 8px var(--ring-popup-shadow-color);
+}
+
+.inheritedTheme {
+  background-color: var(--ring-content-background-color);
+  box-shadow: var(--ring-popup-shadow);
 }
 
 .long {
-  padding: var(--ring-unit) calc(var(--ring-unit) * 1.5);
-
   font-size: var(--ring-font-size-smaller);
   line-height: var(--ring-line-height-lowest);
 }

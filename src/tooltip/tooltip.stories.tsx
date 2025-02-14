@@ -10,6 +10,13 @@ export default {
 
   parameters: {
     notes: 'Displays a tooltip.',
+    screenshots: {
+      actions: [
+        {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseenter'},
+        {type: 'wait', delay: 500},
+        {type: 'capture', name: '', selector: '#storybook-root'},
+      ],
+    },
   },
 };
 
@@ -22,16 +29,6 @@ export const basic = () => (
 );
 
 basic.storyName = 'basic';
-
-basic.parameters = {
-  screenshots: {
-    actions: [
-      {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseenter'},
-      {type: 'wait', delay: 500},
-      {type: 'capture', name: '', selector: '#storybook-root'},
-    ],
-  },
-};
 
 export const displayedWhenNecessary = () => {
   const loremIpsum =
@@ -98,16 +95,6 @@ export const nested = () => (
 
 nested.storyName = 'nested';
 
-nested.parameters = {
-  screenshots: {
-    actions: [
-      {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseenter'},
-      {type: 'wait', delay: 500},
-      {type: 'capture', name: '', selector: '#storybook-root'},
-    ],
-  },
-};
-
 export const complexMarkup = () => (
   <div>
     <Tooltip
@@ -129,3 +116,36 @@ export const complexMarkup = () => (
 complexMarkup.parameters = {
   screenshots: {skip: true},
 };
+
+export const shortcut = () => (
+  <div style={{paddingBottom: '100px'}}>
+    <Tooltip
+      title={
+        <>
+          Action name
+          <span className="shortcut">⌘C</span>
+        </>
+      }
+    >
+      <Button>Button that requires an explanation</Button>
+    </Tooltip>
+  </div>
+);
+shortcut.parameters = {
+  storyStyles: `
+    <style>
+      .shortcut {
+        color: var(--ring-secondary-color);
+        margin-left: var(--ring-unit);
+      }
+    </style>
+  `,
+};
+
+export const inheritedTheme = () => (
+  <div style={{paddingBottom: '100px'}}>
+    <Tooltip title="Explanation" theme="inherit">
+      <Button>Button that requires an explanation</Button>
+    </Tooltip>
+  </div>
+);
