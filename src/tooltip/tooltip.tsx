@@ -26,7 +26,7 @@ export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, '
   selfOverflowOnly?: boolean | null | undefined;
   popupProps?: Partial<PopupAttrs> | null | undefined;
   title?: ReactNode | null | undefined;
-  theme?: Theme;
+  theme?: Theme | 'inherit';
   'data-test'?: string | null | undefined;
   long?: boolean | null | undefined;
 }
@@ -175,6 +175,29 @@ export default class Tooltip extends Component<TooltipProps> {
 
     const {onNestedTooltipShow, onNestedTooltipHide} = this;
 
+    const popup = (
+      <Popup
+        trapFocus={false}
+        anchorElement={this.containerNode}
+        hidden={!this.state.showPopup || this.state.showNestedPopup}
+        onCloseAttempt={this.hidePopup}
+        maxHeight={400}
+        attached={false}
+        onMouseOut={this.hideIfMovedOutsidePopup}
+        top={4}
+        dontCloseOnAnchorClick
+        ref={this.popupRef}
+        {...popupProps}
+        className={classNames(
+          styles.tooltip,
+          {[styles.long]: long, [styles.inheritedTheme]: theme === 'inherit'},
+          popupProps?.className,
+        )}
+      >
+        {title}
+      </Popup>
+    );
+
     return (
       <TooltipContext.Provider value={{onNestedTooltipShow, onNestedTooltipHide}}>
         <span
@@ -185,24 +208,13 @@ export default class Tooltip extends Component<TooltipProps> {
           data-test-title={typeof title === 'string' ? title : undefined}
         >
           {children}
-          <ThemeProvider theme={theme} passToPopups WrapperComponent={props => <span {...props} />}>
-            <Popup
-              trapFocus={false}
-              anchorElement={this.containerNode}
-              hidden={!this.state.showPopup || this.state.showNestedPopup}
-              onCloseAttempt={this.hidePopup}
-              maxHeight={400}
-              attached={false}
-              onMouseOut={this.hideIfMovedOutsidePopup}
-              top={4}
-              dontCloseOnAnchorClick
-              ref={this.popupRef}
-              {...popupProps}
-              className={classNames(styles.tooltip, {[styles.long]: long}, popupProps?.className)}
-            >
-              {title}
-            </Popup>
-          </ThemeProvider>
+          {theme === 'inherit' ? (
+            popup
+          ) : (
+            <ThemeProvider theme={theme} passToPopups WrapperComponent={props => <span {...props} />}>
+              {popup}
+            </ThemeProvider>
+          )}
         </span>
       </TooltipContext.Provider>
     );
