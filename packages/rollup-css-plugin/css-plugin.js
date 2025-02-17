@@ -7,6 +7,7 @@ const cssNano = require('cssnano');
 const loadPostcssConfig = require('postcss-load-config');
 const postcss = require('postcss');
 const postcssImport = require('postcss-import');
+const postcssUrl = require('postcss-url');
 const cssModules = require('postcss-modules');
 const FileSystemLoader = require('postcss-modules/build/FileSystemLoader').default;
 const {createFilter} = require('@rollup/pluginutils');
@@ -85,6 +86,10 @@ module.exports = function cssPlugin(options = {}) {
           },
         }),
         ...(postcssConfig.plugins || []),
+        postcssUrl({
+          includeUriFragment: true,
+          url: 'inline',
+        }),
         cssModules({
           generateScopedName(name, filename) {
             return `${name}_rui_${getHash(filename)}`;
