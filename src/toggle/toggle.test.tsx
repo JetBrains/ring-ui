@@ -1,33 +1,35 @@
-import {mount} from 'enzyme';
+import {render} from '@testing-library/react';
 
 import Toggle, {ToggleAttrs} from './toggle';
 import styles from './toggle.css';
 
 describe('Toggle', () => {
-  const mountToggle = (props?: ToggleAttrs) => mount(<Toggle {...props} />);
-  const getToggleLabel = (props?: ToggleAttrs) => mountToggle(props).find('label');
+  const renderToggle = (props?: ToggleAttrs) => render(<Toggle {...props} />);
 
   it('should create component', () => {
-    mountToggle().type().should.equal(Toggle);
+    const {container} = renderToggle();
+    container.querySelector('label')?.should.exist;
   });
 
   it('should wrap children with label', () => {
-    getToggleLabel().should.exist;
+    const {container} = renderToggle();
+    container.querySelector('label')?.should.exist;
   });
 
   it('should use passed className', () => {
-    getToggleLabel({
-      className: 'test-class',
-    }).should.have.className('test-class');
+    const {container} = renderToggle({className: 'test-class'});
+    container.querySelector('.test-class')?.should.exist;
   });
 
   it('should render input with type checkbox', () => {
-    const toggle = getToggleLabel();
-    toggle.find('input').should.have.attr('type', 'checkbox');
+    const {container} = renderToggle();
+    const input = container.querySelector('input');
+    input?.should.exist;
+    input?.getAttribute('type')?.should.equal('checkbox');
   });
 
   it('should render switch', () => {
-    const toggle = getToggleLabel();
-    toggle.find(`.${styles.switch}`).should.exist;
+    const {container} = renderToggle();
+    container.querySelector(`.${styles.switch}`)?.should.exist;
   });
 });
