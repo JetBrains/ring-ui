@@ -65,7 +65,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
     const userActiveStatusClasses = classNames(styles.userActiveStatus, user.online ? styles.online : '');
 
     return (
-      <div className={classes} {...restProps}>
+      <div {...restProps} className={classes}>
         <div className={styles.userInformationContainer}>
           <div className={styles.userAvatar}>
             <Avatar size={AvatarSize.Size56} url={user.avatarUrl} username={user.name} round />
@@ -75,7 +75,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
             <div className={styles.userInformationGeneral}>
               <div className={styles.userNameLine}>
                 {user.href && (
-                  <Link href={user.href} className={styles.userName}>
+                  <Link href={user.href} className={styles.userName} data-test="user-card-link">
                     {user.name}
                   </Link>
                 )}

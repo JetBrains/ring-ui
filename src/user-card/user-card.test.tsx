@@ -1,9 +1,12 @@
-import {shallow, mount} from 'enzyme';
+import {render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+import {beforeEach} from 'vitest';
 
 import {I18nContextHolder} from '../i18n/i18n-context';
 
 import {SmartUserCardTooltip, UserCard, UserCardTooltip} from './user-card';
-import {UserCardAttrs} from './card';
+import {UserCardAttrs, UserCardUser} from './card';
 import {UserCardTooltipAttrs} from './tooltip';
 import {SmartUserCardTooltipProps} from './smart-user-card-tooltip';
 
@@ -17,94 +20,98 @@ describe('UserCard', () => {
   };
 
   describe('Card', () => {
-    const shallowCard = (props?: Partial<UserCardAttrs>) =>
-      shallow(
+    const renderCard = (props?: Partial<UserCardAttrs>) =>
+      render(
         <I18nContextHolder messages={{}}>
           <UserCard user={fakeUser} {...props} />
         </I18nContextHolder>,
       );
-    const mountCard = (props?: Partial<UserCardAttrs>) => mount(<UserCard user={fakeUser} {...props} />);
 
     it('should create component', () => {
-      mountCard().should.have.type(UserCard);
+      const {container} = renderCard();
+      container.querySelector('div')?.should.exist;
     });
 
     it('should wrap children with span', () => {
-      shallowCard().should.have.tagName('div');
+      const {container} = renderCard();
+      container.querySelector('div')?.should.exist;
     });
 
     it('should render link', () => {
-      shallowCard({user: {...fakeUser, href: null}}).should.not.have.descendants('a[href="http://foo"]');
+      renderCard({user: {...fakeUser, href: 'http://example.com'}});
+      screen.getByTestId('ring-link user-card-link').should.exist;
     });
 
     it('should not render link if user has no href', () => {
-      shallowCard({user: {...fakeUser, href: null}}).should.not.have.descendants('a');
+      const {container} = renderCard({user: {...fakeUser, href: null}});
+      container.should.not.have.descendants('a[data-test~=user-card-link]');
     });
 
     it('should use passed className', () => {
-      shallowCard({className: 'test-class'}).find(UserCard).should.have.className('test-class');
+      const {container} = renderCard({className: 'test-class'});
+      container.querySelector('.test-class')?.should.exist;
     });
 
     it('should use pass rest props to dom node', () => {
-      shallowCard({'data-test': 'foo'}).should.have.data('test', 'foo');
+      const {container} = renderCard({'data-test': 'foo'});
+      container.querySelector('[data-test="foo"]')?.should.exist;
+    });
+
+    it('should render user avatar if available', () => {
+      const {container} = renderCard();
+      container.querySelector('img')?.should.exist;
     });
   });
 
   describe('UserCardTooltip', () => {
     const anchor = <span data-test="anchor">{'foo'}</span>;
 
-    const mountTooltip = (props?: UserCardTooltipAttrs) =>
-      mount(
+    const renderTooltip = (props?: UserCardTooltipAttrs) =>
+      render(
         <UserCardTooltip user={fakeUser} {...props}>
           {anchor}
         </UserCardTooltip>,
       );
 
     it('should render anchor', () => {
-      const wrapper = mountTooltip();
-
-      wrapper.should.have.descendants('[data-test="anchor"]');
+      renderTooltip();
+      screen.getByTestId('anchor').should.exist;
     });
 
     it('should allow to render multiple children', () => {
-      const tooltip = (props?: UserCardTooltipAttrs) =>
-        mount(
-          <UserCardTooltip user={fakeUser} {...props}>
-            <span data-test="anchor">{'foo'}</span>
-            <span data-test="anchor">{'foo'}</span>
-          </UserCardTooltip>,
-        );
-
-      const wrapper = tooltip();
-      wrapper.should.have.descendants('[data-test="anchor"]');
+      render(
+        <UserCardTooltip user={fakeUser}>
+          <span data-test="anchor">{'foo'}</span>
+          <span data-test="anchor">{'foo'}</span>
+        </UserCardTooltip>,
+      );
+      screen.getAllByTestId('anchor').should.have.length(2);
     });
   });
 
   describe('SmartUserCardTooltip', () => {
     const anchor = <span>{'foo'}</span>;
+    let userSource: () => Promise<UserCardUser>;
 
-    function userSource() {
-      return fakeUser;
-    }
+    beforeEach(() => {
+      userSource = sandbox.spy(() => Promise.resolve(fakeUser));
+    });
 
-    const mountTooltip = (props?: SmartUserCardTooltipProps) =>
-      mount<SmartUserCardTooltip>(
+    const renderTooltip = (props?: SmartUserCardTooltipProps) =>
+      render(
         <SmartUserCardTooltip userDataSource={userSource} {...props}>
           {anchor}
         </SmartUserCardTooltip>,
       );
 
-    it('should load user on hover', () => {
-      const wrapper = mountTooltip();
-      sandbox.stub(wrapper.instance(), 'loadUser').callsFake(async () => {});
+    it('should load user on hover', async () => {
+      const {container} = renderTooltip();
+      const tooltip = container.querySelector('div')!;
 
-      // Force the component and wrapper to update so that the stub is used https://github.com/airbnb/enzyme/issues/586
-      wrapper.instance().forceUpdate();
-      wrapper.update();
+      userEvent.hover(tooltip);
+      await screen.findByText('foo');
 
-      wrapper.simulate('mouseenter');
-
-      wrapper.instance().loadUser.should.have.been.called;
+      userSource.should.have.been.called;
     });
   });
 });
