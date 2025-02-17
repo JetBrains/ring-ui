@@ -1,20 +1,20 @@
-import {shallow} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 import closeIcon from '@jetbrains/icons/close';
-
-import Icon from '../icon/icon';
 
 import Tag, {TagAttrs} from './tag';
 
 describe('Tag', () => {
   const tagMock = {label: 'test1', rgTagIcon: closeIcon};
 
-  const shallowTag = (props?: TagAttrs) => shallow(<Tag key="1" {...tagMock} {...props} />);
+  const renderTag = (props?: TagAttrs) => render(<Tag key="1" {...tagMock} {...props} />);
 
   it('should render tags', () => {
-    shallowTag().find('button').should.have.data('test', 'ring-tag');
+    const {container} = renderTag();
+    container.querySelector('button[data-test="ring-tag"]')?.should.exist;
   });
 
-  it('should contains icon', () => {
-    shallowTag().find(Icon).length.should.not.equal(0);
+  it('should contain icon', () => {
+    renderTag();
+    screen.getByTestId('ring-icon').should.exist;
   });
 });
