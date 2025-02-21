@@ -40,6 +40,7 @@ export default function AvatarStack({
         [styles.hovered]: dropdownOpen,
       })}
       {...restProps}
+      style={{height: size, ...restProps.style}}
     >
       {Children.map(children, (child, index) => (
         <div className={styles.item} style={{'--ring-avatar-stack-index': index}}>

@@ -37,29 +37,23 @@
 .item {
   position: relative;
 
-  margin-left: calc(var(--ring-avatar-stack-offset) * -1);
+  margin: -1px;
+  margin-left: calc(var(--ring-avatar-stack-offset) * -1 - 1px);
+  padding: 1px;
 
   transition: transform var(--ring-fast-ease);
   mask-image: var(--ring-avatar-stack-mask-image);
-  mask-position: calc(var(--ring-avatar-stack-offset) - 4px) -1px;
+  mask-position: calc(var(--ring-avatar-stack-offset) - 3px) 0;
   mask-repeat: no-repeat;
 
+  border-radius: calc(var(--ring-border-radius) + 1px);
 
-  /* make the gaps hoverable */
-  &::before {
-    position: absolute;
-    top: 0;
-    right: -1px;
-    bottom: 0;
-    left: -1px;
-
-    content: '';
-  }
+  background-color: var(--ring-content-background-color);
 }
 
 .item:nth-child(1) {
   --ring-avatar-stack-index: 0;
-  --ring-avatar-stack-offset: 0;
+  --ring-avatar-stack-offset: 0px;
 
   mask: none;
 }
