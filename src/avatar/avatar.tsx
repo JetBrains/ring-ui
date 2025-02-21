@@ -62,9 +62,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
     }
     const sizeString = `${size}px`;
     const subavatarSizeString = `${subavatarSize}px`;
-    const borderRadius = size <= Size.Size18 ? 'var(--ring-border-radius-small)' : 'var(--ring-border-radius)';
     const styleObj = {
-      borderRadius: round ? '50%' : borderRadius,
       height: sizeString,
       width: sizeString,
       ...style,
@@ -77,12 +75,16 @@ export default class Avatar extends PureComponent<AvatarProps> {
       ...style,
     };
 
+    const classes = classNames(styles.avatar, this.props.className, {
+      [styles.round]: round,
+    });
+
     if (!url || this.state.errorUrl === url) {
       return (
         <span
           {...restProps}
           data-test="avatar"
-          className={classNames(styles.avatar, this.props.className, {
+          className={classNames(classes, {
             [styles.empty]: username == null && info == null,
           })}
           style={styleObj}
@@ -120,7 +122,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
             {...restProps}
             onError={this.handleError}
             onLoad={this.handleSuccess}
-            className={classNames(styles.avatar, styles.avatarShadow, this.props.className)}
+            className={classNames(classes, styles.avatarShadow)}
             style={styleObj}
             src={src}
             alt="User avatar"
@@ -144,7 +146,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
           data-test="avatar"
           onError={this.handleError}
           onLoad={this.handleSuccess}
-          className={classNames(styles.avatar, styles.avatarShadow, this.props.className)}
+          className={classNames(classes, styles.avatarShadow)}
           style={styleObj}
           src={src}
           alt="User avatar"

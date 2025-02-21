@@ -93,7 +93,6 @@ export default tseslint.config(
             '**/*.stories.js',
             '**/*.stories.ts',
             '**/*.stories.tsx',
-            '**/*.figma.tsx',
             'eslint.config.mjs',
             '.storybook/**',
             'packages/screenshots/**',
@@ -290,4 +289,5 @@ export default tseslint.config(
   {files: ['**/*.mjs'], rules: {'import/extensions': ['error', 'ignorePackages']}},
 
   eslintPluginPrettierRecommended,
+  {files: ['**/*.figma.js'], rules: {'import/no-commonjs': 'off'}, languageOptions: {globals: globals.node}},
 );
