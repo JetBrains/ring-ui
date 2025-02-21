@@ -6,7 +6,9 @@ import {ListDataItem} from '../list/consts';
 
 import DropdownMenu, {DropdownMenuProps} from '../dropdown-menu/dropdown-menu';
 
-import {Size} from '../avatar/avatar';
+import Avatar, {Size} from '../avatar/avatar';
+
+import {fontSizes} from '../avatar/avatar-info';
 
 import styles from './avatar-stack.css';
 
@@ -51,8 +53,17 @@ export default function AvatarStack({
           onShow={() => setDropdownOpen(true)}
           onHide={() => setDropdownOpen(false)}
           className={styles.extra}
-          style={{width: size, height: size, '--ring-avatar-stack-index': Children.count(children)}}
-          anchor={<button type="button" className={styles.extraText}>{`+${extraItems.length}`}</button>}
+          style={{
+            width: size,
+            height: size,
+            '--ring-avatar-stack-index': Children.count(children),
+            fontSize: fontSizes[size],
+          }}
+          anchor={
+            <button type="button" className={styles.extraButton}>
+              <Avatar size={size} info={<span className={styles.extraText}>{`+${extraItems.length}`}</span>} />
+            </button>
+          }
           data={extraItems}
           menuProps={{offset: 4, ...dropdownMenuProps?.menuProps}}
           {...dropdownMenuProps}

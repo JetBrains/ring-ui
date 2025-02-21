@@ -1,37 +1,31 @@
 .size20 {
   --ring-avatar-stack-offset: 12px;
   --ring-avatar-stack-mask-image: url('avatar-stack.mask-20.svg');
-  --ring-avatar-stack-extra-font-size: 9px
 }
 
 .size24 {
   --ring-avatar-stack-offset: 16px;
   --ring-avatar-stack-mask-image: url('avatar-stack.mask-24.svg');
-  --ring-avatar-stack-extra-font-size: 11px;
 }
 
 .size28 {
   --ring-avatar-stack-offset: 18px;
   --ring-avatar-stack-mask-image: url('avatar-stack.mask-28.svg');
-  --ring-avatar-stack-extra-font-size: var(--ring-font-size-smaller);
 }
 
 .size32 {
   --ring-avatar-stack-offset: 20px;
   --ring-avatar-stack-mask-image: url('avatar-stack.mask-32.svg');
-  --ring-avatar-stack-extra-font-size: var(--ring-font-size);
 }
 
 .size40 {
   --ring-avatar-stack-offset: 26px;
   --ring-avatar-stack-mask-image: url('avatar-stack.mask-40.svg');
-  --ring-avatar-stack-extra-font-size: var(--ring-font-size-larger);
 }
 
 .size56 {
   --ring-avatar-stack-offset: 42px;
   --ring-avatar-stack-mask-image: url('avatar-stack.mask-56.svg');
-  --ring-avatar-stack-extra-font-size: 22px;
 }
 
 .avatarStack {
@@ -80,36 +74,25 @@
 
 .extra {
   composes: item;
+}
 
-  color: var(--ring-secondary-color);
+.extraButton {
+  composes: resetButton from "../global/global.css";
+
+  cursor: pointer;
 
   border-radius: var(--ring-border-radius);
+}
 
-  background-color: var(--ring-disabled-background-color);
-
-  font-size: var(--ring-avatar-stack-extra-font-size);
+.extraButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring-border-hover-color);
 }
 
 .extraText {
-  composes: resetButton from "../global/global.css";
-
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  cursor: pointer;
   transition: opacity var(--ring-fast-ease);
-  text-align: center;
 
   opacity: 0;
-
-  border-radius: var(--ring-border-radius);
-}
-
-.extraText:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--ring-border-hover-color);
 }
 
 .hovered .extraText,

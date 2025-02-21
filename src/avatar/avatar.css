@@ -26,7 +26,7 @@
   color: var(--ring-secondary-color);
   border-radius: inherit;
 
-  background-color: var(--ring-disabled-background-color);
+  background-color: var(--ring-tag-background-color);
 }
 
 .subavatar {
