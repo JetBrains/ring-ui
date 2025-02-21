@@ -1255,6 +1255,7 @@ object PublishToGitHubPages : BuildType({
                 npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%" --nojekyll
                 npm ci
                 npm run chromatic
+                npm run figma-connect-unpublish
                 npm run figma-connect-publish
             """.trimIndent()
             dockerImage = "node:20"

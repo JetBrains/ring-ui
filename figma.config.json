@@ -1,5 +1,7 @@
 {
   "codeConnect": {
-    "include": ["src/**/*.{tsx,jsx}"]
+    "parser": "custom",
+    "parserCommand": "node figmaParser.mjs",
+    "include": ["src/**/*.figma.js"]
   }
 }
