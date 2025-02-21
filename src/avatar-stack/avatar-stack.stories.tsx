@@ -34,3 +34,26 @@ export const noExtraItems = () => (
     <Avatar url={avatar3} />
   </AvatarStack>
 );
+
+export const withBackground = () => (
+  <AvatarStack
+    size={Size.Size56}
+    extraItems={[
+      {avatar: avatar4, label: 'Michael Peterson'},
+      {showGeneratedAvatar: true, username: 'jane.doe', label: 'Jane Doe'},
+    ]}
+  >
+    <Avatar size={Size.Size56} url={avatar1} />
+    <Avatar size={Size.Size56} url={avatar2} />
+    <Avatar size={Size.Size56} url={avatar3} />
+  </AvatarStack>
+);
+withBackground.parameters = {
+  storyStyles: `
+    <style>
+      body {
+        background-color: var(--ring-secondary-background-color);
+      }
+    </style>
+  `,
+};
