@@ -10,7 +10,7 @@ interface InfoAvatarProps {
   children?: ReactNode;
 }
 
-const fontSizes: Record<Size, number> = {
+export const fontSizes: Record<Size, number> = {
   [Size.Size16]: 9,
   [Size.Size18]: 9,
   [Size.Size20]: 9,
