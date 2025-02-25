@@ -51,6 +51,7 @@ export interface InputBaseProps {
   onClear?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | null | undefined;
   icon?: string | ComponentType | null | undefined;
   height?: ControlsHeight | undefined;
+  beforeInput?: ReactNode;
   afterInput?: ReactNode;
   translations?: InputTranslations | null | undefined;
 }
@@ -174,6 +175,7 @@ export class Input extends PureComponent<InputProps> {
       icon,
       translations,
       height = this.context,
+      beforeInput,
       afterInput,
       ...restProps
     } = this.props;
@@ -215,6 +217,7 @@ export class Input extends PureComponent<InputProps> {
             )}
             <div className={styles.container}>
               {icon && <Icon glyph={icon} className={styles.icon} />}
+              {beforeInput}
               {multiline ? (
                 <textarea
                   onChange={this.handleTextareaChange}
