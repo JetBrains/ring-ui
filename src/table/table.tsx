@@ -69,7 +69,7 @@ export interface TableProps<T extends SelectionItem> extends
   stickyHeaderOffset?: string | undefined
   renderEmpty?: (() => ReactNode) | null | undefined
   RowComponent: typeof Row
-  customLoader?: ((loaderClassName?: string) => ReactNode) | null | undefined;
+  renderLoader?: ((loaderClassName?: string) => ReactNode) | null | undefined;
 }
 /**
  * Interactive table with selection and keyboard navigation support.
@@ -186,7 +186,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
-      onItemDoubleClick, onItemClick, renderEmpty, RowComponent, customLoader
+      onItemDoubleClick, onItemClick, renderEmpty, RowComponent, renderLoader
     } = this.props;
 
 
@@ -318,7 +318,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
 
         {loading && (
           <div className={style.loadingOverlay}>
-            {customLoader ? customLoader(loaderClassName) : <Loader className={loaderClassName}/>}
+            {renderLoader ? renderLoader(loaderClassName) : <Loader className={loaderClassName}/>}
           </div>
         )}
       </div>
