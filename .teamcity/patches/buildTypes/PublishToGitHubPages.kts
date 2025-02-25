@@ -1,6 +1,8 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -12,6 +14,19 @@ changeBuildType(RelativeId("PublishToGitHubPages")) {
     params {
         add {
             password("env.FIGMA_CODE_CONNECT_TOKEN", "credentialsJSON:a10e2416-609f-4616-b94b-8c6ecf150c5d")
+        }
+    }
+
+    triggers {
+        val trigger1 = find<VcsTrigger> {
+            vcs {
+                quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
+                triggerRules = "-:user=npmjs-buildserver:**"
+            }
+        }
+        trigger1.apply {
+            triggerRules = ""
+
         }
     }
 }
