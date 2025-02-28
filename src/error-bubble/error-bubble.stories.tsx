@@ -101,3 +101,13 @@ inDialogForm.parameters = {
   screenshots: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
   a11y: {element: '#storybook-root,*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'},
 };
+
+export const multiline = () => (
+  <ErrorBubble
+    error={`Enter a name to continue
+second line`}
+  />
+);
+multiline.parameters = {
+  screenshots: {captureSelector: '*[data-test~=ring-error-bubble]'},
+};
