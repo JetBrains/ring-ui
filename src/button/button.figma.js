@@ -43,7 +43,7 @@ switch (variant) {
   default:
 }
 
-let children = 'Button';
+const children = instance.findLayers(() => true)[0].findText('Button').textContent;
 const use12pxIcon = size === 'S' && variant !== 'Text';
 let useButtonGroup = false;
 switch (type) {
@@ -55,7 +55,6 @@ switch (type) {
     props.push('icon={downloadIcon}');
     break;
   case 'Icon':
-    children = null;
     imports.push(`import addIcon from '@jetbrains/icons/add${use12pxIcon ? '-12px' : ''}'`);
     props.push('icon={addIcon}');
     break;

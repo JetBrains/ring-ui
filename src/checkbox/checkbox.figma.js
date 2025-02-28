@@ -3,8 +3,10 @@ const figma = require('figma');
 
 const instance = figma.selectedInstance;
 const selected = instance.getString('Selected');
-const label = instance.getBoolean('Label');
-const helpText = instance.getBoolean('Help Text');
+const hasLabel = instance.getBoolean('Label');
+const label = instance.findText('Label').textContent;
+const hasHelpText = instance.getBoolean('Help Text');
+const helpText = instance.findText('Description').textContent;
 const state = instance.getString('State');
 
 const imports = ["import Checkbox from '@jetbrains/ring-ui/components/checkbox/checkbox'"];
@@ -18,11 +20,11 @@ switch (selected) {
     break;
   default:
 }
-if (label) {
-  props.push(`label="Label"`);
+if (hasLabel) {
+  props.push(`label="${label}"`);
 }
-if (helpText) {
-  props.push(`help="Help text"`);
+if (hasHelpText) {
+  props.push(`help="${helpText}"`);
 }
 if (state === 'Disabled') {
   props.push('disabled');
