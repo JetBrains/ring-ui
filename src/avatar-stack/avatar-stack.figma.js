@@ -5,7 +5,7 @@ const instance = figma.selectedInstance;
 const sizeString = instance.getString('Size');
 const [sizeSubstring] = sizeString.match(/\d+/) ?? [];
 const size = parseInt(sizeSubstring, 10);
-const children = instance.findLayers(() => true);
+const children = instance.findConnectedInstances(() => true);
 
 const imports = ["import AvatarStack from '@jetbrains/ring-ui/components/avatar-stack/avatar-stack'"];
 const props = [];
