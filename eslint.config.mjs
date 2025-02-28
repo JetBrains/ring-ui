@@ -101,6 +101,7 @@ export default tseslint.config(
             'security-audit-ci.js',
             'tsc-teamcity.js',
             'test-runner-jest.config.js',
+            'figmaParser.mjs',
           ],
 
           peerDependencies: true,

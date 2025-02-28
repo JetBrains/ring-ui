@@ -12,32 +12,29 @@ process.stdin.on('data', chunk => {
   }
 });
 
-const figmaNodes = {
-  avatar: '5990-522',
-  button: '9954-528',
-};
-
 process.stdin.on('end', () => {
   ended = true;
   const parsed = JSON.parse(data);
   const result = {
     docs: parsed.paths.map(file => {
       const name = path.basename(file, '.figma.js');
+      const fileContent = fs.readFileSync(file, 'utf-8');
+      const [firstLine, ...templateLines] = fileContent.split('\n');
+      const figmaNodeUrl = firstLine.replace(/\/\/\s*url=/, '').trim();
+      const template = templateLines.join('\n');
+
       return {
-        figmaNode: `https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI?node-id=${figmaNodes[name]}`,
+        figmaNode: figmaNodeUrl,
         component: pascalCase(name),
-        template: fs.readFileSync(file, 'utf8'),
+        template,
         source: file,
-        sourceLocation: {line: 0},
-        templateData: {props: {}},
+        sourceLocation: {line: -1},
+        templateData: {nestable: true, props: {}},
         language: 'tsx',
         label: 'React',
       };
     }),
-    messages: [
-      {level: 'DEBUG', message: 'Debug message from parser!'},
-      {level: 'INFO', message: 'Success from parser!'},
-    ],
+    messages: [],
   };
 
   process.stdout.write(JSON.stringify(result));
