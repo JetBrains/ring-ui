@@ -9,7 +9,7 @@ import styles from './error-bubble.css';
 
 export type ErrorBubbleProps<P> = Partial<P> & {
   className?: string | null | undefined;
-  children: ReactElement<P> | ReactElement<P>[];
+  children?: ReactElement<P> | ReactElement<P>[];
   error?: string | null | undefined;
 };
 
@@ -25,9 +25,8 @@ export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
 
     return (
       <div className={styles.errorBubbleWrapper} data-test="ring-error-bubble-wrapper">
-        {Children.map(children as ErrorBubbleProps<P>['children'], (child: ReactElement<P>) =>
-          cloneElement(child, {...child.props, ...restProps}),
-        )}
+        {children &&
+          Children.map(children, (child: ReactElement<P>) => cloneElement(child, {...child.props, ...restProps}))}
         {restProps.error && (
           <Popup
             trapFocus={false}

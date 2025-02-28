@@ -19,7 +19,7 @@
   min-height: calc(var(--ring-unit) * 4);
   padding: calc(var(--ring-unit) - 1px) calc(var(--ring-unit) * 1.5 - 1px);
 
-  white-space: nowrap;
+  white-space: pre-wrap;
 
   color: var(--ring-error-color);
 
