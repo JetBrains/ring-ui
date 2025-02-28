@@ -187,7 +187,7 @@
     "stylelint": "^16.14.1",
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.14",
-    "terser-webpack-plugin": "^5.3.11",
+    "terser-webpack-plugin": "^5.3.12",
     "typescript": "~5.7.3",
     "typescript-eslint": "^8.25.0",
     "vitest": "^3.0.7",
