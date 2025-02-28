@@ -226,7 +226,7 @@
     "@types/element-resize-detector": "^1.1.6",
     "@types/react-virtualized": "9.22.2",
     "@types/util-deprecate": "^1.0.4",
-    "babel-loader": "9.2.1",
+    "babel-loader": "10.0.0",
     "babel-plugin-transform-define": "^2.1.4",
     "browserslist": "^4.24.4",
     "change-case": "^4.1.1",
