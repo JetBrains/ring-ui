@@ -22,7 +22,7 @@ switch (content) {
     props.push('username="Samuel Morse"');
     break;
   case 'label':
-    props.push('info="5"');
+    props.push(`info="${instance.findText('Content').textContent}"`);
     break;
   case 'icon':
     imports.push(
