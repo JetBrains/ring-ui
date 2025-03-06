@@ -40666,7 +40666,7 @@ qe();
 var AM = k(qn(), 1), fn = k(CM(), 1);
 
 // src/manager-api/version.ts
-var RM = "8.6.3";
+var RM = "8.6.4";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: i0e } = $, DM = (0, AM.default)(1)(() => {
