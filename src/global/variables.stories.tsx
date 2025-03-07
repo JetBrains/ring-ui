@@ -63,21 +63,24 @@ const renderColors = () => (
     <div className="colors-group">
       <ColorItem propName="--ring-line-color" />
       <ColorItem propName="--ring-borders-color" />
-      <ColorItem propName="--ring-icon-color" />
-      <ColorItem propName="--ring-icon-secondary-color" />
       <ColorItem propName="--ring-border-disabled-color" />
-      <ColorItem propName="--ring-icon-disabled-color" />
+      <ColorItem propName="--ring-border-selected-disabled-color" />
+      <ColorItem propName="--ring-border-disabled-active-color" />
       <ColorItem propName="--ring-border-hover-color" />
-      <ColorItem propName="--ring-icon-hover-color" />
+      <ColorItem propName="--ring-border-hover-success-color" />
+      <ColorItem propName="--ring-border-hover-error-color" />
       <ColorItem propName="--ring-main-color" />
-      <ColorItem propName="--ring-action-link-color" />
       <ColorItem propName="--ring-main-hover-color" />
-      <ColorItem propName="--ring-icon-error-color" />
       <ColorItem propName="--ring-icon-warning-color" />
       <ColorItem propName="--ring-icon-success-color" />
+      <ColorItem propName="--ring-main-success-color" />
+      <ColorItem propName="--ring-main-success-hover-color" />
+      <ColorItem propName="--ring-main-error-color" />
+      <ColorItem propName="--ring-main-error-hover-color" />
       <ColorItem propName="--ring-pale-control-color" />
       <ColorItem propName="--ring-popup-border-color" />
       <ColorItem propName="--ring-popup-shadow-color" />
+      <ColorItem propName="--ring-popup-secondary-shadow-color" />
       <ColorItem propName="--ring-message-shadow-color" />
       <ColorItem propName="--ring-button-danger-hover-color" />
       <ColorItem propName="--ring-button-primary-border-color" />
@@ -86,7 +89,6 @@ const renderColors = () => (
     <h3>Text colors:</h3>
     <div className="colors-group">
       <ColorItem propName="--ring-search-color" />
-      <ColorItem propName="--ring-hint-color" />
       <ColorItem propName="--ring-link-color" />
       <ColorItem propName="--ring-link-hover-color" />
       <ColorItem propName="--ring-error-color" />
@@ -105,6 +107,7 @@ const renderColors = () => (
       <ColorItem propName="--ring-content-background-color" />
       <ColorItem propName="--ring-popup-background-color" />
       <ColorItem propName="--ring-sidebar-background-color" />
+      <ColorItem propName="--ring-secondary-background-color" />
       <ColorItem propName="--ring-selected-background-color" />
       <ColorItem propName="--ring-hover-background-color" />
       <ColorItem propName="--ring-navigation-background-color" />
@@ -116,8 +119,11 @@ const renderColors = () => (
       <ColorItem propName="--ring-disabled-background-color" />
       <ColorItem propName="--ring-disabled-selected-background-color" />
       <ColorItem propName="--ring-button-danger-active-color" />
-      <ColorItem propName="--ring-button-loader-background" />
       <ColorItem propName="--ring-button-primary-background-color" />
+      <ColorItem propName="--ring-table-loader-background-color" />
+      <ColorItem propName="--ring-removed-subtle-background-color" />
+      <ColorItem propName="--ring-warning-subtle-background-color" />
+      <ColorItem propName="--ring-added-subtle-background-color" />
     </div>
   </div>
 );
