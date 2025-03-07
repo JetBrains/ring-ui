@@ -39,18 +39,26 @@
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #3369d6 */
   --ring-main-success-components: 32, 138, 60;
   --ring-main-success-color: rgb(var(--ring-main-success-components)); /* #208A3C */
-  --ring-main-success-hover-components: 31, 128, 57;
-  --ring-main-success-hover-color: rgb(var(--ring-main-success-hover-components)); /* #1F8039 */
+  --ring-main-success-hover-components: 31, 117, 54;
+  --ring-main-success-hover-color: rgb(var(--ring-main-success-hover-components)); /* #1F7536 */
   --ring-main-error-components: 204, 54, 69;
   --ring-main-error-color: rgb(var(--ring-main-error-components)); /* #CC3645 */
-  --ring-main-error-hover-components: 188, 48, 62;
-  --ring-main-error-hover-color: rgb(var(--ring-main-error-hover-components)); /* #BC303E */
+  --ring-main-error-hover-components: 173, 43, 56;
+  --ring-main-error-hover-color: rgb(var(--ring-main-error-hover-components)); /* #AD2B38 */
+  --ring-main-warning-components: 229, 109, 23;
+  --ring-main-warning-color: rgb(var(--ring-main-warning-components)); /* #E56D17 */
+  --ring-main-warning-hover-components: 206, 97, 23;
+  --ring-main-warning-hover-color: rgb(var(--ring-main-warning-hover-components)); /* #CE6117 */
   --ring-icon-error-components: 204, 54, 69;
   --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #CC3645 */ /* TODO: remove in 8.0 in favor of --ring-error-color */
-  --ring-icon-warning-components: 164, 103, 4;
-  --ring-icon-warning-color: rgb(var(--ring-icon-warning-components)); /* #A46704 */ /* TODO: remove in 8.0 in favor of --ring-warning-color */
-  --ring-icon-success-components: 31, 117, 54;
-  --ring-icon-success-color: rgb(var(--ring-icon-success-components)); /* #1F7536 */ /* TODO: remove in 8.0 in favor of --ring-success-color */
+  --ring-icon-warning-components: 229, 109, 23;
+  --ring-icon-warning-color: rgb(var(--ring-icon-warning-components)); /* #E56D17 */
+  --ring-icon-success-components: 32, 138, 60;
+  --ring-icon-success-color: rgb(var(--ring-icon-success-components)); /* #208A3C */
+  --ring-icon-highlight-components: 255, 175, 15;
+  --ring-icon-highlight-color: rgb(var(--ring-icon-highlight-components)); /* #FFAF0F */
+  --ring-icon-highlight-hover-components: 223, 147, 3;
+  --ring-icon-highlight-hover-color: rgb(var(--ring-icon-highlight-hover-components)); /* #DF9303 */
   --ring-pale-control-components: 194, 214, 252;
   --ring-pale-control-color: rgb(var(--ring-pale-control-components)); /* #C2D6FC */
   --ring-popup-border-components: 0, 28, 54;
@@ -81,10 +89,10 @@
   --ring-link-hover-color: rgb(var(--ring-link-hover-components)); /* #223C72 */
   --ring-error-components: 204, 54, 69;
   --ring-error-color: rgb(var(--ring-error-components)); /* #CC3645 */
-  --ring-warning-components: 164, 103, 4;
-  --ring-warning-color: rgb(var(--ring-warning-components)); /* #A46704 */
+  --ring-warning-components: 184, 85, 22;
+  --ring-warning-color: rgb(var(--ring-warning-components)); /* #B85516 */ /* Prefer using warning icon + regular text color */
   --ring-success-components: 31, 117, 54;
-  --ring-success-color: rgb(var(--ring-success-components)); /* #1F7536 */
+  --ring-success-color: rgb(var(--ring-success-components)); /* #1F7536 */ /* Prefer using success icon + regular text color */
   --ring-text-components: 39, 40, 46;
   --ring-text-color: rgb(var(--ring-text-components)); /* #27282E */
   --ring-active-text-color: var(--ring-text-color);
@@ -117,8 +125,10 @@
   --ring-tag-hover-background-color: rgb(var(--ring-tag-hover-background-components)); /* #D3D5DB */
   --ring-removed-background-components: 250, 212, 216;
   --ring-removed-background-color: rgb(var(--ring-removed-background-components)); /* #FAD4D8 */
-  --ring-warning-background-components: 255, 241, 209;
-  --ring-warning-background-color: rgb(var(--ring-warning-background-components)); /* #FFF1D1 */
+  --ring-warning-background-components: 252, 230, 214;
+  --ring-warning-background-color: rgb(var(--ring-warning-background-components)); /* #FCE6D6 */
+  --ring-highlight-background-components: 255, 241, 209;
+  --ring-highlight-background-color: rgb(var(--ring-highlight-background-components)); /* #FFF1D1 */
   --ring-added-background-components: 197, 229, 204;
   --ring-added-background-color: rgb(var(--ring-added-background-components)); /* #C5E5CC */
   --ring-disabled-background-components: 247, 248, 250;
@@ -133,10 +143,12 @@
   --ring-table-loader-background-color: rgba(var(--ring-content-background-components), 0.5); /* #FFFFFF50 */
   --ring-removed-subtle-background-components: 255, 247, 247;
   --ring-removed-subtle-background-color: rgb(var(--ring-removed-subtle-background-components)); /* #FFF7F7 */
-  --ring-warning-subtle-background-components: 255, 250, 235;
-  --ring-warning-subtle-background-color: rgb(var(--ring-warning-subtle-background-components)); /* #FFFAEB */
-  --ring-added-subtle-background-components: 242, 252, 243;
-  --ring-added-subtle-background-color: rgb(var(--ring-added-subtle-background-components)); /* #F2FCF3 */
+  --ring-warning-subtle-background-components: 255, 244, 235;
+  --ring-warning-subtle-background-color: rgb(var(--ring-warning-subtle-background-components)); /* #FFF4EB */
+  --ring-highlight-subtle-background-components: 255, 246, 222;
+  --ring-highlight-subtle-background-color: rgb(var(--ring-highlight-subtle-background-components)); /* #FFF6DE */
+  --ring-added-subtle-background-components: 230, 247, 233;
+  --ring-added-subtle-background-color: rgb(var(--ring-added-subtle-background-components)); /* #E6F7E9 */
 
   /* Code */
   --ring-code-background-color: var(--ring-content-background-color);

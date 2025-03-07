@@ -73,10 +73,14 @@ const renderColors = () => (
       <ColorItem propName="--ring-main-hover-color" />
       <ColorItem propName="--ring-icon-warning-color" />
       <ColorItem propName="--ring-icon-success-color" />
+      <ColorItem propName="--ring-icon-highlight-color" />
+      <ColorItem propName="--ring-icon-highlight-hover-color" />
       <ColorItem propName="--ring-main-success-color" />
       <ColorItem propName="--ring-main-success-hover-color" />
       <ColorItem propName="--ring-main-error-color" />
       <ColorItem propName="--ring-main-error-hover-color" />
+      <ColorItem propName="--ring-main-warning-color" />
+      <ColorItem propName="--ring-main-warning-hover-color" />
       <ColorItem propName="--ring-pale-control-color" />
       <ColorItem propName="--ring-popup-border-color" />
       <ColorItem propName="--ring-popup-shadow-color" />
@@ -113,6 +117,7 @@ const renderColors = () => (
       <ColorItem propName="--ring-navigation-background-color" />
       <ColorItem propName="--ring-removed-background-color" />
       <ColorItem propName="--ring-warning-background-color" />
+      <ColorItem propName="--ring-highlight-background-color" />
       <ColorItem propName="--ring-added-background-color" />
       <ColorItem propName="--ring-tag-background-color" />
       <ColorItem propName="--ring-tag-hover-background-color" />
@@ -123,6 +128,7 @@ const renderColors = () => (
       <ColorItem propName="--ring-table-loader-background-color" />
       <ColorItem propName="--ring-removed-subtle-background-color" />
       <ColorItem propName="--ring-warning-subtle-background-color" />
+      <ColorItem propName="--ring-highlight-subtle-background-color" />
       <ColorItem propName="--ring-added-subtle-background-color" />
     </div>
   </div>
