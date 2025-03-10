@@ -12,7 +12,7 @@ export enum Type {
   SEPARATOR = 0,
   LINK = 1,
   ITEM = 2,
-  HINT = 3,
+  HINT = 3, // doesn't work, TODO remove in 8.0
   CUSTOM = 4,
   TITLE = 5,
   MARGIN = 6,
