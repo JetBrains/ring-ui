@@ -1,6 +1,7 @@
-import * as Sinon from 'sinon';
+import {isCompositeComponentWithType} from 'react-dom/test-utils';
+import {mount} from 'enzyme';
 
-import {render, screen, fireEvent, within, act} from '@testing-library/react';
+import Popup from '../popup/popup';
 
 import Tooltip, {TooltipAttrs} from './tooltip';
 
@@ -10,177 +11,114 @@ describe('Tooltip', () => {
     className: 'test-class',
     children: 'test elem',
   };
-  const renderTooltip = (props?: Partial<TooltipAttrs>) => render(<Tooltip {...defaultProps} {...props} />);
-
-  // Constants for test timing
-  const SHORT_DELAY = 10;
-  const MEDIUM_DELAY = 50;
-  const LONG_DELAY = 100;
+  const mountTooltip = (props?: TooltipAttrs) => mount<Tooltip>(<Tooltip {...defaultProps} {...props} />);
 
   it('should create component', () => {
-    renderTooltip();
-    screen.getByText('test elem').should.exist;
+    mountTooltip().should.have.type(Tooltip);
   });
 
   describe('Children', () => {
     it('should wrap text children', () => {
-      renderTooltip();
-      const wrapper = screen.getByText('test elem');
+      const wrapper = mountTooltip();
       wrapper.should.have.text('test elem');
-      wrapper.tagName.toLowerCase().should.equal('span');
+      wrapper.should.have.tagName('span');
     });
 
     it('should wrap children', () => {
-      renderTooltip({
+      const wrapper = mountTooltip({
         title: 'test tooltip',
         children: <span>{'test span'}</span>,
       });
 
-      // Using a more specific selector that matches the actual DOM structure
-      const wrapper = screen.getByRole('tooltip');
-      wrapper.tagName.toLowerCase().should.equal('span');
-
-      within(wrapper).getByText('test span').tagName.toLowerCase().should.equal('span');
+      wrapper.should.have.tagName('span');
+      wrapper.children().first().should.have.text('test span');
+      wrapper.children().first().should.have.tagName('span');
     });
 
     it('should pass props to children', () => {
-      renderTooltip();
-      // Using a more specific selector
-      screen.getByRole('tooltip').should.have.class('test-class');
+      mountTooltip().should.have.className('test-class');
     });
 
     it('should not pass title to children', () => {
-      renderTooltip();
-      screen.getByText('test elem').should.not.have.attribute('title');
+      const wrapper = mountTooltip();
+      wrapper.children().first().should.not.have.prop('title');
     });
   });
 
   describe('Popup', () => {
-    let clock: Sinon.SinonFakeTimers;
-
-    beforeEach(() => {
-      clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
-    });
-
     it('should unbind listeners when empty title is provided', () => {
-      const {rerender} = renderTooltip();
-      const tooltipElement = screen.getByRole('tooltip');
-      const removeEventListener = sandbox.spy(tooltipElement, 'removeEventListener');
+      const wrapper = mountTooltip();
+      const bindEvents = sandbox.spy(wrapper.getDOMNode(), 'removeEventListener');
 
-      rerender(<Tooltip {...defaultProps} title="" />);
-
-      removeEventListener.should.have.been.calledTwice;
-    });
-
-    // Skip the popup rendering tests since they require portal testing
-    // which is difficult to do with the current setup
-    it.skip('should render popup on mouseenter', () => {
-      renderTooltip();
-      const tooltipElement = screen.getByText('test elem').closest('span');
-
-      if (!tooltipElement) throw new Error('Tooltip element not found');
-
-      act(() => {
-        fireEvent.mouseEnter(tooltipElement);
-        // Need to manually trigger any effects that would happen in the real browser
-        clock.tick(SHORT_DELAY);
+      wrapper.setProps({
+        title: '',
       });
 
-      // In a real implementation, we would need to query the portal container
-      // but for now we'll skip this test
+      bindEvents.should.have.been.calledTwice;
+    });
+
+    it('should render popup', () => {
+      const wrapper = mountTooltip();
+      const instance = wrapper.instance();
+      instance.tryToShowPopup();
+
+      isCompositeComponentWithType(instance.popup!, Popup).should.be.true;
     });
 
     it('should not render popup when empty title is provided', () => {
-      renderTooltip({
+      const wrapper = mountTooltip({
         title: '',
       });
-      const tooltipElement = screen.getByText('test elem').closest('span');
+      const instance = wrapper.instance();
 
-      if (!tooltipElement) throw new Error('Tooltip element not found');
-
-      act(() => {
-        fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
-      });
-
-      // Since no popup should appear, we don't need to check for it
+      instance.tryToShowPopup();
+      instance.popup!.isVisible().should.be.false;
     });
 
-    it.skip('should render with delay when provided', () => {
-      renderTooltip({
-        delay: LONG_DELAY,
+    it('should render with delay when provided', () => {
+      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+      const wrapper = mountTooltip({
+        delay: 100,
       });
-      const tooltipElement = screen.getByText('test elem').closest('span');
+      const instance = wrapper.instance();
 
-      if (!tooltipElement) throw new Error('Tooltip element not found');
+      instance.tryToShowPopup();
 
-      act(() => {
-        fireEvent.mouseEnter(tooltipElement);
-        clock.tick(MEDIUM_DELAY);
-      });
+      instance.popup!.isVisible().should.be.false;
 
-      // Popup should not be visible yet
-
-      act(() => {
-        clock.tick(LONG_DELAY);
-      });
-
-      // Popup should be visible now, but we can't easily test this with portals
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      clock.tick(200);
+      instance.popup!.isVisible().should.be.true;
     });
 
-    it.skip('should pass custom props to popup', () => {
-      renderTooltip({
+    it('should pass custom props to popup', () => {
+      const wrapper = mountTooltip({
         popupProps: {
           className: 'tooltip-test-popup',
-          'data-test': 'ring-popup',
         },
       });
-      const tooltipElement = screen.getByText('test elem').closest('span');
+      const instance = wrapper.instance();
 
-      if (!tooltipElement) throw new Error('Tooltip element not found');
-
-      act(() => {
-        fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
-      });
-
-      // Would need to find the popup in the portal
+      instance.tryToShowPopup();
+      instance.popup!.popup!.should.have.class('tooltip-test-popup').and.have.class('tooltip');
     });
 
-    it.skip('should close popup on unmount', () => {
-      const {unmount} = renderTooltip();
-      const tooltipElement = screen.getByText('test elem').closest('span');
+    it('should close popup on unmount', () => {
+      const wrapper = mountTooltip();
+      const instance = wrapper.instance();
+      instance.tryToShowPopup();
+      wrapper.unmount();
 
-      if (!tooltipElement) throw new Error('Tooltip element not found');
-
-      act(() => {
-        fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
-      });
-
-      // Popup should be visible
-
-      unmount();
-
-      // Popup should be removed, but we can't easily test this with portals
+      should.not.exist(instance.popup);
     });
 
-    it.skip('should not close popup on click on tooltip', () => {
-      renderTooltip();
-      const tooltipElement = screen.getByText('test elem').closest('span');
+    it('should not close popup on click on tooltip', () => {
+      const wrapper = mountTooltip();
+      const instance = wrapper.instance();
+      instance.tryToShowPopup();
+      wrapper.simulate('click');
 
-      if (!tooltipElement) throw new Error('Tooltip element not found');
-
-      act(() => {
-        fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
-      });
-
-      act(() => {
-        fireEvent.click(tooltipElement);
-      });
-
-      // Popup should still be visible, but we can't easily test this with portals
+      instance.popup!.isVisible().should.be.true;
     });
   });
 });
