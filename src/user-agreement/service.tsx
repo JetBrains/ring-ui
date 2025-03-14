@@ -104,13 +104,17 @@ export default class UserAgreementService {
 
   intervalId?: number;
   startChecking = () => {
-    this.intervalId = window.setInterval(() => this.checkConsentAndShowDialog().catch(reason => {
-      if (reason === 'Postponed') {
-        return;
-      }
+    this.intervalId = window.setInterval(
+      () =>
+        this.checkConsentAndShowDialog().catch(reason => {
+          if (reason === 'Postponed') {
+            return;
+          }
 
-      throw reason;
-    }), this.interval);
+          throw reason;
+        }),
+      this.interval,
+    );
 
     window.addEventListener('storage', this.onStorageEvent);
     this.checkConsentAndShowDialog();
