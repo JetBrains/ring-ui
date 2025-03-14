@@ -1,21 +1,22 @@
 import {Component} from 'react';
-import {shallow, render} from 'enzyme';
+import {render, screen} from '@testing-library/react';
 
 import TagsList, {TagsListAttrs} from './tags-list';
 
 describe('Tags List', () => {
-  let tagsList;
   const tagsMock = [{key: 1, label: 'test1'}];
-  const shallowTagsList = (props?: Partial<TagsListAttrs>) => shallow(<TagsList tags={tagsMock} {...props} />);
   const renderTagsList = (props?: Partial<TagsListAttrs>) => render(<TagsList tags={tagsMock} {...props} />);
 
   describe('DOM', () => {
     it('should render tags list', () => {
-      shallowTagsList().should.have.data('test', 'ring-tags-list');
+      renderTagsList();
+      screen.getByTestId('ring-tags-list').should.exist;
     });
 
     it('should render passed label inside tags', () => {
-      renderTagsList().find('[data-test~="ring-tag"]').should.have.text('test1');
+      renderTagsList();
+      const tag = screen.getByTestId('ring-tag');
+      tag.should.have.text('test1');
     });
 
     it('should render custom tag', () => {
@@ -25,19 +26,20 @@ describe('Tags List', () => {
         }
       }
 
-      tagsList = renderTagsList({
+      renderTagsList({
         customTagComponent: CustomTag,
       });
 
-      tagsList.find('.custom-tag').should.have.data('test', 'custom-tag');
+      screen.getByTestId('custom-tag').should.exist;
+      screen.getByTestId('custom-tag').should.have.class('custom-tag');
     });
 
     it('Should use passed className', () => {
-      tagsList = shallowTagsList({
+      renderTagsList({
         className: 'test-class',
       });
 
-      tagsList.should.have.className('test-class');
+      screen.getByTestId('ring-tags-list').should.have.class('test-class');
     });
   });
 });
