@@ -224,7 +224,11 @@ export default class Dialog extends PureComponent<DialogProps> {
 
     if (native) {
       return (
-        <dialog className={classNames(styles.nativeDialog, className)} ref={this.nativeDialog}>
+        <dialog
+          className={classNames(styles.nativeDialog, className)}
+          ref={this.nativeDialog}
+          data-rg-modal-dialog-container={modal ? '' : undefined}
+        >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
             {target => (
               <>
@@ -256,6 +260,7 @@ export default class Dialog extends PureComponent<DialogProps> {
                   <TabTrap
                     trapDisabled={!trapFocus}
                     data-test={dataTests('ring-dialog-container', dataTest)}
+                    data-rg-modal-dialog-container=""
                     ref={this.dialogRef}
                     className={classes}
                     role="presentation"
