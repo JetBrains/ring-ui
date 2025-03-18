@@ -156,7 +156,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-storybook": "^0.11.4",
+    "eslint-plugin-storybook": "^0.11.6",
     "events": "^3.3.0",
     "glob": "^11.0.1",
     "globals": "^16.0.0",
