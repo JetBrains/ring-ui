@@ -41018,7 +41018,7 @@ qe();
 var UM = P(Kn(), 1), mn = P($M(), 1);
 
 // src/manager-api/version.ts
-var jM = "8.6.6";
+var jM = "8.6.7";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: Bde } = z, VM = (0, UM.default)(1)(() => {
