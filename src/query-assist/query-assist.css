@@ -86,7 +86,7 @@
 }
 
 .input {
-  overflow: hidden;
+  overflow: auto;
 
   flex-grow: 1;
 
