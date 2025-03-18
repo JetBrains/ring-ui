@@ -190,7 +190,7 @@
     "terser-webpack-plugin": "^5.3.14",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.26.1",
-    "vitest": "^3.0.8",
+    "vitest": "^3.0.9",
     "vitest-teamcity-reporter": "^0.3.1",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.98.0",
