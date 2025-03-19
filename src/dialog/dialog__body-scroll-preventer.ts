@@ -21,8 +21,10 @@ const prevent = (key: string | number) => {
   document.documentElement.classList.add(styles.documentWithoutScroll);
 
   const scrollWidth = scrollbarWidth();
+  const {scrollbarGutter} = getComputedStyle(document.documentElement);
+  const documentHasScrollbarGutter = scrollbarGutter === 'stable' || scrollbarGutter === 'both-edges';
 
-  if (documentHasScroll && scrollWidth != null && scrollWidth > 0) {
+  if (documentHasScroll && scrollWidth != null && scrollWidth > 0 && !documentHasScrollbarGutter) {
     previousDocumentWidth = document.documentElement.style.width;
     document.documentElement.style.width = `calc(100% - ${scrollWidth}px)`;
   }
