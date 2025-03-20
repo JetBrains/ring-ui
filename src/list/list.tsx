@@ -260,9 +260,15 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       this.virtualizedList.recomputeRowHeights();
     }
 
+    const {activeIndex} = this.state;
+    const isActiveItemRetainedPosition = activeIndex
+      ? prevProps.data[activeIndex]?.key === this.props.data[activeIndex]?.key
+      : false;
+
     if (this.props.activeIndex == null &&
       getDataHash(this.props.data) !== getDataHash(prevProps.data) &&
-      shouldActivateFirstItem(this.props)
+      shouldActivateFirstItem(this.props) &&
+      !isActiveItemRetainedPosition
     ) {
       this.activateFirst();
     }
