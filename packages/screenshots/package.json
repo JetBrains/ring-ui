@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@jetbrains/testplane-teamcity-reporter": "^1.2.2",
-    "axios": "^1.8.3",
+    "axios": "^1.8.4",
     "browserstack-local": "^1.5.6",
     "dotenv": "^16.4.7",
     "filenamify": "^6.0.0",
