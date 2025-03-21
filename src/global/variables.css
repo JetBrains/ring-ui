@@ -154,10 +154,9 @@
   --ring-code-background-color: var(--ring-content-background-color);
   --ring-code-components: 0, 0, 0;
   --ring-code-color: rgb(var(--ring-code-components)); /* #000000 */
-  --ring-code-comment-components: 140, 140, 140;
-  --ring-code-comment-color: rgb(var(--ring-code-comment-components)); /* #8C8C8C */
-  --ring-code-meta-components: 158, 136, 13;
-  --ring-code-meta-color: rgb(var(--ring-code-meta-components)); /* #9E880D */
+  --ring-code-comment-color: var(--ring-secondary-color);
+  --ring-code-meta-components: 145, 76, 7;
+  --ring-code-meta-color: rgb(var(--ring-code-meta-components)); /* #914C07 */
   --ring-code-keyword-components: 0, 51, 179;
   --ring-code-keyword-color: rgb(var(--ring-code-keyword-components)); /* #0033B3 */
   --ring-code-tag-background-components: 235, 236, 240;
