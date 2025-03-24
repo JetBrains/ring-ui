@@ -1,48 +1,76 @@
-import {shallow, mount} from 'enzyme';
-
-import Icon from '../icon/icon';
-import Checkbox from '../checkbox/checkbox';
+import {render, screen, fireEvent} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import ListItem from './list__item';
 import {ListDataItemProps} from './consts';
 
 describe('ListItem', () => {
-  const shallowListItem = (props?: Partial<ListDataItemProps>) =>
-    shallow(<ListItem {...(props as ListDataItemProps)} />);
-  const mountListItem = (props?: Partial<ListDataItemProps>) => mount(<ListItem {...(props as ListDataItemProps)} />);
+  const renderListItem = (props?: Partial<ListDataItemProps>) => render(<ListItem {...(props as ListDataItemProps)} />);
 
   it('should create component', () => {
-    mountListItem().should.have.type(ListItem);
+    renderListItem();
+    screen.getByTestId('ring-list-item ring-list-item-action').should.exist;
   });
 
   it('should use passed className', () => {
-    shallowListItem({className: 'test-class'}).find('button').should.have.className('test-class');
+    renderListItem({className: 'test-class'});
+    screen.getByRole('button').should.have.class('test-class');
   });
 
   it('should add data test attributes', () => {
-    shallowListItem().should.match('div[data-test="ring-list-item ring-list-item-action"]');
+    renderListItem();
+    screen.getByTestId('ring-list-item ring-list-item-action').should.exist;
   });
 
   it('should remove ring-list-item-action data-test attribute if item is disabled', () => {
-    shallowListItem({disabled: true}).should.match('div[data-test="ring-list-item"]');
+    renderListItem({disabled: true});
+    screen.getByTestId('ring-list-item').should.exist;
+    expect(screen.queryByTestId('ring-list-item-action')).to.be.null;
   });
 
   it('should add data-test attribute if item is selected', () => {
-    shallowListItem({checkbox: false}).should.match('div[data-test="ring-list-item ring-list-item-action"]');
+    renderListItem({checkbox: false});
+    screen.getByTestId('ring-list-item ring-list-item-action').should.exist;
 
-    shallowListItem({checkbox: true}).should.match(
-      'div[data-test="ring-list-item ring-list-item-action ring-list-item-selected"]',
-    );
+    renderListItem({checkbox: true});
+    screen.getByTestId('ring-list-item ring-list-item-action ring-list-item-selected').should.exist;
   });
 
   it('should render checkbox icon', () => {
-    const checked = shallowListItem({checkbox: true}).find(Checkbox).prop('checked');
-    true.should.equal(checked);
+    const {container} = renderListItem({checkbox: true});
+    const checkbox = container.querySelector('[type=checkbox]') as HTMLInputElement;
+    checkbox.should.exist;
+    checkbox.checked.should.be.true;
+  });
 
-    shallowListItem({checkbox: undefined}).find(Checkbox).length.should.equal(0);
+  it('should not render checkbox icon if not passed', () => {
+    const {container} = renderListItem({checkbox: undefined});
+    expect(container.querySelector('[type=checkbox]')).to.be.null;
   });
 
   it('should not render check mark icon', () => {
-    shallowListItem().should.not.containMatchingElement(<Icon />);
+    renderListItem();
+    expect(screen.queryByTestId('ring-icon')).to.be.null;
+  });
+
+  it('should handle click', async () => {
+    const onClick = sandbox.stub();
+    renderListItem({onClick});
+
+    const button = screen.getByRole('button');
+    const user = userEvent.setup();
+    await user.click(button);
+
+    onClick.should.have.been.called;
+  });
+
+  it('should handle checkbox change', () => {
+    const onCheckboxChange = sandbox.stub();
+    renderListItem({checkbox: true, onCheckboxChange});
+
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
+
+    onCheckboxChange.should.have.been.called;
   });
 });
