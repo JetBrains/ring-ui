@@ -1,4 +1,4 @@
-import {shallow, mount} from 'enzyme';
+import {render} from '@testing-library/react';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
 
@@ -20,21 +20,19 @@ describe('ShortcutsHOC', () => {
       map: {enter: sandbox.spy()},
     });
 
-    const factory = (shortcuts: FactoryProps) => (
-      <InputWithShortcuts rgShortcutsOptions={shortcuts.options} rgShortcutsMap={shortcuts.map} />
-    );
-
-    const shallowInputWithShortcuts = (shortcuts: FactoryProps) => shallow(factory(shortcuts));
-    const mountInputWithShortcuts = (shortcuts: FactoryProps) => mount(factory(shortcuts));
+    const renderInputWithShortcuts = (shortcuts: FactoryProps) => {
+      return render(<InputWithShortcuts rgShortcutsOptions={shortcuts.options} rgShortcutsMap={shortcuts.map} />);
+    };
 
     it('should initialize', () => {
       const shortcuts = createShortcutsMap();
-      shallowInputWithShortcuts(shortcuts).should.exist;
+      const {container} = renderInputWithShortcuts(shortcuts);
+      container.should.exist;
     });
 
     it('should call shortcut handler', () => {
       const shortcuts = createShortcutsMap();
-      mountInputWithShortcuts(shortcuts);
+      renderInputWithShortcuts(shortcuts);
       simulateCombo('enter');
 
       shortcuts.map.enter.should.be.called;
@@ -44,7 +42,7 @@ describe('ShortcutsHOC', () => {
       const shortcuts = createShortcutsMap();
       shortcuts.options.disabled = true;
 
-      mountInputWithShortcuts(shortcuts);
+      renderInputWithShortcuts(shortcuts);
 
       simulateCombo('enter');
 
