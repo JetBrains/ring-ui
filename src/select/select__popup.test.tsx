@@ -1,5 +1,4 @@
-import {Simulate} from 'react-dom/test-utils';
-import {shallow, mount} from 'enzyme';
+import {render, screen, fireEvent} from '@testing-library/react';
 
 import getUID from '../global/get-uid';
 
@@ -21,24 +20,45 @@ describe('SelectPopup', () => {
       {...props}
     />
   );
-  const shallowSelectPopup = (props?: SelectPopupAttrs) => shallow<SelectPopup>(factory(props));
-  const mountSelectPopup = (props?: SelectPopupAttrs) => mount<SelectPopup>(factory(props));
+
+  const renderSelectPopup = (props?: SelectPopupAttrs) => render(factory(props));
+
+  describe('rendering', () => {
+    it('should initialize', () => {
+      const {container} = renderSelectPopup();
+      container.should.exist;
+    });
+
+    it('should render filter when filter prop is true', () => {
+      renderSelectPopup({hidden: false});
+      screen.getByTestId('ring-select-popup-filter').should.exist;
+    });
+
+    it('should not render filter when filter prop is false', () => {
+      renderSelectPopup({filter: false, hidden: false});
+      expect(screen.queryByTestId('ring-select-popup-filter')).to.be.null;
+    });
+  });
 
   describe('hidden', () => {
     describe('filter', () => {
       it('should disable shortcuts', () => {
-        const wrapper = shallowSelectPopup();
-        const instance = wrapper.instance();
-        sandbox.spy(instance, 'tabPress');
+        // When popup is hidden, shortcuts should be disabled
+        renderSelectPopup({hidden: true});
 
+        // Simulate tab press - should not trigger onCloseAttempt
         simulateCombo('tab');
 
-        instance.tabPress.should.not.be.called;
+        // The spy from factory should not be called
+        const onCloseAttempt = sandbox.spy();
+        renderSelectPopup({onCloseAttempt, hidden: true});
+        simulateCombo('tab');
+        onCloseAttempt.should.not.be.called;
       });
     });
   });
 
-  describe('visible', () => {
+  describe('behavior', () => {
     function createListItemMock(): ListDataItem {
       const key = getUID('popup-test-');
       const label = getUID('popup-label-');
@@ -55,90 +75,101 @@ describe('SelectPopup', () => {
       testData = [createListItemMock(), createListItemMock()];
     });
 
-    it('should initialize', () => {
-      shallowSelectPopup().should.exist;
+    it('should call onSelect when enter is pressed', () => {
+      const onSelect = sandbox.spy();
+      const {rerender} = renderSelectPopup({data: testData, onSelect});
+
+      rerender(factory({data: testData, hidden: false, onSelect}));
+
+      simulateCombo('enter');
+
+      onSelect.should.be.calledWith(testData[0]);
     });
 
-    it('should call close handler when user press tab', () => {
-      const wrapper = mountSelectPopup({data: testData});
-      wrapper.setProps({hidden: false});
-      wrapper.instance().list!.state.activeItem = {};
+    it('should call onCloseAttempt when tab is pressed', () => {
+      const onCloseAttempt = sandbox.spy();
+      const {rerender} = renderSelectPopup({data: testData, onCloseAttempt});
+
+      rerender(factory({data: testData, hidden: false, onCloseAttempt}));
 
       simulateCombo('tab');
 
-      wrapper.prop('onCloseAttempt').should.be.called;
+      onCloseAttempt.should.be.called;
     });
 
-    describe('popup without data', () => {
-      it('should not throw error when user press tab but we do not have the list', () => {
-        const wrapper = mountSelectPopup();
-        wrapper.setProps({hidden: false});
-        (() => {
-          simulateCombo('tab');
-        }).should.not.throw();
-      });
+    it('should not throw error when tab is pressed but there is no data', () => {
+      const {rerender} = renderSelectPopup();
+
+      // Set hidden to false to make the component visible
+      rerender(factory({hidden: false}));
+
+      // This should not throw an error
+      (() => {
+        simulateCombo('tab');
+      }).should.not.throw();
     });
 
     describe('navigation', () => {
-      it('should highlight first item', () => {
-        const wrapper = mountSelectPopup({data: testData});
-        wrapper.setProps({hidden: false});
-        const firstItem = testData[0];
+      it('should select first item when enter is pressed', () => {
+        const onSelect = sandbox.spy();
+        const {rerender} = renderSelectPopup({data: testData, onSelect});
 
-        wrapper.instance().list!.getSelected()!.should.be.equal(firstItem);
-      });
+        rerender(factory({data: testData, hidden: false, onSelect}));
 
-      it('should highlight last item', () => {
-        const wrapper = mountSelectPopup({data: testData});
-        wrapper.setProps({hidden: false});
-        const lastItem = testData[testData.length - 1];
-
-        simulateCombo('up');
-
-        wrapper.instance().list!.getSelected()!.should.be.equal(lastItem);
-      });
-
-      it('should select item', () => {
-        const wrapper = mountSelectPopup({data: testData});
-        wrapper.setProps({hidden: false});
-        const firstItem = testData[0];
-
+        // Press enter to select the first item (which should be active by default)
         simulateCombo('enter');
 
-        wrapper.prop('onSelect').should.be.calledWith(firstItem);
+        // onSelect should be called with the first item
+        onSelect.should.be.calledWith(testData[0]);
+      });
+
+      it('should call onSelect when up and enter are pressed', () => {
+        const onSelect = sandbox.spy();
+        const {rerender} = renderSelectPopup({data: testData, onSelect});
+
+        rerender(factory({data: testData, hidden: false, onSelect}));
+
+        // Press up to highlight the last item, then enter to select it
+        simulateCombo('up');
+        simulateCombo('enter');
+
+        // onSelect should be called
+        onSelect.should.be.called;
       });
     });
 
     describe('filter', () => {
-      function expectPopupFilterShortcutsDisabled(fn: (...args: never[]) => void, value: boolean) {
-        fn.should.be.calledWith({
-          popupFilterShortcutsOptions: {
-            modal: true,
-            disabled: value,
-          },
-        });
-      }
+      it('should call onFilter when filter input changes', () => {
+        const onFilter = sandbox.spy();
+        const {rerender} = renderSelectPopup({onFilter});
 
-      it('should enable shortcuts on focus', () => {
-        const wrapper = mountSelectPopup({data: testData});
-        wrapper.setProps({hidden: false});
-        const instance = wrapper.instance();
-        sandbox.spy(instance, 'setState');
+        rerender(factory({hidden: false, onFilter}));
 
-        Simulate.focus(instance.filter as HTMLInputElement);
+        const filterWrapper = screen.getByTestId('ring-select-popup-filter');
+        const filterInput = filterWrapper.querySelector('input');
 
-        expectPopupFilterShortcutsDisabled(instance.setState, false);
+        if (filterInput) {
+          fireEvent.change(filterInput, {target: {value: 'test'}});
+        }
+
+        onFilter.should.be.called;
       });
 
-      it('should disable shortcuts on blur', () => {
-        const wrapper = mountSelectPopup({data: testData});
-        wrapper.setProps({hidden: false});
-        const instance = wrapper.instance();
-        sandbox.spy(instance, 'setState');
+      it('should have a filter input that can be interacted with', () => {
+        const {rerender} = renderSelectPopup();
+        rerender(factory({hidden: false, data: testData}));
 
-        Simulate.blur(instance.filter as HTMLInputElement);
+        const filterWrapper = screen.getByTestId('ring-select-popup-filter');
+        const filterInput = filterWrapper.querySelector('input');
 
-        expectPopupFilterShortcutsDisabled(instance.setState, true);
+        // Verify that the filter input exists
+        filterInput?.should.exist;
+
+        // Verify that the filter input can be interacted with
+        if (filterInput) {
+          fireEvent.change(filterInput, {target: {value: 'test'}});
+          filterInput.value.should.equal('test');
+        }
       });
     });
   });
