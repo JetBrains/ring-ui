@@ -33,6 +33,7 @@ export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
     return (
       <TagName
         role={role || 'button'}
+        aria-disabled={disabled}
         tabIndex={tabIndex}
         onClick={onClick}
         onKeyPress={this.handleKeyPress}
