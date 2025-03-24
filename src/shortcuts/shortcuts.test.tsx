@@ -1,4 +1,4 @@
-import {shallow, mount} from 'enzyme';
+import {render} from '@testing-library/react';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
 import getUID from '../global/get-uid';
@@ -9,33 +9,38 @@ type ShortcutsAttrs = React.JSX.LibraryManagedAttributes<typeof Shortcuts, Short
 type FactoryProps = Omit<ShortcutsAttrs, 'map' | 'scope'>;
 
 describe('ShortcutsComponent', () => {
-  const factory = (props?: FactoryProps) => (
-    <Shortcuts map={{enter: sandbox.spy()}} scope={getUID('shortcuts-test-')} {...props} />
-  );
-
-  const shallowShortcuts = (props?: FactoryProps) => shallow(factory(props));
-  const mountShortcuts = (props?: FactoryProps) => mount(factory(props));
+  const renderShortcuts = (props?: FactoryProps) => {
+    const map = {enter: sandbox.spy()};
+    const scope = getUID('shortcuts-test-');
+    const result = render(<Shortcuts map={map} scope={scope} {...props} />);
+    return {
+      ...result,
+      map,
+      scope,
+    };
+  };
 
   it('should initialize', () => {
-    shallowShortcuts().should.exist;
+    const {container} = renderShortcuts();
+    container.should.exist;
   });
 
   it('should call shortcut handler', () => {
-    const wrapper = mountShortcuts();
+    const {map} = renderShortcuts();
     simulateCombo('enter');
 
-    wrapper.prop('map').enter.should.be.called;
+    map.enter.should.be.called;
   });
 
   it('should enable shortcuts if disabled becomes "false"', () => {
-    const wrapper = mountShortcuts({disabled: true});
+    const {map, rerender, scope} = renderShortcuts({disabled: true});
 
     simulateCombo('enter');
-    wrapper.prop('map').enter.should.not.be.called;
+    map.enter.should.not.be.called;
 
-    wrapper.setProps({disabled: false});
+    rerender(<Shortcuts map={map} scope={scope} disabled={false} />);
 
     simulateCombo('enter');
-    wrapper.prop('map').enter.should.be.called;
+    map.enter.should.be.called;
   });
 });
