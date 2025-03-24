@@ -1140,7 +1140,7 @@ describe('Select', () => {
 
       it('Should not restore focus on provided target element after closing popup', async () => {
         const user = userEvent.setup();
-        await user.click(button);
+        await user.click(button!);
 
         targetInput!.should.not.equal(document.activeElement);
       });
