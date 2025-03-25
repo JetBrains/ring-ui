@@ -85,7 +85,7 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
-    "@babel/cli": "^7.26.4",
+    "@babel/cli": "^7.27.0",
     "@babel/eslint-parser": "^7.26.10",
     "@babel/plugin-syntax-import-assertions": "^7.26.0",
     "@csstools/css-parser-algorithms": "^3.0.4",
