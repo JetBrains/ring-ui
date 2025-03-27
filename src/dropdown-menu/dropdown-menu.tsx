@@ -4,7 +4,7 @@ import {
   cloneElement,
   ComponentType,
   ReactElement,
-  ReactNodeArray,
+  ReactNode,
   HTMLAttributes,
   SyntheticEvent,
   Ref
@@ -32,7 +32,7 @@ const {
 const defaultAriaLabel = 'Dropdown menu';
 
 export interface DropdownAnchorWrapperProps extends AnchorProps {
-  anchor: ReactElement | ReactNodeArray | string
+  anchor: ReactElement | ReadonlyArray<ReactNode> | string
     | ((props: AnchorProps, ariaProps: HTMLAttributes<HTMLElement>) => ReactElement | null)
   activeListItemId?: string | null | undefined
   listId?: string | undefined
@@ -85,7 +85,7 @@ function DropdownAnchorWrapper({
 
 export interface DropdownMenuProps<T = unknown> extends
   Omit<DropdownAttrs, 'anchor' | 'onSelect' | 'children'> {
-  anchor: ReactElement | ReactNodeArray | string
+  anchor: ReactElement | ReadonlyArray<ReactNode> | string
     | ((props: AnchorProps, ariaProps: HTMLAttributes<HTMLElement>) => ReactElement | null)
   data?: readonly ListDataItem<T>[] | undefined
   ariaLabel?: string | null | undefined

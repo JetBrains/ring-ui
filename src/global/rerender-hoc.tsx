@@ -33,8 +33,9 @@ export default function rerenderHOC<P extends {}, C extends Component<P, unknown
       return (
         <ComposedComponent
           {...this.state}
-          ref={instance =>
-            ref(instance != null ? {...instance, rerender: this.setState.bind(this)} : null)}
+          ref={instance => {
+            ref(instance != null ? {...instance, rerender: this.setState.bind(this)} : null);
+          }}
         />
       );
     }
