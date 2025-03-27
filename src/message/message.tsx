@@ -216,4 +216,4 @@ export default class Message extends Component<MessageProps> {
   translations: PropTypes.object
 };
 
-export type MessageAttrs = JSX.LibraryManagedAttributes<typeof Message, MessageProps>
+export type MessageAttrs = React.JSX.LibraryManagedAttributes<typeof Message, MessageProps>

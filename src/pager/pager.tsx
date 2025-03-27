@@ -359,4 +359,4 @@ export default class Pager extends PureComponent<PagerProps> {
   hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
 };
 
-export type PagerAttrs = JSX.LibraryManagedAttributes<typeof Pager, PagerProps>
+export type PagerAttrs = React.JSX.LibraryManagedAttributes<typeof Pager, PagerProps>

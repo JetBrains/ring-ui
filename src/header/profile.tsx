@@ -250,4 +250,4 @@ export default class Profile extends PureComponent<ProfileProps> {
   }
 }
 
-export type ProfileAttrs = JSX.LibraryManagedAttributes<typeof Profile, ProfileProps>
+export type ProfileAttrs = React.JSX.LibraryManagedAttributes<typeof Profile, ProfileProps>

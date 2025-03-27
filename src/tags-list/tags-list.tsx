@@ -106,4 +106,4 @@ export default class TagsList<T extends TagType> extends Component<TagsListProps
 }
 
 export type TagsListAttrs<T extends TagType = TagType> =
-  JSX.LibraryManagedAttributes<typeof TagsList, TagsListProps<T>>
+  React.JSX.LibraryManagedAttributes<typeof TagsList, TagsListProps<T>>

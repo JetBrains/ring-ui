@@ -9,7 +9,7 @@ highlight.registerLanguage('css', css);
 highlight.registerLanguage('javascript', javascript);
 highlight.registerLanguage('xml', xml);
 
-type CodeAttributes = JSX.LibraryManagedAttributes<typeof Code, CodeProps>
+type CodeAttributes = React.JSX.LibraryManagedAttributes<typeof Code, CodeProps>
 
 describe('Code', () => {
   const renderCode = (props?: Omit<CodeAttributes, 'code'> & Partial<Pick<CodeAttributes, 'code'>>) => {

@@ -216,7 +216,8 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
   }
 }
 
-type ItemAttrs<T extends SelectionItem> = JSX.LibraryManagedAttributes<typeof Item, ItemProps<T>>
+type ItemAttrs<T extends SelectionItem>
+  = React.JSX.LibraryManagedAttributes<typeof Item, ItemProps<T>>
 (Item as ComponentType<ItemAttrs<SelectionItem>>).propTypes = {
   item: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired

@@ -1567,9 +1567,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 };
 
 export type SingleSelectAttrs<T = unknown> =
-  JSX.LibraryManagedAttributes<typeof Select, SingleSelectProps<T>>
+  React.JSX.LibraryManagedAttributes<typeof Select, SingleSelectProps<T>>
 export type MultipleSelectAttrs<T = unknown> =
-  JSX.LibraryManagedAttributes<typeof Select, MultipleSelectProps<T>>
-export type SelectAttrs<T = unknown> = JSX.LibraryManagedAttributes<typeof Select, SelectProps<T>>
+  React.JSX.LibraryManagedAttributes<typeof Select, MultipleSelectProps<T>>
+export type SelectAttrs<T = unknown>
+  = React.JSX.LibraryManagedAttributes<typeof Select, SelectProps<T>>
 
 export const RerenderableSelect = rerenderHOC(Select);
