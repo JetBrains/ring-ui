@@ -205,4 +205,4 @@ export default class Tooltip extends Component<TooltipProps> {
     );
   }
 }
-export type TooltipAttrs = JSX.LibraryManagedAttributes<typeof Tooltip, TooltipProps>
+export type TooltipAttrs = React.JSX.LibraryManagedAttributes<typeof Tooltip, TooltipProps>

@@ -38,7 +38,7 @@ export type FocusSensorProps<
   P extends FocusSensorAddProps<T>,
   T extends HTMLElement,
   C extends ComponentType<P>
-> = RestProps<JSX.LibraryManagedAttributes<C, P>, T> & FocusSensorOuterProps<T>
+> = RestProps<React.JSX.LibraryManagedAttributes<C, P>, T> & FocusSensorOuterProps<T>
 
 export default function focusSensorHOC<
   T extends HTMLElement,
@@ -135,7 +135,7 @@ export default function focusSensorHOC<
         this.props;
       return (
         <ComposedComponent
-          {...rest as JSX.LibraryManagedAttributes<C, P>}
+          {...rest as React.JSX.LibraryManagedAttributes<C, P>}
           innerRef={this.composedRef(innerRef, this.onRefUpdate)}
           focused={this.state.focused}
           onFocusReset={this.onFocusReset}

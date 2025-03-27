@@ -159,7 +159,8 @@ export class Button extends PureComponent<ButtonProps> {
 
 export {Size as IconSize};
 
-export type ContainerProps<T extends ButtonProps> = JSX.LibraryManagedAttributes<typeof Button, T>
+export type ContainerProps<T extends ButtonProps> =
+  React.JSX.LibraryManagedAttributes<typeof Button, T>
 
 export type ButtonAttrs = ContainerProps<ButtonButtonProps> | ContainerProps<ButtonLinkProps>
 

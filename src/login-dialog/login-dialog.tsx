@@ -136,4 +136,5 @@ export default class LoginDialog extends Component<LoginDialogProps> {
   }
 }
 
-export type LoginDialogAttrs = JSX.LibraryManagedAttributes<typeof LoginDialog, LoginDialogProps>
+export type LoginDialogAttrs =
+  React.JSX.LibraryManagedAttributes<typeof LoginDialog, LoginDialogProps>

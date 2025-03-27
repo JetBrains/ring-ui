@@ -66,7 +66,10 @@ class ContentEditableBase extends Component<ContentEditableBaseProps> {
 }
 
 type ContentEditableBaseAttrs =
-  JSX.LibraryManagedAttributes<typeof ContentEditableBase, ContentEditableBaseProps>
+  React.JSX.LibraryManagedAttributes<
+  typeof ContentEditableBase,
+  ContentEditableBaseProps
+>
 
 export type ContentEditableProps = Omit<ContentEditableBaseAttrs, '__html'>
 

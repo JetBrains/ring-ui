@@ -92,5 +92,5 @@ class Toggle extends PureComponent<ToggleProps> {
     );
   }
 }
-export type ToggleAttrs = JSX.LibraryManagedAttributes<typeof Toggle, ToggleProps>
+export type ToggleAttrs = React.JSX.LibraryManagedAttributes<typeof Toggle, ToggleProps>
 export default Toggle;

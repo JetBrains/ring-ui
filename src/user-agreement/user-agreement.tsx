@@ -149,4 +149,4 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
   }
 }
 export type UserAgreementAttrs =
-  JSX.LibraryManagedAttributes<typeof UserAgreement, UserAgreementProps>
+  React.JSX.LibraryManagedAttributes<typeof UserAgreement, UserAgreementProps>

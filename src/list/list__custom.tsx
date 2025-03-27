@@ -48,7 +48,7 @@ export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
     const content: ReactNode = (typeof template === 'function')
       ? template(this.props as ListDataItemProps<T>)
       : template;
-    const TagName: keyof JSX.IntrinsicElements = tagName || 'span';
+    const TagName: keyof React.JSX.IntrinsicElements = tagName || 'span';
 
     return (
       <TagName

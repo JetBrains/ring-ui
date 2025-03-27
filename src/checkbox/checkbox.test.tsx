@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import Checkbox, {CheckboxProps} from './checkbox';
 
-type CheckboxAttributes = JSX.LibraryManagedAttributes<typeof Checkbox, CheckboxProps>
+type CheckboxAttributes = React.JSX.LibraryManagedAttributes<typeof Checkbox, CheckboxProps>
 
 describe('Checkbox', () => {
   const renderCheckbox = (props?: CheckboxAttributes) => {

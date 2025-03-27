@@ -717,4 +717,4 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
 };
 
 export type SelectPopupAttrs<T = unknown> =
-  JSX.LibraryManagedAttributes<typeof SelectPopup, SelectPopupProps<T>>
+  React.JSX.LibraryManagedAttributes<typeof SelectPopup, SelectPopupProps<T>>

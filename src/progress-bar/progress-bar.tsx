@@ -113,4 +113,5 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
   }
 }
 
-export type ProgressBarAttrs = JSX.LibraryManagedAttributes<typeof ProgressBar, ProgressBarProps>
+export type ProgressBarAttrs =
+  React.JSX.LibraryManagedAttributes<typeof ProgressBar, ProgressBarProps>

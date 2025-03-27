@@ -65,6 +65,6 @@ export default class PopupMenu<T = unknown> extends Popup<PopupMenuProps<T>> {
 };
 
 export type PopupMenuAttrs<T = unknown> =
-  JSX.LibraryManagedAttributes<typeof PopupMenu, PopupMenuProps<T>>
+  React.JSX.LibraryManagedAttributes<typeof PopupMenu, PopupMenuProps<T>>
 
 export const {ListProps} = List;

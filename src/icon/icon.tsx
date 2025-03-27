@@ -106,6 +106,6 @@ export default class Icon extends PureComponent<IconProps> {
   }
 }
 
-export type IconAttrs = JSX.LibraryManagedAttributes<typeof Icon, IconProps>
+export type IconAttrs = React.JSX.LibraryManagedAttributes<typeof Icon, IconProps>
 
 export {Color, Size};
