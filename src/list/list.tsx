@@ -193,7 +193,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
 
   shouldComponentUpdate(nextProps: ListProps<T>, nextState: ListState<T>) {
     return (
-      nextProps !== this.props ||
+      (Object.keys(nextProps) as Array<keyof ListProps<T>>).some(key => !Object.is(nextProps[key], this.props[key])) ||
       (Object.keys(nextState) as Array<keyof ListState>).some(key => nextState[key] !== this.state[key])
     );
   }
