@@ -22,8 +22,17 @@ export type IconType = ComponentType<SVGAttributes<SVGSVGElement>>;
 export interface IconProps extends HTMLAttributes<HTMLElement> {
   color: Color;
   glyph: string | IconType | null;
+  /**
+   * @deprecated Use icons with appropriate intrinsic sizes instead
+   */
   height?: number | undefined;
+  /**
+   * @deprecated Use icons with appropriate intrinsic sizes instead
+   */
   size?: Size | number | null | undefined;
+  /**
+   * @deprecated Use icons with appropriate intrinsic sizes instead
+   */
   width?: number | undefined;
   loading?: boolean | null | undefined; // TODO: remove in 8.0
   suppressSizeWarning?: boolean | null | undefined;
