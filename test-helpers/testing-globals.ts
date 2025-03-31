@@ -3,7 +3,6 @@ import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
 import sinonChai from 'sinon-chai';
-import chaiEnzyme from 'chai-enzyme';
 import sinon from 'sinon';
 
 // eslint-disable-next-line react/no-deprecated
@@ -12,7 +11,6 @@ import {unmountComponentAtNode} from 'react-dom';
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
 chai.use(sinonChai);
-chai.use(chaiEnzyme());
 
 const windowExtension = {
   sinon,

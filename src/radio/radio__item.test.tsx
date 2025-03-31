@@ -15,7 +15,7 @@ describe('Radio Item', () => {
   );
   const renderRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) => {
     render(factory(props));
-    return screen.getAllByRole('radio')[0];
+    return screen.getAllByRole<HTMLInputElement>('radio')[0];
   };
 
   it('should render radio item', () => {
@@ -80,7 +80,7 @@ describe('Radio Item', () => {
       disabled: true,
     });
 
-    radioItem.should.be.disabled;
+    radioItem.disabled.should.be.true;
   });
 
   it('should connect labels with input', () => {

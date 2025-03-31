@@ -53,7 +53,7 @@ describe('Island', () => {
         clientHeight: {value: 50},
       });
       fireEvent.scroll(scrollableContainer);
-      headerNode.should.have.style('line-height', '24px');
+      headerNode.style.lineHeight.should.equal('24px');
     });
   });
 
@@ -66,7 +66,7 @@ describe('Island', () => {
     it('should change header size', () => {
       const phase = 0.75;
       render(<Header phase={phase} />);
-      screen.getByTestId('ring-island-header').should.have.style('line-height', '22px');
+      screen.getByTestId('ring-island-header').style.lineHeight.should.equal('22px');
     });
   });
 });

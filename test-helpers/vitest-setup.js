@@ -1,7 +1,6 @@
 import {configure} from '@testing-library/react';
 
 import './testing-globals.ts';
-import './enzyme-configuration';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
