@@ -48,6 +48,9 @@ export type ListDataItem<T = unknown> = T &
     subavatar?: string | null | undefined;
     glyph?: IconType | string | null | undefined;
     icon?: string | undefined;
+    /**
+     * @deprecated Use icons with appropriate intrinsic sizes instead
+     */
     iconSize?: Size | null | undefined;
     suppressSizeWarning?: boolean | null | undefined;
     rightGlyph?: IconType | string | null | undefined;
