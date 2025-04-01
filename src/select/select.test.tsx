@@ -1,5 +1,3 @@
-import {Simulate} from 'react-dom/test-utils';
-
 import {cleanup, fireEvent, render, screen} from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
@@ -1127,7 +1125,7 @@ describe('Select', () => {
       });
 
       it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
-        Simulate.click(document.body);
+        fireEvent.click(document.body);
 
         targetInput!.should.not.equal(document.activeElement);
       });

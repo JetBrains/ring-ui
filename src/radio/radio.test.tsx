@@ -1,7 +1,6 @@
 import {ComponentRef, Ref} from 'react';
-import {Simulate} from 'react-dom/test-utils';
 
-import {render, screen} from '@testing-library/react';
+import {render, screen, fireEvent} from '@testing-library/react';
 
 import {RadioProps} from './radio__item';
 
@@ -83,7 +82,7 @@ describe('Radio', () => {
       renderRadio({onChange}, itemRef => {
         item = itemRef!;
       });
-      Simulate.change(item!.input!);
+      fireEvent.click(item!.input!);
 
       onChange.should.have.been.called;
     });
