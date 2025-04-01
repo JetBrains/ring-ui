@@ -1,5 +1,4 @@
-import {Simulate} from 'react-dom/test-utils';
-import {render, screen} from '@testing-library/react';
+import {render, screen, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Checkbox, {CheckboxProps} from './checkbox';
@@ -31,7 +30,7 @@ describe('Checkbox', () => {
     const clickHandler = sandbox.stub();
 
     const checkbox = renderCheckbox({onClick: clickHandler});
-    Simulate.click(checkbox);
+    fireEvent.click(checkbox);
 
     clickHandler.should.have.been.called;
   });
@@ -76,7 +75,7 @@ describe('Checkbox', () => {
     };
     const checkbox = renderCheckbox();
 
-    Simulate.change(checkbox, eventMock);
+    fireEvent.change(checkbox, eventMock);
     checkbox.should.be.checked;
   });
 });

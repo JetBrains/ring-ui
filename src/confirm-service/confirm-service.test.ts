@@ -1,6 +1,4 @@
-import {Simulate} from 'react-dom/test-utils';
-
-import {render} from '@testing-library/react';
+import {render, fireEvent} from '@testing-library/react';
 
 import {ReactElement} from 'react';
 
@@ -63,7 +61,7 @@ describe('Confirm Service', () => {
     const container = getContainer();
     const okButton = container?.querySelector('*[data-test="confirm-ok-button"]');
     should.exist(okButton);
-    okButton && Simulate.click(okButton);
+    okButton && fireEvent.click(okButton);
 
     await promise;
     spy.should.have.been.called;
@@ -75,7 +73,7 @@ describe('Confirm Service', () => {
     const container = getContainer();
     const okButton = container?.querySelector('*[data-test="confirm-reject-button"]');
     should.exist(okButton);
-    okButton && Simulate.click(okButton);
+    okButton && fireEvent.click(okButton);
 
     await promise;
     spy.should.have.been.called;

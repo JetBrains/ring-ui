@@ -1,7 +1,6 @@
 import {InputHTMLAttributes} from 'react';
-import {Simulate} from 'react-dom/test-utils';
 
-import {screen, render} from '@testing-library/react';
+import {screen, render, fireEvent} from '@testing-library/react';
 
 import {RadioItemInner} from './radio__item';
 
@@ -56,7 +55,7 @@ describe('Radio Item', () => {
       onClick: clickHandler,
     });
 
-    Simulate.click(radioItem);
+    fireEvent.click(radioItem);
     clickHandler.should.have.been.called;
   });
 

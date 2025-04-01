@@ -1,8 +1,6 @@
-import {Simulate} from 'react-dom/test-utils';
-
 import {ReactElement} from 'react';
 
-import {render} from '@testing-library/react';
+import {render, fireEvent} from '@testing-library/react';
 
 import styles from '../auth-dialog/auth-dialog.css';
 
@@ -80,7 +78,7 @@ describe('Auth Dialog Service', () => {
     hideAuthDialog = authDialog({onConfirm});
     const okButton = getContainer()?.querySelector('*[data-test="auth-dialog-confirm-button"]');
     should.exist(okButton);
-    Simulate.click(okButton as Element);
+    fireEvent.click(okButton as Element);
 
     onConfirm.should.have.been.called;
   });
@@ -90,7 +88,7 @@ describe('Auth Dialog Service', () => {
     hideAuthDialog = authDialog({onCancel});
     const cancelButton = getContainer()?.querySelector('*[data-test="auth-dialog-cancel-button"]');
     should.exist(cancelButton);
-    Simulate.click(cancelButton as Element);
+    fireEvent.click(cancelButton as Element);
 
     onCancel.should.have.been.called;
   });
