@@ -54,6 +54,7 @@ export const basic = () => (
                     {children: '...', short: true},
                     {children: 'Button link', href: '/'},
                     {children: 'Icon button', icon},
+                    {children: 'Icon to the right', iconRight: icon},
                     {children: 'Button delayed', delayed: true},
                     {children: 'Button dropdown', dropdown: true},
                     {title: 'Just icon button', icon},

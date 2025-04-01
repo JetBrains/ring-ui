@@ -34,11 +34,13 @@ export interface ButtonBaseProps {
   dropdown?: boolean | null | undefined;
   disabled?: boolean | undefined;
   icon?: string | IconType | null | undefined;
+  iconRight?: string | IconType | null | undefined;
   /**
    * @deprecated Use icons with appropriate intrinsic sizes instead
    */
   iconSize?: IconProps['size'];
   iconClassName?: string | null | undefined;
+  iconRightClassName?: string | null | undefined;
   iconSuppressSizeWarning?: boolean | null | undefined;
 }
 
@@ -93,8 +95,10 @@ export class Button extends PureComponent<ButtonProps> {
 
       // Props
       icon,
+      iconRight,
       iconSize,
       iconClassName,
+      iconRightClassName,
       iconSuppressSizeWarning,
       className,
       children,
@@ -124,6 +128,7 @@ export class Button extends PureComponent<ButtonProps> {
           />
         )}
         {children}
+        {iconRight && <Icon className={classNames(styles.iconRight, iconRightClassName)} glyph={iconRight} />}
         {dropdown && <Icon glyph={isInline ? chevron12pxDown : chevronDown} className={styles.dropdownIcon} />}
       </>
     );
