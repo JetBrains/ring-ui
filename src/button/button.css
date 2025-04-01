@@ -146,7 +146,14 @@
   line-height: var(--ring-button-icon-line-height);
 }
 
-.block .icon {
+.iconRight {
+  margin-left: calc(var(--ring-unit) * 0.5);
+
+  line-height: var(--ring-button-icon-line-height);
+}
+
+.block .icon,
+.block .iconRight {
   margin-top: -1px;
 }
 
@@ -307,6 +314,10 @@
 
   & .icon {
     margin-right: 0;
+  }
+
+  & .iconRight {
+    margin-left: 0;
   }
 
   &.block {
