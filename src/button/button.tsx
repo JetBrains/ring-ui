@@ -34,6 +34,9 @@ export interface ButtonBaseProps {
   dropdown?: boolean | null | undefined;
   disabled?: boolean | undefined;
   icon?: string | IconType | null | undefined;
+  /**
+   * @deprecated Use icons with appropriate intrinsic sizes instead
+   */
   iconSize?: IconProps['size'];
   iconClassName?: string | null | undefined;
   iconSuppressSizeWarning?: boolean | null | undefined;
