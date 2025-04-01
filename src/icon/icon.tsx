@@ -46,6 +46,9 @@ export default class Icon extends PureComponent<IconProps> {
   };
 
   static Color = Color;
+  /**
+   * @deprecated Use icons with appropriate intrinsic sizes instead
+   */
   static Size = Size;
 
   warnSize() {
