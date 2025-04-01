@@ -65,6 +65,9 @@ const warnText = deprecate(
  * A component for displaying variously styled buttons.
  */
 export class Button extends PureComponent<ButtonProps> {
+  /**
+   * @deprecated Use icons with appropriate intrinsic sizes instead
+   */
   static IconSize = Size;
   static contextType = ControlsHeightContext;
   declare context: React.ContextType<typeof ControlsHeightContext>;

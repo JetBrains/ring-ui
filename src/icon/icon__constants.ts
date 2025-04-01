@@ -14,6 +14,7 @@ export enum Color {
 
 /**
  * @enum {number}
+ * @deprecated Use icons with appropriate intrinsic sizes instead
  */
 export enum Size {
   Size12 = 12,
