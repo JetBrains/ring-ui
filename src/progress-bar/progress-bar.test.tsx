@@ -75,7 +75,7 @@ describe('Progress Bar', () => {
 
       const progressBar = screen.getByRole('progressbar', {value: {now: 0.5}});
       progressBar.should.exist;
-      progressBar.should.have.style('width', '50%');
+      progressBar.style.width.should.equal('50%');
     });
 
     it('should set width equal 100% if progress value more than max value', () => {
@@ -84,7 +84,7 @@ describe('Progress Bar', () => {
         value: 10,
       });
 
-      screen.getByRole('progressbar').should.have.style('width', '100%');
+      screen.getByRole('progressbar').style.width.should.equal('100%');
     });
 
     it('should not set style if value is not a number', () => {

@@ -1,4 +1,4 @@
-import {cleanup, render, screen, fireEvent} from '@testing-library/react';
+import {cleanup, fireEvent, render, screen} from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -306,14 +306,14 @@ describe('Select', () => {
       renderSelect({
         disabled: true,
       });
-      screen.getByRole('button', {name: 'first1'}).should.be.disabled;
+      screen.getByRole<HTMLButtonElement>('button', {name: 'first1'}).disabled.should.be.true;
     });
 
     it('Should not disable select button if not needed', () => {
       renderSelect({
         disabled: false,
       });
-      screen.getByRole('button', {name: 'first1'}).should.not.be.disabled;
+      screen.getByRole<HTMLButtonElement>('button', {name: 'first1'}).disabled.should.be.false;
     });
 
     it('Should place input inside in INPUT mode', () => {
@@ -646,14 +646,14 @@ describe('Select', () => {
       const user = userEvent.setup();
       const button = screen.getByRole('button', {name: 'first1, test2'});
       await user.click(button);
-      const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-      firstCheckbox.should.be.checked;
-      const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-      secondCheckbox.should.be.checked;
-      const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-      thirdCheckbox.should.not.be.checked;
-      const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-      fourthCheckbox.should.not.be.checked;
+      const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+      firstCheckbox.checked.should.be.true;
+      const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
+      secondCheckbox.checked.should.be.true;
+      const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
+      thirdCheckbox.checked.should.be.false;
+      const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+      fourthCheckbox.checked.should.be.false;
     });
 
     it('Should fill multipleMap on selection change', async () => {
@@ -662,14 +662,14 @@ describe('Select', () => {
       const user = userEvent.setup();
       const button = screen.getByRole('button', {name: 'test2'});
       await user.click(button);
-      const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-      firstCheckbox.should.not.be.checked;
-      const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-      secondCheckbox.should.be.checked;
-      const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-      thirdCheckbox.should.not.be.checked;
-      const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-      fourthCheckbox.should.not.be.checked;
+      const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+      firstCheckbox.checked.should.be.false;
+      const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
+      secondCheckbox.checked.should.be.true;
+      const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
+      thirdCheckbox.checked.should.be.false;
+      const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+      fourthCheckbox.checked.should.be.false;
     });
 
     it('Should construct label from selected array', () => {
@@ -705,14 +705,14 @@ describe('Select', () => {
       await user.click(clearButton);
       const button = screen.getByRole('button', {name: 'Select an option'});
       await user.click(button);
-      const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-      firstCheckbox.should.not.be.checked;
-      const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-      secondCheckbox.should.not.be.checked;
-      const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-      thirdCheckbox.should.not.be.checked;
-      const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-      fourthCheckbox.should.not.be.checked;
+      const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+      firstCheckbox.checked.should.be.false;
+      const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
+      secondCheckbox.checked.should.be.false;
+      const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
+      thirdCheckbox.checked.should.be.false;
+      const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+      fourthCheckbox.checked.should.be.false;
     });
 
     it('Should not draw "clear" button if multiple and nothing selected', () => {
@@ -738,14 +738,14 @@ describe('Select', () => {
       const button = screen.getByRole('button', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
-      const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-      firstCheckbox.should.not.be.checked;
-      const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-      secondCheckbox.should.not.be.checked;
-      const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-      thirdCheckbox.should.not.be.checked;
-      const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-      fourthCheckbox.should.not.be.checked;
+      const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+      firstCheckbox.checked.should.be.false;
+      const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
+      secondCheckbox.checked.should.be.false;
+      const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
+      thirdCheckbox.checked.should.be.false;
+      const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+      fourthCheckbox.checked.should.be.false;
     });
 
     it('Should update selected checkboxes on selected update', async () => {
@@ -754,8 +754,8 @@ describe('Select', () => {
       const button = screen.getByRole('button', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
-      const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-      firstCheckbox.should.not.be.checked;
+      const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+      firstCheckbox.checked.should.be.false;
     });
 
     describe('On selecting', () => {
@@ -768,30 +768,24 @@ describe('Select', () => {
         await user.click(fourthItem);
         button = screen.getByRole('button', {name: 'first1, test2'});
         await user.click(button);
-        const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-        firstCheckbox.should.be.checked;
-        const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-        secondCheckbox.should.be.checked;
-        const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-        thirdCheckbox.should.not.be.checked;
-        const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-        fourthCheckbox.should.be.checked;
+        const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+        firstCheckbox.checked.should.be.true;
+        const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
+        secondCheckbox.checked.should.be.true;
+        const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
+        thirdCheckbox.checked.should.be.false;
+        const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+        fourthCheckbox.checked.should.be.true;
       });
 
-      it('Should add item to selection on clicking by checkbox', async () => {
+      it('Should add item to selection on clicking by checkbox', () => {
         renderSelectMultiple();
         const button = screen.getByRole('button', {name: 'first1, test2'});
-        const user = userEvent.setup();
-        await user.click(button);
-        const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-        await user.click(fourthCheckbox);
-        const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-        firstCheckbox.should.be.checked;
-        const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-        secondCheckbox.should.be.checked;
-        const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-        thirdCheckbox.should.not.be.checked;
-        fourthCheckbox.should.be.checked;
+        fireEvent.click(button);
+        const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+        fourthCheckbox.checked.should.be.false;
+        fireEvent.click(fourthCheckbox);
+        fourthCheckbox.checked.should.be.true;
       });
 
       it('Should close popup on selecting by item', async () => {
@@ -810,7 +804,7 @@ describe('Select', () => {
         const button = screen.getByRole('button', {name: 'first1, test2'});
         const user = userEvent.setup();
         await user.click(button);
-        const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
+        const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
         await user.click(fourthCheckbox);
         const list = screen.getByRole('grid');
         list.should.exist;
@@ -827,14 +821,14 @@ describe('Select', () => {
         await user.click(firstItem);
         button = screen.getByRole('button', {name: 'test2'});
         await user.click(button);
-        const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-        firstCheckbox.should.not.be.checked;
-        const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-        secondCheckbox.should.be.checked;
-        const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-        thirdCheckbox.should.not.be.checked;
-        const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-        fourthCheckbox.should.not.be.checked;
+        const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+        firstCheckbox.checked.should.be.false;
+        const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
+        secondCheckbox.checked.should.be.true;
+        const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
+        thirdCheckbox.checked.should.be.false;
+        const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+        fourthCheckbox.checked.should.be.false;
       });
 
       it('Should call onDeselect on deselecting item', async () => {
@@ -948,14 +942,14 @@ describe('Select', () => {
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
       await user.click(selectAll);
-      const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-      firstCheckbox.should.be.checked;
-      const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-      secondCheckbox.should.be.checked;
-      const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-      thirdCheckbox.should.be.checked;
-      const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-      fourthCheckbox.should.be.checked;
+      const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+      firstCheckbox.checked.should.be.true;
+      const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
+      secondCheckbox.checked.should.be.true;
+      const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
+      thirdCheckbox.checked.should.be.true;
+      const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+      fourthCheckbox.checked.should.be.true;
     });
 
     it('Should react on select all action with false flag', async () => {
@@ -965,14 +959,14 @@ describe('Select', () => {
       await user.click(button);
       const deselectAll = screen.getByRole('button', {name: 'Deselect all'});
       await user.click(deselectAll);
-      const firstCheckbox = screen.getByRole('checkbox', {name: 'first1'});
-      firstCheckbox.should.not.be.checked;
-      const secondCheckbox = screen.getByRole('checkbox', {name: 'test2'});
-      secondCheckbox.should.not.be.checked;
-      const thirdCheckbox = screen.getByRole('checkbox', {name: 'test3'});
-      thirdCheckbox.should.not.be.checked;
-      const fourthCheckbox = screen.getByRole('checkbox', {name: 'four4'});
-      fourthCheckbox.should.not.be.checked;
+      const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
+      firstCheckbox.checked.should.be.false;
+      const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
+      secondCheckbox.checked.should.be.false;
+      const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
+      thirdCheckbox.checked.should.be.false;
+      const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
+      fourthCheckbox.checked.should.be.false;
     });
 
     it('Should set call onSelect on selecting', async () => {

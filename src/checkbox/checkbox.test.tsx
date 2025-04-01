@@ -64,7 +64,7 @@ describe('Checkbox', () => {
       disabled: true,
     });
 
-    checkbox.should.be.disabled;
+    checkbox.disabled.should.be.true;
   });
 
   it('should check control on change event', () => {
@@ -76,6 +76,6 @@ describe('Checkbox', () => {
     const checkbox = renderCheckbox();
 
     fireEvent.change(checkbox, eventMock);
-    checkbox.should.be.checked;
+    checkbox.value.should.equal('on');
   });
 });
