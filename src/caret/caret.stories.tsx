@@ -18,7 +18,7 @@ export default {
 
 export const Basic = () => {
   const input = useRef<HTMLTextAreaElement>(null);
-  const caret = useRef<Caret>();
+  const caret = useRef<Caret>(null);
   useEffect(() => {
     if (input.current != null) {
       caret.current = new Caret(input.current);

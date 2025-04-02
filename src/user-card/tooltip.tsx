@@ -1,7 +1,7 @@
-import {Component, ReactElement, ReactNode} from 'react';
+import {Component, ReactNode} from 'react';
 import classNames from 'classnames';
 
-import Dropdown, {DropdownAttrs} from '../dropdown/dropdown';
+import Dropdown, {DropdownAttrs, DropdownProps} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
 
 import UserCard, {UserCardAttrs, UserCardUser} from './card';
@@ -9,14 +9,9 @@ import styles from './user-card.css';
 
 const DEFAULT_TIMEOUT = 300;
 
-interface ChildrenProps {
-  active: boolean;
-  pinned: boolean;
-}
-
 export interface UserCardTooltipProps extends Omit<UserCardAttrs, 'children' | 'user'> {
   user?: UserCardUser | null | undefined;
-  children: ReactElement | readonly ReactElement[] | string | ((props: ChildrenProps) => ReactNode);
+  children: DropdownProps['anchor'];
   dropdownProps: Partial<DropdownAttrs>;
   renderUserCard: (props: UserCardAttrs) => ReactNode;
   renderNoUser: () => ReactNode;

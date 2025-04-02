@@ -5,9 +5,6 @@ import chaiDOM from 'chai-dom';
 import sinonChai from 'sinon-chai';
 import sinon from 'sinon';
 
-// eslint-disable-next-line react/no-deprecated
-import {unmountComponentAtNode} from 'react-dom';
-
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
 chai.use(sinonChai);
@@ -30,12 +27,6 @@ Object.assign(window, windowExtension);
 afterEach(function restoreSandbox() {
   vi.useRealTimers();
   window.sandbox.restore();
-
-  Array.from(document.body.children).forEach(child => {
-    if ('_reactRootContainer' in child) {
-      unmountComponentAtNode(child);
-    }
-  });
 });
 
 window.global = window as never;
