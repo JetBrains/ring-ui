@@ -103,6 +103,8 @@ export class Button extends PureComponent<ButtonProps> {
       className,
       children,
       inline,
+      disabled,
+      href,
       ...props
     } = this.props;
     const isInline = inline ?? text ?? icon != null;
@@ -132,9 +134,10 @@ export class Button extends PureComponent<ButtonProps> {
         {dropdown && <Icon glyph={isInline ? chevron12pxDown : chevronDown} className={styles.dropdownIcon} />}
       </>
     );
+    const isDisabled = disabled || loader || undefined;
     const commonProps = {
-      tabIndex: loader ? -1 : 0,
       ...props,
+      href: isDisabled ? undefined : href,
       className: classes,
       children: (
         <>
@@ -142,12 +145,12 @@ export class Button extends PureComponent<ButtonProps> {
           {content}
         </>
       ),
-    };
+    } as ButtonProps;
 
     return commonProps.href != null ? (
       <ClickableLink {...commonProps} />
     ) : (
-      <button ref={this.buttonRef} type="button" {...commonProps} />
+      <button ref={this.buttonRef} type="button" disabled={isDisabled} {...commonProps} />
     );
   }
 }
