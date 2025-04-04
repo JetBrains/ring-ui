@@ -1,7 +1,7 @@
 /**
  * @name Footer
  */
-import {memo, isValidElement, ReactNode, HTMLAttributeAnchorTarget, ReactChild} from 'react';
+import {memo, isValidElement, ReactNode, HTMLAttributeAnchorTarget, ReactElement} from 'react';
 import classNames from 'classnames';
 
 import Link from '../link/link';
@@ -55,7 +55,8 @@ export interface FooterLinkItem {
   title?: string | undefined;
 }
 
-type FooterItem = FooterLinkItem | ReactChild;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FooterItem = FooterLinkItem | ReactElement<any> | string | number;
 
 interface FooterLineProps {
   item: FooterItem | readonly FooterItem[];
