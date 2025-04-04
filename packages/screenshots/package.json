@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "pregui": "kill-port 8000",
+    "pregui": "port-claim 8000",
     "gather": "npm run screenshots -- --update-refs",
     "gui": "npm run screenshots gui",
     "screenshots": "node screenshots-local.js",
