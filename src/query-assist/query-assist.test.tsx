@@ -75,11 +75,11 @@ describe('Query Assist', () => {
   ];
 
   const dataSource = ({query, caret}: QueryAssistRequestParams) =>
-    act(() => ({
+    Promise.resolve({
       query,
       caret,
       suggestions,
-    }));
+    });
 
   const defaultProps = () => ({
     query: testQuery,
@@ -150,54 +150,56 @@ describe('Query Assist', () => {
   });
 
   describe('shortcuts', () => {
-    it('should enable shortcuts when we set focus', () => {
+    it('should enable shortcuts when we set focus', async () => {
       const onApply = vi.fn();
       const props = {...defaultProps(), onApply};
       const {rerender} = render(<QueryAssist {...props} focus={null} />);
       rerender(<QueryAssist {...props} focus />);
 
-      act(() => simulateCombo('enter'));
+      await act(() => simulateCombo('enter'));
       expect(onApply).toHaveBeenCalled();
     });
 
-    it('should disable shortcuts when we remove focus', () => {
+    it('should disable shortcuts when we remove focus', async () => {
       const onApply = vi.fn();
       const props = {...defaultProps(), onApply};
       const {rerender} = render(<QueryAssist {...props} focus />);
       rerender(<QueryAssist {...props} focus={null} />);
 
-      act(() => simulateCombo('enter'));
+      await act(() => {
+        simulateCombo('enter');
+      });
       expect(onApply).not.toHaveBeenCalled();
     });
 
-    it('should not enable shortcuts after rerender', () => {
+    it('should not enable shortcuts after rerender', async () => {
       const onApply = vi.fn();
       const props = {...defaultProps(), onApply, focus: false};
       const {rerender} = render(<QueryAssist {...props} placeholder="bar" />);
       rerender(<QueryAssist {...props} placeholder="foo" />);
 
-      act(() => simulateCombo('enter'));
+      await act(() => simulateCombo('enter'));
       expect(onApply).not.toHaveBeenCalled();
     });
   });
 
   describe('init', () => {
-    it('should request data', () => {
+    it('should request data', async () => {
       const props = defaultProps();
       render(<QueryAssist {...props} />);
       props.dataSource.resetHistory();
-      simulateCombo('ctrl+space');
+      await act(() => simulateCombo('ctrl+space'));
       props.dataSource.should.have.been.calledOnce;
     });
 
-    it('should request data debounced when delay set', () => {
+    it('should request data debounced when delay set', async () => {
       vi.useFakeTimers();
       const props = {...defaultProps(), delay: 100};
       render(<QueryAssist {...props} />);
       props.dataSource.resetHistory();
-      simulateCombo('ctrl+space');
+      await act(() => simulateCombo('ctrl+space'));
       props.dataSource.should.not.have.been.called;
-      act(() => vi.runAllTimers());
+      await act(() => vi.runAllTimers());
       props.dataSource.should.have.been.calledOnce;
     });
 
@@ -250,7 +252,7 @@ describe('Query Assist', () => {
 
       await waitForSetStateCallbacks();
 
-      act(() => simulateCombo('meta+z'));
+      await act(() => simulateCombo('meta+z'));
       const queryAssist = screen.getByTestId('ring-query-assist');
 
       await waitForSetStateCallbacks();
@@ -305,16 +307,17 @@ describe('Query Assist', () => {
 
     it('should render with colors', async () => {
       const queryAssist = renderQueryAssist({
-        dataSource: ({query, caret}) => ({
-          query,
-          caret,
-          styleRanges: [
-            {start: 0, length: 1, style: 'text'},
-            {start: 1, length: 1, style: 'field_value'},
-            {start: 2, length: 1, style: 'field_name'},
-            {start: 3, length: 1, style: 'operator'},
-          ],
-        }),
+        dataSource: ({query, caret}) =>
+          Promise.resolve({
+            query,
+            caret,
+            styleRanges: [
+              {start: 0, length: 1, style: 'text'},
+              {start: 1, length: 1, style: 'field_value'},
+              {start: 2, length: 1, style: 'field_name'},
+              {start: 3, length: 1, style: 'operator'},
+            ],
+          }),
       });
 
       await waitForSetStateCallbacks();
@@ -329,14 +332,15 @@ describe('Query Assist', () => {
     it('should render last text range with default style when applied', async () => {
       const queryAssist = renderQueryAssist({
         query: 'a ',
-        dataSource: ({query, caret}) => ({
-          query,
-          caret,
-          styleRanges: [
-            {start: 0, length: 1, style: 'text'},
-            {start: 2, length: 1, style: 'text'},
-          ],
-        }),
+        dataSource: ({query, caret}) =>
+          Promise.resolve({
+            query,
+            caret,
+            styleRanges: [
+              {start: 0, length: 1, style: 'text'},
+              {start: 2, length: 1, style: 'text'},
+            ],
+          }),
       });
 
       const input = getByRole(queryAssist, 'textbox');
@@ -353,14 +357,15 @@ describe('Query Assist', () => {
     it('should render last text range with text style when applied', async () => {
       const queryAssist = renderQueryAssist({
         query: 'a a',
-        dataSource: ({query, caret}) => ({
-          query,
-          caret,
-          styleRanges: [
-            {start: 0, length: 1, style: 'text'},
-            {start: 2, length: 1, style: 'text'},
-          ],
-        }),
+        dataSource: ({query, caret}) =>
+          Promise.resolve({
+            query,
+            caret,
+            styleRanges: [
+              {start: 0, length: 1, style: 'text'},
+              {start: 2, length: 1, style: 'text'},
+            ],
+          }),
       });
 
       await waitForSetStateCallbacks();
@@ -425,13 +430,13 @@ describe('Query Assist', () => {
       should.not.exist(clear);
     });
 
-    it('should show loader on long request', () => {
+    it('should show loader on long request', async () => {
       vi.useFakeTimers();
       const queryAssist = renderQueryAssist({
         dataSource: () => new Promise(() => {}),
       });
 
-      act(() => vi.runAllTimers());
+      await act(() => vi.runAllTimers());
       const loader = getByTestId(queryAssist, 'ring-loader-inline');
       loader.should.exist;
     });
@@ -447,14 +452,15 @@ describe('Query Assist', () => {
 
     it('should not show popup when no suggestions provided', async () => {
       renderQueryAssist({
-        dataSource: ({query, caret}) => ({
-          query,
-          caret,
-          suggestions: [],
-        }),
+        dataSource: ({query, caret}) =>
+          Promise.resolve({
+            query,
+            caret,
+            suggestions: [],
+          }),
       });
 
-      simulateCombo('ctrl+space');
+      await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
       popup.should.have.attr('data-test-shown', 'false');
@@ -463,7 +469,9 @@ describe('Query Assist', () => {
     it('should show popup when suggestions provided', async () => {
       renderQueryAssist();
 
-      simulateCombo('ctrl+space');
+      await act(() => {
+        simulateCombo('ctrl+space');
+      });
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
       popup.should.have.attr('data-test-shown', 'true');
@@ -474,15 +482,16 @@ describe('Query Assist', () => {
     it('should close popup with after zero suggestions provided', async () => {
       let currentSuggestions = suggestions;
       renderQueryAssist({
-        dataSource: ({query, caret}) => ({
-          query,
-          caret,
-          suggestions: currentSuggestions,
-        }),
+        dataSource: ({query, caret}) =>
+          Promise.resolve({
+            query,
+            caret,
+            suggestions: currentSuggestions,
+          }),
       });
 
       currentSuggestions = [];
-      simulateCombo('ctrl+space');
+      await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
       popup.should.have.attr('data-test-shown', 'false');
@@ -493,7 +502,9 @@ describe('Query Assist', () => {
 
       const TWICE = 2;
 
-      simulateCombo('ctrl+space');
+      await act(() => {
+        simulateCombo('ctrl+space');
+      });
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
       const list = getByTestId(popup, 'ring-list');
@@ -518,7 +529,7 @@ describe('Query Assist', () => {
       const queryAssist = renderQueryAssist({
         query: completeQuery,
       });
-      act(() => simulateCombo('ctrl+space'));
+      await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       await act(() => simulateCombo('tab'));
 
@@ -530,7 +541,7 @@ describe('Query Assist', () => {
       const queryAssist = renderQueryAssist({
         query: completeQuery,
       });
-      act(() => simulateCombo('ctrl+space'));
+      await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       await act(() => simulateCombo('down'));
       await act(() => simulateCombo('enter'));
@@ -544,7 +555,7 @@ describe('Query Assist', () => {
         query: completeQuery,
         caret: middleCaret,
       });
-      act(() => simulateCombo('ctrl+space'));
+      await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       await act(() => simulateCombo('tab'));
 
@@ -557,7 +568,7 @@ describe('Query Assist', () => {
         query: completeQuery,
         caret: middleCaret,
       });
-      act(() => simulateCombo('ctrl+space'));
+      await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       await act(() => simulateCombo('down'));
       await act(() => simulateCombo('enter'));
@@ -571,7 +582,7 @@ describe('Query Assist', () => {
         query: completeQuery,
         caret: middleCaret,
       });
-      act(() => simulateCombo('ctrl+space'));
+      await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       await act(() => simulateCombo('down'));
       await act(() => simulateCombo('down'));
@@ -587,7 +598,7 @@ describe('Query Assist', () => {
         query: completeQuery,
         caret: middleCaret,
       });
-      act(() => simulateCombo('ctrl+space'));
+      await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       await act(() => simulateCombo('down'));
       await act(() => simulateCombo('down'));
@@ -645,17 +656,17 @@ describe('Query Assist', () => {
   });
 
   describe('request data', () => {
-    it('should batch requests', () => {
+    it('should batch requests', async () => {
       vi.useFakeTimers();
 
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} />);
       rerender(<QueryAssist {...props} delay={100} />);
       props.dataSource.resetHistory();
-      simulateCombo('ctrl+space');
-      simulateCombo('ctrl+space');
-      simulateCombo('ctrl+space');
-      act(() => vi.runAllTimers());
+      await act(() => simulateCombo('ctrl+space'));
+      await act(() => simulateCombo('ctrl+space'));
+      await act(() => simulateCombo('ctrl+space'));
+      await act(() => vi.runAllTimers());
 
       props.dataSource.should.have.been.calledOnce;
     });
