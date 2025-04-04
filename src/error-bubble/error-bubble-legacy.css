@@ -1,3 +1,5 @@
+@import './error-bubble.css';
+
 :global(.ring-error-bubble) {
   position: absolute;
   z-index: 2;
@@ -17,7 +19,7 @@
   border: 1px solid var(--ring-popup-border-color);
 
   border-radius: var(--ring-border-radius);
-  background: var(--ring-popup-background-color);
+  background: var(--ring-error-bubble-background-color);
   box-shadow: var(--ring-popup-shadow);
 
   font-family: var(--ring-font-family);
@@ -49,7 +51,7 @@
   border-top: none;
   border-right: none;
 
-  background: var(--ring-popup-background-color);
+  background: var(--ring-error-bubble-background-color);
 }
 
 :global(.ring-error-bubble_material) {
