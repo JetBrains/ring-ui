@@ -20,10 +20,6 @@ export default class SelectFilter extends Component<SelectFilterProps> {
     inputRef: noop,
   };
 
-  componentWillUnmount() {
-    this.blur();
-  }
-
   focus() {
     const {input} = this;
     if (input && input !== document.activeElement) {
