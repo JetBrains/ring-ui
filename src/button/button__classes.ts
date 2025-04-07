@@ -19,10 +19,11 @@ export function getButtonClasses({
   danger,
   delayed,
   icon,
+  iconRight,
   height,
   children,
 }: ButtonProps) {
-  const iconOnly = icon && !children;
+  const iconOnly = (icon || iconRight) && !children;
   const primaryBlock = primary && !inline;
   const withNormalIcon = iconOnly && inline && !active && !danger && !primary && !disabled;
 
