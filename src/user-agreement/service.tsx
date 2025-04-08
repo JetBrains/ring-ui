@@ -54,6 +54,13 @@ export interface UserAgreementServiceTranslations extends UserAgreementTranslati
   reviewNow: string
 }
 
+function ignorePostponedCatchReason(reason: unknown) {
+    if (reason === 'Postponed') {
+      return;
+    }
+    throw reason;
+}
+
 export interface UserAgreementServiceConfig {
   getUserAgreement: () => Promise<Agreement | null | undefined> | Agreement | null | undefined
   getUserConsent: () => Promise<ConsentResponse> | ConsentResponse
@@ -104,16 +111,13 @@ export default class UserAgreementService {
 
   intervalId?: number;
   startChecking = () => {
-    this.intervalId = window.setInterval(() => this.checkConsentAndShowDialog().catch(reason => {
-      if (reason === 'Postponed') {
-        return;
-      }
-
-      throw reason;
-    }), this.interval);
+    this.intervalId = window.setInterval(
+      () => this.checkConsentAndShowDialog().catch(ignorePostponedCatchReason),
+      this.interval
+    );
 
     window.addEventListener('storage', this.onStorageEvent);
-    this.checkConsentAndShowDialog();
+    this.checkConsentAndShowDialog().catch(ignorePostponedCatchReason);
   };
 
   stopChecking = () => {
