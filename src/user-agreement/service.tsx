@@ -55,10 +55,10 @@ export interface UserAgreementServiceTranslations extends UserAgreementTranslati
 }
 
 function ignorePostponedCatchReason(reason: unknown) {
-    if (reason === 'Postponed') {
-      return;
-    }
-    throw reason;
+  if (reason === 'Postponed') {
+    return;
+  }
+  throw reason;
 }
 
 export interface UserAgreementServiceConfig {
