@@ -47,7 +47,7 @@ module.exports = callback => {
         cleanup();
       });
 
-      execSync("npx jest packages/screenshots/get-stories-tree.js '--testMatch=**'", {
+      execSync("npx jest packages/screenshots/get-stories-tree.js '--testMatch=**' --forceExit", {
         cwd: path.resolve(__dirname, '../..'),
         stdio: 'inherit',
       });
