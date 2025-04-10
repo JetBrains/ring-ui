@@ -143,7 +143,7 @@
     "cpy-cli": "^5.0.0",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.24.0",
-    "eslint-config-prettier": "^10.1.1",
+    "eslint-config-prettier": "^10.1.2",
     "eslint-formatter-jslint-xml": "^8.40.0",
     "eslint-import-resolver-webpack": "^0.13.10",
     "eslint-plugin-import": "^2.31.0",
