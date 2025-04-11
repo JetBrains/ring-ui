@@ -15,7 +15,17 @@
     "jslint-xml.js",
     "typings.d.ts"
   ],
-  "main": "src/index.js",
+  "exports": {
+    "./*.js": "./*.js",
+    "./*.css": "./*.css",
+    "./*.d.ts": "./*.d.ts",
+    "./*.svg": "./*.svg",
+    "./*.gif": "./*.gif",
+    "./*.json": "./*.json",
+    "./*.md": "./*.md",
+    "./components/icon": "./components/icon/index.js",
+    "./*": "./*.js"
+  },
   "workspaces": [
     "packages/*"
   ],
