@@ -52,7 +52,7 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Chrome',
         pageLoadStrategy: 'normal',
-        browser_version: '127.0',
+        browser_version: '131.0',
         chromeOptions: {
           excludeSwitches: ['enable-automation'],
         },
@@ -69,7 +69,7 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Firefox',
         pageLoadStrategy: 'normal',
-        browser_version: '128.0',
+        browser_version: '136.0',
         os: 'OS X',
         os_version: 'Sonoma',
         maxDuration,
