@@ -61,10 +61,6 @@ export default tseslint.config(
       },
 
       parser: babelParser,
-      parserOptions: {
-        //TODO: remove once eslint supports import assertions
-        babelOptions: {plugins: ['@babel/plugin-syntax-import-assertions']},
-      },
       ecmaVersion: 2023,
       sourceType: 'module',
     },
