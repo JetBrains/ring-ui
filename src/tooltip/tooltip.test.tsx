@@ -125,7 +125,7 @@ describe('Tooltip', () => {
       if (!tooltipElement) throw new Error('Tooltip element not found');
 
       // Before mouseenter, Popup should be hidden
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), expect.anything());
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
 
       act(() => {
         fireEvent.mouseEnter(tooltipElement);
@@ -138,7 +138,7 @@ describe('Tooltip', () => {
           hidden: false,
           children: 'test tooltip',
         }),
-        expect.anything(),
+        undefined,
       );
     });
 
@@ -156,7 +156,7 @@ describe('Tooltip', () => {
       });
 
       // Popup should remain hidden
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), expect.anything());
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
     });
 
     it('should render with delay when provided', () => {
@@ -173,7 +173,7 @@ describe('Tooltip', () => {
       });
 
       // Popup should still be hidden
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), expect.anything());
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
 
       act(() => {
         clock.tick(LONG_DELAY); // Now the popup should be visible
@@ -185,7 +185,7 @@ describe('Tooltip', () => {
           hidden: false,
           children: 'test tooltip',
         }),
-        expect.anything(),
+        undefined,
       );
     });
 
@@ -211,7 +211,7 @@ describe('Tooltip', () => {
         expect.objectContaining({
           className: expect.stringContaining(customClassName),
         }),
-        expect.anything(),
+        undefined,
       );
     });
 
@@ -227,7 +227,7 @@ describe('Tooltip', () => {
       });
 
       // Popup should be visible
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: false}), expect.anything());
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: false}), undefined);
 
       unmount();
 
@@ -248,7 +248,7 @@ describe('Tooltip', () => {
       });
 
       // Popup should be visible
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: false}), expect.anything());
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: false}), undefined);
 
       // Store the number of calls to Popup before the click
       // @ts-expect-error - mock property access
@@ -259,7 +259,7 @@ describe('Tooltip', () => {
       });
 
       // Popup should still be visible after click
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: false}), expect.anything());
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: false}), undefined);
 
       // The number of calls should not have increased (no re-render with hidden=true)
       // @ts-expect-error - mock property access

@@ -16,7 +16,13 @@ function roundToStep(value: number, step: number, min: number) {
   return Math.round((value - min) / step) * step + min;
 }
 
-export function calculateValue(ref: RefObject<HTMLDivElement>, x: number, min: number, max: number, step: number) {
+export function calculateValue(
+  ref: RefObject<HTMLDivElement | null>,
+  x: number,
+  min: number,
+  max: number,
+  step: number,
+) {
   if (!ref.current) {
     return null;
   }
@@ -50,7 +56,7 @@ export function toRange(value: number | number[], min: number, max: number) {
 
 export function adjustValues(
   values: number[],
-  ref: RefObject<HTMLDivElement>,
+  ref: RefObject<HTMLDivElement | null>,
   index: number,
   x: number,
   max: number,

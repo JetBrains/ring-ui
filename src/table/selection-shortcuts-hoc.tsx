@@ -1,4 +1,4 @@
-import {PureComponent, ComponentType} from 'react';
+import {PureComponent, ComponentClass} from 'react';
 
 import {ShortcutsMap} from '../shortcuts/core';
 
@@ -22,8 +22,8 @@ export type SelectionShortcutsProps<T extends SelectionItem, P> = Omit<P, keyof 
   SelectionShortcutsOuterProps<T>;
 
 export default function selectionShortcutsHOC<T extends SelectionItem, P extends SelectionShortcutsAddProps<T>>(
-  ComposedComponent: ComponentType<P>,
-): ComponentType<SelectionShortcutsProps<T, P>> {
+  ComposedComponent: ComponentClass<P>,
+): ComponentClass<SelectionShortcutsProps<T, P>> {
   class SelectionShortcuts extends PureComponent<SelectionShortcutsProps<T, P>> {
     onUpPress = () => {
       const {selection, onSelect} = this.props;
@@ -180,7 +180,7 @@ export default function selectionShortcutsHOC<T extends SelectionItem, P extends
       );
     }
   }
-  (SelectionShortcuts as ComponentType<unknown>).defaultProps = {
+  (SelectionShortcuts as ComponentClass<unknown>).defaultProps = {
     ...ComposedComponent.defaultProps,
     selectable: true,
     onSelect: () => {},

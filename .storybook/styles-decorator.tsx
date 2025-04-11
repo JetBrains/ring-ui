@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {useEffect} from '@storybook/preview-api';
 
-import {StoryContext, StoryFn} from '@storybook/react';
+import {StoryContext} from '@storybook/react';
+
+import {FunctionComponent} from 'react';
 
 import {injectStyleSheet} from '../src/global/inject-styles';
 
-const stylesDecorator = (Story: StoryFn, context: StoryContext) => {
+const stylesDecorator = (Story: FunctionComponent, context: StoryContext) => {
   const storyStyles = context.parameters?.storyStyles;
 
   useEffect(() => {

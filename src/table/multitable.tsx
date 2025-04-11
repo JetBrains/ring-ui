@@ -3,8 +3,10 @@ import {PureComponent, Children, cloneElement, ReactElement} from 'react';
 import {TableAttrs} from './table';
 import {SelectionItem} from './selection';
 
+type TableComponent = ReactElement<TableAttrs<SelectionItem>>;
+
 export interface MultiTableProps {
-  children: ReactElement<TableAttrs<SelectionItem>>[];
+  children: TableComponent[];
 }
 
 export default class MultiTable extends PureComponent<MultiTableProps> {
@@ -67,15 +69,15 @@ export default class MultiTable extends PureComponent<MultiTableProps> {
 
   onEscPress = () => {
     const {children} = this.props;
-    Children.forEach<ReactElement>(children, ({props: {selection, onSelect}}) => {
-      onSelect(selection.reset());
+    Children.forEach<TableComponent>(children, ({props: {selection, onSelect}}) => {
+      onSelect?.(selection.reset());
     });
   };
 
   onCmdAPress = () => {
     const {children} = this.props;
-    Children.forEach<ReactElement>(children, ({props: {selection, onSelect}}) => {
-      onSelect(selection.selectAll());
+    Children.forEach<TableComponent>(children, ({props: {selection, onSelect}}) => {
+      onSelect?.(selection.selectAll());
     });
     return false;
   };
