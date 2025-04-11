@@ -129,7 +129,7 @@
     "@types/sinon-chai": "^4.0.0",
     "@types/webpack-env": "^1.18.8",
     "@vitejs/plugin-react": "^4.3.4",
-    "@vitest/eslint-plugin": "^1.1.40",
+    "@vitest/eslint-plugin": "^1.1.42",
     "acorn": "^8.14.1",
     "axe-playwright": "^2.1.0",
     "babel-plugin-require-context-hook": "^1.0.0",
