@@ -78,7 +78,7 @@ export default class Profile extends PureComponent<ProfileProps> {
 
   static Size = Size;
 
-  render() {
+  render(): ReactNode {
     const {
       className,
       activeClassName,

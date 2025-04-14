@@ -1,4 +1,4 @@
-import {Component, ComponentType, createContext} from 'react';
+import {Component, ComponentClass, ComponentType, createContext} from 'react';
 
 import {interpolateLinear} from '../global/linear-function';
 
@@ -10,7 +10,7 @@ export const PhaseContext = createContext<number | null>(null);
 type ScrollHandler = (element: Element) => void;
 export const ScrollHandlerContext = createContext<ScrollHandler | null>(null);
 
-export default function adaptiveIslandHOC<P>(ComposedComponent: ComponentType<P>) {
+export default function adaptiveIslandHOC<P>(ComposedComponent: ComponentType<P>): ComponentClass<P> {
   return class AdaptiveIsland extends Component<P> {
     state = {
       phase: null,

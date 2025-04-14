@@ -1,4 +1,4 @@
-import {PureComponent, ReactNode, ComponentType, HTMLAttributes, MouseEventHandler} from 'react';
+import {PureComponent, ReactNode, ComponentType, HTMLAttributes, MouseEventHandler, ComponentClass} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -21,7 +21,9 @@ export interface LinkBaseProps {
 
 export type LinkProps<P extends ClickableLinkProps = ClickableLinkProps> = Omit<P, keyof LinkBaseProps> & LinkBaseProps;
 
-export function linkHOC<P extends ClickableLinkProps>(ComposedComponent: ComponentType<P> | string) {
+export function linkHOC<P extends ClickableLinkProps>(
+  ComposedComponent: ComponentType<P> | string,
+): ComponentClass<LinkProps<P>> {
   const isCustom = typeof ComposedComponent !== 'string' && ComposedComponent !== ClickableLink;
 
   return class Link extends PureComponent<LinkProps<P>> {
