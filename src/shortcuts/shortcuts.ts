@@ -1,4 +1,4 @@
-import {PureComponent} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 
 import shortcuts, {ShortcutsMap, ShortcutsScopeOptions} from './core';
 
@@ -6,7 +6,7 @@ export interface ShortcutsProps {
   map: ShortcutsMap;
   scope: string;
   options: ShortcutsScopeOptions;
-  children?: React.ReactNode;
+  children?: ReactNode;
   disabled?: boolean | null | undefined;
 }
 
@@ -52,7 +52,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps> {
     shortcuts.spliceScope(scope);
   }
 
-  render() {
+  render(): ReactNode {
     return this.props.children || null;
   }
 }

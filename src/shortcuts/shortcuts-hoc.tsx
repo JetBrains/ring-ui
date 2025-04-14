@@ -1,4 +1,4 @@
-import {Component, ComponentType} from 'react';
+import {Component, ComponentClass, ComponentType} from 'react';
 
 import getUID from '../global/get-uid';
 
@@ -14,7 +14,9 @@ export interface ShortcutsHOCProps {
   rgShortcutsMap: ShortcutsMap;
 }
 
-export default function shortcutsHOC<P extends {}>(ComposedComponent: ComponentType<P> | string) {
+export default function shortcutsHOC<P extends {}>(
+  ComposedComponent: ComponentType<P> | string,
+): ComponentClass<P & ShortcutsHOCProps> {
   return class WithShortcuts extends Component<P & ShortcutsHOCProps> {
     _shortcutsScopeUid = getUID('rg-shortcuts-');
 
