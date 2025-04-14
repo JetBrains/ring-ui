@@ -32,7 +32,8 @@ export interface DropdownProps extends Omit<HTMLAttributes<HTMLElement>, 'childr
    * Can be string, React element, or a function accepting an object with {active, pinned} properties and returning a React element
    * React element should render some interactive HTML element like `button` or `a`
    */
-  anchor: ReactElement | readonly ReactElement[] | string | ((props: AnchorProps) => ReactNode);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  anchor: ReactElement<any> | readonly ReactElement<any>[] | string | ((props: AnchorProps) => ReactNode);
   children: DropdownChildren;
   initShown: boolean;
   disabled?: boolean | null | undefined;

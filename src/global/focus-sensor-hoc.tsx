@@ -1,4 +1,4 @@
-import {Component, ComponentType, Ref} from 'react';
+import {Component, ComponentClass, Ref} from 'react';
 
 import {createComposedRef} from './composeRefs';
 
@@ -22,14 +22,14 @@ type RestProps<P, T extends HTMLElement> = Omit<P, keyof FocusSensorAddProps<T>>
 export type FocusSensorProps<
   P extends FocusSensorAddProps<T>,
   T extends HTMLElement,
-  C extends ComponentType<P>,
+  C extends ComponentClass<P>,
 > = RestProps<React.JSX.LibraryManagedAttributes<C, P>, T> & FocusSensorOuterProps<T>;
 
 export default function focusSensorHOC<
   T extends HTMLElement,
   P extends FocusSensorAddProps<T>,
-  C extends ComponentType<P>,
->(ComposedComponent: C): ComponentType<FocusSensorProps<P, T, typeof ComposedComponent>> {
+  C extends ComponentClass<P>,
+>(ComposedComponent: C): ComponentClass<FocusSensorProps<P, T, typeof ComposedComponent>> {
   class FocusSensor extends Component<FocusSensorProps<P, T, typeof ComposedComponent>> {
     state = {
       focused: this.props.focused,
@@ -131,7 +131,7 @@ export default function focusSensorHOC<
       );
     }
   }
-  (FocusSensor as ComponentType<unknown>).defaultProps = {
+  (FocusSensor as ComponentClass<unknown>).defaultProps = {
     ...ComposedComponent.defaultProps,
     focused: false,
     autofocus: false,

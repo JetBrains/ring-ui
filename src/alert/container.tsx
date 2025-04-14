@@ -1,8 +1,9 @@
-import {Children, cloneElement, PureComponent, HTMLAttributes, isValidElement} from 'react';
+import {Children, cloneElement, PureComponent, HTMLAttributes, isValidElement, ReactElement} from 'react';
 import {createPortal} from 'react-dom';
 import classNames from 'classnames';
 
 import styles from './container.css';
+import type {AlertProps} from './alert';
 
 /**
  * @name Alert Container
@@ -10,7 +11,9 @@ import styles from './container.css';
  * @extends {PureComponent}
  */
 
-export type AlertContainerProps = HTMLAttributes<HTMLDivElement>;
+export type AlertContainerProps = HTMLAttributes<HTMLDivElement> & {
+  children: ReactElement<AlertProps> | ReactElement<AlertProps>[];
+};
 
 export default class Alerts extends PureComponent<AlertContainerProps> {
   render() {

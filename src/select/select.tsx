@@ -1439,4 +1439,5 @@ export type MultipleSelectAttrs<T = unknown> = React.JSX.LibraryManagedAttribute
 >;
 export type SelectAttrs<T = unknown> = React.JSX.LibraryManagedAttributes<typeof Select, SelectProps<T>>;
 
-export const RerenderableSelect = rerenderHOC(Select);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const RerenderableSelect = rerenderHOC<any, any>(Select);

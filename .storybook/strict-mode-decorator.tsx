@@ -1,7 +1,6 @@
-import {StrictMode} from 'react';
-import {StoryFn} from '@storybook/react';
+import {FunctionComponent, StrictMode} from 'react';
 
-const strictModeDecorator = (Story: StoryFn) => (
+const strictModeDecorator = (Story: FunctionComponent) => (
   <StrictMode>
     <Story />
   </StrictMode>
