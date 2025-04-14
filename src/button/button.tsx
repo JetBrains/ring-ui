@@ -60,6 +60,24 @@ const warnText = deprecate(
   'Button: "text" prop is deprecated and will be removed in 8.0. Use inline instead.',
 );
 
+function removeLinkProps(props: ButtonLinkProps) {
+  const {
+    download,
+    href,
+    hrefLang,
+    media,
+    ping,
+    target,
+    type,
+    referrerPolicy,
+    onConditionalClick,
+    onPlainLeftClick,
+    activeClassName,
+    ...restProps
+  } = props;
+  return restProps;
+}
+
 /**
  * @name Button
  */
@@ -104,7 +122,6 @@ export class Button extends PureComponent<ButtonProps> {
       children,
       inline,
       disabled,
-      href,
       ...props
     } = this.props;
     const isInline = inline ?? text ?? icon != null;
@@ -136,8 +153,7 @@ export class Button extends PureComponent<ButtonProps> {
     );
     const isDisabled = disabled || loader || undefined;
     const commonProps = {
-      ...props,
-      href: isDisabled ? undefined : href,
+      ...(props.href != null && isDisabled ? removeLinkProps(props) : props),
       className: classes,
       children: (
         <>
