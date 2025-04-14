@@ -6,9 +6,7 @@ require('dotenv').config();
 
 const baseUrl = `http://${ip.address()}:9999/`;
 
-const gridUrl =
-  process.env.SELENIUM_GRID ||
-  `https://${process.env.BROWSERSTACK_NAME}:${process.env.BROWSERSTACK_KEY}@hub-cloud.browserstack.com:443/wd/hub`;
+const gridUrl = process.env.SELENIUM_GRID || `https://hub-cloud.browserstack.com:443/wd/hub`;
 // Supports Firefox
 const windowSize = '1024x1000';
 const os = 'Windows';
@@ -20,6 +18,8 @@ const isTeamCity = process.argv.indexOf('--teamcity') !== -1;
 console.log('Storybook url detected:', baseUrl);
 
 module.exports = {
+  user: process.env.BROWSERSTACK_NAME,
+  key: process.env.BROWSERSTACK_KEY,
   baseUrl,
   gridUrl,
   // eslint-disable-next-line no-magic-numbers

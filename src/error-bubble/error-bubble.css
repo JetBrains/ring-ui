@@ -1,5 +1,13 @@
 @import "../global/variables.css";
 
+:root {
+  --ring-error-bubble-background-color: var(--ring-popup-background-color);
+}
+
+:global(.ring-ui-theme-dark) {
+  --ring-error-bubble-background-color: var(--ring-secondary-background-color);
+}
+
 .errorBubblePopup {
   overflow: visible;
 
@@ -26,7 +34,7 @@
   border: 1px solid var(--ring-popup-border-color);
   border-radius: var(--ring-border-radius);
 
-  background: var(--ring-popup-background-color);
+  background: var(--ring-error-bubble-background-color);
   box-shadow: var(--ring-popup-shadow);
 
   font-size: var(--ring-font-size-smaller);
@@ -49,5 +57,5 @@
   border: 1px solid var(--ring-popup-border-color);
   border-top: none;
   border-right: none;
-  background: var(--ring-popup-background-color);
+  background: var(--ring-error-bubble-background-color);
 }
