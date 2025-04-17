@@ -518,7 +518,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     shortcutsEnabled: false,
     popupShortcuts: false,
     showPopup: this.props.showPopup,
-    prevData: this.props.data,
+    prevData: [],
     prevSelected: null,
     prevMultiple: this.props.multiple,
     multipleMap: {},
@@ -1271,15 +1271,13 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       iconsNode = <div className={styles.icons}>{icons}</div>;
     }
 
-    const ariaProps = this.state.showPopup
-      ? {
-          'aria-owns': this.listId,
-          'aria-activedescendant': activeItemId,
-          'aria-label': this.props.label ?? undefined,
-        }
-      : {
-          'aria-label': this.props.label ?? undefined,
-        };
+    const ariaProps = {
+      role: 'combobox',
+      'aria-expanded': this.state.showPopup,
+      'aria-controls': this.listId,
+      'aria-activedescendant': activeItemId,
+      'aria-label': this.props.label ?? this._getPlaceholder() ?? undefined,
+    };
 
     switch (this.props.type) {
       case Type.INPUT_WITHOUT_CONTROLS:
