@@ -4,7 +4,7 @@ import * as React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import searchIcon from '@jetbrains/icons/search';
 
-import {StoryFn} from '@storybook/react';
+import {StoryFn, StoryObj} from '@storybook/react';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -1201,4 +1201,21 @@ selectInPopup.parameters = {
 export const heightS = () => {
   const data = [{label: 'One', key: 1, showGeneratedAvatar: true, username: 'User'}];
   return <Select height={ControlsHeight.S} data={data} selected={data[0]} clear />;
+};
+
+export const showPopup: StoryObj<SingleSelectAttrs> = {
+  args: {
+    showPopup: true,
+    data: [
+      {label: 'One', key: '1', type: 'user'},
+      {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
+      {label: 'Three', key: '3', type: 'user'},
+      {label: 'With icon', key: 4, icon: FLAG_DE_URL},
+    ],
+  },
+  parameters: {
+    screenshots: {
+      captureSelector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+    },
+  },
 };

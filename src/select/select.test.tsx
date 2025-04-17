@@ -56,7 +56,7 @@ describe('Select', () => {
 
   it('Should save selected item', () => {
     renderSelect();
-    screen.getByRole('button', {name: 'first1'}).should.exist;
+    screen.getByRole('combobox', {name: 'first1'}).should.exist;
   });
 
   it('Should provide select types', () => {
@@ -74,7 +74,7 @@ describe('Select', () => {
 
   it('Should highlight selected item', async () => {
     renderSelect({selected: testData[2]});
-    const button = screen.getByRole('button', {name: 'test3'});
+    const button = screen.getByRole('combobox', {name: 'test3'});
     const user = userEvent.setup();
     await user.click(button);
     screen.getByRole('row', {selected: true}).should.have.text('test3');
@@ -83,7 +83,7 @@ describe('Select', () => {
   it('should update rendered data if props change', async () => {
     const {rerender} = renderSelect();
     rerender(<Select {...defaultProps()} data={[testData[0]]} />);
-    const button = screen.getByRole('button', {name: 'first1'});
+    const button = screen.getByRole('combobox', {name: 'first1'});
     const user = userEvent.setup();
     await user.click(button);
     screen.getAllByTestId('ring-list-item-action ring-list-item').should.have.length(1);
@@ -97,13 +97,13 @@ describe('Select', () => {
         selectedLabel: 'testLabel',
       },
     });
-    const button = screen.getByRole('button', {name: 'testLabel'});
+    const button = screen.getByRole('combobox', {name: 'testLabel'});
     button.should.exist;
   });
 
   it('Should use label for select button title', () => {
     renderSelect();
-    const button = screen.getByRole('button', {name: 'first1'});
+    const button = screen.getByRole('combobox', {name: 'first1'});
     button.should.exist;
   });
 
@@ -112,7 +112,7 @@ describe('Select', () => {
     const clearButton = screen.getByRole('button', {name: 'Clear selection'});
     const user = userEvent.setup();
     await user.click(clearButton);
-    screen.getByRole('button', {name: 'Select an option'}).should.exist;
+    screen.getByRole('combobox', {name: 'Select an option'}).should.exist;
   });
 
   it('Should call onChange on clearing', async () => {
@@ -128,7 +128,7 @@ describe('Select', () => {
   it('Should pass selected item and event to onChange', async () => {
     const props = defaultProps();
     renderSelect(props);
-    const button = screen.getByRole('button', {name: 'first1'});
+    const button = screen.getByRole('combobox', {name: 'first1'});
     const user = userEvent.setup();
     await user.click(button);
     const secondItem = screen.getByRole('button', {name: 'test2'});
@@ -139,7 +139,7 @@ describe('Select', () => {
   it('Should clear selected when rerendering with no selected item', () => {
     const {rerender} = renderSelect();
     rerender(<Select {...defaultProps()} selected={null} />);
-    screen.getByRole('button', {name: 'Select an option'}).should.exist;
+    screen.getByRole('combobox', {name: 'Select an option'}).should.exist;
   });
 
   it('Should handle ENTER shortcut', async () => {
@@ -166,7 +166,7 @@ describe('Select', () => {
 
   it('Should not open popup if disabled', async () => {
     renderSelect({disabled: true});
-    const button = screen.getByRole('button', {name: 'first1'});
+    const button = screen.getByRole('combobox', {name: 'first1'});
     const user = userEvent.setup();
     await user.click(button);
     should.not.exist(screen.queryByRole('grid'));
@@ -174,7 +174,7 @@ describe('Select', () => {
 
   it('Should close popup on click if it is already open', async () => {
     renderSelect();
-    const button = screen.getByRole('button', {name: 'first1'});
+    const button = screen.getByRole('combobox', {name: 'first1'});
     const user = userEvent.setup();
     await user.click(button);
     await user.click(button);
@@ -184,7 +184,7 @@ describe('Select', () => {
   it('Should call onAdd on adding', async () => {
     const onAdd = vi.fn();
     renderSelect({add: {alwaysVisible: true, label: 'Add item'}, onAdd});
-    const button = screen.getByRole('button', {name: 'first1'});
+    const button = screen.getByRole('combobox', {name: 'first1'});
     const user = userEvent.setup();
     await user.click(button);
     const addButton = screen.getByRole('button', {name: 'Add item'});
@@ -195,7 +195,7 @@ describe('Select', () => {
   it('Should call onFocus on input focus', async () => {
     const props = defaultProps();
     renderSelect({...props, type: Select.Type.INPUT});
-    const filter = screen.getByRole('textbox');
+    const filter = screen.getByRole('combobox');
     const user = userEvent.setup();
     await user.click(filter);
     props.onFocus.should.be.called;
@@ -204,7 +204,7 @@ describe('Select', () => {
   it('Should call onBlur on input blur', async () => {
     const props = {...defaultProps(), type: Select.Type.INPUT};
     renderSelect(props);
-    const filter = screen.getByRole('textbox');
+    const filter = screen.getByRole('combobox');
     const user = userEvent.setup();
     await user.click(filter);
     await user.tab();
@@ -213,7 +213,7 @@ describe('Select', () => {
 
   it('Should close popup if input lost focus in INPUT mode', async () => {
     renderSelect({type: Select.Type.INPUT});
-    const filter = screen.getByRole('textbox');
+    const filter = screen.getByRole('combobox');
     const user = userEvent.setup();
     await user.click(filter);
     await user.tab();
@@ -222,7 +222,7 @@ describe('Select', () => {
 
   it('Should not close popup while clicking on popup in INPUT mode', async () => {
     renderSelect({type: Select.Type.INPUT});
-    const filter = screen.getByRole('textbox');
+    const filter = screen.getByRole('combobox');
     const user = userEvent.setup();
     await user.click(filter);
     await user.click(screen.getByRole('grid'));
@@ -230,10 +230,15 @@ describe('Select', () => {
   });
 
   describe('Derived state', () => {
+    it('Should show initial data', () => {
+      renderSelect({showPopup: true});
+      screen.getByRole('row', {name: 'first1'}).should.exist;
+    });
+
     it('Should update shown data', async () => {
       const {rerender} = renderSelect();
       rerender(<Select {...defaultProps()} data={[]} />);
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       should.not.exist(screen.queryByTestId('ring-list-item-action ring-list-item'));
@@ -242,7 +247,7 @@ describe('Select', () => {
     it('Should reset selection when toggling multiple state', () => {
       const {rerender} = renderSelect();
       rerender(<Select {...defaultProps()} selected={undefined} multiple />);
-      const button = screen.getByRole('button', {name: 'Select an option'});
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
       button.should.have.text('Select an option');
       rerender(<Select {...defaultProps()} />);
       button.should.have.text('Select an option');
@@ -251,7 +256,7 @@ describe('Select', () => {
     it('Should not reset selection if mulitiple prop is the same as previous', () => {
       const {rerender} = renderSelect();
       rerender(<Select {...defaultProps()} multiple={false} />);
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       button.should.have.text('first1');
     });
 
@@ -259,7 +264,7 @@ describe('Select', () => {
       const {rerender} = renderSelect();
       const selectedItem = createItem('New item');
       rerender(<Select {...defaultProps()} selected={selectedItem} data={[createItem(), selectedItem]} />);
-      const button = screen.getByRole('button', {name: 'New item'});
+      const button = screen.getByRole('combobox', {name: 'New item'});
       const user = userEvent.setup();
       await user.click(button);
       screen.getByRole('row', {selected: true}).should.have.text('New item');
@@ -269,7 +274,7 @@ describe('Select', () => {
       const {rerender} = renderSelectMultiple();
       const selectedItem = createItem('New item');
       rerender(<Select {...defaultProps()} multiple selected={[selectedItem]} data={[createItem(), selectedItem]} />);
-      const button = screen.getByRole('button', {name: 'New item'});
+      const button = screen.getByRole('combobox', {name: 'New item'});
       const user = userEvent.setup();
       await user.click(button);
       screen.getByRole('row', {selected: true}).should.have.text('New item');
@@ -283,7 +288,7 @@ describe('Select', () => {
       const data = [firstItem, secondItem];
       rerender(<Select {...defaultProps()} multiple selected={[secondItem]} data={data} />);
       rerender(<Select {...defaultProps()} multiple selected={[firstItem]} data={data} />);
-      const button = screen.getByRole('button', {name: 'First item'});
+      const button = screen.getByRole('combobox', {name: 'First item'});
       const user = userEvent.setup();
       await user.click(button);
       screen.getByRole('row', {selected: true}).should.have.text('First item');
@@ -306,19 +311,19 @@ describe('Select', () => {
       renderSelect({
         disabled: true,
       });
-      screen.getByRole<HTMLButtonElement>('button', {name: 'first1'}).disabled.should.be.true;
+      screen.getByRole<HTMLButtonElement>('combobox', {name: 'first1'}).disabled.should.be.true;
     });
 
     it('Should not disable select button if not needed', () => {
       renderSelect({
         disabled: false,
       });
-      screen.getByRole<HTMLButtonElement>('button', {name: 'first1'}).disabled.should.be.false;
+      screen.getByRole<HTMLButtonElement>('combobox', {name: 'first1'}).disabled.should.be.false;
     });
 
     it('Should place input inside in INPUT mode', () => {
       renderSelect({type: Select.Type.INPUT});
-      screen.getByRole('textbox').should.exist;
+      screen.getByRole('combobox').should.exist;
     });
 
     it('Should place icons inside', () => {
@@ -361,7 +366,7 @@ describe('Select', () => {
 
     it('Should open select dropdown on click', async () => {
       renderSelect();
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       screen.getByTestId('ring-popup').should.exist;
@@ -370,7 +375,7 @@ describe('Select', () => {
     describe('Bottom toolbar', () => {
       it('Should not add "Add" button if enabled but filter query is empty', async () => {
         renderSelect({add: {label: 'Add item'}});
-        const button = screen.getByRole('button', {name: 'first1'});
+        const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
         should.not.exist(screen.queryByRole('button', {name: 'Add item'}));
@@ -378,7 +383,7 @@ describe('Select', () => {
 
       it('Should add "Add" button if enabled and filter query not empty', async () => {
         renderSelect({type: Select.Type.INPUT, add: {label: 'Add item'}});
-        const filter = screen.getByRole('textbox');
+        const filter = screen.getByRole('combobox');
         const user = userEvent.setup();
         await user.type(filter, 'test');
         screen.getByRole('button', {name: 'Add item'}).should.exist;
@@ -391,7 +396,7 @@ describe('Select', () => {
             label: 'Add item',
           },
         });
-        const button = screen.getByRole('button', {name: 'first1'});
+        const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
         screen.getByRole('button', {name: 'Add item'}).should.exist;
@@ -404,7 +409,7 @@ describe('Select', () => {
             label: 'Add Something',
           },
         });
-        const button = screen.getByRole('button', {name: 'first1'});
+        const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
         screen.getByRole('button', {name: 'Add Something'}).should.exist;
@@ -417,7 +422,7 @@ describe('Select', () => {
             label: value => `--${value}--`,
           },
         });
-        const filter = screen.getByRole('textbox');
+        const filter = screen.getByRole('combobox');
         const user = userEvent.setup();
         await user.clear(filter);
         await user.type(filter, 'test');
@@ -428,7 +433,7 @@ describe('Select', () => {
         renderSelect({
           hint: 'blah blah',
         });
-        const button = screen.getByRole('button', {name: 'first1'});
+        const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
         screen.getByTestId('ring-list-hint').should.exist;
@@ -439,7 +444,7 @@ describe('Select', () => {
           add: {alwaysVisible: true},
           hint: 'blah blah',
         });
-        const button = screen.getByRole('button', {name: 'first1'});
+        const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
         screen.getByTestId('ring-list-hint').should.exist;
@@ -450,7 +455,7 @@ describe('Select', () => {
   describe('getListItems', () => {
     it('Should filter items by label', async () => {
       renderSelect({type: Select.Type.INPUT});
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'test3');
@@ -461,7 +466,7 @@ describe('Select', () => {
 
     it('Should filter items by part of label', async () => {
       renderSelect({type: Select.Type.INPUT});
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'test');
@@ -478,7 +483,7 @@ describe('Select', () => {
         },
       ];
       renderSelect({type: Select.Type.INPUT, data: separators});
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'foo');
@@ -496,7 +501,7 @@ describe('Select', () => {
         },
       ];
       renderSelect({type: Select.Type.INPUT, data: customItems});
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'foo');
@@ -512,7 +517,7 @@ describe('Select', () => {
         },
       ];
       renderSelect({type: Select.Type.INPUT, data: items});
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'foo');
@@ -527,7 +532,7 @@ describe('Select', () => {
         type: Select.Type.INPUT,
         filter: {fn: filterStub},
       });
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'test3');
@@ -544,7 +549,7 @@ describe('Select', () => {
           prefix: 'Add some',
         },
       });
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'foo');
@@ -556,7 +561,7 @@ describe('Select', () => {
     it('Should call onFilter on input changes', async () => {
       const props = {...defaultProps(), type: Select.Type.INPUT};
       renderSelect(props);
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.type(filter, 'a');
       props.onFilter.should.be.called;
@@ -564,7 +569,7 @@ describe('Select', () => {
 
     it('Should open popup on input changes if in focus', async () => {
       renderSelect({type: Select.Type.INPUT});
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.type(filter, 'a');
       screen.getByTestId('ring-popup').should.exist;
@@ -573,7 +578,7 @@ describe('Select', () => {
     it('should filter if not focused but not in input mode', async () => {
       const props = defaultProps();
       renderSelect(props);
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const filter = screen.getByRole('textbox');
@@ -584,7 +589,7 @@ describe('Select', () => {
 
     it('Should not open popup on input changes if not in focus', async () => {
       renderSelect({type: Select.Type.INPUT});
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.type(filter, 'a', {skipClick: true});
       should.not.exist(screen.queryByTestId('ring-popup'));
@@ -593,7 +598,7 @@ describe('Select', () => {
     it('Should return empty string if not input mode and filter is disabled', async () => {
       const onAdd = vi.fn();
       renderSelect({filter: false, add: {alwaysVisible: true, label: 'Add item'}, onAdd});
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const addButton = screen.getByRole('button', {name: 'Add item'});
@@ -604,7 +609,7 @@ describe('Select', () => {
     it('Should return input value if input mode enabled', async () => {
       const onAdd = vi.fn();
       renderSelect({filter: false, type: Select.Type.INPUT, add: {}, onAdd});
-      const filter = screen.getByRole('textbox');
+      const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'test input');
@@ -616,7 +621,7 @@ describe('Select', () => {
     it('Should set value to popup input if passed', async () => {
       const onAdd = vi.fn();
       renderSelect({add: {}, onAdd});
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const filter = screen.getByRole('textbox');
@@ -628,7 +633,7 @@ describe('Select', () => {
 
     it('Should clear filter value when closing', async () => {
       renderSelect();
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       let filter = screen.getByRole('textbox');
@@ -644,7 +649,7 @@ describe('Select', () => {
     it('Should fill multipleMap on initialization', async () => {
       renderSelectMultiple();
       const user = userEvent.setup();
-      const button = screen.getByRole('button', {name: 'first1, test2'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2'});
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
       firstCheckbox.checked.should.be.true;
@@ -660,7 +665,7 @@ describe('Select', () => {
       const {rerender} = renderSelectMultiple();
       rerender(<Select {...defaultPropsMultiple()} selected={testData.slice(1, 2)} />);
       const user = userEvent.setup();
-      const button = screen.getByRole('button', {name: 'test2'});
+      const button = screen.getByRole('combobox', {name: 'test2'});
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
       firstCheckbox.checked.should.be.false;
@@ -674,7 +679,7 @@ describe('Select', () => {
 
     it('Should construct label from selected array', () => {
       renderSelectMultiple();
-      const button = screen.getByRole('button', {name: 'first1, test2'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2'});
       button.should.exist;
     });
 
@@ -682,19 +687,19 @@ describe('Select', () => {
       renderSelectMultiple({
         selected: testData.slice(2),
       });
-      const button = screen.getByRole('button', {name: 'test3'});
+      const button = screen.getByRole('combobox', {name: 'test3'});
       button.should.exist;
     });
 
     it('Should detect selection is empty according on not empty array', () => {
       renderSelectMultiple();
-      const button = screen.getByRole('button', {name: 'first1, test2'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2'});
       button.should.not.have.class(styles.buttonValueEmpty);
     });
 
     it('Should detect selection is empty according on empty array', () => {
       renderSelectMultiple({selected: []});
-      const button = screen.getByRole('button', {name: 'Select an option'});
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
       button.should.have.class(styles.buttonValueEmpty);
     });
 
@@ -703,7 +708,7 @@ describe('Select', () => {
       const clearButton = screen.getByRole('button', {name: 'Clear selection'});
       const user = userEvent.setup();
       await user.click(clearButton);
-      const button = screen.getByRole('button', {name: 'Select an option'});
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
       firstCheckbox.checked.should.be.false;
@@ -735,7 +740,7 @@ describe('Select', () => {
     it('Should clear selected when rerendering with no selected item in multiple mode', async () => {
       const {rerender} = renderSelectMultiple();
       rerender(<Select {...defaultPropsMultiple()} selected={null as never} />);
-      const button = screen.getByRole('button', {name: 'Select an option'});
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
@@ -751,7 +756,7 @@ describe('Select', () => {
     it('Should update selected checkboxes on selected update', async () => {
       const {rerender} = renderSelectMultiple();
       rerender(<Select {...defaultPropsMultiple()} selected={[]} />);
-      const button = screen.getByRole('button', {name: 'Select an option'});
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
@@ -761,12 +766,12 @@ describe('Select', () => {
     describe('On selecting', () => {
       it('Should select just picked item on selecting by clicking item', async () => {
         renderSelectMultiple();
-        let button = screen.getByRole('button', {name: 'first1, test2'});
+        let button = screen.getByRole('combobox', {name: 'first1, test2'});
         const user = userEvent.setup();
         await user.click(button);
         const fourthItem = screen.getByRole('button', {name: 'four4'});
         await user.click(fourthItem);
-        button = screen.getByRole('button', {name: 'first1, test2'});
+        button = screen.getByRole('combobox', {name: 'first1, test2'});
         await user.click(button);
         const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
         firstCheckbox.checked.should.be.true;
@@ -780,7 +785,7 @@ describe('Select', () => {
 
       it('Should add item to selection on clicking by checkbox', () => {
         renderSelectMultiple();
-        const button = screen.getByRole('button', {name: 'first1, test2'});
+        const button = screen.getByRole('combobox', {name: 'first1, test2'});
         fireEvent.click(button);
         const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
         fourthCheckbox.checked.should.be.false;
@@ -790,7 +795,7 @@ describe('Select', () => {
 
       it('Should close popup on selecting by item', async () => {
         renderSelectMultiple();
-        const button = screen.getByRole('button', {name: 'first1, test2'});
+        const button = screen.getByRole('combobox', {name: 'first1, test2'});
         const user = userEvent.setup();
         await user.click(button);
         const fourthItem = screen.getByRole('button', {name: 'four4'});
@@ -801,7 +806,7 @@ describe('Select', () => {
 
       it('Should not close popup on selecting by checkbox', async () => {
         renderSelectMultiple();
-        const button = screen.getByRole('button', {name: 'first1, test2'});
+        const button = screen.getByRole('combobox', {name: 'first1, test2'});
         const user = userEvent.setup();
         await user.click(button);
         const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
@@ -814,12 +819,12 @@ describe('Select', () => {
     describe('On deselecting', () => {
       it('Should remove item from selected on deselecting', async () => {
         renderSelectMultiple();
-        let button = screen.getByRole('button', {name: 'first1, test2'});
+        let button = screen.getByRole('combobox', {name: 'first1, test2'});
         const user = userEvent.setup();
         await user.click(button);
         const firstItem = screen.getByRole('button', {name: 'first1'});
         await user.click(firstItem);
-        button = screen.getByRole('button', {name: 'test2'});
+        button = screen.getByRole('combobox', {name: 'test2'});
         await user.click(button);
         const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
         firstCheckbox.checked.should.be.false;
@@ -834,7 +839,7 @@ describe('Select', () => {
       it('Should call onDeselect on deselecting item', async () => {
         const onDeselect = sandbox.spy();
         renderSelectMultiple({onDeselect});
-        const button = screen.getByRole('button', {name: 'first1, test2'});
+        const button = screen.getByRole('combobox', {name: 'first1, test2'});
         const user = userEvent.setup();
         await user.click(button);
         const firstItem = screen.getByRole('button', {name: 'first1'});
@@ -856,7 +861,7 @@ describe('Select', () => {
           },
         ],
       });
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const fifthItem = screen.getByRole('button', {name: 'test'});
@@ -866,7 +871,7 @@ describe('Select', () => {
 
     it('Should not react on selecting separator', async () => {
       renderSelect({data: [...testData, {key: 5, label: 'test', rgItemType: List.ListProps.Type.SEPARATOR}]});
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const fifthItem = screen.getByTestId('ring-list-separator');
@@ -876,7 +881,7 @@ describe('Select', () => {
 
     it('Should react on selecting custom item', async () => {
       renderSelect({data: [...testData, {key: 5, template: 'test', rgItemType: List.ListProps.Type.CUSTOM}]});
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const fifthItem = screen.getByRole('button', {name: 'test'});
@@ -887,7 +892,7 @@ describe('Select', () => {
 
     it('Should set selected on selecting', async () => {
       renderSelect();
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const fourthItem = screen.getByRole('button', {name: 'four4'});
@@ -902,7 +907,7 @@ describe('Select', () => {
       renderSelect({
         onSelect,
       });
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
@@ -915,7 +920,7 @@ describe('Select', () => {
       renderSelect({
         onChange,
       });
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
@@ -925,7 +930,7 @@ describe('Select', () => {
 
     it('Should hide popup on selecting', async () => {
       renderSelect();
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
@@ -937,7 +942,7 @@ describe('Select', () => {
   describe('On select all', () => {
     it('Should set selected on selecting all', async () => {
       renderSelectMultiple({multiple: {selectAll: true}});
-      const button = screen.getByRole('button', {name: 'first1, test2'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2'});
       const user = userEvent.setup();
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
@@ -954,7 +959,7 @@ describe('Select', () => {
 
     it('Should react on select all action with false flag', async () => {
       renderSelectMultiple({multiple: {selectAll: true}, selected: testData});
-      const button = screen.getByRole('button', {name: 'first1, test2, test3'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2, test3'});
       const user = userEvent.setup();
       await user.click(button);
       const deselectAll = screen.getByRole('button', {name: 'Deselect all'});
@@ -977,7 +982,7 @@ describe('Select', () => {
         selected: [testData[0]],
         data: testData,
       });
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
@@ -993,7 +998,7 @@ describe('Select', () => {
         selected: testData,
         data: testData,
       });
-      const button = screen.getByRole('button', {name: 'first1, test2, test3'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2, test3'});
       const user = userEvent.setup();
       await user.click(button);
       const deselectAll = screen.getByRole('button', {name: 'Deselect all'});
@@ -1010,7 +1015,7 @@ describe('Select', () => {
         selected: [testData[0]],
         data: testData,
       });
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
@@ -1035,7 +1040,7 @@ describe('Select', () => {
 
     it('Should pass loading message and indicator to popup if loading', async () => {
       renderSelect({loading: true, loadingMessage: 'test message'});
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       screen.getByText('test message').should.exist;
@@ -1044,7 +1049,7 @@ describe('Select', () => {
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', async () => {
       renderSelect({data: [], notFoundMessage: 'test not found'});
-      const button = screen.getByRole('button', {name: 'first1'});
+      const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
       screen.getByText('test not found').should.exist;
@@ -1056,7 +1061,7 @@ describe('Select', () => {
       });
 
       it('Should focus the filter on opening', async () => {
-        const button = screen.getByRole('button', {name: 'Select an option'});
+        const button = screen.getByRole('combobox', {name: 'Select an option'});
         const user = userEvent.setup();
         await user.click(button);
         const filter = screen.getByRole('textbox');
@@ -1064,7 +1069,7 @@ describe('Select', () => {
       });
 
       it('Should focus the filter on second opening', async () => {
-        const button = screen.getByRole('button', {name: 'Select an option'});
+        const button = screen.getByRole('combobox', {name: 'Select an option'});
         const user = userEvent.setup();
         await user.click(button);
         await user.click(button);
@@ -1079,12 +1084,12 @@ describe('Select', () => {
         data: testData,
         filter: true,
       });
-      let button = screen.getByRole('button', {name: 'Select an option'});
+      let button = screen.getByRole('combobox', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
       await user.click(secondItem);
-      button = screen.getByRole('button', {name: 'test2'});
+      button = screen.getByRole('combobox', {name: 'test2'});
       button.should.equal(document.activeElement);
     });
 
@@ -1101,7 +1106,7 @@ describe('Select', () => {
           targetElement: targetInput,
         });
 
-        button = screen.getByRole('button', {name: 'Select an option'});
+        button = screen.getByRole('combobox', {name: 'Select an option'});
         const user = userEvent.setup();
         await user.click(button);
       });
@@ -1154,7 +1159,7 @@ describe('Select', () => {
         onFilter,
       });
 
-      const button = screen.getByRole('button', {name: 'first1, test2'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2'});
       const user = userEvent.setup();
       await user.click(button);
 
@@ -1166,7 +1171,7 @@ describe('Select', () => {
 
     it('should not create tags reset option if it is not provided', async () => {
       renderSelectMultiple();
-      const button = screen.getByRole('button', {name: 'first1, test2'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2'});
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.queryByTestId('ring-select-reset-tags-button');
@@ -1178,7 +1183,7 @@ describe('Select', () => {
         selected: [],
         tags: {reset: {}},
       });
-      const button = screen.getByRole('button', {name: 'Select an option'});
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.queryByTestId('ring-select-reset-tags-button');
@@ -1194,7 +1199,7 @@ describe('Select', () => {
       renderSelectMultiple({
         tags: resetMock,
       });
-      const button = screen.getByRole('button', {name: 'first1, test2'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2'});
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.getByTestId('ring-select-reset-tags-button');
@@ -1210,7 +1215,7 @@ describe('Select', () => {
       renderSelectMultiple({
         tags: resetMock,
       });
-      const button = screen.getByRole('button', {name: 'first1, test2'});
+      const button = screen.getByRole('combobox', {name: 'first1, test2'});
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.getByTestId('ring-select-reset-tags-button');
@@ -1227,7 +1232,7 @@ describe('Select', () => {
         tags: resetMock,
         selected: [],
       });
-      const button = screen.getByRole('button', {name: 'Select an option'});
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.queryByTestId('ring-select-reset-tags-button');
