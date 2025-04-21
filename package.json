@@ -193,7 +193,7 @@
     "terser-webpack-plugin": "^5.3.14",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
-    "vitest": "^3.1.1",
+    "vitest": "^3.1.2",
     "vitest-teamcity-reporter": "^0.3.1",
     "wallaby-webpack": "^3.9.16",
     "webpack": "^5.99.5",
