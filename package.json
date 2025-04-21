@@ -137,7 +137,7 @@
     "@types/sinon": "^17.0.4",
     "@types/sinon-chai": "^4.0.0",
     "@types/webpack-env": "^1.18.8",
-    "@vitejs/plugin-react": "^4.4.0",
+    "@vitejs/plugin-react": "^4.4.1",
     "@vitest/eslint-plugin": "^1.1.43",
     "acorn": "^8.14.1",
     "axe-playwright": "^2.1.0",
