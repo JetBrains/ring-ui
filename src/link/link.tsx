@@ -75,7 +75,7 @@ export function linkHOC<P extends ClickableLinkProps>(
           href={href}
           className={classes}
           onClick={onClick}
-          onPlainLeftClick={onPlainLeftClick}
+          {...(typeof ComposedComponent !== 'string' ? {onPlainLeftClick} : {})}
           data-test={dataTests('ring-link', dataTest)}
         >
           {children}

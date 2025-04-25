@@ -29,15 +29,15 @@ describe('ListItem', () => {
   });
 
   it('should add data-test attribute if item is selected', () => {
-    renderListItem({checkbox: false});
+    renderListItem({checkbox: false, onCheckboxChange: () => {}});
     expect(screen.getByTestId('ring-list-item ring-list-item-action')).to.exist;
 
-    renderListItem({checkbox: true});
+    renderListItem({checkbox: true, onCheckboxChange: () => {}});
     expect(screen.getByTestId('ring-list-item ring-list-item-action ring-list-item-selected')).to.exist;
   });
 
   it('should render checkbox icon', () => {
-    const {container} = renderListItem({checkbox: true});
+    const {container} = renderListItem({checkbox: true, onCheckboxChange: () => {}});
     const checkbox = container.querySelector('[type=checkbox]') as HTMLInputElement;
     expect(checkbox).to.exist;
     expect(checkbox.checked).to.be.true;

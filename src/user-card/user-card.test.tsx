@@ -22,7 +22,7 @@ describe('UserCard', () => {
   describe('Card', () => {
     const renderCard = (props?: Partial<UserCardAttrs>) =>
       render(
-        <I18nContextHolder messages={{}}>
+        <I18nContextHolder messages={{copyToClipboard: 'copy to clipboard'}}>
           <UserCard user={fakeUser} {...props} />
         </I18nContextHolder>,
       );

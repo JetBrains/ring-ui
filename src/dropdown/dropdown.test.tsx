@@ -84,7 +84,7 @@ describe('Dropdown', () => {
 
     await new Promise<void>(resolve => {
       setTimeout(() => {
-        fireEvent.pointerDown(document);
+        act(() => fireEvent.pointerDown(document));
         expect(popup).to.exist;
         expect(popup?.isVisible()).to.be.false;
         resolve();

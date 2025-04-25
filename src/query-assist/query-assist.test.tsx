@@ -91,38 +91,46 @@ describe('Query Assist', () => {
     return screen.getByTestId('ring-query-assist');
   };
 
-  const waitForSetStateCallbacks = () => act(() => new Promise(resolve => setTimeout(resolve, 0)));
+  const waitForSetStateCallbacks = (callback?: () => void) =>
+    act(async () => {
+      await callback?.();
+      return new Promise(resolve => setTimeout(resolve, 0));
+    });
 
-  beforeEach(waitForSetStateCallbacks);
+  beforeEach(() => waitForSetStateCallbacks());
 
   describe('props to state passing', () => {
-    it('should create component', () => {
+    it('should create component', async () => {
       const queryAssist = renderQueryAssist();
+      await waitForSetStateCallbacks();
 
       expect(queryAssist).to.exist;
       expect(getByRole(queryAssist, 'textbox')).to.exist;
     });
 
-    it('should use initial props', () => {
+    it('should use initial props', async () => {
       const queryAssist = renderQueryAssist();
+      await waitForSetStateCallbacks();
       expect(getByRole(queryAssist, 'textbox')).to.have.text(testQuery);
       const placeholder = queryByTestId(queryAssist, 'query-assist-placeholder');
       expect(placeholder).to.not.exist;
     });
 
-    it('should handle props update', () => {
+    it('should handle props update', async () => {
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} />);
       rerender(<QueryAssist {...props} query="update" caret={2} />);
+      await waitForSetStateCallbacks();
 
       const queryAssist = screen.getByTestId('ring-query-assist');
       expect(getByRole(queryAssist, 'textbox')).to.have.text('update');
     });
 
-    it('should not set undefined query on update', () => {
+    it('should not set undefined query on update', async () => {
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} />);
       rerender(<QueryAssist {...props} query={undefined} />);
+      await waitForSetStateCallbacks();
 
       const queryAssist = screen.getByTestId('ring-query-assist');
       expect(getByRole(queryAssist, 'textbox')).to.have.text(testQuery);
@@ -130,19 +138,21 @@ describe('Query Assist', () => {
   });
 
   describe('setFocus', () => {
-    it('should set focus in query assist', () => {
+    it('should set focus in query assist', async () => {
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} focus={null} />);
       rerender(<QueryAssist {...props} focus />);
+      await waitForSetStateCallbacks();
 
       const queryAssist = screen.getByTestId('ring-query-assist');
       expect(getByRole(queryAssist, 'textbox')).to.equal(document.activeElement);
     });
 
-    it('should remove focus from query assist', () => {
+    it('should remove focus from query assist', async () => {
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} focus />);
       rerender(<QueryAssist {...props} focus={false} />);
+      await waitForSetStateCallbacks();
 
       const queryAssist = screen.getByTestId('ring-query-assist');
       expect(getByRole(queryAssist, 'textbox')).to.not.equal(document.activeElement);
@@ -155,6 +165,7 @@ describe('Query Assist', () => {
       const props = {...defaultProps(), onApply};
       const {rerender} = render(<QueryAssist {...props} focus={null} />);
       rerender(<QueryAssist {...props} focus />);
+      await waitForSetStateCallbacks();
 
       await act(() => simulateCombo('enter'));
       expect(onApply).toHaveBeenCalled();
@@ -165,6 +176,7 @@ describe('Query Assist', () => {
       const props = {...defaultProps(), onApply};
       const {rerender} = render(<QueryAssist {...props} focus />);
       rerender(<QueryAssist {...props} focus={null} />);
+      await waitForSetStateCallbacks();
 
       await act(() => {
         simulateCombo('enter');
@@ -177,6 +189,7 @@ describe('Query Assist', () => {
       const props = {...defaultProps(), onApply, focus: false};
       const {rerender} = render(<QueryAssist {...props} placeholder="bar" />);
       rerender(<QueryAssist {...props} placeholder="foo" />);
+      await waitForSetStateCallbacks();
 
       await act(() => simulateCombo('enter'));
       expect(onApply).not.toHaveBeenCalled();
@@ -188,18 +201,22 @@ describe('Query Assist', () => {
       const props = defaultProps();
       render(<QueryAssist {...props} />);
       props.dataSource.resetHistory();
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       expect(props.dataSource).to.have.been.calledOnce;
     });
 
     it('should request data debounced when delay set', async () => {
-      vi.useFakeTimers();
       const props = {...defaultProps(), delay: 100};
       render(<QueryAssist {...props} />);
       props.dataSource.resetHistory();
+      await waitForSetStateCallbacks();
+      vi.useFakeTimers();
       await act(() => simulateCombo('ctrl+space'));
       expect(props.dataSource).to.not.have.been.called;
-      await act(() => vi.runAllTimers());
+      await waitForSetStateCallbacks(() => {
+        vi.runAllTimers();
+        vi.useRealTimers();
+      });
       expect(props.dataSource).to.have.been.calledOnce;
     });
 
@@ -207,11 +224,12 @@ describe('Query Assist', () => {
       await new Promise<void>(resolve => {
         renderQueryAssist({
           autoOpen: true,
-          dataSource: params => {
-            expect(params).to.not.have.property('omitSuggestions');
-            resolve();
-            return dataSource(params);
-          },
+          dataSource: params =>
+            act(() => {
+              expect(params).to.not.have.property('omitSuggestions');
+              resolve();
+              return dataSource(params);
+            }),
         });
       });
     });
@@ -219,11 +237,12 @@ describe('Query Assist', () => {
     it('should not create popup by default', async () => {
       await new Promise<void>(resolve => {
         renderQueryAssist({
-          dataSource: params => {
-            expect(params).to.have.property('omitSuggestions', true);
-            resolve();
-            return dataSource(params);
-          },
+          dataSource: params =>
+            act(() => {
+              expect(params).to.have.property('omitSuggestions', true);
+              resolve();
+              return dataSource(params);
+            }),
         });
       });
     });
@@ -232,14 +251,16 @@ describe('Query Assist', () => {
   describe('rendering', () => {
     const LETTER_CLASS = styles.letter;
 
-    it('should pass className', () => {
+    it('should pass className', async () => {
       const queryAssist = renderQueryAssist({className: 'test-class'});
+      await waitForSetStateCallbacks();
 
       expect(queryAssist).to.have.class('test-class');
     });
 
-    it('should render letters', () => {
+    it('should render letters', async () => {
       const queryAssist = renderQueryAssist();
+      await waitForSetStateCallbacks();
 
       expect(queryAssist).to.contain(`.${LETTER_CLASS}`);
       expect(queryAssist.querySelectorAll(`.${LETTER_CLASS}`)).to.have.length(testQueryLength);
@@ -252,7 +273,7 @@ describe('Query Assist', () => {
 
       await waitForSetStateCallbacks();
 
-      await act(() => simulateCombo('meta+z'));
+      await waitForSetStateCallbacks(() => simulateCombo('meta+z'));
       const queryAssist = screen.getByTestId('ring-query-assist');
 
       await waitForSetStateCallbacks();
@@ -260,47 +281,52 @@ describe('Query Assist', () => {
       expect(getByRole(queryAssist, 'textbox')).to.have.text(testQuery);
     });
 
-    it('should render nothing on empty query', () => {
+    it('should render nothing on empty query', async () => {
       const queryAssist = renderQueryAssist({
         query: '',
       });
+      await waitForSetStateCallbacks();
       const input = getByRole(queryAssist, 'textbox');
       expect(input.textContent!).to.be.empty;
     });
 
-    it('should render nothing on falsy query', () => {
+    it('should render nothing on falsy query', async () => {
       const queryAssist = renderQueryAssist({
         query: null,
       });
+      await waitForSetStateCallbacks();
       const input = getByRole(queryAssist, 'textbox');
       expect(input.textContent!).to.be.empty;
     });
 
-    it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', () => {
+    it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', async () => {
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} />);
 
       //Emulate multiple rerender when rendering component with react-ng
       rerender(<QueryAssist {...props} />);
       rerender(<QueryAssist {...props} />);
+      await waitForSetStateCallbacks();
 
       expect(props.dataSource).to.have.been.calledOnce;
     });
 
-    it('should render placeholder when enabled on empty query', () => {
+    it('should render placeholder when enabled on empty query', async () => {
       const queryAssist = renderQueryAssist({
         query: '',
         placeholder: 'plz',
       });
+      await waitForSetStateCallbacks();
       const placeholder = getByTestId(queryAssist, 'query-assist-placeholder');
       expect(placeholder).to.exist;
       expect(placeholder).to.have.text('plz');
     });
 
-    it('should not render placeholder when disabled on empty query', () => {
+    it('should not render placeholder when disabled on empty query', async () => {
       const queryAssist = renderQueryAssist({
         query: '',
       });
+      await waitForSetStateCallbacks();
       const placeholder = queryByTestId(queryAssist, 'query-assist-placeholder');
       expect(placeholder).to.not.exist;
     });
@@ -376,55 +402,61 @@ describe('Query Assist', () => {
       expect(letters[2]).to.have.class(styles['letter-text']);
     });
 
-    it('should disable field when component disabled', () => {
+    it('should disable field when component disabled', async () => {
       const queryAssist = renderQueryAssist({
         disabled: true,
       });
+      await waitForSetStateCallbacks();
       const input = getByRole(queryAssist, 'textbox');
       expect(input).to.have.attr('contenteditable', 'false');
     });
 
-    it('should render glass when enabled', () => {
+    it('should render glass when enabled', async () => {
       const queryAssist = renderQueryAssist({
         glass: true,
       });
+      await waitForSetStateCallbacks();
 
       const glass = getByTestId(queryAssist, 'query-assist-search-icon');
       expect(glass).to.exist;
     });
 
-    it('should not render glass when disabled', () => {
+    it('should not render glass when disabled', async () => {
       const queryAssist = renderQueryAssist({
         glass: false,
       });
+      await waitForSetStateCallbacks();
 
       const glass = queryByTestId(queryAssist, 'query-assist-search-icon');
       expect(glass).to.not.exist;
     });
 
-    it('should render clear when enabled', () => {
+    it('should render clear when enabled', async () => {
       const queryAssist = renderQueryAssist({
         clear: true,
       });
+      await waitForSetStateCallbacks();
 
       const clear = getByTestId(queryAssist, 'query-assist-clear-icon');
       expect(clear).to.exist;
     });
 
-    it('should not render clear when disabled', () => {
+    it('should not render clear when disabled', async () => {
       const queryAssist = renderQueryAssist({
         clear: false,
       });
+      await waitForSetStateCallbacks();
 
       const clear = queryByTestId(queryAssist, 'query-assist-clear-icon');
       expect(clear).to.not.exist;
     });
 
-    it('should not render clear when query is empty', () => {
+    it('should not render clear when query is empty', async () => {
       const queryAssist = renderQueryAssist({
         clear: true,
         query: '',
       });
+      await waitForSetStateCallbacks();
 
       const clear = queryByTestId(queryAssist, 'query-assist-clear-icon');
       expect(clear).to.not.exist;
@@ -460,7 +492,7 @@ describe('Query Assist', () => {
           }),
       });
 
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
       expect(popup).to.have.attr('data-test-shown', 'false');
@@ -469,7 +501,7 @@ describe('Query Assist', () => {
     it('should show popup when suggestions provided', async () => {
       renderQueryAssist();
 
-      await act(() => {
+      await waitForSetStateCallbacks(() => {
         simulateCombo('ctrl+space');
       });
       await waitForSetStateCallbacks();
@@ -491,7 +523,7 @@ describe('Query Assist', () => {
       });
 
       currentSuggestions = [];
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
       expect(popup).to.have.attr('data-test-shown', 'false');
@@ -502,7 +534,7 @@ describe('Query Assist', () => {
 
       const TWICE = 2;
 
-      await act(() => {
+      await waitForSetStateCallbacks(() => {
         simulateCombo('ctrl+space');
       });
       await waitForSetStateCallbacks();
@@ -529,9 +561,9 @@ describe('Query Assist', () => {
       const queryAssist = renderQueryAssist({
         query: completeQuery,
       });
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
-      await act(() => simulateCombo('tab'));
+      await waitForSetStateCallbacks(() => simulateCombo('tab'));
 
       const input = getByRole(queryAssist, 'textbox');
       expect(input).to.have.text(getSuggestionText(suggestions[0]));
@@ -541,10 +573,10 @@ describe('Query Assist', () => {
       const queryAssist = renderQueryAssist({
         query: completeQuery,
       });
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
-      await act(() => simulateCombo('down'));
-      await act(() => simulateCombo('enter'));
+      await waitForSetStateCallbacks(() => simulateCombo('down'));
+      await waitForSetStateCallbacks(() => simulateCombo('enter'));
 
       const input = getByRole(queryAssist, 'textbox');
       expect(input).to.have.text(getSuggestionText(suggestions[0]));
@@ -555,9 +587,9 @@ describe('Query Assist', () => {
         query: completeQuery,
         caret: middleCaret,
       });
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
-      await act(() => simulateCombo('tab'));
+      await waitForSetStateCallbacks(() => simulateCombo('tab'));
 
       const input = getByRole(queryAssist, 'textbox');
       expect(input).to.have.text(getSuggestionText(suggestions[0]));
@@ -568,10 +600,10 @@ describe('Query Assist', () => {
         query: completeQuery,
         caret: middleCaret,
       });
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
-      await act(() => simulateCombo('down'));
-      await act(() => simulateCombo('enter'));
+      await waitForSetStateCallbacks(() => simulateCombo('down'));
+      await waitForSetStateCallbacks(() => simulateCombo('enter'));
 
       const input = getByRole(queryAssist, 'textbox');
       expect(input).to.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
@@ -582,12 +614,12 @@ describe('Query Assist', () => {
         query: completeQuery,
         caret: middleCaret,
       });
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
-      await act(() => simulateCombo('down'));
-      await act(() => simulateCombo('down'));
-      await act(() => simulateCombo('down'));
-      await act(() => simulateCombo('tab'));
+      await waitForSetStateCallbacks(() => simulateCombo('down'));
+      await waitForSetStateCallbacks(() => simulateCombo('down'));
+      await waitForSetStateCallbacks(() => simulateCombo('down'));
+      await waitForSetStateCallbacks(() => simulateCombo('tab'));
 
       const input = getByRole(queryAssist, 'textbox');
       expect(input).to.have.text(getSuggestionText(suggestions[2]));
@@ -598,16 +630,16 @@ describe('Query Assist', () => {
         query: completeQuery,
         caret: middleCaret,
       });
-      await act(() => simulateCombo('ctrl+space'));
+      await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
-      await act(() => simulateCombo('down'));
-      await act(() => simulateCombo('down'));
-      await act(() => simulateCombo('down'));
-      await act(() => simulateCombo('tab'));
+      await waitForSetStateCallbacks(() => simulateCombo('down'));
+      await waitForSetStateCallbacks(() => simulateCombo('down'));
+      await waitForSetStateCallbacks(() => simulateCombo('down'));
+      await waitForSetStateCallbacks(() => simulateCombo('tab'));
 
       const input = getByRole(queryAssist, 'textbox');
       expect(input).to.not.have.text(completeQuery);
-      await act(() => simulateCombo('meta+z'));
+      await waitForSetStateCallbacks(() => simulateCombo('meta+z'));
       expect(input).to.have.text(completeQuery);
     });
   });
@@ -623,6 +655,7 @@ describe('Query Assist', () => {
         onApply,
       });
 
+      await waitForSetStateCallbacks();
       await act(() => simulateCombo('enter'));
       expect(onApply).to.have.been.calledWithMatch({
         query: testQuery,
@@ -635,6 +668,7 @@ describe('Query Assist', () => {
         onApply,
       });
 
+      await waitForSetStateCallbacks();
       await act(() => simulateCombo('ctrl+enter'));
       expect(onApply).to.have.been.calledWithMatch({
         query: testQuery,
@@ -657,27 +691,31 @@ describe('Query Assist', () => {
 
   describe('request data', () => {
     it('should batch requests', async () => {
-      vi.useFakeTimers();
-
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} />);
       rerender(<QueryAssist {...props} delay={100} />);
       props.dataSource.resetHistory();
+      await waitForSetStateCallbacks();
+      vi.useFakeTimers();
       await act(() => simulateCombo('ctrl+space'));
       await act(() => simulateCombo('ctrl+space'));
       await act(() => simulateCombo('ctrl+space'));
-      await act(() => vi.runAllTimers());
+      await waitForSetStateCallbacks(() => {
+        vi.runAllTimers();
+        vi.useRealTimers();
+      });
 
       expect(props.dataSource).to.have.been.calledOnce;
     });
   });
 
   describe('custom actions', () => {
-    it('should allow to pass custom actions', () => {
+    it('should allow to pass custom actions', async () => {
       const queryAssist = renderQueryAssist({
         actions: [<div id={'A'} key={'A'} />, <div id={'B'} key={'B'} />],
       });
 
+      await waitForSetStateCallbacks();
       expect(queryAssist.querySelector('#A')!).to.exist;
       expect(queryAssist.querySelector('#B')!).to.exist;
     });
