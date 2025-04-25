@@ -249,7 +249,7 @@ object Deploy : BuildType({
                 npm install
                 npm run build-stories
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -387,7 +387,7 @@ object GeminiTests : BuildType({
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
             dockerRunParameters = "-p 4445:4445 -p 9999:9999 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
             param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
             param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
@@ -499,7 +499,7 @@ object A11yAudit : BuildType({
 
                 npm run a11y-audit-ci
             """.trimIndent()
-            dockerImage = "mcr.microsoft.com/playwright:v1.43.0-jammy"
+            dockerImage = "mcr.microsoft.com/playwright:v1.52.0"
         }
     }
 
@@ -562,7 +562,7 @@ object ConsoleErrors : BuildType({
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
         }
     }
 
@@ -634,7 +634,7 @@ object SecurityAudit : BuildType({
                 npm install
                 node security-audit-ci.js
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
         }
     }
 
@@ -784,7 +784,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -954,7 +954,7 @@ object PublishHotfixRelease : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1123,7 +1123,7 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
@@ -1259,7 +1259,7 @@ object PublishToGitHubPages : BuildType({
                 npm run figma-connect-unpublish
                 npm run figma-connect-publish
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -1391,7 +1391,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run build
                 SKIP_A11Y_ADDON=true npm run build-stories
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
@@ -1516,7 +1516,7 @@ object UnpublishSpecificVersion : BuildType({
 
                 npm unpublish %env.PACKAGE_NAME%@%env.PACKAGE_VERSION%
             """.trimIndent()
-            dockerImage = "node:20"
+            dockerImage = "node:22"
         }
     }
 
