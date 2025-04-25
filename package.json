@@ -24,6 +24,8 @@
     "./*.json": "./*.json",
     "./*.md": "./*.md",
     "./components/icon": "./components/icon/index.js",
+    "./components/icon/icon__svg": "./components/icon/icon__svg.js",
+    "./components/icon/icon__svg.js": "./components/icon/icon__svg.js",
     "./*": "./*.js"
   },
   "workspaces": [
