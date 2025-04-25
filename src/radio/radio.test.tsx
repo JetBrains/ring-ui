@@ -30,7 +30,7 @@ describe('Radio', () => {
 
   it('should create component', () => {
     renderRadio();
-    screen.getAllByRole('radio').should.exist;
+    expect(screen.getAllByRole('radio')).to.exist;
   });
 
   it('should pass only child as is', () => {
@@ -40,7 +40,7 @@ describe('Radio', () => {
       </Radio>,
     );
 
-    document.querySelector('section')!.should.exist;
+    expect(document.querySelector('section')!).to.exist;
   });
 
   describe('refs', () => {
@@ -58,7 +58,7 @@ describe('Radio', () => {
       );
       const name = item1!.input!.getAttribute('name') ?? undefined;
 
-      item2!.input!.should.have.attribute('name', name);
+      expect(item2!.input!).to.have.attribute('name', name);
     });
 
     it('should select item with value equal to one provided to group', () => {
@@ -73,7 +73,7 @@ describe('Radio', () => {
         },
       );
 
-      item!.input!.should.have.property('checked', true);
+      expect(item!.input!).to.have.property('checked', true);
     });
 
     it('should call handler for onChange event', () => {
@@ -84,7 +84,7 @@ describe('Radio', () => {
       });
       fireEvent.click(item!.input!);
 
-      onChange.should.have.been.called;
+      expect(onChange).to.have.been.called;
     });
   });
 });

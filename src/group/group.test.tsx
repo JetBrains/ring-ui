@@ -9,16 +9,16 @@ describe('Group', () => {
 
   it('should create component', () => {
     renderGroup();
-    screen.getByTestId('ring-group').should.exist;
+    expect(screen.getByTestId('ring-group')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderGroup();
-    screen.getByTestId('ring-group').should.have.tagName('span');
+    expect(screen.getByTestId('ring-group')).to.have.tagName('span');
   });
 
   it('should use passed className', () => {
     renderGroup({className: 'test-class'});
-    screen.getByTestId('ring-group').should.have.class('test-class');
+    expect(screen.getByTestId('ring-group')).to.have.class('test-class');
   });
 });

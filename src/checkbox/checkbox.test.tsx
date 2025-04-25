@@ -12,18 +12,18 @@ describe('Checkbox', () => {
   };
 
   it('should create component', () => {
-    renderCheckbox().should.exist;
+    expect(renderCheckbox()).to.exist;
   });
 
   it('should render checkbox', () => {
     const checkbox = renderCheckbox();
-    checkbox.should.have.property('type', 'checkbox');
+    expect(checkbox).to.have.property('type', 'checkbox');
   });
 
   it('should set name', () => {
     const checkbox = renderCheckbox({name: 'test'});
 
-    checkbox.should.have.property('name', 'test');
+    expect(checkbox).to.have.property('name', 'test');
   });
 
   it('should call handler for click event', () => {
@@ -32,7 +32,7 @@ describe('Checkbox', () => {
     const checkbox = renderCheckbox({onClick: clickHandler});
     fireEvent.click(checkbox);
 
-    clickHandler.should.have.been.called;
+    expect(clickHandler).to.have.been.called;
   });
 
   it('should not call handler on change event if disabled', () => {
@@ -44,19 +44,19 @@ describe('Checkbox', () => {
     });
 
     userEvent.click(checkbox);
-    onChange.should.have.not.been.called;
+    expect(onChange).to.have.not.been.called;
   });
 
   it('should be unchecked by default', () => {
     const checkbox = renderCheckbox();
 
-    checkbox.checked.should.be.false;
+    expect(checkbox.checked).to.be.false;
   });
 
   it('should check control', () => {
     const checkbox = renderCheckbox({defaultChecked: true});
 
-    checkbox.checked.should.be.true;
+    expect(checkbox.checked).to.be.true;
   });
 
   it('should be disabled', () => {
@@ -64,7 +64,7 @@ describe('Checkbox', () => {
       disabled: true,
     });
 
-    checkbox.disabled.should.be.true;
+    expect(checkbox.disabled).to.be.true;
   });
 
   it('should check control on change event', () => {
@@ -76,6 +76,6 @@ describe('Checkbox', () => {
     const checkbox = renderCheckbox();
 
     fireEvent.change(checkbox, eventMock);
-    checkbox.value.should.equal('on');
+    expect(checkbox.value).to.equal('on');
   });
 });

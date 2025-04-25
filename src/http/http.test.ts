@@ -40,14 +40,14 @@ describe('HTTP', () => {
     mockFetch(http);
   });
 
-  it('should export http service', () => http.should.exist);
+  it('should export http service', () => expect(http).to.exist);
 
   it('should read token and perform authorized fetch', async () => {
     await http.request('testurl', {cache: 'default'});
 
-    fakeAuth.requestToken.should.have.been.called;
+    expect(fakeAuth.requestToken).to.have.been.called;
 
-    http._fetch.should.have.been.calledWith('testurl', {
+    expect(http._fetch).to.have.been.calledWith('testurl', {
       cache: 'default',
       headers: {
         ...defaultFetchConfig.headers,
@@ -61,9 +61,9 @@ describe('HTTP', () => {
   it('should perform unauthorized fetch', async () => {
     await http.fetch('testurl', {cache: 'default'});
 
-    fakeAuth.requestToken.should.not.have.been.called;
+    expect(fakeAuth.requestToken).to.not.have.been.called;
 
-    http._fetch.should.have.been.calledWith('testurl', {
+    expect(http._fetch).to.have.been.calledWith('testurl', {
       cache: 'default',
       headers: undefined,
       body: undefined,
@@ -72,7 +72,7 @@ describe('HTTP', () => {
 
   it('should perform request and return result', async () => {
     const res = await http.request<typeof fetchResult>('testurl');
-    res.should.equal(fetchResult);
+    expect(res).to.equal(fetchResult);
   });
 
   it('should perform request and return text result if no "application/json" header', async () => {
@@ -85,15 +85,15 @@ describe('HTTP', () => {
     });
 
     const res = await http.request<{data: string}>('testurl');
-    res.should.deep.equal({data: 'some text'});
+    expect(res).to.deep.equal({data: 'some text'});
   });
 
   it('should allow to get meta information of response', async () => {
     const res = await http.request<{}>('testurl');
 
     const meta = http.getMetaForResponse(res);
-    OK.should.equal(meta?.status);
-    'application/json'.should.equal(meta?.headers?.get('content-type'));
+    expect(OK).to.equal(meta?.status);
+    expect('application/json').to.equal(meta?.headers?.get('content-type'));
   });
 
   it('should allow to get meta information of string response', async () => {
@@ -107,8 +107,8 @@ describe('HTTP', () => {
     const res = await http.request<{}>('testurl');
 
     const meta = http.getMetaForResponse(res);
-    OK.should.equal(meta?.status);
-    'text/html'.should.equal(meta?.headers?.get('content-type'));
+    expect(OK).to.equal(meta?.status);
+    expect('text/html').to.equal(meta?.headers?.get('content-type'));
   });
 
   it('should encode query params in url', async () => {
@@ -119,13 +119,13 @@ describe('HTTP', () => {
       },
     });
 
-    http._fetch.should.have.been.calledWith('http://testurl?foo=bar&test=a,b', sinon.match(Object));
+    expect(http._fetch).to.have.been.calledWith('http://testurl?foo=bar&test=a,b', sinon.match(Object));
   });
 
   it('should support base url setting', async () => {
     http.setBaseUrl('http://test');
     await http.request('/foo');
-    http._fetch.should.have.been.calledWith('http://test/foo', sinon.match(Object));
+    expect(http._fetch).to.have.been.calledWith('http://test/foo', sinon.match(Object));
   });
 
   it('should perform request convert "body" as object into string', async () => {
@@ -134,7 +134,7 @@ describe('HTTP', () => {
       body: {foo: 'bar'},
     });
 
-    http._fetch.should.have.been.calledWithMatch('testurl', {
+    expect(http._fetch).to.have.been.calledWithMatch('testurl', {
       method: 'POST',
       body: '{"foo":"bar"}',
     });
@@ -142,7 +142,7 @@ describe('HTTP', () => {
 
   it('should not refresh token if server responds OK', async () => {
     await http.request('testurl');
-    fakeAuth.forceTokenUpdate.should.not.have.been.called;
+    expect(fakeAuth.forceTokenUpdate).to.not.have.been.called;
   });
 
   it('should throw if response status is not OK', async () => {
@@ -155,7 +155,7 @@ describe('HTTP', () => {
     const onError = sandbox.spy();
     await http.request('testurl').catch(onError);
 
-    onError.should.have.been.called;
+    expect(onError).to.have.been.called;
   });
 
   it('should include error information', async () => {
@@ -175,10 +175,10 @@ describe('HTTP', () => {
       await http.get('testurl');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
-      e.should.be.instanceof(HTTPError);
-      e.status.should.equal(SERVER_ERROR);
+      expect(e).to.be.instanceof(HTTPError);
+      expect(e.status).to.equal(SERVER_ERROR);
 
-      e.data.should.be.deep.equal({
+      expect(e.data).to.be.deep.equal({
         error: 'Failed',
         errorDescription: 'Failure description',
       });
@@ -206,37 +206,37 @@ describe('HTTP', () => {
 
     const res = await http.request<typeof fetchResult>('testurl');
 
-    fakeAuth.forceTokenUpdate.should.have.been.called;
+    expect(fakeAuth.forceTokenUpdate).to.have.been.called;
 
-    res.should.equal(fetchResult);
+    expect(res).to.equal(fetchResult);
   });
 
   it('"get" method should call request with GET type', async () => {
     sandbox.stub(http, 'request');
     await http.get('testurl');
 
-    http.request.should.have.been.calledWith('testurl', {method: 'GET'});
+    expect(http.request).to.have.been.calledWith('testurl', {method: 'GET'});
   });
 
   it('"post" method should call request with POST type', async () => {
     sandbox.stub(http, 'request');
     await http.post('testurl', {body: {foo: 'bar'}});
 
-    http.request.should.have.been.calledWith('testurl', {method: 'POST', body: {foo: 'bar'}});
+    expect(http.request).to.have.been.calledWith('testurl', {method: 'POST', body: {foo: 'bar'}});
   });
 
   it('"delete" method should call request with DELETE type', async () => {
     sandbox.stub(http, 'request');
     await http.delete('testurl', {body: {foo: 'bar'}});
 
-    http.request.should.have.been.calledWith('testurl', {method: 'DELETE', body: {foo: 'bar'}});
+    expect(http.request).to.have.been.calledWith('testurl', {method: 'DELETE', body: {foo: 'bar'}});
   });
 
   it('"put" method should call request with PUT type', async () => {
     sandbox.stub(http, 'request');
     await http.put('testurl', {body: {foo: 'bar'}});
 
-    http.request.should.have.been.calledWith('testurl', {method: 'PUT', body: {foo: 'bar'}});
+    expect(http.request).to.have.been.calledWith('testurl', {method: 'PUT', body: {foo: 'bar'}});
   });
 
   describe('abortify', () => {
@@ -253,7 +253,7 @@ describe('HTTP', () => {
 
       abort();
 
-      abortSpy.should.have.been.called;
+      expect(abortSpy).to.have.been.called;
     });
   });
 });

@@ -27,7 +27,7 @@ describe('ShortcutsHOC', () => {
     it('should initialize', () => {
       const shortcuts = createShortcutsMap();
       const {container} = renderInputWithShortcuts(shortcuts);
-      container.should.exist;
+      expect(container).to.exist;
     });
 
     it('should call shortcut handler', () => {
@@ -35,7 +35,7 @@ describe('ShortcutsHOC', () => {
       renderInputWithShortcuts(shortcuts);
       simulateCombo('enter');
 
-      shortcuts.map.enter.should.be.called;
+      expect(shortcuts.map.enter).to.be.called;
     });
 
     it('should disable shortcuts', () => {
@@ -46,7 +46,7 @@ describe('ShortcutsHOC', () => {
 
       simulateCombo('enter');
 
-      shortcuts.map.enter.should.not.be.called;
+      expect(shortcuts.map.enter).to.not.be.called;
     });
   });
 });

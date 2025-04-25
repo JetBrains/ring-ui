@@ -23,36 +23,36 @@ describe('Confirm Service', () => {
   it('should show confirm', () => {
     confirm({text: 'foo'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain(`.${islandStyles.title}`);
+    expect(container).to.exist;
+    expect(container).to.contain(`.${islandStyles.title}`);
   });
 
   it('should show confirm text', () => {
     confirm({text: 'foo'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain.text('foo');
+    expect(container).to.exist;
+    expect(container).to.contain.text('foo');
   });
 
   it('should show confirm description', () => {
     confirm({text: 'foo', description: 'descr'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain.text('descr');
+    expect(container).to.exist;
+    expect(container).to.contain.text('descr');
   });
 
   it('should show confirm button text', () => {
     confirm({text: 'foo', confirmLabel: 'confirm text'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain.text('confirm text');
+    expect(container).to.exist;
+    expect(container).to.contain.text('confirm text');
   });
 
   it('should show reject button text', () => {
     confirm({text: 'foo', rejectLabel: 'reject text'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain.text('reject text');
+    expect(container).to.exist;
+    expect(container).to.contain.text('reject text');
   });
 
   it('should resolve on confirm', async () => {
@@ -60,11 +60,11 @@ describe('Confirm Service', () => {
     const promise = confirm({text: 'foo'}).then(spy);
     const container = getContainer();
     const okButton = container?.querySelector('*[data-test="confirm-ok-button"]');
-    should.exist(okButton);
+    expect(okButton).to.exist;
     okButton && fireEvent.click(okButton);
 
     await promise;
-    spy.should.have.been.called;
+    expect(spy).to.have.been.called;
   });
 
   it('should reject on reject', async () => {
@@ -72,10 +72,10 @@ describe('Confirm Service', () => {
     const promise = confirm({text: 'foo'}).catch(spy);
     const container = getContainer();
     const okButton = container?.querySelector('*[data-test="confirm-reject-button"]');
-    should.exist(okButton);
+    expect(okButton).to.exist;
     okButton && fireEvent.click(okButton);
 
     await promise;
-    spy.should.have.been.called;
+    expect(spy).to.have.been.called;
   });
 });

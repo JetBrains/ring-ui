@@ -97,13 +97,13 @@ describe('<Collapse />', () => {
 
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
-    onChangeMock.should.have.been.calledWith(false);
-    content.style.opacity.should.equal('1');
+    expect(onChangeMock).to.have.been.calledWith(false);
+    expect(content.style.opacity).to.equal('1');
 
     await userEvent.click(button);
 
-    content.style.opacity.should.equal('0');
-    onChangeMock.should.have.been.calledWith(true);
+    expect(content.style.opacity).to.equal('0');
+    expect(onChangeMock).to.have.been.calledWith(true);
   });
 
   it('should correctly behave with minHeight prop', async () => {
@@ -112,11 +112,11 @@ describe('<Collapse />', () => {
 
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
-    content.style.height.should.equal(`${MIN_HEIGHT}px`);
+    expect(content.style.height).to.equal(`${MIN_HEIGHT}px`);
 
     await userEvent.click(button);
 
-    content.style.opacity.should.equal('1');
+    expect(content.style.opacity).to.equal('1');
   });
 
   it.skip('should resize the collapsible container if content has been changed', async () => {
@@ -132,7 +132,7 @@ describe('<Collapse />', () => {
 
     await userEvent.click(moreTextButton);
 
-    await waitFor(() => content.style.height.should.equal(`${LARGE_HEIGHT}px`));
+    await waitFor(() => expect(content.style.height).to.equal(`${LARGE_HEIGHT}px`));
   });
 
   it('should disable animation', () => {
@@ -140,7 +140,7 @@ describe('<Collapse />', () => {
 
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
-    content.className.should.not.include(styles.transition);
+    expect(content.className).to.not.include(styles.transition);
   });
 
   it('should use control as render prop', () => {
@@ -148,7 +148,7 @@ describe('<Collapse />', () => {
 
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
-    content.className.should.not.include(styles.transition);
+    expect(content.className).to.not.include(styles.transition);
   });
 
   it('should be able to expand by default', () => {
@@ -156,6 +156,6 @@ describe('<Collapse />', () => {
 
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
-    content.should.contain.text(textMock);
+    expect(content).to.contain.text(textMock);
   });
 });

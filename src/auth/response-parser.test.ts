@@ -13,7 +13,7 @@ describe('Auth', () => {
           'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA' +
           '&state=xyz&token_type=example&expires_in=3600';
         const parser = new AuthResponseParser();
-        parser.readAuthResponseFromURL().should.be.deep.equal({
+        expect(parser.readAuthResponseFromURL()).to.be.deep.equal({
           accessToken: '2YotnFZFEjr1zCsicMWpAA',
           state: 'xyz',
           tokenType: 'example',
@@ -28,8 +28,8 @@ describe('Auth', () => {
 
         const parser = new AuthResponseParser();
         const response = parser.getAuthResponseFromURL();
-        should.exist(response);
-        response?.should.be.deep.equal({
+        expect(response).to.exist;
+        expect(response).to.be.deep.equal({
           accessToken: '2YotnFZFEjr1zCsicMWpAA',
           state: 'xyz',
           tokenType: 'example',
@@ -40,39 +40,39 @@ describe('Auth', () => {
       it('should return null for null location', () => {
         location = null;
         const parser = new AuthResponseParser();
-        should.not.exist(parser.getAuthResponseFromURL());
+        expect(parser.getAuthResponseFromURL()).to.not.exist;
       });
 
       it('should return null for empty location', () => {
         location = '';
         const parser = new AuthResponseParser();
-        should.not.exist(parser.getAuthResponseFromURL());
+        expect(parser.getAuthResponseFromURL()).to.not.exist;
       });
 
       it('should return null for empty hash', () => {
         location = 'http://localhost:8080/hub#';
         const parser = new AuthResponseParser();
-        should.not.exist(parser.getAuthResponseFromURL());
+        expect(parser.getAuthResponseFromURL()).to.not.exist;
       });
 
       it('should return null for no hash', () => {
         location = 'http://localhost:8080/hub';
         const parser = new AuthResponseParser();
-        should.not.exist(parser.getAuthResponseFromURL());
+        expect(parser.getAuthResponseFromURL()).to.not.exist;
       });
 
       it('should return correct for value with hashes', () => {
         location = 'http://localhost:8080/hub#access_token=#2YotnFZFEjr1zCsicMWpAA#';
         const parser = new AuthResponseParser();
         const response = parser.getAuthResponseFromURL();
-        should.exist(response);
-        response?.should.be.deep.equal({accessToken: '#2YotnFZFEjr1zCsicMWpAA#'});
+        expect(response).to.exist;
+        expect(response).to.be.deep.equal({accessToken: '#2YotnFZFEjr1zCsicMWpAA#'});
       });
 
       it('should throw error on error in auth response', () => {
         location = 'http://localhost:8080/hub#error=we+are+in+trouble';
         const parser = new AuthResponseParser();
-        parser.getAuthResponseFromURL.bind(parser).should.throw(AuthResponseParser.AuthError);
+        expect(parser.getAuthResponseFromURL.bind(parser)).to.throw(AuthResponseParser.AuthError);
       });
 
       it('should throw error with fields from request', () => {
@@ -85,10 +85,10 @@ describe('Auth', () => {
           parser.getAuthResponseFromURL();
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (e: any) {
-          e.should.have.property('message', 'Logged in user is banned');
-          e.should.have.property('code', 'access_denied');
-          e.should.have.property('stateId', 'unique');
-          e.should.have.property('uri', 'http://error');
+          expect(e).to.have.property('message', 'Logged in user is banned');
+          expect(e).to.have.property('code', 'access_denied');
+          expect(e).to.have.property('stateId', 'unique');
+          expect(e).to.have.property('uri', 'http://error');
         }
       });
     });

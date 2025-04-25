@@ -12,28 +12,28 @@ describe('Icon', () => {
   };
 
   it('should create component', () => {
-    renderIcon()!.should.exist;
+    expect(renderIcon()!).to.exist;
   });
 
   it('should render passed glyph', () => {
     const icon = renderIcon({glyph: expandIcon})!;
-    expandIcon
-      .replace('/>', '></path>')
-      .should.include(icon.querySelector('svg')!.outerHTML.replace(' class="glyph"', ''));
+    expect(expandIcon.replace('/>', '></path>')).to.include(
+      icon.querySelector('svg')!.outerHTML.replace(' class="glyph"', ''),
+    );
   });
 
   it('should set compatibility mode if rendering icon without width/height', () => {
     const icon = renderIcon({
       glyph: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d=""/></svg>',
     })!;
-    icon.querySelector('svg')!.should.have.class(styles.compatibilityMode);
+    expect(icon.querySelector('svg')!).to.have.class(styles.compatibilityMode);
   });
 
   it('should set custom class', () => {
     const CUSTOM_CSS_CLASS = 'my-icon';
     const icon = renderIcon({glyph: expandIcon, className: CUSTOM_CSS_CLASS})!;
 
-    icon.should.have.class(CUSTOM_CSS_CLASS);
+    expect(icon).to.have.class(CUSTOM_CSS_CLASS);
   });
 
   describe('fault tolerance', () => {
@@ -43,12 +43,12 @@ describe('Icon', () => {
 
     it('should render nothing if null is passed as glyph', () => {
       const icon = renderIcon({glyph: null});
-      should.not.exist(icon);
+      expect(icon).to.not.exist;
     });
 
     it('should render nothing if empty string is passed as glyph', () => {
       const icon = renderIcon({glyph: ''});
-      should.not.exist(icon);
+      expect(icon).to.not.exist;
     });
   });
 });

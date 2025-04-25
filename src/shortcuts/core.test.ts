@@ -29,33 +29,33 @@ describe('Shortcuts', () => {
 
   describe('bind', () => {
     it('should throw without a handler', () => {
-      (() => {
+      expect(() => {
         // @ts-expect-error testing a wrong usage
         shortcuts.bind();
-      }).should.throw(Error, 'Shortcut handler should exist');
+      }).to.throw(Error, 'Shortcut handler should exist');
     });
 
     it('should throw without a key', () => {
-      (() => {
+      expect(() => {
         // @ts-expect-error testing a wrong usage
         shortcuts.bind({handler: sandbox.stub()});
-      }).should.throw(Error, 'Shortcut key should exist');
+      }).to.throw(Error, 'Shortcut key should exist');
     });
 
     it('should bind to root scope', () => {
       shortcuts.bind({key, handler: noop});
 
       const scope = shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId];
-      should.exist(scope);
-      scope?.[key].should.equal(noop);
+      expect(scope).to.exist;
+      expect(scope?.[key]).to.equal(noop);
     });
 
     it('should bind to custom scope', () => {
       shortcuts.bind({key, scope: scopeId, handler: noop});
 
       const scope = shortcuts._scopes[scopeId];
-      should.exist(scope);
-      scope?.[key].should.equal(noop);
+      expect(scope).to.exist;
+      expect(scope?.[key]).to.equal(noop);
     });
 
     it('should bind array of keys', () => {
@@ -63,25 +63,25 @@ describe('Shortcuts', () => {
       shortcuts.bind({key: keys, handler: noop});
 
       const scope = shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId];
-      should.exist(scope);
-      scope?.[key].should.equal(noop);
-      scope?.[key2].should.equal(noop);
+      expect(scope).to.exist;
+      expect(scope?.[key]).to.equal(noop);
+      expect(scope?.[key2]).to.equal(noop);
     });
   });
 
   describe('bindMap', () => {
     it('should throw without a map', () => {
-      (() => {
+      expect(() => {
         // @ts-expect-error testing a wrong usage
         shortcuts.bindMap();
-      }).should.throw(Error, "Shortcuts map shouldn't be empty");
+      }).to.throw(Error, "Shortcuts map shouldn't be empty");
     });
 
     it('should throw with wrong handler', () => {
-      (() => {
+      expect(() => {
         // @ts-expect-error testing a wrong usage
         shortcuts.bindMap({a: {}});
-      }).should.throw(Error, 'Shortcut handler should exist');
+      }).to.throw(Error, 'Shortcut handler should exist');
     });
 
     it('should bind map of keys to root scope', () => {
@@ -91,9 +91,9 @@ describe('Shortcuts', () => {
       shortcuts.bindMap(keys);
 
       const scope = shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId];
-      should.exist(scope);
-      scope?.[key].should.equal(noop);
-      scope?.[key2].should.equal(noop2);
+      expect(scope).to.exist;
+      expect(scope?.[key]).to.equal(noop);
+      expect(scope?.[key2]).to.equal(noop2);
     });
 
     it('should bind map of keys to custom scope', () => {
@@ -103,9 +103,9 @@ describe('Shortcuts', () => {
       shortcuts.bindMap(keys, {scope: scopeId});
 
       const scope = shortcuts._scopes[scopeId];
-      should.exist(scope);
-      scope?.[key].should.equal(noop);
-      scope?.[key2].should.equal(noop2);
+      expect(scope).to.exist;
+      expect(scope?.[key]).to.equal(noop);
+      expect(scope?.[key2]).to.equal(noop2);
     });
   });
 
@@ -114,7 +114,7 @@ describe('Shortcuts', () => {
       shortcuts.bind({key, scope: scopeId, handler: noop});
       shortcuts.unbindScope(scopeId);
 
-      should.not.exist(shortcuts._scopes[scopeId]);
+      expect(shortcuts._scopes[scopeId]).to.not.exist;
     });
   });
 
@@ -122,8 +122,8 @@ describe('Shortcuts', () => {
     it('should clear scope', () => {
       shortcuts.bind({key, scope: scopeId, handler: noop});
 
-      shortcuts.hasKey(key, scopeId).should.be.true;
-      shortcuts.hasKey(key, shortcuts.ROOT_SCOPE.scopeId).should.be.false;
+      expect(shortcuts.hasKey(key, scopeId)).to.be.true;
+      expect(shortcuts.hasKey(key, shortcuts.ROOT_SCOPE.scopeId)).to.be.false;
     });
   });
 
@@ -134,8 +134,8 @@ describe('Shortcuts', () => {
 
       trigger();
 
-      noop.should.have.been.called;
-      noop2.should.have.been.called;
+      expect(noop).to.have.been.called;
+      expect(noop2).to.have.been.called;
     });
 
     it('should prevent handler run', () => {
@@ -146,8 +146,8 @@ describe('Shortcuts', () => {
 
       trigger();
 
-      stop.should.have.been.called;
-      noop.should.not.have.been.called;
+      expect(stop).to.have.been.called;
+      expect(noop).to.not.have.been.called;
     });
   });
 
@@ -157,7 +157,7 @@ describe('Shortcuts', () => {
 
       trigger();
 
-      noop.should.have.been.called;
+      expect(noop).to.have.been.called;
     });
 
     it('should handle keys in root scope with other scope defined', () => {
@@ -166,8 +166,8 @@ describe('Shortcuts', () => {
 
       trigger();
 
-      noop.should.have.been.called;
-      noop2.should.not.have.been.called;
+      expect(noop).to.have.been.called;
+      expect(noop2).to.not.have.been.called;
     });
 
     it('should handle keys in top scope', () => {
@@ -177,8 +177,8 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scopeId);
       trigger();
 
-      noop.should.not.have.been.called;
-      noop2.should.have.been.called;
+      expect(noop).to.not.have.been.called;
+      expect(noop2).to.have.been.called;
     });
 
     it('should fall trough scopes when returning true', () => {
@@ -190,8 +190,8 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scopeId);
       trigger();
 
-      noop.should.have.been.called;
-      fallthrough.should.have.been.called;
+      expect(noop).to.have.been.called;
+      expect(fallthrough).to.have.been.called;
     });
 
     it('should not fall trough modal scope', () => {
@@ -203,8 +203,8 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scopeId, {modal: true});
       trigger();
 
-      fallthrough.should.have.been.called;
-      noop.should.not.have.been.called;
+      expect(fallthrough).to.have.been.called;
+      expect(noop).to.not.have.been.called;
     });
 
     it('should not fall trough modal scope even if it has no handler for key', () => {
@@ -216,7 +216,7 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scopeId, {modal: true});
       trigger();
 
-      noop.should.not.have.been.called;
+      expect(noop).to.not.have.been.called;
     });
   });
 
@@ -226,47 +226,47 @@ describe('Shortcuts', () => {
     const scope3 = 'ccc';
 
     it('empty scope chain should be equal to default', () => {
-      shortcuts.getScope().should.deep.equal([]);
+      expect(shortcuts.getScope()).to.deep.equal([]);
     });
 
     it('setScope should set full scope chain by string name', () => {
       const myscope = 'aaaa';
       shortcuts.setScope(myscope);
 
-      shortcuts.getScope().should.deep.equal([wrapScope(myscope)]);
+      expect(shortcuts.getScope()).to.deep.equal([wrapScope(myscope)]);
     });
 
     it('setScope should set full scope chain by array of names', () => {
       shortcuts.setScope([scope1, scope2]);
 
-      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope2)]);
+      expect(shortcuts.getScope()).to.deep.equal([wrapScope(scope1), wrapScope(scope2)]);
     });
 
     it('pushScope should add scope to scope chain end', () => {
       shortcuts.setScope(scope1);
       shortcuts.pushScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope2)]);
+      expect(shortcuts.getScope()).to.deep.equal([wrapScope(scope1), wrapScope(scope2)]);
     });
 
     it('popScope should remove by name scope and next scopes from chain', () => {
       shortcuts.setScope([scope1, scope2, scope3]);
       shortcuts.popScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([wrapScope(scope1)]);
+      expect(shortcuts.getScope()).to.deep.equal([wrapScope(scope1)]);
     });
 
     it('spliceScope should remove by name scope from chain', () => {
       shortcuts.setScope([scope1, scope2, scope3]);
       shortcuts.spliceScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope3)]);
+      expect(shortcuts.getScope()).to.deep.equal([wrapScope(scope1), wrapScope(scope3)]);
     });
 
     it('should store options passed with scope', () => {
       shortcuts.pushScope(scope1, {modal: true});
 
-      shortcuts.getScope().should.deep.equal([wrapScope(scope1, {modal: true})]);
+      expect(shortcuts.getScope()).to.deep.equal([wrapScope(scope1, {modal: true})]);
     });
 
     it('should workaround system windows shortcuts', () => {
@@ -278,8 +278,8 @@ describe('Shortcuts', () => {
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
-      should.exist(eventType);
-      eventType?.should.equal('keyup');
+      expect(eventType).to.exist;
+      expect(eventType).to.equal('keyup');
     });
 
     it('should not apply workaround for system windows shortcuts on other operating systems', () => {
@@ -291,7 +291,7 @@ describe('Shortcuts', () => {
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
-      'keyup'.should.not.equal(eventType);
+      expect('keyup').to.not.equal(eventType);
     });
   });
 });

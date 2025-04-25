@@ -9,38 +9,38 @@ describe('ListItem', () => {
 
   it('should create component', () => {
     renderListItem();
-    screen.getByTestId('ring-list-item ring-list-item-action').should.exist;
+    expect(screen.getByTestId('ring-list-item ring-list-item-action')).to.exist;
   });
 
   it('should use passed className', () => {
     renderListItem({className: 'test-class'});
-    screen.getByRole('button').should.have.class('test-class');
+    expect(screen.getByRole('button')).to.have.class('test-class');
   });
 
   it('should add data test attributes', () => {
     renderListItem();
-    screen.getByTestId('ring-list-item ring-list-item-action').should.exist;
+    expect(screen.getByTestId('ring-list-item ring-list-item-action')).to.exist;
   });
 
   it('should remove ring-list-item-action data-test attribute if item is disabled', () => {
     renderListItem({disabled: true});
-    screen.getByTestId('ring-list-item').should.exist;
+    expect(screen.getByTestId('ring-list-item')).to.exist;
     expect(screen.queryByTestId('ring-list-item-action')).to.be.null;
   });
 
   it('should add data-test attribute if item is selected', () => {
     renderListItem({checkbox: false});
-    screen.getByTestId('ring-list-item ring-list-item-action').should.exist;
+    expect(screen.getByTestId('ring-list-item ring-list-item-action')).to.exist;
 
     renderListItem({checkbox: true});
-    screen.getByTestId('ring-list-item ring-list-item-action ring-list-item-selected').should.exist;
+    expect(screen.getByTestId('ring-list-item ring-list-item-action ring-list-item-selected')).to.exist;
   });
 
   it('should render checkbox icon', () => {
     const {container} = renderListItem({checkbox: true});
     const checkbox = container.querySelector('[type=checkbox]') as HTMLInputElement;
-    checkbox.should.exist;
-    checkbox.checked.should.be.true;
+    expect(checkbox).to.exist;
+    expect(checkbox.checked).to.be.true;
   });
 
   it('should not render checkbox icon if not passed', () => {
@@ -61,7 +61,7 @@ describe('ListItem', () => {
     const user = userEvent.setup();
     await user.click(button);
 
-    onClick.should.have.been.called;
+    expect(onClick).to.have.been.called;
   });
 
   it('should handle checkbox change', () => {
@@ -71,6 +71,6 @@ describe('ListItem', () => {
     const checkbox = screen.getByRole('checkbox');
     fireEvent.click(checkbox);
 
-    onCheckboxChange.should.have.been.called;
+    expect(onCheckboxChange).to.have.been.called;
   });
 });

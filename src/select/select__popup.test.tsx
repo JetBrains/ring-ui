@@ -26,12 +26,12 @@ describe('SelectPopup', () => {
   describe('rendering', () => {
     it('should initialize', () => {
       const {container} = renderSelectPopup();
-      container.should.exist;
+      expect(container).to.exist;
     });
 
     it('should render filter when filter prop is true', () => {
       renderSelectPopup({hidden: false});
-      screen.getByTestId('ring-select-popup-filter').should.exist;
+      expect(screen.getByTestId('ring-select-popup-filter')).to.exist;
     });
 
     it('should not render filter when filter prop is false', () => {
@@ -53,7 +53,7 @@ describe('SelectPopup', () => {
         const onCloseAttempt = sandbox.spy();
         renderSelectPopup({onCloseAttempt, hidden: true});
         simulateCombo('tab');
-        onCloseAttempt.should.not.be.called;
+        expect(onCloseAttempt).to.not.be.called;
       });
     });
   });
@@ -83,7 +83,7 @@ describe('SelectPopup', () => {
 
       simulateCombo('enter');
 
-      onSelect.should.be.calledWith(testData[0]);
+      expect(onSelect).to.be.calledWith(testData[0]);
     });
 
     it('should call onCloseAttempt when tab is pressed', () => {
@@ -94,7 +94,7 @@ describe('SelectPopup', () => {
 
       simulateCombo('tab');
 
-      onCloseAttempt.should.be.called;
+      expect(onCloseAttempt).to.be.called;
     });
 
     it('should not throw error when tab is pressed but there is no data', () => {
@@ -104,9 +104,9 @@ describe('SelectPopup', () => {
       rerender(factory({hidden: false}));
 
       // This should not throw an error
-      (() => {
+      expect(() => {
         simulateCombo('tab');
-      }).should.not.throw();
+      }).to.not.throw();
     });
 
     describe('navigation', () => {
@@ -120,7 +120,7 @@ describe('SelectPopup', () => {
         simulateCombo('enter');
 
         // onSelect should be called with the first item
-        onSelect.should.be.calledWith(testData[0]);
+        expect(onSelect).to.be.calledWith(testData[0]);
       });
 
       it('should call onSelect when up and enter are pressed', () => {
@@ -134,7 +134,7 @@ describe('SelectPopup', () => {
         simulateCombo('enter');
 
         // onSelect should be called
-        onSelect.should.be.called;
+        expect(onSelect).to.be.called;
       });
     });
 
@@ -152,7 +152,7 @@ describe('SelectPopup', () => {
           fireEvent.change(filterInput, {target: {value: 'test'}});
         }
 
-        onFilter.should.be.called;
+        expect(onFilter).to.be.called;
       });
 
       it('should have a filter input that can be interacted with', () => {
@@ -163,12 +163,12 @@ describe('SelectPopup', () => {
         const filterInput = filterWrapper.querySelector('input');
 
         // Verify that the filter input exists
-        filterInput?.should.exist;
+        expect(filterInput).to.exist;
 
         // Verify that the filter input can be interacted with
         if (filterInput) {
           fireEvent.change(filterInput, {target: {value: 'test'}});
-          filterInput.value.should.equal('test');
+          expect(filterInput.value).to.equal('test');
         }
       });
     });

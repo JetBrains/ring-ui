@@ -7,16 +7,16 @@ describe('Error Message', () => {
 
   it('should create component', () => {
     renderErrorMessage();
-    screen.getByTestId('ring-error-message').should.exist;
+    expect(screen.getByTestId('ring-error-message')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderErrorMessage();
-    screen.getByTestId('ring-error-message').should.have.tagName('div');
+    expect(screen.getByTestId('ring-error-message')).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
     renderErrorMessage({className: 'test-class'});
-    screen.getByTestId('ring-error-message').should.have.class('test-class');
+    expect(screen.getByTestId('ring-error-message')).to.have.class('test-class');
   });
 });

@@ -42,7 +42,7 @@ describe('Auth', () => {
           }),
         );
 
-        return tokenValidator.validateTokenLocally().should.eventually.be.equal('token');
+        return expect(tokenValidator.validateTokenLocally()).to.eventually.be.equal('token');
       });
 
       it('should resolve access token when token is given for all required scopes', () => {
@@ -55,7 +55,7 @@ describe('Auth', () => {
           }),
         );
 
-        return tokenValidator.validateTokenLocally().should.eventually.be.equal('token');
+        return expect(tokenValidator.validateTokenLocally()).to.eventually.be.equal('token');
       });
 
       it('should reject if accessToken is empty', () => {
@@ -69,16 +69,18 @@ describe('Auth', () => {
           }),
         );
 
-        return tokenValidator
-          .validateTokenLocally()
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token not found');
+        return expect(tokenValidator.validateTokenLocally()).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          'Token not found',
+        );
       });
 
       it('should reject if there is no token stored', () => {
         getToken.returns(Promise.resolve(null));
-        return tokenValidator
-          .validateTokenLocally()
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token not found');
+        return expect(tokenValidator.validateTokenLocally()).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          'Token not found',
+        );
       });
 
       it('should reject if token is about to be expired (<1/6 lifeTime left)', () => {
@@ -90,9 +92,10 @@ describe('Auth', () => {
             scopes: ['0-0-0-0-0'],
           }),
         );
-        return tokenValidator
-          .validateTokenLocally()
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token expired');
+        return expect(tokenValidator.validateTokenLocally()).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          'Token expired',
+        );
       });
 
       it('should reject if short-life token is about to be expired (<1/6 lifeTime left)', () => {
@@ -105,9 +108,10 @@ describe('Auth', () => {
             scopes: ['0-0-0-0-0'],
           }),
         );
-        return tokenValidator
-          .validateTokenLocally()
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token expired');
+        return expect(tokenValidator.validateTokenLocally()).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          'Token expired',
+        );
       });
 
       it('should reject if token is about to be expired but lifeTime is not set and default time used', () => {
@@ -118,9 +122,10 @@ describe('Auth', () => {
             scopes: ['0-0-0-0-0'],
           }),
         );
-        return tokenValidator
-          .validateTokenLocally()
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token expired');
+        return expect(tokenValidator.validateTokenLocally()).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          'Token expired',
+        );
       });
 
       it("should reject if token scopes don't match required scopes", () => {
@@ -133,9 +138,10 @@ describe('Auth', () => {
           }),
         );
 
-        return tokenValidator
-          .validateTokenLocally()
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, "Token doesn't match required scopes");
+        return expect(tokenValidator.validateTokenLocally()).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          "Token doesn't match required scopes",
+        );
       });
     });
 
@@ -149,9 +155,9 @@ describe('Auth', () => {
         const token = {accessToken: 'token'};
         authorizedFetch.returns(Promise.resolve({login: 'user'}));
         const promise = tokenValidator._validateAgainstUser(token);
-        promise.should.be.fulfilled;
+        expect(promise).to.be.fulfilled;
         await promise;
-        authorizedFetch.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
+        expect(authorizedFetch).to.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
       });
 
       it('should reject with redirect if 401 response received', () => {
@@ -166,9 +172,10 @@ describe('Auth', () => {
             },
           }),
         );
-        return tokenValidator
-          ._validateAgainstUser(token)
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, 'Problem');
+        return expect(tokenValidator._validateAgainstUser(token)).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          'Problem',
+        );
       });
 
       it('should reject with redirect if invalid_grant response received', () => {
@@ -182,9 +189,10 @@ describe('Auth', () => {
             },
           }),
         );
-        return tokenValidator
-          ._validateAgainstUser(token)
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, 'invalid_grant');
+        return expect(tokenValidator._validateAgainstUser(token)).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          'invalid_grant',
+        );
       });
 
       it('should reject with redirect if invalid_request response received', () => {
@@ -198,9 +206,10 @@ describe('Auth', () => {
             },
           }),
         );
-        return tokenValidator
-          ._validateAgainstUser(token)
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, 'invalid_request');
+        return expect(tokenValidator._validateAgainstUser(token)).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          'invalid_request',
+        );
       });
 
       it('should reject with redirect if 401 response without json received', () => {
@@ -216,17 +225,18 @@ describe('Auth', () => {
             },
           }),
         );
-        return tokenValidator
-          ._validateAgainstUser(token)
-          .should.be.rejectedWith(TokenValidator.TokenValidationError, '403 Forbidden');
+        return expect(tokenValidator._validateAgainstUser(token)).to.be.rejectedWith(
+          TokenValidator.TokenValidationError,
+          '403 Forbidden',
+        );
       });
     });
 
     describe('TokenValidationError', () => {
       it('should be cool', () => {
-        (() => {
+        expect(() => {
           throw new TokenValidator.TokenValidationError('message');
-        }).should.throw(TokenValidator.TokenValidationError, 'message');
+        }).to.throw(TokenValidator.TokenValidationError, 'message');
       });
     });
   });

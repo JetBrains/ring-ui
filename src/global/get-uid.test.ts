@@ -3,7 +3,7 @@ import getUID from './get-uid';
 describe('getUid', () => {
   it('should throw an exception if the "name" argument isn\'t passed', () => {
     // @ts-expect-error testing a wrong usage
-    () => getUID().should.throw(Error);
+    expect(() => getUID()).to.throw(Error);
   });
 
   it('should return a unique id every time', () => {
@@ -11,12 +11,12 @@ describe('getUid', () => {
     const id2 = getUID('test');
     const id3 = getUID('test');
 
-    id1.should.not.be.equal(id2);
-    id2.should.not.be.equal(id3);
+    expect(id1).to.not.be.equal(id2);
+    expect(id2).to.not.be.equal(id3);
   });
 
   it('should return an id having a passed prefix', () => {
-    getUID('test').should.have.string('test');
-    getUID('tset').should.have.string('tset');
+    expect(getUID('test')).to.have.string('test');
+    expect(getUID('tset')).to.have.string('tset');
   });
 });

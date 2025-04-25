@@ -10,13 +10,13 @@ describe('Tags List', () => {
   describe('DOM', () => {
     it('should render tags list', () => {
       renderTagsList();
-      screen.getByTestId('ring-tags-list').should.exist;
+      expect(screen.getByTestId('ring-tags-list')).to.exist;
     });
 
     it('should render passed label inside tags', () => {
       renderTagsList();
       const tag = screen.getByTestId('ring-tag');
-      tag.should.have.text('test1');
+      expect(tag).to.have.text('test1');
     });
 
     it('should render custom tag', () => {
@@ -30,8 +30,8 @@ describe('Tags List', () => {
         customTagComponent: CustomTag,
       });
 
-      screen.getByTestId('custom-tag').should.exist;
-      screen.getByTestId('custom-tag').should.have.class('custom-tag');
+      expect(screen.getByTestId('custom-tag')).to.exist;
+      expect(screen.getByTestId('custom-tag')).to.have.class('custom-tag');
     });
 
     it('Should use passed className', () => {
@@ -39,7 +39,7 @@ describe('Tags List', () => {
         className: 'test-class',
       });
 
-      screen.getByTestId('ring-tags-list').should.have.class('test-class');
+      expect(screen.getByTestId('ring-tags-list')).to.have.class('test-class');
     });
   });
 });

@@ -65,15 +65,15 @@ describe('Tooltip', () => {
 
   it('should create component', () => {
     renderTooltip();
-    screen.getByText('test elem').should.exist;
+    expect(screen.getByText('test elem')).to.exist;
   });
 
   describe('Children', () => {
     it('should wrap text children', () => {
       renderTooltip();
       const wrapper = screen.getByText('test elem');
-      wrapper.should.have.text('test elem');
-      wrapper.tagName.toLowerCase().should.equal('span');
+      expect(wrapper).to.have.text('test elem');
+      expect(wrapper.tagName.toLowerCase()).to.equal('span');
     });
 
     it('should wrap children', () => {
@@ -84,20 +84,20 @@ describe('Tooltip', () => {
 
       // Using a more specific selector that matches the actual DOM structure
       const wrapper = screen.getByRole('tooltip');
-      wrapper.tagName.toLowerCase().should.equal('span');
+      expect(wrapper.tagName.toLowerCase()).to.equal('span');
 
-      within(wrapper).getByText('test span').tagName.toLowerCase().should.equal('span');
+      expect(within(wrapper).getByText('test span').tagName.toLowerCase()).to.equal('span');
     });
 
     it('should pass props to children', () => {
       renderTooltip();
       // Using a more specific selector
-      screen.getByRole('tooltip').should.have.class('test-class');
+      expect(screen.getByRole('tooltip')).to.have.class('test-class');
     });
 
     it('should not pass title to children', () => {
       renderTooltip();
-      screen.getByText('test elem').should.not.have.attribute('title');
+      expect(screen.getByText('test elem')).to.not.have.attribute('title');
     });
   });
 
@@ -115,7 +115,7 @@ describe('Tooltip', () => {
 
       rerender(<Tooltip {...defaultProps} title="" />);
 
-      removeEventListener.should.have.been.calledTwice;
+      expect(removeEventListener).to.have.been.calledTwice;
     });
 
     it('should render popup on mouseenter', () => {

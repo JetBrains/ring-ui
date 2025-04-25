@@ -17,7 +17,7 @@ describe('Pager', () => {
   };
 
   it('should create component', () => {
-    renderPager().should.exist;
+    expect(renderPager()).to.exist;
   });
 
   it('should render page buttons when total is more than pageSize', () => {
@@ -26,27 +26,27 @@ describe('Pager', () => {
       pageSize: 1,
     });
 
-    getByTestId(pager, 'ring-button-toolbar').should.exist;
-    pager.should.have.descendants(`div.${styles.links}`);
+    expect(getByTestId(pager, 'ring-button-toolbar')).to.exist;
+    expect(pager).to.have.descendants(`div.${styles.links}`);
   });
 
   it('should not render page buttons when total is less than 1', () => {
     const pager = renderPager({total: 1});
-    should.not.exist(queryByTestId(pager, 'ring-button-toolbar'));
-    pager.should.not.have.descendants(`div.${styles.links}`);
+    expect(queryByTestId(pager, 'ring-button-toolbar')).to.not.exist;
+    expect(pager).to.not.have.descendants(`div.${styles.links}`);
   });
 
   it('should render page size selector even when total is less than 2', () => {
     const pager = renderPager({total: 1});
-    should.exist(getByTestId(pager, 'ring-pager-page-size-selector'));
+    expect(getByTestId(pager, 'ring-pager-page-size-selector')).to.exist;
   });
 
   it('should wrap children with div', () => {
-    renderPager().should.have.tagName('div');
+    expect(renderPager()).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    renderPager({className: 'test-class'}).should.have.class('test-class');
+    expect(renderPager({className: 'test-class'})).to.have.class('test-class');
   });
 
   it('should render page buttons even when currentPage==total if openTotal is true', () => {
@@ -56,6 +56,6 @@ describe('Pager', () => {
       currentPage: 1,
       openTotal: true,
     });
-    getByTestId(pager, 'ring-button-toolbar').should.exist;
+    expect(getByTestId(pager, 'ring-button-toolbar')).to.exist;
   });
 });

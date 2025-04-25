@@ -14,16 +14,16 @@ describe('Tabs', () => {
 
   it('should create component', () => {
     renderTabs();
-    screen.getByTestId('ring-dumb-tabs').should.exist;
+    expect(screen.getByTestId('ring-dumb-tabs')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderTabs();
-    screen.getByTestId('ring-dumb-tabs').should.exist;
+    expect(screen.getByTestId('ring-dumb-tabs')).to.exist;
   });
 
   it('should use passed className', () => {
     renderTabs({className: 'test-class'});
-    screen.getByTestId('ring-dumb-tabs').should.have.class('test-class');
+    expect(screen.getByTestId('ring-dumb-tabs')).to.have.class('test-class');
   });
 });

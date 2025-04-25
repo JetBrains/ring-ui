@@ -99,15 +99,15 @@ describe('Query Assist', () => {
     it('should create component', () => {
       const queryAssist = renderQueryAssist();
 
-      queryAssist.should.exist;
-      getByRole(queryAssist, 'textbox').should.exist;
+      expect(queryAssist).to.exist;
+      expect(getByRole(queryAssist, 'textbox')).to.exist;
     });
 
     it('should use initial props', () => {
       const queryAssist = renderQueryAssist();
-      getByRole(queryAssist, 'textbox').should.have.text(testQuery);
+      expect(getByRole(queryAssist, 'textbox')).to.have.text(testQuery);
       const placeholder = queryByTestId(queryAssist, 'query-assist-placeholder');
-      should.not.exist(placeholder);
+      expect(placeholder).to.not.exist;
     });
 
     it('should handle props update', () => {
@@ -116,7 +116,7 @@ describe('Query Assist', () => {
       rerender(<QueryAssist {...props} query="update" caret={2} />);
 
       const queryAssist = screen.getByTestId('ring-query-assist');
-      getByRole(queryAssist, 'textbox').should.have.text('update');
+      expect(getByRole(queryAssist, 'textbox')).to.have.text('update');
     });
 
     it('should not set undefined query on update', () => {
@@ -125,7 +125,7 @@ describe('Query Assist', () => {
       rerender(<QueryAssist {...props} query={undefined} />);
 
       const queryAssist = screen.getByTestId('ring-query-assist');
-      getByRole(queryAssist, 'textbox').should.have.text(testQuery);
+      expect(getByRole(queryAssist, 'textbox')).to.have.text(testQuery);
     });
   });
 
@@ -136,7 +136,7 @@ describe('Query Assist', () => {
       rerender(<QueryAssist {...props} focus />);
 
       const queryAssist = screen.getByTestId('ring-query-assist');
-      getByRole(queryAssist, 'textbox').should.equal(document.activeElement);
+      expect(getByRole(queryAssist, 'textbox')).to.equal(document.activeElement);
     });
 
     it('should remove focus from query assist', () => {
@@ -145,7 +145,7 @@ describe('Query Assist', () => {
       rerender(<QueryAssist {...props} focus={false} />);
 
       const queryAssist = screen.getByTestId('ring-query-assist');
-      getByRole(queryAssist, 'textbox').should.not.equal(document.activeElement);
+      expect(getByRole(queryAssist, 'textbox')).to.not.equal(document.activeElement);
     });
   });
 
@@ -189,7 +189,7 @@ describe('Query Assist', () => {
       render(<QueryAssist {...props} />);
       props.dataSource.resetHistory();
       await act(() => simulateCombo('ctrl+space'));
-      props.dataSource.should.have.been.calledOnce;
+      expect(props.dataSource).to.have.been.calledOnce;
     });
 
     it('should request data debounced when delay set', async () => {
@@ -198,9 +198,9 @@ describe('Query Assist', () => {
       render(<QueryAssist {...props} />);
       props.dataSource.resetHistory();
       await act(() => simulateCombo('ctrl+space'));
-      props.dataSource.should.not.have.been.called;
+      expect(props.dataSource).to.not.have.been.called;
       await act(() => vi.runAllTimers());
-      props.dataSource.should.have.been.calledOnce;
+      expect(props.dataSource).to.have.been.calledOnce;
     });
 
     it('should create popup when autoOpen', async () => {
@@ -208,7 +208,7 @@ describe('Query Assist', () => {
         renderQueryAssist({
           autoOpen: true,
           dataSource: params => {
-            params.should.not.have.property('omitSuggestions');
+            expect(params).to.not.have.property('omitSuggestions');
             resolve();
             return dataSource(params);
           },
@@ -220,7 +220,7 @@ describe('Query Assist', () => {
       await new Promise<void>(resolve => {
         renderQueryAssist({
           dataSource: params => {
-            params.should.have.property('omitSuggestions', true);
+            expect(params).to.have.property('omitSuggestions', true);
             resolve();
             return dataSource(params);
           },
@@ -235,14 +235,14 @@ describe('Query Assist', () => {
     it('should pass className', () => {
       const queryAssist = renderQueryAssist({className: 'test-class'});
 
-      queryAssist.should.have.class('test-class');
+      expect(queryAssist).to.have.class('test-class');
     });
 
     it('should render letters', () => {
       const queryAssist = renderQueryAssist();
 
-      queryAssist.should.contain(`.${LETTER_CLASS}`);
-      queryAssist.querySelectorAll(`.${LETTER_CLASS}`).should.have.length(testQueryLength);
+      expect(queryAssist).to.contain(`.${LETTER_CLASS}`);
+      expect(queryAssist.querySelectorAll(`.${LETTER_CLASS}`)).to.have.length(testQueryLength);
     });
 
     it('should support undo', async () => {
@@ -257,7 +257,7 @@ describe('Query Assist', () => {
 
       await waitForSetStateCallbacks();
 
-      getByRole(queryAssist, 'textbox').should.have.text(testQuery);
+      expect(getByRole(queryAssist, 'textbox')).to.have.text(testQuery);
     });
 
     it('should render nothing on empty query', () => {
@@ -265,7 +265,7 @@ describe('Query Assist', () => {
         query: '',
       });
       const input = getByRole(queryAssist, 'textbox');
-      input.textContent!.should.be.empty;
+      expect(input.textContent!).to.be.empty;
     });
 
     it('should render nothing on falsy query', () => {
@@ -273,7 +273,7 @@ describe('Query Assist', () => {
         query: null,
       });
       const input = getByRole(queryAssist, 'textbox');
-      input.textContent!.should.be.empty;
+      expect(input.textContent!).to.be.empty;
     });
 
     it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', () => {
@@ -284,7 +284,7 @@ describe('Query Assist', () => {
       rerender(<QueryAssist {...props} />);
       rerender(<QueryAssist {...props} />);
 
-      props.dataSource.should.have.been.calledOnce;
+      expect(props.dataSource).to.have.been.calledOnce;
     });
 
     it('should render placeholder when enabled on empty query', () => {
@@ -293,8 +293,8 @@ describe('Query Assist', () => {
         placeholder: 'plz',
       });
       const placeholder = getByTestId(queryAssist, 'query-assist-placeholder');
-      placeholder.should.exist;
-      placeholder.should.have.text('plz');
+      expect(placeholder).to.exist;
+      expect(placeholder).to.have.text('plz');
     });
 
     it('should not render placeholder when disabled on empty query', () => {
@@ -302,7 +302,7 @@ describe('Query Assist', () => {
         query: '',
       });
       const placeholder = queryByTestId(queryAssist, 'query-assist-placeholder');
-      should.not.exist(placeholder);
+      expect(placeholder).to.not.exist;
     });
 
     it('should render with colors', async () => {
@@ -323,10 +323,10 @@ describe('Query Assist', () => {
       await waitForSetStateCallbacks();
       const letters = queryAssist.querySelectorAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(styles['letter-text']);
-      letters[1].should.have.class(styles['letter-field-value']);
-      letters[2].should.have.class(styles['letter-field-name']);
-      letters[3].should.have.class(styles['letter-operator']);
+      expect(letters[0]).to.have.class(styles['letter-text']);
+      expect(letters[1]).to.have.class(styles['letter-field-value']);
+      expect(letters[2]).to.have.class(styles['letter-field-name']);
+      expect(letters[3]).to.have.class(styles['letter-operator']);
     });
 
     it('should render last text range with default style when applied', async () => {
@@ -349,9 +349,9 @@ describe('Query Assist', () => {
 
       const letters = queryAssist.querySelectorAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(styles['letter-text']);
-      letters[1].should.have.class(styles.letterDefault);
-      letters[2].should.have.class(styles.letterDefault);
+      expect(letters[0]).to.have.class(styles['letter-text']);
+      expect(letters[1]).to.have.class(styles.letterDefault);
+      expect(letters[2]).to.have.class(styles.letterDefault);
     });
 
     it('should render last text range with text style when applied', async () => {
@@ -371,9 +371,9 @@ describe('Query Assist', () => {
       await waitForSetStateCallbacks();
       const letters = queryAssist.querySelectorAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(styles['letter-text']);
-      letters[1].should.have.class(styles.letterDefault);
-      letters[2].should.have.class(styles['letter-text']);
+      expect(letters[0]).to.have.class(styles['letter-text']);
+      expect(letters[1]).to.have.class(styles.letterDefault);
+      expect(letters[2]).to.have.class(styles['letter-text']);
     });
 
     it('should disable field when component disabled', () => {
@@ -381,7 +381,7 @@ describe('Query Assist', () => {
         disabled: true,
       });
       const input = getByRole(queryAssist, 'textbox');
-      input.should.have.attr('contenteditable', 'false');
+      expect(input).to.have.attr('contenteditable', 'false');
     });
 
     it('should render glass when enabled', () => {
@@ -390,7 +390,7 @@ describe('Query Assist', () => {
       });
 
       const glass = getByTestId(queryAssist, 'query-assist-search-icon');
-      glass.should.exist;
+      expect(glass).to.exist;
     });
 
     it('should not render glass when disabled', () => {
@@ -399,7 +399,7 @@ describe('Query Assist', () => {
       });
 
       const glass = queryByTestId(queryAssist, 'query-assist-search-icon');
-      should.not.exist(glass);
+      expect(glass).to.not.exist;
     });
 
     it('should render clear when enabled', () => {
@@ -408,7 +408,7 @@ describe('Query Assist', () => {
       });
 
       const clear = getByTestId(queryAssist, 'query-assist-clear-icon');
-      clear.should.exist;
+      expect(clear).to.exist;
     });
 
     it('should not render clear when disabled', () => {
@@ -417,7 +417,7 @@ describe('Query Assist', () => {
       });
 
       const clear = queryByTestId(queryAssist, 'query-assist-clear-icon');
-      should.not.exist(clear);
+      expect(clear).to.not.exist;
     });
 
     it('should not render clear when query is empty', () => {
@@ -427,7 +427,7 @@ describe('Query Assist', () => {
       });
 
       const clear = queryByTestId(queryAssist, 'query-assist-clear-icon');
-      should.not.exist(clear);
+      expect(clear).to.not.exist;
     });
 
     it('should show loader on long request', async () => {
@@ -438,7 +438,7 @@ describe('Query Assist', () => {
 
       await act(() => vi.runAllTimers());
       const loader = getByTestId(queryAssist, 'ring-loader-inline');
-      loader.should.exist;
+      expect(loader).to.exist;
     });
   });
 
@@ -463,7 +463,7 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
-      popup.should.have.attr('data-test-shown', 'false');
+      expect(popup).to.have.attr('data-test-shown', 'false');
     });
 
     it('should show popup when suggestions provided', async () => {
@@ -474,9 +474,9 @@ describe('Query Assist', () => {
       });
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
-      popup.should.have.attr('data-test-shown', 'true');
+      expect(popup).to.have.attr('data-test-shown', 'true');
       const list = getByTestId(popup, 'ring-list');
-      list.should.exist;
+      expect(list).to.exist;
     });
 
     it('should close popup with after zero suggestions provided', async () => {
@@ -494,7 +494,7 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('ctrl+space'));
       await waitForSetStateCallbacks();
       const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
-      popup.should.have.attr('data-test-shown', 'false');
+      expect(popup).to.have.attr('data-test-shown', 'false');
     });
 
     it('should show popup with proper suggestions', async () => {
@@ -511,9 +511,9 @@ describe('Query Assist', () => {
 
       const {length} = suggestions;
 
-      list!.querySelectorAll('[data-test~=ring-list-item]').should.have.length(length);
-      list!.querySelectorAll(`.${styles.highlight}`).should.have.length(length);
-      list!.querySelectorAll(`.${styles.service}`).should.have.length(length * TWICE);
+      expect(list!.querySelectorAll('[data-test~=ring-list-item]')).to.have.length(length);
+      expect(list!.querySelectorAll(`.${styles.highlight}`)).to.have.length(length);
+      expect(list!.querySelectorAll(`.${styles.service}`)).to.have.length(length * TWICE);
     });
   });
 
@@ -534,7 +534,7 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('tab'));
 
       const input = getByRole(queryAssist, 'textbox');
-      input.should.have.text(getSuggestionText(suggestions[0]));
+      expect(input).to.have.text(getSuggestionText(suggestions[0]));
     });
 
     it('should complete selected suggestion by enter in the end of phrase', async () => {
@@ -547,7 +547,7 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('enter'));
 
       const input = getByRole(queryAssist, 'textbox');
-      input.should.have.text(getSuggestionText(suggestions[0]));
+      expect(input).to.have.text(getSuggestionText(suggestions[0]));
     });
 
     it('should complete by tab in the middle of phrase', async () => {
@@ -560,7 +560,7 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('tab'));
 
       const input = getByRole(queryAssist, 'textbox');
-      input.should.have.text(getSuggestionText(suggestions[0]));
+      expect(input).to.have.text(getSuggestionText(suggestions[0]));
     });
 
     it('should complete selected suggestion by enter in the middle of phrase', async () => {
@@ -574,7 +574,7 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('enter'));
 
       const input = getByRole(queryAssist, 'textbox');
-      input.should.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
+      expect(input).to.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
     });
 
     it('should complete selected suggestion by tab in the middle of phrase', async () => {
@@ -590,7 +590,7 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('tab'));
 
       const input = getByRole(queryAssist, 'textbox');
-      input.should.have.text(getSuggestionText(suggestions[2]));
+      expect(input).to.have.text(getSuggestionText(suggestions[2]));
     });
 
     it('should undo last applied completion', async () => {
@@ -606,9 +606,9 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('tab'));
 
       const input = getByRole(queryAssist, 'textbox');
-      input.should.not.have.text(completeQuery);
+      expect(input).to.not.have.text(completeQuery);
       await act(() => simulateCombo('meta+z'));
-      input.should.have.text(completeQuery);
+      expect(input).to.have.text(completeQuery);
     });
   });
 
@@ -624,7 +624,7 @@ describe('Query Assist', () => {
       });
 
       await act(() => simulateCombo('enter'));
-      onApply.should.have.been.calledWithMatch({
+      expect(onApply).to.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength,
       });
@@ -636,7 +636,7 @@ describe('Query Assist', () => {
       });
 
       await act(() => simulateCombo('ctrl+enter'));
-      onApply.should.have.been.calledWithMatch({
+      expect(onApply).to.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength,
       });
@@ -651,7 +651,7 @@ describe('Query Assist', () => {
       const clear = getByTestId(queryAssist, 'query-assist-clear-icon');
       const user = userEvent.setup();
       await user.click(clear);
-      onClear.should.have.been.calledWithExactly();
+      expect(onClear).to.have.been.calledWithExactly();
     });
   });
 
@@ -668,7 +668,7 @@ describe('Query Assist', () => {
       await act(() => simulateCombo('ctrl+space'));
       await act(() => vi.runAllTimers());
 
-      props.dataSource.should.have.been.calledOnce;
+      expect(props.dataSource).to.have.been.calledOnce;
     });
   });
 
@@ -678,8 +678,8 @@ describe('Query Assist', () => {
         actions: [<div id={'A'} key={'A'} />, <div id={'B'} key={'B'} />],
       });
 
-      queryAssist.querySelector('#A')!.should.exist;
-      queryAssist.querySelector('#B')!.should.exist;
+      expect(queryAssist.querySelector('#A')!).to.exist;
+      expect(queryAssist.querySelector('#B')!).to.exist;
     });
   });
 });

@@ -29,37 +29,37 @@ describe('UserCard', () => {
 
     it('should create component', () => {
       const {container} = renderCard();
-      container.querySelector('div')?.should.exist;
+      expect(container.querySelector('div')).to.exist;
     });
 
     it('should wrap children with span', () => {
       const {container} = renderCard();
-      container.querySelector('div')?.should.exist;
+      expect(container.querySelector('div')).to.exist;
     });
 
     it('should render link', () => {
       renderCard({user: {...fakeUser, href: 'http://example.com'}});
-      screen.getByTestId('ring-link user-card-link').should.exist;
+      expect(screen.getByTestId('ring-link user-card-link')).to.exist;
     });
 
     it('should not render link if user has no href', () => {
       const {container} = renderCard({user: {...fakeUser, href: null}});
-      container.should.not.have.descendants('a[data-test~=user-card-link]');
+      expect(container).to.not.have.descendants('a[data-test~=user-card-link]');
     });
 
     it('should use passed className', () => {
       const {container} = renderCard({className: 'test-class'});
-      container.querySelector('.test-class')?.should.exist;
+      expect(container.querySelector('.test-class')).to.exist;
     });
 
     it('should use pass rest props to dom node', () => {
       const {container} = renderCard({'data-test': 'foo'});
-      container.querySelector('[data-test="foo"]')?.should.exist;
+      expect(container.querySelector('[data-test="foo"]')).to.exist;
     });
 
     it('should render user avatar if available', () => {
       const {container} = renderCard();
-      container.querySelector('img')?.should.exist;
+      expect(container.querySelector('img')).to.exist;
     });
   });
 
@@ -75,7 +75,7 @@ describe('UserCard', () => {
 
     it('should render anchor', () => {
       renderTooltip();
-      screen.getByTestId('anchor').should.exist;
+      expect(screen.getByTestId('anchor')).to.exist;
     });
 
     it('should allow to render multiple children', () => {
@@ -85,7 +85,7 @@ describe('UserCard', () => {
           <span data-test="anchor">{'foo'}</span>
         </UserCardTooltip>,
       );
-      screen.getAllByTestId('anchor').should.have.length(2);
+      expect(screen.getAllByTestId('anchor')).to.have.length(2);
     });
   });
 
@@ -111,7 +111,7 @@ describe('UserCard', () => {
       userEvent.hover(tooltip);
       await screen.findByText('foo');
 
-      userSource.should.have.been.called;
+      expect(userSource).to.have.been.called;
     });
   });
 });

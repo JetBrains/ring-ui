@@ -19,33 +19,33 @@ describe('i18n singleton', () => {
   it('should return the value for an existing key', () => {
     setTranslations({login: 'bar'});
     const result = translate('login');
-    result.should.equal('bar');
+    expect(result).to.equal('bar');
   });
 
   it('should log a warning for a missing key', () => {
     setTranslations({login: 'bar'});
     translate('filterItems');
-    consoleWarnStub.calledOnce.should.be.true;
-    consoleWarnStub.firstCall.args[0].should.equal('Missing localisation for key "filterItems"');
+    expect(consoleWarnStub.calledOnce).to.be.true;
+    expect(consoleWarnStub.firstCall.args[0]).to.equal('Missing localisation for key "filterItems"');
   });
 
   it('should log a warning only once for a missing key', () => {
     setTranslations({login: 'bar'});
     translate('decline');
     translate('decline');
-    consoleWarnStub.calledOnce.should.be.true;
+    expect(consoleWarnStub.calledOnce).to.be.true;
   });
 
   it('should return a merged object with the translations and default messages', () => {
     setTranslations({logout: 'bar'});
     const result = getTranslationsWithFallback();
-    result.login.should.equal(defaultMessages.login);
-    result.logout.should.equal('bar');
+    expect(result.login).to.equal(defaultMessages.login);
+    expect(result.logout).to.equal('bar');
   });
 
   it('should return the current translations object', () => {
     setTranslations({login: 'bar'});
     const result = getTranslations();
-    result.should.deep.equal({login: 'bar'});
+    expect(result).to.deep.equal({login: 'bar'});
   });
 });

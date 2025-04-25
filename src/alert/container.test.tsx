@@ -10,6 +10,6 @@ describe('Alert Container', () => {
         <Alert>{'Test'}</Alert>
       </AlertContainer>,
     );
-    screen.getByTestId('alert-container').should.exist;
+    expect(screen.getByTestId('alert-container')).to.exist;
   });
 });

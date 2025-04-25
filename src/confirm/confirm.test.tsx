@@ -11,10 +11,10 @@ describe('Confirm', () => {
   };
 
   it('should create component', () => {
-    renderConfirm().should.exist;
+    expect(renderConfirm()).to.exist;
   });
 
   it('should render confirm', () => {
-    renderConfirm().should.contain(`.${islandStyles.title}`);
+    expect(renderConfirm()).to.contain(`.${islandStyles.title}`);
   });
 });

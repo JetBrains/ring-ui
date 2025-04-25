@@ -5,6 +5,6 @@ import ButtonGroup from './button-group';
 describe('Button Group', () => {
   it('should create component', () => {
     render(<ButtonGroup />);
-    screen.getByTestId('ring-button-group').should.exist;
+    expect(screen.getByTestId('ring-button-group')).to.exist;
   });
 });

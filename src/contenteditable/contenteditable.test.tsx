@@ -9,12 +9,12 @@ describe('ContentEditable', () => {
 
   it('should create component', () => {
     render(<ContentEditable />);
-    screen.getByRole('textbox').should.exist;
+    expect(screen.getByRole('textbox')).to.exist;
   });
 
   it('should pass other properties', () => {
     render(<ContentEditable className="test" />);
-    screen.getByRole('textbox').should.have.class('test');
+    expect(screen.getByRole('textbox')).to.have.class('test');
   });
 
   it('should dangerously set html', () => {
@@ -23,7 +23,7 @@ describe('ContentEditable', () => {
         <b>{'bold'}</b>
       </ContentEditable>,
     );
-    screen.getByText('bold').should.have.tagName('b');
+    expect(screen.getByText('bold')).to.have.tagName('b');
   });
 
   it('should render only on html / disabled change', () => {
@@ -35,23 +35,23 @@ describe('ContentEditable', () => {
       </ContentEditable>,
     );
 
-    stub.should.have.been.calledTwice;
+    expect(stub).to.have.been.calledTwice;
   });
 
   it('should not render on other props change', () => {
     const {rerender} = render(<ContentEditable onComponentUpdate={stub} />);
     rerender(<ContentEditable onComponentUpdate={stub} className="testtest" />);
 
-    stub.should.not.have.been.called;
+    expect(stub).to.not.have.been.called;
   });
 
   it('should set tabindex equal zero by default', () => {
     render(<ContentEditable />);
-    screen.getByRole('textbox').should.have.attr('tabindex', '0');
+    expect(screen.getByRole('textbox')).to.have.attr('tabindex', '0');
   });
 
   it('should allow pass custom tabindex', () => {
     render(<ContentEditable tabIndex={-1} />);
-    screen.getByRole('textbox').should.have.attr('tabindex', '-1');
+    expect(screen.getByRole('textbox')).to.have.attr('tabindex', '-1');
   });
 });

@@ -39,7 +39,7 @@ describe('Permissions', () => {
   it('should create permissions', () => {
     const permissions = new Permissions(createAuthMock());
 
-    permissions.should.be.ok;
+    expect(permissions).to.be.ok;
   });
 
   it('should load permissions', async () => {
@@ -50,7 +50,7 @@ describe('Permissions', () => {
 
     await new Promise<void>(resolve => {
       permissions.load().then(permissionsCache => {
-        permissionsCache.has('A').should.be.true;
+        expect(permissionsCache.has('A')).to.be.true;
         resolve();
       });
     });
@@ -61,7 +61,7 @@ describe('Permissions', () => {
     const permissionsData = [createPermission('A')];
     const permissions = new Permissions(auth);
 
-    permissions.set(permissionsData).has('A').should.be.true;
+    expect(permissions.set(permissionsData).has('A')).to.be.true;
   });
 
   it('should allow get permissions data', () => {
@@ -71,7 +71,7 @@ describe('Permissions', () => {
 
     permissions.set(permissionsData);
 
-    permissions.get()!.should.equal(permissionsData);
+    expect(permissions.get()!).to.equal(permissionsData);
   });
 
   describe('cacheControl', () => {
@@ -91,19 +91,19 @@ describe('Permissions', () => {
       permissions.load();
       await new Promise<void>(resolve => {
         permissions.load().then(permissionsCache => {
-          permissionsCache.has('A').should.be.true;
+          expect(permissionsCache.has('A')).to.be.true;
           resolve();
         });
       });
 
-      auth.http.get.should.have.been.calledOnce;
+      expect(auth.http.get).to.have.been.calledOnce;
     });
 
     it('should reload permissions', function _() {
       permissions.load();
       permissions.reload();
 
-      auth.http.get.should.have.been.calledTwice;
+      expect(auth.http.get).to.have.been.calledTwice;
     });
 
     it('should not cache response', function _() {
@@ -112,7 +112,7 @@ describe('Permissions', () => {
       });
       permissions.load();
 
-      auth.http.get.should.have.been.calledTwice;
+      expect(auth.http.get).to.have.been.calledTwice;
     });
 
     it('should ignore cache', function _() {
@@ -124,7 +124,7 @@ describe('Permissions', () => {
       permissions.load();
       permissions.load();
 
-      auth.http.get.should.have.been.calledTwice;
+      expect(auth.http.get).to.have.been.calledTwice;
     });
 
     it('should ignore cache and do not update cache', function _() {
@@ -138,7 +138,7 @@ describe('Permissions', () => {
       });
       permissions.load();
 
-      auth.http.get.should.have.been.calledTwice;
+      expect(auth.http.get).to.have.been.calledTwice;
     });
   });
 
@@ -146,32 +146,32 @@ describe('Permissions', () => {
     const auth = createAuthMock();
 
     it("shouldn't build query if no services ids provided", () => {
-      should.not.exist(new Permissions(auth).query);
+      expect(new Permissions(auth).query).to.not.exist;
     });
 
     it('should build query if one service provided', () => {
-      new Permissions(auth, {services: ['0-0-0-0-2']}).query!.should.equal('service:{0-0-0-0-2}');
+      expect(new Permissions(auth, {services: ['0-0-0-0-2']}).query!).to.equal('service:{0-0-0-0-2}');
     });
 
     it('should build query if several services provided', () => {
-      new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query!.should.equal(
+      expect(new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query!).to.equal(
         'service:{0-0-0-0-0} or service:{0-0-0-0-2}',
       );
     });
 
     it('should check no namesConverter if no config params', () => {
-      should.not.exist(new Permissions(auth).namesConverter);
+      expect(new Permissions(auth).namesConverter).to.not.exist;
     });
 
     it('should create namesConverter for prefix', () => {
       const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.'});
-      permissions.namesConverter!.should.not.equal(undefined);
-      permissions.namesConverter!('jetbrains.jetpass.project-read').should.equal('project-read');
+      expect(permissions.namesConverter!).to.not.equal(undefined);
+      expect(permissions.namesConverter!('jetbrains.jetpass.project-read')).to.equal('project-read');
     });
 
     it('should require auth', () => {
       // @ts-expect-error testing a wrong usage
-      () => new Permissions().should.throw(Error, 'Parameter auth is required');
+      expect(() => new Permissions()).to.throw(Error, 'Parameter auth is required');
     });
 
     describe('construction with defined namesConverter', () => {
@@ -180,7 +180,7 @@ describe('Permissions', () => {
       }
 
       it('should pass permission names converter', () => {
-        new Permissions(auth, {namesConverter: converter}).namesConverter!.should.equal(converter);
+        expect(new Permissions(auth, {namesConverter: converter}).namesConverter!).to.equal(converter);
       });
 
       it('should use default permission names converter if prefix defined', () => {
@@ -189,8 +189,8 @@ describe('Permissions', () => {
           prefix: 'jetbrains.jetpass.',
         };
         const permissions = new Permissions(auth, args);
-        permissions.namesConverter!.should.not.equal(undefined);
-        permissions.namesConverter!('jetbrains.jetpass.project-read').should.equal('project-read');
+        expect(permissions.namesConverter!).to.not.equal(undefined);
+        expect(permissions.namesConverter!('jetbrains.jetpass.project-read')).to.equal('project-read');
       });
     });
   });
@@ -204,8 +204,8 @@ describe('Permissions', () => {
 
       permissions.reload();
 
-      should.not.exist(permissions._promise);
-      permissions.load.should.have.been.called;
+      expect(permissions._promise).to.not.exist;
+      expect(permissions.load).to.have.been.called;
     });
   });
 
@@ -220,101 +220,101 @@ describe('Permissions', () => {
     );
 
     it('should not permit unlisted permission', () => {
-      permissionCache.has('role-update').should.be.false;
-      permissionCache.has('role-update', '123').should.be.false;
+      expect(permissionCache.has('role-update')).to.be.false;
+      expect(permissionCache.has('role-update', '123')).to.be.false;
     });
 
     it('should permit global permission', () => {
-      permissionCache.has('project-read').should.be.true;
-      permissionCache.has('project-read', '123').should.be.true;
-      permissionCache.has('project-read', '456').should.be.true;
+      expect(permissionCache.has('project-read')).to.be.true;
+      expect(permissionCache.has('project-read', '123')).to.be.true;
+      expect(permissionCache.has('project-read', '456')).to.be.true;
     });
 
     it('should work for projectId "global"', () => {
-      permissionCache.has('project-read', PermissionCache.GLOBAL_PROJECT_ID).should.be.true;
-      permissionCache.has('project-update', PermissionCache.GLOBAL_PROJECT_ID).should.be.false;
+      expect(permissionCache.has('project-read', PermissionCache.GLOBAL_PROJECT_ID)).to.be.true;
+      expect(permissionCache.has('project-update', PermissionCache.GLOBAL_PROJECT_ID)).to.be.false;
     });
 
     it('should permit if user has permission in project', () => {
-      permissionCache.has('project-update').should.be.true;
-      permissionCache.has('project-update', '123').should.be.true;
+      expect(permissionCache.has('project-update')).to.be.true;
+      expect(permissionCache.has('project-update', '123')).to.be.true;
     });
 
     it('should not permit if user has no permission in project', () => {
-      permissionCache.has('project-update', '456').should.be.false;
+      expect(permissionCache.has('project-update', '456')).to.be.false;
     });
 
     it("should match full permission key if it doesn't start with the provided prefix", () => {
-      permissionCache.has('jetbrains.upsource.permission.project.admin', '456').should.be.true;
+      expect(permissionCache.has('jetbrains.upsource.permission.project.admin', '456')).to.be.true;
     });
 
     it('should permit if user has all permissions', () => {
-      permissionCache.has('project-read project-update', '123').should.be.true;
+      expect(permissionCache.has('project-read project-update', '123')).to.be.true;
     });
 
     it("should not permit if user doesn't have some permissions", () => {
-      permissionCache.has('project-read project-update', '456').should.be.false;
-      permissionCache.has('project-read role-update').should.be.false;
+      expect(permissionCache.has('project-read project-update', '456')).to.be.false;
+      expect(permissionCache.has('project-read role-update')).to.be.false;
     });
 
     describe('syntax', () => {
       it('should support disjunction', () => {
-        permissionCache.has('a | project-read').should.be.true;
-        permissionCache.has('a | b').should.be.false;
+        expect(permissionCache.has('a | project-read')).to.be.true;
+        expect(permissionCache.has('a | b')).to.be.false;
       });
 
       it('should support conjunction', () => {
-        permissionCache.has('a & project-read').should.be.false;
-        permissionCache.has('project-read & project-update').should.be.true;
+        expect(permissionCache.has('a & project-read')).to.be.false;
+        expect(permissionCache.has('project-read & project-update')).to.be.true;
       });
 
       it('should support negation', () => {
-        permissionCache.has('!project-read').should.be.false;
-        permissionCache.has('!a').should.be.true;
-        permissionCache.has('!a & project-read').should.be.true;
-        permissionCache.has('!a & !project-read').should.be.false;
-        permissionCache.has('!a | !project-read').should.be.true;
+        expect(permissionCache.has('!project-read')).to.be.false;
+        expect(permissionCache.has('!a')).to.be.true;
+        expect(permissionCache.has('!a & project-read')).to.be.true;
+        expect(permissionCache.has('!a & !project-read')).to.be.false;
+        expect(permissionCache.has('!a | !project-read')).to.be.true;
       });
 
       it('should support negation with defined project-id', () => {
-        permissionCache.has('!project-read', '123').should.be.false;
-        permissionCache.has('!project-update', '123').should.be.false;
-        permissionCache.has('!project-update', '456').should.be.true;
+        expect(permissionCache.has('!project-read', '123')).to.be.false;
+        expect(permissionCache.has('!project-update', '123')).to.be.false;
+        expect(permissionCache.has('!project-update', '456')).to.be.true;
       });
 
       it('should support parens', () => {
-        permissionCache.has('(((project-read | a))) & (project-update)').should.be.true;
+        expect(permissionCache.has('(((project-read | a))) & (project-update)')).to.be.true;
       });
 
       it('should support parens with negations', () => {
-        permissionCache.has('!(project-read)').should.be.false;
-        permissionCache.has('!(a)').should.be.true;
-        permissionCache.has('project-read & !(a)').should.be.true;
-        permissionCache.has('!(a | project-read)').should.be.false;
-        permissionCache.has('!(a | !project-read)').should.be.true;
+        expect(permissionCache.has('!(project-read)')).to.be.false;
+        expect(permissionCache.has('!(a)')).to.be.true;
+        expect(permissionCache.has('project-read & !(a)')).to.be.true;
+        expect(permissionCache.has('!(a | project-read)')).to.be.false;
+        expect(permissionCache.has('!(a | !project-read)')).to.be.true;
       });
 
       it('should support multiple negations', () => {
-        permissionCache.has('!!project-read').should.be.true;
-        permissionCache.has('!!(a)').should.be.false;
-        permissionCache.has('!!!a').should.be.true;
-        permissionCache.has('!(!(a | !project-read))').should.be.false;
-        permissionCache.has('!(!(!(a | !project-read)))').should.be.true;
+        expect(permissionCache.has('!!project-read')).to.be.true;
+        expect(permissionCache.has('!!(a)')).to.be.false;
+        expect(permissionCache.has('!!!a')).to.be.true;
+        expect(permissionCache.has('!(!(a | !project-read))')).to.be.false;
+        expect(permissionCache.has('!(!(!(a | !project-read)))')).to.be.true;
       });
 
       it('should be true for blank', () => {
-        permissionCache.has(null).should.be.true;
-        permissionCache.has('').should.be.true;
-        permissionCache.has('  \t \n ').should.be.true;
+        expect(permissionCache.has(null)).to.be.true;
+        expect(permissionCache.has('')).to.be.true;
+        expect(permissionCache.has('  \t \n ')).to.be.true;
       });
 
       it('should fail gracefully', () => {
-        permissionCache.has('|').should.be.false;
-        permissionCache.has('a & ').should.be.false;
-        permissionCache.has('(a').should.be.false;
-        permissionCache.has('(').should.be.false;
-        permissionCache.has('!').should.be.false;
-        permissionCache.has('!!').should.be.false;
+        expect(permissionCache.has('|')).to.be.false;
+        expect(permissionCache.has('a & ')).to.be.false;
+        expect(permissionCache.has('(a')).to.be.false;
+        expect(permissionCache.has('(')).to.be.false;
+        expect(permissionCache.has('!')).to.be.false;
+        expect(permissionCache.has('!!')).to.be.false;
       });
     });
 
@@ -334,25 +334,25 @@ describe('Permissions', () => {
       );
 
       it('should not permit nonexistent permission', () => {
-        permissionCacheWithConverter.has('work-item-update').should.be.false;
-        permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_WORK_ITEM').should.be.false;
+        expect(permissionCacheWithConverter.has('work-item-update')).to.be.false;
+        expect(permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_WORK_ITEM')).to.be.false;
       });
 
       it('should permit global permission', () => {
-        permissionCacheWithConverter.has('project-read').should.be.true;
-        permissionCacheWithConverter.has('project-read', '123').should.be.true;
-        permissionCacheWithConverter.has('project-read', '456').should.be.true;
+        expect(permissionCacheWithConverter.has('project-read')).to.be.true;
+        expect(permissionCacheWithConverter.has('project-read', '123')).to.be.true;
+        expect(permissionCacheWithConverter.has('project-read', '456')).to.be.true;
       });
 
       it('should check non-global permission', () => {
-        permissionCacheWithConverter.has('update-not-own-work-item').should.be.true;
-        permissionCacheWithConverter.has('update-not-own-work-item', '456').should.be.false;
-        permissionCacheWithConverter.has('update-not-own-work-item', '123').should.be.true;
+        expect(permissionCacheWithConverter.has('update-not-own-work-item')).to.be.true;
+        expect(permissionCacheWithConverter.has('update-not-own-work-item', '456')).to.be.false;
+        expect(permissionCacheWithConverter.has('update-not-own-work-item', '123')).to.be.true;
       });
 
       it('should allow use original key for test permission', () => {
-        permissionCacheWithConverter.has('jetbrains.jetpass.project-read').should.be.true;
-        permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.true;
+        expect(permissionCacheWithConverter.has('jetbrains.jetpass.project-read')).to.be.true;
+        expect(permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM')).to.be.true;
       });
     });
   });
@@ -380,43 +380,43 @@ describe('Permissions', () => {
     permissions._promise = Promise.resolve(permissionCache);
 
     it('should resolve to true for given permission', () =>
-      permissions.check('project-read').should.eventually.be.true);
+      expect(permissions.check('project-read')).to.eventually.be.true);
 
     it('should resolve to false for absent permission', () =>
-      permissions.check('role-read').should.eventually.be.false);
+      expect(permissions.check('role-read')).to.eventually.be.false);
 
     it('should bind variable to true for given permission', () => {
       const scope: {canReadProject?: boolean} = {};
       return permissions.bindVariable(scope, 'canReadProject', 'project-read').then(() => {
-        scope.canReadProject!.should.be.true;
+        expect(scope.canReadProject!).to.be.true;
       });
     });
 
     it('should bind variable to true for given permission in project', () => {
       const scope: {canUpdateProject?: boolean} = {};
       return permissions.bindVariable(scope, 'canUpdateProject', 'project-update', '123').then(() => {
-        scope.canUpdateProject!.should.be.true;
+        expect(scope.canUpdateProject!).to.be.true;
       });
     });
 
     it('should bind variable to false for absent permission', () => {
       const scope: {canReadRole?: boolean} = {};
       return permissions.bindVariable(scope, 'canReadRole', 'role-read').then(() => {
-        scope.canReadRole!.should.be.false;
+        expect(scope.canReadRole!).to.be.false;
       });
     });
 
     it('should bind variable to false for absent permission in project', () => {
       const scope: {canUpdateProject?: boolean} = {};
       return permissions.bindVariable(scope, 'canUpdateProject', 'project-update', '456').then(() => {
-        scope.canUpdateProject!.should.be.false;
+        expect(scope.canUpdateProject!).to.be.false;
       });
     });
 
     it('permission cache should not contain permissions with key undefined', () => {
       const scope: {canUpdateSomething?: boolean} = {};
       return permissions.bindVariable(scope, 'canUpdateSomething', 'undefined').then(() => {
-        scope.canUpdateSomething!.should.be.false;
+        expect(scope.canUpdateSomething!).to.be.false;
       });
     });
   });

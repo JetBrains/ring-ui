@@ -41,52 +41,52 @@ describe('Dropdown', () => {
 
   it('should create component', () => {
     renderDropdown();
-    screen.getByTestId('ring-dropdown').should.exist;
+    expect(screen.getByTestId('ring-dropdown')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderDropdown();
-    screen.getByTestId('ring-dropdown').should.have.tagName('div');
+    expect(screen.getByTestId('ring-dropdown')).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
     renderDropdown({className: 'test-class'});
-    screen.getByTestId('ring-dropdown').should.have.class('test-class');
+    expect(screen.getByTestId('ring-dropdown')).to.have.class('test-class');
   });
 
   it('should not show popup by default', () => {
     renderDropdown();
-    should.exist(popup);
-    popup?.isVisible().should.be.false;
+    expect(popup).to.exist;
+    expect(popup?.isVisible()).to.be.false;
   });
 
   it('should show popup on anchor click', async () => {
     renderDropdown();
-    should.exist(anchor);
+    expect(anchor).to.exist;
     anchor && (await userEvent.click(anchor));
-    should.exist(popup);
-    popup?.isVisible().should.be.true;
+    expect(popup).to.exist;
+    expect(popup?.isVisible()).to.be.true;
   });
 
   it('should hide popup on second anchor click', async () => {
     renderDropdown();
-    should.exist(anchor);
+    expect(anchor).to.exist;
     anchor && (await userEvent.click(anchor));
     anchor && (await userEvent.click(anchor));
-    should.exist(popup);
-    popup?.isVisible().should.be.false;
+    expect(popup).to.exist;
+    expect(popup?.isVisible()).to.be.false;
   });
 
   it('should hide popup on outside pointer down event', async () => {
     renderDropdown();
-    should.exist(anchor);
+    expect(anchor).to.exist;
     anchor && (await userEvent.click(anchor));
 
     await new Promise<void>(resolve => {
       setTimeout(() => {
         fireEvent.pointerDown(document);
-        should.exist(popup);
-        popup?.isVisible().should.be.false;
+        expect(popup).to.exist;
+        expect(popup?.isVisible()).to.be.false;
         resolve();
       }, 0);
     });
@@ -94,31 +94,31 @@ describe('Dropdown', () => {
 
   it('should show popup when initialized with initShown=true', () => {
     renderDropdown({initShown: true});
-    should.exist(popup);
-    popup?.isVisible().should.be.true;
+    expect(popup).to.exist;
+    expect(popup?.isVisible()).to.be.true;
   });
 
   it('should accept function as anchor', () => {
     const anchorFunc = sandbox.stub().returns(anchorElement);
     renderDropdown({anchor: anchorFunc});
 
-    anchorFunc.should.have.been.calledWithMatch({active: false});
+    expect(anchorFunc).to.have.been.calledWithMatch({active: false});
   });
 
   it('should pass active property to anchor function', async () => {
     const anchorFunc = sandbox.stub().returns(anchorElement);
     renderDropdown({anchor: anchorFunc});
-    should.exist(anchor);
+    expect(anchor).to.exist;
     anchor && (await userEvent.click(anchor));
 
-    anchorFunc.should.have.been.calledTwice;
-    anchorFunc.getCall(1).calledWithMatch({active: true}).should.be.true;
+    expect(anchorFunc).to.have.been.calledTwice;
+    expect(anchorFunc.getCall(1).calledWithMatch({active: true})).to.be.true;
   });
 
   it('should render <Anchor> with child if type of anchor property is string', () => {
     const anchorText = 'Test anchor text';
     renderDropdown({anchor: anchorText});
-    screen.getByText(anchorText).should.exist;
+    expect(screen.getByText(anchorText)).to.exist;
   });
 
   describe('hoverMode', () => {
@@ -152,8 +152,8 @@ describe('Dropdown', () => {
       fireEvent.mouseEnter(dropdown);
       act(() => clock.tick(dropDownProps.hoverShowTimeOut));
 
-      should.exist(popupEl);
-      popupEl?.isVisible().should.be.true;
+      expect(popupEl).to.exist;
+      expect(popupEl?.isVisible()).to.be.true;
     });
 
     it('should hide popup on mouse leave', () => {
@@ -164,8 +164,8 @@ describe('Dropdown', () => {
       fireEvent.mouseLeave(dropdown);
       act(() => clock.tick(dropDownProps.hoverHideTimeOut));
 
-      should.exist(popupEl);
-      popupEl?.isVisible().should.be.false;
+      expect(popupEl).to.exist;
+      expect(popupEl?.isVisible()).to.be.false;
     });
 
     it('should not hide popup on mouse leave if wrapper was clicked', () => {
@@ -175,8 +175,8 @@ describe('Dropdown', () => {
       fireEvent.mouseLeave(dropdown);
       act(() => clock.tick(dropDownProps.hoverHideTimeOut));
 
-      should.exist(popupEl);
-      popupEl?.isVisible().should.be.true;
+      expect(popupEl).to.exist;
+      expect(popupEl?.isVisible()).to.be.true;
     });
 
     it('should not hide popup on click if popup is already opened by hover popup', () => {
@@ -186,8 +186,8 @@ describe('Dropdown', () => {
 
       fireEvent.click(dropdown);
 
-      should.exist(popupEl);
-      popupEl?.isVisible().should.be.true;
+      expect(popupEl).to.exist;
+      expect(popupEl?.isVisible()).to.be.true;
     });
   });
 });

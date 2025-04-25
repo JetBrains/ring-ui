@@ -20,14 +20,14 @@ describe('Tags Input', () => {
   describe('DOM', () => {
     it('should render select', () => {
       const {select} = renderTagsInput();
-      select.should.exist;
+      expect(select).to.exist;
     });
 
     it('Should use passed className', () => {
       const {tagsInput} = renderTagsInput({
         className: 'test-class',
       });
-      tagsInput?.should.have.class('test-class');
+      expect(tagsInput).to.have.class('test-class');
     });
   });
 
@@ -41,7 +41,7 @@ describe('Tags Input', () => {
       rerender(<TagsInput tags={newTags} onAddTag={onAddTag} />);
 
       // Check if the new tag is rendered
-      screen.getByText('test2').should.exist;
+      expect(screen.getByText('test2')).to.exist;
     });
 
     it('Should remove tag', async () => {
@@ -54,7 +54,7 @@ describe('Tags Input', () => {
       await user.click(removeButton);
 
       // Check if onRemoveTag was called
-      onRemoveTag.should.have.been.called;
+      expect(onRemoveTag).to.have.been.called;
     });
 
     it('Should copy tags to state on receiving props', () => {
@@ -64,7 +64,7 @@ describe('Tags Input', () => {
 
       // Check if the new tag is rendered and old tag is removed
       expect(screen.queryByText('test1')).to.be.null;
-      screen.getByText('test5').should.exist;
+      expect(screen.getByText('test5')).to.exist;
     });
   });
 
@@ -78,7 +78,7 @@ describe('Tags Input', () => {
       await user.click(input);
 
       // Check if dataSource was called
-      dataSource.should.have.been.called;
+      expect(dataSource).to.have.been.called;
     });
 
     it('Should call datasource with query entered', async () => {
@@ -90,7 +90,7 @@ describe('Tags Input', () => {
       await user.type(input, 'testquery');
 
       // Check if dataSource was called with the query
-      dataSource.should.have.been.calledWith({query: 'testquery'});
+      expect(dataSource).to.have.been.calledWith({query: 'testquery'});
     });
   });
 
@@ -105,7 +105,7 @@ describe('Tags Input', () => {
 
       fireEvent.keyDown(input, {key: 'Backspace'});
 
-      onRemoveTag.should.have.been.called;
+      expect(onRemoveTag).to.have.been.called;
     });
 
     it('Should not remove tag on pressing backspace if input is not empty', async () => {
@@ -118,7 +118,7 @@ describe('Tags Input', () => {
       fireEvent.keyDown(input, {key: 'Backspace'});
 
       // Check if onRemoveTag was not called
-      onRemoveTag.should.not.have.been.called;
+      expect(onRemoveTag).to.not.have.been.called;
     });
   });
 });

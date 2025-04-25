@@ -39,17 +39,17 @@ describe('Dropdown Menu', () => {
 
   it('should create component', async () => {
     await renderAndWaitForMenuContent({anchor: 'Anchor text'});
-    screen.getByTestId('ring-popup').should.exist;
+    expect(screen.getByTestId('ring-popup')).to.exist;
   });
 
   it('should open List', async () => {
     await renderAndWaitForMenuContent({anchor: 'Anchor text'});
 
     const list = screen.getByTestId('ring-list');
-    list.should.exist;
+    expect(list).to.exist;
 
     //We need it to maintain compatibility between Dropdown Menu and List
-    list.querySelectorAll('[data-test~=ring-list-item]').length.should.equal(0);
+    expect(list.querySelectorAll('[data-test~=ring-list-item]').length).to.equal(0);
   });
 
   it('should pass params to List', async () => {
@@ -58,7 +58,7 @@ describe('Dropdown Menu', () => {
       data: [{key: 'key1'}],
     });
 
-    should.exist(screen.getByTestId('ring-list').querySelector('[data-test~=ring-list-item]'));
+    expect(screen.getByTestId('ring-list').querySelector('[data-test~=ring-list-item]')).to.exist;
   });
 
   it('should add accessibility attributes to anchor', async () => {
@@ -68,7 +68,7 @@ describe('Dropdown Menu', () => {
     });
 
     const anchor = screen.getByRole('button', {name: /^Anchor text/});
-    anchor.getAttribute('aria-owns')!.should.equal('test-list-id');
-    anchor.getAttribute('aria-activedescendant')!.should.contain(':key1');
+    expect(anchor.getAttribute('aria-owns')!).to.equal('test-list-id');
+    expect(anchor.getAttribute('aria-activedescendant')!).to.contain(':key1');
   });
 });

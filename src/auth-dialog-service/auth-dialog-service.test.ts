@@ -21,75 +21,75 @@ describe('Auth Dialog Service', () => {
   it('should show auth dialog', () => {
     hideAuthDialog = authDialog();
     const container = getContainer()?.querySelector(`.${styles.content.split(' ').join('.')}`);
-    should.exist(container);
+    expect(container).to.exist;
   });
 
   it('should show auth dialog text', () => {
     hideAuthDialog = authDialog({title: 'foo'});
     const title = getContainer()?.querySelector(`.${styles.title}`);
-    should.exist(title);
-    title?.should.contain.text('foo');
+    expect(title).to.exist;
+    expect(title).to.contain.text('foo');
   });
 
   it('should show auth dialog error message', () => {
     hideAuthDialog = authDialog({title: 'foo', errorMessage: 'error mess'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain.text('error mess');
+    expect(container).to.exist;
+    expect(container).to.contain.text('error mess');
   });
 
   it('should show auth dialog serviceName', () => {
     hideAuthDialog = authDialog({serviceName: 'My service'});
     const title = getContainer()?.querySelector(`.${styles.title}`);
-    should.exist(title);
-    title?.should.contain.text('Log in to My service');
+    expect(title).to.exist;
+    expect(title).to.contain.text('Log in to My service');
   });
 
   it('should replace serviceName in in title', () => {
     hideAuthDialog = authDialog({title: '==%serviceName%==', serviceName: 'My service'});
     const title = getContainer()?.querySelector(`.${styles.title}`);
-    should.exist(title);
-    title?.should.contain.text('==My service==');
+    expect(title).to.exist;
+    expect(title).to.contain.text('==My service==');
   });
 
   it('should show auth dialog image', () => {
     hideAuthDialog = authDialog({serviceImage: 'image://url'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain('img[src="image://url"]');
+    expect(container).to.exist;
+    expect(container).to.contain('img[src="image://url"]');
   });
 
   it('should show auth dialog button text', () => {
     hideAuthDialog = authDialog({title: 'foo', confirmLabel: 'confirm text'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain.text('confirm text');
+    expect(container).to.exist;
+    expect(container).to.contain.text('confirm text');
   });
 
   it('should show reject button text', () => {
     hideAuthDialog = authDialog({title: 'foo', cancelLabel: 'reject text'});
     const container = getContainer();
-    should.exist(container);
-    container?.should.contain.text('reject text');
+    expect(container).to.exist;
+    expect(container).to.contain.text('reject text');
   });
 
   it('should call onConfirm on confirm click', () => {
     const onConfirm = sandbox.spy();
     hideAuthDialog = authDialog({onConfirm});
     const okButton = getContainer()?.querySelector('*[data-test="auth-dialog-confirm-button"]');
-    should.exist(okButton);
+    expect(okButton).to.exist;
     fireEvent.click(okButton as Element);
 
-    onConfirm.should.have.been.called;
+    expect(onConfirm).to.have.been.called;
   });
 
   it('should call onCancel on cancel click', () => {
     const onCancel = sandbox.spy();
     hideAuthDialog = authDialog({onCancel});
     const cancelButton = getContainer()?.querySelector('*[data-test="auth-dialog-cancel-button"]');
-    should.exist(cancelButton);
+    expect(cancelButton).to.exist;
     fireEvent.click(cancelButton as Element);
 
-    onCancel.should.have.been.called;
+    expect(onCancel).to.have.been.called;
   });
 });

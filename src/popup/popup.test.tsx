@@ -13,13 +13,13 @@ describe('Popup', () => {
 
   it('should create component', () => {
     renderPopup();
-    screen.getByTestId('ring-popup').should.exist;
+    expect(screen.getByTestId('ring-popup')).to.exist;
   });
 
   it('should allow pass DOM node as a target', () => {
     const targetNode = document.createElement('div');
     renderPopup({target: targetNode});
-    getByTestId(targetNode, 'ring-popup').should.exist;
+    expect(getByTestId(targetNode, 'ring-popup')).to.exist;
   });
 
   it('should attempt to close by pressing esc', () => {
@@ -28,7 +28,7 @@ describe('Popup', () => {
 
     simulateCombo('esc');
 
-    onCloseAttempt.should.have.been.called;
+    expect(onCloseAttempt).to.have.been.called;
   });
 
   describe('close by pointer down', () => {
@@ -48,7 +48,7 @@ describe('Popup', () => {
 
       clock.tick(0);
       fireEvent(document.body, downEvent);
-      onCloseAttempt.should.have.been.called;
+      expect(onCloseAttempt).to.have.been.called;
     });
 
     it('should pass event to onCloseAttempt callback when closing by document pointer down event', () => {
@@ -57,7 +57,7 @@ describe('Popup', () => {
 
       clock.tick(0);
       fireEvent(document.body, downEvent);
-      onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'pointerdown'}));
+      expect(onCloseAttempt).to.have.been.calledWith(sinon.match({type: 'pointerdown'}));
     });
 
     it('should not close popup if popup hidden', () => {
@@ -69,7 +69,7 @@ describe('Popup', () => {
 
       clock.tick(0);
       fireEvent(document.body, downEvent);
-      onCloseAttempt.should.not.have.been.called;
+      expect(onCloseAttempt).to.not.have.been.called;
     });
 
     it('should be closed by pointer down event outside the element after show', () => {
@@ -81,7 +81,7 @@ describe('Popup', () => {
       popup.rerender(<Popup {...{children: '', onCloseAttempt, hidden: false}} />);
       clock.tick(0);
       fireEvent(document.body, downEvent);
-      onCloseAttempt.should.have.been.called;
+      expect(onCloseAttempt).to.have.been.called;
     });
 
     it("shouldn't be closed by pointer down event inside the element", () => {
@@ -91,7 +91,7 @@ describe('Popup', () => {
       clock.tick(0);
       const popup = screen.getByTestId('ring-popup');
       fireEvent(popup, downEvent);
-      onCloseAttempt.should.not.have.been.called;
+      expect(onCloseAttempt).to.not.have.been.called;
     });
   });
 
@@ -121,13 +121,13 @@ describe('Popup', () => {
       });
 
       const popupElement = screen.getByTestId('ring-popup');
-      should.exist(popupElement);
+      expect(popupElement).to.exist;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).should.equal(
+      expect(parseInt(getStyles(popupElement).left, 10)).to.equal(
         elementOffset.left + elementOffset.width - popupElement.offsetWidth,
       );
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top - popupElement.offsetHeight);
+      expect(parseInt(getStyles(popupElement).top, 10)).to.equal(elementOffset.top - popupElement.offsetHeight);
     });
 
     it('should limit top by sidePadding if opens to the top', () => {
@@ -144,8 +144,8 @@ describe('Popup', () => {
       });
 
       const popupElement = screen.getByTestId('ring-popup');
-      should.exist(popupElement);
-      getStyles(popupElement).top.should.equal(`${SIDE_PADDING}px`);
+      expect(popupElement).to.exist;
+      expect(getStyles(popupElement).top).to.equal(`${SIDE_PADDING}px`);
     });
 
     it('bottom-right corner', () => {
@@ -159,11 +159,11 @@ describe('Popup', () => {
       });
 
       const popupElement = screen.getByTestId('ring-popup');
-      should.exist(popupElement);
+      expect(popupElement).to.exist;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
+      expect(parseInt(getStyles(popupElement).left, 10)).to.equal(elementOffset.left);
+      expect(parseInt(getStyles(popupElement).top, 10)).to.equal(elementOffset.top + elementOffset.height);
     });
 
     it('should add specified offset', () => {
@@ -180,11 +180,11 @@ describe('Popup', () => {
       });
 
       const popupElement = screen.getByTestId('ring-popup');
-      should.exist(popupElement);
+      expect(popupElement).to.exist;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + OFFSET);
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
+      expect(parseInt(getStyles(popupElement).left, 10)).to.equal(elementOffset.left + OFFSET);
+      expect(parseInt(getStyles(popupElement).top, 10)).to.equal(elementOffset.top + elementOffset.height + OFFSET);
     });
 
     it.skip('Should support minWidth = MinWidth.TARGET', () => {
@@ -199,9 +199,9 @@ describe('Popup', () => {
       });
 
       const popupElement = screen.getByTestId('ring-popup');
-      should.exist(popupElement);
+      expect(popupElement).to.exist;
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      parseInt(getStyles(popupElement).minWidth, 10).should.equal(70);
+      expect(parseInt(getStyles(popupElement).minWidth, 10)).to.equal(70);
       element.remove();
     });
 
@@ -218,8 +218,8 @@ describe('Popup', () => {
       });
 
       const popupElement = screen.getByTestId('ring-popup');
-      should.exist(popupElement);
-      parseInt(popupElement.style.minWidth, 10).should.equal(WIDTH);
+      expect(popupElement).to.exist;
+      expect(parseInt(popupElement.style.minWidth, 10)).to.equal(WIDTH);
     });
 
     it.skip('Should use width of anchor if it is bigger than minWidth', () => {
@@ -236,8 +236,8 @@ describe('Popup', () => {
       });
 
       const popupElement = screen.getByTestId('ring-popup');
-      should.exist(popupElement);
-      parseInt(popupElement.style.minWidth, 10).should.equal(WIDTH);
+      expect(popupElement).to.exist;
+      expect(parseInt(popupElement.style.minWidth, 10)).to.equal(WIDTH);
     });
   });
 });

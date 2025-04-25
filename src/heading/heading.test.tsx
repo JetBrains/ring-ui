@@ -7,21 +7,21 @@ describe('Heading', () => {
 
   it('should wrap children with h1 by default', () => {
     renderHeading();
-    screen.getByRole('heading').should.have.tagName('h1');
+    expect(screen.getByRole('heading')).to.have.tagName('h1');
   });
 
   it('should accept level prop', () => {
     renderHeading({level: Heading.Levels.H3});
-    screen.getByRole('heading').should.have.tagName('h3');
+    expect(screen.getByRole('heading')).to.have.tagName('h3');
   });
 
   it('should export helpers', () => {
     render(<H2 />);
-    screen.getByRole('heading').should.have.tagName('h2');
+    expect(screen.getByRole('heading')).to.have.tagName('h2');
   });
 
   it('should use passed className', () => {
     renderHeading({className: 'test-class'});
-    screen.getByRole('heading').should.have.class('test-class');
+    expect(screen.getByRole('heading')).to.have.class('test-class');
   });
 });

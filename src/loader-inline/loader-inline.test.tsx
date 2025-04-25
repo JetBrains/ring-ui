@@ -9,12 +9,14 @@ describe('Loader Inline', () => {
   };
 
   it('should create component', () => {
-    renderLoaderInline().should.exist;
+    expect(renderLoaderInline()).to.exist;
   });
 
   it('should add custom class', () => {
-    renderLoaderInline({
-      className: 'test',
-    }).should.have.class('test');
+    expect(
+      renderLoaderInline({
+        className: 'test',
+      }),
+    ).to.have.class('test');
   });
 });

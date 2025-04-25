@@ -8,11 +8,11 @@ const MAX_PACK_SIZE = 100;
 
 describe('Analytics', () => {
   it('should be created', () => {
-    analytics.should.exist;
+    expect(analytics).to.exist;
   });
 
   it('should export correct interface', () => {
-    analytics.trackEvent.should.exist;
+    expect(analytics.trackEvent).to.exist;
   });
 
   describe('tracking events', () => {
@@ -36,7 +36,7 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
         clock.tick(TICK_INTERVAL);
 
-        send.should.have.been.calledWith([
+        expect(send).to.have.been.calledWith([
           {
             category: 'test-category',
             action: 'test-action',
@@ -54,8 +54,8 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
         clock.tick(TICK_INTERVAL);
 
-        send.should.not.have.been.called;
-        flushingFunction.should.have.been.calledWith([
+        expect(send).to.not.have.been.called;
+        expect(flushingFunction).to.have.been.calledWith([
           {
             category: 'test-category',
             action: 'test-action',
@@ -68,12 +68,12 @@ describe('Analytics', () => {
         for (let i = 0; i < MAX_PACK_SIZE - 1; ++i) {
           analyticsInstance.trackEvent(`test-category-${i}`, 'test-action');
         }
-        customPlugin._data.length.should.equal(MAX_PACK_SIZE - 1);
+        expect(customPlugin._data.length).to.equal(MAX_PACK_SIZE - 1);
 
         analyticsInstance.trackEvent('test-category-100', 'test-action');
 
-        send.should.have.been.called;
-        customPlugin._data.length.should.equal(0);
+        expect(send).to.have.been.called;
+        expect(customPlugin._data.length).to.equal(0);
       });
 
       it('should configure max pack size via config', () => {
@@ -85,19 +85,19 @@ describe('Analytics', () => {
         for (let i = 0; i < MAX_PACK_SIZE + 1; ++i) {
           analyticsInstance.trackEvent(`test-category-${i}`, 'test-action');
         }
-        customPlugin._data.length.should.equal(MAX_PACK_SIZE + 1);
+        expect(customPlugin._data.length).to.equal(MAX_PACK_SIZE + 1);
 
         analyticsInstance.trackEvent('test-category-102', 'test-action');
 
-        send.should.have.been.called;
-        customPlugin._data.length.should.equal(0);
+        expect(send).to.have.been.called;
+        expect(customPlugin._data.length).to.equal(0);
       });
 
       it('should track event with additional information', () => {
         analyticsInstance.trackEvent('test-category', 'test-action', {type: 'test-type'});
         clock.tick(TICK_INTERVAL);
 
-        send.should.have.been.calledWith([
+        expect(send).to.have.been.calledWith([
           {
             category: 'test-category',
             action: 'test-action',
@@ -116,7 +116,7 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
         clock.tick(TICK_INTERVAL);
 
-        send.should.not.have.been.called;
+        expect(send).to.not.have.been.called;
       });
     });
   });

@@ -55,8 +55,8 @@ describe('<Upload />', () => {
 
     await userEvent.upload(fileInput, testFile);
 
-    onFilesSelectedMock.should.have.been.calledOnce;
-    onFilesSelectedMock.should.have.been.calledWith([testFile]);
+    expect(onFilesSelectedMock).to.have.been.calledOnce;
+    expect(onFilesSelectedMock).to.have.been.calledWith([testFile]);
   });
 
   it('triggers `onFilesRejected` when file validation returns false', async () => {
@@ -70,8 +70,8 @@ describe('<Upload />', () => {
 
     await userEvent.upload(fileInput, testFile);
 
-    onFilesSelectedMock.should.not.have.been.calledOnce;
-    onFilesRejectedMock.should.have.been.calledOnceWith([testFile]);
+    expect(onFilesSelectedMock).to.not.have.been.calledOnce;
+    expect(onFilesRejectedMock).to.have.been.calledOnceWith([testFile]);
   });
 
   it('should update style on drag enter/leave', () => {
@@ -79,10 +79,10 @@ describe('<Upload />', () => {
     const dropZone = screen.getByText('Drop files here');
     const fileInput = screen.getByTestId('ring-file-input');
 
-    dropZone.className.should.not.include(styles.dragOver);
+    expect(dropZone.className).to.not.include(styles.dragOver);
     fireEvent.dragEnter(fileInput);
-    dropZone.className.should.include(styles.dragOver);
+    expect(dropZone.className).to.include(styles.dragOver);
     fireEvent.dragLeave(fileInput);
-    dropZone.className.should.not.include(styles.dragOver);
+    expect(dropZone.className).to.not.include(styles.dragOver);
   });
 });

@@ -7,28 +7,28 @@ describe('Island', () => {
 
   it('should create Island component', () => {
     renderIsland();
-    screen.getByTestId('ring-island').should.exist;
+    expect(screen.getByTestId('ring-island')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderIsland();
-    screen.getByTestId('ring-island').should.have.tagName('div');
+    expect(screen.getByTestId('ring-island')).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
     renderIsland({className: 'test-class'});
-    screen.getByTestId('ring-island').should.have.class('test-class');
+    expect(screen.getByTestId('ring-island')).to.have.class('test-class');
   });
 
   it('should join with passed data-test', () => {
     renderIsland({['data-test']: 'foobar'});
-    screen.getByTestId('ring-island foobar').should.exist;
+    expect(screen.getByTestId('ring-island foobar')).to.exist;
   });
 
   describe('AdaptiveIsland', () => {
     it('should render AdaptiveIsland', () => {
       render(<AdaptiveIsland />);
-      screen.getByTestId('ring-island').should.exist;
+      expect(screen.getByTestId('ring-island')).to.exist;
     });
 
     it('should change header size if content is scrolled', () => {
@@ -53,20 +53,20 @@ describe('Island', () => {
         clientHeight: {value: 50},
       });
       fireEvent.scroll(scrollableContainer);
-      headerNode.style.lineHeight.should.equal('24px');
+      expect(headerNode.style.lineHeight).to.equal('24px');
     });
   });
 
   describe('Header', () => {
     it('should render header', () => {
       render(<Header />);
-      screen.getByTestId('ring-island-header').should.exist;
+      expect(screen.getByTestId('ring-island-header')).to.exist;
     });
 
     it('should change header size', () => {
       const phase = 0.75;
       render(<Header phase={phase} />);
-      screen.getByTestId('ring-island-header').style.lineHeight.should.equal('22px');
+      expect(screen.getByTestId('ring-island-header').style.lineHeight).to.equal('22px');
     });
   });
 });

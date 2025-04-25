@@ -19,16 +19,16 @@ const props: DataListContainerProps<DateListTestItem> = {
 describe('Data List', () => {
   it('should create component', () => {
     render(<DataList {...props} />);
-    screen.getByTestId('ring-data-list').should.exist;
+    expect(screen.getByTestId('ring-data-list')).to.exist;
   });
 
   it('should wrap children with div', () => {
     render(<DataList {...props} />);
-    screen.getByTestId('ring-data-list').should.have.tagName('div');
+    expect(screen.getByTestId('ring-data-list')).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
     render(<DataList {...props} className="test-class" />);
-    screen.getByRole('list').should.have.class('test-class');
+    expect(screen.getByRole('list')).to.have.class('test-class');
   });
 });
