@@ -1,4 +1,4 @@
-import {render, screen, fireEvent, within} from '@testing-library/react';
+import {render, screen, fireEvent, within, act} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import TagsInput, {TagsInputAttrs} from './tags-input';
@@ -99,11 +99,11 @@ describe('Tags Input', () => {
     // it requires simulating a complex user interaction where the input is empty
     // and the backspace key is pressed, which should remove the last tag.
     // The functionality is implemented in the handleKeyDown method of the TagsInput component.
-    it('Should remove last tag on pressing backspace if input is empty', () => {
-      const onRemoveTag = sandbox.spy();
+    it('Should remove last tag on pressing backspace if input is empty', async () => {
+      const onRemoveTag = sandbox.spy(() => act(() => {}));
       const {input} = renderTagsInput({onRemoveTag});
 
-      fireEvent.keyDown(input, {key: 'Backspace'});
+      await act(() => fireEvent.keyDown(input, {key: 'Backspace'}));
 
       expect(onRemoveTag).to.have.been.called;
     });

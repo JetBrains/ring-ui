@@ -9,7 +9,7 @@ describe('Pager', () => {
   const props = {total: 100, currentPage: 1, onPageChange: () => {}};
   const renderPager = (params?: Partial<PagerAttrs>) => {
     render(
-      <I18nContextHolder messages={{}}>
+      <I18nContextHolder messages={{previousPage: 'previous page', nextPage: 'next page', perPage: 'per page'}}>
         <Pager {...{...props, ...params}} />
       </I18nContextHolder>,
     );

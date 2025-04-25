@@ -1,4 +1,4 @@
-import {render, screen, fireEvent} from '@testing-library/react';
+import {render, screen, fireEvent, act} from '@testing-library/react';
 
 import getUID from '../global/get-uid';
 
@@ -130,8 +130,8 @@ describe('SelectPopup', () => {
         rerender(factory({data: testData, hidden: false, onSelect}));
 
         // Press up to highlight the last item, then enter to select it
-        simulateCombo('up');
-        simulateCombo('enter');
+        act(() => simulateCombo('up'));
+        act(() => simulateCombo('enter'));
 
         // onSelect should be called
         expect(onSelect).to.be.called;
