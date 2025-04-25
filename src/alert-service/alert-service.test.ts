@@ -38,55 +38,55 @@ describe('Alert Service', () => {
     alertKey = alert.message('foo');
     const alertItem = alert._getShowingAlerts()[0];
 
-    'foo'.should.equal(alertItem.message);
-    Alert.Type.MESSAGE.should.equal(alertItem.type);
-    (0).should.equal(alertItem.timeout);
-    false.should.equal(alertItem.isClosing);
+    expect('foo').to.equal(alertItem.message);
+    expect(Alert.Type.MESSAGE).to.equal(alertItem.type);
+    expect(0).to.equal(alertItem.timeout);
+    expect(false).to.equal(alertItem.isClosing);
   });
 
   it('Should show message', () => {
     alertKey = alert.message('foo');
-    Alert.Type.MESSAGE.should.equal(alert._getShowingAlerts()[0].type);
+    expect(Alert.Type.MESSAGE).to.equal(alert._getShowingAlerts()[0].type);
   });
 
   it('Should show error', () => {
     alertKey = alert.error('foo');
-    Alert.Type.ERROR.should.equal(alert._getShowingAlerts()[0].type);
+    expect(Alert.Type.ERROR).to.equal(alert._getShowingAlerts()[0].type);
   });
 
   it('Should show warning', () => {
     alertKey = alert.warning('foo');
-    Alert.Type.WARNING.should.equal(alert._getShowingAlerts()[0].type);
+    expect(Alert.Type.WARNING).to.equal(alert._getShowingAlerts()[0].type);
   });
 
   it('Should join same alerts and shake', () => {
     alertKey = alert.message('foo');
     alertKey = alert.message('foo');
 
-    alert._getShowingAlerts().length.should.equal(1);
-    true.should.equal(alert._getShowingAlerts()[0].isShaking);
+    expect(alert._getShowingAlerts().length).to.equal(1);
+    expect(true).to.equal(alert._getShowingAlerts()[0].isShaking);
   });
 
   it('Should remove alert after timeout', () => {
     alertKey = alert.message('foo', ALERT_SHOW_TIME);
     act(() => clock.tick(SMALL_TICK)); // alert timeout
     act(() => clock.tick(SMALL_TICK)); // alert animation
-    alert._getShowingAlerts().length.should.equal(0);
+    expect(alert._getShowingAlerts().length).to.equal(0);
   });
 
   it('should remove alert without animation', () => {
     alertKey = alert.message('foo');
     alert.removeWithoutAnimation(alertKey);
-    alert._getShowingAlerts().length.should.equal(0);
+    expect(alert._getShowingAlerts().length).to.equal(0);
   });
 
   it('should remove alert after animation', () => {
     alertKey = alert.message('foo');
     alert.remove(alertKey);
-    true.should.equal(alert._getShowingAlerts().filter(it => it.key === alertKey)[0].isClosing);
+    expect(true).to.equal(alert._getShowingAlerts().filter(it => it.key === alertKey)[0].isClosing);
     clock.tick(SMALL_TICK);
 
-    alert._getShowingAlerts().length.should.equal(0);
+    expect(alert._getShowingAlerts().length).to.equal(0);
   });
 
   it('should allow configuring default timeout', () => {
@@ -94,6 +94,6 @@ describe('Alert Service', () => {
     alertKey = alert.message('foo');
     act(() => clock.tick(BIG_TICK)); // alert timeout
     act(() => clock.tick(SMALL_TICK)); // alert animation
-    alert._getShowingAlerts().length.should.equal(0);
+    expect(alert._getShowingAlerts().length).to.equal(0);
   });
 });

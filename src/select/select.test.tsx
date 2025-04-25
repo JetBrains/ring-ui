@@ -51,25 +51,25 @@ describe('Select', () => {
 
   it('Should initialize', () => {
     renderSelect();
-    screen.getByTestId('ring-select').should.exist;
+    expect(screen.getByTestId('ring-select')).to.exist;
   });
 
   it('Should save selected item', () => {
     renderSelect();
-    screen.getByRole('combobox', {name: 'first1'}).should.exist;
+    expect(screen.getByRole('combobox', {name: 'first1'})).to.exist;
   });
 
   it('Should provide select types', () => {
-    Select.Type.should.exist;
-    Select.Type.BUTTON.should.exist;
-    Select.Type.INPUT.should.exist;
-    Select.Type.CUSTOM.should.exist;
-    Select.Type.INLINE.should.exist;
+    expect(Select.Type).to.exist;
+    expect(Select.Type.BUTTON).to.exist;
+    expect(Select.Type.INPUT).to.exist;
+    expect(Select.Type.CUSTOM).to.exist;
+    expect(Select.Type.INLINE).to.exist;
   });
 
   it('Should take provided className', () => {
     renderSelect({className: 'foo-bar'});
-    screen.getByTestId('ring-select').should.have.class('foo-bar');
+    expect(screen.getByTestId('ring-select')).to.have.class('foo-bar');
   });
 
   it('Should highlight selected item', async () => {
@@ -77,7 +77,7 @@ describe('Select', () => {
     const button = screen.getByRole('combobox', {name: 'test3'});
     const user = userEvent.setup();
     await user.click(button);
-    screen.getByRole('row', {selected: true}).should.have.text('test3');
+    expect(screen.getByRole('row', {selected: true})).to.have.text('test3');
   });
 
   it('should update rendered data if props change', async () => {
@@ -86,7 +86,7 @@ describe('Select', () => {
     const button = screen.getByRole('combobox', {name: 'first1'});
     const user = userEvent.setup();
     await user.click(button);
-    screen.getAllByTestId('ring-list-item-action ring-list-item').should.have.length(1);
+    expect(screen.getAllByTestId('ring-list-item-action ring-list-item')).to.have.length(1);
   });
 
   it('Should use selectedLabel for select button title if provided', () => {
@@ -98,13 +98,13 @@ describe('Select', () => {
       },
     });
     const button = screen.getByRole('combobox', {name: 'testLabel'});
-    button.should.exist;
+    expect(button).to.exist;
   });
 
   it('Should use label for select button title', () => {
     renderSelect();
     const button = screen.getByRole('combobox', {name: 'first1'});
-    button.should.exist;
+    expect(button).to.exist;
   });
 
   it('Should clear selected on clearing', async () => {
@@ -112,7 +112,7 @@ describe('Select', () => {
     const clearButton = screen.getByRole('button', {name: 'Clear selection'});
     const user = userEvent.setup();
     await user.click(clearButton);
-    screen.getByRole('combobox', {name: 'Select an option'}).should.exist;
+    expect(screen.getByRole('combobox', {name: 'Select an option'})).to.exist;
   });
 
   it('Should call onChange on clearing', async () => {
@@ -121,8 +121,8 @@ describe('Select', () => {
     const clearButton = screen.getByRole('button', {name: 'Clear selection'});
     const user = userEvent.setup();
     await user.click(clearButton);
-    props.onChange.should.be.calledOnce;
-    props.onChange.should.be.called.calledWith(null);
+    expect(props.onChange).to.be.calledOnce;
+    expect(props.onChange).to.be.called.calledWith(null);
   });
 
   it('Should pass selected item and event to onChange', async () => {
@@ -133,13 +133,13 @@ describe('Select', () => {
     await user.click(button);
     const secondItem = screen.getByRole('button', {name: 'test2'});
     await user.click(secondItem);
-    props.onChange.should.be.called.calledWithMatch({key: 2}, {originalEvent: {type: 'click'}});
+    expect(props.onChange).to.be.called.calledWithMatch({key: 2}, {originalEvent: {type: 'click'}});
   });
 
   it('Should clear selected when rerendering with no selected item', () => {
     const {rerender} = renderSelect();
     rerender(<Select {...defaultProps()} selected={null} />);
-    screen.getByRole('combobox', {name: 'Select an option'}).should.exist;
+    expect(screen.getByRole('combobox', {name: 'Select an option'})).to.exist;
   });
 
   it('Should handle ENTER shortcut', async () => {
@@ -156,12 +156,12 @@ describe('Select', () => {
     const user = userEvent.setup();
     await user.tab(); // focus the input to enable shortcuts
     act(() => simulateCombo('up'));
-    screen.getByRole('grid').should.exist;
+    expect(screen.getByRole('grid')).to.exist;
     cleanup();
     renderSelect({type: Select.Type.INPUT});
     await user.tab(); // focus the input to enable shortcuts
     act(() => simulateCombo('down'));
-    screen.getByRole('grid').should.exist;
+    expect(screen.getByRole('grid')).to.exist;
   });
 
   it('Should not open popup if disabled', async () => {
@@ -169,7 +169,7 @@ describe('Select', () => {
     const button = screen.getByRole('combobox', {name: 'first1'});
     const user = userEvent.setup();
     await user.click(button);
-    should.not.exist(screen.queryByRole('grid'));
+    expect(screen.queryByRole('grid')).to.not.exist;
   });
 
   it('Should close popup on click if it is already open', async () => {
@@ -178,7 +178,7 @@ describe('Select', () => {
     const user = userEvent.setup();
     await user.click(button);
     await user.click(button);
-    should.not.exist(screen.queryByRole('grid'));
+    expect(screen.queryByRole('grid')).to.not.exist;
   });
 
   it('Should call onAdd on adding', async () => {
@@ -198,7 +198,7 @@ describe('Select', () => {
     const filter = screen.getByRole('combobox');
     const user = userEvent.setup();
     await user.click(filter);
-    props.onFocus.should.be.called;
+    expect(props.onFocus).to.be.called;
   });
 
   it('Should call onBlur on input blur', async () => {
@@ -208,7 +208,7 @@ describe('Select', () => {
     const user = userEvent.setup();
     await user.click(filter);
     await user.tab();
-    props.onBlur.should.be.called;
+    expect(props.onBlur).to.be.called;
   });
 
   it('Should close popup if input lost focus in INPUT mode', async () => {
@@ -217,7 +217,7 @@ describe('Select', () => {
     const user = userEvent.setup();
     await user.click(filter);
     await user.tab();
-    should.not.exist(screen.queryByRole('grid'));
+    expect(screen.queryByRole('grid')).to.not.exist;
   });
 
   it('Should not close popup while clicking on popup in INPUT mode', async () => {
@@ -226,13 +226,13 @@ describe('Select', () => {
     const user = userEvent.setup();
     await user.click(filter);
     await user.click(screen.getByRole('grid'));
-    screen.getByRole('grid').should.exist;
+    expect(screen.getByRole('grid')).to.exist;
   });
 
   describe('Derived state', () => {
     it('Should show initial data', () => {
       renderSelect({showPopup: true});
-      screen.getByRole('row', {name: 'first1'}).should.exist;
+      expect(screen.getByRole('row', {name: 'first1'})).to.exist;
     });
 
     it('Should update shown data', async () => {
@@ -241,23 +241,23 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
-      should.not.exist(screen.queryByTestId('ring-list-item-action ring-list-item'));
+      expect(screen.queryByTestId('ring-list-item-action ring-list-item')).to.not.exist;
     });
 
     it('Should reset selection when toggling multiple state', () => {
       const {rerender} = renderSelect();
       rerender(<Select {...defaultProps()} selected={undefined} multiple />);
       const button = screen.getByRole('combobox', {name: 'Select an option'});
-      button.should.have.text('Select an option');
+      expect(button).to.have.text('Select an option');
       rerender(<Select {...defaultProps()} />);
-      button.should.have.text('Select an option');
+      expect(button).to.have.text('Select an option');
     });
 
     it('Should not reset selection if mulitiple prop is the same as previous', () => {
       const {rerender} = renderSelect();
       rerender(<Select {...defaultProps()} multiple={false} />);
       const button = screen.getByRole('combobox', {name: 'first1'});
-      button.should.have.text('first1');
+      expect(button).to.have.text('first1');
     });
 
     it('Should update selected index for select', async () => {
@@ -267,7 +267,7 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'New item'});
       const user = userEvent.setup();
       await user.click(button);
-      screen.getByRole('row', {selected: true}).should.have.text('New item');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('New item');
     });
 
     it('Should update selected index for multiple select if selected is changed', async () => {
@@ -277,7 +277,7 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'New item'});
       const user = userEvent.setup();
       await user.click(button);
-      screen.getByRole('row', {selected: true}).should.have.text('New item');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('New item');
     });
 
     it('Should update selected index for multiple select if selected is changed but count of element is the same', async () => {
@@ -291,7 +291,7 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'First item'});
       const user = userEvent.setup();
       await user.click(button);
-      screen.getByRole('row', {selected: true}).should.have.text('First item');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('First item');
     });
 
     function createItem(label?: string): SelectItem {
@@ -304,31 +304,31 @@ describe('Select', () => {
   describe('DOM', () => {
     it('Should place select button inside container', () => {
       renderSelect();
-      screen.getByTestId('ring-select').should.have.class(styles.select);
+      expect(screen.getByTestId('ring-select')).to.have.class(styles.select);
     });
 
     it('Should disable select button if needed', () => {
       renderSelect({
         disabled: true,
       });
-      screen.getByRole<HTMLButtonElement>('combobox', {name: 'first1'}).disabled.should.be.true;
+      expect(screen.getByRole<HTMLButtonElement>('combobox', {name: 'first1'}).disabled).to.be.true;
     });
 
     it('Should not disable select button if not needed', () => {
       renderSelect({
         disabled: false,
       });
-      screen.getByRole<HTMLButtonElement>('combobox', {name: 'first1'}).disabled.should.be.false;
+      expect(screen.getByRole<HTMLButtonElement>('combobox', {name: 'first1'}).disabled).to.be.false;
     });
 
     it('Should place input inside in INPUT mode', () => {
       renderSelect({type: Select.Type.INPUT});
-      screen.getByRole('combobox').should.exist;
+      expect(screen.getByRole('combobox')).to.exist;
     });
 
     it('Should place icons inside', () => {
       renderSelect();
-      screen.getByTestId('ring-select').should.have.descendants(`.${styles.icons}`);
+      expect(screen.getByTestId('ring-select')).to.have.descendants(`.${styles.icons}`);
     });
 
     it('Should add selected item icon to button', () => {
@@ -339,12 +339,12 @@ describe('Select', () => {
           icon: 'fakeImageUrl',
         },
       });
-      screen.getByTestId('ring-select').should.have.descendants(selectedIconSelector);
+      expect(screen.getByTestId('ring-select')).to.have.descendants(selectedIconSelector);
     });
 
     it('Should not display selected item icon if it is not provided', () => {
       renderSelect({selected: {key: 1, label: 'test', icon: undefined}});
-      screen.getByTestId('ring-select').should.not.have.descendants(selectedIconSelector);
+      expect(screen.getByTestId('ring-select')).to.not.have.descendants(selectedIconSelector);
     });
 
     it('Should display selected item icon', () => {
@@ -356,12 +356,12 @@ describe('Select', () => {
         },
       });
       const icon: HTMLElement = screen.getByTestId('ring-select').querySelector(selectedIconSelector)!;
-      icon.style.backgroundImage.should.contain('http://fake.image/');
+      expect(icon.style.backgroundImage).to.contain('http://fake.image/');
     });
 
     it('Should place icons inside in INPUT mode', () => {
       renderSelect({type: Select.Type.INPUT});
-      screen.getByTestId('ring-select').should.have.descendants(`.${styles.icons}`);
+      expect(screen.getByTestId('ring-select')).to.have.descendants(`.${styles.icons}`);
     });
 
     it('Should open select dropdown on click', async () => {
@@ -369,7 +369,7 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
-      screen.getByTestId('ring-popup').should.exist;
+      expect(screen.getByTestId('ring-popup')).to.exist;
     });
 
     describe('Bottom toolbar', () => {
@@ -378,7 +378,7 @@ describe('Select', () => {
         const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
-        should.not.exist(screen.queryByRole('button', {name: 'Add item'}));
+        expect(screen.queryByRole('button', {name: 'Add item'})).to.not.exist;
       });
 
       it('Should add "Add" button if enabled and filter query not empty', async () => {
@@ -386,7 +386,7 @@ describe('Select', () => {
         const filter = screen.getByRole('combobox');
         const user = userEvent.setup();
         await user.type(filter, 'test');
-        screen.getByRole('button', {name: 'Add item'}).should.exist;
+        expect(screen.getByRole('button', {name: 'Add item'})).to.exist;
       });
 
       it('Should add "Add" button if alwaysVisible is set', async () => {
@@ -399,7 +399,7 @@ describe('Select', () => {
         const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
-        screen.getByRole('button', {name: 'Add item'}).should.exist;
+        expect(screen.getByRole('button', {name: 'Add item'})).to.exist;
       });
 
       it('Should place label instead filterValue to "Add" button if alwaysVisible is set', async () => {
@@ -412,7 +412,7 @@ describe('Select', () => {
         const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
-        screen.getByRole('button', {name: 'Add Something'}).should.exist;
+        expect(screen.getByRole('button', {name: 'Add Something'})).to.exist;
       });
 
       it('Should process filterValue into a label at the "Add" button if "add.label" prop is a function', async () => {
@@ -426,7 +426,7 @@ describe('Select', () => {
         const user = userEvent.setup();
         await user.clear(filter);
         await user.type(filter, 'test');
-        screen.getByRole('button', {name: '--test--'}).should.exist;
+        expect(screen.getByRole('button', {name: '--test--'})).to.exist;
       });
 
       it('Should add hint if specified', async () => {
@@ -436,7 +436,7 @@ describe('Select', () => {
         const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
-        screen.getByTestId('ring-list-hint').should.exist;
+        expect(screen.getByTestId('ring-list-hint')).to.exist;
       });
 
       it('Hint should be placed under "add" button', async () => {
@@ -447,7 +447,7 @@ describe('Select', () => {
         const button = screen.getByRole('combobox', {name: 'first1'});
         const user = userEvent.setup();
         await user.click(button);
-        screen.getByTestId('ring-list-hint').should.exist;
+        expect(screen.getByTestId('ring-list-hint')).to.exist;
       });
     });
   });
@@ -460,8 +460,8 @@ describe('Select', () => {
       await user.clear(filter);
       await user.type(filter, 'test3');
       const filtered = screen.getAllByTestId('ring-list-item-action ring-list-item');
-      filtered.length.should.equal(1);
-      filtered[0].should.have.text('test3');
+      expect(filtered.length).to.equal(1);
+      expect(filtered[0]).to.have.text('test3');
     });
 
     it('Should filter items by part of label', async () => {
@@ -471,7 +471,7 @@ describe('Select', () => {
       await user.clear(filter);
       await user.type(filter, 'test');
       const filtered = screen.getAllByTestId('ring-list-item-action ring-list-item');
-      filtered.length.should.equal(2);
+      expect(filtered.length).to.equal(2);
     });
 
     it('Should not filter separators', async () => {
@@ -488,7 +488,7 @@ describe('Select', () => {
       await user.clear(filter);
       await user.type(filter, 'foo');
       const filtered = screen.getAllByTestId('ring-list-separator');
-      filtered[0].should.have.text('test');
+      expect(filtered[0]).to.have.text('test');
     });
 
     it('Should filter custom items with label', async () => {
@@ -506,7 +506,7 @@ describe('Select', () => {
       await user.clear(filter);
       await user.type(filter, 'foo');
       const filtered = screen.queryAllByTestId('ring-list-item-action ring-list-item');
-      filtered.should.deep.equal([]);
+      expect(filtered).to.deep.equal([]);
     });
 
     it('Should not filter items without label', async () => {
@@ -522,7 +522,7 @@ describe('Select', () => {
       await user.clear(filter);
       await user.type(filter, 'foo');
       const filtered = screen.getAllByTestId('ring-list-item-action ring-list-item');
-      filtered[0].should.have.text('test');
+      expect(filtered[0]).to.have.text('test');
     });
 
     it('Should use custom filter.fn if provided', async () => {
@@ -538,8 +538,8 @@ describe('Select', () => {
       await user.type(filter, 'test3');
       const filtered = screen.getAllByTestId('ring-list-item-action ring-list-item');
 
-      filtered.length.should.equal(testData.length);
-      filterStub.should.have.been.called;
+      expect(filtered.length).to.equal(testData.length);
+      expect(filterStub).to.have.been.called;
     });
 
     it('Should write filter query on add button if enabled', async () => {
@@ -553,7 +553,7 @@ describe('Select', () => {
       const user = userEvent.setup();
       await user.clear(filter);
       await user.type(filter, 'foo');
-      screen.getByRole('button', {name: 'Add some foo'}).should.exist;
+      expect(screen.getByRole('button', {name: 'Add some foo'})).to.exist;
     });
   });
 
@@ -564,7 +564,7 @@ describe('Select', () => {
       const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.type(filter, 'a');
-      props.onFilter.should.be.called;
+      expect(props.onFilter).to.be.called;
     });
 
     it('Should open popup on input changes if in focus', async () => {
@@ -572,7 +572,7 @@ describe('Select', () => {
       const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.type(filter, 'a');
-      screen.getByTestId('ring-popup').should.exist;
+      expect(screen.getByTestId('ring-popup')).to.exist;
     });
 
     it('should filter if not focused but not in input mode', async () => {
@@ -584,7 +584,7 @@ describe('Select', () => {
       const filter = screen.getByRole('textbox');
       await user.type(filter, 'a', {skipClick: true});
 
-      props.onFilter.should.be.called;
+      expect(props.onFilter).to.be.called;
     });
 
     it('Should not open popup on input changes if not in focus', async () => {
@@ -592,7 +592,7 @@ describe('Select', () => {
       const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.type(filter, 'a', {skipClick: true});
-      should.not.exist(screen.queryByTestId('ring-popup'));
+      expect(screen.queryByTestId('ring-popup')).to.not.exist;
     });
 
     it('Should return empty string if not input mode and filter is disabled', async () => {
@@ -641,7 +641,7 @@ describe('Select', () => {
       await user.click(button);
       await user.click(button);
       filter = screen.getByRole('textbox');
-      filter.should.have.value('');
+      expect(filter).to.have.value('');
     });
   });
 
@@ -652,13 +652,13 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'first1, test2'});
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-      firstCheckbox.checked.should.be.true;
+      expect(firstCheckbox.checked).to.be.true;
       const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
-      secondCheckbox.checked.should.be.true;
+      expect(secondCheckbox.checked).to.be.true;
       const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
-      thirdCheckbox.checked.should.be.false;
+      expect(thirdCheckbox.checked).to.be.false;
       const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-      fourthCheckbox.checked.should.be.false;
+      expect(fourthCheckbox.checked).to.be.false;
     });
 
     it('Should fill multipleMap on selection change', async () => {
@@ -668,19 +668,19 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'test2'});
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-      firstCheckbox.checked.should.be.false;
+      expect(firstCheckbox.checked).to.be.false;
       const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
-      secondCheckbox.checked.should.be.true;
+      expect(secondCheckbox.checked).to.be.true;
       const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
-      thirdCheckbox.checked.should.be.false;
+      expect(thirdCheckbox.checked).to.be.false;
       const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-      fourthCheckbox.checked.should.be.false;
+      expect(fourthCheckbox.checked).to.be.false;
     });
 
     it('Should construct label from selected array', () => {
       renderSelectMultiple();
       const button = screen.getByRole('combobox', {name: 'first1, test2'});
-      button.should.exist;
+      expect(button).to.exist;
     });
 
     it('Should skip empty labels', () => {
@@ -688,19 +688,19 @@ describe('Select', () => {
         selected: testData.slice(2),
       });
       const button = screen.getByRole('combobox', {name: 'test3'});
-      button.should.exist;
+      expect(button).to.exist;
     });
 
     it('Should detect selection is empty according on not empty array', () => {
       renderSelectMultiple();
       const button = screen.getByRole('combobox', {name: 'first1, test2'});
-      button.should.not.have.class(styles.buttonValueEmpty);
+      expect(button).to.not.have.class(styles.buttonValueEmpty);
     });
 
     it('Should detect selection is empty according on empty array', () => {
       renderSelectMultiple({selected: []});
       const button = screen.getByRole('combobox', {name: 'Select an option'});
-      button.should.have.class(styles.buttonValueEmpty);
+      expect(button).to.have.class(styles.buttonValueEmpty);
     });
 
     it('Should clear selected on clearing', async () => {
@@ -711,20 +711,20 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'Select an option'});
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-      firstCheckbox.checked.should.be.false;
+      expect(firstCheckbox.checked).to.be.false;
       const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
-      secondCheckbox.checked.should.be.false;
+      expect(secondCheckbox.checked).to.be.false;
       const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
-      thirdCheckbox.checked.should.be.false;
+      expect(thirdCheckbox.checked).to.be.false;
       const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-      fourthCheckbox.checked.should.be.false;
+      expect(fourthCheckbox.checked).to.be.false;
     });
 
     it('Should not draw "clear" button if multiple and nothing selected', () => {
       const {rerender} = renderSelectMultiple();
       rerender(<Select {...defaultPropsMultiple()} clear selected={[]} />);
       const clearButton = screen.queryByRole('button', {name: 'Clear selection'});
-      should.not.exist(clearButton);
+      expect(clearButton).to.not.exist;
     });
 
     it('Should call onChange on clearing', async () => {
@@ -733,8 +733,8 @@ describe('Select', () => {
       const clearButton = screen.getByRole('button', {name: 'Clear selection'});
       const user = userEvent.setup();
       await user.click(clearButton);
-      props.onChange!.should.be.calledOnce;
-      props.onChange!.should.be.called.calledWith([]);
+      expect(props.onChange!).to.be.calledOnce;
+      expect(props.onChange!).to.be.called.calledWith([]);
     });
 
     it('Should clear selected when rerendering with no selected item in multiple mode', async () => {
@@ -744,13 +744,13 @@ describe('Select', () => {
       const user = userEvent.setup();
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-      firstCheckbox.checked.should.be.false;
+      expect(firstCheckbox.checked).to.be.false;
       const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
-      secondCheckbox.checked.should.be.false;
+      expect(secondCheckbox.checked).to.be.false;
       const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
-      thirdCheckbox.checked.should.be.false;
+      expect(thirdCheckbox.checked).to.be.false;
       const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-      fourthCheckbox.checked.should.be.false;
+      expect(fourthCheckbox.checked).to.be.false;
     });
 
     it('Should update selected checkboxes on selected update', async () => {
@@ -760,7 +760,7 @@ describe('Select', () => {
       const user = userEvent.setup();
       await user.click(button);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-      firstCheckbox.checked.should.be.false;
+      expect(firstCheckbox.checked).to.be.false;
     });
 
     describe('On selecting', () => {
@@ -774,13 +774,13 @@ describe('Select', () => {
         button = screen.getByRole('combobox', {name: 'first1, test2'});
         await user.click(button);
         const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-        firstCheckbox.checked.should.be.true;
+        expect(firstCheckbox.checked).to.be.true;
         const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
-        secondCheckbox.checked.should.be.true;
+        expect(secondCheckbox.checked).to.be.true;
         const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
-        thirdCheckbox.checked.should.be.false;
+        expect(thirdCheckbox.checked).to.be.false;
         const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-        fourthCheckbox.checked.should.be.true;
+        expect(fourthCheckbox.checked).to.be.true;
       });
 
       it('Should add item to selection on clicking by checkbox', () => {
@@ -788,9 +788,9 @@ describe('Select', () => {
         const button = screen.getByRole('combobox', {name: 'first1, test2'});
         fireEvent.click(button);
         const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-        fourthCheckbox.checked.should.be.false;
+        expect(fourthCheckbox.checked).to.be.false;
         fireEvent.click(fourthCheckbox);
-        fourthCheckbox.checked.should.be.true;
+        expect(fourthCheckbox.checked).to.be.true;
       });
 
       it('Should close popup on selecting by item', async () => {
@@ -801,7 +801,7 @@ describe('Select', () => {
         const fourthItem = screen.getByRole('button', {name: 'four4'});
         await user.click(fourthItem);
         const list = screen.queryByRole('grid');
-        should.not.exist(list);
+        expect(list).to.not.exist;
       });
 
       it('Should not close popup on selecting by checkbox', async () => {
@@ -812,7 +812,7 @@ describe('Select', () => {
         const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
         await user.click(fourthCheckbox);
         const list = screen.getByRole('grid');
-        list.should.exist;
+        expect(list).to.exist;
       });
     });
 
@@ -827,13 +827,13 @@ describe('Select', () => {
         button = screen.getByRole('combobox', {name: 'test2'});
         await user.click(button);
         const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-        firstCheckbox.checked.should.be.false;
+        expect(firstCheckbox.checked).to.be.false;
         const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
-        secondCheckbox.checked.should.be.true;
+        expect(secondCheckbox.checked).to.be.true;
         const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
-        thirdCheckbox.checked.should.be.false;
+        expect(thirdCheckbox.checked).to.be.false;
         const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-        fourthCheckbox.checked.should.be.false;
+        expect(fourthCheckbox.checked).to.be.false;
       });
 
       it('Should call onDeselect on deselecting item', async () => {
@@ -844,7 +844,7 @@ describe('Select', () => {
         await user.click(button);
         const firstItem = screen.getByRole('button', {name: 'first1'});
         await user.click(firstItem);
-        onDeselect.should.be.calledWithMatch(testData[0]);
+        expect(onDeselect).to.be.calledWithMatch(testData[0]);
       });
     });
   });
@@ -866,7 +866,7 @@ describe('Select', () => {
       await user.click(button);
       const fifthItem = screen.getByRole('button', {name: 'test'});
       await user.click(fifthItem);
-      screen.getByRole('row', {selected: true}).should.have.text('first1');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('first1');
     });
 
     it('Should not react on selecting separator', async () => {
@@ -876,7 +876,7 @@ describe('Select', () => {
       await user.click(button);
       const fifthItem = screen.getByTestId('ring-list-separator');
       await user.click(fifthItem);
-      screen.getByRole('row', {selected: true}).should.have.text('first1');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('first1');
     });
 
     it('Should react on selecting custom item', async () => {
@@ -887,7 +887,7 @@ describe('Select', () => {
       const fifthItem = screen.getByRole('button', {name: 'test'});
       await user.click(fifthItem);
       await user.click(button);
-      screen.getByRole('row', {selected: true}).should.have.text('test');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('test');
     });
 
     it('Should set selected on selecting', async () => {
@@ -899,7 +899,7 @@ describe('Select', () => {
       await user.click(fourthItem);
       await user.click(button);
       const selected = screen.getByRole('row', {selected: true});
-      selected.should.have.text('four4');
+      expect(selected).to.have.text('four4');
     });
 
     it('Should set call onSelect on selecting', async () => {
@@ -912,7 +912,7 @@ describe('Select', () => {
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
       await user.click(secondItem);
-      onSelect.should.be.calledWith(testData[1]);
+      expect(onSelect).to.be.calledWith(testData[1]);
     });
 
     it('Should set call onChange on selecting', async () => {
@@ -925,7 +925,7 @@ describe('Select', () => {
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
       await user.click(secondItem);
-      onChange.should.be.calledOnce;
+      expect(onChange).to.be.calledOnce;
     });
 
     it('Should hide popup on selecting', async () => {
@@ -935,7 +935,7 @@ describe('Select', () => {
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
       await user.click(secondItem);
-      should.not.exist(screen.queryByRole('grid'));
+      expect(screen.queryByRole('grid')).to.not.exist;
     });
   });
 
@@ -948,13 +948,13 @@ describe('Select', () => {
       const selectAll = screen.getByRole('button', {name: 'Select all'});
       await user.click(selectAll);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-      firstCheckbox.checked.should.be.true;
+      expect(firstCheckbox.checked).to.be.true;
       const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
-      secondCheckbox.checked.should.be.true;
+      expect(secondCheckbox.checked).to.be.true;
       const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
-      thirdCheckbox.checked.should.be.true;
+      expect(thirdCheckbox.checked).to.be.true;
       const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-      fourthCheckbox.checked.should.be.true;
+      expect(fourthCheckbox.checked).to.be.true;
     });
 
     it('Should react on select all action with false flag', async () => {
@@ -965,13 +965,13 @@ describe('Select', () => {
       const deselectAll = screen.getByRole('button', {name: 'Deselect all'});
       await user.click(deselectAll);
       const firstCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'first1'});
-      firstCheckbox.checked.should.be.false;
+      expect(firstCheckbox.checked).to.be.false;
       const secondCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test2'});
-      secondCheckbox.checked.should.be.false;
+      expect(secondCheckbox.checked).to.be.false;
       const thirdCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'test3'});
-      thirdCheckbox.checked.should.be.false;
+      expect(thirdCheckbox.checked).to.be.false;
       const fourthCheckbox = screen.getByRole<HTMLInputElement>('checkbox', {name: 'four4'});
-      fourthCheckbox.checked.should.be.false;
+      expect(fourthCheckbox.checked).to.be.false;
     });
 
     it('Should set call onSelect on selecting', async () => {
@@ -987,7 +987,7 @@ describe('Select', () => {
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
       await user.click(selectAll);
-      onSelect.should.be.calledThrice;
+      expect(onSelect).to.be.calledThrice;
     });
 
     it('Should set call onDeselect on call handler with false flag', async () => {
@@ -1004,7 +1004,7 @@ describe('Select', () => {
       const deselectAll = screen.getByRole('button', {name: 'Deselect all'});
       await user.click(deselectAll);
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      onDeselect.should.have.callCount(4);
+      expect(onDeselect).to.have.callCount(4);
     });
 
     it('Should set call onChange on selecting', async () => {
@@ -1020,7 +1020,7 @@ describe('Select', () => {
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
       await user.click(selectAll);
-      onChange.should.be.calledOnce;
+      expect(onChange).to.be.calledOnce;
     });
   });
 
@@ -1043,8 +1043,8 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
-      screen.getByText('test message').should.exist;
-      screen.getByTestId('ring-loader-inline').should.exist;
+      expect(screen.getByText('test message')).to.exist;
+      expect(screen.getByTestId('ring-loader-inline')).to.exist;
     });
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', async () => {
@@ -1052,7 +1052,7 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
-      screen.getByText('test not found').should.exist;
+      expect(screen.getByText('test not found')).to.exist;
     });
 
     describe('filter focusing', () => {
@@ -1065,7 +1065,7 @@ describe('Select', () => {
         const user = userEvent.setup();
         await user.click(button);
         const filter = screen.getByRole('textbox');
-        filter.should.equal(document.activeElement);
+        expect(filter).to.equal(document.activeElement);
       });
 
       it('Should focus the filter on second opening', async () => {
@@ -1075,7 +1075,7 @@ describe('Select', () => {
         await user.click(button);
         await user.click(button);
         const filter = screen.getByRole('textbox');
-        filter.should.equal(document.activeElement);
+        expect(filter).to.equal(document.activeElement);
       });
     });
 
@@ -1090,7 +1090,7 @@ describe('Select', () => {
       const secondItem = screen.getByRole('button', {name: 'test2'});
       await user.click(secondItem);
       button = screen.getByRole('combobox', {name: 'test2'});
-      button.should.equal(document.activeElement);
+      expect(button).to.equal(document.activeElement);
     });
 
     describe('Focus after close', () => {
@@ -1121,25 +1121,25 @@ describe('Select', () => {
         const user = userEvent.setup();
         await user.click(secondItem);
 
-        targetInput!.should.equal(document.activeElement);
+        expect(targetInput!).to.equal(document.activeElement);
       });
 
       it('Should restore focus on provided target element after closing popup with keyboard', () => {
         act(() => simulateCombo('esc'));
-        targetInput!.should.equal(document.activeElement);
+        expect(targetInput!).to.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
         fireEvent.click(document.body);
 
-        targetInput!.should.not.equal(document.activeElement);
+        expect(targetInput!).to.not.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup', async () => {
         const user = userEvent.setup();
         await user.click(button!);
 
-        targetInput!.should.not.equal(document.activeElement);
+        expect(targetInput!).to.not.equal(document.activeElement);
       });
     });
   });
@@ -1164,9 +1164,9 @@ describe('Select', () => {
       await user.click(button);
 
       const resetOption = screen.getByTestId('ring-select-reset-tags-button');
-      resetOption.should.have.text(labelMock);
+      expect(resetOption).to.have.text(labelMock);
       await user.click(resetOption);
-      onFilter.should.be.calledWith('');
+      expect(onFilter).to.be.calledWith('');
     });
 
     it('should not create tags reset option if it is not provided', async () => {
@@ -1175,7 +1175,7 @@ describe('Select', () => {
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.queryByTestId('ring-select-reset-tags-button');
-      should.not.exist(resetOption);
+      expect(resetOption).to.not.exist;
     });
 
     it('should not create tags reset option without selected elements', async () => {
@@ -1187,7 +1187,7 @@ describe('Select', () => {
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.queryByTestId('ring-select-reset-tags-button');
-      should.not.exist(resetOption);
+      expect(resetOption).to.not.exist;
     });
   });
 
@@ -1203,7 +1203,7 @@ describe('Select', () => {
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.getByTestId('ring-select-reset-tags-button');
-      resetOption.should.exist;
+      expect(resetOption).to.exist;
     });
 
     it('should prepend reset option with separator', async () => {
@@ -1219,9 +1219,9 @@ describe('Select', () => {
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.getByTestId('ring-select-reset-tags-button');
-      resetOption.should.exist;
+      expect(resetOption).to.exist;
       const separator = screen.getByTestId('ring-list-separator');
-      separator.should.exist;
+      expect(separator).to.exist;
     });
 
     it('should not prepend reset option', async () => {
@@ -1236,9 +1236,9 @@ describe('Select', () => {
       const user = userEvent.setup();
       await user.click(button);
       const resetOption = screen.queryByTestId('ring-select-reset-tags-button');
-      should.not.exist(resetOption);
+      expect(resetOption).to.not.exist;
       const separator = screen.queryByTestId('ring-list-separator');
-      should.not.exist(separator);
+      expect(separator).to.not.exist;
     });
   });
 });

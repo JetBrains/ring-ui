@@ -23,27 +23,27 @@ afterEach(() => {
 describe('DOM', () => {
   describe('isMounted', () => {
     it('should return true for the document', () => {
-      isMounted(document).should.equal(true);
+      expect(isMounted(document)).to.equal(true);
     });
 
     it('should return true for an element attached to DOM', () => {
       const element = attach(create());
-      isMounted(element).should.equal(true);
+      expect(isMounted(element)).to.equal(true);
     });
 
     it("should return false for an element that's not attached to DOM", () => {
       const element = create();
-      isMounted(element).should.equal(false);
+      expect(isMounted(element)).to.equal(false);
     });
 
     it('should return true for textNode attached to DOM', () => {
       const textNode = attach(document.createTextNode('Lorem ipsum dolor sit amet.'));
-      isMounted(textNode).should.equal(true);
+      expect(isMounted(textNode)).to.equal(true);
     });
 
     it("should return false for textNode that's not attached to DOM", () => {
       const textNode = document.createTextNode('Lorem ipsum dolor sit amet.');
-      isMounted(textNode).should.equal(false);
+      expect(isMounted(textNode)).to.equal(false);
     });
   });
 
@@ -52,21 +52,21 @@ describe('DOM', () => {
       const element = attach(create());
       element.setAttribute('style', 'width: 100px;');
 
-      getStyles(element).width.should.equal('100px');
+      expect(getStyles(element).width).to.equal('100px');
     });
 
     it('should return css-property that has been set via style-attribute', () => {
       const element = attach(create());
       element.style.width = '100px';
 
-      getStyles(element).width.should.equal('100px');
+      expect(getStyles(element).width).to.equal('100px');
     });
 
     it('should return css-property that has been set before mounting the node', () => {
       const element = attach(create());
       element.style.width = '100px';
 
-      getStyles(element).width.should.equal('100px');
+      expect(getStyles(element).width).to.equal('100px');
     });
   });
 
@@ -78,21 +78,21 @@ describe('DOM', () => {
       const element = attach(create());
       element.setAttribute('style', style);
 
-      getRect(element).should.deep.equal({top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110});
+      expect(getRect(element)).to.deep.equal({top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110});
     });
 
     it('should return DOMRect-like stub for unmounted element', () => {
       const element = create();
       element.setAttribute('style', style);
 
-      getRect(element).should.deep.equal({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
+      expect(getRect(element)).to.deep.equal({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
     });
 
     it('should return DOMRect-like object for a range', () => {
       const range = document.createRange();
       range.selectNode(document.body);
 
-      getRect(range).should.have.all.keys(['top', 'right', 'bottom', 'left', 'width', 'height']);
+      expect(getRect(range)).to.have.all.keys(['top', 'right', 'bottom', 'left', 'width', 'height']);
     });
   });
 });

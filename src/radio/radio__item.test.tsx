@@ -18,11 +18,11 @@ describe('Radio Item', () => {
   };
 
   it('should render radio item', () => {
-    renderRadioItem().should.exist;
+    expect(renderRadioItem()).to.exist;
   });
 
   it('should generate id if not passed', () => {
-    renderRadioItem().should.have.property('id');
+    expect(renderRadioItem()).to.have.property('id');
   });
 
   it('should generate unique id', () => {
@@ -30,7 +30,7 @@ describe('Radio Item', () => {
     renderRadioItem();
     const [firstRadioItem, secondRadioItem] = screen.getAllByRole('radio');
     const secondRadioId = secondRadioItem.getAttribute('id') ?? '';
-    firstRadioItem.should.not.have.id(secondRadioId);
+    expect(firstRadioItem).to.not.have.id(secondRadioId);
   });
 
   it('should set custom id', () => {
@@ -38,7 +38,7 @@ describe('Radio Item', () => {
       id: 'test',
     });
 
-    radioItem.should.have.id('test');
+    expect(radioItem).to.have.id('test');
   });
 
   it('should set name', () => {
@@ -46,7 +46,7 @@ describe('Radio Item', () => {
       name: 'test',
     });
 
-    radioItem.should.have.property('name', 'test');
+    expect(radioItem).to.have.property('name', 'test');
   });
 
   it('should call handler for click event', () => {
@@ -56,13 +56,13 @@ describe('Radio Item', () => {
     });
 
     fireEvent.click(radioItem);
-    clickHandler.should.have.been.called;
+    expect(clickHandler).to.have.been.called;
   });
 
   it('should be unchecked by default', () => {
     const radioItem = renderRadioItem();
 
-    radioItem.should.not.have.property('checked', true);
+    expect(radioItem).to.not.have.property('checked', true);
   });
 
   it('should check control', () => {
@@ -71,7 +71,7 @@ describe('Radio Item', () => {
       onChange: () => {}, // avoid "checked without onChange" warning
     });
 
-    radioItem.should.have.property('checked', true);
+    expect(radioItem).to.have.property('checked', true);
   });
 
   it('should be disabled', () => {
@@ -79,12 +79,12 @@ describe('Radio Item', () => {
       disabled: true,
     });
 
-    radioItem.disabled.should.be.true;
+    expect(radioItem.disabled).to.be.true;
   });
 
   it('should connect labels with input', () => {
     renderRadioItem();
 
-    screen.getByRole('radio', {name: 'test'}).should.exist;
+    expect(screen.getByRole('radio', {name: 'test'})).to.exist;
   });
 });

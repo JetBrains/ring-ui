@@ -38,7 +38,7 @@ describe('List Users Groups Source', () => {
     );
 
     const dataForList = await source.getForList();
-    dataForList.should.deep.contain({
+    expect(dataForList).to.deep.contain({
       id: 'test-user',
       key: 'test-user',
       login: 'testUser',
@@ -78,7 +78,7 @@ describe('List Users Groups Source', () => {
     );
 
     const dataForList = await source.getForList();
-    dataForList.should.deep.contain({
+    expect(dataForList).to.deep.contain({
       id: 'test-group',
       key: 'test-group',
       name: 'test group',
@@ -119,7 +119,7 @@ describe('List Users Groups Source', () => {
     );
 
     const dataForList = await source.getForList();
-    dataForList[3].description.should.equal('123 text');
+    expect(dataForList[3].description).to.equal('123 text');
   });
 
   it('Should display "No users" title if no users found', async () => {
@@ -130,7 +130,7 @@ describe('List Users Groups Source', () => {
     sandbox.stub(source, 'getGroups').returns(Promise.resolve([{id: 'test-group', name: 'test group', userCount: 0}]));
 
     const dataForList = await source.getForList();
-    dataForList[0].description.should.equal('No users');
+    expect(dataForList[0].description).to.equal('No users');
   });
 
   it('Should display "No groups" title if no groups found', async () => {
@@ -150,6 +150,6 @@ describe('List Users Groups Source', () => {
     sandbox.stub(source, 'getGroups').returns(Promise.resolve([]));
 
     const dataForList = await source.getForList();
-    dataForList[2].description.should.equal('No groups');
+    expect(dataForList[2].description).to.equal('No groups');
   });
 });

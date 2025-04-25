@@ -7,17 +7,17 @@ import Dialog from './dialog';
 describe('Dialog', () => {
   it('should create component', () => {
     render(<Dialog show />);
-    screen.getByRole('dialog').should.exist;
+    expect(screen.getByRole('dialog')).to.exist;
   });
 
   it('should wrap children with dialog wrapper', () => {
     render(<Dialog show />);
-    screen.getByTestId('ring-dialog-container').should.exist;
+    expect(screen.getByTestId('ring-dialog-container')).to.exist;
   });
 
   it('should use passed className', () => {
     render(<Dialog show className="test-class" />);
-    screen.getByTestId('ring-dialog-container').should.have.class('test-class');
+    expect(screen.getByTestId('ring-dialog-container')).to.have.class('test-class');
   });
 
   it('should call onOverlayClick and onCloseAttempt callbacks on click by overlay', async () => {
@@ -26,8 +26,8 @@ describe('Dialog', () => {
     render(<Dialog show onOverlayClick={clickSpy} onCloseAttempt={closeSpy} />);
     await userEvent.click(screen.getByTestId('ring-dialog-overlay'));
 
-    closeSpy.should.have.been.called;
-    clickSpy.should.have.been.called;
+    expect(closeSpy).to.have.been.called;
+    expect(clickSpy).to.have.been.called;
   });
 
   it('should call onEscPress and onCloseAttempt callbacks on Escape press', () => {
@@ -36,8 +36,8 @@ describe('Dialog', () => {
     render(<Dialog show onEscPress={escSpy} onCloseAttempt={closeSpy} />);
     fireEvent.keyDown(document.documentElement, {which: 27}); // Escape
 
-    closeSpy.should.have.been.called;
-    escSpy.should.have.been.called;
+    expect(closeSpy).to.have.been.called;
+    expect(escSpy).to.have.been.called;
   });
 
   it('should not call onEscPress if is hidden', () => {
@@ -45,6 +45,6 @@ describe('Dialog', () => {
     render(<Dialog onEscPress={escSpy} />);
     fireEvent.keyDown(document.documentElement, {which: 27}); // Escape
 
-    escSpy.should.not.have.been.called;
+    expect(escSpy).to.not.have.been.called;
   });
 });

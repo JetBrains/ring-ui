@@ -14,26 +14,26 @@ describe('Error Bubble', () => {
 
   it('should create component', () => {
     renderErrorBubble();
-    screen.getByTestId('ring-error-bubble-wrapper').should.exist;
+    expect(screen.getByTestId('ring-error-bubble-wrapper')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderErrorBubble();
-    screen.getByTestId('ring-error-bubble-wrapper').should.have.tagName('div');
+    expect(screen.getByTestId('ring-error-bubble-wrapper')).to.have.tagName('div');
   });
 
   it('should not show error bubble by default', () => {
     renderErrorBubble();
-    should.not.exist(screen.queryByTestId('ring-error-bubble'));
+    expect(screen.queryByTestId('ring-error-bubble')).to.not.exist;
   });
 
   it('should show error bubble', () => {
     renderErrorBubble({error: 'test'});
-    screen.getByTestId('ring-error-bubble').should.exist;
+    expect(screen.getByTestId('ring-error-bubble')).to.exist;
   });
 
   it('should use passed className', () => {
     renderErrorBubble({error: 'test', className: 'test-class'});
-    screen.getByTestId('ring-error-bubble').should.have.class('test-class');
+    expect(screen.getByTestId('ring-error-bubble')).to.have.class('test-class');
   });
 });

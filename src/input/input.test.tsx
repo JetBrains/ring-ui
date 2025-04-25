@@ -9,28 +9,28 @@ describe('Input', () => {
   };
 
   it('should create component', () => {
-    renderInput().should.exist;
+    expect(renderInput()).to.exist;
   });
 
   it('should wrap children with div', () => {
-    renderInput().should.have.tagName('div');
+    expect(renderInput()).to.have.tagName('div');
   });
 
   it('should create input by default', () => {
     const container = renderInput();
     const input = getByRole(container, 'textbox');
-    should.exist(input);
-    input?.should.match('input');
+    expect(input).to.exist;
+    expect(input).to.match('input');
   });
 
   it('should create textarea with multiline option', () => {
     const container = renderInput({multiline: true});
     const input = getByRole(container, 'textbox');
-    should.exist(input);
-    input?.should.match('textarea');
+    expect(input).to.exist;
+    expect(input).to.match('textarea');
   });
 
   it('should use passed className', () => {
-    renderInput({className: 'test-class'}).should.have.class('test-class');
+    expect(renderInput({className: 'test-class'})).to.have.class('test-class');
   });
 });

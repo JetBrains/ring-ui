@@ -10,11 +10,11 @@ describe('Tag', () => {
 
   it('should render tags', () => {
     const {container} = renderTag();
-    container.querySelector('button[data-test="ring-tag"]')?.should.exist;
+    expect(container.querySelector('button[data-test="ring-tag"]')).to.exist;
   });
 
   it('should contain icon', () => {
     renderTag();
-    screen.getByTestId('ring-icon').should.exist;
+    expect(screen.getByTestId('ring-icon')).to.exist;
   });
 });

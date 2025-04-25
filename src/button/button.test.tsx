@@ -8,24 +8,24 @@ import styles from './button.css';
 describe('Button', () => {
   it('should create component', () => {
     render(<Button />);
-    screen.getByRole('button').should.exist;
+    expect(screen.getByRole('button')).to.exist;
   });
 
   it('should set _default modifier', () => {
     render(<Button />);
-    screen.getByRole('button').className.should.include(styles.button);
+    expect(screen.getByRole('button').className).to.include(styles.button);
   });
 
   it('should set modifiers', () => {
     render(<Button active danger delayed loader primary short />);
 
     const className = screen.getByRole('button').className;
-    className.should.include(styles.active);
-    className.should.include(styles.danger);
-    className.should.include(styles.delayed);
-    className.should.include(styles.loader);
-    className.should.include(styles.primary);
-    className.should.include(styles.short);
+    expect(className).to.include(styles.active);
+    expect(className).to.include(styles.danger);
+    expect(className).to.include(styles.delayed);
+    expect(className).to.include(styles.loader);
+    expect(className).to.include(styles.primary);
+    expect(className).to.include(styles.short);
   });
 
   it('should add icon', () => {
@@ -33,8 +33,8 @@ describe('Button', () => {
 
     const element = screen.getByRole('button');
     const icon = element.querySelector('svg');
-    should.exist(icon);
-    caretDownSVG.replace('/>', '></polygon>').should.include(icon!.innerHTML);
+    expect(icon).to.exist;
+    expect(caretDownSVG.replace('/>', '></polygon>')).to.include(icon!.innerHTML);
   });
 
   it('should set custom class', () => {
@@ -42,12 +42,12 @@ describe('Button', () => {
 
     render(<Button className={CUSTOM_CLASS} />);
 
-    screen.getByRole('button').should.have.class(CUSTOM_CLASS);
+    expect(screen.getByRole('button')).to.have.class(CUSTOM_CLASS);
   });
 
   it('should render link instead of button if href specified', () => {
     render(<Button href="http://www.jetbrains.com" />);
 
-    screen.getByRole('link').should.have.attr('href', 'http://www.jetbrains.com');
+    expect(screen.getByRole('link')).to.have.attr('href', 'http://www.jetbrains.com');
   });
 });

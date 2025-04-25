@@ -14,46 +14,46 @@ describe('Link', () => {
 
   it('should wrap children with a link', () => {
     renderLink({href: '/'});
-    screen.getByRole('link').should.exist;
+    expect(screen.getByRole('link')).to.exist;
   });
 
   it('should wrap children with a link if href is empty string', () => {
     renderLink({href: ''});
-    screen.getByTestId('ring-link').should.have.tagName('a');
+    expect(screen.getByTestId('ring-link')).to.have.tagName('a');
   });
 
   it('should wrap children with button if no href', () => {
     renderLink({});
-    screen.getByRole('button').should.exist;
+    expect(screen.getByRole('button')).to.exist;
   });
 
   it('should use passed className', () => {
     renderLink({className: 'test-class'});
-    screen.getByRole('button').should.have.class('test-class');
+    expect(screen.getByRole('button')).to.have.class('test-class');
   });
 
   it('should add active className', () => {
     renderLink({active: true});
-    screen.getByRole('button').should.have.class(styles.active);
+    expect(screen.getByRole('button')).to.have.class(styles.active);
   });
 
   it('should render button for pseudo links', () => {
     renderLink({href: '/', pseudo: true});
-    screen.getByRole('button').should.exist;
+    expect(screen.getByRole('button')).to.exist;
   });
 
   describe('linkHOC', () => {
     it('should wrap with new component', () => {
       const CustomComponent = () => null;
 
-      linkHOC(CustomComponent).should.not.equal(CustomComponent);
+      expect(linkHOC(CustomComponent)).to.not.equal(CustomComponent);
     });
 
     it('should pass activeClassName to wrapped component', () => {
       const CustomComponent: ComponentType<ClickableLinkProps> = () => <span data-test="custom-component" />;
       const CustomLink = linkHOC(CustomComponent);
       render(<CustomLink>{null}</CustomLink>);
-      screen.getByTestId('custom-component').should.exist;
+      expect(screen.getByTestId('custom-component')).to.exist;
     });
 
     it('should pass custom props to wrapped component', () => {
@@ -63,7 +63,7 @@ describe('Link', () => {
       const CustomLink = linkHOC(CustomComponent);
 
       render(<CustomLink custom="test">{null}</CustomLink>);
-      screen.getByTestId('test').should.exist;
+      expect(screen.getByTestId('test')).to.exist;
     });
 
     it('should not add activeClassName to tags', () => {
@@ -71,7 +71,7 @@ describe('Link', () => {
       const CustomLink = linkHOC(CustomComponent);
 
       render(<CustomLink href="/">{''}</CustomLink>);
-      screen.getByRole('link').should.not.have.attr('activeClassName');
+      expect(screen.getByRole('link')).to.not.have.attr('activeClassName');
     });
   });
 
@@ -79,8 +79,8 @@ describe('Link', () => {
     it('should render "a" tag', () => {
       render(<ClickableLink href="/">{'foo'}</ClickableLink>);
       const link = screen.getByRole('link');
-      link.should.have.attr('href', '/');
-      link.should.have.text('foo');
+      expect(link).to.have.attr('href', '/');
+      expect(link).to.have.text('foo');
     });
 
     describe('events', () => {
@@ -115,9 +115,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT};
         fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: true});
-        onConditionalClick.should.have.been.calledWithMatch(true, e);
-        onPlainLeftClick.should.have.been.calledWithMatch(e);
+        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: true});
+        expect(onConditionalClick).to.have.been.calledWithMatch(true, e);
+        expect(onPlainLeftClick).to.have.been.calledWithMatch(e);
       });
 
       it('should handle a middle click', () => {
@@ -125,9 +125,9 @@ describe('Link', () => {
         const e = {button: Buttons.MIDDLE};
         fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
-        onConditionalClick.should.have.been.calledWithMatch(false, e);
-        onPlainLeftClick.should.not.have.been.called;
+        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
+        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
+        expect(onPlainLeftClick).to.not.have.been.called;
       });
 
       it('should handle alt+click', () => {
@@ -135,9 +135,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT, altKey: true};
         fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
-        onConditionalClick.should.have.been.calledWithMatch(false, e);
-        onPlainLeftClick.should.not.have.been.called;
+        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
+        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
+        expect(onPlainLeftClick).to.not.have.been.called;
       });
 
       it('should handle ctrl+click', () => {
@@ -145,9 +145,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT, ctrlKey: true};
         fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
-        onConditionalClick.should.have.been.calledWithMatch(false, e);
-        onPlainLeftClick.should.not.have.been.called;
+        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
+        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
+        expect(onPlainLeftClick).to.not.have.been.called;
       });
 
       it('should handle cmd+click / win+click', () => {
@@ -155,9 +155,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT, metaKey: true};
         fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
-        onConditionalClick.should.have.been.calledWithMatch(false, e);
-        onPlainLeftClick.should.not.have.been.called;
+        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
+        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
+        expect(onPlainLeftClick).to.not.have.been.called;
       });
 
       it('should handle shift+click', () => {
@@ -165,9 +165,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT, shiftKey: true};
         fireEvent.click(link, e);
 
-        onClick.should.have.been.calledWithMatch({...e, defaultPrevented: false});
-        onConditionalClick.should.have.been.calledWithMatch(false, e);
-        onPlainLeftClick.should.not.have.been.called;
+        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
+        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
+        expect(onPlainLeftClick).to.not.have.been.called;
       });
     });
   });

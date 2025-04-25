@@ -8,28 +8,28 @@ describe('Toggle', () => {
 
   it('should create component', () => {
     const {container} = renderToggle();
-    container.querySelector('label')?.should.exist;
+    expect(container.querySelector('label')).to.exist;
   });
 
   it('should wrap children with label', () => {
     const {container} = renderToggle();
-    container.querySelector('label')?.should.exist;
+    expect(container.querySelector('label')).to.exist;
   });
 
   it('should use passed className', () => {
     const {container} = renderToggle({className: 'test-class'});
-    container.querySelector('.test-class')?.should.exist;
+    expect(container.querySelector('.test-class')).to.exist;
   });
 
   it('should render input with type checkbox', () => {
     const {container} = renderToggle();
     const input = container.querySelector('input');
-    input?.should.exist;
-    input?.getAttribute('type')?.should.equal('checkbox');
+    expect(input).to.exist;
+    expect(input?.getAttribute('type')).to.equal('checkbox');
   });
 
   it('should render switch', () => {
     const {container} = renderToggle();
-    container.querySelector(`.${styles.switch}`)?.should.exist;
+    expect(container.querySelector(`.${styles.switch}`)).to.exist;
   });
 });

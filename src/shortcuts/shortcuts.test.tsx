@@ -22,25 +22,25 @@ describe('ShortcutsComponent', () => {
 
   it('should initialize', () => {
     const {container} = renderShortcuts();
-    container.should.exist;
+    expect(container).to.exist;
   });
 
   it('should call shortcut handler', () => {
     const {map} = renderShortcuts();
     simulateCombo('enter');
 
-    map.enter.should.be.called;
+    expect(map.enter).to.be.called;
   });
 
   it('should enable shortcuts if disabled becomes "false"', () => {
     const {map, rerender, scope} = renderShortcuts({disabled: true});
 
     simulateCombo('enter');
-    map.enter.should.not.be.called;
+    expect(map.enter).to.not.be.called;
 
     rerender(<Shortcuts map={map} scope={scope} disabled={false} />);
 
     simulateCombo('enter');
-    map.enter.should.be.called;
+    expect(map.enter).to.be.called;
   });
 });

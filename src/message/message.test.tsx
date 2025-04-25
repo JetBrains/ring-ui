@@ -9,13 +9,15 @@ describe('Message', () => {
   };
 
   it('should wrap children with Popup', () => {
-    renderMessage({title: 'foo'}).should.exist;
+    expect(renderMessage({title: 'foo'})).to.exist;
   });
 
   it('should use passed className', () => {
-    renderMessage({
-      title: 'foo',
-      className: 'test-class',
-    }).should.have.class('test-class');
+    expect(
+      renderMessage({
+        title: 'foo',
+        className: 'test-class',
+      }),
+    ).to.have.class('test-class');
   });
 });

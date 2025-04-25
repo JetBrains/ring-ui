@@ -11,12 +11,12 @@ const TICK = 500;
 describe('Alert', () => {
   it('should render text', () => {
     render(<Alert type={Alert.Type.MESSAGE}>{'Test message'}</Alert>);
-    screen.getByText('Test message').should.exist;
+    expect(screen.getByText('Test message')).to.exist;
   });
 
   it('should transfer className', () => {
     render(<Alert className="foo" />);
-    screen.getByTestId('alert').should.have.class('foo');
+    expect(screen.getByTestId('alert')).to.have.class('foo');
   });
 
   it('should render component', () => {
@@ -25,24 +25,24 @@ describe('Alert', () => {
         <div>{'foo'}</div>
       </Alert>,
     );
-    screen.getByText('foo').should.exist;
+    expect(screen.getByText('foo')).to.exist;
   });
 
   it('should render an error', () => {
     render(<Alert type={Alert.Type.ERROR}>{'Test'}</Alert>);
-    screen.getByTestId('alert').should.have.class(styles.error);
+    expect(screen.getByTestId('alert')).to.have.class(styles.error);
   });
 
   it('should be closeable if by default', () => {
     render(<Alert>{'Test element'}</Alert>);
 
-    screen.getByRole('button', {name: 'close alert'}).should.exist;
+    expect(screen.getByRole('button', {name: 'close alert'})).to.exist;
   });
 
   it('should be not closeable if defined', () => {
     render(<Alert closeable={false}>{'Test element'}</Alert>);
 
-    should.not.exist(screen.queryByRole('button', {name: 'close alert'}));
+    expect(screen.queryByRole('button', {name: 'close alert'})).to.not.exist;
   });
 
   it('should call onCloseRequest on click by close button', async () => {
@@ -52,7 +52,7 @@ describe('Alert', () => {
     if (closeElement != null) {
       await userEvent.click(closeElement);
     }
-    closeSpy.should.have.been.called;
+    expect(closeSpy).to.have.been.called;
   });
 
   it('should call onCloseRequest on timeout', () => {
@@ -68,6 +68,6 @@ describe('Alert', () => {
       clock.tick(TICK);
     });
 
-    closeSpy.should.have.been.called;
+    expect(closeSpy).to.have.been.called;
   });
 });

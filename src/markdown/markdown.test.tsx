@@ -13,10 +13,10 @@ describe('Markdown', () => {
   };
 
   it('should wrap children with div', () => {
-    renderMarkdown().should.have.tagName('div');
+    expect(renderMarkdown()).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    renderMarkdown({className: 'test-class'}).should.have.class('test-class');
+    expect(renderMarkdown({className: 'test-class'})).to.have.class('test-class');
   });
 });

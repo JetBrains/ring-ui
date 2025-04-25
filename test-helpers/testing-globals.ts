@@ -12,8 +12,6 @@ chai.use(sinonChai);
 const windowExtension = {
   sinon,
   sandbox: sinon.createSandbox(),
-  chai,
-  should: chai.should(),
 };
 
 type WindowExtension = typeof windowExtension;

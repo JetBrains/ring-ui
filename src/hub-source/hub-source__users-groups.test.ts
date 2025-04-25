@@ -18,8 +18,8 @@ describe('Hub Users Groups Source', () => {
 
   it('Should pass searchSideThreshold to HubSource', () => {
     const source = new HubSourceUsersGroups(fakeAuth, {searchSideThreshold: SEARCH_THRESHOLD});
-    source.usersSource.options.searchSideThreshold.should.equal(SEARCH_THRESHOLD);
-    source.groupsSource.options.searchSideThreshold.should.equal(SEARCH_THRESHOLD);
+    expect(source.usersSource.options.searchSideThreshold).to.equal(SEARCH_THRESHOLD);
+    expect(source.groupsSource.options.searchSideThreshold).to.equal(SEARCH_THRESHOLD);
   });
 
   it('Should make request for users', async () => {
@@ -27,7 +27,7 @@ describe('Hub Users Groups Source', () => {
     sandbox.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
     await source.getUsers();
-    source.usersSource.get.should.have.been.calledWith('', {
+    expect(source.usersSource.get).to.have.been.calledWith('', {
       fields: 'id,name,login,total,profile/avatar/url',
       orderBy: 'name',
     });
@@ -38,7 +38,7 @@ describe('Hub Users Groups Source', () => {
     sandbox.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
     await source.getUsers('nam');
-    source.usersSource.get.should.have.been.calledWith('nam', {
+    expect(source.usersSource.get).to.have.been.calledWith('nam', {
       fields: sinon.match.string,
       orderBy: sinon.match.string,
     });
@@ -48,7 +48,7 @@ describe('Hub Users Groups Source', () => {
     const source = new HubSourceUsersGroups(fakeAuth);
 
     const formatted = source.usersSource.options.queryFormatter('two words');
-    formatted.should.equal('nameStartsWith: {two words} or loginStartsWith: {two words}');
+    expect(formatted).to.equal('nameStartsWith: {two words} or loginStartsWith: {two words}');
   });
 
   it('Should filter user by login on the client side', async () => {
@@ -62,8 +62,8 @@ describe('Hub Users Groups Source', () => {
     );
 
     const res = await source.getUsers('login1');
-    res.length.should.equal(1);
-    res[0].should.equal(user1);
+    expect(res.length).to.equal(1);
+    expect(res[0]).to.equal(user1);
   });
 
   it('Should make request for groups', async () => {
@@ -71,7 +71,7 @@ describe('Hub Users Groups Source', () => {
     sandbox.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
 
     await source.getGroups();
-    source.groupsSource.get.should.have.been.calledWith('', {
+    expect(source.groupsSource.get).to.have.been.calledWith('', {
       fields: 'id,name,total,userCount,iconUrl',
       orderBy: 'name',
     });
@@ -84,6 +84,6 @@ describe('Hub Users Groups Source', () => {
     await source.getGroups();
     source.getGroups();
     source.getGroups();
-    httpMock.get.should.have.been.calledOnce;
+    expect(httpMock.get).to.have.been.calledOnce;
   });
 });

@@ -22,10 +22,12 @@ describe('Auth', () => {
 
     describe('saveState', () => {
       it('should be fulfilled', () =>
-        authStorage.saveState(stateId, {
-          restoreLocation: 'http://localhost:8080/hub#hash',
-          scopes: ['0-0-0-0-0'],
-        }).should.be.fulfilled);
+        expect(
+          authStorage.saveState(stateId, {
+            restoreLocation: 'http://localhost:8080/hub#hash',
+            scopes: ['0-0-0-0-0'],
+          }),
+        ).to.be.fulfilled);
     });
 
     describe('getState', () => {
@@ -36,18 +38,18 @@ describe('Auth', () => {
       it('should be get as it was saved', async () => {
         await authStorage.saveState(stateId, state);
         const newState = await authStorage.getState(stateId);
-        should.exist(newState);
-        newState?.should.deep.equal(state);
+        expect(newState).to.exist;
+        expect(newState).to.deep.equal(state);
       });
 
       it("should be null if wasn't set", () => {
-        authStorage.getState(stateId).should.eventually.be.null;
+        expect(authStorage.getState(stateId)).to.eventually.be.null;
       });
 
       it('should be null after first get', async () => {
         await authStorage.saveState(stateId, state);
         await authStorage.getState(stateId);
-        authStorage.getState(stateId).should.eventually.be.null;
+        expect(authStorage.getState(stateId)).to.eventually.be.null;
       });
     });
 
@@ -67,7 +69,7 @@ describe('Auth', () => {
           scopes: ['0-0-0-0-0', 'youtrack'],
         });
         await authStorage.cleanStates(stateId);
-        localStorage.should.have.keys(['stateunique2']);
+        expect(localStorage).to.have.keys(['stateunique2']);
       });
 
       it('should clean state by quota', async () => {
@@ -83,7 +85,7 @@ describe('Auth', () => {
           scopes: ['0-0-0-0-0', 'youtrack'],
         });
         await limitedAuthStorage.cleanStates();
-        localStorage.should.have.keys(['stateunique2']);
+        expect(localStorage).to.have.keys(['stateunique2']);
       });
 
       it('should clean state by TTL', async () => {
@@ -99,7 +101,7 @@ describe('Auth', () => {
         sandbox.clock.tick(TICK);
         await limitedAuthStorage.cleanStates();
         sandbox.clock.tick(TICK);
-        localStorage.should.be.empty;
+        expect(localStorage).to.be.empty;
       });
     });
 
@@ -111,27 +113,27 @@ describe('Auth', () => {
     };
 
     describe('saveToken', () => {
-      it('should be fulfilled', () => authStorage.saveToken(token).should.be.fulfilled);
+      it('should be fulfilled', () => expect(authStorage.saveToken(token)).to.be.fulfilled);
     });
 
     describe('getToken', () => {
       it('should be get as it was saved', async () => {
         await authStorage.saveToken(token);
-        authStorage.getToken().should.become(token);
+        expect(authStorage.getToken()).to.become(token);
       });
 
-      it("should be null if wasn't saved", () => authStorage.getToken().should.eventually.be.null);
+      it("should be null if wasn't saved", () => expect(authStorage.getToken()).to.eventually.be.null);
 
       it('should be the same after several get', async () => {
         await authStorage.saveToken(token);
         await authStorage.getToken();
-        authStorage.getToken().should.become(token);
+        expect(authStorage.getToken()).to.become(token);
       });
 
       it('should be null after wipe', async () => {
         await authStorage.saveToken(token);
         await authStorage.wipeToken();
-        authStorage.getToken().should.eventually.be.null;
+        expect(authStorage.getToken()).to.eventually.be.null;
       });
     });
 
@@ -162,7 +164,7 @@ describe('Auth', () => {
         mockedAuthStorage.saveToken(token);
 
         clock.tick(1);
-        spy.should.have.been.calledOnce;
+        expect(spy).to.have.been.calledOnce;
       });
 
       it('onStateChange should have been triggered', () => {
@@ -172,7 +174,7 @@ describe('Auth', () => {
         mockedAuthStorage.saveState(stateId, {});
 
         clock.tick(1);
-        spy.should.have.been.calledOnce;
+        expect(spy).to.have.been.calledOnce;
       });
 
       it('onMessage should have been triggered', () => {
@@ -182,8 +184,8 @@ describe('Auth', () => {
         mockedAuthStorage.sendMessage(stateId, 'message');
 
         clock.tick(1);
-        spy.should.have.been.calledOnce;
-        spy.should.have.been.calledWith('message');
+        expect(spy).to.have.been.calledOnce;
+        expect(spy).to.have.been.calledWith('message');
       });
     });
   });

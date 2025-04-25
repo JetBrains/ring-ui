@@ -10,13 +10,13 @@ describe('Progress Bar', () => {
 
   it('should create component', () => {
     renderProgressBar();
-    screen.getByRole('progressbar').should.exist;
+    expect(screen.getByRole('progressbar')).to.exist;
   });
 
   describe('default value for attributes', () => {
     it('should set default value for max attribute', () => {
       renderProgressBar();
-      screen.getByRole('progressbar', {value: {max: 1.0}}).should.exist;
+      expect(screen.getByRole('progressbar', {value: {max: 1.0}})).to.exist;
     });
   });
 
@@ -28,7 +28,7 @@ describe('Progress Bar', () => {
         max: MAX,
       });
 
-      screen.getByRole('progressbar', {value: {max: MAX}}).should.exist;
+      expect(screen.getByRole('progressbar', {value: {max: MAX}})).to.exist;
     });
 
     it('should set progress task value', () => {
@@ -38,7 +38,7 @@ describe('Progress Bar', () => {
         value: MIDDLE,
       });
 
-      screen.getByRole('progressbar', {value: {now: MIDDLE}}).should.exist;
+      expect(screen.getByRole('progressbar', {value: {now: MIDDLE}})).to.exist;
     });
 
     it('should set additional classes(modifiers) to the component', () => {
@@ -46,7 +46,7 @@ describe('Progress Bar', () => {
         className: 'test-class',
       });
 
-      screen.getByRole('progressbar').parentElement!.should.have.class('test-class');
+      expect(screen.getByRole('progressbar').parentElement!).to.have.class('test-class');
     });
 
     it('should set global modifier', () => {
@@ -54,7 +54,7 @@ describe('Progress Bar', () => {
         global: true,
       });
 
-      screen.getByRole('progressbar').parentElement!.should.have.class(styles.globalMode);
+      expect(screen.getByRole('progressbar').parentElement!).to.have.class(styles.globalMode);
     });
   });
 
@@ -65,7 +65,7 @@ describe('Progress Bar', () => {
   describe('#render', () => {
     it('should set min value to equal zero', () => {
       renderProgressBar();
-      screen.getByRole('progressbar', {value: {min: 0}}).should.exist;
+      expect(screen.getByRole('progressbar', {value: {min: 0}})).to.exist;
     });
 
     it('should update progress value in DOM', () => {
@@ -74,8 +74,8 @@ describe('Progress Bar', () => {
       });
 
       const progressBar = screen.getByRole('progressbar', {value: {now: 0.5}});
-      progressBar.should.exist;
-      progressBar.style.width.should.equal('50%');
+      expect(progressBar).to.exist;
+      expect(progressBar.style.width).to.equal('50%');
     });
 
     it('should set width equal 100% if progress value more than max value', () => {
@@ -84,14 +84,14 @@ describe('Progress Bar', () => {
         value: 10,
       });
 
-      screen.getByRole('progressbar').style.width.should.equal('100%');
+      expect(screen.getByRole('progressbar').style.width).to.equal('100%');
     });
 
     it('should not set style if value is not a number', () => {
       renderProgressBar({
         value: undefined,
       });
-      screen.getByRole('progressbar').should.not.have.attr('style');
+      expect(screen.getByRole('progressbar')).to.not.have.attr('style');
     });
   });
 });

@@ -12,50 +12,50 @@ const dataURI = `data:image/svg+xml,${encodeURIComponent(`
 describe('Avatar', () => {
   it('should create component', () => {
     render(<Avatar />);
-    screen.getByTestId('avatar').should.exist;
+    expect(screen.getByTestId('avatar')).to.exist;
   });
 
   it('should use passed className', () => {
     render(<Avatar className="test-class" />);
-    screen.getByTestId('avatar').should.have.class('test-class');
+    expect(screen.getByTestId('avatar')).to.have.class('test-class');
   });
 
   it('should use passed className when url is passed', () => {
     render(<Avatar className="test-class" url={dataURI} />);
-    screen.getByAltText('User avatar').should.have.class('test-class');
+    expect(screen.getByAltText('User avatar')).to.have.class('test-class');
   });
 
   it('should render span when no url is passed', () => {
     render(<Avatar />);
-    screen.getByTestId('avatar').should.have.tagName('span');
+    expect(screen.getByTestId('avatar')).to.have.tagName('span');
   });
 
   it('should render image when url is passed', () => {
     render(<Avatar url={dataURI} />);
-    screen.getByAltText('User avatar').should.exist;
+    expect(screen.getByAltText('User avatar')).to.exist;
   });
 
   it('should not append params when data:uri is passed', () => {
     render(<Avatar url={dataURI} />);
     const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
-    avatar.src.should.not.match(/dpr=|size=/);
+    expect(avatar.src).to.not.match(/dpr=|size=/);
   });
 
   it('should append params when http:uri is passed', () => {
     render(<Avatar url="http://" />);
     const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
-    avatar.src.should.match(/dpr=|size=/);
+    expect(avatar.src).to.match(/dpr=|size=/);
   });
 
   it('should set size 20 as default', () => {
     render(<Avatar url="http://" />);
     const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
-    avatar.src.should.match(/size=20/);
+    expect(avatar.src).to.match(/size=20/);
   });
 
   it('should set proper dpr', () => {
     render(<Avatar url="http://" />);
     const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
-    avatar.src.should.match(new RegExp(`dpr=${getPixelRatio()}`));
+    expect(avatar.src).to.match(new RegExp(`dpr=${getPixelRatio()}`));
   });
 });

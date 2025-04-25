@@ -7,17 +7,17 @@ import styles from './content-layout.css';
 describe('Content Layout', () => {
   it('should create component', () => {
     render(<ContentLayout />);
-    screen.getByTestId('content-layout').should.exist;
+    expect(screen.getByTestId('content-layout')).to.exist;
   });
 
   it('should wrap children with div', () => {
     render(<ContentLayout />);
-    screen.getByTestId('content-layout').should.have.tagName('div');
+    expect(screen.getByTestId('content-layout')).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
     render(<ContentLayout className="test-class" />);
-    screen.getByTestId('content-layout').should.have.class('test-class');
+    expect(screen.getByTestId('content-layout')).to.have.class('test-class');
   });
 
   it('should render sidebar', () => {
@@ -28,7 +28,7 @@ describe('Content Layout', () => {
       </ContentLayout>,
     );
 
-    screen.getByRole('complementary').should.exist;
+    expect(screen.getByRole('complementary')).to.exist;
   });
 
   it('should render sidebar on the right', () => {
@@ -39,6 +39,6 @@ describe('Content Layout', () => {
       </ContentLayout>,
     );
 
-    screen.getByRole('complementary').should.have.descendants(`div.${styles.sidebarRight}`);
+    expect(screen.getByRole('complementary')).to.have.descendants(`div.${styles.sidebarRight}`);
   });
 });

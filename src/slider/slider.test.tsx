@@ -10,26 +10,26 @@ describe('Slider', () => {
 
   it('should create component', () => {
     const {container} = renderSlider();
-    container.firstElementChild?.should.exist;
+    expect(container.firstElementChild).to.exist;
   });
 
   it('should use passed className', () => {
     const {container} = renderSlider({className: 'test-class'});
-    container.querySelector('.test-class')?.should.exist;
+    expect(container.querySelector('.test-class')).to.exist;
   });
 
   it('should use min value when defaultValue or value are unspecified', () => {
     renderSlider({min: DEFAULT_VALUE, showTag: true});
-    screen.getByText(DEFAULT_VALUE).should.exist;
-    screen.getByRole('tooltip').should.exist;
+    expect(screen.getByText(DEFAULT_VALUE)).to.exist;
+    expect(screen.getByRole('tooltip')).to.exist;
   });
 
   it('should use values in range', () => {
     const RIGHT = 101;
     renderSlider({defaultValue: [-1, RIGHT], showTag: true});
     const tooltips = screen.getAllByRole('tooltip');
-    tooltips[0]?.textContent?.should.equal('0');
-    tooltips[1]?.textContent?.should.equal('100');
+    expect(tooltips[0]?.textContent).to.equal('0');
+    expect(tooltips[1]?.textContent).to.equal('100');
   });
 
   it('should display a formatted tag', () => {
@@ -38,7 +38,7 @@ describe('Slider', () => {
       showTag: true,
       renderTag: value => `%${value}%`,
     });
-    screen.getByRole('tooltip').textContent?.should.equal(`%${DEFAULT_VALUE}%`);
+    expect(screen.getByRole('tooltip').textContent).to.equal(`%${DEFAULT_VALUE}%`);
   });
 
   it.skip('should handle only 2 values in range', () => {
@@ -53,7 +53,7 @@ describe('Slider', () => {
     fireEvent.mouseDown(slider, {clientX: 50});
     fireEvent.mouseUp(slider, {clientX: 50});
 
-    onChange.should.have.been.calledWith([1, NEW_VALUE]);
+    expect(onChange).to.have.been.calledWith([1, NEW_VALUE]);
   });
 
   it.skip('should swap values when one is moved over another', () => {
@@ -68,6 +68,6 @@ describe('Slider', () => {
     fireEvent.mouseDown(thumbs[1]); // Second thumb
     fireEvent.mouseUp(document.body, {clientX: 50});
 
-    onChange.should.have.been.calledWith([NEW_VALUE, LEFT]);
+    expect(onChange).to.have.been.calledWith([NEW_VALUE, LEFT]);
   });
 });

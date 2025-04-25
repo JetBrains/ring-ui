@@ -9,7 +9,7 @@ describe('Popup Menu', () => {
   };
 
   it('should create component', () => {
-    renderPopupMenu().should.exist;
+    expect(renderPopupMenu()).to.exist;
   });
 
   it('should have List', () => {
@@ -17,15 +17,15 @@ describe('Popup Menu', () => {
     const list = screen.getByRole('grid');
 
     // We need it to maintain compatibility between Popup Menu and List
-    queryAllByTestId(list, 'ring-list-item-action ring-list-item').should.have.length(0);
+    expect(queryAllByTestId(list, 'ring-list-item-action ring-list-item')).to.have.length(0);
   });
 
   it('should pass params to List', () => {
     renderPopupMenu({data: [{}]});
 
     const maybeList = screen.getByRole('grid');
-    should.exist(maybeList);
+    expect(maybeList).to.exist;
 
-    getByTestId(maybeList, 'ring-list-item-action ring-list-item').should.exist;
+    expect(getByTestId(maybeList, 'ring-list-item-action ring-list-item')).to.exist;
   });
 });

@@ -97,7 +97,7 @@ describe('position', () => {
     it('should cover all defined directions', () => {
       const anchorNode = createNode();
       Object.values(Directions).forEach(value => {
-        should.exist(maxHeightForDirection(value, anchorNode));
+        expect(maxHeightForDirection(value, anchorNode)).to.exist;
       });
     });
   });
@@ -124,8 +124,8 @@ describe('position', () => {
     ].forEach((directions, i) => {
       directions.forEach(d => {
         const maxHeight = maxHeightForDirection(d, anchorNode, containerNode);
-        should.exist(maxHeight);
-        maxHeight?.should.be.equal(expectedValues[i]);
+        expect(maxHeight).to.exist;
+        expect(maxHeight).to.be.equal(expectedValues[i]);
       });
     });
   }

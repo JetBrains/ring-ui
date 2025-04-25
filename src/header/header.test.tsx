@@ -9,10 +9,10 @@ describe('Header', () => {
   };
 
   it('should wrap children with header', () => {
-    getHeaderDiv().should.exist;
+    expect(getHeaderDiv()).to.exist;
   });
 
   it('should use passed className', () => {
-    getHeaderDiv({className: 'test-class'}).should.have.class('test-class');
+    expect(getHeaderDiv({className: 'test-class'})).to.have.class('test-class');
   });
 });

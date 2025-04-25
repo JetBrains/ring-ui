@@ -10,14 +10,14 @@ describe('Button Toolbar', () => {
   };
 
   it('should create component', () => {
-    renderButtonToolbar().should.exist;
+    expect(renderButtonToolbar()).to.exist;
   });
 
   it('should wrap children with div', () => {
-    renderButtonToolbar().should.have.tagName('div');
+    expect(renderButtonToolbar()).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    renderButtonToolbar({className: 'test-class'}).should.have.class('test-class');
+    expect(renderButtonToolbar({className: 'test-class'})).to.have.class('test-class');
   });
 });

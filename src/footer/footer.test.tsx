@@ -9,30 +9,30 @@ describe('Footer', () => {
 
   it('should create component', () => {
     renderFooter();
-    screen.getByRole('contentinfo').should.exist;
+    expect(screen.getByRole('contentinfo')).to.exist;
   });
 
   it('should be empty by default', () => {
     renderFooter();
     const footer = screen.getByRole('contentinfo');
-    footer.should.be.empty;
+    expect(footer).to.be.empty;
   });
 
   describe('should render items', () => {
     it('should add given class', () => {
       renderFooter({className: 'myClass'});
-      screen.getByRole('contentinfo').should.have.class('myClass');
+      expect(screen.getByRole('contentinfo')).to.have.class('myClass');
     });
 
     it('add left column one line', () => {
       renderFooter({left: ['One Line']});
-      screen.getByRole('contentinfo').should.contain.text('One Line');
-      screen.getByRole('listitem').should.contain.text('One Line');
+      expect(screen.getByRole('contentinfo')).to.contain.text('One Line');
+      expect(screen.getByRole('listitem')).to.contain.text('One Line');
     });
 
     it('add left column two lines', () => {
       renderFooter({left: ['One Line', 'Second Line']});
-      screen.getAllByRole('listitem').should.have.length(2);
+      expect(screen.getAllByRole('listitem')).to.have.length(2);
     });
 
     it('add three columns two lines', () => {
@@ -43,9 +43,9 @@ describe('Footer', () => {
       });
 
       const uls = screen.getAllByRole('list');
-      uls.should.have.length(3);
+      expect(uls).to.have.length(3);
 
-      uls.forEach(ul => getAllByRole(ul, 'listitem').should.have.length(2));
+      uls.forEach(ul => expect(getAllByRole(ul, 'listitem')).to.have.length(2));
     });
   });
 
@@ -54,7 +54,7 @@ describe('Footer', () => {
       left: [{copyright: 2010, label: ' JetBrains'}],
     });
 
-    screen.getByRole('listitem').should.contain.text(`Copyright © 2010–${new Date().getFullYear()} JetBrains`);
+    expect(screen.getByRole('listitem')).to.contain.text(`Copyright © 2010–${new Date().getFullYear()} JetBrains`);
   });
 
   it('should render link', () => {
@@ -64,8 +64,8 @@ describe('Footer', () => {
 
     const link = screen.getByRole('link');
 
-    link.should.have.text('JetBrains');
-    link.should.have.attr('href', 'http://jetbrains.com');
-    link.should.have.attr('title', 'JetBrains Official Site');
+    expect(link).to.have.text('JetBrains');
+    expect(link).to.have.attr('href', 'http://jetbrains.com');
+    expect(link).to.have.attr('title', 'JetBrains Official Site');
   });
 });

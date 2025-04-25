@@ -28,9 +28,9 @@ describe('List', () => {
       const data = [createItemMock(List.ListProps.Type.ITEM), createItemMock(List.ListProps.Type.ITEM)];
 
       renderList({data});
-      screen.getAllByRole('row')[0].should.have.tagName('div');
+      expect(screen.getAllByRole('row')[0]).to.have.tagName('div');
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      screen.getAllByRole('row')[3].should.have.tagName('div');
+      expect(screen.getAllByRole('row')[3]).to.have.tagName('div');
     });
   });
 
@@ -39,14 +39,14 @@ describe('List', () => {
       rgItemType: Type.SEPARATOR,
     };
 
-    List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
+    expect(List.isItemType(Type.SEPARATOR, itemMock)).to.been.equal(true);
   });
 
   it('by default item has type equal ITEM', () => {
     const itemMock = {};
 
-    List.isItemType(Type.ITEM, itemMock).should.been.equal(true);
-    List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(false);
+    expect(List.isItemType(Type.ITEM, itemMock)).to.been.equal(true);
+    expect(List.isItemType(Type.SEPARATOR, itemMock)).to.been.equal(false);
   });
 
   describe('should track activeIndex', () => {
@@ -66,32 +66,32 @@ describe('List', () => {
     });
 
     it('should select active item from props', () => {
-      screen.getByRole('row', {selected: true}).should.have.text('Item 0');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 0');
     });
 
     it('should activate item', () => {
       act(() => simulateCombo('down'));
-      screen.getByRole('row', {selected: true}).should.have.text('Item 1');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 1');
     });
 
     it("should reset active item when it's changed in props", () => {
       act(() => simulateCombo('down'));
       rerender(<List renderOptimization={false} {...props} activeIndex={2} />);
-      screen.getByRole('row', {selected: true}).should.have.text('Item 2');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 2');
     });
 
     it('should reset active item when data changed', () => {
       act(() => simulateCombo('down'));
       rerender(<List renderOptimization={false} {...props} data={[{key: 5}]} />);
 
-      should.not.exist(screen.queryByRole('row', {selected: true}));
+      expect(screen.queryByRole('row', {selected: true})).to.not.exist;
     });
 
     it("shouldn't reset activeIndex when it isn't changed in props", () => {
       act(() => simulateCombo('down'));
       rerender(<List renderOptimization={false} {...props} />);
 
-      screen.getByRole('row', {selected: true}).should.have.text('Item 1');
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 1');
     });
   });
 
@@ -101,8 +101,8 @@ describe('List', () => {
         data: [{}],
       });
       const firstItem = screen.getByRole('button');
-      firstItem.should.have.class(styles.action);
-      firstItem.should.have.text('');
+      expect(firstItem).to.have.class(styles.action);
+      expect(firstItem).to.have.text('');
     });
 
     it('should render instance item if type is not defined', () => {
@@ -110,7 +110,7 @@ describe('List', () => {
         data: [{label: 'Hello!'}],
       });
 
-      screen.getByTestId('ring-list-item-action ring-list-item').should.exist;
+      expect(screen.getByTestId('ring-list-item-action ring-list-item')).to.exist;
     });
 
     it('should render a if href defined', () => {
@@ -119,11 +119,11 @@ describe('List', () => {
       });
 
       const firstItem = screen.getByRole('link');
-      firstItem.should.exist;
-      firstItem.parentElement!.getAttribute('data-test')!.should.include('ring-list-link');
-      firstItem.should.have.text('Hello!');
-      firstItem.should.have.tagName('a');
-      firstItem.should.have.attr('href', 'http://www.jetbrains.com');
+      expect(firstItem).to.exist;
+      expect(firstItem.parentElement!.getAttribute('data-test')!).to.include('ring-list-link');
+      expect(firstItem).to.have.text('Hello!');
+      expect(firstItem).to.have.tagName('a');
+      expect(firstItem).to.have.attr('href', 'http://www.jetbrains.com');
     });
 
     it('should render a if url defined', () => {
@@ -132,11 +132,11 @@ describe('List', () => {
       });
 
       const firstItem = screen.getByRole('link');
-      firstItem.should.exist;
-      firstItem.parentElement!.getAttribute('data-test')!.should.include('ring-list-link');
-      firstItem.should.have.text('Hello!');
-      firstItem.should.have.tagName('a');
-      firstItem.should.have.attr('href', 'http://www.jetbrains.com');
+      expect(firstItem).to.exist;
+      expect(firstItem.parentElement!.getAttribute('data-test')!).to.include('ring-list-link');
+      expect(firstItem).to.have.text('Hello!');
+      expect(firstItem).to.have.tagName('a');
+      expect(firstItem).to.have.attr('href', 'http://www.jetbrains.com');
     });
 
     it('should render separator', () => {
@@ -145,8 +145,8 @@ describe('List', () => {
       });
 
       const firstItem = screen.getByTestId('ring-list-separator');
-      firstItem.should.exist;
-      firstItem.should.have.class(styles.separator);
+      expect(firstItem).to.exist;
+      expect(firstItem).to.have.class(styles.separator);
     });
 
     it('should render title', () => {
@@ -155,8 +155,8 @@ describe('List', () => {
       });
 
       const firstItem = screen.getByTestId('ring-list-title');
-      firstItem.should.exist;
-      firstItem.should.have.text('FooBar');
+      expect(firstItem).to.exist;
+      expect(firstItem).to.have.text('FooBar');
     });
 
     it('should render pseudo link if link without href', () => {
@@ -165,9 +165,9 @@ describe('List', () => {
       });
 
       const firstItem = screen.getByRole('button');
-      firstItem.should.exist;
-      firstItem.parentElement!.getAttribute('data-test')!.should.include('ring-list-link');
-      firstItem.should.have.text('Hello!');
+      expect(firstItem).to.exist;
+      expect(firstItem.parentElement!.getAttribute('data-test')!).to.include('ring-list-link');
+      expect(firstItem).to.have.text('Hello!');
     });
 
     it('should not render icon if not provided', () => {
@@ -176,7 +176,7 @@ describe('List', () => {
       });
 
       const firstItem = screen.getByTestId('ring-list-item-action ring-list-item');
-      firstItem.should.not.have.descendants(`.${styles.icon}`);
+      expect(firstItem).to.not.have.descendants(`.${styles.icon}`);
     });
 
     it('should render icon if provided', () => {
@@ -188,8 +188,8 @@ describe('List', () => {
         .getByTestId('ring-list-item-action ring-list-item')
         .querySelector<HTMLElement>(`.${styles.icon}`);
       const backgroundImage = icon?.style?.backgroundImage;
-      should.exist(backgroundImage);
-      backgroundImage?.should.contain('http://some.url');
+      expect(backgroundImage).to.exist;
+      expect(backgroundImage).to.contain('http://some.url');
     });
 
     it('should not render glyph if not provided', () => {
@@ -197,7 +197,7 @@ describe('List', () => {
         data: [{label: 'Hello!', rgItemType: List.ListProps.Type.ITEM}],
       });
 
-      should.not.exist(screen.queryByTestId('ring-icon'));
+      expect(screen.queryByTestId('ring-icon')).to.not.exist;
     });
 
     it('should render glyph if provided', () => {
@@ -205,23 +205,21 @@ describe('List', () => {
         data: [{label: 'Hello!', glyph: checkmarkIcon, rgItemType: List.ListProps.Type.ITEM}],
       });
 
-      screen
-        .getByTestId('ring-icon')
-        .querySelector('svg')!
-        .outerHTML.replace(' class="glyph"', '')
-        .should.equal(checkmarkIcon.replace('/>', '></path>'));
+      expect(screen.getByTestId('ring-icon').querySelector('svg')!.outerHTML.replace(' class="glyph"', '')).to.equal(
+        checkmarkIcon.replace('/>', '></path>'),
+      );
     });
 
     it('should throw error on unknown type', () => {
       vi.spyOn(console, 'error').mockImplementation(() => {});
-      (() => {
+      expect(() => {
         renderList({
           data: [
             // @ts-expect-error testing a wrong usage
             {label: 'Hello!', rgItemType: 'none'},
           ],
         });
-      }).should.throw(Error, 'Unknown menu element type: none');
+      }).to.throw(Error, 'Unknown menu element type: none');
     });
 
     it('should handle click', async () => {
@@ -234,7 +232,7 @@ describe('List', () => {
       const firstItem = screen.getByRole('button');
       const user = userEvent.setup();
       await user.click(firstItem);
-      clicked.should.have.been.called;
+      expect(clicked).to.have.been.called;
     });
 
     it('should handle select', async () => {
@@ -248,7 +246,7 @@ describe('List', () => {
       const firstItem = screen.getByRole('button');
       const user = userEvent.setup();
       await user.click(firstItem);
-      onSelect.should.have.been.called;
+      expect(onSelect).to.have.been.called;
     });
 
     it('Should support custom elements', () => {
@@ -263,7 +261,7 @@ describe('List', () => {
       });
 
       const firstItem = screen.getByRole('button');
-      firstItem.should.have.text('custom item');
+      expect(firstItem).to.have.text('custom item');
     });
 
     it('Should support click on custom elements', async () => {
@@ -282,7 +280,7 @@ describe('List', () => {
       const firstItem = screen.getByRole('button');
       const user = userEvent.setup();
       await user.click(firstItem);
-      onClick.should.have.been.called;
+      expect(onClick).to.have.been.called;
     });
 
     it('Should support disable property for custom elements', () => {
@@ -298,7 +296,7 @@ describe('List', () => {
       });
 
       const firstItem = screen.getByRole('button');
-      firstItem.should.not.have.class(styles.action);
+      expect(firstItem).to.not.have.class(styles.action);
     });
   });
 });

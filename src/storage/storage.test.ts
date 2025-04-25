@@ -12,19 +12,19 @@ type Circular = {
 
 function testStorage(storage: StorageInterface) {
   describe('set', () => {
-    it('should be fulfilled', () => storage.set('empty', {}).should.be.fulfilled);
+    it('should be fulfilled', () => expect(storage.set('empty', {})).to.be.fulfilled);
 
     it('should correctly set url incompatible characters', async () => {
       await storage.set('test;', 'value;');
       const value = await storage.get('test;');
-      'value;'.should.equal(value);
+      expect('value;').to.equal(value);
     });
 
     it('should fail on wrong input (e.g. on circular objects)', () => {
       const circular: Circular = {};
       circular.circular = circular;
 
-      return storage.set('circular', circular).should.be.rejected;
+      return expect(storage.set('circular', circular)).to.be.rejected;
     });
   });
 
@@ -34,50 +34,50 @@ function testStorage(storage: StorageInterface) {
     it('should get items', async () => {
       await storage.set('test2', test);
       const value = await storage.get('test2');
-      test.should.deep.equal(value);
+      expect(test).to.deep.equal(value);
     });
 
     it('should not return same objects', async () => {
       await storage.set('test', test);
       const value = await storage.get('test');
-      test.should.not.equal(value);
+      expect(test).to.not.equal(value);
     });
 
-    it('should return null when there is no item', () => storage.get('test').should.become(null));
+    it('should return null when there is no item', () => expect(storage.get('test')).to.become(null));
   });
 
   describe('remove', () => {
     it('should remove present items', async () => {
       await storage.set('empty', {});
       await storage.remove('empty');
-      storage.get('empty').should.become(null);
+      expect(storage.get('empty')).to.become(null);
     });
 
     it('should be fulfilled when is correct', async () => {
       await storage.set('empty', {});
-      storage.remove('empty').should.be.fulfilled;
+      expect(storage.remove('empty')).to.be.fulfilled;
     });
 
-    it('should be fulfilled for missing element', () => storage.remove('missing').should.be.fulfilled);
+    it('should be fulfilled for missing element', () => expect(storage.remove('missing')).to.be.fulfilled);
   });
 
   describe('each', () => {
     it('should be fulfilled', async () => {
       await storage.set('test1', '');
-      storage.each(noop).should.be.fulfilled;
+      expect(storage.each(noop)).to.be.fulfilled;
     });
 
     it('should iterate over items', async () => {
       const iterator = sandbox.stub();
       await storage.set('test', 'value');
       await storage.each(iterator);
-      iterator.should.have.been.calledWith('test', 'value');
+      expect(iterator).to.have.been.calledWith('test', 'value');
     });
 
     it('should not iterate without items', async () => {
       const iterator = sandbox.stub();
       await storage.each(iterator);
-      iterator.should.not.been.called;
+      expect(iterator).to.not.been.called;
     });
 
     it('should iterate over all items', async () => {
@@ -86,13 +86,13 @@ function testStorage(storage: StorageInterface) {
       await storage.set('test2', '');
       await storage.set('test3', '');
       await storage.each(iterator);
-      iterator.should.have.been.calledThrice;
+      expect(iterator).to.have.been.calledThrice;
     });
 
     it('should fail on wrong callback', async () => {
       await storage.set('test', '');
       // @ts-expect-error testing a wrong usage
-      storage.each().should.be.rejected;
+      expect(storage.each()).to.be.rejected;
     });
   });
 }
@@ -129,7 +129,7 @@ function testStorageEvents(storage: StorageInterface) {
 
       storage.set(testEvent, testValue);
 
-      return change.should.become(testValue);
+      return expect(change).to.become(testValue);
     });
 
     it('on after remove should be fired with null', async () => {
@@ -154,7 +154,7 @@ function testStorageEvents(storage: StorageInterface) {
       // Trigger target remove action
       storage.remove(testEvent);
 
-      change.should.become(null);
+      expect(change).to.become(null);
     });
 
     it("on after set with other key shouldn't be fired", () => {
@@ -165,7 +165,7 @@ function testStorageEvents(storage: StorageInterface) {
       storage.set('testWrong', 'testValue');
 
       clock.tick(1);
-      spy.should.not.have.been.called;
+      expect(spy).to.not.have.been.called;
     });
 
     it('stop should stop', () => {
@@ -178,7 +178,7 @@ function testStorageEvents(storage: StorageInterface) {
       storage.set(testEvent, 'testValue');
 
       clock.tick(1);
-      spy.should.not.have.been.called;
+      expect(spy).to.not.have.been.called;
     });
   });
 }
@@ -214,15 +214,15 @@ describe('Storage', () => {
         localStorage.setItem('invalid-json', 'invalid-json');
       });
 
-      it('should get non-parseable values', () => storage.get('invalid-json').should.be.become('invalid-json'));
+      it('should get non-parseable values', () => expect(storage.get('invalid-json')).to.be.become('invalid-json'));
 
-      it("shouldn't break iteration on non-parseable values", () => storage.each(noop).should.be.fulfilled);
+      it("shouldn't break iteration on non-parseable values", () => expect(storage.each(noop)).to.be.fulfilled);
 
       it('should iterate over items with non-parseable values', async () => {
         const iterator = sandbox.stub();
         await storage.set('test', 'value');
         await storage.each(iterator);
-        iterator.should.have.been.calledWith('invalid-json', 'invalid-json');
+        expect(iterator).to.have.been.calledWith('invalid-json', 'invalid-json');
       });
     });
   });

@@ -12,17 +12,17 @@ describe('Grid', () => {
 
   it('should create component', () => {
     renderGrid();
-    screen.getByTestId('ring-grid').should.exist;
+    expect(screen.getByTestId('ring-grid')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderGrid();
-    screen.getByTestId('ring-grid').should.have.tagName('div');
+    expect(screen.getByTestId('ring-grid')).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
     renderGrid({className: 'test-class'});
-    screen.getByTestId('ring-grid').should.have.class('test-class');
+    expect(screen.getByTestId('ring-grid')).to.have.class('test-class');
   });
 });
 
@@ -31,27 +31,27 @@ describe('Row', () => {
 
   it('should create component', () => {
     renderRow();
-    screen.getByTestId('ring-grid-row').should.exist;
+    expect(screen.getByTestId('ring-grid-row')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderRow();
-    screen.getByTestId('ring-grid-row').should.have.tagName('div');
+    expect(screen.getByTestId('ring-grid-row')).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
     renderRow({className: 'test-class'});
-    screen.getByTestId('ring-grid-row').should.have.class('test-class');
+    expect(screen.getByTestId('ring-grid-row')).to.have.class('test-class');
   });
 
   it('should convert "center" modifier to appropriate className', () => {
     renderRow({center: 'md'});
-    screen.getByTestId('ring-grid-row').should.have.class(styles['center-md']);
+    expect(screen.getByTestId('ring-grid-row')).to.have.class(styles['center-md']);
   });
 
   it('should convert "reverse" modifier to appropriate className', () => {
     renderRow({reverse: true});
-    screen.getByTestId('ring-grid-row').should.have.class(styles.reverse);
+    expect(screen.getByTestId('ring-grid-row')).to.have.class(styles.reverse);
   });
 });
 
@@ -60,26 +60,26 @@ describe('Col', () => {
 
   it('should create component', () => {
     renderCol();
-    screen.getByTestId('ring-grid-column').should.exist;
+    expect(screen.getByTestId('ring-grid-column')).to.exist;
   });
 
   it('should wrap children with div', () => {
     renderCol();
-    screen.getByTestId('ring-grid-column').should.have.tagName('div');
+    expect(screen.getByTestId('ring-grid-column')).to.have.tagName('div');
   });
 
   it('should use passed className', () => {
     renderCol({className: 'test-class'});
-    screen.getByTestId('ring-grid-column').should.have.class('test-class');
+    expect(screen.getByTestId('ring-grid-column')).to.have.class('test-class');
   });
 
   it('should convert digital value to appropriate className', () => {
     renderCol({xs: 2});
-    screen.getByTestId('ring-grid-column').should.have.class(styles['col-xs-2']);
+    expect(screen.getByTestId('ring-grid-column')).to.have.class(styles['col-xs-2']);
   });
 
   it('should convert autosize to appropriate className', () => {
     renderCol({xs: true});
-    screen.getByTestId('ring-grid-column').should.have.class(styles['col-xs']);
+    expect(screen.getByTestId('ring-grid-column')).to.have.class(styles['col-xs']);
   });
 });
