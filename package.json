@@ -189,7 +189,7 @@
     "sinon-chai": "^4.0.0",
     "storage-mock": "^2.1.0",
     "storybook": "8.6.12",
-    "stylelint": "^16.19.0",
+    "stylelint": "^16.19.1",
     "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.14",
