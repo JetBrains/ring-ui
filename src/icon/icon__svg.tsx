@@ -47,8 +47,8 @@ const getSVGFromSource = memoize((src: string) => {
 });
 
 function isCompatibilityMode(iconSrc: string) {
-  const hasWidth = /width="\w+"/gi.test(iconSrc);
-  const hasHeight = /height="\w+"/gi.test(iconSrc);
+  const hasWidth = /width=".+"/gi.test(iconSrc);
+  const hasHeight = /height=".+"/gi.test(iconSrc);
   return !hasWidth || !hasHeight;
 }
 
