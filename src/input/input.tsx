@@ -54,6 +54,7 @@ export interface InputBaseProps {
   beforeInput?: ReactNode;
   afterInput?: ReactNode;
   translations?: InputTranslations | null | undefined;
+  autogrow?: boolean | undefined;
 }
 
 type Override<D, S> = Omit<D, keyof S> & S;
@@ -75,6 +76,7 @@ export class Input extends PureComponent<InputProps> {
     onChange: noop,
     inputRef: noop,
     enableShortcuts: ['esc'],
+    autogrow: true,
   };
 
   state = {
@@ -108,7 +110,12 @@ export class Input extends PureComponent<InputProps> {
       empty: !this.input?.value,
     });
 
-    if (this.props.multiline && this.input != null && this.input.scrollHeight >= this.input.clientHeight) {
+    if (
+      this.props.multiline &&
+      this.props.autogrow &&
+      this.input != null &&
+      this.input.scrollHeight >= this.input.clientHeight
+    ) {
       this.stretch(this.input);
     }
   }
@@ -177,6 +184,7 @@ export class Input extends PureComponent<InputProps> {
       height = this.context,
       beforeInput,
       afterInput,
+      autogrow,
       ...restProps
     } = this.props;
 

@@ -55,6 +55,13 @@ export const Basic = () => {
       <Input label="Short input" size={Size.S} />
       <Input label="Long input" size={Size.L} />
       <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'} />
+      <Input
+        label="Textarea with disabled autogrowing"
+        multiline
+        autogrow={false}
+        rows={3}
+        defaultValue={'First line\nSecond line'}
+      />
     </form>
   );
 };
@@ -122,6 +129,13 @@ export const HeightS = () => {
         <Input label="Short input" size={Size.S} />
         <Input label="Long input" size={Size.L} />
         <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'} />
+        <Input
+          label="Textarea with disabled autogrowing"
+          multiline
+          autogrow={false}
+          rows={3}
+          defaultValue={'First line\nSecond line'}
+        />
       </form>
     </ControlsHeightContext.Provider>
   );
