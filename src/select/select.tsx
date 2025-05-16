@@ -1275,7 +1275,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       role: 'combobox',
       'aria-expanded': this.state.showPopup,
       'aria-controls': this.listId,
-      'aria-activedescendant': activeItemId,
+      'aria-activedescendant': this.state.showPopup ? activeItemId : undefined,
       'aria-label': this.props.label ?? this._getPlaceholder() ?? undefined,
     };
 
