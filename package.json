@@ -153,7 +153,7 @@
     "core-js": "^3.42.0",
     "cpy-cli": "^5.0.0",
     "dotenv-cli": "^8.0.0",
-    "eslint": "^9.25.1",
+    "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-formatter-jslint-xml": "^8.40.0",
     "eslint-import-resolver-webpack": "^0.13.10",
