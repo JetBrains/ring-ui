@@ -1,5 +1,3 @@
-import * as Sinon from 'sinon';
-
 import analytics, {Analytics} from './analytics';
 import AnalyticsCustomPlugin, {AnalyticsCustomPluginData} from './analytics__custom-plugin';
 
@@ -17,11 +15,10 @@ describe('Analytics', () => {
 
   describe('tracking events', () => {
     let send: (data: AnalyticsCustomPluginData[]) => void;
-    let clock: Sinon.SinonFakeTimers;
     let analyticsInstance: Analytics;
     beforeEach(() => {
       send = sandbox.spy();
-      clock = sandbox.useFakeTimers({toFake: ['setInterval']});
+      vi.useFakeTimers({toFake: ['setInterval']});
       analyticsInstance = new Analytics();
     });
 
@@ -34,7 +31,7 @@ describe('Analytics', () => {
 
       it('should send request to statistics server on tracking event', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
-        clock.tick(TICK_INTERVAL);
+        vi.advanceTimersByTime(TICK_INTERVAL);
 
         expect(send).to.have.been.calledWith([
           {
@@ -52,7 +49,7 @@ describe('Analytics', () => {
         });
 
         analyticsInstance.trackEvent('test-category', 'test-action');
-        clock.tick(TICK_INTERVAL);
+        vi.advanceTimersByTime(TICK_INTERVAL);
 
         expect(send).to.not.have.been.called;
         expect(flushingFunction).to.have.been.calledWith([
@@ -95,7 +92,7 @@ describe('Analytics', () => {
 
       it('should track event with additional information', () => {
         analyticsInstance.trackEvent('test-category', 'test-action', {type: 'test-type'});
-        clock.tick(TICK_INTERVAL);
+        vi.advanceTimersByTime(TICK_INTERVAL);
 
         expect(send).to.have.been.calledWith([
           {
@@ -114,7 +111,7 @@ describe('Analytics', () => {
 
       it('should not send request to statistics server', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
-        clock.tick(TICK_INTERVAL);
+        vi.advanceTimersByTime(TICK_INTERVAL);
 
         expect(send).to.not.have.been.called;
       });

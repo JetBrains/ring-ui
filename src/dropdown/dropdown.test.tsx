@@ -1,5 +1,3 @@
-import * as Sinon from 'sinon';
-
 import {fireEvent, render, screen} from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
@@ -84,12 +82,12 @@ describe('Dropdown', () => {
 
     await new Promise<void>(resolve => {
       setTimeout(() => {
-        act(() => fireEvent.pointerDown(document));
-        expect(popup).to.exist;
-        expect(popup?.isVisible()).to.be.false;
         resolve();
       }, 0);
     });
+    act(() => fireEvent.pointerDown(document));
+    expect(popup).to.exist;
+    expect(popup?.isVisible()).to.be.false;
   });
 
   it('should show popup when initialized with initShown=true', () => {
@@ -123,7 +121,6 @@ describe('Dropdown', () => {
 
   describe('hoverMode', () => {
     let popupEl: Popup | null;
-    let clock: Sinon.SinonFakeTimers;
 
     const dropDownProps = {
       hoverMode: true,
@@ -132,7 +129,7 @@ describe('Dropdown', () => {
     };
 
     beforeEach(() => {
-      clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+      vi.useFakeTimers({toFake: ['setTimeout']});
 
       const popupComponent = (
         <Popup<PopupProps>
@@ -150,7 +147,7 @@ describe('Dropdown', () => {
     it('should show popup on mouse enter', () => {
       const dropdown = screen.getByTestId('ring-dropdown');
       fireEvent.mouseEnter(dropdown);
-      act(() => clock.tick(dropDownProps.hoverShowTimeOut));
+      act(() => vi.advanceTimersByTime(dropDownProps.hoverShowTimeOut));
 
       expect(popupEl).to.exist;
       expect(popupEl?.isVisible()).to.be.true;
@@ -159,10 +156,10 @@ describe('Dropdown', () => {
     it('should hide popup on mouse leave', () => {
       const dropdown = screen.getByTestId('ring-dropdown');
       fireEvent.mouseEnter(dropdown);
-      act(() => clock.tick(dropDownProps.hoverShowTimeOut));
+      act(() => vi.advanceTimersByTime(dropDownProps.hoverShowTimeOut));
 
       fireEvent.mouseLeave(dropdown);
-      act(() => clock.tick(dropDownProps.hoverHideTimeOut));
+      act(() => vi.advanceTimersByTime(dropDownProps.hoverHideTimeOut));
 
       expect(popupEl).to.exist;
       expect(popupEl?.isVisible()).to.be.false;
@@ -173,7 +170,7 @@ describe('Dropdown', () => {
       fireEvent.click(dropdown);
 
       fireEvent.mouseLeave(dropdown);
-      act(() => clock.tick(dropDownProps.hoverHideTimeOut));
+      act(() => vi.advanceTimersByTime(dropDownProps.hoverHideTimeOut));
 
       expect(popupEl).to.exist;
       expect(popupEl?.isVisible()).to.be.true;
@@ -182,7 +179,7 @@ describe('Dropdown', () => {
     it('should not hide popup on click if popup is already opened by hover popup', () => {
       const dropdown = screen.getByTestId('ring-dropdown');
       fireEvent.mouseEnter(dropdown);
-      act(() => clock.tick(dropDownProps.hoverShowTimeOut));
+      act(() => vi.advanceTimersByTime(dropDownProps.hoverShowTimeOut));
 
       fireEvent.click(dropdown);
 

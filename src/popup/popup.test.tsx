@@ -1,5 +1,3 @@
-import * as Sinon from 'sinon';
-
 import {render, screen, fireEvent, getByTestId} from '@testing-library/react';
 
 import {getRect, getStyles} from '../global/dom';
@@ -36,17 +34,16 @@ describe('Popup', () => {
       bubbles: true,
       cancelable: false,
     });
-    let clock: Sinon.SinonFakeTimers;
 
     beforeEach(() => {
-      clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+      vi.useFakeTimers({toFake: ['setTimeout']});
     });
 
     it('should attempt to close by pointer down outside the element', () => {
       const onCloseAttempt = sandbox.stub();
       renderPopup({onCloseAttempt});
 
-      clock.tick(0);
+      vi.advanceTimersByTime(0);
       fireEvent(document.body, downEvent);
       expect(onCloseAttempt).to.have.been.called;
     });
@@ -55,7 +52,7 @@ describe('Popup', () => {
       const onCloseAttempt = sandbox.stub();
       renderPopup({onCloseAttempt});
 
-      clock.tick(0);
+      vi.advanceTimersByTime(0);
       fireEvent(document.body, downEvent);
       expect(onCloseAttempt).to.have.been.calledWith(sinon.match({type: 'pointerdown'}));
     });
@@ -67,7 +64,7 @@ describe('Popup', () => {
         onCloseAttempt,
       });
 
-      clock.tick(0);
+      vi.advanceTimersByTime(0);
       fireEvent(document.body, downEvent);
       expect(onCloseAttempt).to.not.have.been.called;
     });
@@ -79,7 +76,7 @@ describe('Popup', () => {
       });
 
       popup.rerender(<Popup {...{children: '', onCloseAttempt, hidden: false}} />);
-      clock.tick(0);
+      vi.advanceTimersByTime(0);
       fireEvent(document.body, downEvent);
       expect(onCloseAttempt).to.have.been.called;
     });
@@ -88,7 +85,7 @@ describe('Popup', () => {
       const onCloseAttempt = sandbox.stub();
       renderPopup({onCloseAttempt});
 
-      clock.tick(0);
+      vi.advanceTimersByTime(0);
       const popup = screen.getByTestId('ring-popup');
       fireEvent(popup, downEvent);
       expect(onCloseAttempt).to.not.have.been.called;
