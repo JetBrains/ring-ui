@@ -344,7 +344,9 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     if (
       (this.container && evt.target instanceof Node && this.container.contains(evt.target)) ||
       !this._listenersEnabled ||
-      (this.props.dontCloseOnAnchorClick && evt.target instanceof Node && this._getAnchor()?.contains(evt.target))
+      (this.props.dontCloseOnAnchorClick && evt.target instanceof Node && this._getAnchor()?.contains(evt.target)) ||
+      // ignore clicks in shadow DOM, e.g., Grammarly suggestions
+      (evt.target instanceof Element && evt.target.shadowRoot != null)
     ) {
       return;
     }

@@ -23,7 +23,7 @@
     "filenamify": "^6.0.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.3.0",
-    "html-reporter": "^10.16.3",
+    "html-reporter": "^10.18.1",
     "http-server": "^14.1.1",
     "ip": "^2.0.1",
     "jest": "^29.7.0",
@@ -34,7 +34,7 @@
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "testplane": "^8.28.1",
+    "testplane": "^8.29.2",
     "yauzl": "^3.2.0"
   }
 }
