@@ -89,7 +89,7 @@ describe('Auth', () => {
       });
 
       it('should clean state by TTL', async () => {
-        sandbox.useFakeTimers({toFake: ['Date']});
+        vi.useFakeTimers({toFake: ['Date']});
 
         const limitedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',
@@ -98,9 +98,9 @@ describe('Auth', () => {
         });
 
         await limitedAuthStorage.saveState(stateId, state);
-        sandbox.clock.tick(TICK);
+        vi.advanceTimersByTime(TICK);
         await limitedAuthStorage.cleanStates();
-        sandbox.clock.tick(TICK);
+        vi.advanceTimersByTime(TICK);
         expect(localStorage).to.be.empty;
       });
     });
@@ -158,32 +158,32 @@ describe('Auth', () => {
       });
 
       it('onTokenChange should have been triggered', () => {
-        const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+        vi.useFakeTimers({toFake: ['setTimeout']});
         const spy = sandbox.spy();
         mockedAuthStorage.onTokenChange(spy);
         mockedAuthStorage.saveToken(token);
 
-        clock.tick(1);
+        vi.advanceTimersByTime(1);
         expect(spy).to.have.been.calledOnce;
       });
 
       it('onStateChange should have been triggered', () => {
-        const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+        vi.useFakeTimers({toFake: ['setTimeout']});
         const spy = sandbox.spy();
         mockedAuthStorage.onStateChange(stateId, spy);
         mockedAuthStorage.saveState(stateId, {});
 
-        clock.tick(1);
+        vi.advanceTimersByTime(1);
         expect(spy).to.have.been.calledOnce;
       });
 
       it('onMessage should have been triggered', () => {
-        const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+        vi.useFakeTimers({toFake: ['setTimeout']});
         const spy = sandbox.spy();
         mockedAuthStorage.onMessage(stateId, spy);
         mockedAuthStorage.sendMessage(stateId, 'message');
 
-        clock.tick(1);
+        vi.advanceTimersByTime(1);
         expect(spy).to.have.been.calledOnce;
         expect(spy).to.have.been.calledWith('message');
       });

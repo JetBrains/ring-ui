@@ -1,6 +1,4 @@
 // Mock the Popup module
-import * as Sinon from 'sinon';
-
 import {render, screen, fireEvent, within, act} from '@testing-library/react';
 
 import Popup from '../popup/popup';
@@ -102,10 +100,8 @@ describe('Tooltip', () => {
   });
 
   describe('Popup', () => {
-    let clock: Sinon.SinonFakeTimers;
-
     beforeEach(() => {
-      clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+      vi.useFakeTimers({toFake: ['setTimeout']});
     });
 
     it('should unbind listeners when empty title is provided', () => {
@@ -129,7 +125,7 @@ describe('Tooltip', () => {
 
       act(() => {
         fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
+        vi.advanceTimersByTime(SHORT_DELAY);
       });
 
       // After mouseenter, Popup should be visible with the correct title
@@ -152,7 +148,7 @@ describe('Tooltip', () => {
 
       act(() => {
         fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
+        vi.advanceTimersByTime(SHORT_DELAY);
       });
 
       // Popup should remain hidden
@@ -169,14 +165,14 @@ describe('Tooltip', () => {
 
       act(() => {
         fireEvent.mouseEnter(tooltipElement);
-        clock.tick(MEDIUM_DELAY); // Not enough time for the popup to show
+        vi.advanceTimersByTime(MEDIUM_DELAY); // Not enough time for the popup to show
       });
 
       // Popup should still be hidden
       expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
 
       act(() => {
-        clock.tick(LONG_DELAY); // Now the popup should be visible
+        vi.advanceTimersByTime(LONG_DELAY); // Now the popup should be visible
       });
 
       // Now the popup should be visible
@@ -203,7 +199,7 @@ describe('Tooltip', () => {
 
       act(() => {
         fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
+        vi.advanceTimersByTime(SHORT_DELAY);
       });
 
       // Check that custom props are passed to Popup
@@ -223,7 +219,7 @@ describe('Tooltip', () => {
 
       act(() => {
         fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
+        vi.advanceTimersByTime(SHORT_DELAY);
       });
 
       // Popup should be visible
@@ -244,7 +240,7 @@ describe('Tooltip', () => {
 
       act(() => {
         fireEvent.mouseEnter(tooltipElement);
-        clock.tick(SHORT_DELAY);
+        vi.advanceTimersByTime(SHORT_DELAY);
       });
 
       // Popup should be visible

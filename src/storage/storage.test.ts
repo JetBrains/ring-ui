@@ -158,18 +158,18 @@ function testStorageEvents(storage: StorageInterface) {
     });
 
     it("on after set with other key shouldn't be fired", () => {
-      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+      vi.useFakeTimers({toFake: ['setTimeout']});
       const spy = sandbox.stub();
 
       stop = storage.on('testKey4', spy);
       storage.set('testWrong', 'testValue');
 
-      clock.tick(1);
+      vi.advanceTimersByTime(1);
       expect(spy).to.not.have.been.called;
     });
 
     it('stop should stop', () => {
-      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+      vi.useFakeTimers({toFake: ['setTimeout']});
       const spy = sandbox.spy();
 
       const testEvent = 'testKey5';
@@ -177,7 +177,7 @@ function testStorageEvents(storage: StorageInterface) {
       stop();
       storage.set(testEvent, 'testValue');
 
-      clock.tick(1);
+      vi.advanceTimersByTime(1);
       expect(spy).to.not.have.been.called;
     });
   });

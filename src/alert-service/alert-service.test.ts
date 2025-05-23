@@ -1,5 +1,3 @@
-import * as Sinon from 'sinon';
-
 import {render} from '@testing-library/react';
 
 import {act, ReactElement} from 'react';
@@ -14,10 +12,9 @@ const ALERT_SHOW_TIME = 100;
 
 describe('Alert Service', () => {
   let alertKey: string | number;
-  let clock: Sinon.SinonFakeTimers;
 
   beforeEach(() => {
-    clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+    vi.useFakeTimers({toFake: ['setTimeout']});
     let rerender: (element: ReactElement) => void;
     sandbox.stub(alert.reactRoot, 'render').callsFake(node => {
       const element = node as ReactElement;
@@ -69,8 +66,8 @@ describe('Alert Service', () => {
 
   it('Should remove alert after timeout', () => {
     alertKey = alert.message('foo', ALERT_SHOW_TIME);
-    act(() => clock.tick(SMALL_TICK)); // alert timeout
-    act(() => clock.tick(SMALL_TICK)); // alert animation
+    act(() => vi.advanceTimersByTime(SMALL_TICK)); // alert timeout
+    act(() => vi.advanceTimersByTime(SMALL_TICK)); // alert animation
     expect(alert._getShowingAlerts().length).to.equal(0);
   });
 
@@ -84,7 +81,7 @@ describe('Alert Service', () => {
     alertKey = alert.message('foo');
     alert.remove(alertKey);
     expect(true).to.equal(alert._getShowingAlerts().filter(it => it.key === alertKey)[0].isClosing);
-    clock.tick(SMALL_TICK);
+    vi.advanceTimersByTime(SMALL_TICK);
 
     expect(alert._getShowingAlerts().length).to.equal(0);
   });
@@ -92,8 +89,8 @@ describe('Alert Service', () => {
   it('should allow configuring default timeout', () => {
     alert.setDefaultTimeout(SMALL_TICK);
     alertKey = alert.message('foo');
-    act(() => clock.tick(BIG_TICK)); // alert timeout
-    act(() => clock.tick(SMALL_TICK)); // alert animation
+    act(() => vi.advanceTimersByTime(BIG_TICK)); // alert timeout
+    act(() => vi.advanceTimersByTime(SMALL_TICK)); // alert animation
     expect(alert._getShowingAlerts().length).to.equal(0);
   });
 });

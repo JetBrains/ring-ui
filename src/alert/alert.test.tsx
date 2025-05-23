@@ -56,7 +56,7 @@ describe('Alert', () => {
   });
 
   it('should call onCloseRequest on timeout', () => {
-    const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+    vi.useFakeTimers({toFake: ['setTimeout']});
     const closeSpy = sandbox.spy();
     render(
       <Alert timeout={TIMEOUT} onCloseRequest={closeSpy}>
@@ -65,7 +65,7 @@ describe('Alert', () => {
     );
 
     act(() => {
-      clock.tick(TICK);
+      vi.advanceTimersByTime(TICK);
     });
 
     expect(closeSpy).to.have.been.called;

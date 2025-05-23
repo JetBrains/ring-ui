@@ -118,18 +118,18 @@ describe('Auth', () => {
     });
 
     it('should perform redirect on userChange by default', () => {
-      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+      vi.useFakeTimers({toFake: ['setTimeout']});
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({serverUri: ''});
       auth.listeners.trigger(USER_CHANGED_EVENT);
-      clock.tick(0);
+      vi.advanceTimersByTime(0);
 
       expect(Auth.prototype._redirectCurrentPage).to.have.been.called;
     });
 
     it('should not perform redirect on userChange when reloadOnUserChange is false', () => {
-      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+      vi.useFakeTimers({toFake: ['setTimeout']});
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({
@@ -137,7 +137,7 @@ describe('Auth', () => {
         serverUri: '',
       });
       auth.listeners.trigger(USER_CHANGED_EVENT);
-      clock.tick(0);
+      vi.advanceTimersByTime(0);
 
       expect(Auth.prototype._redirectCurrentPage).to.not.been.called;
     });
