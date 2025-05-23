@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const fs = require('fs/promises');
-const crypto = require('crypto');
 
 const cssNano = require('cssnano');
 const loadPostcssConfig = require('postcss-load-config');
@@ -13,12 +12,6 @@ const FileSystemLoader = require('postcss-modules/build/FileSystemLoader').defau
 const {createFilter} = require('@rollup/pluginutils');
 
 const {DependencyGraph} = require('./css-plugin-dependencies');
-
-function getHash(input) {
-  const HASH_LEN = 4;
-  const hash = crypto.createHash('md5').update(input).digest('hex');
-  return hash.substr(0, HASH_LEN);
-}
 
 function removeDuplicatePaths(paths) {
   const seenPaths = new Set();
@@ -92,7 +85,7 @@ module.exports = function cssPlugin(options = {}) {
         }),
         cssModules({
           generateScopedName(name, filename) {
-            return `${name}_rui_${getHash(filename)}`;
+            return `ring-${path.basename(filename, '.css')}-${name}`;
           },
           getJSON: (filepath, json) => {
             cssModulesCache.set(filepath, json);
