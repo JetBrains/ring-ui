@@ -222,7 +222,7 @@
     }
   },
   "dependencies": {
-    "@babel/core": "^7.27.1",
+    "@babel/core": "^7.27.3",
     "@babel/preset-typescript": "^7.27.1",
     "@jetbrains/babel-preset-jetbrains": "^2.4.0",
     "@jetbrains/icons": "^5.10.0",
