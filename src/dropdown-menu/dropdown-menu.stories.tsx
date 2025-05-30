@@ -29,7 +29,7 @@ export default {
         },
       ],
     },
-    a11y: {element: '#storybook-root,*[data-test~=ring-dropdown]'},
+    a11y: {context: '#storybook-root,*[data-test~=ring-dropdown]'},
   },
 };
 

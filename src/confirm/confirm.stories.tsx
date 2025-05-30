@@ -10,7 +10,7 @@ export default {
   parameters: {
     notes: 'A component that shows a confirmation dialog.',
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
+    a11y: {context: '#storybook-root,*[data-test~=ring-dialog]'},
   },
 };
 

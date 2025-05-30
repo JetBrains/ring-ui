@@ -71,7 +71,7 @@ basic.storyName = 'basic';
 
 basic.parameters = {
   screenshots: {captureSelector: ['.topLeft', '.topRight', '.bottomLeft', '.bottomRight']},
-  a11y: {element: '#storybook-root,.topLeft,.topRight,.bottomLeft,.bottomRight'},
+  a11y: {context: '#storybook-root,.topLeft,.topRight,.bottomLeft,.bottomRight'},
   storyStyles: `
 <style>
   body {
@@ -155,7 +155,7 @@ autoPositioning.storyName = 'auto-positioning';
 
 autoPositioning.parameters = {
   screenshots: {captureSelector: 'body'},
-  a11y: {element: '#storybook-root,.left,.right,.bottom,.top'},
+  a11y: {context: '#storybook-root,.left,.right,.bottom,.top'},
   storyStyles: `
 <style>
   html, body {

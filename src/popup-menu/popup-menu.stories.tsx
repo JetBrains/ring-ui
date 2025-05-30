@@ -6,7 +6,7 @@ export default {
   parameters: {
     notes: 'Displays a popup menu.',
     screenshots: {captureSelector: '*[data-test~=ring-popup]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-popup]'},
+    a11y: {context: '#storybook-root,*[data-test~=ring-popup]'},
   },
 };
 

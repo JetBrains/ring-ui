@@ -1,7 +1,7 @@
 import path from 'path';
 
 import * as glob from 'glob';
-import {composeStories} from '@storybook/react';
+import {composeStories} from '@storybook/react-webpack5';
 import {storyNameFromExport} from '@storybook/csf';
 
 export function getAllStoryFiles() {

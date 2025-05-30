@@ -1,8 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
 
 import {Component} from '@storybook/addon-docs';
-import {Parameters} from '@storybook/react';
+import {Parameters} from '@storybook/react-webpack5';
 
 import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
 
@@ -49,3 +48,4 @@ export const parameters = {
 };
 
 export const decorators = [stylesDecorator(), strictModeDecorator(), themeDecorator()];
+export const tags = ['autodocs'];

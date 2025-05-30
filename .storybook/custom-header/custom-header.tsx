@@ -3,6 +3,10 @@ import * as client from 'react-dom/client';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains-simple.svg';
 import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
 
+import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
+
+import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
+
 import packageInfo from '../../package.json';
 import Auth from '../../src/auth/auth';
 import IFrameFlow from '../../src/auth/iframe-flow';
@@ -12,11 +16,6 @@ import authDialogService from '../../src/auth-dialog-service/auth-dialog-service
 
 import Version from './version';
 import styles from './header-styles.css';
-
-/* eslint-disable import/no-unresolved */
-import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
-import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
-/* eslint-enable */
 
 class SiteHeader extends PureComponent {
   async componentDidMount() {

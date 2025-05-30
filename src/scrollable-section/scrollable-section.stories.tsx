@@ -1,4 +1,4 @@
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
 import {HTMLAttributes} from 'react';
 
 import ScrollableSection from './scrollable-section';

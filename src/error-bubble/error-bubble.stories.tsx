@@ -99,7 +99,7 @@ inDialogForm.storyName = 'in dialog form';
 
 inDialogForm.parameters = {
   screenshots: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
-  a11y: {element: '#storybook-root,*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'},
+  a11y: {context: '#storybook-root,*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'},
 };
 
 export const multiline = () => (

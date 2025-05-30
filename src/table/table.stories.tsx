@@ -1,6 +1,6 @@
 import {useState, useCallback, useEffect} from 'react';
 
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
 
 import {Grid, Row, Col} from '../grid/grid';
 import Link from '../link/link';

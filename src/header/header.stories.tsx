@@ -13,7 +13,7 @@ import agentsIcon from '@jetbrains/icons/agents-20px';
 import hourglassIcon from '@jetbrains/icons/hourglass-20px';
 import bellIcon from '@jetbrains/icons/bell-20px';
 
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
 
 import hubConfig from '../../.storybook/hub-config';
 

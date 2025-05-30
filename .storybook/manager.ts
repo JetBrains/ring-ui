@@ -1,4 +1,4 @@
-import {addons} from '@storybook/manager-api';
+import {addons} from 'storybook/manager-api';
 
 import '../src/global/variables.css';
 import Theme, {applyTheme} from '../src/global/theme';
