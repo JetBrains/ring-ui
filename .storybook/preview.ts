@@ -36,7 +36,6 @@ export const parameters = {
       },
     },
   },
-  actions: {argTypesRegex: '^on.*'},
   backgrounds: {disable: true},
   themes: {
     default: 'Light',
