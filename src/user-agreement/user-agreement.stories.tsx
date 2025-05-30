@@ -1,6 +1,6 @@
 import {Component} from 'react';
 
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
 
 import alert from '../alert-service/alert-service';
 
@@ -14,7 +14,7 @@ export default {
   component: UserAgreement,
   parameters: {
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
+    a11y: {context: '#storybook-root,*[data-test~=ring-dialog]'},
   },
 };
 
@@ -121,5 +121,5 @@ service.argTypes = {
 service.storyName = 'service';
 service.parameters = {
   screenshots: {skip: true},
-  a11y: {element: '#storybook-root,*[data-test="alert-container"]'},
+  a11y: {context: '#storybook-root,*[data-test="alert-container"]'},
 };

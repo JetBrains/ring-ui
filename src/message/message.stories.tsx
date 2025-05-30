@@ -1,6 +1,6 @@
 import searchIcon from '@jetbrains/icons/search';
 
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
 
 import Popup from '../popup/popup';
 import Icon from '../icon/icon';

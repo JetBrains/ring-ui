@@ -1,7 +1,7 @@
 import {useState, useEffect, createElement, useMemo} from 'react';
 import permissionIcon from '@jetbrains/icons/settings';
 
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
 
 import hubConfig from '../../.storybook/hub-config';
 

@@ -4,7 +4,7 @@ import * as React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import searchIcon from '@jetbrains/icons/search';
 
-import {StoryFn, StoryObj} from '@storybook/react';
+import {StoryFn, StoryObj} from '@storybook/react-webpack5';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -219,7 +219,7 @@ ButtonModeWithAFilter.storyName = 'button mode with a filter';
 
 ButtonModeWithAFilter.parameters = {
   screenshots: {captureSelector: '*[data-test~=ring-select]'},
-  a11y: {element: '#storybook-root,*[data-test~=ring-select]'},
+  a11y: {context: '#storybook-root,*[data-test~=ring-select]'},
   storyStyles: `
 <style>
   .demo {

@@ -1,6 +1,6 @@
 import {Component} from 'react';
-import {useState} from '@storybook/preview-api';
-import type {StoryFn} from '@storybook/react';
+import {useState} from 'storybook/preview-api';
+import type {StoryFn} from '@storybook/react-webpack5';
 
 import {Header, Content} from '../island/island';
 import Button from '../button/button';
@@ -19,7 +19,7 @@ export default {
   parameters: {
     notes: 'The Dialog component is a simple way to present content above an enclosing view.',
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
-    a11y: {element: '#storybook-root,*[data-test~=ring-dialog]'},
+    a11y: {context: '#storybook-root,*[data-test~=ring-dialog]'},
   },
 };
 

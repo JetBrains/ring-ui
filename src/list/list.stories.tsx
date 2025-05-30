@@ -1,6 +1,7 @@
 import {createElement, useState, useEffect} from 'react';
 import warningIcon from '@jetbrains/icons/warning';
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
+import {fn} from 'storybook/test';
 
 import hubConfig from '../../.storybook/hub-config';
 
@@ -26,6 +27,9 @@ export default {
   component: List,
   parameters: {
     screenshots: {captureSelector: '*[data-test~=ring-list]'},
+  },
+  args: {
+    onResize: fn(),
   },
 };
 

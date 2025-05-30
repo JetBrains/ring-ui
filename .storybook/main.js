@@ -1,3 +1,7 @@
+import {createRequire} from 'node:module';
+import {dirname, join} from 'node:path';
+
+const require = createRequire(import.meta.url);
 const path = require('path');
 
 const webpack = require('webpack');
@@ -5,23 +9,23 @@ const webpack = require('webpack');
 const ringConfig = require('../webpack.config').createConfig();
 const pkgConfig = require('../package.json').config;
 
-module.exports = {
+export default {
   stories: [
     // Make welcome stories default
     '../src/welcome.stories.tsx',
     '../src/**/*.stories.{js,ts,tsx}',
   ],
+
+  features: {
+    actions: false,
+  },
+
   addons: [
-    {
-      name: '@storybook/addon-essentials',
-      options: {
-        actions: false,
-        docs: true,
-      },
-    },
+    '@storybook/addon-docs',
     !process.env.SKIP_A11Y_ADDON && '@storybook/addon-a11y',
     '@storybook/addon-themes',
   ].filter(Boolean),
+
   webpackFinal(config) {
     ringConfig.componentsPath.push(__dirname, path.resolve(__dirname, '../src'));
 
@@ -53,15 +57,19 @@ module.exports = {
 
     return config;
   },
+
   framework: {
-    name: '@storybook/react-webpack5',
+    name: getAbsolutePath('@storybook/react-webpack5'),
     options: {},
   },
-  docs: {
-    autodocs: true,
-  },
+
   staticDirs: ['./custom-header/dist'],
+
   typescript: {
     reactDocgen: 'react-docgen',
   },
 };
+
+function getAbsolutePath(value) {
+  return dirname(require.resolve(join(value, 'package.json')));
+}

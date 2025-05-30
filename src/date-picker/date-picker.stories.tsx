@@ -1,5 +1,5 @@
 import {Component} from 'react';
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
 import {enUS} from 'date-fns/locale/en-US';
 
 import {Size} from '../input/input';

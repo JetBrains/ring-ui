@@ -1,5 +1,5 @@
 import {paramCase} from 'change-case';
-import {create} from '@storybook/theming';
+import {create} from 'storybook/theming';
 
 export const darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
 // Proxy support is more or less the same as one of CSS custom properties

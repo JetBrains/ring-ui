@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {useEffect} from '@storybook/preview-api';
+import {useEffect} from 'storybook/preview-api';
 
-import {StoryContext} from '@storybook/react';
+import {StoryContext} from '@storybook/react-webpack5';
 
 import {FunctionComponent} from 'react';
 

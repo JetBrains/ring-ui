@@ -67,6 +67,10 @@ export default tseslint.config(
 
     settings: {
       'import/core-modules': ['./metadata-messages.json'],
+      'import/resolver': {
+        exports: {},
+        webpack: true,
+      },
     },
 
     rules: {
@@ -134,14 +138,6 @@ export default tseslint.config(
       globals: {
         ...globals.browser,
         ...Object.fromEntries(Object.entries(globals.node).map(([key]) => [key, 'off'])),
-      },
-    },
-
-    settings: {
-      'import/resolver': {
-        webpack: {
-          config: './webpack.config.js',
-        },
       },
     },
 

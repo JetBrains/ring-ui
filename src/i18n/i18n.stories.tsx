@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import {StoryFn} from '@storybook/react-webpack5';
 
 import {getTranslations, type Messages} from './i18n';
 import {I18nContext, I18nContextHolder} from './i18n-context';
