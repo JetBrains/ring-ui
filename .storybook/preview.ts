@@ -26,6 +26,7 @@ export const parameters = {
     extractComponentDescription: (component: Component, {notes}: Parameters) =>
       notes ?? component?.__docgenInfo?.description,
     theme,
+    codePanel: true,
   },
   a11y: {
     options: {
