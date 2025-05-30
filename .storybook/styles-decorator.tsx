@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {useEffect} from 'storybook/preview-api';
-
 import {StoryContext} from '@storybook/react-webpack5';
 
-import {FunctionComponent} from 'react';
+import {FunctionComponent, useEffect} from 'react';
 
 import {injectStyleSheet} from '../src/global/inject-styles';
 
