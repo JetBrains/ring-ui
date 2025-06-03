@@ -1,9 +1,7 @@
 /* eslint-disable react/jsx-no-literals */
 import {render, screen, fireEvent} from '@testing-library/react';
 
-import {SinonStub} from 'sinon';
-
-import {beforeEach} from 'vitest';
+import {beforeEach, Mock} from 'vitest';
 
 import userEvent from '@testing-library/user-event';
 
@@ -13,12 +11,12 @@ import Upload, {UploadHandle} from './upload';
 import styles from './upload.css';
 
 describe('<Upload />', () => {
-  let onFilesSelectedMock: SinonStub;
-  let onFilesRejectedMock: SinonStub;
+  let onFilesSelectedMock: Mock;
+  let onFilesRejectedMock: Mock;
 
   beforeEach(() => {
-    onFilesSelectedMock = sandbox.stub();
-    onFilesRejectedMock = sandbox.stub();
+    onFilesSelectedMock = vi.fn();
+    onFilesRejectedMock = vi.fn();
   });
 
   const testFile = new File(['test-content'], 'test-file.txt', {type: 'text/plain'});
@@ -55,11 +53,11 @@ describe('<Upload />', () => {
 
     await userEvent.upload(fileInput, testFile);
 
-    expect(onFilesSelectedMock).to.have.been.calledOnce;
-    expect(onFilesSelectedMock).to.have.been.calledWith([testFile]);
+    expect(onFilesSelectedMock).toHaveBeenCalledOnce;
+    expect(onFilesSelectedMock).toHaveBeenCalledWith([testFile]);
   });
 
-  it('triggers `onFilesRejected` when file validation returns false', async () => {
+  it('triggers `onFilesRejected` when file validation mockReturnValue false', async () => {
     render(
       <Upload onFilesSelected={onFilesSelectedMock} onFilesRejected={onFilesRejectedMock} validate={() => false}>
         Drop files here
@@ -70,8 +68,8 @@ describe('<Upload />', () => {
 
     await userEvent.upload(fileInput, testFile);
 
-    expect(onFilesSelectedMock).to.not.have.been.calledOnce;
-    expect(onFilesRejectedMock).to.have.been.calledOnceWith([testFile]);
+    expect(onFilesSelectedMock).not.toHaveBeenCalledOnce;
+    expect(onFilesRejectedMock).toHaveBeenCalledExactlyOnceWith([testFile]);
   });
 
   it('should update style on drag enter/leave', () => {

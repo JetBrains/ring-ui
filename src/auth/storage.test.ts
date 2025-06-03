@@ -141,12 +141,14 @@ describe('Auth', () => {
       let mockedAuthStorage: AuthStorage;
 
       beforeEach(() => {
-        sandbox.stub(window, 'addEventListener').value((...args: unknown[]) => mockedWindow.addEventListener(...args));
-        sandbox
-          .stub(window, 'removeEventListener')
-          .value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
-        sandbox.stub(window, 'localStorage').value(mockedWindow.localStorage);
-        sandbox.stub(window, 'sessionStorage').value(mockedWindow.sessionStorage);
+        vi.spyOn(window, 'addEventListener').mockImplementation((...args: unknown[]) =>
+          mockedWindow.addEventListener(...args),
+        );
+        vi.spyOn(window, 'removeEventListener').mockImplementation((...args: unknown[]) =>
+          mockedWindow.removeEventListener(...args),
+        );
+        vi.stubGlobal('localStorage', mockedWindow.localStorage);
+        vi.stubGlobal('sessionStorage', mockedWindow.sessionStorage);
         localStorage.clear();
         sessionStorage.clear();
 
@@ -159,33 +161,33 @@ describe('Auth', () => {
 
       it('onTokenChange should have been triggered', () => {
         vi.useFakeTimers({toFake: ['setTimeout']});
-        const spy = sandbox.spy();
+        const spy = vi.fn();
         mockedAuthStorage.onTokenChange(spy);
         mockedAuthStorage.saveToken(token);
 
         vi.advanceTimersByTime(1);
-        expect(spy).to.have.been.calledOnce;
+        expect(spy).toHaveBeenCalledOnce;
       });
 
       it('onStateChange should have been triggered', () => {
         vi.useFakeTimers({toFake: ['setTimeout']});
-        const spy = sandbox.spy();
+        const spy = vi.fn();
         mockedAuthStorage.onStateChange(stateId, spy);
         mockedAuthStorage.saveState(stateId, {});
 
         vi.advanceTimersByTime(1);
-        expect(spy).to.have.been.calledOnce;
+        expect(spy).toHaveBeenCalledOnce;
       });
 
       it('onMessage should have been triggered', () => {
         vi.useFakeTimers({toFake: ['setTimeout']});
-        const spy = sandbox.spy();
+        const spy = vi.fn();
         mockedAuthStorage.onMessage(stateId, spy);
         mockedAuthStorage.sendMessage(stateId, 'message');
 
         vi.advanceTimersByTime(1);
-        expect(spy).to.have.been.calledOnce;
-        expect(spy).to.have.been.calledWith('message');
+        expect(spy).toHaveBeenCalledOnce;
+        expect(spy).toHaveBeenCalledWith('message');
       });
     });
   });

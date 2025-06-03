@@ -60,7 +60,7 @@ export default class TokenValidator {
 
   /**
    * Check token validity against all conditions.
-   * @returns {Promise.<string>}
+   * @mockReturnValue {Promise.<string>}
    */
   validateTokenLocally() {
     return this._getValidatedToken([
@@ -72,7 +72,7 @@ export default class TokenValidator {
 
   /**
    * Check token validity against all conditions.
-   * @returns {Promise.<string>}
+   * @mockReturnValue {Promise.<string>}
    */
   validateToken() {
     return this._getValidatedToken([

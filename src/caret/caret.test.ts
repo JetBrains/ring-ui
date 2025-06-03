@@ -35,10 +35,10 @@ describe('Caret', () => {
     });
 
     it('Should focus on get by default', () => {
-      sandbox.spy(target, 'focus');
+      vi.spyOn(target, 'focus');
       caret.getPosition();
 
-      expect(target.focus).to.have.been.called;
+      expect(target.focus).toHaveBeenCalled();
     });
 
     it("Shouldn't focus on get when prohibited", () => {

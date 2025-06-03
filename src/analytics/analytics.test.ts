@@ -17,7 +17,7 @@ describe('Analytics', () => {
     let send: (data: AnalyticsCustomPluginData[]) => void;
     let analyticsInstance: Analytics;
     beforeEach(() => {
-      send = sandbox.spy();
+      send = vi.fn();
       vi.useFakeTimers({toFake: ['setInterval']});
       analyticsInstance = new Analytics();
     });
@@ -33,17 +33,17 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
         vi.advanceTimersByTime(TICK_INTERVAL);
 
-        expect(send).to.have.been.calledWith([
+        expect(send).toHaveBeenCalledWith([
           {
             category: 'test-category',
             action: 'test-action',
-            timestamp: sinon.match.number,
+            timestamp: expect.any(Number),
           },
         ]);
       });
 
       it('should support configuration via method config', () => {
-        const flushingFunction = sandbox.spy();
+        const flushingFunction = vi.fn();
         customPlugin.config({
           send: flushingFunction,
         });
@@ -51,12 +51,12 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
         vi.advanceTimersByTime(TICK_INTERVAL);
 
-        expect(send).to.not.have.been.called;
-        expect(flushingFunction).to.have.been.calledWith([
+        expect(send).not.toHaveBeenCalled;
+        expect(flushingFunction).toHaveBeenCalledWith([
           {
             category: 'test-category',
             action: 'test-action',
-            timestamp: sinon.match.number,
+            timestamp: expect.any(Number),
           },
         ]);
       });
@@ -69,7 +69,7 @@ describe('Analytics', () => {
 
         analyticsInstance.trackEvent('test-category-100', 'test-action');
 
-        expect(send).to.have.been.called;
+        expect(send).toHaveBeenCalled();
         expect(customPlugin._data.length).to.equal(0);
       });
 
@@ -86,7 +86,7 @@ describe('Analytics', () => {
 
         analyticsInstance.trackEvent('test-category-102', 'test-action');
 
-        expect(send).to.have.been.called;
+        expect(send).toHaveBeenCalled();
         expect(customPlugin._data.length).to.equal(0);
       });
 
@@ -94,11 +94,11 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action', {type: 'test-type'});
         vi.advanceTimersByTime(TICK_INTERVAL);
 
-        expect(send).to.have.been.calledWith([
+        expect(send).toHaveBeenCalledWith([
           {
             category: 'test-category',
             action: 'test-action',
-            timestamp: sinon.match.number,
+            timestamp: expect.any(Number),
             data: {type: 'test-type'},
           },
         ]);
@@ -113,7 +113,7 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
         vi.advanceTimersByTime(TICK_INTERVAL);
 
-        expect(send).to.not.have.been.called;
+        expect(send).not.toHaveBeenCalled();
       });
     });
   });

@@ -1022,9 +1022,7 @@ export default class Auth implements HTTPAuth {
       this.config.checkBackendIsUp(),
     ]).catch(err => {
       if (err instanceof TypeError) {
-        throw new TypeError(
-          'Could not connect to the server due to network error. Please check your connection and try again.',
-        );
+        throw err;
       }
       throw err;
     });

@@ -94,7 +94,7 @@ describe('UserCard', () => {
     let userSource: () => Promise<UserCardUser>;
 
     beforeEach(() => {
-      userSource = sandbox.spy(() => Promise.resolve(fakeUser));
+      userSource = vi.fn().mockResolvedValue(fakeUser);
     });
 
     const renderTooltip = (props?: SmartUserCardTooltipProps) =>
@@ -111,7 +111,7 @@ describe('UserCard', () => {
       userEvent.hover(tooltip);
       await screen.findByText('foo');
 
-      expect(userSource).to.have.been.called;
+      expect(userSource).toHaveBeenCalled();
     });
   });
 });

@@ -84,7 +84,7 @@ describe('Query Assist', () => {
   const defaultProps = () => ({
     query: testQuery,
     focus: true,
-    dataSource: sandbox.spy(dataSource),
+    dataSource: vi.fn().mockImplementation(dataSource),
   });
   const renderQueryAssist = (props?: Partial<QueryAssistAttrs>) => {
     render(<QueryAssist {...defaultProps()} {...props} />);
@@ -200,24 +200,24 @@ describe('Query Assist', () => {
     it('should request data', async () => {
       const props = defaultProps();
       render(<QueryAssist {...props} />);
-      props.dataSource.resetHistory();
+      props.dataSource.mockClear();
       await waitForSetStateCallbacks(() => simulateCombo('ctrl+space'));
-      expect(props.dataSource).to.have.been.calledOnce;
+      expect(props.dataSource).toHaveBeenCalledOnce;
     });
 
     it('should request data debounced when delay set', async () => {
       const props = {...defaultProps(), delay: 100};
       render(<QueryAssist {...props} />);
-      props.dataSource.resetHistory();
+      props.dataSource.mockClear();
       await waitForSetStateCallbacks();
       vi.useFakeTimers();
       await act(() => simulateCombo('ctrl+space'));
-      expect(props.dataSource).to.not.have.been.called;
+      expect(props.dataSource).not.toHaveBeenCalled;
       await waitForSetStateCallbacks(() => {
         vi.runAllTimers();
         vi.useRealTimers();
       });
-      expect(props.dataSource).to.have.been.calledOnce;
+      expect(props.dataSource).toHaveBeenCalledOnce;
     });
 
     it('should create popup when autoOpen', async () => {
@@ -308,7 +308,7 @@ describe('Query Assist', () => {
       rerender(<QueryAssist {...props} />);
       await waitForSetStateCallbacks();
 
-      expect(props.dataSource).to.have.been.calledOnce;
+      expect(props.dataSource).toHaveBeenCalledOnce;
     });
 
     it('should render placeholder when enabled on empty query', async () => {
@@ -647,7 +647,7 @@ describe('Query Assist', () => {
   describe('callbacks', () => {
     let onApply: (change: QueryAssistChange) => void;
     beforeEach(() => {
-      onApply = sandbox.stub();
+      onApply = vi.fn();
     });
 
     it('should call onApply', async () => {
@@ -657,10 +657,12 @@ describe('Query Assist', () => {
 
       await waitForSetStateCallbacks();
       await act(() => simulateCombo('enter'));
-      expect(onApply).to.have.been.calledWithMatch({
-        query: testQuery,
-        caret: testQueryLength,
-      });
+      expect(onApply).toHaveBeenCalledWith(
+        expect.objectContaining({
+          query: testQuery,
+          caret: testQueryLength,
+        }),
+      );
     });
 
     it('should call onApply when press ctrl/cmd + enter', async () => {
@@ -670,14 +672,16 @@ describe('Query Assist', () => {
 
       await waitForSetStateCallbacks();
       await act(() => simulateCombo('ctrl+enter'));
-      expect(onApply).to.have.been.calledWithMatch({
-        query: testQuery,
-        caret: testQueryLength,
-      });
+      expect(onApply).toHaveBeenCalledWith(
+        expect.objectContaining({
+          query: testQuery,
+          caret: testQueryLength,
+        }),
+      );
     });
 
     it('should call onClear', async () => {
-      const onClear = sandbox.stub();
+      const onClear = vi.fn();
       const queryAssist = renderQueryAssist({
         clear: true,
         onClear,
@@ -685,7 +689,7 @@ describe('Query Assist', () => {
       const clear = getByTestId(queryAssist, 'query-assist-clear-icon');
       const user = userEvent.setup();
       await user.click(clear);
-      expect(onClear).to.have.been.calledWithExactly();
+      expect(onClear).toHaveBeenCalledWith();
     });
   });
 
@@ -694,7 +698,7 @@ describe('Query Assist', () => {
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} />);
       rerender(<QueryAssist {...props} delay={100} />);
-      props.dataSource.resetHistory();
+      props.dataSource.mockClear();
       await waitForSetStateCallbacks();
       vi.useFakeTimers();
       await act(() => simulateCombo('ctrl+space'));
@@ -705,7 +709,7 @@ describe('Query Assist', () => {
         vi.useRealTimers();
       });
 
-      expect(props.dataSource).to.have.been.calledOnce;
+      expect(props.dataSource).toHaveBeenCalledOnce;
     });
   });
 

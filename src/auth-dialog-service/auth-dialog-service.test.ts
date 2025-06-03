@@ -11,7 +11,7 @@ describe('Auth Dialog Service', () => {
   let hideAuthDialog: () => void;
 
   beforeEach(() => {
-    sandbox.stub(reactRoot, 'render').callsFake(element => render(element as ReactElement));
+    vi.spyOn(reactRoot, 'render').mockImplementation(element => render(element as ReactElement));
   });
 
   afterEach(() => {
@@ -74,22 +74,22 @@ describe('Auth Dialog Service', () => {
   });
 
   it('should call onConfirm on confirm click', () => {
-    const onConfirm = sandbox.spy();
+    const onConfirm = vi.fn();
     hideAuthDialog = authDialog({onConfirm});
     const okButton = getContainer()?.querySelector('*[data-test="auth-dialog-confirm-button"]');
     expect(okButton).to.exist;
     fireEvent.click(okButton as Element);
 
-    expect(onConfirm).to.have.been.called;
+    expect(onConfirm).toHaveBeenCalled();
   });
 
   it('should call onCancel on cancel click', () => {
-    const onCancel = sandbox.spy();
+    const onCancel = vi.fn();
     hideAuthDialog = authDialog({onCancel});
     const cancelButton = getContainer()?.querySelector('*[data-test="auth-dialog-cancel-button"]');
     expect(cancelButton).to.exist;
     fireEvent.click(cancelButton as Element);
 
-    expect(onCancel).to.have.been.called;
+    expect(onCancel).toHaveBeenCalled();
   });
 });

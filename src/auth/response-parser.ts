@@ -63,7 +63,7 @@ export default class AuthResponseParser {
 
   /**
    * Validates given authResponse.
-   * If it contains a token - returns the token, if an error is found - throws the error,
+   * If it contains a token - mockReturnValue the token, if an error is found - throws the error,
    * otherwise - null
    * Always clears the hash part of the URL.
    *

@@ -31,7 +31,7 @@ export interface ColProps {
 /**
  * Converts props like "xs=9 xsOffset={2}" to classes "col-xs-9 col-xs-offset-2"
  * @param {Object} props incoming props
- * @returns {Array} result classnames
+ * @mockReturnValue {Array} result classnames
  */
 function getClassNames(props: Omit<ColProps, 'children' | 'className' | 'reverse'>) {
   return Object.entries(props)

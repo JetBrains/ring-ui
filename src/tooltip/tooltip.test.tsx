@@ -107,11 +107,11 @@ describe('Tooltip', () => {
     it('should unbind listeners when empty title is provided', () => {
       const {rerender} = renderTooltip();
       const tooltipElement = screen.getByRole('tooltip');
-      const removeEventListener = sandbox.spy(tooltipElement, 'removeEventListener');
+      const removeEventListener = vi.spyOn(tooltipElement, 'removeEventListener');
 
       rerender(<Tooltip {...defaultProps} title="" />);
 
-      expect(removeEventListener).to.have.been.calledTwice;
+      expect(removeEventListener).toHaveBeenCalledTimes(2);
     });
 
     it('should render popup on mouseenter', () => {

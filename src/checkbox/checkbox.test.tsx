@@ -27,16 +27,16 @@ describe('Checkbox', () => {
   });
 
   it('should call handler for click event', () => {
-    const clickHandler = sandbox.stub();
+    const clickHandler = vi.fn();
 
     const checkbox = renderCheckbox({onClick: clickHandler});
     fireEvent.click(checkbox);
 
-    expect(clickHandler).to.have.been.called;
+    expect(clickHandler).toHaveBeenCalled();
   });
 
   it('should not call handler on change event if disabled', () => {
-    const onChange = sandbox.stub();
+    const onChange = vi.fn();
 
     const checkbox = renderCheckbox({
       disabled: true,
@@ -44,7 +44,7 @@ describe('Checkbox', () => {
     });
 
     userEvent.click(checkbox);
-    expect(onChange).to.have.not.been.called;
+    expect(onChange).not.toHaveBeenCalled;
   });
 
   it('should be unchecked by default', () => {

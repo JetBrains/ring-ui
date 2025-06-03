@@ -1,5 +1,7 @@
 import {render, screen, fireEvent, getByTestId} from '@testing-library/react';
 
+import {expect} from 'vitest';
+
 import {getRect, getStyles} from '../global/dom';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
@@ -21,12 +23,12 @@ describe('Popup', () => {
   });
 
   it('should attempt to close by pressing esc', () => {
-    const onCloseAttempt = sandbox.stub();
+    const onCloseAttempt = vi.fn();
     renderPopup({onCloseAttempt});
 
     simulateCombo('esc');
 
-    expect(onCloseAttempt).to.have.been.called;
+    expect(onCloseAttempt).toHaveBeenCalled();
   });
 
   describe('close by pointer down', () => {
@@ -40,25 +42,25 @@ describe('Popup', () => {
     });
 
     it('should attempt to close by pointer down outside the element', () => {
-      const onCloseAttempt = sandbox.stub();
+      const onCloseAttempt = vi.fn();
       renderPopup({onCloseAttempt});
 
       vi.advanceTimersByTime(0);
       fireEvent(document.body, downEvent);
-      expect(onCloseAttempt).to.have.been.called;
+      expect(onCloseAttempt).toHaveBeenCalled();
     });
 
     it('should pass event to onCloseAttempt callback when closing by document pointer down event', () => {
-      const onCloseAttempt = sandbox.stub();
+      const onCloseAttempt = vi.fn();
       renderPopup({onCloseAttempt});
 
       vi.advanceTimersByTime(0);
       fireEvent(document.body, downEvent);
-      expect(onCloseAttempt).to.have.been.calledWith(sinon.match({type: 'pointerdown'}));
+      expect(onCloseAttempt).toHaveBeenCalledWith(expect.objectContaining({type: 'pointerdown'}), expect.anything());
     });
 
     it('should not close popup if popup hidden', () => {
-      const onCloseAttempt = sandbox.stub();
+      const onCloseAttempt = vi.fn();
       renderPopup({
         hidden: true,
         onCloseAttempt,
@@ -66,11 +68,11 @@ describe('Popup', () => {
 
       vi.advanceTimersByTime(0);
       fireEvent(document.body, downEvent);
-      expect(onCloseAttempt).to.not.have.been.called;
+      expect(onCloseAttempt).not.toHaveBeenCalled;
     });
 
     it('should be closed by pointer down event outside the element after show', () => {
-      const onCloseAttempt = sandbox.stub();
+      const onCloseAttempt = vi.fn();
       const popup = renderPopup({
         onCloseAttempt,
       });
@@ -78,17 +80,17 @@ describe('Popup', () => {
       popup.rerender(<Popup {...{children: '', onCloseAttempt, hidden: false}} />);
       vi.advanceTimersByTime(0);
       fireEvent(document.body, downEvent);
-      expect(onCloseAttempt).to.have.been.called;
+      expect(onCloseAttempt).toHaveBeenCalled();
     });
 
     it("shouldn't be closed by pointer down event inside the element", () => {
-      const onCloseAttempt = sandbox.stub();
+      const onCloseAttempt = vi.fn();
       renderPopup({onCloseAttempt});
 
       vi.advanceTimersByTime(0);
       const popup = screen.getByTestId('ring-popup');
       fireEvent(popup, downEvent);
-      expect(onCloseAttempt).to.not.have.been.called;
+      expect(onCloseAttempt).not.toHaveBeenCalled;
     });
   });
 

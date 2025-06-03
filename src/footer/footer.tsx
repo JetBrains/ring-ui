@@ -31,7 +31,7 @@ const FooterColumn = memo(function FooterColumn({position, children}: FooterColu
 /**
  * Return copyright string
  * @param year {int}
- * @returns {string}
+ * @mockReturnValue {string}
  */
 export function copyright(year: number) {
   const currentYear = new Date().getUTCFullYear();

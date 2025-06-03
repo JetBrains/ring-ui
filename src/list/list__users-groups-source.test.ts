@@ -6,14 +6,14 @@ import ListUsersGroupsSource from './list__users-groups-source';
 describe('List Users Groups Source', () => {
   let fakeAuth: Auth;
   beforeEach(() => {
-    const requestToken: Auth['requestToken'] = sandbox.stub().returns(Promise.resolve('testToken'));
+    const requestToken: Auth['requestToken'] = vi.fn().mockReturnValue(Promise.resolve('testToken'));
     fakeAuth = {requestToken} as Auth;
   });
 
   it('Should convert users to list model', async () => {
     const source = new ListUsersGroupsSource(fakeAuth);
 
-    sandbox.stub(source, 'getUsers').returns(
+    vi.spyOn(source, 'getUsers').mockReturnValue(
       Promise.resolve([
         {
           id: 'test-user',
@@ -25,7 +25,7 @@ describe('List Users Groups Source', () => {
       ]),
     );
 
-    sandbox.stub(source, 'getGroups').returns(
+    vi.spyOn(source, 'getGroups').mockReturnValue(
       Promise.resolve([
         {
           id: 'test-group',
@@ -54,7 +54,7 @@ describe('List Users Groups Source', () => {
   it('Should convert usergroups to list model', async () => {
     const source = new ListUsersGroupsSource(fakeAuth);
 
-    sandbox.stub(source, 'getUsers').returns(
+    vi.spyOn(source, 'getUsers').mockReturnValue(
       Promise.resolve([
         {
           id: 'test-user',
@@ -65,7 +65,7 @@ describe('List Users Groups Source', () => {
       ]),
     );
 
-    sandbox.stub(source, 'getGroups').returns(
+    vi.spyOn(source, 'getGroups').mockReturnValue(
       Promise.resolve([
         {
           id: 'test-group',
@@ -97,7 +97,7 @@ describe('List Users Groups Source', () => {
       getPluralForUserCount: count => `${count} text`,
     });
 
-    sandbox.stub(source, 'getUsers').returns(
+    vi.spyOn(source, 'getUsers').mockReturnValue(
       Promise.resolve([
         {
           id: 'test-user',
@@ -108,7 +108,7 @@ describe('List Users Groups Source', () => {
       ]),
     );
 
-    sandbox.stub(source, 'getGroups').returns(
+    vi.spyOn(source, 'getGroups').mockReturnValue(
       Promise.resolve([
         {
           id: 'test-group',
@@ -125,9 +125,11 @@ describe('List Users Groups Source', () => {
   it('Should display "No users" title if no users found', async () => {
     const source = new ListUsersGroupsSource(fakeAuth, {});
 
-    sandbox.stub(source, 'getUsers').returns(Promise.resolve([]));
+    vi.spyOn(source, 'getUsers').mockReturnValue(Promise.resolve([]));
 
-    sandbox.stub(source, 'getGroups').returns(Promise.resolve([{id: 'test-group', name: 'test group', userCount: 0}]));
+    vi.spyOn(source, 'getGroups').mockReturnValue(
+      Promise.resolve([{id: 'test-group', name: 'test group', userCount: 0}]),
+    );
 
     const dataForList = await source.getForList();
     expect(dataForList[0].description).to.equal('No users');
@@ -136,7 +138,7 @@ describe('List Users Groups Source', () => {
   it('Should display "No groups" title if no groups found', async () => {
     const source = new ListUsersGroupsSource(fakeAuth, {});
 
-    sandbox.stub(source, 'getUsers').returns(
+    vi.spyOn(source, 'getUsers').mockReturnValue(
       Promise.resolve([
         {
           id: 'test-group',
@@ -147,7 +149,7 @@ describe('List Users Groups Source', () => {
       ]),
     );
 
-    sandbox.stub(source, 'getGroups').returns(Promise.resolve([]));
+    vi.spyOn(source, 'getGroups').mockReturnValue(Promise.resolve([]));
 
     const dataForList = await source.getForList();
     expect(dataForList[2].description).to.equal('No groups');

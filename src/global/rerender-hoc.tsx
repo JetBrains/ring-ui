@@ -14,7 +14,7 @@ export interface RerenderableComponentClass<P, S> {
  * Wraps a component to add a "rerender" method
  * @param ComposedComponent
  * @param captureNode, whether the wrapper should capture this.node itself. Set to false if the component already has "node" property captured
- * @returns {Rerenderer}
+ * @mockReturnValue {Rerenderer}
  */
 
 type RerendererProps<P, C> = {props: P; forwardedRef: Ref<C>};

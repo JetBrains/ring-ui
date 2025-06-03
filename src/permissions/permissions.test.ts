@@ -6,7 +6,7 @@ import PermissionCache, {Project} from './permissions__cache';
 describe('Permissions', () => {
   /**
    * @param id
-   * @returns {{id: *}}
+   * @mockReturnValue {{id: *}}
    */
   function createProject(id: string) {
     return {
@@ -18,7 +18,7 @@ describe('Permissions', () => {
    * @param {string} key
    * @param {Array} projects
    * @param {boolean=} isGlobal
-   * @returns {{permission: {key: *}, projects: *, global: *}}
+   * @mockReturnValue {{permission: {key: *}, projects: *, global: *}}
    */
   function createPermission(
     key: string,
@@ -45,7 +45,7 @@ describe('Permissions', () => {
   it('should load permissions', async () => {
     const auth = createAuthMock();
     const permissionsData = [createPermission('A')];
-    sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+    vi.spyOn(auth.http, 'get').mockReturnValue(Promise.resolve(permissionsData));
     const permissions = new Permissions(auth);
 
     await new Promise<void>(resolve => {
@@ -81,7 +81,7 @@ describe('Permissions', () => {
     beforeEach(() => {
       auth = createAuthMock();
       permissionsData = [createPermission('A')];
-      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+      vi.spyOn(auth.http, 'get').mockReturnValue(Promise.resolve(permissionsData));
       permissions = new Permissions(auth);
     });
 
@@ -96,14 +96,14 @@ describe('Permissions', () => {
         });
       });
 
-      expect(auth.http.get).to.have.been.calledOnce;
+      expect(auth.http.get).toHaveBeenCalledOnce;
     });
 
     it('should reload permissions', function _() {
       permissions.load();
       permissions.reload();
 
-      expect(auth.http.get).to.have.been.calledTwice;
+      expect(auth.http.get).toHaveBeenCalledTimes(2);
     });
 
     it('should not cache response', function _() {
@@ -112,7 +112,7 @@ describe('Permissions', () => {
       });
       permissions.load();
 
-      expect(auth.http.get).to.have.been.calledTwice;
+      expect(auth.http.get).toHaveBeenCalledTimes(2);
     });
 
     it('should ignore cache', function _() {
@@ -124,7 +124,7 @@ describe('Permissions', () => {
       permissions.load();
       permissions.load();
 
-      expect(auth.http.get).to.have.been.calledTwice;
+      expect(auth.http.get).toHaveBeenCalledTimes(2);
     });
 
     it('should ignore cache and do not update cache', function _() {
@@ -138,7 +138,7 @@ describe('Permissions', () => {
       });
       permissions.load();
 
-      expect(auth.http.get).to.have.been.calledTwice;
+      expect(auth.http.get).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -199,13 +199,13 @@ describe('Permissions', () => {
     it('should reload permissions', () => {
       const auth = createAuthMock();
       const permissions = new Permissions(auth);
-      sandbox.stub(permissions, 'load').returns(Promise.resolve({} as PermissionCache));
+      vi.spyOn(permissions, 'load').mockReturnValue(Promise.resolve({} as PermissionCache));
       permissions._promise = Promise.resolve({} as PermissionCache);
 
       permissions.reload();
 
       expect(permissions._promise).to.not.exist;
-      expect(permissions.load).to.have.been.called;
+      expect(permissions.load).toHaveBeenCalled();
     });
   });
 

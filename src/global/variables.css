@@ -63,7 +63,7 @@
   --ring-pale-control-color: rgb(var(--ring-pale-control-components)); /* #C2D6FC */
   --ring-popup-border-components: 0, 28, 54;
   --ring-popup-border-color: var(--ring-line-color);
-  --ring-popup-shadow-components: rgba(var(--ring-popup-border-components), 0.1);
+  --ring-popup-shadow-components: rgba(var(--ring-popup-border-components, 0, 28, 54), 0.1);
   --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.1);
   --ring-popup-secondary-shadow-color: rgba(var(--ring-popup-border-components), 0.04);
   --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);

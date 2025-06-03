@@ -77,14 +77,14 @@ describe('Radio', () => {
     });
 
     it('should call handler for onChange event', () => {
-      const onChange = sandbox.spy();
+      const onChange = vi.fn();
       let item: ComponentRef<typeof Radio.Item>;
       renderRadio({onChange}, itemRef => {
         item = itemRef!;
       });
       fireEvent.click(item!.input!);
 
-      expect(onChange).to.have.been.called;
+      expect(onChange).toHaveBeenCalled();
     });
   });
 });

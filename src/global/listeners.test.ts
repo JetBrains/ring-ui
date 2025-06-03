@@ -1,15 +1,15 @@
-import {Stub} from '../../test-helpers/globals.d';
+import {Mock} from 'vitest';
 
 import Listeners from './listeners';
 
 describe('Listeners', () => {
   let listeners: Listeners;
-  let stub: Stub<() => Promise<string>>;
-  let secondStub: Stub<() => string>;
+  let stub: Mock<() => Promise<string>>;
+  let secondStub: Mock<() => string>;
   beforeEach(() => {
     listeners = new Listeners();
-    stub = sandbox.stub<[]>().returns(Promise.resolve('result 1'));
-    secondStub = sandbox.stub<[]>().returns('result 2');
+    stub = vi.fn().mockReturnValue(Promise.resolve('result 1'));
+    secondStub = vi.fn().mockReturnValue('result 2');
   });
 
   it('should construct empty mao', () => {
@@ -27,7 +27,7 @@ describe('Listeners', () => {
 
     listeners.trigger('test');
 
-    expect(stub).to.have.been.calledOnce;
+    expect(stub).toHaveBeenCalledOnce;
   });
 
   it('should trigger all handlers', () => {
@@ -36,8 +36,8 @@ describe('Listeners', () => {
 
     listeners.trigger('test');
 
-    expect(stub).to.have.been.calledOnce;
-    expect(secondStub).to.have.been.calledOnce;
+    expect(stub).toHaveBeenCalledOnce;
+    expect(secondStub).toHaveBeenCalledOnce;
   });
 
   it('should return array of return values of all handlers', async () => {
@@ -55,8 +55,8 @@ describe('Listeners', () => {
 
     listeners.trigger('test');
 
-    expect(stub).to.have.been.calledOnce;
-    expect(secondStub).to.not.have.been.calledOnce;
+    expect(stub).toHaveBeenCalledOnce;
+    expect(secondStub).not.toHaveBeenCalledOnce;
   });
 
   it('should remove handler', () => {

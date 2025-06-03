@@ -80,11 +80,14 @@ describe('Dropdown', () => {
     expect(anchor).to.exist;
     anchor && (await userEvent.click(anchor));
 
-    await new Promise<void>(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, 0);
-    });
+    await act(
+      () =>
+        new Promise<void>(resolve => {
+          setTimeout(() => {
+            resolve();
+          }, 0);
+        }),
+    );
     act(() => fireEvent.pointerDown(document));
     expect(popup).to.exist;
     expect(popup?.isVisible()).to.be.false;
@@ -97,20 +100,20 @@ describe('Dropdown', () => {
   });
 
   it('should accept function as anchor', () => {
-    const anchorFunc = sandbox.stub().returns(anchorElement);
+    const anchorFunc = vi.fn().mockReturnValue(anchorElement);
     renderDropdown({anchor: anchorFunc});
 
-    expect(anchorFunc).to.have.been.calledWithMatch({active: false});
+    expect(anchorFunc).toHaveBeenCalledWith(expect.objectContaining({active: false}));
   });
 
   it('should pass active property to anchor function', async () => {
-    const anchorFunc = sandbox.stub().returns(anchorElement);
+    const anchorFunc = vi.fn().mockReturnValue(anchorElement);
     renderDropdown({anchor: anchorFunc});
     expect(anchor).to.exist;
     anchor && (await userEvent.click(anchor));
 
-    expect(anchorFunc).to.have.been.calledTwice;
-    expect(anchorFunc.getCall(1).calledWithMatch({active: true})).to.be.true;
+    expect(anchorFunc).toHaveBeenCalledTimes(2);
+    expect(anchorFunc.mock.calls[1][0]).toMatchObject({active: true});
   });
 
   it('should render <Anchor> with child if type of anchor property is string', () => {

@@ -1,5 +1,7 @@
 import {simulate} from 'combokeys/test/lib/key-event';
 
+import {OS} from 'sniffr';
+
 import sniffr from '../global/sniffer';
 
 import shortcuts, {ShortcutsMap} from './core';
@@ -23,8 +25,8 @@ describe('Shortcuts', () => {
     shortcuts.setScope();
     shortcuts.setFilter();
 
-    noop = sandbox.stub();
-    noop2 = sandbox.stub();
+    noop = vi.fn();
+    noop2 = vi.fn();
   });
 
   describe('bind', () => {
@@ -38,7 +40,7 @@ describe('Shortcuts', () => {
     it('should throw without a key', () => {
       expect(() => {
         // @ts-expect-error testing a wrong usage
-        shortcuts.bind({handler: sandbox.stub()});
+        shortcuts.bind({handler: vi.fn()});
       }).to.throw(Error, 'Shortcut key should exist');
     });
 
@@ -134,20 +136,20 @@ describe('Shortcuts', () => {
 
       trigger();
 
-      expect(noop).to.have.been.called;
-      expect(noop2).to.have.been.called;
+      expect(noop).toHaveBeenCalled();
+      expect(noop2).toHaveBeenCalled();
     });
 
     it('should prevent handler run', () => {
-      const stop = sandbox.stub().returns(true);
+      const stop = vi.fn().mockReturnValue(true);
 
       shortcuts.setFilter(stop);
       shortcuts.bind({key, handler: noop});
 
       trigger();
 
-      expect(stop).to.have.been.called;
-      expect(noop).to.not.have.been.called;
+      expect(stop).toHaveBeenCalled();
+      expect(noop).not.toHaveBeenCalled;
     });
   });
 
@@ -157,7 +159,7 @@ describe('Shortcuts', () => {
 
       trigger();
 
-      expect(noop).to.have.been.called;
+      expect(noop).toHaveBeenCalled();
     });
 
     it('should handle keys in root scope with other scope defined', () => {
@@ -166,8 +168,8 @@ describe('Shortcuts', () => {
 
       trigger();
 
-      expect(noop).to.have.been.called;
-      expect(noop2).to.not.have.been.called;
+      expect(noop).toHaveBeenCalled();
+      expect(noop2).not.toHaveBeenCalled;
     });
 
     it('should handle keys in top scope', () => {
@@ -177,12 +179,12 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scopeId);
       trigger();
 
-      expect(noop).to.not.have.been.called;
-      expect(noop2).to.have.been.called;
+      expect(noop).not.toHaveBeenCalled;
+      expect(noop2).toHaveBeenCalled();
     });
 
     it('should fall trough scopes when returning true', () => {
-      const fallthrough = sandbox.stub().returns(true);
+      const fallthrough = vi.fn().mockReturnValue(true);
 
       shortcuts.bind({key, handler: noop});
       shortcuts.bind({key, scope: scopeId, handler: fallthrough});
@@ -190,12 +192,12 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scopeId);
       trigger();
 
-      expect(noop).to.have.been.called;
-      expect(fallthrough).to.have.been.called;
+      expect(noop).toHaveBeenCalled();
+      expect(fallthrough).toHaveBeenCalled();
     });
 
     it('should not fall trough modal scope', () => {
-      const fallthrough = sandbox.stub().returns(true);
+      const fallthrough = vi.fn().mockReturnValue(true);
 
       shortcuts.bind({key, handler: noop});
       shortcuts.bind({key, scope: scopeId, handler: fallthrough});
@@ -203,12 +205,12 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scopeId, {modal: true});
       trigger();
 
-      expect(fallthrough).to.have.been.called;
-      expect(noop).to.not.have.been.called;
+      expect(fallthrough).toHaveBeenCalled();
+      expect(noop).not.toHaveBeenCalled;
     });
 
     it('should not fall trough modal scope even if it has no handler for key', () => {
-      const fallthrough = sandbox.stub().returns(true);
+      const fallthrough = vi.fn().mockReturnValue(true);
 
       shortcuts.bind({key, handler: noop});
       shortcuts.bind({key: key2, scope: scopeId, handler: fallthrough});
@@ -216,7 +218,7 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scopeId, {modal: true});
       trigger();
 
-      expect(noop).to.not.have.been.called;
+      expect(noop).not.toHaveBeenCalled;
     });
   });
 
@@ -271,10 +273,10 @@ describe('Shortcuts', () => {
 
     it('should workaround system windows shortcuts', () => {
       let eventType: string | undefined;
-      sandbox.stub(shortcuts.combokeys, 'bind').callsFake((param1, param2, param3) => {
+      vi.spyOn(shortcuts.combokeys, 'bind').mockImplementation((param1, param2, param3) => {
         eventType = param3;
       });
-      sandbox.stub(sniffr, 'os').value({name: 'windows'});
+      sniffr.os.name = OS.Windows;
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
@@ -284,10 +286,10 @@ describe('Shortcuts', () => {
 
     it('should not apply workaround for system windows shortcuts on other operating systems', () => {
       let eventType;
-      sandbox.stub(shortcuts.combokeys, 'bind').callsFake((param1, param2, param3) => {
+      vi.spyOn(shortcuts.combokeys, 'bind').mockImplementation((param1, param2, param3) => {
         eventType = param3;
       });
-      sandbox.stub(sniffr, 'os').value({name: 'macos'});
+      sniffr.os.name = OS.MacOS;
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 

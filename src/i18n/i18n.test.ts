@@ -1,18 +1,16 @@
-import sinon from 'sinon';
+import {MockInstance} from 'vitest';
 
 import defaultMessages from './messages.json';
 import {translate, getTranslationsWithFallback, getTranslations, setTranslations} from './i18n';
 
 describe('i18n singleton', () => {
-  let consoleWarnStub: sinon.SinonStub;
+  let consoleWarnStub: MockInstance;
   beforeEach(() => {
-    sandbox.stub(console, 'warn');
-    // eslint-disable-next-line no-console
-    consoleWarnStub = console.warn as sinon.SinonStub;
+    consoleWarnStub = vi.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   afterEach(() => {
-    consoleWarnStub.restore();
+    consoleWarnStub.mockRestore();
     setTranslations(defaultMessages);
   });
 
@@ -25,15 +23,15 @@ describe('i18n singleton', () => {
   it('should log a warning for a missing key', () => {
     setTranslations({login: 'bar'});
     translate('filterItems');
-    expect(consoleWarnStub.calledOnce).to.be.true;
-    expect(consoleWarnStub.firstCall.args[0]).to.equal('Missing localisation for key "filterItems"');
+    expect(consoleWarnStub).toHaveBeenCalledOnce();
+    expect(consoleWarnStub.mock.calls[0][0]).to.equal('Missing localisation for key "filterItems"');
   });
 
   it('should log a warning only once for a missing key', () => {
     setTranslations({login: 'bar'});
     translate('decline');
     translate('decline');
-    expect(consoleWarnStub.calledOnce).to.be.true;
+    expect(consoleWarnStub).toHaveBeenCalledOnce();
   });
 
   it('should return a merged object with the translations and default messages', () => {

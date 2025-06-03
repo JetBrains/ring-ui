@@ -95,9 +95,9 @@ describe('Link', () => {
       let onPlainLeftClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 
       beforeEach(() => {
-        onClick = sandbox.spy();
-        onConditionalClick = sandbox.spy();
-        onPlainLeftClick = sandbox.spy();
+        onClick = vi.fn();
+        onConditionalClick = vi.fn();
+        onPlainLeftClick = vi.fn();
         render(
           <ClickableLink
             onClick={onClick}
@@ -115,9 +115,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT};
         fireEvent.click(link, e);
 
-        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: true});
-        expect(onConditionalClick).to.have.been.calledWithMatch(true, e);
-        expect(onPlainLeftClick).to.have.been.calledWithMatch(e);
+        expect(onClick).toHaveBeenCalledWith(expect.objectContaining({...e, defaultPrevented: true}));
+        expect(onConditionalClick).toHaveBeenCalledWith(true, expect.objectContaining(e));
+        expect(onPlainLeftClick).toHaveBeenCalledWith(expect.objectContaining(e));
       });
 
       it('should handle a middle click', () => {
@@ -125,9 +125,9 @@ describe('Link', () => {
         const e = {button: Buttons.MIDDLE};
         fireEvent.click(link, e);
 
-        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
-        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
-        expect(onPlainLeftClick).to.not.have.been.called;
+        expect(onClick).toHaveBeenCalledWith(expect.objectContaining({...e, defaultPrevented: false}));
+        expect(onConditionalClick).toHaveBeenCalledWith(false, expect.objectContaining(e));
+        expect(onPlainLeftClick).not.toHaveBeenCalled;
       });
 
       it('should handle alt+click', () => {
@@ -135,9 +135,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT, altKey: true};
         fireEvent.click(link, e);
 
-        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
-        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
-        expect(onPlainLeftClick).to.not.have.been.called;
+        expect(onClick).toHaveBeenCalledWith(expect.objectContaining({...e, defaultPrevented: false}));
+        expect(onConditionalClick).toHaveBeenCalledWith(false, expect.objectContaining(e));
+        expect(onPlainLeftClick).not.toHaveBeenCalled;
       });
 
       it('should handle ctrl+click', () => {
@@ -145,9 +145,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT, ctrlKey: true};
         fireEvent.click(link, e);
 
-        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
-        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
-        expect(onPlainLeftClick).to.not.have.been.called;
+        expect(onClick).toHaveBeenCalledWith(expect.objectContaining({...e, defaultPrevented: false}));
+        expect(onConditionalClick).toHaveBeenCalledWith(false, expect.objectContaining(e));
+        expect(onPlainLeftClick).not.toHaveBeenCalled;
       });
 
       it('should handle cmd+click / win+click', () => {
@@ -155,9 +155,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT, metaKey: true};
         fireEvent.click(link, e);
 
-        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
-        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
-        expect(onPlainLeftClick).to.not.have.been.called;
+        expect(onClick).toHaveBeenCalledWith(expect.objectContaining({...e, defaultPrevented: false}));
+        expect(onConditionalClick).toHaveBeenCalledWith(false, expect.objectContaining(e));
+        expect(onPlainLeftClick).not.toHaveBeenCalled;
       });
 
       it('should handle shift+click', () => {
@@ -165,9 +165,9 @@ describe('Link', () => {
         const e = {button: Buttons.LEFT, shiftKey: true};
         fireEvent.click(link, e);
 
-        expect(onClick).to.have.been.calledWithMatch({...e, defaultPrevented: false});
-        expect(onConditionalClick).to.have.been.calledWithMatch(false, e);
-        expect(onPlainLeftClick).to.not.have.been.called;
+        expect(onClick).toHaveBeenCalledWith(expect.objectContaining({...e, defaultPrevented: false}));
+        expect(onConditionalClick).toHaveBeenCalledWith(false, expect.objectContaining(e));
+        expect(onPlainLeftClick).not.toHaveBeenCalled;
       });
     });
   });

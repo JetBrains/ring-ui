@@ -83,7 +83,7 @@ export default class Permissions {
    * Returns function, which cuts off prefix from server-side permission name
    *
    * @param {string} prefix
-   * @returns {Function}
+   * @mockReturnValue {Function}
    */
   static getDefaultNamesConverter(prefix: string) {
     return (storedName: string) => {
@@ -169,7 +169,7 @@ export default class Permissions {
 
   /**
    * Reloads permission cache from server
-   * @returns {Promise.<Permissions>} promise that is resolved when the permissions are reloaded
+   * @mockReturnValue {Promise.<Permissions>} promise that is resolved when the permissions are reloaded
    */
   reload() {
     this._resetCache();

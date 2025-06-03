@@ -223,7 +223,7 @@ describe('List', () => {
     });
 
     it('should handle click', async () => {
-      const clicked = sandbox.stub();
+      const clicked = vi.fn();
 
       renderList({
         data: [{label: 'Hello!', onClick: clicked}],
@@ -232,11 +232,11 @@ describe('List', () => {
       const firstItem = screen.getByRole('button');
       const user = userEvent.setup();
       await user.click(firstItem);
-      expect(clicked).to.have.been.called;
+      expect(clicked).toHaveBeenCalled();
     });
 
     it('should handle select', async () => {
-      const onSelect = sandbox.stub();
+      const onSelect = vi.fn();
 
       renderList({
         onSelect,
@@ -246,7 +246,7 @@ describe('List', () => {
       const firstItem = screen.getByRole('button');
       const user = userEvent.setup();
       await user.click(firstItem);
-      expect(onSelect).to.have.been.called;
+      expect(onSelect).toHaveBeenCalled();
     });
 
     it('Should support custom elements', () => {
@@ -265,7 +265,7 @@ describe('List', () => {
     });
 
     it('Should support click on custom elements', async () => {
-      const onClick = sandbox.stub();
+      const onClick = vi.fn();
       renderList({
         data: [
           {
@@ -280,7 +280,7 @@ describe('List', () => {
       const firstItem = screen.getByRole('button');
       const user = userEvent.setup();
       await user.click(firstItem);
-      expect(onClick).to.have.been.called;
+      expect(onClick).toHaveBeenCalled();
     });
 
     it('Should support disable property for custom elements', () => {

@@ -1,3 +1,5 @@
+import {expect} from 'vitest';
+
 import HTTP from '../http/http';
 import Auth from '../auth/auth';
 
@@ -10,9 +12,9 @@ describe('Hub Users Groups Source', () => {
   let fakeAuth: Auth;
 
   beforeEach(() => {
-    const get: HTTP['get'] = sandbox.stub().returns(Promise.resolve({}));
+    const get: HTTP['get'] = vi.fn().mockReturnValue(Promise.resolve({}));
     httpMock = {get} as HTTP;
-    const requestToken: Auth['requestToken'] = sandbox.stub().returns(Promise.resolve('testToken'));
+    const requestToken: Auth['requestToken'] = vi.fn().mockReturnValue(Promise.resolve('testToken'));
     fakeAuth = {requestToken, http: httpMock} as Auth;
   });
 
@@ -24,24 +26,32 @@ describe('Hub Users Groups Source', () => {
 
   it('Should make request for users', async () => {
     const source = new HubSourceUsersGroups(fakeAuth);
-    sandbox.stub(source.usersSource, 'get').returns(Promise.resolve([]));
+    vi.spyOn(source.usersSource, 'get').mockReturnValue(Promise.resolve([]));
 
     await source.getUsers();
-    expect(source.usersSource.get).to.have.been.calledWith('', {
-      fields: 'id,name,login,total,profile/avatar/url',
-      orderBy: 'name',
-    });
+    expect(source.usersSource.get).toHaveBeenCalledWith(
+      '',
+      {
+        fields: 'id,name,login,total,profile/avatar/url',
+        orderBy: 'name',
+      },
+      expect.anything(),
+    );
   });
 
   it('Should pass query for users', async () => {
     const source = new HubSourceUsersGroups(fakeAuth);
-    sandbox.stub(source.usersSource, 'get').returns(Promise.resolve([]));
+    vi.spyOn(source.usersSource, 'get').mockReturnValue(Promise.resolve([]));
 
     await source.getUsers('nam');
-    expect(source.usersSource.get).to.have.been.calledWith('nam', {
-      fields: sinon.match.string,
-      orderBy: sinon.match.string,
-    });
+    expect(source.usersSource.get).toHaveBeenCalledWith(
+      'nam',
+      expect.objectContaining({
+        fields: expect.any(String),
+        orderBy: expect.any(String),
+      }),
+      expect.anything(),
+    );
   });
 
   it('Should construct multi-word query for users', () => {
@@ -54,7 +64,7 @@ describe('Hub Users Groups Source', () => {
   it('Should filter user by login on the client side', async () => {
     const source = new HubSourceUsersGroups(fakeAuth);
     const user1 = {name: 'some-name1', login: 'login1'};
-    sandbox.stub(source.usersSource, 'makeRequest').returns(
+    vi.spyOn(source.usersSource, 'makeRequest').mockReturnValue(
       Promise.resolve({
         total: 2,
         users: [user1, {name: 'some-name2', login: 'login2'}],
@@ -68,22 +78,22 @@ describe('Hub Users Groups Source', () => {
 
   it('Should make request for groups', async () => {
     const source = new HubSourceUsersGroups(fakeAuth);
-    sandbox.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
+    vi.spyOn(source.groupsSource, 'get').mockReturnValue(Promise.resolve([]));
 
     await source.getGroups();
-    expect(source.groupsSource.get).to.have.been.calledWith('', {
+    expect(source.groupsSource.get).toHaveBeenCalledWith('', {
       fields: 'id,name,total,userCount,iconUrl',
       orderBy: 'name',
     });
   });
 
   it('Should cache request for groups', async () => {
-    httpMock.get = sandbox.stub().returns(Promise.resolve({total: 1, usergroups: []}));
+    httpMock.get = vi.fn().mockReturnValue(Promise.resolve({total: 1, usergroups: []}));
 
     const source = new HubSourceUsersGroups(fakeAuth);
     await source.getGroups();
     source.getGroups();
     source.getGroups();
-    expect(httpMock.get).to.have.been.calledOnce;
+    expect(httpMock.get).toHaveBeenCalledOnce;
   });
 });

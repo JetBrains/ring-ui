@@ -68,25 +68,26 @@ function testStorage(storage: StorageInterface) {
     });
 
     it('should iterate over items', async () => {
-      const iterator = sandbox.stub();
+      const iterator = vi.fn();
       await storage.set('test', 'value');
       await storage.each(iterator);
-      expect(iterator).to.have.been.calledWith('test', 'value');
+      expect(iterator).toHaveBeenCalledWith('test', 'value');
     });
 
     it('should not iterate without items', async () => {
-      const iterator = sandbox.stub();
+      const iterator = vi.fn();
       await storage.each(iterator);
-      expect(iterator).to.not.been.called;
+      expect(iterator).not.toHaveBeenCalled;
     });
 
     it('should iterate over all items', async () => {
-      const iterator = sandbox.stub();
+      const iterator = vi.fn();
       await storage.set('test1', '');
       await storage.set('test2', '');
       await storage.set('test3', '');
       await storage.each(iterator);
-      expect(iterator).to.have.been.calledThrice;
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      expect(iterator).toHaveBeenCalledTimes(3);
     });
 
     it('should fail on wrong callback', async () => {
@@ -159,18 +160,18 @@ function testStorageEvents(storage: StorageInterface) {
 
     it("on after set with other key shouldn't be fired", () => {
       vi.useFakeTimers({toFake: ['setTimeout']});
-      const spy = sandbox.stub();
+      const spy = vi.fn();
 
       stop = storage.on('testKey4', spy);
       storage.set('testWrong', 'testValue');
 
       vi.advanceTimersByTime(1);
-      expect(spy).to.not.have.been.called;
+      expect(spy).not.toHaveBeenCalled;
     });
 
     it('stop should stop', () => {
       vi.useFakeTimers({toFake: ['setTimeout']});
-      const spy = sandbox.spy();
+      const spy = vi.fn();
 
       const testEvent = 'testKey5';
       stop = storage.on(testEvent, spy);
@@ -178,7 +179,7 @@ function testStorageEvents(storage: StorageInterface) {
       storage.set(testEvent, 'testValue');
 
       vi.advanceTimersByTime(1);
-      expect(spy).to.not.have.been.called;
+      expect(spy).not.toHaveBeenCalled;
     });
   });
 }
@@ -186,12 +187,14 @@ function testStorageEvents(storage: StorageInterface) {
 describe('Storage', () => {
   describe('Local', () => {
     beforeEach(() => {
-      sandbox.stub(window, 'addEventListener').value((...args: unknown[]) => mockedWindow.addEventListener(...args));
-      sandbox
-        .stub(window, 'removeEventListener')
-        .value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
-      sandbox.stub(window, 'localStorage').value(mockedWindow.localStorage);
-      sandbox.stub(window, 'sessionStorage').value(mockedWindow.sessionStorage);
+      vi.spyOn(window, 'addEventListener').mockImplementation((...args: unknown[]) =>
+        mockedWindow.addEventListener(...args),
+      );
+      vi.spyOn(window, 'removeEventListener').mockImplementation((...args: unknown[]) =>
+        mockedWindow.removeEventListener(...args),
+      );
+      vi.stubGlobal('localStorage', mockedWindow.localStorage);
+      vi.stubGlobal('sessionStorage', mockedWindow.sessionStorage);
       localStorage.clear();
       sessionStorage.clear();
     });
@@ -219,10 +222,10 @@ describe('Storage', () => {
       it("shouldn't break iteration on non-parseable values", () => expect(storage.each(noop)).to.be.fulfilled);
 
       it('should iterate over items with non-parseable values', async () => {
-        const iterator = sandbox.stub();
+        const iterator = vi.fn();
         await storage.set('test', 'value');
         await storage.each(iterator);
-        expect(iterator).to.have.been.calledWith('invalid-json', 'invalid-json');
+        expect(iterator).toHaveBeenCalledWith('invalid-json', 'invalid-json');
       });
     });
   });
