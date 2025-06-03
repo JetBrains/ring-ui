@@ -42,7 +42,7 @@ describe('ContentEditable', () => {
     const {rerender} = render(<ContentEditable onComponentUpdate={stub} />);
     rerender(<ContentEditable onComponentUpdate={stub} className="testtest" />);
 
-    expect(stub).not.toHaveBeenCalled;
+    expect(stub).not.toHaveBeenCalled();
   });
 
   it('should set tabindex equal zero by default', () => {
