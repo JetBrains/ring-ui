@@ -45,6 +45,6 @@ describe('Dialog', () => {
     render(<Dialog onEscPress={escSpy} />);
     fireEvent.keyDown(document.documentElement, {which: 27}); // Escape
 
-    expect(escSpy).not.toHaveBeenCalled;
+    expect(escSpy).not.toHaveBeenCalled();
   });
 });
