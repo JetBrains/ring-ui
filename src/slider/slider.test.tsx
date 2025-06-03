@@ -43,7 +43,7 @@ describe('Slider', () => {
 
   it.skip('should handle only 2 values in range', () => {
     const NEW_VALUE = 5;
-    const onChange = sandbox.spy();
+    const onChange = vi.fn();
     const {container} = renderSlider({
       defaultValue: [1, 2, 1, 0],
       onChange,
@@ -53,14 +53,14 @@ describe('Slider', () => {
     fireEvent.mouseDown(slider, {clientX: 50});
     fireEvent.mouseUp(slider, {clientX: 50});
 
-    expect(onChange).to.have.been.calledWith([1, NEW_VALUE]);
+    expect(onChange).toHaveBeenCalledWith([1, NEW_VALUE]);
   });
 
   it.skip('should swap values when one is moved over another', () => {
     const LEFT = 20;
     const RIGHT = 40;
     const NEW_VALUE = 5;
-    const onChange = sandbox.spy();
+    const onChange = vi.fn();
 
     renderSlider({defaultValue: [LEFT, RIGHT], onChange});
     const thumbs = screen.getAllByRole('slider');
@@ -68,6 +68,6 @@ describe('Slider', () => {
     fireEvent.mouseDown(thumbs[1]); // Second thumb
     fireEvent.mouseUp(document.body, {clientX: 50});
 
-    expect(onChange).to.have.been.calledWith([NEW_VALUE, LEFT]);
+    expect(onChange).toHaveBeenCalledWith([NEW_VALUE, LEFT]);
   });
 });

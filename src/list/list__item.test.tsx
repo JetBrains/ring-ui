@@ -54,23 +54,23 @@ describe('ListItem', () => {
   });
 
   it('should handle click', async () => {
-    const onClick = sandbox.stub();
+    const onClick = vi.fn();
     renderListItem({onClick});
 
     const button = screen.getByRole('button');
     const user = userEvent.setup();
     await user.click(button);
 
-    expect(onClick).to.have.been.called;
+    expect(onClick).toHaveBeenCalled();
   });
 
   it('should handle checkbox change', () => {
-    const onCheckboxChange = sandbox.stub();
+    const onCheckboxChange = vi.fn();
     renderListItem({checkbox: true, onCheckboxChange});
 
     const checkbox = screen.getByRole('checkbox');
     fireEvent.click(checkbox);
 
-    expect(onCheckboxChange).to.have.been.called;
+    expect(onCheckboxChange).toHaveBeenCalled();
   });
 });

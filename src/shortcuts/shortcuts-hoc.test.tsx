@@ -17,7 +17,7 @@ describe('ShortcutsHOC', () => {
 
     const createShortcutsMap = (): FactoryProps => ({
       options: {},
-      map: {enter: sandbox.spy()},
+      map: {enter: vi.fn()},
     });
 
     const renderInputWithShortcuts = (shortcuts: FactoryProps) => {
@@ -35,7 +35,7 @@ describe('ShortcutsHOC', () => {
       renderInputWithShortcuts(shortcuts);
       simulateCombo('enter');
 
-      expect(shortcuts.map.enter).to.be.called;
+      expect(shortcuts.map.enter).toHaveBeenCalled();
     });
 
     it('should disable shortcuts', () => {
@@ -46,7 +46,7 @@ describe('ShortcutsHOC', () => {
 
       simulateCombo('enter');
 
-      expect(shortcuts.map.enter).to.not.be.called;
+      expect(shortcuts.map.enter).not.toHaveBeenCalled();
     });
   });
 });

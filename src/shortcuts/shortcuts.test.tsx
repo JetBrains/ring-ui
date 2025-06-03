@@ -10,7 +10,7 @@ type FactoryProps = Omit<ShortcutsAttrs, 'map' | 'scope'>;
 
 describe('ShortcutsComponent', () => {
   const renderShortcuts = (props?: FactoryProps) => {
-    const map = {enter: sandbox.spy()};
+    const map = {enter: vi.fn()};
     const scope = getUID('shortcuts-test-');
     const result = render(<Shortcuts map={map} scope={scope} {...props} />);
     return {
@@ -29,18 +29,18 @@ describe('ShortcutsComponent', () => {
     const {map} = renderShortcuts();
     simulateCombo('enter');
 
-    expect(map.enter).to.be.called;
+    expect(map.enter).toHaveBeenCalled();
   });
 
   it('should enable shortcuts if disabled becomes "false"', () => {
     const {map, rerender, scope} = renderShortcuts({disabled: true});
 
     simulateCombo('enter');
-    expect(map.enter).to.not.be.called;
+    expect(map.enter).not.toHaveBeenCalled();
 
     rerender(<Shortcuts map={map} scope={scope} disabled={false} />);
 
     simulateCombo('enter');
-    expect(map.enter).to.be.called;
+    expect(map.enter).toHaveBeenCalled();
   });
 });

@@ -5,7 +5,7 @@ describe('Auth', () => {
     describe('getAuthResponseFromURL', () => {
       let location: string | null;
       beforeEach(function beforeEach() {
-        sandbox.stub(AuthResponseParser.prototype, 'getLocation').callsFake(() => location);
+        vi.spyOn(AuthResponseParser.prototype, 'getLocation').mockImplementation(() => location);
       });
 
       it('should convert keys to camelCase', () => {

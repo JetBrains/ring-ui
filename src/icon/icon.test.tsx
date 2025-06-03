@@ -38,7 +38,7 @@ describe('Icon', () => {
 
   describe('fault tolerance', () => {
     beforeEach(() => {
-      sandbox.stub(console, 'error');
+      vi.spyOn(console, 'error');
     });
 
     it('should render nothing if null is passed as glyph', () => {

@@ -1,4 +1,4 @@
-import * as Sinon from 'sinon';
+import {MockInstance} from 'vitest';
 
 import HTTP, {defaultFetchConfig, HTTPAuth, HTTPError} from './http';
 
@@ -9,18 +9,19 @@ const SERVER_ERROR = 500;
 describe('HTTP', () => {
   const FAKE_TOKEN = 'fake-token';
   class FakeAuth implements HTTPAuth {
-    static shouldRefreshToken = sandbox.stub().returns(false);
-    requestToken = sandbox.stub().returns(FAKE_TOKEN);
-    forceTokenUpdate = sandbox.stub();
+    static shouldRefreshToken = vi.fn().mockReturnValue(false);
+    requestToken = vi.fn().mockReturnValue(FAKE_TOKEN);
+    forceTokenUpdate = vi.fn();
   }
   let fakeAuth: FakeAuth;
   let http: HTTP;
   let fetchResult: {
     isResponseOk: boolean;
   };
+  let mockedFetch: MockInstance<HTTP['_fetch']>;
 
   function mockFetch(httpInstance: HTTP) {
-    sandbox.stub(httpInstance, '_fetch').resolves({
+    mockedFetch = vi.spyOn(httpInstance, '_fetch').mockResolvedValue({
       status: OK,
       ok: true,
       headers: new Headers({'content-type': 'application/json'}),
@@ -45,9 +46,9 @@ describe('HTTP', () => {
   it('should read token and perform authorized fetch', async () => {
     await http.request('testurl', {cache: 'default'});
 
-    expect(fakeAuth.requestToken).to.have.been.called;
+    expect(fakeAuth.requestToken).toHaveBeenCalled();
 
-    expect(http._fetch).to.have.been.calledWith('testurl', {
+    expect(http._fetch).toHaveBeenCalledWith('testurl', {
       cache: 'default',
       headers: {
         ...defaultFetchConfig.headers,
@@ -61,9 +62,9 @@ describe('HTTP', () => {
   it('should perform unauthorized fetch', async () => {
     await http.fetch('testurl', {cache: 'default'});
 
-    expect(fakeAuth.requestToken).to.not.have.been.called;
+    expect(fakeAuth.requestToken).not.toHaveBeenCalled;
 
-    expect(http._fetch).to.have.been.calledWith('testurl', {
+    expect(http._fetch).toHaveBeenCalledWith('testurl', {
       cache: 'default',
       headers: undefined,
       body: undefined,
@@ -76,13 +77,14 @@ describe('HTTP', () => {
   });
 
   it('should perform request and return text result if no "application/json" header', async () => {
-    (http._fetch as Sinon.SinonStub).resolves({
+    mockedFetch.mockResolvedValue({
       status: OK,
       ok: true,
       headers: new Headers({'content-type': 'text/html'}),
-      json: () => sandbox.spy(),
-      text: () => 'some text',
-    });
+      json: async () => {},
+      // eslint-disable-next-line require-await
+      text: async () => 'some text',
+    } as Response);
 
     const res = await http.request<{data: string}>('testurl');
     expect(res).to.deep.equal({data: 'some text'});
@@ -97,13 +99,14 @@ describe('HTTP', () => {
   });
 
   it('should allow to get meta information of string response', async () => {
-    (http._fetch as Sinon.SinonStub).resolves({
+    mockedFetch.mockResolvedValue({
       status: OK,
       ok: true,
       headers: new Headers({'content-type': 'text/html'}),
-      json: () => sandbox.spy(),
-      text: () => 'some text',
-    });
+      json: async () => {},
+      // eslint-disable-next-line require-await
+      text: async () => 'some text',
+    } as Response);
     const res = await http.request<{}>('testurl');
 
     const meta = http.getMetaForResponse(res);
@@ -119,13 +122,13 @@ describe('HTTP', () => {
       },
     });
 
-    expect(http._fetch).to.have.been.calledWith('http://testurl?foo=bar&test=a,b', sinon.match(Object));
+    expect(http._fetch).toHaveBeenCalledWith('http://testurl?foo=bar&test=a,b', expect.any(Object));
   });
 
   it('should support base url setting', async () => {
     http.setBaseUrl('http://test');
     await http.request('/foo');
-    expect(http._fetch).to.have.been.calledWith('http://test/foo', sinon.match(Object));
+    expect(http._fetch).toHaveBeenCalledWith('http://test/foo', expect.any(Object));
   });
 
   it('should perform request convert "body" as object into string', async () => {
@@ -134,42 +137,46 @@ describe('HTTP', () => {
       body: {foo: 'bar'},
     });
 
-    expect(http._fetch).to.have.been.calledWithMatch('testurl', {
-      method: 'POST',
-      body: '{"foo":"bar"}',
-    });
+    expect(http._fetch).toHaveBeenCalledWith(
+      'testurl',
+      expect.objectContaining({
+        method: 'POST',
+        body: '{"foo":"bar"}',
+      }),
+    );
   });
 
   it('should not refresh token if server responds OK', async () => {
     await http.request('testurl');
-    expect(fakeAuth.forceTokenUpdate).to.not.have.been.called;
+    expect(fakeAuth.forceTokenUpdate).not.toHaveBeenCalled;
   });
 
   it('should throw if response status is not OK', async () => {
-    (http._fetch as Sinon.SinonStub).resolves({
+    mockedFetch.mockResolvedValue({
       status: METHOD_NOT_ALLOWED,
       ok: false,
-      json: () => fetchResult,
-    });
+      json: async () => {},
+    } as Response);
 
-    const onError = sandbox.spy();
+    const onError = vi.fn();
     await http.request('testurl').catch(onError);
 
-    expect(onError).to.have.been.called;
+    expect(onError).toHaveBeenCalled();
   });
 
   it('should include error information', async () => {
-    (http._fetch as Sinon.SinonStub).resolves({
+    mockedFetch.mockResolvedValue({
       status: SERVER_ERROR,
       ok: false,
       headers: {
         get: () => 'application/json',
-      },
-      json: () => ({
+      } as unknown as Headers,
+      // eslint-disable-next-line require-await
+      json: async () => ({
         error: 'Failed',
         errorDescription: 'Failure description',
       }),
-    });
+    } as Response);
 
     try {
       await http.get('testurl');
@@ -186,63 +193,64 @@ describe('HTTP', () => {
   });
 
   it('should refresh token and request again if invalid token error returned', async () => {
-    (fakeAuth.constructor as typeof FakeAuth).shouldRefreshToken.returns(true);
+    (fakeAuth.constructor as typeof FakeAuth).shouldRefreshToken.mockReturnValue(true);
 
-    (http._fetch as Sinon.SinonStub)
-      .onFirstCall()
-      .resolves({
+    mockedFetch
+      .mockResolvedValueOnce({
         status: METHOD_NOT_ALLOWED,
         ok: false,
-        json: () => ({error: 'invalid_token'}),
+        // eslint-disable-next-line require-await
+        json: async () => ({error: 'invalid_token'}),
         headers: new Headers({'content-type': 'application/json'}),
-      })
-      .onSecondCall()
-      .resolves({
+      } as Response)
+      .mockResolvedValueOnce({
         status: OK,
         ok: true,
-        json: () => fetchResult,
+        // eslint-disable-next-line require-await
+        json: async () => fetchResult,
         headers: new Headers({'content-type': 'application/json'}),
-      });
+      } as Response);
 
     const res = await http.request<typeof fetchResult>('testurl');
 
-    expect(fakeAuth.forceTokenUpdate).to.have.been.called;
+    expect(fakeAuth.forceTokenUpdate).toHaveBeenCalled();
 
     expect(res).to.equal(fetchResult);
   });
 
   it('"get" method should call request with GET type', async () => {
-    sandbox.stub(http, 'request');
+    vi.spyOn(http, 'request');
     await http.get('testurl');
 
-    expect(http.request).to.have.been.calledWith('testurl', {method: 'GET'});
+    expect(http.request).toHaveBeenCalledWith('testurl', {method: 'GET'});
   });
 
   it('"post" method should call request with POST type', async () => {
-    sandbox.stub(http, 'request');
+    vi.spyOn(http, 'request');
     await http.post('testurl', {body: {foo: 'bar'}});
 
-    expect(http.request).to.have.been.calledWith('testurl', {method: 'POST', body: {foo: 'bar'}});
+    expect(http.request).toHaveBeenCalledWith('testurl', {method: 'POST', body: {foo: 'bar'}});
   });
 
   it('"delete" method should call request with DELETE type', async () => {
-    sandbox.stub(http, 'request');
+    vi.spyOn(http, 'request');
     await http.delete('testurl', {body: {foo: 'bar'}});
 
-    expect(http.request).to.have.been.calledWith('testurl', {method: 'DELETE', body: {foo: 'bar'}});
+    expect(http.request).toHaveBeenCalledWith('testurl', {method: 'DELETE', body: {foo: 'bar'}});
   });
 
   it('"put" method should call request with PUT type', async () => {
-    sandbox.stub(http, 'request');
+    vi.spyOn(http, 'request');
     await http.put('testurl', {body: {foo: 'bar'}});
 
-    expect(http.request).to.have.been.calledWith('testurl', {method: 'PUT', body: {foo: 'bar'}});
+    expect(http.request).toHaveBeenCalledWith('testurl', {method: 'PUT', body: {foo: 'bar'}});
   });
 
   describe('abortify', () => {
     it('should abort request', () => {
-      const abortSpy = sandbox.spy();
-      sandbox.stub(window, 'AbortController').value(
+      const abortSpy = vi.fn();
+      vi.stubGlobal(
+        'AbortController',
         class FakeAbortController {
           signal = '';
           abort = abortSpy;
@@ -253,7 +261,7 @@ describe('HTTP', () => {
 
       abort();
 
-      expect(abortSpy).to.have.been.called;
+      expect(abortSpy).toHaveBeenCalled();
     });
   });
 });

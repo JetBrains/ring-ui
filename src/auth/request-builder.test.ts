@@ -11,8 +11,8 @@ describe('Auth', () => {
         scopes: ['youtrack', 'teamcity', 'vcs settings'],
       };
       beforeEach(() => {
-        sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
-        sandbox.stub(AuthRequestBuilder.prototype, '_saveState').callsFake(() => Promise.resolve());
+        vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
+        vi.spyOn(AuthRequestBuilder.prototype, '_saveState').mockImplementation(() => Promise.resolve());
       });
 
       it('should return correct URL', () => {
@@ -30,7 +30,7 @@ describe('Auth', () => {
       it('should save state', async () => {
         const builder = new AuthRequestBuilder(config);
         await builder.prepareAuthRequest();
-        expect(AuthRequestBuilder.prototype._saveState).to.have.been.calledWith('unique', {
+        expect(AuthRequestBuilder.prototype._saveState).toHaveBeenCalledWith('unique', {
           restoreLocation: window.location.href,
           scopes: ['youtrack', 'teamcity', 'vcs settings'],
         });
@@ -39,7 +39,7 @@ describe('Auth', () => {
       it('should save extra state', async () => {
         const builder = new AuthRequestBuilder(config);
         await builder.prepareAuthRequest(null, {nonRedirect: true});
-        expect(AuthRequestBuilder.prototype._saveState).to.have.been.calledWith('unique', {
+        expect(AuthRequestBuilder.prototype._saveState).toHaveBeenCalledWith('unique', {
           restoreLocation: window.location.href,
           nonRedirect: true,
           scopes: ['youtrack', 'teamcity', 'vcs settings'],

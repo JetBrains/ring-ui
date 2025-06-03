@@ -10,7 +10,7 @@ describe('Loader', () => {
   let loader: LoaderCore;
 
   beforeEach(() => {
-    sandbox.stub(LoaderCore.prototype, 'loop').callsFake(() => {});
+    vi.spyOn(LoaderCore.prototype, 'loop').mockImplementation(() => {});
 
     createLoader = props => {
       loaderContainer = document.createElement('div');
@@ -32,7 +32,7 @@ describe('Loader', () => {
   });
 
   it('Should set canvas size from passed size', () => {
-    sandbox.stub(LoaderCore, 'getPixelRatio').returns(1);
+    vi.spyOn(LoaderCore, 'getPixelRatio').mockReturnValue(1);
     createLoader({size: 42});
 
     expect(loader.canvas.height).to.equal(42);
@@ -40,7 +40,7 @@ describe('Loader', () => {
   });
 
   it('Should double canvas size on HDPI devices', () => {
-    sandbox.stub(LoaderCore, 'getPixelRatio').returns(2);
+    vi.spyOn(LoaderCore, 'getPixelRatio').mockReturnValue(2);
     createLoader({size: 42});
 
     expect(loader.canvas.height).to.equal(84);
@@ -48,7 +48,7 @@ describe('Loader', () => {
   });
 
   it('Should fixate canvas CSS size with style to avoid scaling on HDPI devices', () => {
-    sandbox.stub(LoaderCore, 'getPixelRatio').returns(2);
+    vi.spyOn(LoaderCore, 'getPixelRatio').mockReturnValue(2);
     createLoader({size: 42});
 
     expect(loader.canvas.style.height).to.equal('42px');
@@ -65,7 +65,7 @@ describe('Loader', () => {
   });
 
   it('Should revert direction on reaching top limit', () => {
-    sandbox.stub(Math, 'random').returns(loader.baseSpeed / 2);
+    vi.spyOn(Math, 'random').mockReturnValue(loader.baseSpeed / 2);
 
     const oldSpeed = loader.baseSpeed;
     const newSpeed = loader.handleLimits(95, 8, oldSpeed, 100);
@@ -73,7 +73,7 @@ describe('Loader', () => {
   });
 
   it('Should revert direction on reaching zero limit', () => {
-    sandbox.stub(Math, 'random').returns(loader.baseSpeed / 2);
+    vi.spyOn(Math, 'random').mockReturnValue(loader.baseSpeed / 2);
 
     const oldSpeed = -loader.baseSpeed;
     const newSpeed = loader.handleLimits(0, 8, oldSpeed, 100);
@@ -110,14 +110,14 @@ describe('Loader', () => {
   });
 
   it('Should call next color calculation', () => {
-    sandbox.spy(LoaderCore, 'calculateGradient');
+    vi.spyOn(LoaderCore, 'calculateGradient');
     loader.colorIndex = 1;
 
     loader.getNextColor();
-    expect(LoaderCore.calculateGradient).to.have.been.calledWith(
+    expect(LoaderCore.calculateGradient).toHaveBeenCalledWith(
       loader.props.colors[1],
       loader.props.colors[2],
-      sandbox.match(Number),
+      expect.any(Number),
     );
   });
 
@@ -146,29 +146,29 @@ describe('Loader', () => {
   });
 
   it('Should update tick on step', () => {
-    sandbox.spy(loader, 'nextTick');
+    vi.spyOn(loader, 'nextTick');
     loader.step();
-    expect(loader.nextTick).to.have.been.called;
+    expect(loader.nextTick).toHaveBeenCalled();
   });
 
   it('Should calculate new coordinates on step', () => {
-    sandbox.spy(loader, 'calculateNextCoordinates');
+    vi.spyOn(loader, 'calculateNextCoordinates');
     loader.step();
-    expect(loader.calculateNextCoordinates).to.have.been.called;
+    expect(loader.calculateNextCoordinates).toHaveBeenCalled();
   });
 
   it('Should calculate new radius on step', () => {
-    sandbox.spy(loader, 'calculateNextRadius');
+    vi.spyOn(loader, 'calculateNextRadius');
     loader.step();
-    expect(loader.calculateNextRadius).to.have.been.called;
+    expect(loader.calculateNextRadius).toHaveBeenCalled();
   });
 
   it('Should call step for each particle to allow it to update its live points', () => {
-    const stepSpy = sandbox.spy();
+    const stepSpy = vi.fn();
     loader.particles = [{step: stepSpy, draw: noop, isAlive: () => true}];
 
     loader.step();
-    expect(stepSpy).to.have.been.called;
+    expect(stepSpy).toHaveBeenCalled();
   });
 
   it('Should add particle on step', () => {

@@ -46,18 +46,18 @@ describe('Alert', () => {
   });
 
   it('should call onCloseRequest on click by close button', async () => {
-    const closeSpy = sandbox.spy();
+    const closeSpy = vi.fn();
     render(<Alert onCloseRequest={closeSpy}>{'Test element'}</Alert>);
     const closeElement = screen.queryByRole('button', {name: 'close alert'});
     if (closeElement != null) {
       await userEvent.click(closeElement);
     }
-    expect(closeSpy).to.have.been.called;
+    expect(closeSpy).toHaveBeenCalled();
   });
 
   it('should call onCloseRequest on timeout', () => {
     vi.useFakeTimers({toFake: ['setTimeout']});
-    const closeSpy = sandbox.spy();
+    const closeSpy = vi.fn();
     render(
       <Alert timeout={TIMEOUT} onCloseRequest={closeSpy}>
         {'Test element'}
@@ -68,6 +68,6 @@ describe('Alert', () => {
       vi.advanceTimersByTime(TICK);
     });
 
-    expect(closeSpy).to.have.been.called;
+    expect(closeSpy).toHaveBeenCalled();
   });
 });

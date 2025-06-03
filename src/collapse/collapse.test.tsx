@@ -24,7 +24,7 @@ const TextWrapper: React.FC<PropsWithChildren> = ({children}) => (
   <div style={{height: `${CONTENT_HEIGHT}px`}}>{children}</div>
 );
 
-const onChangeMock = sandbox.stub();
+const onChangeMock = vi.fn();
 
 const Dummy = ({
   minHeight,
@@ -97,13 +97,13 @@ describe('<Collapse />', () => {
 
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
-    expect(onChangeMock).to.have.been.calledWith(false);
+    expect(onChangeMock).toHaveBeenCalledWith(false);
     expect(content.style.opacity).to.equal('1');
 
     await userEvent.click(button);
 
     expect(content.style.opacity).to.equal('0');
-    expect(onChangeMock).to.have.been.calledWith(true);
+    expect(onChangeMock).toHaveBeenCalledWith(true);
   });
 
   it('should correctly behave with minHeight prop', async () => {

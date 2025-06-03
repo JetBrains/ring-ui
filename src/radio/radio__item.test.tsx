@@ -50,13 +50,13 @@ describe('Radio Item', () => {
   });
 
   it('should call handler for click event', () => {
-    const clickHandler = sandbox.stub();
+    const clickHandler = vi.fn();
     const radioItem = renderRadioItem({
       onClick: clickHandler,
     });
 
     fireEvent.click(radioItem);
-    expect(clickHandler).to.have.been.called;
+    expect(clickHandler).toHaveBeenCalled();
   });
 
   it('should be unchecked by default', () => {

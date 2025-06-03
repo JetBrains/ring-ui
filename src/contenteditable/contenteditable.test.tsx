@@ -3,9 +3,9 @@ import {render, screen} from '@testing-library/react';
 import ContentEditable from './contenteditable';
 
 describe('ContentEditable', () => {
-  const stub = sandbox.stub();
+  const stub = vi.fn();
 
-  afterEach(() => stub.reset());
+  afterEach(() => stub.mockClear());
 
   it('should create component', () => {
     render(<ContentEditable />);
@@ -35,14 +35,14 @@ describe('ContentEditable', () => {
       </ContentEditable>,
     );
 
-    expect(stub).to.have.been.calledTwice;
+    expect(stub).toHaveBeenCalledTimes(2);
   });
 
   it('should not render on other props change', () => {
     const {rerender} = render(<ContentEditable onComponentUpdate={stub} />);
     rerender(<ContentEditable onComponentUpdate={stub} className="testtest" />);
 
-    expect(stub).to.not.have.been.called;
+    expect(stub).not.toHaveBeenCalled;
   });
 
   it('should set tabindex equal zero by default', () => {

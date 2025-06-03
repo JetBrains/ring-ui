@@ -28,10 +28,10 @@ describe('Select', () => {
     renderOptimization: false,
     data: testData,
     selected: testData[0],
-    onChange: sandbox.spy(),
-    onFilter: sandbox.spy(),
-    onFocus: sandbox.spy(),
-    onBlur: sandbox.spy(),
+    onChange: vi.fn(),
+    onFilter: vi.fn(),
+    onFocus: vi.fn(),
+    onBlur: vi.fn(),
     filter: true,
   });
 
@@ -43,7 +43,7 @@ describe('Select', () => {
     selected: testData.slice(0, 2),
     filter: true,
     multiple: true,
-    onChange: sandbox.spy(),
+    onChange: vi.fn(),
   });
 
   const renderSelectMultiple = (props?: MultipleSelectAttrs) =>
@@ -121,8 +121,8 @@ describe('Select', () => {
     const clearButton = screen.getByRole('button', {name: 'Clear selection'});
     const user = userEvent.setup();
     await user.click(clearButton);
-    expect(props.onChange).to.be.calledOnce;
-    expect(props.onChange).to.be.called.calledWith(null);
+    expect(props.onChange).toHaveBeenCalledOnce();
+    expect(props.onChange).toHaveBeenCalledWith(null, expect.anything());
   });
 
   it('Should pass selected item and event to onChange', async () => {
@@ -133,7 +133,10 @@ describe('Select', () => {
     await user.click(button);
     const secondItem = screen.getByRole('button', {name: 'test2'});
     await user.click(secondItem);
-    expect(props.onChange).to.be.called.calledWithMatch({key: 2}, {originalEvent: {type: 'click'}});
+    expect(props.onChange).toHaveBeenCalledWith(
+      expect.objectContaining({key: 2}),
+      expect.objectContaining({originalEvent: expect.objectContaining({type: 'click'})}),
+    );
   });
 
   it('Should clear selected when rerendering with no selected item', () => {
@@ -198,7 +201,7 @@ describe('Select', () => {
     const filter = screen.getByRole('combobox');
     const user = userEvent.setup();
     await user.click(filter);
-    expect(props.onFocus).to.be.called;
+    expect(props.onFocus).toHaveBeenCalled();
   });
 
   it('Should call onBlur on input blur', async () => {
@@ -208,7 +211,7 @@ describe('Select', () => {
     const user = userEvent.setup();
     await user.click(filter);
     await user.tab();
-    expect(props.onBlur).to.be.called;
+    expect(props.onBlur).toHaveBeenCalled();
   });
 
   it('Should close popup if input lost focus in INPUT mode', async () => {
@@ -526,7 +529,7 @@ describe('Select', () => {
     });
 
     it('Should use custom filter.fn if provided', async () => {
-      const filterStub = sandbox.stub().returns(true);
+      const filterStub = vi.fn().mockReturnValue(true);
 
       renderSelect({
         type: Select.Type.INPUT,
@@ -539,7 +542,7 @@ describe('Select', () => {
       const filtered = screen.getAllByTestId('ring-list-item-action ring-list-item');
 
       expect(filtered.length).to.equal(testData.length);
-      expect(filterStub).to.have.been.called;
+      expect(filterStub).toHaveBeenCalled();
     });
 
     it('Should write filter query on add button if enabled', async () => {
@@ -564,7 +567,7 @@ describe('Select', () => {
       const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.type(filter, 'a');
-      expect(props.onFilter).to.be.called;
+      expect(props.onFilter).toHaveBeenCalled();
     });
 
     it('Should open popup on input changes if in focus', async () => {
@@ -584,7 +587,7 @@ describe('Select', () => {
       const filter = screen.getByRole('textbox');
       await user.type(filter, 'a', {skipClick: true});
 
-      expect(props.onFilter).to.be.called;
+      expect(props.onFilter).toHaveBeenCalled();
     });
 
     it('Should not open popup on input changes if not in focus', async () => {
@@ -733,8 +736,8 @@ describe('Select', () => {
       const clearButton = screen.getByRole('button', {name: 'Clear selection'});
       const user = userEvent.setup();
       await user.click(clearButton);
-      expect(props.onChange!).to.be.calledOnce;
-      expect(props.onChange!).to.be.called.calledWith([]);
+      expect(props.onChange!).toHaveBeenCalledOnce();
+      expect(props.onChange!).toHaveBeenCalledWith([], expect.anything());
     });
 
     it('Should clear selected when rerendering with no selected item in multiple mode', async () => {
@@ -837,14 +840,14 @@ describe('Select', () => {
       });
 
       it('Should call onDeselect on deselecting item', async () => {
-        const onDeselect = sandbox.spy();
+        const onDeselect = vi.fn();
         renderSelectMultiple({onDeselect});
         const button = screen.getByRole('combobox', {name: 'first1, test2'});
         const user = userEvent.setup();
         await user.click(button);
         const firstItem = screen.getByRole('button', {name: 'first1'});
         await user.click(firstItem);
-        expect(onDeselect).to.be.calledWithMatch(testData[0]);
+        expect(onDeselect).toHaveBeenCalledWith(expect.objectContaining(testData[0]));
       });
     });
   });
@@ -903,7 +906,7 @@ describe('Select', () => {
     });
 
     it('Should set call onSelect on selecting', async () => {
-      const onSelect = sandbox.spy();
+      const onSelect = vi.fn();
       renderSelect({
         onSelect,
       });
@@ -912,11 +915,11 @@ describe('Select', () => {
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
       await user.click(secondItem);
-      expect(onSelect).to.be.calledWith(testData[1]);
+      expect(onSelect).toHaveBeenCalledWith(testData[1], expect.anything());
     });
 
     it('Should set call onChange on selecting', async () => {
-      const onChange = sandbox.spy();
+      const onChange = vi.fn();
       renderSelect({
         onChange,
       });
@@ -925,7 +928,7 @@ describe('Select', () => {
       await user.click(button);
       const secondItem = screen.getByRole('button', {name: 'test2'});
       await user.click(secondItem);
-      expect(onChange).to.be.calledOnce;
+      expect(onChange).toHaveBeenCalledOnce();
     });
 
     it('Should hide popup on selecting', async () => {
@@ -975,7 +978,7 @@ describe('Select', () => {
     });
 
     it('Should set call onSelect on selecting', async () => {
-      const onSelect = sandbox.spy();
+      const onSelect = vi.fn();
       renderSelectMultiple({
         multiple: {selectAll: true},
         onSelect,
@@ -987,11 +990,12 @@ describe('Select', () => {
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
       await user.click(selectAll);
-      expect(onSelect).to.be.calledThrice;
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      expect(onSelect).toHaveBeenCalledTimes(3);
     });
 
     it('Should set call onDeselect on call handler with false flag', async () => {
-      const onDeselect = sandbox.spy();
+      const onDeselect = vi.fn();
       renderSelectMultiple({
         multiple: {selectAll: true},
         onDeselect,
@@ -1004,11 +1008,11 @@ describe('Select', () => {
       const deselectAll = screen.getByRole('button', {name: 'Deselect all'});
       await user.click(deselectAll);
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      expect(onDeselect).to.have.callCount(4);
+      expect(onDeselect).toHaveBeenCalledTimes(4);
     });
 
     it('Should set call onChange on selecting', async () => {
-      const onChange = sandbox.spy();
+      const onChange = vi.fn();
       renderSelectMultiple({
         multiple: {selectAll: true},
         onChange,
@@ -1020,7 +1024,7 @@ describe('Select', () => {
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
       await user.click(selectAll);
-      expect(onChange).to.be.calledOnce;
+      expect(onChange).toHaveBeenCalledOnce();
     });
   });
 
@@ -1147,7 +1151,7 @@ describe('Select', () => {
   describe('_getResetOption', () => {
     it('should create tags reset option', async () => {
       const labelMock = 'label';
-      const onFilter = sandbox.spy();
+      const onFilter = vi.fn();
       const tagsMock = {
         reset: {
           key: labelMock,
@@ -1166,7 +1170,7 @@ describe('Select', () => {
       const resetOption = screen.getByTestId('ring-select-reset-tags-button');
       expect(resetOption).to.have.text(labelMock);
       await user.click(resetOption);
-      expect(onFilter).to.be.calledWith('');
+      expect(onFilter).toHaveBeenCalledWith('');
     });
 
     it('should not create tags reset option if it is not provided', async () => {

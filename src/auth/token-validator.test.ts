@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import type {Stub} from '../../test-helpers/globals.d';
+import {MockInstance} from 'vitest';
 
 import HTTP from '../http/http';
 import LocalStorage from '../storage/storage__local';
@@ -27,13 +27,13 @@ describe('Auth', () => {
     const expires = TokenValidator._epoch() + lifeTime;
 
     describe('getValidatedToken', () => {
-      let getToken: Stub<AuthStorage['getToken']>;
+      let getToken: MockInstance<AuthStorage['getToken']>;
       beforeEach(function beforeEach() {
-        getToken = sandbox.stub(AuthStorage.prototype, 'getToken');
+        getToken = vi.spyOn(AuthStorage.prototype, 'getToken');
       });
 
       it('should resolve access token when it is valid', () => {
-        getToken.returns(
+        getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
             expires,
@@ -46,7 +46,7 @@ describe('Auth', () => {
       });
 
       it('should resolve access token when token is given for all required scopes', () => {
-        getToken.returns(
+        getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
             expires,
@@ -59,7 +59,7 @@ describe('Auth', () => {
       });
 
       it('should reject if accessToken is empty', () => {
-        getToken.returns(
+        getToken.mockReturnValue(
           // @ts-expect-error testing a wrong usage
           Promise.resolve({
             accessToken: null,
@@ -76,7 +76,7 @@ describe('Auth', () => {
       });
 
       it('should reject if there is no token stored', () => {
-        getToken.returns(Promise.resolve(null));
+        getToken.mockReturnValue(Promise.resolve(null));
         return expect(tokenValidator.validateTokenLocally()).to.be.rejectedWith(
           TokenValidator.TokenValidationError,
           'Token not found',
@@ -84,7 +84,7 @@ describe('Auth', () => {
       });
 
       it('should reject if token is about to be expired (<1/6 lifeTime left)', () => {
-        getToken.returns(
+        getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
             expires: TokenValidator._epoch() + lifeTime / 6 - 1,
@@ -100,7 +100,7 @@ describe('Auth', () => {
 
       it('should reject if short-life token is about to be expired (<1/6 lifeTime left)', () => {
         const minimalLifeTime = 60 * 5;
-        getToken.returns(
+        getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
             expires: TokenValidator._epoch() + minimalLifeTime / 6 - 1,
@@ -115,7 +115,7 @@ describe('Auth', () => {
       });
 
       it('should reject if token is about to be expired but lifeTime is not set and default time used', () => {
-        getToken.returns(
+        getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
             expires: TokenValidator._epoch() + 5 * 60,
@@ -129,7 +129,7 @@ describe('Auth', () => {
       });
 
       it("should reject if token scopes don't match required scopes", () => {
-        getToken.returns(
+        getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
             expires,
@@ -146,23 +146,23 @@ describe('Auth', () => {
     });
 
     describe('validateAgainstUser', () => {
-      let authorizedFetch: Stub<HTTP['authorizedFetch']>;
+      let authorizedFetch: MockInstance<HTTP['authorizedFetch']>;
       beforeEach(function beforeEach() {
-        authorizedFetch = sandbox.stub(HTTP.prototype, 'authorizedFetch');
+        authorizedFetch = vi.spyOn(HTTP.prototype, 'authorizedFetch');
       });
 
       it('should resolve to access token when user is returned', async () => {
         const token = {accessToken: 'token'};
-        authorizedFetch.returns(Promise.resolve({login: 'user'}));
+        authorizedFetch.mockReturnValue(Promise.resolve({login: 'user'}));
         const promise = tokenValidator._validateAgainstUser(token);
         expect(promise).to.be.fulfilled;
         await promise;
-        expect(authorizedFetch).to.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
+        expect(authorizedFetch).toHaveBeenCalledWith(Auth.API_PROFILE_PATH, 'token');
       });
 
       it('should reject with redirect if 401 response received', () => {
         const token = {accessToken: 'token'};
-        authorizedFetch.returns(
+        authorizedFetch.mockReturnValue(
           Promise.reject({
             status: 401,
             response: {
@@ -180,7 +180,7 @@ describe('Auth', () => {
 
       it('should reject with redirect if invalid_grant response received', () => {
         const token = {accessToken: 'token'};
-        authorizedFetch.returns(
+        authorizedFetch.mockReturnValue(
           Promise.reject({
             response: {
               json() {
@@ -197,7 +197,7 @@ describe('Auth', () => {
 
       it('should reject with redirect if invalid_request response received', () => {
         const token = {accessToken: 'token'};
-        authorizedFetch.returns(
+        authorizedFetch.mockReturnValue(
           Promise.reject({
             response: {
               json() {
@@ -214,7 +214,7 @@ describe('Auth', () => {
 
       it('should reject with redirect if 401 response without json received', () => {
         const token = {accessToken: 'token'};
-        authorizedFetch.returns(
+        authorizedFetch.mockReturnValue(
           Promise.reject({
             status: 401,
             message: '403 Forbidden',

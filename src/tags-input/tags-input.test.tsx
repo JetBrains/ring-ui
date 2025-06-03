@@ -33,7 +33,7 @@ describe('Tags Input', () => {
 
   describe('Select', () => {
     it('Should add tag', () => {
-      const onAddTag = sandbox.spy();
+      const onAddTag = vi.fn();
       const {rerender} = renderTagsInput({onAddTag});
 
       // Simulate adding a tag by updating the tags prop
@@ -45,7 +45,7 @@ describe('Tags Input', () => {
     });
 
     it('Should remove tag', async () => {
-      const onRemoveTag = sandbox.spy();
+      const onRemoveTag = vi.fn();
       const {tagsList} = renderTagsInput({onRemoveTag});
 
       // Find the remove button and click it
@@ -54,7 +54,7 @@ describe('Tags Input', () => {
       await user.click(removeButton);
 
       // Check if onRemoveTag was called
-      expect(onRemoveTag).to.have.been.called;
+      expect(onRemoveTag).toHaveBeenCalled();
     });
 
     it('Should copy tags to state on receiving props', () => {
@@ -70,7 +70,7 @@ describe('Tags Input', () => {
 
   describe('DataSource', () => {
     it('Should call datasource when input is focused', async () => {
-      const dataSource = sandbox.spy(() => Promise.resolve([]));
+      const dataSource = vi.fn().mockResolvedValue([]);
       const {input} = renderTagsInput({dataSource});
 
       // Focus the input
@@ -78,11 +78,11 @@ describe('Tags Input', () => {
       await user.click(input);
 
       // Check if dataSource was called
-      expect(dataSource).to.have.been.called;
+      expect(dataSource).toHaveBeenCalled();
     });
 
     it('Should call datasource with query entered', async () => {
-      const dataSource = sandbox.spy(() => Promise.resolve([]));
+      const dataSource = vi.fn().mockResolvedValue([]);
       const {input} = renderTagsInput({dataSource});
 
       // Type in the input
@@ -90,7 +90,7 @@ describe('Tags Input', () => {
       await user.type(input, 'testquery');
 
       // Check if dataSource was called with the query
-      expect(dataSource).to.have.been.calledWith({query: 'testquery'});
+      expect(dataSource).toHaveBeenCalledWith({query: 'testquery'});
     });
   });
 
@@ -100,16 +100,16 @@ describe('Tags Input', () => {
     // and the backspace key is pressed, which should remove the last tag.
     // The functionality is implemented in the handleKeyDown method of the TagsInput component.
     it('Should remove last tag on pressing backspace if input is empty', async () => {
-      const onRemoveTag = sandbox.spy(() => act(() => {}));
+      const onRemoveTag = vi.fn().mockImplementation(() => act(() => {}));
       const {input} = renderTagsInput({onRemoveTag});
 
       await act(() => fireEvent.keyDown(input, {key: 'Backspace'}));
 
-      expect(onRemoveTag).to.have.been.called;
+      expect(onRemoveTag).toHaveBeenCalled();
     });
 
     it('Should not remove tag on pressing backspace if input is not empty', async () => {
-      const onRemoveTag = sandbox.spy();
+      const onRemoveTag = vi.fn();
       const {input} = renderTagsInput({onRemoveTag});
 
       // Type in the input and press backspace
@@ -118,7 +118,7 @@ describe('Tags Input', () => {
       fireEvent.keyDown(input, {key: 'Backspace'});
 
       // Check if onRemoveTag was not called
-      expect(onRemoveTag).to.not.have.been.called;
+      expect(onRemoveTag).not.toHaveBeenCalled;
     });
   });
 });

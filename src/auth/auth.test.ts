@@ -3,10 +3,10 @@ import mockedWindow from 'storage-mock';
 
 import {act} from 'react';
 
+import {MockInstance} from 'vitest';
+
 import HTTP from '../http/http';
 import LocalStorage from '../storage/storage__local';
-
-import type {Stub} from '../../test-helpers/globals.d';
 
 import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT, AuthUser} from './auth';
 import AuthRequestBuilder from './request-builder';
@@ -18,12 +18,14 @@ const HOUR = 3600;
 
 describe('Auth', () => {
   beforeEach(() => {
-    sandbox.stub(window, 'addEventListener').value((...args: unknown[]) => mockedWindow.addEventListener(...args));
-    sandbox
-      .stub(window, 'removeEventListener')
-      .value((...args: unknown[]) => mockedWindow.removeEventListener(...args));
-    sandbox.stub(window, 'localStorage').value(mockedWindow.localStorage);
-    sandbox.stub(window, 'sessionStorage').value(mockedWindow.sessionStorage);
+    vi.spyOn(window, 'addEventListener').mockImplementation((...args: unknown[]) =>
+      mockedWindow.addEventListener(...args),
+    );
+    vi.spyOn(window, 'removeEventListener').mockImplementation((...args: unknown[]) =>
+      mockedWindow.removeEventListener(...args),
+    );
+    vi.stubGlobal('localStorage', mockedWindow.localStorage);
+    vi.stubGlobal('sessionStorage', mockedWindow.sessionStorage);
     localStorage.clear();
     sessionStorage.clear();
   });
@@ -98,14 +100,14 @@ describe('Auth', () => {
     });
 
     it('should not redirect on object construction', () => {
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
       // eslint-disable-next-line no-new
       new Auth({serverUri: ''});
-      expect(Auth.prototype._redirectCurrentPage).to.not.have.been.called;
+      expect(Auth.prototype._redirectCurrentPage).not.toHaveBeenCalled;
     });
 
     it('should subscribe on logout if passed', () => {
-      const onLogout = sandbox.stub();
+      const onLogout = vi.fn();
 
       const auth = new Auth({
         serverUri: '',
@@ -114,23 +116,23 @@ describe('Auth', () => {
 
       auth.listeners.trigger(LOGOUT_EVENT);
 
-      expect(onLogout).to.have.been.called;
+      expect(onLogout).toHaveBeenCalled();
     });
 
     it('should perform redirect on userChange by default', () => {
       vi.useFakeTimers({toFake: ['setTimeout']});
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
 
       const auth = new Auth({serverUri: ''});
       auth.listeners.trigger(USER_CHANGED_EVENT);
       vi.advanceTimersByTime(0);
 
-      expect(Auth.prototype._redirectCurrentPage).to.have.been.called;
+      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalled();
     });
 
     it('should not perform redirect on userChange when reloadOnUserChange is false', () => {
       vi.useFakeTimers({toFake: ['setTimeout']});
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
 
       const auth = new Auth({
         reloadOnUserChange: false,
@@ -139,7 +141,7 @@ describe('Auth', () => {
       auth.listeners.trigger(USER_CHANGED_EVENT);
       vi.advanceTimersByTime(0);
 
-      expect(Auth.prototype._redirectCurrentPage).to.not.been.called;
+      expect(Auth.prototype._redirectCurrentPage).not.toHaveBeenCalled;
     });
 
     it('should add preconnect link tag', () => {
@@ -162,8 +164,8 @@ describe('Auth', () => {
     });
 
     beforeEach(() => {
-      sandbox.stub(Auth.prototype, 'getUser').resolves({login: 'user'});
-      sandbox.stub(Auth.prototype, 'setHash');
+      vi.spyOn(Auth.prototype, 'getUser').mockResolvedValue({login: 'user'});
+      vi.spyOn(Auth.prototype, 'setHash').mockReturnValue();
     });
 
     afterEach(async () => {
@@ -182,13 +184,11 @@ describe('Auth', () => {
     it('should fetch auth response from query parameters', async () => {
       const frozenTime = TokenValidator._epoch();
 
-      sandbox
-        .stub(AuthResponseParser.prototype, 'getLocation')
-        .returns(
-          'http://localhost:8080/hub' +
-            '#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600',
-        );
-      sandbox.stub(TokenValidator, '_epoch').returns(frozenTime);
+      vi.spyOn(AuthResponseParser.prototype, 'getLocation').mockReturnValue(
+        'http://localhost:8080/hub' +
+          '#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600',
+      );
+      vi.spyOn(TokenValidator, '_epoch').mockReturnValue(frozenTime);
 
       auth = new Auth({
         serverUri: '',
@@ -214,9 +214,9 @@ describe('Auth', () => {
     });
 
     it('should throw error if user does not have state in local storage (RG-2380)', () => {
-      sandbox
-        .stub(AuthResponseParser.prototype, 'getLocation')
-        .returns('http://localhost:8080/hub#access_token=000&state=state&token_type=token&expires_in=3600');
+      vi.spyOn(AuthResponseParser.prototype, 'getLocation').mockReturnValue(
+        'http://localhost:8080/hub#access_token=000&state=state&token_type=token&expires_in=3600',
+      );
 
       auth = new Auth({
         serverUri: '',
@@ -231,9 +231,9 @@ describe('Auth', () => {
 
     it('should get target URL from state field, if valid URL (RG-2380)', () => {
       const origin = window.location.origin;
-      sandbox
-        .stub(AuthResponseParser.prototype, 'getLocation')
-        .returns(`http://localhost:8080/hub#access_token=000&state=${origin}/test&token_type=token&expires_in=3600`);
+      vi.spyOn(AuthResponseParser.prototype, 'getLocation').mockReturnValue(
+        `http://localhost:8080/hub#access_token=000&state=${origin}/test&token_type=token&expires_in=3600`,
+      );
 
       auth = new Auth({
         serverUri: '',
@@ -247,11 +247,9 @@ describe('Auth', () => {
     });
 
     it('should throw error if target URL from state field has different origin (RG-2380)', () => {
-      sandbox
-        .stub(AuthResponseParser.prototype, 'getLocation')
-        .returns(
-          'http://localhost:8080/hub#access_token=000&state=http://google.com/test&token_type=token&expires_in=3600',
-        );
+      vi.spyOn(AuthResponseParser.prototype, 'getLocation').mockReturnValue(
+        'http://localhost:8080/hub#access_token=000&state=http://google.com/test&token_type=token&expires_in=3600',
+      );
 
       auth = new Auth({
         serverUri: '',
@@ -268,8 +266,8 @@ describe('Auth', () => {
     });
 
     it('should redirect to auth when there is no valid token', async () => {
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -284,7 +282,7 @@ describe('Auth', () => {
         await act(() => auth.init());
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
-        expect(Auth.prototype._redirectCurrentPage).to.be.calledWith(
+        expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
           'api/rest/oauth2/auth?response_type=token' +
             '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
             '&request_credentials=default&client_id=1-1-1-1-1' +
@@ -295,9 +293,9 @@ describe('Auth', () => {
     });
 
     it('should clear location hash if cleanHash = true', async () => {
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
-      sandbox.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').returns({});
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
+      vi.spyOn(AuthResponseParser.prototype, 'getAuthResponseFromURL').mockReturnValue({});
 
       auth = new Auth({
         serverUri: '',
@@ -309,13 +307,13 @@ describe('Auth', () => {
       try {
         await auth.init();
       } catch (e) {
-        expect(auth.setHash).to.have.been.calledWith('');
+        expect(auth.setHash).toHaveBeenCalledWith('');
       }
     });
 
     it('should not clear location hash if cleanHash = true and there is nothing to clear', async () => {
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -327,14 +325,14 @@ describe('Auth', () => {
       try {
         await auth.init();
       } catch (e) {
-        expect(auth.setHash).to.not.have.been.called;
+        expect(auth.setHash).not.toHaveBeenCalled;
       }
     });
 
     it('should not clear location hash if cleanHash = false', async () => {
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
-      sandbox.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').returns({});
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
+      vi.spyOn(AuthResponseParser.prototype, 'getAuthResponseFromURL').mockReturnValue({});
 
       auth = new Auth({
         serverUri: '',
@@ -346,13 +344,13 @@ describe('Auth', () => {
       try {
         await auth.init();
       } catch (e) {
-        expect(auth.setHash).to.not.have.been.called;
+        expect(auth.setHash).not.toHaveBeenCalled;
       }
     });
 
     it('should pass through request_credentials value', async () => {
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -364,7 +362,7 @@ describe('Auth', () => {
       try {
         await auth.init();
       } catch (e) {
-        expect(Auth.prototype._redirectCurrentPage).to.be.calledWith(
+        expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
           'api/rest/oauth2/auth?response_type=token&' +
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
             '&request_credentials=skip&client_id=0-0-0-0-0&scope=0-0-0-0-0',
@@ -375,15 +373,15 @@ describe('Auth', () => {
 
   describe('background init', () => {
     let auth: Auth;
-    let _getValidatedToken: Stub<TokenValidator['_getValidatedToken']>;
+    let _getValidatedToken: MockInstance<TokenValidator['_getValidatedToken']>;
 
     beforeEach(() => {
-      _getValidatedToken = sandbox
-        .stub(TokenValidator.prototype, '_getValidatedToken')
-        .returns(Promise.reject(new TokenValidationError('error')));
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-      sandbox.stub(Auth.prototype, 'getUser');
-      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      _getValidatedToken = vi
+        .spyOn(TokenValidator.prototype, '_getValidatedToken')
+        .mockRejectedValue(new TokenValidationError('error'));
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      vi.spyOn(Auth.prototype, 'getUser').mockResolvedValue(null);
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -405,9 +403,11 @@ describe('Auth', () => {
     });
 
     it('should initiate when there is no valid token', async () => {
-      _getValidatedToken.onCall(1).returns(Promise.resolve('token'));
+      _getValidatedToken
+        .mockReturnValueOnce(Promise.reject(new TokenValidationError('error')))
+        .mockReturnValueOnce(Promise.resolve('token'));
 
-      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockImplementation(() => {
         auth._storage?.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
@@ -418,20 +418,20 @@ describe('Auth', () => {
 
       await auth.init();
 
-      expect(BackgroundFlow.prototype._redirectFrame).to.have.been.calledWithMatch(
-        sinon.match.any,
+      expect(BackgroundFlow.prototype._redirectFrame).toHaveBeenCalledWith(
+        expect.anything(),
         'api/rest/oauth2/auth?response_type=token&state=unique' +
           '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
           '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
       );
 
-      expect(Auth.prototype._redirectCurrentPage).to.not.have.been.called;
+      expect(Auth.prototype._redirectCurrentPage).not.toHaveBeenCalled;
 
-      expect(TokenValidator.prototype._getValidatedToken).to.have.been.calledTwice;
+      expect(TokenValidator.prototype._getValidatedToken).toHaveBeenCalledTimes(2);
     });
 
     it('should initiate and fall back to redirect when token check fails', async () => {
-      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockImplementation(() => {
         auth._storage?.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
@@ -444,28 +444,28 @@ describe('Auth', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
         // Background loading
-        expect(BackgroundFlow.prototype._redirectFrame).to.have.been.calledWithMatch(
-          sinon.match.any,
+        expect(BackgroundFlow.prototype._redirectFrame).toHaveBeenCalledWith(
+          expect.anything(),
           'api/rest/oauth2/auth?response_type=token' +
             '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
             '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
         );
 
         // Fallback redirect after second check fail
-        expect(Auth.prototype._redirectCurrentPage).to.have.been.calledWith(
+        expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
           'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default' +
             '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
         );
 
-        expect(TokenValidator.prototype._getValidatedToken).to.have.been.calledTwice;
+        expect(TokenValidator.prototype._getValidatedToken).toHaveBeenCalledTimes(2);
 
         expect(reject.authRedirect).to.be.true;
       }
     });
 
     it('should initiate and fall back to redirect when guest is banned', async () => {
-      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockImplementation(() => {
         auth._storage?.saveState('unique', {error: new AuthError({error: 'access_denied'})});
       });
 
@@ -474,21 +474,21 @@ describe('Auth', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
         // Background loading
-        expect(BackgroundFlow.prototype._redirectFrame).to.have.been.calledWithMatch(
-          sinon.match.any,
+        expect(BackgroundFlow.prototype._redirectFrame).toHaveBeenCalledWith(
+          expect.anything(),
           'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
             '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
         );
 
         // Fallback redirect after background fail
-        expect(Auth.prototype._redirectCurrentPage).to.have.been.calledWith(
+        expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
           'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default' +
             '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
         );
 
-        expect(TokenValidator.prototype._getValidatedToken).to.have.been.calledOnce;
+        expect(TokenValidator.prototype._getValidatedToken).toHaveBeenCalledOnce;
 
         expect(reject.code).to.deep.equal({code: 'access_denied'});
       }
@@ -498,10 +498,10 @@ describe('Auth', () => {
   describe('requestToken', () => {
     let auth: Auth;
     beforeEach(() => {
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-      sandbox.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
-      sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
-      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      vi.spyOn(Auth.prototype, 'getUser').mockResolvedValue({id: 'APIuser'});
+      vi.spyOn(Auth.prototype, '_checkBackendsAreUp').mockResolvedValue([null, null]);
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -534,16 +534,16 @@ describe('Auth', () => {
     });
 
     it('should get token in iframe if there is no valid token', async () => {
-      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockImplementation(() => {
         auth._storage?.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0'],
         });
       });
-      const accessToken = await auth.requestToken();
-      expect(BackgroundFlow.prototype._redirectFrame).to.have.been.calledWithMatch(
-        sinon.match.any,
+      const accessToken = await act(() => auth.requestToken());
+      expect(BackgroundFlow.prototype._redirectFrame).toHaveBeenCalledWith(
+        expect.anything(),
         'api/rest/oauth2/auth?response_type=token&state=unique' +
           '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
           '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
@@ -554,26 +554,26 @@ describe('Auth', () => {
 
     it('should show userchanged overlay if token was changed', async () => {
       auth.user = {id: 'initUser'} as AuthUser;
-      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockImplementation(() => {
         auth._storage?.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0'],
         });
       });
-      sandbox.stub(Auth.prototype, '_showUserChangedDialog');
+      vi.spyOn(Auth.prototype, '_showUserChangedDialog').mockReturnValue();
 
       const accessToken = await auth.requestToken();
       // _detectUserChange is called by localStorage event in real life
       await auth._detectUserChange('token');
 
-      expect(BackgroundFlow.prototype._redirectFrame).to.have.been.calledWithMatch(
-        sinon.match.any,
+      expect(BackgroundFlow.prototype._redirectFrame).toHaveBeenCalledWith(
+        expect.anything(),
         'api/rest/oauth2/auth?response_type=token' +
           '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
           '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
       );
-      expect(auth._showUserChangedDialog).to.have.been.called;
+      expect(auth._showUserChangedDialog).toHaveBeenCalled();
       expect('token').to.be.equal(accessToken);
     });
 
@@ -582,19 +582,19 @@ describe('Auth', () => {
       if (auth._backgroundFlow != null) {
         auth._backgroundFlow._timeout = 100;
       }
-      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
+      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockReturnValue();
 
       try {
         await auth.requestToken();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reject: any) {
-        expect(BackgroundFlow.prototype._redirectFrame).to.have.been.calledWithMatch(
-          sinon.match.any,
+        expect(BackgroundFlow.prototype._redirectFrame).toHaveBeenCalledWith(
+          expect.anything(),
           'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
             '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
         );
-        expect(Auth.prototype._redirectCurrentPage).to.have.been.calledWith(
+        expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
           'api/rest/oauth2/auth' +
             '?response_type=token&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
             '&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
@@ -609,17 +609,19 @@ describe('Auth', () => {
       if (auth._backgroundFlow != null) {
         auth._backgroundFlow._timeout = TIMEOUT;
       }
-      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
-      sandbox.stub(Auth.prototype, '_showAuthDialog');
+      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockReturnValue();
+      vi.spyOn(Auth.prototype, '_showAuthDialog').mockReturnValue();
 
-      auth.requestToken();
+      await act(() => {
+        auth.requestToken();
 
-      await new Promise<void>(resolve =>
-        setTimeout(() => {
-          expect(Auth.prototype._showAuthDialog).to.have.been.called;
-          resolve();
-        }, TIMEOUT * 2),
-      );
+        return new Promise<void>(resolve =>
+          setTimeout(() => {
+            expect(Auth.prototype._showAuthDialog).toHaveBeenCalled();
+            resolve();
+          }, TIMEOUT * 2),
+        );
+      });
     });
   });
 
@@ -635,7 +637,7 @@ describe('Auth', () => {
         optionalScopes: ['youtrack'],
       });
 
-      sandbox.stub(Auth.prototype, 'getUser').resolves({name: 'APIuser'});
+      vi.spyOn(Auth.prototype, 'getUser').mockResolvedValue({name: 'APIuser'});
     });
 
     it('should return existing user', async () => {
@@ -645,7 +647,7 @@ describe('Auth', () => {
       auth.user = {name: 'existingUser'} as AuthUser;
 
       const user = await auth.requestUser();
-      expect(Auth.prototype.getUser).to.not.have.been.called;
+      expect(Auth.prototype.getUser).not.toHaveBeenCalled;
       expect(user).to.equal(auth.user);
     });
 
@@ -653,10 +655,10 @@ describe('Auth', () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
-      sandbox.stub(Auth.prototype, 'requestToken').resolves('token');
+      vi.spyOn(Auth.prototype, 'requestToken').mockResolvedValue('token');
 
       const user = await auth.requestUser();
-      expect(Auth.prototype.getUser).to.have.been.calledOnce;
+      expect(Auth.prototype.getUser).toHaveBeenCalledOnce;
       expect(user).to.deep.equal({name: 'APIuser'});
     });
 
@@ -669,7 +671,7 @@ describe('Auth', () => {
       await auth._tokenValidator?.validateToken();
 
       const user = await auth.requestUser();
-      expect(Auth.prototype.getUser).to.have.been.calledOnce;
+      expect(Auth.prototype.getUser).toHaveBeenCalledOnce;
       expect(user).to.deep.equal({name: 'APIuser'});
     });
   });
@@ -688,7 +690,7 @@ describe('Auth', () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
-      sandbox.stub(HTTP.prototype, 'authorizedFetch').resolves({name: 'APIuser'});
+      vi.spyOn(HTTP.prototype, 'authorizedFetch').mockResolvedValue({name: 'APIuser'});
     });
 
     it('should not return existing user', async () => {
@@ -701,13 +703,13 @@ describe('Auth', () => {
 
     it('should get user from API', async () => {
       const user = await auth.getUser('token');
-      expect(HTTP.prototype.authorizedFetch).to.have.been.calledOnce;
-      const matchParams = sinon.match({
+      expect(HTTP.prototype.authorizedFetch).toHaveBeenCalledOnce;
+      const matchParams = expect.objectContaining({
         query: {
           fields: 'guest,id,name,login,profile/avatar/url',
         },
       });
-      expect(HTTP.prototype.authorizedFetch).to.have.been.calledWithMatch('users/me', 'token', matchParams);
+      expect(HTTP.prototype.authorizedFetch).toHaveBeenCalledWith('users/me', 'token', matchParams);
       expect(user).to.deep.equal({name: 'APIuser'});
     });
   });
@@ -718,31 +720,34 @@ describe('Auth', () => {
     });
 
     beforeEach(() => {
-      sandbox.stub(BackgroundFlow.prototype, 'authorize').returns(Promise.resolve('token'));
-      sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
-      sandbox.stub(Auth.prototype, LOGOUT_EVENT);
-      sandbox.stub(auth.listeners, 'trigger');
+      vi.spyOn(BackgroundFlow.prototype, 'authorize').mockReturnValue(Promise.resolve('token'));
+      vi.spyOn(Auth.prototype, '_checkBackendsAreUp').mockResolvedValue([null, null]);
+      vi.spyOn(Auth.prototype, LOGOUT_EVENT).mockResolvedValue(undefined);
+      vi.spyOn(auth.listeners, 'trigger').mockResolvedValue([]);
     });
 
     it('should call getUser', async () => {
-      sandbox.stub(Auth.prototype, 'getUser');
+      vi.spyOn(Auth.prototype, 'getUser').mockResolvedValue(null);
 
       await auth.login();
 
-      expect(auth.getUser).to.have.been.calledWith('token');
+      expect(auth.getUser).toHaveBeenCalledWith('token');
     });
 
     it('should trigger userChange', async () => {
-      sandbox.stub(Auth.prototype, 'getUser').returns(Promise.resolve({name: 'APIuser'}));
+      vi.spyOn(Auth.prototype, 'getUser').mockReturnValue(Promise.resolve({name: 'APIuser'}));
 
       await auth.login();
 
-      expect(auth.listeners.trigger).to.have.been.calledWithMatch(USER_CHANGED_EVENT, sinon.match({name: 'APIuser'}));
+      expect(auth.listeners.trigger).toHaveBeenCalledWith(
+        USER_CHANGED_EVENT,
+        expect.objectContaining({name: 'APIuser'}),
+      );
     });
 
     it('should update user in instance', async () => {
       const APIuser = {name: 'APIuser'};
-      sandbox.stub(Auth.prototype, 'getUser').resolves(APIuser);
+      vi.spyOn(Auth.prototype, 'getUser').mockResolvedValue(APIuser);
 
       auth.user = {name: 'existingUser'} as AuthUser;
 
@@ -752,19 +757,19 @@ describe('Auth', () => {
     });
 
     it('should call _beforeLogout for guest', async () => {
-      sandbox.stub(Auth.prototype, '_beforeLogout');
-      sandbox.stub(Auth.prototype, 'getUser').resolves({guest: true});
-      await auth.login();
+      vi.spyOn(Auth.prototype, '_beforeLogout').mockReturnValue();
+      vi.spyOn(Auth.prototype, 'getUser').mockResolvedValue({guest: true});
+      await act(() => auth.login());
 
-      expect(auth._beforeLogout).to.have.been.calledOnce;
+      expect(auth._beforeLogout).toHaveBeenCalledOnce;
     });
 
     it('should call _beforeLogout on reject', async () => {
-      sandbox.stub(Auth.prototype, '_beforeLogout');
-      sandbox.stub(Auth.prototype, 'getUser').rejects();
+      vi.spyOn(Auth.prototype, '_beforeLogout').mockReturnValue();
+      vi.spyOn(Auth.prototype, 'getUser').mockRejectedValue(undefined);
       await auth.login();
 
-      expect(auth._beforeLogout).to.have.been.calledOnce;
+      expect(auth._beforeLogout).toHaveBeenCalledOnce;
     });
   });
 
@@ -778,14 +783,14 @@ describe('Auth', () => {
     });
 
     beforeEach(() => {
-      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
-      sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
-      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      vi.spyOn(Auth.prototype, '_checkBackendsAreUp').mockResolvedValue([null, null]);
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
     });
 
     it('should clear access token and redirect to logout', async () => {
       await auth.logout();
-      expect(Auth.prototype._redirectCurrentPage).to.have.been.calledWith(
+      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
         'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
           'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
@@ -806,7 +811,7 @@ describe('Auth', () => {
       await auth.logout({
         message: 'access denied',
       });
-      expect(Auth.prototype._redirectCurrentPage).to.have.been.calledWith(
+      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
         'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
           'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
@@ -816,18 +821,18 @@ describe('Auth', () => {
 
     it('should logout when no onLogout passed', () => expect(auth.logout()).to.be.fulfilled);
 
-    it('should fail pass when onLogout returns rejected promise', async () => {
-      const onLogout = sandbox.spy();
+    it('should fail pass when onLogout mockReturnValue rejected promise', async () => {
+      const onLogout = vi.fn();
       const logoutAuth = new Auth({
         serverUri: '',
         onLogout,
       });
 
       await logoutAuth.logout();
-      expect(onLogout).to.have.been.calledOnce;
+      expect(onLogout).toHaveBeenCalledOnce;
     });
 
-    it('should fail pass when onLogout returns rejected promise', () => {
+    it('should fail pass when onLogout mockReturnValue rejected promise', () => {
       const logoutAuth = new Auth({
         serverUri: '',
         onLogout: () => Promise.reject(),
@@ -838,18 +843,18 @@ describe('Auth', () => {
 
     it('should logout when no onLogout passed', () => expect(auth.logout()).to.be.fulfilled);
 
-    it('should fail pass when onLogout returns rejected promise', async () => {
-      const onLogout = sandbox.spy();
+    it('should fail pass when onLogout mockReturnValue rejected promise', async () => {
+      const onLogout = vi.fn();
       const logoutAuth = new Auth({
         serverUri: '',
         onLogout,
       });
 
       await logoutAuth.logout();
-      expect(onLogout).to.have.been.calledOnce;
+      expect(onLogout).toHaveBeenCalledOnce;
     });
 
-    it('should fail pass when onLogout returns rejected promise', () => {
+    it('should fail pass when onLogout mockReturnValue rejected promise', () => {
       const logoutAuth = new Auth({
         serverUri: '',
         onLogout: () => Promise.reject(),

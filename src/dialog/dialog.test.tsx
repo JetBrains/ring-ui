@@ -21,30 +21,30 @@ describe('Dialog', () => {
   });
 
   it('should call onOverlayClick and onCloseAttempt callbacks on click by overlay', async () => {
-    const closeSpy = sandbox.spy();
-    const clickSpy = sandbox.spy();
+    const closeSpy = vi.fn();
+    const clickSpy = vi.fn();
     render(<Dialog show onOverlayClick={clickSpy} onCloseAttempt={closeSpy} />);
     await userEvent.click(screen.getByTestId('ring-dialog-overlay'));
 
-    expect(closeSpy).to.have.been.called;
-    expect(clickSpy).to.have.been.called;
+    expect(closeSpy).toHaveBeenCalled();
+    expect(clickSpy).toHaveBeenCalled();
   });
 
   it('should call onEscPress and onCloseAttempt callbacks on Escape press', () => {
-    const closeSpy = sandbox.spy();
-    const escSpy = sandbox.spy();
+    const closeSpy = vi.fn();
+    const escSpy = vi.fn();
     render(<Dialog show onEscPress={escSpy} onCloseAttempt={closeSpy} />);
     fireEvent.keyDown(document.documentElement, {which: 27}); // Escape
 
-    expect(closeSpy).to.have.been.called;
-    expect(escSpy).to.have.been.called;
+    expect(closeSpy).toHaveBeenCalled();
+    expect(escSpy).toHaveBeenCalled();
   });
 
   it('should not call onEscPress if is hidden', () => {
-    const escSpy = sandbox.spy();
+    const escSpy = vi.fn();
     render(<Dialog onEscPress={escSpy} />);
     fireEvent.keyDown(document.documentElement, {which: 27}); // Escape
 
-    expect(escSpy).to.not.have.been.called;
+    expect(escSpy).not.toHaveBeenCalled;
   });
 });

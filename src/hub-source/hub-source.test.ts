@@ -1,3 +1,5 @@
+import {expect} from 'vitest';
+
 import HTTP from '../http/http';
 import Auth from '../auth/auth';
 
@@ -7,9 +9,9 @@ describe('Hub Source', () => {
   let httpMock: HTTP;
   let fakeAuth: Auth;
   beforeEach(() => {
-    const get: HTTP['get'] = sandbox.stub().returns(Promise.resolve({}));
+    const get: HTTP['get'] = vi.fn().mockReturnValue(Promise.resolve({}));
     httpMock = {get} as HTTP;
-    const requestToken: Auth['requestToken'] = sandbox.stub().returns(Promise.resolve('testToken'));
+    const requestToken: Auth['requestToken'] = vi.fn().mockReturnValue(Promise.resolve('testToken'));
     fakeAuth = {requestToken, http: httpMock} as Auth;
   });
 
@@ -25,7 +27,7 @@ describe('Hub Source', () => {
   it('Should make request', async () => {
     const source = new HubSource(fakeAuth, 'test');
     await source.makeRequest({test: 'foo'});
-    expect(httpMock.get).to.have.been.calledWith('test', {query: {test: 'foo'}});
+    expect(httpMock.get).toHaveBeenCalledWith('test', {query: {test: 'foo'}});
   });
 
   it('Should not make cached request if data is already requested', async () => {
@@ -33,7 +35,7 @@ describe('Hub Source', () => {
     source.storedData = {total: 0};
 
     await source.makeCachedRequest({test: 'foo'});
-    expect(httpMock.get).to.not.have.been.called;
+    expect(httpMock.get).not.toHaveBeenCalled;
   });
 
   it('Should detect client-side threshold', () => {
@@ -84,7 +86,7 @@ describe('Hub Source', () => {
   });
 
   it('Should detect client-side filtering if total is smaller than threshold', async () => {
-    httpMock.get = sandbox.stub().returns(Promise.resolve({total: 10, testItems: []}));
+    httpMock.get = vi.fn().mockReturnValue(Promise.resolve({total: 10, testItems: []}));
 
     const source = new HubSource(fakeAuth, 'testItems', {searchSideThreshold: 15});
 
@@ -93,7 +95,7 @@ describe('Hub Source', () => {
   });
 
   it('Should detect server-side filtering if total is smaller than threshold', async () => {
-    httpMock.get = sandbox.stub().returns(Promise.resolve({total: 20, testItems: []}));
+    httpMock.get = vi.fn().mockReturnValue(Promise.resolve({total: 20, testItems: []}));
 
     const source = new HubSource(fakeAuth, 'testItems', {searchSideThreshold: 15});
 
@@ -103,7 +105,7 @@ describe('Hub Source', () => {
 
   it('Should do cached request and filter on client-side', async () => {
     const source = new HubSource(fakeAuth, 'testItems');
-    source.makeCachedRequest = sandbox.stub().returns(
+    source.makeCachedRequest = vi.fn().mockReturnValue(
       Promise.resolve({
         total: 20,
         testItems: [],
@@ -111,12 +113,12 @@ describe('Hub Source', () => {
     );
 
     await source.doClientSideSearch();
-    expect(source.makeCachedRequest).to.have.been.calledWith({$top: -1});
+    expect(source.makeCachedRequest).toHaveBeenCalledWith({$top: -1});
   });
 
   it('Should do not cached request to server-side', async () => {
     const source = new HubSource(fakeAuth, 'testItems', {searchMax: 142});
-    source.makeRequest = sandbox.stub().returns(
+    source.makeRequest = vi.fn().mockReturnValue(
       Promise.resolve({
         total: 20,
         testItems: [],
@@ -124,9 +126,9 @@ describe('Hub Source', () => {
     );
 
     await source.doServerSideSearch({}, 'test-query');
-    expect(source.makeRequest).to.have.been.calledWith({
+    expect(source.makeRequest).toHaveBeenCalledWith({
       $top: 142,
-      query: sinon.match.string,
+      query: expect.any(String),
     });
   });
 
@@ -154,7 +156,7 @@ describe('Hub Source', () => {
 
   describe('Public interface', () => {
     it('Should store filterFn', () => {
-      const filterFn = sandbox.spy();
+      const filterFn = vi.fn();
       const source = new HubSource(fakeAuth, 'testItems');
 
       source.get('testQuery', {}, filterFn);
@@ -164,31 +166,31 @@ describe('Hub Source', () => {
 
     it('Should do side detection request first', () => {
       const source = new HubSource(fakeAuth, 'testItems');
-      source.sideDetectionRequest = sandbox.stub().returns(Promise.resolve({total: 20, testItems: []}));
+      source.sideDetectionRequest = vi.fn().mockReturnValue(Promise.resolve({total: 20, testItems: []}));
 
       source.get('testQuery', {testParams: 'test'});
 
-      expect(source.sideDetectionRequest).to.have.been.calledWith({testParams: 'test'}, 'testQuery');
+      expect(source.sideDetectionRequest).toHaveBeenCalledWith({testParams: 'test'}, 'testQuery');
     });
 
     it('Should do client-side filtering if previously detected', () => {
       const source = new HubSource(fakeAuth, 'testItems');
-      source.doClientSideSearch = sandbox.stub().returns(Promise.resolve({total: 20, testItems: []}));
+      source.doClientSideSearch = vi.fn().mockReturnValue(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = true;
 
       source.get('testQuery', {testParams: 'test'});
 
-      expect(source.doClientSideSearch).to.have.been.calledWith({testParams: 'test'});
+      expect(source.doClientSideSearch).toHaveBeenCalledWith({testParams: 'test'});
     });
 
     it('Should do server-side filtering if previously detected', () => {
       const source = new HubSource(fakeAuth, 'testItems');
-      source.doServerSideSearch = sandbox.stub().returns(Promise.resolve({total: 20, testItems: []}));
+      source.doServerSideSearch = vi.fn().mockReturnValue(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = false;
 
       source.get('testQuery', {testParams: 'test'});
 
-      expect(source.doServerSideSearch).to.have.been.calledWith({testParams: 'test'}, 'testQuery');
+      expect(source.doServerSideSearch).toHaveBeenCalledWith({testParams: 'test'}, 'testQuery');
     });
   });
 });

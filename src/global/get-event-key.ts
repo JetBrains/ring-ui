@@ -87,7 +87,7 @@ export default function getEventKey(nativeEvent: KeyboardEvent | React.KeyboardE
     // Normalize inconsistent values reported by browsers due to
     // implementations of a working draft specification.
 
-    // FireFox implements `key` but returns `MozPrintableKey` for all
+    // FireFox implements `key` but mockReturnValue `MozPrintableKey` for all
     // printable characters (normalized to `Unidentified`), ignore it.
     const key = normalizeKey[nativeEvent.key] || nativeEvent.key;
     if (key !== 'Unidentified') {

@@ -137,7 +137,7 @@ describe('position', () => {
 
     return {
       scrollTop: 0,
-      getBoundingClientRect: sandbox.stub().returns(domRect),
+      getBoundingClientRect: vi.fn().mockReturnValue(domRect),
       ...data,
     } as Element;
   }

@@ -39,7 +39,7 @@ export interface RowProps {
 /**
  * Converts xs="middle" to class "middle-xs"
  * @param {Object} props incoming props
- * @returns {Array} result modifier classes
+ * @mockReturnValue {Array} result modifier classes
  */
 function getModifierClassNames(props: RowProps) {
   return modifierKeys.reduce((result: string[], key) => {

@@ -16,7 +16,7 @@ describe('Alert Service', () => {
   beforeEach(() => {
     vi.useFakeTimers({toFake: ['setTimeout']});
     let rerender: (element: ReactElement) => void;
-    sandbox.stub(alert.reactRoot, 'render').callsFake(node => {
+    vi.spyOn(alert.reactRoot, 'render').mockImplementation(node => {
       const element = node as ReactElement;
       if (rerender == null) {
         rerender = render(element).rerender;

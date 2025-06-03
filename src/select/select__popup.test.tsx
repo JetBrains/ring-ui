@@ -1,5 +1,7 @@
 import {render, screen, fireEvent, act} from '@testing-library/react';
 
+import {expect} from 'vitest';
+
 import getUID from '../global/get-uid';
 
 import List from '../list/list';
@@ -11,14 +13,7 @@ import SelectPopup, {SelectPopupAttrs} from './select__popup';
 
 describe('SelectPopup', () => {
   const factory = (props?: SelectPopupAttrs) => (
-    <SelectPopup
-      filter
-      onSelect={sandbox.spy()}
-      onFilter={sandbox.spy()}
-      onCloseAttempt={sandbox.spy()}
-      data={[]}
-      {...props}
-    />
+    <SelectPopup filter onSelect={vi.fn()} onFilter={vi.fn()} onCloseAttempt={vi.fn()} data={[]} {...props} />
   );
 
   const renderSelectPopup = (props?: SelectPopupAttrs) => render(factory(props));
@@ -50,10 +45,10 @@ describe('SelectPopup', () => {
         simulateCombo('tab');
 
         // The spy from factory should not be called
-        const onCloseAttempt = sandbox.spy();
+        const onCloseAttempt = vi.fn();
         renderSelectPopup({onCloseAttempt, hidden: true});
         simulateCombo('tab');
-        expect(onCloseAttempt).to.not.be.called;
+        expect(onCloseAttempt).not.toHaveBeenCalled();
       });
     });
   });
@@ -76,25 +71,25 @@ describe('SelectPopup', () => {
     });
 
     it('should call onSelect when enter is pressed', () => {
-      const onSelect = sandbox.spy();
+      const onSelect = vi.fn();
       const {rerender} = renderSelectPopup({data: testData, onSelect});
 
       rerender(factory({data: testData, hidden: false, onSelect}));
 
       simulateCombo('enter');
 
-      expect(onSelect).to.be.calledWith(testData[0]);
+      expect(onSelect).toHaveBeenCalledWith(testData[0], expect.anything(), expect.anything());
     });
 
     it('should call onCloseAttempt when tab is pressed', () => {
-      const onCloseAttempt = sandbox.spy();
+      const onCloseAttempt = vi.fn();
       const {rerender} = renderSelectPopup({data: testData, onCloseAttempt});
 
       rerender(factory({data: testData, hidden: false, onCloseAttempt}));
 
       simulateCombo('tab');
 
-      expect(onCloseAttempt).to.be.called;
+      expect(onCloseAttempt).toHaveBeenCalled();
     });
 
     it('should not throw error when tab is pressed but there is no data', () => {
@@ -111,7 +106,7 @@ describe('SelectPopup', () => {
 
     describe('navigation', () => {
       it('should select first item when enter is pressed', () => {
-        const onSelect = sandbox.spy();
+        const onSelect = vi.fn();
         const {rerender} = renderSelectPopup({data: testData, onSelect});
 
         rerender(factory({data: testData, hidden: false, onSelect}));
@@ -120,11 +115,11 @@ describe('SelectPopup', () => {
         simulateCombo('enter');
 
         // onSelect should be called with the first item
-        expect(onSelect).to.be.calledWith(testData[0]);
+        expect(onSelect).toHaveBeenCalledWith(testData[0], expect.anything(), expect.anything());
       });
 
       it('should call onSelect when up and enter are pressed', () => {
-        const onSelect = sandbox.spy();
+        const onSelect = vi.fn();
         const {rerender} = renderSelectPopup({data: testData, onSelect});
 
         rerender(factory({data: testData, hidden: false, onSelect}));
@@ -134,13 +129,13 @@ describe('SelectPopup', () => {
         act(() => simulateCombo('enter'));
 
         // onSelect should be called
-        expect(onSelect).to.be.called;
+        expect(onSelect).toHaveBeenCalled();
       });
     });
 
     describe('filter', () => {
       it('should call onFilter when filter input changes', () => {
-        const onFilter = sandbox.spy();
+        const onFilter = vi.fn();
         const {rerender} = renderSelectPopup({onFilter});
 
         rerender(factory({hidden: false, onFilter}));
@@ -152,7 +147,7 @@ describe('SelectPopup', () => {
           fireEvent.change(filterInput, {target: {value: 'test'}});
         }
 
-        expect(onFilter).to.be.called;
+        expect(onFilter).toHaveBeenCalled();
       });
 
       it('should have a filter input that can be interacted with', () => {

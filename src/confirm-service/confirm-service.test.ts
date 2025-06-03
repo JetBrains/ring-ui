@@ -11,7 +11,7 @@ describe('Confirm Service', () => {
 
   let unmount: () => void;
   beforeEach(() => {
-    sandbox.stub(reactRoot, 'render').callsFake(element => {
+    vi.spyOn(reactRoot, 'render').mockImplementation(element => {
       unmount = render(element as ReactElement).unmount;
     });
   });
@@ -56,7 +56,7 @@ describe('Confirm Service', () => {
   });
 
   it('should resolve on confirm', async () => {
-    const spy = sandbox.spy();
+    const spy = vi.fn();
     const promise = confirm({text: 'foo'}).then(spy);
     const container = getContainer();
     const okButton = container?.querySelector('*[data-test="confirm-ok-button"]');
@@ -64,11 +64,11 @@ describe('Confirm Service', () => {
     okButton && fireEvent.click(okButton);
 
     await promise;
-    expect(spy).to.have.been.called;
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should reject on reject', async () => {
-    const spy = sandbox.spy();
+    const spy = vi.fn();
     const promise = confirm({text: 'foo'}).catch(spy);
     const container = getContainer();
     const okButton = container?.querySelector('*[data-test="confirm-reject-button"]');
@@ -76,6 +76,6 @@ describe('Confirm Service', () => {
     okButton && fireEvent.click(okButton);
 
     await promise;
-    expect(spy).to.have.been.called;
+    expect(spy).toHaveBeenCalled();
   });
 });
