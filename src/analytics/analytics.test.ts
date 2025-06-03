@@ -113,7 +113,7 @@ describe('Analytics', () => {
         analyticsInstance.trackEvent('test-category', 'test-action');
         vi.advanceTimersByTime(TICK_INTERVAL);
 
-        expect(send).not.toHaveBeenCalled;
+        expect(send).not.toHaveBeenCalled();
       });
     });
   });
