@@ -103,7 +103,7 @@ describe('Auth', () => {
       vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
       // eslint-disable-next-line no-new
       new Auth({serverUri: ''});
-      expect(Auth.prototype._redirectCurrentPage).not.toHaveBeenCalled;
+      expect(Auth.prototype._redirectCurrentPage).not.toHaveBeenCalled();
     });
 
     it('should subscribe on logout if passed', () => {
