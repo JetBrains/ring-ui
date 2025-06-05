@@ -129,7 +129,7 @@
     "@types/eslint__js": "^8.42.3",
     "@types/markdown-it": "^14.1.2",
     "@types/react": "^19.1.6",
-    "@types/react-dom": "^19.1.5",
+    "@types/react-dom": "^19.1.6",
     "@types/webpack-env": "^1.18.8",
     "@vitejs/plugin-react": "^4.5.1",
     "@vitest/eslint-plugin": "^1.2.1",
