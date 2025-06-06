@@ -69,6 +69,9 @@ function clearAndRenamePackage() {
   // Remove build-time files from files to be published
   sourcePackageJSON.files = ['components', 'typings.d.ts'];
 
+  // remove overrides
+  delete sourcePackageJSON.overrides;
+
   const filteredData = filterDependencies(sourcePackageJSON, WHITE_LIST);
   updatePackageJSON('./package.json', filteredData);
   console.log('package.json updated. DevDependencies removed.');
