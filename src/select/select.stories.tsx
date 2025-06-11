@@ -54,24 +54,24 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
     {label: 'Three', key: '3', type: 'user'},
     {
       label: 'With icon',
-      key: 4,
+      key: '4',
       icon: FLAG_DE_URL,
     },
     {
       label: 'With SVG icon',
-      key: 4,
+      key: 5,
       rightGlyph: warningIcon,
     },
     {
       label: 'With avatar',
-      key: 5,
+      key: 6,
       avatar: avatarUrl,
     },
     {
       label: 'With generated avatar',
       showGeneratedAvatar: true,
       username: 'With generated avatar',
-      key: 6,
+      key: 7,
     },
   ];
 

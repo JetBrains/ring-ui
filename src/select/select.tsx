@@ -240,7 +240,6 @@ export interface SelectState<T = unknown> {
   data: SelectItem<T>[];
   shownData: SelectItem<T>[];
   selected: SelectItem<T> | SelectItem<T>[] | null | undefined;
-  selectedIndex: number | null;
   filterValue: string;
   shortcutsEnabled: boolean;
   popupShortcuts: boolean;
@@ -337,30 +336,6 @@ function getListItems<T = unknown>(
   return {filteredData, addButton};
 }
 
-function getSelectedIndex<T>(
-  selected: SelectItem<T> | readonly SelectItem<T>[] | null | undefined,
-  data: readonly SelectItem<T>[],
-) {
-  const firstSelected = Array.isArray(selected) ? selected[0] : selected;
-  if (firstSelected == null) {
-    return null;
-  }
-
-  for (let i = 0; i < data.length; i++) {
-    const item = data[i];
-
-    if (item.key === undefined) {
-      continue;
-    }
-
-    if (item.key === firstSelected.key) {
-      return i;
-    }
-  }
-
-  return null;
-}
-
 const getItemLabel = <T,>({selectedLabel, label}: SelectItem<T>): string => {
   if (selectedLabel != null) {
     return selectedLabel;
@@ -373,19 +348,6 @@ const getValueForFilter = <T,>(
   type: Type,
   filterValue: string,
 ): string => (selected && !isArray(selected) && isInputMode(type) ? getItemLabel(selected) : filterValue);
-
-function isSameSelected<T>(prevSelected: SelectItem<T>[], selected: SelectItem<T>[]) {
-  if (!prevSelected || !selected || prevSelected.length !== selected.length) {
-    return false;
-  }
-
-  const keysMap = selected.reduce((result: Record<string, boolean>, item) => {
-    result[item.key] = true;
-    return result;
-  }, {});
-
-  return prevSelected.every(it => keysMap[it.key]);
-}
 
 /**
  * @name Select
@@ -470,7 +432,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
       if (prevState.selected) {
         Object.assign(nextState, {
-          selectedIndex: getSelectedIndex(prevState.selected, data),
           filterValue: getValueForFilter(prevState.selected, type, filterValue),
         });
       }
@@ -479,16 +440,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if ('selected' in nextProps && nextProps.selected !== prevSelected) {
       const selected = nextProps.selected || (multiple ? [] : null);
 
-      const selectedIndex = getSelectedIndex(selected, data || prevData);
-
       Object.assign(nextState, {
         selected,
         filterValue: getValueForFilter(selected, type, filterValue),
       });
-
-      if (!Array.isArray(prevSelected) || !Array.isArray(selected) || !isSameSelected(prevSelected, selected)) {
-        Object.assign(nextState, {selectedIndex});
-      }
     }
 
     if (prevMultiple !== multiple && !dequal(prevMultiple, multiple)) {
@@ -513,7 +468,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     data: [],
     shownData: [],
     selected: this.props.multiple ? [] : null,
-    selectedIndex: null,
     filterValue: (this.props.filter && typeof this.props.filter === 'object' && this.props.filter.value) || '',
     shortcutsEnabled: false,
     popupShortcuts: false,
@@ -652,11 +606,26 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     return getValueForFilter(selected, this.props.type, this.state.filterValue);
   }
 
-  _getSelectedIndex(
-    selected: SelectItem<T> | readonly SelectItem<T>[] | null | undefined,
-    data: readonly SelectItem<T>[],
-  ) {
-    return getSelectedIndex(selected, data);
+  private _getActiveIndex(items: SelectItem<T>[]): number {
+    const {selected} = this.state;
+    const isNonOptionItem = (item: SelectItem<T>) =>
+      item.isResetItem || List.isItemType(List.ListProps.Type.SEPARATOR, item);
+
+    let selectedItems: SelectItem<T>[] = [];
+
+    if (Array.isArray(selected)) {
+      selectedItems = selected;
+    } else if (selected) {
+      selectedItems = [selected];
+    }
+
+    if (selectedItems.length > 0) {
+      const lastSelected = selectedItems[selectedItems.length - 1];
+      const index = items.findIndex(item => item.key === lastSelected.key);
+      return index >= 0 ? index : items.findIndex(item => !isNonOptionItem(item));
+    }
+
+    return items.findIndex(item => !isNonOptionItem(item));
   }
 
   popupRef = (el: SelectPopup<SelectItemData<T>> | null) => {
@@ -714,6 +683,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const anchorElement = this.props.targetElement || this.node;
     const {showPopup, shownData} = this.state;
     const _shownData = this._prependResetOption(shownData);
+    const activeIndex = this._getActiveIndex(_shownData);
 
     return (
       <I18nContext.Consumer>
@@ -733,7 +703,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               toolbar={showPopup && this.getToolbar()}
               topbar={this.getTopbar()}
               loading={this.props.loading}
-              activeIndex={this.state.selectedIndex}
+              activeIndex={activeIndex}
               hidden={!showPopup}
               ref={this.popupRef}
               maxHeight={this.props.maxHeight}
@@ -914,7 +884,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       this.setState(
         {
           selected: filterValue === '' ? null : fakeSelected,
-          selectedIndex: null,
         },
         () => {
           this.props.onSelect(fakeSelected, event);
@@ -970,7 +939,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       this.setState(
         {
           selected,
-          selectedIndex: this._getSelectedIndex(selected, this.props.data),
         },
         () => {
           const newFilterValue = this.isInputMode() && !this.props.hideSelected ? getItemLabel(selected) : '';
@@ -1002,7 +970,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           const nextState: Partial<SelectState<T>> = {
             filterValue: '',
             selected: nextSelection,
-            selectedIndex: this._getSelectedIndex(selected, this.props.data),
           };
 
           if (
@@ -1071,7 +1038,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       return {
         filterValue: '',
         selected: nextSelection,
-        selectedIndex: isSelectAll ? this._getSelectedIndex(nextSelection, this.props.data) : null,
         shownData: prevState.shownData.map(item => ({...item, checkbox: isSelectAll})),
         multipleMap: isSelectAll ? buildMultipleMap(this.props.data.filter(item => !item.disabled)) : {},
       };
@@ -1114,7 +1080,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     this.setState(
       {
         selected: empty,
-        selectedIndex: null,
         filterValue: '',
       },
       () => {
