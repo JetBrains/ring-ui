@@ -117,6 +117,7 @@
 .hiddenBold {
   display: flex;
   visibility: hidden;
+  overflow: hidden;
 
   height: 0;
 
@@ -126,6 +127,7 @@
 .hiddenRegular {
   display: flex;
   visibility: hidden;
+  overflow: hidden;
 
   height: 0;
 
