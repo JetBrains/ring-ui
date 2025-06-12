@@ -240,6 +240,7 @@ export interface SelectState<T = unknown> {
   data: SelectItem<T>[];
   shownData: SelectItem<T>[];
   selected: SelectItem<T> | SelectItem<T>[] | null | undefined;
+  lastInteractedKey: string | number | null;
   filterValue: string;
   shortcutsEnabled: boolean;
   popupShortcuts: boolean;
@@ -461,6 +462,12 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       Object.assign(nextState, {shownData: filteredData, addButton});
     }
 
+    const isSelectionEmpty =
+      nextProps.selected == null || (Array.isArray(nextProps.selected) && nextProps.selected.length === 0);
+    if (isSelectionEmpty) {
+      nextState.lastInteractedKey = null;
+    }
+
     return nextState;
   }
 
@@ -468,6 +475,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     data: [],
     shownData: [],
     selected: this.props.multiple ? [] : null,
+    lastInteractedKey: null,
     filterValue: (this.props.filter && typeof this.props.filter === 'object' && this.props.filter.value) || '',
     shortcutsEnabled: false,
     popupShortcuts: false,
@@ -607,10 +615,14 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   }
 
   private _getActiveIndex(items: SelectItem<T>[]): number {
-    const {selected} = this.state;
+    const {selected, lastInteractedKey} = this.state;
     const isNonOptionItem = (item: SelectItem<T>) =>
       item.isResetItem || List.isItemType(List.ListProps.Type.SEPARATOR, item);
 
+    if (lastInteractedKey != null) {
+      const index = items.findIndex(item => item.key === lastInteractedKey && !isNonOptionItem(item));
+      if (index >= 0) return index;
+    }
     let selectedItems: SelectItem<T>[] = [];
 
     if (Array.isArray(selected)) {
@@ -622,7 +634,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if (selectedItems.length > 0) {
       const lastSelected = selectedItems[selectedItems.length - 1];
       const index = items.findIndex(item => item.key === lastSelected.key);
-      return index >= 0 ? index : items.findIndex(item => !isNonOptionItem(item));
+      if (index >= 0) return index;
     }
 
     return items.findIndex(item => !isNonOptionItem(item));
@@ -763,6 +775,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       this.setState(prevState => ({
         showPopup: false,
         filterValue: this.props.allowAny ? prevState.filterValue : '',
+        lastInteractedKey: null,
       }));
 
       if (tryFocusAnchor) {
@@ -930,6 +943,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       return;
     }
 
+    const lastInteractedKey = selected?.key ?? null;
+
     const tryKeepOpen = this.props.tryKeepOpen ?? opts.tryKeepOpen;
 
     if (!this.props.multiple) {
@@ -939,6 +954,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       this.setState(
         {
           selected,
+          lastInteractedKey: selected?.key ?? null,
         },
         () => {
           const newFilterValue = this.isInputMode() && !this.props.hideSelected ? getItemLabel(selected) : '';
@@ -970,6 +986,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           const nextState: Partial<SelectState<T>> = {
             filterValue: '',
             selected: nextSelection,
+            lastInteractedKey: tryKeepOpen ? lastInteractedKey : null,
           };
 
           if (
@@ -1080,6 +1097,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     this.setState(
       {
         selected: empty,
+        lastInteractedKey: null,
         filterValue: '',
       },
       () => {
