@@ -130,6 +130,12 @@ export const AutoCollapseDemo = () => {
         </Button>
       ),
     },
+    {
+      id: 'sixth',
+      title: 'Sixth tab (Always hidden)',
+      alwaysHidden: true,
+      content: 'Sixth tab content',
+    },
   ];
   const [tabs, setTabs] = useState(
     autocollapseData.map(item => {
