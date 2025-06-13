@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 @value header, scrollableWrapper from "../island/island.css";
+@value panel from "../panel/panel.css";
 
 .container {
   position: fixed;
