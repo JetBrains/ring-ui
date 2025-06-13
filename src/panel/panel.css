@@ -1,8 +1,6 @@
 @import "../global/variables.css";
 
 .panel {
-  composes: panel from "../dialog/dialog.css"; /* TODO: Invert dependency using :externals CSS Modules selector */
-
   position: relative;
 
   margin-top: calc(var(--ring-unit) * 2);
