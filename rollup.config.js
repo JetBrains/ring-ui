@@ -64,7 +64,6 @@ export default {
 
     babel({
       babelHelpers: 'bundled',
-      browserslistEnv: 'dist',
       extensions,
     }),
 
