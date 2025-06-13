@@ -44,7 +44,7 @@ describe(options.suite, () => {
           const Component = story;
           render(<Component />);
           await act(() => Promise.resolve());
-          expect(consoleError).not.toBeCalled();
+          expect(consoleError).not.toHaveBeenCalled();
         });
       });
     });
