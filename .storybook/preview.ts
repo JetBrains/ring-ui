@@ -1,6 +1,6 @@
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
 
-import {Component} from '@storybook/addon-docs';
+import {Component} from 'storybook/internal/docs-tools';
 import {Parameters} from '@storybook/react-webpack5';
 
 import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
