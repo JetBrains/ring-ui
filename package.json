@@ -132,7 +132,7 @@
     "@types/react-dom": "^19.1.6",
     "@types/webpack-env": "^1.18.8",
     "@vitejs/plugin-react": "^4.5.2",
-    "@vitest/eslint-plugin": "^1.2.4",
+    "@vitest/eslint-plugin": "^1.2.5",
     "acorn": "^8.15.0",
     "axe-playwright": "^2.1.0",
     "babel-plugin-require-context-hook": "^1.0.0",
