@@ -1,5 +1,8 @@
 @import "../global/variables.css";
 
+/* ensure style order */
+@import "../popup/popup.css";
+
 .container {
   display: inline;
 }
