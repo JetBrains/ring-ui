@@ -1,5 +1,3 @@
-import ExtendableError from 'es6-error';
-
 import type Auth from '../auth/auth';
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
 
@@ -19,7 +17,7 @@ export const defaultFetchConfig: RequestInit = {
 
 export type HTTPErrorData = Record<string, unknown>;
 
-export class HTTPError extends ExtendableError {
+export class HTTPError extends Error {
   data: HTTPErrorData;
   status: number | undefined;
   constructor(response: Partial<Response>, data: HTTPErrorData = {}) {

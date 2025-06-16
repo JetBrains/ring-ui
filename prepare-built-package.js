@@ -19,7 +19,6 @@ const WHITE_LIST = [
   'date-fns',
   'dequal',
   'element-resize-detector',
-  'es6-error',
   'fastdom',
   'focus-trap',
   'highlight.js',
