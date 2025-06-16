@@ -200,7 +200,7 @@
     "@babel/preset-typescript": "^7.24.7",
     "@jetbrains/babel-preset-jetbrains": "^2.4.0",
     "@jetbrains/icons": "^4.2.0",
-    "@jetbrains/postcss-require-hover": "^0.1.2",
+    "@jetbrains/postcss-require-hover": "^0.2.0",
     "@types/combokeys": "^2.4.9",
     "@types/deep-equal": "^1.0.4",
     "@types/element-resize-detector": "^1.1.6",
