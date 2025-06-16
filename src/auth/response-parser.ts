@@ -1,5 +1,3 @@
-import ExtendableError from 'es6-error';
-
 import {parseQueryString} from '../global/url';
 
 export interface AuthResponse {
@@ -14,7 +12,7 @@ export interface AuthResponse {
   restoreAuthState?: string;
 }
 
-export class AuthError extends ExtendableError {
+export class AuthError extends Error {
   code: string | Error | AuthError | undefined;
   uri: string | undefined;
   stateId: string | undefined;

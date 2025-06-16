@@ -233,7 +233,6 @@
     "date-fns": "^4.1.0",
     "dequal": "^2.0.3",
     "element-resize-detector": "^1.2.4",
-    "es6-error": "^4.1.1",
     "fastdom": "^1.0.12",
     "file-loader": "^6.2.0",
     "focus-trap": "^7.6.5",

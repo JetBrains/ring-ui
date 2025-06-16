@@ -1,5 +1,3 @@
-import ExtendableError from 'es6-error';
-
 import {CODE} from '../http/http';
 
 import AuthStorage, {StoredToken} from './storage';
@@ -13,7 +11,7 @@ interface ParsedResponse {
   error?: string;
 }
 
-export class TokenValidationError extends ExtendableError {
+export class TokenValidationError extends Error {
   cause: Error | undefined;
   authRedirect: true;
   constructor(message: string, cause?: Error) {
