@@ -44512,7 +44512,7 @@ var MR = class MR {
         B.reason && S.add(B.reason);
       }, "onUnhandledRejection");
       if (this.renderOptions.autoplay && r && m && this.phase !== "errored") {
-        window.addEventListener("error", P), window.addEventListener("unhandledrejection", O), this.disableKeyListeners = !0;
+        window?.addEventListener?.("error", P), window?.addEventListener?.("unhandledrejection", O), this.disableKeyListeners = !0;
         try {
           if (_ ? await m(T) : (T.mount = async () => {
             throw new xn({ playFunction: m.toString() });
@@ -44529,7 +44529,8 @@ var MR = class MR {
         if (!C && S.size > 0 && this.channel.emit(
           gb,
           Array.from(S).map(W3)
-        ), this.disableKeyListeners = !1, window.removeEventListener("unhandledrejection", O), window.removeEventListener("error", P), b.aborted)
+        ), this.disableKeyListeners = !1, window?.removeEventListener?.("unhandledrejection", O), window?.removeEventListener?.("error", P),
+        b.aborted)
           return;
       }
       await this.runPhase(b, "completing", async () => {
@@ -44596,7 +44597,7 @@ var MR = class MR {
       }
       await new Promise((r) => setTimeout(r, 0));
     }
-    window.location.reload(), await new Promise(() => {
+    window?.location?.reload?.(), await new Promise(() => {
     });
   }
 };
