@@ -17,7 +17,7 @@ const Start = {
 };
 
 const End = {
-  FONT_SIZE: 13,
+  FONT_SIZE: 14,
   LINE_HEIGHT: 20,
   PADDING_TOP: 16,
   PADDING_BOTTOM: 8,
@@ -45,6 +45,20 @@ class Header extends Component<IslandHeaderProps> {
     return interpolateLinear(Start[name], End[name], this.props.phase ?? 0);
   }
 
+  getTitleStyle(phase: number | undefined) {
+    if (phase === undefined) return;
+    if (phase < 1) {
+      const scaleFont = this.style('FONT_SIZE') / Start.FONT_SIZE;
+
+      return {
+        fontSize: Start.FONT_SIZE,
+        transform: `translate(${this.style('X')}px, ${this.style('Y')}px) scale(${scaleFont})`,
+        letterSpacing: this.style('SPACING'),
+      };
+    }
+    return {fontSize: End.FONT_SIZE};
+  }
+
   render() {
     const {children, className, wrapWithTitle, border, phase, ...restProps} = this.props;
     const classes = classNames(styles.header, className, {
@@ -60,16 +74,7 @@ class Header extends Component<IslandHeaderProps> {
           }
         : undefined;
 
-    const scaleFont = phase != null && this.style('FONT_SIZE') / Start.FONT_SIZE;
-
-    const titleStyle =
-      phase != null && phase < 1
-        ? {
-            fontSize: Start.FONT_SIZE,
-            transform: `translate(${this.style('X')}px, ${this.style('Y')}px) scale(${scaleFont})`,
-            letterSpacing: this.style('SPACING'),
-          }
-        : undefined;
+    const titleStyle = this.getTitleStyle(phase);
 
     return (
       <div {...restProps} data-test="ring-island-header" className={classes} style={headerStyle}>
