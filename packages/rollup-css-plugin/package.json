@@ -10,7 +10,7 @@
   "author": "Andrey Skladchikov",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@rollup/pluginutils": "^5.1.4",
+    "@rollup/pluginutils": "^5.2.0",
     "cssnano": "^7.0.7",
     "postcss": "^8.5.6",
     "postcss-url": "^10.1.3",
