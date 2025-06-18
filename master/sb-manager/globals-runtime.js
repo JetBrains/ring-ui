@@ -46569,12 +46569,14 @@ function dAe({
   width: t,
   height: r,
   onEscapeKeyDown: n,
-  onInteractOutside: o = /* @__PURE__ */ a((u) => u.preventDefault(), "onInteractOutside"),
+  onInteractOutside: o = /* @__PURE__ */ a((c) => c.preventDefault(), "onInteractOutside"),
   className: i,
   container: s,
-  ...l
+  portalSelector: l,
+  ...u
 }) {
-  return /* @__PURE__ */ ql.default.createElement(S3, { ...l }, /* @__PURE__ */ ql.default.createElement(x3, { container: s }, /* @__PURE__ */ ql.default.
+  let c = s ?? (l ? document.querySelector(l) : null) ?? document.body;
+  return /* @__PURE__ */ ql.default.createElement(S3, { ...u }, /* @__PURE__ */ ql.default.createElement(x3, { container: c }, /* @__PURE__ */ ql.default.
   createElement(C3, { asChild: !0 }, /* @__PURE__ */ ql.default.createElement(O3, null)), /* @__PURE__ */ ql.default.createElement(
     _3,
     {
@@ -51480,7 +51482,7 @@ At();
 var $X = k(Za(), 1), qn = k(DX(), 1);
 
 // src/manager-api/version.ts
-var FX = "9.0.11";
+var FX = "9.0.12";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: f8e } = te, jX = (0, $X.default)(1)(() => {
