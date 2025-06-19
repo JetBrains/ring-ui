@@ -141,7 +141,7 @@
     "chai-as-promised": "^8.0.1",
     "chai-dom": "^1.12.1",
     "cheerio": "^1.1.0",
-    "chromatic": "^13.0.0",
+    "chromatic": "^13.0.1",
     "core-js": "^3.43.0",
     "cpy-cli": "^5.0.0",
     "dotenv-cli": "^8.0.0",
