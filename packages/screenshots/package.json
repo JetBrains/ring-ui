@@ -26,7 +26,7 @@
     "html-reporter": "^10.18.6",
     "http-server": "^14.1.1",
     "ip": "^2.0.1",
-    "jest": "^30.0.1",
+    "jest": "^30.0.2",
     "jest-environment-jsdom": "^30.0.2",
     "port-claim": "^3.0.0",
     "react": "^19.1.0",
