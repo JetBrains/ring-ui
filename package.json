@@ -136,7 +136,7 @@
     "acorn": "^8.15.0",
     "axe-playwright": "^2.1.0",
     "babel-plugin-require-context-hook": "^1.0.0",
-    "caniuse-lite": "^1.0.30001723",
+    "caniuse-lite": "^1.0.30001724",
     "chai": "^5.2.0",
     "chai-as-promised": "^8.0.1",
     "chai-dom": "^1.12.1",
