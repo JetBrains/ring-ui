@@ -1,7 +1,5 @@
 import {HTMLAttributes, PureComponent} from 'react';
 
-import dataTests from '../global/data-tests';
-
 import LoaderCore, {LoaderCoreProps} from './loader__core';
 
 export interface LoaderProps extends Partial<LoaderCoreProps>, HTMLAttributes<HTMLElement> {
@@ -39,6 +37,6 @@ export default class Loader extends PureComponent<LoaderProps> {
   render() {
     const {message, size, colors, 'data-test': dataTest, stop, deterministic, ...restProps} = this.props;
 
-    return <div data-test={dataTests('ring-loader', dataTest)} {...restProps} ref={this.initLoader} />;
+    return <div {...restProps} ref={this.initLoader} />;
   }
 }
