@@ -96,7 +96,7 @@ export const inDialogForm = () => {
 };
 
 inDialogForm.storyName = 'in dialog form';
-
+inDialogForm.tags = ['!autodocs'];
 inDialogForm.parameters = {
   screenshots: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
   a11y: {context: '#storybook-root,*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'},

@@ -15,7 +15,7 @@ import Dialog from './dialog';
 
 export default {
   title: 'Components/Dialog',
-
+  tags: ['!autodocs'],
   parameters: {
     notes: 'The Dialog component is a simple way to present content above an enclosing view.',
     screenshots: {captureSelector: '*[data-test~=ring-dialog]'},
