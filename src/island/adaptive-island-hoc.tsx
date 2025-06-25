@@ -21,7 +21,7 @@ export default function adaptiveIslandHOC<P>(ComposedComponent: ComponentType<P>
         scrollHeight - clientHeight >=
         interpolateLinear(TITLE_RESIZE_THRESHOLD, TITLE_RESIZE_END, this.state.phase ?? 0)
       ) {
-        const phase = Math.min(1, scrollTop / TITLE_RESIZE_END);
+        const phase = Math.min(1, Math.max(0, scrollTop) / TITLE_RESIZE_END);
         this.setState({phase});
       }
     };
