@@ -8,7 +8,9 @@ import LoaderInline from '../loader-inline/loader-inline';
 
 import Button from '../button/button';
 
-import Selection, {SelectionItem} from '../table/selection';
+import {SelectionItem} from '../table/selection';
+
+import Selection from './selection';
 
 import Title from './title';
 
@@ -52,6 +54,7 @@ export interface ItemProps<T extends SelectionItem> extends BaseFormattedItem<T>
   showFocus?: boolean | undefined;
   selection: Selection<T>;
   selected?: boolean | undefined;
+  partialSelected?: boolean | undefined;
 }
 
 export default class Item<T extends SelectionItem> extends PureComponent<ItemProps<T>> {
@@ -106,6 +109,7 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
         selection={selection}
         selectable={item.selectable}
         selected={selection.isSelected(model)}
+        partialSelected={selection.isPartialSelected(model)}
         onSelect={onSelect}
       />
     );
@@ -121,6 +125,7 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
       showFocus,
       selectable,
       selected,
+      partialSelected,
       collapsible,
       collapsed,
       onCollapse,
@@ -187,6 +192,7 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
           showFocus={showFocus}
           selectable={selectable}
           selected={selected}
+          partialSelected={partialSelected}
           collapserExpander={collapserExpander}
           onFocus={this.onFocus}
           onSelect={this.onSelect}
