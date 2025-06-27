@@ -170,7 +170,7 @@
     "markdown-it": "^14.1.0",
     "merge-options": "^3.0.4",
     "pinst": "^3.0.0",
-    "prettier": "^3.6.1",
+    "prettier": "^3.6.2",
     "raw-loader": "^4.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
