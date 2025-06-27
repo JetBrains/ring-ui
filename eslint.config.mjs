@@ -19,6 +19,22 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
+const configRules = fixupConfigRules(
+  compat.extends(
+    '@jetbrains',
+    '@jetbrains/eslint-config/es6',
+    '@jetbrains/eslint-config/browser',
+    '@jetbrains/eslint-config/react',
+    '@jetbrains/eslint-config/test',
+  ),
+);
+
+configRules.forEach(config => {
+  if (config.plugins?.import != null) {
+    delete config.plugins.import;
+  }
+});
+
 export default tseslint.config(
   {
     ignores: [
@@ -38,15 +54,8 @@ export default tseslint.config(
       '!**/.testplane.conf.js',
     ],
   },
-  ...fixupConfigRules(
-    compat.extends(
-      '@jetbrains',
-      '@jetbrains/eslint-config/es6',
-      '@jetbrains/eslint-config/browser',
-      '@jetbrains/eslint-config/react',
-      '@jetbrains/eslint-config/test',
-    ),
-  ),
+  importPlugin.flatConfigs.errors,
+  ...configRules,
   ...storybook.configs['flat/recommended'],
 
   {
