@@ -114,6 +114,23 @@ describe('Tooltip', () => {
       expect(removeEventListener).toHaveBeenCalledTimes(2);
     });
 
+    it('should not render popup when title changes to empty value', () => {
+      const {rerender} = renderTooltip();
+      const tooltipElement = screen.getByRole('tooltip');
+
+      if (!tooltipElement) throw new Error('Tooltip element not found');
+
+      act(() => {
+        fireEvent.mouseEnter(tooltipElement);
+        vi.advanceTimersByTime(SHORT_DELAY);
+      });
+
+      rerender(<Tooltip {...defaultProps} title="" />);
+
+      // Popup should remain hidden
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
+    });
+
     it('should render popup on mouseenter', () => {
       renderTooltip();
       const tooltipElement = screen.getByText('test elem').closest('span');
