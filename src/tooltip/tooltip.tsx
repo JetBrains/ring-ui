@@ -62,6 +62,7 @@ export default class Tooltip extends Component<TooltipProps> {
     if (!prevProps.title && this.props.title) {
       this.addListeners();
     } else if (prevProps.title && !this.props.title) {
+      this.hidePopup();
       this.listeners.removeAll();
     }
   }
