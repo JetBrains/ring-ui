@@ -12,6 +12,7 @@ export interface TitleProps extends FocusSensorAddProps<HTMLDivElement> {
   onSelect: (selected: boolean) => void;
   selectable?: boolean | undefined;
   selected?: boolean | undefined;
+  partialSelected?: boolean | undefined;
   showFocus?: boolean | undefined;
   offset?: number | undefined;
   className?: string | null | undefined;
@@ -44,7 +45,8 @@ class Title extends PureComponent<TitleProps> {
   }
 
   render() {
-    const {className, title, offset, showFocus, innerRef, selectable, selected, collapserExpander} = this.props;
+    const {className, title, offset, showFocus, innerRef, selectable, selected, partialSelected, collapserExpander} =
+      this.props;
 
     const classes = classNames(className, {
       [styles.title]: true,
@@ -61,6 +63,7 @@ class Title extends PureComponent<TitleProps> {
                 aria-labelledby={this.id}
                 className={showFocus ? 'ring-checkbox_focus' : ''}
                 checked={selected}
+                indeterminate={partialSelected}
                 onFocus={this.onCheckboxFocus}
                 onChange={this.onCheckboxChange}
                 tabIndex={-1}
