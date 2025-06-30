@@ -18,12 +18,12 @@ export interface CloneWithConfig<T> {
 }
 
 export default class Selection<T extends SelectionItem> {
-  private _rawData: readonly T[];
+  protected _rawData: readonly T[];
   protected _getChildren: (item: T) => readonly T[];
   protected _data: Set<T>;
   protected _selected: Set<T>;
   protected _focused: T | null;
-  private _getKey: (item: T) => string | number;
+  protected _getKey: (item: T) => string | number;
   protected _isItemSelectable: (item: T) => boolean | undefined;
   constructor({
     data = [],

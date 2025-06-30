@@ -17,6 +17,8 @@ import Loader from '../loader/loader';
 
 import {SelectionItem} from '../table/selection';
 
+import Selection from './selection';
+
 import Item, {FormattedItem, moreLessButtonStates} from './item';
 
 import styles from './data-list.css';
@@ -130,9 +132,10 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
                 onExpand={item.onExpand}
                 showFocus={selection.isFocused(model)}
                 onFocus={this.onItemFocus}
-                selection={selection}
+                selection={selection as Selection<T>}
                 selectable={item.selectable}
                 selected={selection.isSelected(model)}
+                partialSelected={(selection as Selection<T>).isPartialSelected(model)}
                 onSelect={this.onItemSelect}
                 showMoreLessButton={showMoreLessButton}
                 onItemMoreLess={this.props.onItemMoreLess}
