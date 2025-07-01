@@ -51527,7 +51527,7 @@ Ct();
 var BK = N(Va(), 1), An = N(DK(), 1);
 
 // src/manager-api/version.ts
-var FK = "9.0.14";
+var FK = "9.0.15";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: QIe } = Z, jK = (0, BK.default)(1)(() => {
