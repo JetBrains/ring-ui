@@ -41346,15 +41346,16 @@ function CH(e) {
 
               More info: https://storybook.js.org/docs/api/portable-stories-playwright
             `);
-        await r.evaluate(async (l) => {
-          let u = await globalThis.__pwUnwrapObject?.(l);
-          return ("__pw_type" in u ? u.type : u)?.load?.();
-        }, i);
-        let a = await t(i, ...s);
-        return await r.evaluate(async (l) => {
-          let u = await globalThis.__pwUnwrapObject?.(l), c = "__pw_type" in u ? u.type : u, d = document.querySelector("#root");
-          return c?.play?.({ canvasElement: d });
-        }, i), a;
+        let { props: a, ...l } = i;
+        await r.evaluate(async (c) => {
+          let d = await globalThis.__pwUnwrapObject?.(c);
+          return ("__pw_type" in d ? d.type : d)?.load?.();
+        }, l);
+        let u = await t(i, ...s);
+        return await r.evaluate(async (c) => {
+          let d = await globalThis.__pwUnwrapObject?.(c), p = "__pw_type" in d ? d.type : d, f = document.querySelector("#root");
+          return p?.play?.({ canvasElement: f });
+        }, l), u;
       });
     }, "mount")
   });
