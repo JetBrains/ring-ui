@@ -16957,7 +16957,8 @@ var Hy, tW, ro, cs, h3e, g3e, HA, rW = k(() => {
   ), g3e = L.div(
     ({ hidden: e }) => ({
       display: e ? "none" : "inline-block",
-      zIndex: 2147483647
+      zIndex: 2147483647,
+      colorScheme: "light dark"
     }),
     ({ theme: e, color: t, hasChrome: r }) => r ? {
       background: t && e.color[t] || t || e.base === "light" ? Gi(e.background.app) : e.background.app,
@@ -46563,7 +46564,7 @@ var hU = dr({
     }
   })
 ), gU = /* @__PURE__ */ a((e) => /* @__PURE__ */ Ka.default.createElement(oA, { asChild: !0 }, /* @__PURE__ */ Ka.default.createElement(jp, {
-...e }, /* @__PURE__ */ Ka.default.createElement(dT, null))), "CloseButton"), V_e = L.div({
+"aria-label": "Close", ...e }, /* @__PURE__ */ Ka.default.createElement(dT, null))), "CloseButton"), V_e = L.div({
   display: "flex",
   flexDirection: "column",
   margin: 16,
@@ -51527,7 +51528,7 @@ Ct();
 var BK = N(Va(), 1), An = N(DK(), 1);
 
 // src/manager-api/version.ts
-var FK = "9.0.15";
+var FK = "9.0.16";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: QIe } = Z, jK = (0, BK.default)(1)(() => {

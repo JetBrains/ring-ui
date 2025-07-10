@@ -4634,6 +4634,7 @@ startsWith: !1 }, ({ match: t }) => /* @__PURE__ */ s.createElement(Kb, { shown:
     overflow: "hidden",
     display: "flex",
     flexDirection: "column",
+    colorScheme: "light dark",
     [Qe]: {
       display: "grid",
       gap: 0,
@@ -7030,9 +7031,9 @@ var Sc = (0, co.default)(1e3)((e, t) => t[e]), O0 = (0, co.default)(1e3)((e, t) 
   (e, t) => Tc(t, e).map((o) => o.id)
 ), st = (0, co.default)(1e3)((e, t, o) => {
   let i = e[t];
-  return (i.type === "story" || i.type === "docs" ? [] : i.children).reduce((n, l) => {
-    let u = e[l];
-    return !u || o && (u.type === "story" || u.type === "docs") || n.push(l, ...st(e, l, o)), n;
+  return !i || i.type === "story" || i.type === "docs" || !i.children ? [] : i.children.reduce((r, n) => {
+    let l = e[n];
+    return !l || o && (l.type === "story" || l.type === "docs") || r.push(n, ...st(e, n, o)), r;
   }, []);
 });
 function Cc(e, t) {
@@ -11455,6 +11456,8 @@ ow, 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0px -5px 20px 10px ${r.background.app})`,
   zIndex: 1,
   borderRadius: e.appBorderRadius,
   backgroundColor: e.background.content,
+  display: "flex",
+  flexDirection: "column-reverse",
   "&:hover #testing-module-collapse-toggle": {
     opacity: 1
   }
@@ -11581,24 +11584,8 @@ ow, 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0px -5px 20px 10px ${r.background.app})`,
       updated: v,
       "data-updated": v
     },
-    /* @__PURE__ */ s.createElement($I, null, T && /* @__PURE__ */ s.createElement(
-      UI,
-      {
-        "data-testid": "collapse",
-        style: {
-          transition: E ? "max-height 250ms" : "max-height 0ms",
-          display: T ? "block" : "none",
-          maxHeight: y ? 0 : b
-        }
-      },
-      /* @__PURE__ */ s.createElement(GI, { ref: h }, Object.values(e).map((C) => {
-        let { render: P, id: D } = C;
-        return P ? /* @__PURE__ */ s.createElement(JI, { key: D, "data-module-id": D }, /* @__PURE__ */ s.createElement(P, null)) : (Fa.warn(
-          `No render function found for test provider with id '${D}', skipping...`
-        ), null);
-      }))
-    ), /* @__PURE__ */ s.createElement(qI, { ...T ? { onClick: /* @__PURE__ */ a((C) => O(C), "onClick") } : {} }, /* @__PURE__ */ s.createElement(
-    YI, null, T && /* @__PURE__ */ s.createElement(
+    /* @__PURE__ */ s.createElement($I, null, /* @__PURE__ */ s.createElement(qI, { ...T ? { onClick: /* @__PURE__ */ a((C) => O(C), "onClic\
+k") } : {} }, /* @__PURE__ */ s.createElement(YI, null, T && /* @__PURE__ */ s.createElement(
       ve,
       {
         hasChrome: !1,
@@ -11723,7 +11710,24 @@ ow, 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0px -5px 20px 10px ${r.background.app})`,
         },
         /* @__PURE__ */ s.createElement(Gn, null)
       )
-    ))))
+    ))), T && /* @__PURE__ */ s.createElement(
+      UI,
+      {
+        "data-testid": "collapse",
+        ...y && { inert: "" },
+        style: {
+          transition: E ? "max-height 250ms" : "max-height 0ms",
+          display: T ? "block" : "none",
+          maxHeight: y ? 0 : b
+        }
+      },
+      /* @__PURE__ */ s.createElement(GI, { ref: h }, Object.values(e).map((C) => {
+        let { render: P, id: D } = C;
+        return P ? /* @__PURE__ */ s.createElement(JI, { key: D, "data-module-id": D }, /* @__PURE__ */ s.createElement(P, null)) : (Fa.warn(
+          `No render function found for test provider with id '${D}', skipping...`
+        ), null);
+      }))
+    ))
   );
 }, "TestingModule");
 
@@ -12072,6 +12076,7 @@ var at = "storybook_internal", gS = x.nav(({ theme: e }) => ({
         /* @__PURE__ */ s.createElement(
           vS,
           {
+            "aria-label": "Create a new story",
             isMobile: w,
             onClick: () => {
               S(!0);
