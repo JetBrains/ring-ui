@@ -24,6 +24,7 @@ export interface TagProps {
   render: (props: TagRenderProps) => ReactNode;
   children?: ReactNode;
   className?: string | null | undefined;
+  containerClassName?: string | null | undefined;
   rgTagIcon?: string | IconType | null | undefined;
   icon?: string | undefined;
   avatar?: string | null | undefined;
@@ -145,7 +146,7 @@ export default class Tag extends PureComponent<TagProps> {
     const {backgroundColor, textColor, render} = this.props;
 
     return (
-      <span className={styles.container}>
+      <span className={classNames(styles.container, this.props.containerClassName)}>
         {render({
           'data-test': 'ring-tag',
           className: classes,
