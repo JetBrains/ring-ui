@@ -1,5 +1,8 @@
 @import "../global/variables.css";
 
+/* ensure styles order */
+@import "../link/link.css";
+
 .tag {
   --ring-tag-max-height: 20px;
 
