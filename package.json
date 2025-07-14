@@ -89,7 +89,8 @@
     "prerelease-built-ci": "node prepare-built-package.js",
     "release-built-ci": "npm publish --access=public $NPM_PUBLISH_PARAMS",
     "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable"
+    "postpublish": "pinst --enable",
+    "update-styles": "node design-tokens/update-styles.mjs"
   },
   "repository": {
     "type": "git",
