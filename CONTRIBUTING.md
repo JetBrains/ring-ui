@@ -70,3 +70,13 @@ To check current status on CI you may check [teamcity configuration](https://tea
 
 To run tests locally, run `npm run a11y-audit`. Also, there is "Accessibility" tab on storybook pages, 
 so every component could be inspected via running storybook (`npm start`) and then checking this tab.
+
+### Updating color variables from Figma
+
+- Go to https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI--Internal-?m=auto&node-id=1-58
+- In "Plugins" tab, find and run "variables2css"
+- Select "Theme/Light" and "Theme/Dark"
+- In "Config", select "type": "Json"
+- Click "Generate" and then "Copy"
+- Paste the copied text into `design-tokens/design-tokens.json`
+- Run `npm run update-styles`
