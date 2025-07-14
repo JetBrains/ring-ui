@@ -8,9 +8,9 @@
   --ring-borders-components: 111, 115, 122;
   --ring-borders-color: rgb(var(--ring-borders-components)); /* #6F737A */
   --ring-icon-components: 157, 160, 168;
-  --ring-icon-color: rgb(var(--ring-icon-components)); /* #9DA0A8 */ /* TODO: remove in 8.0 in favor of --ring-secondary-color */
+  --ring-icon-color: rgb(var(--ring-icon-components)); /* #9DA0A8 */
   --ring-icon-secondary-components: 157, 160, 168;
-  --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #9DA0A8 */ /* TODO: remove in 8.0 in favor of --ring-secondary-color */
+  --ring-icon-secondary-color: rgb(var(--ring-icon-secondary-components)); /* #9DA0A8 */
   --ring-border-disabled-components: 78, 81, 87;
   --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #4E5157 */
   --ring-border-selected-disabled-components: 90, 93, 99;
@@ -18,7 +18,7 @@
   --ring-border-disabled-active-components: 23, 73, 113;
   --ring-border-disabled-active-color: rgb(var(--ring-border-disabled-active-components)); /* #174971 */
   --ring-icon-disabled-components: 111, 115, 122;
-  --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #6F737A */ /* TODO: remove in 8.0 in favor of --ring-disabled-color */
+  --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #6F737A */
   --ring-border-hover-components: 55, 95, 173;
   --ring-border-hover-color: rgb(var(--ring-border-hover-components)); /* #375FAD */
   --ring-border-hover-success-components: 78, 128, 82;
@@ -44,7 +44,7 @@
   --ring-main-warning-hover-components: 199, 125, 85;
   --ring-main-warning-hover-color: rgb(var(--ring-main-warning-hover-components)); /* #C77D55 */
   --ring-icon-error-components: 227, 119, 116;
-  --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #E37774 */ /* TODO: remove in 8.0 in favor of --ring-error-color */
+  --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #E37774 */
   --ring-icon-warning-components: 224, 136, 85;
   --ring-icon-warning-color: rgb(var(--ring-icon-warning-components)); /* #E08855 */
   --ring-icon-success-components: 95, 173, 101;
