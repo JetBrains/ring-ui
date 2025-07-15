@@ -76,7 +76,7 @@ so every component could be inspected via running storybook (`npm start`) and th
 - Go to https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI--Internal-?m=auto&node-id=1-58
 - In "Plugins" tab, find and run "variables2css"
 - Select "Theme/Light" and "Theme/Dark"
-- In "Config", select "type": "Json"
+- In "Config", select "Type": "Json" and "Color": "hex"
 - Click "Generate" and then "Copy"
 - Paste the copied text into `design-tokens/design-tokens.json`
 - Run `npm run update-styles`

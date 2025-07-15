@@ -537,9 +537,9 @@
           },
           {
             "name": "ring-error-color",
-            "value": "#db5c5c",
-            "var": "Dark/Red/60",
-            "rootAlias": "Dark/Red/60"
+            "value": "#e37774",
+            "var": "Dark/Red/70",
+            "rootAlias": "Dark/Red/70"
           },
           {
             "name": "ring-error-container-light-color",
