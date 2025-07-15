@@ -93,8 +93,8 @@
   --ring-link-color: rgb(var(--ring-link-components)); /* #99BBFF */
   --ring-link-hover-components: 107, 155, 250;
   --ring-link-hover-color: rgb(var(--ring-link-hover-components)); /* #6B9BFA */
-  --ring-error-components: 219, 92, 92;
-  --ring-error-color: rgb(var(--ring-error-components)); /* #DB5C5C */
+  --ring-error-components: 227, 119, 116;
+  --ring-error-color: rgb(var(--ring-error-components)); /* #E37774 */
   --ring-warning-components: 224, 136, 85;
   --ring-warning-color: rgb(var(--ring-warning-components)); /* #E08855 */ /* Prefer using warning icon + regular text color */
   --ring-success-components: 95, 173, 101;
