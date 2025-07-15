@@ -9,108 +9,6 @@
         },
         "color": [
           {
-            "name": "ring-main-container-light-color",
-            "value": "#f5f8fe",
-            "var": "Light/Blue/130",
-            "rootAlias": "Light/Blue/130"
-          },
-          {
-            "name": "ring-success-border-hover-color",
-            "value": "#55a76a",
-            "var": "Light/Green/60",
-            "rootAlias": "Light/Green/60"
-          },
-          {
-            "name": "ring-warning-container-light-color",
-            "value": "#fff8f3",
-            "var": "Light/Orange/100",
-            "rootAlias": "Light/Orange/100"
-          },
-          {
-            "name": "error-color",
-            "value": "#cc3645",
-            "var": "Light/Red/30",
-            "rootAlias": "Light/Red/30"
-          },
-          {
-            "name": "ring-success-border-color",
-            "value": "#89c398",
-            "var": "Light/Green/70",
-            "rootAlias": "Light/Green/70"
-          },
-          {
-            "name": "ring-success-container-light-color",
-            "value": "#f2fcf3",
-            "var": "Light/Green/110",
-            "rootAlias": "Light/Green/110"
-          },
-          {
-            "name": "grey-border-accent",
-            "value": "#d3d5db",
-            "var": "Light/Gray/100",
-            "rootAlias": "Light/Gray/100"
-          },
-          {
-            "name": "grey-container-light",
-            "value": "#f7f8fa",
-            "var": "Light/Gray/130",
-            "rootAlias": "Light/Gray/130"
-          },
-          {
-            "name": "ring-grey-fill-color",
-            "value": "#27282e",
-            "var": "Light/Gray/20",
-            "rootAlias": "Light/Gray/20"
-          },
-          {
-            "name": "ring-grey-fill-accent-color",
-            "value": "#383a42",
-            "var": "Light/Gray/30",
-            "rootAlias": "Light/Gray/30"
-          },
-          {
-            "name": "icon-color",
-            "value": "#818594",
-            "var": "Light/Gray/70",
-            "rootAlias": "Light/Gray/70"
-          },
-          {
-            "name": "icon-signal-color",
-            "value": "#ffaf0f",
-            "var": "Light/Yellow/40",
-            "rootAlias": "Light/Yellow/40"
-          },
-          {
-            "name": "ring-warning-border-color",
-            "value": "#f2b181",
-            "var": "Light/Orange/60",
-            "rootAlias": "Light/Orange/60"
-          },
-          {
-            "name": "ring-warning-border-hover-color",
-            "value": "#ec8f4c",
-            "var": "Light/Orange/50",
-            "rootAlias": "Light/Orange/50"
-          },
-          {
-            "name": "ring-error-border-color",
-            "value": "#f2b6bb",
-            "var": "Light/Red/80",
-            "rootAlias": "Light/Red/80"
-          },
-          {
-            "name": "ring-error-border-hover-color",
-            "value": "#e46a76",
-            "var": "Light/Red/60",
-            "rootAlias": "Light/Red/60"
-          },
-          {
-            "name": "ring-error-container-light-color",
-            "value": "#fff2f3",
-            "var": "Light/Red/110",
-            "rootAlias": "Light/Red/110"
-          },
-          {
             "name": "ring-added-background-color",
             "value": "#c5e5cc",
             "var": "Light/Green/90",
@@ -123,7 +21,7 @@
             "rootAlias": "Light/Green/100"
           },
           {
-            "name": "ring-border-accent",
+            "name": "ring-border-accent-color",
             "value": "#709cf5",
             "var": "Light/Blue/70",
             "rootAlias": "Light/Blue/70"
@@ -133,6 +31,12 @@
             "value": "#a0bdf8",
             "var": "Light/Blue/90",
             "rootAlias": "Light/Blue/90"
+          },
+          {
+            "name": "ring-borders-color",
+            "value": "#d3d5db",
+            "var": "Light/Gray/100",
+            "rootAlias": "Light/Gray/100"
           },
           {
             "name": "ring-button-danger-active-color",
@@ -159,16 +63,76 @@
             "rootAlias": "Light/Gray/80"
           },
           {
+            "name": "ring-error-border-color",
+            "value": "#f2b6bb",
+            "var": "Light/Red/80",
+            "rootAlias": "Light/Red/80"
+          },
+          {
+            "name": "ring-error-border-hover-color",
+            "value": "#e46a76",
+            "var": "Light/Red/60",
+            "rootAlias": "Light/Red/60"
+          },
+          {
             "name": "ring-error-color",
             "value": "#cc3645",
             "var": "Light/Red/30",
             "rootAlias": "Light/Red/30"
           },
           {
+            "name": "ring-error-container-light-color",
+            "value": "#fff2f3",
+            "var": "Light/Red/110",
+            "rootAlias": "Light/Red/110"
+          },
+          {
+            "name": "ring-grey-container-light-color",
+            "value": "#f7f8fa",
+            "var": "Light/Gray/130",
+            "rootAlias": "Light/Gray/130"
+          },
+          {
+            "name": "ring-grey-fill-accent-color",
+            "value": "#383a42",
+            "var": "Light/Gray/30",
+            "rootAlias": "Light/Gray/30"
+          },
+          {
+            "name": "ring-grey-fill-color",
+            "value": "#27282e",
+            "var": "Light/Gray/20",
+            "rootAlias": "Light/Gray/20"
+          },
+          {
             "name": "ring-highlight-background-color",
             "value": "#fff1d1",
             "var": "Light/Yellow/80",
             "rootAlias": "Light/Yellow/80"
+          },
+          {
+            "name": "ring-highlight-border-color",
+            "value": "#fed277",
+            "var": "Light/Yellow/60",
+            "rootAlias": "Light/Yellow/60"
+          },
+          {
+            "name": "ring-highlight-border-hover-color",
+            "value": "#fdbd3d",
+            "var": "Light/Yellow/50",
+            "rootAlias": "Light/Yellow/50"
+          },
+          {
+            "name": "ring-highlight-container-light-color",
+            "value": "#fffaeb",
+            "var": "Light/Yellow/100",
+            "rootAlias": "Light/Yellow/100"
+          },
+          {
+            "name": "ring-highlight-fill-color",
+            "value": "#ffaf0f",
+            "var": "Light/Yellow/40",
+            "rootAlias": "Light/Yellow/40"
           },
           {
             "name": "ring-highlight-subtle-background-color",
@@ -217,6 +181,18 @@
             "value": "#3369d6",
             "var": "Light/Blue/30",
             "rootAlias": "Light/Blue/30"
+          },
+          {
+            "name": "ring-main-container-light-color",
+            "value": "#f5f8fe",
+            "var": "Light/Blue/130",
+            "rootAlias": "Light/Blue/130"
+          },
+          {
+            "name": "ring-main-error-color",
+            "value": "#cc3645",
+            "var": "Light/Red/30",
+            "rootAlias": "Light/Red/30"
           },
           {
             "name": "ring-main-error-hover-color",
@@ -285,10 +261,28 @@
             "rootAlias": "Light/Gray/130"
           },
           {
+            "name": "ring-success-border-color",
+            "value": "#89c398",
+            "var": "Light/Green/70",
+            "rootAlias": "Light/Green/70"
+          },
+          {
+            "name": "ring-success-border-hover-color",
+            "value": "#55a76a",
+            "var": "Light/Green/60",
+            "rootAlias": "Light/Green/60"
+          },
+          {
             "name": "ring-success-color",
             "value": "#1f7536",
             "var": "Light/Green/20",
             "rootAlias": "Light/Green/20"
+          },
+          {
+            "name": "ring-success-container-light-color",
+            "value": "#f2fcf3",
+            "var": "Light/Green/110",
+            "rootAlias": "Light/Green/110"
           },
           {
             "name": "ring-tag-background-color",
@@ -315,6 +309,30 @@
             "rootAlias": "Light/Orange/80"
           },
           {
+            "name": "ring-warning-border-color",
+            "value": "#f2b181",
+            "var": "Light/Orange/60",
+            "rootAlias": "Light/Orange/60"
+          },
+          {
+            "name": "ring-warning-border-hover-color",
+            "value": "#ec8f4c",
+            "var": "Light/Orange/50",
+            "rootAlias": "Light/Orange/50"
+          },
+          {
+            "name": "ring-warning-color",
+            "value": "#ce6117",
+            "var": "Light/Orange/30",
+            "rootAlias": "Light/Orange/30"
+          },
+          {
+            "name": "ring-warning-container-light-color",
+            "value": "#fff8f3",
+            "var": "Light/Orange/100",
+            "rootAlias": "Light/Orange/100"
+          },
+          {
             "name": "ring-warning-subtle-background-color",
             "value": "#fff4eb",
             "var": "Light/Orange/90",
@@ -325,30 +343,6 @@
             "value": "#ffffff",
             "var": "Light/Gray/140",
             "rootAlias": "Light/Gray/140"
-          },
-          {
-            "name": "ring-warning-color",
-            "value": "#ce6117",
-            "var": "Light/Orange/30",
-            "rootAlias": "Light/Orange/30"
-          },
-          {
-            "name": "ring-highlight-border-color",
-            "value": "#fed277",
-            "var": "Light/Yellow/60",
-            "rootAlias": "Light/Yellow/60"
-          },
-          {
-            "name": "ring-highlight-border-hover-color",
-            "value": "#fdbd3d",
-            "var": "Light/Yellow/50",
-            "rootAlias": "Light/Yellow/50"
-          },
-          {
-            "name": "ring-highlight-container-light-color",
-            "value": "#fffaeb",
-            "var": "Light/Yellow/100",
-            "rootAlias": "Light/Yellow/100"
           },
           {
             "name": "Code/code-addition-color",
@@ -476,108 +470,6 @@
         },
         "color": [
           {
-            "name": "ring-main-container-light-color",
-            "value": "#202737",
-            "var": "Dark/Blue/5",
-            "rootAlias": "Dark/Blue/5"
-          },
-          {
-            "name": "ring-success-border-hover-color",
-            "value": "#4e8052",
-            "var": "Dark/Green/40",
-            "rootAlias": "Dark/Green/40"
-          },
-          {
-            "name": "ring-warning-container-light-color",
-            "value": "#352a27",
-            "var": "Dark/Orange/5",
-            "rootAlias": "Dark/Orange/5"
-          },
-          {
-            "name": "error-color",
-            "value": "#db5c5c",
-            "var": "Dark/Red/60",
-            "rootAlias": "Dark/Red/60"
-          },
-          {
-            "name": "ring-success-border-color",
-            "value": "#436946",
-            "var": "Dark/Green/30",
-            "rootAlias": "Dark/Green/30"
-          },
-          {
-            "name": "ring-success-container-light-color",
-            "value": "#222d25",
-            "var": "Dark/Green/5",
-            "rootAlias": "Dark/Green/5"
-          },
-          {
-            "name": "grey-border-accent",
-            "value": "#6f737a",
-            "var": "Dark/Gray/70",
-            "rootAlias": "Dark/Gray/70"
-          },
-          {
-            "name": "grey-container-light",
-            "value": "#393b40",
-            "var": "Dark/Gray/30",
-            "rootAlias": "Dark/Gray/30"
-          },
-          {
-            "name": "ring-grey-fill-color",
-            "value": "#f0f1f2",
-            "var": "Dark/Gray/130",
-            "rootAlias": "Dark/Gray/130"
-          },
-          {
-            "name": "ring-grey-fill-accent-color",
-            "value": "#dfe1e5",
-            "var": "Dark/Gray/120",
-            "rootAlias": "Dark/Gray/120"
-          },
-          {
-            "name": "icon-color",
-            "value": "#868a91",
-            "var": "Dark/Gray/80",
-            "rootAlias": "Dark/Gray/80"
-          },
-          {
-            "name": "icon-signal-color",
-            "value": "#d6ae58",
-            "var": "Dark/Yellow/60",
-            "rootAlias": "Dark/Yellow/60"
-          },
-          {
-            "name": "ring-warning-border-color",
-            "value": "#825845",
-            "var": "Dark/Orange/30",
-            "rootAlias": "Dark/Orange/30"
-          },
-          {
-            "name": "ring-warning-border-hover-color",
-            "value": "#a36b4e",
-            "var": "Dark/Orange/40",
-            "rootAlias": "Dark/Orange/40"
-          },
-          {
-            "name": "ring-error-border-color",
-            "value": "#7a4343",
-            "var": "Dark/Red/30",
-            "rootAlias": "Dark/Red/30"
-          },
-          {
-            "name": "ring-error-border-hover-color",
-            "value": "#9c4e4e",
-            "var": "Dark/Red/40",
-            "rootAlias": "Dark/Red/40"
-          },
-          {
-            "name": "ring-error-container-light-color",
-            "value": "#362627",
-            "var": "Dark/Red/5",
-            "rootAlias": "Dark/Red/5"
-          },
-          {
             "name": "ring-added-background-color",
             "value": "#375239",
             "var": "Dark/Green/20",
@@ -590,7 +482,7 @@
             "rootAlias": "Dark/Green/10"
           },
           {
-            "name": "ring-border-accent",
+            "name": "ring-border-accent-color",
             "value": "#366acf",
             "var": "Dark/Blue/50",
             "rootAlias": "Dark/Blue/50"
@@ -600,6 +492,12 @@
             "value": "#375fad",
             "var": "Dark/Blue/40",
             "rootAlias": "Dark/Blue/40"
+          },
+          {
+            "name": "ring-borders-color",
+            "value": "#6f737a",
+            "var": "Dark/Gray/70",
+            "rootAlias": "Dark/Gray/70"
           },
           {
             "name": "ring-button-danger-active-color",
@@ -626,16 +524,76 @@
             "rootAlias": "Dark/Gray/70"
           },
           {
+            "name": "ring-error-border-color",
+            "value": "#7a4343",
+            "var": "Dark/Red/30",
+            "rootAlias": "Dark/Red/30"
+          },
+          {
+            "name": "ring-error-border-hover-color",
+            "value": "#9c4e4e",
+            "var": "Dark/Red/40",
+            "rootAlias": "Dark/Red/40"
+          },
+          {
             "name": "ring-error-color",
-            "value": "#bd5757",
-            "var": "Dark/Red/50",
-            "rootAlias": "Dark/Red/50"
+            "value": "#db5c5c",
+            "var": "Dark/Red/60",
+            "rootAlias": "Dark/Red/60"
+          },
+          {
+            "name": "ring-error-container-light-color",
+            "value": "#362627",
+            "var": "Dark/Red/5",
+            "rootAlias": "Dark/Red/5"
+          },
+          {
+            "name": "ring-grey-container-light-color",
+            "value": "#393b40",
+            "var": "Dark/Gray/30",
+            "rootAlias": "Dark/Gray/30"
+          },
+          {
+            "name": "ring-grey-fill-accent-color",
+            "value": "#dfe1e5",
+            "var": "Dark/Gray/120",
+            "rootAlias": "Dark/Gray/120"
+          },
+          {
+            "name": "ring-grey-fill-color",
+            "value": "#f0f1f2",
+            "var": "Dark/Gray/130",
+            "rootAlias": "Dark/Gray/130"
           },
           {
             "name": "ring-highlight-background-color",
             "value": "#5e4d33",
             "var": "Dark/Yellow/20",
             "rootAlias": "Dark/Yellow/20"
+          },
+          {
+            "name": "ring-highlight-border-color",
+            "value": "#826a41",
+            "var": "Dark/Yellow/30",
+            "rootAlias": "Dark/Yellow/30"
+          },
+          {
+            "name": "ring-highlight-border-hover-color",
+            "value": "#9e814a",
+            "var": "Dark/Yellow/40",
+            "rootAlias": "Dark/Yellow/40"
+          },
+          {
+            "name": "ring-highlight-container-light-color",
+            "value": "#312a23",
+            "var": "Dark/Yellow/5",
+            "rootAlias": "Dark/Yellow/5"
+          },
+          {
+            "name": "ring-highlight-fill-color",
+            "value": "#d6ae58",
+            "var": "Dark/Yellow/60",
+            "rootAlias": "Dark/Yellow/60"
           },
           {
             "name": "ring-highlight-subtle-background-color",
@@ -684,6 +642,18 @@
             "value": "#366acf",
             "var": "Dark/Blue/50",
             "rootAlias": "Dark/Blue/50"
+          },
+          {
+            "name": "ring-main-container-light-color",
+            "value": "#202737",
+            "var": "Dark/Blue/5",
+            "rootAlias": "Dark/Blue/5"
+          },
+          {
+            "name": "ring-main-error-color",
+            "value": "#bd5757",
+            "var": "Dark/Red/50",
+            "rootAlias": "Dark/Red/50"
           },
           {
             "name": "ring-main-error-hover-color",
@@ -752,10 +722,28 @@
             "rootAlias": "Dark/Gray/20"
           },
           {
+            "name": "ring-success-border-color",
+            "value": "#436946",
+            "var": "Dark/Green/30",
+            "rootAlias": "Dark/Green/30"
+          },
+          {
+            "name": "ring-success-border-hover-color",
+            "value": "#4e8052",
+            "var": "Dark/Green/40",
+            "rootAlias": "Dark/Green/40"
+          },
+          {
             "name": "ring-success-color",
             "value": "#5fad65",
             "var": "Dark/Green/60",
             "rootAlias": "Dark/Green/60"
+          },
+          {
+            "name": "ring-success-container-light-color",
+            "value": "#222d25",
+            "var": "Dark/Green/5",
+            "rootAlias": "Dark/Green/5"
           },
           {
             "name": "ring-tag-background-color",
@@ -782,6 +770,30 @@
             "rootAlias": "Dark/Orange/20"
           },
           {
+            "name": "ring-warning-border-color",
+            "value": "#825845",
+            "var": "Dark/Orange/30",
+            "rootAlias": "Dark/Orange/30"
+          },
+          {
+            "name": "ring-warning-border-hover-color",
+            "value": "#a36b4e",
+            "var": "Dark/Orange/40",
+            "rootAlias": "Dark/Orange/40"
+          },
+          {
+            "name": "ring-warning-color",
+            "value": "#e08855",
+            "var": "Dark/Orange/60",
+            "rootAlias": "Dark/Orange/60"
+          },
+          {
+            "name": "ring-warning-container-light-color",
+            "value": "#352a27",
+            "var": "Dark/Orange/5",
+            "rootAlias": "Dark/Orange/5"
+          },
+          {
             "name": "ring-warning-subtle-background-color",
             "value": "#45322b",
             "var": "Dark/Orange/10",
@@ -792,30 +804,6 @@
             "value": "#ffffff",
             "var": "Dark/Gray/140",
             "rootAlias": "Dark/Gray/140"
-          },
-          {
-            "name": "ring-warning-color",
-            "value": "#e08855",
-            "var": "Dark/Orange/60",
-            "rootAlias": "Dark/Orange/60"
-          },
-          {
-            "name": "ring-highlight-border-color",
-            "value": "#826a41",
-            "var": "Dark/Yellow/30",
-            "rootAlias": "Dark/Yellow/30"
-          },
-          {
-            "name": "ring-highlight-border-hover-color",
-            "value": "#9e814a",
-            "var": "Dark/Yellow/40",
-            "rootAlias": "Dark/Yellow/40"
-          },
-          {
-            "name": "ring-highlight-container-light-color",
-            "value": "#312a23",
-            "var": "Dark/Yellow/5",
-            "rootAlias": "Dark/Yellow/5"
           },
           {
             "name": "Code/code-addition-color",
