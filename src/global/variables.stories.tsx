@@ -1,4 +1,6 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState, useSyncExternalStore} from 'react';
+
+import {GLOBAL_DARK_CLASS_NAME} from './theme';
 
 export default {
   title: 'Style-only/Theme palette',
@@ -38,12 +40,23 @@ type ColorItemProps = {
 function ColorItem({propName}: ColorItemProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [colorValue, setColorValue] = useState<string>();
+  const isDarkTheme = useSyncExternalStore(
+    onStoreChange => {
+      const observer = new MutationObserver(onStoreChange);
+      observer.observe(document.documentElement, {attributeFilter: ['class']});
+      observer.observe(document.body, {attributeFilter: ['class']});
+      return () => observer.disconnect();
+    },
+    () =>
+      document.documentElement.classList.contains(GLOBAL_DARK_CLASS_NAME) ||
+      document.body.classList.contains(GLOBAL_DARK_CLASS_NAME),
+  );
   useEffect(() => {
     if (ref.current != null) {
       const value = getComputedStyle(ref.current).getPropertyValue(propName).toUpperCase();
       setColorValue(formatColorPropertyValue(value));
     }
-  }, [propName]);
+  }, [propName, isDarkTheme]);
   return (
     <div className="color-item">
       <div className="color-square" style={{backgroundColor: `var(${propName})`}} />
