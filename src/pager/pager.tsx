@@ -315,10 +315,15 @@ export default class Pager extends PureComponent<PagerProps> {
 
   render() {
     const classes = classNames(style.pager, this.props.className);
+    const shouldRenderPagerContent = this.getTotalPages() > 1 || this.props.openTotal;
+
+    if (!shouldRenderPagerContent && this.props.disablePageSizeSelector) {
+      return null;
+    }
 
     return (
       <div data-test="ring-pager" className={classes}>
-        {this.getTotalPages() > 1 || this.props.openTotal ? this.getPagerContent() : this.getPageSizeSelector()}
+        {shouldRenderPagerContent ? this.getPagerContent() : this.getPageSizeSelector()}
       </div>
     );
   }
