@@ -483,7 +483,6 @@ var n = {
     "Bar",
     "Blockquote",
     "Button",
-    "Checkbox",
     "ClipboardCode",
     "Code",
     "DL",

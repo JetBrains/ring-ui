@@ -29,14 +29,14 @@ var Ve = (e, t, o) => (o = e != null ? cf(ff(e)) : {}, gf(
 ));
 
 // ../node_modules/prop-types/lib/ReactPropTypesSecret.js
-var Ga = we((x_, Ua) => {
+var Ga = we((v_, Ua) => {
   "use strict";
   var ay = "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED";
   Ua.exports = ay;
 });
 
 // ../node_modules/prop-types/factoryWithThrowingShims.js
-var Xa = we((I_, Qa) => {
+var Xa = we((x_, Qa) => {
   "use strict";
   var ly = Ga();
   function qa() {
@@ -89,13 +89,13 @@ Read more at http://fb.me/use-check-prop-types"
 });
 
 // ../node_modules/prop-types/index.js
-var ni = we((T_, Za) => {
+var ni = we((E_, Za) => {
   Za.exports = Xa()();
-  var w_, E_;
+  var S_, w_;
 });
 
 // ../node_modules/react-fast-compare/index.js
-var el = we((C_, Ja) => {
+var el = we((T_, Ja) => {
   var uy = typeof Element < "u", cy = typeof Map == "function", py = typeof Set == "function", dy = typeof ArrayBuffer == "function" && !!ArrayBuffer.
   isView;
   function dr(e, t) {
@@ -159,7 +159,7 @@ var el = we((C_, Ja) => {
 });
 
 // ../node_modules/invariant/browser.js
-var ol = we((k_, tl) => {
+var ol = we((__, tl) => {
   "use strict";
   var fy = /* @__PURE__ */ a(function(e, t, o, i, r, n, l, u) {
     if (!e) {
@@ -183,7 +183,7 @@ var ol = we((k_, tl) => {
 });
 
 // ../node_modules/shallowequal/index.js
-var nl = we((P_, rl) => {
+var nl = we((O_, rl) => {
   rl.exports = /* @__PURE__ */ a(function(t, o, i, r) {
     var n = i ? i.call(r, t, o) : void 0;
     if (n !== void 0)
@@ -581,7 +581,7 @@ var Li = we((Cr) => {
 });
 
 // ../node_modules/fast-decode-uri-component/index.js
-var ru = we((hA, ou) => {
+var ru = we((mA, ou) => {
   "use strict";
   var eu = 12, lv = 0, Ni = [
     // The first part of the table maps bytes to character to a transition.
@@ -1123,7 +1123,7 @@ var uu = we((Xe) => {
 });
 
 // ../node_modules/toggle-selection/index.js
-var hu = we((HA, mu) => {
+var hu = we((BA, mu) => {
   mu.exports = function() {
     var e = document.getSelection();
     if (!e.rangeCount)
@@ -1150,7 +1150,7 @@ var hu = we((HA, mu) => {
 });
 
 // ../node_modules/copy-to-clipboard/index.js
-var bu = we((zA, yu) => {
+var bu = we((HA, yu) => {
   "use strict";
   var Cv = hu(), gu = {
     "text/plain": "Text",
@@ -1302,7 +1302,7 @@ context"), Gr = Symbol.for("react.forward_ref"), qr = Symbol.for("react.suspense
 });
 
 // ../node_modules/downshift/node_modules/react-is/index.js
-var wp = we((vR, Sp) => {
+var wp = we((bR, Sp) => {
   "use strict";
   Sp.exports = Ip();
 });
@@ -2201,13 +2201,13 @@ createCache: rT, createGlobal: Ia, createReset: nT, css: iT, darken: sT, ensure:
 lighten: cT, styled: x, themes: pT, typography: dT, useTheme: De, withTheme: wa } = __STORYBOOK_THEMING__;
 
 // global-externals:storybook/internal/components
-var mT = __STORYBOOK_COMPONENTS__, { A: hT, ActionBar: gT, AddonPanel: yT, Badge: tr, Bar: bT, Blockquote: vT, Button: he, Checkbox: xT, ClipboardCode: IT,
-Code: ST, DL: wT, Div: ET, DocumentWrapper: TT, EmptyTabContent: Ea, ErrorFormatter: Ta, FlexBar: CT, Form: or, H1: _T, H2: kT, H3: OT, H4: PT,
-H5: AT, H6: DT, HR: MT, IconButton: ee, Img: LT, LI: NT, Link: Pe, ListItem: oy, Loader: rr, Modal: At, OL: FT, P: RT, Placeholder: BT, Pre: HT,
-ProgressSpinner: zT, ResetWrapper: WT, ScrollArea: nr, Separator: ht, Spaced: ct, Span: VT, StorybookIcon: jT, StorybookLogo: ir, SyntaxHighlighter: KT,
-TT: $T, TabBar: sr, TabButton: ar, TabWrapper: UT, Table: GT, Tabs: Ca, TabsState: qT, TooltipLinkList: ot, TooltipMessage: YT, TooltipNote: rt,
-UL: QT, WithTooltip: ve, WithTooltipPure: XT, Zoom: _a, codeCommon: ZT, components: JT, createCopyToClipboardFunction: eC, getStoryHref: to,
-interleaveSeparators: tC, nameSpaceClassNames: oC, resetComponents: rC, withReset: nC } = __STORYBOOK_COMPONENTS__;
+var mT = __STORYBOOK_COMPONENTS__, { A: hT, ActionBar: gT, AddonPanel: yT, Badge: tr, Bar: bT, Blockquote: vT, Button: he, ClipboardCode: xT,
+Code: IT, DL: ST, Div: wT, DocumentWrapper: ET, EmptyTabContent: Ea, ErrorFormatter: Ta, FlexBar: TT, Form: or, H1: CT, H2: _T, H3: kT, H4: OT,
+H5: PT, H6: AT, HR: DT, IconButton: ee, Img: MT, LI: LT, Link: Pe, ListItem: oy, Loader: rr, Modal: At, OL: NT, P: FT, Placeholder: RT, Pre: BT,
+ProgressSpinner: HT, ResetWrapper: zT, ScrollArea: nr, Separator: ht, Spaced: ct, Span: WT, StorybookIcon: VT, StorybookLogo: ir, SyntaxHighlighter: jT,
+TT: KT, TabBar: sr, TabButton: ar, TabWrapper: $T, Table: UT, Tabs: Ca, TabsState: GT, TooltipLinkList: ot, TooltipMessage: qT, TooltipNote: rt,
+UL: YT, WithTooltip: ve, WithTooltipPure: QT, Zoom: _a, codeCommon: XT, components: ZT, createCopyToClipboardFunction: JT, getStoryHref: to,
+interleaveSeparators: eC, nameSpaceClassNames: tC, resetComponents: oC, withReset: rC } = __STORYBOOK_COMPONENTS__;
 
 // src/toolbar/utils/normalize-toolbar-arg-type.ts
 var ry = {
@@ -2290,7 +2290,7 @@ tem"), Ma = /* @__PURE__ */ a(({ currentValue: e, items: t }) => {
 }, "getSelectedTitle");
 
 // global-externals:storybook/internal/client-logger
-var SC = __STORYBOOK_CLIENT_LOGGER__, { deprecate: Na, logger: lr, once: Fa, pretty: wC } = __STORYBOOK_CLIENT_LOGGER__;
+var IC = __STORYBOOK_CLIENT_LOGGER__, { deprecate: Na, logger: lr, once: Fa, pretty: SC } = __STORYBOOK_CLIENT_LOGGER__;
 
 // src/components/components/icon/icon.tsx
 var iy = ei, sy = x.svg`
@@ -2320,7 +2320,7 @@ s-deprecated`
     ), null;
   let n = iy[r];
   return /* @__PURE__ */ s.createElement(n, { ...i });
-}, "Icons"), kC = Tt(/* @__PURE__ */ a(function({ icons: t = Object.keys(ri) }) {
+}, "Icons"), _C = Tt(/* @__PURE__ */ a(function({ icons: t = Object.keys(ri) }) {
   return /* @__PURE__ */ s.createElement(
     sy,
     {
@@ -2643,15 +2643,15 @@ var za = /* @__PURE__ */ a(() => {
 }, "ToolbarManager");
 
 // global-externals:react-dom/client
-var o_ = __REACT_DOM_CLIENT__, { createRoot: Wa, hydrateRoot: r_ } = __REACT_DOM_CLIENT__;
+var t_ = __REACT_DOM_CLIENT__, { createRoot: Wa, hydrateRoot: o_ } = __REACT_DOM_CLIENT__;
 
 // global-externals:storybook/internal/manager-errors
-var i_ = __STORYBOOK_CORE_EVENTS_MANAGER_ERRORS__, { Category: s_, ProviderDoesNotExtendBaseProviderError: Va, StatusTypeIdMismatchError: a_,
-UncaughtManagerError: l_ } = __STORYBOOK_CORE_EVENTS_MANAGER_ERRORS__;
+var n_ = __STORYBOOK_CORE_EVENTS_MANAGER_ERRORS__, { Category: i_, ProviderDoesNotExtendBaseProviderError: Va, StatusTypeIdMismatchError: s_,
+UncaughtManagerError: a_ } = __STORYBOOK_CORE_EVENTS_MANAGER_ERRORS__;
 
 // global-externals:storybook/internal/router
-var c_ = __STORYBOOK_ROUTER__, { BaseLocationProvider: p_, DEEPLY_EQUAL: d_, Link: cr, Location: pr, LocationProvider: ja, Match: Ka, Route: To,
-buildArgsParam: f_, deepDiff: m_, getMatch: h_, parsePath: g_, queryFromLocation: y_, stringifyQuery: b_, useNavigate: $a } = __STORYBOOK_ROUTER__;
+var u_ = __STORYBOOK_ROUTER__, { BaseLocationProvider: c_, DEEPLY_EQUAL: p_, Link: cr, Location: pr, LocationProvider: ja, Match: Ka, Route: To,
+buildArgsParam: d_, deepDiff: f_, getMatch: m_, parsePath: h_, queryFromLocation: g_, stringifyQuery: y_, useNavigate: $a } = __STORYBOOK_ROUTER__;
 
 // ../node_modules/react-helmet-async/lib/index.module.js
 var ne = Ve(ni()), pl = Ve(el()), ui = Ve(ol()), dl = Ve(nl());
@@ -3235,8 +3235,8 @@ var ky = /* @__PURE__ */ a(function(t) {
       throw new Fe(72, i, t);
     return "" + r / n + t;
   };
-}, "pxtoFactory"), El = ky, w1 = El("em");
-var E1 = El("rem");
+}, "pxtoFactory"), El = ky, S1 = El("em");
+var w1 = El("rem");
 function hi(e) {
   return Math.round(e * 255);
 }
@@ -3628,7 +3628,7 @@ function Gy(e, t) {
   }));
 }
 a(Gy, "adjustHue");
-var T1 = ze(Gy);
+var E1 = ze(Gy);
 function ao(e, t, o) {
   return Math.max(e, Math.min(t, o));
 }
@@ -3650,7 +3650,7 @@ function Qy(e, t) {
   }));
 }
 a(Qy, "desaturate");
-var C1 = ze(Qy);
+var T1 = ze(Qy);
 function Xy(e, t) {
   if (t === "transparent") return t;
   var o = vt(t);
@@ -3686,7 +3686,7 @@ function tb(e, t) {
   return so(r);
 }
 a(tb, "opacify");
-var _1 = ze(tb);
+var C1 = ze(tb);
 function ob(e, t) {
   if (t === "transparent") return t;
   var o = vt(t);
@@ -3695,38 +3695,38 @@ function ob(e, t) {
   }));
 }
 a(ob, "saturate");
-var k1 = ze(ob);
+var _1 = ze(ob);
 function rb(e, t) {
   return t === "transparent" ? t : xt(j({}, vt(t), {
     hue: parseFloat(e)
   }));
 }
 a(rb, "setHue");
-var O1 = ze(rb);
+var k1 = ze(rb);
 function nb(e, t) {
   return t === "transparent" ? t : xt(j({}, vt(t), {
     lightness: parseFloat(e)
   }));
 }
 a(nb, "setLightness");
-var P1 = ze(nb);
+var O1 = ze(nb);
 function ib(e, t) {
   return t === "transparent" ? t : xt(j({}, vt(t), {
     saturation: parseFloat(e)
   }));
 }
 a(ib, "setSaturation");
-var A1 = ze(ib);
+var P1 = ze(ib);
 function sb(e, t) {
   return t === "transparent" ? t : Cl(parseFloat(e), "rgb(0, 0, 0)", t);
 }
 a(sb, "shade");
-var D1 = ze(sb);
+var A1 = ze(sb);
 function ab(e, t) {
   return t === "transparent" ? t : Cl(parseFloat(e), "rgb(255, 255, 255)", t);
 }
 a(ab, "tint");
-var M1 = ze(ab);
+var D1 = ze(ab);
 function lb(e, t) {
   if (t === "transparent") return t;
   var o = io(t), i = typeof o.alpha == "number" ? o.alpha : 1, r = j({}, o, {
@@ -3850,7 +3850,7 @@ ent"), bb = x(ee)(({ theme: e }) => ({
     }
   },
   /* @__PURE__ */ s.createElement(bo, { size: 12 })
-), "DismissNotificationItem"), j1 = x.div({
+), "DismissNotificationItem"), V1 = x.div({
   height: 48
 }), vb = /* @__PURE__ */ a(({
   notification: { content: e, duration: t, link: o, onClear: i, onClick: r, id: n, icon: l },
@@ -3944,8 +3944,8 @@ function ke(e, t) {
 a(ke, "_objectWithoutPropertiesLoose");
 
 // global-externals:react-dom
-var Ao = __REACT_DOM__, { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: uk, createPortal: ck, createRoot: pk, findDOMNode: dk, flushSync: Do,
-hydrate: fk, hydrateRoot: mk, render: hk, unmountComponentAtNode: gk, unstable_batchedUpdates: yk, unstable_renderSubtreeIntoContainer: bk, version: vk } = __REACT_DOM__;
+var Ao = __REACT_DOM__, { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: lk, createPortal: uk, createRoot: ck, findDOMNode: pk, flushSync: Do,
+hydrate: dk, hydrateRoot: fk, render: mk, unmountComponentAtNode: hk, unstable_batchedUpdates: gk, unstable_renderSubtreeIntoContainer: yk, version: bk } = __REACT_DOM__;
 
 // ../node_modules/react-transition-group/esm/config.js
 var Si = {
@@ -4723,7 +4723,7 @@ startsWith: !1 }, ({ match: t }) => /* @__PURE__ */ s.createElement(Kb, { shown:
 );
 
 // global-externals:storybook/internal/types
-var PO = __STORYBOOK_TYPES__, { Addon_TypesEnum: Ce } = __STORYBOOK_TYPES__;
+var OO = __STORYBOOK_TYPES__, { Addon_TypesEnum: Ce } = __STORYBOOK_TYPES__;
 
 // src/core-events/index.ts
 var Gl = /* @__PURE__ */ ((N) => (N.CHANNEL_WS_DISCONNECT = "channelWSDisconnect", N.CHANNEL_CREATED = "channelCreated", N.CONFIG_ERROR = "c\
@@ -4744,63 +4744,63 @@ progress", N.SELECT_STORY = "selectStory", N.STORIES_COLLAPSE_ALL = "storiesColl
 SAVE_STORY_RESPONSE = "saveStoryResponse", N.ARGTYPES_INFO_REQUEST = "argtypesInfoRequest", N.ARGTYPES_INFO_RESPONSE = "argtypesInfoResponse",
 N.CREATE_NEW_STORYFILE_REQUEST = "createNewStoryfileRequest", N.CREATE_NEW_STORYFILE_RESPONSE = "createNewStoryfileResponse", N))(Gl || {});
 var {
-  CHANNEL_WS_DISCONNECT: DO,
-  CHANNEL_CREATED: MO,
-  CONFIG_ERROR: LO,
-  CREATE_NEW_STORYFILE_REQUEST: NO,
-  CREATE_NEW_STORYFILE_RESPONSE: FO,
-  CURRENT_STORY_WAS_SET: RO,
-  DOCS_PREPARED: BO,
-  DOCS_RENDERED: HO,
-  FILE_COMPONENT_SEARCH_REQUEST: zO,
-  FILE_COMPONENT_SEARCH_RESPONSE: WO,
-  FORCE_RE_RENDER: VO,
-  FORCE_REMOUNT: jO,
-  GLOBALS_UPDATED: KO,
-  NAVIGATE_URL: $O,
-  PLAY_FUNCTION_THREW_EXCEPTION: UO,
-  UNHANDLED_ERRORS_WHILE_PLAYING: GO,
-  PRELOAD_ENTRIES: qO,
-  PREVIEW_BUILDER_PROGRESS: YO,
-  PREVIEW_KEYDOWN: QO,
-  REGISTER_SUBSCRIPTION: XO,
-  RESET_STORY_ARGS: ZO,
-  SELECT_STORY: JO,
-  SET_CONFIG: eP,
-  SET_CURRENT_STORY: tP,
-  SET_FILTER: oP,
-  SET_GLOBALS: rP,
-  SET_INDEX: nP,
-  SET_STORIES: iP,
-  SHARED_STATE_CHANGED: sP,
-  SHARED_STATE_SET: aP,
-  STORIES_COLLAPSE_ALL: lP,
-  STORIES_EXPAND_ALL: uP,
-  STORY_ARGS_UPDATED: cP,
-  STORY_CHANGED: pP,
-  STORY_ERRORED: dP,
-  STORY_INDEX_INVALIDATED: fP,
-  STORY_MISSING: mP,
+  CHANNEL_WS_DISCONNECT: AO,
+  CHANNEL_CREATED: DO,
+  CONFIG_ERROR: MO,
+  CREATE_NEW_STORYFILE_REQUEST: LO,
+  CREATE_NEW_STORYFILE_RESPONSE: NO,
+  CURRENT_STORY_WAS_SET: FO,
+  DOCS_PREPARED: RO,
+  DOCS_RENDERED: BO,
+  FILE_COMPONENT_SEARCH_REQUEST: HO,
+  FILE_COMPONENT_SEARCH_RESPONSE: zO,
+  FORCE_RE_RENDER: WO,
+  FORCE_REMOUNT: VO,
+  GLOBALS_UPDATED: jO,
+  NAVIGATE_URL: KO,
+  PLAY_FUNCTION_THREW_EXCEPTION: $O,
+  UNHANDLED_ERRORS_WHILE_PLAYING: UO,
+  PRELOAD_ENTRIES: GO,
+  PREVIEW_BUILDER_PROGRESS: qO,
+  PREVIEW_KEYDOWN: YO,
+  REGISTER_SUBSCRIPTION: QO,
+  RESET_STORY_ARGS: XO,
+  SELECT_STORY: ZO,
+  SET_CONFIG: JO,
+  SET_CURRENT_STORY: eP,
+  SET_FILTER: tP,
+  SET_GLOBALS: oP,
+  SET_INDEX: rP,
+  SET_STORIES: nP,
+  SHARED_STATE_CHANGED: iP,
+  SHARED_STATE_SET: sP,
+  STORIES_COLLAPSE_ALL: aP,
+  STORIES_EXPAND_ALL: lP,
+  STORY_ARGS_UPDATED: uP,
+  STORY_CHANGED: cP,
+  STORY_ERRORED: pP,
+  STORY_INDEX_INVALIDATED: dP,
+  STORY_MISSING: fP,
   STORY_PREPARED: ql,
-  STORY_RENDER_PHASE_CHANGED: hP,
-  STORY_RENDERED: gP,
-  STORY_FINISHED: yP,
-  STORY_SPECIFIED: bP,
-  STORY_THREW_EXCEPTION: vP,
-  STORY_UNCHANGED: xP,
-  STORY_HOT_UPDATED: IP,
-  UPDATE_GLOBALS: SP,
-  UPDATE_QUERY_PARAMS: wP,
-  UPDATE_STORY_ARGS: EP,
-  REQUEST_WHATS_NEW_DATA: TP,
-  RESULT_WHATS_NEW_DATA: CP,
-  SET_WHATS_NEW_CACHE: _P,
-  TOGGLE_WHATS_NEW_NOTIFICATIONS: kP,
-  TELEMETRY_ERROR: OP,
-  SAVE_STORY_REQUEST: PP,
-  SAVE_STORY_RESPONSE: AP,
-  ARGTYPES_INFO_REQUEST: DP,
-  ARGTYPES_INFO_RESPONSE: MP
+  STORY_RENDER_PHASE_CHANGED: mP,
+  STORY_RENDERED: hP,
+  STORY_FINISHED: gP,
+  STORY_SPECIFIED: yP,
+  STORY_THREW_EXCEPTION: bP,
+  STORY_UNCHANGED: vP,
+  STORY_HOT_UPDATED: xP,
+  UPDATE_GLOBALS: IP,
+  UPDATE_QUERY_PARAMS: SP,
+  UPDATE_STORY_ARGS: wP,
+  REQUEST_WHATS_NEW_DATA: EP,
+  RESULT_WHATS_NEW_DATA: TP,
+  SET_WHATS_NEW_CACHE: CP,
+  TOGGLE_WHATS_NEW_NOTIFICATIONS: _P,
+  TELEMETRY_ERROR: kP,
+  SAVE_STORY_REQUEST: OP,
+  SAVE_STORY_RESPONSE: PP,
+  ARGTYPES_INFO_REQUEST: AP,
+  ARGTYPES_INFO_RESPONSE: DP
 } = Gl;
 
 // src/manager/components/panel/Panel.tsx
@@ -5337,11 +5337,11 @@ var Ou = x.main({
     height: "100%"
   },
   ({ show: e }) => ({ display: e ? "grid" : "none" })
-), _D = x(cr)({
+), CD = x(cr)({
   color: "inherit",
   textDecoration: "inherit",
   display: "inline-block"
-}), kD = x.span({
+}), _D = x.span({
   // Hides full screen icon at mobile breakpoint defined in app.js
   "@media (max-width: 599px)": {
     display: "none"
@@ -7470,7 +7470,7 @@ var Q0 = x(Cn)({
   "status-value:error": [
     /* @__PURE__ */ s.createElement("svg", { key: "icon", viewBox: "0 0 14 14", width: "14", height: "14" }, /* @__PURE__ */ s.createElement(
     Me, { type: "error" })),
-    "brown"
+    "#D43900"
   ]
 }, Ho = /* @__PURE__ */ a((e) => Z0.reduce(
   (t, o) => e.includes(o) ? o : t,
@@ -9901,7 +9901,7 @@ function Qx(e) {
   return o;
 }
 a(Qx, "getItemIndexByCharacterKey");
-var PR = $t($t({}, ad), { items: Y.default.array.isRequired, isItemDisabled: Y.default.func }), Xx = $t($t({}, Wo), { isItemDisabled: /* @__PURE__ */ a(
+var OR = $t($t({}, ad), { items: Y.default.array.isRequired, isItemDisabled: Y.default.func }), Xx = $t($t({}, Wo), { isItemDisabled: /* @__PURE__ */ a(
 function() {
   return !1;
 }, "isItemDisabled") }), Zx = Re, nn = 0, ns = 1, is = 2, cn = 3, ss = 4, as = 5, ls = 6, us = 7, cs = 8, ps = 9, ds = 10, pn = 11, ud = 12,
@@ -10299,7 +10299,7 @@ function nI(e) {
   });
 }
 a(nI, "getInitialState$1");
-var AR = j({}, ad, {
+var PR = j({}, ad, {
   items: Y.default.array.isRequired,
   isItemDisabled: Y.default.func,
   inputValue: Y.default.string,
@@ -10704,7 +10704,7 @@ function mI(e, t) {
   return e.selectedItems === t.selectedItems && e.activeIndex === t.activeIndex;
 }
 a(mI, "isStateEqual");
-var DR = {
+var AR = {
   stateReducer: rn.stateReducer,
   itemToKey: rn.itemToKey,
   environment: rn.environment,
