@@ -252,7 +252,7 @@ popupInAPopup.parameters = {
   }
 
   .child-popup {
-    background-color: red;
+    background-color: var(--ring-error-container-light-color);
     text-align: center;
     margin: 8px;
   }
@@ -305,7 +305,9 @@ export const fitsScreen = () => {
     <div className="anchorBottom">
       Popup anchor on bottom
       <Popup maxHeight={1380}>
-        <div className="popupContent">
+        {/* Scrollable */}
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+        <div className="popupContent" tabIndex={0}>
           <div>Popup top</div>
           <div>popup bottom</div>
         </div>
