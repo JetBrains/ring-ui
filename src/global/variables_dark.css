@@ -142,10 +142,8 @@
   --ring-disabled-background-color: rgb(var(--ring-disabled-background-components)); /* #393B40 */
   --ring-disabled-selected-background-components: 67, 69, 74;
   --ring-disabled-selected-background-color: rgb(var(--ring-disabled-selected-background-components)); /* #43454A */
-  --ring-button-danger-active-components: 94, 56, 56;
-  --ring-button-danger-active-color: rgb(var(--ring-button-danger-active-components)); /* #5E3838 */
-  --ring-button-primary-background-components: 53, 116, 240;
-  --ring-button-primary-background-color: rgb(var(--ring-button-primary-background-components)); /* #3574F0 */
+  --ring-button-danger-active-color: var(--ring-error-container-light-color); /* TODO remove in 8.0 */
+  --ring-button-primary-background-color: var(--ring-main-color); /* TODO remove in 8.0 */
   --ring-table-loader-background-color: rgba(var(--ring-content-background-components), 0.5); /* #2B2D3050 */
   --ring-removed-subtle-background-components: 64, 41, 41;
   --ring-removed-subtle-background-color: rgb(var(--ring-removed-subtle-background-components)); /* #402929 */
