@@ -70,7 +70,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
             data-test="user-agreement"
           >
             <Header>{translations?.userAgreement ?? translate('userAgreement')}</Header>
-            <Content fade onScrollToBottom={this.onScrollToBottom}>
+            <Content tabIndex={0} fade onScrollToBottom={this.onScrollToBottom}>
               {children}
             </Content>
             {!preview && (

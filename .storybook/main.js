@@ -20,11 +20,7 @@ export default {
     actions: false,
   },
 
-  addons: [
-    '@storybook/addon-docs',
-    !process.env.SKIP_A11Y_ADDON && '@storybook/addon-a11y',
-    '@storybook/addon-themes',
-  ].filter(Boolean),
+  addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-themes'],
 
   webpackFinal(config) {
     ringConfig.componentsPath.push(__dirname, path.resolve(__dirname, '../src'));
