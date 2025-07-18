@@ -1389,7 +1389,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run typecheck-ci
                 npm run test-ci
                 npm run build
-                SKIP_A11Y_ADDON=true npm run build-stories
+                npm run build-stories
             """.trimIndent()
             dockerImage = "node:22"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux

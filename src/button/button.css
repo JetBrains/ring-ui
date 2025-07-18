@@ -273,6 +273,12 @@
 
   composes: flat;
 
+  &:hover,
+  &:active,
+  &.active {
+    --ring-button-text-color: var(--ring-text-color);
+  }
+
   &.inline {
     &:hover {
     --ring-button-background-color: var(--ring-tag-background-color);

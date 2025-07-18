@@ -1,5 +1,8 @@
 @import "../global/variables.css";
 
+/* ensure style order */
+@import "../link/link.css";
+
 .list {
   position: relative;
 
