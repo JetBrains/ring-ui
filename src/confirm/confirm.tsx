@@ -6,8 +6,6 @@ import Button from '../button/button';
 import {Content, Header} from '../island/island';
 import Panel from '../panel/panel';
 
-import styles from './confirm.css';
-
 export interface ConfirmProps {
   text: string;
   description: ReactNode;
@@ -73,11 +71,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
         native={native}
       >
         {text && <Header>{text}</Header>}
-        {description && (
-          <Content>
-            <div className={styles.description}>{description}</div>
-          </Content>
-        )}
+        {description && <Content>{description}</Content>}
         <Panel>
           <Button
             data-test="confirm-ok-button"

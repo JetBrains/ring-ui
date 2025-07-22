@@ -1,7 +1,0 @@
-@import "../global/variables.css";
-
-.description {
-  margin-top: var(--ring-unit);
-
-  font-size: var(--ring-font-size);
-}
