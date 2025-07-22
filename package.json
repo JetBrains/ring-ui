@@ -141,7 +141,7 @@
     "chai": "^5.2.1",
     "chai-as-promised": "^8.0.1",
     "chai-dom": "^1.12.1",
-    "cheerio": "^1.1.0",
+    "cheerio": "^1.1.2",
     "chromatic": "^13.1.2",
     "core-js": "^3.44.0",
     "cpy-cli": "^5.0.0",
