@@ -51697,7 +51697,7 @@ Ct();
 var WK = N(Wa(), 1), An = N(zK(), 1);
 
 // src/manager-api/version.ts
-var UK = "9.0.17";
+var UK = "9.0.18";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: iIe } = Z, VK = (0, WK.default)(1)(() => {
