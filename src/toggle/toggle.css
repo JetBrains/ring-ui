@@ -40,6 +40,8 @@
 
 .switchWrapper {
   position: relative;
+
+  flex-shrink: 0;
 }
 
 .input {
