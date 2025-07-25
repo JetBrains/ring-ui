@@ -4,7 +4,6 @@ import {Component} from 'storybook/internal/docs-tools';
 import {Parameters} from '@storybook/react-webpack5';
 
 import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
-import listStyles from '../src/list/list.css';
 import queryAssistStyles from '../src/query-assist/query-assist.css';
 import tagStyles from '../src/tag/tag.css';
 import selectStyles from '../src/select/select.css';
@@ -29,9 +28,6 @@ const selectorsWithColorContrastIssues = [
   `.${queryAssistStyles.placeholder.split(' ')[0]}`,
   `.${selectStyles.buttonValueEmpty}`,
   `.${userCardStyles.banLabel} > .${tagStyles.content.split(' ')[0]}`,
-  `.${listStyles.description}`,
-  `.${listStyles.separator}`,
-  `.${listStyles.label}`,
 ].filter(Boolean);
 
 export const parameters = {

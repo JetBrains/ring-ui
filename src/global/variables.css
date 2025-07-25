@@ -153,7 +153,7 @@
   --ring-disabled-background-color: rgb(var(--ring-disabled-background-components)); /* #F7F8FA */
   --ring-disabled-selected-background-components: 235, 236, 240;
   --ring-disabled-selected-background-color: rgb(var(--ring-disabled-selected-background-components)); /* #EBECF0 */
-  --ring-button-danger-active-color: var(--ring-error-container-light-color); /* TODO remove in 8.0 */
+  --ring-button-danger-active-color: var(--ring-error-container-light-color); /* #FAD4D8 */
   --ring-button-loader-background: rgba(var(--ring-white-text-components), 0.4); /* TODO remove in 8.0 */
   --ring-button-primary-background-color: var(--ring-main-color); /* TODO remove in 8.0 */
   --ring-table-loader-background-color: rgba(var(--ring-content-background-components), 0.5); /* #FFFFFF50 */

@@ -207,6 +207,18 @@
             "rootAlias": "Light/Blue/20"
           },
           {
+            "name": "ring-main-purple-color",
+            "value": "#834df0",
+            "var": "Light/Purple/40",
+            "rootAlias": "Light/Purple/40"
+          },
+          {
+            "name": "ring-main-purple-hover-color",
+            "value": "#7444d4",
+            "var": "Light/Purple/30",
+            "rootAlias": "Light/Purple/30"
+          },
+          {
             "name": "ring-main-success-color",
             "value": "#1f8039",
             "var": "Light/Green/30",
@@ -235,6 +247,36 @@
             "value": "#ffffff",
             "var": "Light/Gray/140",
             "rootAlias": "Light/Gray/140"
+          },
+          {
+            "name": "ring-purple-background-color",
+            "value": "#efe5ff",
+            "var": "Light/Purple/80",
+            "rootAlias": "Light/Purple/80"
+          },
+          {
+            "name": "ring-purple-border-color",
+            "value": "#bfa1f8",
+            "var": "Light/Purple/60",
+            "rootAlias": "Light/Purple/60"
+          },
+          {
+            "name": "ring-purple-border-hover-color",
+            "value": "#a177f4",
+            "var": "Light/Purple/50",
+            "rootAlias": "Light/Purple/50"
+          },
+          {
+            "name": "ring-purple-container-light-color",
+            "value": "#fbf8ff",
+            "var": "Light/Purple/100",
+            "rootAlias": "Light/Purple/100"
+          },
+          {
+            "name": "ring-purple-subtle-background-color",
+            "value": "#faf5ff",
+            "var": "Light/Purple/90",
+            "rootAlias": "Light/Purple/90"
           },
           {
             "name": "ring-removed-subtle-background-color",
@@ -668,6 +710,18 @@
             "rootAlias": "Dark/Blue/40"
           },
           {
+            "name": "ring-main-purple-color",
+            "value": "#955ae0",
+            "var": "Dark/Purple/60",
+            "rootAlias": "Dark/Purple/60"
+          },
+          {
+            "name": "ring-main-purple-hover-color",
+            "value": "#8150be",
+            "var": "Dark/Purple/50",
+            "rootAlias": "Dark/Purple/50"
+          },
+          {
             "name": "ring-main-success-color",
             "value": "#4e8052",
             "var": "Dark/Green/40",
@@ -693,9 +747,39 @@
           },
           {
             "name": "ring-popup-background-color",
-            "value": "#393b40",
-            "var": "Dark/Gray/30",
-            "rootAlias": "Dark/Gray/30"
+            "value": "#2b2d30",
+            "var": "Dark/Gray/20",
+            "rootAlias": "Dark/Gray/20"
+          },
+          {
+            "name": "ring-purple-background-color",
+            "value": "#433358",
+            "var": "Dark/Purple/20",
+            "rootAlias": "Dark/Purple/20"
+          },
+          {
+            "name": "ring-purple-border-color",
+            "value": "#583d7a",
+            "var": "Dark/Purple/30",
+            "rootAlias": "Dark/Purple/30"
+          },
+          {
+            "name": "ring-purple-border-hover-color",
+            "value": "#6c469c",
+            "var": "Dark/Purple/40",
+            "rootAlias": "Dark/Purple/40"
+          },
+          {
+            "name": "ring-purple-container-light-color",
+            "value": "#2b2531",
+            "var": "Dark/Purple/5",
+            "rootAlias": "Dark/Purple/5"
+          },
+          {
+            "name": "ring-purple-subtle-background-color",
+            "value": "#2f2936",
+            "var": "Dark/Purple/10",
+            "rootAlias": "Dark/Purple/10"
           },
           {
             "name": "ring-removed-subtle-background-color",

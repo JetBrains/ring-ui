@@ -1,10 +1,12 @@
 @import "../global/variables.css";
 
 :root {
+  --ring-tooltip-background-color: var(--ring-content-background-color);
   --ring-tooltip-text-color: var(--ring-text-color);
 }
 
 :global(.ring-ui-theme-dark) {
+  --ring-tooltip-background-color: var(--ring-grey-container-light-color);
   --ring-tooltip-text-color: var(--ring-white-text-color);
 }
 
@@ -16,6 +18,7 @@
 
   color: var(--ring-tooltip-text-color);
   border-color: var(--ring-line-color);
+  background-color: var(--ring-tooltip-background-color);
   box-shadow: 0 2px 8px var(--ring-popup-shadow-color);
 }
 
