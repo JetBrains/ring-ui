@@ -364,9 +364,9 @@
           },
           {
             "name": "ring-warning-color",
-            "value": "#ce6117",
-            "var": "Light/Orange/30",
-            "rootAlias": "Light/Orange/30"
+            "value": "#b85516",
+            "var": "Light/Orange/20",
+            "rootAlias": "Light/Orange/20"
           },
           {
             "name": "ring-warning-container-light-color",
