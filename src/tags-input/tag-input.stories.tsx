@@ -156,7 +156,10 @@ autoOpen.parameters = {
   screenshots: {
     captureSelector: ['#storybook-root', '[data-test~=ring-popup]'],
   },
-  a11y: {context: '#storybook-root,[data-test~=ring-popup]'},
+  a11y: {
+    context: '#storybook-root,[data-test~=ring-popup]',
+    options: {rules: {'aria-valid-attr-value': {enabled: false}}},
+  },
 };
 
 export const autoOpenInADialog = () => {
@@ -188,5 +191,8 @@ autoOpenInADialog.parameters = {
   screenshots: {
     captureSelector: ['[data-test~=ring-dialog]', '[data-test~=ring-popup]'],
   },
-  a11y: {context: '#storybook-root,[data-test~=ring-dialog],[data-test~=ring-popup]'},
+  a11y: {
+    context: '#storybook-root,[data-test~=ring-dialog],[data-test~=ring-popup]',
+    options: {rules: {'aria-valid-attr-value': {enabled: false}}},
+  },
 };

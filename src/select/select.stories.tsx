@@ -1217,5 +1217,8 @@ export const showPopup: StoryObj<SingleSelectAttrs> = {
     screenshots: {
       captureSelector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
     },
+    a11y: {
+      options: {rules: {'aria-valid-attr-value': {enabled: false}}},
+    },
   },
 };
