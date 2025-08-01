@@ -458,6 +458,7 @@ var n = {
     "queryHelpers",
     "resetAllMocks",
     "restoreAllMocks",
+    "sb",
     "screen",
     "spyOn",
     "uninstrumentedUserEvent",
