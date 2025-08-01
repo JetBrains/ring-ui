@@ -51,6 +51,10 @@
   --ring-main-warning-color: rgb(var(--ring-main-warning-components)); /* #E56D17 */
   --ring-main-warning-hover-components: 206, 97, 23;
   --ring-main-warning-hover-color: rgb(var(--ring-main-warning-hover-components)); /* #CE6117 */
+  --ring-main-purple-components: 131, 77, 240;
+  --ring-main-purple-color: rgb(var(--ring-main-purple-components)); /* #834DF0 */
+  --ring-main-purple-hover-components: 116, 68, 212;
+  --ring-main-purple-hover-color: rgb(var(--ring-main-purple-hover-components)); /* #7444D4 */
   --ring-icon-error-components: 204, 54, 69;
   --ring-icon-error-color: rgb(var(--ring-icon-error-components)); /* #CC3645 */
   --ring-icon-warning-components: 229, 109, 23;
@@ -77,6 +81,10 @@
   --ring-highlight-border-color: rgb(var(--ring-highlight-border-components)); /* #FED277 */
   --ring-highlight-border-hover-components: 253, 189, 61;
   --ring-highlight-border-hover-color: rgb(var(--ring-highlight-border-hover-components)); /* #FDBD3D */
+  --ring-purple-border-components: 191, 161, 248;
+  --ring-purple-border-color: rgb(var(--ring-purple-border-components)); /* #BFA1F8 */
+  --ring-purple-border-hover-components: 161, 119, 244;
+  --ring-purple-border-hover-color: rgb(var(--ring-purple-border-hover-components)); /* #A177F4 */
   --ring-pale-control-components: 194, 214, 252;
   --ring-pale-control-color: rgb(var(--ring-pale-control-components)); /* #C2D6FC */
   --ring-popup-border-components: 0, 28, 54;
@@ -149,6 +157,8 @@
   --ring-highlight-background-color: rgb(var(--ring-highlight-background-components)); /* #FFF1D1 */
   --ring-added-background-components: 197, 229, 204;
   --ring-added-background-color: rgb(var(--ring-added-background-components)); /* #C5E5CC */
+  --ring-purple-background-components: 239, 229, 255;
+  --ring-purple-background-color: rgb(var(--ring-purple-background-components)); /* #EFE5FF */
   --ring-disabled-background-components: 247, 248, 250;
   --ring-disabled-background-color: rgb(var(--ring-disabled-background-components)); /* #F7F8FA */
   --ring-disabled-selected-background-components: 235, 236, 240;
@@ -165,6 +175,8 @@
   --ring-highlight-subtle-background-color: rgb(var(--ring-highlight-subtle-background-components)); /* #FFF6DE */
   --ring-added-subtle-background-components: 230, 247, 233;
   --ring-added-subtle-background-color: rgb(var(--ring-added-subtle-background-components)); /* #E6F7E9 */
+  --ring-purple-subtle-background-components: 250, 245, 255;
+  --ring-purple-subtle-background-color: rgb(var(--ring-purple-subtle-background-components)); /* #FAF5FF */
   --ring-main-container-light-components: 245, 248, 254;
   --ring-main-container-light-color: rgb(var(--ring-main-container-light-components)); /* #F5F8FE */
   --ring-success-container-light-components: 242, 252, 243;
@@ -175,10 +187,12 @@
   --ring-warning-container-light-color: rgb(var(--ring-warning-container-light-components)); /* #FFF8F3 */
   --ring-highlight-container-light-components: 255, 250, 235;
   --ring-highlight-container-light-color: rgb(var(--ring-highlight-container-light-components)); /* #FFFAEB */
-  --ring-highlight-fill-components: 255, 175, 15;
-  --ring-highlight-fill-color: rgb(var(--ring-highlight-fill-components)); /* #FFAF0F */
   --ring-grey-container-light-components: 247, 248, 250;
   --ring-grey-container-light-color: rgb(var(--ring-grey-container-light-components)); /* #F7F8FA */
+  --ring-purple-container-light-components: 251, 248, 255;
+  --ring-purple-container-light-color: rgb(var(--ring-purple-container-light-components)); /* #FBF8FF */
+  --ring-highlight-fill-components: 255, 175, 15;
+  --ring-highlight-fill-color: rgb(var(--ring-highlight-fill-components)); /* #FFAF0F */
   --ring-grey-fill-components: 39, 40, 46;
   --ring-grey-fill-color: rgb(var(--ring-grey-fill-components)); /* #27282E */
   --ring-grey-fill-accent-components: 56, 58, 66;

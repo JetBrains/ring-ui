@@ -96,6 +96,8 @@ const renderColors = () => (
       <ColorItem propName="--ring-main-error-hover-color" />
       <ColorItem propName="--ring-main-warning-color" />
       <ColorItem propName="--ring-main-warning-hover-color" />
+      <ColorItem propName="--ring-main-purple-color" />
+      <ColorItem propName="--ring-main-purple-hover-color" />
       <ColorItem propName="--ring-icon-error-color" />
       <ColorItem propName="--ring-icon-warning-color" />
       <ColorItem propName="--ring-icon-success-color" />
@@ -109,6 +111,8 @@ const renderColors = () => (
       <ColorItem propName="--ring-warning-border-hover-color" />
       <ColorItem propName="--ring-highlight-border-color" />
       <ColorItem propName="--ring-highlight-border-hover-color" />
+      <ColorItem propName="--ring-purple-border-color" />
+      <ColorItem propName="--ring-purple-border-hover-color" />
       <ColorItem propName="--ring-pale-control-color" />
       <ColorItem propName="--ring-popup-border-color" />
       <ColorItem propName="--ring-popup-shadow-color" />
@@ -151,6 +155,7 @@ const renderColors = () => (
       <ColorItem propName="--ring-warning-background-color" />
       <ColorItem propName="--ring-highlight-background-color" />
       <ColorItem propName="--ring-added-background-color" />
+      <ColorItem propName="--ring-purple-background-color" />
       <ColorItem propName="--ring-disabled-background-color" />
       <ColorItem propName="--ring-disabled-selected-background-color" />
       <ColorItem propName="--ring-button-danger-active-color" />
@@ -160,13 +165,15 @@ const renderColors = () => (
       <ColorItem propName="--ring-warning-subtle-background-color" />
       <ColorItem propName="--ring-highlight-subtle-background-color" />
       <ColorItem propName="--ring-added-subtle-background-color" />
+      <ColorItem propName="--ring-purple-subtle-background-color" />
       <ColorItem propName="--ring-main-container-light-color" />
       <ColorItem propName="--ring-success-container-light-color" />
       <ColorItem propName="--ring-error-container-light-color" />
       <ColorItem propName="--ring-warning-container-light-color" />
       <ColorItem propName="--ring-highlight-container-light-color" />
-      <ColorItem propName="--ring-highlight-fill-color" />
       <ColorItem propName="--ring-grey-container-light-color" />
+      <ColorItem propName="--ring-purple-container-light-color" />
+      <ColorItem propName="--ring-highlight-fill-color" />
       <ColorItem propName="--ring-grey-fill-color" />
       <ColorItem propName="--ring-grey-fill-accent-color" />
     </div>
