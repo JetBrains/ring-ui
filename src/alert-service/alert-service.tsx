@@ -16,7 +16,7 @@ export interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
  * @name Alert Service
  */
 
-class AlertService {
+export class AlertService {
   defaultTimeout = 0;
   // This alerts are stored in inverse order (last shown is first in array)
   showingAlerts: AlertItem[] = [];
