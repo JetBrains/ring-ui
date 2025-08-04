@@ -4,7 +4,7 @@
 [![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)](https://github.com/JetBrains#jetbrains-on-github)
 
 - [Design guildelines](https://www.jetbrains.com/help/ring-ui/welcome.html)
-- [Figma library[(https://www.figma.com/design/j7UivSrGze5xCDKrqzR7Fa/RingUI--Community)
+- [Figma library](https://www.figma.com/design/j7UivSrGze5xCDKrqzR7Fa/RingUI--Community)
 - [Usage examples in Storybook][docsite]
 - [GitHub repository](https://github.com/JetBrains/ring-ui)
 - [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
