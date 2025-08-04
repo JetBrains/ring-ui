@@ -69014,7 +69014,7 @@ Ct();
 var Ome = N(Wa(), 1), Nn = N(Pme(), 1);
 
 // src/manager-api/version.ts
-var Tme = "9.1.0";
+var Tme = "9.1.1";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: bst } = Z, Ame = (0, Ome.default)(1)(() => {
