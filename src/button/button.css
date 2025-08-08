@@ -43,7 +43,7 @@
   --ring-button-background-color: var(--ring-button-default-background-color);
   --ring-button-hover-background-color: var(--ring-content-background-color);
   --ring-button-pressed-background-color: var(--ring-selected-background-color);
-  --ring-button-active-background-color: var(--ring-hover-background-color);
+  --ring-button-active-background-color: var(--ring-main-container-light-color);
   --ring-button-disabled-background-color: var(--ring-button-default-background-color);
 
   box-sizing: border-box;
