@@ -4,7 +4,7 @@ import {act, ReactElement} from 'react';
 
 import Alert from '../alert/alert';
 
-import alert from './alert-service';
+import alert, {DEFAULT_ALERT_TIMEOUT} from './alert-service';
 
 const SMALL_TICK = 1000;
 const BIG_TICK = 2000;
@@ -27,7 +27,7 @@ describe('Alert Service', () => {
   });
 
   afterEach(() => {
-    alert.setDefaultTimeout(0);
+    alert.setDefaultTimeout(DEFAULT_ALERT_TIMEOUT);
     alert.removeWithoutAnimation(alertKey);
   });
 
@@ -37,7 +37,7 @@ describe('Alert Service', () => {
 
     expect('foo').to.equal(alertItem.message);
     expect(Alert.Type.MESSAGE).to.equal(alertItem.type);
-    expect(0).to.equal(alertItem.timeout);
+    expect(DEFAULT_ALERT_TIMEOUT).to.equal(alertItem.timeout);
     expect(false).to.equal(alertItem.isClosing);
   });
 
