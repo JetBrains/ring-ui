@@ -12,12 +12,14 @@ export interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
   ref?: Ref<Alert>;
 }
 
+export const DEFAULT_ALERT_TIMEOUT = 10000; // 10 seconds
+
 /**
  * @name Alert Service
  */
 
 export class AlertService {
-  defaultTimeout = 0;
+  defaultTimeout = DEFAULT_ALERT_TIMEOUT;
   // This alerts are stored in inverse order (last shown is first in array)
   showingAlerts: AlertItem[] = [];
   containerElement = document.createElement('div');
