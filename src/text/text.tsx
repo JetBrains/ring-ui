@@ -3,7 +3,13 @@ import classNames from 'classnames';
 
 import styles from './text.css';
 
-type TextSize = 's' | 'm' | 'l';
+const TextSizes = {
+  S: 's',
+  M: 'm',
+  L: 'l',
+} as const;
+
+type TextSize = (typeof TextSizes)[keyof typeof TextSizes];
 
 export interface TextProps extends HTMLAttributes<HTMLElement> {
   info?: boolean | null | undefined;
@@ -12,18 +18,16 @@ export interface TextProps extends HTMLAttributes<HTMLElement> {
   bold?: boolean | null | undefined;
 }
 
-const TextSize: Record<string, TextSize> = {
-  S: 's',
-  M: 'm',
-  L: 'l',
-};
-
 /**
  * @name Text
  */
 
 export default class Text extends Component<TextProps> {
-  static Size = TextSize;
+  static defaultProps = {
+    size: TextSizes.M,
+  };
+
+  static Size = TextSizes;
 
   render() {
     const {children, className, info, size, bold, ...restProps} = this.props;
