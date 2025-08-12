@@ -135,7 +135,7 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
     let moreLessButton;
     if (showMoreLessButton === moreLessButtonStates.MORE || showMoreLessButton === moreLessButtonStates.MORE_LOADING) {
       moreLessButton = (
-        <Text info>
+        <Text info size={Text.Size.S}>
           <Link inherit pseudo onClick={this.onShowMore}>
             {'Show more'}
           </Link>
@@ -146,7 +146,7 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
       );
     } else if (showMoreLessButton === moreLessButtonStates.LESS) {
       moreLessButton = (
-        <Text info>
+        <Text info size={Text.Size.S}>
           <Link inherit pseudo onClick={this.onShowLess}>
             {'Show less'}
           </Link>
