@@ -39,8 +39,8 @@ export interface InputTranslations {
 }
 
 export interface InputBaseProps {
-  size: Size;
-  enableShortcuts: boolean | string[];
+  size?: Size;
+  enableShortcuts?: boolean | string[];
   children?: string | undefined;
   inputClassName?: string | null | undefined;
   label?: ReactNode;
@@ -61,11 +61,11 @@ type Override<D, S> = Omit<D, keyof S> & S;
 
 export type InputSpecificProps = Override<InputHTMLAttributes<HTMLInputElement>, InputBaseProps> & {
   multiline?: false | undefined;
-  inputRef: Ref<HTMLInputElement>;
+  inputRef?: Ref<HTMLInputElement>;
 };
 type TextAreaSpecificProps = Override<TextareaHTMLAttributes<HTMLTextAreaElement>, InputBaseProps> & {
   multiline: true;
-  inputRef: Ref<HTMLTextAreaElement>;
+  inputRef?: Ref<HTMLTextAreaElement>;
 };
 
 export type InputProps = InputSpecificProps | TextAreaSpecificProps;
