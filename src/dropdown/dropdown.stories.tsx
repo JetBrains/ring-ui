@@ -32,7 +32,7 @@ export default {
 
 export const basic = () => (
   <Dropdown anchor="Click me">
-    <Popup>Popup content</Popup>
+    <Popup cssPositioning>Popup content</Popup>
   </Dropdown>
 );
 
@@ -40,7 +40,7 @@ basic.storyName = 'basic';
 
 export const withCustomAnchorAndPopup = () => (
   <Dropdown anchor={<Button delayed>Edit</Button>}>
-    <PopupMenu closeOnSelect data={['Cut', 'Copy', 'Paste'].map(label => ({label}))} />
+    <PopupMenu closeOnSelect cssPositioning data={['Cut', 'Copy', 'Paste'].map(label => ({label}))} />
   </Dropdown>
 );
 
@@ -65,6 +65,7 @@ export const withCustomAnchorAndPopupAndContentAccessibilityHandling = () => {
         )}
       >
         <PopupMenu
+          cssPositioning
           id={listId}
           ariaLabel="My options menu"
           closeOnSelect
@@ -80,7 +81,7 @@ withCustomAnchorAndPopup.storyName = 'with custom anchor and popup';
 
 export const withActiveClassName = () => (
   <Dropdown className="chevron" activeClassName="rotated" anchor={<Button title="Details" icon={chevronDownIcon} />}>
-    <Popup>Popup content</Popup>
+    <Popup cssPositioning>Popup content</Popup>
   </Dropdown>
 );
 
@@ -103,7 +104,7 @@ withActiveClassName.parameters = {
 
 export const withHoverMode = () => (
   <Dropdown anchor="Hover over me" hoverMode>
-    <Popup>
+    <Popup cssPositioning>
       <div>Outer popup</div>
     </Popup>
   </Dropdown>
@@ -113,7 +114,7 @@ withHoverMode.storyName = 'with hover mode';
 
 export const withHoverModeAndDisabledClickMode = () => (
   <Dropdown anchor={<Link href="">Hover over me</Link>} clickMode={false} hoverMode>
-    <Popup>Popup content</Popup>
+    <Popup cssPositioning>Popup content</Popup>
   </Dropdown>
 );
 
@@ -124,7 +125,7 @@ export const autofocusOnOpen = () => (
   <div>
     <div style={{height: '90vh'}} />
     <Dropdown anchor="Scroll and then click me">
-      <Popup trapFocus autoFocusFirst>
+      <Popup trapFocus autoFocusFirst cssPositioning>
         <Input className="ring-js-shortcuts" />
       </Popup>
     </Dropdown>
@@ -138,7 +139,7 @@ autofocusOnOpen.parameters = {screenshots: {skip: true}};
 export const renderProps = () => (
   <Dropdown anchor="Click me">
     {props => (
-      <Popup {...props}>
+      <Popup {...props} cssPositioning>
         <Button onClick={props.onCloseAttempt} inline>
           Close
         </Button>

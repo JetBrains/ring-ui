@@ -48,6 +48,7 @@ const PopupComponent = ({
   ...restProps
 }: PopupComponentProps) => (
   <Popup
+    cssPositioning
     hidden={hidden}
     className={className}
     ref={popupRef}
@@ -274,6 +275,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
       >
         <PopupComponent
           className={popupClassName}
+          cssPositioning
           popupRef={this.popupRef}
           onClear={clear ? this.clear : null}
           datePopupProps={{
