@@ -1167,7 +1167,7 @@ multipleWithLimit.parameters = {screenshots: {skip: true}};
 
 export const selectInPopup: StoryFn<SingleSelectAttrs> = args => (
   <Dropdown anchor="Open dropdown">
-    <Popup className={'popup-test-class'} maxHeight={100}>
+    <Popup className={'popup-test-class'} cssPositioning maxHeight={100}>
       <Select {...args} />
     </Popup>
   </Dropdown>
