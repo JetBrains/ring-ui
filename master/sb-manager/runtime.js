@@ -4249,7 +4249,7 @@ var Bl = /* @__PURE__ */ a(() => {
     createElement(
       Fl,
       {
-        href: "https://storybook.js.org/docs/react/get-started/install/",
+        href: "https://storybook.js.org/docs/get-started/install/?ref=ui",
         target: "_blank"
       },
       /* @__PURE__ */ s.createElement(Rl, null, /* @__PURE__ */ s.createElement(qn, null), /* @__PURE__ */ s.createElement("span", null, "Do\
@@ -4970,8 +4970,8 @@ var ki = Pi, Oi = s.memo(
             title: "Storybook add-ons",
             description: /* @__PURE__ */ s.createElement(s.Fragment, null, "Integrate your tools with Storybook to connect workflows and unl\
 ock advanced features."),
-            footer: /* @__PURE__ */ s.createElement(Pe, { href: "https://storybook.js.org/integrations", target: "_blank", withArrow: !0 }, /* @__PURE__ */ s.
-            createElement(Pt, null), " Explore integrations catalog")
+            footer: /* @__PURE__ */ s.createElement(Pe, { href: "https://storybook.js.org/addons?ref=ui", target: "_blank", withArrow: !0 },
+            /* @__PURE__ */ s.createElement(Pt, null), " Explore integrations catalog")
           }
         ),
         tools: /* @__PURE__ */ s.createElement(Zb, null, l ? /* @__PURE__ */ s.createElement(s.Fragment, null, /* @__PURE__ */ s.createElement(
@@ -7289,8 +7289,8 @@ l", variant: "outline", onClick: n }, /* @__PURE__ */ s.createElement(xo, null),
     tooltip: /* @__PURE__ */ s.createElement(R0, null, /* @__PURE__ */ s.createElement(ka, { error: e }))
   },
   /* @__PURE__ */ s.createElement(Pe, { isButton: !0 }, "View error ", /* @__PURE__ */ s.createElement(Ot, null))
-), " ", /* @__PURE__ */ s.createElement(Pe, { withArrow: !0, href: "https://storybook.js.org/docs", cancel: !1, target: "_blank" }, "View do\
-cs")))), "ErrorBlock"), B0 = I(pt)({
+), " ", /* @__PURE__ */ s.createElement(Pe, { withArrow: !0, href: "https://storybook.js.org/docs?ref=ui", cancel: !1, target: "_blank" }, "\
+View docs")))), "ErrorBlock"), B0 = I(pt)({
   display: "flex"
 }), H0 = I(pt)({
   flex: 1
@@ -7469,9 +7469,16 @@ book"), /* @__PURE__ */ s.createElement("div", null, "Explore ", t, " components
  need to authenticate to view this Storybook's components.")));
 }, "LoginRequiredMessage"), Q0 = /* @__PURE__ */ a(() => {
   let e = De();
-  return /* @__PURE__ */ s.createElement(jt, { href: "https://storybook.js.org/docs/sharing/storybook-composition", target: "_blank" }, /* @__PURE__ */ s.
-  createElement(Pt, { color: e.color.green }), /* @__PURE__ */ s.createElement("div", null, /* @__PURE__ */ s.createElement(Vt, null, "Read \
-Composition docs"), /* @__PURE__ */ s.createElement("div", null, "Learn how to combine multiple Storybooks into one.")));
+  return /* @__PURE__ */ s.createElement(
+    jt,
+    {
+      href: "https://storybook.js.org/docs/sharing/storybook-composition?ref=ui",
+      target: "_blank"
+    },
+    /* @__PURE__ */ s.createElement(Pt, { color: e.color.green }),
+    /* @__PURE__ */ s.createElement("div", null, /* @__PURE__ */ s.createElement(Vt, null, "Read Composition docs"), /* @__PURE__ */ s.createElement(
+    "div", null, "Learn how to combine multiple Storybooks into one."))
+  );
 }, "ReadDocsMessage"), X0 = /* @__PURE__ */ a(({ url: e }) => {
   let t = De();
   return /* @__PURE__ */ s.createElement(jt, { href: e.replace(/\/?$/, "/index.html"), target: "_blank" }, /* @__PURE__ */ s.createElement(go,
@@ -7484,9 +7491,16 @@ Composition docs"), /* @__PURE__ */ s.createElement("div", null, "Learn how to c
   createElement("div", null, "This Storybook is loading.")));
 }, "LoadingMessage"), J0 = /* @__PURE__ */ a(() => {
   let e = De();
-  return /* @__PURE__ */ s.createElement(jt, { href: "https://storybook.js.org/docs/sharing/storybook-composition", target: "_blank" }, /* @__PURE__ */ s.
-  createElement(zn, { color: e.color.gold }), /* @__PURE__ */ s.createElement("div", null, /* @__PURE__ */ s.createElement(Vt, null, "Reduce\
- lag"), /* @__PURE__ */ s.createElement("div", null, "Learn how to speed up Composition performance.")));
+  return /* @__PURE__ */ s.createElement(
+    jt,
+    {
+      href: "https://storybook.js.org/docs/sharing/storybook-composition?ref=ui",
+      target: "_blank"
+    },
+    /* @__PURE__ */ s.createElement(zn, { color: e.color.gold }),
+    /* @__PURE__ */ s.createElement("div", null, /* @__PURE__ */ s.createElement(Vt, null, "Reduce lag"), /* @__PURE__ */ s.createElement("d\
+iv", null, "Learn how to speed up Composition performance."))
+  );
 }, "PerformanceDegradedMessage");
 
 // src/manager/components/sidebar/IconSymbols.tsx
@@ -12628,10 +12642,10 @@ var LS = I.div({
 /* @__PURE__ */ s.createElement(sr, { alt: "Storybook" })), /* @__PURE__ */ s.createElement(Er, { onNavigateToWhatsNew: e }), /* @__PURE__ */ s.
 createElement(FS, null, /* @__PURE__ */ s.createElement(RS, null, /* @__PURE__ */ s.createElement(he, { asChild: !0 }, /* @__PURE__ */ s.createElement(
 "a", { href: "https://github.com/storybookjs/storybook" }, /* @__PURE__ */ s.createElement(vo, null), "GitHub")), /* @__PURE__ */ s.createElement(
-he, { asChild: !0 }, /* @__PURE__ */ s.createElement("a", { href: "https://storybook.js.org/docs" }, /* @__PURE__ */ s.createElement(Pt, { style: {
-display: "inline", marginRight: 5 } }), "Documentation"))), /* @__PURE__ */ s.createElement("div", null, "Open source software maintained by",
-" ", /* @__PURE__ */ s.createElement(Jd, { href: "https://www.chromatic.com/" }, "Chromatic"), " and the", " ", /* @__PURE__ */ s.createElement(
-Jd, { href: "https://github.com/storybookjs/storybook/graphs/contributors" }, "Storybook Community")))), "AboutScreen");
+he, { asChild: !0 }, /* @__PURE__ */ s.createElement("a", { href: "https://storybook.js.org/docs?ref=ui" }, /* @__PURE__ */ s.createElement(
+Pt, { style: { display: "inline", marginRight: 5 } }), "Documentation"))), /* @__PURE__ */ s.createElement("div", null, "Open source softwar\
+e maintained by", " ", /* @__PURE__ */ s.createElement(Jd, { href: "https://www.chromatic.com/" }, "Chromatic"), " and the", " ", /* @__PURE__ */ s.
+createElement(Jd, { href: "https://github.com/storybookjs/storybook/graphs/contributors" }, "Storybook Community")))), "AboutScreen");
 
 // src/manager/settings/AboutPage.tsx
 var Ys = class Ys extends Le {
@@ -12668,12 +12682,12 @@ var BS = I.div(({ theme: e }) => ({
     marginLeft: 20
   }
 })), HS = /* @__PURE__ */ a((e) => /* @__PURE__ */ s.createElement(BS, { ...e }, /* @__PURE__ */ s.createElement(Pe, { secondary: !0, href: "\
-https://storybook.js.org", cancel: !1, target: "_blank" }, "Docs"), /* @__PURE__ */ s.createElement(Pe, { secondary: !0, href: "https://gith\
-ub.com/storybookjs/storybook", cancel: !1, target: "_blank" }, "GitHub"), /* @__PURE__ */ s.createElement(
+https://storybook.js.org?ref=ui", cancel: !1, target: "_blank" }, "Docs"), /* @__PURE__ */ s.createElement(Pe, { secondary: !0, href: "https\
+://github.com/storybookjs/storybook", cancel: !1, target: "_blank" }, "GitHub"), /* @__PURE__ */ s.createElement(
   Pe,
   {
     secondary: !0,
-    href: "https://storybook.js.org/community#support",
+    href: "https://storybook.js.org/community?ref=ui#support",
     cancel: !1,
     target: "_blank"
   },
