@@ -675,7 +675,7 @@ object QodanaAnalysis : BuildType({
       linter = customLinter {
         image = "jetbrains/qodana-js:2023.2"
       }
-      additionalDockerArguments = "-e QODANA_TOKEN=%env.QODANA_TOKEN%"
+      additionalDockerArguments = "-e QODANA_TOKEN=%env.QODANA_TOKEN% --config .qodana/qodana.yaml"
       collectAnonymousStatistics = true
     }
   }
