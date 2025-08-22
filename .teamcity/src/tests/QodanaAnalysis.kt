@@ -28,6 +28,7 @@ object QodanaAnalysis : BuildType({
         image = "jetbrains/qodana-js:2025.2"
       }
       additionalDockerArguments = "-e QODANA_TOKEN=%env.QODANA_TOKEN%"
+      additionalQodanaArguments = "--config .qodana/qodana.yaml"
       collectAnonymousStatistics = true
     }
   }
