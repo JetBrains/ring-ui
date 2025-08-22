@@ -662,7 +662,7 @@ object SecurityAudit : BuildType({
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
                 mkdir -p node_modules
                 npm install
-                node security-audit-ci.js
+                node scripts/security-audit-ci.js
             """.trimIndent()
             dockerImage = "node:22"
         }

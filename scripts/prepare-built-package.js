@@ -5,7 +5,7 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 
-const sourcePackageJSON = require('./package.json');
+const sourcePackageJSON = require('../package.json');
 
 const BUILT_PACKAGE_NAME = '@jetbrains/ring-ui-built';
 

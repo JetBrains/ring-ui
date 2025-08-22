@@ -2,17 +2,17 @@ import {act} from 'react';
 
 import {render} from '@testing-library/react';
 
-import {getAllStoryFiles, getStories} from './test-helpers/get-stories';
+import {getAllStoryFiles, getStories} from '../test-helpers/get-stories';
 
 jest.mock(
-  './src/loader/loader__core',
+  '../src/loader/loader__core',
   () =>
     class FakeLoader {
       updateMessage = jest.fn();
       destroy = jest.fn();
     },
 );
-jest.mock('./src/old-browsers-message/old-browsers-message');
+jest.mock('../src/old-browsers-message/old-browsers-message');
 
 const options = {
   suite: 'Console errors',
