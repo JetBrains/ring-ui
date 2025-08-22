@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "7.0.59",
+  "version": "8.0.0-beta",
   "description": "JetBrains UI library",
   "author": {
     "name": "JetBrains"
@@ -60,8 +60,6 @@
     "screenshots-test-ci": "npm --prefix packages/screenshots run test-ci",
     "screenshots-gather": "npm --prefix packages/screenshots run gather",
     "build-stories": "storybook build --quiet -c .storybook -o storybook-dist",
-    "chromatic": "npx chromatic --build-script-name build-stories --exit-once-uploaded",
-    "chromatic-local": "dotenv -- npm run publish-stories",
     "figma-connect-publish": "npx figma connect publish --token=$FIGMA_CODE_CONNECT_TOKEN",
     "figma-connect-publish-local": "dotenv -- npm run figma-connect-publish",
     "figma-connect-unpublish": "npx figma connect unpublish --token=$FIGMA_CODE_CONNECT_TOKEN",
