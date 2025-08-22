@@ -137,7 +137,7 @@
     "acorn": "^8.15.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "caniuse-lite": "^1.0.30001731",
-    "chai": "^5.3.1",
+    "chai": "^6.0.0",
     "chai-as-promised": "^8.0.1",
     "chai-dom": "^1.12.1",
     "cheerio": "^1.1.2",
