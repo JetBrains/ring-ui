@@ -136,7 +136,7 @@
     "@vitest/eslint-plugin": "^1.3.4",
     "acorn": "^8.15.0",
     "babel-plugin-require-context-hook": "^1.0.0",
-    "caniuse-lite": "^1.0.30001731",
+    "caniuse-lite": "^1.0.30001737",
     "chai": "^5.3.1",
     "chai-as-promised": "^8.0.2",
     "chai-dom": "^1.12.1",
