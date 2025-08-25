@@ -1110,6 +1110,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               ) : null}
 
               <PopupMenu
+                cssPositioning
                 hidden={!this.state.showPopup}
                 onCloseAttempt={this.closePopup}
                 ref={this.popupRef}
