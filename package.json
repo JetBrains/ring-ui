@@ -185,7 +185,7 @@
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.14",
     "typescript": "~5.9.2",
-    "typescript-eslint": "^8.40.0",
+    "typescript-eslint": "^8.41.0",
     "vitest": "^3.2.4",
     "vitest-teamcity-reporter": "^0.3.1",
     "wallaby-webpack": "^3.9.16",
