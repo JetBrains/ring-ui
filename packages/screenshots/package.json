@@ -23,7 +23,7 @@
     "filenamify": "^6.0.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.3.1",
-    "html-reporter": "^10.19.0",
+    "html-reporter": "^11.0.0",
     "http-server": "^14.1.1",
     "ip": "^2.0.1",
     "jest": "^30.1.0",
