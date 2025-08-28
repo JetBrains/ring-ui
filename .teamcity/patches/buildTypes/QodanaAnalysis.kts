@@ -25,7 +25,6 @@ changeBuildType(RelativeId("QodanaAnalysis")) {
         update<Qodana>(0) {
             clearConditions()
             inspectionProfile = default()
-            additionalQodanaArguments = "--config .qodana/qodana.yaml"
             param("report-as-test", "")
         }
     }
