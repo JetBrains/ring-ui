@@ -1,8 +1,8 @@
 version: "1.0"
-linter: jetbrains/qodana-js:2023.2
+linter: jetbrains/qodana-js:2025.2
 bootstrap: bash .qodana/bootstrap.sh
 profile:
-  path: .idea/inspectionProfiles/Project_Default.xml
+  path: /data/project/.idea/inspectionProfiles/Project_Default.xml
 
 include:
   - name: CheckDependencyLicenses
