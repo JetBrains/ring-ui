@@ -196,6 +196,21 @@ object AllChecks : BuildType({
             }
             param("github_oauth_user", "Hypnosphi")
         }
+        notifications {
+            id = "SlackNofiticationToRingAlerts"
+            notifierSettings = slackNotifier {
+                connection = "PROJECT_EXT_486"
+                sendTo = "#ring-ui-alerts"
+                messageFormat = simpleMessageFormat()
+            }
+            enabled = true
+            branchFilter = "+:<default>"
+            buildFailed = true
+            firstFailureAfterSuccess = true
+            newBuildProblemOccurred = false
+            buildFinishedSuccessfully = true
+            firstSuccessAfterFailure = true
+        }
     }
 
     dependencies {
@@ -439,6 +454,21 @@ object GeminiTests : BuildType({
                     token = "credentialsJSON:5ffe2d7e-531e-4f6f-b1fc-a41bfea26eaa"
                 }
             }
+        }
+        notifications {
+            id = "SlackNofiticationToRingAlerts"
+            notifierSettings = slackNotifier {
+                connection = "PROJECT_EXT_486"
+                sendTo = "#ring-ui-alerts"
+                messageFormat = simpleMessageFormat()
+            }
+            enabled = true
+            branchFilter = "+:<default>"
+            buildFailed = true
+            firstFailureAfterSuccess = true
+            newBuildProblemOccurred = false
+            buildFinishedSuccessfully = true
+            firstSuccessAfterFailure = true
         }
     }
 
@@ -852,6 +882,21 @@ object Publish : BuildType({
             verbose = true
             paths = ".npmrc"
         }
+        notifications {
+            id = "SlackNofiticationToRingAlerts"
+            notifierSettings = slackNotifier {
+                connection = "PROJECT_EXT_486"
+                sendTo = "#ring-ui-alerts"
+                messageFormat = simpleMessageFormat()
+            }
+            enabled = true
+            branchFilter = "+:<default>"
+            buildFailed = true
+            firstFailureAfterSuccess = true
+            newBuildProblemOccurred = false
+            buildFinishedSuccessfully = true
+            firstSuccessAfterFailure = true
+        }
     }
 
     dependencies {
@@ -1012,6 +1057,21 @@ object PublishHotfixRelease : BuildType({
             forceCleanCheckout = true
             verbose = true
             paths = ".npmrc"
+        }
+        notifications {
+            id = "SlackNofiticationToRingAlerts"
+            notifierSettings = slackNotifier {
+                connection = "PROJECT_EXT_486"
+                sendTo = "#ring-ui-alerts"
+                messageFormat = simpleMessageFormat()
+            }
+            enabled = true
+            branchFilter = "+:<default>"
+            buildFailed = true
+            firstFailureAfterSuccess = true
+            newBuildProblemOccurred = false
+            buildFinishedSuccessfully = true
+            firstSuccessAfterFailure = true
         }
     }
 
@@ -1320,6 +1380,21 @@ object PublishToGitHubPages : BuildType({
             verbose = true
             paths = ".npmrc"
         }
+        notifications {
+            id = "SlackNofiticationToRingAlerts"
+            notifierSettings = slackNotifier {
+                connection = "PROJECT_EXT_486"
+                sendTo = "#ring-ui-alerts"
+                messageFormat = simpleMessageFormat()
+            }
+            enabled = true
+            branchFilter = "+:<default>"
+            buildFailed = true
+            firstFailureAfterSuccess = true
+            newBuildProblemOccurred = false
+            buildFinishedSuccessfully = true
+            firstSuccessAfterFailure = true
+        }
     }
 
     dependencies {
@@ -1485,6 +1560,21 @@ object UnitTestsAndBuild : BuildType({
         investigationsAutoAssigner {
           excludeUsers = "npmjs-buildserver"
           assignOnSecondFailure = true
+        }
+        notifications {
+            id = "SlackNofiticationToRingAlerts"
+            notifierSettings = slackNotifier {
+                connection = "PROJECT_EXT_486"
+                sendTo = "#ring-ui-alerts"
+                messageFormat = simpleMessageFormat()
+            }
+            enabled = true
+            branchFilter = "+:<default>"
+            buildFailed = true
+            firstFailureAfterSuccess = true
+            newBuildProblemOccurred = false
+            buildFinishedSuccessfully = true
+            firstSuccessAfterFailure = true
         }
     }
 })
