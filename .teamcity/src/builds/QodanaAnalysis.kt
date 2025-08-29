@@ -43,7 +43,4 @@ object QodanaAnalysis : BuildType({
   failureConditions {
     executionTimeoutMin = 30
   }
-  requirements {
-    contains("system.agent.name", "linux")
-  }
 })
