@@ -2,7 +2,8 @@
 
 @value link, active from "../link/link.css";
 
-:root {
+:root,
+:host {
   --ring-header-link-color: var(--ring-link-color);
 }
 

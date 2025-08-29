@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
-:root {
+:root,
+:host {
   --ring-checkbox-disabled-check-color: var(--ring-white-text-color);
 }
 

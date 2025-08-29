@@ -1,7 +1,8 @@
 /* stylelint-disable color-no-hex */
 
 .light,
-:root {
+:root,
+:host {
   --ring-unit: 8px;
 
   /* Element */
