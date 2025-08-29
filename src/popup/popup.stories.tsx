@@ -1,6 +1,8 @@
 import {Component, ReactNode} from 'react';
 import classNames from 'classnames';
 
+import Button from '../button/button';
+
 import Popup from './popup';
 
 const {Directions} = Popup.PopupProps;
@@ -379,3 +381,192 @@ export const AllDirections = () => (
   </div>
 );
 AllDirections.parameters = {};
+
+export const CSSPositioning = () => {
+  interface CSSPositionDemoState {
+    show: boolean;
+    position: {
+      x: number;
+      y: number;
+    };
+    isDragging: boolean;
+  }
+
+  class CSSPositionDemo extends Component<{}, CSSPositionDemoState> {
+    state: CSSPositionDemoState = {
+      show: true,
+      position: {
+        x: 8,
+        y: 8,
+      },
+      isDragging: false,
+    };
+
+    componentDidMount() {
+      document.addEventListener('mousemove', this.handleMouseMove);
+      document.addEventListener('mouseup', this.handleMouseUp);
+    }
+
+    componentWillUnmount() {
+      document.removeEventListener('mousemove', this.handleMouseMove);
+      document.removeEventListener('mouseup', this.handleMouseUp);
+    }
+
+    // Store the starting position for drag calculations
+    dragStartPosition = {
+      x: 0,
+      y: 0,
+    };
+
+    toggleShow = (show: boolean) => {
+      this.setState({show});
+    };
+
+    handleMouseDown = (e: React.MouseEvent) => {
+      this.setState({isDragging: true});
+      this.dragStartPosition = {
+        x: e.clientX - this.state.position.x,
+        y: e.clientY - this.state.position.y,
+      };
+
+      // Prevent text selection during drag
+      e.preventDefault();
+    };
+
+    handleMouseMove = (e: MouseEvent) => {
+      if (this.state.isDragging) {
+        this.setState({
+          position: {
+            x: e.clientX - this.dragStartPosition.x,
+            y: e.clientY - this.dragStartPosition.y,
+          },
+        });
+      }
+    };
+
+    handleMouseUp = () => {
+      this.setState({isDragging: false});
+    };
+
+    render() {
+      const {position} = this.state;
+
+      return (
+        <div className="container">
+          {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
+          <div
+            className="draggable-anchor"
+            style={{
+              left: `${position.x}px`,
+              top: `${position.y}px`,
+              cursor: this.state.isDragging ? 'grabbing' : 'grab',
+            }}
+            onMouseDown={this.handleMouseDown}
+            role="button"
+          >
+            <Button onClick={() => this.toggleShow(true)}>CSS Anchor Positioning. Drag me!</Button>
+            <Popup offset={4} cssPositioning hidden={!this.state.show}>
+              <div className="popup-content css-popup">Uses CSS Anchor API</div>
+            </Popup>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return <CSSPositionDemo />;
+};
+
+CSSPositioning.storyName = 'CSS Anchor Positioning';
+
+CSSPositioning.parameters = {
+  screenshots: {captureSelector: 'body'},
+  storyStyles: `
+<style>
+  body {
+    min-height: 90vh;
+  }
+
+  .container {
+    width: auto;
+  }
+
+  .popup-content {
+    padding: 16px;
+    border-radius: 4px;
+    min-width: 200px;
+    text-align: left;
+  }
+
+  .draggable-anchor {
+    position: absolute;
+    user-select: none;
+    touch-action: none;
+  }
+</style>
+  `,
+  docs: {
+    description: {
+      story: `
+This story demonstrates the new \`cssPositioning\` prop that enables CSS Anchor positioning.
+      `,
+    },
+  },
+};
+
+export const CssPositionAllDirections = () => (
+  <div style={{padding: 32, minHeight: '90vh'}}>
+    <div
+      style={{
+        margin: 'auto',
+        width: 320,
+        height: 80,
+        border: '1px solid var(--ring-borders-color)',
+        padding: '16px',
+        boxSizing: 'border-box',
+        textAlign: 'center',
+      }}
+    >
+      Anchor
+      <Popup cssPositioning directions={[Directions.BOTTOM_LEFT]}>
+        Bottom left
+      </Popup>
+      <Popup cssPositioning directions={[Directions.BOTTOM_CENTER]}>
+        Bottom center
+      </Popup>
+      <Popup cssPositioning directions={[Directions.BOTTOM_RIGHT]}>
+        Bottom right
+      </Popup>
+      <Popup cssPositioning directions={[Directions.TOP_LEFT]}>
+        Top left
+      </Popup>
+      <Popup cssPositioning directions={[Directions.TOP_CENTER]}>
+        Top center
+      </Popup>
+      <Popup cssPositioning directions={[Directions.TOP_RIGHT]}>
+        Top right
+      </Popup>
+      <Popup cssPositioning directions={[Directions.LEFT_BOTTOM]}>
+        Left bottom
+      </Popup>
+      <Popup cssPositioning directions={[Directions.LEFT_CENTER]}>
+        Left center
+      </Popup>
+      <Popup cssPositioning directions={[Directions.LEFT_TOP]}>
+        Left top
+      </Popup>
+      <Popup cssPositioning directions={[Directions.RIGHT_BOTTOM]}>
+        Right bottom
+      </Popup>
+      <Popup cssPositioning directions={[Directions.RIGHT_CENTER]}>
+        Right center
+      </Popup>
+      <Popup cssPositioning directions={[Directions.RIGHT_TOP]}>
+        Right top
+      </Popup>
+    </div>
+  </div>
+);
+CssPositionAllDirections.parameters = {
+  screenshots: {captureSelector: 'body'},
+};

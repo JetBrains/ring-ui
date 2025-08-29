@@ -29,6 +29,7 @@ export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
           Children.map(children, (child: ReactElement<P>) => cloneElement(child, {...child.props, ...restProps}))}
         {restProps.error && (
           <Popup
+            cssPositioning
             trapFocus={false}
             className={styles.errorBubblePopup}
             hidden={false}

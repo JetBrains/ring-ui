@@ -59,7 +59,11 @@ export default class Services extends PureComponent<ServicesProps> {
 
     return (
       <Dropdown {...props} anchor={makeAnchor(loading)} initShown={initShown}>
-        <Popup className={classNames(styles.services, {[darkStyles.dark]: theme === Theme.DARK})} top={-3}>
+        <Popup
+          cssPositioning
+          className={classNames(styles.services, {[darkStyles.dark]: theme === Theme.DARK})}
+          top={-3}
+        >
           {servicesWithIcons.map(service => {
             const isActive = this.serviceIsActive(service);
 
