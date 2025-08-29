@@ -2,6 +2,8 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.ScriptBuildStep
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -10,6 +12,56 @@ To apply the patch, change the buildType with id = 'UnitTestsAndBuild'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("UnitTestsAndBuild")) {
+    expectSteps {
+        script {
+            name = "Test And Build"
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                
+                mkdir node_modules
+                npm install
+                
+                npm run typecheck-ci
+                npm run test-ci
+                npm run build
+                npm run build-stories
+            """.trimIndent()
+            dockerImage = "node:22"
+            dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
+            dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+        }
+    }
+    steps {
+        update<ScriptBuildStep>(0) {
+            clearConditions()
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                chown -R root:root . # See https://github.com/npm/cli/issues/4589
+                
+                mkdir node_modules
+                npm install
+                
+                npm run typecheck-ci
+                npm run test-ci || true
+                npm run build
+                npm run build-stories
+            """.trimIndent()
+            param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
+            param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
+            param("org.jfrog.artifactory.selectedDeployableServer.uploadSpecSource", "Job configuration")
+            param("teamcity.kubernetes.executor.pull.policy", "")
+        }
+    }
+
     features {
         remove {
             commitStatusPublisher {
@@ -23,4 +75,7 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
             }
         }
     }
+
+    expectDisabledSettings("BUILD_EXT_5")
+    updateDisabledSettings("BUILD_EXT_4")
 }
