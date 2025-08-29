@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
-:root {
+:root,
+:host {
   /* stylelint-disable-next-line color-no-hex */
   --ring-loader-inline-stops: #ff00eb, #bd3bff, #008eff, #58ba00, #f48700, #ff00eb;
 }

@@ -2,7 +2,8 @@
 
 @value button, active, flat from "../button/button.css";
 
-:root {
+:root,
+:host {
   --ring-button-group-default-z-index: 1;
   --ring-button-group-disabled-z-index: 0;
   --ring-button-group-active-z-index: 2;
