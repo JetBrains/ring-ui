@@ -3,7 +3,8 @@
 /* ensure styles order */
 @import "../link/link.css";
 
-:root {
+:root,
+:host {
   --ring-selected-tab-color: var(--ring-text-color);
 }
 

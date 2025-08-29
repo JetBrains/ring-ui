@@ -4,8 +4,8 @@
 /* ensure styles order */
 @import "../input/input.css";
 
-:root {
-  /* stylelint-disable-next-line color-no-hex */
+:root,
+:host {
   --ring-date-picker-hover-color: var(--ring-border-hover-color);
 }
 

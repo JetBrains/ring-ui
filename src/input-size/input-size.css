@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
-:root {
+:root,
+:host {
   --ring-input-xs: calc(var(--ring-unit) * 12);
   --ring-input-s: calc(var(--ring-unit) * 12);
   --ring-input-m: calc(var(--ring-unit) * 30);

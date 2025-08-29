@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
-:root {
+:root,
+:host {
   --ring-error-bubble-background-color: var(--ring-popup-background-color);
 }
 
