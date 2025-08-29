@@ -84,7 +84,7 @@ export const setCSSAnchorPositioning = ({
     popup.style.minWidth = `${calculatedMinWidth}px`;
   }
   if (top) {
-    popup.style.top = `${top}px`;
+    popup.style.transform = `translateY(${top}px)`;
   }
   if (left) {
     popup.style.left = `${left}px`;
