@@ -20,6 +20,7 @@ import position, {PositionStyles} from './position';
 import styles from './popup.css';
 import {DEFAULT_DIRECTIONS, Dimension, Directions, Display, MaxHeight, MinWidth} from './popup.consts';
 import {PopupTargetContext, PopupTarget} from './popup.target';
+import {setCSSAnchorPositioning, supportsCSSAnchorPositioning} from './position-css';
 
 export {PopupTargetContext, PopupTarget};
 
@@ -79,6 +80,7 @@ export interface BasePopupProps {
   withTail?: boolean;
   tailOffset?: number;
   largeBorderRadius?: boolean;
+  cssPositioning?: boolean; // Use CSS Anchor positioning instead of JS positioning
 
   anchorElement?: HTMLElement | null | undefined;
   target?: string | Element | null | undefined;
@@ -139,6 +141,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     autoFocusFirst: false,
 
     legacy: false,
+    cssPositioning: false,
   };
 
   state: PopupState = {
@@ -255,20 +258,35 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
 
   private _updatePosition = () => {
     const popup = this.popup;
+    const anchor = this._getAnchor();
     if (popup) {
-      popup.style.position = 'absolute';
-      if (this.isVisible()) {
-        const {styles: style, direction} = this.position();
-        Object.entries(style).forEach(([key, value]) => {
-          const propKey = key as keyof PositionStyles;
-          if (typeof value === 'number') {
-            popup.style[propKey] = `${value}px`;
-          } else {
-            popup.style[propKey] = value.toString();
-          }
+      if (this.props.cssPositioning && supportsCSSAnchorPositioning() && anchor) {
+        // Use CSS Anchor positioning
+        setCSSAnchorPositioning({
+          popup,
+          anchor,
+          uid: this.uid,
+          minWidth: this.props.minWidth,
+          top: this.props.top,
+          left: this.props.left,
+          directions: this.props.directions,
+          offset: this.props.offset,
         });
-        if (direction != null) {
-          this._updateDirection(direction);
+      } else {
+        popup.style.position = 'absolute';
+        if (this.isVisible()) {
+          const {styles: style, direction} = this.position();
+          Object.entries(style).forEach(([key, value]) => {
+            const propKey = key as keyof PositionStyles;
+            if (typeof value === 'number') {
+              popup.style[propKey] = `${value}px`;
+            } else {
+              popup.style[propKey] = value.toString();
+            }
+          });
+          if (direction != null) {
+            this._updateDirection(direction);
+          }
         }
       }
       this.setState(this.calculateDisplay);
@@ -297,16 +315,22 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
       clearTimeout(this._prevTimeout);
       this._prevTimeout = window.setTimeout(() => {
         this._listenersEnabled = true;
-        this.listeners.add(window, 'resize', this._redraw);
-        if (this.props.autoPositioningOnScroll) {
-          this.listeners.add(window, 'scroll', this._redraw);
+
+        // CSS positioning doesn't need resize/scroll listeners as it's handled by CSS
+        // But we need them if CSS positioning isn't supported
+        if (!this.props.cssPositioning || !supportsCSSAnchorPositioning()) {
+          this.listeners.add(window, 'resize', this._redraw);
+          if (this.props.autoPositioningOnScroll) {
+            this.listeners.add(window, 'scroll', this._redraw);
+          }
+          let el = this._getAnchor();
+          while (el) {
+            this.listeners.add(el, 'scroll', this._redraw);
+            el = el.parentElement;
+          }
         }
+
         this.listeners.add(document, 'pointerdown', this._onDocumentClick, true);
-        let el = this._getAnchor();
-        while (el) {
-          this.listeners.add(el, 'scroll', this._redraw);
-          el = el.parentElement;
-        }
       }, 0);
 
       return;
@@ -387,9 +411,12 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
       'data-test': dataTest,
       largeBorderRadius,
     } = this.props;
+    const useCssPositioning = this.props.cssPositioning && supportsCSSAnchorPositioning();
     const showing = this.state.display === Display.SHOWING;
 
     const classes = classNames(className, styles.popup, {
+      [styles.jsAnchoredPopup]: !useCssPositioning,
+      [styles.cssAnchoredPopup]: useCssPositioning,
       [styles.attached]: attached,
       [styles.hidden]: hidden,
       [styles.showing]: showing,

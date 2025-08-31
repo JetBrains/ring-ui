@@ -3,10 +3,7 @@
 .popup {
   composes: font from "../global/global.css";
 
-  position: fixed;
   z-index: var(--ring-overlay-z-index);
-  top: -100vh;
-  left: -100vw;
 
   overflow-y: auto;
 
@@ -18,6 +15,86 @@
   background-color: var(--ring-popup-background-color);
   box-shadow: var(--ring-popup-shadow);
 }
+
+.jsAnchoredPopup {
+  position: fixed;
+
+  top: -100vh;
+  left: -100vw;
+}
+
+:root {
+  --ring-popup-offset: 8px;
+}
+
+.cssAnchoredPopup {
+  --ring-popup-offset: 0;
+
+  position: absolute;
+
+  margin: 0
+}
+
+@position-try --bottom-right {
+  position-area: block-end span-inline-end;
+  margin-block-start: var(--ring-popup-offset);
+}
+
+@position-try --bottom-left {
+  position-area: block-end span-inline-start;
+  margin-block-start: var(--ring-popup-offset);
+}
+
+@position-try --bottom-center {
+  position-area: block-end center;
+  margin-block-start: var(--ring-popup-offset);
+}
+
+@position-try --top-center {
+  position-area: block-start center;
+  margin-block-end: var(--ring-popup-offset);
+}
+
+@position-try --top-right {
+  position-area: block-start span-inline-end;
+  margin-block-end: var(--ring-popup-offset);
+}
+
+@position-try --top-left {
+  position-area: block-start span-inline-start;
+  margin-block-end: var(--ring-popup-offset);
+}
+
+@position-try --right-center {
+  position-area: center inline-end;
+  margin-inline-start: var(--ring-popup-offset);
+}
+
+@position-try --right-top {
+  position-area: span-block-start inline-end;
+  margin-inline-start: var(--ring-popup-offset);
+}
+
+@position-try --right-bottom {
+  position-area: span-block-end inline-end;
+  margin-inline-start: var(--ring-popup-offset);
+}
+
+@position-try --left-center {
+  position-area: center inline-start;
+  margin-inline-end: var(--ring-popup-offset);
+}
+
+@position-try --left-top {
+  position-area: span-block-start inline-start;
+  margin-inline-end: var(--ring-popup-offset);
+}
+
+@position-try --left-bottom {
+  position-area: span-block-end inline-start;
+  margin-inline-end: var(--ring-popup-offset);
+}
+
 
 .largeBorderRadius {
   border-radius: var(--ring-border-radius-large);
