@@ -78,5 +78,5 @@ so every component could be inspected via running storybook (`npm start`) and th
 - Select "Theme/Light" and "Theme/Dark"
 - In "Config", select "Type": "Json" and "Color": "hex"
 - Click "Generate" and then "Copy"
-- Paste the copied text into `design-tokens/design-tokens.json`
+- Paste the copied text into `/design-tokens.json`
 - Run `npm run update-styles`

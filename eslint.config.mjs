@@ -107,10 +107,10 @@ export default tseslint.config(
             'packages/screenshots/**',
             '**/.testplane.conf.js',
             'report-metadata.js',
-            'security-audit-ci.js',
-            'tsc-teamcity.js',
+            'scripts/security-audit-ci.js',
+            'scripts/tsc-teamcity.js',
             'test-runner-jest.config.js',
-            'figmaParser.mjs',
+            'scripts/figmaParser.mjs',
           ],
 
           peerDependencies: true,
@@ -224,7 +224,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['**/*.test.*', '__mocks__/**'],
+    files: ['**/*.test.*', 'test-helpers/mocks/**'],
 
     languageOptions: {
       globals: {
