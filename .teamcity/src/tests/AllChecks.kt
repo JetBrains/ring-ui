@@ -3,9 +3,7 @@ package tests
 import jetbrains.buildServer.configs.kotlin.BuildType
 import jetbrains.buildServer.configs.kotlin.DslContext
 import jetbrains.buildServer.configs.kotlin.FailureAction
-import jetbrains.buildServer.configs.kotlin.buildFeatures.AutoMerge
 import jetbrains.buildServer.configs.kotlin.buildFeatures.commitStatusPublisher
-import jetbrains.buildServer.configs.kotlin.buildFeatures.merge
 import jetbrains.buildServer.configs.kotlin.buildFeatures.notifications
 import jetbrains.buildServer.configs.kotlin.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.triggers.retryBuild
@@ -40,13 +38,6 @@ object AllChecks : BuildType({
   }
 
   features {
-    merge {
-      branchFilter = """
-              +:dependabot/*
-            """.trimIndent()
-      mergePolicy = AutoMerge.MergePolicy.FAST_FORWARD
-      destinationBranch = "master"
-    }
     commitStatusPublisher {
       publisher = github {
         githubUrl = "https://api.github.com"
