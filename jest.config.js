@@ -2,10 +2,10 @@ process.env.IS_JEST = true;
 
 module.exports = {
   moduleNameMapper: {
-    '\\.(gif|ico|png|md|txt)$': '<rootDir>/__mocks__/fileMock.js',
-    '\\.svg$': '<rootDir>/__mocks__/svgMock.js',
+    '\\.(gif|ico|png|md|txt)$': '<rootDir>/test-helpers/mocks/fileMock.js',
+    '\\.svg$': '<rootDir>/test-helpers/mocks/svgMock.js',
     '\\.(css|scss)$': 'identity-obj-proxy',
-    '!!file-loader.+': '<rootDir>/__mocks__/fileMock.js',
+    '!!file-loader.+': '<rootDir>/test-helpers/mocks/fileMock.js',
     '^@jetbrains/ring-ui(.*)$': '<rootDir>$1',
     '^ws$': '<rootDir>/node_modules/ws/index.js',
     // It's needed to fix `ReferenceError: MessageChannel is not defined`

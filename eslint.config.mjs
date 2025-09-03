@@ -224,7 +224,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['**/*.test.*', '__mocks__/**'],
+    files: ['**/*.test.*', 'test-helpers/mocks/**'],
 
     languageOptions: {
       globals: {

@@ -20,7 +20,7 @@ const files = glob.sync(
   ],
   {
     ignore: [
-      '**/__mocks__/**',
+      '**/test-helpers/mocks/**',
       'components/error-page/*', // TODO Error page does not work because of importing GIF file
       'components/error-page-ng/*',
       'components/**/*.test.js',
