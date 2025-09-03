@@ -81,7 +81,7 @@ export function Banner(props: BannerProps) {
 
       {onClose && (
         <Tooltip title={closeButtonTitle ?? translations.close} className={styles.closeButtonWrapper}>
-          <Link className={styles.closeButton} pseudo onClick={onClose}>
+          <Link className={styles.closeButton} pseudo onClick={onClose} aria-label="Close">
             <Icon glyph={closeIcon} />
           </Link>
         </Tooltip>

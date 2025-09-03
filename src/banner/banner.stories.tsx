@@ -49,81 +49,90 @@ export const MultipleParagraphs = () => (
 );
 
 export const Modes = () => (
-  <>
-    <p>
+  <article>
+    <section>
       <Banner mode="info" title="Info" withIcon onClose={() => {}}>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="error" title="Error" withIcon onClose={() => {}}>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="success" title="Success" withIcon onClose={() => {}}>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="warning" title="Warning" withIcon onClose={() => {}}>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="purple" title="Purple" withIcon onClose={() => {}}>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="grey" title="Grey" withIcon onClose={() => {}}>
         {lorem}
       </Banner>
-    </p>
-  </>
+    </section>
+  </article>
 );
 
 export const Inline = () => (
-  <>
-    <p>
+  <article>
+    <section>
       <Banner mode="info" withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="error" withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="success" withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="warning" withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="purple" withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
-    </p>
+    </section>
 
-    <p>
+    <section>
       <Banner mode="grey" withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
-    </p>
-  </>
+    </section>
+  </article>
 );
+
+Modes.parameters = Inline.parameters = {
+  storyStyles: `
+<style>
+  section:not(:first-child):not(:last-child) {
+    margin: calc(var(--ring-unit) * 2) 0;
+  }
+</style>`,
+};
