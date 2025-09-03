@@ -69,7 +69,7 @@
     "prepare": "webpack -c .storybook/custom-header/webpack.config.js",
     "prepublishOnly": "pinst --disable",
     "prerelease-built-ci": "node scripts/prepare-built-package.js",
-    "prerelease-ci": "git pull",
+    "prerelease-ci": "git pull && git status",
     "pretest-ci": "npm run lint-ci",
     "release-built-ci": "npm publish --access=public $NPM_PUBLISH_PARAMS",
     "release-ci": "npm version $NPM_VERSION_PARAMS && npm publish --access=public $NPM_PUBLISH_PARAMS",
