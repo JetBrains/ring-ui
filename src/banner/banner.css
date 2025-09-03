@@ -53,6 +53,24 @@
       color: var(--ring-main-warning-color);
     }
   }
+
+  &.purple {
+    border-color: var(--ring-purple-border-color);
+    background-color: var(--ring-purple-container-light-color);
+
+    .icon {
+      color: var(--ring-main-purple-color);
+    }
+  }
+
+  &.grey {
+    border-color: var(--ring-borders-color);
+    background-color: var(--ring-grey-container-light-color);
+
+    .icon {
+      color: var(--ring-secondary-color);
+    }
+  }
 }
 
 .title {

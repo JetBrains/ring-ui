@@ -73,6 +73,18 @@ export const Modes = () => (
         {lorem}
       </Banner>
     </p>
+
+    <p>
+      <Banner mode="purple" title="Purple" withIcon onClose={() => {}}>
+        {lorem}
+      </Banner>
+    </p>
+
+    <p>
+      <Banner mode="grey" title="Grey" withIcon onClose={() => {}}>
+        {lorem}
+      </Banner>
+    </p>
   </>
 );
 
@@ -98,6 +110,18 @@ export const Inline = () => (
 
     <p>
       <Banner mode="warning" withIcon onClose={() => {}} inline>
+        {lorem}
+      </Banner>
+    </p>
+
+    <p>
+      <Banner mode="purple" withIcon onClose={() => {}} inline>
+        {lorem}
+      </Banner>
+    </p>
+
+    <p>
+      <Banner mode="grey" withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
     </p>

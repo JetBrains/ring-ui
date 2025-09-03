@@ -20,7 +20,7 @@ export interface BannerTranslations {
 export interface BannerProps {
   title?: React.ReactNode;
   children: React.ReactNode;
-  mode?: 'info' | 'error' | 'success' | 'warning';
+  mode?: 'info' | 'error' | 'success' | 'warning' | 'purple' | 'grey';
   withIcon?: boolean;
   inline?: boolean;
   onClose?: () => void;
@@ -65,6 +65,8 @@ export function Banner(props: BannerProps) {
           [styles.error]: mode === 'error',
           [styles.success]: mode === 'success',
           [styles.warning]: mode === 'warning',
+          [styles.purple]: mode === 'purple',
+          [styles.grey]: mode === 'grey',
         },
         className,
       )}
