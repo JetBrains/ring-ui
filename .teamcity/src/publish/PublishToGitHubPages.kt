@@ -32,7 +32,6 @@ object PublishToGitHubPages : BuildType({
     param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
     param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
     param("org.jfrog.artifactory.selectedDeployableServer.uploadSpecSource", "Job configuration")
-    password("env.CHROMATIC_PROJECT_TOKEN", "credentialsJSON:14b73cdb-03e5-4b8f-b8c1-77d370951b9f")
     password("env.FIGMA_CODE_CONNECT_TOKEN", "credentialsJSON:a10e2416-609f-4616-b94b-8c6ecf150c5d")
   }
 
@@ -72,7 +71,6 @@ object PublishToGitHubPages : BuildType({
 
                 npx gh-pages --dist storybook-dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%" --nojekyll
                 npm ci
-                npm run chromatic
                 npm run figma-connect-unpublish
                 npm run figma-connect-publish
             """.trimIndent()
