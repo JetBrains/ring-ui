@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "7.0.79",
+  "version": "8.0.0-beta",
   "description": "JetBrains UI library",
   "author": {
     "name": "JetBrains"
