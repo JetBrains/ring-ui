@@ -15,6 +15,15 @@ export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
   'data-test': string;
 }
 
+export enum TagType {
+  DEFAULT = 'default',
+  MAIN = 'main',
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  ERROR = 'error',
+  PURPLE = 'purple',
+}
+
 export interface TagProps {
   onRemove?: ((event: React.MouseEvent<HTMLElement>) => void) | null;
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
@@ -31,6 +40,8 @@ export interface TagProps {
   rgTagTitle?: string | undefined;
   textColor?: string | undefined;
   backgroundColor?: string | undefined;
+  outline?: boolean;
+  tagType?: TagType;
 }
 
 /**
@@ -44,6 +55,7 @@ export default class Tag extends PureComponent<TagProps> {
     disabled: false,
     focused: false,
     render: props => <button type="button" {...props} />,
+    tagType: TagType.DEFAULT,
   };
 
   state = {
@@ -64,6 +76,8 @@ export default class Tag extends PureComponent<TagProps> {
     this.setDocumentClickListener(false);
     this.setState({focused: false});
   }
+
+  static Type = TagType;
 
   onDocumentClick = (event: MouseEvent) => {
     if (this.tagNode) {
@@ -121,7 +135,6 @@ export default class Tag extends PureComponent<TagProps> {
           icon={closeIcon}
           data-test="ring-tag-remove"
           className={styles.remove}
-          iconClassName={styles.removeIcon}
           onClick={this.props.onRemove}
           style={{'--ring-secondary-color': this.props.textColor}}
           height={ControlsHeight.M}
@@ -146,7 +159,11 @@ export default class Tag extends PureComponent<TagProps> {
     const {backgroundColor, textColor, render} = this.props;
 
     return (
-      <span className={classNames(styles.container, this.props.containerClassName)}>
+      <span
+        className={classNames(styles.container, this.props.containerClassName, styles[this.props.tagType!], {
+          [styles.outline]: this.props.outline,
+        })}
+      >
         {render({
           'data-test': 'ring-tag',
           className: classes,

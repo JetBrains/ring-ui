@@ -3,6 +3,15 @@
 /* ensure styles order */
 @import "../link/link.css";
 
+:root,
+:host {
+  --ring-error-tag-text-color: var(--ring-main-error-hover-color);
+}
+
+:global(.ring-ui-theme-dark) {
+  --ring-error-tag-text-color: var(--ring-error-color);
+}
+
 .tag {
   --ring-tag-max-height: 20px;
 
@@ -23,7 +32,7 @@
 
   vertical-align: top;
 
-  color: var(--ring-text-color);
+  color: var(--ring-tag-text-color);
 
   border: none;
   border-radius: var(--ring-border-radius);
@@ -52,8 +61,80 @@
 
   border-radius: var(--ring-border-radius);
 
-  background-color: var(--ring-tag-background-color);
+  background-color: var(--ring-tag-container-background-color);
+}
 
+.default {
+  --ring-tag-container-background-color: var(--ring-tag-background-color);
+  --ring-tag-container-hover-background-color: var(--ring-tag-hover-background-color);
+  --ring-tag-text-color: var(--ring-text-color);
+  --ring-tag-icon-color: var(--ring-secondary-color);
+  --ring-tag-container-outline-background-color: var(--ring-grey-container-light-color);
+  --ring-tag-container-outline-hover-background-color: var(--ring-tag-background-color);
+  --ring-tag-outline-color: var(--ring-line-color);
+  --ring-tag-outline-hover-color: var(--ring-borders-color);
+}
+
+.main {
+  --ring-tag-container-background-color: var(--ring-hover-background-color);
+  --ring-tag-container-hover-background-color: var(--ring-selected-background-color);
+  --ring-tag-text-color: var(--ring-link-color);
+  --ring-tag-icon-color: var(--ring-link-color);
+  --ring-tag-container-outline-background-color: var(--ring-main-container-light-color);
+  --ring-tag-container-outline-hover-background-color: var(--ring-hover-background-color);
+  --ring-tag-outline-color: var(--ring-border-hover-color);
+  --ring-tag-outline-hover-color: var(--ring-border-accent-color);
+}
+
+.success {
+  --ring-tag-container-background-color: var(--ring-added-subtle-background-color);
+  --ring-tag-container-hover-background-color: var(--ring-added-background-color);
+  --ring-tag-text-color: var(--ring-success-color);
+  --ring-tag-icon-color: var(--ring-icon-success-color);
+  --ring-tag-container-outline-background-color: var(--ring-success-container-light-color);
+  --ring-tag-container-outline-hover-background-color: var(--ring-added-subtle-background-color);
+  --ring-tag-outline-color: var(--ring-success-border-color);
+  --ring-tag-outline-hover-color: var(--ring-success-border-hover-color);
+}
+
+.warning {
+  --ring-tag-container-background-color: var(--ring-warning-subtle-background-color);
+  --ring-tag-container-hover-background-color: var(--ring-warning-background-color);
+  --ring-tag-text-color: var(--ring-warning-color);
+  --ring-tag-icon-color: var(--ring-icon-warning-color);
+  --ring-tag-container-outline-background-color: var(--ring-warning-container-light-color);
+  --ring-tag-container-outline-hover-background-color: var(--ring-warning-subtle-background-color);
+  --ring-tag-outline-color: var(--ring-warning-border-color);
+  --ring-tag-outline-hover-color: var(--ring-warning-border-hover-color);
+}
+
+.error {
+  --ring-tag-container-background-color: var(--ring-removed-subtle-background-color);
+  --ring-tag-container-hover-background-color: var(--ring-removed-background-color);
+  --ring-tag-text-color: var(--ring-error-tag-text-color);
+  --ring-tag-icon-color: var(--ring-icon-error-color);
+  --ring-tag-container-outline-background-color: var(--ring-error-container-light-color);
+  --ring-tag-container-outline-hover-background-color: var(--ring-removed-subtle-background-color);
+  --ring-tag-outline-color: var(--ring-error-border-color);
+  --ring-tag-outline-hover-color: var(--ring-error-border-hover-color);
+}
+
+.purple {
+  --ring-tag-container-background-color: var(--ring-purple-subtle-background-color);
+  --ring-tag-container-hover-background-color: var(--ring-purple-background-color);
+  --ring-tag-text-color: var(--ring-purple-text-color);
+  --ring-tag-icon-color: var(--ring-main-purple-color);
+  --ring-tag-container-outline-background-color: var(--ring-purple-container-light-color);
+  --ring-tag-container-outline-hover-background-color: var(--ring-purple-subtle-background-color);
+  --ring-tag-outline-color: var(--ring-purple-border-color);
+  --ring-tag-outline-hover-color: var(--ring-purple-border-hover-color);
+}
+
+.outline {
+  --ring-tag-container-background-color: var(--ring-tag-container-outline-background-color);
+  --ring-tag-container-hover-background-color: var(--ring-tag-container-outline-hover-background-color);
+
+  box-shadow: inset 0 0 0 1px var(--ring-tag-outline-color);
 }
 
 .focused,
@@ -67,9 +148,10 @@
 .focused,
 .tag:focus-visible,
 .container:hover {
-  transition: none;
+  --ring-tag-outline-color: var(--ring-tag-outline-hover-color);
+  --ring-tag-container-background-color: var(--ring-tag-container-hover-background-color);
 
-  background-color: var(--ring-tag-hover-background-color);
+  transition: none;
 }
 
 .content {
@@ -84,6 +166,8 @@
 }
 
 .remove {
+  --ring-button-text-color: var(--ring-secondary-color);
+
   position: absolute;
   z-index: 1;
   top: 2px;
@@ -95,15 +179,11 @@
   line-height: calc(var(--ring-unit) * 2);
 }
 
-.removeIcon.removeIcon {
-  color: var(--ring-secondary-color);
-}
-
 .icon {
   margin-right: calc(var(--ring-unit) / 2);
   margin-left: calc(var(--ring-unit) * -0.5);
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-tag-icon-color);
 
   && svg {
     vertical-align: -3.5px;
