@@ -2,9 +2,6 @@ name: Dependabot auto-merge
 on:
   pull_request:
     types: [opened, reopened]
-    branches:
-      - 'dependabot/**'
-
 
 permissions:
   contents: write
@@ -13,7 +10,7 @@ permissions:
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'jetbrains/ring-ui'
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'jetbrains/ring-ui' && startsWith(github.head_ref, 'dependabot/')
     steps:
       - name: Approve a PR
         run: gh pr review --approve "$PR_URL"
