@@ -415,7 +415,6 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     const showing = this.state.display === Display.SHOWING;
 
     const classes = classNames(className, styles.popup, {
-      [styles.jsAnchoredPopup]: !useCssPositioning,
       [styles.cssAnchoredPopup]: useCssPositioning,
       [styles.attached]: attached,
       [styles.hidden]: hidden,

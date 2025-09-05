@@ -3,7 +3,10 @@
 .popup {
   composes: font from "../global/global.css";
 
+  position: fixed;
   z-index: var(--ring-overlay-z-index);
+  top: -100vh;
+  left: -100vw;
 
   overflow-y: auto;
 
@@ -16,13 +19,6 @@
   box-shadow: var(--ring-popup-shadow);
 }
 
-.jsAnchoredPopup {
-  position: fixed;
-
-  top: -100vh;
-  left: -100vw;
-}
-
 :root {
   --ring-popup-offset: 8px;
 }
@@ -31,6 +27,8 @@
   --ring-popup-offset: 0;
 
   position: absolute;
+  top: unset;
+  left: unset;
 
   margin: 0
 }
