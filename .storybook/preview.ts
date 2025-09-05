@@ -5,9 +5,7 @@ import {Parameters} from '@storybook/react-webpack5';
 
 import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
 import queryAssistStyles from '../src/query-assist/query-assist.css';
-import tagStyles from '../src/tag/tag.css';
 import selectStyles from '../src/select/select.css';
-import userCardStyles from '../src/user-card/user-card.css';
 
 import styles from './preview.css';
 import strictModeDecorator from './strict-mode-decorator';
@@ -27,7 +25,6 @@ if (params.has('block-animations')) {
 const selectorsWithColorContrastIssues = [
   `.${queryAssistStyles.placeholder.split(' ')[0]}`,
   `.${selectStyles.buttonValueEmpty}`,
-  `.${userCardStyles.banLabel} > .${tagStyles.content.split(' ')[0]}`,
 ].filter(Boolean);
 
 export const parameters = {

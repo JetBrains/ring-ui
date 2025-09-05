@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import tagIcon from '@jetbrains/icons/tag';
 
-import Tag from './tag';
+import Tag, {TagType} from './tag';
 
 export default {
   title: 'Components/Tag',
@@ -20,31 +20,51 @@ export const demo = () => {
   class TagDemo extends Component {
     render() {
       return (
-        <div>
-          <Tag onRemove={noop}>Simple</Tag>
-          <Tag readOnly>Read-only</Tag>
-          <Tag className="limited-width" onRemove={noop}>
-            With long truncated text
-          </Tag>
-          <Tag rgTagIcon={tagIcon} rgTagTitle="I am an icon title" onRemove={noop}>
-            With icon title
-          </Tag>
-          <Tag avatar={avatarUrl} onRemove={noop}>
-            With avatar
-          </Tag>
-          <Tag
-            onRemove={noop}
-            render={({children, ...restProps}) => (
-              <a href="/" {...restProps}>
-                {children}
-              </a>
-            )}
-          >
-            With custom render
-          </Tag>
-          <Tag disabled readOnly>
-            Disabled
-          </Tag>
+        <div style={{display: 'flex', flexDirection: 'column', gap: 8}}>
+          {[true, false].flatMap(outline =>
+            [TagType.DEFAULT, TagType.MAIN, TagType.SUCCESS, TagType.WARNING, TagType.ERROR, TagType.PURPLE].map(
+              type => (
+                <div key={`${outline}_${type}`}>
+                  <Tag outline={outline} tagType={type} onRemove={noop}>
+                    Simple
+                  </Tag>
+                  <Tag outline={outline} tagType={type} readOnly>
+                    Read-only
+                  </Tag>
+                  <Tag outline={outline} tagType={type} className="limited-width" onRemove={noop}>
+                    With long truncated text
+                  </Tag>
+                  <Tag
+                    outline={outline}
+                    tagType={type}
+                    rgTagIcon={tagIcon}
+                    rgTagTitle="I am an icon title"
+                    onRemove={noop}
+                  >
+                    With icon title
+                  </Tag>
+                  <Tag outline={outline} tagType={type} avatar={avatarUrl} onRemove={noop}>
+                    With avatar
+                  </Tag>
+                  <Tag
+                    outline={outline}
+                    tagType={type}
+                    onRemove={noop}
+                    render={({children, ...restProps}) => (
+                      <a href="/" {...restProps}>
+                        {children}
+                      </a>
+                    )}
+                  >
+                    With custom render
+                  </Tag>
+                  <Tag outline={outline} tagType={type} disabled readOnly>
+                    Disabled
+                  </Tag>
+                </div>
+              ),
+            ),
+          )}
         </div>
       );
     }
