@@ -26,7 +26,6 @@
 .cssAnchoredPopup {
   --ring-popup-offset: 0;
 
-  position: absolute;
   top: unset;
   left: unset;
 

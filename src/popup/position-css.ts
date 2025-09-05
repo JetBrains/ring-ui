@@ -75,8 +75,6 @@ export const setCSSAnchorPositioning = ({
     anchor.style.setProperty('anchor-name', anchorName);
   }
 
-  // Set positioning properties on the popup using setProperty
-  popup.style.position = 'absolute';
   popup.style.setProperty('position-anchor', anchorName);
 
   const calculatedMinWidth = calculateMinWidth(getRect(anchor).width, minWidth);
