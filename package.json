@@ -107,7 +107,7 @@
     "@jetbrains/logos": "3.0.0-canary.734b213.0",
     "@jetbrains/rollup-css-plugin": "./packages/rollup-css-plugin",
     "@jetbrains/stylelint-config": "^4.0.2",
-    "@primer/octicons": "^19.16.0",
+    "@primer/octicons": "^19.17.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
