@@ -132,6 +132,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
   ngModelStateField: string;
 
   static contextType = ControlsHeightContext;
+  declare context: React.ContextType<typeof ControlsHeightContext>;
 
   id = this.props.id || getUID('ring-tags-list-');
 
@@ -331,7 +332,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
       filter,
       size,
       labelType,
-      height = this.context,
+      height = typeof this.context === 'function' ? this.context() : this.context,
       label,
     } = this.props;
 

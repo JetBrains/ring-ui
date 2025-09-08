@@ -1,20 +1,18 @@
 import {createContext} from 'react';
 
-export enum ControlsHeight {
-  S = 'S',
-  M = 'M',
-  L = 'L',
-}
+import deprecate from 'util-deprecate';
 
-export const ControlsHeightContext = createContext(ControlsHeight.M);
+import {configure, ControlsHeight, getConfiguration} from './configuration';
 
-let globalControlsHeight = ControlsHeight.M;
+export {ControlsHeight} from './configuration';
 
 // This can be used if React Context is not applicable, for example for alertService or Auth dialog
-export function configureGlobalControlsHeight(value: ControlsHeight) {
-  globalControlsHeight = value;
-}
+export const configureGlobalControlsHeight = deprecate((value: ControlsHeight) => {
+  configure({controlsHeight: value});
+}, 'Ring UI: configureGlobalControlsHeight() is deprecated, use configure() instead');
 
 export function getGlobalControlsHeight() {
-  return globalControlsHeight;
+  return getConfiguration().controlsHeight ?? ControlsHeight.M;
 }
+
+export const ControlsHeightContext = createContext<ControlsHeight | (() => ControlsHeight)>(getGlobalControlsHeight);

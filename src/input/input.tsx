@@ -98,6 +98,7 @@ export class Input extends PureComponent<InputProps> {
   }
 
   static contextType = ControlsHeightContext;
+  declare context: React.ContextType<typeof ControlsHeightContext>;
   frame?: number;
   input?: HTMLInputElement | HTMLTextAreaElement | null;
   id = getUID('ring-input-');
@@ -181,7 +182,7 @@ export class Input extends PureComponent<InputProps> {
       placeholder,
       icon,
       translations,
-      height = this.context,
+      height = typeof this.context === 'function' ? this.context() : this.context,
       beforeInput,
       afterInput,
       autogrow,
