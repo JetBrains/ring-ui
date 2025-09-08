@@ -69025,7 +69025,7 @@ Ct();
 var Ime = N(Wa(), 1), Nn = N(Tme(), 1);
 
 // src/manager-api/version.ts
-var Ame = "9.1.4";
+var Ame = "9.1.5";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: wst } = Z, Ome = (0, Ime.default)(1)(() => {
