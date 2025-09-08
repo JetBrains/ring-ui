@@ -16,6 +16,14 @@ describe('Popup', () => {
     expect(screen.getByTestId('ring-popup')).to.exist;
   });
 
+  it('should support CSS positioning mode', () => {
+    renderPopup({cssPositioning: true});
+    const popup = screen.getByTestId('ring-popup');
+    expect(popup).to.exist;
+    // Note: CSS Anchor positioning properties are not testable in jsdom
+    // as they are cutting-edge CSS features not yet widely supported
+  });
+
   it('should allow pass DOM node as a target', () => {
     const targetNode = document.createElement('div');
     renderPopup({target: targetNode});

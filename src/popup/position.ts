@@ -209,6 +209,15 @@ export function maxHeightForDirection(direction: Directions, anchorNode: Element
   }
 }
 
+export function calculateMinWidth(anchorWidth: number, minWidth: PositionAttrs['minWidth']): number | null {
+  if (minWidth === MinWidth.TARGET || minWidth === 'target') {
+    return anchorWidth;
+  } else if (minWidth) {
+    return anchorWidth < minWidth ? minWidth : anchorWidth;
+  }
+  return null;
+}
+
 export default function position(attrs: PositionAttrs) {
   const {
     popup,
@@ -288,10 +297,9 @@ export default function position(attrs: PositionAttrs) {
     });
   }
 
-  if (minWidth === MinWidth.TARGET || minWidth === 'target') {
-    styles.minWidth = anchorRect.width;
-  } else if (minWidth) {
-    styles.minWidth = anchorRect.width < minWidth ? minWidth : anchorRect.width;
+  const newMinWidth = calculateMinWidth(anchorRect.width, minWidth);
+  if (newMinWidth !== null) {
+    styles.minWidth = newMinWidth;
   }
 
   return {styles, direction: chosenDirection};
