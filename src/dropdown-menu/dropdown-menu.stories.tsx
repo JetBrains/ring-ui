@@ -92,7 +92,6 @@ export const nested = () => {
       left: 20,
       top: -12,
       minWidth: 150,
-      cssPositioning: true,
       ['data-test']: 'nested-menu',
       hidden: false,
       activateFirstItem: false,

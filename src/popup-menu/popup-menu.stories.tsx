@@ -27,7 +27,7 @@ export const basic = () => {
     {rgItemType: ListProps.Type.ITEM, label: '2 Element in group'},
   ];
 
-  return <PopupMenu cssPositioning data={data} />;
+  return <PopupMenu data={data} />;
 };
 
 basic.storyName = 'PopupMenu';

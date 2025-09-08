@@ -331,7 +331,7 @@ export const DialogInPopup: StoryFn = () => {
   const [showPopup, setShowPopup] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
   return (
-    <Popup hidden={!showPopup} cssPositioning onCloseAttempt={() => setShowPopup(false)}>
+    <Popup hidden={!showPopup} onCloseAttempt={() => setShowPopup(false)}>
       <Button onClick={() => setShowDialog(true)}>Show dialog</Button>
       <Dialog show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
         <Header>Dialog title</Header>
@@ -354,7 +354,7 @@ export const NativeDialogInPopup: StoryFn = () => {
   const [showPopup, setShowPopup] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
   return (
-    <Popup hidden={!showPopup} cssPositioning onCloseAttempt={() => setShowPopup(false)}>
+    <Popup hidden={!showPopup} onCloseAttempt={() => setShowPopup(false)}>
       <Button onClick={() => setShowDialog(true)}>Show dialog</Button>
       <Dialog native show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
         <Header>Dialog title</Header>

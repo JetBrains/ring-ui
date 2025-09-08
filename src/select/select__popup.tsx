@@ -589,7 +589,6 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           return (
             <Popup
               trapFocus={false}
-              cssPositioning
               ref={this.popupRef}
               hidden={hidden || !hasContent}
               attached={isInputMode}

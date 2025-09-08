@@ -129,7 +129,6 @@ export const MoreButton = memo(
     const popup = useMemo(
       () => (
         <PopupMenu
-          cssPositioning
           directions={morePopupDirections}
           className={morePopupClassName}
           onSelect={onSelectHandler}

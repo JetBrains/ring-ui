@@ -162,7 +162,6 @@ export default class Message extends Component<MessageProps> {
             {themeClasses => (
               <Popup
                 ref={this.popupRef}
-                cssPositioning
                 hidden={false}
                 directions={popupDirections}
                 className={classNames(classes, themeClasses)}
