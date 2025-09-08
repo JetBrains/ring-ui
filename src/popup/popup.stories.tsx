@@ -1,7 +1,7 @@
 import {Component, ReactNode} from 'react';
 import classNames from 'classnames';
 
-import Button from '../button/button';
+import Text from '../text/text';
 
 import Popup from './popup';
 
@@ -384,7 +384,6 @@ AllDirections.parameters = {};
 
 export const CSSPositioning = () => {
   interface CSSPositionDemoState {
-    show: boolean;
     position: {
       x: number;
       y: number;
@@ -394,7 +393,6 @@ export const CSSPositioning = () => {
 
   class CSSPositionDemo extends Component<{}, CSSPositionDemoState> {
     state: CSSPositionDemoState = {
-      show: true,
       position: {
         x: 8,
         y: 8,
@@ -416,10 +414,6 @@ export const CSSPositioning = () => {
     dragStartPosition = {
       x: 0,
       y: 0,
-    };
-
-    toggleShow = (show: boolean) => {
-      this.setState({show});
     };
 
     handleMouseDown = (e: React.MouseEvent) => {
@@ -464,8 +458,8 @@ export const CSSPositioning = () => {
             onMouseDown={this.handleMouseDown}
             role="button"
           >
-            <Button onClick={() => this.toggleShow(true)}>CSS Anchor Positioning. Drag me!</Button>
-            <Popup offset={4} cssPositioning hidden={!this.state.show}>
+            <Text>CSS Anchor Positioning. Drag me!</Text>
+            <Popup offset={4} cssPositioning hidden={false}>
               <div className="popup-content css-popup">Uses CSS Anchor API</div>
             </Popup>
           </div>
