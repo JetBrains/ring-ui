@@ -133,7 +133,7 @@ export class Button extends PureComponent<ButtonProps> {
     const classes = getButtonClasses({
       ...this.props,
       inline: isInline,
-      height: height ?? this.context,
+      height: height ?? (typeof this.context === 'function' ? this.context() : this.context),
     });
 
     const content = (

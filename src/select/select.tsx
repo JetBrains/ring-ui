@@ -503,6 +503,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   }
 
   static contextType = ControlsHeightContext;
+  declare context: React.ContextType<typeof ControlsHeightContext>;
   static Type = Type;
   static Size = Size;
 
@@ -1146,7 +1147,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const {selected} = this.state;
     const {disabled, clear, hideArrow} = this.props;
     const icons = [];
-    const height = this.props.height || (this.context as ControlsHeight);
+    const height = this.props.height || (typeof this.context === 'function' ? this.context() : this.context);
 
     if (!Array.isArray(selected) && selected?.icon) {
       icons.push(

@@ -6,7 +6,7 @@ import {configure, ControlsHeight, getConfiguration} from './configuration';
 
 export {ControlsHeight} from './configuration';
 
-export const ControlsHeightContext = createContext(ControlsHeight.M);
+export const ControlsHeightContext = createContext<ControlsHeight | (() => ControlsHeight)>(ControlsHeight.M);
 
 // This can be used if React Context is not applicable, for example for alertService or Auth dialog
 export const configureGlobalControlsHeight = deprecate((value: ControlsHeight) => {
