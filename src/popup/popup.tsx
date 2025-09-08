@@ -15,6 +15,7 @@ import Shortcuts from '../shortcuts/shortcuts';
 import dataTests from '../global/data-tests';
 
 import TabTrap from '../tab-trap/tab-trap';
+import {getConfiguration} from '../global/configuration';
 
 import position, {PositionStyles} from './position';
 import styles from './popup.css';
@@ -141,7 +142,6 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     autoFocusFirst: false,
 
     legacy: false,
-    cssPositioning: false,
   };
 
   state: PopupState = {
@@ -256,11 +256,20 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     }
   };
 
+  private shouldUseCssPositioning() {
+    if (!supportsCSSAnchorPositioning()) {
+      return false;
+    }
+    return this.props.cssPositioning !== undefined
+      ? this.props.cssPositioning
+      : getConfiguration().popupsCssPositioning;
+  }
+
   private _updatePosition = () => {
     const popup = this.popup;
     const anchor = this._getAnchor();
     if (popup) {
-      if (this.props.cssPositioning && supportsCSSAnchorPositioning() && anchor) {
+      if (this.shouldUseCssPositioning() && anchor) {
         // Use CSS Anchor positioning
         setCSSAnchorPositioning({
           popup,
@@ -318,7 +327,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
 
         // CSS positioning doesn't need resize/scroll listeners as it's handled by CSS
         // But we need them if CSS positioning isn't supported
-        if (!this.props.cssPositioning || !supportsCSSAnchorPositioning()) {
+        if (!this.shouldUseCssPositioning()) {
           this.listeners.add(window, 'resize', this._redraw);
           if (this.props.autoPositioningOnScroll) {
             this.listeners.add(window, 'scroll', this._redraw);
@@ -411,11 +420,10 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
       'data-test': dataTest,
       largeBorderRadius,
     } = this.props;
-    const useCssPositioning = this.props.cssPositioning && supportsCSSAnchorPositioning();
     const showing = this.state.display === Display.SHOWING;
 
     const classes = classNames(className, styles.popup, {
-      [styles.cssAnchoredPopup]: useCssPositioning,
+      [styles.cssAnchoredPopup]: this.shouldUseCssPositioning(),
       [styles.attached]: attached,
       [styles.hidden]: hidden,
       [styles.showing]: showing,
