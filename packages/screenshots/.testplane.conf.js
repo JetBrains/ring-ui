@@ -69,7 +69,7 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Firefox',
         pageLoadStrategy: 'normal',
-        browser_version: '139.0',
+        browser_version: '140.0',
         os: 'OS X',
         os_version: 'Sonoma',
         maxDuration,

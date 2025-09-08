@@ -1,7 +1,7 @@
 {
   "codeConnect": {
     "parser": "custom",
-    "parserCommand": "node figmaParser.mjs",
+    "parserCommand": "node scripts/figmaParser.mjs",
     "include": ["src/**/*.figma.js"]
   }
 }

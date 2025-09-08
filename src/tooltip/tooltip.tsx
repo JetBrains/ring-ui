@@ -135,6 +135,15 @@ export default class Tooltip extends Component<TooltipProps> {
 
         this.hidePopup();
       });
+
+      this.listeners.add(this.containerNode, 'focusin', this.tryToShowPopup);
+      this.listeners.add(this.containerNode, 'focusout', ev => {
+        if (ev.relatedTarget && this.popup?.container?.contains(ev.relatedTarget as Node)) {
+          return;
+        }
+
+        this.hidePopup();
+      });
     }
     this.listeners.add(document, 'scroll', () => scheduleScroll(this.hidePopup), {passive: true});
   }

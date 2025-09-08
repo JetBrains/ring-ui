@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
-:root {
+:root,
+:host {
   --ring-tooltip-background-color: var(--ring-content-background-color);
   --ring-tooltip-text-color: var(--ring-text-color);
 }

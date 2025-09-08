@@ -111,7 +111,9 @@ describe('Tooltip', () => {
 
       rerender(<Tooltip {...defaultProps} title="" />);
 
-      expect(removeEventListener).toHaveBeenCalledTimes(2);
+      const TOOLTIP_HANDLED_EVENTS = ['mouseenter', 'mouseleave', 'focusin', 'focusout'];
+
+      expect(removeEventListener).toHaveBeenCalledTimes(TOOLTIP_HANDLED_EVENTS.length);
     });
 
     it('should not render popup when title changes to empty value', () => {
@@ -277,6 +279,30 @@ describe('Tooltip', () => {
       // The number of calls should not have increased (no re-render with hidden=true)
       // @ts-expect-error - mock property access
       expect(Popup.mock.calls.length).to.equal(callCountBeforeClick);
+    });
+
+    it('should show and hide popup when focused/blurred', () => {
+      renderTooltip();
+
+      const tooltipElement = screen.getByText('test elem').closest('span');
+
+      if (!tooltipElement) throw new Error('Tooltip element not found');
+
+      act(() => {
+        fireEvent.focusIn(tooltipElement);
+        vi.advanceTimersByTime(SHORT_DELAY);
+      });
+
+      // Popup should be visible
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: false}), undefined);
+
+      act(() => {
+        fireEvent.focusOut(tooltipElement);
+        vi.advanceTimersByTime(SHORT_DELAY);
+      });
+
+      // Popup should be hidden
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
     });
   });
 });

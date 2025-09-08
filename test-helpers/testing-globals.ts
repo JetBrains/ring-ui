@@ -1,5 +1,4 @@
 // chai-as-promised uses es6
-import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
 

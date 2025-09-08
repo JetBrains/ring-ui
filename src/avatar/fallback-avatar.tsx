@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import {SVGTextElementAttributes, useMemo} from 'react';
 
 import getUID from '../global/get-uid';
 
@@ -42,8 +42,8 @@ interface SizesEntry {
   radius: number;
   text: Position;
   fontSize: string;
-  textAnchor?: string;
-  dominantBaseline?: string;
+  textAnchor?: SVGTextElementAttributes<SVGTextElement>['textAnchor'];
+  dominantBaseline?: SVGTextElementAttributes<SVGTextElement>['dominantBaseline'];
   underscore?: Rectangle;
   letterSpacing?: number;
 }
