@@ -1,11 +1,12 @@
 import {render, screen} from '@testing-library/react';
 
-import ProgressBar, {type ProgressBarAttrs} from './progress-bar';
+import ProgressBar from './progress-bar';
+import {type ProgressBarProps} from './progress-bar.interface';
 
 import styles from './progress-bar.css';
 
 describe('Progress Bar', () => {
-  const renderProgressBar = (props?: ProgressBarAttrs) => {
+  const renderProgressBar = (props?: ProgressBarProps) => {
     render(<ProgressBar label='Progress' {...props} />);
   };
 
@@ -93,6 +94,11 @@ describe('Progress Bar', () => {
         value: undefined,
       });
       expect(screen.getByRole('progressbar')).to.not.have.attr('style');
+    });
+
+    it('should set custom label', () => {
+      renderProgressBar({label: 'Custom label'});
+      expect(screen.getByLabelText('Custom label')).to.exist;
     });
   });
 });
