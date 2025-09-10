@@ -1,77 +1,85 @@
+/* eslint-disable no-magic-numbers */
+/* eslint-disable max-lines */
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-
-import {fixupConfigRules} from '@eslint/compat';
+import {defineConfig} from 'eslint/config';
 import globals from 'globals';
 import babelParser from '@babel/eslint-parser';
-import tseslint from 'typescript-eslint';
 import importPlugin from 'eslint-plugin-import';
 import storybook from 'eslint-plugin-storybook';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import js from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier/flat';
+import unicorn from 'eslint-plugin-unicorn';
 import {FlatCompat} from '@eslint/eslintrc';
+import eslint from '@eslint/js';
+import tsEslint from 'typescript-eslint';
 
+// eslint-disable-next-line no-underscore-dangle
 const __filename = fileURLToPath(import.meta.url);
+// eslint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
+  recommendedConfig: eslint.configs.recommended,
+  allConfig: eslint.configs.all,
 });
 
-const configRules = fixupConfigRules(
-  compat.extends(
-    '@jetbrains',
-    '@jetbrains/eslint-config/es6',
-    '@jetbrains/eslint-config/browser',
-    '@jetbrains/eslint-config/react',
-    '@jetbrains/eslint-config/test',
-  ),
+// JetBrains configurations with higher priority
+const jetbrainsConfigRules = compat.extends(
+  '@jetbrains',
+  '@jetbrains/eslint-config/es6',
+  '@jetbrains/eslint-config/browser',
+  '@jetbrains/eslint-config/react',
+  '@jetbrains/eslint-config/test',
 );
 
-configRules.forEach(config => {
-  if (config.plugins?.import != null) {
+// Remove conflicting import plugin from JetBrains config
+jetbrainsConfigRules.forEach(config => {
+  if (config.plugins?.import) {
     delete config.plugins.import;
   }
 });
 
-export default tseslint.config(
+export default defineConfig([
+  // Global ignores
   {
     ignores: [
+      'components',
+      'docs',
       '**/coverage',
       '**/dist',
-      '**/components',
       '**/test-app',
-      '**/storybook-dist',
       '**/docs',
       '**/html-report',
       '**/node_modules',
       '**/build',
       '**/test_gen',
-      '!**/eslint.config.mjs',
-      '!**/.storybook',
-
-      '!**/.testplane.conf.js',
     ],
   },
-  importPlugin.flatConfigs.errors,
-  ...configRules,
-  ...storybook.configs['flat/recommended'],
 
+  eslint.configs.recommended,
+  importPlugin.flatConfigs.recommended,
+  prettierConfig,
+  ...jetbrainsConfigRules,
+
+  // Base configuration for all files
   {
     linterOptions: {
-      reportUnusedDisableDirectives: true,
+      reportUnusedInlineConfigs: 'error',
     },
 
     languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest,
-      },
-
-      parser: babelParser,
-      ecmaVersion: 2023,
+      ecmaVersion: 'latest',
       sourceType: 'module',
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+          presets: ['@babel/preset-env'],
+        },
+      },
+      globals: {
+        ...globals.es2021,
+      },
     },
 
     settings: {
@@ -80,89 +88,123 @@ export default tseslint.config(
         exports: {},
         webpack: true,
       },
+      react: {
+        version: 'detect',
+        runtime: 'automatic',
+      },
     },
 
     rules: {
-      'valid-jsdoc': 0,
-      'import/no-commonjs': 0,
+      'array-callback-return': 'error',
+      'block-scoped-var': 'error',
+      'consistent-return': 'off', // TypeScript handles this
+      curly: ['error', 'multi-line'],
+      'default-case-last': 'error',
+      'default-param-last': 'error',
+      eqeqeq: 'error',
+      'max-depth': 'error',
+      'max-nested-callbacks': ['error', 5],
+      'no-alert': 'error',
+      'no-caller': 'error',
+      'no-console': 'error',
+      'no-debugger': 'error',
+      'no-div-regex': 'error',
+      'no-duplicate-imports': 'error',
+      'no-else-return': ['error', {allowElseIf: false}],
+      'no-empty': ['error', {allowEmptyCatch: true}],
+      'no-eq-null': 'error',
+      'no-eval': 'error',
+      'no-extend-native': 'error',
+      'no-extra-bind': 'error',
+      'no-extra-label': 'error',
+      'no-implicit-globals': 'error',
+      'no-implied-eval': 'error',
+      'no-invalid-this': 'error',
+      'no-iterator': 'error',
+      'no-lone-blocks': 'error',
+      'no-loss-of-precision': 'error',
+      'no-multi-str': 'error',
+      'no-nested-ternary': 'error',
+      'no-new': 'error',
+      'no-new-func': 'error',
+      'no-new-object': 'error',
+      'no-new-wrappers': 'error',
+      'no-proto': 'error',
+      'no-return-assign': 'error',
+      'no-return-await': 'error',
+      'no-script-url': 'error',
+      'no-self-compare': 'error',
+      'no-sequences': 'error',
+      'no-throw-literal': 'error',
+      'no-undef-init': 'error',
+      'no-underscore-dangle': ['error', {allowAfterThis: true}],
+      'no-unsafe-finally': 'error',
+      'no-unused-expressions': 'error',
+      'no-useless-call': 'error',
+      'no-useless-concat': 'error',
+      'no-useless-return': 'error',
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'prefer-rest-params': 'error',
+      'prefer-spread': 'error',
+      'require-await': 'error',
+      'use-isnan': 'error',
+      yoda: 'error',
 
-      'consistent-return': 0, // as we rely on tsconfig's noImplicitReturns
-
+      // Import rules
+      'import/extensions': ['error', 'always', {js: 'never', jsx: 'never', ts: 'never', tsx: 'never'}],
+      'import/no-commonjs': 'off',
       'import/no-extraneous-dependencies': [
-        2,
+        'error',
         {
           devDependencies: [
             'webpack-test.config.js',
             'wallaby.config.js',
             'rollup.config.js',
             '*webpack.config.js',
-            '**/*.test.js',
-            '**/*.test.ts',
-            '**/*.test.tsx',
-            '**/*.stories.js',
-            '**/*.stories.ts',
-            '**/*.stories.tsx',
+            '**/*.figma.js',
+            '**/*.test.{js,ts,tsx}',
+            '**/*.stories.{js,ts,tsx}',
             'eslint.config.mjs',
             '.storybook/**',
-            'packages/screenshots/**',
             '**/.testplane.conf.js',
+            'packages/screenshots/**',
             'report-metadata.js',
-            'scripts/security-audit-ci.js',
-            'scripts/tsc-teamcity.js',
+            'scripts/**',
             'test-runner-jest.config.js',
-            'scripts/figmaParser.mjs',
+            'test-helpers/**',
           ],
-
           peerDependencies: true,
         },
       ],
-
-      'import/extensions': [
-        2,
-        'always',
+      'import/order': [
+        'error',
         {
-          js: 'never',
-          ts: 'never',
-          tsx: 'never',
+          'newlines-between': 'always',
+          groups: [
+            ['external', 'builtin'],
+            ['index', 'sibling', 'parent', 'internal'],
+            ['unknown'],
+            ['type'],
+            ['object'],
+          ],
+          distinctGroup: true,
         },
       ],
+      'import/prefer-default-export': 'off',
 
-      camelcase: [
-        2,
-        {
-          allow: ['^UNSAFE_'],
-        },
-      ],
-
-      'require-await': 2,
-      'react/jsx-uses-react': 0,
-      'react/react-in-jsx-scope': 0,
+      // General rules
+      camelcase: ['error', {allow: ['^UNSAFE_'], properties: 'never'}],
+      complexity: ['error', 20], // override JetBrains config from 7 to default 20
       'no-unused-vars': ['error', {caughtErrors: 'none'}],
-    },
-  },
-  {
-    files: ['src/**/*'],
+      quotes: ['error', 'single', {avoidEscape: true, allowTemplateLiterals: true}],
+      'jsx-quotes': ['error', 'prefer-single'],
 
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...Object.fromEntries(Object.entries(globals.node).map(([key]) => [key, 'off'])),
-      },
-    },
-
-    rules: {
-      complexity: [0, 5],
-
-      'no-magic-numbers': [
-        2,
-        {
-          ignore: [-1, 0, 1, 2],
-        },
-      ],
-
+      'no-inner-declarations': 'off', // Allow function declarations in blocks
+      'max-classes-per-file': 'off', // Allow multiple classes per file
       'max-len': [
-        2,
-        100,
+        'error',
+        120,
         {
           ignoreComments: true,
           ignoreTemplateLiterals: true,
@@ -170,84 +212,192 @@ export default tseslint.config(
           ignorePattern: '"(?=([^"]|"){40,}")|\'(?=([^\']|\'){40,}\')',
         },
       ],
+      'max-lines': ['error', {max: 400}],
 
-      'import/no-commonjs': 2,
-      'import/no-unused-modules': 0,
+      'react/jsx-uses-react': 'off', // we support new JSX transform in React 17+
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-tag-spacing': 'off',
+
+      // Legacy rules to maintain compatibility
+      'valid-jsdoc': 'off',
     },
   },
+
+  // Source files configuration (browser code)
   {
-    files: ['**/*.ts', '**/*.tsx'],
-    extends: [importPlugin.flatConfigs.typescript, ...tseslint.configs.recommended],
-
+    files: ['src/**/*'],
     languageOptions: {
-      parser: tseslint.parser,
-      ecmaVersion: 6,
-      sourceType: 'script',
-
-      parserOptions: {
-        jsxPragma: null,
+      globals: {
+        ...globals.browser,
       },
     },
-
     rules: {
-      '@typescript-eslint/no-var-requires': 0,
-      '@typescript-eslint/explicit-module-boundary-types': 0,
-      '@typescript-eslint/no-empty-function': 0,
-      'no-use-before-define': 0,
-      '@typescript-eslint/no-use-before-define': [2, 'nofunc'],
-      'no-shadow': 0,
-      '@typescript-eslint/no-shadow': 2,
+      'import/no-commonjs': 'error',
+      'import/no-unused-modules': 'off',
+    },
+  },
 
-      '@typescript-eslint/no-unused-vars': [
-        2,
+  // TypeScript files configuration
+  {
+    files: ['**/*.{ts,tsx}'],
+    plugins: {
+      '@typescript-eslint': tsEslint.plugin,
+    },
+    extends: [tsEslint.configs.recommended],
+    languageOptions: {
+      parser: tsEslint.parser,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: './tsconfig.json',
+      },
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: './tsconfig.json',
+        },
+        webpack: true,
+      },
+    },
+    rules: {
+      'import/no-unresolved': 'error',
+      'import/named': 'error',
+      'import/no-duplicates': 'error',
+
+      '@typescript-eslint/ban-ts-comment': 'error',
+      '@typescript-eslint/consistent-type-assertions': 'error',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
         {
-          ignoreRestSiblings: true,
-          caughtErrors: 'none',
+          fixStyle: 'inline-type-imports',
         },
       ],
+      '@typescript-eslint/consistent-type-definitions': 'error',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'class',
+          format: ['PascalCase'],
+        },
+      ],
+      '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-inferrable-types': 'off',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        {
+          checksVoidReturn: false,
+        },
+      ],
+      '@typescript-eslint/no-namespace': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-shadow': 'error',
+      '@typescript-eslint/no-this-alias': 'off',
+      '@typescript-eslint/no-unused-expressions': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'none',
+          ignoreRestSiblings: true,
+        },
+      ],
+      '@typescript-eslint/no-useless-constructor': 'error',
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-use-before-define': [/* severity */ 2, 'nofunc'],
+      '@typescript-eslint/triple-slash-reference': 'error',
+      '@typescript-eslint/no-unsafe-function-type': 'error',
+      '@typescript-eslint/no-wrapper-object-types': 'error',
 
-      '@typescript-eslint/no-unsafe-function-type': 2,
-      '@typescript-eslint/no-wrapper-object-types': 2,
-      '@typescript-eslint/no-empty-object-type': 0,
-      'no-magic-numbers': 0,
+      // Disable base rules that are covered by TypeScript equivalents
+      'no-shadow': 'off',
+      'no-use-before-define': 'off',
+      'no-unused-vars': 'off',
+      'no-unused-expressions': 'off',
 
+      // Magic numbers rule
+      'no-magic-numbers': 'off',
       '@typescript-eslint/no-magic-numbers': [
-        2,
+        'error',
         {
           ignore: [-1, 0, 1, 2],
           ignoreEnums: true,
           ignoreTypeIndexes: true,
+          ignoreReadonlyClassProperties: true,
+          ignoreArrayIndexes: true,
         },
       ],
-
-      'react/prop-types': 0,
     },
   },
-  {
-    files: ['**/*.test.*', 'test-helpers/mocks/**'],
 
+  // Component filename rules
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    plugins: {
+      unicorn,
+    },
+    rules: {
+      // Enforce kebab-case for component files
+      'unicorn/filename-case': [
+        'error',
+        {
+          cases: {
+            kebabCase: true,
+          },
+          ignore: [/^[a-z]+(?:-[a-z]+)*(\.(utils|test|constants|classes|interface|stories))?\.tsx?/],
+        },
+      ],
+    },
+  },
+
+  // Node.js configuration files and scripts
+  {
+    files: ['scripts/**/*', 'test-helpers/**/*', 'packages/**/*', '*.config.js', '.prettierrc.js', '.storybook/**/*'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+    },
+    rules: {
+      'import/extensions': 'off',
+      'import/no-commonjs': 'off', // Allow CommonJS in Node.js files
+    },
+  },
+
+  // Test files configuration
+  {
+    files: ['**/*.test.{js,ts,tsx}', 'test-helpers/mocks/**'],
     languageOptions: {
       globals: {
         ...globals.jest,
         sandbox: false,
       },
     },
-
     rules: {
-      'new-cap': [
-        2,
-        {
-          capIsNewExceptionPattern: '^.*.UNSAFE_',
-        },
-      ],
-
-      '@typescript-eslint/no-non-null-assertion': 0,
-      '@typescript-eslint/no-unused-expressions': 0,
+      'new-cap': ['error', {capIsNewExceptionPattern: '^.*.UNSAFE_'}],
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-magic-numbers': 'off',
+      'no-magic-numbers': 'off',
+      'max-lines': 'off',
     },
   },
+
+  // Storybook files configuration
   {
     files: ['**/*.stories.{js,ts,tsx}'],
-
+    plugins: {
+      storybook,
+    },
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -255,41 +405,24 @@ export default tseslint.config(
         sandbox: false,
       },
     },
-
     rules: {
-      'react/no-multi-comp': 0,
-      'react/jsx-no-literals': 0,
-      'react/no-this-in-sfc': 0,
-      'react/prop-types': 0,
-      'no-magic-numbers': 0,
-      '@typescript-eslint/no-magic-numbers': 0,
-      'storybook/await-interactions': 2,
-      'storybook/context-in-play-function': 2,
-      'storybook/default-exports': 2,
-      'storybook/hierarchy-separator': 2,
-      'storybook/no-redundant-story-name': 2,
-      'storybook/story-exports': 2,
-      'storybook/use-storybook-expect': 2,
-      'storybook/use-storybook-testing-library': 2,
+      'react/no-multi-comp': 'off',
+      'react/jsx-no-literals': 'off',
+      'react/no-this-in-sfc': 'off',
+      'react/prop-types': 'off',
+      'no-magic-numbers': 'off',
+      '@typescript-eslint/no-magic-numbers': 'off',
+      'max-lines': 'off',
+
+      'storybook/await-interactions': 'error',
+      'storybook/context-in-play-function': 'error',
+      'storybook/default-exports': 'error',
+      'storybook/hierarchy-separator': 'error',
+      'storybook/no-redundant-story-name': 'error',
+      'storybook/story-exports': 'error',
+      'storybook/use-storybook-expect': 'error',
+      'storybook/use-storybook-testing-library': 'error',
       'storybook/prefer-pascal-case': 'off',
     },
   },
-  {
-    files: ['test-helpers/**'],
-    rules: {
-      'import/no-extraneous-dependencies': 'off',
-    },
-  },
-  {
-    files: ['eslint.config.mjs'],
-    rules: {'no-magic-numbers': 'off'},
-  },
-  {
-    files: ['eslint.config.mjs', 'test-helpers/vitest-setup.js'],
-    rules: {'import/no-unresolved': 'off'},
-  },
-  {files: ['**/*.mjs'], rules: {'import/extensions': ['error', 'ignorePackages']}},
-
-  eslintPluginPrettierRecommended,
-  {files: ['**/*.figma.js'], rules: {'import/no-commonjs': 'off'}, languageOptions: {globals: globals.node}},
-);
+]);
