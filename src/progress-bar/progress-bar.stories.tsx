@@ -1,51 +1,94 @@
-import {Component} from 'react';
+import {useEffect, useState} from 'react';
+
+import {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import ProgressBar from './progress-bar';
 
 const disableAnimations = window.location.search.includes('block-animations');
 
-export default {
+const meta: Meta<typeof ProgressBar> = {
   title: 'Components/Progress Bar',
-};
+  component: ProgressBar,
+  decorators: [
+    (Story, context) => {
+      const isInDocs = context.viewMode === 'docs';
 
-export const basic = () => {
-  interface ProgressBarDemoState {
-    value: number;
-  }
-  class ProgressBarDemo extends Component<{}, ProgressBarDemoState> {
-    state = {
-      value: disableAnimations ? 0.5 : 0,
-    };
-
-    componentDidMount() {
-      if (disableAnimations) {
-        return;
+      if (isInDocs) {
+        return <Story />;
       }
-      setInterval(() => this.setState(({value}) => ({value: value >= 1 ? 0 : value + 0.1})), 500);
-    }
-
-    render() {
-      const {value} = this.state;
 
       return (
-        <div>
-          <div style={{height: '25px', paddingTop: '25px'}}>
-            <ProgressBar label="Progress" value={value} style={{width: 288}} />
-          </div>
-
-          <div style={{height: '25px', paddingTop: '25px', background: '#F0F0F0'}}>
-            <ProgressBar label="Progress" value={value} style={{width: 288}} />
-          </div>
-
-          <div style={{height: '25px', paddingTop: '25px'}}>
-            <ProgressBar label="Progress" value={0.5} staticColor style={{width: 288}} />
-          </div>
+        <div style={{paddingTop: '20px', paddingLeft: '20px', height: '25px', width: 300}}>
+          <Story />
         </div>
       );
-    }
-  }
-
-  return <ProgressBarDemo />;
+    },
+  ],
+  argTypes: {
+    value: {
+      control: {type: 'range', min: 0, max: 1, step: 0.1},
+      description: 'Current progress value',
+    },
+    max: {
+      control: {type: 'number', min: 0.1, step: 0.1},
+      description: 'Maximum progress value',
+    },
+    label: {
+      control: 'text',
+      description: 'Accessibility label',
+    },
+    global: {
+      control: 'boolean',
+      description: 'Global positioning mode',
+    },
+    staticColor: {
+      control: 'boolean',
+      description: 'Disable color animation',
+    },
+  },
+  args: {
+    value: 0.5,
+  },
 };
 
-basic.storyName = 'Progress Bar';
+export default meta;
+type Story = StoryObj<typeof ProgressBar>;
+
+export const Basic: Story = {};
+
+export const Animated: Story = {
+  render: args => {
+    const AnimatedDemo = () => {
+      const [value, setValue] = useState(disableAnimations ? 0.5 : 0);
+
+      useEffect(() => {
+        if (disableAnimations) return;
+
+        const interval = setInterval(() => {
+          setValue(prev => (prev >= 1 ? 0 : prev + 0.1));
+        }, 500);
+
+        return () => clearInterval(interval);
+      }, []);
+
+      return <ProgressBar {...args} value={value} />;
+    };
+
+    return <AnimatedDemo />;
+  },
+  parameters: {
+    screenshots: {skip: true},
+  },
+};
+
+export const Global: Story = {
+  render: args => (
+    <div>
+      <p>This progress bar is positioned globally at the top of the viewport:</p>
+      <ProgressBar {...args} global label="Global progress" />
+    </div>
+  ),
+  parameters: {
+    screenshots: {skip: true},
+  },
+};
