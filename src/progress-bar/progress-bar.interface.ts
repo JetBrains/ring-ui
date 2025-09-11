@@ -20,7 +20,13 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    */
   global?: boolean | null | undefined;
   /**
-   * Disables Disabled progress bar color animation and sets it to static color.
+   * Disables progress bar color animation.
+   * @type {boolean}
+   */
+  disableAnimation?: boolean;
+  /**
+   * @deprecated Use `disableAnimation` instead.
+   * Disables progress bar color animation.
    * @type {boolean}
    */
   staticColor?: boolean;
