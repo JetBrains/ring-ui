@@ -85,6 +85,10 @@ export const Animated: Story = {
   },
 };
 
+export const DisableAnimation: Story = {
+  render: args => <ProgressBar {...args} disableAnimation />,
+};
+
 export const Global: Story = {
   render: args => (
     <div>
