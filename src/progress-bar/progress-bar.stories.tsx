@@ -41,9 +41,13 @@ const meta: Meta<typeof ProgressBar> = {
       control: 'boolean',
       description: 'Global positioning mode',
     },
-    staticColor: {
+    disableAnimation: {
       control: 'boolean',
       description: 'Disable color animation',
+    },
+    staticColor: {
+      control: 'boolean',
+      table: {disable: true},
     },
   },
   args: {
