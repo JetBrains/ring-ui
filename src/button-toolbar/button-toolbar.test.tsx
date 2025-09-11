@@ -1,4 +1,4 @@
-import {HTMLAttributes} from 'react';
+import {type HTMLAttributes} from 'react';
 import {render, screen} from '@testing-library/react';
 
 import ButtonToolbar from './button-toolbar';

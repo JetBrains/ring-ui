@@ -1,18 +1,16 @@
 import {useState, useCallback, useEffect} from 'react';
-
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 
 import {Grid, Row, Col} from '../grid/grid';
 import Link from '../link/link';
 import Pager from '../pager/pager';
 import Button from '../button/button';
-
-import Table, {Table as BaseTable, TableAttrs} from './table';
+import Table, {Table as BaseTable, type TableAttrs} from './table';
 import MultiTable from './multitable';
-import Selection, {SelectionItem} from './selection';
+import Selection, {type SelectionItem} from './selection';
 import mock from './table.stories.json';
 import tableData from './table.examples2.json';
-import {SortParams} from './header-cell';
+import {type SortParams} from './header-cell';
 
 export default {
   title: 'Components/Table',
@@ -89,7 +87,7 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
         caption={withCaption ? 'Countries' : undefined}
         isItemSelectable={isItemSelectable}
         getItemDataTest={it => String(it.country)}
-        dragHandleTitle="Drag me!"
+        dragHandleTitle='Drag me!'
       />
 
       <Grid>
@@ -115,7 +113,7 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
             {page === 1 && data.length > 5 && (
               <>
                 {' '}
-                <span id="button-select-bulgaria">
+                <span id='button-select-bulgaria'>
                   {selection.isSelected(data[3]) ? (
                     <Button onClick={() => setSelection(selection.deselect(data[3]))}>
                       Deselect {data[3].country}
@@ -124,7 +122,7 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
                     <Button onClick={() => setSelection(selection.select(data[3]))}>Select {data[3].country}</Button>
                   )}
                 </span>
-                <span id="button-select-finland">
+                <span id='button-select-finland'>
                   {' '}
                   {selection.isSelected(data[5]) ? (
                     <Button onClick={() => setSelection(selection.deselect(data[5]))}>
@@ -230,12 +228,12 @@ export const MultiTableStory = () => {
 
   return (
     <MultiTable>
-      <Table data={data1} columns={columns1} caption="Continents" selection={selection1} onSelect={setSelection1} />
+      <Table data={data1} columns={columns1} caption='Continents' selection={selection1} onSelect={setSelection1} />
 
       <Table
         data={data2}
         columns={columns2}
-        caption="Countries"
+        caption='Countries'
         autofocus
         selection={selection2}
         onSelect={setSelection2}

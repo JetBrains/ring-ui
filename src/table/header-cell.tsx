@@ -1,11 +1,10 @@
-import {PureComponent, ReactNode, SyntheticEvent, ThHTMLAttributes} from 'react';
+import {PureComponent, type ReactNode, type SyntheticEvent, type ThHTMLAttributes} from 'react';
 import classNames from 'classnames';
 import sortableIcon from '@jetbrains/icons/unsorted-12px';
 import sortedIcon from '@jetbrains/icons/chevron-12px-down';
 
 import Icon from '../icon/icon';
 import dataTests from '../global/data-tests';
-
 import style from './table.css';
 
 export interface Column<T = never> {
@@ -76,7 +75,7 @@ export default class HeaderCell extends PureComponent<HeaderCellProps> {
         data-test={dataTests('ring-table-header-cell', dataTest)}
       >
         {/* onClick only used to stop propagation */}
-        <span onClick={this.onChildrenClick} role="presentation">
+        <span onClick={this.onChildrenClick} role='presentation'>
           {this.props.children}
         </span>
 

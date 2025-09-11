@@ -23,10 +23,10 @@ export const demo = () => {
         <div>
           <Tag onRemove={noop}>Simple</Tag>
           <Tag readOnly>Read-only</Tag>
-          <Tag className="limited-width" onRemove={noop}>
+          <Tag className='limited-width' onRemove={noop}>
             With long truncated text
           </Tag>
-          <Tag rgTagIcon={tagIcon} rgTagTitle="I am an icon title" onRemove={noop}>
+          <Tag rgTagIcon={tagIcon} rgTagTitle='I am an icon title' onRemove={noop}>
             With icon title
           </Tag>
           <Tag avatar={avatarUrl} onRemove={noop}>
@@ -35,7 +35,7 @@ export const demo = () => {
           <Tag
             onRemove={noop}
             render={({children, ...restProps}) => (
-              <a href="/" {...restProps}>
+              <a href='/' {...restProps}>
                 {children}
               </a>
             )}

@@ -1,10 +1,9 @@
-import {Component, ReactNode} from 'react';
+import {Component, type ReactNode} from 'react';
 
 import Dialog from '../dialog/dialog';
 import {Content} from '../island/island';
 import LoaderScreen from '../loader-screen/loader-screen';
 import {HUB_AUTH_PAGE_OPENED} from '../auth/background-flow';
-
 import styles from './login-dialog.css';
 
 const HUB_AUTH_PAGE_LOGIN_STARTED = 'HUB_AUTH_PAGE_LOGIN_STARTED';
@@ -93,7 +92,7 @@ export default class LoginDialog extends Component<LoginDialogProps> {
 
     return (
       <Dialog
-        data-test="ring-login-dialog"
+        data-test='ring-login-dialog'
         className={className}
         contentClassName={styles.dialogContent}
         trapFocus
@@ -103,7 +102,7 @@ export default class LoginDialog extends Component<LoginDialogProps> {
         onCloseAttempt={onCancel}
       >
         <Content>
-          <iframe title="Login dialog" style={iFrameStyle} src={url} className={styles.iFrame} scrolling="no" />
+          <iframe title='Login dialog' style={iFrameStyle} src={url} className={styles.iFrame} scrolling='no' />
         </Content>
 
         {loading && <LoaderScreen message={loadingMessage} containerClassName={styles.nonOpaqueLoader} />}

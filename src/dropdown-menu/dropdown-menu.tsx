@@ -1,15 +1,22 @@
-import {forwardRef, useMemo, cloneElement, ReactElement, HTMLAttributes, SyntheticEvent, Ref, ReactNode} from 'react';
+import {
+  forwardRef,
+  useMemo,
+  cloneElement,
+  type ReactElement,
+  type HTMLAttributes,
+  type SyntheticEvent,
+  type Ref,
+  type ReactNode,
+} from 'react';
 
-import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
-import Dropdown, {AnchorProps, DropdownAttrs, DropdownChildrenFunction} from '../dropdown/dropdown';
-import PopupMenu, {PopupMenuAttrs} from '../popup-menu/popup-menu';
-import {PopupAttrs} from '../popup/popup';
+import List, {ActiveItemContext, type SelectHandlerParams} from '../list/list';
+import Dropdown, {type AnchorProps, type DropdownAttrs, type DropdownChildrenFunction} from '../dropdown/dropdown';
+import PopupMenu, {type PopupMenuAttrs} from '../popup-menu/popup-menu';
+import {type PopupAttrs} from '../popup/popup';
 import getUID from '../global/get-uid';
 import Anchor from '../dropdown/anchor';
-
 import {isArray} from '../global/typescript-utils';
-
-import {ListDataItem} from '../list/consts';
+import {type ListDataItem} from '../list/consts';
 
 const defaultAriaLabel = 'Dropdown menu';
 

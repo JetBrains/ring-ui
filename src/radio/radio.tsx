@@ -1,8 +1,7 @@
 import {Component} from 'react';
 
 import getUID from '../global/get-uid';
-
-import RadioItem, {RadioContext, RadioProps} from './radio__item';
+import RadioItem, {RadioContext, type RadioProps} from './radio-item';
 
 /**
  * @name Radio

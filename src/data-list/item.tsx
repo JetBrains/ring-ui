@@ -1,20 +1,16 @@
-import {PureComponent, ReactNode} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
 import Link from '../link/link';
 import Text from '../text/text';
 import LoaderInline from '../loader-inline/loader-inline';
-
 import Button from '../button/button';
-
-import {SelectionItem} from '../table/selection';
-
-import Selection from './selection';
-
+import {type SelectionItem} from '../table/selection';
 import Title from './title';
-
 import styles from './data-list.css';
+
+import type Selection from './selection';
 
 export enum moreLessButtonStates {
   UNUSED,
@@ -159,23 +155,23 @@ export default class Item<T extends SelectionItem> extends PureComponent<ItemPro
       if (collapsed) {
         collapserExpander = (
           <Button
-            title="Expand"
+            title='Expand'
             onClick={onExpand}
             icon={chevronRightIcon}
             className={styles.collapseButton}
             iconClassName={styles.collapseIcon}
-            data-test="ring-data-list-expand"
+            data-test='ring-data-list-expand'
           />
         );
       } else {
         collapserExpander = (
           <Button
-            title="Collapse"
+            title='Collapse'
             onClick={onCollapse}
             icon={chevronDownIcon}
             className={styles.collapseButton}
             iconClassName={styles.collapseIcon}
-            data-test="ring-data-list-collapse"
+            data-test='ring-data-list-collapse'
           />
         );
       }

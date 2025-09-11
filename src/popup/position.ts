@@ -1,11 +1,17 @@
-import {getDocumentScrollLeft, getDocumentScrollTop, getRect, getWindowHeight, isMounted, Rect} from '../global/dom';
-
+import {
+  getDocumentScrollLeft,
+  getDocumentScrollTop,
+  getRect,
+  getWindowHeight,
+  isMounted,
+  type Rect,
+} from '../global/dom';
 import {Dimension, Directions, MaxHeight, MinWidth} from './popup.consts';
 
 export {Dimension, Directions, MaxHeight, MinWidth};
 
 function getScrollingCoordinates(container: Element | null) {
-  if (container !== null) {
+  if (container) {
     return {
       top: container.scrollTop,
       left: container.scrollLeft,
@@ -84,7 +90,7 @@ interface OverflowAttrs extends PositionAttrs {
 }
 
 function verticalOverflow(styles: PositionStyles, scrollingCoordinates: Position, attrs: OverflowAttrs) {
-  const containerHeight = attrs.container !== null ? attrs.container.clientHeight : getWindowHeight();
+  const containerHeight = attrs.container ? attrs.container.clientHeight : getWindowHeight();
   const viewportMinX = scrollingCoordinates.top + attrs.sidePadding;
   const viewportMaxX = scrollingCoordinates.top + containerHeight - attrs.sidePadding;
 
@@ -98,7 +104,7 @@ function verticalOverflow(styles: PositionStyles, scrollingCoordinates: Position
 }
 
 function horizontalOverflow(styles: PositionStyles, scrollingCoordinates: Position, attrs: OverflowAttrs) {
-  const containerWidth = attrs.container !== null ? attrs.container.clientWidth : window.innerWidth;
+  const containerWidth = attrs.container ? attrs.container.clientWidth : window.innerWidth;
   const viewportMinY = scrollingCoordinates.left + attrs.sidePadding;
   const viewportMaxY = scrollingCoordinates.left + containerWidth - attrs.sidePadding;
 
@@ -150,13 +156,13 @@ function handleTopOffScreen({
   const BORDER_COMPENSATION = 1;
   const {TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP} = Directions;
 
-  const openedToTop = direction != null && [TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP].includes(direction);
+  const openedToTop = direction && [TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP].includes(direction);
 
   if (!openedToTop) {
     return styles;
   }
 
-  const isAttachedToAnchorTop = direction != null && [TOP_LEFT, TOP_CENTER, TOP_RIGHT].includes(direction);
+  const isAttachedToAnchorTop = direction && [TOP_LEFT, TOP_CENTER, TOP_RIGHT].includes(direction);
   const attachingPointY = isAttachedToAnchorTop ? anchorRect.top : anchorRect.bottom;
 
   const effectiveHeight =
@@ -212,7 +218,8 @@ export function maxHeightForDirection(direction: Directions, anchorNode: Element
 export function calculateMinWidth(anchorWidth: number, minWidth: PositionAttrs['minWidth']): number | null {
   if (minWidth === MinWidth.TARGET || minWidth === 'target') {
     return anchorWidth;
-  } else if (minWidth) {
+  }
+  if (minWidth) {
     return anchorWidth < minWidth ? minWidth : anchorWidth;
   }
   return null;
@@ -240,8 +247,8 @@ export default function position(attrs: PositionAttrs) {
   };
   let chosenDirection = null;
 
-  const containerRect = container !== null ? getRect(container) : defaultcontainerRect;
-  const defaultAnchor = container !== null ? container : document.body;
+  const containerRect = container ? getRect(container) : defaultcontainerRect;
+  const defaultAnchor = container ? container : document.body;
   const anchorRect = getRect(isMounted(anchor) ? anchor : defaultAnchor);
   const scroll = getScrollingCoordinates(container);
   const anchorLeft = anchorRect.left + scroll.left + left - containerRect.left;
@@ -298,7 +305,7 @@ export default function position(attrs: PositionAttrs) {
   }
 
   const newMinWidth = calculateMinWidth(anchorRect.width, minWidth);
-  if (newMinWidth !== null) {
+  if (newMinWidth) {
     styles.minWidth = newMinWidth;
   }
 

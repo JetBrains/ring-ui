@@ -2,11 +2,8 @@ import {Component} from 'react';
 
 import Button from '../button/button';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
-
 import Theme from '../global/theme';
-
 import alert from './alert-service';
-
 import styles from './alert-service.stories.css';
 
 export default {
@@ -32,6 +29,7 @@ export const alertService = () => {
     }
 
     componentWillUnmount() {
+      // eslint-disable-next-line no-underscore-dangle
       alert._getShowingAlerts().forEach(item => alert.removeWithoutAnimation(item.key));
     }
 

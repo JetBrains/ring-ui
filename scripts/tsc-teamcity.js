@@ -5,9 +5,9 @@ tsm.autoFlowId = false;
 const errorFormat = /^(.+)\((\d+),\d+\): error (TS\d+): (.*)+$/m;
 const origWrite = process.stdout.write;
 const registeredErrorCodes = new Set();
-process.stdout.write = function write(error) {
+process.stdout.write = function write(error, ...args) {
   const match = error.match(errorFormat);
-  if (match != null) {
+  if (match) {
     // eslint-disable-next-line no-unused-vars
     const [_, file, line, errorCode, message] = match;
     if (!registeredErrorCodes.has(errorCode)) {
@@ -21,7 +21,7 @@ process.stdout.write = function write(error) {
     }
     tsm.inspection({typeId: errorCode, file, line, message});
   }
-  return origWrite.apply(this, arguments);
+  return origWrite.apply(this, args);
 };
 process.argv.push('--pretty', 'false');
 

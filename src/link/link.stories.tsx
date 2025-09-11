@@ -3,9 +3,8 @@ import classNames from 'classnames';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
 import Icon from '../icon/icon';
-
 import Link, {linkHOC} from './link';
-import {ClickableLinkProps} from './clickableLink';
+import {type ClickableLinkProps} from './clickable-link';
 
 export default {
   title: 'Components/Link',
@@ -39,35 +38,35 @@ export const allVariants = () => {
   class LinkDemo extends Component<unknown> {
     render() {
       return (
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}} data-test="lik-example">
-          <Link href="/">Ordinary link</Link>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}} data-test='lik-example'>
+          <Link href='/'>Ordinary link</Link>
 
-          <Link href="/" active>
+          <Link href='/' active>
             Active link (inherits color)
           </Link>
 
-          <Link href="/" pseudo>
+          <Link href='/' pseudo>
             Pseudo link (no underline on hover)
           </Link>
 
-          <Link href="/" hover>
+          <Link href='/' hover>
             Hovered link
           </Link>
 
-          <Link href="/">Link with a very long text, wrapping over lines</Link>
+          <Link href='/'>Link with a very long text, wrapping over lines</Link>
 
-          <Link href="/">Link with a very long text, wrapping over lines</Link>
+          <Link href='/'>Link with a very long text, wrapping over lines</Link>
 
-          <Link href="/" className="hub-link">
-            <Icon key="icon" glyph={hubLogo} className="hub-icon" />
-            <div key="text">
+          <Link href='/' className='hub-link'>
+            <Icon key='icon' glyph={hubLogo} className='hub-icon' />
+            <div key='text'>
               <span>Link with non-text content</span>
             </div>
           </Link>
 
-          <CustomLink href="/">Custom link component</CustomLink>
+          <CustomLink href='/'>Custom link component</CustomLink>
 
-          <CustomLink href="/" active>
+          <CustomLink href='/' active>
             Active custom link component
           </CustomLink>
         </div>

@@ -1,6 +1,7 @@
 import AuthResponseParser from './response-parser';
-import AuthRequestBuilder from './request-builder';
-import AuthStorage from './storage';
+
+import type AuthRequestBuilder from './request-builder';
+import type AuthStorage from './storage';
 
 export const HUB_AUTH_PAGE_OPENED = 'HUB_AUTH_PAGE_OPENED';
 
@@ -50,7 +51,7 @@ export default class BackgroundFlow {
    */
   private async _load() {
     const authRequest = await this._requestBuilder
-      // eslint-disable-next-line camelcase
+
       .prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
 
     return new Promise<string>((resolve, reject) => {

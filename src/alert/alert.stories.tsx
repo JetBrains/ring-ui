@@ -2,9 +2,7 @@ import {Component} from 'react';
 
 import Link from '../link/link';
 import Button from '../button/button';
-
-import {AlertItem} from '../alert-service/alert-service';
-
+import {type AlertItem} from '../alert-service/alert-service';
 import Alert, {Container} from './alert';
 
 export default {
@@ -69,7 +67,7 @@ export const alertContainer = () => {
           key: 4,
           message: (
             <span>
-              Message <Link href="#">with link</Link>
+              Message <Link href='#'>with link</Link>
             </span>
           ),
           isClosing: false,

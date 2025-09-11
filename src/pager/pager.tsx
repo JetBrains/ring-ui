@@ -1,8 +1,7 @@
 /**
  * @name Pager
  */
-import {PureComponent, ReactNode} from 'react';
-
+import {PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import chevronLeftIcon from '@jetbrains/icons/chevron-left';
@@ -11,13 +10,11 @@ import chevronRightIcon from '@jetbrains/icons/chevron-right';
 import Button from '../button/button';
 import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
-import Select, {SelectItem} from '../select/select';
+import Select, {type SelectItem} from '../select/select';
 import memoize from '../global/memoize';
 import Link from '../link/link';
 import Icon from '../icon/icon';
-
 import {I18nContext} from '../i18n/i18n-context';
-
 import style from './pager.css';
 
 export interface PagerTranslations {
@@ -89,7 +86,7 @@ export default class Pager extends PureComponent<PagerProps> {
   }
 
   handlePageSizeChange = (item: PagerSizeItem | null) => {
-    if (item != null) {
+    if (item) {
       this.props.onPageSizeChange(item.key);
     }
   };
@@ -141,11 +138,11 @@ export default class Pager extends PureComponent<PagerProps> {
 
     if (!onPageChange) {
       return {};
-    } else if (hrefFunc) {
-      return {onPlainLeftClick: onClick};
-    } else {
-      return {onClick};
     }
+    if (hrefFunc) {
+      return {onPlainLeftClick: onClick};
+    }
+    return {onClick};
   }
 
   getPageSizeSelector() {
@@ -153,7 +150,7 @@ export default class Pager extends PureComponent<PagerProps> {
 
     return (
       !this.props.disablePageSizeSelector && (
-        <div data-test="ring-pager-page-size-selector" className={style.pageSize}>
+        <div data-test='ring-pager-page-size-selector' className={style.pageSize}>
           <Select
             data={selectOptions.data}
             selected={selectOptions.selected}
@@ -173,17 +170,17 @@ export default class Pager extends PureComponent<PagerProps> {
 
     const nextLinkAvailable = this.props.openTotal || this.props.currentPage !== this.getTotalPages();
 
-    const nextIcon = <Icon glyph={chevronRightIcon} key="icon" />;
+    const nextIcon = <Icon glyph={chevronRightIcon} key='icon' />;
 
-    const prevIcon = <Icon glyph={chevronLeftIcon} key="icon" />;
+    const prevIcon = <Icon glyph={chevronLeftIcon} key='icon' />;
 
     const prevText = this.props.translations?.previousPage ?? translate('previousPage');
 
     const nextText = this.props.translations?.nextPage ?? translate('nextPage');
 
-    const nextLinkContent = [<span key="text">{nextText}</span>, nextIcon];
+    const nextLinkContent = [<span key='text'>{nextText}</span>, nextIcon];
 
-    const prevLinkContent = [prevIcon, <span key="text">{prevText}</span>];
+    const prevLinkContent = [prevIcon, <span key='text'>{prevText}</span>];
 
     const prevLinkHref = this.generateHref(this.props.currentPage - 1);
 
@@ -203,7 +200,7 @@ export default class Pager extends PureComponent<PagerProps> {
         ) : (
           <span className={disabledLinkClasses}>
             {prevIcon}
-            <span key="text">{prevText}</span>
+            <span key='text'>{prevText}</span>
           </span>
         )}
 
@@ -213,7 +210,7 @@ export default class Pager extends PureComponent<PagerProps> {
           </Link>
         ) : (
           <span className={disabledLinkClasses}>
-            <span key="text">{nextText}</span>
+            <span key='text'>{nextText}</span>
             {nextIcon}
           </span>
         )}
@@ -229,6 +226,7 @@ export default class Pager extends PureComponent<PagerProps> {
     return this.props.hrefFunc(page, pageSize);
   }
 
+  // eslint-disable-next-line complexity
   getPagerContent() {
     const {currentPage, visiblePagesLimit} = this.props;
     const totalPages = this.getTotalPages();
@@ -322,7 +320,7 @@ export default class Pager extends PureComponent<PagerProps> {
     }
 
     return (
-      <div data-test="ring-pager" className={classes}>
+      <div data-test='ring-pager' className={classes}>
         {shouldRenderPagerContent ? this.getPagerContent() : this.getPageSizeSelector()}
       </div>
     );

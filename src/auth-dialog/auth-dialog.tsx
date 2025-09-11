@@ -4,9 +4,7 @@ import classNames from 'classnames';
 import {Content} from '../island/island';
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
-
 import {H2} from '../heading/heading';
-
 import styles from './auth-dialog.css';
 
 /**
@@ -103,7 +101,7 @@ export default class AuthDialog extends Component<AuthDialogProps> {
     return (
       <Dialog
         label={title}
-        data-test="ring-auth-dialog"
+        data-test='ring-auth-dialog'
         className={className}
         contentClassName={classNames(className, styles.dialog)}
         onEscPress={this.onEscPress}
@@ -115,13 +113,13 @@ export default class AuthDialog extends Component<AuthDialogProps> {
             {serviceImage && <img alt={`${serviceName} logo`} className={styles.logo} src={serviceImage} />}
             <H2 className={styles.title}>{title}</H2>
             {errorMessage && <div className={styles.error}>{errorMessage}</div>}
-            <Button primary className={styles.firstButton} data-test="auth-dialog-confirm-button" onClick={onConfirm}>
+            <Button primary className={styles.firstButton} data-test='auth-dialog-confirm-button' onClick={onConfirm}>
               {confirmLabel}
             </Button>
             {onTryAgain && (
               <Button
                 className={styles.button}
-                data-test="auth-dialog-retry-button"
+                data-test='auth-dialog-retry-button'
                 onClick={() => this.onRetryPress()}
                 loader={retrying}
                 disabled={retrying}
@@ -129,7 +127,7 @@ export default class AuthDialog extends Component<AuthDialogProps> {
                 {tryAgainLabel}
               </Button>
             )}
-            <Button className={styles.button} data-test="auth-dialog-cancel-button" onClick={onCancel}>
+            <Button className={styles.button} data-test='auth-dialog-cancel-button' onClick={onCancel}>
               {cancelLabel}
             </Button>
           </div>

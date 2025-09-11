@@ -2,7 +2,6 @@ import MarkdownIt from 'markdown-it';
 import highlightJs from 'highlight.js';
 
 import highlightStyles from '../code/highlight.css';
-
 import Markdown from './markdown';
 
 export default {

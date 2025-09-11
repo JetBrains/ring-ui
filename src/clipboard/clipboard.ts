@@ -1,13 +1,12 @@
 import alertService from '../alert-service/alert-service';
-
 import {copyHTMLToClipboard, copyTextToClipboard} from './clipboard-fallback';
 
 const ALERT_DELAY = 1000;
 
-type ClipboardImplementation = {
+interface ClipboardImplementation {
   copy: (text: string) => Promise<void>;
   copyHTML: (html: string) => Promise<void>;
-};
+}
 
 function getClipboardImplementation(): ClipboardImplementation {
   if (navigator.clipboard && !window.isSecureContext) {
@@ -52,19 +51,19 @@ async function copy(
 }
 
 const clipboard = {
-  copyText: async (
+  copyText: (
     text: string,
     successMessage?: string | undefined,
     errorMessage?: string | undefined,
     delay: number = ALERT_DELAY,
-  ) => await copy(text, successMessage, errorMessage, delay),
+  ) => copy(text, successMessage, errorMessage, delay),
 
-  copyHTML: async (
+  copyHTML: (
     html: string,
     successMessage?: string | undefined,
     errorMessage?: string | undefined,
     delay: number = ALERT_DELAY,
-  ) => await copy(html, successMessage, errorMessage, delay, true),
+  ) => copy(html, successMessage, errorMessage, delay, true),
 };
 
 export default clipboard;

@@ -30,15 +30,15 @@ export const basic = () => {
       return (
         <div>
           <div style={{height: '25px', paddingTop: '25px'}}>
-            <ProgressBar label="Progress" value={value} style={{width: 288}} />
+            <ProgressBar label='Progress' value={value} style={{width: 288}} />
           </div>
 
           <div style={{height: '25px', paddingTop: '25px', background: '#F0F0F0'}}>
-            <ProgressBar label="Progress" value={value} style={{width: 288}} />
+            <ProgressBar label='Progress' value={value} style={{width: 288}} />
           </div>
 
           <div style={{height: '25px', paddingTop: '25px'}}>
-            <ProgressBar label="Progress" value={0.5} staticColor style={{width: 288}} />
+            <ProgressBar label='Progress' value={0.5} staticColor style={{width: 288}} />
           </div>
         </div>
       );

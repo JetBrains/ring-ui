@@ -1,4 +1,4 @@
-import {Component, HTMLAttributes} from 'react';
+import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import styles from './grid.css';
@@ -13,7 +13,7 @@ export class Grid extends Component<HTMLAttributes<HTMLDivElement>> {
     const classes = classNames(styles['container-fluid'], className);
 
     return (
-      <div data-test="ring-grid" {...restProps} className={classes}>
+      <div data-test='ring-grid' {...restProps} className={classes}>
         {children}
       </div>
     );

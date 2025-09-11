@@ -1,6 +1,8 @@
 import HTTP from '../http/http';
-import Auth, {AuthUser} from '../auth/auth';
-import {UserCardUser} from '../user-card/card';
+import {type UserCardUser} from '../user-card/card';
+
+import type {AuthUser} from '../auth/auth';
+import type Auth from '../auth/auth';
 
 const DEFAULT_FIELDS = 'id,name,login,banned,banReason,profile(email/email,avatar/url)';
 

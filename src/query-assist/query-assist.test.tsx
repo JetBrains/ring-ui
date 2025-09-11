@@ -1,18 +1,15 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-
 import {getByRole, getByTestId, queryByTestId, render, screen} from '@testing-library/react';
-
 import {act} from 'react';
-
 import userEvent from '@testing-library/user-event';
-
 import {beforeEach} from 'vitest';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
-
-import {QueryAssistSuggestion} from './query-assist__suggestions';
-
-import QueryAssist, {QueryAssistAttrs, QueryAssistChange, QueryAssistRequestParams} from './query-assist';
+import {type QueryAssistSuggestion} from './query-assist-suggestions';
+import QueryAssist, {
+  type QueryAssistAttrs,
+  type QueryAssistChange,
+  type QueryAssistRequestParams,
+} from './query-assist';
 import styles from './query-assist.css';
 
 describe('Query Assist', () => {
@@ -119,7 +116,7 @@ describe('Query Assist', () => {
     it('should handle props update', async () => {
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} />);
-      rerender(<QueryAssist {...props} query="update" caret={2} />);
+      rerender(<QueryAssist {...props} query='update' caret={2} />);
       await waitForSetStateCallbacks();
 
       const queryAssist = screen.getByTestId('ring-query-assist');
@@ -187,8 +184,8 @@ describe('Query Assist', () => {
     it('should not enable shortcuts after rerender', async () => {
       const onApply = vi.fn();
       const props = {...defaultProps(), onApply, focus: false};
-      const {rerender} = render(<QueryAssist {...props} placeholder="bar" />);
-      rerender(<QueryAssist {...props} placeholder="foo" />);
+      const {rerender} = render(<QueryAssist {...props} placeholder='bar' />);
+      rerender(<QueryAssist {...props} placeholder='foo' />);
       await waitForSetStateCallbacks();
 
       await act(() => simulateCombo('enter'));
@@ -269,7 +266,7 @@ describe('Query Assist', () => {
     it('should support undo', async () => {
       const props = defaultProps();
       const {rerender} = render(<QueryAssist {...props} />);
-      rerender(<QueryAssist {...props} query="newQuery" />);
+      rerender(<QueryAssist {...props} query='newQuery' />);
 
       await waitForSetStateCallbacks();
 

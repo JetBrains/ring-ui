@@ -1,4 +1,4 @@
-import HTTP, {FetchParams} from './http';
+import HTTP, {type FetchParams} from './http';
 
 const authMock = {
   requestToken: () => 'mock token',

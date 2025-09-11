@@ -1,13 +1,10 @@
 /* eslint-disable react/jsx-no-literals */
 import {render, screen, fireEvent} from '@testing-library/react';
-
-import {beforeEach, Mock} from 'vitest';
-
+import {beforeEach, type Mock} from 'vitest';
 import userEvent from '@testing-library/user-event';
-
 import {createRef} from 'react';
 
-import Upload, {UploadHandle} from './upload';
+import Upload, {type UploadHandle} from './upload';
 import styles from './upload.css';
 
 describe('<Upload />', () => {
@@ -24,7 +21,7 @@ describe('<Upload />', () => {
   it('should render component', () => {
     render(
       <Upload onFilesSelected={onFilesSelectedMock}>
-        <div data-test="upload-content">{'Drop files here'}</div>
+        <div data-test='upload-content'>{'Drop files here'}</div>
       </Upload>,
     );
 
@@ -39,7 +36,7 @@ describe('<Upload />', () => {
     const ref = createRef<UploadHandle>();
     render(
       <Upload onFilesSelected={onFilesSelectedMock} ref={ref}>
-        <div data-test="upload-content">{'Drop files here'}</div>
+        <div data-test='upload-content'>{'Drop files here'}</div>
       </Upload>,
     );
 

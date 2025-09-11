@@ -1,4 +1,4 @@
-import {memo, HTMLAttributes, ComponentType} from 'react';
+import {memo, type HTMLAttributes, type ComponentType} from 'react';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
 

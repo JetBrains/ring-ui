@@ -1,9 +1,13 @@
 import GroupIcon from '@jetbrains/icons/group';
 
-import Auth, {AuthUser} from '../auth/auth';
-import HubSourceUsersGroups, {HubSourceUsersGroupsOptions, UserGroup} from '../hub-source/hub-source__users-groups';
-
+import HubSourceUsersGroups, {
+  type HubSourceUsersGroupsOptions,
+  type UserGroup,
+} from '../hub-source/hub-source-users-groups';
 import List from './list';
+
+import type Auth from '../auth/auth';
+import type {AuthUser} from '../auth/auth';
 
 interface ListUsersGroupsSourceOptions extends Partial<HubSourceUsersGroupsOptions> {
   GroupsTitle: string;

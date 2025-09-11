@@ -1,17 +1,18 @@
 import {useState, useEffect, createElement, useMemo} from 'react';
 import permissionIcon from '@jetbrains/icons/settings';
-
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 
 import hubConfig from '../../.storybook/hub-config';
-
 import Auth from '../auth/auth';
 import HTTP from '../http/http';
 import List from '../list/list';
 import Icon from '../icon/icon';
 import {Size} from '../input/input';
-
-import QueryAssist, {QueryAssistAttrs, QueryAssistRequestParams, QueryAssistResponse} from './query-assist';
+import QueryAssist, {
+  type QueryAssistAttrs,
+  type QueryAssistRequestParams,
+  type QueryAssistResponse,
+} from './query-assist';
 
 export default {
   title: 'Components/Query Assist',
@@ -213,7 +214,7 @@ WithCustomActions.args = {
   hint: 'lol',
   hintOnSelection: 'lol selected',
   popupClassName: 'test',
-  actions: [<Icon glyph={permissionIcon} key="custom-action" style={{color: 'var(--ring-secondary-color)'}} />],
+  actions: [<Icon glyph={permissionIcon} key='custom-action' style={{color: 'var(--ring-secondary-color)'}} />],
 };
 WithCustomActions.storyName = 'with custom actions';
 WithCustomActions.parameters = {screenshots: {skip: true}};

@@ -1,7 +1,6 @@
 import {Component} from 'react';
 
 import Button from '../button/button';
-
 import confirm, {hideConfirm} from './confirm-service';
 
 export default {

@@ -2,13 +2,13 @@
  * @name Icon
  */
 
-import {PureComponent, ComponentType, SVGAttributes, HTMLAttributes} from 'react';
+import {PureComponent, type ComponentType, type SVGAttributes, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
 
-import {Color, Size} from './icon__constants';
+import {Color, Size} from './icon.constants';
 import styles from './icon.css';
-import IconSVG from './icon__svg';
+import IconSVG from './icon-svg';
 
 const warnSize = deprecate(
   () => {},
@@ -101,7 +101,7 @@ export default class Icon extends PureComponent<IconProps> {
     );
 
     return (
-      <span data-test="ring-icon" {...restProps} className={classes}>
+      <span data-test='ring-icon' {...restProps} className={classes}>
         {typeof Glyph === 'string' ? (
           <IconSVG src={Glyph} style={this.getStyle()} />
         ) : (

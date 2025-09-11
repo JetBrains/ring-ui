@@ -1,13 +1,11 @@
-import React, {useState, useEffect, useRef, useContext, useMemo, PropsWithChildren} from 'react';
+import React, {useState, useEffect, useRef, useContext, useMemo, type PropsWithChildren} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 import {getRect} from '../global/dom';
-
 import {toPx} from './utils';
 import CollapseContext from './collapse-context';
 import {COLLAPSE_CONTENT_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
-
 import styles from './collapse.css';
 
 const DURATION_FACTOR = 0.5;
@@ -15,11 +13,11 @@ const DEFAULT_HEIGHT = 0;
 const VISIBLE = 1;
 const HIDDEN = 0;
 
-type Props = {
+interface Props {
   minHeight?: number;
   className?: string;
   'data-test'?: string | null | undefined;
-};
+}
 
 /**
  * @name CollapseContent

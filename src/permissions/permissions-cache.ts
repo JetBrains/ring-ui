@@ -72,6 +72,7 @@ export default class PermissionCache {
         if (key) {
           _permissionCache[key] = {
             global: permission.global,
+            // eslint-disable-next-line no-underscore-dangle
             projectIdSet: (this.constructor as typeof PermissionCache)._toProjectIdSet(permission.projects),
           };
         }
@@ -251,7 +252,7 @@ export default class PermissionCache {
         throw new Error("Operator ')' was expected");
       }
     } else {
-      result = t != null && this.testPermission(t, projectId);
+      result = !!t && this.testPermission(t, projectId);
     }
 
     return result;
@@ -279,9 +280,8 @@ export default class PermissionCache {
 
     if (projectId) {
       // if projectId is specified check that the permission is given in the project
-      return cachedPermission.projectIdSet != null && projectId in cachedPermission.projectIdSet;
-    } else {
-      return true;
+      return !!cachedPermission.projectIdSet && projectId in cachedPermission.projectIdSet;
     }
+    return true;
   }
 }

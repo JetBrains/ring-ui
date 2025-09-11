@@ -1,8 +1,7 @@
-import {CSSProperties, Fragment} from 'react';
+import {type CSSProperties, Fragment} from 'react';
 
 import Button from '../button/button';
 import Link from '../link/link';
-
 import Tooltip from './tooltip';
 
 export default {
@@ -22,8 +21,8 @@ export default {
 
 export const basic = () => (
   <div style={{paddingBottom: '100px'}}>
-    <Tooltip title="Explanation">
-      <Button id="button-with-tooltip">Button that requires an explanation</Button>
+    <Tooltip title='Explanation'>
+      <Button id='button-with-tooltip'>Button that requires an explanation</Button>
     </Tooltip>
   </div>
 );
@@ -49,12 +48,12 @@ export const displayedWhenNecessary = () => {
   return (
     <Fragment>
       <div style={{paddingBottom: '200px'}}>
-        <Tooltip long title={loremIpsum} selfOverflowOnly className="lorem-ipsum__text">
+        <Tooltip long title={loremIpsum} selfOverflowOnly className='lorem-ipsum__text'>
           <b>{"Tooltip won't be displayed:"}</b> {loremIpsum}
         </Tooltip>
       </div>
       <div style={{paddingBottom: '200px'}}>
-        <Tooltip long title={loremIpsum} selfOverflowOnly style={overflowStyles} className="lorem-ipsum__text_overflow">
+        <Tooltip long title={loremIpsum} selfOverflowOnly style={overflowStyles} className='lorem-ipsum__text_overflow'>
           <b>Tooltip will be displayed:</b> {loremIpsum}
         </Tooltip>
       </div>
@@ -77,13 +76,13 @@ displayedWhenNecessary.parameters = {
 
 export const nested = () => (
   <div style={{paddingBottom: '100px'}}>
-    <Tooltip title="Explanation">
+    <Tooltip title='Explanation'>
       Some text with an explanation.
-      <Tooltip title="Nested Explanation">
+      <Tooltip title='Nested Explanation'>
         <strong> Some text inside with a separate explanation. </strong>
 
-        <Tooltip title="Nested Nested Explanation">
-          <Button id="button-with-tooltip">Inline button that requires an explanation too</Button>
+        <Tooltip title='Nested Nested Explanation'>
+          <Button id='button-with-tooltip'>Inline button that requires an explanation too</Button>
         </Tooltip>
 
         <strong> Some text inside with a separate explanation. </strong>
@@ -98,17 +97,17 @@ nested.storyName = 'nested';
 export const complexMarkup = () => (
   <div>
     <Tooltip
-      title={
+      title={(
         <>
-          Explanation <Link href="https://google.com">with</Link>
+          Explanation <Link href='https://google.com'>with</Link>
           <div>
             <b>complex</b>
           </div>{' '}
           markup
         </>
-      }
+      )}
     >
-      <Button id="button-with-tooltip">Button that requires a complex explanation</Button>
+      <Button id='button-with-tooltip'>Button that requires a complex explanation</Button>
     </Tooltip>
   </div>
 );
@@ -120,12 +119,12 @@ complexMarkup.parameters = {
 export const shortcut = () => (
   <div style={{paddingBottom: '100px'}}>
     <Tooltip
-      title={
+      title={(
         <>
           Action name
-          <span className="shortcut">⌘C</span>
+          <span className='shortcut'>⌘C</span>
         </>
-      }
+      )}
     >
       <Button>Button that requires an explanation</Button>
     </Tooltip>
@@ -144,7 +143,7 @@ shortcut.parameters = {
 
 export const inheritedTheme = () => (
   <div style={{paddingBottom: '100px'}}>
-    <Tooltip title="Explanation" theme="inherit">
+    <Tooltip title='Explanation' theme='inherit'>
       <Button>Button that requires an explanation</Button>
     </Tooltip>
   </div>

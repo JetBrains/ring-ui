@@ -2,8 +2,7 @@
 import {render, screen, fireEvent, within, act} from '@testing-library/react';
 
 import Popup from '../popup/popup';
-
-import Tooltip, {TooltipAttrs} from './tooltip';
+import Tooltip, {type TooltipAttrs} from './tooltip';
 
 // Import the mocked Popup for assertions
 
@@ -19,13 +18,11 @@ vi.mock('../popup/popup', () => {
     };
   };
 
-  const MockPopup = vi.fn().mockImplementation(({children, className, hidden, ...props}) => {
-    return hidden ? null : (
-      <div data-testid="mock-popup" className={className} {...props}>
-        {children}
-      </div>
-    );
-  }) as MockPopupType;
+  const MockPopup = vi.fn().mockImplementation(({children, className, hidden, ...props}) => (hidden ? null : (
+    <div data-testid='mock-popup' className={className} {...props}>
+      {children}
+    </div>
+    ))) as MockPopupType;
 
   // Add isVisible method to the mock
   MockPopup.isVisible = vi.fn().mockReturnValue(true);
@@ -109,7 +106,7 @@ describe('Tooltip', () => {
       const tooltipElement = screen.getByRole('tooltip');
       const removeEventListener = vi.spyOn(tooltipElement, 'removeEventListener');
 
-      rerender(<Tooltip {...defaultProps} title="" />);
+      rerender(<Tooltip {...defaultProps} title='' />);
 
       const TOOLTIP_HANDLED_EVENTS = ['mouseenter', 'mouseleave', 'focusin', 'focusout'];
 
@@ -127,7 +124,7 @@ describe('Tooltip', () => {
         vi.advanceTimersByTime(SHORT_DELAY);
       });
 
-      rerender(<Tooltip {...defaultProps} title="" />);
+      rerender(<Tooltip {...defaultProps} title='' />);
 
       // Popup should remain hidden
       expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);

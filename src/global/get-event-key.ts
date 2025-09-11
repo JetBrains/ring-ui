@@ -1,5 +1,5 @@
 // react-dom getEventKey function extracted
-import * as React from 'react';
+import type * as React from 'react';
 
 const normalizeKey: Record<string, string> = {
   Esc: 'Escape',

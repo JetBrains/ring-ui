@@ -1,24 +1,21 @@
-import {PureComponent, SyntheticEvent, ReactNode, ComponentType} from 'react';
+/* eslint-disable max-lines */
+import {PureComponent, type SyntheticEvent, type ReactNode, type ComponentType} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
 import getEventKey from '../global/get-event-key';
-import Select, {SelectItem} from '../select/select';
-import TagsList, {TagType} from '../tags-list/tags-list';
+import Select, {type SelectItem} from '../select/select';
+import TagsList, {type TagType} from '../tags-list/tags-list';
 import Caret from '../caret/caret';
 import memoize from '../global/memoize';
 import rerenderHOC from '../global/rerender-hoc';
 import {Size} from '../input/input';
-import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-import {Filter} from '../select/select__popup';
+import {type ControlsHeight, ControlsHeightContext} from '../global/controls-height';
+import {type Filter} from '../select/select-popup';
 import getUID from '../global/get-uid';
-
 import inputStyles from '../input/input.css';
-
-import {TagAttrs} from '../tag/tag';
-
-import ControlLabel, {LabelType} from '../control-label/control-label';
-
+import {type TagAttrs} from '../tag/tag';
+import ControlLabel, {type LabelType} from '../control-label/control-label';
 import styles from './tags-input.css';
 
 function noop() {}
@@ -114,8 +111,8 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
   static getDerivedStateFromProps({tags}: TagsInputProps, {prevTags}: TagsInputState) {
     const nextState = {prevTags: tags};
-    if (tags != null && tags !== prevTags) {
-      Object.assign(nextState, {tags, activeIndex: tags.length});
+    if (tags && tags !== prevTags) {
+      Object.assign(nextState, {tags, activeIndex: tags?.length});
     }
     return nextState;
   }
@@ -124,6 +121,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     if (this.props.autoOpen && !this.props.disabled) {
       this.focusInput();
       this.loadSuggestions();
+      // eslint-disable-next-line no-underscore-dangle
       this.select?._showPopup();
     }
   }
@@ -166,7 +164,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
   };
 
   addTag = (tag: TagType | null) => {
-    if (tag == null) {
+    if (tag === null) {
       return;
     }
     const isUniqueTag = this.state.tags.filter(item => tag.key === item.key).length === 0;
@@ -198,6 +196,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
       return;
     }
 
+    // eslint-disable-next-line no-underscore-dangle
     this.select?._clickHandler();
   };
 
@@ -246,6 +245,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     }
   };
 
+  // eslint-disable-next-line complexity
   handleKeyDown = (event: React.KeyboardEvent) => {
     const key = getEventKey(event);
     const isInputFocused = () =>
@@ -254,18 +254,19 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     if (key === ' ' && this.props.allowAddNewTags) {
       event.stopPropagation();
       const value = this.getInputNode()?.value;
-      if (value != null && value !== '') {
+      if (value) {
         this.handleTagCreation(value);
       }
       return true;
     }
 
+    // eslint-disable-next-line no-underscore-dangle
     if (this.select?._popup?.isVisible()) {
       return true;
     }
 
     if (key === 'ArrowLeft') {
-      if (this.getInputNode() && this.caret != null && Number(this.caret.getPosition()) > 0) {
+      if (this.getInputNode() && this.caret && Number(this.caret?.getPosition()) > 0) {
         return true;
       }
 
@@ -289,6 +290,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
       if (key === 'Backspace' && !this.getInputNode()?.value) {
         event.preventDefault();
         const tagsLength = this.state.tags.length;
+        // eslint-disable-next-line no-underscore-dangle
         this.select?._hidePopup(true); // otherwise confirmation may be overlapped by popup
         this.onRemoveTag(this.state.tags[tagsLength - 1]);
         return false;
@@ -296,7 +298,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
       if (
         (key === 'Delete' || key === 'Backspace') &&
-        this.state.activeIndex != null &&
+        this.state.activeIndex &&
         this.state.tags[this.state.activeIndex]
       ) {
         this.onRemoveTag(this.state.tags[this.state.activeIndex]).then(() => this.selectTag(true));
@@ -313,7 +315,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
   handleRemove = memoize((tag: TagType) => () => this.onRemoveTag(tag));
 
-  handleTagCreation = (label: string) => {
+  handleTagCreation = (label: string | undefined) => {
     this.addTag({key: label, label});
   };
 
@@ -350,7 +352,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
     return (
       <div
         // it transfers focus to input
-        role="presentation"
+        role='presentation'
         className={classes}
         onKeyDown={this.handleKeyDown}
         onClick={this.clickHandler}

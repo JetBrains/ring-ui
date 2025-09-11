@@ -1,4 +1,4 @@
-import {ReactNode, useEffect, useRef, useState} from 'react';
+import {type ReactNode, useEffect, useRef, useState} from 'react';
 
 import {getStyles, getRect, getPixelRatio, getWindowHeight} from './dom';
 
@@ -17,7 +17,7 @@ export const Basic = () => {
   const [reportContent, setReportContent] = useState<ReactNode>();
 
   useEffect(() => {
-    if (rectTarget.current != null) {
+    if (rectTarget.current) {
       setRectTargetContent(
         <>
           Element min-width = {getStyles(rectTarget.current).minWidth} <br />

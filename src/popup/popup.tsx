@@ -1,9 +1,9 @@
+/* eslint-disable max-lines */
 /**
  * @name Popup
  */
 
-import {PureComponent, ReactNode, CSSProperties, SyntheticEvent} from 'react';
-
+import {PureComponent, type ReactNode, type CSSProperties, type SyntheticEvent} from 'react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
 import classNames from 'classnames';
@@ -13,11 +13,9 @@ import scheduleRAF from '../global/schedule-raf';
 import {Listeners, getStyles} from '../global/dom';
 import Shortcuts from '../shortcuts/shortcuts';
 import dataTests from '../global/data-tests';
-
 import TabTrap from '../tab-trap/tab-trap';
 import {getConfiguration} from '../global/configuration';
-
-import position, {PositionStyles} from './position';
+import position, {type PositionStyles} from './position';
 import styles from './popup.css';
 import {DEFAULT_DIRECTIONS, Dimension, Directions, Display, MaxHeight, MinWidth} from './popup.consts';
 import {PopupTargetContext, PopupTarget} from './popup.target';
@@ -52,7 +50,7 @@ const stop = (event: React.MouseEvent) => {
 };
 
 export const getPopupContainer = (target: string | Element) =>
-  typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target;
+  (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
 
 export interface BasePopupProps {
   hidden: boolean;
@@ -293,7 +291,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
               popup.style[propKey] = value.toString();
             }
           });
-          if (direction != null) {
+          if (direction) {
             this._updateDirection(direction);
           }
         }
@@ -379,7 +377,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
       !this._listenersEnabled ||
       (this.props.dontCloseOnAnchorClick && evt.target instanceof Node && this._getAnchor()?.contains(evt.target)) ||
       // ignore clicks in shadow DOM, e.g., Grammarly suggestions
-      (evt.target instanceof Element && evt.target.shadowRoot != null)
+      (evt.target instanceof Element && evt.target.shadowRoot)
     ) {
       return;
     }
@@ -441,7 +439,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
               // prevent bubbling through portal
               onClick={stop}
               // This handler only blocks bubbling through React portal
-              role="presentation"
+              role='presentation'
               ref={this.portalRef}
             >
               {this.shouldUseShortcuts() && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
@@ -468,7 +466,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
                       onMouseDown={onMouseDown}
                       onMouseUp={onMouseUp}
                       // mouse handlers are used to track clicking on inner elements
-                      role="presentation"
+                      role='presentation'
                     >
                       {this.getInternalContent()}
                     </div>

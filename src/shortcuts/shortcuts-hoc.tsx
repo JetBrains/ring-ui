@@ -1,9 +1,8 @@
-import {Component, ComponentClass, ComponentType} from 'react';
+import {Component, type ComponentClass, type ComponentType} from 'react';
 
 import getUID from '../global/get-uid';
-
 import Shortcuts from './shortcuts';
-import {ShortcutsMap, ShortcutsScopeOptions} from './core';
+import {type ShortcutsMap, type ShortcutsScopeOptions} from './core';
 
 export interface ShortcutsHOCOptions extends ShortcutsScopeOptions {
   disabled?: boolean | null | undefined;

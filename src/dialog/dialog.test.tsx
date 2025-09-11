@@ -1,5 +1,4 @@
 import {fireEvent, render, screen} from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
 
 import Dialog from './dialog';
@@ -16,7 +15,7 @@ describe('Dialog', () => {
   });
 
   it('should use passed className', () => {
-    render(<Dialog show className="test-class" />);
+    render(<Dialog show className='test-class' />);
     expect(screen.getByTestId('ring-dialog-container')).to.have.class('test-class');
   });
 

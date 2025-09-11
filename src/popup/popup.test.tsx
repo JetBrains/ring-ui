@@ -1,11 +1,9 @@
 import {render, screen, fireEvent, getByTestId} from '@testing-library/react';
-
 import {expect} from 'vitest';
 
 import {getRect, getStyles} from '../global/dom';
 import simulateCombo from '../../test-helpers/simulate-combo';
-
-import Popup, {PopupAttrs} from './popup';
+import Popup, {type PopupAttrs} from './popup';
 import {MinWidth} from './popup.consts';
 
 describe('Popup', () => {
@@ -207,7 +205,7 @@ describe('Popup', () => {
 
       const popupElement = screen.getByTestId('ring-popup');
       expect(popupElement).to.exist;
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+
       expect(parseInt(getStyles(popupElement).minWidth, 10)).to.equal(70);
       element.remove();
     });

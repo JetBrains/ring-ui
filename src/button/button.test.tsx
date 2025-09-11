@@ -1,5 +1,4 @@
 import {render, screen} from '@testing-library/react';
-
 import caretDownSVG from '@jetbrains/icons/caret-down-10px';
 
 import Button from './button';
@@ -46,7 +45,7 @@ describe('Button', () => {
   });
 
   it('should render link instead of button if href specified', () => {
-    render(<Button href="http://www.jetbrains.com" />);
+    render(<Button href='http://www.jetbrains.com' />);
 
     expect(screen.getByRole('link')).to.have.attr('href', 'http://www.jetbrains.com');
   });

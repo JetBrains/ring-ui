@@ -2,18 +2,17 @@ import {useMemo, useContext, cloneElement} from 'react';
 import * as React from 'react';
 
 import dataTests from '../global/data-tests';
-
 import {CollapseContext} from './collapse-context';
 import {COLLAPSE_CONTROL_TEST_ID} from './consts';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ChildrenFunction = (collapsed: boolean) => React.ReactElement<any>;
 
-type Props = {
+interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children: ChildrenFunction | React.ReactElement<any>;
   'data-test'?: string | null | undefined;
-};
+}
 
 /**
  * @name CollapseControl

@@ -19,7 +19,7 @@ export const basic = () => (
 basic.storyName = 'basic';
 
 export const withScroll = () => (
-  <Island className="limited-island" narrow>
+  <Island className='limited-island' narrow>
     <Header border>Title</Header>
     <Content fade tabIndex={0}>
       {`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
@@ -44,7 +44,7 @@ withScroll.parameters = {
 };
 
 export const withResizeableHeader = () => (
-  <AdaptiveIsland className="limited-island" narrow>
+  <AdaptiveIsland className='limited-island' narrow>
     <Header>Title</Header>
     <Content fade tabIndex={0}>
       {`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has

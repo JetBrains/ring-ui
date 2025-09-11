@@ -1,11 +1,9 @@
 import {PureComponent} from 'react';
-
 import classNames from 'classnames';
 
 import style from './table.css';
-
-import Table, {TableAttrs} from './table';
-import Selection, {SelectionItem} from './selection';
+import Table, {type TableAttrs} from './table';
+import Selection, {type SelectionItem} from './selection';
 
 export interface SimpleTableProps<T extends SelectionItem>
   extends Omit<TableAttrs<T>, 'selection' | 'onSelect' | 'selectable'> {}

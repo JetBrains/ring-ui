@@ -1,9 +1,9 @@
 import {expect} from 'vitest';
 
-import HTTP from '../http/http';
-import Auth from '../auth/auth';
+import HubSourceUsersGroups from './hub-source-users-groups';
 
-import HubSourceUsersGroups from './hub-source__users-groups';
+import type HTTP from '../http/http';
+import type Auth from '../auth/auth';
 
 const SEARCH_THRESHOLD = 123;
 

@@ -1,8 +1,7 @@
 import {PureComponent} from 'react';
 
 import dataTests from '../global/data-tests';
-
-import Tabs, {TabsAttrs, Children} from './dumb-tabs';
+import Tabs, {type TabsAttrs, type Children} from './dumb-tabs';
 
 export interface SmartTabsProps extends TabsAttrs {
   children: Children;

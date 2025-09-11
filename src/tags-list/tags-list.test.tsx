@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import {render, screen} from '@testing-library/react';
 
-import TagsList, {TagsListAttrs} from './tags-list';
+import TagsList, {type TagsListAttrs} from './tags-list';
 
 describe('Tags List', () => {
   const tagsMock = [{key: 1, label: 'test1'}];
@@ -22,7 +22,7 @@ describe('Tags List', () => {
     it('should render custom tag', () => {
       class CustomTag extends Component {
         render() {
-          return <span data-test="custom-tag" className="custom-tag" />;
+          return <span data-test='custom-tag' className='custom-tag' />;
         }
       }
 

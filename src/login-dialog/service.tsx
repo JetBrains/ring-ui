@@ -1,8 +1,7 @@
 import {createRoot} from 'react-dom/client';
 
 import {ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
-
-import LoginDialog, {LoginDialogAttrs} from './login-dialog';
+import LoginDialog, {type LoginDialogAttrs} from './login-dialog';
 
 const containerElement = document.createElement('div');
 const reactRoot = createRoot(containerElement);

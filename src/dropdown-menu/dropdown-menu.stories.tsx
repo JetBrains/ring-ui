@@ -1,18 +1,13 @@
 import * as React from 'react';
-
 import chevronRight from '@jetbrains/icons/chevron-right';
 
 import List from '../list/list';
-
 import {Directions} from '../popup/popup.consts';
 import Icon from '../icon';
 import Group from '../group/group';
-
-import {ListDataItem} from '../list/consts';
-
+import {type ListDataItem} from '../list/consts';
 import PopupMenu from '../popup-menu/popup-menu';
-
-import DropdownMenu, {DropdownMenuProps} from './dropdown-menu';
+import DropdownMenu, {type DropdownMenuProps} from './dropdown-menu';
 
 export default {
   title: 'Components/DropdownMenu',
@@ -69,14 +64,14 @@ export const nested = () => {
   const NestedMenuItem = (props: NestedMenuProps) => {
     const anchor: DropdownMenuProps['anchor'] = ({active}, ariaProps = {}) => (
       <Group
-        role="menu"
-        className="nested-menu-item"
+        role='menu'
+        className='nested-menu-item'
         {...{'aria-expanded': active, 'aria-label': props.title}}
         {...ariaProps}
       >
-        <span className="nested-menu-title">{props.title}</span>
+        <span className='nested-menu-title'>{props.title}</span>
 
-        <Icon glyph={chevronRight} className="chevron-icon" />
+        <Icon glyph={chevronRight} className='chevron-icon' />
       </Group>
     );
 
@@ -141,7 +136,7 @@ export const nested = () => {
       rgItemType: DropdownMenu.ListProps.Type.CUSTOM,
       key: menuItem.key,
       template: (
-        <button type="button" className="nested-menu-button" onClick={e => e.stopPropagation()}>
+        <button type='button' className='nested-menu-button' onClick={e => e.stopPropagation()}>
           <NestedMenuItem
             title={rest.label as string}
             data={Array.isArray(submenu) ? (submenu as ListDataItem[]) : undefined}
@@ -156,7 +151,7 @@ export const nested = () => {
     return acc;
   }, [] as ListDataItem[]);
 
-  return <DropdownMenu anchor="Click me" data={data} menuProps={{minWidth: 200, activateFirstItem: false}} />;
+  return <DropdownMenu anchor='Click me' data={data} menuProps={{minWidth: 200, activateFirstItem: false}} />;
 };
 
 nested.storyName = 'DropdownMenu nested';
@@ -197,13 +192,12 @@ nested.parameters = {
 </style>`,
 };
 
-export const withCustomChildren = () => {
-  return (
-    <DropdownMenu anchor={'Click me'} menuProps={{closeOnSelect: false}}>
-      {props => (
-        <PopupMenu
-          {...props}
-          data={[
+export const withCustomChildren = () => (
+  <DropdownMenu anchor={'Click me'} menuProps={{closeOnSelect: false}}>
+    {props => (
+      <PopupMenu
+        {...props}
+        data={[
             {
               rgItemType: List.ListProps.Type.CUSTOM,
               template: (
@@ -215,10 +209,9 @@ export const withCustomChildren = () => {
               ),
             },
           ]}
-        />
+      />
       )}
-    </DropdownMenu>
+  </DropdownMenu>
   );
-};
 
 withCustomChildren.storyName = 'DropdownMenu with custom children';

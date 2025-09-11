@@ -1,31 +1,23 @@
-import {ReactNode, SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
-
+import {type ReactNode, type SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import * as React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import searchIcon from '@jetbrains/icons/search';
-
-import {StoryFn, StoryObj} from '@storybook/react-webpack5';
+import {type StoryFn, type StoryObj} from '@storybook/react-webpack5';
 
 import hubConfig from '../../.storybook/hub-config';
-
 import Text from '../text/text';
-
 import Link from '../link/link';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Dropdown from '../dropdown/dropdown';
 import Auth from '../auth/auth';
-import Source from '../list/list__users-groups-source';
+import Source from '../list/list-users-groups-source';
 import '../input-size/input-size.css';
-
-import Input, {ContainerProps, InputSpecificProps} from '../input/input';
-
-import {ControlsHeight} from '../global/controls-height';
-
+import Input, {type ContainerProps, type InputSpecificProps} from '../input/input';
+import {ControlsHeight} from '../global/configuration';
 import {LabelType} from '../control-label/control-label';
-
-import Select, {MultipleSelectAttrs, SelectItem, SelectProps, SingleSelectAttrs} from './select';
-import {Multiple} from './select__popup';
+import Select, {type MultipleSelectAttrs, type SelectItem, type SelectProps, type SingleSelectAttrs} from './select';
+import {type Multiple} from './select-popup';
 
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
@@ -117,8 +109,8 @@ export const WithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs
   );
 
   return (
-    <div className="demo-container">
-      <div className="demo">
+    <div className='demo-container'>
+      <div className='demo'>
         {text}
         <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
@@ -183,8 +175,8 @@ export const ButtonModeWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, .
   );
 
   return (
-    <div className="demo-container">
-      <div className="demo">
+    <div className='demo-container'>
+      <div className='demo'>
         {text}
         <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
@@ -241,8 +233,8 @@ export const InlineWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...re
   );
 
   return (
-    <div className="demo-container">
-      <div className="demo">
+    <div className='demo-container'>
+      <div className='demo'>
         {text}
         <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
@@ -306,8 +298,8 @@ export const InlineOpensToLeft: StoryFn<StatefulProps> = ({text, onSelect, ...re
   );
 
   return (
-    <div className="demo-container">
-      <div className="demo">
+    <div className='demo-container'>
+      <div className='demo'>
         {text}
         <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
@@ -368,8 +360,8 @@ export const WithDisabledMoveOverflow: StoryFn<StatefulProps> = ({text, onSelect
   );
 
   return (
-    <div className="demo-container">
-      <div className="demo">
+    <div className='demo-container'>
+      <div className='demo'>
         {text}
         <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
@@ -478,8 +470,8 @@ export const WithFuzzySearchFilter: StoryFn<StatefulProps> = ({text, onSelect, .
   );
 
   return (
-    <div className="demo-container">
-      <div className="demo">
+    <div className='demo-container'>
+      <div className='demo'>
         {text}
         <Select {...restArgs} selected={selected} onSelect={handleSelect} />
       </div>
@@ -615,10 +607,10 @@ multipleWithADescription.parameters = {
 
 export const disabled = () => (
   <div>
-    <div className="demo-wrapper">
+    <div className='demo-wrapper'>
       <Select disabled loading />
     </div>
-    <div className="demo-wrapper">
+    <div className='demo-wrapper'>
       <Select disabled loading type={Select.Type.BUTTON} />
     </div>
   </div>
@@ -664,7 +656,7 @@ inputBasedWithError.storyName = 'input-based with error';
 export const inputBasedWithFilterIcon: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 inputBasedWithFilterIcon.storyName = 'input-based with filter icon';
 
-export const inputWithoutControls: StoryFn<SingleSelectAttrs> = args => <Select {...args} className="wrapper" />;
+export const inputWithoutControls: StoryFn<SingleSelectAttrs> = args => <Select {...args} className='wrapper' />;
 
 inputWithoutControls.storyName = 'input without controls';
 
@@ -785,7 +777,7 @@ withCustomItemsAndAnAddItemButton.args = {
     return {
       label,
       key: label,
-      template: <span className="label">{label}</span>,
+      template: <span className='label'>{label}</span>,
       rgItemType: List.ListProps.Type.CUSTOM,
     };
   }),
@@ -868,7 +860,7 @@ asADropdownWithoutFilter.args = {
   customAnchor({wrapperProps, buttonProps, popup}) {
     return (
       <span {...wrapperProps}>
-        <button type="button" {...buttonProps} />
+        <button type='button' {...buttonProps} />
         {popup}
       </span>
     );
@@ -895,6 +887,7 @@ export const WithCustomInputAnchor: StoryFn<DemoComponentProps> = ({onChange, ..
       onChange?.(e);
       setInputValue(e.currentTarget.value);
       if (selectRef.current) {
+        // eslint-disable-next-line no-underscore-dangle
         selectRef.current._filterChangeHandler(e);
       }
     },
@@ -910,7 +903,7 @@ export const WithCustomInputAnchor: StoryFn<DemoComponentProps> = ({onChange, ..
         <span {...wrapperProps}>
           <Input
             value={inputValue}
-            label="Custom"
+            label='Custom'
             onChange={onInputChange}
             {...(buttonProps as ContainerProps<InputSpecificProps>)}
           />
@@ -946,7 +939,7 @@ withRenderOptimization.storyName = 'with render optimization';
 withRenderOptimization.parameters = {screenshots: {skip: true}};
 
 export const fitsToScreen: StoryFn<SingleSelectAttrs> = args => (
-  <div className="demo">
+  <div className='demo'>
     <Select {...args} />
   </div>
 );
@@ -990,7 +983,7 @@ export const WithFilteredFields = () => {
         return {
           key: idx,
           label,
-          template: <span className="label">{label}</span>,
+          template: <span className='label'>{label}</span>,
           rgItemType: List.ListProps.Type.CUSTOM,
         };
       }),
@@ -1030,10 +1023,10 @@ export const WithFilteredFields = () => {
   }, []);
 
   return (
-    <div className="filters-block">
+    <div className='filters-block'>
       <Select
-        selectedLabel="Filter"
-        label="Please select filter"
+        selectedLabel='Filter'
+        label='Please select filter'
         filter
         clear
         selected={filtersData.filter(item => item.key === selectedFilterKey)[0]}
@@ -1042,8 +1035,8 @@ export const WithFilteredFields = () => {
       />
       <Select
         key={selectedFilterKey}
-        selectedLabel="Option"
-        label="Please select option"
+        selectedLabel='Option'
+        label='Please select option'
         filter
         clear
         selected={filteredData.filter(item => item.key === selectedDataKey)[0]}
@@ -1166,7 +1159,7 @@ multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {screenshots: {skip: true}};
 
 export const selectInPopup: StoryFn<SingleSelectAttrs> = args => (
-  <Dropdown anchor="Open dropdown">
+  <Dropdown anchor='Open dropdown'>
     <Popup className={'popup-test-class'} maxHeight={100}>
       <Select {...args} />
     </Popup>

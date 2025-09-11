@@ -1,12 +1,11 @@
 import {render, screen} from '@testing-library/react';
 
 import islandStyles from '../island/island.css';
-
 import Confirm from './confirm';
 
 describe('Confirm', () => {
   const renderConfirm = () => {
-    render(<Confirm show text="Foo" />);
+    render(<Confirm show text='Foo' />);
     return screen.getByRole('dialog');
   };
 

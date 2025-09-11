@@ -1,8 +1,8 @@
-import {Component, ComponentType, HTMLAttributes, ReactNode} from 'react';
+import {Component, type ComponentType, type HTMLAttributes, type ReactNode} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
-import Tag, {TagAttrs} from '../tag/tag';
+import Tag, {type TagAttrs} from '../tag/tag';
 
 function noop() {}
 
@@ -75,7 +75,7 @@ export default class TagsList<T extends TagType> extends Component<TagsListProps
     const tagsList = (this.props.tags || []).map((tag, index) => this.renderTag(tag, this.props.activeIndex === index));
 
     return (
-      <div data-test="ring-tags-list" className={classes} {...props}>
+      <div data-test='ring-tags-list' className={classes} {...props}>
         {tagsList}
         {children}
       </div>

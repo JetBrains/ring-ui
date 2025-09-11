@@ -1,11 +1,9 @@
 /* eslint-disable no-console */
 import React from 'react';
-
-import {Meta, StoryFn} from '@storybook/react-webpack5';
+import {type Meta, type StoryFn} from '@storybook/react-webpack5';
 
 import Button from '../button/button';
-
-import Upload, {UploadHandle, UploadVariant} from './upload';
+import Upload, {type UploadHandle, type UploadVariant} from './upload';
 
 type Story = StoryFn<typeof Upload>;
 
@@ -97,7 +95,7 @@ export const small: Story = args => {
     }, []);
 
     return (
-      <Upload onFilesSelected={filesSelected} {...rest} className="smallUpload">
+      <Upload onFilesSelected={filesSelected} {...rest} className='smallUpload'>
         <div>{selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : 'Browse or Drop a File'}</div>
       </Upload>
     );

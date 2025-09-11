@@ -1,7 +1,6 @@
 import {Component} from 'react';
 
 import Button from '../button/button';
-
 import Confirm from './confirm';
 
 export default {
@@ -90,8 +89,8 @@ export const confirm = ({onConfirm, onCancel}: ConfirmArgs) => {
             text={this.state.confirm.text}
             description={this.state.confirm.description}
             inProgress={this.state.confirm.inProgress}
-            confirmLabel="OK"
-            rejectLabel="Cancel"
+            confirmLabel='OK'
+            rejectLabel='Cancel'
             onConfirm={this.state.confirm.onConfirm}
             onReject={this.state.confirm.onReject}
           />

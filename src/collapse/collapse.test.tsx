@@ -1,14 +1,12 @@
-import {PropsWithChildren, useState} from 'react';
+import {type PropsWithChildren, useState} from 'react';
 import * as React from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
-
 import {Collapse} from './collapse';
 import {CollapseContent} from './collapse-content';
 import {CollapseControl} from './collapse-control';
-
 import styles from './collapse.css';
 
 const textMock = `This is very long text! This is very long text! This is very long text! This is very
@@ -43,7 +41,7 @@ const Dummy = ({
 
   return (
     <>
-      <button type="button" onClick={() => setTexts([...texts, textMock])}>
+      <button type='button' onClick={() => setTexts([...texts, textMock])}>
         {'More text'}
       </button>
       <Collapse
@@ -54,9 +52,9 @@ const Dummy = ({
       >
         <CollapseControl>
           {controlAsFunc ? (
-            <button type="button">{'Show text'}</button>
+            <button type='button'>{'Show text'}</button>
           ) : (
-            (isCollapsed: boolean) => <button type="button">{isCollapsed ? 'Show text' : 'Hide text'}</button>
+            (isCollapsed: boolean) => <button type='button'>{isCollapsed ? 'Show text' : 'Hide text'}</button>
           )}
         </CollapseControl>
         <CollapseContent minHeight={minHeight}>

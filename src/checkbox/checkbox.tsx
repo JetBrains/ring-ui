@@ -1,13 +1,11 @@
-import {PureComponent, InputHTMLAttributes, CSSProperties, Ref, ReactNode} from 'react';
+import {PureComponent, type InputHTMLAttributes, type CSSProperties, type Ref, type ReactNode} from 'react';
 import classNames from 'classnames';
 import checkmarkIcon from '@jetbrains/icons/checkmark-12px';
 import minusIcon from '@jetbrains/icons/remove-12px';
 
 import Icon from '../icon/icon';
-import {createComposedRef} from '../global/composeRefs';
-
+import {createComposedRef} from '../global/compose-refs';
 import ControlHelp from '../control-help/control-help';
-
 import styles from './checkbox.css';
 
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -33,14 +31,14 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
   };
 
   componentDidMount() {
-    if (this.input != null) {
+    if (this.input) {
       this.input.indeterminate = this.props.indeterminate;
     }
   }
 
   componentDidUpdate(prevProps: CheckboxProps) {
     const {indeterminate} = this.props;
-    if (this.input != null && indeterminate !== prevProps.indeterminate) {
+    if (this.input && indeterminate !== prevProps.indeterminate) {
       this.input.indeterminate = this.props.indeterminate;
     }
   }
@@ -48,7 +46,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
   input?: HTMLInputElement | null;
 
   inputRef = (el: HTMLInputElement | null) => {
-    if (el != null) {
+    if (el) {
       el.indeterminate = this.props.indeterminate;
     }
     this.input = el;
@@ -77,12 +75,12 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
     const labelClasses = classNames(styles.label, labelClassName);
 
     return (
-      <label className={containerClasses} style={containerStyle} data-test="ring-checkbox">
+      <label className={containerClasses} style={containerStyle} data-test='ring-checkbox'>
         <input
           {...restProps}
           data-checked={restProps.checked}
           ref={this.composedInputRef(this.inputRef, inputRef)}
-          type="checkbox"
+          type='checkbox'
           className={classes}
         />
         <div className={styles.cellWrapper}>

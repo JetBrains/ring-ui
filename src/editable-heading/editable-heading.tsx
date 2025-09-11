@@ -1,4 +1,4 @@
-import {InputHTMLAttributes, useCallback, useEffect} from 'react';
+import {type InputHTMLAttributes, useCallback, useEffect} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -8,7 +8,6 @@ import {Size} from '../input/input';
 import inputStyles from '../input/input.css';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
-
 import styles from './editable-heading.css';
 
 export {Levels};
@@ -45,6 +44,7 @@ export type EditableHeadingProps = Omit<
 
 function noop() {}
 
+// eslint-disable-next-line complexity
 export const EditableHeading = (props: EditableHeadingProps) => {
   const {
     level = Levels.H1,
@@ -139,7 +139,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
 
   const checkValue = useCallback(
     (el: HTMLElement | null | undefined) => {
-      if (multiline && el != null && el.scrollHeight >= el.clientHeight) {
+      if (multiline && el && el.scrollHeight >= el.clientHeight) {
         stretch(el);
       }
     },
@@ -264,7 +264,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
             )}
           </>
         ) : (
-          <button type="button" className={styles.headingWrapperButton} onMouseDown={onHeadingMouseDown}>
+          <button type='button' className={styles.headingWrapperButton} onMouseDown={onHeadingMouseDown}>
             <Heading className={headingClasses} level={level} data-test={dataTest}>
               {children}
             </Heading>

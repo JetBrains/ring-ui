@@ -3,7 +3,6 @@ import {dirname, join} from 'node:path';
 
 const require = createRequire(import.meta.url);
 const path = require('path');
-
 const webpack = require('webpack');
 
 const ringConfig = require('../webpack.config').createConfig();

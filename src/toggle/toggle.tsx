@@ -1,10 +1,8 @@
-import {InputHTMLAttributes, PureComponent, ReactNode} from 'react';
+import {type InputHTMLAttributes, PureComponent, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
-
 import ControlHelp from '../control-help/control-help';
-
 import styles from './toggle.css';
 
 export const Size = {
@@ -55,9 +53,9 @@ class Toggle extends PureComponent<ToggleProps> {
 
         <span className={styles.switchWrapper}>
           <input
-            data-test="ring-toggle-input"
+            data-test='ring-toggle-input'
             {...restProps}
-            type="checkbox"
+            type='checkbox'
             disabled={disabled}
             className={styles.input}
           />

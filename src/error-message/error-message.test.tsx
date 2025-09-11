@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import ErrorMessage, {ErrorMessageProps} from './error-message';
+import ErrorMessage, {type ErrorMessageProps} from './error-message';
 
 describe('Error Message', () => {
   const renderErrorMessage = (props?: ErrorMessageProps) => render(<ErrorMessage {...props} />);

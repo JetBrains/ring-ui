@@ -1,9 +1,7 @@
 import {useEffect, useRef} from 'react';
 
 import Link from '../link/link';
-
 import Input from '../input/input';
-
 import Caret from './caret';
 
 export default {
@@ -20,7 +18,7 @@ export const Basic = () => {
   const input = useRef<HTMLTextAreaElement>(null);
   const caret = useRef<Caret>(null);
   useEffect(() => {
-    if (input.current != null) {
+    if (input.current) {
       caret.current = new Caret(input.current);
     }
   }, []);
@@ -30,7 +28,7 @@ export const Basic = () => {
       <Input
         multiline
         inputRef={input}
-        label="Textarea"
+        label='Textarea'
         defaultValue={`Lorem ipsum
 dolor sit amet`}
       />

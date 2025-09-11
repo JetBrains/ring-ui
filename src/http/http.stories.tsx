@@ -1,9 +1,7 @@
 import {useEffect, useState} from 'react';
 
 import hubConfig from '../../.storybook/hub-config';
-
 import Auth from '../auth/auth';
-
 import HTTP from './http';
 
 export default {
@@ -32,7 +30,7 @@ export const Basic = () => {
     })();
   }, []);
 
-  return <div id="output">{output}</div>;
+  return <div id='output'>{output}</div>;
 };
 
 Basic.storyName = 'HTTP service';

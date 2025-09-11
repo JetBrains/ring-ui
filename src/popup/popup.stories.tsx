@@ -1,8 +1,7 @@
-import {Component, ReactNode} from 'react';
+import {Component, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import Text from '../text/text';
-
 import Popup from './popup';
 
 const {Directions} = Popup.PopupProps;
@@ -58,7 +57,7 @@ export const basic = () => {
       return (
         <div>
           {directionKeys.map(this.renderPopup)}
-          <button className="button" type="button" onClick={this.showAgain}>
+          <button className='button' type='button' onClick={this.showAgain}>
             Show again
           </button>
         </div>
@@ -120,30 +119,30 @@ basic.parameters = {
 };
 
 export const autoPositioning = () => {
-  const content = <span className="popup">This is a popup</span>;
+  const content = <span className='popup'>This is a popup</span>;
   const PopupDemo = (
     <div>
-      <div className="message">
+      <div className='message'>
         Popup should change open direction when reaching window borders
         <Popup directions={[Directions.TOP_CENTER]}>{content}</Popup>
       </div>
-      <div className="message vert">
+      <div className='message vert'>
         Popup should change open direction when reaching window borders
         <Popup directions={[Directions.RIGHT_CENTER]}>{content}</Popup>
       </div>
-      <div className="anchor left">
+      <div className='anchor left'>
         Left side open popup
         <Popup directions={[Directions.LEFT_BOTTOM, Directions.RIGHT_BOTTOM]}>{content}</Popup>
       </div>
-      <div className="anchor right">
+      <div className='anchor right'>
         Right side open popup
         <Popup directions={[Directions.RIGHT_BOTTOM, Directions.LEFT_BOTTOM]}>{content}</Popup>
       </div>
-      <div className="anchor bottom">
+      <div className='anchor bottom'>
         Downside open popup
         <Popup directions={[Directions.BOTTOM_RIGHT, Directions.TOP_LEFT]}>{content}</Popup>
       </div>
-      <div className="anchor top">
+      <div className='anchor top'>
         Upside open popup
         <Popup directions={[Directions.TOP_LEFT, Directions.BOTTOM_RIGHT]}>{content}</Popup>
       </div>
@@ -224,10 +223,10 @@ export const popupInAPopup = () => {
     <div>
       Parent popup anchor
       <PopupBox>
-        <div className="parent-popup">
+        <div className='parent-popup'>
           This is a parent popup
           <PopupBox>
-            <div className="child-popup">This is a child popup</div>
+            <div className='child-popup'>This is a child popup</div>
           </PopupBox>
         </div>
       </PopupBox>
@@ -265,9 +264,9 @@ popupInAPopup.parameters = {
 export const insideAScrollableContainer = () => (
   // Scrollable
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-  <div className="container" tabIndex={0}>
-    <div className="example">
-      <div className="anchor">
+  <div className='container' tabIndex={0}>
+    <div className='example'>
+      <div className='anchor'>
         Popup anchor
         <Popup>Popup content</Popup>
       </div>
@@ -304,12 +303,12 @@ insideAScrollableContainer.parameters = {
 
 export const fitsScreen = () => {
   const PopupDemo = (
-    <div className="anchorBottom">
+    <div className='anchorBottom'>
       Popup anchor on bottom
       <Popup maxHeight={1380}>
         {/* Scrollable */}
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-        <div className="popupContent" tabIndex={0}>
+        <div className='popupContent' tabIndex={0}>
           <div>Popup top</div>
           <div>popup bottom</div>
         </div>
@@ -446,21 +445,21 @@ export const CSSPositioning = () => {
       const {position} = this.state;
 
       return (
-        <div className="container">
+        <div className='container'>
           {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
           <div
-            className="draggable-anchor"
+            className='draggable-anchor'
             style={{
               left: `${position.x}px`,
               top: `${position.y}px`,
               cursor: this.state.isDragging ? 'grabbing' : 'grab',
             }}
             onMouseDown={this.handleMouseDown}
-            role="button"
+            role='button'
           >
             <Text>CSS Anchor Positioning. Drag me!</Text>
             <Popup offset={4} cssPositioning hidden={false}>
-              <div className="popup-content css-popup">Uses CSS Anchor API</div>
+              <div className='popup-content css-popup'>Uses CSS Anchor API</div>
             </Popup>
           </div>
         </div>

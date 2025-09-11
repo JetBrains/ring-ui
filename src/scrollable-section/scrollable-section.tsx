@@ -1,5 +1,4 @@
-import {HTMLAttributes, useCallback, useEffect, useRef, useState} from 'react';
-
+import {type HTMLAttributes, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 
 import styles from './scrollable-section.css';
@@ -12,7 +11,7 @@ export default function ScrollableSection({className, ...restProps}: HTMLAttribu
   const ref = useRef<HTMLDivElement>(null);
 
   const calculateScrollPosition = useCallback(() => {
-    if (ref.current != null) {
+    if (ref.current) {
       const {scrollTop, scrollLeft, scrollHeight, scrollWidth, offsetHeight, offsetWidth} = ref.current;
       setScrolledToTop(scrollTop === 0);
       setScrolledToRight(offsetWidth + scrollLeft >= scrollWidth);

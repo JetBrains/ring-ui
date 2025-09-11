@@ -1,7 +1,6 @@
 import {Fragment} from 'react';
 
 import Link from '../link/link';
-
 import clipboard from './clipboard';
 
 export default {

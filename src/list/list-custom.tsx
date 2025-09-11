@@ -1,11 +1,10 @@
-import {PureComponent, ReactNode} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 
 import dataTests from '../global/data-tests';
 import getEventKey from '../global/get-event-key';
-
-import {ListDataItemProps} from './consts';
-import {getListClasses} from './list__classes';
+import {type ListDataItemProps} from './consts';
+import {getListClasses} from './list.classes';
 
 export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
   handleKeyPress = (event: React.KeyboardEvent) => {

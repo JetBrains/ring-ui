@@ -15,7 +15,7 @@ const variables: Record<string, string> = window.Proxy
     )
   : {};
 
-const variablesSupported = variables.textColor != null;
+const variablesSupported = !!variables.textColor;
 export const theme = create({
   base: darkMatcher.matches ? 'dark' : 'light',
   brandTitle: 'JetBrains Ring UI',

@@ -1,9 +1,8 @@
-import {forwardRef, Component, HTMLAttributes} from 'react';
+import {forwardRef, Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 import createResizeDetector from 'element-resize-detector';
 
 import scheduleRAF from '../global/schedule-raf';
-
 import styles from './island.css';
 import {ScrollHandlerContext} from './adaptive-island-hoc';
 
@@ -105,7 +104,7 @@ class Content extends Component<IslandContentInnerProps> {
     const scrollableWrapperClasses = classNames(styles.scrollableWrapper, scrollableWrapperClassName);
 
     return (
-      <div {...restProps} data-test="ring-island-content" className={classes}>
+      <div {...restProps} data-test='ring-island-content' className={classes}>
         <div
           tabIndex={tabIndex}
           className={scrollableWrapperClasses}
@@ -124,7 +123,7 @@ class Content extends Component<IslandContentInnerProps> {
 const ContentWrapper = forwardRef<Content, IslandContentProps>((props, ref) => (
   <ScrollHandlerContext.Consumer>
     {onScroll => {
-      const addProps = onScroll != null ? {onScroll, bottomBorder: true} : {};
+      const addProps = onScroll ? {onScroll, bottomBorder: true} : {};
       return <Content {...props} {...addProps} ref={ref} />;
     }}
   </ScrollHandlerContext.Consumer>

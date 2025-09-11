@@ -1,5 +1,5 @@
 // url=https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI?node-id=9954-528
-const figma = require('figma');
+import figma from '@figma/code-connect';
 
 const instance = figma.selectedInstance;
 

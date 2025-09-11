@@ -62,14 +62,14 @@ describe('Url', () => {
   describe('parseQueryString', () => {
     it('should parse urls correctly', () => {
       const queryString = `access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600`;
-      /* eslint-disable camelcase */
+
       expect(parseQueryString(queryString)).to.be.deep.equal({
         access_token: '2YotnFZFEjr1zCsicMWpAA',
         state: 'xyz',
         token_type: 'example',
         expires_in: '3600',
       });
-      /* eslint-enable camelcase */
+
     });
 
     it('should accept empty string', () => {

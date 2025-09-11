@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import Message, {MessageAttrs} from './message';
+import Message, {type MessageAttrs} from './message';
 
 describe('Message', () => {
   const renderMessage = (props: MessageAttrs) => {

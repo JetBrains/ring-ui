@@ -1,7 +1,6 @@
 import {Component} from 'react';
 
 import Button from '../button/button';
-
 import AuthDialog from './auth-dialog';
 
 // eslint-disable-next-line import/order
@@ -69,8 +68,8 @@ export const authDialog = ({onConfirm, onCancel}: AuthDialogArgs) => {
           <AuthDialog
             {...this.state.confirm}
             serviceImage={youtrackLogo}
-            confirmLabel="Log in"
-            cancelLabel="Stay a guest"
+            confirmLabel='Log in'
+            cancelLabel='Stay a guest'
           />
         </div>
       );

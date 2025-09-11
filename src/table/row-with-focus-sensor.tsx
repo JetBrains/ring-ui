@@ -1,9 +1,8 @@
 import {PureComponent} from 'react';
 
-import focusSensorHOC, {FocusSensorProps} from '../global/focus-sensor-hoc';
-
-import Row, {RowProps} from './row';
-import {SelectionItem} from './selection';
+import focusSensorHOC, {type FocusSensorProps} from '../global/focus-sensor-hoc';
+import Row, {type RowProps} from './row';
+import {type SelectionItem} from './selection';
 
 const getContainer = <T extends SelectionItem>() => focusSensorHOC<HTMLDivElement, RowProps<T>, typeof Row>(Row);
 

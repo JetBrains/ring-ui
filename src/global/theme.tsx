@@ -1,23 +1,20 @@
 import {
-  HTMLAttributes,
+  type HTMLAttributes,
   useMemo,
   useState,
   useEffect,
   forwardRef,
-  Ref,
+  type Ref,
   useContext,
-  ReactElement,
+  type ReactElement,
   createContext,
-  FunctionComponent,
+  type FunctionComponent,
 } from 'react';
 import classNames from 'classnames';
-
 import {createPortal} from 'react-dom';
 
 import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
-
 import {getPopupContainer} from '../popup/popup';
-
 import defaultStyles from './variables.css';
 import styles from './variables_dark.css';
 import getUID from './get-uid';
@@ -111,7 +108,7 @@ export const ThemeProvider = forwardRef(function ThemeProvider(
   const id = useMemo(() => getUID('popups-with-theme-'), []);
   const themeValue = useMemo(() => ({theme: resolvedTheme}), [resolvedTheme]);
   useEffect(() => {
-    if (target != null) {
+    if (target) {
       applyTheme(resolvedTheme, target);
     }
   }, [resolvedTheme, target]);
@@ -120,11 +117,7 @@ export const ThemeProvider = forwardRef(function ThemeProvider(
 
   return (
     <ThemeContext.Provider value={themeValue}>
-      <WrapperComponent
-        ref={ref}
-        className={target != null ? undefined : classNames(className, themeClasses)}
-        {...restProps}
-      >
+      <WrapperComponent ref={ref} className={target ? undefined : classNames(className, themeClasses)} {...restProps}>
         {passToPopups ? (
           <PopupTarget id={id}>
             {popupTarget => (

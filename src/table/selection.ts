@@ -164,9 +164,8 @@ export default class Selection<T extends SelectionItem> {
   toggleSelection(value = this._focused) {
     if (this.isSelected(value)) {
       return this.deselect(value);
-    } else {
-      return this.select(value);
     }
+    return this.select(value);
   }
 
   selectAll() {
@@ -190,7 +189,7 @@ export default class Selection<T extends SelectionItem> {
   }
 
   isSelected(value: T | null) {
-    return value != null && this._selected.has(value);
+    return value !== null && this._selected.has(value);
   }
 
   getFocused() {
@@ -204,10 +203,10 @@ export default class Selection<T extends SelectionItem> {
   getActive(): Set<T> {
     if (this._selected.size) {
       return new Set(this._selected);
-    } else if (this._focused) {
-      return new Set([this._focused]);
-    } else {
-      return new Set();
     }
+    if (this._focused) {
+      return new Set([this._focused]);
+    }
+    return new Set();
   }
 }

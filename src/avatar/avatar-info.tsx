@@ -1,5 +1,4 @@
-import {ReactNode} from 'react';
-
+import {type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import styles from './avatar.css';

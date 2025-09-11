@@ -1,4 +1,4 @@
-import {HTMLAttributes, PureComponent, ReactNode} from 'react';
+import {type HTMLAttributes, PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-right';
@@ -9,17 +9,13 @@ import Checkbox from '../checkbox/checkbox';
 import Button from '../button/button';
 import Tooltip from '../tooltip/tooltip';
 import dataTests from '../global/data-tests';
-
 import getUID from '../global/get-uid';
-import {createComposedRef} from '../global/composeRefs';
-
-import {FocusSensorAddProps} from '../global/focus-sensor-hoc';
-
+import {createComposedRef} from '../global/compose-refs';
+import {type FocusSensorAddProps} from '../global/focus-sensor-hoc';
 import Cell from './cell';
 import style from './table.css';
-
-import {Column} from './header-cell';
-import {SelectionItem} from './selection';
+import {type Column} from './header-cell';
+import {type SelectionItem} from './selection';
 
 interface DragHandleProps {
   alwaysShowDragHandle: boolean;

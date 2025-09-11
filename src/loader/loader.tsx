@@ -1,6 +1,6 @@
-import {HTMLAttributes, PureComponent} from 'react';
+import {type HTMLAttributes, PureComponent} from 'react';
 
-import LoaderCore, {LoaderCoreProps} from './loader__core';
+import LoaderCore, {type LoaderCoreProps} from './loader-core';
 
 export interface LoaderProps extends Partial<LoaderCoreProps>, HTMLAttributes<HTMLElement> {
   'data-test'?: string | null | undefined;

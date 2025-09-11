@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 
 import globalStyles from '../global/global.css';
-
-import {ListDataItemProps, Type} from './consts';
+import {type ListDataItemProps, Type} from './consts';
 import styles from './list.css';
 
 export function getListClasses<T = unknown>({

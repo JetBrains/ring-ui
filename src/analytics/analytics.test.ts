@@ -1,5 +1,5 @@
 import analytics, {Analytics} from './analytics';
-import AnalyticsCustomPlugin, {AnalyticsCustomPluginData} from './analytics__custom-plugin';
+import AnalyticsCustomPlugin, {type AnalyticsCustomPluginData} from './analytics-custom-plugin';
 
 const TICK_INTERVAL = 10500;
 const MAX_PACK_SIZE = 100;
@@ -65,11 +65,13 @@ describe('Analytics', () => {
         for (let i = 0; i < MAX_PACK_SIZE - 1; ++i) {
           analyticsInstance.trackEvent(`test-category-${i}`, 'test-action');
         }
+        // eslint-disable-next-line no-underscore-dangle
         expect(customPlugin._data.length).to.equal(MAX_PACK_SIZE - 1);
 
         analyticsInstance.trackEvent('test-category-100', 'test-action');
 
         expect(send).toHaveBeenCalled();
+        // eslint-disable-next-line no-underscore-dangle
         expect(customPlugin._data.length).to.equal(0);
       });
 
@@ -82,11 +84,13 @@ describe('Analytics', () => {
         for (let i = 0; i < MAX_PACK_SIZE + 1; ++i) {
           analyticsInstance.trackEvent(`test-category-${i}`, 'test-action');
         }
+        // eslint-disable-next-line no-underscore-dangle
         expect(customPlugin._data.length).to.equal(MAX_PACK_SIZE + 1);
 
         analyticsInstance.trackEvent('test-category-102', 'test-action');
 
         expect(send).toHaveBeenCalled();
+        // eslint-disable-next-line no-underscore-dangle
         expect(customPlugin._data.length).to.equal(0);
       });
 

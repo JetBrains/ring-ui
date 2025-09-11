@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-import {MockInstance} from 'vitest';
+import {type MockInstance} from 'vitest';
 
 import HTTP from '../http/http';
-import LocalStorage from '../storage/storage__local';
-
+import LocalStorage from '../storage/storage-local';
 import Auth from './auth';
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
@@ -24,6 +22,7 @@ describe('Auth', () => {
       storage,
     );
     const lifeTime = 60 * 60;
+    // eslint-disable-next-line no-underscore-dangle
     const expires = TokenValidator._epoch() + lifeTime;
 
     describe('getValidatedToken', () => {
@@ -87,6 +86,7 @@ describe('Auth', () => {
         getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
+            // eslint-disable-next-line no-underscore-dangle
             expires: TokenValidator._epoch() + lifeTime / 6 - 1,
             lifeTime,
             scopes: ['0-0-0-0-0'],
@@ -103,6 +103,7 @@ describe('Auth', () => {
         getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
+            // eslint-disable-next-line no-underscore-dangle
             expires: TokenValidator._epoch() + minimalLifeTime / 6 - 1,
             lifeTime: minimalLifeTime,
             scopes: ['0-0-0-0-0'],
@@ -118,6 +119,7 @@ describe('Auth', () => {
         getToken.mockReturnValue(
           Promise.resolve({
             accessToken: 'token',
+            // eslint-disable-next-line no-underscore-dangle
             expires: TokenValidator._epoch() + 5 * 60,
             scopes: ['0-0-0-0-0'],
           }),
@@ -154,6 +156,7 @@ describe('Auth', () => {
       it('should resolve to access token when user is returned', async () => {
         const token = {accessToken: 'token'};
         authorizedFetch.mockReturnValue(Promise.resolve({login: 'user'}));
+        // eslint-disable-next-line no-underscore-dangle
         const promise = tokenValidator._validateAgainstUser(token);
         expect(promise).to.be.fulfilled;
         await promise;
@@ -172,6 +175,7 @@ describe('Auth', () => {
             },
           }),
         );
+        // eslint-disable-next-line no-underscore-dangle
         return expect(tokenValidator._validateAgainstUser(token)).to.be.rejectedWith(
           TokenValidator.TokenValidationError,
           'Problem',
@@ -189,6 +193,7 @@ describe('Auth', () => {
             },
           }),
         );
+        // eslint-disable-next-line no-underscore-dangle
         return expect(tokenValidator._validateAgainstUser(token)).to.be.rejectedWith(
           TokenValidator.TokenValidationError,
           'invalid_grant',
@@ -206,6 +211,7 @@ describe('Auth', () => {
             },
           }),
         );
+        // eslint-disable-next-line no-underscore-dangle
         return expect(tokenValidator._validateAgainstUser(token)).to.be.rejectedWith(
           TokenValidator.TokenValidationError,
           'invalid_request',
@@ -225,6 +231,7 @@ describe('Auth', () => {
             },
           }),
         );
+        // eslint-disable-next-line no-underscore-dangle
         return expect(tokenValidator._validateAgainstUser(token)).to.be.rejectedWith(
           TokenValidator.TokenValidationError,
           '403 Forbidden',

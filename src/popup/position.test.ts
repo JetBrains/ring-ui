@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-import {Rect} from '../global/dom';
-
+import {type Rect} from '../global/dom';
 import {maxHeightForDirection} from './position';
 import {Directions} from './popup.consts';
 
@@ -131,7 +129,11 @@ describe('position', () => {
   }
 
   function createNode(data?: NodeData, domRect: Partial<Rect> = {}) {
-    if (domRect.hasOwnProperty('height') && data != null && !data.hasOwnProperty('scrollHeight')) {
+    if (
+      Object.prototype.hasOwnProperty.call(domRect, 'height') &&
+      data &&
+      !Object.prototype.hasOwnProperty.call(data, 'scrollHeight')
+    ) {
       data.scrollHeight = domRect.height;
     }
 
@@ -143,11 +145,11 @@ describe('position', () => {
   }
 
   function createClientRectMock(data: Partial<Rect> = {}) {
-    if (data.left != null && data.width != null && data.right == null) {
+    if (data.left && data.width && data.right === null) {
       data.right = data.left + data.width;
     }
 
-    if (data.top != null && data.height != null && data.bottom == null) {
+    if (data.top && data.height && data.bottom === null) {
       data.bottom = data.top + data.height;
     }
 

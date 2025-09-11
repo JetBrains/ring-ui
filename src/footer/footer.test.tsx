@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
+
 
 import {getAllByRole, render, screen} from '@testing-library/react';
 
-import Footer, {FooterProps} from './footer';
+import Footer, {type FooterProps} from './footer';
 
 describe('Footer', () => {
   const renderFooter = (props?: FooterProps) => render(<Footer {...props} />);

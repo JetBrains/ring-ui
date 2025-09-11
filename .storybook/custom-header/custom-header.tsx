@@ -2,9 +2,7 @@ import {PureComponent} from 'react';
 import * as client from 'react-dom/client';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains-simple.svg';
 import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
-
 import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
-
 import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
 
 import packageInfo from '../../package.json';
@@ -13,7 +11,6 @@ import IFrameFlow from '../../src/auth/iframe-flow';
 import Header, {Tray, HeaderIcon, Logo, SmartProfile, Services} from '../../src/header/header';
 import hubConfig from '../hub-config';
 import authDialogService from '../../src/auth-dialog-service/auth-dialog-service';
-
 import Version from './version';
 import styles from './header-styles.css';
 
@@ -39,7 +36,7 @@ class SiteHeader extends PureComponent {
   render() {
     return (
       <Header className={styles.header}>
-        <a href=".">
+        <a href='.'>
           <Logo className={styles.logo} glyph={jetbrainsLogo} size={Logo.Size.Size48} />
         </a>
 
@@ -53,10 +50,10 @@ class SiteHeader extends PureComponent {
             icon={gitHubLogo}
             iconSize={24}
             iconSuppressSizeWarning
-            href="https://github.com/JetBrains/ring-ui"
-            target="_blank"
-            title="GitHub repo"
-            aria-label="GitHub repo"
+            href='https://github.com/JetBrains/ring-ui'
+            target='_blank'
+            title='GitHub repo'
+            aria-label='GitHub repo'
             className={styles.githubIcon}
           />
 

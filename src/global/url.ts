@@ -105,7 +105,7 @@ export function joinBaseURLAndPath(baseUrl: string | null | undefined, path: str
  * @return {AuthResponse} object with query parameters map
  */
 export function parseQueryString(queryString: string | null | undefined) {
-  if (queryString == null) {
+  if (!queryString) {
     return {};
   }
 
@@ -119,7 +119,7 @@ export function parseQueryString(queryString: string | null | undefined) {
   }
 
   let matchedQueryPair;
-  while ((matchedQueryPair = queryParameterPairRE.exec(queryString)) != null) {
+  while (queryString && (matchedQueryPair = queryParameterPairRE.exec(queryString))) {
     urlParams[decode(matchedQueryPair[FIRST_PAIR_ELEMENT])] = decode(matchedQueryPair[SECOND_PAIR_ELEMENT]);
   }
 
@@ -146,7 +146,7 @@ export function encodeURL(url: string, params: Record<string, unknown>) {
   let i = 0;
 
   for (k in params) {
-    if (params.hasOwnProperty(k) && params[k] != null) {
+    if (Object.prototype.hasOwnProperty.call(params, k) && params[k] !== null && params[k] !== undefined) {
       res +=
         (i++ === 0 ? firstSeparator : '&') +
         customEncodeURIComponent(k) +

@@ -4,9 +4,8 @@ import {addYears} from 'date-fns/addYears';
 import {startOfDay} from 'date-fns/startOfDay';
 import {subYears} from 'date-fns/subYears';
 
-import linearFunction, {LinearFunction} from '../global/linear-function';
-
-import units, {MonthsProps, yearScrollSpeed} from './consts';
+import linearFunction, {type LinearFunction} from '../global/linear-function';
+import units, {type MonthsProps, yearScrollSpeed} from './consts';
 import styles from './date-picker.css';
 
 const COVERYEARS = 3;
@@ -60,7 +59,7 @@ export default class MonthSlider extends PureComponent<MonthSliderProps> {
       <div>
         {years.map(date => (
           <button
-            type="button"
+            type='button'
             key={+date}
             className={classes}
             style={{

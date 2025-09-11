@@ -1,7 +1,6 @@
-import {SVGTextElementAttributes, useMemo} from 'react';
+import {type SVGTextElementAttributes, useMemo} from 'react';
 
 import getUID from '../global/get-uid';
-
 import {Size} from './avatar-size';
 
 const colorPairs = [
@@ -186,15 +185,15 @@ function extractLetters(name: string) {
     .map(word => Array.from(word));
   if (names.length >= 2) {
     return names[0][0].toUpperCase() + names[1][0].toUpperCase();
-  } else if (names.length === 1) {
+  } if (names.length === 1) {
     if (names[0].length >= 2) {
       return names[0].slice(0, 2).join('').toUpperCase();
-    } else {
-      return `${names[0][0].toUpperCase()}X`;
     }
-  } else {
-    return 'XX';
+      return `${names[0][0].toUpperCase()}X`;
+
   }
+    return 'XX';
+
 }
 
 // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0#gistcomment-2775538
@@ -222,31 +221,31 @@ export default function FallbackAvatar({username, size, round}: FallbackAvatarPr
   const radius = round ? '50%' : sizes.radius;
   const gradientId = useMemo(() => getUID('gradient-'), []);
   return (
-    <svg viewBox={`0 0 ${size} ${size}`} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox={`0 0 ${size} ${size}`} xmlns='http://www.w3.org/2000/svg'>
       <defs>
-        <linearGradient id={gradientId} x1="1" y1="1" x2="0" y2="0">
-          <stop stopColor={fromColor} offset="0" />
-          <stop stopColor={toColor} offset="0.8" />
+        <linearGradient id={gradientId} x1='1' y1='1' x2='0' y2='0'>
+          <stop stopColor={fromColor} offset='0' />
+          <stop stopColor={toColor} offset='0.8' />
         </linearGradient>
       </defs>
       <g>
-        <rect fill={`url(#${gradientId})`} x="0" y="0" width={size} height={size} rx={radius} ry={radius} />
+        <rect fill={`url(#${gradientId})`} x='0' y='0' width={size} height={size} rx={radius} ry={radius} />
         <text
           x={sizes.text.x}
           y={sizes.text.y}
           fontFamily="var(--ring-font-family, 'Arial, Helvetica, sans-serif')"
           fontSize={sizes.fontSize}
-          fontWeight="600"
+          fontWeight='600'
           letterSpacing={sizes.letterSpacing}
-          fill="#FFFFFF"
+          fill='#FFFFFF'
           dominantBaseline={sizes.dominantBaseline}
           textAnchor={sizes.textAnchor}
-          cursor="default"
+          cursor='default'
         >
           <tspan>{extractLetters(username)}</tspan>
         </text>
         {underscore && (
-          <rect fill="#FFFFFF" x={underscore.x} y={underscore.y} width={underscore.width} height={underscore.height} />
+          <rect fill='#FFFFFF' x={underscore.x} y={underscore.y} width={underscore.width} height={underscore.height} />
         )}
         <title>{username}</title>
       </g>

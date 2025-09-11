@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import {useState} from 'storybook/preview-api';
-import type {StoryFn} from '@storybook/react-webpack5';
+
 
 import {Header, Content} from '../island/island';
 import Button from '../button/button';
@@ -8,10 +8,10 @@ import Input from '../input/input';
 import Group from '../group/group';
 import Toggle from '../toggle/toggle';
 import Panel from '../panel/panel';
-
 import Popup from '../popup/popup';
-
 import Dialog from './dialog';
+
+import type {StoryFn} from '@storybook/react-webpack5';
 
 export default {
   title: 'Components/Dialog',
@@ -47,7 +47,7 @@ export const basic: StoryFn<Args> = ({onAction}) => {
     render() {
       const {show, text, autoFocusEnabled} = this.state;
       return (
-        <div className="long-page">
+        <div className='long-page'>
           <Group>
             <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
             <Toggle
@@ -59,7 +59,7 @@ export const basic: StoryFn<Args> = ({onAction}) => {
           </Group>
 
           <Dialog
-            label="Dialog"
+            label='Dialog'
             show={show}
             onCloseAttempt={this.cancelDialog}
             trapFocus
@@ -68,7 +68,7 @@ export const basic: StoryFn<Args> = ({onAction}) => {
           >
             <Header>Dialog title</Header>
             <Content>
-              <Input label="Enter action name" value={text} onChange={e => this.setState({text: e.target.value})} />
+              <Input label='Enter action name' value={text} onChange={e => this.setState({text: e.target.value})} />
             </Content>
             <Panel>
               <Button primary onClick={this.doAction}>
@@ -116,7 +116,7 @@ export const withCloseButtonInside: StoryFn<Args> = ({onAction}) => {
       const {show, text} = this.state;
       return (
         <Dialog
-          label="Dialog"
+          label='Dialog'
           show={show}
           onCloseAttempt={this.cancelDialog}
           trapFocus
@@ -125,7 +125,7 @@ export const withCloseButtonInside: StoryFn<Args> = ({onAction}) => {
         >
           <Header>Dialog title</Header>
           <Content>
-            <Input label="Enter action name" value={text} onChange={e => this.setState({text: e.target.value})} />
+            <Input label='Enter action name' value={text} onChange={e => this.setState({text: e.target.value})} />
           </Content>
           <Panel>
             <Button primary onClick={this.doAction}>
@@ -167,7 +167,7 @@ export const native: StoryFn<Args> = ({onAction}) => {
     render() {
       const {show, text, modal} = this.state;
       return (
-        <div className="long-page">
+        <div className='long-page'>
           <Group>
             <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
             <Toggle checked={modal} onChange={() => this.setState({modal: !modal})}>
@@ -175,10 +175,10 @@ export const native: StoryFn<Args> = ({onAction}) => {
             </Toggle>
           </Group>
 
-          <Dialog label="Dialog" show={show} onCloseAttempt={this.cancelDialog} native modal={modal} showCloseButton>
+          <Dialog label='Dialog' show={show} onCloseAttempt={this.cancelDialog} native modal={modal} showCloseButton>
             <Header>Dialog title</Header>
             <Content>
-              <Input label="Enter action name" value={text} onChange={e => this.setState({text: e.target.value})} />
+              <Input label='Enter action name' value={text} onChange={e => this.setState({text: e.target.value})} />
             </Content>
             <Panel>
               <Button primary onClick={this.doAction}>
@@ -210,7 +210,7 @@ export const dense: StoryFn = () => (
   <Dialog show dense>
     <Header>Dialog title</Header>
     <Content>
-      <Input label="Enter action name" />
+      <Input label='Enter action name' />
     </Content>
     <Panel>
       <Button primary>OK</Button>
@@ -247,7 +247,7 @@ export const withScroll: StoryFn<Args> = ({onAction}) => {
             <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
           </div>
 
-          <Dialog label="Dialog" show={this.state.show} onCloseAttempt={this.cancelDialog} trapFocus showCloseButton>
+          <Dialog label='Dialog' show={this.state.show} onCloseAttempt={this.cancelDialog} trapFocus showCloseButton>
             <Header>Dialog title</Header>
             <Content tabIndex={0}>
               <div>
@@ -283,12 +283,12 @@ export const WithOverflowScrollOnHtml = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="container">
+    <div className='container'>
       <div>Scroll down</div>
-      <Button className="button" onClick={() => setOpen(true)}>
+      <Button className='button' onClick={() => setOpen(true)}>
         Show dialog
       </Button>
-      <Dialog label="Dialog" show={open} onCloseAttempt={() => setOpen(false)}>
+      <Dialog label='Dialog' show={open} onCloseAttempt={() => setOpen(false)}>
         <Header>Dialog title</Header>
       </Dialog>
     </div>
@@ -336,7 +336,7 @@ export const DialogInPopup: StoryFn = () => {
       <Dialog show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
         <Header>Dialog title</Header>
         <Content>
-          <Input label="Enter action name" />
+          <Input label='Enter action name' />
         </Content>
         <Panel>
           <Button primary>OK</Button>
@@ -359,7 +359,7 @@ export const NativeDialogInPopup: StoryFn = () => {
       <Dialog native show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
         <Header>Dialog title</Header>
         <Content>
-          <Input label="Enter action name" />
+          <Input label='Enter action name' />
         </Content>
         <Panel>
           <Button primary>OK</Button>

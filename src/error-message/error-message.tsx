@@ -1,11 +1,9 @@
-import {Component, ReactNode} from 'react';
+import {Component, type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import Icon, {IconType} from '../icon/icon';
-import {Size} from '../icon/icon__constants';
-
+import Icon, {type IconType} from '../icon/icon';
+import {Size} from '../icon/icon.constants';
 import dataTests from '../global/data-tests';
-
 import styles from './error-message.css';
 
 export interface ErrorMessageProps {
@@ -31,7 +29,7 @@ export default class ErrorMessage extends Component<ErrorMessageProps> {
       <div className={classes} data-test={dataTests('ring-error-message', dataTest)}>
         {icon && <Icon className={styles.icon} glyph={icon} size={Size.Size64} suppressSizeWarning />}
         <div className={styles.content}>
-          <div className={styles.title} data-test="ring-error-message-title">
+          <div className={styles.title} data-test='ring-error-message-title'>
             {code && `${code}:`} {message}
           </div>
           {description && <div className={styles.description}>{description}</div>}

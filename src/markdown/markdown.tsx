@@ -1,9 +1,8 @@
-import {PureComponent, ReactNode} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import headingStyles from '../heading/heading.css';
 import linkStyles from '../link/link.css';
-
 import styles from './markdown.css';
 
 export interface MarkdownProps {
@@ -26,7 +25,7 @@ export default class Markdown extends PureComponent<MarkdownProps> {
     });
 
     return (
-      <div data-test="ring-markdown" className={classes}>
+      <div data-test='ring-markdown' className={classes}>
         {children}
       </div>
     );

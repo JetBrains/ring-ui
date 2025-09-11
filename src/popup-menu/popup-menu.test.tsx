@@ -1,6 +1,6 @@
 import {getByTestId, queryAllByTestId, render, screen} from '@testing-library/react';
 
-import PopupMenu, {PopupMenuAttrs} from './popup-menu';
+import PopupMenu, {type PopupMenuAttrs} from './popup-menu';
 
 describe('Popup Menu', () => {
   const renderPopupMenu = (props?: PopupMenuAttrs) => {

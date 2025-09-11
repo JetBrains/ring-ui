@@ -1,5 +1,4 @@
 import Avatar, {Size} from '../avatar/avatar';
-
 import AvatarStack from './avatar-stack';
 import avatar1 from './avatar1.stories.png';
 import avatar2 from './avatar2.stories.png';

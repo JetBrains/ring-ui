@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react';
 
-import Toggle, {ToggleAttrs} from './toggle';
+import Toggle, {type ToggleAttrs} from './toggle';
 import styles from './toggle.css';
 
 describe('Toggle', () => {

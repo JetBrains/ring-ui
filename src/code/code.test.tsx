@@ -3,7 +3,7 @@ import css from 'highlight.js/lib/languages/css';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 
-import Code, {CodeProps, highlight} from './code';
+import Code, {type CodeProps, highlight} from './code';
 
 highlight.registerLanguage('css', css);
 highlight.registerLanguage('javascript', javascript);
@@ -13,7 +13,7 @@ type CodeAttributes = React.JSX.LibraryManagedAttributes<typeof Code, CodeProps>
 
 describe('Code', () => {
   const renderCode = (props?: Omit<CodeAttributes, 'code'> & Partial<Pick<CodeAttributes, 'code'>>) => {
-    render(<Code code="" {...props} />);
+    render(<Code code='' {...props} />);
     return screen.getByTestId('ring-code');
   };
 

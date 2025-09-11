@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import Heading, {H2, HeadingProps} from './heading';
+import Heading, {H2, type HeadingProps} from './heading';
 
 describe('Heading', () => {
   const renderHeading = (props?: HeadingProps) => render(<Heading {...props} />);

@@ -1,14 +1,12 @@
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
 import {ActiveItemContext} from '../list/list';
-
 import Popup from '../popup/popup';
 import PopupMenu from '../popup-menu/popup-menu';
 import Button from '../button/button';
 import Link from '../link/link';
 import Input from '../input/input';
 import getUID from '../global/get-uid';
-
 import Dropdown from './dropdown';
 
 export default {
@@ -31,7 +29,7 @@ export default {
 };
 
 export const basic = () => (
-  <Dropdown anchor="Click me">
+  <Dropdown anchor='Click me'>
     <Popup>Popup content</Popup>
   </Dropdown>
 );
@@ -66,7 +64,7 @@ export const withCustomAnchorAndPopupAndContentAccessibilityHandling = () => {
       >
         <PopupMenu
           id={listId}
-          ariaLabel="My options menu"
+          ariaLabel='My options menu'
           closeOnSelect
           activateFirstItem
           data={['Cut', 'Copy', 'Paste'].map(label => ({label, key: label.toLowerCase()}))}
@@ -79,7 +77,7 @@ export const withCustomAnchorAndPopupAndContentAccessibilityHandling = () => {
 withCustomAnchorAndPopup.storyName = 'with custom anchor and popup';
 
 export const withActiveClassName = () => (
-  <Dropdown className="chevron" activeClassName="rotated" anchor={<Button title="Details" icon={chevronDownIcon} />}>
+  <Dropdown className='chevron' activeClassName='rotated' anchor={<Button title='Details' icon={chevronDownIcon} />}>
     <Popup>Popup content</Popup>
   </Dropdown>
 );
@@ -102,7 +100,7 @@ withActiveClassName.parameters = {
 };
 
 export const withHoverMode = () => (
-  <Dropdown anchor="Hover over me" hoverMode>
+  <Dropdown anchor='Hover over me' hoverMode>
     <Popup>
       <div>Outer popup</div>
     </Popup>
@@ -112,7 +110,7 @@ export const withHoverMode = () => (
 withHoverMode.storyName = 'with hover mode';
 
 export const withHoverModeAndDisabledClickMode = () => (
-  <Dropdown anchor={<Link href="">Hover over me</Link>} clickMode={false} hoverMode>
+  <Dropdown anchor={<Link href=''>Hover over me</Link>} clickMode={false} hoverMode>
     <Popup>Popup content</Popup>
   </Dropdown>
 );
@@ -123,9 +121,9 @@ withHoverModeAndDisabledClickMode.parameters = {screenshots: {skip: true}};
 export const autofocusOnOpen = () => (
   <div>
     <div style={{height: '90vh'}} />
-    <Dropdown anchor="Scroll and then click me">
+    <Dropdown anchor='Scroll and then click me'>
       <Popup trapFocus autoFocusFirst>
-        <Input className="ring-js-shortcuts" />
+        <Input className='ring-js-shortcuts' />
       </Popup>
     </Dropdown>
     <div style={{height: '50vh'}} />
@@ -136,7 +134,7 @@ autofocusOnOpen.storyName = 'autofocus on open';
 autofocusOnOpen.parameters = {screenshots: {skip: true}};
 
 export const renderProps = () => (
-  <Dropdown anchor="Click me">
+  <Dropdown anchor='Click me'>
     {props => (
       <Popup {...props}>
         <Button onClick={props.onCloseAttempt} inline>

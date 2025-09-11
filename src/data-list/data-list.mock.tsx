@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-no-literals */
-import {ReactNode} from 'react';
+import {type ReactNode} from 'react';
 
 import Link from '../link/link';
 import Tag from '../tag/tag';
-import {SelectionItem} from '../table/selection';
+import {type SelectionItem} from '../table/selection';
 
 export interface Item extends SelectionItem {
   title: ReactNode;
@@ -32,31 +32,31 @@ const items: Item[] = [
           {
             id: 111,
             selectable: true,
-            title: <Link href="#">TeamCity</Link>,
+            title: <Link href='#'>TeamCity</Link>,
           },
 
           {
             id: 112,
             selectable: true,
-            title: <Link href="#">YouTrack</Link>,
+            title: <Link href='#'>YouTrack</Link>,
           },
 
           {
             id: 113,
             selectable: true,
-            title: <Link href="#">Sandbox</Link>,
+            title: <Link href='#'>Sandbox</Link>,
           },
 
           {
             id: 114,
             selectable: true,
-            title: <Link href="#">Exception Analyzer</Link>,
+            title: <Link href='#'>Exception Analyzer</Link>,
           },
 
           {
             id: 115,
             selectable: true,
-            title: <Link href="#">MPS</Link>,
+            title: <Link href='#'>MPS</Link>,
           },
         ],
       },
@@ -78,7 +78,7 @@ const items: Item[] = [
         selectable: true,
         title: (
           <span>
-            <Link href="#">JetProfile</Link>
+            <Link href='#'>JetProfile</Link>
             <span> </span>
             <Tag>duplicate</Tag>
           </span>
@@ -93,31 +93,31 @@ const items: Item[] = [
           {
             id: 221,
             collapsible: true,
-            title: <Link href="#">TeamCity</Link>,
+            title: <Link href='#'>TeamCity</Link>,
           },
 
           {
             id: 222,
             collapsible: true,
-            title: <Link href="#">YouTrack</Link>,
+            title: <Link href='#'>YouTrack</Link>,
           },
 
           {
             id: 223,
             collapsible: true,
-            title: <Link href="#">Sandbox</Link>,
+            title: <Link href='#'>Sandbox</Link>,
           },
 
           {
             id: 224,
             collapsible: true,
-            title: <Link href="#">Exception Analyzer</Link>,
+            title: <Link href='#'>Exception Analyzer</Link>,
           },
 
           {
             id: 225,
             collapsible: true,
-            title: <Link href="#">MPS</Link>,
+            title: <Link href='#'>MPS</Link>,
           },
         ],
       },
@@ -127,7 +127,7 @@ const items: Item[] = [
         collapsible: true,
         title: (
           <span>
-            <Link href="#">CustomJDK</Link>
+            <Link href='#'>CustomJDK</Link>
             <span>: as a member of ide-developers</span>
           </span>
         ),
@@ -150,7 +150,7 @@ const items: Item[] = [
         collapsible: true,
         title: (
           <span>
-            <Link href="#">ide-frontend</Link>
+            <Link href='#'>ide-frontend</Link>
             <span>: as a member of ide-developers</span>
           </span>
         ),
@@ -161,7 +161,7 @@ const items: Item[] = [
         collapsible: true,
         title: (
           <span>
-            <Link href="#">ide-frontend</Link>
+            <Link href='#'>ide-frontend</Link>
             <span>: as a member of ide-frontend Code Viewers</span>
           </span>
         ),
@@ -183,7 +183,7 @@ const items: Item[] = [
         collapsible: true,
         title: (
           <span>
-            <Link href="#">Intellij IDEA</Link>
+            <Link href='#'>Intellij IDEA</Link>
             <span>: as a member of Registered Users</span>
           </span>
         ),
@@ -194,7 +194,7 @@ const items: Item[] = [
         collapsible: true,
         title: (
           <span>
-            <Link href="#">YouTrack Backlog</Link>
+            <Link href='#'>YouTrack Backlog</Link>
             <span>: as a member of jetbrains-team</span>
           </span>
         ),
@@ -217,7 +217,7 @@ const items: Item[] = [
         id: 51,
         selectable: true,
         collapsible: true,
-        title: <Link href="#">Wasabi</Link>,
+        title: <Link href='#'>Wasabi</Link>,
       },
     ],
   },
@@ -229,7 +229,7 @@ const items: Item[] = [
       <span>
         <strong>Git Hosting Admin</strong>
         <span> in project </span>
-        <Link href="#">Hackathon 2016</Link>
+        <Link href='#'>Hackathon 2016</Link>
         <span>: as a member of jetbrains-team</span>
       </span>
     ),
@@ -254,7 +254,7 @@ export const moreItems = [
     collapsible: true,
     title: (
       <span>
-        <Link href="#">More item 1</Link>
+        <Link href='#'>More item 1</Link>
         <span> </span>
         <Tag>duplicate</Tag>
       </span>
@@ -267,7 +267,7 @@ export const moreItems = [
     collapsible: true,
     title: (
       <span>
-        <Link href="#">More item 2</Link>
+        <Link href='#'>More item 2</Link>
         <span> </span>
         <Tag>duplicate</Tag>
       </span>

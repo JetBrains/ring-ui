@@ -18,7 +18,7 @@ A footer consists of three sections, each optional:
 
 export const basic = () => (
   <Footer
-    className="stuff"
+    className='stuff'
     left={[
       [
         {

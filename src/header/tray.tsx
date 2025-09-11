@@ -1,4 +1,4 @@
-import {Children, Component, HTMLAttributes, ReactNode} from 'react';
+import {Children, Component, type HTMLAttributes, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import styles from './header.css';

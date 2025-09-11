@@ -1,4 +1,4 @@
-import {Component, HTMLAttributes, Ref, ReactElement} from 'react';
+import {Component, type HTMLAttributes, type Ref, type ReactElement} from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 
 /**
@@ -23,6 +23,7 @@ class ContentEditableBase extends Component<ContentEditableBaseProps> {
   };
 
   shouldComponentUpdate(nextProps: ContentEditableBaseProps) {
+    // eslint-disable-next-line no-underscore-dangle
     return nextProps.disabled !== this.props.disabled || nextProps.__html !== this.props.__html;
   }
 
@@ -40,7 +41,7 @@ class ContentEditableBase extends Component<ContentEditableBaseProps> {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         disabled={disabled}
-        role="textbox"
+        role='textbox'
         tabIndex={disabled ? undefined : tabIndex}
         contentEditable={!this.props.disabled}
         dangerouslySetInnerHTML={{__html}}

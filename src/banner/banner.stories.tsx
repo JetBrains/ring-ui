@@ -1,5 +1,4 @@
 import Link from '../link/link';
-
 import Banner from './banner';
 
 export default {
@@ -12,7 +11,7 @@ const lorem =
 export const Default = () => <Banner>{lorem}</Banner>;
 
 export const WithIconTitleAndCloseButton = () => (
-  <Banner withIcon title="Title" onClose={() => {}}>
+  <Banner withIcon title='Title' onClose={() => {}}>
     {lorem}
   </Banner>
 );
@@ -44,44 +43,44 @@ export const MultipleParagraphs = () => (
       dolor odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
       Phasellus ac mollis lorem. Fusce feugiat sit amet nibh in pellentesque.
     </p>
-    <Link href="#">Learn more</Link>
+    <Link href='#'>Learn more</Link>
   </Banner>
 );
 
 export const Modes = () => (
   <article>
     <section>
-      <Banner mode="info" title="Info" withIcon onClose={() => {}}>
+      <Banner mode='info' title='Info' withIcon onClose={() => {}}>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="error" title="Error" withIcon onClose={() => {}}>
+      <Banner mode='error' title='Error' withIcon onClose={() => {}}>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="success" title="Success" withIcon onClose={() => {}}>
+      <Banner mode='success' title='Success' withIcon onClose={() => {}}>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="warning" title="Warning" withIcon onClose={() => {}}>
+      <Banner mode='warning' title='Warning' withIcon onClose={() => {}}>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="purple" title="Purple" withIcon onClose={() => {}}>
+      <Banner mode='purple' title='Purple' withIcon onClose={() => {}}>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="grey" title="Grey" withIcon onClose={() => {}}>
+      <Banner mode='grey' title='Grey' withIcon onClose={() => {}}>
         {lorem}
       </Banner>
     </section>
@@ -91,37 +90,37 @@ export const Modes = () => (
 export const Inline = () => (
   <article>
     <section>
-      <Banner mode="info" withIcon onClose={() => {}} inline>
+      <Banner mode='info' withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="error" withIcon onClose={() => {}} inline>
+      <Banner mode='error' withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="success" withIcon onClose={() => {}} inline>
+      <Banner mode='success' withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="warning" withIcon onClose={() => {}} inline>
+      <Banner mode='warning' withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="purple" withIcon onClose={() => {}} inline>
+      <Banner mode='purple' withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
     </section>
 
     <section>
-      <Banner mode="grey" withIcon onClose={() => {}} inline>
+      <Banner mode='grey' withIcon onClose={() => {}} inline>
         {lorem}
       </Banner>
     </section>

@@ -1,4 +1,5 @@
-import Selection, {SelectionItem} from './selection';
+import type Selection from './selection';
+import type {SelectionItem} from './selection';
 
 export default function selectionAdapter(getSelection: () => Selection<SelectionItem>) {
   return {

@@ -1,6 +1,6 @@
-import {Component, ComponentClass, Ref} from 'react';
+import {Component, type ComponentClass, type Ref} from 'react';
 
-import {createComposedRef} from './composeRefs';
+import {createComposedRef} from './compose-refs';
 
 export interface FocusSensorOuterProps<T extends HTMLElement> {
   focused?: boolean | undefined;
@@ -42,7 +42,7 @@ export default function focusSensorHOC<
       } = this;
 
       node?.setAttribute('tabindex', '0');
-      if (node != null) {
+      if (node) {
         node.style.outline = 'none';
       }
 

@@ -1,7 +1,7 @@
-import {PureComponent, Children, cloneElement, ReactElement} from 'react';
+import {PureComponent, Children, cloneElement, type ReactElement} from 'react';
 
-import {TableAttrs} from './table';
-import {SelectionItem} from './selection';
+import {type TableAttrs} from './table';
+import {type SelectionItem} from './selection';
 
 type TableComponent = ReactElement<TableAttrs<SelectionItem>>;
 
@@ -92,7 +92,7 @@ export default class MultiTable extends PureComponent<MultiTableProps> {
 
   render() {
     return (
-      <div data-test="ring-multitable">
+      <div data-test='ring-multitable'>
         {Children.map<ReactElement, ReactElement>(this.props.children, child => {
           const props = {shortcuts: this.shortcuts};
           return cloneElement(child, props);

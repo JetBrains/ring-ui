@@ -1,7 +1,6 @@
-import {StoryObj} from '@storybook/react-webpack5';
+import {type StoryObj} from '@storybook/react-webpack5';
 
 import Link from '../link/link';
-
 import Breadcrumbs from './breadcrumbs';
 
 export default {
@@ -14,10 +13,10 @@ type Story = StoryObj<typeof Breadcrumbs>;
 export const Default: Story = {
   render: args => (
     <Breadcrumbs {...args}>
-      <Link href="/">First Page</Link>
-      <Link href="/">Second Page</Link>
-      <Link href="/">Third Page</Link>
-      <Link href="/" active>
+      <Link href='/'>First Page</Link>
+      <Link href='/'>Second Page</Link>
+      <Link href='/'>Third Page</Link>
+      <Link href='/' active>
         Current Page
       </Link>
     </Breadcrumbs>

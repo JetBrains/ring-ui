@@ -1,13 +1,11 @@
-import {useState, useRef, useMemo, useCallback, useEffect, memo, ReactElement, ReactNode} from 'react';
+import {useState, useRef, useMemo, useCallback, useEffect, memo, type ReactElement, type ReactNode} from 'react';
 import classNames from 'classnames';
-
 import fastdom from 'fastdom';
 
 import styles from './tabs.css';
 import {FakeMoreButton, MoreButton} from './collapsible-more';
 import getTabTitles from './collapsible-tab';
-
-import {TabProps} from './tab';
+import {type TabProps} from './tab';
 
 const DEFAULT_DEBOUNCE_INTERVAL = 100;
 const MEASURE_TOLERANCE = 0.5;
@@ -81,11 +79,11 @@ export const CollapsibleTabs = ({
   const hiddenElements = useMemo(() => {
     if (preparedElements.ready) {
       return preparedElements.hidden;
-    } else if (initialVisibleItems) {
-      return children.filter(item => !visibleElements.some(visibleItem => visibleItem.props.child === item));
-    } else {
-      return [];
     }
+    if (initialVisibleItems) {
+      return children.filter(item => !visibleElements.some(visibleItem => visibleItem.props.child === item));
+    }
+    return [];
   }, [children, preparedElements.hidden, preparedElements.ready, visibleElements, initialVisibleItems]);
 
   const adjustTabs = useCallback(
@@ -156,12 +154,12 @@ export const CollapsibleTabs = ({
 
           return accumulator;
         },
-        {visible: [], hidden: [], ready: elements.lastVisibleIndex !== null},
+        {visible: [], hidden: [], ready: !!elements.lastVisibleIndex},
       );
 
       if (selectedIndex > (elements.lastVisibleIndex ?? 0)) {
         const selectedItem = children.find(tab => !tab.props.alwaysHidden && tab.props.id === selected);
-        if (selectedItem != null) {
+        if (selectedItem) {
           res.visible.push(selectedItem);
         }
       }
@@ -191,7 +189,7 @@ export const CollapsibleTabs = ({
 
   // Initial measure for tabs and more button sizes
   useEffect(() => {
-    if (measureRef.current == null) {
+    if (measureRef.current === null) {
       return undefined;
     }
 
@@ -247,7 +245,7 @@ export const CollapsibleTabs = ({
     };
   }, [adjustTabs]);
 
-  const isAdjusted = (elements.lastVisibleIndex !== null && preparedElements.ready === true) || initialVisibleItems;
+  const isAdjusted = (!!elements.lastVisibleIndex && preparedElements.ready) || initialVisibleItems;
 
   const className = classNames(styles.titles, styles.autoCollapse, isAdjusted && styles.adjusted);
 

@@ -8,16 +8,14 @@ import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
 import Shortcuts from '../shortcuts/shortcuts';
-import TabTrap, {TabTrapProps} from '../tab-trap/tab-trap';
+import TabTrap, {type TabTrapProps} from '../tab-trap/tab-trap';
 import Button from '../button/button';
-
 import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
-import type {ShortcutsScopeOptions} from '../shortcuts/core';
-
 import {getPopupContainer} from '../popup/popup';
-
-import {preventerFactory as scrollPreventerFactory} from './dialog__body-scroll-preventer';
+import {preventerFactory as scrollPreventerFactory} from './dialog-body-scroll-preventer';
 import styles from './dialog.css';
+
+import type {ShortcutsScopeOptions} from '../shortcuts/core';
 
 export interface DialogProps extends Partial<TabTrapProps> {
   show: boolean;
@@ -97,7 +95,7 @@ export default class Dialog extends PureComponent<DialogProps> {
 
   toggleNativeDialog() {
     const {show, modal} = this.props;
-    if (this.nativeDialog.current != null) {
+    if (this.nativeDialog.current) {
       if (show) {
         this.nativeDialog.current.removeAttribute('open');
         if (modal) {
@@ -184,10 +182,10 @@ export default class Dialog extends PureComponent<DialogProps> {
         {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
           <div
             // click handler is duplicated in close button
-            role="presentation"
+            role='presentation'
             className={styles.clickableOverlay}
             onClick={this.handleClick}
-            data-test="ring-dialog-overlay"
+            data-test='ring-dialog-overlay'
           />
         )}
         <div className={styles.innerContainer}>
@@ -195,15 +193,15 @@ export default class Dialog extends PureComponent<DialogProps> {
             className={classNames(styles.content, contentClassName, {
               [styles.dense]: dense,
             })}
-            data-test="ring-dialog"
-            role="dialog"
+            data-test='ring-dialog'
+            role='dialog'
             aria-label={label}
           >
             {children}
             {showCloseButton && (
               <Button
                 icon={closeIcon}
-                data-test="ring-dialog-close-button"
+                data-test='ring-dialog-close-button'
                 className={classNames(styles.closeButton, {
                   [styles.closeButtonOutside]: !closeButtonInside,
                   [styles.closeButtonInside]: closeButtonInside,
@@ -248,9 +246,9 @@ export default class Dialog extends PureComponent<DialogProps> {
             let targetElement: Element = document.body;
             if (portalTarget instanceof HTMLElement) {
               targetElement = portalTarget;
-            } else if (contextTarget != null) {
+            } else if (contextTarget) {
               const container = getPopupContainer(contextTarget);
-              if (container != null) {
+              if (container) {
                 targetElement = container;
               }
             }
@@ -260,10 +258,10 @@ export default class Dialog extends PureComponent<DialogProps> {
                   <TabTrap
                     trapDisabled={!trapFocus}
                     data-test={dataTests('ring-dialog-container', dataTest)}
-                    data-rg-modal-dialog-container=""
+                    data-rg-modal-dialog-container=''
                     ref={this.dialogRef}
                     className={classes}
-                    role="presentation"
+                    role='presentation'
                     {...restProps}
                   >
                     {content}

@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const fs = require('fs/promises');
-
 const cssNano = require('cssnano');
 const loadPostcssConfig = require('postcss-load-config');
 const postcss = require('postcss');
@@ -18,10 +17,10 @@ function removeDuplicatePaths(paths) {
   return paths.filter(p => {
     if (seenPaths.has(p)) {
       return false;
-    } else {
+    }
       seenPaths.add(p);
       return true;
-    }
+
   });
 }
 

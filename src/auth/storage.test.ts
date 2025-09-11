@@ -1,8 +1,7 @@
 // @ts-expect-error no typings available
 import mockedWindow from 'storage-mock';
 
-import LocalStorage from '../storage/storage__local';
-
+import LocalStorage from '../storage/storage-local';
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
 
@@ -108,7 +107,8 @@ describe('Auth', () => {
     const token = {
       accessToken: 'silver-bullet',
       scopes: ['0-0-0-0-0'],
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+
+      // eslint-disable-next-line no-underscore-dangle
       expires: TokenValidator._epoch() + 40 * 60,
     };
 

@@ -1,11 +1,9 @@
 import {Component} from 'react';
-
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 
 import alert from '../alert-service/alert-service';
-
-import UserAgreement, {UserAgreementAttrs} from './user-agreement';
-import UserAgreementService, {Agreement, Consent, ConsentResponse} from './service';
+import UserAgreement, {type UserAgreementAttrs} from './user-agreement';
+import UserAgreementService, {type Agreement, type Consent, type ConsentResponse} from './service';
 import text from './toolbox.eula';
 
 export default {
@@ -98,6 +96,7 @@ export const service: StoryFn<ServiceArgs> = ({
 
     componentWillUnmount() {
       agreementService.stopChecking();
+      // eslint-disable-next-line no-underscore-dangle
       alert._getShowingAlerts().forEach(item => alert.removeWithoutAnimation(item.key));
     }
 

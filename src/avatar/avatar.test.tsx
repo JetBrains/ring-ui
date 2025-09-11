@@ -1,7 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
 import {getPixelRatio} from '../global/dom';
-
 import Avatar from './avatar';
 
 const dataURI = `data:image/svg+xml,${encodeURIComponent(`
@@ -16,12 +15,12 @@ describe('Avatar', () => {
   });
 
   it('should use passed className', () => {
-    render(<Avatar className="test-class" />);
+    render(<Avatar className='test-class' />);
     expect(screen.getByTestId('avatar')).to.have.class('test-class');
   });
 
   it('should use passed className when url is passed', () => {
-    render(<Avatar className="test-class" url={dataURI} />);
+    render(<Avatar className='test-class' url={dataURI} />);
     expect(screen.getByAltText('User avatar')).to.have.class('test-class');
   });
 
@@ -42,19 +41,19 @@ describe('Avatar', () => {
   });
 
   it('should append params when http:uri is passed', () => {
-    render(<Avatar url="http://" />);
+    render(<Avatar url='http://' />);
     const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
     expect(avatar.src).to.match(/dpr=|size=/);
   });
 
   it('should set size 20 as default', () => {
-    render(<Avatar url="http://" />);
+    render(<Avatar url='http://' />);
     const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
     expect(avatar.src).to.match(/size=20/);
   });
 
   it('should set proper dpr', () => {
-    render(<Avatar url="http://" />);
+    render(<Avatar url='http://' />);
     const avatar = screen.getByAltText('User avatar') as HTMLImageElement;
     expect(avatar.src).to.match(new RegExp(`dpr=${getPixelRatio()}`));
   });

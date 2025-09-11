@@ -1,16 +1,13 @@
 import {useState, useCallback, useEffect} from 'react';
-
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 
 import Link from '../link/link';
-
-import {TableAttrs} from './table';
+import {type TableAttrs} from './table';
 import SimpleTable from './simple-table';
-import {SelectionItem} from './selection';
+import {type SelectionItem} from './selection';
 import mock from './table.stories.json';
 import tableData from './table.examples2.json';
-
-import {SortParams} from './header-cell';
+import {type SortParams} from './header-cell';
 /**
  * Simple stateless table without hover effect
  */

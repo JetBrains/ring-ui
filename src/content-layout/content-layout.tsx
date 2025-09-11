@@ -1,7 +1,7 @@
-import {Children, cloneElement, Component, HTMLAttributes, ReactElement} from 'react';
+import {Children, cloneElement, Component, type HTMLAttributes, type ReactElement} from 'react';
 import classNames from 'classnames';
 
-import Sidebar, {SidebarProps} from './sidebar';
+import Sidebar, {type SidebarProps} from './sidebar';
 import styles from './content-layout.css';
 
 export interface ContentLayoutProps extends HTMLAttributes<HTMLElement> {
@@ -38,7 +38,7 @@ export default class ContentLayout extends Component<ContentLayoutProps> {
     const childrenArray = Children.toArray(children);
     const sidebarChild = childrenArray.filter(
       (child): child is ReactElement<SidebarProps, typeof Sidebar> =>
-        child != null && typeof child === 'object' && 'type' in child && child.type === Sidebar,
+        !!child && typeof child === 'object' && 'type' in child && child.type === Sidebar,
     )[0];
 
     const sidebar =
@@ -49,7 +49,7 @@ export default class ContentLayout extends Component<ContentLayoutProps> {
     const contentChildren = childrenArray.filter(child => child !== sidebarChild);
 
     return (
-      <div data-test="content-layout" {...restProps} className={classes}>
+      <div data-test='content-layout' {...restProps} className={classes}>
         {sidebar}
         <main className={contentClasses} ref={this.saveContentNode}>
           {contentChildren}

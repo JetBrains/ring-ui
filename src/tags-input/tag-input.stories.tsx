@@ -7,7 +7,6 @@ import Dialog from '../dialog/dialog';
 import {Content} from '../island/island';
 import {ControlsHeight} from '../global/controls-height';
 import {Size} from '../input/input';
-
 import TagsInput from './tags-input';
 
 export default {
@@ -26,7 +25,7 @@ export const basic = () => {
   }
 
   return (
-    <form className="tagsInputs">
+    <form className='tagsInputs'>
       <TagsInput
         tags={[
           {key: 'test1', label: 'test1'},
@@ -36,7 +35,7 @@ export const basic = () => {
         dataSource={dataSource}
         allowAddNewTags
         filter
-        label="M Size"
+        label='M Size'
       />
 
       <TagsInput
@@ -47,10 +46,10 @@ export const basic = () => {
         maxPopupHeight={250}
         dataSource={dataSource}
         allowAddNewTags
-        placeholder="This is a very very very long placeholder"
+        placeholder='This is a very very very long placeholder'
         filter
         size={Size.L}
-        label="L Size"
+        label='L Size'
       />
 
       <TagsInput
@@ -63,7 +62,7 @@ export const basic = () => {
         allowAddNewTags
         filter
         size={Size.FULL}
-        label="Full Size"
+        label='Full Size'
       />
 
       <TagsInput
@@ -77,7 +76,7 @@ export const basic = () => {
         filter
         size={Size.FULL}
         height={ControlsHeight.S}
-        label="S Height"
+        label='S Height'
       />
     </form>
   );
@@ -178,7 +177,7 @@ export const autoOpenInADialog = () => {
   return (
     <>
       <Button>Button</Button>
-      <Dialog label="Tags" show trapFocus autoFocusFirst={false}>
+      <Dialog label='Tags' show trapFocus autoFocusFirst={false}>
         <Content>
           <TagsInput tags={tags} dataSource={dataSource} autoOpen />
         </Content>

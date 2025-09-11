@@ -1,4 +1,5 @@
-import {Component, ComponentRef, ReactNode, SyntheticEvent} from 'react';
+/* eslint-disable max-lines */
+import {Component, type ComponentRef, type ReactNode, type SyntheticEvent} from 'react';
 import * as React from 'react';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
@@ -9,7 +10,7 @@ import closeIcon from '@jetbrains/icons/close-12px';
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
 import {getRect, preventDefault} from '../global/dom';
-import Caret, {Position} from '../caret/caret';
+import Caret, {type Position} from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
@@ -19,14 +20,10 @@ import Button from '../button/button';
 import Icon from '../icon/icon';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import {Size} from '../input/input';
-import {ShortcutsMap} from '../shortcuts/core';
-
+import {type ShortcutsMap} from '../shortcuts/core';
 import inputStyles from '../input/input.css';
-
 import {I18nContext} from '../i18n/i18n-context';
-
-import QueryAssistSuggestions, {QueryAssistSuggestion, SuggestionItem} from './query-assist__suggestions';
-
+import QueryAssistSuggestions, {type QueryAssistSuggestion, type SuggestionItem} from './query-assist-suggestions';
 import styles from './query-assist.css';
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING + PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
@@ -388,8 +385,9 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     }
   }
 
+  // eslint-disable-next-line complexity
   setCaretPosition = (params: CaretPositionParams = {}) => {
-    const queryLength = this.immediateState.query != null ? this.immediateState.query.length : 0;
+    const queryLength = this.immediateState.query ? this.immediateState.query.length : 0;
     const newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
     if (params.fromContentEditable) {
       this.immediateState.selection = this.immediateState.selection
@@ -422,9 +420,9 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
     if (
       this.input?.clientWidth !== this.input?.scrollWidth &&
-      caretOffset != null &&
-      this.input?.clientWidth != null &&
-      caretOffset > this.input.clientWidth
+      caretOffset &&
+      this.input?.clientWidth &&
+      caretOffset > this.input?.clientWidth
     ) {
       this.input.scrollLeft += caretOffset;
     }
@@ -769,9 +767,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       // Do not compensate caret in the beginning of field
       if (caret === 0) {
         return minOffset;
-      } else {
-        offset = caret;
       }
+      offset = caret;
     }
 
     const result = offset - POPUP_COMPENSATION;
@@ -996,7 +993,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               title={this.props.translations?.clearTitle ?? translate('clearTitle')}
               ref={this.clearRef}
               onClick={this.clearQuery}
-              data-test="query-assist-clear-icon"
+              data-test='query-assist-clear-icon'
             />
           )}
         </I18nContext.Consumer>,
@@ -1041,7 +1038,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
             <div
               data-test={dataTests('ring-query-assist', dataTest)}
               className={containerClasses}
-              role="presentation"
+              role='presentation'
               ref={this.nodeRef}
             >
               {this.state.shortcuts && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
@@ -1052,7 +1049,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                   className={styles.icon}
                   title={translations?.searchTitle ?? translate('searchTitle')}
                   ref={this.glassRef}
-                  data-test="query-assist-search-icon"
+                  data-test='query-assist-search-icon'
                 />
               )}
 
@@ -1071,7 +1068,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               <ContentEditable
                 aria-label={translations?.searchTitle ?? translate('searchTitle')}
                 className={inputClasses}
-                data-test="ring-query-assist-input"
+                data-test='ring-query-assist-input'
                 inputRef={this.inputRef}
                 disabled={this.props.disabled}
                 onComponentUpdate={() => this.setCaretPosition({fromContentEditable: true})}
@@ -1084,18 +1081,18 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 onKeyUp={this.handleInput} // to handle input and key up
                 onKeyDown={this.handleEnter}
                 onPaste={this.handlePaste}
-                spellCheck="false"
+                spellCheck='false'
               >
                 {this.state.query && <span>{this.renderQuery()}</span>}
               </ContentEditable>
 
               {renderPlaceholder && (
                 <button
-                  type="button"
+                  type='button'
                   className={placeholderStyles}
                   ref={this.placeholderRef}
                   onClick={this.handleCaretMove}
-                  data-test="query-assist-placeholder"
+                  data-test='query-assist-placeholder'
                   disabled={this.props.disabled}
                   tabIndex={-1}
                 >
@@ -1104,7 +1101,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               )}
 
               {actions.length ? (
-                <div data-test="ring-query-assist-actions" className={styles.actions}>
+                <div data-test='ring-query-assist-actions' className={styles.actions}>
                   {actions}
                 </div>
               ) : null}
@@ -1119,7 +1116,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 className={this.props.popupClassName}
                 directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
                 data={useCustomItemRender ? this.state.suggestions : this.renderSuggestions()}
-                data-test="ring-query-assist-popup"
+                data-test='ring-query-assist-popup'
                 hint={this.props.hint}
                 shortcutsMap={this.listShortcutsMap}
                 hintOnSelection={this.props.hintOnSelection}
@@ -1131,14 +1128,14 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               />
 
               {glass && huge && (
-                <div className={styles.rightSearchButton} data-test="query-assist-search-button">
+                <div className={styles.rightSearchButton} data-test='query-assist-search-button'>
                   <Icon
                     glyph={searchIcon}
                     className={styles.rightSearchIcon}
                     title={translations?.searchTitle ?? translate('searchTitle')}
                     onClick={this.handleApply}
                     ref={this.glassRef}
-                    data-test="query-assist-search-icon"
+                    data-test='query-assist-search-icon'
                   />
                 </div>
               )}

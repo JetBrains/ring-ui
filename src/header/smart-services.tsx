@@ -1,10 +1,10 @@
-import {Component, HTMLAttributes} from 'react';
+import {Component, type HTMLAttributes} from 'react';
 
-import Auth from '../auth/auth';
 import HTTP from '../http/http';
-
 import Services from './services';
-import {Service} from './services-link';
+import {type Service} from './services-link';
+
+import type Auth from '../auth/auth';
 
 function noop() {}
 

@@ -1,9 +1,7 @@
 import * as React from 'react';
 
 import Text from '../text/text';
-
 import Select from '../select/select';
-
 import Theme, {GLOBAL_DARK_CLASS_NAME, ThemeProvider} from './theme';
 
 export default {
@@ -22,7 +20,7 @@ const storyStyles = `
 </style>`;
 
 const ThemedWrapper: React.FC<{children: React.ReactNode}> = ({children}) => (
-  <div className="themed-wrapper">{children}</div>
+  <div className='themed-wrapper'>{children}</div>
 );
 
 export const basic = () => {
@@ -98,7 +96,7 @@ export const withPopup = () => {
     <div>
       <ThemeProvider theme={Theme.DARK} passToPopups>
         <ThemedWrapper>
-          <Select data={selectTestData} label="Dark popup" />
+          <Select data={selectTestData} label='Dark popup' />
         </ThemedWrapper>
       </ThemeProvider>
 
@@ -107,7 +105,7 @@ export const withPopup = () => {
           <Text>There will be Light inside Dark</Text>
           <ThemeProvider theme={Theme.LIGHT}>
             <ThemedWrapper>
-              <Select data={selectTestData} label="Light popup" />
+              <Select data={selectTestData} label='Light popup' />
             </ThemedWrapper>
           </ThemeProvider>
         </ThemedWrapper>

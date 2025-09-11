@@ -2,10 +2,8 @@
 import {useState} from 'react';
 
 import hubConfig from '../../.storybook/hub-config';
-
 import authDialogService from '../auth-dialog-service/auth-dialog-service';
 import Link from '../link/link';
-
 import Auth from './auth';
 import IFrameFlow from './iframe-flow';
 

@@ -1,11 +1,9 @@
-import {PureComponent, ReactNode} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import focusSensorHOC, {FocusSensorAddProps} from '../global/focus-sensor-hoc';
+import focusSensorHOC, {type FocusSensorAddProps} from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
-
 import getUID from '../global/get-uid';
-
 import styles from './data-list.css';
 
 export interface TitleProps extends FocusSensorAddProps<HTMLDivElement> {

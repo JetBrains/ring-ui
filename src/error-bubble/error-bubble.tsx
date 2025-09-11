@@ -1,10 +1,8 @@
-import {Children, cloneElement, PureComponent, ReactElement} from 'react';
+import {Children, cloneElement, PureComponent, type ReactElement} from 'react';
 import classNames from 'classnames';
 
 import Popup from '../popup/popup';
-
 import {Directions} from '../popup/popup.consts';
-
 import styles from './error-bubble.css';
 
 export type ErrorBubbleProps<P> = Partial<P> & {
@@ -24,7 +22,7 @@ export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
     const errorBubbleClasses = classNames(styles.errorBubble, className);
 
     return (
-      <div className={styles.errorBubbleWrapper} data-test="ring-error-bubble-wrapper">
+      <div className={styles.errorBubbleWrapper} data-test='ring-error-bubble-wrapper'>
         {children &&
           Children.map(children, (child: ReactElement<P>) => cloneElement(child, {...child.props, ...restProps}))}
         {restProps.error && (
@@ -35,7 +33,7 @@ export default class ErrorBubble<P> extends PureComponent<ErrorBubbleProps<P>> {
             attached={false}
             directions={[Directions.RIGHT_CENTER, Directions.RIGHT_BOTTOM, Directions.RIGHT_TOP]}
           >
-            <div className={errorBubbleClasses} data-test="ring-error-bubble">
+            <div className={errorBubbleClasses} data-test='ring-error-bubble'>
               {restProps.error}
             </div>
           </Popup>

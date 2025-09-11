@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
+
 import {toPx} from './utils';
 
 describe('toPx', () => {

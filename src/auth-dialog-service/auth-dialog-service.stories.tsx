@@ -1,10 +1,8 @@
 import {Component} from 'react';
 
 import hubConfig from '../../.storybook/hub-config';
-
 import Auth from '../auth/auth';
 import Button from '../button/button';
-
 import showAuthDialog from './auth-dialog-service';
 
 export default {

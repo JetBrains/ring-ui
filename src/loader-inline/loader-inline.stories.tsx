@@ -67,7 +67,7 @@ export const withoutReact = () => {
     render() {
       return (
         <div>
-          <div className="ring-loader-inline" />
+          <div className='ring-loader-inline' />
         </div>
       );
     }

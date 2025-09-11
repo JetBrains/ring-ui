@@ -1,16 +1,14 @@
-import {Component, ReactNode} from 'react';
+import {Component, type ReactNode} from 'react';
 import classNames from 'classnames';
 import gift from '@jetbrains/icons/gift';
 
-import Popup, {PopupAttrs} from '../popup/popup';
+import Popup, {type PopupAttrs} from '../popup/popup';
 import {Directions} from '../popup/popup.consts';
-import Icon, {IconType} from '../icon/icon';
-import Button, {ButtonAttrs} from '../button/button';
+import Icon, {type IconType} from '../icon/icon';
+import Button, {type ButtonAttrs} from '../button/button';
 import {I18nContext} from '../i18n/i18n-context';
-
 import Theme, {ThemeProvider, WithThemeClasses} from '../global/theme';
 import darkStyles from '../global/variables_dark.css';
-
 import styles from './message.css';
 
 /**
@@ -113,7 +111,7 @@ export default class Message extends Component<MessageProps> {
   getTailOffset() {
     const DEFAULT_OFFSET = 32;
     const {popupProps} = this.props;
-    if (this.props.tailOffset != null) {
+    if (this.props.tailOffset) {
       return this.props.tailOffset;
     }
 
@@ -125,7 +123,7 @@ export default class Message extends Component<MessageProps> {
     const offset = Math.floor(anchor.offsetWidth / 2);
 
     const isOpenedToRight =
-      this.state.direction != null && [Directions.TOP_RIGHT, Directions.BOTTOM_RIGHT].includes(this.state.direction);
+      this.state.direction && [Directions.TOP_RIGHT, Directions.BOTTOM_RIGHT].includes(this.state.direction);
     if (popupProps?.left && isOpenedToRight) {
       return offset - popupProps?.left;
     }
@@ -174,7 +172,7 @@ export default class Message extends Component<MessageProps> {
 
                   {icon && <Icon className={styles.icon} glyph={icon} />}
                   {title && (
-                    <h1 data-test="rgMessageTitle" className={styles.title}>
+                    <h1 data-test='rgMessageTitle' className={styles.title}>
                       {title}
                     </h1>
                   )}

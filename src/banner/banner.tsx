@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames';
-
 import infoIcon from '@jetbrains/icons/info-filled';
 import exceptionIcon from '@jetbrains/icons/exception';
 import successIcon from '@jetbrains/icons/success';
@@ -10,7 +9,6 @@ import closeIcon from '@jetbrains/icons/close';
 import Icon from '../icon/icon';
 import Link from '../link/link';
 import Tooltip from '../tooltip/tooltip';
-
 import styles from './banner.css';
 
 export interface BannerTranslations {
@@ -81,7 +79,7 @@ export function Banner(props: BannerProps) {
 
       {onClose && (
         <Tooltip title={closeButtonTitle ?? translations.close} className={styles.closeButtonWrapper}>
-          <Link className={styles.closeButton} pseudo onClick={onClose} aria-label="Close">
+          <Link className={styles.closeButton} pseudo onClick={onClose} aria-label='Close'>
             <Icon glyph={closeIcon} />
           </Link>
         </Tooltip>

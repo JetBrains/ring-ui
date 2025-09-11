@@ -1,11 +1,10 @@
-import {Component, RefCallback} from 'react';
+import {Component, type RefCallback} from 'react';
 import classNames from 'classnames';
 
-import Input, {InputAttrs} from '../input/input';
+import Input, {type InputAttrs} from '../input/input';
 import sniffr from '../global/sniffer';
 import {ActiveItemContext} from '../list/list';
 import {I18nContext} from '../i18n/i18n-context';
-
 import styles from './select-popup.css';
 
 function noop() {}
@@ -57,7 +56,7 @@ export default class SelectFilter extends Component<SelectFilterProps> {
                 placeholder={restProps.placeholder ?? translate('filterItems')}
                 aria-owns={listId}
                 aria-activedescendant={activeItemId}
-                autoComplete="off"
+                autoComplete='off'
                 autoFocus
                 borderless
                 inputRef={this.inputRef}

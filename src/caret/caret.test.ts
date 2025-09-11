@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-
 import Caret from './caret';
 
 describe('Caret', () => {
@@ -63,7 +61,7 @@ describe('Caret', () => {
       target.innerHTML = `<span>span1<span>span11</span></span><span>span2<span>span21</span></span><span>span3</span>`;
       const range = new Range();
       const node = target.children[1].children[0].firstChild;
-      if (node != null) {
+      if (node) {
         range.setStart(node, 1);
         range.setEnd(node, 4);
       }

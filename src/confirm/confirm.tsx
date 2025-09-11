@@ -1,4 +1,4 @@
-import {PureComponent, ReactNode} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 
 import Dialog from '../dialog/dialog';
@@ -67,14 +67,14 @@ export default class Confirm extends PureComponent<ConfirmProps> {
         onEscPress={this.onEscPress}
         show={show}
         trapFocus
-        data-test="ring-confirm"
+        data-test='ring-confirm'
         native={native}
       >
         {text && <Header>{text}</Header>}
         {description && <Content>{description}</Content>}
         <Panel>
           <Button
-            data-test="confirm-ok-button"
+            data-test='confirm-ok-button'
             primary={!cancelIsDefault}
             loader={inProgress}
             disabled={inProgress}
@@ -82,7 +82,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
           >
             {confirmLabel}
           </Button>
-          <Button data-test="confirm-reject-button" onClick={onReject} disabled={inProgress} primary={cancelIsDefault}>
+          <Button data-test='confirm-reject-button' onClick={onReject} disabled={inProgress} primary={cancelIsDefault}>
             {rejectLabel}
           </Button>
         </Panel>

@@ -1,4 +1,4 @@
-import {Mock} from 'vitest';
+import {type Mock} from 'vitest';
 
 import Listeners from './listeners';
 
@@ -13,12 +13,15 @@ describe('Listeners', () => {
   });
 
   it('should construct empty mao', () => {
+    // eslint-disable-next-line no-underscore-dangle
     expect(listeners._all.size).to.equal(0);
   });
 
   it('should add handler', () => {
     listeners.add('test', stub);
+    // eslint-disable-next-line no-underscore-dangle
     expect(listeners._all.size).to.equal(1);
+    // eslint-disable-next-line no-underscore-dangle
     expect(listeners._all.get('test')!.size).to.equal(1);
   });
 
@@ -65,7 +68,9 @@ describe('Listeners', () => {
 
     listeners.remove('test', secondStub);
 
+    // eslint-disable-next-line no-underscore-dangle
     expect(listeners._all.size).to.equal(1);
+    // eslint-disable-next-line no-underscore-dangle
     expect(listeners._all.get('test')!.size).to.equal(1);
   });
 
@@ -75,6 +80,7 @@ describe('Listeners', () => {
 
     listeners.removeAll();
 
+    // eslint-disable-next-line no-underscore-dangle
     expect(listeners._all.size).to.equal(0);
   });
 });

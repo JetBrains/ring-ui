@@ -1,7 +1,6 @@
-import {PureComponent, ReactNode} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
-
 import exceptionIcon from '@jetbrains/icons/exception';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import warningIcon from '@jetbrains/icons/warning';
@@ -11,11 +10,8 @@ import Icon, {Color} from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
-
 import Button from '../button/button';
-
 import Theme, {ThemeProvider} from '../global/theme';
-
 import styles from './alert.css';
 
 export const ANIMATION_TIME = 500;
@@ -171,7 +167,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
         })}
         onClick={this._handleCaptionsLinksClick}
         // We only process clicks on `a` elements, see above
-        role="presentation"
+        role='presentation'
       >
         {this.props.children}
       </span>
@@ -187,7 +183,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
 
     if (glyph) {
       return <Icon glyph={glyph} className={styles.icon} color={TypeToIconColor[this.props.type] || Color.DEFAULT} />;
-    } else if (this.props.type === AlertType.LOADING) {
+    } if (this.props.type === AlertType.LOADING) {
       return <Loader className={styles.loader} />;
     }
 
@@ -238,8 +234,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
           <Button
             icon={closeIcon}
             className={classNames(styles.close, closeButtonClassName)}
-            data-test="alert-close"
-            aria-label="close alert"
+            data-test='alert-close'
+            aria-label='close alert'
             onClick={this.closeRequest}
           />
         ) : (

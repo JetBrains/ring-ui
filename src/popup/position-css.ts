@@ -1,11 +1,8 @@
 import {getRect} from '../global/dom';
-
 import {calculateMinWidth} from './position';
 import {Directions} from './popup.consts';
 
-export const supportsCSSAnchorPositioning = (): boolean => {
-  return CSS?.supports?.('anchor-name', 'none');
-};
+export const supportsCSSAnchorPositioning = (): boolean => CSS?.supports?.('anchor-name', 'none');
 
 const getPositionArea = (direction: Directions): [style: string, name: string] => {
   switch (direction) {
@@ -42,12 +39,11 @@ const getPositionArea = (direction: Directions): [style: string, name: string] =
   }
 };
 
-const getPositionFallbacks = (directions: readonly Directions[]) => {
-  return directions
+const getPositionFallbacks = (directions: readonly Directions[]) =>
+  directions
     .slice(1)
     .map(direction => getPositionArea(direction)[1])
     .join(', ');
-};
 
 interface SetCSSAnchorPositioningParams {
   popup: HTMLElement;
@@ -78,7 +74,7 @@ export const setCSSAnchorPositioning = ({
   popup.style.setProperty('position-anchor', anchorName);
 
   const calculatedMinWidth = calculateMinWidth(getRect(anchor).width, minWidth);
-  if (calculatedMinWidth !== null) {
+  if (calculatedMinWidth) {
     popup.style.minWidth = `${calculatedMinWidth}px`;
   }
   if (top) {

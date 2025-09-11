@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {Component} from 'react';
 import * as React from 'react';
 import {isAfter} from 'date-fns/isAfter';
@@ -7,22 +8,21 @@ import {startOfDay} from 'date-fns/startOfDay';
 import {set} from 'date-fns';
 
 import memoize from '../global/memoize';
-
 import DateInput from './date-input';
 import Months from './months';
 import Years from './years';
 import Weekdays from './weekdays';
 import {
-  Dates,
-  DatePickerChange,
-  DatePopupBaseProps,
-  DateSpecificPopupProps,
-  DatePopupState,
+  type Dates,
+  type DatePickerChange,
+  type DatePopupBaseProps,
+  type DateSpecificPopupProps,
+  type DatePopupState,
   parseTime,
-  RangeSpecificPopupProps,
-  TimeSpecificPopupProps,
-  Field,
-  CalendarProps,
+  type RangeSpecificPopupProps,
+  type TimeSpecificPopupProps,
+  type Field,
+  type CalendarProps,
 } from './consts';
 import styles from './date-picker.css';
 
@@ -299,6 +299,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     this.componentRef.current?.querySelector('input')?.focus();
   };
 
+  // eslint-disable-next-line complexity
   render() {
     const {range, withTime, locale} = this.props;
     const {from, to, date, time, ...restProps} = this.props;
@@ -316,7 +317,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
     const activeDate =
       this.state.active !== 'time'
-        ? this.state.hoverDate || (this.state.text != null ? this.parse(this.state.text, 'date') : null)
+        ? this.state.hoverDate || (this.state.text ? this.parse(this.state.text, 'date') : null)
         : this.state.hoverDate || null;
 
     const currentRange: [Date, Date] | null = (range && dates.from && dates.to && [dates.from, dates.to]) || null;
@@ -364,7 +365,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     const clearable = Boolean(this.props.onClear);
 
     return (
-      <div className={styles.datePopup} data-test="ring-date-popup" ref={this.componentRef}>
+      <div className={styles.datePopup} data-test='ring-date-popup' ref={this.componentRef}>
         <div className={styles.filterWrapper}>
           {names.map(name => {
             let onClear;
@@ -377,7 +378,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
               <DateInput
                 {...this.props}
                 {...this.state}
-                divider={name === 'from' && (dates[name] != null || parsedTo != null)}
+                divider={name === 'from' && (!!dates[name] || !!parsedTo)}
                 name={name}
                 key={name}
                 date={dates[name]}

@@ -1,11 +1,11 @@
 import {PureComponent} from 'react';
 
-import TableSelection from '../table/selection';
-
 import DataList from './data-list';
 import Selection from './selection';
-import {FormattedItem, moreLessButtonStates} from './item';
-import mock, {Item, moreItems} from './data-list.mock';
+import {type FormattedItem, moreLessButtonStates} from './item';
+import mock, {type Item, moreItems} from './data-list.mock';
+
+import type TableSelection from '../table/selection';
 
 export default {
   title: 'Components/DataList',
@@ -42,11 +42,10 @@ export const basic = () => {
     moreExpandedItems = new Set();
 
     itemMoreLessState = (item: FormattedItem<Item>) => {
-      if (item.id != null && this.moreExpandableItems.has(item.id)) {
+      if (item.id && this.moreExpandableItems.has(item.id)) {
         return this.moreExpandedItems.has(item.id) ? moreLessButtonStates.LESS : moreLessButtonStates.MORE;
-      } else {
-        return moreLessButtonStates.UNUSED;
       }
+      return moreLessButtonStates.UNUSED;
     };
 
     onItemMoreLess = (item: Item, more: boolean) => {

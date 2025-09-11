@@ -1,6 +1,6 @@
-import Auth from '../auth/auth__core';
+import PermissionCache, {type Permission} from './permissions-cache';
 
-import PermissionCache, {Permission} from './permissions__cache';
+import type Auth from '../auth/auth-core';
 
 export interface PermissionsConfig {
   prefix?: string | null | undefined;
@@ -89,9 +89,9 @@ export default class Permissions {
     return (storedName: string) => {
       if (storedName.indexOf(prefix) !== 0) {
         return storedName;
-      } else {
-        return storedName.substr(prefix.length);
       }
+        return storedName.substr(prefix.length);
+
     };
   }
 

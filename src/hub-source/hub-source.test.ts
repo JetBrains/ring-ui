@@ -1,9 +1,9 @@
 import {expect} from 'vitest';
 
-import HTTP from '../http/http';
-import Auth from '../auth/auth';
-
 import HubSource from './hub-source';
+
+import type HTTP from '../http/http';
+import type Auth from '../auth/auth';
 
 describe('Hub Source', () => {
   let httpMock: HTTP;

@@ -28,17 +28,17 @@ export const Basic = () => {
   }, []);
 
   return (
-    <div id="ring-old-browsers-message" className="ring-old-browsers-message ring-old-browsers-message_hidden" hidden>
-      <span id="ring-old-browsers-message__smile" className="ring-old-browsers-message__smile">
+    <div id='ring-old-browsers-message' className='ring-old-browsers-message ring-old-browsers-message_hidden' hidden>
+      <span id='ring-old-browsers-message__smile' className='ring-old-browsers-message__smile'>
         {'{{ (>_<) }}'}
       </span>
       <br />
       <br />
-      <span id="ring-old-browsers-message__browser-message">
-        This version of your browser is not <a href="https://documentation.link">supported</a>.<br />
+      <span id='ring-old-browsers-message__browser-message'>
+        This version of your browser is not <a href='https://documentation.link'>supported</a>.<br />
         Try upgrading to the latest stable version.
       </span>
-      <span id="ring-old-browsers-message__error-message">Something went seriously wrong.</span>
+      <span id='ring-old-browsers-message__error-message'>Something went seriously wrong.</span>
       <br />
       <br />
     </div>

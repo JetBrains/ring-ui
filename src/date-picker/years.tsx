@@ -10,9 +10,8 @@ import {startOfYear} from 'date-fns/startOfYear';
 import {subYears} from 'date-fns/subYears';
 
 import linearFunction from '../global/linear-function';
-
 import styles from './date-picker.css';
-import units, {CalendarProps, DOUBLE, HALF, yearDuration} from './consts';
+import units, {type CalendarProps, DOUBLE, HALF, yearDuration} from './consts';
 
 const {yearHeight, calHeight} = units;
 
@@ -35,7 +34,7 @@ export default class Years extends PureComponent<CalendarProps> {
   }
 
   componentDidUpdate(prevProps: CalendarProps, prevState: YearsState) {
-    this.stoppedScrolling = prevState.scrollDate != null && !this.state.scrollDate;
+    this.stoppedScrolling = !!prevState.scrollDate && !this.state.scrollDate;
   }
 
   componentWillUnmount() {
@@ -97,7 +96,7 @@ export default class Years extends PureComponent<CalendarProps> {
       >
         {years.map(item => (
           <button
-            type="button"
+            type='button'
             key={+item}
             className={classNames(styles.year, {
               [styles.currentYear]: isSameYear(item, date),

@@ -22,7 +22,7 @@ class DependencyGraph {
   If a dependency is found after the current module, it's moved to just before the current module.
   This process repeats until no more reordering is needed.
    */
-  // eslint-disable-next-line complexity
+
   topologicalSort() {
     const order = this.initialTopologicalSort();
     let reordered;

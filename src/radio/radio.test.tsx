@@ -1,9 +1,7 @@
-import {ComponentRef, Ref} from 'react';
-
+import {type ComponentRef, type Ref} from 'react';
 import {render, screen, fireEvent} from '@testing-library/react';
 
-import {RadioProps} from './radio__item';
-
+import {type RadioProps} from './radio-item';
 import Radio from './radio';
 
 describe('Radio', () => {
@@ -13,13 +11,13 @@ describe('Radio', () => {
     refTwo?: Ref<ComponentRef<typeof Radio.Item>>,
   ) => (
     <Radio {...props}>
-      <Radio.Item ref={refOne} value="one">
+      <Radio.Item ref={refOne} value='one'>
         {'One'}
       </Radio.Item>
-      <Radio.Item ref={refTwo} value="two">
+      <Radio.Item ref={refTwo} value='two'>
         {'Two'}
       </Radio.Item>
-      <Radio.Item value="three">{'Three'}</Radio.Item>
+      <Radio.Item value='three'>{'Three'}</Radio.Item>
     </Radio>
   );
   const renderRadio = (

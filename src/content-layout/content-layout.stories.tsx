@@ -26,7 +26,7 @@ export const withSidebarOnTheLeft = () => (
       <h4>Some title</h4>
     </div>
     <ContentLayout>
-      <Sidebar className="sidebar">
+      <Sidebar className='sidebar'>
         This is sidebar. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
         labore et dolore magna aliqua. This is sidebar. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. This is sidebar. Lorem ipsum dolor sit amet,
@@ -98,7 +98,7 @@ export const withSidebarOnTheRight = () => (
       <h4>Some title</h4>
     </div>
     <ContentLayout>
-      <Sidebar className="sidebar" right>
+      <Sidebar className='sidebar' right>
         This is sidebar. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
         labore et dolore magna aliqua. This is sidebar. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. This is sidebar. Lorem ipsum dolor sit amet,

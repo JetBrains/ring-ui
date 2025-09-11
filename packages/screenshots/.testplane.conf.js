@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 const path = require('path');
-
 const ip = require('ip');
 require('dotenv').config();
 

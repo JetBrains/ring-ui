@@ -1,21 +1,20 @@
-import {Fragment, ReactNode, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Fragment, type ReactNode, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
 import {isArray} from '../global/typescript-utils';
 import Shortcuts from '../shortcuts/shortcuts';
 import getUID from '../global/get-uid';
-import {ShortcutsMap} from '../shortcuts/core';
-
+import {type ShortcutsMap} from '../shortcuts/core';
 import styles from './slider.css';
 import {adjustValues, calculateMarks, calculateValue, HUNDRED, toPercent, toRange, validateValue} from './slider.utils';
 
-type Mark = {
+interface Mark {
   value: number;
   label?: ReactNode;
-};
+}
 
-type Props = {
+interface Props {
   defaultValue?: number | number[];
   value?: number | number[];
   min?: number;
@@ -28,7 +27,7 @@ type Props = {
   className?: string;
   renderTag?: (value: number) => ReactNode;
   onChange?: (value: number | number[]) => void;
-};
+}
 
 export const Slider: React.FC<Props> = ({
   defaultValue,
@@ -57,7 +56,8 @@ export const Slider: React.FC<Props> = ({
   const markValues: Mark[] = useMemo(() => {
     if (isArray(marks)) {
       return marks.map(mark => ({...mark, value: validateValue(mark.value, min, max)}));
-    } else if (marks) {
+    }
+    if (marks) {
       return calculateMarks(min, max, validStep);
     }
     return [];
@@ -136,7 +136,7 @@ export const Slider: React.FC<Props> = ({
 
       const index = e.currentTarget.getAttribute('data-index');
       const nextValue = calculateValue(ref, e.pageX, min, max, validStep);
-      if (nextValue !== null && !isNaN(nextValue) && !index) {
+      if (nextValue && !isNaN(nextValue) && !index) {
         const rangeIndex = Number(Math.abs(validValues[0] - nextValue) > Math.abs(validValues[1] - nextValue));
         setDraggedIndex(isRange ? rangeIndex : 0);
       } else {
@@ -195,7 +195,7 @@ export const Slider: React.FC<Props> = ({
   return (
     <div
       ref={ref}
-      role="presentation" // contains interactive elements
+      role='presentation' // contains interactive elements
       className={classNames(styles.slider, className, {
         [styles.disabled]: disabled,
         [styles.marked]: !!marks || showTag,
@@ -227,8 +227,8 @@ export const Slider: React.FC<Props> = ({
           <Fragment key={index}>
             <div
               tabIndex={0}
-              aria-label="Pick value"
-              role="slider"
+              aria-label='Pick value'
+              role='slider'
               aria-valuemin={min}
               aria-valuemax={max}
               aria-valuenow={numValue}
@@ -244,7 +244,7 @@ export const Slider: React.FC<Props> = ({
               <div
                 style={{left: `${percent}%`}}
                 className={classNames(styles.tag, {[styles.disabled]: disabled})}
-                role="tooltip"
+                role='tooltip'
               >
                 {renderTag ? renderTag(numValue) : numValue}
               </div>

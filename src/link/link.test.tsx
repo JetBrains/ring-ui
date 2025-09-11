@@ -1,10 +1,9 @@
-import {ComponentType} from 'react';
+import {type ComponentType} from 'react';
 import * as React from 'react';
-
 import {fireEvent, render, screen} from '@testing-library/react';
 
-import Link, {linkHOC, LinkProps} from './link';
-import ClickableLink, {ClickableLinkProps} from './clickableLink';
+import Link, {linkHOC, type LinkProps} from './link';
+import ClickableLink, {type ClickableLinkProps} from './clickable-link';
 import styles from './link.css';
 
 describe('Link', () => {
@@ -50,19 +49,20 @@ describe('Link', () => {
     });
 
     it('should pass activeClassName to wrapped component', () => {
-      const CustomComponent: ComponentType<ClickableLinkProps> = () => <span data-test="custom-component" />;
+      const CustomComponent: ComponentType<ClickableLinkProps> = () => <span data-test='custom-component' />;
       const CustomLink = linkHOC(CustomComponent);
       render(<CustomLink>{null}</CustomLink>);
       expect(screen.getByTestId('custom-component')).to.exist;
     });
 
     it('should pass custom props to wrapped component', () => {
+      // eslint-disable-next-line react/prop-types
       const CustomComponent: ComponentType<ClickableLinkProps & {custom: string}> = ({custom}) => (
         <span data-test={custom} />
       );
       const CustomLink = linkHOC(CustomComponent);
 
-      render(<CustomLink custom="test">{null}</CustomLink>);
+      render(<CustomLink custom='test'>{null}</CustomLink>);
       expect(screen.getByTestId('test')).to.exist;
     });
 
@@ -70,14 +70,14 @@ describe('Link', () => {
       const CustomComponent = 'a';
       const CustomLink = linkHOC(CustomComponent);
 
-      render(<CustomLink href="/">{''}</CustomLink>);
+      render(<CustomLink href='/'>{''}</CustomLink>);
       expect(screen.getByRole('link')).to.not.have.attr('activeClassName');
     });
   });
 
   describe('ClickableLink', () => {
     it('should render "a" tag', () => {
-      render(<ClickableLink href="/">{'foo'}</ClickableLink>);
+      render(<ClickableLink href='/'>{'foo'}</ClickableLink>);
       const link = screen.getByRole('link');
       expect(link).to.have.attr('href', '/');
       expect(link).to.have.text('foo');
@@ -103,7 +103,7 @@ describe('Link', () => {
             onClick={onClick}
             onConditionalClick={onConditionalClick}
             onPlainLeftClick={onPlainLeftClick}
-            href="/"
+            href='/'
           >
             {'foo'}
           </ClickableLink>,

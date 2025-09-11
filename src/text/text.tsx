@@ -1,4 +1,4 @@
-import {Component, HTMLAttributes} from 'react';
+import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import styles from './text.css';

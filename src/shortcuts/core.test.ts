@@ -1,10 +1,8 @@
 import {simulate} from 'combokeys/test/lib/key-event';
-
 import {OS} from 'sniffr';
 
 import sniffr from '../global/sniffer';
-
-import shortcuts, {ShortcutsMap} from './core';
+import shortcuts, {type ShortcutsMap} from './core';
 
 describe('Shortcuts', () => {
   const key = 'a';
@@ -47,6 +45,7 @@ describe('Shortcuts', () => {
     it('should bind to root scope', () => {
       shortcuts.bind({key, handler: noop});
 
+      // eslint-disable-next-line no-underscore-dangle
       const scope = shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId];
       expect(scope).to.exist;
       expect(scope?.[key]).to.equal(noop);
@@ -55,6 +54,7 @@ describe('Shortcuts', () => {
     it('should bind to custom scope', () => {
       shortcuts.bind({key, scope: scopeId, handler: noop});
 
+      // eslint-disable-next-line no-underscore-dangle
       const scope = shortcuts._scopes[scopeId];
       expect(scope).to.exist;
       expect(scope?.[key]).to.equal(noop);
@@ -64,6 +64,7 @@ describe('Shortcuts', () => {
       const keys = [key, key2];
       shortcuts.bind({key: keys, handler: noop});
 
+      // eslint-disable-next-line no-underscore-dangle
       const scope = shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId];
       expect(scope).to.exist;
       expect(scope?.[key]).to.equal(noop);
@@ -92,6 +93,7 @@ describe('Shortcuts', () => {
       keys[key2] = noop2;
       shortcuts.bindMap(keys);
 
+      // eslint-disable-next-line no-underscore-dangle
       const scope = shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId];
       expect(scope).to.exist;
       expect(scope?.[key]).to.equal(noop);
@@ -104,6 +106,7 @@ describe('Shortcuts', () => {
       keys[key2] = noop2;
       shortcuts.bindMap(keys, {scope: scopeId});
 
+      // eslint-disable-next-line no-underscore-dangle
       const scope = shortcuts._scopes[scopeId];
       expect(scope).to.exist;
       expect(scope?.[key]).to.equal(noop);
@@ -116,6 +119,7 @@ describe('Shortcuts', () => {
       shortcuts.bind({key, scope: scopeId, handler: noop});
       shortcuts.unbindScope(scopeId);
 
+      // eslint-disable-next-line no-underscore-dangle
       expect(shortcuts._scopes[scopeId]).to.not.exist;
     });
   });

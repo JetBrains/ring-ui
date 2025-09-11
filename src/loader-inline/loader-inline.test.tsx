@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import LoaderInline, {LoaderInlineAtrrs} from './loader-inline';
+import LoaderInline, {type LoaderInlineAtrrs} from './loader-inline';
 
 describe('Loader Inline', () => {
   const renderLoaderInline = (props?: LoaderInlineAtrrs) => {
