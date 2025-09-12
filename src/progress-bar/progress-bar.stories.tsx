@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import ProgressBar from './progress-bar';
+import {ProgressBarProps} from './progress-bar.interface';
 
 const disableAnimations = window.location.search.includes('block-animations');
 
@@ -60,25 +61,25 @@ type Story = StoryObj<typeof ProgressBar>;
 
 export const Basic: Story = {};
 
-export const Animated: Story = {
+const AutoProgressDemo = (args: ProgressBarProps) => {
+  const [value, setValue] = useState(disableAnimations ? 0.5 : 0);
+
+  useEffect(() => {
+    if (disableAnimations) return;
+
+    const interval = setInterval(() => {
+      setValue(prev => (prev >= 1 ? 0 : prev + 0.1));
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <ProgressBar {...args} value={value} />;
+};
+
+export const AutoProgress: Story = {
   render: args => {
-    const AnimatedDemo = () => {
-      const [value, setValue] = useState(disableAnimations ? 0.5 : 0);
-
-      useEffect(() => {
-        if (disableAnimations) return;
-
-        const interval = setInterval(() => {
-          setValue(prev => (prev >= 1 ? 0 : prev + 0.1));
-        }, 500);
-
-        return () => clearInterval(interval);
-      }, []);
-
-      return <ProgressBar {...args} value={value} />;
-    };
-
-    return <AnimatedDemo />;
+    return <AutoProgressDemo {...args} />;
   },
   parameters: {
     screenshots: {skip: true},
