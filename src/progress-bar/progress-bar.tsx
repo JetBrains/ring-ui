@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import styles from './progress-bar.css';
 import {toPercent} from './progress-bar.utils';
-import {ProgressBarProps} from './progress-bar.interface';
+import type {ProgressBarProps} from './progress-bar.interface';
 
 const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
   (
@@ -44,3 +44,4 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 ProgressBar.displayName = 'ProgressBar';
 
 export default ProgressBar;
+export type {ProgressBarProps};
