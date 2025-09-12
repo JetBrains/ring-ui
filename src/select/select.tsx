@@ -1143,11 +1143,15 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
   }
 
+  private getHeight() {
+    return this.props.height || (typeof this.context === 'function' ? this.context() : this.context);
+  }
+
   private _getIcons() {
     const {selected} = this.state;
     const {disabled, clear, hideArrow} = this.props;
     const icons = [];
-    const height = this.props.height || (typeof this.context === 'function' ? this.context() : this.context);
+    const height = this.getHeight();
 
     if (!Array.isArray(selected) && selected?.icon) {
       icons.push(
@@ -1239,7 +1243,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       styles.select,
       'ring-js-shortcuts',
       this.props.className,
-      styles[`height${this.props.height || this.context}`],
+      styles[`height${this.getHeight()}`],
       {
         [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
         [styles.disabled]: this.props.disabled,
