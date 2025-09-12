@@ -88,11 +88,9 @@ describe('Progress Bar', () => {
       expect(screen.getByRole('progressbar').style.width).to.equal('100%');
     });
 
-    it('should not set style if value is not a number', () => {
-      renderProgressBar({
-        value: undefined,
-      });
-      expect(screen.getByRole('progressbar')).to.not.have.attr('style');
+    it('should set width 0% when value is 0', () => {
+      renderProgressBar({value: 0});
+      expect(screen.getByRole('progressbar').style.width).to.equal('0%');
     });
 
     it('should set custom label', () => {
