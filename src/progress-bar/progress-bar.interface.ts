@@ -13,9 +13,7 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   value?: number;
   label?: string;
   /**
-   * Sets the ring-progress-bar_global class to position the progress bar on top of the screen.
-   * Should be placed directly inside body, will be positioned right below .ring-header
-   * if placed adjacent to it.
+   * Positions the progress bar globally at the top of the screen.
    * @type {boolean}
    */
   global?: boolean | null | undefined;
