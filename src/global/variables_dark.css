@@ -175,8 +175,8 @@
   --ring-warning-container-light-color: rgb(var(--ring-warning-container-light-components)); /* #352A27 */
   --ring-highlight-container-light-components: 49, 42, 35;
   --ring-highlight-container-light-color: rgb(var(--ring-highlight-container-light-components)); /* #312A23 */
-  --ring-grey-container-light-components: 57, 59, 64;
-  --ring-grey-container-light-color: rgb(var(--ring-grey-container-light-components)); /* #393B40 */
+  --ring-grey-container-light-components: 43, 45, 48;
+  --ring-grey-container-light-color: rgb(var(--ring-grey-container-light-components)); /* #2B2D30 */
   --ring-purple-container-light-components: 43, 37, 49;
   --ring-purple-container-light-color: rgb(var(--ring-purple-container-light-components)); /* #2B2531 */
   --ring-highlight-fill-components: 214, 174, 88;
