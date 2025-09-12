@@ -364,7 +364,7 @@
           },
           {
             "name": "ring-warning-color",
-            "value": "#b85516",
+            "value": "#b65416",
             "var": "Light/Orange/20",
             "rootAlias": "Light/Orange/20"
           },
@@ -591,9 +591,9 @@
           },
           {
             "name": "ring-grey-container-light-color",
-            "value": "#393b40",
-            "var": "Dark/Gray/30",
-            "rootAlias": "Dark/Gray/30"
+            "value": "#2b2d30",
+            "var": "Dark/Gray/20",
+            "rootAlias": "Dark/Gray/20"
           },
           {
             "name": "ring-grey-fill-accent-color",
