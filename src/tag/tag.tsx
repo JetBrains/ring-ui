@@ -160,7 +160,7 @@ export default class Tag extends PureComponent<TagProps> {
 
     return (
       <span
-        className={classNames(styles.container, this.props.containerClassName, styles[this.props.tagType!], {
+        className={classNames(styles.container, this.props.containerClassName, styles[this.props.tagType || TagType.DEFAULT], {
           [styles.outline]: this.props.outline,
         })}
       >
