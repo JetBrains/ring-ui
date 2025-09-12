@@ -1,6 +1,13 @@
 ## [8.0 Beta — work in progress]
 
 ### BREAKING CHANGES
+
+#### Removed deprecated type exports
+
+- **ProgressBar**: Removed `ProgressBarAttrs` export type
+  - **Migration**: Use `ProgressBarProps` instead
+  - **Reason**: `LibraryManagedAttributes` utility is no longer needed for functional components
+
 ### Dev experience changes
 
 
