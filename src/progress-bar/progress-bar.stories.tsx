@@ -86,6 +86,10 @@ export const AutoProgress: Story = {
   },
 };
 
+export const ZeroProgress: Story = {
+  render: args => <ProgressBar {...args} value={0} />,
+};
+
 export const DisableAnimation: Story = {
   render: args => <ProgressBar {...args} disableAnimation />,
 };
