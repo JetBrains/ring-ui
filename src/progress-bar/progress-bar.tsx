@@ -19,7 +19,7 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
     },
     ref,
   ) => {
-    const width = `${toPercent(value, max)}%`;
+    const width = toPercent(value, max);
     const classes = classNames(styles.progressBar, className, {
       [styles.globalMode]: global,
       [styles.staticLineColor]: disableAnimation ?? staticColor,
