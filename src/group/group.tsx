@@ -1,4 +1,4 @@
-import {Component, HTMLAttributes} from 'react';
+import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import styles from './group.css';
@@ -13,7 +13,7 @@ export default class Group extends Component<HTMLAttributes<HTMLSpanElement>> {
     const classes = classNames(styles.group, className);
 
     return (
-      <span data-test="ring-group" {...restProps} className={classes}>
+      <span data-test='ring-group' {...restProps} className={classes}>
         {children}
       </span>
     );

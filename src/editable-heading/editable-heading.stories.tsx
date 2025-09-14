@@ -1,12 +1,10 @@
 import {useState, useCallback} from 'react';
-
 import pencilIcon from '@jetbrains/icons/pencil';
 import moreOptionsIcon from '@jetbrains/icons/more-options';
 
 import {Size} from '../input/input';
 import Button from '../button/button';
-
-import EditableHeading, {EditableHeadingProps, Levels} from './editable-heading';
+import EditableHeading, {type EditableHeadingProps, Levels} from './editable-heading';
 
 const lorem = (
   <div>
@@ -48,12 +46,12 @@ export const basic = () => {
       <EditableHeading
         isEditing={isEditing}
         isSavingPossible={children !== initChildren}
-        placeholder="Enter the field name"
+        placeholder='Enter the field name'
         onEdit={() => setIsEditing(!isEditing)}
         onChange={e => setChildren(e.target.value)}
         onSave={onSave}
         onCancel={onCancel}
-        className="example-editable-heading"
+        className='example-editable-heading'
         isSaving={isSaving}
         {...restProps}
       >
@@ -64,8 +62,8 @@ export const basic = () => {
 
   const renderMenu = () => (
     <>
-      <Button icon={pencilIcon} className="example-editable-heading__menu-button" title="Edit" />
-      <Button icon={moreOptionsIcon} className="example-editable-heading__menu-button" title="More Options" />
+      <Button icon={pencilIcon} className='example-editable-heading__menu-button' title='Edit' />
+      <Button icon={moreOptionsIcon} className='example-editable-heading__menu-button' title='More Options' />
     </>
   );
 
@@ -119,10 +117,10 @@ export const basic = () => {
       </ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading error="">Invalid Heading</ExampleEditableHeading>
+      <ExampleEditableHeading error=''>Invalid Heading</ExampleEditableHeading>
       {lorem}
 
-      <ExampleEditableHeading error="Some error message">Invalid Heading with an error message</ExampleEditableHeading>
+      <ExampleEditableHeading error='Some error message'>Invalid Heading with an error message</ExampleEditableHeading>
       {lorem}
 
       <ExampleEditableHeading disabled>Disabled Heading</ExampleEditableHeading>

@@ -1,14 +1,12 @@
+/* eslint-disable no-underscore-dangle */
 // @ts-expect-error no typings available
 import mockedWindow from 'storage-mock';
-
 import {act} from 'react';
-
-import {MockInstance} from 'vitest';
+import {type MockInstance} from 'vitest';
 
 import HTTP from '../http/http';
-import LocalStorage from '../storage/storage__local';
-
-import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT, AuthUser} from './auth';
+import LocalStorage from '../storage/storage-local';
+import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT, type AuthUser} from './auth';
 import AuthRequestBuilder from './request-builder';
 import AuthResponseParser, {AuthError} from './response-parser';
 import BackgroundFlow from './background-flow';
@@ -41,12 +39,11 @@ describe('Auth', () => {
         () =>
           new Auth({
             serverUri: 'value',
-            /* eslint-disable camelcase */
+
             // @ts-expect-error testing a wrong usage
             redirect_uri: 'value',
             request_credentials: 'value',
             client_id: 'value',
-            /* eslint-enable camelcase */
           }),
       ).to.throw(
         Error,
@@ -393,11 +390,11 @@ describe('Auth', () => {
         waitForRedirectTimeout: 0,
       });
 
-      if (auth._storage != null) {
+      if (auth._storage) {
         auth._storage._tokenStorage = auth._storage._stateStorage = auth._storage._messagesStorage = new LocalStorage();
       }
 
-      if (auth._domainStorage != null) {
+      if (auth._domainStorage) {
         auth._domainStorage._messagesStorage = new LocalStorage();
       }
     });
@@ -512,7 +509,7 @@ describe('Auth', () => {
         embeddedLogin: true,
       });
 
-      if (auth._storage != null) {
+      if (auth._storage) {
         auth._storage._tokenStorage = new LocalStorage();
       }
       auth.setAuthDialogService(() => () => {});
@@ -579,7 +576,7 @@ describe('Auth', () => {
 
     it('should redirect current page if get token in iframe fails', async () => {
       auth.config.embeddedLogin = false;
-      if (auth._backgroundFlow != null) {
+      if (auth._backgroundFlow) {
         auth._backgroundFlow._timeout = 100;
       }
       vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockReturnValue();
@@ -606,7 +603,7 @@ describe('Auth', () => {
 
     it('should show login overlay if token refresh fails and window login enabled', async () => {
       const TIMEOUT = 100;
-      if (auth._backgroundFlow != null) {
+      if (auth._backgroundFlow) {
         auth._backgroundFlow._timeout = TIMEOUT;
       }
       vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockReturnValue();

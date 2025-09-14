@@ -1,15 +1,11 @@
 import MarkdownIt from 'markdown-it';
-
 import highlightJs from 'highlight.js';
 
 import ReadMe from '../README.md';
 import Contributing from '../CONTRIBUTING.md';
 import Changelog from '../CHANGELOG.md';
-
 import highlightStyles from './code/highlight.css';
-
 import Markdown from './markdown/markdown';
-
 import License from 'raw-loader!../LICENSE.txt';
 
 const markdownIt = new MarkdownIt('commonmark', {

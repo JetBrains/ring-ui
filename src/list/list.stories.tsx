@@ -1,22 +1,19 @@
 import {createElement, useState, useEffect} from 'react';
 import warningIcon from '@jetbrains/icons/warning';
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 import {fn} from 'storybook/test';
 
 import hubConfig from '../../.storybook/hub-config';
-
 import Loader from '../loader/loader';
 import Tooltip from '../tooltip/tooltip';
 import Auth from '../auth/auth';
 import Code from '../code/code';
 import ContentLayout, {Sidebar} from '../content-layout/content-layout';
-
 import Link from '../link/link';
-
-import List, {ListAttrs} from './list';
-import Source from './list__users-groups-source';
+import List, {type ListAttrs} from './list';
+import Source from './list-users-groups-source';
 import styles from './list.stories.css';
-import {ListDataItem} from './consts';
+import {type ListDataItem} from './consts';
 
 const FLAG_EN_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAKCAMAAACKYC6uAAAAB3RJTUUH3AIcDR8UFn+EAwAAAAlwSFlzAAAewQAAHsEBw2lUUwAAAARnQU1BAACxjwv8YQUAAAHgUExURf///9LAwLxiY51KVk1Pew0uch0pcImTtOBwdeVzeKasyEZQjDZHfWh3mK2xtq2Dg5NKT3OEqbi9xsWMjLBGS35YcCY8enWCptZkaOFtcaKpx1xsoa24ys++vrlyc5ZcZVJVdFRsoVFnlpqtv8i4ubpiZJ1jcamsvcRTWtFbYtPZ5+Tv9+/Q0Mp9gZqAkU1kjCtDc+vT2NW7wsClrMSnqsGgo8KSlMylpbM5Qr5FTfDOzvnb3O7JzOPCxcazuLafpbCYnddxeNZqcsBOVagsNZ0XIZsRG5wRHKUbJbErNcA8Rs5PWNRdZdFdZcNSWrFDSqg8Q6dFTN12fdFja7lGTqYnMZwTHZoOGJ4THagfKbUvOcRFTtBUXdRcZc5bY8BPV69BSJeCh8CrsOzY3ubFx86ipcmpqsWhoZ8iK6MjLNKnqdyoqurKzfXb3ObM09rAx82zuA4jTkRafrWhseadoefDwsHL05+ot6cuNqcoMKKjtKhwftmDhvTj49Hi8XWLuE5mnCkuSnJASa1sbsjS4lFglW13mbE6P64rMGNtkCA3do9thtNxdvK6u+ns846fxGwrL3pSUpCSlnF/nGp7rldgmoiQrrhHS68vM2hvkAUTXBAwdGRrlcR6huyWmPzp6TUvvy8AAAABdFJOUwBA5thmAAAAtUlEQVR42gGqAFX/AJCRkpOUlZaXmJmam5ydnp8AgYKDfYSFhoeIiYqLjI2OjwBxcnN0dXZ3eHl6e3x9fn+AAGFiY2RlZmdoaWprbG1ub3AAUVJTVFVWV1hZWltcXV5fYABBQkNERUZHSElKS0xNTk9QADEyMzQ1Njc4OTo7PD0+P0AAISIjJCUmJygpKissLS4vMAAREhMUFRYXGBkaGxwdHh8gAAECAwQFBgcICQoLDA0ODxAO4zIu3IgQpAAAAABJRU5ErkJggg==';
@@ -57,7 +54,7 @@ withAHintBelow.args = {
   activeIndex: 2,
   hint: (
     <>
-      <Link href="http://example.com" target="_blank" rel="noreferrer">
+      <Link href='http://example.com' target='_blank' rel='noreferrer'>
         Hint
       </Link>
       {' about the list'}
@@ -256,9 +253,9 @@ export const WithUsers = () => {
   return listData ? (
     <ContentLayout>
       <Sidebar>
-        <List className="list" data={listData} shortcuts onSelect={setSelected} />
+        <List className='list' data={listData} shortcuts onSelect={setSelected} />
       </Sidebar>
-      {selected && <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)} />}
+      {selected && <Code className='selected' language='json' code={JSON.stringify(selected, null, 2)} />}
     </ContentLayout>
   ) : (
     <Loader />

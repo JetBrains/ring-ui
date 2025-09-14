@@ -1,6 +1,7 @@
 import {CODE} from '../http/http';
 
-import AuthStorage, {StoredToken} from './storage';
+import type AuthStorage from './storage';
+import type {StoredToken} from './storage';
 
 export interface TokenValidatorConfig {
   scope: string[];
@@ -62,7 +63,9 @@ export default class TokenValidator {
    */
   validateTokenLocally() {
     return this._getValidatedToken([
+      // eslint-disable-next-line no-underscore-dangle
       TokenValidator._validateExistence,
+      // eslint-disable-next-line no-underscore-dangle
       TokenValidator._validateExpiration,
       this._validateScopes.bind(this),
     ]);
@@ -74,7 +77,9 @@ export default class TokenValidator {
    */
   validateToken() {
     return this._getValidatedToken([
+      // eslint-disable-next-line no-underscore-dangle
       TokenValidator._validateExistence,
+      // eslint-disable-next-line no-underscore-dangle
       TokenValidator._validateExpiration,
       this._validateScopes.bind(this),
       this._validateAgainstUser.bind(this),
@@ -103,6 +108,7 @@ export default class TokenValidator {
     const REFRESH_BEFORE_RATIO = 6;
     const refreshBefore = lifeTime ? Math.ceil(lifeTime / REFRESH_BEFORE_RATIO) : TokenValidator.DEFAULT_REFRESH_BEFORE;
 
+    // eslint-disable-next-line no-underscore-dangle
     if (expires && expires < TokenValidator._epoch() + refreshBefore) {
       throw new TokenValidator.TokenValidationError('Token expired');
     }
@@ -180,7 +186,7 @@ export default class TokenValidator {
    */
   async _getValidatedToken(validators: ((token: StoredToken) => void | Promise<void>)[]) {
     const storedToken = await this._storage.getToken();
-    if (storedToken == null) {
+    if (storedToken === null || storedToken === undefined) {
       throw new TokenValidator.TokenValidationError('Token not found');
     }
 

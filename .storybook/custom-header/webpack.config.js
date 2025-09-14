@@ -2,7 +2,6 @@
  * Storybook preset that patches manager's webpack config to enable loading Ring UI components
  */
 const path = require('path');
-
 const webpack = require('webpack');
 
 const pkgConfig = require('../../package.json').config;

@@ -9,11 +9,10 @@ import {endOfMonth} from 'date-fns/endOfMonth';
 import scheduleRAF from '../global/schedule-raf';
 import linearFunction from '../global/linear-function';
 import useEventCallback from '../global/use-event-callback';
-
 import Month from './month';
 import MonthNames from './month-names';
 import styles from './date-picker.css';
-import units, {DOUBLE, HALF, MonthsProps, WEEK, weekdays} from './consts';
+import units, {DOUBLE, HALF, type MonthsProps, WEEK, weekdays} from './consts';
 
 const {unit, cellSize, calHeight} = units;
 
@@ -88,12 +87,12 @@ export default function Months(props: MonthsProps) {
   useEffect(() => {
     const current = componentRef.current;
 
-    if (current !== null) {
+    if (current) {
       current.addEventListener('wheel', handleWheel, {passive: false});
     }
 
     return () => {
-      if (current !== null) {
+      if (current) {
         current.removeEventListener('wheel', handleWheel);
       }
     };

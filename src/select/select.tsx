@@ -1,16 +1,16 @@
+/* eslint-disable max-lines */
 import {
-  ButtonHTMLAttributes,
+  type ButtonHTMLAttributes,
   Component,
-  ComponentType,
-  CSSProperties,
+  type ComponentType,
+  type CSSProperties,
   Fragment,
-  HTMLAttributes,
-  ReactNode,
-  Ref,
-  RefCallback,
-  SyntheticEvent,
+  type HTMLAttributes,
+  type ReactNode,
+  type Ref,
+  type RefCallback,
+  type SyntheticEvent,
 } from 'react';
-
 import * as React from 'react';
 import classNames from 'classnames';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
@@ -20,9 +20,9 @@ import {dequal} from 'dequal';
 import {Anchor} from '../dropdown/dropdown';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
-import List, {ActiveItemContext, SelectHandlerParams} from '../list/list';
+import List, {ActiveItemContext, type SelectHandlerParams} from '../list/list';
 import Input, {Size} from '../input/input';
-import ControlLabel, {LabelType} from '../control-label/control-label';
+import ControlLabel, {type LabelType} from '../control-label/control-label';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import dataTests from '../global/data-tests';
@@ -31,19 +31,13 @@ import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
 import memoize from '../global/memoize';
 import {I18nContext} from '../i18n/i18n-context';
-
-import {ListDataItem} from '../list/consts';
-
-import {Directions} from '../popup/popup.consts';
-
-import {createComposedRef} from '../global/composeRefs';
+import {type ListDataItem} from '../list/consts';
+import {type Directions} from '../popup/popup.consts';
+import {createComposedRef} from '../global/compose-refs';
 import {isArray} from '../global/typescript-utils';
-
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-
 import inputStyles from '../input/input.css';
-
-import SelectPopup, {Filter, FilterFn, Multiple, Tags} from './select__popup';
+import SelectPopup, {type Filter, type FilterFn, type Multiple, type Tags} from './select-popup';
 import styles from './select.css';
 
 /**
@@ -94,7 +88,7 @@ function getLowerCaseLabel<T>(item: SelectItem<T>) {
 function doesLabelMatch<T>(itemToCheck: SelectItem<T>, fn: (label: string) => boolean) {
   const lowerCaseLabel = getLowerCaseLabel(itemToCheck);
 
-  if (lowerCaseLabel == null) {
+  if (lowerCaseLabel === null || lowerCaseLabel === undefined) {
     return true;
   }
 
@@ -253,6 +247,7 @@ export interface SelectState<T = unknown> {
   focused?: boolean;
 }
 
+// eslint-disable-next-line complexity
 function getListItems<T = unknown>(
   props: SelectProps<T>,
   state: Partial<SelectState<T>>,
@@ -338,7 +333,7 @@ function getListItems<T = unknown>(
 }
 
 const getItemLabel = <T,>({selectedLabel, label}: SelectItem<T>): string => {
-  if (selectedLabel != null) {
+  if (selectedLabel !== null && selectedLabel !== undefined) {
     return selectedLabel;
   }
   return typeof label === 'string' ? label : '';
@@ -463,7 +458,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
 
     const isSelectionEmpty =
-      nextProps.selected == null || (Array.isArray(nextProps.selected) && nextProps.selected.length === 0);
+      nextProps.selected === null ||
+      nextProps.selected === undefined ||
+      (Array.isArray(nextProps.selected) && nextProps.selected.length === 0);
     if (isSelectionEmpty) {
       nextState.lastInteractedKey = null;
     }
@@ -582,7 +579,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   private _onEsc = (event: KeyboardEvent) => {
     if (!this._popup?.isVisible()) {
       return true;
-    } else if (this.props.multiple || !this.props.getInitial) {
+    }
+    if (this.props.multiple || !this.props.getInitial) {
       return false;
     }
 
@@ -620,7 +618,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const isNonOptionItem = (item: SelectItem<T>) =>
       item.isResetItem || List.isItemType(List.ListProps.Type.SEPARATOR, item);
 
-    if (lastInteractedKey != null) {
+    if (lastInteractedKey !== null && lastInteractedKey !== undefined) {
       const index = items.findIndex(item => item.key === lastInteractedKey && !isNonOptionItem(item));
       if (index >= 0) return index;
     }
@@ -669,7 +667,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       key: reset.label,
       rgItemType: List.ListProps.Type.CUSTOM,
       template: (
-        <Button inline className={styles.button} data-test="ring-select-reset-tags-button" height={ControlsHeight.S}>
+        <Button inline className={styles.button} data-test='ring-select-reset-tags-button' height={ControlsHeight.S}>
           {reset.label}
         </Button>
       ),
@@ -695,6 +693,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   private _renderPopup() {
     const anchorElement = this.props.targetElement || this.node;
     const {showPopup, shownData} = this.state;
+    // eslint-disable-next-line no-underscore-dangle
     const _shownData = this._prependResetOption(shownData);
     const activeIndex = this._getActiveIndex(_shownData);
 
@@ -804,7 +803,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         className={classNames({
           [styles.toolbar]: Boolean(this.state.addButton || renderBottomToolbar),
         })}
-        data-test="ring-select-toolbar"
+        data-test='ring-select-toolbar'
       >
         {renderBottomToolbar && renderBottomToolbar()}
         {this.state.addButton && (
@@ -813,12 +812,12 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             delayed={delayed}
             className={classNames(styles.button, styles.buttonSpaced)}
             onClick={this.addHandler}
-            data-test="ring-select-toolbar-button"
+            data-test='ring-select-toolbar-button'
           >
             {prefix ? `${prefix} ${label}` : label}
           </Button>
         )}
-        {hint && <List.ListHint label={hint} data-test="ring-select-toolbar-hint" />}
+        {hint && <List.ListHint label={hint} data-test='ring-select-toolbar-hint' />}
       </div>
     );
   }
@@ -847,9 +846,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if (typeof setValue === 'string' || typeof setValue === 'number') {
       this.setState({filterValue: setValue});
       return undefined;
-    } else {
-      return this.state.filterValue;
     }
+    return this.state.filterValue;
   }
 
   isInputMode() {
@@ -969,7 +967,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       if (!tryKeepOpen) {
         this._hidePopup(isSelectItemEvent);
       }
-      if (selected.key == null) {
+      if (selected.key === null || selected.key === undefined) {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
@@ -1138,9 +1136,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
         labels.push(getItemLabel(this.state.selected[i]));
       }
       return labels.filter(Boolean).join(', ');
-    } else {
-      return this.state.selected != null ? getItemLabel(this.state.selected) : null;
     }
+    return this.state.selected !== null && this.state.selected !== undefined ? getItemLabel(this.state.selected) : null;
   }
 
   private getHeight() {
@@ -1156,10 +1153,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if (!Array.isArray(selected) && selected?.icon) {
       icons.push(
         <button
-          title="Toggle options popup"
-          type="button"
+          title='Toggle options popup'
+          type='button'
           className={styles.selectedIcon}
-          key="selected"
+          key='selected'
           disabled={this.props.disabled}
           onClick={this._clickHandler}
           style={{backgroundImage: `url(${selected.icon})`}}
@@ -1170,10 +1167,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if (clear && !disabled && !this._selectionIsEmpty()) {
       icons.push(
         <Button
-          title="Clear selection"
-          data-test="ring-clear-select"
+          title='Clear selection'
+          data-test='ring-clear-select'
           className={styles.clearIcon}
-          key="close"
+          key='close'
           disabled={this.props.disabled}
           onClick={this.clear}
           height={height}
@@ -1185,11 +1182,11 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     if (!hideArrow) {
       icons.push(
         <Button
-          title="Toggle options popup"
+          title='Toggle options popup'
           className={styles.chevron}
           iconClassName={styles.chevronIcon}
           icon={chevronDownIcon}
-          key="hide"
+          key='hide'
           disabled={this.props.disabled}
           height={height}
           onClick={this._clickHandler}
@@ -1235,6 +1232,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     };
   }
 
+  // eslint-disable-next-line complexity
   renderSelect(activeItemId: string | undefined) {
     const dataTest = this.props['data-test'];
     const {selectedLabel} = this.props;
@@ -1276,7 +1274,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               ref={this.nodeRef}
               className={classNames(classes, styles.inputMode)}
               data-test={dataTests('ring-select', dataTest)}
-              role="presentation" // has interactive elements inside
+              role='presentation' // has interactive elements inside
               onMouseDown={this.mouseDownHandler}
               onMouseUp={this.mouseUpHandler}
             >
@@ -1284,7 +1282,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               <Input
                 {...ariaProps}
                 height={this.props.height}
-                autoComplete="off"
+                autoComplete='off'
                 id={this.props.id}
                 onClick={this._clickHandler}
                 inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
@@ -1297,11 +1295,11 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                 onFocus={this._focusHandler}
                 onBlur={this._blurHandler}
                 // Input with error style without description
-                error={this.props.error != null ? '' : null}
+                error={this.props.error ? '' : null}
                 label={this.props.type === Type.INPUT ? this._getLabel() : null}
                 placeholder={this.props.inputPlaceholder}
                 onKeyDown={this.props.onKeyDown}
-                data-test="ring-select__focus"
+                data-test='ring-select__focus'
                 enableShortcuts={
                   shortcutsEnabled
                     ? Object.keys({
@@ -1347,7 +1345,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                 })}
                 disabled={this.props.disabled}
                 style={style}
-                data-test="ring-select__button ring-select__focus"
+                data-test='ring-select__button ring-select__focus'
               >
                 {this._getAvatar()}
                 {this._getPlaceholder()}
@@ -1367,7 +1365,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               className={this.props.buttonClassName ?? undefined}
               id={this.props.id}
               onClick={this._clickHandler}
-              data-test="ring-select__focus"
+              data-test='ring-select__focus'
               disabled={this.props.disabled}
               active={this.state.showPopup}
             >
@@ -1400,7 +1398,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           );
         }
         return (
-          <span id={this.props.id} ref={this.nodeRef} data-test="ring-select">
+          <span id={this.props.id} ref={this.nodeRef} data-test='ring-select'>
             {this._renderPopup()}
           </span>
         );

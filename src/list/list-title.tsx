@@ -2,7 +2,7 @@ import {PureComponent} from 'react';
 import classnames from 'classnames';
 
 import styles from './list.css';
-import {ListDataItemProps} from './consts';
+import {type ListDataItemProps} from './consts';
 
 export default class ListTitle<T> extends PureComponent<ListDataItemProps<T>> {
   render() {
@@ -13,11 +13,11 @@ export default class ListTitle<T> extends PureComponent<ListDataItemProps<T>> {
     });
 
     return (
-      <span className={classes} data-test="ring-list-title">
-        <span className={classnames(styles.label, styles.text)} data-test="ring-list-title-label">
+      <span className={classes} data-test='ring-list-title'>
+        <span className={classnames(styles.label, styles.text)} data-test='ring-list-title-label'>
           {label}
         </span>
-        <div className={styles.description} data-test="ring-list-title-description">
+        <div className={styles.description} data-test='ring-list-title-description'>
           {description}
         </div>
       </span>

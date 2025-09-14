@@ -1,6 +1,6 @@
 import WindowFlow from './window-flow';
 import defaultOnBackendDown from './down-notification';
-import Auth from './auth__core';
+import Auth from './auth-core';
 
 /**
  * @name Auth
@@ -41,5 +41,5 @@ Auth.DEFAULT_CONFIG = {
   onBackendDown: defaultOnBackendDown,
 };
 
-export * from './auth__core';
+export * from './auth-core';
 export default Auth;

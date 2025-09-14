@@ -1,17 +1,12 @@
 import {useState} from 'react';
-
 import ChevronDownIcon from '@jetbrains/icons/chevron-down';
-
 import ChevronUpIcon from '@jetbrains/icons/chevron-up';
 
 import Button from '../button/button';
-
 import LoaderInline from '../loader-inline/loader-inline';
-
 import Collapse from './collapse';
 import CollapseContent from './collapse-content';
 import CollapseControl from './collapse-control';
-
 import styles from './collapse.stories.css';
 
 export default {
@@ -88,11 +83,11 @@ export const WithIcon = () => (
     <Collapse>
       <CollapseControl>
         {(collapsed: boolean) =>
-          collapsed ? (
-            <Button aria-label="Expand" icon={ChevronDownIcon} className={styles.check} />
+          (collapsed ? (
+            <Button aria-label='Expand' icon={ChevronDownIcon} className={styles.check} />
           ) : (
-            <Button aria-label="Collapse" icon={ChevronUpIcon} className={styles.check} />
-          )
+            <Button aria-label='Collapse' icon={ChevronUpIcon} className={styles.check} />
+          ))
         }
       </CollapseControl>
       <CollapseContent>{text}</CollapseContent>
@@ -189,7 +184,7 @@ export const WithControlledCollapseState = () => {
   return (
     <>
       <div className={styles.container}>
-        <Button data-test="trigger" onClick={onClick}>
+        <Button data-test='trigger' onClick={onClick}>
           {collapsed ? 'Show more' : 'Show less'}
         </Button>
       </div>

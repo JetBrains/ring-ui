@@ -1,7 +1,7 @@
 import {render, screen, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Checkbox, {CheckboxProps} from './checkbox';
+import Checkbox, {type CheckboxProps} from './checkbox';
 
 type CheckboxAttributes = React.JSX.LibraryManagedAttributes<typeof Checkbox, CheckboxProps>;
 

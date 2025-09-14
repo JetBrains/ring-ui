@@ -1,13 +1,10 @@
-import {PureComponent, ImgHTMLAttributes, ReactNode} from 'react';
+import {PureComponent, type ImgHTMLAttributes, type ReactNode} from 'react';
 import classNames from 'classnames';
-
 import deprecate from 'util-deprecate';
 
 import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
-
 import memoize from '../global/memoize';
-
 import styles from './avatar.css';
 import FallbackAvatar from './fallback-avatar';
 import {Size} from './avatar-size';
@@ -83,14 +80,14 @@ export default class Avatar extends PureComponent<AvatarProps> {
       return (
         <span
           {...restProps}
-          data-test="avatar"
+          data-test='avatar'
           className={classNames(classes, {
-            [styles.empty]: username == null && info == null,
+            [styles.empty]: (username === null || username === undefined) && (info === null || info === undefined),
           })}
           style={styleObj}
         >
-          {username != null && <FallbackAvatar size={size} round={round} username={username} />}
-          {info != null && <AvatarInfo size={size}>{info}</AvatarInfo>}
+          {username && <FallbackAvatar size={size} round={round} username={username} />}
+          {info && <AvatarInfo size={size}>{info}</AvatarInfo>}
         </span>
       );
     }
@@ -125,34 +122,33 @@ export default class Avatar extends PureComponent<AvatarProps> {
             className={classNames(classes, styles.avatarShadow)}
             style={styleObj}
             src={src}
-            alt="User avatar"
+            alt='User avatar'
           />
           <img
             {...restProps}
-            data-test="avatar"
+            data-test='avatar'
             onError={this.handleError}
             onLoad={this.handleSuccess}
             className={classNames(styles.subavatar)}
             style={styleObjGroup}
             src={subavatarSrc}
-            alt="Subavatar"
+            alt='Subavatar'
           />
         </div>
       );
-    } else {
-      return (
-        <img
-          {...restProps}
-          data-test="avatar"
-          onError={this.handleError}
-          onLoad={this.handleSuccess}
-          className={classNames(classes, styles.avatarShadow)}
-          style={styleObj}
-          src={src}
-          alt="User avatar"
-        />
-      );
     }
+    return (
+      <img
+        {...restProps}
+        data-test='avatar'
+        onError={this.handleError}
+        onLoad={this.handleSuccess}
+        className={classNames(classes, styles.avatarShadow)}
+        style={styleObj}
+        src={src}
+        alt='User avatar'
+      />
+    );
   }
 }
 

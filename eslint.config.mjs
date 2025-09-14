@@ -106,6 +106,7 @@ export default defineConfig([
       'max-nested-callbacks': ['error', 5],
       'no-alert': 'error',
       'no-caller': 'error',
+      'no-confusing-arrow': 'off', // conflict with Prettier
       'no-console': 'error',
       'no-debugger': 'error',
       'no-div-regex': 'error',
@@ -288,7 +289,6 @@ export default defineConfig([
       ],
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-inferrable-types': 'off',
       '@typescript-eslint/no-misused-promises': [
         'error',

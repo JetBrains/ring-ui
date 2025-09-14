@@ -1,17 +1,17 @@
-import {PropsWithChildren, useCallback, useId, useMemo, useState} from 'react';
+import {type PropsWithChildren, useCallback, useId, useMemo, useState} from 'react';
 import * as React from 'react';
 
 import {CollapseContext} from './collapse-context';
 import {BASE_ANIMATION_DURATION} from './consts';
 
-type Props = {
+interface Props {
   onChange?: (collapsed: boolean) => void;
   duration?: number;
   disableAnimation?: boolean;
   className?: string;
   defaultCollapsed?: boolean;
   collapsed?: boolean | null;
-};
+}
 
 /**
  * @name Collapse

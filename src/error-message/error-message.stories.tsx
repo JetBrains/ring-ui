@@ -1,7 +1,6 @@
 import frownIcon from '@jetbrains/icons/frown';
 
 import Link from '../link/link';
-
 import ErrorMessage from './error-message';
 
 export default {
@@ -16,11 +15,11 @@ export const basic = () => (
   <div style={{height: '300px'}}>
     <ErrorMessage
       icon={frownIcon}
-      code="Disconnected"
-      message="no answer from server."
-      description="Please try again soon."
+      code='Disconnected'
+      message='no answer from server.'
+      description='Please try again soon.'
     >
-      <Link href="/">Go to the home page</Link>
+      <Link href='/'>Go to the home page</Link>
     </ErrorMessage>
   </div>
 );

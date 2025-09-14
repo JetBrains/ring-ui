@@ -51,7 +51,7 @@ class Shortcuts {
       const scopeInChain = this._scopeChain[i];
       currentScope = this._scopes[scopeInChain.scopeId];
 
-      if (currentScope && key != null && currentScope[key]) {
+      if (currentScope && key !== null && key !== undefined && currentScope[key]) {
         const ret = currentScope[key](e, key, scopeInChain.scopeId);
 
         // Fall down in chain when returning true
@@ -119,7 +119,7 @@ class Shortcuts {
     }
 
     for (const key in map) {
-      if (map.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(map, key)) {
         this.bind(Object.assign({}, options || {}, {key, handler: map[key]}));
       }
     }
@@ -182,7 +182,7 @@ class Shortcuts {
     if (scope) {
       let scopeChain: (ShortcutsScope | string)[];
 
-      if (typeof scope === 'string' || (!Array.isArray(scope) && typeof scope === 'object' && scope !== null)) {
+      if (typeof scope === 'string' || (!Array.isArray(scope) && typeof scope === 'object')) {
         scopeChain = [scope];
       } else {
         scopeChain = scope;
@@ -216,11 +216,11 @@ class Shortcuts {
     if (
       element === document ||
       !(element instanceof HTMLElement) ||
-      key == null ||
+      key === null ||
       element.matches(this.ALLOW_SHORTCUTS_SELECTOR) ||
-      (element.dataset.enabledShortcuts != null
-        ? element.dataset.enabledShortcuts.split(',').includes(key)
-        : element.closest(this.ALLOW_SHORTCUTS_SELECTOR) != null)
+      (element.dataset.enabledShortcuts
+        ? key && element.dataset.enabledShortcuts.split(',').includes(key)
+        : !!element.closest(this.ALLOW_SHORTCUTS_SELECTOR))
     ) {
       return false;
     }

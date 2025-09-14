@@ -20,6 +20,7 @@ const xmlEscape = s =>
 module.exports = results => {
   const files = results.map(file => {
     const warnings = file.warnings.map(({column, line, text}) => {
+      // eslint-disable-next-line no-underscore-dangle
       const css = file._postcssResult && file._postcssResult.css;
       const lines = (css && css.split('\n')) || [];
       const evidence = lines[line - 1];

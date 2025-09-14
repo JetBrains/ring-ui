@@ -1,12 +1,9 @@
 import {fireEvent, render, screen} from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
-
 import {act} from 'react';
 
-import Popup, {PopupProps} from '../popup/popup';
-
-import Dropdown, {DropdownAttrs} from './dropdown';
+import Popup, {type PopupProps} from '../popup/popup';
+import Dropdown, {type DropdownAttrs} from './dropdown';
 
 describe('Dropdown', () => {
   let anchor: HTMLElement | null;

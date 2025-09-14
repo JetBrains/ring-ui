@@ -1,6 +1,5 @@
 import Tag from '../tag/tag';
 import Link from '../link/link';
-
 import Group from './group';
 
 export default {

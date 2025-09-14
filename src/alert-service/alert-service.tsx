@@ -1,10 +1,8 @@
-import {ReactNode, Ref} from 'react';
-
+import {type ReactNode, type Ref} from 'react';
 import {createRoot} from 'react-dom/client';
 
 import getUID from '../global/get-uid';
-
-import Alert, {AlertProps, AlertType, ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';
+import Alert, {type AlertProps, type AlertType, ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';
 
 export interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
   key: string | number;

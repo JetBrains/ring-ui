@@ -1,13 +1,10 @@
 import searchIcon from '@jetbrains/icons/search';
-
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 
 import Popup from '../popup/popup';
 import Icon from '../icon/icon';
-
 import Theme from '../global/theme';
-
-import Message, {MessageAttrs} from './message';
+import Message, {type MessageAttrs} from './message';
 
 const {Directions} = Popup.PopupProps;
 
@@ -24,7 +21,7 @@ export default {
 };
 
 export const basic: StoryFn<MessageAttrs> = args => (
-  <div style={{padding: 200}} id="message-example">
+  <div style={{padding: 200}} id='message-example'>
     <span>
       Anchor
       <Message {...args} />
@@ -39,7 +36,7 @@ basic.args = {
 };
 
 export const light: StoryFn<MessageAttrs> = args => (
-  <div style={{padding: 200}} id="message-example">
+  <div style={{padding: 200}} id='message-example'>
     <span>
       Anchor
       <Message {...args} />
@@ -53,7 +50,7 @@ light.args = {
 };
 
 export const withOnDissmiss: StoryFn<MessageAttrs> = args => (
-  <div style={{padding: 200}} id="message-example">
+  <div style={{padding: 200}} id='message-example'>
     <span>
       Anchor
       <Message {...args} />

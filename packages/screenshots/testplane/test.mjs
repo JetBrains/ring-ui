@@ -1,10 +1,8 @@
 /* global testplane */
 import querystring from 'querystring';
-
 import filenamify from 'filenamify';
 
 import Actions from './actions.js';
-
 // eslint-disable-next-line import/no-unresolved
 import items from './stories.json' with {type: 'json'};
 
@@ -38,11 +36,13 @@ for (const {kind, stories} of items) {
       }
 
       it(testName, async function test() {
+        // eslint-disable-next-line no-invalid-this
         await this.browser.url(
           `iframe.html?${querystring.stringify({id, 'block-animations': true, 'block-auth': true})}`,
         );
 
         for (const action of allActions) {
+          // eslint-disable-next-line no-invalid-this
           await Actions[action.type](this.browser, {...action, name: addTestName(action.name, name)});
         }
       });

@@ -1,21 +1,18 @@
-import {HTMLAttributes, PureComponent} from 'react';
+import {type HTMLAttributes, PureComponent} from 'react';
 import servicesIcon from '@jetbrains/icons/services-20px';
-
 import classNames from 'classnames';
 
-import Dropdown, {AnchorProps} from '../dropdown/dropdown';
+import Dropdown, {type AnchorProps} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
-
 import Theme from '../global/theme';
 import darkStyles from '../global/variables_dark.css';
-
 import HeaderIcon from './header-icon';
-import ServicesLink, {Service} from './services-link';
+import ServicesLink, {type Service} from './services-link';
 import styles from './services.css';
 
 const makeAnchor = (loading: boolean | null | undefined) => {
   const Anchor = ({active}: AnchorProps) => (
-    <HeaderIcon loader={loading} active={active} icon={servicesIcon} aria-label="Services" />
+    <HeaderIcon loader={loading} active={active} icon={servicesIcon} aria-label='Services' />
   );
 
   return Anchor;
@@ -49,7 +46,7 @@ export default class Services extends PureComponent<ServicesProps> {
     const {clientId, loading, services, initShown, theme, ...props} = this.props;
 
     if (!services) {
-      return <HeaderIcon {...props} loader={loading} active={loading} icon={servicesIcon} aria-label="Services" />;
+      return <HeaderIcon {...props} loader={loading} active={loading} icon={servicesIcon} aria-label='Services' />;
     }
 
     const sortedServices = [...services].sort(Services.sort);
@@ -72,7 +69,7 @@ export default class Services extends PureComponent<ServicesProps> {
               />
             );
           })}
-          {separatorIsRequired && <div className={styles.line} key="separator" />}
+          {separatorIsRequired && <div className={styles.line} key='separator' />}
           {servicesWithOutIcons.map(service => {
             const isActive = this.serviceIsActive(service);
 

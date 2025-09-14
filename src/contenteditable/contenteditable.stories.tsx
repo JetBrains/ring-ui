@@ -10,12 +10,12 @@ export default {
 
 export const basic = () => (
   <div>
-    <ContentEditable className="my-input" aria-label="My input">
+    <ContentEditable className='my-input' aria-label='My input'>
       <span>
         text <b>bold text</b> text
       </span>
     </ContentEditable>
-    <ContentEditable className="my-input" aria-label="My input" disabled>
+    <ContentEditable className='my-input' aria-label='My input' disabled>
       <span>
         text <b>bold text</b> text
       </span>

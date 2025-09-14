@@ -1,7 +1,6 @@
 import Auth from '../auth/auth';
-
 import Permissions from './permissions';
-import PermissionCache, {Project} from './permissions__cache';
+import PermissionCache, {type Project} from './permissions-cache';
 
 describe('Permissions', () => {
   /**
@@ -33,7 +32,7 @@ describe('Permissions', () => {
   }
 
   function createAuthMock() {
-    return new Auth({serverUri: ''});
+    return new Auth({serverUri: 'https://example.com'});
   }
 
   it('should create permissions', () => {
@@ -200,10 +199,12 @@ describe('Permissions', () => {
       const auth = createAuthMock();
       const permissions = new Permissions(auth);
       vi.spyOn(permissions, 'load').mockReturnValue(Promise.resolve({} as PermissionCache));
+      // eslint-disable-next-line no-underscore-dangle
       permissions._promise = Promise.resolve({} as PermissionCache);
 
       permissions.reload();
 
+      // eslint-disable-next-line no-underscore-dangle
       expect(permissions._promise).to.not.exist;
       expect(permissions.load).toHaveBeenCalled();
     });
@@ -377,6 +378,7 @@ describe('Permissions', () => {
       ],
       permissionKeysTestConverter,
     );
+    // eslint-disable-next-line no-underscore-dangle
     permissions._promise = Promise.resolve(permissionCache);
 
     it('should resolve to true for given permission', () =>

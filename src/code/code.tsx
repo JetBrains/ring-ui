@@ -1,11 +1,10 @@
-import {PureComponent, Ref} from 'react';
+import {PureComponent, type Ref} from 'react';
 import classNames from 'classnames';
 import highlight from 'highlight.js/lib/core';
 
 import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
 import memoize from '../global/memoize';
-
 import styles from './code.css';
 import highlightStyles from './highlight.css';
 
@@ -52,12 +51,16 @@ export default class Code extends PureComponent<CodeProps> {
 
   async highlight() {
     const codeRef = this.codeRef;
-    if (codeRef == null) {
+    if (!codeRef) {
       return;
     }
     const {language, inline, replacer} = this.props;
     if (!inline) {
-      if (language != null && highlight.getLanguage(language) == null) {
+      if (
+        language !== null &&
+        language !== undefined &&
+        (highlight.getLanguage(language) === null || highlight.getLanguage(language) === undefined)
+      ) {
         await registerLanguage(language);
       }
       // @ts-expect-error https://github.com/highlightjs/highlight.js/issues/2945
@@ -95,7 +98,7 @@ export default class Code extends PureComponent<CodeProps> {
     });
 
     return (
-      <Tag className={classes} data-test="ring-code">
+      <Tag className={classes} data-test='ring-code'>
         <code
           // should be focusable because it can be scrollable
           tabIndex={inline ? -1 : 0}

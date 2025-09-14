@@ -1,5 +1,5 @@
-import {StoryFn} from '@storybook/react-webpack5';
-import {HTMLAttributes} from 'react';
+import {type StoryFn} from '@storybook/react-webpack5';
+import {type HTMLAttributes} from 'react';
 
 import ScrollableSection from './scrollable-section';
 

@@ -1,15 +1,12 @@
 import * as React from 'react';
-import {AllHTMLAttributes, Component, createContext, ReactNode} from 'react';
-
+import {type AllHTMLAttributes, Component, createContext, type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import Popup, {PopupAttrs} from '../popup/popup';
+import Popup, {type PopupAttrs} from '../popup/popup';
 import {Listeners} from '../global/dom';
 import dataTests from '../global/data-tests';
 import scheduleRAF from '../global/schedule-raf';
-
 import Theme, {ThemeProvider} from '../global/theme';
-
 import styles from './tooltip.css';
 
 const scheduleScroll = scheduleRAF();
@@ -126,7 +123,7 @@ export default class Tooltip extends Component<TooltipProps> {
   };
 
   addListeners() {
-    if (this.containerNode != null) {
+    if (this.containerNode) {
       this.listeners.add(this.containerNode, 'mouseenter', this.tryToShowPopup);
       this.listeners.add(this.containerNode, 'mouseleave', ev => {
         if (ev.relatedTarget && this.popup?.container?.contains(ev.relatedTarget as Node)) {

@@ -2,7 +2,7 @@ import {render, screen} from '@testing-library/react';
 import defaultIcon from '@jetbrains/icons/umbrella';
 import expandIcon from '@jetbrains/icons/expand';
 
-import Icon, {IconAttrs} from './icon';
+import Icon, {type IconAttrs} from './icon';
 import styles from './icon.css';
 
 describe('Icon', () => {

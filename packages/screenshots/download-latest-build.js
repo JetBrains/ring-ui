@@ -2,7 +2,6 @@
 const {execSync} = require('child_process');
 const path = require('path');
 const {promisify} = require('util');
-
 const axios = require('axios');
 const yauzl = require('yauzl');
 const fs = require('fs-extra');
@@ -27,7 +26,7 @@ function unzip(buffer) {
     const zipfile = await fromBuffer(buffer, {lazyEntries: true});
     zipfile.on('entry', entry => {
       const resolver = resolvers.shift();
-      if (resolver != null) {
+      if (resolver) {
         resolver({
           value: {
             entry,

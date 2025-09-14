@@ -1,16 +1,14 @@
 import path from 'path';
-
 import {babel} from '@rollup/plugin-babel';
-
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
 import clear from 'rollup-plugin-clear';
-import glob from 'glob';
+import {sync} from 'glob';
 
 import cssPlugin from '@jetbrains/rollup-css-plugin';
 
-const files = glob.sync(
+const files = sync(
   [
     'components/**/*.{js,jsx}',
     // Style-only components

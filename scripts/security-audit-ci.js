@@ -1,6 +1,5 @@
 const {execSync} = require('child_process');
 const {writeFileSync} = require('fs');
-
 const tsm = require('teamcity-service-messages');
 
 // see https://docs.npmjs.com/cli/v8/commands/npm-audit#audit-level

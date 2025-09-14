@@ -1,9 +1,7 @@
-import {ReactElement} from 'react';
-
+import {type ReactElement} from 'react';
 import {render, fireEvent} from '@testing-library/react';
 
 import styles from '../auth-dialog/auth-dialog.css';
-
 import authDialog, {reactRoot} from './auth-dialog-service';
 
 describe('Auth Dialog Service', () => {

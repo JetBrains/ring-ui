@@ -1,5 +1,4 @@
 import path from 'path';
-
 import * as glob from 'glob';
 import {composeStories} from '@storybook/react-webpack5';
 import {storyNameFromExport} from '@storybook/csf';
@@ -25,16 +24,14 @@ export function getAllStoryFiles() {
 }
 
 const getStoryName = originalStory =>
-  typeof originalStory === 'function' ? storyNameFromExport(originalStory.name) : originalStory.name;
+  (typeof originalStory === 'function' ? storyNameFromExport(originalStory.name) : originalStory.name);
 
 export const getStories = storyFile =>
   Object.entries(composeStories(storyFile)).map(([name, story]) => {
     const originalStory = storyFile[name];
 
     return {
-      name:
-        originalStory.storyName ??
-        (originalStory.name != null ? getStoryName(originalStory) : storyNameFromExport(name)),
+      name: originalStory.storyName ?? (originalStory.name ? getStoryName(originalStory) : storyNameFromExport(name)),
       story,
     };
   });

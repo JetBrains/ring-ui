@@ -1,6 +1,7 @@
-import Auth, {AuthUser} from '../auth/auth';
+import HubSource, {type Item} from './hub-source';
 
-import HubSource, {Item} from './hub-source';
+import type Auth from '../auth/auth';
+import type {AuthUser} from '../auth/auth';
 
 export interface HubSourceUsersGroupsOptions {
   searchMax: number;

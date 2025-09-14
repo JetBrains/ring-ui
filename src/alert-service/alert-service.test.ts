@@ -1,9 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import {render} from '@testing-library/react';
-
-import {act, ReactElement} from 'react';
+import {act, type ReactElement} from 'react';
 
 import Alert from '../alert/alert';
-
 import alert, {DEFAULT_ALERT_TIMEOUT} from './alert-service';
 
 const SMALL_TICK = 1000;
@@ -18,7 +17,7 @@ describe('Alert Service', () => {
     let rerender: (element: ReactElement) => void;
     vi.spyOn(alert.reactRoot, 'render').mockImplementation(node => {
       const element = node as ReactElement;
-      if (rerender == null) {
+      if (!rerender) {
         rerender = render(element).rerender;
       } else {
         rerender(element);

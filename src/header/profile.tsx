@@ -1,20 +1,16 @@
-import {ComponentType, HTMLAttributes, PureComponent, ReactNode} from 'react';
+import {type ComponentType, type HTMLAttributes, PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
 import Avatar, {Size} from '../avatar/avatar';
 import Button from '../button/button';
 import DropdownMenu from '../dropdown-menu/dropdown-menu';
-import PopupMenu, {PopupMenuAttrs} from '../popup-menu/popup-menu';
+import PopupMenu, {type PopupMenuAttrs} from '../popup-menu/popup-menu';
 import {I18nContext} from '../i18n/i18n-context';
-
-import {ListDataItem} from '../list/consts';
-import {AuthUser} from '../auth/auth';
-
+import {type ListDataItem} from '../list/consts';
+import {type AuthUser} from '../auth/auth';
 import {isTruthy} from '../global/typescript-utils';
-
-import {ClickableLinkProps} from '../link/clickableLink';
-
+import {type ClickableLinkProps} from '../link/clickable-link';
 import styles from './header.css';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
@@ -64,7 +60,7 @@ export default class Profile extends PureComponent<ProfileProps> {
       <I18nContext.Consumer>
         {({translate}) => (
           <div className={classNames(styles.profileEmpty, className)}>
-            <Button primary data-test="ring-header-login-button" disabled={loading} loader={loading} onClick={onLogin}>
+            <Button primary data-test='ring-header-login-button' disabled={loading} loader={loading} onClick={onLogin}>
               {translations?.login ?? translate('login')}
             </Button>
           </div>
@@ -127,7 +123,7 @@ export default class Profile extends PureComponent<ProfileProps> {
     });
 
     const anchor = (
-      <button type="button" className={styles.anchorClassName}>
+      <button type='button' className={styles.anchorClassName}>
         <span className={avatarWrapper}>
           <Avatar
             url={user.profile && user.profile.avatar && user.profile.avatar.url}
@@ -183,7 +179,7 @@ export default class Profile extends PureComponent<ProfileProps> {
         title={user.name}
         anchor={anchor}
         data={renderPopupItems(items)}
-        data-test="ring-profile"
+        data-test='ring-profile'
         className={classNames(styles.profile, className)}
         activeClassName={activeClassName}
         menuProps={{

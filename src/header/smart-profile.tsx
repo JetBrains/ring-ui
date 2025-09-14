@@ -1,11 +1,16 @@
+/* eslint-disable no-underscore-dangle */
 import {PureComponent} from 'react';
 
-import Auth, {USER_CHANGED_EVENT, LOGOUT_POSTPONED_EVENT, USER_CHANGE_POSTPONED_EVENT, AuthUser} from '../auth/auth';
 import alertService from '../alert-service/alert-service';
-
-import {Size} from '../avatar/avatar';
-
-import Profile, {ProfileAttrs} from './profile';
+import {type Size} from '../avatar/avatar';
+import Profile, {type ProfileAttrs} from './profile';
+import {
+  USER_CHANGED_EVENT,
+  LOGOUT_POSTPONED_EVENT,
+  USER_CHANGE_POSTPONED_EVENT,
+  type Auth,
+  type AuthUser,
+} from '../auth/auth';
 
 const CERTIFICATE_MISMATCH_HEADER = 'x-client-certificate-token-mismatch';
 

@@ -1,12 +1,10 @@
 import {Component} from 'react';
 
-import Select, {SingleSelectAttrs} from '../select/select';
-
+import Select, {type SingleSelectAttrs} from '../select/select';
 import Dialog from '../dialog/dialog';
 import {Header, Content} from '../island/island';
 import '../form/form.css';
 import '../input-size/input-size.css';
-
 import ErrorBubble from './error-bubble';
 
 export default {
@@ -30,7 +28,7 @@ export const basic = () => {
           <ErrorBubble<SingleSelectAttrs>
             error={value ? null : 'Value is required'}
             onSelect={selected => this.setState({value: selected})}
-            inputPlaceholder="enter something"
+            inputPlaceholder='enter something'
           >
             <Select
               type={Select.Type.BUTTON}
@@ -59,22 +57,22 @@ export const inDialogForm = () => {
       const {value} = this.state;
 
       return (
-        <Dialog label="Dialog" show>
+        <Dialog label='Dialog' show>
           <Header>Dialog example</Header>
           <Content>
-            <form className="ring-form">
-              <div className="ring-form__group">
-                <label htmlFor="select" className="ring-form__label">
+            <form className='ring-form'>
+              <div className='ring-form__group'>
+                <label htmlFor='select' className='ring-form__label'>
                   Field name
                 </label>
-                <div className="ring-form__control ring-form__control_small">
+                <div className='ring-form__control ring-form__control_small'>
                   <ErrorBubble<SingleSelectAttrs>
                     error={value ? null : 'Value is required'}
                     onSelect={selected => this.setState({value: selected})}
-                    inputPlaceholder="enter something"
+                    inputPlaceholder='enter something'
                   >
                     <Select
-                      id="select"
+                      id='select'
                       type={Select.Type.BUTTON}
                       size={Select.Size.M}
                       data={[

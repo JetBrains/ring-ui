@@ -1,10 +1,10 @@
 import loginDialogService from '../login-dialog/service';
 import Link from '../link/link';
-
 import AuthResponseParser from './response-parser';
-import {AuthTranslations, LoginFlow} from './auth__core';
-import AuthRequestBuilder from './request-builder';
-import AuthStorage from './storage';
+import {type AuthTranslations, type LoginFlow} from './auth-core';
+
+import type AuthRequestBuilder from './request-builder';
+import type AuthStorage from './storage';
 
 export default class IFrameFlow implements LoginFlow {
   hideDialog: (() => void) | null = null;
@@ -27,13 +27,12 @@ export default class IFrameFlow implements LoginFlow {
    */
   private async _load(): Promise<string> {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
-      // eslint-disable-next-line camelcase
       {request_credentials: 'required', auth_mode: 'bypass_to_login'},
       {nonRedirect: false},
     );
 
     const renderFallbackLink = () => (
-      <Link href={authRequest.url} target="_self">
+      <Link href={authRequest.url} target='_self'>
         {this._translations.nothingHappensLink}
       </Link>
     );
@@ -92,7 +91,7 @@ export default class IFrameFlow implements LoginFlow {
   }
 
   authorize(): Promise<string> {
-    if (this._promise != null && this._loginWindow != null && !this._loginWindow.closed) {
+    if (this._promise && this._loginWindow && !this._loginWindow.closed) {
       return this._promise;
     }
 

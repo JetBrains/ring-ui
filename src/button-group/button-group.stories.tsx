@@ -1,14 +1,11 @@
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import chevron12pxDownIcon from '@jetbrains/icons/chevron-12px-down';
-
 import pencilIcon from '@jetbrains/icons/pencil';
 import helpIcon from '@jetbrains/icons/help';
 import userIcon from '@jetbrains/icons/user';
 
 import Button from '../button/button';
-
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-
 import ButtonGroup, {Caption} from './button-group';
 
 export default {
@@ -20,7 +17,7 @@ export default {
 };
 
 export const buttonGroup = () => (
-  <div className="container">
+  <div className='container'>
     <div>
       <ButtonGroup>
         <Button>1st button</Button>
@@ -60,12 +57,12 @@ export const buttonGroup = () => (
       </ButtonGroup>
     </div>
     <div>
-      <ButtonGroup label="Icon only group">
-        <Button inline={false} active icon={pencilIcon} aria-label="pencil" />
-        <Button inline={false} icon={pencilIcon} aria-label="pencil" />
-        <Button inline={false} disabled icon={helpIcon} aria-label="help" />
-        <Button inline={false} active disabled icon={helpIcon} aria-label="help" />
-        <Button inline={false} icon={userIcon} aria-label="user" />
+      <ButtonGroup label='Icon only group'>
+        <Button inline={false} active icon={pencilIcon} aria-label='pencil' />
+        <Button inline={false} icon={pencilIcon} aria-label='pencil' />
+        <Button inline={false} disabled icon={helpIcon} aria-label='help' />
+        <Button inline={false} active disabled icon={helpIcon} aria-label='help' />
+        <Button inline={false} icon={userIcon} aria-label='user' />
       </ButtonGroup>
     </div>
     <div>
@@ -76,15 +73,15 @@ export const buttonGroup = () => (
     </div>
     <div>
       <ButtonGroup split>
-        <Button href="/">Arrow</Button>
-        <Button inline={false} icon={chevronDownIcon} aria-label="Show options" />
+        <Button href='/'>Arrow</Button>
+        <Button inline={false} icon={chevronDownIcon} aria-label='Show options' />
       </ButtonGroup>
     </div>
     <div>
       <ControlsHeightContext.Provider value={ControlsHeight.S}>
         <ButtonGroup split>
-          <Button href="/">Arrow height S</Button>
-          <Button inline={false} icon={chevron12pxDownIcon} aria-label="Show options" />
+          <Button href='/'>Arrow height S</Button>
+          <Button inline={false} icon={chevron12pxDownIcon} aria-label='Show options' />
         </ButtonGroup>
       </ControlsHeightContext.Provider>
     </div>
@@ -99,16 +96,16 @@ export const buttonGroup = () => (
     <div>
       <ButtonGroup>
         <Button>
-          All<span className="info">3048</span>
+          All<span className='info'>3048</span>
         </Button>
         <Button>
-          Label<span className="info">rp34</span>
+          Label<span className='info'>rp34</span>
         </Button>
         <Button>Label 3</Button>
       </ButtonGroup>
     </div>
     <div>
-      <ButtonGroup label="Label" help="Help text">
+      <ButtonGroup label='Label' help='Help text'>
         <Button>Label 1</Button>
         <Button>Label 2</Button>
         <Button>Label 3</Button>

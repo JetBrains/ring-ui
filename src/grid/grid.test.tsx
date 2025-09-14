@@ -1,11 +1,10 @@
-import {HTMLAttributes} from 'react';
-
+import {type HTMLAttributes} from 'react';
 import {render, screen} from '@testing-library/react';
 
 import styles from './grid.css';
 import {Col, Grid, Row} from './grid';
-import {RowProps} from './row';
-import {ColProps} from './col';
+import {type RowProps} from './row';
+import {type ColProps} from './col';
 
 describe('Grid', () => {
   const renderGrid = (props?: HTMLAttributes<HTMLDivElement>) => render(<Grid {...props} />);

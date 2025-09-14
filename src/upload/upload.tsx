@@ -1,9 +1,16 @@
-import {DragEventHandler, forwardRef, ReactNode, useCallback, useImperativeHandle, useRef, useState} from 'react';
+import {
+  type DragEventHandler,
+  forwardRef,
+  type ReactNode,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import attachmentIcon from '@jetbrains/icons/attachment';
 
 import Icon from '../icon';
-
 import styles from './upload.css';
 
 export type UploadVariant = 'empty' | 'error' | 'success';
@@ -22,9 +29,9 @@ interface Props {
   children?: ReactNode;
 }
 
-export type UploadHandle = {
+export interface UploadHandle {
   openFilePicker: () => void;
-};
+}
 
 export const Upload = forwardRef<UploadHandle, Props>(function Upload(
   {
@@ -84,7 +91,7 @@ export const Upload = forwardRef<UploadHandle, Props>(function Upload(
         [styles.success]: variant === 'success',
         [styles.error]: variant === 'error',
       })}
-      data-test="ring-upload"
+      data-test='ring-upload'
     >
       <input
         onDragEnter={onDragEnter}
@@ -92,13 +99,13 @@ export const Upload = forwardRef<UploadHandle, Props>(function Upload(
         onDragLeave={onDragLeave}
         disabled={disabled}
         ref={fileInputRef}
-        data-test="ring-file-input"
+        data-test='ring-file-input'
         multiple={multiple}
         accept={accept}
         onChange={onInputChange}
-        type="file"
-        autoComplete="off"
-        aria-label="file-picker"
+        type='file'
+        autoComplete='off'
+        aria-label='file-picker'
         className={styles.invisibleFileInput}
       />
       {renderIcon()}

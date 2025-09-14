@@ -1,4 +1,4 @@
-import {RefObject} from 'react';
+import {type RefObject} from 'react';
 
 import {isArray} from '../global/typescript-utils';
 
@@ -49,9 +49,8 @@ export function toRange(value: number | number[], min: number, max: number) {
       nextValues.reverse();
     }
     return nextValues;
-  } else {
-    return [validateValue(value, min, max)];
   }
+  return [validateValue(value, min, max)];
 }
 
 export function adjustValues(
@@ -65,7 +64,7 @@ export function adjustValues(
 ) {
   const nextValue = calculateValue(ref, x, min, max, step);
   const nextValues = [...values];
-  if (nextValue !== null && !isNaN(nextValue)) {
+  if (nextValue && !isNaN(nextValue)) {
     nextValues[index] = validateValue(nextValue, min, max);
   }
   return nextValues;

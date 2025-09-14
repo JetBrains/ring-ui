@@ -4,13 +4,10 @@ import pencil12pxIcon from '@jetbrains/icons/pencil-12px';
 import hourglassIcon from '@jetbrains/icons/hourglass';
 
 import Loader from '../loader-inline/loader-inline';
-
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-
 import {Col, Grid} from '../grid/grid';
 import Row from '../grid/row';
-
-import Button, {ButtonProps} from './button';
+import Button, {type ButtonProps} from './button';
 
 export default {
   title: 'Components/Button',
@@ -28,7 +25,7 @@ single.args = {children: 'Label'};
 single.parameters = {screenshots: {skip: true}};
 
 export const basic = () => (
-  <Grid className="buttons">
+  <Grid className='buttons'>
     {[ControlsHeight.S, ControlsHeight.M, ControlsHeight.L].map(height => (
       <ControlsHeightContext.Provider value={height} key={height}>
         {[
@@ -48,7 +45,7 @@ export const basic = () => (
             {[{}, {active: true}, {disabled: true}, {loader: true}].map(stateProps => {
               const icon = height === ControlsHeight.S && !typeProps.inline ? pencil12pxIcon : pencilIcon;
               return (
-                <Row key={JSON.stringify(stateProps)} baseline="xs">
+                <Row key={JSON.stringify(stateProps)} baseline='xs'>
                   {[
                     {children: 'Button'},
                     {children: '...', short: true},
@@ -88,6 +85,16 @@ basic.parameters = {
       {type: 'focus', selector: '[data-test=button-active]'},
       {type: 'capture', name: 'focus active', selector: '#storybook-root'},
     ],
+  },
+  a11y: {
+    config: {
+      rules: [
+        {
+          id: 'color-contrast',
+          selector: '*:not([class*="disabled"]):not([class*="loader"])',
+        },
+      ],
+    },
   },
   storyStyles: `
 <style>
@@ -130,7 +137,7 @@ export const longAction = () => {
           <Button loader={loading} onClick={this.load}>
             Sleep
           </Button>
-          <Button title="Sleep" loader={loading} icon={hourglassIcon} onClick={this.load} />
+          <Button title='Sleep' loader={loading} icon={hourglassIcon} onClick={this.load} />
           {loading && <Loader />}
         </Fragment>
       );

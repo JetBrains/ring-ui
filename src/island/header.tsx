@@ -1,8 +1,7 @@
-import {Component, HTMLAttributes} from 'react';
+import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import {interpolateLinear} from '../global/linear-function';
-
 import styles from './island.css';
 import {PhaseContext} from './adaptive-island-hoc';
 
@@ -62,11 +61,11 @@ class Header extends Component<IslandHeaderProps> {
   render() {
     const {children, className, wrapWithTitle, border, phase, ...restProps} = this.props;
     const classes = classNames(styles.header, className, {
-      [styles.withBottomBorder]: border || (phase != null && phase >= BORDER_APPEAR_PHASE),
+      [styles.withBottomBorder]: border || (phase && phase >= BORDER_APPEAR_PHASE),
     });
 
     const headerStyle =
-      phase != null
+      phase !== null && phase !== undefined
         ? {
             lineHeight: `${this.style('LINE_HEIGHT')}px`, // need to append px because number is a valid line-height value
             paddingTop: this.style('PADDING_TOP'),
@@ -77,7 +76,7 @@ class Header extends Component<IslandHeaderProps> {
     const titleStyle = this.getTitleStyle(phase);
 
     return (
-      <div {...restProps} data-test="ring-island-header" className={classes} style={headerStyle}>
+      <div {...restProps} data-test='ring-island-header' className={classes} style={headerStyle}>
         {wrapWithTitle && (
           <h2 className={styles.title} style={titleStyle}>
             {children}
@@ -93,7 +92,7 @@ class Header extends Component<IslandHeaderProps> {
 const HeaderWrapper = (props: IslandHeaderProps) => (
   <PhaseContext.Consumer>
     {phase => {
-      const addProps = phase != null ? {phase} : {};
+      const addProps = phase !== null && phase !== undefined ? {phase} : {};
       return <Header {...props} {...addProps} />;
     }}
   </PhaseContext.Consumer>

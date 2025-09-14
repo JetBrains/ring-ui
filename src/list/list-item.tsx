@@ -1,19 +1,15 @@
-import {PureComponent, SyntheticEvent} from 'react';
+import {PureComponent, type SyntheticEvent} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon/icon';
-
 import getUID from '../global/get-uid';
-
 import Link, {linkHOC} from '../link/link';
-
 import styles from './list.css';
-
-import {ListDataItemProps, Type} from './consts';
-import {getListClasses} from './list__classes';
+import {type ListDataItemProps, Type} from './consts';
+import {getListClasses} from './list.classes';
 
 /**
  * @constructor
@@ -31,6 +27,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
 
   private _isString = (val: unknown): val is string => typeof val === 'string' || val instanceof String;
 
+  // eslint-disable-next-line complexity
   render() {
     const {
       disabled,
@@ -70,7 +67,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     } = this.props;
 
     const checkable = checkbox !== undefined;
-    const shouldShowGeneratedAvatar = showGeneratedAvatar && username != null;
+    const shouldShowGeneratedAvatar = showGeneratedAvatar && !!username;
     const hasLeftNodes = leftNodes || glyph || avatar || shouldShowGeneratedAvatar;
     const showCheckbox = checkable && (checkbox || !hasLeftNodes || (hover && !disabled));
 
@@ -107,7 +104,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     );
 
     const labelElement = (
-      <span className={styles.label} title={computedTitle} data-test="ring-list-item-label">
+      <span className={styles.label} title={computedTitle} data-test='ring-list-item-label'>
         {label ?? children}
       </span>
     );
@@ -152,7 +149,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
             {labelWrapper ? labelWrapper(labelElement) : labelElement}
 
             {description && (
-              <span className={styles.description} data-test="ring-list-item-description">
+              <span className={styles.description} data-test='ring-list-item-description'>
                 {description}
               </span>
             )}
@@ -193,7 +190,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
         {isLink ? (
           <LinkComponentToUse pseudo={!restLinkProps.href} {...commonProps} {...restLinkProps} />
         ) : (
-          <button type="button" {...commonProps} />
+          <button type='button' {...commonProps} />
         )}
       </div>
     );

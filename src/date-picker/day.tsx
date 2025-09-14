@@ -10,7 +10,7 @@ import {isSameDay} from 'date-fns/isSameDay';
 import {isToday} from 'date-fns/isToday';
 import {startOfDay} from 'date-fns/startOfDay';
 
-import {MonthsProps, weekdays, getDayNumInWeek} from './consts';
+import {type MonthsProps, weekdays, getDayNumInWeek} from './consts';
 import styles from './date-picker.css';
 
 export interface DayProps extends MonthsProps {
@@ -39,7 +39,7 @@ export default class Day extends Component<DayProps> {
 
   is = (name: 'date' | 'from' | 'to' | 'activeDate') => {
     const value = this.props[name];
-    return value != null && this.isDay(value);
+    return !!value && this.isDay(value);
   };
 
   inRange = (range: [Date, Date] | null) =>
@@ -50,10 +50,7 @@ export default class Day extends Component<DayProps> {
   isDisabled = (date: Date) => {
     const min = this.parse(this.props.minDate);
     const max = this.parse(this.props.maxDate);
-    return (
-      (min != null && isBefore(startOfDay(date), startOfDay(min))) ||
-      (max != null && isAfter(startOfDay(date), startOfDay(max)))
-    );
+    return (min && isBefore(startOfDay(date), startOfDay(min))) || (max && isAfter(startOfDay(date), startOfDay(max)));
   };
 
   parse(text: string | null | undefined) {
@@ -71,12 +68,12 @@ export default class Day extends Component<DayProps> {
     }
 
     const spreadRange = makeSpreadRange(currentRange);
-    const disabled = this.isDisabled(day);
+    const disabled = !!this.isDisabled(day);
     const activeSpreadRange = makeSpreadRange(activeRange);
     return (
       // TODO make keyboard navigation actually work
       <button
-        type="button"
+        type='button'
         className={classNames(styles.day, styles[`Day${dayInWeek}`], {
           [styles.current]: (['date', 'from', 'to'] as const).some(this.is),
           [styles.active]: !disabled && this.is('activeDate'),

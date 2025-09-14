@@ -1,14 +1,13 @@
-import {InputHTMLAttributes} from 'react';
-
+import {type InputHTMLAttributes} from 'react';
 import {screen, render, fireEvent} from '@testing-library/react';
 
-import {RadioItemInner} from './radio__item';
+import {RadioItemInner} from './radio-item';
 
 describe('Radio Item', () => {
   function noop() {}
 
   const factory = (props?: InputHTMLAttributes<HTMLInputElement>) => (
-    <RadioItemInner checked={false} onChange={noop} value="test" {...props}>
+    <RadioItemInner checked={false} onChange={noop} value='test' {...props}>
       {'test'}
     </RadioItemInner>
   );

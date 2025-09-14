@@ -1,4 +1,4 @@
-import {FunctionComponent, StrictMode} from 'react';
+import {type FunctionComponent, StrictMode} from 'react';
 
 const strictModeDecorator = (Story: FunctionComponent) => (
   <StrictMode>

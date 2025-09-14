@@ -2,16 +2,14 @@
  * @name User Agreement
  */
 
-import {PureComponent, ReactNode} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import Dialog from '../dialog/dialog';
 import {Content, Header} from '../island/island';
 import Panel from '../panel/panel';
 import Button from '../button/button';
-
 import {I18nContext} from '../i18n/i18n-context';
-
 import style from './user-agreement.css';
 
 function noop() {}
@@ -59,6 +57,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
 
     return (
       <I18nContext.Consumer>
+        {/* eslint-disable-next-line complexity */}
         {({translate}) => (
           <Dialog
             label={translations?.userAgreement ?? translate('userAgreement')}
@@ -67,7 +66,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
             contentClassName={style.dialogContent}
             trapFocus
             autoFocusFirst={false}
-            data-test="user-agreement"
+            data-test='user-agreement'
           >
             <Header>{translations?.userAgreement ?? translate('userAgreement')}</Header>
             <Content tabIndex={0} fade onScrollToBottom={this.onScrollToBottom}>
@@ -78,10 +77,10 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
                 {onRemindLater && !scrolledDown && (
                   <div className={style.suggestion}>{translations?.scrollToAccept ?? translate('scrollToAccept')}</div>
                 )}
-                <Button primary disabled={!scrolledDown} onClick={onAccept} data-test="accept">
+                <Button primary disabled={!scrolledDown} onClick={onAccept} data-test='accept'>
                   {translations?.accept ?? translate('accept')}
                 </Button>
-                <Button onClick={onDecline} autoFocus data-test="decline">
+                <Button onClick={onDecline} autoFocus data-test='decline'>
                   {translations?.decline ?? translate('decline')}
                 </Button>
 
@@ -91,7 +90,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
                   </span>
                 )}
                 {onRemindLater && (
-                  <Button className={style.remindLaterButton} onClick={onRemindLater} data-test="later">
+                  <Button className={style.remindLaterButton} onClick={onRemindLater} data-test='later'>
                     {translations?.remindLater ?? translate('remindLater')}
                   </Button>
                 )}
@@ -99,7 +98,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
             )}
             {preview && (
               <Panel>
-                <Button onClick={onClose} autoFocus data-test="close">
+                <Button onClick={onClose} autoFocus data-test='close'>
                   {translations?.close ?? translate('close')}
                 </Button>
               </Panel>

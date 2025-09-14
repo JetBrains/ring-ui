@@ -2,12 +2,9 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import Input from '../input/input';
-
 import {ControlsHeight} from '../global/controls-height';
-
 import {I18nContext} from '../i18n/i18n-context';
-
-import {DatePopupBaseProps, Field} from './consts';
+import {type DatePopupBaseProps, type Field} from './consts';
 import styles from './date-picker.css';
 
 export interface UpdateInputConfig {
@@ -100,7 +97,7 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
     let displayText = '';
     if (active && hoverDate) {
       displayText = displayFormat(hoverDate, locale);
-    } else if (active && text != null) {
+    } else if (active && text !== null && text !== undefined) {
       displayText = text;
     } else if (date) {
       displayText = displayFormat(date, locale);
@@ -132,7 +129,7 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
 
     return (
       <Input
-        autoComplete="off"
+        autoComplete='off'
         borderless
         height={ControlsHeight.L}
         data-name={name}

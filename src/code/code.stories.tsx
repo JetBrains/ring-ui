@@ -43,7 +43,7 @@ basic.storyName = 'basic';
 
 export const lazy = () => (
   <Code
-    language="actionscript"
+    language='actionscript'
     code={`
       package org.example.dummy {
           import org.dummy.*;

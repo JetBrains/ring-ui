@@ -1,6 +1,5 @@
 import {PureComponent} from 'react';
 import classNames from 'classnames';
-import type {Locale} from 'date-fns';
 import {endOfMonth} from 'date-fns/endOfMonth';
 import {format} from 'date-fns/format';
 import {isThisMonth} from 'date-fns/isThisMonth';
@@ -9,10 +8,11 @@ import {startOfDay} from 'date-fns/startOfDay';
 import {startOfYear} from 'date-fns/startOfYear';
 
 import linearFunction from '../global/linear-function';
-
 import MonthSlider from './month-slider';
-import {YEAR, MIDDLE_DAY, yearScrollSpeed, MonthsProps} from './consts';
+import {YEAR, MIDDLE_DAY, yearScrollSpeed, type MonthsProps} from './consts';
 import styles from './date-picker.css';
+
+import type {Locale} from 'date-fns';
 
 interface MonthNameProps {
   month: Date;
@@ -31,7 +31,7 @@ class MonthName extends PureComponent<MonthNameProps> {
 
     return (
       <button
-        type="button"
+        type='button'
         className={classNames(styles.monthName, {
           [styles.today]: isThisMonth(month),
         })}

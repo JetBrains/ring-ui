@@ -1,15 +1,11 @@
 import {act, createElement} from 'react';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
-
 import {render, screen} from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
 
 import getUID from '../global/get-uid';
-
 import simulateCombo from '../../test-helpers/simulate-combo';
-
-import List, {ListAttrs} from './list';
+import List, {type ListAttrs} from './list';
 import styles from './list.css';
 import {Type} from './consts';
 
@@ -29,7 +25,7 @@ describe('List', () => {
 
       renderList({data});
       expect(screen.getAllByRole('row')[0]).to.have.tagName('div');
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+
       expect(screen.getAllByRole('row')[3]).to.have.tagName('div');
     });
   });

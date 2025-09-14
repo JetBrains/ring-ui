@@ -1,8 +1,9 @@
-import {Children, cloneElement, PureComponent, HTMLAttributes, isValidElement, ReactElement} from 'react';
+import {Children, cloneElement, PureComponent, type HTMLAttributes, isValidElement, type ReactElement} from 'react';
 import {createPortal} from 'react-dom';
 import classNames from 'classnames';
 
 import styles from './container.css';
+
 import type {AlertProps} from './alert';
 
 /**
@@ -26,7 +27,7 @@ export default class Alerts extends PureComponent<AlertContainerProps> {
     }
 
     return createPortal(
-      <div data-test="alert-container" className={classes} aria-live="polite" {...restProps}>
+      <div data-test='alert-container' className={classes} aria-live='polite' {...restProps}>
         {Children.map(children, child => {
           if (!isValidElement(child)) {
             return child;

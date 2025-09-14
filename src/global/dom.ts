@@ -2,7 +2,8 @@
  * @name DOM
  */
 
-import {SyntheticEvent} from 'react';
+import {type SyntheticEvent} from 'react';
+
 import type {PropertiesHyphen} from 'csstype';
 
 export const getStyles = window.getComputedStyle.bind(window);
@@ -27,12 +28,11 @@ export interface Rect {
 const rectStub: Rect = {top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0};
 
 export function getRect(node: Element | Range | null | undefined): Rect {
-  if (node instanceof Range || (node != null && isMounted(node))) {
+  if (node instanceof Range || (node && isMounted(node))) {
     const {top, right, bottom, left, width, height} = node.getBoundingClientRect();
     return {top, right, bottom, left, width, height};
-  } else {
-    return Object.assign({}, rectStub);
   }
+  return Object.assign({}, rectStub);
 }
 
 export function getPixelRatio() {

@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-import Auth from '../auth/auth';
 
-import ListUsersGroupsSource from './list__users-groups-source';
+import ListUsersGroupsSource from './list-users-groups-source';
+
+import type Auth from '../auth/auth';
 
 describe('List Users Groups Source', () => {
   let fakeAuth: Auth;

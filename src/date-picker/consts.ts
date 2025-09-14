@@ -1,5 +1,6 @@
-import {ReactNode} from 'react';
+import {type ReactNode} from 'react';
 import {add} from 'date-fns/add';
+
 import type {Duration, Locale} from 'date-fns';
 
 const unit = 8; // px;

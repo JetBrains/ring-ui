@@ -15,7 +15,7 @@ describe('Alert', () => {
   });
 
   it('should transfer className', () => {
-    render(<Alert className="foo" />);
+    render(<Alert className='foo' />);
     expect(screen.getByTestId('alert')).to.have.class('foo');
   });
 
@@ -49,7 +49,7 @@ describe('Alert', () => {
     const closeSpy = vi.fn();
     render(<Alert onCloseRequest={closeSpy}>{'Test element'}</Alert>);
     const closeElement = screen.queryByRole('button', {name: 'close alert'});
-    if (closeElement != null) {
+    if (closeElement) {
       await userEvent.click(closeElement);
     }
     expect(closeSpy).toHaveBeenCalled();

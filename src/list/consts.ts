@@ -1,9 +1,8 @@
-import {ComponentType, ReactNode, ReactElement, SyntheticEvent} from 'react';
-import * as React from 'react';
+import {type ComponentType, type ReactNode, type ReactElement, type SyntheticEvent} from 'react';
 
-import {LinkProps} from '../link/link';
-import {IconType, Size} from '../icon/icon';
-import {ClickableLinkProps} from '../link/clickableLink';
+import {type LinkProps} from '../link/link';
+import {type IconType, type Size} from '../icon';
+import {type ClickableLinkProps} from '../link/clickable-link';
 
 /**
  * @enum {number}

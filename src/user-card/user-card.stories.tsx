@@ -1,10 +1,7 @@
 import hubConfig from '../../.storybook/hub-config';
-
 import Auth from '../auth/auth';
-import {createHubUserCardSource} from '../hub-source/hub-source__user';
-
+import {createHubUserCardSource} from '../hub-source/hub-source-user';
 import Tag from '../tag/tag';
-
 import {UserCard, UserCardTooltip, SmartUserCardTooltip} from './user-card';
 
 export default {
@@ -29,7 +26,7 @@ export const inline = () => {
   return (
     <div>
       <div>Inline user card:</div>
-      <UserCard user={user} data-test="user-card-inline" />
+      <UserCard user={user} data-test='user-card-inline' />
 
       <UserCardTooltip user={user} info={<Tag>{'Reporter'}</Tag>}>
         <span>Hover this text see card in tooltip mode</span>
@@ -71,7 +68,7 @@ export const hubUserCard = () => {
 
   const waitForAuthAndGetUser = async () => {
     await auth.init();
-    if (auth.user == null) {
+    if (auth.user === null) {
       return null;
     }
     const userSource = createHubUserCardSource(auth, auth.user.id);

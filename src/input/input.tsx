@@ -1,23 +1,23 @@
-import {PureComponent, Ref, ComponentType, InputHTMLAttributes, TextareaHTMLAttributes, ReactNode} from 'react';
-
+import {
+  PureComponent,
+  type Ref,
+  type ComponentType,
+  type InputHTMLAttributes,
+  type TextareaHTMLAttributes,
+  type ReactNode,
+} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close-12px';
 
 import Button from '../button/button';
-
 import getUID from '../global/get-uid';
-
 import Icon from '../icon/icon';
 import {I18nContext} from '../i18n/i18n-context';
-
-import {createComposedRef} from '../global/composeRefs';
-
-import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-import {ControlLabel, LabelType} from '../control-label/control-label';
-
+import {createComposedRef} from '../global/compose-refs';
+import {type ControlsHeight, ControlsHeightContext} from '../global/controls-height';
+import {ControlLabel, type LabelType} from '../control-label/control-label';
 import ControlHelp from '../control-help/control-help';
-
 import styles from './input.css';
 
 function noop() {}
@@ -92,7 +92,7 @@ export class Input extends PureComponent<InputProps> {
   }
 
   componentWillUnmount() {
-    if (this.frame != null) {
+    if (this.frame) {
       cancelAnimationFrame(this.frame);
     }
   }
@@ -114,7 +114,7 @@ export class Input extends PureComponent<InputProps> {
     if (
       this.props.multiline &&
       this.props.autogrow &&
-      this.input != null &&
+      this.input &&
       this.input.scrollHeight >= this.input.clientHeight
     ) {
       this.stretch(this.input);
@@ -193,16 +193,16 @@ export class Input extends PureComponent<InputProps> {
     const clearable = !!onClear;
     const classes = classNames(className, styles.outerContainer, [styles[`size${size}`]], [styles[`height${height}`]], {
       'ring-js-shortcuts': enableShortcuts === true,
-      [styles.error]: error != null,
+      [styles.error]: error !== null && error !== undefined,
       [styles.empty]: empty,
-      [styles.withIcon]: icon != null,
+      [styles.withIcon]: icon,
       [styles.clearable]: clearable,
       [styles.borderless]: borderless,
     });
 
     const inputClasses = classNames(styles.input, inputClassName);
 
-    const text = value != null ? value : children;
+    const text = value ?? children;
 
     const commonProps = {
       ref: this.composedInputRef(this.inputRef, inputRef),
@@ -218,7 +218,7 @@ export class Input extends PureComponent<InputProps> {
     return (
       <I18nContext.Consumer>
         {({translate}) => (
-          <div className={classes} data-test="ring-input">
+          <div className={classes} data-test='ring-input'>
             {label && (
               <ControlLabel htmlFor={this.getId()} disabled={disabled} type={labelType}>
                 {label}
@@ -244,7 +244,7 @@ export class Input extends PureComponent<InputProps> {
               {clearable && !disabled && (
                 <Button
                   title={translations?.clear ?? translate('clear')}
-                  data-test="ring-input-clear"
+                  data-test='ring-input-clear'
                   className={styles.clear}
                   icon={closeIcon}
                   onClick={this.clear}

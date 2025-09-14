@@ -1,8 +1,9 @@
-import {PureComponent, ComponentClass} from 'react';
+import {PureComponent, type ComponentClass} from 'react';
 
-import {ShortcutsMap} from '../shortcuts/core';
+import {type ShortcutsMap} from '../shortcuts/core';
 
-import Selection, {SelectionItem} from './selection';
+import type Selection from './selection';
+import type {SelectionItem} from './selection';
 
 export interface SelectionShortcutsOuterProps<T extends SelectionItem> {
   selection: Selection<T>;
@@ -61,9 +62,8 @@ export default function selectionShortcutsHOC<T extends SelectionItem, P extends
     shiftSelect = (selection: Selection<T>) => {
       if (this.shiftSelectionMode === 'addition') {
         return selection.select();
-      } else {
-        return selection.deselect();
       }
+      return selection.deselect();
     };
 
     onShiftUpPress = (e: KeyboardEvent) => {

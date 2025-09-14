@@ -4,7 +4,6 @@ import Input from '../input/input';
 import Button from '../button/button';
 import Link from '../link/link';
 import Group from '../group/group';
-
 import TabTrap from './tab-trap';
 
 export default {
@@ -25,10 +24,10 @@ export const basic = () => {
 
           <h4>Trap start</h4>
           <TabTrap>
-            <Input placeholder="inside trap" autoFocus />
+            <Input placeholder='inside trap' autoFocus />
             <Group>
               <Button>Test</Button>
-              <Link href="#">Test link</Link>
+              <Link href='#'>Test link</Link>
             </Group>
           </TabTrap>
 

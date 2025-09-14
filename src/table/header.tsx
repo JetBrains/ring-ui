@@ -1,12 +1,10 @@
-import {ChangeEventHandler, PureComponent, SyntheticEvent} from 'react';
+import {type ChangeEventHandler, PureComponent, type SyntheticEvent} from 'react';
 import classNames from 'classnames';
 
 import Checkbox from '../checkbox/checkbox';
-
 import getUID from '../global/get-uid';
-
 import style from './table.css';
-import HeaderCell, {Column, SortParams} from './header-cell';
+import HeaderCell, {type Column, type SortParams} from './header-cell';
 
 export interface HeaderProps {
   columns: readonly Column[];
@@ -82,7 +80,7 @@ export default class Header extends PureComponent<HeaderProps> {
     return (
       <thead
         id={this.id}
-        data-test="ring-table-header"
+        data-test='ring-table-header'
         style={{top: topStickOffset}}
         className={classNames({
           [style.tableHead]: true,
@@ -90,18 +88,18 @@ export default class Header extends PureComponent<HeaderProps> {
         })}
       >
         {caption && (
-          <tr data-test="ring-table-header-row">
+          <tr data-test='ring-table-header-row'>
             <th
               className={classNames(style.headerCell, style.caption)}
               colSpan={regularCells.length + 1}
-              data-test="ring-table-header-cell"
+              data-test='ring-table-header-cell'
             >
               {caption}
             </th>
           </tr>
         )}
 
-        <tr className={style.subHeader} data-test="ring-table-header-row">
+        <tr className={style.subHeader} data-test='ring-table-header-row'>
           {regularCells}
         </tr>
       </thead>

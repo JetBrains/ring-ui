@@ -1,12 +1,11 @@
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
 
-import {Component} from 'storybook/internal/docs-tools';
-import {Parameters} from '@storybook/react-webpack5';
+import {type Component} from 'storybook/internal/docs-tools';
+import {type Parameters} from '@storybook/react-webpack5';
 
 import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
 import queryAssistStyles from '../src/query-assist/query-assist.css';
 import selectStyles from '../src/select/select.css';
-
 import styles from './preview.css';
 import strictModeDecorator from './strict-mode-decorator';
 import stylesDecorator from './styles-decorator';
@@ -31,6 +30,7 @@ export const parameters = {
   docs: {
     inlineStories: false,
     extractComponentDescription: (component: Component, {notes}: Parameters) =>
+      // eslint-disable-next-line no-underscore-dangle
       notes ?? component?.__docgenInfo?.description,
     theme,
     codePanel: true,

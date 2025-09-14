@@ -2,26 +2,26 @@
  * @name Table
  */
 
-import {Component, PureComponent, ReactNode, SyntheticEvent} from 'react';
-
+import {Component, PureComponent, type ReactNode, type SyntheticEvent} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import {arrayMove, List} from 'react-movable';
+import {type OnChangeMeta, type RenderItemParams, type RenderListParams} from 'react-movable/lib/types';
 
-import {OnChangeMeta, RenderItemParams, RenderListParams} from 'react-movable/lib/types';
-
-import focusSensorHOC, {FocusSensorAddProps, FocusSensorProps} from '../global/focus-sensor-hoc';
+import focusSensorHOC, {type FocusSensorAddProps, type FocusSensorProps} from '../global/focus-sensor-hoc';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
-
-import {SelectionItem} from './selection';
-import Header, {HeaderAttrs} from './header';
+import {type SelectionItem} from './selection';
+import Header, {type HeaderAttrs} from './header';
 import style from './table.css';
-import selectionShortcutsHOC, {SelectionShortcutsAddProps, SelectionShortcutsProps} from './selection-shortcuts-hoc';
-import disableHoverHOC, {DisableHoverAddProps, DisableHoverProps} from './disable-hover-hoc';
+import selectionShortcutsHOC, {
+  type SelectionShortcutsAddProps,
+  type SelectionShortcutsProps,
+} from './selection-shortcuts-hoc';
+import disableHoverHOC, {type DisableHoverAddProps, type DisableHoverProps} from './disable-hover-hoc';
 import Row from './row-with-focus-sensor';
-import {Column, SortParams} from './header-cell';
+import {type Column, type SortParams} from './header-cell';
 
 export interface ReorderParams<T> {
   data: T[];
@@ -258,9 +258,9 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       );
       const tbody = Array.isArray(children) && children.length > 0 ? children : empty;
       return (
-        <table className={classes} data-test="ring-table">
+        <table className={classes} data-test='ring-table'>
           <Header {...headerProps} />
-          <tbody {...props} data-test="ring-table-body">
+          <tbody {...props} data-test='ring-table-body'>
             {tbody}
           </tbody>
         </table>
@@ -268,7 +268,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     };
 
     const renderItem = ({value, props = {}, isDragged}: Partial<RenderItemParams<T>>) => {
-      if (value == null) {
+      if (value === null || value === undefined) {
         return null;
       }
       const {ref, ...restProps} = props;
@@ -315,11 +315,11 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     };
 
     return (
-      <div className={wrapperClasses} data-test="ring-table-wrapper" ref={this.props.innerRef}>
+      <div className={wrapperClasses} data-test='ring-table-wrapper' ref={this.props.innerRef}>
         {focused && <Shortcuts map={this.props.shortcutsMap} scope={this.state.shortcutsScope} />}
 
         {/* Handler detects that user holds Shift key */}
-        <div role="presentation" onMouseDown={this.onMouseDown}>
+        <div role='presentation' onMouseDown={this.onMouseDown}>
           {draggable ? (
             <List values={data as T[]} renderList={renderList} renderItem={renderItem} onChange={this.onSortEnd} />
           ) : (

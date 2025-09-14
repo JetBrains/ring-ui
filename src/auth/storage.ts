@@ -1,7 +1,6 @@
-import Storage, {StorageClass, StorageInterface} from '../storage/storage';
-
-import {AuthUser} from './auth__core';
-import {AuthResponse} from './response-parser';
+import Storage, {type StorageClass, type StorageInterface} from '../storage/storage';
+import {type AuthUser} from './auth-core';
+import {type AuthResponse} from './response-parser';
 
 /**
  * @typedef {Object} StoredToken
@@ -144,9 +143,8 @@ export default class AuthStorage<M = unknown> {
       if (!dontCleanAndRetryOnFail) {
         await this.cleanStates();
         return this.saveState(id, state, true);
-      } else {
-        throw e;
       }
+      throw e;
     }
     return undefined;
   }
@@ -160,7 +158,7 @@ export default class AuthStorage<M = unknown> {
     const now = Date.now();
 
     const removalResult = await this._stateStorage.each<StateRemovalResult | void>((key, value) => {
-      if (value == null) {
+      if (value === null || value === undefined) {
         return undefined;
       }
 
@@ -187,7 +185,9 @@ export default class AuthStorage<M = unknown> {
 
       return undefined;
     });
-    const currentStates = removalResult.filter((state): state is StateRemovalResult => state != null);
+    const currentStates = removalResult.filter(
+      (state): state is StateRemovalResult => state !== null && state !== undefined,
+    );
 
     let stateStorageSize = currentStates.reduce((overallSize, state) => state.size + overallSize, 0);
 
@@ -266,9 +266,8 @@ export default class AuthStorage<M = unknown> {
     if (user && user.id) {
       setTimeout(loadAndCache, UPDATE_USER_TIMEOUT);
       return user;
-    } else {
-      return loadAndCache();
     }
+    return loadAndCache();
   }
 
   /**

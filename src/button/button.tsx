@@ -1,18 +1,15 @@
-import {createRef, PureComponent, ButtonHTMLAttributes} from 'react';
+import {createRef, PureComponent, type ButtonHTMLAttributes} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-down';
 import chevron12pxDown from '@jetbrains/icons/chevron-12px-down';
-
 import deprecate from 'util-deprecate';
 
-import Icon, {IconProps, IconType, Size} from '../icon/icon';
-import ClickableLink, {ClickableLinkProps} from '../link/clickableLink';
-
-import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-
+import Icon, {type IconProps, type IconType, Size} from '../icon/icon';
+import ClickableLink, {type ClickableLinkProps} from '../link/clickable-link';
+import {type ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import styles from './button.css';
-import {getButtonClasses} from './button__classes';
+import {getButtonClasses} from './button.classes';
 
 export interface ButtonBaseProps {
   height?: ControlsHeight | undefined;
@@ -124,9 +121,9 @@ export class Button extends PureComponent<ButtonProps> {
       disabled,
       ...props
     } = this.props;
-    const isInline = inline ?? text ?? icon != null;
+    const isInline = inline ?? text ?? !!icon;
 
-    if (text != null) {
+    if (text) {
       warnText();
     }
 
@@ -153,7 +150,7 @@ export class Button extends PureComponent<ButtonProps> {
     );
     const isDisabled = disabled || loader || undefined;
     const commonProps = {
-      ...(props.href != null && isDisabled ? removeLinkProps(props) : props),
+      ...(props.href !== undefined && isDisabled ? removeLinkProps(props as ButtonLinkProps) : props),
       className: classes,
       children: (
         <>
@@ -161,12 +158,17 @@ export class Button extends PureComponent<ButtonProps> {
           {content}
         </>
       ),
-    } as ButtonProps;
+    };
 
-    return commonProps.href != null ? (
-      <ClickableLink {...commonProps} />
+    return 'href' in this.props && this.props.href !== undefined ? (
+      <ClickableLink {...(commonProps as ClickableLinkProps)} />
     ) : (
-      <button ref={this.buttonRef} type="button" disabled={isDisabled} {...commonProps} />
+      <button
+        ref={this.buttonRef}
+        type='button'
+        disabled={isDisabled}
+        {...(commonProps as ButtonHTMLAttributes<HTMLButtonElement>)}
+      />
     );
   }
 }

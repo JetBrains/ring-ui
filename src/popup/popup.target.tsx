@@ -1,4 +1,4 @@
-import {createContext, forwardRef, HTMLAttributes, Ref, ReactNode} from 'react';
+import {createContext, forwardRef, type HTMLAttributes, type Ref, type ReactNode} from 'react';
 
 export const PopupTargetContext = createContext<string | Element | undefined>(undefined);
 export interface PopupTargetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {

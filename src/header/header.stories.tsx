@@ -12,25 +12,17 @@ import changesIcon from '@jetbrains/icons/changes-20px';
 import agentsIcon from '@jetbrains/icons/agents-20px';
 import hourglassIcon from '@jetbrains/icons/hourglass-20px';
 import bellIcon from '@jetbrains/icons/bell-20px';
-
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 
 import hubConfig from '../../.storybook/hub-config';
-
 import Link from '../link/link';
-
 import DropdownMenu from '../dropdown-menu/dropdown-menu';
 import showAuthDialog from '../auth-dialog-service/auth-dialog-service';
-
 import Theme from '../global/theme';
-
 import Auth from '../auth/auth';
-
-import {ClickableLinkProps} from '../link/clickableLink';
-
-import Header, {HeaderAttrs, Profile} from './header';
+import {type ClickableLinkProps} from '../link/clickable-link';
+import Header, {type HeaderAttrs, Profile} from './header';
 import Logo from './logo';
-
 import Tray from './tray';
 import HeaderIcon from './header-icon';
 import SmartServices from './smart-services';
@@ -71,28 +63,28 @@ export const header: StoryFn<HeaderArgs> = ({isCompact, dark, ...args}) => {
       const Comp = (props: ClickableLinkProps) => <a {...props}>This is component</a>;
       return (
         <Header {...args} theme={dark ? Theme.DARK : Theme.LIGHT} className={isCompact ? 'compactHeader' : ''}>
-          <a title="Hub" href="/">
+          <a title='Hub' href='/'>
             {isCompact ? (
-              <Logo className="compactLogo" glyph={hubTextLogo} size={Logo.Size.Size96} />
+              <Logo className='compactLogo' glyph={hubTextLogo} size={Logo.Size.Size96} />
             ) : (
               <Logo glyph={hubLogo} size={Logo.Size.Size48} />
             )}
           </a>
-          <Link active href="#">
+          <Link active href='#'>
             Users
           </Link>
-          <Link href="#">Groups</Link>
-          <Link href="#">Spaces</Link>
-          <Link href="#">Services</Link>
+          <Link href='#'>Groups</Link>
+          <Link href='#'>Spaces</Link>
+          <Link href='#'>Services</Link>
           <Tray>
-            <HeaderIcon primary title="Create issue" icon={addIcon} />
-            <HeaderIcon title="Help" icon={helpIcon} />
+            <HeaderIcon primary title='Create issue' icon={addIcon} />
+            <HeaderIcon title='Help' icon={helpIcon} />
             <HeaderIcon title="What's new" icon={giftIcon} />
-            <HeaderIcon title="Search" icon={searchIcon} />
+            <HeaderIcon title='Search' icon={searchIcon} />
             <DropdownMenu
               data={[{label: 'Test'}, {label: 'Test2'}]}
               anchor={({active}, ariaProps) => (
-                <HeaderIcon title="Settings" active={active} icon={settingsIcon} {...ariaProps} />
+                <HeaderIcon title='Settings' active={active} icon={settingsIcon} {...ariaProps} />
               )}
               menuProps={{top: -12}}
             />
@@ -130,20 +122,20 @@ body {
 };
 
 export const vertical: StoryFn<HeaderAttrs> = args => (
-  <Header vertical spaced={false} className="header" {...args}>
-    <a title="Hub" href="/">
+  <Header vertical spaced={false} className='header' {...args}>
+    <a title='Hub' href='/'>
       <Logo glyph={teamcityLogo} size={Logo.Size.Size40} />
     </a>
     <Links>
-      <HeaderIcon title="Projects" icon={folderIcon} />
-      <HeaderIcon title="Changes" icon={changesIcon} />
-      <HeaderIcon title="Agents" icon={agentsIcon} />
-      <HeaderIcon title="Queue" icon={hourglassIcon} />
-      <HeaderIcon title="Settings" icon={settingsIcon} />
+      <HeaderIcon title='Projects' icon={folderIcon} />
+      <HeaderIcon title='Changes' icon={changesIcon} />
+      <HeaderIcon title='Agents' icon={agentsIcon} />
+      <HeaderIcon title='Queue' icon={hourglassIcon} />
+      <HeaderIcon title='Settings' icon={settingsIcon} />
     </Links>
     <Tray>
-      <HeaderIcon title="Notifications" icon={bellIcon} />
-      <HeaderIcon title="Help" icon={helpIcon} />
+      <HeaderIcon title='Notifications' icon={bellIcon} />
+      <HeaderIcon title='Help' icon={helpIcon} />
       <Profile round user={{id: '1', login: 'john.doe', name: 'John Doe'}} />
     </Tray>
   </Header>

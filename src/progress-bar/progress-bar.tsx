@@ -1,4 +1,4 @@
-import {HTMLAttributes, PureComponent} from 'react';
+import {type HTMLAttributes, PureComponent} from 'react';
 import classNames from 'classnames';
 
 import styles from './progress-bar.css';
@@ -76,7 +76,7 @@ export default class ProgressBar extends PureComponent<ProgressBarProps> {
         <div
           className={styles.line}
           ref={this.progressbarRef}
-          role="progressbar"
+          role='progressbar'
           aria-label={label}
           aria-valuenow={value}
           aria-valuemin={0}

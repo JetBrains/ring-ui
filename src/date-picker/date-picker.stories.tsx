@@ -1,11 +1,10 @@
 import {Component} from 'react';
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 import {enUS} from 'date-fns/locale/en-US';
 
 import {Size} from '../input/input';
-
-import DatePicker, {DatePickerAttrs} from './date-picker';
-import {DatePickerChange} from './consts';
+import DatePicker, {type DatePickerAttrs} from './date-picker';
+import {type DatePickerChange} from './consts';
 
 const {size, inline} = DatePicker.defaultProps;
 
@@ -159,8 +158,8 @@ export const singleWithMinMax: StoryFn<DatePickerAttrs> = args => {
             date={this.state.date}
             onChange={this.setDate}
             clear
-            minDate="25 January 2018"
-            maxDate="5 February 2018"
+            minDate='25 January 2018'
+            maxDate='5 February 2018'
             {...args}
           />
         </div>
@@ -184,7 +183,7 @@ export const singleWithMin: StoryFn<DatePickerAttrs> = args => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} clear minDate="25 January 2018" {...args} />
+          <DatePicker date={this.state.date} onChange={this.setDate} clear minDate='25 January 2018' {...args} />
         </div>
       );
     }
@@ -206,7 +205,7 @@ export const singleWithMax: StoryFn<DatePickerAttrs> = args => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} clear maxDate="5 February 2018" {...args} />
+          <DatePicker date={this.state.date} onChange={this.setDate} clear maxDate='5 February 2018' {...args} />
         </div>
       );
     }
@@ -236,8 +235,8 @@ export const rangeWithMinMax: StoryFn<DatePickerAttrs> = args => {
             to={this.state.to}
             onChange={this.setRange}
             clear
-            minDate="25 January 2018"
-            maxDate="5 February 2018"
+            minDate='25 January 2018'
+            maxDate='5 February 2018'
             range
             {...args}
           />
@@ -270,7 +269,7 @@ export const rangeWithMin: StoryFn<DatePickerAttrs> = args => {
             to={this.state.to}
             onChange={this.setRange}
             clear
-            minDate="25 January 2018"
+            minDate='25 January 2018'
             range
             {...args}
           />
@@ -303,7 +302,7 @@ export const rangeWithMax: StoryFn<DatePickerAttrs> = args => {
             to={this.state.to}
             onChange={this.setRange}
             clear
-            maxDate="5 February 2018"
+            maxDate='5 February 2018'
             range
             {...args}
           />
@@ -335,9 +334,9 @@ export const rangeWithCustomPlaceholders: StoryFn<DatePickerAttrs> = args => {
             from={this.state.from}
             to={this.state.to}
             onChange={this.setRange}
-            fromPlaceholder="From"
-            toPlaceholder="To"
-            rangePlaceholder="Set range"
+            fromPlaceholder='From'
+            toPlaceholder='To'
+            rangePlaceholder='Set range'
             clear
             range
             {...args}
@@ -400,21 +399,21 @@ export const allSizes = () => {
 
     render() {
       return (
-        <div style={{width: '100%'}} data-test="root">
-          <div className="block">
-            <span className="label">M</span>
+        <div style={{width: '100%'}} data-test='root'>
+          <div className='block'>
+            <span className='label'>M</span>
             <DatePicker date={this.state.date} onChange={this.setDate} size={Size.M} />
           </div>
-          <div className="block">
-            <span className="label">L</span>
+          <div className='block'>
+            <span className='label'>L</span>
             <DatePicker date={this.state.date} onChange={this.setDate} size={Size.L} />
           </div>
-          <div className="block">
-            <span className="label">FULL</span>
+          <div className='block'>
+            <span className='label'>FULL</span>
             <DatePicker date={this.state.date} onChange={this.setDate} size={Size.FULL} />
           </div>
-          <div className="block">
-            <span className="label">AUTO</span>
+          <div className='block'>
+            <span className='label'>AUTO</span>
             <DatePicker date={this.state.date} onChange={this.setDate} size={Size.AUTO} />
           </div>
         </div>

@@ -1,4 +1,4 @@
-import LocalStorage from './storage__local';
+import LocalStorage from './storage-local';
 
 export interface StorageConfig {
   type?: 'local' | 'session' | null | undefined;

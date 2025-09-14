@@ -56,9 +56,10 @@ export default class Caret {
    * @return {number}
    */
   getAbsolutePosition(node: Node) {
+    // eslint-disable-next-line no-underscore-dangle
     let _curNode: Node | null = node;
     let curPos = 0;
-    while (_curNode != null && _curNode !== this.target) {
+    while (_curNode && _curNode !== this.target) {
       while (_curNode.previousSibling) {
         curPos += _curNode.previousSibling.textContent?.length ?? 0;
         _curNode = _curNode.previousSibling;
@@ -91,31 +92,34 @@ export default class Caret {
 
       range2.selectNodeContents(this.target);
       range2.setEnd(range1.endContainer, range1.endOffset);
+      // eslint-disable-next-line no-underscore-dangle
       const _curNode = range1.startContainer;
       if (this.target === _curNode) {
-        return range1.startOffset === 0 || _curNode.textContent == null ? 0 : _curNode.textContent.length;
-      } else if (!this.target.contains(_curNode)) {
+        return range1.startOffset === 0 || _curNode.textContent === null || _curNode.textContent === undefined
+          ? 0
+          : _curNode.textContent.length;
+      }
+      if (!this.target.contains(_curNode)) {
         return -1;
-      } else if (!_curNode) {
+      }
+      if (!_curNode) {
         return ('selectionStart' in this.target && this.target.selectionStart) || -1;
       }
       const curPos = this.getAbsolutePosition(_curNode);
       if (range1.startContainer === range1.endContainer) {
         if (range1.startOffset === range1.endOffset) {
           return curPos + range1.startOffset;
-        } else {
-          return {
-            startOffset: curPos + range1.startOffset,
-            endOffset: curPos + range1.endOffset,
-            position: range2.toString().length,
-          };
         }
-      } else {
-        const startOffset = curPos + range1.startOffset;
-        const endPos = this.getAbsolutePosition(range1.endContainer);
-        const endOffset = endPos + range1.endOffset;
-        return {startOffset, endOffset, position: range2.toString().length};
+        return {
+          startOffset: curPos + range1.startOffset,
+          endOffset: curPos + range1.endOffset,
+          position: range2.toString().length,
+        };
       }
+      const startOffset = curPos + range1.startOffset;
+      const endPos = this.getAbsolutePosition(range1.endContainer);
+      const endOffset = endPos + range1.endOffset;
+      return {startOffset, endOffset, position: range2.toString().length};
     }
 
     return ('selectionStart' in this.target && this.target.selectionStart) || -1;
@@ -129,6 +133,7 @@ export default class Caret {
    */
   getRelativePosition(curNode: Node, position: number) {
     let curPos = 0;
+    // eslint-disable-next-line no-underscore-dangle
     let _curNode = curNode;
     const nodeTypeText = 3;
     if (!_curNode) {
@@ -138,6 +143,7 @@ export default class Caret {
       while (_curNode.nodeType !== nodeTypeText) {
         _curNode = _curNode.childNodes[0];
       }
+      // eslint-disable-next-line no-underscore-dangle
       const _correctedPosition = position;
       return {_curNode, _correctedPosition};
     }
@@ -145,7 +151,7 @@ export default class Caret {
     if (_curNode && _curNode.nodeType !== undefined) {
       while (curPos < position && _curNode.nodeType !== nodeTypeText) {
         i++;
-        if (_curNode.childNodes[i] != null) {
+        if (_curNode.childNodes[i]) {
           curPos += _curNode.childNodes[i].textContent?.length ?? 0;
           if (curPos >= position) {
             _curNode = _curNode.childNodes[i];
@@ -157,6 +163,7 @@ export default class Caret {
         }
       }
     }
+    // eslint-disable-next-line no-underscore-dangle
     const _correctedPosition = position - curPos;
     return {_curNode, _correctedPosition};
   }
@@ -174,8 +181,10 @@ export default class Caret {
       if (typeof position === 'object') {
         const range = new Range();
         const start = this.getRelativePosition(curNode, position.startOffset);
+        // eslint-disable-next-line no-underscore-dangle
         range.setStart(start._curNode, start._correctedPosition);
         const end = this.getRelativePosition(curNode, position.endOffset);
+        // eslint-disable-next-line no-underscore-dangle
         range.setEnd(end._curNode, end._correctedPosition);
         correctedPosition = range;
       } else if (position === -1) {

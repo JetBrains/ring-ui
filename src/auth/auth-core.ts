@@ -1,16 +1,16 @@
+/* eslint-disable no-underscore-dangle,max-lines */
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
-import Listeners, {Handler} from '../global/listeners';
-import HTTP, {HTTPAuth, RequestParams} from '../http/http';
+import Listeners, {type Handler} from '../global/listeners';
+import HTTP, {type HTTPAuth, type RequestParams} from '../http/http';
 import promiseWithTimeout from '../global/promise-with-timeout';
-import type AuthDialogService from '../auth-dialog-service/auth-dialog-service';
-
 import {getTranslations, getTranslationsWithFallback, translate} from '../i18n/i18n';
-
-import AuthStorage, {AuthState} from './storage';
-import AuthResponseParser, {AuthError, AuthResponse} from './response-parser';
+import AuthStorage, {type AuthState} from './storage';
+import AuthResponseParser, {type AuthError, type AuthResponse} from './response-parser';
 import AuthRequestBuilder from './request-builder';
 import BackgroundFlow from './background-flow';
-import TokenValidator, {TokenValidationError, TokenValidatorConfig} from './token-validator';
+import TokenValidator, {type TokenValidationError, type TokenValidatorConfig} from './token-validator';
+
+import type AuthDialogService from '../auth-dialog-service/auth-dialog-service';
 
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
@@ -128,6 +128,7 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
   translations: null,
 };
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type AuthPayloadMap = {
   userChange: [AuthUser | undefined | void, void];
   logout: [void, void];
@@ -170,7 +171,7 @@ declare global {
   }
 }
 
-export default class Auth implements HTTPAuth {
+class Auth implements HTTPAuth {
   static DEFAULT_CONFIG = DEFAULT_CONFIG;
   static API_PATH = 'api/rest/';
   static API_AUTH_PATH = 'oauth2/auth';
@@ -203,12 +204,12 @@ export default class Auth implements HTTPAuth {
       throw new Error('Config is required');
     }
 
-    if (config.serverUri == null) {
+    if (config.serverUri === null || config.serverUri === undefined) {
       throw new Error('"serverUri" property is required');
     }
 
     const unsupportedParams = ['redirect_uri', 'request_credentials', 'client_id'].filter(param =>
-      config.hasOwnProperty(param),
+      Object.prototype.hasOwnProperty.call(config, param),
     );
     if (unsupportedParams.length !== 0) {
       throw new Error(
@@ -353,6 +354,7 @@ export default class Auth implements HTTPAuth {
    * @return {Promise.<string>} absolute URL promise that is resolved to a URL
    * that should be restored after returning back from auth server.
    */
+  // eslint-disable-next-line complexity
   async init(): Promise<string | null | undefined> {
     this._storage?.onTokenChange(async token => {
       const isGuest = this.user ? this.user.guest : false;
@@ -437,7 +439,7 @@ export default class Auth implements HTTPAuth {
 
   async sendRedirect(error: Error): Promise<undefined> {
     const authRequest = await this._requestBuilder?.prepareAuthRequest();
-    if (authRequest != null) {
+    if (authRequest) {
       this._redirectCurrentPage(authRequest.url);
     }
 
@@ -565,11 +567,10 @@ export default class Auth implements HTTPAuth {
             onTryAgain,
           });
         });
-      } else {
-        const authRequest = await this._requestBuilder?.prepareAuthRequest();
-        if (authRequest != null) {
-          this._redirectCurrentPage(authRequest.url);
-        }
+      }
+      const authRequest = await this._requestBuilder?.prepareAuthRequest();
+      if (authRequest) {
+        this._redirectCurrentPage(authRequest.url);
       }
 
       throw new TokenValidator.TokenValidationError(error.message);
@@ -604,9 +605,8 @@ export default class Auth implements HTTPAuth {
       return this._storage?.getCachedUser(() =>
         this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams),
       );
-    } else {
-      return this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
     }
+    return this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
   }
 
   /**
@@ -869,7 +869,6 @@ export default class Auth implements HTTPAuth {
    */
   async logout(extraParams?: Record<string, unknown>) {
     const requestParams = {
-      // eslint-disable-next-line camelcase
       request_credentials: 'required',
       ...extraParams,
     };
@@ -880,7 +879,7 @@ export default class Auth implements HTTPAuth {
     await this._storage?.wipeToken();
 
     const authRequest = await this._requestBuilder?.prepareAuthRequest(requestParams);
-    if (authRequest != null) {
+    if (authRequest) {
       this._redirectCurrentPage(authRequest.url);
     }
   }
@@ -890,8 +889,6 @@ export default class Auth implements HTTPAuth {
     try {
       this._isLoginWindowOpen = true;
       return await this._embeddedFlow?.authorize();
-    } catch (e) {
-      throw e;
     } finally {
       this._isLoginWindowOpen = false;
     }
@@ -990,7 +987,7 @@ export default class Auth implements HTTPAuth {
     const effectiveExpiresIn = expiresIn ? parseInt(expiresIn, 10) : defaultExpiresIn;
     const expires = TokenValidator._epoch() + effectiveExpiresIn;
 
-    if (accessToken != null) {
+    if (accessToken) {
       await this._storage?.saveToken({accessToken, scopes, expires, lifeTime: effectiveExpiresIn});
     }
 
@@ -1097,3 +1094,6 @@ export default class Auth implements HTTPAuth {
     }
   }
 }
+
+export default Auth;
+export {Auth};

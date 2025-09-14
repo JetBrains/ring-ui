@@ -1,4 +1,4 @@
-import PermissionCache, {Project} from './permissions__cache';
+import PermissionCache, {type Project} from './permissions-cache';
 
 describe('PermissionCache', () => {
   function createProject(id: string) {

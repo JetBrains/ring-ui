@@ -1,8 +1,7 @@
 import {render, screen} from '@testing-library/react';
 
-import {SelectionItem} from '../table/selection';
-
-import DataList, {DataListContainerProps} from './data-list';
+import {type SelectionItem} from '../table/selection';
+import DataList, {type DataListContainerProps} from './data-list';
 import Selection from './selection';
 
 interface DateListTestItem extends SelectionItem {
@@ -28,7 +27,7 @@ describe('Data List', () => {
   });
 
   it('should use passed className', () => {
-    render(<DataList {...props} className="test-class" />);
+    render(<DataList {...props} className='test-class' />);
     expect(screen.getByRole('list')).to.have.class('test-class');
   });
 });

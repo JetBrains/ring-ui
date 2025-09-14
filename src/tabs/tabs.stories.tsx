@@ -1,12 +1,10 @@
 import {useState, useCallback} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import warningIcon from '@jetbrains/icons/warning';
-
 import classNames from 'classnames';
 
 import Button from '../button/button';
 import Icon from '../icon/icon';
-
 import {CustomItem, SmartTabs, Tab, Tabs} from './tabs';
 
 export default {
@@ -43,19 +41,19 @@ export const Basic = () => {
 
   return (
     <Tabs selected={selected} onSelect={setSelected}>
-      <Tab id="first" title="First tab">
+      <Tab id='first' title='First tab'>
         First tab content
       </Tab>
-      <Tab id="second" title="Second tab">
+      <Tab id='second' title='Second tab'>
         Second tab content
       </Tab>
-      <Tab id="third" title="Third tab">
+      <Tab id='third' title='Third tab'>
         Third tab content
       </Tab>
-      <Tab id="fourth" title="Fourth tab (Link)" href="/">
+      <Tab id='fourth' title='Fourth tab (Link)' href='/'>
         Fourth tab content
       </Tab>
-      <Tab disabled id="disabled" title="Disabled tab">
+      <Tab disabled id='disabled' title='Disabled tab'>
         Disabled tab content
       </Tab>
     </Tabs>
@@ -68,13 +66,13 @@ export const Links = () => {
 
   return (
     <Tabs selected={selected}>
-      <Tab id="first" title="First tab" href={`${search}&selected=first`}>
+      <Tab id='first' title='First tab' href={`${search}&selected=first`}>
         First tab content
       </Tab>
-      <Tab id="second" title="Second tab" href={`${search}&selected=second`}>
+      <Tab id='second' title='Second tab' href={`${search}&selected=second`}>
         Second tab content
       </Tab>
-      <Tab id="third" title="Third tab" href={`${search}&selected=third`}>
+      <Tab id='third' title='Third tab' href={`${search}&selected=third`}>
         Third tab content
       </Tab>
     </Tabs>
@@ -184,13 +182,13 @@ AutoCollapseDemo.storyName = 'Auto collapsing';
 
 export const smart = () => (
   <SmartTabs>
-    <Tab title="First tab">First tab content</Tab>
-    <Tab title="Second tab">Second tab content</Tab>
-    <Tab title="Third tab">Third tab content</Tab>
-    <Tab title="Fourth  tab (Link)" href="/">
+    <Tab title='First tab'>First tab content</Tab>
+    <Tab title='Second tab'>Second tab content</Tab>
+    <Tab title='Third tab'>Third tab content</Tab>
+    <Tab title='Fourth  tab (Link)' href='/'>
       Fourth tab content
     </Tab>
-    <Tab disabled title="Disabled tab">
+    <Tab disabled title='Disabled tab'>
       Disabled tab content
     </Tab>
   </SmartTabs>
@@ -200,33 +198,33 @@ smart.storyName = 'smart';
 export const customTitles = () => (
   <SmartTabs>
     <Tab
-      className="tab"
-      title={
+      className='tab'
+      title={(
         <>
-          First tab<span className="info">10</span>
+          First tab<span className='info'>10</span>
         </>
-      }
+      )}
     >
       First tab content
     </Tab>
     <Tab
-      className="tab"
-      title={
+      className='tab'
+      title={(
         <>
-          Second tab<span className="info">Help text</span>
+          Second tab<span className='info'>Help text</span>
         </>
-      }
+      )}
     >
       Second tab content
     </Tab>
     <Tab
-      className="tab"
-      title={
+      className='tab'
+      title={(
         <>
-          Third tab (Link)<span className="info">10</span>
+          Third tab (Link)<span className='info'>10</span>
         </>
-      }
-      href="/"
+      )}
+      href='/'
     >
       Third tab content
     </Tab>
@@ -240,10 +238,10 @@ customTitles.storyName = 'custom titles';
 export const customTitlesFunction = () => (
   <SmartTabs>
     <Tab
-      className="tab"
+      className='tab'
       title={isSelected => (
         <span className={classNames({selected: isSelected})}>
-          <Icon glyph={searchIcon} className="icon" />
+          <Icon glyph={searchIcon} className='icon' />
           {'First tab'}
         </span>
       )}
@@ -251,14 +249,14 @@ export const customTitlesFunction = () => (
       First tab content
     </Tab>
     <Tab
-      className="tab"
+      className='tab'
       title={isSelected => (
         <span className={classNames({selected: isSelected})}>
-          <Icon glyph={warningIcon} className="icon" />
+          <Icon glyph={warningIcon} className='icon' />
           {'Second tab (Link)'}
         </span>
       )}
-      href="/"
+      href='/'
     >
       Second tab content
     </Tab>

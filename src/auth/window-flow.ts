@@ -1,7 +1,8 @@
 import AuthResponseParser from './response-parser';
-import {LoginFlow} from './auth__core';
-import AuthRequestBuilder from './request-builder';
-import AuthStorage from './storage';
+import {type LoginFlow} from './auth-core';
+
+import type AuthRequestBuilder from './request-builder';
+import type AuthStorage from './storage';
 
 const NAVBAR_HEIGHT = 50;
 const CLOSED_CHECK_INTERVAL = 200;
@@ -40,7 +41,6 @@ export default class WindowFlow implements LoginFlow {
    */
   private async _load(): Promise<string> {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
-      // eslint-disable-next-line camelcase
       {request_credentials: 'required', auth_mode: 'bypass_to_login'},
       {nonRedirect: true},
     );
@@ -77,9 +77,13 @@ export default class WindowFlow implements LoginFlow {
         }
       });
 
-      if (this._loginWindow == null || this._loginWindow.closed) {
+      if (
+        this._loginWindow === null ||
+        this._loginWindow === undefined ||
+        (this._loginWindow && this._loginWindow.closed)
+      ) {
         this._loginWindow = this._openWindow(authRequest.url);
-      } else {
+      } else if (this._loginWindow) {
         this._loginWindow.location.href = authRequest.url;
       }
 
@@ -102,7 +106,7 @@ export default class WindowFlow implements LoginFlow {
   };
 
   stop() {
-    if (this._loginWindow != null) {
+    if (this._loginWindow !== null && this._loginWindow !== undefined) {
       this._loginWindow.close();
     }
     if (this.reject) {
@@ -112,7 +116,7 @@ export default class WindowFlow implements LoginFlow {
   }
 
   authorize(): Promise<string> {
-    if (this._promise != null && this._loginWindow != null && !this._loginWindow.closed) {
+    if (this._promise && this._loginWindow && !this._loginWindow.closed) {
       this._loginWindow.focus();
 
       return this._promise;
