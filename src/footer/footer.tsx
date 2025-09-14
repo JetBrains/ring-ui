@@ -1,11 +1,10 @@
 /**
  * @name Footer
  */
-import {memo, isValidElement, ReactNode, HTMLAttributeAnchorTarget, ReactElement} from 'react';
+import {memo, isValidElement, type ReactNode, type HTMLAttributeAnchorTarget, type ReactElement} from 'react';
 import classNames from 'classnames';
 
 import Link from '../link/link';
-
 import styles from './footer.css';
 
 type Position = 'left' | 'center' | 'right';
@@ -125,7 +124,7 @@ const Footer = memo(function Footer({floating, className, left, center, right}: 
   });
 
   return (
-    <footer className={classes} data-test="ring-footer">
+    <footer className={classes} data-test='ring-footer'>
       {[content(left, 'left'), content(center, 'center'), content(right, 'right')]}
     </footer>
   );

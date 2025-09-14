@@ -1,15 +1,11 @@
 import {render, screen, fireEvent, act} from '@testing-library/react';
-
 import {expect} from 'vitest';
 
 import getUID from '../global/get-uid';
-
 import List from '../list/list';
 import simulateCombo from '../../test-helpers/simulate-combo';
-
-import {ListDataItem} from '../list/consts';
-
-import SelectPopup, {SelectPopupAttrs} from './select__popup';
+import {type ListDataItem} from '../list/consts';
+import SelectPopup, {type SelectPopupAttrs} from './select-popup';
 
 describe('SelectPopup', () => {
   const factory = (props?: SelectPopupAttrs) => (

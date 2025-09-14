@@ -1,4 +1,4 @@
-import {MockInstance} from 'vitest';
+import {type MockInstance} from 'vitest';
 
 import defaultMessages from './messages.json';
 import {translate, getTranslationsWithFallback, getTranslations, setTranslations} from './i18n';

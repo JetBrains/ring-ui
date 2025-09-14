@@ -1,4 +1,4 @@
-import {Component, ComponentClass, ComponentType, createContext} from 'react';
+import {Component, type ComponentClass, type ComponentType, createContext} from 'react';
 
 import {interpolateLinear} from '../global/linear-function';
 

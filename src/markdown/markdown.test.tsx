@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import Markdown, {MarkdownProps} from './markdown';
+import Markdown, {type MarkdownProps} from './markdown';
 
 describe('Markdown', () => {
   const renderMarkdown = (props?: Partial<MarkdownProps>) => {

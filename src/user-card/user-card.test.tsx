@@ -1,14 +1,12 @@
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import {beforeEach} from 'vitest';
 
 import {I18nContextHolder} from '../i18n/i18n-context';
-
 import {SmartUserCardTooltip, UserCard, UserCardTooltip} from './user-card';
-import {UserCardAttrs, UserCardUser} from './card';
-import {UserCardTooltipAttrs} from './tooltip';
-import {SmartUserCardTooltipProps} from './smart-user-card-tooltip';
+import {type UserCardAttrs, type UserCardUser} from './card';
+import {type UserCardTooltipAttrs} from './tooltip';
+import {type SmartUserCardTooltipProps} from './smart-user-card-tooltip';
 
 describe('UserCard', () => {
   const fakeUser = {
@@ -64,7 +62,7 @@ describe('UserCard', () => {
   });
 
   describe('UserCardTooltip', () => {
-    const anchor = <span data-test="anchor">{'foo'}</span>;
+    const anchor = <span data-test='anchor'>{'foo'}</span>;
 
     const renderTooltip = (props?: UserCardTooltipAttrs) =>
       render(
@@ -81,8 +79,8 @@ describe('UserCard', () => {
     it('should allow to render multiple children', () => {
       render(
         <UserCardTooltip user={fakeUser}>
-          <span data-test="anchor">{'foo'}</span>
-          <span data-test="anchor">{'foo'}</span>
+          <span data-test='anchor'>{'foo'}</span>
+          <span data-test='anchor'>{'foo'}</span>
         </UserCardTooltip>,
       );
       expect(screen.getAllByTestId('anchor')).to.have.length(2);

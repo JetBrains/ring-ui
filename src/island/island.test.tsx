@@ -1,6 +1,6 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 
-import Island, {AdaptiveIsland, Content, Header, IslandProps} from './island';
+import Island, {AdaptiveIsland, Content, Header, type IslandProps} from './island';
 
 describe('Island', () => {
   const renderIsland = (params?: IslandProps) => render(<Island {...params} />);

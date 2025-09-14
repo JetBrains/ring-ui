@@ -1,8 +1,7 @@
 import {render, screen} from '@testing-library/react';
 
-import Input, {InputAttrs} from '../input/input';
-
-import ErrorBubble, {ErrorBubbleProps} from './error-bubble';
+import Input, {type InputAttrs} from '../input/input';
+import ErrorBubble, {type ErrorBubbleProps} from './error-bubble';
 
 describe('Error Bubble', () => {
   const renderErrorBubble = (params?: Partial<ErrorBubbleProps<Omit<InputAttrs, 'ref'>>>) =>

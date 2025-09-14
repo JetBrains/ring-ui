@@ -30,6 +30,7 @@ describe('Auth', () => {
       it('should save state', async () => {
         const builder = new AuthRequestBuilder(config);
         await builder.prepareAuthRequest();
+        // eslint-disable-next-line no-underscore-dangle
         expect(AuthRequestBuilder.prototype._saveState).toHaveBeenCalledWith('unique', {
           restoreLocation: window.location.href,
           scopes: ['youtrack', 'teamcity', 'vcs settings'],
@@ -39,6 +40,7 @@ describe('Auth', () => {
       it('should save extra state', async () => {
         const builder = new AuthRequestBuilder(config);
         await builder.prepareAuthRequest(null, {nonRedirect: true});
+        // eslint-disable-next-line no-underscore-dangle
         expect(AuthRequestBuilder.prototype._saveState).toHaveBeenCalledWith('unique', {
           restoreLocation: window.location.href,
           nonRedirect: true,
@@ -52,7 +54,7 @@ describe('Auth', () => {
           'https://sso.jetbrains.com/auth?response_type=token&state=unique&' +
           'redirect_uri=http%3A%2F%2Flocalhost%3A8080&request_credentials=required&' +
           'client_id=0-0-0-0-0&scope=youtrack%20teamcity%20vcs%2520settings';
-        // eslint-disable-next-line camelcase
+
         return expect(builder.prepareAuthRequest({request_credentials: 'required'})).to.become({
           url: expected,
           stateId: 'unique',

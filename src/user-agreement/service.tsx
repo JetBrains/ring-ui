@@ -1,5 +1,4 @@
-import {ReactNode} from 'react';
-
+import {type ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
 
 import Storage from '../storage/storage';
@@ -7,10 +6,8 @@ import alertService from '../alert-service/alert-service';
 import Link from '../link/link';
 import Alert from '../alert/alert';
 import Group from '../group/group';
-
 import {ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
-
-import UserAgreement, {UserAgreementAttrs, UserAgreementTranslations} from './user-agreement';
+import UserAgreement, {type UserAgreementAttrs, type UserAgreementTranslations} from './user-agreement';
 
 const GUEST_SESSION_KEY = 'end-user-agreement-consent';
 const ONE_HOUR = 60 * 60 * 1000; // eslint-disable-line @typescript-eslint/no-magic-numbers
@@ -127,7 +124,7 @@ export default class UserAgreementService {
   };
 
   onStorageEvent = (event: StorageEvent) => {
-    if (event.key === storageKey && event.newValue != null) {
+    if (event.key === storageKey && event.newValue) {
       const {tabId, command} = JSON.parse(event.newValue);
 
       if (tabId !== this.tabId) {
@@ -170,9 +167,8 @@ export default class UserAgreementService {
   checkConsentAndShowDialog = async (withoutNotifications?: boolean) => {
     if (await this.checkConsent()) {
       return this.hideDialogAndAlert(withoutNotifications);
-    } else {
-      return this.showDialogOrAlert(withoutNotifications);
     }
+    return this.showDialogOrAlert(withoutNotifications);
   };
 
   checkConsent = async () => {
@@ -210,10 +206,10 @@ export default class UserAgreementService {
       const message = (
         <Group>
           <span>{userAgreement || 'User Agreement'}</span>
-          <Link onClick={onReview} data-test="review">
+          <Link onClick={onReview} data-test='review'>
             {reviewNow || 'Review now'}
           </Link>
-          <Link onClick={onRemind} data-test="later">
+          <Link onClick={onRemind} data-test='later'>
             {remindLater || 'Remind me later'}
           </Link>
         </Group>

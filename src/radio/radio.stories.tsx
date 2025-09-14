@@ -1,7 +1,6 @@
 import {useState, Fragment} from 'react';
 
 import {ControlLabel, LabelType} from '../control-label/control-label';
-
 import Radio from './radio';
 
 export default {
@@ -18,11 +17,11 @@ export const Basic = () => {
     <Fragment>
       <ControlLabel type={LabelType.FORM}>Group Description</ControlLabel>
       <Radio value={value} onChange={onChange}>
-        <Radio.Item value="one" help="Help text">
+        <Radio.Item value='one' help='Help text'>
           One
         </Radio.Item>
-        <Radio.Item value="two">Two</Radio.Item>
-        <Radio.Item value="three">Three</Radio.Item>
+        <Radio.Item value='two'>Two</Radio.Item>
+        <Radio.Item value='three'>Three</Radio.Item>
       </Radio>
     </Fragment>
   );
@@ -36,8 +35,8 @@ export const Multiline = () => {
     <div style={{width: 200}}>
       <ControlLabel>Group Description</ControlLabel>
       <Radio value={value} onChange={onChange}>
-        <Radio.Item value="one">One</Radio.Item>
-        <Radio.Item value="two">This is a multiline radio item that should wrap</Radio.Item>
+        <Radio.Item value='one'>One</Radio.Item>
+        <Radio.Item value='two'>This is a multiline radio item that should wrap</Radio.Item>
       </Radio>
     </div>
   );
@@ -47,11 +46,11 @@ Multiline.storyName = 'multiline';
 
 export const uncontrolled = () => (
   <Radio>
-    <Radio.Item value="one" defaultChecked>
+    <Radio.Item value='one' defaultChecked>
       One
     </Radio.Item>
-    <Radio.Item value="two">Two</Radio.Item>
-    <Radio.Item value="three">Three</Radio.Item>
+    <Radio.Item value='two'>Two</Radio.Item>
+    <Radio.Item value='three'>Three</Radio.Item>
   </Radio>
 );
 
@@ -60,11 +59,11 @@ uncontrolled.parameters = {screenshots: {skip: true}};
 
 export const disabled = () => (
   <Radio disabled>
-    <Radio.Item value="one" defaultChecked>
+    <Radio.Item value='one' defaultChecked>
       One
     </Radio.Item>
-    <Radio.Item value="two">Two</Radio.Item>
-    <Radio.Item value="three">Three</Radio.Item>
+    <Radio.Item value='two'>Two</Radio.Item>
+    <Radio.Item value='three'>Three</Radio.Item>
   </Radio>
 );
 

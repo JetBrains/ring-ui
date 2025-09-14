@@ -1,15 +1,10 @@
-import {Children, HTMLAttributes, useState} from 'react';
-
+import {Children, type HTMLAttributes, useState} from 'react';
 import classNames from 'classnames';
 
-import {ListDataItem} from '../list/consts';
-
-import DropdownMenu, {DropdownMenuProps} from '../dropdown-menu/dropdown-menu';
-
+import {type ListDataItem} from '../list/consts';
+import DropdownMenu, {type DropdownMenuProps} from '../dropdown-menu/dropdown-menu';
 import Avatar, {Size} from '../avatar/avatar';
-
 import {fontSizes} from '../avatar/avatar-info';
-
 import styles from './avatar-stack.css';
 
 declare module 'csstype' {
@@ -60,11 +55,11 @@ export default function AvatarStack({
             '--ring-avatar-stack-index': Children.count(children),
             fontSize: fontSizes[size],
           }}
-          anchor={
-            <button type="button" className={styles.extraButton}>
+          anchor={(
+            <button type='button' className={styles.extraButton}>
               <Avatar size={size} info={<span className={styles.extraText}>{`+${extraItems.length}`}</span>} />
             </button>
-          }
+          )}
           data={extraItems}
           menuProps={{offset: 4, ...dropdownMenuProps?.menuProps}}
           {...dropdownMenuProps}

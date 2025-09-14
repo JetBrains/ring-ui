@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const {exec, execSync} = require('child_process');
 const path = require('path');
-
 const browserStackLocal = require('browserstack-local');
 
 require('dotenv').config();

@@ -1,6 +1,6 @@
-import {StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-webpack5';
 
-import Loader, {LoaderProps} from './loader';
+import Loader, {type LoaderProps} from './loader';
 
 export default {
   title: 'Components/Loader',

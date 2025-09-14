@@ -13,7 +13,7 @@ describe('ContentEditable', () => {
   });
 
   it('should pass other properties', () => {
-    render(<ContentEditable className="test" />);
+    render(<ContentEditable className='test' />);
     expect(screen.getByRole('textbox')).to.have.class('test');
   });
 
@@ -40,7 +40,7 @@ describe('ContentEditable', () => {
 
   it('should not render on other props change', () => {
     const {rerender} = render(<ContentEditable onComponentUpdate={stub} />);
-    rerender(<ContentEditable onComponentUpdate={stub} className="testtest" />);
+    rerender(<ContentEditable onComponentUpdate={stub} className='testtest' />);
 
     expect(stub).not.toHaveBeenCalled();
   });

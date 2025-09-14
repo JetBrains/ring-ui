@@ -1,4 +1,4 @@
-import {Component, ReactNode} from 'react';
+import {Component, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import styles from './grid.css';
@@ -59,7 +59,7 @@ export default class Row extends Component<RowProps> {
     });
 
     return (
-      <div className={classes} data-test="ring-grid-row">
+      <div className={classes} data-test='ring-grid-row'>
         {children}
       </div>
     );

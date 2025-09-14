@@ -1,4 +1,4 @@
-import {HTMLAttributes, PureComponent, ReactElement} from 'react';
+import {type HTMLAttributes, PureComponent, type ReactElement} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import copyIcon from '@jetbrains/icons/copy';
@@ -10,7 +10,6 @@ import Tag, {TagType} from '../tag/tag';
 import Icon, {Size as IconSize} from '../icon/icon';
 import {I18nContext} from '../i18n/i18n-context';
 import Tooltip from '../tooltip/tooltip';
-
 import styles from './user-card.css';
 
 export interface UserCardUser {
@@ -56,6 +55,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
     );
   };
 
+  // eslint-disable-next-line complexity
   render() {
     const {children, info, className, user, avatarInfo, ...restProps} = this.props;
     const {translate} = this.context;
@@ -75,7 +75,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
             <div className={styles.userInformationGeneral}>
               <div className={styles.userNameLine}>
                 {user.href && (
-                  <Link href={user.href} className={styles.userName} data-test="user-card-link">
+                  <Link href={user.href} className={styles.userName} data-test='user-card-link'>
                     {user.name}
                   </Link>
                 )}
@@ -103,7 +103,7 @@ export default class UserCard extends PureComponent<UserCardProps> {
                   <Link
                     href={`mailto:${user.email}`}
                     title={`mailto:${user.email}`}
-                    target="_blank"
+                    target='_blank'
                     className={styles.userEmail}
                   >
                     {user.email}

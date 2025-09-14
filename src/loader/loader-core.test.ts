@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 
-import LoaderCore, {LoaderCoreProps} from './loader__core';
+
+import LoaderCore, {type LoaderCoreProps} from './loader-core';
 
 describe('Loader', () => {
   function noop() {}

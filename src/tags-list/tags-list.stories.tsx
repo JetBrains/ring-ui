@@ -12,7 +12,7 @@ export default {
 
 export const basic = () => (
   <TagsList
-    className="test-additional-class"
+    className='test-additional-class'
     tags={[
       {key: 'test1', label: 'test1'},
       {key: 'test2', label: 'test2'},

@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import Header, {HeaderAttrs} from './header';
+import Header, {type HeaderAttrs} from './header';
 
 describe('Header', () => {
   const getHeaderDiv = (props?: HeaderAttrs) => {

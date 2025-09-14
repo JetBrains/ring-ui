@@ -12,7 +12,7 @@ export default function memoize<A = void, T = void>(fn: (arg: A) => T): (arg: A)
     const key = arg ?? '__singleValue__';
     const cache: MapLike<unknown, T> = key instanceof Object ? objectCache : primitiveCache;
     const cached = cache.get(key);
-    if (cached != null) {
+    if (cached !== undefined) {
       return cached;
     }
 

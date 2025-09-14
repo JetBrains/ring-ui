@@ -1,18 +1,13 @@
 import {cleanup, fireEvent, render, screen} from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
-
 import {beforeEach, expect} from 'vitest';
-
 import {act} from 'react';
 
 import List from '../list/list';
 import simulateCombo from '../../test-helpers/simulate-combo';
-
-import Select, {MultipleSelectAttrs, SelectAttrs, SelectItem, SingleSelectAttrs} from './select';
+import Select, {type MultipleSelectAttrs, type SelectAttrs, type SelectItem, type SingleSelectAttrs} from './select';
 import styles from './select.css';
-
-import {Tags} from './select__popup';
+import {type Tags} from './select-popup';
 
 const selectedIconSelector = `.${styles.selectedIcon.split(/\s/)[0]}`;
 
@@ -990,7 +985,7 @@ describe('Select', () => {
       await user.click(button);
       const selectAll = screen.getByRole('button', {name: 'Select all'});
       await user.click(selectAll);
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+
       expect(onSelect).toHaveBeenCalledTimes(3);
     });
 
@@ -1007,7 +1002,7 @@ describe('Select', () => {
       await user.click(button);
       const deselectAll = screen.getByRole('button', {name: 'Deselect all'});
       await user.click(deselectAll);
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+
       expect(onDeselect).toHaveBeenCalledTimes(4);
     });
 

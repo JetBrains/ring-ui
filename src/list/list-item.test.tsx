@@ -1,8 +1,8 @@
 import {render, screen, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import ListItem from './list__item';
-import {ListDataItemProps} from './consts';
+import ListItem from './list-item';
+import {type ListDataItemProps} from './consts';
 
 describe('ListItem', () => {
   const renderListItem = (props?: Partial<ListDataItemProps>) => render(<ListItem {...(props as ListDataItemProps)} />);

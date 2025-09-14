@@ -1,6 +1,6 @@
 /** https://github.com/bevacqua/fuzzysearch + highlighting with Markdown */
 
-type Match = {from: number; to: number};
+interface Match {from: number; to: number}
 
 export default function fuzzyHighlight(needle: string, haystack: string, caseSensitive = false) {
   const ndl = caseSensitive ? needle : needle.toLowerCase();

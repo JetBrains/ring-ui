@@ -1,10 +1,9 @@
-import {Component, ReactNode} from 'react';
+import {Component, type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import Dropdown, {DropdownAttrs, DropdownProps} from '../dropdown/dropdown';
+import Dropdown, {type DropdownAttrs, type DropdownProps} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
-
-import UserCard, {UserCardAttrs, UserCardUser} from './card';
+import UserCard, {type UserCardAttrs, type UserCardUser} from './card';
 import styles from './user-card.css';
 
 const DEFAULT_TIMEOUT = 300;

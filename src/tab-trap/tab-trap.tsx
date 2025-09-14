@@ -1,8 +1,15 @@
-import {forwardRef, HTMLAttributes, ReactNode, useCallback, useEffect, useImperativeHandle, useRef} from 'react';
+import {
+  forwardRef,
+  type HTMLAttributes,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import * as React from 'react';
 
 import {isNodeInVisiblePartOfPage} from '../global/dom';
-
 import styles from './tab-trap.css';
 
 export const FOCUSABLE_ELEMENTS =
@@ -123,12 +130,7 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
     }
     if (focusBackOnExit) {
       const prevFocused = event.nativeEvent.relatedTarget;
-      if (
-        prevFocused != null &&
-        nodeRef.current != null &&
-        prevFocused instanceof Element &&
-        nodeRef.current.contains(prevFocused)
-      ) {
+      if (prevFocused && nodeRef.current && prevFocused instanceof Element && nodeRef.current.contains(prevFocused)) {
         restoreFocus();
       }
     } else {

@@ -2,7 +2,8 @@ import uuid from 'simply-uuid';
 
 import {encodeURL} from '../global/url';
 
-import AuthStorage, {AuthState} from './storage';
+import type {AuthState} from './storage';
+import type AuthStorage from './storage';
 
 export interface AuthRequestBuilderConfig {
   authorization: string;
@@ -44,10 +45,10 @@ export default class AuthRequestBuilder {
    * @return {Promise.<string>} promise that is resolved to authURL
    */
   async prepareAuthRequest(extraParams?: Record<string, unknown> | null | undefined, extraState?: Partial<AuthState>) {
+    // eslint-disable-next-line no-underscore-dangle
     const stateId = AuthRequestBuilder._uuid();
     const scopes = this.config.scopes.map(scope => encodeURIComponent(scope));
 
-    /* eslint-disable camelcase */
     const request = Object.assign(
       {
         response_type: 'token',
@@ -59,7 +60,6 @@ export default class AuthRequestBuilder {
       },
       extraParams || {},
     );
-    /* eslint-enable camelcase */
 
     const authURL = encodeURL(this.config.authorization, request);
 

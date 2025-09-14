@@ -1,10 +1,8 @@
-import {Component, createContext, forwardRef, InputHTMLAttributes, ReactNode} from 'react';
+import {Component, createContext, forwardRef, type InputHTMLAttributes, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import getUID from '../global/get-uid';
-
 import ControlHelp from '../control-help/control-help';
-
 import styles from './radio.css';
 
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
@@ -37,7 +35,7 @@ export class RadioItemInner extends Component<RadioItemInnerProps> {
 
     return (
       <label ref={this.labelRef} className={classes} htmlFor={this.uid}>
-        <input id={this.uid} {...restProps} ref={this.inputRef} className={styles.input} type="radio" />
+        <input id={this.uid} {...restProps} ref={this.inputRef} className={styles.input} type='radio' />
         <span className={styles.circle} />
         <span className={styles.label}>
           {children}
@@ -59,8 +57,8 @@ const RadioItem = forwardRef<RadioItemInner, RadioItemProps>(function RadioItem(
         <RadioItemInner
           ref={ref}
           {...restContext}
-          checked={value != null ? value === props.value : undefined}
-          onChange={onChange != null ? () => onChange(props.value) : undefined}
+          checked={value ? value === props.value : undefined}
+          onChange={onChange ? () => onChange(props.value) : undefined}
           {...props}
         />
       )}

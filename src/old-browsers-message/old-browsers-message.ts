@@ -79,7 +79,7 @@ startOldBrowsersDetector(() => {
   const errorMessage = document.getElementById('ring-old-browsers-message__error-message');
   const smileNode = document.getElementById('ring-old-browsers-message__smile');
 
-  if (browserMessage != null && errorMessage != null) {
+  if (browserMessage && errorMessage) {
     if (isBrowserInWhiteList()) {
       browserMessage.style.display = 'none';
       errorMessage.style.display = 'block';

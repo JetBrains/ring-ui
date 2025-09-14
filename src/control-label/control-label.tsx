@@ -1,4 +1,4 @@
-import {LabelHTMLAttributes} from 'react';
+import {type LabelHTMLAttributes} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 

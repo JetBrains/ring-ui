@@ -1,5 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react';
-import {ComponentProps} from 'react';
+import {type ComponentProps} from 'react';
 
 import {Slider} from './slider';
 

@@ -8,7 +8,7 @@ export default function useEventCallback<I extends unknown[], O>(fn: (...args: I
   return useCallback((...args) => {
     const {current} = ref;
 
-    if (current == null) {
+    if (current === null || current === undefined) {
       throw new Error('callback created in useEventCallback can only be called from event handlers');
     }
 

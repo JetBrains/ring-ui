@@ -1,6 +1,6 @@
-import {MockInstance} from 'vitest';
+import {type MockInstance} from 'vitest';
 
-import HTTP, {defaultFetchConfig, HTTPAuth, HTTPError} from './http';
+import HTTP, {defaultFetchConfig, type HTTPAuth, HTTPError} from './http';
 
 const OK = 200;
 const METHOD_NOT_ALLOWED = 405;
@@ -48,6 +48,7 @@ describe('HTTP', () => {
 
     expect(fakeAuth.requestToken).toHaveBeenCalled();
 
+    // eslint-disable-next-line no-underscore-dangle
     expect(http._fetch).toHaveBeenCalledWith('testurl', {
       cache: 'default',
       headers: {
@@ -64,6 +65,7 @@ describe('HTTP', () => {
 
     expect(fakeAuth.requestToken).not.toHaveBeenCalled;
 
+    // eslint-disable-next-line no-underscore-dangle
     expect(http._fetch).toHaveBeenCalledWith('testurl', {
       cache: 'default',
       headers: undefined,
@@ -122,12 +124,14 @@ describe('HTTP', () => {
       },
     });
 
+    // eslint-disable-next-line no-underscore-dangle
     expect(http._fetch).toHaveBeenCalledWith('http://testurl?foo=bar&test=a,b', expect.any(Object));
   });
 
   it('should support base url setting', async () => {
     http.setBaseUrl('http://test');
     await http.request('/foo');
+    // eslint-disable-next-line no-underscore-dangle
     expect(http._fetch).toHaveBeenCalledWith('http://test/foo', expect.any(Object));
   });
 
@@ -137,6 +141,7 @@ describe('HTTP', () => {
       body: {foo: 'bar'},
     });
 
+    // eslint-disable-next-line no-underscore-dangle
     expect(http._fetch).toHaveBeenCalledWith(
       'testurl',
       expect.objectContaining({

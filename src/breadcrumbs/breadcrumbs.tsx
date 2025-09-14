@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import {Children, Fragment, ReactNode} from 'react';
+import {Children, Fragment, type ReactNode} from 'react';
 
 import styles from './breadcrumbs.css';
 

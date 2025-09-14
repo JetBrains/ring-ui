@@ -1,19 +1,25 @@
+/* eslint-disable max-lines */
 /**
  * @description Displays a popup with select's options.
  */
-import {ComponentType, CSSProperties, PureComponent, ReactNode, Ref, SyntheticEvent} from 'react';
-
+import {
+  type ComponentType,
+  type CSSProperties,
+  PureComponent,
+  type ReactNode,
+  type Ref,
+  type SyntheticEvent,
+} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search';
 import memoizeOne from 'memoize-one';
 
-import Icon, {IconType} from '../icon/icon';
-
+import Icon, {type IconType} from '../icon/icon';
 import Popup, {getPopupContainer} from '../popup/popup';
-import {Directions, maxHeightForDirection} from '../popup/position';
+import {type Directions, maxHeightForDirection} from '../popup/position';
 import {PopupTargetContext} from '../popup/popup.target';
-import List, {SelectHandlerParams} from '../list/list';
+import List, {type SelectHandlerParams} from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 import {getStyles} from '../global/dom';
@@ -25,19 +31,14 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import Text from '../text/text';
 import {ControlsHeight} from '../global/controls-height';
-import {createComposedRef} from '../global/composeRefs';
-
+import {createComposedRef} from '../global/compose-refs';
 import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
-
-import {ListDataItem} from '../list/consts';
-
-import {ShortcutsMap} from '../shortcuts/core';
-import {TagAttrs} from '../tag/tag';
-
-import SelectFilter from './select__filter';
+import {type ListDataItem} from '../list/consts';
+import {type ShortcutsMap} from '../shortcuts/core';
+import {type TagAttrs} from '../tag/tag';
+import SelectFilter from './select-filter';
 import styles from './select-popup.css';
-
-import {SelectItem} from './select';
+import {type SelectItem} from './select';
 
 const FILTER_HEIGHT = 35;
 const TOOLBAR_HEIGHT = 49;
@@ -177,7 +178,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   caret?: Caret | null;
   handleNavigation(event: Event, navigateLeft?: boolean) {
     if (
-      (this.isEventTargetFilter(event) && this.caret != null && Number(this.caret.getPosition()) > 0) ||
+      (this.isEventTargetFilter(event) && this.caret && Number(this.caret?.getPosition()) > 0) ||
       !Array.isArray(this.props.selected)
     ) {
       return;
@@ -204,6 +205,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     if (!Array.isArray(this.props.selected)) {
       return;
     }
+    // eslint-disable-next-line no-underscore-dangle
     const _tag = tag || this.props.selected.slice(0)[this.props.selected.length - 1];
     if (_tag) {
       this.onListSelect(_tag, event, {tryKeepOpen: true});
@@ -215,7 +217,11 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   }
 
   removeSelectedTag() {
-    if (Array.isArray(this.props.selected) && this.state.tagsActiveIndex != null) {
+    if (
+      Array.isArray(this.props.selected) &&
+      this.state.tagsActiveIndex !== null &&
+      this.state.tagsActiveIndex !== undefined
+    ) {
       this.removeTag(this.props.selected[this.state.tagsActiveIndex]);
       return false;
     }
@@ -299,12 +305,12 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
   getFilter() {
     if (this.props.filter || this.props.tags) {
       return (
-        <div className={styles.filterWrapper} data-test="ring-select-popup-filter">
+        <div className={styles.filterWrapper} data-test='ring-select-popup-filter'>
           {!this.props.tags && (
             <Icon
               glyph={this.props.filterIcon ?? searchIcon}
               className={styles.filterIcon}
-              data-test-custom="ring-select-popup-filter-icon"
+              data-test-custom='ring-select-popup-filter-icon'
             />
           )}
           <FilterWithShortcuts
@@ -314,14 +320,14 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
             inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.onFilterFocus}
-            className="ring-js-shortcuts"
+            className='ring-js-shortcuts'
             inputClassName={classNames({[styles.filterWithTagsInput]: this.props.tags})}
             placeholder={typeof this.props.filter === 'object' ? this.props.filter.placeholder : undefined}
             height={this.props.tags ? ControlsHeight.S : ControlsHeight.L}
             onChange={this.props.onFilter}
             onClick={this.onClickHandler}
             onClear={this.props.tags ? undefined : this.props.onClear}
-            data-test-custom="ring-select-popup-filter-input"
+            data-test-custom='ring-select-popup-filter-input'
             listId={this.props.listId}
             enableShortcuts={Object.keys(this.popupFilterShortcutsMap)}
           />
@@ -501,7 +507,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
     // render the list would be a better way
     const anchorNode = this.props.anchorElement;
     const containerNode = getPopupContainer(ringPopupTarget) || document.documentElement;
-    return anchorNode != null
+    return anchorNode !== null
       ? Math.min(
           directions.reduce(
             (maxHeight, direction) =>

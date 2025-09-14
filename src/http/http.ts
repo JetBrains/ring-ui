@@ -1,5 +1,6 @@
-import type Auth from '../auth/auth';
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
+
+import type Auth from '../auth/auth';
 
 /**
  * @name HTTP

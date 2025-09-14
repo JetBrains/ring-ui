@@ -1,12 +1,10 @@
-import {cloneElement, Component, HTMLAttributes, ReactNode, ReactElement} from 'react';
+import {cloneElement, Component, type HTMLAttributes, type ReactNode, type ReactElement} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
-import {PopupAttrs} from '../popup/popup';
-
+import {type PopupAttrs} from '../popup/popup';
 import {isArray} from '../global/typescript-utils';
-
 import Anchor from './anchor';
 import styles from './dropdown.css';
 
@@ -180,7 +178,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
     } = this.props;
 
     const classes = classNames(styles.dropdown, className, {
-      [activeClassName ?? '']: activeClassName != null && show,
+      [activeClassName ?? '']: activeClassName && show,
     });
 
     let anchorElement;
@@ -217,7 +215,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
         {...restProps}
         onClick={clickMode ? this.onClick : undefined}
         // anchorElement should be a `button` or an `a`
-        role="presentation"
+        role='presentation'
         onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
         onMouseLeave={hoverMode ? this.onMouseLeave : undefined}
         className={classes}

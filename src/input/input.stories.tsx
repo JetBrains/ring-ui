@@ -2,11 +2,8 @@ import {useRef, useState} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 
 import Button from '../button/button';
-
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-
 import {LabelType} from '../control-label/control-label';
-
 import Input, {Size} from './input';
 
 export default {
@@ -22,41 +19,41 @@ export const Basic = () => {
   const [borderlessInputValue, setBorderlessInputValue] = useState('Borderless input');
 
   return (
-    <form className="inputs">
-      <Input label="Labeled input" />
-      <Input name="login" label="Label and hint" placeholder="Hint" />
-      <Input label="Label and value" defaultValue="Default value" />
+    <form className='inputs'>
+      <Input label='Labeled input' />
+      <Input name='login' label='Label and hint' placeholder='Hint' />
+      <Input label='Label and value' defaultValue='Default value' />
       <Input
-        label="Clearable input"
+        label='Clearable input'
         value={clearableInputValue}
         onChange={e => setClearableInputValue(e.currentTarget.value)}
         onClear={() => setClearableInputValue('')}
       />
       <Input
-        placeholder="Hint"
-        label="Disabled clearable input"
-        defaultValue="Default value"
+        placeholder='Hint'
+        label='Disabled clearable input'
+        defaultValue='Default value'
         onClear={() => {}}
         disabled
       />
-      <Input label="Input with icon" icon={searchIcon} defaultValue="Default value" />
-      <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint" />
+      <Input label='Input with icon' icon={searchIcon} defaultValue='Default value' />
+      <Input name='login' label='Primary label' labelType={LabelType.FORM} placeholder='Hint' />
       <Input
-        placeholder="Hint"
+        placeholder='Hint'
         value={borderlessInputValue}
         onChange={e => setBorderlessInputValue(e.currentTarget.value)}
         onClear={() => setBorderlessInputValue('')}
         borderless
       />
-      <Input label="Disabled input" disabled defaultValue="Default value" />
-      <Input label="Invalid input" error="Error description that wraps over lines because of being really long" />
-      <Input label="Error without description" error="" />
-      <Input label="Input with help" help="Help text" />
-      <Input label="Short input" size={Size.S} />
-      <Input label="Long input" size={Size.L} />
-      <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'} />
+      <Input label='Disabled input' disabled defaultValue='Default value' />
+      <Input label='Invalid input' error='Error description that wraps over lines because of being really long' />
+      <Input label='Error without description' error='' />
+      <Input label='Input with help' help='Help text' />
+      <Input label='Short input' size={Size.S} />
+      <Input label='Long input' size={Size.L} />
+      <Input label='Autogrowing textarea' multiline defaultValue={'First line\nSecond line'} />
       <Input
-        label="Textarea with disabled autogrowing"
+        label='Textarea with disabled autogrowing'
         multiline
         autogrow={false}
         rows={3}
@@ -96,41 +93,41 @@ export const HeightS = () => {
 
   return (
     <ControlsHeightContext.Provider value={ControlsHeight.S}>
-      <form className="inputs">
-        <Input label="Labeled input" />
-        <Input name="login" label="Label and hint" placeholder="Hint" />
-        <Input label="Label and value" defaultValue="Default value" />
+      <form className='inputs'>
+        <Input label='Labeled input' />
+        <Input name='login' label='Label and hint' placeholder='Hint' />
+        <Input label='Label and value' defaultValue='Default value' />
         <Input
-          label="Clearable input"
+          label='Clearable input'
           value={clearableInputValue}
           onChange={e => setClearableInputValue(e.currentTarget.value)}
           onClear={() => setClearableInputValue('')}
         />
         <Input
-          placeholder="Hint"
-          label="Disabled clearable input"
-          defaultValue="Default value"
+          placeholder='Hint'
+          label='Disabled clearable input'
+          defaultValue='Default value'
           onClear={() => {}}
           disabled
         />
-        <Input label="Input with icon" icon={searchIcon} defaultValue="Default value" />
-        <Input name="login" label="Primary label" labelType={LabelType.FORM} placeholder="Hint" />
+        <Input label='Input with icon' icon={searchIcon} defaultValue='Default value' />
+        <Input name='login' label='Primary label' labelType={LabelType.FORM} placeholder='Hint' />
         <Input
-          placeholder="Hint"
+          placeholder='Hint'
           value={borderlessInputValue}
           onChange={e => setBorderlessInputValue(e.currentTarget.value)}
           onClear={() => setBorderlessInputValue('')}
           borderless
         />
-        <Input label="Disabled input" disabled defaultValue="Default value" />
-        <Input label="Invalid input" error="Error description that wraps over lines because of being really long" />
-        <Input label="Error without description" error="" />
-        <Input label="Input with help" help="Help text" />
-        <Input label="Short input" size={Size.S} />
-        <Input label="Long input" size={Size.L} />
-        <Input label="Autogrowing textarea" multiline defaultValue={'First line\nSecond line'} />
+        <Input label='Disabled input' disabled defaultValue='Default value' />
+        <Input label='Invalid input' error='Error description that wraps over lines because of being really long' />
+        <Input label='Error without description' error='' />
+        <Input label='Input with help' help='Help text' />
+        <Input label='Short input' size={Size.S} />
+        <Input label='Long input' size={Size.L} />
+        <Input label='Autogrowing textarea' multiline defaultValue={'First line\nSecond line'} />
         <Input
-          label="Textarea with disabled autogrowing"
+          label='Textarea with disabled autogrowing'
           multiline
           autogrow={false}
           rows={3}
@@ -146,14 +143,14 @@ export const SelectAll = () => {
   const ref = useRef<HTMLInputElement>(null);
 
   function select() {
-    if (ref.current != null) {
+    if (ref.current) {
       ref.current.select();
     }
   }
 
   return (
     <>
-      <Input defaultValue="Value" inputRef={ref} label="Label" />
+      <Input defaultValue='Value' inputRef={ref} label='Label' />
       <Button style={{marginTop: 4}} data-test-select onClick={select}>
         Select all
       </Button>

@@ -1,4 +1,4 @@
-import TableSelection, {CloneWithConfig, SelectionItem, TableSelectionConfig} from '../table/selection';
+import TableSelection, {type CloneWithConfig, type SelectionItem, type TableSelectionConfig} from '../table/selection';
 
 interface DataListSelectionConfig<T extends SelectionItem> extends TableSelectionConfig<T> {
   partialSelected?: Set<T> | undefined;
@@ -21,6 +21,7 @@ export default class Selection<T extends SelectionItem> extends TableSelection<T
   }
 
   protected _buildSelected(data: Set<T>, selected: Set<T>) {
+    // eslint-disable-next-line no-underscore-dangle
     const _selected = new Set(selected);
 
     [...data].forEach(item => {
@@ -119,7 +120,7 @@ export default class Selection<T extends SelectionItem> extends TableSelection<T
   }
 
   isPartialSelected(value: T | null): boolean {
-    return value != null && this._partialSelected.has(value);
+    return value !== null && value !== undefined && this._partialSelected.has(value);
   }
 
   focus(value: T | null | undefined) {
@@ -134,11 +135,17 @@ export default class Selection<T extends SelectionItem> extends TableSelection<T
     const parentClone = super.cloneWith(rest) as Selection<T>;
 
     return new (this.constructor as typeof Selection)({
+      // eslint-disable-next-line no-underscore-dangle
       data: parentClone._rawData,
+      // eslint-disable-next-line no-underscore-dangle
       selected: parentClone._selected,
+      // eslint-disable-next-line no-underscore-dangle
       focused: parentClone._focused,
+      // eslint-disable-next-line no-underscore-dangle
       getKey: parentClone._getKey,
+      // eslint-disable-next-line no-underscore-dangle
       getChildren: parentClone._getChildren,
+      // eslint-disable-next-line no-underscore-dangle
       isItemSelectable: parentClone._isItemSelectable,
       partialSelected,
     });

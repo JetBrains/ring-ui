@@ -1,9 +1,8 @@
-import {PureComponent, ReactNode} from 'react';
+import {PureComponent, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
-
-import {TabLinkProps} from './tab-link';
+import {type TabLinkProps} from './tab-link';
 
 export interface TabProps {
   title?: ReactNode | ((isSelected: boolean, collapsed: boolean | undefined) => ReactNode);

@@ -1,12 +1,11 @@
-import {HTMLAttributes, PureComponent, ReactNode, RefCallback} from 'react';
+import {type HTMLAttributes, PureComponent, type ReactNode, type RefCallback} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close-12px';
 
-import Icon, {IconType} from '../icon/icon';
+import Icon, {type IconType} from '../icon/icon';
 import Button from '../button/button';
 import {ControlsHeight} from '../global/controls-height';
-
 import styles from './tag.css';
 
 export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
@@ -54,7 +53,7 @@ export default class Tag extends PureComponent<TagProps> {
     readOnly: false,
     disabled: false,
     focused: false,
-    render: props => <button type="button" {...props} />,
+    render: props => <button type='button' {...props} />,
     tagType: TagType.DEFAULT,
   };
 
@@ -131,9 +130,9 @@ export default class Tag extends PureComponent<TagProps> {
     if (!this.props.readOnly && this.props.onRemove) {
       return (
         <Button
-          title="Remove"
+          title='Remove'
           icon={closeIcon}
-          data-test="ring-tag-remove"
+          data-test='ring-tag-remove'
           className={styles.remove}
           onClick={this.props.onRemove}
           style={{'--ring-secondary-color': this.props.textColor}}

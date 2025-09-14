@@ -1,16 +1,13 @@
-import {PureComponent, HTMLAttributes, ReactNode, Children, ReactElement} from 'react';
+import {PureComponent, type HTMLAttributes, type ReactNode, Children, type ReactElement} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
-
 import ControlLabel from '../control-label/control-label';
-
 import ControlHelp from '../control-help/control-help';
-
-import type {ButtonAttrs} from '../button/button';
-
 import Caption from './caption';
 import styles from './button-group.css';
+
+import type {ButtonAttrs} from '../button/button';
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLElement> {
   split?: boolean | null | undefined;
@@ -27,7 +24,7 @@ export default class ButtonGroup extends PureComponent<ButtonGroupProps> {
     const classes = classNames(split ? styles.split : styles.buttonGroup, className, {
       [styles.disabled]: Children.toArray(this.props.children).every(
         child =>
-          child != null &&
+          !!child &&
           typeof child === 'object' &&
           'props' in child &&
           (child as ReactElement<ButtonAttrs>).props.disabled,

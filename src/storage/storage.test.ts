@@ -1,14 +1,14 @@
 // @ts-expect-error no typings
 import mockedWindow from 'storage-mock';
 
-import {StorageInterface} from './storage';
-import LocalStorage from './storage__local';
+import {type StorageInterface} from './storage';
+import LocalStorage from './storage-local';
 
 function noop() {}
 
-type Circular = {
+interface Circular {
   circular?: Circular;
-};
+}
 
 function testStorage(storage: StorageInterface) {
   describe('set', () => {
@@ -86,7 +86,7 @@ function testStorage(storage: StorageInterface) {
       await storage.set('test2', '');
       await storage.set('test3', '');
       await storage.each(iterator);
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+
       expect(iterator).toHaveBeenCalledTimes(3);
     });
 
@@ -106,7 +106,7 @@ function testStorageEvents(storage: StorageInterface) {
       stop?.();
     });
 
-    it('on after set should be fired', async () => {
+    it('on after set should be fired', () => {
       const testEvent = 'testKey';
 
       const change = new Promise<void>(resolve => {
@@ -117,7 +117,7 @@ function testStorageEvents(storage: StorageInterface) {
 
       storage.set(testEvent, 'testValue');
 
-      return await change;
+      return change;
     });
 
     it('on after set should be fired with correct value', () => {

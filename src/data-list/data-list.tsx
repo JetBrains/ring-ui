@@ -5,23 +5,20 @@
 import {PureComponent, Component} from 'react';
 import classNames from 'classnames';
 
-import focusSensorHOC, {FocusSensorAddProps, FocusSensorOuterProps} from '../global/focus-sensor-hoc';
+import focusSensorHOC, {type FocusSensorAddProps, type FocusSensorOuterProps} from '../global/focus-sensor-hoc';
 import selectionShortcutsHOC, {
-  SelectionShortcutsAddProps,
-  SelectionShortcutsOuterProps,
+  type SelectionShortcutsAddProps,
+  type SelectionShortcutsOuterProps,
 } from '../table/selection-shortcuts-hoc';
-import disableHoverHOC, {DisableHoverAddProps} from '../table/disable-hover-hoc';
+import disableHoverHOC, {type DisableHoverAddProps} from '../table/disable-hover-hoc';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
-
-import {SelectionItem} from '../table/selection';
-
-import Selection from './selection';
-
-import Item, {FormattedItem, moreLessButtonStates} from './item';
-
+import {type SelectionItem} from '../table/selection';
+import Item, {type FormattedItem, moreLessButtonStates} from './item';
 import styles from './data-list.css';
+
+import type Selection from './selection';
 
 export interface DataListBaseProps<T extends SelectionItem> {
   data: readonly T[];
@@ -81,7 +78,7 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
     const {selection, itemFormatter} = this.props;
 
     const focused = selection.getFocused();
-    if (focused == null) {
+    if (!focused) {
       throw new Error('No focused item');
     }
     const item = itemFormatter(focused);
@@ -109,7 +106,7 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
     });
 
     return (
-      <div className={styles.dataListWrapper} data-test="ring-data-list" ref={innerRef}>
+      <div className={styles.dataListWrapper} data-test='ring-data-list' ref={innerRef}>
         {focused && <Shortcuts map={shortcutsMap} scope={this.shortcutsScope} />}
 
         <ul className={classes}>

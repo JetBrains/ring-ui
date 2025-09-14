@@ -1,4 +1,4 @@
-import {PureComponent, HTMLAttributes} from 'react';
+import {PureComponent, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import styles from './button-group.css';

@@ -1,14 +1,14 @@
 import {render, screen} from '@testing-library/react';
 
 import {Tabs, Tab} from './tabs';
-import {TabsAttrs} from './dumb-tabs';
+import {type TabsAttrs} from './dumb-tabs';
 
 describe('Tabs', () => {
   const renderTabs = (props?: Partial<TabsAttrs>) =>
     render(
       <Tabs {...props}>
-        <Tab title="1" />
-        <Tab title="2" />
+        <Tab title='1' />
+        <Tab title='2' />
       </Tabs>,
     );
 

@@ -1,18 +1,14 @@
-import {PureComponent, ReactElement} from 'react';
+import {PureComponent, type ReactElement} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
 import memoize from '../global/memoize';
-
 import dataTests from '../global/data-tests';
-
 import styles from './tabs.css';
-
 import TabLink from './tab-link';
-import CollapsibleTabs, {CollapsibleTabsProps} from './collapsible-tabs';
+import CollapsibleTabs, {type CollapsibleTabsProps} from './collapsible-tabs';
 import {CustomItem} from './custom-item';
-
-import {TabProps} from './tab';
+import {type TabProps} from './tab';
 
 export {CustomItem};
 
@@ -32,7 +28,7 @@ class Tabs extends PureComponent<TabsProps> {
   handleSelect = memoize((key: string) => () => this.props.onSelect?.(key));
 
   getTabTitle = (child: ReactElement<TabProps>, i: number) => {
-    if (child == null || typeof child !== 'object' || child.type === CustomItem) {
+    if (child === null || typeof child !== 'object' || child.type === CustomItem) {
       return child;
     }
 
@@ -52,7 +48,7 @@ class Tabs extends PureComponent<TabsProps> {
         href={href}
         className={titleClasses}
         disabled={disabled}
-        onPlainLeftClick={onSelect != null ? this.handleSelect(key) : undefined}
+        onPlainLeftClick={onSelect ? this.handleSelect(key) : undefined}
         {...titleProps}
       />
     );
@@ -76,11 +72,7 @@ class Tabs extends PureComponent<TabsProps> {
     return (
       <div className={classes} data-test={dataTests('ring-dumb-tabs', dataTest)}>
         {autoCollapse === true ? (
-          <CollapsibleTabs
-            {...restProps}
-            onSelect={onSelect != null ? this.handleSelect : undefined}
-            selected={selected}
-          >
+          <CollapsibleTabs {...restProps} onSelect={onSelect ? this.handleSelect : undefined} selected={selected}>
             {childrenArray}
           </CollapsibleTabs>
         ) : (

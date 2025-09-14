@@ -1,9 +1,8 @@
-import {ReactNode} from 'react';
-
+import {type ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
 
-import Confirm, {ConfirmAttributes} from '../confirm/confirm';
-import {ControlsHeight, ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
+import Confirm, {type ConfirmAttributes} from '../confirm/confirm';
+import {type ControlsHeight, ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
 
 /**
  * @name Confirm Service

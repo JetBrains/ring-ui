@@ -1,8 +1,8 @@
-import {SyntheticEvent} from 'react';
+import {type SyntheticEvent} from 'react';
 
-import Popup, {BasePopupProps} from '../popup/popup';
-import List, {ListProps as ListPropsType} from '../list/list';
-import {ListDataItem} from '../list/consts';
+import Popup, {type BasePopupProps} from '../popup/popup';
+import List, {type ListProps as ListPropsType} from '../list/list';
+import {type ListDataItem} from '../list/consts';
 
 export interface PopupMenuProps<T = unknown>
   extends Omit<ListPropsType<T>, 'maxHeight' | 'hidden'>,

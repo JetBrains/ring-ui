@@ -1,9 +1,8 @@
 import {Component} from 'react';
 import classNames from 'classnames';
 
-import Button, {ButtonAttrs} from '../button/button';
-import {IconType} from '../icon/icon';
-
+import Button, {type ButtonAttrs} from '../button/button';
+import {type IconType} from '../icon';
 import styles from './header.css';
 
 export interface HeaderIconSpecificProps {

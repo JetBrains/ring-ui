@@ -1,9 +1,15 @@
-import {PureComponent, ReactNode, ComponentType, HTMLAttributes, MouseEventHandler, ComponentClass} from 'react';
+import {
+  PureComponent,
+  type ReactNode,
+  type ComponentType,
+  type HTMLAttributes,
+  type MouseEventHandler,
+  type ComponentClass,
+} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
-
-import ClickableLink, {ClickableLinkProps} from './clickableLink';
+import ClickableLink, {type ClickableLinkProps} from './clickable-link';
 import styles from './link.css';
 
 /**
@@ -41,7 +47,7 @@ export function linkHOC<P extends ClickableLinkProps>(
         onClick,
         ...restProps
       } = this.props;
-      const useButton = pseudo || (!isCustom && href == null);
+      const useButton = pseudo || (!isCustom && (href === null || href === undefined));
 
       const classes = classNames(styles.link, className, {
         [styles.active]: active,
@@ -58,7 +64,7 @@ export function linkHOC<P extends ClickableLinkProps>(
       if (useButton) {
         return (
           <button
-            type="button"
+            type='button'
             {...(props as HTMLAttributes<HTMLElement>)}
             className={classes}
             onClick={(onClick || onPlainLeftClick) as MouseEventHandler}

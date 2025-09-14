@@ -1,7 +1,7 @@
 import {render, screen, fireEvent, within, act} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import TagsInput, {TagsInputAttrs} from './tags-input';
+import TagsInput, {type TagsInputAttrs} from './tags-input';
 
 describe('Tags Input', () => {
   const fakeTags = [{key: 1, label: 'test1'}];

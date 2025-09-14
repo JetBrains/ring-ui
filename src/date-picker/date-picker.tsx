@@ -1,7 +1,6 @@
-import {PureComponent, Ref, ButtonHTMLAttributes} from 'react';
+import {PureComponent, type Ref, type ButtonHTMLAttributes} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
-import type {Locale} from 'date-fns';
 import {format as formatDate} from 'date-fns/format';
 import {isSameDay} from 'date-fns/isSameDay';
 import {isSameMonth} from 'date-fns/isSameMonth';
@@ -9,26 +8,23 @@ import {isSameYear} from 'date-fns/isSameYear';
 import {isValid} from 'date-fns/isValid';
 import {parse} from 'date-fns/parse';
 import {set} from 'date-fns/set';
-
 import calendarIcon from '@jetbrains/icons/calendar';
 import chevronDownIcon from '@jetbrains/icons/chevron-down';
 
 import memoize from '../global/memoize';
-
-import Popup, {PopupAttrs} from '../popup/popup';
-import Dropdown, {DropdownAttrs} from '../dropdown/dropdown';
+import Popup, {type PopupAttrs} from '../popup/popup';
+import Dropdown, {type DropdownAttrs} from '../dropdown/dropdown';
 import Icon from '../icon';
 import Button from '../button/button';
 import Link from '../link/link';
-
 import {Size} from '../input/input';
-
 import {I18nContext} from '../i18n/i18n-context';
-
-import DatePopup, {DatePopupProps} from './date-popup';
-import {DateInputTranslations, DatePickerChange} from './consts';
+import DatePopup, {type DatePopupProps} from './date-popup';
+import {type DateInputTranslations, type DatePickerChange} from './consts';
 import styles from './date-picker.css';
 import formats from './formats';
+
+import type {Locale} from 'date-fns';
 
 interface PopupComponentProps extends Partial<PopupAttrs> {
   hidden?: boolean;
@@ -114,7 +110,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     onChange() {},
     applyTimeInput(date, timeString) {
       const [hours, minutes] = timeString?.split(':').map(Number) ?? [];
-      return minutes != null ? set(date, {hours, minutes}) : date;
+      return minutes !== null && minutes !== undefined ? set(date, {hours, minutes}) : date;
     },
     parseDateInput(string) {
       if (!string) {
@@ -137,7 +133,9 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   handleChange = (change: DatePickerChange | Date | null | undefined) => {
     const {onChange, withTime, applyTimeInput} = this.props;
     const adjustedChange =
-      withTime && !(change instanceof Date) && change?.date != null ? applyTimeInput(change.date, change.time) : change;
+      withTime && !(change instanceof Date) && change?.date !== null && change?.date !== undefined
+        ? applyTimeInput(change.date, change.time)
+        : change;
     onChange(adjustedChange as Date & DatePickerChange);
   };
 
@@ -156,6 +154,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   };
 
   closePopup = () => {
+    // eslint-disable-next-line no-underscore-dangle
     this.popup?._onCloseAttempt();
   };
 
@@ -175,12 +174,13 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   formatTime() {
     const {displayTimeFormat, locale} = this.props;
     const date = this.parse(this.props.date);
-    if (date != null) {
+    if (date !== null && date !== undefined) {
       return displayTimeFormat(date, locale);
     }
     return null;
   }
 
+  // eslint-disable-next-line complexity
   getAnchorText = () => {
     const {
       range,
@@ -203,29 +203,32 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
 
     if (!range && !withTime) {
       return date ? displayFormat(date, locale) : (datePlaceholder ?? translations?.setDate ?? translate('setDate'));
-    } else if (!range && withTime) {
+    }
+    if (!range && withTime) {
       if (!date && !time) {
         return dateTimePlaceholder ?? translations?.setDateTime ?? translate('setDateTime');
-      } else {
-        return `${(date && displayFormat(date, locale)) || '—'}, ${time || '—'}`;
       }
-    } else if (from && to) {
+      return `${(date && displayFormat(date, locale)) || '—'}, ${time || '—'}`;
+    }
+    if (from && to) {
       if (!isSameYear(from, to)) {
         return `${displayFormat(from, locale)} — ${displayFormat(to, locale)}`;
-      } else if (!isSameMonth(from, to)) {
-        return `${displayMonthFormat(from, locale)} — ${displayFormat(to, locale)}`;
-      } else if (!isSameDay(from, to)) {
-        return `${displayDayFormat(from, locale)} — ${displayFormat(to, locale)}`;
-      } else {
-        return `${displayFormat(to, locale)}`;
       }
-    } else if (from) {
-      return `${displayFormat(from, locale)} —`;
-    } else if (to) {
-      return `— ${displayFormat(to, locale)}`;
-    } else {
-      return rangePlaceholder ?? translations?.setPeriod ?? translate('setPeriod');
+      if (!isSameMonth(from, to)) {
+        return `${displayMonthFormat(from, locale)} — ${displayFormat(to, locale)}`;
+      }
+      if (!isSameDay(from, to)) {
+        return `${displayDayFormat(from, locale)} — ${displayFormat(to, locale)}`;
+      }
+      return `${displayFormat(to, locale)}`;
     }
+    if (from) {
+      return `${displayFormat(from, locale)} —`;
+    }
+    if (to) {
+      return `— ${displayFormat(to, locale)}`;
+    }
+    return rangePlaceholder ?? translations?.setPeriod ?? translate('setPeriod');
   };
 
   render() {
@@ -247,7 +250,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
       <Dropdown
         className={classes}
         disabled={this.props.disabled}
-        data-test="ring-date-picker"
+        data-test='ring-date-picker'
         anchor={
           inline ? (
             <Link

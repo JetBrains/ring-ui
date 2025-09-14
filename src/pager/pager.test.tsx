@@ -1,8 +1,7 @@
 import {getByTestId, queryByTestId, render, screen} from '@testing-library/react';
 
 import {I18nContextHolder} from '../i18n/i18n-context';
-
-import Pager, {PagerAttrs} from './pager';
+import Pager, {type PagerAttrs} from './pager';
 import styles from './pager.css';
 
 describe('Pager', () => {

@@ -1,11 +1,10 @@
-import {ReactNode} from 'react';
+import {type ReactNode} from 'react';
 import * as React from 'react';
 
 import alertService from '../alert-service/alert-service';
 import Alert from '../alert/alert';
 import Link from '../link/link';
 import Group from '../group/group';
-
 import styles from './down-notification.css';
 
 let key: string | number | null = null;
@@ -36,12 +35,12 @@ function Message({translations, onCheckAgain}: BackendDownMessageProps) {
   const {backendIsNotAvailable, checkAgain, errorMessage} = translations;
 
   return (
-    <div data-test="ring-backend-down-notification">
+    <div data-test='ring-backend-down-notification'>
       <Group>
         <div className={styles.title}>{backendIsNotAvailable}</div>
       </Group>
       <span className={styles.error}>{errorMessage} </span>
-      <Link onClick={onCheckAgain} data-test="check-again">
+      <Link onClick={onCheckAgain} data-test='check-again'>
         {checkAgain}
       </Link>
     </div>

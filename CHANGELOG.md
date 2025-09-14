@@ -1,3 +1,6 @@
+## [7.0.61]
+- Renamed some global files to kebab-case (`global/composeRefs.ts -> global/compose-refs.ts`, `link/clickableLink.tsx -> link/clickable-link.tsx`), old names are deprecated.
+
 ## [7.0.0]
 
 ### BREAKING CHANGES

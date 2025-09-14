@@ -2,8 +2,7 @@ import {render} from '@testing-library/react';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
 import getUID from '../global/get-uid';
-
-import Shortcuts, {ShortcutsProps} from './shortcuts';
+import Shortcuts, {type ShortcutsProps} from './shortcuts';
 
 type ShortcutsAttrs = React.JSX.LibraryManagedAttributes<typeof Shortcuts, ShortcutsProps>;
 type FactoryProps = Omit<ShortcutsAttrs, 'map' | 'scope'>;

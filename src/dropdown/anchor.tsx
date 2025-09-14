@@ -1,8 +1,7 @@
 import {memo} from 'react';
 import classNames from 'classnames';
 
-import Button, {ButtonAttrs} from '../button/button';
-
+import Button, {type ButtonAttrs} from '../button/button';
 import styles from './dropdown.css';
 
 const Anchor = ({children, className, ...restProps}: ButtonAttrs) => (

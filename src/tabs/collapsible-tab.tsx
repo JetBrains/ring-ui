@@ -1,12 +1,11 @@
-import {ReactElement} from 'react';
+import {type ReactElement} from 'react';
 import * as React from 'react';
-
 import classNames from 'classnames';
 
 import styles from './tabs.css';
 import TabLink from './tab-link';
 import {CustomItem} from './custom-item';
-import {TabProps} from './tab';
+import {type TabProps} from './tab';
 
 export interface TabTitleProps {
   selected: boolean;
@@ -22,7 +21,7 @@ const TabTitle = React.memo(function TabTitle({
   collapsed = false,
   tabIndex,
 }: TabTitleProps) {
-  if (child == null || typeof child !== 'object' || child.type === CustomItem) {
+  if (child === null || typeof child !== 'object' || child.type === CustomItem) {
     return child;
   }
 

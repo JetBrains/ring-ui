@@ -1,22 +1,16 @@
-import {memo, useMemo, ReactElement, ReactNode} from 'react';
-
+import {memo, useMemo, type ReactElement, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import {Directions} from '../popup/popup.consts';
 import PopupMenu, {ListProps} from '../popup-menu/popup-menu';
-
 import Dropdown from '../dropdown/dropdown';
-
-import {ListDataItem} from '../list/consts';
-
-import {ButtonButtonProps, ContainerProps} from '../button/button';
-
+import {type ListDataItem} from '../list/consts';
+import {type ButtonButtonProps, type ContainerProps} from '../button/button';
 import Anchor from '../dropdown/anchor';
-
 import styles from './tabs.css';
 import getTabTitles from './collapsible-tab';
 import {CustomItem} from './custom-item';
-import {TabProps} from './tab';
+import {type TabProps} from './tab';
 
 export interface FakeMoreButtonProps {
   hasActiveChildren: boolean;
@@ -66,7 +60,7 @@ export const MoreButton = memo(
   }: MoreButtonProps) => {
     const onSelectHandler = useMemo(
       () =>
-        onSelect != null
+        (onSelect
           ? (listItem: ListDataItem) => {
               if (listItem.disabled === true || listItem.custom === true) {
                 return;
@@ -75,7 +69,7 @@ export const MoreButton = memo(
               const cb = onSelect(String(listItem.key));
               cb();
             }
-          : undefined,
+          : undefined),
       [onSelect],
     );
 

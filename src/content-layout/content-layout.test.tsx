@@ -16,7 +16,7 @@ describe('Content Layout', () => {
   });
 
   it('should use passed className', () => {
-    render(<ContentLayout className="test-class" />);
+    render(<ContentLayout className='test-class' />);
     expect(screen.getByTestId('content-layout')).to.have.class('test-class');
   });
 

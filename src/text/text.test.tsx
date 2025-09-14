@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react';
 
-import Text, {TextProps} from './text';
+import Text, {type TextProps} from './text';
 
 describe('Text', () => {
   const renderText = (props?: TextProps) => render(<Text {...props} />);

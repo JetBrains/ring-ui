@@ -1,8 +1,7 @@
 import {createRoot} from 'react-dom/client';
 
 import {ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
-
-import AuthDialog, {AuthDialogProps} from '../auth-dialog/auth-dialog';
+import AuthDialog, {type AuthDialogProps} from '../auth-dialog/auth-dialog';
 
 /**
  * @name Auth Dialog Service

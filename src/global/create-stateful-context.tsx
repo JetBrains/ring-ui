@@ -1,4 +1,4 @@
-import {createContext, memo, useContext, useEffect, useState, ReactNode} from 'react';
+import {createContext, memo, useContext, useEffect, useState, type ReactNode} from 'react';
 
 type Update<T> = (value: T) => void;
 export interface ProviderProps {

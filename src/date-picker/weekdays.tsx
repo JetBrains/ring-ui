@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import type {Locale} from 'date-fns';
 import {getDay} from 'date-fns/getDay';
 import {format} from 'date-fns/format';
 import {setDay} from 'date-fns/setDay';
@@ -7,6 +6,8 @@ import {startOfDay} from 'date-fns/startOfDay';
 
 import {getWeekStartsOn, shiftWeekArray, weekdays} from './consts';
 import styles from './date-picker.css';
+
+import type {Locale} from 'date-fns';
 
 interface WeekdaysProps {
   locale: Locale | undefined;

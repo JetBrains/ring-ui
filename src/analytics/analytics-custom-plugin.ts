@@ -1,4 +1,4 @@
-import {AnalyticsPlugin, Serializable} from './analytics';
+import {type AnalyticsPlugin, type Serializable} from './analytics';
 
 const DEFAULT_FLUSH_INTERVAL = 10000;
 const DEFAULT_FLUSH_MAX_PACK_SIZE = 100;
@@ -62,7 +62,7 @@ export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
   private _initSendSchedule() {
     window.addEventListener('beforeunload', () => this._flush?.());
 
-    if (this._flush != null) {
+    if (this._flush) {
       setInterval(this._flush, this._flushInterval);
     }
     this._hasSendSchedule = true;
@@ -82,7 +82,7 @@ export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
   private _addDataToFlushingPack(sendingData: AnalyticsCustomPluginData) {
     this._data.push(sendingData);
 
-    if (this._flushMaxPackSize != null && this._data.length >= this._flushMaxPackSize) {
+    if (this._flushMaxPackSize && this._data.length >= this._flushMaxPackSize) {
       this._flush?.();
     }
   }

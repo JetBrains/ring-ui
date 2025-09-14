@@ -1,10 +1,9 @@
 import {Component} from 'react';
 
 import LoaderInline from '../loader-inline/loader-inline';
-
-import UserCardTooltip, {UserCardTooltipAttrs} from './tooltip';
+import UserCardTooltip, {type UserCardTooltipAttrs} from './tooltip';
 import styles from './user-card.css';
-import {UserCardUser} from './card';
+import {type UserCardUser} from './card';
 
 export interface SmartUserCardTooltipProps extends UserCardTooltipAttrs {
   userDataSource: () => Promise<UserCardUser | null | undefined> | UserCardUser | null | undefined;
@@ -32,13 +31,13 @@ export default class SmartUserCardTooltip extends Component<SmartUserCardTooltip
   };
 
   renderNoUser = () =>
-    this.state.loading ? (
+    (this.state.loading ? (
       <div className={styles.userCardSpaced}>
         <LoaderInline />
       </div>
     ) : (
       ''
-    );
+    ));
 
   render() {
     const {user} = this.state;

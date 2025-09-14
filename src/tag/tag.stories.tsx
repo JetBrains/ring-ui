@@ -31,14 +31,14 @@ export const demo = () => {
                   <Tag outline={outline} tagType={type} readOnly>
                     Read-only
                   </Tag>
-                  <Tag outline={outline} tagType={type} className="limited-width" onRemove={noop}>
+                  <Tag outline={outline} tagType={type} className='limited-width' onRemove={noop}>
                     With long truncated text
                   </Tag>
                   <Tag
                     outline={outline}
                     tagType={type}
                     rgTagIcon={tagIcon}
-                    rgTagTitle="I am an icon title"
+                    rgTagTitle='I am an icon title'
                     onRemove={noop}
                   >
                     With icon title
@@ -51,7 +51,7 @@ export const demo = () => {
                     tagType={type}
                     onRemove={noop}
                     render={({children, ...restProps}) => (
-                      <a href="/" {...restProps}>
+                      <a href='/' {...restProps}>
                         {children}
                       </a>
                     )}

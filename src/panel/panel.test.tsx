@@ -9,7 +9,7 @@ describe('Panel', () => {
   });
 
   it('should use provided className', () => {
-    render(<Panel className="custom-class" />);
+    render(<Panel className='custom-class' />);
     expect(screen.getByTestId('ring-panel')).to.have.class('custom-class');
   });
 

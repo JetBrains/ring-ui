@@ -1,6 +1,6 @@
 import {getByRole, render, screen} from '@testing-library/react';
 
-import Input, {InputAttrs} from './input';
+import Input, {type InputAttrs} from './input';
 
 describe('Input', () => {
   const renderInput = (props?: InputAttrs) => {

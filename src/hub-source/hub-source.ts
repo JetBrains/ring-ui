@@ -1,5 +1,5 @@
-import Auth from '../auth/auth';
-import HTTP from '../http/http';
+import type Auth from '../auth/auth';
+import type HTTP from '../http/http';
 
 export interface Item {
   name: string;

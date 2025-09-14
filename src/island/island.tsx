@@ -1,10 +1,8 @@
-import {Component, HTMLAttributes} from 'react';
+import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
-
 import adaptiveIslandHOC from './adaptive-island-hoc';
-
 import styles from './island.css';
 
 export interface IslandProps extends HTMLAttributes<HTMLElement> {

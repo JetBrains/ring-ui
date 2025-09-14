@@ -1,6 +1,5 @@
 import alert from '../alert-service/alert-service';
-
-import {StorageInterface, StorageConfig} from './storage';
+import {type StorageInterface, type StorageConfig} from './storage';
 
 /**
  * @return {LocalStorage}
@@ -37,14 +36,14 @@ export default class LocalStorage implements StorageInterface {
   get<T>(name: string) {
     return LocalStorage.safePromise<T | null>(resolve => {
       const value = window[this.storageType].getItem(name);
-      if (value != null) {
+      if (value) {
         try {
           resolve(JSON.parse(value));
         } catch (e) {
           resolve(value as never);
         }
       } else {
-        resolve(value);
+        resolve(null);
       }
     });
   }
@@ -69,7 +68,7 @@ export default class LocalStorage implements StorageInterface {
     const storageType = this.storageType;
 
     return LocalStorage.safePromise<void>(resolve => {
-      if (window[storageType].hasOwnProperty(name)) {
+      if (Object.prototype.hasOwnProperty.call(window[storageType], name)) {
         window[storageType].removeItem(name);
       }
       resolve();
@@ -87,10 +86,10 @@ export default class LocalStorage implements StorageInterface {
       const promises = [];
 
       for (const item in window[storageType]) {
-        if (window[storageType].hasOwnProperty(item)) {
+        if (Object.prototype.hasOwnProperty.call(window[storageType], item)) {
           const value = window[storageType].getItem(item);
           let resolvedValue: unknown = null;
-          if (value != null) {
+          if (value) {
             try {
               resolvedValue = JSON.parse(value);
             } catch (e) {
@@ -114,14 +113,14 @@ export default class LocalStorage implements StorageInterface {
   on<T>(name: string, callback: (value: T | null) => void) {
     function handleStorage(e: StorageEvent) {
       if (e.key === name) {
-        if (e.newValue != null) {
+        if (e.newValue) {
           try {
             callback(JSON.parse(e.newValue));
           } catch (err) {
             callback(e.newValue as never);
           }
         } else {
-          callback(e.newValue);
+          callback(null);
         }
       }
     }

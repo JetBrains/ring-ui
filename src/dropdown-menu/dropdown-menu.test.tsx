@@ -1,10 +1,8 @@
 import {render, screen} from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
-
 import {act} from 'react';
 
-import DropdownMenu, {DropdownMenuProps} from './dropdown-menu';
+import DropdownMenu, {type DropdownMenuProps} from './dropdown-menu';
 
 const waitForCondition = (condition: () => boolean, rejectMessage: string) =>
   new Promise<void>((resolve, reject) => {
@@ -26,7 +24,7 @@ const waitForCondition = (condition: () => boolean, rejectMessage: string) =>
   });
 
 describe('Dropdown Menu', () => {
-  const renderDropdownMenu = <T,>(props: DropdownMenuProps<T>) => render(<DropdownMenu id="test-list-id" {...props} />);
+  const renderDropdownMenu = <T,>(props: DropdownMenuProps<T>) => render(<DropdownMenu id='test-list-id' {...props} />);
 
   const renderAndWaitForMenuContent = async <T,>(props: DropdownMenuProps<T>) => {
     renderDropdownMenu(props);

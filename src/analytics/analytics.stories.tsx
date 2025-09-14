@@ -1,7 +1,6 @@
 import Link from '../link/link';
-
 import analytics from './analytics';
-import AnalyticsCustomPlugin from './analytics__custom-plugin';
+import AnalyticsCustomPlugin from './analytics-custom-plugin';
 
 export default {
   title: 'Components/Analytics',

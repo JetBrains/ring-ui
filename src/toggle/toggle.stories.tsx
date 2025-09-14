@@ -30,15 +30,15 @@ export const basic = () => (
       </Toggle>
     </div>
     <div>
-      <Toggle size={Size.Size14} leftLabel="With label on the left" />
+      <Toggle size={Size.Size14} leftLabel='With label on the left' />
     </div>
     <div>
-      <Toggle size={Size.Size14} help="Help text">
+      <Toggle size={Size.Size14} help='Help text'>
         With help text
       </Toggle>
     </div>
     <div>
-      <Toggle size={Size.Size14} help="Help text" disabled>
+      <Toggle size={Size.Size14} help='Help text' disabled>
         With help text disabled
       </Toggle>
     </div>
@@ -58,13 +58,13 @@ export const basic = () => (
       </Toggle>
     </div>
     <div>
-      <Toggle leftLabel="With label on the left" />
+      <Toggle leftLabel='With label on the left' />
     </div>
     <div>
-      <Toggle help="Help text">With help text</Toggle>
+      <Toggle help='Help text'>With help text</Toggle>
     </div>
     <div>
-      <Toggle help="Help text" disabled>
+      <Toggle help='Help text' disabled>
         With help text disabled
       </Toggle>
     </div>
@@ -89,15 +89,15 @@ export const basic = () => (
         </Toggle>
       </div>
       <div>
-        <Toggle size={Size.Size20} leftLabel="With label on the left" />
+        <Toggle size={Size.Size20} leftLabel='With label on the left' />
       </div>
       <div>
-        <Toggle size={Size.Size20} help="Help text">
+        <Toggle size={Size.Size20} help='Help text'>
           With help text
         </Toggle>
       </div>
       <div>
-        <Toggle size={Size.Size20} help="Help text" disabled>
+        <Toggle size={Size.Size20} help='Help text' disabled>
           With help text disabled
         </Toggle>
       </div>

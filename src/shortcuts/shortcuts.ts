@@ -1,6 +1,6 @@
 import {PureComponent, type ReactNode} from 'react';
 
-import shortcuts, {ShortcutsMap, ShortcutsScopeOptions} from './core';
+import shortcuts, {type ShortcutsMap, type ShortcutsScopeOptions} from './core';
 
 export interface ShortcutsProps {
   map: ShortcutsMap;
