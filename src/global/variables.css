@@ -120,6 +120,8 @@
   --ring-warning-color: rgb(var(--ring-warning-components)); /* #B65416 */ /* Prefer using warning icon + regular text color */
   --ring-success-components: 31, 117, 54;
   --ring-success-color: rgb(var(--ring-success-components)); /* #1F7536 */ /* Prefer using success icon + regular text color */
+  --ring-purple-text-components: 131, 77, 240;
+  --ring-purple-text-color: rgb(var(--ring-purple-text-components)); /* #834DF0 */
   --ring-text-components: 39, 40, 46;
   --ring-text-color: rgb(var(--ring-text-components)); /* #27282E */
   --ring-active-text-color: var(--ring-text-color);

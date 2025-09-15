@@ -132,6 +132,7 @@ const renderColors = () => (
       <ColorItem propName="--ring-error-color" />
       <ColorItem propName="--ring-warning-color" />
       <ColorItem propName="--ring-success-color" />
+      <ColorItem propName="--ring-purple-text-color" />
       <ColorItem propName="--ring-text-color" />
       <ColorItem propName="--ring-active-text-color" />
       <ColorItem propName="--ring-white-text-color" />
