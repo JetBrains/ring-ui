@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .alertContainer {
   position: fixed;
@@ -20,7 +20,7 @@
 }
 
 .alertInContainer {
-  composes: alert from "./alert.css";
+  composes: alert from './alert.css';
 
   overflow-y: auto;
 

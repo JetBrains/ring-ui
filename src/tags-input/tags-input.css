@@ -1,6 +1,6 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value outerContainer, container, input from "../input/input.css";
+@value outerContainer, container, input from '../input/input.css';
 
 .tagsInput {
   --ring-input-icon-offset: calc(var(--ring-unit) * 2.5);
@@ -60,7 +60,7 @@
 
   caret-color: var(--ring-main-color);
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-right: var(--ring-input-padding-start);
     padding-left: var(--ring-input-padding-end);
   }

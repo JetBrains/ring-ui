@@ -1,8 +1,8 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .tableWrapper {
   --ring-table-compensate: 2px;
-  --ring-table-compensated:  calc(calc(4 * var(--ring-unit)) - var(--ring-table-compensate));
+  --ring-table-compensated: calc(calc(4 * var(--ring-unit)) - var(--ring-table-compensate));
   --ring-table-top: -3px;
 
   position: relative;
@@ -20,7 +20,7 @@
 }
 
 .headerCell {
-  composes: font-smaller-lower from "../global/global.css";
+  composes: font-smaller-lower from '../global/global.css';
 
   box-sizing: border-box;
   height: calc(var(--ring-unit) * 3);
@@ -81,7 +81,7 @@
   padding-bottom: 6px;
 
   color: var(--ring-text-color);
-  border-bottom: none;
+  border-bottom: 0;
 
   font-size: var(--ring-font-size);
   font-weight: var(--ring-font-weight-bold);
@@ -95,7 +95,7 @@
 
   height: 1px;
 
-  content: "";
+  content: '';
 
   background-color: var(--ring-line-color);
 }
@@ -147,7 +147,7 @@
 }
 
 .cell {
-  composes: ellipsis from "../global/global.css";
+  composes: ellipsis from '../global/global.css';
 
   box-sizing: content-box;
 

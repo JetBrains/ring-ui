@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .radio {
   position: relative;
@@ -48,7 +48,7 @@
     width: var(--ring-unit);
     height: var(--ring-unit);
 
-    content: "";
+    content: '';
 
     transition:
       opacity var(--ring-fast-ease),

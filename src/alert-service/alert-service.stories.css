@@ -1,6 +1,6 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value icon from "../button/button.css";
+@value icon from '../button/button.css';
 
 .customAlert {
   color: var(--ring-white-text-color);

@@ -20,7 +20,7 @@
 .trigger {
   cursor: pointer;
 
-  border: none;
+  border: 0;
   outline: none;
   background: transparent;
 }

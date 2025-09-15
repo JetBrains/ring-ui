@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 :root,
 :host {
@@ -55,15 +55,13 @@
     bottom: 0;
     left: 0;
 
-    content: "";
+    content: '';
     animation: progress-bar-animation 2500ms linear infinite;
 
-    background-image: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0),
-      var(--ring-progress-bar-line-background-color),
-      rgba(0, 0, 0, 0)
-    );
+    background-image: linear-gradient(to right,
+    rgba(0, 0, 0, 0),
+    var(--ring-progress-bar-line-background-color),
+    rgba(0, 0, 0, 0));
     background-repeat: no-repeat;
   }
 

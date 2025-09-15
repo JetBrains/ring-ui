@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .inline {
   &,
@@ -10,7 +10,7 @@
 .markdown {
   --ring-markdown-p-margin: 10px;
 
-  composes: font from "../global/global.css";
+  composes: font from '../global/global.css';
 
   & ol,
   & ul {
@@ -44,7 +44,7 @@
   & hr {
     margin: var(--ring-markdown-p-margin) 0;
 
-    border: none;
+    border: 0;
     border-bottom: 1px solid var(--ring-line-color);
   }
 

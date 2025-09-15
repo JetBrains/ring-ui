@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .loaderScreen {
   position: absolute;
@@ -14,7 +14,7 @@
 
     height: 100%;
 
-    content: "";
+    content: '';
 
     vertical-align: middle;
   }

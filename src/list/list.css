@@ -1,7 +1,7 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 /* ensure style order */
-@import "../link/link.css";
+@import '../link/link.css';
 
 .list {
   position: relative;
@@ -43,7 +43,7 @@
   margin-top: 0;
   padding-top: 0;
 
-  border: none;
+  border: 0;
 }
 
 .item {
@@ -107,7 +107,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     text-align: right;
     direction: ltr;
   }
@@ -268,7 +268,7 @@
 
   text-align: left;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     text-align: right;
     direction: ltr;
   }

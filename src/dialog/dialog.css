@@ -1,7 +1,7 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value header, scrollableWrapper from "../island/island.css";
-@value panel from "../panel/panel.css";
+@value header, scrollableWrapper from '../island/island.css';
+@value panel from '../panel/panel.css';
 
 .container {
   position: fixed;
@@ -24,7 +24,7 @@
 
   padding: 0;
 
-  border: none;
+  border: 0;
   background: transparent;
 }
 
@@ -58,7 +58,7 @@
     margin-top: 0;
     padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 4);
 
-    border-top: none;
+    border-top: 0;
 
     background-color: transparent;
   }

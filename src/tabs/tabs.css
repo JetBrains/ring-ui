@@ -1,7 +1,7 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 /* ensure styles order */
-@import "../link/link.css";
+@import '../link/link.css';
 
 :root,
 :host {
@@ -16,7 +16,7 @@
   --ring-tabs-line-shadow: inset 0 -1px 0 0;
   --ring-tabs-selected-line-shadow: inset 0 -2px 0 0;
 
-  composes: font from "../global/global.css";
+  composes: font from '../global/global.css';
 }
 
 .titles {
@@ -34,7 +34,7 @@
 }
 
 .title {
-  composes: font from "../global/global.css";
+  composes: font from '../global/global.css';
 
   position: relative;
 
@@ -46,7 +46,7 @@
 
   color: inherit;
 
-  border: none;
+  border: 0;
   border-radius: 0;
   background: none;
 
@@ -191,7 +191,7 @@
 .collapsed.collapsed {
   width: 100%;
 
-  border-bottom: none;
+  border-bottom: 0;
   box-shadow: none;
 
   line-height: calc(var(--ring-unit) * 3);

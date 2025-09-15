@@ -1,7 +1,7 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .footer {
-  composes: font from "../global/global.css";
+  composes: font from '../global/global.css';
 
   position: relative;
 

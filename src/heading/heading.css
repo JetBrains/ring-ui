@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .contentWithHeadings {
   & h1,
@@ -59,7 +59,7 @@
 }
 
 .heading {
-  composes: font from "../global/global.css";
+  composes: font from '../global/global.css';
   composes: contentWithHeadings;
 }
 

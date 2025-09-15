@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .dialog.dialog {
   width: auto;
@@ -6,7 +6,7 @@
 }
 
 .content {
-  composes: font from "../global/global.css";
+  composes: font from '../global/global.css';
 
   display: flex;
   align-items: center;

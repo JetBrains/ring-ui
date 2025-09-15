@@ -1,5 +1,5 @@
-@import "../global/variables.css";
-@import "../button/button.css";
+@import '../global/variables.css';
+@import '../button/button.css';
 
 .queryAssist {
   --ring-input-icon-offset: calc(var(--ring-unit) * 2.5);
@@ -73,7 +73,7 @@
     padding-right: var(--ring-input-padding-inline);
   }
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding: 0 var(--ring-input-padding-inline) 0 0;
 
     & .actions {
@@ -136,7 +136,7 @@
 }
 
 .placeholder {
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 
   position: absolute;
 
@@ -154,7 +154,7 @@
 
   color: var(--ring-disabled-color);
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-right: calc(var(--ring-input-padding-inline) * 3 + var(--ring-input-padding-block) * 2);
 
     text-align: right;
@@ -180,7 +180,7 @@
 
   line-height: inherit;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding: 0 var(--ring-input-padding-inline) 0 0;
   }
 }
@@ -190,7 +190,7 @@
 
   color: var(--ring-secondary-color);
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding: 0 0 0 var(--ring-input-padding-inline);
   }
 }
@@ -223,7 +223,7 @@
     border-color: var(--ring-border-hover-color);
   }
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     border-right: 1px solid var(--ring-borders-color);
     border-left: 0;
     border-radius: var(--ring-border-radius);
@@ -237,7 +237,7 @@
 
   padding-right: 0;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-right: var(--ring-input-padding-inline);
     padding-left: 0;
   }
@@ -250,7 +250,7 @@
 .withoutGlass {
   padding-left: 0;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-right: calc(var(--ring-input-padding-block) * 3);
   }
 }
@@ -262,7 +262,7 @@
 .loaderOnTheRight {
   padding-right: 0;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-left: 0;
   }
 }

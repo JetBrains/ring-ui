@@ -1,7 +1,7 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 /* ensure style order */
-@import "../popup/popup.css";
+@import '../popup/popup.css';
 
 .container {
   display: inline;
@@ -29,7 +29,7 @@
 }
 
 .title {
-  composes: font-lower from "../global/global.css";
+  composes: font-lower from '../global/global.css';
 
   margin: 0;
 

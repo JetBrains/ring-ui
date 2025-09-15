@@ -1,6 +1,6 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value extra-small-screen-media from "../global/global.css";
+@value extra-small-screen-media from '../global/global.css';
 
 .agreementDialog {
   padding-bottom: 80px;

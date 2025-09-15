@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .toggle {
   --ring-toggle-padding: 2px;
@@ -94,7 +94,7 @@
     width: calc(var(--ring-unit) * 1.5);
     height: calc(var(--ring-unit) * 1.5);
 
-    content: "";
+    content: '';
 
     transition: transform var(--ring-toggle-timing-function) var(--ring-toggle-duration);
 

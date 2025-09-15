@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 /*
 Input
@@ -48,7 +48,7 @@ Input
 
   /* stylelint-enable order/properties-order */
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-right: var(--ring-input-padding-start);
     padding-left: var(--ring-input-padding-end);
   }

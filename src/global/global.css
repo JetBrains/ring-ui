@@ -5,7 +5,7 @@
     display: block;
     clear: both;
 
-    content: "";
+    content: '';
   }
 }
 
@@ -48,7 +48,7 @@
 /* To be used at large sizes */
 /* As close as possible to Helvetica Neue Thin (to replace Gotham) */
 .thin-font {
-  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: var(--ring-font-size);
   font-weight: 100; /* Renders Helvetica Neue UltraLight on OS X  */
 }

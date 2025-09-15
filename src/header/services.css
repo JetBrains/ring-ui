@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .services {
   max-width: calc(calc(var(--ring-unit) * 50) + 2px);

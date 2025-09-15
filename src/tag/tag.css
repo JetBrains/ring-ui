@@ -1,7 +1,7 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 /* ensure styles order */
-@import "../link/link.css";
+@import '../link/link.css';
 
 :root,
 :host {
@@ -15,7 +15,7 @@
 .tag {
   --ring-tag-max-height: 20px;
 
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 
   position: relative;
   z-index: 1;
@@ -34,7 +34,7 @@
 
   color: var(--ring-tag-text-color);
 
-  border: none;
+  border: 0;
   border-radius: var(--ring-border-radius);
 
   font-size: 12px;
@@ -155,7 +155,7 @@
 }
 
 .content {
-  composes: ellipsis from "../global/global.css";
+  composes: ellipsis from '../global/global.css';
 }
 
 .disabled.tag {
