@@ -1,6 +1,6 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value link, active from "../link/link.css";
+@value link, active from '../link/link.css';
 
 :root,
 :host {
@@ -206,7 +206,7 @@ html:global(.ring-ui-theme-dark) .headerVertical {
 }
 
 .anchorClassName {
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 
   display: flex;
   align-items: center;
@@ -230,7 +230,7 @@ html:global(.ring-ui-theme-dark) .headerVertical {
     width: var(--ring-unit);
     height: var(--ring-unit);
 
-    content: "";
+    content: '';
 
     border: 1px solid var(--ring-white-text-color);
     border-radius: 50%;

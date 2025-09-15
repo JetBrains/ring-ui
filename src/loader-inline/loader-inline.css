@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 :root,
 :host {
@@ -58,7 +58,7 @@
     width: calc(var(--ring-unit) * 2);
     height: calc(var(--ring-unit) * 2);
 
-    content: "";
+    content: '';
     animation: pulse 0.85s cubic-bezier(0.68, 0, 0.74, 0.74) infinite alternate;
 
     background-image: conic-gradient(var(--ring-loader-inline-stops));

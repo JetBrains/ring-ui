@@ -26,7 +26,7 @@
 
   color: inherit;
 
-  border: none;
+  border: 0;
   border-radius: var(--ring-border-radius);
   outline: none;
   background: inherit;
@@ -95,7 +95,7 @@
   color: var(--ring-heading-color);
   caret-color: var(--ring-main-color);
 
-  border: none;
+  border: 0;
   border-bottom: 1px solid var(--ring-borders-color);
   outline: none;
   background-color: transparent;
@@ -143,14 +143,12 @@
   width: 100%;
   height: 30px;
 
-  content: "";
+  content: '';
   pointer-events: none;
 
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--ring-content-background-components), 0),
-    rgba(var(--ring-content-background-components), 1)
-  );
+  background: linear-gradient(to bottom,
+  rgba(var(--ring-content-background-components), 0),
+  rgba(var(--ring-content-background-components), 1));
 }
 
 .textareaWrapper {

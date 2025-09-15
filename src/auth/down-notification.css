@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .title {
   font-weight: var(--ring-font-weight-bold);

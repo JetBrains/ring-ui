@@ -1,6 +1,6 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value extra-small-screen-media, small-screen-media from "../global/global.css";
+@value extra-small-screen-media, small-screen-media from '../global/global.css';
 
 .contentLayout {
   --ring-content-layout-sidebar-width: calc(var(--ring-unit) * 30);

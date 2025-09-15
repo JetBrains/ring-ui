@@ -67,7 +67,7 @@
 }
 
 .thumb {
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 
   position: absolute;
   z-index: 1;
@@ -161,7 +161,7 @@
     top: 100%;
     left: calc(50% - 3px);
 
-    content: " ";
+    content: ' ';
 
     border-top: 3px solid var(--ring-main-color);
 

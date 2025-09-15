@@ -1,6 +1,6 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value button from "../button/button.css";
+@value button from '../button/button.css';
 
 .buttonSet {
   position: relative;

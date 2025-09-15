@@ -1,6 +1,6 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value button, active, flat from "../button/button.css";
+@value button, active, flat from '../button/button.css';
 
 :root,
 :host {
@@ -24,7 +24,7 @@
   --ring-button-group-button-border-color: var(--ring-borders-color);
 
   composes: common;
-  composes: buttonGroup from "../button-toolbar/button-toolbar.css";
+  composes: buttonGroup from '../button-toolbar/button-toolbar.css';
 
   border-radius: var(--ring-border-radius);
 
@@ -58,7 +58,7 @@
 
     width: var(--ring-border-radius);
 
-    content: "";
+    content: '';
 
     box-shadow:
       0 1px var(--ring-button-group-button-border-color) inset,
@@ -148,7 +148,7 @@
 
 .split {
   composes: common;
-  composes: buttonGroup from "../button-toolbar/button-toolbar.css";
+  composes: buttonGroup from '../button-toolbar/button-toolbar.css';
 }
 
 .common button,
@@ -162,7 +162,7 @@
 }
 
 .caption {
-  composes: font from "../global/global.css";
+  composes: font from '../global/global.css';
 
   margin-right: var(--ring-unit);
 

@@ -71,7 +71,7 @@
 }
 
 .extraButton {
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 
   cursor: pointer;
 

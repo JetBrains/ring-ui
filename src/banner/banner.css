@@ -13,8 +13,8 @@
   gap: var(--ring-unit);
 
   &.inline {
-    border-right: none;
-    border-left: none;
+    border-right: 0;
+    border-left: 0;
     border-radius: 0;
   }
 

@@ -1,7 +1,7 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value breakpoint-small, breakpoint-middle, breakpoint-large  from "../global/global.css";
-@value large-screen-media, middle-screen-media, small-screen-media from "../global/global.css";
+@value breakpoint-small, breakpoint-middle, breakpoint-large  from '../global/global.css';
+@value large-screen-media, middle-screen-media, small-screen-media from '../global/global.css';
 
 .container-fluid,
 .container,
@@ -773,7 +773,7 @@
   }
 
   .col-lg-5 {
-    flex-basis: var(--ring-grid-width-5);;
+    flex-basis: var(--ring-grid-width-5);
 
     max-width: var(--ring-grid-width-5);
   }

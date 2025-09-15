@@ -44,12 +44,12 @@
   width: var(--ring-unit);
   height: var(--ring-unit);
 
-  content: "";
+  content: '';
   transform: rotate(45deg);
 
   border: 1px solid var(--ring-popup-border-color);
-  border-top: none;
-  border-right: none;
+  border-top: 0;
+  border-right: 0;
 
   background: var(--ring-error-bubble-background-color);
 }

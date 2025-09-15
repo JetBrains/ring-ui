@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .text {
   color: var(--ring-text-color);

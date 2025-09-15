@@ -1,8 +1,8 @@
-@import "../global/variables.css";
-@import "../global/global.css";
+@import '../global/variables.css';
+@import '../global/global.css';
 
 /* ensure styles order */
-@import "../input/input.css";
+@import '../input/input.css';
 
 :root,
 :host {
@@ -101,7 +101,7 @@
 }
 
 .filterWrapper {
-  composes: filterWrapper from "../select/select-popup.css";
+  composes: filterWrapper from '../select/select-popup.css';
 
   display: flex;
 
@@ -109,7 +109,7 @@
 }
 
 .filter {
-  composes: filter from "../select/select-popup.css";
+  composes: filter from '../select/select-popup.css';
 }
 
 .calendarIcon {
@@ -158,7 +158,7 @@
     top: 0;
     right: var(--ring-unit);
 
-    content: "—";
+    content: '—';
 
     line-height: calc(4 * var(--ring-unit) - 2px);
   }
@@ -185,7 +185,7 @@
     position: absolute;
     left: calc(-1 * var(--ring-unit));
 
-    content: ",";
+    content: ',';
 
     line-height: calc(4 * var(--ring-unit) - 3px);
   }
@@ -272,7 +272,7 @@
 }
 
 .day {
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 }
 
 .day.day {
@@ -348,7 +348,7 @@
     width: calc(var(--ring-unit) * 2);
     height: 100%;
 
-    content: "";
+    content: '';
     transition: background-color var(--ring-ease);
   }
 
@@ -391,7 +391,7 @@
     width: calc(var(--ring-unit) * 23);
     height: calc(var(--ring-unit) * 8);
 
-    content: "";
+    content: '';
     transition: background-color var(--ring-ease);
   }
 
@@ -423,7 +423,7 @@
       width: calc(var(--ring-unit) * 2);
       height: 100%;
 
-      content: "";
+      content: '';
       transition: background-color var(--ring-ease);
     }
   }
@@ -475,7 +475,7 @@
   top: 0;
   left: calc(var(--ring-unit) * 0.5);
 
-  content: "•";
+  content: '•';
 
   font-size: var(--ring-font-size-smaller);
 }
@@ -508,7 +508,7 @@
 
 .monthName {
   composes: hoverable;
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 }
 
 .monthName.monthName {
@@ -525,7 +525,7 @@
 }
 
 .monthSlider {
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 }
 
 .monthSlider.monthSlider {
@@ -578,7 +578,7 @@
 
 .year {
   composes: hoverable;
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 }
 
 .year.year {

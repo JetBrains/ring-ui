@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .code {
   margin: calc(var(--ring-unit) * 2) 0;

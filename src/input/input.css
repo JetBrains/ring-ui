@@ -1,5 +1,5 @@
-@import "../global/variables.css";
-@import "../button/button.css";
+@import '../global/variables.css';
+@import '../button/button.css';
 
 .outerContainer {
   --ring-input-icon-offset: calc(var(--ring-unit) * 2.5);
@@ -49,7 +49,7 @@
 
   caret-color: var(--ring-main-color);
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-right: var(--ring-input-padding-start);
     padding-left: var(--ring-input-padding-end);
   }
@@ -113,7 +113,7 @@
 
   color: var(--ring-secondary-color);
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     right: var(--ring-unit);
     left: auto;
   }
@@ -134,7 +134,7 @@
     display: none;
   }
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     right: auto;
     left: var(--ring-unit);
   }

@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .island {
   --ring-island-gradient-start: rgba(255, 255, 255, 0);
@@ -97,7 +97,7 @@
   width: 100%;
   height: calc(var(--ring-unit) * 3);
 
-  content: "";
+  content: '';
 
   pointer-events: none;
 
@@ -121,7 +121,7 @@
   width: 100%;
   height: calc(var(--ring-unit) * 3);
 
-  content: "";
+  content: '';
   pointer-events: none;
 
   opacity: 0.8;

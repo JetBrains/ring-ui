@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .select {
   position: relative;
@@ -20,7 +20,7 @@
 
   text-align: left;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     text-align: right;
     direction: ltr;
   }
@@ -63,7 +63,7 @@
 }
 
 .selectedIcon {
-  composes: resetButton from "../global/global.css";
+  composes: resetButton from '../global/global.css';
 
   position: relative;
   top: 3px;
@@ -112,8 +112,8 @@
 }
 
 .value {
-  composes: ellipsis from "../global/global.css";
-  composes: font from "../global/global.css";
+  composes: ellipsis from '../global/global.css';
+  composes: font from '../global/global.css';
 
   display: inline-block;
 
@@ -131,7 +131,7 @@
 
   color: var(--ring-text-color);
 
-  border: none;
+  border: 0;
   border-bottom: 1px solid var(--ring-borders-color);
   outline: none;
   background: transparent;
@@ -160,7 +160,7 @@
 }
 
 .buttonValue {
-  composes: ellipsis from "../global/global.css";
+  composes: ellipsis from '../global/global.css';
 
   display: block;
 

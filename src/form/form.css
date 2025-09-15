@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 /**
  * @name Form
@@ -94,7 +94,7 @@
   display: block;
   clear: both;
 
-  content: "";
+  content: '';
 }
 
 :global(.ring-form__group_united) {
@@ -165,7 +165,7 @@
 
   height: calc(var(--ring-unit) * 3);
 
-  content: "";
+  content: '';
   vertical-align: middle;
 }
 

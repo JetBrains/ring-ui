@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 :global(.ring-old-browsers-message) {
   display: block;
@@ -9,7 +9,7 @@
 
   color: var(--ring-text-color);
 
-  font-family: system-ui, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  font-family: system-ui, Ubuntu, 'Helvetica Neue', Arial, sans-serif;
   font-size: var(--ring-font-size-larger);
   line-height: calc(2.5 * var(--ring-unit));
 }

@@ -1,7 +1,7 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .popup {
-  composes: font from "../global/global.css";
+  composes: font from '../global/global.css';
 
   position: fixed;
   z-index: var(--ring-overlay-z-index);
@@ -29,7 +29,7 @@
   top: unset;
   left: unset;
 
-  margin: 0
+  margin: 0;
 }
 
 @position-try --bottom-right {

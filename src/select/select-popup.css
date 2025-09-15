@@ -1,4 +1,4 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .filterWithTags {
   overflow: hidden;
@@ -15,7 +15,7 @@
     padding-right: 0;
     padding-left: 0;
 
-    border-bottom: none;
+    border-bottom: 0;
   }
 
   &:hover {
@@ -31,7 +31,7 @@
 .filterWithTagsInput {
   padding: 0;
 
-  border: none;
+  border: 0;
 }
 
 .filter {
@@ -55,7 +55,7 @@
 
   border-bottom: 1px solid var(--ring-borders-color);
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-right: calc(var(--ring-unit) * 5.5);
     padding-left: var(--ring-unit);
   }
@@ -68,7 +68,7 @@
 
   color: var(--ring-secondary-color);
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     right: calc(var(--ring-unit) * 2);
     left: auto;
   }

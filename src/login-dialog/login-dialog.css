@@ -1,9 +1,9 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
 .iFrame {
   overflow: hidden;
 
-  border: none;
+  border: 0;
 }
 
 .dialogContent {

@@ -240,7 +240,7 @@
   --ring-ease: 0.3s ease-out;
   --ring-fast-ease: 0.15s ease-out;
   --ring-font-family: system-ui, Arial, sans-serif;
-  --ring-font-family-monospace: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier,
+  --ring-font-family-monospace: Menlo, 'Bitstream Vera Sans Mono', 'Ubuntu Mono', Consolas, 'Courier New', Courier,
     monospace;
   --ring-font-weight-medium: 500;
   --ring-font-weight-bold: 600;

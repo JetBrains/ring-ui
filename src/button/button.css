@@ -1,6 +1,6 @@
-@import "../global/variables.css";
+@import '../global/variables.css';
 
-@value glyph from "../icon/icon.css";
+@value glyph from '../icon/icon.css';
 
 :root,
 :host {
@@ -11,6 +11,8 @@
   --ring-button-loader-components: var(--ring-main-components);
   --ring-button-white-text-disabled-color: var(--ring-white-text-color);
   --ring-button-icon-line-height: calc(var(--ring-unit) * 2);
+
+
 }
 
 :global(.ring-ui-theme-dark) {
@@ -24,6 +26,9 @@
   --ring-button-font-size: var(--ring-font-size-smaller);
   --ring-button-line-height: var(--ring-line-height-lowest);
 }
+
+
+
 
 .heightM {
   --ring-button-height: calc(var(--ring-unit) * 3.5);
@@ -282,7 +287,7 @@
 
   &.inline {
     &:hover {
-    --ring-button-background-color: var(--ring-tag-background-color);
+      --ring-button-background-color: var(--ring-tag-background-color);
     }
 
     &:active {
@@ -374,15 +379,13 @@
     width: calc(100% + var(--ring-button-loader-width));
     height: 100%;
 
-    content: "";
+    content: '';
     animation: progress 1s linear infinite;
 
-    background-image: linear-gradient(
-      to right,
-      transparent,
-      rgba(var(--ring-button-loader-components), 0.4) 40%,
-      transparent 80%
-    );
+    background-image: linear-gradient(to right,
+    transparent,
+    rgba(var(--ring-button-loader-components), 0.4) 40%,
+    transparent 80%);
 
     background-repeat: repeat;
     background-size: var(--ring-button-loader-width);
@@ -390,16 +393,16 @@
 }
 
 .flat .loaderBackground {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 
-    border-radius: var(--ring-border-radius);
+  border-radius: var(--ring-border-radius);
 }
 
 .delayed::after {
-  content: "…";
+  content: '…';
 }
 
 .short {
