@@ -279,6 +279,12 @@
             "rootAlias": "Light/Purple/90"
           },
           {
+            "name": "ring-purple-text-color",
+            "value": "#834df0",
+            "var": "Light/Purple/40",
+            "rootAlias": "Light/Purple/40"
+          },
+          {
             "name": "ring-removed-subtle-background-color",
             "value": "#ffebec",
             "var": "Light/Red/100",
@@ -735,7 +741,7 @@
           },
           {
             "name": "ring-main-warning-color",
-            "value": "#e08855",
+            "value": "#e08957",
             "var": "Dark/Orange/60",
             "rootAlias": "Dark/Orange/60"
           },
@@ -780,6 +786,12 @@
             "value": "#2f2936",
             "var": "Dark/Purple/10",
             "rootAlias": "Dark/Purple/10"
+          },
+          {
+            "name": "ring-purple-text-color",
+            "value": "#b589ec",
+            "var": "Dark/Purple/80",
+            "rootAlias": "Dark/Purple/80"
           },
           {
             "name": "ring-removed-subtle-background-color",
@@ -867,7 +879,7 @@
           },
           {
             "name": "ring-warning-color",
-            "value": "#e08855",
+            "value": "#e08957",
             "var": "Dark/Orange/60",
             "rootAlias": "Dark/Orange/60"
           },
