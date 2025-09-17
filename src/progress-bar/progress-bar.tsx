@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import styles from './progress-bar.css';
 import {toPercent} from './progress-bar.utils';
+
 import type {ProgressBarProps} from './progress-bar.interface';
 
 const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
@@ -29,7 +30,7 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
       <div {...otherProps} className={classes} ref={ref}>
         <div
           className={styles.line}
-          role="progressbar"
+          role='progressbar'
           aria-label={label}
           aria-valuenow={value}
           aria-valuemin={0}
