@@ -11,6 +11,5 @@ const PERCENT_FACTOR = 100;
  * @param {number} max The maximum value
  * @return {number} The progress task value in percent
  */
-export const toPercent = (value: number, max: number): string => {
-  return `${clamp((value * PERCENT_FACTOR) / max, PERCENT_MIN, PERCENT_MAX)}%`;
-};
+export const toPercent = (value: number, max: number): string =>
+  `${clamp((value * PERCENT_FACTOR) / max, PERCENT_MIN, PERCENT_MAX)}%`;
