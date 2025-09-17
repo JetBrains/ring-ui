@@ -2,11 +2,11 @@ import {render, screen} from '@testing-library/react';
 
 import ProgressBar from './progress-bar';
 import styles from './progress-bar.css';
-import {ProgressBarProps} from './progress-bar.interface';
+import {type ProgressBarProps} from './progress-bar.interface';
 
 describe('Progress Bar', () => {
   const renderProgressBar = (props?: ProgressBarProps) => {
-    render(<ProgressBar label="Progress" {...props} />);
+    render(<ProgressBar label='Progress' {...props} />);
   };
 
   it('should create component', () => {

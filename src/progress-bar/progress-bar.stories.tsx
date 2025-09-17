@@ -1,9 +1,8 @@
 import {useEffect, useState} from 'react';
-
-import {Meta, StoryObj} from '@storybook/react-webpack5';
+import {type Meta, type StoryObj} from '@storybook/react-webpack5';
 
 import ProgressBar from './progress-bar';
-import {ProgressBarProps} from './progress-bar.interface';
+import {type ProgressBarProps} from './progress-bar.interface';
 
 const disableAnimations = window.location.search.includes('block-animations');
 
@@ -78,9 +77,7 @@ const AutoProgressDemo = (args: ProgressBarProps) => {
 };
 
 export const AutoProgress: Story = {
-  render: args => {
-    return <AutoProgressDemo {...args} />;
-  },
+  render: args => <AutoProgressDemo {...args} />,
   parameters: {
     screenshots: {skip: true},
   },
@@ -98,7 +95,7 @@ export const Global: Story = {
   render: args => (
     <div>
       <p>This progress bar is positioned globally at the top of the viewport:</p>
-      <ProgressBar {...args} global label="Global progress" />
+      <ProgressBar {...args} global label='Global progress' />
     </div>
   ),
   parameters: {
