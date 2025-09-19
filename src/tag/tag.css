@@ -28,8 +28,6 @@
 
   padding: 0 var(--ring-unit);
 
-  cursor: pointer;
-
   vertical-align: top;
 
   color: var(--ring-tag-text-color);
@@ -62,6 +60,10 @@
   border-radius: var(--ring-border-radius);
 
   background-color: var(--ring-tag-container-background-color);
+}
+
+.interactive {
+  cursor: pointer;
 }
 
 .default {
@@ -147,7 +149,7 @@
 
 .focused,
 .tag:focus-visible,
-.container:hover {
+.interactive:hover {
   --ring-tag-outline-color: var(--ring-tag-outline-hover-color);
   --ring-tag-container-background-color: var(--ring-tag-container-hover-background-color);
 
