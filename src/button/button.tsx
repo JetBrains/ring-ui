@@ -160,7 +160,7 @@ export class Button extends PureComponent<ButtonProps> {
       ),
     };
 
-    return 'href' in this.props && this.props.href !== undefined ? (
+    return 'href' in commonProps && commonProps.href !== undefined ? (
       <ClickableLink {...(commonProps as ClickableLinkProps)} />
     ) : (
       <button
