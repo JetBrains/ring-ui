@@ -180,7 +180,7 @@
 }
 
 .buttonValueEmpty.buttonValueEmpty {
-  color: var(--ring-disabled-color);
+  color: var(--ring-secondary-color);
 }
 
 .heightS .buttonValue {
@@ -211,7 +211,8 @@
 
   color: var(--ring-disabled-color);
 
-  & .value {
+  & .value,
+  & .buttonValueEmpty {
     color: var(--ring-disabled-color);
     border-bottom-style: dashed;
   }
