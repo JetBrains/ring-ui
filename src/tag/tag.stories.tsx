@@ -61,6 +61,9 @@ export const demo = () => {
                   <Tag outline={outline} tagType={type} disabled readOnly>
                     Disabled
                   </Tag>
+                  <Tag outline={outline} tagType={type} readOnly interactive={false}>
+                    Non-interactive
+                  </Tag>
                 </div>
               ),
             ),

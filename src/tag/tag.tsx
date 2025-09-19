@@ -12,6 +12,7 @@ export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
   disabled: boolean;
   ref: RefCallback<HTMLElement>;
   'data-test': string;
+  interactive?: boolean;
 }
 
 export enum TagType {
@@ -29,7 +30,7 @@ export interface TagProps {
   readOnly: boolean;
   disabled: boolean;
   focused: boolean;
-  render: (props: TagRenderProps) => ReactNode;
+  render: (props: TagRenderProps, interactive?: boolean) => ReactNode;
   children?: ReactNode;
   className?: string | null | undefined;
   containerClassName?: string | null | undefined;
@@ -41,6 +42,7 @@ export interface TagProps {
   backgroundColor?: string | undefined;
   outline?: boolean;
   tagType?: TagType;
+  interactive?: boolean;
 }
 
 /**
@@ -53,7 +55,8 @@ export default class Tag extends PureComponent<TagProps> {
     readOnly: false,
     disabled: false,
     focused: false,
-    render: props => <button type='button' {...props} />,
+    interactive: true,
+    render: (props, interactive) => (interactive ? <button type='button' {...props} /> : <span {...props} />),
     tagType: TagType.DEFAULT,
   };
 
@@ -161,24 +164,28 @@ export default class Tag extends PureComponent<TagProps> {
       <span
         className={classNames(styles.container, this.props.containerClassName, styles[this.props.tagType!], {
           [styles.outline]: this.props.outline,
+          [styles.interactive]: this.props.interactive,
         })}
       >
-        {render({
-          'data-test': 'ring-tag',
-          className: classes,
-          ref: this.tagRef,
-          onClick: this.props.onClick,
-          style: {backgroundColor, color: textColor},
-          disabled: this.props.disabled,
-          children: (
-            <>
-              {this.renderAvatar()}
-              {this.renderCustomIcon()}
-              {this.renderImage()}
-              <span className={styles.content}>{this.props.children}</span>
-            </>
-          ),
-        })}
+        {render(
+          {
+            'data-test': 'ring-tag',
+            className: classes,
+            ref: this.tagRef,
+            onClick: this.props.onClick,
+            style: {backgroundColor, color: textColor},
+            disabled: this.props.disabled,
+            children: (
+              <>
+                {this.renderAvatar()}
+                {this.renderCustomIcon()}
+                {this.renderImage()}
+                <span className={styles.content}>{this.props.children}</span>
+              </>
+            ),
+          },
+          this.props.interactive,
+        )}
         {this.renderRemoveIcon()}
       </span>
     );
