@@ -20,8 +20,6 @@ if (params.has('block-animations')) {
   document.body.classList.add(styles.blockAnimations);
 }
 
-const selectorsWithColorContrastIssues = [`.${queryAssistStyles.placeholder.split(' ')[0]}`].filter(Boolean);
-
 export const parameters = {
   docs: {
     inlineStories: false,
@@ -38,7 +36,7 @@ export const parameters = {
         {
           id: 'color-contrast',
           // TODO enable everywhere when RG-2054 is fixed
-          selector: `*:not(${selectorsWithColorContrastIssues.join(', ')})`,
+          selector: `*:not(.${queryAssistStyles.placeholder.split(' ')[0]})`,
         },
         {id: 'link-in-text-block', enabled: false}, // https://youtrack.jetbrains.com/issue/RG-2412/Contrast-Issue-Between-Link-and-Text-Color
       ],
