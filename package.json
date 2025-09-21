@@ -217,7 +217,7 @@
     "@jetbrains/postcss-require-hover": "^0.2.0",
     "@types/combokeys": "^2.4.9",
     "@types/element-resize-detector": "^1.1.6",
-    "@types/react-virtualized": "9.22.2",
+    "@types/react-virtualized": "9.22.3",
     "@types/util-deprecate": "^1.0.4",
     "babel-loader": "10.0.0",
     "babel-plugin-transform-define": "^2.1.4",
