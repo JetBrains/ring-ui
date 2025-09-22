@@ -38335,6 +38335,7 @@ var ha = {
 var BT = rr(
   { ...cT },
   {
+    getKeys: /* @__PURE__ */ o((e) => Object.keys(e).filter((t) => t !== "eventWrapper"), "getKeys"),
     intercept: /* @__PURE__ */ o((e, t) => t[0] === "fireEvent" || e.startsWith("find") || e.startsWith("waitFor"), "intercept")
   }
 );
@@ -38421,7 +38422,7 @@ var {
   prettyFormat: Gve
 } = BT, UT = ha, { userEvent: Wve } = rr(
   { userEvent: ha },
-  { intercept: !0 }
+  { intercept: !0, getKeys: /* @__PURE__ */ o((e) => Object.keys(e).filter((t) => t !== "eventWrapper"), "getKeys") }
 );
 
 // src/test/index.ts
@@ -40055,7 +40056,10 @@ var AEe = /* @__PURE__ */ o(({ parameters: e }) => {
   if (t) {
     e.userEvent = rr(
       { userEvent: UT.setup() },
-      { intercept: !0 }
+      {
+        intercept: !0,
+        getKeys: /* @__PURE__ */ o((n) => Object.keys(n).filter((i) => i !== "eventWrapper"), "getKeys")
+      }
     ).userEvent, Object.defineProperty(globalThis.window.navigator, "clipboard", {
       get: /* @__PURE__ */ o(() => t, "get"),
       configurable: !0
