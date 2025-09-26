@@ -11,12 +11,10 @@
   --ring-button-loader-components: var(--ring-main-components);
   --ring-button-white-text-disabled-color: var(--ring-white-text-color);
   --ring-button-icon-line-height: calc(var(--ring-unit) * 2);
-
-
 }
 
 :global(.ring-ui-theme-dark) {
-  --ring-button-white-text-disabled-color: var(--ring-disabled-color);
+  --ring-button-white-text-disabled-color: var(--ring-secondary-color);
 }
 
 
