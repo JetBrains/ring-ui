@@ -154,7 +154,7 @@ export const CollapsibleTabs = ({
 
           return accumulator;
         },
-        {visible: [], hidden: [], ready: !!elements.lastVisibleIndex},
+        {visible: [], hidden: [], ready: elements.lastVisibleIndex !== null},
       );
 
       if (selectedIndex > (elements.lastVisibleIndex ?? 0)) {
@@ -245,7 +245,7 @@ export const CollapsibleTabs = ({
     };
   }, [adjustTabs]);
 
-  const isAdjusted = (!!elements.lastVisibleIndex && preparedElements.ready) || initialVisibleItems;
+  const isAdjusted = (elements.lastVisibleIndex !== null && preparedElements.ready) || initialVisibleItems;
 
   const className = classNames(styles.titles, styles.autoCollapse, isAdjusted && styles.adjusted);
 
