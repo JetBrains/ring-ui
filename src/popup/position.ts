@@ -305,7 +305,7 @@ export default function position(attrs: PositionAttrs) {
   }
 
   const newMinWidth = calculateMinWidth(anchorRect.width, minWidth);
-  if (newMinWidth) {
+  if (newMinWidth !== null) {
     styles.minWidth = newMinWidth;
   }
 

@@ -42,7 +42,7 @@ export const basic = () => {
     moreExpandedItems = new Set();
 
     itemMoreLessState = (item: FormattedItem<Item>) => {
-      if (item.id && this.moreExpandableItems.has(item.id)) {
+      if (item.id !== null && item.id !== undefined && this.moreExpandableItems.has(item.id)) {
         return this.moreExpandedItems.has(item.id) ? moreLessButtonStates.LESS : moreLessButtonStates.MORE;
       }
       return moreLessButtonStates.UNUSED;

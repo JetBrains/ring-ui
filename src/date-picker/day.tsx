@@ -50,7 +50,9 @@ export default class Day extends Component<DayProps> {
   isDisabled = (date: Date) => {
     const min = this.parse(this.props.minDate);
     const max = this.parse(this.props.maxDate);
-    return (min && isBefore(startOfDay(date), startOfDay(min))) || (max && isAfter(startOfDay(date), startOfDay(max)));
+    return (
+      (!!min && isBefore(startOfDay(date), startOfDay(min))) || (!!max && isAfter(startOfDay(date), startOfDay(max)))
+    );
   };
 
   parse(text: string | null | undefined) {
@@ -68,7 +70,7 @@ export default class Day extends Component<DayProps> {
     }
 
     const spreadRange = makeSpreadRange(currentRange);
-    const disabled = !!this.isDisabled(day);
+    const disabled = this.isDisabled(day);
     const activeSpreadRange = makeSpreadRange(activeRange);
     return (
       // TODO make keyboard navigation actually work

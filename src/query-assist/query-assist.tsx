@@ -421,7 +421,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     if (
       this.input?.clientWidth !== this.input?.scrollWidth &&
       caretOffset &&
-      this.input?.clientWidth &&
+      this.input?.clientWidth !== undefined &&
       caretOffset > this.input?.clientWidth
     ) {
       this.input.scrollLeft += caretOffset;

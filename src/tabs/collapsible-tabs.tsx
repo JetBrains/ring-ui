@@ -159,7 +159,7 @@ export const CollapsibleTabs = ({
 
       if (selectedIndex > (elements.lastVisibleIndex ?? 0)) {
         const selectedItem = children.find(tab => !tab.props.alwaysHidden && tab.props.id === selected);
-        if (selectedItem) {
+        if (selectedItem !== null && selectedItem !== undefined) {
           res.visible.push(selectedItem);
         }
       }

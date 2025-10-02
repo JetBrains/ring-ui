@@ -136,7 +136,7 @@ export const Slider: React.FC<Props> = ({
 
       const index = e.currentTarget.getAttribute('data-index');
       const nextValue = calculateValue(ref, e.pageX, min, max, validStep);
-      if (nextValue && !isNaN(nextValue) && !index) {
+      if (nextValue !== null && !isNaN(nextValue) && !index) {
         const rangeIndex = Number(Math.abs(validValues[0] - nextValue) > Math.abs(validValues[1] - nextValue));
         setDraggedIndex(isRange ? rangeIndex : 0);
       } else {

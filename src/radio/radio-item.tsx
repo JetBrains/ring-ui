@@ -57,7 +57,7 @@ const RadioItem = forwardRef<RadioItemInner, RadioItemProps>(function RadioItem(
         <RadioItemInner
           ref={ref}
           {...restContext}
-          checked={value ? value === props.value : undefined}
+          checked={value !== undefined ? value === props.value : undefined}
           onChange={onChange ? () => onChange(props.value) : undefined}
           {...props}
         />

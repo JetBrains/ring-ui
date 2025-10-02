@@ -77,11 +77,7 @@ export default class WindowFlow implements LoginFlow {
         }
       });
 
-      if (
-        this._loginWindow === null ||
-        this._loginWindow === undefined ||
-        (this._loginWindow && this._loginWindow.closed)
-      ) {
+      if (!this._loginWindow || (this._loginWindow && this._loginWindow.closed)) {
         this._loginWindow = this._openWindow(authRequest.url);
       } else if (this._loginWindow) {
         this._loginWindow.location.href = authRequest.url;
@@ -106,7 +102,7 @@ export default class WindowFlow implements LoginFlow {
   };
 
   stop() {
-    if (this._loginWindow !== null && this._loginWindow !== undefined) {
+    if (this._loginWindow) {
       this._loginWindow.close();
     }
     if (this.reject) {

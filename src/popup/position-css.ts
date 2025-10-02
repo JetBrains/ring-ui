@@ -74,7 +74,7 @@ export const setCSSAnchorPositioning = ({
   popup.style.setProperty('position-anchor', anchorName);
 
   const calculatedMinWidth = calculateMinWidth(getRect(anchor).width, minWidth);
-  if (calculatedMinWidth) {
+  if (calculatedMinWidth !== null) {
     popup.style.minWidth = `${calculatedMinWidth}px`;
   }
   if (top) {

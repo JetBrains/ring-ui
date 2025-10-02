@@ -252,7 +252,7 @@ export default class PermissionCache {
         throw new Error("Operator ')' was expected");
       }
     } else {
-      result = !!t && this.testPermission(t, projectId);
+      result = t !== undefined && this.testPermission(t, projectId);
     }
 
     return result;
