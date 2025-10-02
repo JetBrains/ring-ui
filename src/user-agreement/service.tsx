@@ -124,7 +124,7 @@ export default class UserAgreementService {
   };
 
   onStorageEvent = (event: StorageEvent) => {
-    if (event.key === storageKey && event.newValue) {
+    if (event.key === storageKey && event.newValue !== null) {
       const {tabId, command} = JSON.parse(event.newValue);
 
       if (tabId !== this.tabId) {

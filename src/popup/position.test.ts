@@ -145,11 +145,11 @@ describe('position', () => {
   }
 
   function createClientRectMock(data: Partial<Rect> = {}) {
-    if (data.left && data.width && data.right === null) {
+    if (data.left !== undefined && data.width !== undefined && data.right === undefined) {
       data.right = data.left + data.width;
     }
 
-    if (data.top && data.height && data.bottom === null) {
+    if (data.top !== undefined && data.height !== undefined && data.bottom === undefined) {
       data.bottom = data.top + data.height;
     }
 

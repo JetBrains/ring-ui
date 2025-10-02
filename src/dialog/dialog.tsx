@@ -246,7 +246,7 @@ export default class Dialog extends PureComponent<DialogProps> {
             let targetElement: Element = document.body;
             if (portalTarget instanceof HTMLElement) {
               targetElement = portalTarget;
-            } else if (contextTarget) {
+            } else if (contextTarget !== undefined) {
               const container = getPopupContainer(contextTarget);
               if (container) {
                 targetElement = container;

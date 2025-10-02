@@ -78,7 +78,7 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
     const {selection, itemFormatter} = this.props;
 
     const focused = selection.getFocused();
-    if (!focused) {
+    if (focused === null || focused === undefined) {
       throw new Error('No focused item');
     }
     const item = itemFormatter(focused);

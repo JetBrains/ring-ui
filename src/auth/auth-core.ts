@@ -987,7 +987,7 @@ class Auth implements HTTPAuth {
     const effectiveExpiresIn = expiresIn ? parseInt(expiresIn, 10) : defaultExpiresIn;
     const expires = TokenValidator._epoch() + effectiveExpiresIn;
 
-    if (accessToken) {
+    if (accessToken !== undefined) {
       await this._storage?.saveToken({accessToken, scopes, expires, lifeTime: effectiveExpiresIn});
     }
 

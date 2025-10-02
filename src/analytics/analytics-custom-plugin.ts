@@ -82,7 +82,7 @@ export default class AnalyticsCustomPlugin implements AnalyticsPlugin {
   private _addDataToFlushingPack(sendingData: AnalyticsCustomPluginData) {
     this._data.push(sendingData);
 
-    if (this._flushMaxPackSize && this._data.length >= this._flushMaxPackSize) {
+    if (this._flushMaxPackSize !== undefined && this._data.length >= this._flushMaxPackSize) {
       this._flush?.();
     }
   }

@@ -298,7 +298,8 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
       if (
         (key === 'Delete' || key === 'Backspace') &&
-        this.state.activeIndex &&
+        this.state.activeIndex !== null &&
+        this.state.activeIndex !== undefined &&
         this.state.tags[this.state.activeIndex]
       ) {
         this.onRemoveTag(this.state.tags[this.state.activeIndex]).then(() => this.selectTag(true));
