@@ -264,5 +264,11 @@
   "homepage": "https://github.com/JetBrains/ring-ui#readme",
   "overrides": {
     "storybook": "$storybook"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    ">1%",
+    "baseline widely available",
+    "not dead"
+  ]
 }
