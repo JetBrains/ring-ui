@@ -27,7 +27,7 @@
     "http-server": "^14.1.1",
     "ip": "^2.0.1",
     "jest": "^30.1.3",
-    "jest-environment-jsdom": "^30.1.2",
+    "jest-environment-jsdom": "^30.2.0",
     "port-claim": "^3.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
