@@ -139,7 +139,7 @@
     "core-js": "^3.45.1",
     "cpy-cli": "^6.0.0",
     "dotenv-cli": "^10.0.0",
-    "eslint": "^9.36.0",
+    "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-formatter-jslint-xml": "^8.40.0",
     "eslint-import-resolver-exports": "^1.0.0-beta.5",
