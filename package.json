@@ -221,7 +221,7 @@
     "@types/util-deprecate": "^1.0.4",
     "babel-loader": "10.0.0",
     "babel-plugin-transform-define": "^2.1.4",
-    "browserslist": "^4.26.2",
+    "browserslist": "^4.26.3",
     "change-case": "^4.1.1",
     "classnames": "^2.5.1",
     "combokeys": "^3.0.1",
