@@ -6,6 +6,8 @@ updates:
     interval: weekly
     day: sunday
     time: "00:00"
+  cooldown:
+    default-days: 7
   open-pull-requests-limit: 20
   versioning-strategy: increase
   groups:
@@ -17,3 +19,27 @@ updates:
       patterns:
       - "react"
       - "react-dom"
+      - "@types/react"
+      - "@types/react-dom"
+    linters:
+      patterns:
+        - "eslint*"
+        - "@eslint*"
+        - "@types/eslint*"
+        - "typescript-eslint"
+        - "lint-staged"
+        - "prettier"
+        - "stylelint*"
+    test-suites:
+      patterns:
+        - "jest*"
+        - "vitest*"
+        - "@vitejs/*"
+        - "@vitest/*"
+        - "@testing-library/"
+        - "chai-as-promised"
+        - "chai-dom"
+        - "@types/chai-as-promised"
+        - "@types/chai-dom"
+        - "html-reporter"
+        - "testplane"
