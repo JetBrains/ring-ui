@@ -9,6 +9,7 @@ import closeIcon from '@jetbrains/icons/close';
 import Icon from '../icon/icon';
 import Link from '../link/link';
 import Tooltip from '../tooltip/tooltip';
+
 import styles from './banner.css';
 
 export interface BannerTranslations {

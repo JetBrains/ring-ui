@@ -5,6 +5,7 @@ import {type ListDataItem} from '../list/consts';
 import DropdownMenu, {type DropdownMenuProps} from '../dropdown-menu/dropdown-menu';
 import Avatar, {Size} from '../avatar/avatar';
 import {fontSizes} from '../avatar/avatar-info';
+
 import styles from './avatar-stack.css';
 
 declare module 'csstype' {

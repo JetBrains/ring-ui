@@ -21,7 +21,6 @@ module.exports = {
   key: process.env.BROWSERSTACK_KEY,
   baseUrl,
   gridUrl,
-  // eslint-disable-next-line no-magic-numbers
   retry: isTeamCity ? 2 : 0,
   testsPerSession: 100,
   compositeImage: true,

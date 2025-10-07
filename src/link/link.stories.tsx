@@ -1,10 +1,12 @@
 import {Component} from 'react';
 import classNames from 'classnames';
-import hubLogo from '@jetbrains/logos/hub/hub.svg';
+
 
 import Icon from '../icon/icon';
 import Link, {linkHOC} from './link';
 import {type ClickableLinkProps} from './clickable-link';
+
+import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
 export default {
   title: 'Components/Link',

@@ -13,9 +13,10 @@ import {Size} from '../input/input';
 import {type ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import {type Filter} from '../select/select-popup';
 import getUID from '../global/get-uid';
-import inputStyles from '../input/input.css';
 import {type TagAttrs} from '../tag/tag';
 import ControlLabel, {type LabelType} from '../control-label/control-label';
+
+import inputStyles from '../input/input.css';
 import styles from './tags-input.css';
 
 function noop() {}

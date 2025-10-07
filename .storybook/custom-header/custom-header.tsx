@@ -1,17 +1,20 @@
 import {PureComponent} from 'react';
 import * as client from 'react-dom/client';
-import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains-simple.svg';
-import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
-import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
-import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
 
-import packageInfo from '../../package.json';
+
 import Auth from '../../src/auth/auth';
 import IFrameFlow from '../../src/auth/iframe-flow';
 import Header, {Tray, HeaderIcon, Logo, SmartProfile, Services} from '../../src/header/header';
 import hubConfig from '../hub-config';
 import authDialogService from '../../src/auth-dialog-service/auth-dialog-service';
 import Version from './version';
+
+import packageInfo from '../../package.json';
+import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
+import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
+import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
+import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains-simple.svg';
+
 import styles from './header-styles.css';
 
 class SiteHeader extends PureComponent {

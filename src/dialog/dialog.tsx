@@ -13,9 +13,11 @@ import Button from '../button/button';
 import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
 import {getPopupContainer} from '../popup/popup';
 import {preventerFactory as scrollPreventerFactory} from './dialog-body-scroll-preventer';
-import styles from './dialog.css';
 
 import type {ShortcutsScopeOptions} from '../shortcuts/core';
+
+import styles from './dialog.css';
+
 
 export interface DialogProps extends Partial<TabTrapProps> {
   show: boolean;

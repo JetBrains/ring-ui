@@ -1,5 +1,7 @@
 import DropdownMenu from '../../src/dropdown-menu/dropdown-menu';
+
 import branches from '../branches.json';
+
 import styles from './header-styles.css';
 
 function currentPath() {

@@ -42,7 +42,7 @@ export default class IFrameFlow implements LoginFlow {
         url: authRequest.url,
         loader: true,
         onCancel: () => {
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          // eslint-disable-next-line no-use-before-define
           cleanUp();
           this.stop();
         },
@@ -53,7 +53,7 @@ export default class IFrameFlow implements LoginFlow {
 
       const removeTokenListener = this._storage.onTokenChange(token => {
         if (token) {
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          // eslint-disable-next-line no-use-before-define
           cleanUp();
           resolve(token.accessToken);
         }
@@ -61,7 +61,7 @@ export default class IFrameFlow implements LoginFlow {
 
       const removeStateListener = this._storage.onStateChange(authRequest.stateId, state => {
         if (state && state.error) {
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          // eslint-disable-next-line no-use-before-define
           cleanUp();
           reject(new AuthResponseParser.AuthError(state));
         }

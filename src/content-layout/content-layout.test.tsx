@@ -2,6 +2,7 @@ import {render, screen} from '@testing-library/react';
 
 import ContentLayout from './content-layout';
 import Sidebar from './sidebar';
+
 import styles from './content-layout.css';
 
 describe('Content Layout', () => {

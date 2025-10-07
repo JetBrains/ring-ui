@@ -1,4 +1,5 @@
 import {getPixelRatio} from '../global/dom';
+
 import styles from './loader.css';
 
 const INITIAL_TICKS = 100;

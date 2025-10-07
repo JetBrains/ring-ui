@@ -2,6 +2,7 @@ import {PureComponent, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
+
 import styles from './button-set.css';
 
 export interface ButtonSetProps extends HTMLAttributes<HTMLElement> {

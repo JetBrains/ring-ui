@@ -2,8 +2,9 @@ import {Component} from 'react';
 
 import LoaderInline from '../loader-inline/loader-inline';
 import UserCardTooltip, {type UserCardTooltipAttrs} from './tooltip';
-import styles from './user-card.css';
 import {type UserCardUser} from './card';
+
+import styles from './user-card.css';
 
 export interface SmartUserCardTooltipProps extends UserCardTooltipAttrs {
   userDataSource: () => Promise<UserCardUser | null | undefined> | UserCardUser | null | undefined;

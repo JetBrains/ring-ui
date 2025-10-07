@@ -7,6 +7,7 @@ import {Listeners} from '../global/dom';
 import dataTests from '../global/data-tests';
 import scheduleRAF from '../global/schedule-raf';
 import Theme, {ThemeProvider} from '../global/theme';
+
 import styles from './tooltip.css';
 
 const scheduleScroll = scheduleRAF();

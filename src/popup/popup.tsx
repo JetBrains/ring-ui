@@ -16,10 +16,11 @@ import dataTests from '../global/data-tests';
 import TabTrap from '../tab-trap/tab-trap';
 import {getConfiguration} from '../global/configuration';
 import position, {type PositionStyles} from './position';
-import styles from './popup.css';
 import {DEFAULT_DIRECTIONS, Dimension, Directions, Display, MaxHeight, MinWidth} from './popup.consts';
 import {PopupTargetContext, PopupTarget} from './popup.target';
 import {setCSSAnchorPositioning, supportsCSSAnchorPositioning} from './position-css';
+
+import styles from './popup.css';
 
 export {PopupTargetContext, PopupTarget};
 

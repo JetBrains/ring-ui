@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import Popup from '../popup/popup';
 import {Directions} from '../popup/popup.consts';
+
 import styles from './error-bubble.css';
 
 export type ErrorBubbleProps<P> = Partial<P> & {

@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {createRef} from 'react';
 
 import Upload, {type UploadHandle} from './upload';
+
 import styles from './upload.css';
 
 describe('<Upload />', () => {

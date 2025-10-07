@@ -16,9 +16,11 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 import {type SelectionItem} from '../table/selection';
 import Item, {type FormattedItem, moreLessButtonStates} from './item';
-import styles from './data-list.css';
 
 import type Selection from './selection';
+
+import styles from './data-list.css';
+
 
 export interface DataListBaseProps<T extends SelectionItem> {
   data: readonly T[];

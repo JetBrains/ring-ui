@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 import ControlHelp from '../control-help/control-help';
+
 import styles from './toggle.css';
 
 export const Size = {

@@ -1,6 +1,7 @@
 import {PureComponent} from 'react';
 
 import Link, {type LinkProps} from '../link/link';
+
 import styles from './services.css';
 
 export interface Service {

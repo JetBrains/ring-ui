@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import Button, {type ButtonAttrs} from '../button/button';
 import {type IconType} from '../icon';
+
 import styles from './header.css';
 
 export interface HeaderIconSpecificProps {

@@ -51,7 +51,6 @@ module.exports = callback => {
         stdio: 'inherit',
       });
       const screenshotsProcess = exec(
-        // eslint-disable-next-line no-magic-numbers
         `npx testplane ${process.argv.slice(2).join(' ')}`,
         {maxBuffer: STDOUT_BUFFER_SIZE},
         error => {

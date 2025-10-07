@@ -8,9 +8,11 @@ import LoaderInline from '../loader-inline/loader-inline';
 import Button from '../button/button';
 import {type SelectionItem} from '../table/selection';
 import Title from './title';
-import styles from './data-list.css';
 
 import type Selection from './selection';
+
+import styles from './data-list.css';
+
 
 export enum moreLessButtonStates {
   UNUSED,

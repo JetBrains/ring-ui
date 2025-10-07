@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import attachmentIcon from '@jetbrains/icons/attachment';
 
 import Icon from '../icon';
+
 import styles from './upload.css';
 
 export type UploadVariant = 'empty' | 'error' | 'success';

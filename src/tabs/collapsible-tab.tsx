@@ -2,10 +2,11 @@ import {type ReactElement} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
-import styles from './tabs.css';
 import TabLink from './tab-link';
 import {CustomItem} from './custom-item';
 import {type TabProps} from './tab';
+
+import styles from './tabs.css';
 
 export interface TabTitleProps {
   selected: boolean;

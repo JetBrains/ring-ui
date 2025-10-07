@@ -5,9 +5,10 @@ import classNames from 'classnames';
 import Heading, {Levels} from '../heading/heading';
 import Button from '../button/button';
 import {Size} from '../input/input';
-import inputStyles from '../input/input.css';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
+
+import inputStyles from '../input/input.css';
 import styles from './editable-heading.css';
 
 export {Levels};

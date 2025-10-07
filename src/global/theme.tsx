@@ -15,9 +15,10 @@ import {createPortal} from 'react-dom';
 
 import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
 import {getPopupContainer} from '../popup/popup';
+import getUID from './get-uid';
+
 import defaultStyles from './variables.css';
 import styles from './variables_dark.css';
-import getUID from './get-uid';
 
 enum Theme {
   AUTO = 'auto',

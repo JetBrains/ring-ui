@@ -1,6 +1,7 @@
 import {render, screen} from '@testing-library/react';
 
 import ProgressBar, {type ProgressBarAttrs} from './progress-bar';
+
 import styles from './progress-bar.css';
 
 describe('Progress Bar', () => {

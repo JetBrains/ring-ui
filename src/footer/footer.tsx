@@ -5,6 +5,7 @@ import {memo, isValidElement, type ReactNode, type HTMLAttributeAnchorTarget, ty
 import classNames from 'classnames';
 
 import Link from '../link/link';
+
 import styles from './footer.css';
 
 type Position = 'left' | 'center' | 'right';

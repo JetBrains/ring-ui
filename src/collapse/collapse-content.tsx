@@ -6,6 +6,7 @@ import {getRect} from '../global/dom';
 import {toPx} from './utils';
 import CollapseContext from './collapse-context';
 import {COLLAPSE_CONTENT_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
+
 import styles from './collapse.css';
 
 const DURATION_FACTOR = 0.5;

@@ -14,7 +14,6 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 import {type SelectionItem} from './selection';
 import Header, {type HeaderAttrs} from './header';
-import style from './table.css';
 import selectionShortcutsHOC, {
   type SelectionShortcutsAddProps,
   type SelectionShortcutsProps,
@@ -22,6 +21,8 @@ import selectionShortcutsHOC, {
 import disableHoverHOC, {type DisableHoverAddProps, type DisableHoverProps} from './disable-hover-hoc';
 import Row from './row-with-focus-sensor';
 import {type Column, type SortParams} from './header-cell';
+
+import style from './table.css';
 
 export interface ReorderParams<T> {
   data: T[];

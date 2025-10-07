@@ -54,10 +54,10 @@ export default class WindowFlow implements LoginFlow {
           return;
         }
         cleanRun = true;
-        /* eslint-disable @typescript-eslint/no-use-before-define */
+        /* eslint-disable no-use-before-define */
         removeStateListener();
         removeTokenListener();
-        /* eslint-enable @typescript-eslint/no-use-before-define */
+        /* eslint-enable no-use-before-define */
 
         this._loginWindow?.close();
         clearTimeout(this._timeoutId);

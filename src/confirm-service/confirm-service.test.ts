@@ -1,8 +1,9 @@
 import {render, fireEvent} from '@testing-library/react';
 import {type ReactElement} from 'react';
 
-import islandStyles from '../island/island.css';
 import confirm, {reactRoot} from './confirm-service';
+
+import islandStyles from '../island/island.css';
 
 describe('Confirm Service', () => {
   const getContainer = () => document.querySelector('[data-test~="ring-dialog"]');

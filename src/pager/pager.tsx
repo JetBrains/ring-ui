@@ -15,6 +15,7 @@ import memoize from '../global/memoize';
 import Link from '../link/link';
 import Icon from '../icon/icon';
 import {I18nContext} from '../i18n/i18n-context';
+
 import style from './pager.css';
 
 export interface PagerTranslations {
@@ -53,7 +54,7 @@ export default class Pager extends PureComponent<PagerProps> {
   static defaultProps = {
     currentPage: 1,
     pageSize: 50,
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    // eslint-disable-next-line no-magic-numbers
     pageSizes: [20, 50, 100],
     visiblePagesLimit: 7,
     disablePageSizeSelector: false,

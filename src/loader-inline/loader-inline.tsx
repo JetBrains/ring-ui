@@ -2,6 +2,7 @@ import {type HTMLAttributes, PureComponent} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
+
 import styles from './loader-inline.css';
 
 export interface LoaderInlineProps extends HTMLAttributes<HTMLDivElement> {

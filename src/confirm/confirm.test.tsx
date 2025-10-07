@@ -1,7 +1,8 @@
 import {render, screen} from '@testing-library/react';
 
-import islandStyles from '../island/island.css';
 import Confirm from './confirm';
+
+import islandStyles from '../island/island.css';
 
 describe('Confirm', () => {
   const renderConfirm = () => {

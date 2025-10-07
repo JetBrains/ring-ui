@@ -6,8 +6,9 @@ import {act} from 'react';
 import List from '../list/list';
 import simulateCombo from '../../test-helpers/simulate-combo';
 import Select, {type MultipleSelectAttrs, type SelectAttrs, type SelectItem, type SingleSelectAttrs} from './select';
-import styles from './select.css';
 import {type Tags} from './select-popup';
+
+import styles from './select.css';
 
 const selectedIconSelector = `.${styles.selectedIcon.split(/\s/)[0]}`;
 

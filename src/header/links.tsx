@@ -2,6 +2,7 @@ import {type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import ScrollableSection from '../scrollable-section/scrollable-section';
+
 import styles from './header.css';
 
 // currently only supports vertical header

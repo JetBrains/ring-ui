@@ -7,6 +7,7 @@ import LoaderInline from '../loader-inline/loader-inline';
 import Collapse from './collapse';
 import CollapseContent from './collapse-content';
 import CollapseControl from './collapse-control';
+
 import styles from './collapse.stories.css';
 
 export default {

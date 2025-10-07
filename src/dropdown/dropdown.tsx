@@ -6,6 +6,7 @@ import dataTests from '../global/data-tests';
 import {type PopupAttrs} from '../popup/popup';
 import {isArray} from '../global/typescript-utils';
 import Anchor from './anchor';
+
 import styles from './dropdown.css';
 
 export interface AnchorProps {

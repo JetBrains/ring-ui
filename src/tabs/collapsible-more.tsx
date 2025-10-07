@@ -7,10 +7,11 @@ import Dropdown from '../dropdown/dropdown';
 import {type ListDataItem} from '../list/consts';
 import {type ButtonButtonProps, type ContainerProps} from '../button/button';
 import Anchor from '../dropdown/anchor';
-import styles from './tabs.css';
 import getTabTitles from './collapsible-tab';
 import {CustomItem} from './custom-item';
 import {type TabProps} from './tab';
+
+import styles from './tabs.css';
 
 export interface FakeMoreButtonProps {
   hasActiveChildren: boolean;

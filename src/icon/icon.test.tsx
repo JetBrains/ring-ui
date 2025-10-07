@@ -3,6 +3,7 @@ import defaultIcon from '@jetbrains/icons/umbrella';
 import expandIcon from '@jetbrains/icons/expand';
 
 import Icon, {type IconAttrs} from './icon';
+
 import styles from './icon.css';
 
 describe('Icon', () => {

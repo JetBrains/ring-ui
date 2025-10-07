@@ -4,11 +4,12 @@ import classNames from 'classnames';
 
 import memoize from '../global/memoize';
 import dataTests from '../global/data-tests';
-import styles from './tabs.css';
 import TabLink from './tab-link';
 import CollapsibleTabs, {type CollapsibleTabsProps} from './collapsible-tabs';
 import {CustomItem} from './custom-item';
 import {type TabProps} from './tab';
+
+import styles from './tabs.css';
 
 export {CustomItem};
 

@@ -8,9 +8,10 @@ import Button from '../button/button';
 import Table, {Table as BaseTable, type TableAttrs} from './table';
 import MultiTable from './multitable';
 import Selection, {type SelectionItem} from './selection';
+import {type SortParams} from './header-cell';
+
 import mock from './table.stories.json';
 import tableData from './table.examples2.json';
-import {type SortParams} from './header-cell';
 
 export default {
   title: 'Components/Table',

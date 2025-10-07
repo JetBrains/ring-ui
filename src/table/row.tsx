@@ -13,9 +13,10 @@ import getUID from '../global/get-uid';
 import {createComposedRef} from '../global/compose-refs';
 import {type FocusSensorAddProps} from '../global/focus-sensor-hoc';
 import Cell from './cell';
-import style from './table.css';
 import {type Column} from './header-cell';
 import {type SelectionItem} from './selection';
+
+import style from './table.css';
 
 interface DragHandleProps {
   alwaysShowDragHandle: boolean;

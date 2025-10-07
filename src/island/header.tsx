@@ -2,8 +2,9 @@ import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import {interpolateLinear} from '../global/linear-function';
-import styles from './island.css';
 import {PhaseContext} from './adaptive-island-hoc';
+
+import styles from './island.css';
 
 const Start = {
   FONT_SIZE: 24,

@@ -1,7 +1,8 @@
 import {type MockInstance} from 'vitest';
 
-import defaultMessages from './messages.json';
 import {translate, getTranslationsWithFallback, getTranslations, setTranslations} from './i18n';
+
+import defaultMessages from './messages.json';
 
 describe('i18n singleton', () => {
   let consoleWarnStub: MockInstance;

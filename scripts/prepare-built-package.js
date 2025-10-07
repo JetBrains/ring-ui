@@ -54,7 +54,6 @@ function clearAndRenamePackage() {
   };
 
   const updatePackageJSON = (filename, packageData) => {
-    // eslint-disable-next-line no-magic-numbers
     fs.writeFileSync(filename, JSON.stringify(packageData, null, 2));
   };
 

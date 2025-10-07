@@ -25,7 +25,7 @@ const defaultOptions: ListUsersGroupsSourceOptions = {
   NoUsersTitle: 'No users',
 
   getPluralForUserCount: count => {
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    // eslint-disable-next-line no-magic-numbers
     const plural = count % 10 !== 1 || count % 100 === 11;
     return `${count} member${plural ? 's' : ''}`;
   },

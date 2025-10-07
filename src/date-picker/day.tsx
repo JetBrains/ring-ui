@@ -11,6 +11,7 @@ import {isToday} from 'date-fns/isToday';
 import {startOfDay} from 'date-fns/startOfDay';
 
 import {type MonthsProps, weekdays, getDayNumInWeek} from './consts';
+
 import styles from './date-picker.css';
 
 export interface DayProps extends MonthsProps {

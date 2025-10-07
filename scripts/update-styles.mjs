@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'node:url';

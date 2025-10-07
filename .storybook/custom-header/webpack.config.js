@@ -4,8 +4,9 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const pkgConfig = require('../../package.json').config;
 const ringConfig = require('../../webpack.config').createConfig();
+
+const pkgConfig = require('../../package.json').config;
 
 ringConfig.componentsPath.push(path.resolve(__dirname, '..'), path.resolve(__dirname, '../../src'));
 const svgLoader = {

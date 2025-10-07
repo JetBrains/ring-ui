@@ -12,13 +12,12 @@ import TokenValidator, {type TokenValidationError, type TokenValidatorConfig} fr
 
 import type AuthDialogService from '../auth-dialog-service/auth-dialog-service';
 
-/* eslint-disable @typescript-eslint/no-magic-numbers */
+/* eslint-disable no-magic-numbers */
 export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
 export const DEFAULT_BACKGROUND_TIMEOUT = 10 * 1000;
 const DEFAULT_BACKEND_CHECK_TIMEOUT = 10 * 1000;
 const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
 const DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT = 5 * 1000;
-/* eslint-enable @typescript-eslint/no-magic-numbers */
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const DOMAIN_USER_CHANGED_EVENT = 'domainUser';
@@ -686,11 +685,11 @@ class Auth implements HTTPAuth {
     this._createInitDeferred();
 
     const closeDialog = () => {
-      /* eslint-disable @typescript-eslint/no-use-before-define */
+      /* eslint-disable no-use-before-define */
       stopTokenListening?.();
       stopMessageListening?.();
       hide?.();
-      /* eslint-enable @typescript-eslint/no-use-before-define */
+      /* eslint-enable no-use-before-define */
     };
 
     const onConfirm = () => {
@@ -755,7 +754,7 @@ class Auth implements HTTPAuth {
 
     const done = () => {
       this._initDeferred?.resolve?.();
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      // eslint-disable-next-line no-use-before-define
       hide?.();
     };
 
@@ -818,11 +817,11 @@ class Auth implements HTTPAuth {
 
     return new Promise<void>((resolve, reject) => {
       const done = () => {
-        /* eslint-disable @typescript-eslint/no-use-before-define */
+        /* eslint-disable no-use-before-define */
         hide();
         window.removeEventListener('online', onCheckAgain);
         stopListeningCloseMessage?.();
-        /* eslint-enable @typescript-eslint/no-use-before-define */
+        /* eslint-enable no-use-before-define */
         this._storage?.sendMessage(Auth.CLOSE_BACKEND_DOWN_MESSAGE, Date.now());
         clearTimeout(timerId);
       };

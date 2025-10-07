@@ -8,8 +8,9 @@ import deprecate from 'util-deprecate';
 import Icon, {type IconProps, type IconType, Size} from '../icon/icon';
 import ClickableLink, {type ClickableLinkProps} from '../link/clickable-link';
 import {type ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-import styles from './button.css';
 import {getButtonClasses} from './button.classes';
+
+import styles from './button.css';
 
 export interface ButtonBaseProps {
   height?: ControlsHeight | undefined;

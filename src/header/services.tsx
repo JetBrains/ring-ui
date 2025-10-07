@@ -5,9 +5,10 @@ import classNames from 'classnames';
 import Dropdown, {type AnchorProps} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
 import Theme from '../global/theme';
-import darkStyles from '../global/variables_dark.css';
 import HeaderIcon from './header-icon';
 import ServicesLink, {type Service} from './services-link';
+
+import darkStyles from '../global/variables_dark.css';
 import styles from './services.css';
 
 const makeAnchor = (loading: boolean | null | undefined) => {

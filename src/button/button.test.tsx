@@ -2,6 +2,7 @@ import {render, screen} from '@testing-library/react';
 import caretDownSVG from '@jetbrains/icons/caret-down-10px';
 
 import Button from './button';
+
 import styles from './button.css';
 
 describe('Button', () => {

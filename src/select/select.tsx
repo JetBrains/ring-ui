@@ -36,8 +36,9 @@ import {type Directions} from '../popup/popup.consts';
 import {createComposedRef} from '../global/compose-refs';
 import {isArray} from '../global/typescript-utils';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-import inputStyles from '../input/input.css';
 import SelectPopup, {type Filter, type FilterFn, type Multiple, type Tags} from './select-popup';
+
+import inputStyles from '../input/input.css';
 import styles from './select.css';
 
 /**

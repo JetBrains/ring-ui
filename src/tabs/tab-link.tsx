@@ -1,6 +1,7 @@
 import {memo, type ReactNode} from 'react';
 
 import Link, {type LinkProps} from '../link/link';
+
 import styles from './tabs.css';
 
 export interface TabLinkProps extends Omit<LinkProps, 'title' | 'children'> {

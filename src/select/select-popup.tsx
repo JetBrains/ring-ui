@@ -37,8 +37,9 @@ import {type ListDataItem} from '../list/consts';
 import {type ShortcutsMap} from '../shortcuts/core';
 import {type TagAttrs} from '../tag/tag';
 import SelectFilter from './select-filter';
-import styles from './select-popup.css';
 import {type SelectItem} from './select';
+
+import styles from './select-popup.css';
 
 const FILTER_HEIGHT = 35;
 const TOOLBAR_HEIGHT = 49;

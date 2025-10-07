@@ -2,6 +2,7 @@ import {PureComponent} from 'react';
 import classNames from 'classnames';
 
 import Loader, {type LoaderProps} from '../loader/loader';
+
 import styles from './loader-screen.css';
 
 export interface LoaderScreenProps extends LoaderProps {

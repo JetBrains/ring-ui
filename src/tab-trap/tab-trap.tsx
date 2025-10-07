@@ -10,6 +10,7 @@ import {
 import * as React from 'react';
 
 import {isNodeInVisiblePartOfPage} from '../global/dom';
+
 import styles from './tab-trap.css';
 
 export const FOCUSABLE_ELEMENTS =
@@ -31,7 +32,7 @@ interface TabTrap {
   node: HTMLElement | null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow
+// eslint-disable-next-line no-shadow
 const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
   {
     children,

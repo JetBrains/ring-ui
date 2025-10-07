@@ -6,6 +6,7 @@ import minusIcon from '@jetbrains/icons/remove-12px';
 import Icon from '../icon/icon';
 import {createComposedRef} from '../global/compose-refs';
 import ControlHelp from '../control-help/control-help';
+
 import styles from './checkbox.css';
 
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {

@@ -11,8 +11,9 @@ import linearFunction from '../global/linear-function';
 import useEventCallback from '../global/use-event-callback';
 import Month from './month';
 import MonthNames from './month-names';
-import styles from './date-picker.css';
 import units, {DOUBLE, HALF, type MonthsProps, WEEK, weekdays} from './consts';
+
+import styles from './date-picker.css';
 
 const {unit, cellSize, calHeight} = units;
 

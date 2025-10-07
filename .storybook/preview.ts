@@ -4,12 +4,13 @@ import {type Component} from 'storybook/internal/docs-tools';
 import {type Parameters} from '@storybook/react-webpack5';
 
 import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
-import queryAssistStyles from '../src/query-assist/query-assist.css';
-import styles from './preview.css';
 import strictModeDecorator from './strict-mode-decorator';
 import stylesDecorator from './styles-decorator';
 import themeDecorator from './theme-decorator';
 import {darkMatcher, theme} from './theme';
+
+import styles from './preview.css';
+import queryAssistStyles from '../src/query-assist/query-assist.css';
 
 const updateTheme = () => applyTheme(darkMatcher.matches ? Theme.DARK : Theme.LIGHT, document.documentElement);
 updateTheme();

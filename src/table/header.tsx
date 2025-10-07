@@ -3,8 +3,9 @@ import classNames from 'classnames';
 
 import Checkbox from '../checkbox/checkbox';
 import getUID from '../global/get-uid';
-import style from './table.css';
 import HeaderCell, {type Column, type SortParams} from './header-cell';
+
+import style from './table.css';
 
 export interface HeaderProps {
   columns: readonly Column[];

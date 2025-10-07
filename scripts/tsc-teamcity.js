@@ -8,7 +8,6 @@ const registeredErrorCodes = new Set();
 process.stdout.write = function write(error, ...args) {
   const match = error.match(errorFormat);
   if (match) {
-    // eslint-disable-next-line no-unused-vars
     const [_, file, line, errorCode, message] = match;
     if (!registeredErrorCodes.has(errorCode)) {
       tsm.inspectionType({

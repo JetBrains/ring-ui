@@ -4,6 +4,7 @@ import Dialog from '../dialog/dialog';
 import {Content} from '../island/island';
 import LoaderScreen from '../loader-screen/loader-screen';
 import {HUB_AUTH_PAGE_OPENED} from '../auth/background-flow';
+
 import styles from './login-dialog.css';
 
 const HUB_AUTH_PAGE_LOGIN_STARTED = 'HUB_AUTH_PAGE_LOGIN_STARTED';
