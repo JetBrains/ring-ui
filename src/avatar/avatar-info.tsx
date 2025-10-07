@@ -1,8 +1,9 @@
 import {type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import styles from './avatar.css';
 import {Size} from './avatar-size';
+
+import styles from './avatar.css';
 
 interface InfoAvatarProps {
   size: Size;

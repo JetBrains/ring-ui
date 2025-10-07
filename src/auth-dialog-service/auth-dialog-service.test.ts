@@ -1,8 +1,9 @@
 import {type ReactElement} from 'react';
 import {render, fireEvent} from '@testing-library/react';
 
-import styles from '../auth-dialog/auth-dialog.css';
 import authDialog, {reactRoot} from './auth-dialog-service';
+
+import styles from '../auth-dialog/auth-dialog.css';
 
 describe('Auth Dialog Service', () => {
   const getContainer = () => document.querySelector('*[data-test~="ring-auth-dialog"]');

@@ -1,10 +1,11 @@
 import warningIcon12 from '@jetbrains/icons/warning-12px';
 import warningIcon20 from '@jetbrains/icons/warning-20px';
 
-import avatarSrc from '../avatar-stack/avatar1.stories.png';
 import Icon from '../icon';
 import Avatar from './avatar';
 import {Size} from './avatar-size';
+
+import avatarSrc from '../avatar-stack/avatar1.stories.png';
 
 export default {
   title: 'Components/Avatar',

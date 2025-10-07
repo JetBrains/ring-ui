@@ -17,7 +17,7 @@ import {type AuthResponse} from './response-parser';
  */
 
 const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with a large list of scopes
-// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+// eslint-disable-next-line no-magic-numbers
 const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24; // nobody will need auth state after a day
 const UPDATE_USER_TIMEOUT = 1000;
 

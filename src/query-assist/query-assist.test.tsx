@@ -10,6 +10,7 @@ import QueryAssist, {
   type QueryAssistChange,
   type QueryAssistRequestParams,
 } from './query-assist';
+
 import styles from './query-assist.css';
 
 describe('Query Assist', () => {

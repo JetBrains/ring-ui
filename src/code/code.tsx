@@ -5,6 +5,7 @@ import highlight from 'highlight.js/lib/core';
 import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
 import memoize from '../global/memoize';
+
 import styles from './code.css';
 import highlightStyles from './highlight.css';
 

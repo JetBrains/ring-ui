@@ -8,6 +8,7 @@ import Icon, {type IconType} from '../icon/icon';
 import Button, {type ButtonAttrs} from '../button/button';
 import {I18nContext} from '../i18n/i18n-context';
 import Theme, {ThemeProvider, WithThemeClasses} from '../global/theme';
+
 import darkStyles from '../global/variables_dark.css';
 import styles from './message.css';
 

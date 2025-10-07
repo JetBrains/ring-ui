@@ -143,8 +143,8 @@ describe('Auth', () => {
 
     it('should add preconnect link tag', () => {
       const config = {serverUri: 'http://url-to-preconnect.ru/'};
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const auth = new Auth(config);
+
+      const _auth = new Auth(config);
 
       expect(document.querySelector(`[rel=preconnect][href="${config.serverUri}"]`)).to.exist;
     });

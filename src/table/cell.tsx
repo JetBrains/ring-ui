@@ -2,6 +2,7 @@ import {PureComponent, type TdHTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
+
 import style from './table.css';
 
 export interface CellProps extends TdHTMLAttributes<HTMLTableDataCellElement> {

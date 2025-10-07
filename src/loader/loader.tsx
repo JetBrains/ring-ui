@@ -2,6 +2,7 @@ import {type HTMLAttributes, PureComponent} from 'react';
 import classNames from 'classnames';
 
 import LoaderCore, {type LoaderCoreProps} from './loader-core';
+
 import styles from './loader.css';
 
 declare module 'csstype' {

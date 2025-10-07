@@ -33,6 +33,7 @@ import ListTitle from './list-title';
 import ListSeparator from './list-separator';
 import ListHint from './list-hint';
 import {DEFAULT_ITEM_TYPE, Dimension, type ListDataItem, type ListDataItemProps, Type} from './consts';
+
 import styles from './list.css';
 
 export type {ListDataItem};
@@ -246,7 +247,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   unmounted?: boolean;
   container?: HTMLElement | null;
 
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  // eslint-disable-next-line no-magic-numbers
   private _bufferSize = 10; // keep X items above and below of the visible area
   // reuse size cache for similar items
   sizeCacheKey = (index: number) => {

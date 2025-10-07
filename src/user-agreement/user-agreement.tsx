@@ -10,6 +10,7 @@ import {Content, Header} from '../island/island';
 import Panel from '../panel/panel';
 import Button from '../button/button';
 import {I18nContext} from '../i18n/i18n-context';
+
 import style from './user-agreement.css';
 
 function noop() {}

@@ -6,7 +6,7 @@ import type {Duration, Locale} from 'date-fns';
 const unit = 8; // px;
 const units = {
   unit,
-  /* eslint-disable @typescript-eslint/no-magic-numbers */
+  /* eslint-disable no-magic-numbers */
   cellSize: unit * 3,
   calHeight: unit * 36,
   yearHeight: unit * 4,

@@ -10,8 +10,9 @@ import {startOfYear} from 'date-fns/startOfYear';
 import {subYears} from 'date-fns/subYears';
 
 import linearFunction from '../global/linear-function';
-import styles from './date-picker.css';
 import units, {type CalendarProps, DOUBLE, HALF, yearDuration} from './consts';
+
+import styles from './date-picker.css';
 
 const {yearHeight, calHeight} = units;
 

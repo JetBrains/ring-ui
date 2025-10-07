@@ -10,6 +10,7 @@ import Tag, {TagType} from '../tag/tag';
 import Icon, {Size as IconSize} from '../icon/icon';
 import {I18nContext} from '../i18n/i18n-context';
 import Tooltip from '../tooltip/tooltip';
+
 import styles from './user-card.css';
 
 export interface UserCardUser {

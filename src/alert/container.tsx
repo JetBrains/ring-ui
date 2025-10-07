@@ -2,9 +2,10 @@ import {Children, cloneElement, PureComponent, type HTMLAttributes, isValidEleme
 import {createPortal} from 'react-dom';
 import classNames from 'classnames';
 
+import type {AlertProps} from './alert';
+
 import styles from './container.css';
 
-import type {AlertProps} from './alert';
 
 /**
  * @name Alert Container

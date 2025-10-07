@@ -7,6 +7,7 @@ import {COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
 import {Collapse} from './collapse';
 import {CollapseContent} from './collapse-content';
 import {CollapseControl} from './collapse-control';
+
 import styles from './collapse.css';
 
 const textMock = `This is very long text! This is very long text! This is very long text! This is very

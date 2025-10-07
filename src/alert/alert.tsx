@@ -12,6 +12,7 @@ import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
 import Button from '../button/button';
 import Theme, {ThemeProvider} from '../global/theme';
+
 import styles from './alert.css';
 
 export const ANIMATION_TIME = 500;

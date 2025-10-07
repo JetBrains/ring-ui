@@ -10,9 +10,11 @@ import {startOfYear} from 'date-fns/startOfYear';
 import linearFunction from '../global/linear-function';
 import MonthSlider from './month-slider';
 import {YEAR, MIDDLE_DAY, yearScrollSpeed, type MonthsProps} from './consts';
-import styles from './date-picker.css';
 
 import type {Locale} from 'date-fns';
+
+import styles from './date-picker.css';
+
 
 interface MonthNameProps {
   month: Date;

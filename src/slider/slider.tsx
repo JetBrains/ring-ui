@@ -6,8 +6,9 @@ import {isArray} from '../global/typescript-utils';
 import Shortcuts from '../shortcuts/shortcuts';
 import getUID from '../global/get-uid';
 import {type ShortcutsMap} from '../shortcuts/core';
-import styles from './slider.css';
 import {adjustValues, calculateMarks, calculateValue, HUNDRED, toPercent, toRange, validateValue} from './slider.utils';
+
+import styles from './slider.css';
 
 interface Mark {
   value: number;

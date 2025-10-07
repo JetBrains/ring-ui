@@ -2,6 +2,7 @@ import {Children, cloneElement, Component, type HTMLAttributes, type ReactElemen
 import classNames from 'classnames';
 
 import Sidebar, {type SidebarProps} from './sidebar';
+
 import styles from './content-layout.css';
 
 export interface ContentLayoutProps extends HTMLAttributes<HTMLElement> {

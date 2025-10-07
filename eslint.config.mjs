@@ -1,5 +1,6 @@
 /* eslint-disable no-magic-numbers */
 /* eslint-disable max-lines */
+
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {defineConfig} from 'eslint/config';
@@ -65,7 +66,7 @@ export default defineConfig([
   // Base configuration for all files
   {
     linterOptions: {
-      reportUnusedInlineConfigs: 'error',
+      reportUnusedInlineConfigs: 'warn',
     },
 
     languageOptions: {
@@ -96,42 +97,17 @@ export default defineConfig([
     },
 
     rules: {
+      camelcase: ['error', {allow: ['^UNSAFE_'], properties: 'never'}],
+      complexity: ['error', 20], // override JetBrains config from 7 to default 20
       'consistent-return': 'off', // TypeScript handles this
       curly: ['error', 'multi-line'],
       'default-case-last': 'error',
       'default-param-last': 'error',
       eqeqeq: 'error',
-      'max-depth': 'error',
-      'max-nested-callbacks': ['error', 5],
-      'no-alert': 'error',
-      'no-caller': 'error',
-      'no-confusing-arrow': 'off', // conflict with Prettier
-      'no-div-regex': 'error',
-      'no-duplicate-imports': 'error',
-      'no-else-return': ['error', {allowElseIf: false}],
-      'no-empty': ['error', {allowEmptyCatch: true}],
-      'no-extra-label': 'error',
-      'no-implicit-globals': 'error',
-      'no-invalid-this': 'error',
-      'no-iterator': 'error',
-      'no-loss-of-precision': 'error',
-      'no-new-object': 'error',
-      'no-return-await': 'error',
-      'no-undef-init': 'error',
-      'no-underscore-dangle': ['error', {allowAfterThis: true}],
-      'no-unsafe-finally': 'error',
-      'no-unused-expressions': 'error',
-      'no-useless-return': 'error',
-      'no-var': 'error',
-      'prefer-const': 'error',
-      'prefer-rest-params': 'error',
-      'prefer-spread': 'error',
-      'require-await': 'error',
-      'use-isnan': 'error',
-
-      // Import rules
       'import/extensions': ['error', 'always', {js: 'never', jsx: 'never', ts: 'never', tsx: 'never'}],
+      'import/named': 'error',
       'import/no-commonjs': 'off',
+      'import/no-duplicates': 'error',
       'import/no-extraneous-dependencies': [
         'error',
         {
@@ -155,6 +131,8 @@ export default defineConfig([
           peerDependencies: true,
         },
       ],
+      'import/no-unresolved': 'error',
+      'import/prefer-default-export': 'off',
       'import/order': [
         'error',
         {
@@ -167,19 +145,26 @@ export default defineConfig([
             ['object'],
           ],
           distinctGroup: true,
+          pathGroups: [
+            {
+              pattern: '*.{png,svg,jpg,gif,json}',
+              patternOptions: {matchBase: true},
+              group: 'object',
+              position: 'after',
+            },
+            {
+              pattern: '*.{css,scss}',
+              patternOptions: {matchBase: true},
+              group: 'object',
+              position: 'after',
+            },
+          ],
+          pathGroupsExcludedImportTypes: [],
         },
       ],
-      'import/prefer-default-export': 'off',
-
-      // General rules
-      camelcase: ['error', {allow: ['^UNSAFE_'], properties: 'never'}],
-      complexity: ['error', 20], // override JetBrains config from 7 to default 20
-      'no-unused-vars': ['error', {caughtErrors: 'none'}],
-      quotes: ['error', 'single', {avoidEscape: true, allowTemplateLiterals: true}],
       'jsx-quotes': ['error', 'prefer-single'],
-
-      'no-inner-declarations': 'off', // Allow function declarations in blocks
       'max-classes-per-file': 'off', // Allow multiple classes per file
+      'max-depth': 'error',
       'max-len': [
         'error',
         120,
@@ -191,13 +176,58 @@ export default defineConfig([
         },
       ],
       'max-lines': ['error', {max: 400}],
-
+      'max-nested-callbacks': ['error', 5],
+      'no-alert': 'error',
+      'no-caller': 'error',
+      'no-confusing-arrow': 'off', // conflict with Prettier
+      'no-div-regex': 'error',
+      'no-duplicate-imports': 'error',
+      'no-else-return': ['error', {allowElseIf: false}],
+      'no-empty': ['error', {allowEmptyCatch: true}],
+      'no-extra-label': 'error',
+      'no-implicit-globals': 'error',
+      'no-inner-declarations': 'off', // Allow function declarations in blocks
+      'no-invalid-this': 'error',
+      'no-iterator': 'error',
+      'no-loss-of-precision': 'error',
+      'no-magic-numbers': [
+        'error',
+        {
+          ignore: [-1, 0, 1, 2],
+          ignoreEnums: true,
+          ignoreTypeIndexes: true,
+          ignoreReadonlyClassProperties: true,
+          ignoreArrayIndexes: true,
+        },
+      ],
+      'no-new-object': 'error',
+      'no-return-await': 'error',
+      'no-shadow': 'error',
+      'no-undef-init': 'error',
+      'no-underscore-dangle': ['error', {allowAfterThis: true}],
+      'no-unsafe-finally': 'error',
+      'no-unused-expressions': 'error',
+      'no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'none',
+          ignoreRestSiblings: true,
+        },
+      ],
+      'no-use-before-define': ['error', 'nofunc'],
+      'no-useless-return': 'error',
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'prefer-rest-params': 'error',
+      'prefer-spread': 'error',
+      'require-await': 'error',
       'react/jsx-uses-react': 'off', // we support new JSX transform in React 17+
       'react/react-in-jsx-scope': 'off',
       'react/jsx-tag-spacing': 'off',
-
-      // Legacy rules to maintain compatibility
-      'valid-jsdoc': 'off',
+      quotes: ['error', 'single', {avoidEscape: true, allowTemplateLiterals: true}],
+      'use-isnan': 'error',
     },
   },
 
@@ -243,10 +273,6 @@ export default defineConfig([
       },
     },
     rules: {
-      'import/no-unresolved': 'error',
-      'import/named': 'error',
-      'import/no-duplicates': 'error',
-
       '@typescript-eslint/ban-ts-comment': 'error',
       '@typescript-eslint/consistent-type-assertions': 'error',
       '@typescript-eslint/consistent-type-imports': [
@@ -275,8 +301,8 @@ export default defineConfig([
       ],
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/no-shadow': 'error',
       '@typescript-eslint/no-this-alias': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'error',
       '@typescript-eslint/no-unused-expressions': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -289,29 +315,8 @@ export default defineConfig([
       ],
       '@typescript-eslint/no-useless-constructor': 'error',
       '@typescript-eslint/no-var-requires': 'off',
-      '@typescript-eslint/no-use-before-define': [/* severity */ 2, 'nofunc'],
-      '@typescript-eslint/triple-slash-reference': 'error',
-      '@typescript-eslint/no-unsafe-function-type': 'error',
       '@typescript-eslint/no-wrapper-object-types': 'error',
-
-      // Disable base rules that are covered by TypeScript equivalents
-      'no-shadow': 'off',
-      'no-use-before-define': 'off',
-      'no-unused-vars': 'off',
-      'no-unused-expressions': 'off',
-
-      // Magic numbers rule
-      'no-magic-numbers': 'off',
-      '@typescript-eslint/no-magic-numbers': [
-        'error',
-        {
-          ignore: [-1, 0, 1, 2],
-          ignoreEnums: true,
-          ignoreTypeIndexes: true,
-          ignoreReadonlyClassProperties: true,
-          ignoreArrayIndexes: true,
-        },
-      ],
+      '@typescript-eslint/triple-slash-reference': 'error',
     },
   },
 
@@ -361,9 +366,7 @@ export default defineConfig([
     },
     rules: {
       'new-cap': ['error', {capIsNewExceptionPattern: '^.*.UNSAFE_'}],
-      '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
-      '@typescript-eslint/no-magic-numbers': 'off',
       'no-magic-numbers': 'off',
       'max-lines': 'off',
     },
@@ -388,7 +391,6 @@ export default defineConfig([
       'react/no-this-in-sfc': 'off',
       'react/prop-types': 'off',
       'no-magic-numbers': 'off',
-      '@typescript-eslint/no-magic-numbers': 'off',
       'max-lines': 'off',
 
       'storybook/await-interactions': 'error',

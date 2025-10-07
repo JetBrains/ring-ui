@@ -1,8 +1,9 @@
 import {PureComponent} from 'react';
 import classnames from 'classnames';
 
-import styles from './list.css';
 import {type ListDataItemProps} from './consts';
+
+import styles from './list.css';
 
 export default class ListTitle<T> extends PureComponent<ListDataItemProps<T>> {
   render() {

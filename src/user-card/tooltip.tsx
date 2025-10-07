@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Dropdown, {type DropdownAttrs, type DropdownProps} from '../dropdown/dropdown';
 import Popup from '../popup/popup';
 import UserCard, {type UserCardAttrs, type UserCardUser} from './card';
+
 import styles from './user-card.css';
 
 const DEFAULT_TIMEOUT = 300;

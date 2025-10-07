@@ -6,6 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const ringConfig = require('../webpack.config').createConfig();
+
 const pkgConfig = require('../package.json').config;
 
 export default {

@@ -1,7 +1,4 @@
 import {Component} from 'react';
-import hubLogo from '@jetbrains/logos/hub/hub.svg';
-import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
-import teamcityLogo from '@jetbrains/logos/teamcity/teamcity.svg';
 import addIcon from '@jetbrains/icons/add-20px';
 import giftIcon from '@jetbrains/icons/gift-20px';
 import helpIcon from '@jetbrains/icons/help-20px';
@@ -28,6 +25,10 @@ import HeaderIcon from './header-icon';
 import SmartServices from './smart-services';
 import SmartProfile from './smart-profile';
 import Links from './links';
+
+import teamcityLogo from '@jetbrains/logos/teamcity/teamcity.svg';
+import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
+import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
 const blockAuth = window.location.search.includes('block-auth');
 

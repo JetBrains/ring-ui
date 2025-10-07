@@ -5,9 +5,11 @@ import dataTests from '../global/data-tests';
 import ControlLabel from '../control-label/control-label';
 import ControlHelp from '../control-help/control-help';
 import Caption from './caption';
-import styles from './button-group.css';
 
 import type {ButtonAttrs} from '../button/button';
+
+import styles from './button-group.css';
+
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLElement> {
   split?: boolean | null | undefined;

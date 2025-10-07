@@ -3,8 +3,9 @@ import classNames from 'classnames';
 import createResizeDetector from 'element-resize-detector';
 
 import scheduleRAF from '../global/schedule-raf';
-import styles from './island.css';
 import {ScrollHandlerContext} from './adaptive-island-hoc';
+
+import styles from './island.css';
 
 const scheduleScrollAction = scheduleRAF();
 const noop = () => {};

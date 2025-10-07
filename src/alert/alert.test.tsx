@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Alert from './alert';
+
 import styles from './alert.css';
 
 const TIMEOUT = 100;

@@ -5,9 +5,10 @@ import Link from '../link/link';
 import {type TableAttrs} from './table';
 import SimpleTable from './simple-table';
 import {type SelectionItem} from './selection';
+import {type SortParams} from './header-cell';
+
 import mock from './table.stories.json';
 import tableData from './table.examples2.json';
-import {type SortParams} from './header-cell';
 /**
  * Simple stateless table without hover effect
  */

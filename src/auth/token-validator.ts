@@ -46,7 +46,7 @@ export default class TokenValidator {
   /**
    * @const {number}
    */
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  // eslint-disable-next-line no-magic-numbers
   static DEFAULT_REFRESH_BEFORE = 10 * 60; // 20 min in s
 
   /**

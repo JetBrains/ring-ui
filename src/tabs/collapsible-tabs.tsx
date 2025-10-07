@@ -2,10 +2,11 @@ import {useState, useRef, useMemo, useCallback, useEffect, memo, type ReactEleme
 import classNames from 'classnames';
 import fastdom from 'fastdom';
 
-import styles from './tabs.css';
 import {FakeMoreButton, MoreButton} from './collapsible-more';
 import getTabTitles from './collapsible-tab';
 import {type TabProps} from './tab';
+
+import styles from './tabs.css';
 
 const DEFAULT_DEBOUNCE_INTERVAL = 100;
 const MEASURE_TOLERANCE = 0.5;

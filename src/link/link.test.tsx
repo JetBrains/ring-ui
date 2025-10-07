@@ -4,6 +4,7 @@ import {fireEvent, render, screen} from '@testing-library/react';
 
 import Link, {linkHOC, type LinkProps} from './link';
 import ClickableLink, {type ClickableLinkProps} from './clickable-link';
+
 import styles from './link.css';
 
 describe('Link', () => {

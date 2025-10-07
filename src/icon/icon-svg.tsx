@@ -3,6 +3,7 @@ import {memo, type SVGAttributes} from 'react';
 import classNames from 'classnames';
 
 import memoize from '../global/memoize';
+
 import styles from './icon.css';
 
 function convertReactSVGDOMProperty(str: string) {

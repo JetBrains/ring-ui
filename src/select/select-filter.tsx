@@ -5,6 +5,7 @@ import Input, {type InputAttrs} from '../input/input';
 import sniffr from '../global/sniffer';
 import {ActiveItemContext} from '../list/list';
 import {I18nContext} from '../i18n/i18n-context';
+
 import styles from './select-popup.css';
 
 function noop() {}

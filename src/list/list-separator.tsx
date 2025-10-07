@@ -1,8 +1,9 @@
 import {PureComponent} from 'react';
 import classNames from 'classnames';
 
-import styles from './list.css';
 import {type ListDataItemProps} from './consts';
+
+import styles from './list.css';
 
 export default class ListSeparator<T> extends PureComponent<ListDataItemProps<T>> {
   render() {

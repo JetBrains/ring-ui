@@ -2,6 +2,7 @@ import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import Theme, {ThemeProvider} from '../global/theme';
+
 import styles from './header.css';
 
 interface HeaderProps extends HTMLAttributes<HTMLElement> {

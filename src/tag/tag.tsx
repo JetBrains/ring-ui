@@ -6,6 +6,7 @@ import closeIcon from '@jetbrains/icons/close-12px';
 import Icon, {type IconType} from '../icon/icon';
 import Button from '../button/button';
 import {ControlsHeight} from '../global/controls-height';
+
 import styles from './tag.css';
 
 export interface TagRenderProps extends HTMLAttributes<HTMLElement> {

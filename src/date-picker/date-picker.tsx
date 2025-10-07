@@ -21,10 +21,11 @@ import {Size} from '../input/input';
 import {I18nContext} from '../i18n/i18n-context';
 import DatePopup, {type DatePopupProps} from './date-popup';
 import {type DateInputTranslations, type DatePickerChange} from './consts';
-import styles from './date-picker.css';
 import formats from './formats';
 
 import type {Locale} from 'date-fns';
+
+import styles from './date-picker.css';
 
 interface PopupComponentProps extends Partial<PopupAttrs> {
   hidden?: boolean;

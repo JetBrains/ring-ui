@@ -7,9 +7,10 @@ import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon/icon';
 import getUID from '../global/get-uid';
 import Link, {linkHOC} from '../link/link';
-import styles from './list.css';
 import {type ListDataItemProps, Type} from './consts';
 import {getListClasses} from './list.classes';
+
+import styles from './list.css';
 
 /**
  * @constructor

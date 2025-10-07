@@ -5,10 +5,11 @@ import deprecate from 'util-deprecate';
 import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
 import memoize from '../global/memoize';
-import styles from './avatar.css';
 import FallbackAvatar from './fallback-avatar';
 import {Size} from './avatar-size';
 import AvatarInfo from './avatar-info';
+
+import styles from './avatar.css';
 
 export {Size};
 

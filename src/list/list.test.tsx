@@ -6,8 +6,9 @@ import userEvent from '@testing-library/user-event';
 import getUID from '../global/get-uid';
 import simulateCombo from '../../test-helpers/simulate-combo';
 import List, {type ListAttrs} from './list';
-import styles from './list.css';
 import {Type} from './consts';
+
+import styles from './list.css';
 
 describe('List', () => {
   const renderList = (props: ListAttrs) => render(<List renderOptimization={false} {...props} />);

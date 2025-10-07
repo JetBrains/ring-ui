@@ -10,7 +10,7 @@ import {ControlsHeightContext, getGlobalControlsHeight} from '../global/controls
 import UserAgreement, {type UserAgreementAttrs, type UserAgreementTranslations} from './user-agreement';
 
 const GUEST_SESSION_KEY = 'end-user-agreement-consent';
-const ONE_HOUR = 60 * 60 * 1000; // eslint-disable-line @typescript-eslint/no-magic-numbers
+const ONE_HOUR = 60 * 60 * 1000; // eslint-disable-line no-magic-numbers
 
 const storageKey = 'userAgreementKey';
 export const showMessage = 'userAgreementShow';

@@ -7,8 +7,9 @@ import classNames from 'classnames';
 import deprecate from 'util-deprecate';
 
 import {Color, Size} from './icon.constants';
-import styles from './icon.css';
 import IconSVG from './icon-svg';
+
+import styles from './icon.css';
 
 const warnSize = deprecate(
   () => {},
