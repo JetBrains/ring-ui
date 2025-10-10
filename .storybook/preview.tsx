@@ -10,6 +10,7 @@ import strictModeDecorator from './strict-mode-decorator';
 import stylesDecorator from './styles-decorator';
 import themeDecorator from './theme-decorator';
 import {darkMatcher, theme} from './theme';
+import {CustomDocs} from './custom-docs/custom-docs';
 
 const updateTheme = () => applyTheme(darkMatcher.matches ? Theme.DARK : Theme.LIGHT, document.documentElement);
 updateTheme();
@@ -28,6 +29,7 @@ export const parameters = {
       notes ?? component?.__docgenInfo?.description,
     theme,
     codePanel: true,
+    page: CustomDocs,
   },
   a11y: {
     test: 'error',
