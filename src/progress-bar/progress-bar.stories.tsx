@@ -24,6 +24,11 @@ const meta: Meta<typeof ProgressBar> = {
       );
     },
   ],
+  parameters: {
+    docs: {
+      componentSlug: 'progress-bar',
+    },
+  },
   argTypes: {
     value: {
       control: {type: 'range', min: 0, max: 1, step: 0.1},
