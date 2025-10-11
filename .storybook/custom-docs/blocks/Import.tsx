@@ -1,6 +1,6 @@
 import {Source, useOf} from '@storybook/addon-docs/blocks';
 
-const getSlugFromPath = (path: string) => (path.split(/[/\\]/).pop() ?? '').replace(/\.(stories|story)\.[^.]+$/i, '');
+import {getSlugFromPath} from './utils';
 
 export const Import = () => {
   const {preparedMeta} = useOf('meta', ['meta']);
