@@ -1,19 +1,11 @@
 import {Source, useOf} from '@storybook/addon-docs/blocks';
 
-interface DocsParams {
-  componentSlug?: string;
-}
-
-interface Prepared {
-  parameters?: {docs?: DocsParams};
-  component?: {displayName?: string; name?: string};
-  title?: string;
-}
+const getSlugFromPath = (path: string) => (path.split(/[/\\]/).pop() ?? '').replace(/\.(stories|story)\.[^.]+$/i, '');
 
 export const Import = () => {
-  const {preparedMeta} = useOf('meta', ['meta']) as {preparedMeta?: Prepared};
-  const slug = preparedMeta?.parameters?.docs?.componentSlug;
+  const {preparedMeta} = useOf('meta', ['meta']);
   const exportName = preparedMeta?.component?.displayName ?? preparedMeta?.component?.name;
+  const slug = getSlugFromPath(preparedMeta?.parameters?.fileName || '');
 
   if (!slug || !exportName) {
     return null;
