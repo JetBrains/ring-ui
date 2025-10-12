@@ -1,0 +1,1 @@
+(self.webpackChunk_jetbrains_ring_ui=self.webpackChunk_jetbrains_ring_ui||[]).push([[2369],{"./node_modules/highlight.js/lib/languages/plaintext.js":function(module){module.exports=function plaintext(hljs){return{name:"Plain text",aliases:["text","txt"],disableAutodetect:!0}}}}]);
