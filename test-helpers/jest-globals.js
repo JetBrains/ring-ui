@@ -47,7 +47,7 @@ Object.defineProperty(window, 'matchMedia', {
   }),
 });
 
-setProjectAnnotations(require('../.storybook/preview.ts'));
+setProjectAnnotations(require('../.storybook/preview.tsx'));
 
 HTMLDialogElement.prototype.show = jest.fn();
 HTMLDialogElement.prototype.showModal = jest.fn();
