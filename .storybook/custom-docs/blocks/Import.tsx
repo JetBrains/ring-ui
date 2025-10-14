@@ -1,18 +1,25 @@
 import {Source, useOf} from '@storybook/addon-docs/blocks';
 
-import {getSlugFromPath} from './utils';
+interface DocsParameters {
+  importSubpath?: string;
+  exportName?: string;
+}
+
+interface PreparedMeta {
+  parameters?: {docs?: DocsParameters};
+}
 
 export const Import = () => {
-  const {preparedMeta} = useOf('meta', ['meta']);
-  const exportName = preparedMeta?.component?.displayName ?? preparedMeta?.component?.name;
-  const slug = getSlugFromPath(preparedMeta?.parameters?.fileName || '');
+  const {preparedMeta} = useOf('meta', ['meta']) as {preparedMeta: PreparedMeta};
+  const exportName = preparedMeta.parameters?.docs?.exportName;
+  const importSubpath = preparedMeta.parameters?.docs?.importSubpath;
 
-  if (!slug || !exportName) {
+  if (!exportName || !importSubpath) {
     return null;
   }
 
-  const builtPath = `import ${exportName} from '@jetbrains/ring-ui-built/components/${slug}/${slug}';`;
-  const sourcePath = `import ${exportName} from '@jetbrains/ring-ui/components/${slug}/${slug}';`;
+  const builtPath = `import ${exportName} from '@jetbrains/ring-ui-built/${importSubpath}';`;
+  const sourcePath = `import ${exportName} from '@jetbrains/ring-ui/${importSubpath}';`;
 
   return (
     <>
