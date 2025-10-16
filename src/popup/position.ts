@@ -2,7 +2,6 @@ import {
   getDocumentScrollLeft,
   getDocumentScrollTop,
   getRect,
-  getWindowHeight,
   isMounted,
   type Rect,
 } from '../global/dom';
@@ -90,7 +89,7 @@ interface OverflowAttrs extends PositionAttrs {
 }
 
 function verticalOverflow(styles: PositionStyles, scrollingCoordinates: Position, attrs: OverflowAttrs) {
-  const containerHeight = attrs.container ? attrs.container.clientHeight : getWindowHeight();
+  const containerHeight = attrs.container ? attrs.container.clientHeight : document.documentElement.clientHeight;
   const viewportMinX = scrollingCoordinates.top + attrs.sidePadding;
   const viewportMaxX = scrollingCoordinates.top + containerHeight - attrs.sidePadding;
 
@@ -104,7 +103,7 @@ function verticalOverflow(styles: PositionStyles, scrollingCoordinates: Position
 }
 
 function horizontalOverflow(styles: PositionStyles, scrollingCoordinates: Position, attrs: OverflowAttrs) {
-  const containerWidth = attrs.container ? attrs.container.clientWidth : window.innerWidth;
+  const containerWidth = attrs.container ? attrs.container.clientWidth : document.documentElement.clientWidth;
   const viewportMinY = scrollingCoordinates.left + attrs.sidePadding;
   const viewportMaxY = scrollingCoordinates.left + containerWidth - attrs.sidePadding;
 
