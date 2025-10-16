@@ -1,5 +1,5 @@
 import {createRequire} from 'node:module';
-import {dirname, join} from 'node:path';
+import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const require = createRequire(import.meta.url);
@@ -58,6 +58,14 @@ export default {
       },
       {test: /\.m?js$/, resolve: {fullySpecified: false}},
     ];
+
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve?.alias,
+        '@custom-docs': resolve(__dirname, './custom-docs'),
+      },
+    };
 
     const serverUri = pkgConfig.hub;
     const clientId = pkgConfig.clientId;
