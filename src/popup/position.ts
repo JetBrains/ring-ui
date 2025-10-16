@@ -2,7 +2,6 @@ import {
   getDocumentScrollLeft,
   getDocumentScrollTop,
   getRect,
-  getWindowHeight,
   isMounted,
   Rect
 } from '../global/dom';
@@ -97,7 +96,7 @@ function verticalOverflow(
 ) {
   const containerHeight = attrs.container !== null
     ? attrs.container.clientHeight
-    : getWindowHeight();
+    : document.documentElement.clientHeight;
   const viewportMinX = scrollingCoordinates.top + attrs.sidePadding;
   const viewportMaxX = scrollingCoordinates.top + containerHeight - attrs.sidePadding;
 
@@ -115,7 +114,9 @@ function horizontalOverflow(
   scrollingCoordinates: Position,
   attrs: OverflowAttrs
 ) {
-  const containerWidth = attrs.container !== null ? attrs.container.clientWidth : window.innerWidth;
+  const containerWidth = attrs.container !== null
+    ? attrs.container.clientWidth
+    : document.documentElement.clientWidth;
   const viewportMinY = scrollingCoordinates.left + attrs.sidePadding;
   const viewportMaxY = scrollingCoordinates.left + containerWidth - attrs.sidePadding;
 
