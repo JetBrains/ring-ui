@@ -94,3 +94,15 @@ so every component could be inspected via running storybook (`npm start`) and th
 - Click "Generate" and then "Copy"
 - Paste the copied text into `/design-tokens.json`
 - Run `npm run update-styles`
+
+### Creating a new Story
+
+1. Copy the base story template: [template.stories.tsx](.storybook/template/template.stories.tsx)
+
+2. Rename it to your component (e.g. `button.stories.tsx`) and adjust imports and metadata.
+
+Storybook will automatically generate docs with an example, import section, and props table.  
+If you need a custom documentation layout (extra sections, guidelines, etc.),  
+use [template.mdx](.storybook/template/template.mdx) as a starting point.
+
+
