@@ -24,9 +24,17 @@ export default {
   webpackFinal(config) {
     ringConfig.componentsPath.push(__dirname, path.resolve(__dirname, '../src'));
 
+    const autoDocumentationRule = config.module.rules.find(rule => /react-docgen-loader\.js$/.test(rule.loader));
+    const mdxRule = config.module.rules.find(
+      rule =>
+        rule.test.toString().startsWith('/\\.mdx') && rule.use?.some(u => u.loader?.includes('@storybook/addon-docs')),
+    );
+
     config.module.rules = [
       ...ringConfig.config.module.rules,
       config.module.rules.find(rule => /react-docgen-loader\.js$/.test(rule.loader)),
+      autoDocumentationRule,
+      mdxRule,
       {
         test: /\.md$/,
         loader: 'raw-loader',
