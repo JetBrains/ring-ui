@@ -1,0 +1,23 @@
+{/* Base MDX template for component documentation */}
+
+import { Meta, Title, Primary, Controls } from '@storybook/addon-docs/blocks';
+import { Import } from '@custom-docs/blocks/Import';
+
+import * as TemplateStories from './template.stories';
+
+<Meta of={TemplateStories} />
+
+{/* Component name */}
+<Title />
+
+{/* Component description (optional for now) */}
+<p>Write your component description here.</p>
+
+{/* Main example */}
+<Primary />
+
+{/* Import section */}
+<Import />
+
+{/* Props table */}
+<Controls />
