@@ -19,7 +19,8 @@ export default {
   stories: [
     // Make welcome stories default
     '../src/welcome.stories.tsx',
-    '../src/**/*.stories.{js,ts,tsx}',
+    '../src/**/!(template)*.mdx',
+    '../src/**/!(template)*.stories.{js,ts,tsx}',
   ],
 
   features: {
