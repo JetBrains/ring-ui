@@ -3,7 +3,8 @@ import pencilIcon from '@jetbrains/icons/pencil';
 import pencil12pxIcon from '@jetbrains/icons/pencil-12px';
 import hourglassIcon from '@jetbrains/icons/hourglass';
 
-import Loader from '../loader-inline/loader-inline';
+import Loader from '../loader/loader';
+import LoaderInline from '../loader-inline/loader-inline';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import {Col, Grid} from '../grid/grid';
 import Row from '../grid/row';
@@ -138,7 +139,12 @@ export const longAction = () => {
             Sleep
           </Button>
           <Button title='Sleep' loader={loading} icon={hourglassIcon} onClick={this.load} />
-          {loading && <Loader />}
+          {loading && (
+            <>
+              <LoaderInline />
+              <Loader squares />
+            </>
+          )}
         </Fragment>
       );
     }
