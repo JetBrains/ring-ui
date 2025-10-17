@@ -1,5 +1,13 @@
 @import '../global/variables.css';
 
+/* stylelint-disable color-no-hex */
+:root {
+  --ring-loader-color-1: #3bea62;
+  --ring-loader-color-2: #6b57ff;
+  --ring-loader-color-3: #07c3f2;
+}
+/* stylelint-enable */
+
 @keyframes rotation-keyframes {
   100% {
     transform: rotate(360deg);
@@ -12,6 +20,121 @@
   margin: calc(var(--ring-unit) * 2) auto;
 
   pointer-events: none;
+}
+
+.squares {
+  position: relative;
+
+  width: 60px;
+  height: 60px;
+}
+
+@keyframes square-animation {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
+
+    background: var(--ring-loader-color-1);
+  }
+
+  18.75% {
+    transform: rotate(182deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
+
+    background: var(--ring-loader-color-2);
+  }
+
+  25% {
+    transform: rotate(180deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
+
+    background: var(--ring-loader-color-2);
+  }
+
+  43.75% {
+    transform: rotate(362deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
+
+    background: var(--ring-loader-color-1);
+  }
+
+  50% {
+    transform: rotate(360deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
+
+    background: var(--ring-loader-color-1);
+  }
+
+  68.75% {
+    transform: rotate(542deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
+
+    background: var(--ring-loader-color-3);
+  }
+
+  75% {
+    transform: rotate(540deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
+
+    background: var(--ring-loader-color-3);
+  }
+
+  93.75% {
+    transform: rotate(722deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
+
+    background: var(--ring-loader-color-1);
+  }
+
+  100% {
+    transform: rotate(720deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
+
+    background: var(--ring-loader-color-1);
+  }
+}
+
+.square {
+  position: absolute;
+
+  animation: square-animation 6.4s infinite;
+
+  border-radius: 20%;
+  background: var(--ring-loader-color-1);
+  mask-image: linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.inner {
+  top: 20px;
+  left: 20px;
+
+  width: 20px;
+  height: 20px;
+
+}
+
+.middle {
+  top: 10px;
+  left: 10px;
+
+  width: 40px;
+  height: 40px;
+
+  animation-delay: 0.08s;
+
+  opacity: 0.8;
+}
+
+.outer {
+  top: 0;
+  left: 0;
+
+  width: 60px;
+  height: 60px;
+
+  animation-delay: 0.16s;
+
+  opacity: 0.7;
 }
 
 .animate {
