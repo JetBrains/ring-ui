@@ -6,7 +6,7 @@
 }
 
 :global(.ring-ui-theme-dark) {
-  --ring-checkbox-disabled-check-color: var(--ring-disabled-color);
+  --ring-checkbox-disabled-check-color: var(--ring-secondary-color);
 }
 
 .checkbox {
