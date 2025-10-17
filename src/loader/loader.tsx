@@ -49,9 +49,8 @@ export default class Loader extends PureComponent<LoaderProps> {
     const {message, size, colors, 'data-test': dataTest, stop, deterministic, squares, ...restProps} = this.props;
 
     return squares ? (
-      <>
+      <div {...restProps}>
         <div
-          {...restProps}
           className={classNames(styles.canvas, styles.squares)}
           style={{
             '--ring-loader-color-1': colors?.[0] ? `rgb(${colors[0].r}, ${colors[0].g}, ${colors[0].b})` : undefined,
@@ -64,7 +63,7 @@ export default class Loader extends PureComponent<LoaderProps> {
           <div className={classNames(styles.square, styles.inner)} />
         </div>
         {message && <div className={styles.text}>{message}</div>}
-      </>
+      </div>
     ) : (
       <div {...restProps} ref={this.initLoader} />
     );
