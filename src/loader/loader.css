@@ -29,111 +29,138 @@
   height: 60px;
 }
 
-@keyframes square-animation {
+@keyframes square-animation-main {
   0% {
     transform: rotate(0deg);
     animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
-
-    background: var(--ring-loader-color-1);
   }
 
-  18.75% {
+  37.5% {
     transform: rotate(182deg);
     animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
-
-    background: var(--ring-loader-color-2);
-  }
-
-  25% {
-    transform: rotate(180deg);
-    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
-
-    background: var(--ring-loader-color-2);
-  }
-
-  43.75% {
-    transform: rotate(362deg);
-    animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
-
-    background: var(--ring-loader-color-1);
   }
 
   50% {
-    transform: rotate(360deg);
+    transform: rotate(180deg);
     animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
-
-    background: var(--ring-loader-color-1);
   }
 
-  68.75% {
-    transform: rotate(542deg);
+  87.5% {
+    transform: rotate(362deg);
     animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
-
-    background: var(--ring-loader-color-3);
-  }
-
-  75% {
-    transform: rotate(540deg);
-    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
-
-    background: var(--ring-loader-color-3);
-  }
-
-  93.75% {
-    transform: rotate(722deg);
-    animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
-
-    background: var(--ring-loader-color-1);
   }
 
   100% {
-    transform: rotate(720deg);
+    transform: rotate(360deg);
+    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
+  }
+}
+
+@keyframes square-animation-pseudo {
+  0% {
     animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
 
-    background: var(--ring-loader-color-1);
+    opacity: 0;
+  }
+
+  18.75% {
+    animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
+
+    opacity: 1;
+  }
+
+  25% {
+    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
+
+    opacity: 1;
+  }
+
+  43.75% {
+    animation-timing-function: cubic-bezier(0.333, 0, 0.657, 1);
+
+    opacity: 0;
+  }
+
+  100% {
+    animation-timing-function: cubic-bezier(0.333, 0, 0, 1);
+
+    opacity: 0;
   }
 }
 
 .square {
-  position: absolute;
+  animation: square-animation-main 3.2s infinite;
 
-  animation: square-animation 6.4s infinite;
-
-  border-radius: 20%;
   background: var(--ring-loader-color-1);
   mask-image: linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+
+  &,
+  &::before,
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    border-radius: 20%;
+  }
+
+  &::before {
+    content: '';
+    animation: square-animation-pseudo 6.4s infinite;
+
+    opacity: 0;
+
+    background: var(--ring-loader-color-2);
+  }
+
+  &::after {
+    content: '';
+    animation: square-animation-pseudo 6.4s 3.2s infinite;
+
+    opacity: 0;
+
+    background: var(--ring-loader-color-3);
+  }
 }
 
 .inner {
   top: 20px;
+  right: 20px;
+  bottom: 20px;
   left: 20px;
-
-  width: 20px;
-  height: 20px;
 }
 
 .middle {
   top: 10px;
+  right: 10px;
+  bottom: 10px;
   left: 10px;
 
-  width: 40px;
-  height: 40px;
-
-  animation-delay: 0.08s;
-
   opacity: 0.8;
+
+  &,
+  &::before {
+    animation-delay: 0.08s;
+  }
+
+  &::after {
+    animation-delay: 3.28s;
+  }
 }
 
 .outer {
-  top: 0;
-  left: 0;
-
-  width: 60px;
-  height: 60px;
-
-  animation-delay: 0.16s;
-
   opacity: 0.7;
+
+  &,
+  &::before {
+    animation-delay: 0.16s;
+  }
+
+  &::after {
+    animation-delay: 3.36s;
+  }
 }
 
 .animate {
