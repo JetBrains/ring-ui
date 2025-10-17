@@ -16,7 +16,7 @@
   --ring-border-selected-disabled-components: 90, 93, 99;
   --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #5A5D63 */
   --ring-border-disabled-active-components: var(--ring-border-hover-components);
-  --ring-border-disabled-active-color: var(--ring-border-hover-color);
+  --ring-border-disabled-active-color: var(--ring-border-hover-color); /* TODO: remove in 8.0 in favor of --ring-border-hover-color */
   --ring-icon-disabled-components: 111, 115, 122;
   --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #6F737A */
   --ring-border-hover-components: 55, 95, 173;

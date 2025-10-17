@@ -175,7 +175,7 @@
 
 .active {
   --ring-button-disabled-background-color: var(--ring-hover-background-color);
-  --ring-button-disabled-border-color: var(--ring-border-disabled-active-color);
+  --ring-button-disabled-border-color: var(--ring-border-hover-color);
 
   transition: none;
 }
@@ -224,7 +224,7 @@
   --ring-button-hover-background-color: var(--ring-main-hover-color);
   --ring-button-pressed-background-color: var(--ring-button-primary-background-color);
   --ring-button-active-background-color: var(--ring-button-primary-background-color);
-  --ring-button-disabled-background-color: var(--ring-border-disabled-active-color);
+  --ring-button-disabled-background-color: var(--ring-border-hover-color);
   --ring-button-pressed-border-color: var(--ring-button-primary-border-color);
   --ring-button-active-border-color: var(--ring-button-primary-border-color);
 

@@ -142,7 +142,7 @@
 }
 
 .buttonGroup .button.active[disabled] {
-  box-shadow: var(--ring-button-shadow) var(--ring-border-disabled-active-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-border-hover-color);
 }
 /* stylelint-enable */
 
