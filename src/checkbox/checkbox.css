@@ -123,8 +123,8 @@
 
   &[disabled]:checked + .cellWrapper .cell,
   &[disabled]:indeterminate + .cellWrapper .cell {
-    border-color: var(--ring-border-disabled-active-color);
-    background-color: var(--ring-border-disabled-active-color);
+    border-color: var(--ring-border-hover-color);
+    background-color: var(--ring-border-hover-color);
   }
 
   &[disabled]:checked + .cellWrapper .check,

@@ -196,7 +196,7 @@
 
 /* stylelint-disable-next-line selector-max-specificity */
 .input:checked[disabled] + .switch {
-  --ring-toggle-background-color: var(--ring-border-disabled-active-color);
+  --ring-toggle-background-color: var(--ring-border-hover-color);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */

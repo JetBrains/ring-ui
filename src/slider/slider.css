@@ -117,7 +117,7 @@
   }
 
   &.disabled {
-    background-color: var(--ring-border-disabled-active-color);
+    background-color: var(--ring-border-hover-color);
   }
 }
 
@@ -171,10 +171,10 @@
 
   &.disabled {
     color: var(--ring-slider-tag-disabled-text-color);
-    background-color: var(--ring-border-disabled-active-color);
+    background-color: var(--ring-border-hover-color);
 
     &::after {
-      border-top: 3px solid var(--ring-border-disabled-active-color);
+      border-top: 3px solid var(--ring-border-hover-color);
     }
   }
 }

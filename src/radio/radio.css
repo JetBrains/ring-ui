@@ -106,12 +106,12 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   &[disabled]:checked + .circle {
-    border-color: var(--ring-border-disabled-active-color);
+    border-color: var(--ring-border-hover-color);
     background-color: var(--ring-content-background-color);
 
     /* stylelint-disable-next-line selector-max-specificity */
     &::after {
-      background-color: var(--ring-border-disabled-active-color);
+      background-color: var(--ring-border-hover-color);
     }
   }
 
