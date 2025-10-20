@@ -4,7 +4,7 @@
   user-select: none;
 }
 
-.links {
+.links.links {
   margin-bottom: calc(var(--ring-unit) * 2);
 }
 
