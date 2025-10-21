@@ -5,13 +5,14 @@
 }
 
 .links {
+  display: flex;
+  gap: calc(var(--ring-unit) * 2);
+
   margin-bottom: calc(var(--ring-unit) * 2);
 }
 
 .link {
   display: inline-block;
-
-  margin-right: calc(var(--ring-unit) * 2);
 }
 
 .linkDisabled {
