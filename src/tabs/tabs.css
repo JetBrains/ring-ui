@@ -1,6 +1,7 @@
 @import '../global/variables.css';
 
 /* ensure styles order */
+@import '../button/button.css';
 @import '../link/link.css';
 
 :root,
