@@ -1,5 +1,8 @@
 @import '../global/variables.css';
 
+/* ensure styles order */
+@import '../button/button.css';
+
 .select {
   position: relative;
 
