@@ -3,7 +3,6 @@ import builds.UnitTestsAndBuild
 import publish.Publish
 import publish.PublishHotfixRelease
 import publish.PublishNext
-import publish.PublishToGitHubPages
 import publish.UnpublishSpecificVersion
 import tests.A11yAudit
 import tests.AllChecks
@@ -30,7 +29,6 @@ object Project : Project({
   buildType(Deploy)
   buildType(PublishNext)
   buildType(AllChecks)
-  buildType(PublishToGitHubPages)
   buildType(PublishHotfixRelease)
 
   params {
@@ -153,7 +151,6 @@ object Project : Project({
     Publish,
     PublishHotfixRelease,
     Deploy,
-    PublishToGitHubPages,
     PublishNext,
     UnpublishSpecificVersion,
     AllChecks

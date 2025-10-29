@@ -1,0 +1,106 @@
+name: Rebuild Storybook for release branches
+
+# This workflow rebuilds Storybook for all release branches in a single run.
+# Triggered manually via GitHub Actions UI.
+#
+# When to use:
+# - When the Pages artifact expires (after ~90 days)
+# - Initial setup before automatic deployments have run on all branches
+# - To rebuild all versions from scratch
+#
+# How it works:
+# 1. Builds Storybook for each branch (master, release-6.x, release-5.1, 8.0-beta) independently
+# 2. Combines all builds into a single deployment structure
+# 3. Uploads and deploys to GitHub Pages via Actions Artifacts
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build master branch
+        run: |
+          git clone --depth 1 --branch master https://github.com/${{ github.repository }}.git master
+          cd master
+          npm ci
+          npm run build-stories
+          cd ..
+          mkdir -p deploy-root/master
+          cp -r master/storybook-dist/. deploy-root/master/
+
+      - name: Build release-5.1 branch
+        run: |
+          git clone --depth 1 --branch release-5.1 https://github.com/${{ github.repository }}.git release-5.1
+          cd release-5.1
+          npm ci
+          npm run build-stories
+          cd ..
+          mkdir -p deploy-root/release-5.1
+          cp -r release-5.1/storybook-dist/. deploy-root/release-5.1/
+
+      - name: Build release-6.x branch
+        run: |
+          git clone --depth 1 --branch release-6.x https://github.com/${{ github.repository }}.git release-6.x
+          cd release-6.x
+          npm ci
+          npm run build-stories
+          cd ..
+          mkdir -p deploy-root/release-6.x
+          cp -r release-6.x/storybook-dist/. deploy-root/release-6.x/
+
+      - name: Build 8.0-beta branch
+        run: |
+          git clone --depth 1 --branch 8.0-beta https://github.com/${{ github.repository }}.git 8.0-beta
+          cd 8.0-beta
+          npm ci
+          npm run build-stories
+          cd ..
+          mkdir -p deploy-root/8.0-beta
+          cp -r 8.0-beta/storybook-dist/. deploy-root/8.0-beta/
+
+      - name: Create root index
+        run: |
+          cat > deploy-root/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Ring UI - Storybook</title>
+            <meta http-equiv="refresh" content="0; url=/ring-ui/master/">
+          </head>
+          </html>
+          EOF
+
+      - name: Upload Pages artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: deploy-root
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
