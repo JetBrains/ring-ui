@@ -1,0 +1,153 @@
+name: Deploy Storybook to GitHub Pages
+
+# This workflow automatically deploys Storybook to GitHub Pages when code is pushed to release branches.
+#
+# How it works:
+# 1. Builds Storybook for the pushed branch
+# 2. Downloads the latest Pages artifact from previous deployments, so storybooks for another versions are preserved
+# 3. Replaces only the current branch's directory with the fresh build
+# 4. Deploys storybook to GitHub Pages via Actions Artifacts
+#
+# Note: If the artifact expires for some reason (e.g. after 90 days), manually run storybook-deploy-all.yml to recreate it.
+
+on:
+  push:
+    branches:
+      - master
+      - release-6.x
+      - release-5.1
+      - 8.0-beta
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Storybook
+        run: npm run build-stories
+
+      - name: Get latest workflow run ID
+        id: get-run-id
+        continue-on-error: true
+        run: |
+          # Get the latest successful workflow run ID from both workflows
+          # Check storybook-deploy.yml
+          DEPLOY_RUN=$(gh run list \
+            --workflow=storybook-deploy.yml \
+            --status=success \
+            --limit=1 \
+            --json databaseId,createdAt \
+            --jq '.[0] // empty')
+
+          # Check storybook-deploy-all.yml
+          REBUILD_RUN=$(gh run list \
+            --workflow=storybook-deploy-all.yml \
+            --status=success \
+            --limit=1 \
+            --json databaseId,createdAt \
+            --jq '.[0] // empty')
+
+          # Compare timestamps and pick the most recent
+          if [ -n "$DEPLOY_RUN" ] && [ -n "$REBUILD_RUN" ]; then
+            DEPLOY_TIME=$(echo "$DEPLOY_RUN" | jq -r '.createdAt')
+            REBUILD_TIME=$(echo "$REBUILD_RUN" | jq -r '.createdAt')
+
+            if [[ "$DEPLOY_TIME" > "$REBUILD_TIME" ]]; then
+              RUN_ID=$(echo "$DEPLOY_RUN" | jq -r '.databaseId')
+              echo "Using storybook-deploy run: $RUN_ID"
+            else
+              RUN_ID=$(echo "$REBUILD_RUN" | jq -r '.databaseId')
+              echo "Using storybook-deploy-all run: $RUN_ID"
+            fi
+          elif [ -n "$DEPLOY_RUN" ]; then
+            RUN_ID=$(echo "$DEPLOY_RUN" | jq -r '.databaseId')
+            echo "Using storybook-deploy run: $RUN_ID"
+          elif [ -n "$REBUILD_RUN" ]; then
+            RUN_ID=$(echo "$REBUILD_RUN" | jq -r '.databaseId')
+            echo "Using storybook-deploy-all run: $RUN_ID"
+          else
+            echo "No previous successful run found"
+            exit 0
+          fi
+
+          echo "run-id=$RUN_ID" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Download previous Pages artifact
+        if: steps.get-run-id.outputs.run-id != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: previous-artifact
+          run-id: ${{ steps.get-run-id.outputs.run-id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract previous artifact
+        continue-on-error: true
+        run: |
+          mkdir -p deploy-root
+          if [ -f "previous-artifact/artifact.tar" ]; then
+            tar -xf previous-artifact/artifact.tar -C deploy-root
+          fi
+
+      - name: Prepare deployment structure
+        run: |
+          mkdir -p deploy-root
+
+          # Remove old content for this branch and copy new build
+          rm -rf deploy-root/${{ github.ref_name }}
+          mkdir -p deploy-root/${{ github.ref_name }}
+          cp -r storybook-dist/. deploy-root/${{ github.ref_name }}/
+
+          # Create index.html at root to redirect to master
+          cat > deploy-root/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Ring UI - Storybook</title>
+            <meta http-equiv="refresh" content="0; url=/ring-ui/master/">
+          </head>
+          </html>
+          EOF
+
+      - name: Upload Pages artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: deploy-root
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
