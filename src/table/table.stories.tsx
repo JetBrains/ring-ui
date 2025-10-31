@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from 'react';
+import {useState, useCallback, useReducer} from 'react';
 import {type StoryFn} from '@storybook/react-webpack5';
 
 import {Grid, Row, Col} from '../grid/grid';
@@ -38,34 +38,75 @@ interface Item extends SelectionItem {
 interface BasicDemoProps extends TableAttrs<Item> {
   withCaption: boolean;
 }
+type BasicAction =
+  | {
+      type: 'setData';
+      payload: Item[];
+    }
+  | {
+      type: 'setSelection';
+      payload: Selection<Item>;
+    }
+  | {
+      type: 'setSort';
+      payload: SortParams;
+    }
+  | {
+      type: 'setPage';
+      payload: number;
+    };
+interface BasicStateInput {
+  sortKey: keyof Item;
+  sortOrder: boolean;
+  page: number;
+}
+interface BasicState extends BasicStateInput {
+  data: Item[];
+  selection: Selection<Item>;
+}
+const isItemSelectable = (item: Item) => item.id !== 14;
+function processState(input: BasicStateInput): BasicState {
+  const {sortKey, sortOrder, page} = input;
+  let data: Item[] = [...mock];
+  data.sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
+  data = data.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE);
+
+  const selection = new Selection({data, isItemSelectable});
+  return {...input, data, selection};
+}
+
 export const Basic: StoryFn<BasicDemoProps> = args => {
   const {onSort, onSelect, withCaption, onReorder, ...restProps} = args;
-  const [data, setData] = useState<Item[]>([]);
-  const [selection, setSelection] = useState<Selection<Item>>(new Selection());
-  const [sortKey, setSortKey] = useState<keyof Item>('country');
-  const [sortOrder, setSortOrder] = useState<boolean>(true);
-  const [page, setPage] = useState<number>(1);
-
-  const isItemSelectable = useCallback((item: Item) => item.id !== 14, []);
-
-  useEffect(() => {
-    let newData: Item[] = [...mock];
-    newData.sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
-    newData = newData.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE);
-
-    const newSelection = new Selection({data: newData, isItemSelectable});
-
-    // TODO fix
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setData(newData);
-    setSelection(newSelection);
-  }, [isItemSelectable, page, sortKey, sortOrder]);
+  const [{data, selection, sortKey, sortOrder, page}, dispatch] = useReducer(
+    (state, {type, payload}: BasicAction) => {
+      switch (type) {
+        case 'setData':
+          return {...state, data: payload};
+        case 'setSelection':
+          return {...state, selection: payload};
+        case 'setSort':
+          return processState({...state, sortKey: payload.column.id as keyof Item, sortOrder: payload.order});
+        case 'setPage':
+          return processState({...state, page: payload});
+        default:
+          return state;
+      }
+    },
+    processState({
+      sortKey: 'country',
+      sortOrder: true,
+      page: 1,
+    }),
+  );
+  const setData = (payload: Item[]) => dispatch({type: 'setData', payload});
+  const setSelection = (payload: Selection<Item>) => dispatch({type: 'setSelection', payload});
+  const setSort = (payload: SortParams) => dispatch({type: 'setSort', payload});
+  const setPage = (payload: number) => dispatch({type: 'setPage', payload});
 
   const handleSort = useCallback(
     (event: SortParams) => {
       onSort?.(event);
-      setSortKey(event.column.id as keyof Item);
-      setSortOrder(event.order);
+      setSort(event);
     },
     [onSort],
   );
