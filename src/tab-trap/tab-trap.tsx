@@ -60,6 +60,8 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
 
   useImperativeHandle(ref, () => ({node: nodeRef.current}), []);
 
+  // TODO fix
+  // eslint-disable-next-line react-hooks/immutability
   const focusFirst = useCallback(() => focusElement(true), []);
   const focusLast = () => focusElement(false);
 
@@ -90,6 +92,8 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
 
     return () => {
       if (focusBackOnClose) {
+        // TODO fix
+        // eslint-disable-next-line react-hooks/immutability
         restoreFocus();
       }
     };

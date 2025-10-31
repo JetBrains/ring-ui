@@ -55,6 +55,8 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
 
     const newSelection = new Selection({data: newData, isItemSelectable});
 
+    // TODO fix
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setData(newData);
     setSelection(newSelection);
   }, [isItemSelectable, page, sortKey, sortOrder]);

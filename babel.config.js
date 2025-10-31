@@ -4,6 +4,20 @@ module.exports = function config(api) {
   api.cache(true);
 
   return {
+    plugins: [
+      [
+        'babel-plugin-react-compiler',
+        {
+          target: '18', // should be the minimal supported version from peerDependencies
+        },
+      ],
+      [
+        'babel-plugin-transform-define',
+        {
+          SUPPORTED_BROWSERS: browserslist(),
+        },
+      ],
+    ],
     presets: [
       [
         '@jetbrains/babel-preset-jetbrains',
@@ -14,14 +28,6 @@ module.exports = function config(api) {
           react: {
             runtime: 'automatic',
           },
-        },
-      ],
-    ],
-    plugins: [
-      [
-        'babel-plugin-transform-define',
-        {
-          SUPPORTED_BROWSERS: browserslist(),
         },
       ],
     ],

@@ -85,6 +85,8 @@ export const WithSorting: StoryFn<BasicDemoProps> = args => {
     const newData: Item[] = [...mock];
     newData.sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
 
+    // TODO fix
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setData(newData);
   }, [isItemSelectable, sortKey, sortOrder]);
 
