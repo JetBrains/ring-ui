@@ -32,18 +32,17 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   const {collapsed, duration, id, disableAnimation} = useContext(CollapseContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
-  const initialContentHeight = useRef<number>(minHeight);
-  const contentHeight = useRef<number>(DEFAULT_HEIGHT);
+  const [initialContentHeight] = useState<number>(minHeight);
+  const [contentHeight, setContentHeight] = useState<number>(DEFAULT_HEIGHT);
 
-  const [dimensions, setDimensions] = useState({width: 0, height: 0});
-  const [height, setHeight] = useState<string>(toPx(minHeight));
-  const [showFade, setShowFade] = useState<boolean>(collapsed);
+  const nextHeight = collapsed ? initialContentHeight : contentHeight;
+  const height = toPx(nextHeight);
 
   const [shouldHideContent, setShouldHideContent] = useState<boolean>(collapsed && minHeight <= DEFAULT_HEIGHT);
 
   useEffect(() => {
     function onTransitionEnd() {
-      if (initialContentHeight.current <= DEFAULT_HEIGHT) {
+      if (initialContentHeight <= DEFAULT_HEIGHT) {
         setShouldHideContent(collapsed);
       }
     }
@@ -54,32 +53,16 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
     return () => {
       container?.removeEventListener('transitionend', onTransitionEnd);
     };
-  }, [collapsed]);
+  }, [collapsed, initialContentHeight]);
 
-  useEffect(() => {
-    setShowFade(collapsed);
-    if (!collapsed) setShouldHideContent(false);
-  }, [collapsed]);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      contentHeight.current = getRect(contentRef.current).height;
-    }
-  }, [minHeight, dimensions.height]);
-
-  useEffect(() => {
-    const nextHeight = collapsed ? initialContentHeight.current : contentHeight.current;
-    setHeight(toPx(nextHeight));
-  }, [collapsed, dimensions.height]);
+  if (!collapsed && shouldHideContent) {
+    setShouldHideContent(false);
+  }
 
   useEffect(() => {
     if (contentRef.current) {
-      const observer = new ResizeObserver(([entry]) => {
-        if (entry && entry.borderBoxSize) {
-          const {inlineSize, blockSize} = entry.borderBoxSize[0];
-
-          setDimensions({width: inlineSize, height: blockSize});
-        }
+      const observer = new ResizeObserver(() => {
+        setContentHeight(getRect(contentRef.current).height);
       });
 
       observer.observe(contentRef.current);
@@ -87,17 +70,15 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   }, []);
 
   const style = useMemo(() => {
-    // TODO fix
-    // eslint-disable-next-line react-hooks/refs
-    const calculatedDuration = duration + contentHeight.current * DURATION_FACTOR;
+    const calculatedDuration = duration + contentHeight * DURATION_FACTOR;
     return {
       '--duration': `${calculatedDuration}ms`,
       height,
       opacity: collapsed && !minHeight ? HIDDEN : VISIBLE,
     };
-  }, [duration, height, collapsed, minHeight]);
+  }, [duration, contentHeight, height, collapsed, minHeight]);
 
-  const fadeShouldBeVisible = useMemo(() => Boolean(minHeight && showFade), [minHeight, showFade]);
+  const fadeShouldBeVisible = useMemo(() => Boolean(minHeight && collapsed), [minHeight, collapsed]);
 
   const shouldRenderContent = disableAnimation ? !collapsed : !shouldHideContent;
 
