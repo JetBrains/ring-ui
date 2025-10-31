@@ -60,6 +60,36 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
 
   useImperativeHandle(ref, () => ({node: nodeRef.current}), []);
 
+  function restoreFocus() {
+    const previousFocusedNode = previousFocusedNodeRef.current;
+    if (
+      previousFocusedNode instanceof HTMLElement &&
+      previousFocusedNode.focus &&
+      isNodeInVisiblePartOfPage(previousFocusedNode)
+    ) {
+      // This is to prevent the focus from being restored the first time
+      // componentWillUnmount is called in StrictMode.
+      if (!mountedRef.current) {
+        previousFocusedNode.focus({preventScroll: true});
+      }
+    }
+  }
+
+  function focusElement(first = true) {
+    const node = nodeRef.current;
+    if (!node) {
+      return;
+    }
+
+    const tabables = [...node.querySelectorAll<HTMLElement>(FOCUSABLE_ELEMENTS)].filter(item => item.tabIndex >= 0);
+
+    const toBeFocused = first ? tabables[0] : tabables[tabables.length - 1];
+
+    if (toBeFocused) {
+      toBeFocused.focus();
+    }
+  }
+
   const focusFirst = useCallback(() => focusElement(true), []);
   const focusLast = () => focusElement(false);
 
@@ -94,36 +124,6 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
       }
     };
   }, [autoFocusFirst, trapDisabled, focusBackOnClose, focusFirst]);
-
-  function restoreFocus() {
-    const previousFocusedNode = previousFocusedNodeRef.current;
-    if (
-      previousFocusedNode instanceof HTMLElement &&
-      previousFocusedNode.focus &&
-      isNodeInVisiblePartOfPage(previousFocusedNode)
-    ) {
-      // This is to prevent the focus from being restored the first time
-      // componentWillUnmount is called in StrictMode.
-      if (!mountedRef.current) {
-        previousFocusedNode.focus({preventScroll: true});
-      }
-    }
-  }
-
-  function focusElement(first = true) {
-    const node = nodeRef.current;
-    if (!node) {
-      return;
-    }
-
-    const tabables = [...node.querySelectorAll<HTMLElement>(FOCUSABLE_ELEMENTS)].filter(item => item.tabIndex >= 0);
-
-    const toBeFocused = first ? tabables[0] : tabables[tabables.length - 1];
-
-    if (toBeFocused) {
-      toBeFocused.focus();
-    }
-  }
 
   function focusLastIfEnabled(event: React.FocusEvent) {
     if (trapWithoutFocusRef.current) {

@@ -13,6 +13,7 @@ import unicorn from 'eslint-plugin-unicorn';
 import {FlatCompat} from '@eslint/eslintrc';
 import eslint from '@eslint/js';
 import tsEslint from 'typescript-eslint';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 // eslint-disable-next-line no-underscore-dangle
 const __filename = fileURLToPath(import.meta.url);
@@ -62,6 +63,7 @@ export default defineConfig([
   importPlugin.flatConfigs.recommended,
   prettierConfig,
   ...jetbrainsConfigRules,
+  reactHooks.configs.flat['recommended-latest'],
 
   // Base configuration for all files
   {
