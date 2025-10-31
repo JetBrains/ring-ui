@@ -1,4 +1,4 @@
-name: Deploy Storybook to GitHub Pages
+name: Storybook — Deploy to GitHub Pages
 
 # This workflow automatically deploys Storybook to GitHub Pages when code is pushed to release branches.
 #

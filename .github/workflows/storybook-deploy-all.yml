@@ -1,4 +1,4 @@
-name: Rebuild Storybook for release branches
+name: Storybook — Rebuild for release branches
 
 # This workflow rebuilds Storybook for all release branches in a single run.
 # Triggered manually via GitHub Actions UI.
@@ -44,16 +44,6 @@ jobs:
           cd ..
           mkdir -p deploy-root/master
           cp -r master/storybook-dist/. deploy-root/master/
-
-      - name: Build release-5.1 branch
-        run: |
-          git clone --depth 1 --branch release-5.1 https://github.com/${{ github.repository }}.git release-5.1
-          cd release-5.1
-          npm ci
-          npm run build-stories
-          cd ..
-          mkdir -p deploy-root/release-5.1
-          cp -r release-5.1/storybook-dist/. deploy-root/release-5.1/
 
       - name: Build release-6.x branch
         run: |
