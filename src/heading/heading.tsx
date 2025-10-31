@@ -1,4 +1,4 @@
-import {memo, type HTMLAttributes, type ComponentType} from 'react';
+import {memo, type HTMLAttributes, type ComponentType, useEffect} from 'react';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
 
@@ -15,7 +15,7 @@ export enum Levels {
   H4 = 4,
 }
 
-const fallbackHeading = deprecate(() => 'h3', 'Headings of level 5 and higher are replaced with h3');
+const warnFallbackHeading = deprecate(() => {}, 'Headings of level 5 and higher are replaced with h3');
 
 export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
   level?: Levels | undefined;
@@ -29,11 +29,15 @@ const HeadingMemo: ComponentType<HeadingProps> = memo(function Heading({
 }: HeadingProps) {
   const classes = classNames(styles.heading, className);
 
-  const Tag: 'h1' | 'h2' | 'h3' | 'h4' = level <= Levels.H4 ? `h${level}` : fallbackHeading();
+  const isSupportedLevel = level <= Levels.H4;
+  useEffect(() => {
+    if (!isSupportedLevel) {
+      warnFallbackHeading();
+    }
+  }, [isSupportedLevel]);
+  const Tag: 'h1' | 'h2' | 'h3' | 'h4' = isSupportedLevel ? `h${level}` : 'h3';
 
   return (
-    // TODO fix
-    // eslint-disable-next-line react-hooks/static-components
     <Tag {...restProps} className={classes}>
       {children}
     </Tag>
