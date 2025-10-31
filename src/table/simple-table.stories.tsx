@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from 'react';
+import {useState, useCallback} from 'react';
 import {type StoryFn} from '@storybook/react-webpack5';
 
 import Link from '../link/link';
@@ -75,20 +75,9 @@ Basic.storyName = 'basic';
 
 export const WithSorting: StoryFn<BasicDemoProps> = args => {
   const {onSort, onSelect, withCaption, onReorder, ...restProps} = args;
-  const [data, setData] = useState<Item[]>([]);
   const [sortKey, setSortKey] = useState<keyof Item>('country');
   const [sortOrder, setSortOrder] = useState<boolean>(true);
-
-  const isItemSelectable = useCallback((item: Item) => item.id !== 14, []);
-
-  useEffect(() => {
-    const newData: Item[] = [...mock];
-    newData.sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
-
-    // TODO fix
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setData(newData);
-  }, [isItemSelectable, sortKey, sortOrder]);
+  const data = mock.toSorted((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
 
   const handleSort = useCallback(
     (event: SortParams) => {
