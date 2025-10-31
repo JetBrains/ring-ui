@@ -381,96 +381,91 @@ export const AllDirections = () => (
 );
 AllDirections.parameters = {};
 
-export const CSSPositioning = () => {
-  interface CSSPositionDemoState {
+interface CSSPositionDemoState {
+  position: {
+    x: number;
+    y: number;
+  };
+  isDragging: boolean;
+}
+
+class CSSPositionDemo extends Component<{}, CSSPositionDemoState> {
+  state: CSSPositionDemoState = {
     position: {
-      x: number;
-      y: number;
-    };
-    isDragging: boolean;
+      x: 8,
+      y: 8,
+    },
+    isDragging: false,
+  };
+
+  componentDidMount() {
+    document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('mouseup', this.handleMouseUp);
   }
 
-  // TODO fix
-  // eslint-disable-next-line react-hooks/unsupported-syntax
-  class CSSPositionDemo extends Component<{}, CSSPositionDemoState> {
-    state: CSSPositionDemoState = {
-      position: {
-        x: 8,
-        y: 8,
-      },
-      isDragging: false,
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('mouseup', this.handleMouseUp);
+  }
+
+  // Store the starting position for drag calculations
+  dragStartPosition = {
+    x: 0,
+    y: 0,
+  };
+
+  handleMouseDown = (e: React.MouseEvent) => {
+    this.setState({isDragging: true});
+    this.dragStartPosition = {
+      x: e.clientX - this.state.position.x,
+      y: e.clientY - this.state.position.y,
     };
 
-    componentDidMount() {
-      document.addEventListener('mousemove', this.handleMouseMove);
-      document.addEventListener('mouseup', this.handleMouseUp);
+    // Prevent text selection during drag
+    e.preventDefault();
+  };
+
+  handleMouseMove = (e: MouseEvent) => {
+    if (this.state.isDragging) {
+      this.setState({
+        position: {
+          x: e.clientX - this.dragStartPosition.x,
+          y: e.clientY - this.dragStartPosition.y,
+        },
+      });
     }
+  };
 
-    componentWillUnmount() {
-      document.removeEventListener('mousemove', this.handleMouseMove);
-      document.removeEventListener('mouseup', this.handleMouseUp);
-    }
+  handleMouseUp = () => {
+    this.setState({isDragging: false});
+  };
 
-    // Store the starting position for drag calculations
-    dragStartPosition = {
-      x: 0,
-      y: 0,
-    };
+  render() {
+    const {position} = this.state;
 
-    handleMouseDown = (e: React.MouseEvent) => {
-      this.setState({isDragging: true});
-      this.dragStartPosition = {
-        x: e.clientX - this.state.position.x,
-        y: e.clientY - this.state.position.y,
-      };
-
-      // Prevent text selection during drag
-      e.preventDefault();
-    };
-
-    handleMouseMove = (e: MouseEvent) => {
-      if (this.state.isDragging) {
-        this.setState({
-          position: {
-            x: e.clientX - this.dragStartPosition.x,
-            y: e.clientY - this.dragStartPosition.y,
-          },
-        });
-      }
-    };
-
-    handleMouseUp = () => {
-      this.setState({isDragging: false});
-    };
-
-    render() {
-      const {position} = this.state;
-
-      return (
-        <div className='container'>
-          {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
-          <div
-            className='draggable-anchor'
-            style={{
-              left: `${position.x}px`,
-              top: `${position.y}px`,
-              cursor: this.state.isDragging ? 'grabbing' : 'grab',
-            }}
-            onMouseDown={this.handleMouseDown}
-            role='button'
-          >
-            <Text>CSS Anchor Positioning. Drag me!</Text>
-            <Popup offset={4} cssPositioning hidden={false}>
-              <div className='popup-content css-popup'>Uses CSS Anchor API</div>
-            </Popup>
-          </div>
+    return (
+      <div className='container'>
+        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
+        <div
+          className='draggable-anchor'
+          style={{
+            left: `${position.x}px`,
+            top: `${position.y}px`,
+            cursor: this.state.isDragging ? 'grabbing' : 'grab',
+          }}
+          onMouseDown={this.handleMouseDown}
+          role='button'
+        >
+          <Text>CSS Anchor Positioning. Drag me!</Text>
+          <Popup offset={4} cssPositioning hidden={false}>
+            <div className='popup-content css-popup'>Uses CSS Anchor API</div>
+          </Popup>
         </div>
-      );
-    }
+      </div>
+    );
   }
-
-  return <CSSPositionDemo />;
-};
+}
+export const CSSPositioning = () => <CSSPositionDemo />;
 
 CSSPositioning.storyName = 'CSS Anchor Positioning';
 
