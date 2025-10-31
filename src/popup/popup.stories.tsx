@@ -390,6 +390,8 @@ export const CSSPositioning = () => {
     isDragging: boolean;
   }
 
+  // TODO fix
+  // eslint-disable-next-line react-hooks/unsupported-syntax
   class CSSPositionDemo extends Component<{}, CSSPositionDemoState> {
     state: CSSPositionDemoState = {
       position: {

@@ -87,6 +87,8 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   }, []);
 
   const style = useMemo(() => {
+    // TODO fix
+    // eslint-disable-next-line react-hooks/refs
     const calculatedDuration = duration + contentHeight.current * DURATION_FACTOR;
     return {
       '--duration': `${calculatedDuration}ms`,

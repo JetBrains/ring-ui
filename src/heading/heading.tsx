@@ -32,6 +32,8 @@ const HeadingMemo: ComponentType<HeadingProps> = memo(function Heading({
   const Tag: 'h1' | 'h2' | 'h3' | 'h4' = level <= Levels.H4 ? `h${level}` : fallbackHeading();
 
   return (
+    // TODO fix
+    // eslint-disable-next-line react-hooks/static-components
     <Tag {...restProps} className={classes}>
       {children}
     </Tag>
