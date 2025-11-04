@@ -4,12 +4,12 @@ name: Storybook — Rebuild for release branches
 # Triggered manually via GitHub Actions UI.
 #
 # When to use:
-# - When the Pages artifact expires (after ~90 days)
+# - When the previous Pages artifact expires (30 days)
 # - Initial setup before automatic deployments have run on all branches
 # - To rebuild all versions from scratch
 #
 # How it works:
-# 1. Builds Storybook for each branch (master, release-6.x, release-5.1, 8.0-beta) independently
+# 1. Builds Storybook for each branch (master, release-6.x, 8.0-beta) independently
 # 2. Combines all builds into a single deployment structure
 # 3. Uploads and deploys to GitHub Pages via Actions Artifacts
 
@@ -83,6 +83,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: deploy-root
+          retention-days: 60
 
   deploy:
     runs-on: ubuntu-latest
