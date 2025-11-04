@@ -1,0 +1,19 @@
+import { Meta, Title, Primary, Controls } from '@storybook/addon-docs/blocks';
+import { Import } from '@custom-docs/blocks/Import';
+
+import * as MarkdownStories from './markdown.stories';
+
+<Meta of={MarkdownStories} />
+
+<Title />
+
+A styling wrapper for rendered markdown content. Does not parse markdown itself (use markdown-it or react-markdown for example). <br/>
+Be careful with dangerouslySetInnerHTML when passing user input.
+
+<Primary />
+
+<Import />
+
+### Props
+
+<Controls />
