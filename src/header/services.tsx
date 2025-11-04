@@ -12,11 +12,11 @@ import darkStyles from '../global/variables_dark.css';
 import styles from './services.css';
 
 const makeAnchor = (loading: boolean | null | undefined) => {
-  const Anchor = ({active}: AnchorProps) => (
+  const anchor = ({active}: AnchorProps) => (
     <HeaderIcon loader={loading} active={active} icon={servicesIcon} aria-label='Services' />
   );
 
-  return Anchor;
+  return anchor;
 };
 
 export interface ServicesProps extends HTMLAttributes<HTMLElement> {
