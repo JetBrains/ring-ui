@@ -1,4 +1,4 @@
-import {PureComponent, type ReactNode} from 'react';
+import {type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import headingStyles from '../heading/heading.css';
@@ -11,23 +11,21 @@ export interface MarkdownProps {
   className?: string | null | undefined;
 }
 
+// TODO rename the component to the more clear name in the future releases (e.g. `MarkdownView`)
 /**
  * @name Markdown
  */
+const Markdown = ({className, children, inline}: MarkdownProps) => {
+  const classes = classNames(className, headingStyles.contentWithHeadings, linkStyles.withLinks, {
+    [styles.markdown]: !inline,
+    [styles.inline]: inline,
+  });
 
-export default class Markdown extends PureComponent<MarkdownProps> {
-  render() {
-    const {className, children, inline} = this.props;
+  return (
+    <div data-test='ring-markdown' className={classes}>
+      {children}
+    </div>
+  );
+};
 
-    const classes = classNames(className, headingStyles.contentWithHeadings, linkStyles.withLinks, {
-      [styles.markdown]: !inline,
-      [styles.inline]: inline,
-    });
-
-    return (
-      <div data-test='ring-markdown' className={classes}>
-        {children}
-      </div>
-    );
-  }
-}
+export default Markdown;
