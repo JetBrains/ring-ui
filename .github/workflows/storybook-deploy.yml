@@ -8,7 +8,7 @@ name: Storybook — Deploy to GitHub Pages
 # 3. Replaces only the current branch's directory with the fresh build
 # 4. Deploys storybook to GitHub Pages via Actions Artifacts
 #
-# Note: If the artifact expires for some reason (e.g. after 90 days), manually run storybook-deploy-all.yml to recreate it.
+# Note: If the artifact expires (after 30 days), manually run storybook-deploy-all.yml to recreate it.
 
 on:
   push:
@@ -140,6 +140,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: deploy-root
+          retention-days: 30
 
   deploy:
     runs-on: ubuntu-latest
