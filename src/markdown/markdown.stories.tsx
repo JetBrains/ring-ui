@@ -1,89 +1,89 @@
 import MarkdownIt from 'markdown-it';
 import highlightJs from 'highlight.js';
+import {type Meta, type StoryObj} from '@storybook/react-webpack5';
 
 import Markdown from './markdown';
 
 import highlightStyles from '../code/highlight.css';
 
-export default {
+const meta: Meta<typeof Markdown> = {
   title: 'Components/Markdown',
+  component: Markdown,
 
   parameters: {
-    notes: `
-Renders markdown.
-Note: it is up to developer to pick the best option fore markdown rendering. We suggest using \`markdown-it\` or \`react-markdown\`.
-Be careful with passing user input down to \`dangerouslySetInnerHTML\`!
-  `,
+    docs: {
+      importSubpath: 'components/markdown/markdown',
+      exportName: 'Markdown',
+    },
+  },
+
+  argTypes: {
+    inline: {
+      control: 'boolean',
+      description: 'Display inline instead of block',
+    },
+    children: {
+      control: false,
+      description: 'Markdown content',
+    },
+    className: {
+      control: 'text',
+      description: 'Additional CSS class names',
+    },
+  },
+
+  args: {
+    inline: false,
   },
 };
 
-export const basic = () => {
-  const markdownIt = new MarkdownIt('commonmark', {
-    html: false,
-    highlight(str, lang) {
-      if (lang && highlightJs.getLanguage(lang)) {
-        return highlightJs.highlight(str, {language: lang}).value;
-      }
+export default meta;
+type Story = StoryObj<typeof Markdown>;
 
-      return '';
-    },
-  }).enable('table');
+const markdownIt = new MarkdownIt('commonmark', {
+  html: false,
+  highlight(str, lang) {
+    if (lang && highlightJs.getLanguage(lang)) {
+      return highlightJs.highlight(str, {language: lang}).value;
+    }
 
-  const renderedMarkdown = markdownIt.render(
-    `
+    return '';
+  },
+}).enable('table');
+
+const exampleMarkdown = `
 # Header
 
-_Various_ types of **highlighting**
+_Italic_ and **bold** text
 
 [Link](/)
 
-[Link with definition][definition]
+List:
+* First item
+* Second item
 
-[definition]: /
+Some \`inline code\` inside text
 
-> Blockquote
->
-> Second line
-
-Unordered list:
-
-* List
-* List
-
-Ordered list:
-
-1. One
-2. Two
-
-Horizontal line
-
-| Some | Table |
-| --- | --- |
-| One | Two |
-
----
-Some \`inline(code)\` inside text
-
-## Block code
+## Code block
 \`\`\`js
-import React, {Component} from 'react';
-import ChildComponent from './child-component';
+import {useState} from 'react';
 
-const MyComponent = () => (
-  <div>
-    <ChildComponent/>
-  </div>
-);
-\`\`\`
-`,
-  );
-
-  return (
-    <Markdown className={highlightStyles.highlightContainer}>
-      {/* Be careful with passing user input down to `dangerouslySetInnerHTML`! */}
-      <div dangerouslySetInnerHTML={{__html: renderedMarkdown}} />
-    </Markdown>
-  );
+const Counter = () => {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
 };
+\`\`\`
+`;
 
-basic.storyName = 'basic';
+export const Basic: Story = {
+  render: args => {
+    const renderedMarkdown = markdownIt.render(exampleMarkdown);
+
+    return (
+      <Markdown {...args} className={highlightStyles.highlightContainer}>
+        {/* Be careful with passing user input down to `dangerouslySetInnerHTML`! */}
+        <div dangerouslySetInnerHTML={{__html: renderedMarkdown}} />
+      </Markdown>
+    );
+  },
+};
