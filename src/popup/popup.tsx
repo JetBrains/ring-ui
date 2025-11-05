@@ -51,7 +51,7 @@ const stop = (event: React.MouseEvent) => {
 };
 
 export const getPopupContainer = (target: string | Element) =>
-  (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
+  typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target;
 
 export interface BasePopupProps {
   hidden: boolean;
@@ -338,7 +338,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
           }
         }
 
-        this.listeners.add(document, 'pointerdown', this._onDocumentClick, true);
+        this.listeners.add(document, 'click', this._onDocumentClick, true);
       }, 0);
 
       return;
