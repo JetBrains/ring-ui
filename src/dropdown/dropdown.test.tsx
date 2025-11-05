@@ -72,7 +72,7 @@ describe('Dropdown', () => {
     expect(popup?.isVisible()).to.be.false;
   });
 
-  it('should hide popup on outside pointer down event', async () => {
+  it('should hide popup on outside click event', async () => {
     renderDropdown();
     expect(anchor).to.exist;
     anchor && (await userEvent.click(anchor));
@@ -85,7 +85,7 @@ describe('Dropdown', () => {
           }, 0);
         }),
     );
-    act(() => fireEvent.pointerDown(document));
+    act(() => fireEvent.click(document));
     expect(popup).to.exist;
     expect(popup?.isVisible()).to.be.false;
   });

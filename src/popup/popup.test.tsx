@@ -37,8 +37,8 @@ describe('Popup', () => {
     expect(onCloseAttempt).toHaveBeenCalled();
   });
 
-  describe('close by pointer down', () => {
-    const downEvent = new PointerEvent('pointerdown', {
+  describe('close by click', () => {
+    const clickEvent = new MouseEvent('click', {
       bubbles: true,
       cancelable: false,
     });
@@ -47,22 +47,22 @@ describe('Popup', () => {
       vi.useFakeTimers({toFake: ['setTimeout']});
     });
 
-    it('should attempt to close by pointer down outside the element', () => {
+    it('should attempt to close by click outside the element', () => {
       const onCloseAttempt = vi.fn();
       renderPopup({onCloseAttempt});
 
       vi.advanceTimersByTime(0);
-      fireEvent(document.body, downEvent);
+      fireEvent(document.body, clickEvent);
       expect(onCloseAttempt).toHaveBeenCalled();
     });
 
-    it('should pass event to onCloseAttempt callback when closing by document pointer down event', () => {
+    it('should pass event to onCloseAttempt callback when closing by document click event', () => {
       const onCloseAttempt = vi.fn();
       renderPopup({onCloseAttempt});
 
       vi.advanceTimersByTime(0);
-      fireEvent(document.body, downEvent);
-      expect(onCloseAttempt).toHaveBeenCalledWith(expect.objectContaining({type: 'pointerdown'}), expect.anything());
+      fireEvent(document.body, clickEvent);
+      expect(onCloseAttempt).toHaveBeenCalledWith(expect.objectContaining({type: 'click'}), expect.anything());
     });
 
     it('should not close popup if popup hidden', () => {
@@ -73,7 +73,7 @@ describe('Popup', () => {
       });
 
       vi.advanceTimersByTime(0);
-      fireEvent(document.body, downEvent);
+      fireEvent(document.body, clickEvent);
       expect(onCloseAttempt).not.toHaveBeenCalled;
     });
 
@@ -85,7 +85,7 @@ describe('Popup', () => {
 
       popup.rerender(<Popup {...{children: '', onCloseAttempt, hidden: false}} />);
       vi.advanceTimersByTime(0);
-      fireEvent(document.body, downEvent);
+      fireEvent(document.body, clickEvent);
       expect(onCloseAttempt).toHaveBeenCalled();
     });
 
@@ -95,7 +95,7 @@ describe('Popup', () => {
 
       vi.advanceTimersByTime(0);
       const popup = screen.getByTestId('ring-popup');
-      fireEvent(popup, downEvent);
+      fireEvent(popup, clickEvent);
       expect(onCloseAttempt).not.toHaveBeenCalled;
     });
   });
