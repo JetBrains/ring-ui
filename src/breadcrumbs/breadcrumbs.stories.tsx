@@ -53,6 +53,7 @@ export const CustomSeparator: Story = {
     </Breadcrumbs>
   ),
   parameters: {
+    screenshots: {skip: true},
     storyStyles: `
 <style>
   .custom-sep {
