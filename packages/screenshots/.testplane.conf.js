@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 const path = require('path');
-const ip = require('ip');
 require('dotenv').config();
 
-const baseUrl = `http://${ip.address()}:9999/`;
+const baseUrl = `http://localhost:9999/`;
 
 const gridUrl = process.env.SELENIUM_GRID || `https://hub-cloud.browserstack.com:443/wd/hub`;
 // Supports Firefox

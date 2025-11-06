@@ -117,7 +117,6 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/chai-as-promised": "^8.0.2",
     "@types/chai-dom": "1.11.3",
-    "@types/eslint__js": "^9.14.0",
     "@types/markdown-it": "^14.1.2",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
@@ -179,10 +178,8 @@
     "typescript-eslint": "^8.46.2",
     "vitest": "^3.2.4",
     "vitest-teamcity-reporter": "^0.3.1",
-    "wallaby-webpack": "^3.9.16",
     "webpack": "^5.102.1",
-    "webpack-cli": "^6.0.1",
-    "xmlappend": "^1.0.4"
+    "webpack-cli": "^6.0.1"
   },
   "peerDependencies": {
     "@types/react": ">=18.0.0",
