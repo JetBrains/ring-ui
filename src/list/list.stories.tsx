@@ -8,7 +8,6 @@ import Loader from '../loader/loader';
 import Tooltip from '../tooltip/tooltip';
 import Auth from '../auth/auth';
 import Code from '../code/code';
-import ContentLayout, {Sidebar} from '../content-layout/content-layout';
 import Link from '../link/link';
 import List, {type ListAttrs} from './list';
 import Source from './list-users-groups-source';
@@ -252,12 +251,14 @@ export const WithUsers = () => {
   }, []);
 
   return listData ? (
-    <ContentLayout>
-      <Sidebar>
+    <div style={{display: 'flex', gap: '16px'}}>
+      <div style={{width: '240px', overflow: 'auto'}}>
         <List className='list' data={listData} shortcuts onSelect={setSelected} />
-      </Sidebar>
-      {selected && <Code className='selected' language='json' code={JSON.stringify(selected, null, 2)} />}
-    </ContentLayout>
+      </div>
+      <div style={{flex: 1}}>
+        {selected && <Code className='selected' language='json' code={JSON.stringify(selected, null, 2)} />}
+      </div>
+    </div>
   ) : (
     <Loader />
   );
