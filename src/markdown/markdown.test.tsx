@@ -26,8 +26,11 @@ describe('Markdown', () => {
     expect(renderMarkdown({inline: true})).to.have.class(styles.inline);
   });
 
-  it('should apply markdown class when inline is false or not provided', () => {
+  it('should apply markdown class when inline is false', () => {
     expect(renderMarkdown({inline: false})).to.have.class(styles.markdown);
+  });
+
+  it('should apply markdown class when inline is not provided', () => {
     expect(renderMarkdown()).to.have.class(styles.markdown);
   });
 
