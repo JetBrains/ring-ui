@@ -85,7 +85,10 @@ describe('Dropdown', () => {
           }, 0);
         }),
     );
-    act(() => fireEvent.click(document));
+    act(() => {
+      fireEvent.pointerDown(document);
+      fireEvent.click(document);
+    });
     expect(popup).to.exist;
     expect(popup?.isVisible()).to.be.false;
   });

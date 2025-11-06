@@ -38,6 +38,10 @@ describe('Popup', () => {
   });
 
   describe('close by click', () => {
+    const pointerDownEvent = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: false,
+    });
     const clickEvent = new MouseEvent('click', {
       bubbles: true,
       cancelable: false,
@@ -52,6 +56,7 @@ describe('Popup', () => {
       renderPopup({onCloseAttempt});
 
       vi.advanceTimersByTime(0);
+      fireEvent(document.body, pointerDownEvent);
       fireEvent(document.body, clickEvent);
       expect(onCloseAttempt).toHaveBeenCalled();
     });
@@ -61,6 +66,7 @@ describe('Popup', () => {
       renderPopup({onCloseAttempt});
 
       vi.advanceTimersByTime(0);
+      fireEvent(document.body, pointerDownEvent);
       fireEvent(document.body, clickEvent);
       expect(onCloseAttempt).toHaveBeenCalledWith(expect.objectContaining({type: 'click'}), expect.anything());
     });
@@ -73,6 +79,7 @@ describe('Popup', () => {
       });
 
       vi.advanceTimersByTime(0);
+      fireEvent(document.body, pointerDownEvent);
       fireEvent(document.body, clickEvent);
       expect(onCloseAttempt).not.toHaveBeenCalled;
     });
@@ -85,6 +92,7 @@ describe('Popup', () => {
 
       popup.rerender(<Popup {...{children: '', onCloseAttempt, hidden: false}} />);
       vi.advanceTimersByTime(0);
+      fireEvent(document.body, pointerDownEvent);
       fireEvent(document.body, clickEvent);
       expect(onCloseAttempt).toHaveBeenCalled();
     });
@@ -95,7 +103,21 @@ describe('Popup', () => {
 
       vi.advanceTimersByTime(0);
       const popup = screen.getByTestId('ring-popup');
+      fireEvent(popup, pointerDownEvent);
       fireEvent(popup, clickEvent);
+      expect(onCloseAttempt).not.toHaveBeenCalled;
+    });
+
+    it("shouldn't be closed if click started inside popup but ended outside", () => {
+      const onCloseAttempt = vi.fn();
+      renderPopup({onCloseAttempt});
+
+      vi.advanceTimersByTime(0);
+      const popup = screen.getByTestId('ring-popup');
+      // Pointer down inside the popup
+      fireEvent(popup, pointerDownEvent);
+      // Click ends outside the popup (e.g., user dragged with pressed button)
+      fireEvent(document.body, clickEvent);
       expect(onCloseAttempt).not.toHaveBeenCalled;
     });
   });

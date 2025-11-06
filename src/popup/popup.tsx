@@ -182,6 +182,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
   parent?: HTMLElement | null;
   container?: HTMLElement | null;
   ringPopupTarget?: string | Element;
+  clickStartedInsidePopup = false;
 
   shouldUseShortcuts() {
     const {shortcuts, hidden} = this.props;
@@ -338,6 +339,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
           }
         }
 
+        this.listeners.add(document, 'pointerdown', this._onDocumentPointerDown, true);
         this.listeners.add(document, 'click', this._onDocumentClick, true);
       }, 0);
 
@@ -368,13 +370,25 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     this._onCloseAttempt(evt, true);
   };
 
+  private _onDocumentPointerDown = (evt: PointerEvent) => {
+    this.clickStartedInsidePopup = !!(
+      evt.target instanceof Node &&
+      this.container &&
+      this.container.contains(evt.target)
+    );
+  };
+
   /**
-   * @param {jQuery.Event} evt
+   * @param {MouseEvent} evt
    * @private
    */
   private _onDocumentClick = (evt: PointerEvent) => {
+    const clickStartedInsidePopup = this.clickStartedInsidePopup;
+    this.clickStartedInsidePopup = false;
+
     if (
       (this.container && evt.target instanceof Node && this.container.contains(evt.target)) ||
+      clickStartedInsidePopup ||
       !this._listenersEnabled ||
       (this.props.dontCloseOnAnchorClick && evt.target instanceof Node && this._getAnchor()?.contains(evt.target)) ||
       // ignore clicks in shadow DOM, e.g., Grammarly suggestions
