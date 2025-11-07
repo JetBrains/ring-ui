@@ -8,13 +8,16 @@ export interface BreadcrumbsProps {
   children?: ReactNode;
 }
 
-const Breadcrumbs = ({separatorClassName, children}: BreadcrumbsProps) =>
-  Children.toArray(children).map((child, index) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <Fragment key={index}>
-      {index > 0 && <span className={classNames(styles.separator, separatorClassName)}>{'/'}</span>}
-      {child}
-    </Fragment>
-  ));
+const Breadcrumbs = ({separatorClassName, children}: BreadcrumbsProps) => (
+  <nav aria-label='breadcrumb'>
+    {Children.toArray(children).map((child, index) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <Fragment key={index}>
+        {index > 0 && <span className={classNames(styles.separator, separatorClassName)}>{'/'}</span>}
+        {child}
+      </Fragment>
+    ))}
+  </nav>
+);
 
 export default Breadcrumbs;
