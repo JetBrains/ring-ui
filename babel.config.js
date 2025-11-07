@@ -9,6 +9,7 @@ module.exports = function config(api) {
         'babel-plugin-react-compiler',
         {
           target: '18', // should be the minimal supported version from peerDependencies
+          panicThreshold: 'all_errors',
         },
       ],
       [

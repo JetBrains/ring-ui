@@ -34,6 +34,8 @@ export interface UploadHandle {
   openFilePicker: () => void;
 }
 
+const defaultRenderIcon = () => <Icon className={styles.attachmentIcon} glyph={attachmentIcon} />;
+
 export const Upload = forwardRef<UploadHandle, Props>(function Upload(
   {
     children,
@@ -43,7 +45,7 @@ export const Upload = forwardRef<UploadHandle, Props>(function Upload(
     validate = () => true,
     variant = 'empty',
     multiple,
-    renderIcon = () => <Icon className={styles.attachmentIcon} glyph={attachmentIcon} />,
+    renderIcon = defaultRenderIcon,
     accept,
     disabled,
   },

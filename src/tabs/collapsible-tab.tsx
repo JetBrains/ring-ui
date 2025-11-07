@@ -29,13 +29,17 @@ const TabTitle = React.memo(function TabTitle({
   const {title, titleProps, disabled, href, className, activeClassName, collapsedClassName, collapsedActiveClassName} =
     child.props;
 
-  const titleClasses = classNames(styles.title, className, {
-    [styles.selected]: selected,
-    [styles.collapsed]: collapsed,
-    [activeClassName ?? '']: selected,
-    [collapsedClassName ?? '']: collapsed,
-    [collapsedActiveClassName ?? '']: collapsed && selected,
-  });
+  const titleClasses = classNames(
+    styles.title,
+    className,
+    selected && activeClassName,
+    collapsed && collapsedClassName,
+    collapsed && selected && collapsedActiveClassName,
+    {
+      [styles.selected]: selected,
+      [styles.collapsed]: collapsed,
+    },
+  );
 
   return (
     <TabLink

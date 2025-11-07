@@ -39,11 +39,11 @@ export function Banner(props: BannerProps) {
     onClose,
     closeButtonTitle,
     className,
-    ['data-test']: dataTest,
     translations = {
       close: 'Close',
     },
   } = props;
+  const dataTest = props['data-test'];
 
   let icon = infoIcon;
   if (mode === 'error') {
