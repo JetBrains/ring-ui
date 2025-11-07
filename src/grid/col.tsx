@@ -1,18 +1,9 @@
-import {Component, type ReactNode} from 'react';
+import {type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import styles from './grid.css';
+import {getClassNames} from './col.utils';
 
-const classMap: Record<string, string> = {
-  xs: 'col-xs',
-  sm: 'col-sm',
-  md: 'col-md',
-  lg: 'col-lg',
-  xsOffset: 'col-xs-offset',
-  smOffset: 'col-sm-offset',
-  mdOffset: 'col-md-offset',
-  lgOffset: 'col-lg-offset',
-};
+import styles from './grid.css';
 
 export interface ColProps {
   children?: ReactNode;
@@ -28,28 +19,16 @@ export interface ColProps {
   className?: string | null | undefined;
 }
 
-/**
- * Converts props like "xs=9 xsOffset={2}" to classes "col-xs-9 col-xs-offset-2"
- * @param {Object} props incoming props
- * @mockReturnValue {Array} result classnames
- */
-function getClassNames(props: Omit<ColProps, 'children' | 'className' | 'reverse'>) {
-  return Object.entries(props)
-    .filter(([key]) => classMap[key])
-    .map(([key, value]) => styles[Number.isInteger(value) ? `${classMap[key]}-${value}` : classMap[key]]);
-}
+const Col = ({children, className, reverse, ...restProps}: ColProps) => {
+  const classes = classNames(styles.col, className, getClassNames(restProps), {
+    [styles.reverse]: reverse,
+  });
 
-export default class Col extends Component<ColProps> {
-  render() {
-    const {children, className, reverse, ...restProps} = this.props;
-    const classes = classNames(styles.col, className, getClassNames(restProps), {
-      [styles.reverse]: reverse,
-    });
+  return (
+    <div className={classes} data-test='ring-grid-column'>
+      {children}
+    </div>
+  );
+};
 
-    return (
-      <div className={classes} data-test='ring-grid-column'>
-        {children}
-      </div>
-    );
-  }
-}
+export default Col;

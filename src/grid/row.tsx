@@ -1,21 +1,9 @@
-import {Component, type ReactNode} from 'react';
+import {type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import styles from './grid.css';
+import {getModifierClassNames} from './row.utils';
 
-const modifierKeys = [
-  'start',
-  'center',
-  'end', // text-align, justify-content
-  'around',
-  'between', // justify-content
-  'top',
-  'middle',
-  'baseline',
-  'bottom', // align-items
-  'first',
-  'last', // order
-] as const;
+import styles from './grid.css';
 
 type ModifierType = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -36,32 +24,16 @@ export interface RowProps {
   className?: string | null | undefined;
 }
 
-/**
- * Converts xs="middle" to class "middle-xs"
- * @param {Object} props incoming props
- * @mockReturnValue {Array} result modifier classes
- */
-function getModifierClassNames(props: RowProps) {
-  return modifierKeys.reduce((result: string[], key) => {
-    if (props[key]) {
-      return result.concat(styles[`${key}-${props[key]}`]);
-    }
-    return result;
-  }, []);
-}
+const Row = ({children, className, reverse, ...restProps}: RowProps) => {
+  const classes = classNames(className, styles.row, getModifierClassNames(restProps), {
+    [styles.reverse]: reverse,
+  });
 
-export default class Row extends Component<RowProps> {
-  render() {
-    const {children, className, reverse, ...restProps} = this.props;
+  return (
+    <div className={classes} data-test='ring-grid-row'>
+      {children}
+    </div>
+  );
+};
 
-    const classes = classNames(className, styles.row, getModifierClassNames(restProps), {
-      [styles.reverse]: reverse,
-    });
-
-    return (
-      <div className={classes} data-test='ring-grid-row'>
-        {children}
-      </div>
-    );
-  }
-}
+export default Row;
