@@ -223,7 +223,7 @@
     "element-resize-detector": "^1.2.4",
     "fastdom": "^1.0.12",
     "file-loader": "^6.2.0",
-    "focus-trap": "^7.6.5",
+    "focus-trap": "^7.6.6",
     "highlight.js": "^10.7.2",
     "just-debounce-it": "^3.2.0",
     "memoize-one": "^6.0.0",
