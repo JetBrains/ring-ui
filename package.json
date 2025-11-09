@@ -147,7 +147,7 @@
     "eslint-plugin-unicorn": "^62.0.0",
     "events": "^3.3.0",
     "glob": "^11.0.3",
-    "globals": "^16.4.0",
+    "globals": "^16.5.0",
     "html-webpack-plugin": "^5.6.4",
     "http-server": "^14.1.1",
     "husky": "^9.1.7",
