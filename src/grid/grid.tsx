@@ -5,6 +5,7 @@ import styles from './grid.css';
 
 /**
  * @name Grid
+ * @deprecated Will be removed in Ring UI 8.0. Use flexbox or another layout library instead.
  */
 
 export class Grid extends Component<HTMLAttributes<HTMLDivElement>> {
