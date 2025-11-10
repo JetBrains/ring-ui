@@ -6,8 +6,6 @@ import hourglassIcon from '@jetbrains/icons/hourglass';
 import Loader from '../loader/loader';
 import LoaderInline from '../loader-inline/loader-inline';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-import {Col, Grid} from '../grid/grid';
-import Row from '../grid/row';
 import Button, {type ButtonProps} from './button';
 
 export default {
@@ -26,7 +24,7 @@ single.args = {children: 'Label'};
 single.parameters = {screenshots: {skip: true}};
 
 export const basic = () => (
-  <Grid className='buttons'>
+  <div className='buttons'>
     {[ControlsHeight.S, ControlsHeight.M, ControlsHeight.L].map(height => (
       <ControlsHeightContext.Provider value={height} key={height}>
         {[
@@ -46,7 +44,7 @@ export const basic = () => (
             {[{}, {active: true}, {disabled: true}, {loader: true}].map(stateProps => {
               const icon = height === ControlsHeight.S && !typeProps.inline ? pencil12pxIcon : pencilIcon;
               return (
-                <Row key={JSON.stringify(stateProps)} baseline='xs'>
+                <div key={JSON.stringify(stateProps)} style={{marginBottom: '16px'}}>
                   {[
                     {children: 'Button'},
                     {children: '...', short: true},
@@ -57,16 +55,16 @@ export const basic = () => (
                     {children: 'Button dropdown', dropdown: true},
                     {title: 'Just icon button', icon},
                   ].map(contentProps => (
-                    <Col key={JSON.stringify(contentProps)}>
+                    <span key={JSON.stringify(contentProps)} style={{display: 'inline-block'}}>
                       <Button
                         data-test={stateProps.active ? 'button-active' : undefined}
                         {...typeProps}
                         {...stateProps}
                         {...contentProps}
                       />
-                    </Col>
+                    </span>
                   ))}
-                </Row>
+                </div>
               );
             })}
             <br />
@@ -74,7 +72,7 @@ export const basic = () => (
         ))}
       </ControlsHeightContext.Provider>
     ))}
-  </Grid>
+  </div>
 );
 
 basic.storyName = 'basic';
@@ -100,6 +98,8 @@ basic.parameters = {
   storyStyles: `
 <style>
   .buttons {
+    margin-top: 16px;
+    margin-left: 8px;
     background: var(--ring-content-background-color);
   }
 
