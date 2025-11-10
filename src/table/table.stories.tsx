@@ -1,7 +1,6 @@
 import {useState, useCallback, useReducer} from 'react';
 import {type StoryFn} from '@storybook/react-webpack5';
 
-import {Grid, Row, Col} from '../grid/grid';
 import Link from '../link/link';
 import Pager from '../pager/pager';
 import Button from '../button/button';
@@ -134,53 +133,37 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
         dragHandleTitle='Drag me!'
       />
 
-      <Grid>
-        <Row>
-          <Col>
-            <Pager
-              total={TOTAL}
-              pageSize={PAGE_SIZE}
-              currentPage={page}
-              disablePageSizeSelector
-              onPageChange={setPage}
-            />
-          </Col>
-        </Row>
+      <div style={{margin: '8px'}}>
+        <div style={{marginBottom: '16px'}}>
+          <Pager total={TOTAL} pageSize={PAGE_SIZE} currentPage={page} disablePageSizeSelector onPageChange={setPage} />
+        </div>
 
-        <Row>
-          <Col>Active items: {[...selection.getActive()].map(item => item.country).join(', ')}</Col>
-        </Row>
+        <div style={{marginBottom: '16px'}}>
+          Active items: {[...selection.getActive()].map(item => item.country).join(', ')}
+        </div>
 
-        <Row>
-          <Col>
-            <Button onClick={() => setData([...data])}>Recreate data array</Button>
-            {page === 1 && data.length > 5 && (
-              <>
-                {' '}
-                <span id='button-select-bulgaria'>
-                  {selection.isSelected(data[3]) ? (
-                    <Button onClick={() => setSelection(selection.deselect(data[3]))}>
-                      Deselect {data[3].country}
-                    </Button>
-                  ) : (
-                    <Button onClick={() => setSelection(selection.select(data[3]))}>Select {data[3].country}</Button>
-                  )}
-                </span>
-                <span id='button-select-finland'>
-                  {' '}
-                  {selection.isSelected(data[5]) ? (
-                    <Button onClick={() => setSelection(selection.deselect(data[5]))}>
-                      Deselect {data[5].country}
-                    </Button>
-                  ) : (
-                    <Button onClick={() => setSelection(selection.select(data[5]))}>Select {data[5].country}</Button>
-                  )}
-                </span>
-              </>
-            )}
-          </Col>
-        </Row>
-      </Grid>
+        <Button onClick={() => setData([...data])}>Recreate data array</Button>
+        {page === 1 && data.length > 5 && (
+          <>
+            {' '}
+            <span id='button-select-bulgaria'>
+              {selection.isSelected(data[3]) ? (
+                <Button onClick={() => setSelection(selection.deselect(data[3]))}>Deselect {data[3].country}</Button>
+              ) : (
+                <Button onClick={() => setSelection(selection.select(data[3]))}>Select {data[3].country}</Button>
+              )}
+            </span>
+            <span id='button-select-finland'>
+              {' '}
+              {selection.isSelected(data[5]) ? (
+                <Button onClick={() => setSelection(selection.deselect(data[5]))}>Deselect {data[5].country}</Button>
+              ) : (
+                <Button onClick={() => setSelection(selection.select(data[5]))}>Select {data[5].country}</Button>
+              )}
+            </span>
+          </>
+        )}
+      </div>
     </div>
   );
 };
