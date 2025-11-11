@@ -44,6 +44,7 @@
     "components": "./components/"
   },
   "scripts": {
+    "components-graph": "node scripts/components-graph.mjs",
     "a11y-audit": "test-storybook --url http://localhost:9999 && DARK=true test-storybook --url http://localhost:9999",
     "a11y-audit-ci": "node scripts/a11y-audit-ci.mjs",
     "apply-resolutions": "npx npm-force-resolutions@0.0.10",
