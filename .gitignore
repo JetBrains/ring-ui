@@ -18,6 +18,7 @@ Thumbs.db
 build
 coverage
 /components
+components-graph
 dist
 .storybook/custom-header/dist
 storybook-dist
