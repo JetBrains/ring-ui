@@ -15,6 +15,22 @@ To lint code: `npm run lint`
 
 To build production files: `npm run build`
 
+### Component dependency graph for Ring UI 8.0 refactoring
+
+Make refactoring easier by visualizing component dependencies and tracking Ring UI 8.0 migration progress:
+
+```bash
+npm run components-graph
+```
+
+Opens `components-graph/components-graph.html` with an interactive graph showing component relationships and refactoring status.
+
+**After component refactoring:** 
+
+- Add the component name to `migrated-components.json` to mark it as refactored.
+- Or just use **refactor-component** skill to make it automatically
+
+
 ### Settings
 
 By default, documentation is built using the `development` environment. Use the `--env.production` flag to switch it to `production`. Environment has an effect on source map generation. It also affects the following parameters:
