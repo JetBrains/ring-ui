@@ -28,7 +28,7 @@ Opens `components-graph/components-graph.html` with an interactive graph showing
 **After component refactoring:** 
 
 - Add the component name to `migrated-components.json` to mark it as refactored.
-- Or just use **refactor-component** skill to make it automatically
+- Or just use the **refactor-component** skill to do it automatically
 
 
 ### Settings
