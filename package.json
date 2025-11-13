@@ -44,7 +44,6 @@
     "components": "./components/"
   },
   "scripts": {
-    "components-graph": "node scripts/components-graph.mjs",
     "a11y-audit": "test-storybook --url http://localhost:9999 && DARK=true test-storybook --url http://localhost:9999",
     "a11y-audit-ci": "node scripts/a11y-audit-ci.mjs",
     "apply-resolutions": "npx npm-force-resolutions@0.0.10",
@@ -52,6 +51,7 @@
     "build-stories": "storybook build --quiet -c .storybook -o storybook-dist",
     "console-errors": "jest scripts/console-errors.test.js --watchAll",
     "console-errors-ci": "jest scripts/console-errors.test.js --reporters=jest-teamcity",
+    "components-graph": "node scripts/components-graph.mjs",
     "figma-connect-publish": "npx figma connect publish --token=$FIGMA_CODE_CONNECT_TOKEN",
     "figma-connect-publish-local": "dotenv -- npm run figma-connect-publish",
     "figma-connect-unpublish": "npx figma connect unpublish --token=$FIGMA_CODE_CONNECT_TOKEN",
@@ -149,7 +149,6 @@
     "events": "^3.3.0",
     "glob": "^13.0.0",
     "globals": "^16.5.0",
-    "graphviz": "^0.0.9",
     "html-webpack-plugin": "^5.6.5",
     "http-server": "^14.1.1",
     "husky": "^9.1.7",
