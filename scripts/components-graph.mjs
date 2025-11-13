@@ -530,10 +530,9 @@ function renderPanelForNode(n, transitive) {
 }
 
 
-  function hidePanel() {
-    if ($panel) $panel.style.display = 'none';
-  }
-
+  const $reset = document.getElementById('btn-reset');
+  const $panel = document.getElementById('panel');
+  const $search = document.getElementById('search');
 
   // highlite helpers
   function clearStyles() {
@@ -564,6 +563,10 @@ function renderPanelForNode(n, transitive) {
     cy.animate({ fit: { eles: s.union(t), padding: 60 }, duration: 200 });
   }
 
+  function hidePanel() {
+    if ($panel) $panel.style.display = 'none';
+  }
+
   cy.on('tap', 'node', (evt) => {
     const trans = document.getElementById('transitive')?.checked;
     highlightNode(evt.target, !!trans);
@@ -578,7 +581,6 @@ function renderPanelForNode(n, transitive) {
 
   cy.on('tap', (evt) => { if (evt.target === cy) { clearStyles(); hidePanel(); } });
 
-  const $search = document.getElementById('search');
   if ($search) {
     $search.addEventListener('change', () => {
       const q = $search.value.trim();
@@ -588,9 +590,7 @@ function renderPanelForNode(n, transitive) {
     });
   }
 
-  const $reset = document.getElementById('btn-reset');
 
-  const $panel = document.getElementById('panel');
 
   if ($reset) $reset.addEventListener('click', () => {
     clearStyles();
