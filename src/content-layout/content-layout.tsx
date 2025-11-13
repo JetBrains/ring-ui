@@ -12,6 +12,7 @@ export interface ContentLayoutProps extends HTMLAttributes<HTMLElement> {
 
 /**
  * @name Content Layout
+ * @deprecated Will be removed in Ring UI 8.0.
  */
 
 export default class ContentLayout extends Component<ContentLayoutProps> {

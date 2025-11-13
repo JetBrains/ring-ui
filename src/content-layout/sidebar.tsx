@@ -14,6 +14,10 @@ export interface SidebarProps extends HTMLAttributes<HTMLElement> {
   contentNode?: HTMLElement | null | undefined;
 }
 
+/**
+ * @name Sidebar
+ * @deprecated Will be removed in Ring UI 8.0.
+ */
 export default class Sidebar extends Component<SidebarProps> {
   state = {
     topIsOutside: true,
