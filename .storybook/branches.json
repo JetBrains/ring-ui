@@ -1,5 +1,5 @@
 {
-  "8.0.0-beta": "8.0-beta",
+  "8.0.0-beta": "develop-8.0",
   "7.x.x": "master",
   "6.x.x": "release-6.x"
 }

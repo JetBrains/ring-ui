@@ -16,7 +16,7 @@ on:
       - master
       - release-6.x
       - release-5.1
-      - 8.0-beta
+      - develop-8.0
 
 permissions:
   contents: read
