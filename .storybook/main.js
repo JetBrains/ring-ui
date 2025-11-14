@@ -1,5 +1,6 @@
 import {createRequire} from 'node:module';
 import {dirname, join} from 'node:path';
+import {fileURLToPath} from 'node:url';
 
 const require = createRequire(import.meta.url);
 const path = require('path');
@@ -8,6 +9,11 @@ const webpack = require('webpack');
 const ringConfig = require('../webpack.config').createConfig();
 
 const pkgConfig = require('../package.json').config;
+
+/* eslint-disable no-underscore-dangle */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+/* eslint-enable */
 
 export default {
   stories: [
