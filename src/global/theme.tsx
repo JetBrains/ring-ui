@@ -146,7 +146,7 @@ function ThemeProviderInner({
 }
 
 export const ThemeProvider = forwardRef(function ThemeProvider(props: ThemeProviderProps, ref: Ref<HTMLElement>) {
-  return <ThemeProviderInner wrapperRef={ref} {...props} />;
+  return <ThemeProviderInner {...props} wrapperRef={ref} />;
 });
 
 export default Theme;
