@@ -3,6 +3,8 @@ import './form.css';
 import '../input-size/input-size.css';
 import '../error-bubble/error-bubble-legacy.css';
 
+import {type ReactNode} from 'react';
+
 export default {
   title: 'Style-only/Form',
 
@@ -10,6 +12,14 @@ export default {
     notes: 'Helps create forms with various types of controls.',
   },
 };
+
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'rg-button': {children?: ReactNode; mode?: string};
+    }
+  }
+}
 
 export const basic = () => (
   <div style={{width: 700}}>
