@@ -9,8 +9,6 @@ afterEach(function restoreSandbox() {
   vi.useRealTimers();
 });
 
-window.global = window as never;
-
 Range.prototype.getBoundingClientRect = () => ({
   x: 0,
   y: 0,
