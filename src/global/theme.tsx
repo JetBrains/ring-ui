@@ -92,18 +92,20 @@ export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
   target?: HTMLElement;
 }
 
-export const ThemeProvider = forwardRef(function ThemeProvider(
-  {
-    theme = Theme.AUTO,
-    className,
-    passToPopups,
-    children,
-    WrapperComponent = DefaultWrapper,
-    target,
-    ...restProps
-  }: ThemeProviderProps,
-  ref: Ref<HTMLElement>,
-) {
+interface ThemeProviderInnerProps extends ThemeProviderProps {
+  wrapperRef: Ref<HTMLElement>;
+}
+
+function ThemeProviderInner({
+  theme = Theme.AUTO,
+  className,
+  passToPopups,
+  children,
+  WrapperComponent = DefaultWrapper,
+  target,
+  wrapperRef,
+  ...restProps
+}: ThemeProviderInnerProps) {
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   const id = useMemo(() => getUID('popups-with-theme-'), []);
@@ -118,7 +120,11 @@ export const ThemeProvider = forwardRef(function ThemeProvider(
 
   return (
     <ThemeContext.Provider value={themeValue}>
-      <WrapperComponent ref={ref} className={target ? undefined : classNames(className, themeClasses)} {...restProps}>
+      <WrapperComponent
+        ref={wrapperRef}
+        className={target ? undefined : classNames(className, themeClasses)}
+        {...restProps}
+      >
         {passToPopups ? (
           <PopupTarget id={id}>
             {popupTarget => (
@@ -137,6 +143,10 @@ export const ThemeProvider = forwardRef(function ThemeProvider(
       </WrapperComponent>
     </ThemeContext.Provider>
   );
+}
+
+export const ThemeProvider = forwardRef(function ThemeProvider(props: ThemeProviderProps, ref: Ref<HTMLElement>) {
+  return <ThemeProviderInner wrapperRef={ref} {...props} />;
 });
 
 export default Theme;
