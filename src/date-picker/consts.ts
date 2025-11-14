@@ -98,7 +98,7 @@ export interface DatePopupState {
   active: Field;
   text: string | null;
   hoverDate: Date | null;
-  scrollDate: number | null;
+  scrollDate: number | Date | null;
 }
 export interface DatePopupBaseProps {
   date?: Date | number | string | null | undefined;
