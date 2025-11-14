@@ -24,6 +24,20 @@ By default, documentation is built using the `development` environment. Use the 
  * **hub** (Hub server URI)
  * **clientId** (Ring UI service client ID in Hub)
 
+### Working with Git and pull requests
+
+- Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and include the YouTrack issue when available. Example: `refactor(components): RG-XXXX Commit title`.
+  - The scope in parentheses may be any high-level area you touched (e.g., `components`, `eslint`, `deps`, `teamcity`, `storybook`, ...)
+  - For convenience, you may install a [WebStorm plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) that helps enforce the Conventional Commits format.
+- Prefer squash merges for pull requests when the branch history contains many small sequential or fix commits. The ideal state is 1 task = 1 commit.
+- Avoid force-pushing to your branch once someone has started reviewing it. Exceptions:
+  - You need to rebase onto `master`
+  - You need to make just a quick fix to the latest commit
+  - **[After all reviews, just before merging]** You want to manually squash some commits (e.g., fix-ups)
+- Do not merge other people’s PRs.
+
+
+
 ### Beta versions and hotfixes
 
 When we start developing a new major version, we make a branch with name `develop-x.0` and make changes. 

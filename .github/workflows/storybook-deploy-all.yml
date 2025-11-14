@@ -9,7 +9,7 @@ name: Storybook — Rebuild for release branches
 # - To rebuild all versions from scratch
 #
 # How it works:
-# 1. Builds Storybook for each branch (master, release-6.x, 8.0-beta) independently
+# 1. Builds Storybook for each branch (master, release-6.x, develop-8.0) independently
 # 2. Combines all builds into a single deployment structure
 # 3. Uploads and deploys to GitHub Pages via Actions Artifacts
 
@@ -55,15 +55,15 @@ jobs:
           mkdir -p deploy-root/release-6.x
           cp -r release-6.x/storybook-dist/. deploy-root/release-6.x/
 
-      - name: Build 8.0-beta branch
+      - name: Build develop-8.0 branch
         run: |
-          git clone --depth 1 --branch 8.0-beta https://github.com/${{ github.repository }}.git 8.0-beta
-          cd 8.0-beta
+          git clone --depth 1 --branch develop-8.0 https://github.com/${{ github.repository }}.git develop-8.0
+          cd develop-8.0
           npm ci
           npm run build-stories
           cd ..
-          mkdir -p deploy-root/8.0-beta
-          cp -r 8.0-beta/storybook-dist/. deploy-root/8.0-beta/
+          mkdir -p deploy-root/develop-8.0
+          cp -r develop-8.0/storybook-dist/. deploy-root/develop-8.0/
 
       - name: Create root index
         run: |
