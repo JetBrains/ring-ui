@@ -2,6 +2,7 @@ import {
   type DragEventHandler,
   forwardRef,
   type ReactNode,
+  type Ref,
   useCallback,
   useImperativeHandle,
   useRef,
@@ -30,31 +31,33 @@ interface Props {
   children?: ReactNode;
 }
 
+interface InnerProps extends Props {
+  forwardedRef: Ref<UploadHandle>;
+}
+
 export interface UploadHandle {
   openFilePicker: () => void;
 }
 
 const defaultRenderIcon = () => <Icon className={styles.attachmentIcon} glyph={attachmentIcon} />;
 
-export const Upload = forwardRef<UploadHandle, Props>(function Upload(
-  {
-    children,
-    className,
-    onFilesSelected,
-    onFilesRejected,
-    validate = () => true,
-    variant = 'empty',
-    multiple,
-    renderIcon = defaultRenderIcon,
-    accept,
-    disabled,
-  },
-  ref,
-) {
+function UploadInner({
+  children,
+  className,
+  onFilesSelected,
+  onFilesRejected,
+  validate = () => true,
+  variant = 'empty',
+  multiple,
+  renderIcon = defaultRenderIcon,
+  accept,
+  disabled,
+  forwardedRef,
+}: InnerProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
 
-  useImperativeHandle(ref, () => ({openFilePicker: () => fileInputRef.current?.click()}), []);
+  useImperativeHandle(forwardedRef, () => ({openFilePicker: () => fileInputRef.current?.click()}), []);
 
   const handleSelectedFiles = useCallback(
     (files: File[]) => {
@@ -115,6 +118,9 @@ export const Upload = forwardRef<UploadHandle, Props>(function Upload(
       {children}
     </div>
   );
+}
+export const Upload = forwardRef<UploadHandle, Props>(function Upload(props, ref) {
+  return <UploadInner {...props} forwardedRef={ref} />;
 });
 
 export default Upload;
