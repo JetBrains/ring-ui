@@ -58,11 +58,13 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       const parsedDate = this.parse(props.date, 'date');
       const active = withTime && parsedDate && !props.time ? 'time' : 'date';
 
-      this.state = {...defaultState, active};
-    } else if (props.from && !props.to) {
-      this.state = {...defaultState, active: 'to'};
+      this.state = {...defaultState, active, scrollDate: parsedDate};
     } else {
-      this.state = {...defaultState, active: 'from'};
+      this.state = {
+        ...defaultState,
+        active: props.from && !props.to ? 'to' : 'from',
+        scrollDate: this.parse(props.from, 'from'),
+      };
     }
   }
 
@@ -302,7 +304,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
   // eslint-disable-next-line complexity
   render() {
-    const {range, withTime, locale} = this.props;
+    const {range, locale} = this.props;
     const {from, to, date, time, ...restProps} = this.props;
     const parsedDate = this.parse(this.props.date, 'date');
     const parsedTo = this.parse(this.props.to, 'to');
@@ -347,10 +349,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       }
     }
 
-    const scrollDate =
-      withTime && !range
-        ? this.state.scrollDate || dates.date || new Date()
-        : this.state.scrollDate || dates[this.state.active] || new Date();
+    const scrollDate = this.state.scrollDate || new Date();
 
     const calendarProps: CalendarProps = {
       ...restProps,
