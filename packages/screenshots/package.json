@@ -20,7 +20,7 @@
     "axios": "^1.13.2",
     "browserstack-local": "^1.5.8",
     "dotenv": "^17.2.3",
-    "filenamify": "^7.0.0",
+    "filenamify": "^7.0.1",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.3.2",
     "html-reporter": "^11.4.0",
