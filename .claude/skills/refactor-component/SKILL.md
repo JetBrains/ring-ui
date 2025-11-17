@@ -42,7 +42,7 @@ Use this skill when:
 - Create a concise MDX file following the shared template:
   - Meta, Title, Description, Primary, Import, Props (### header)
 - Focus on purpose and usage, not implementation
-- Base new docs on the shared template: [storybook/template/template.mdx](./../../../.storybook/template/template.mdx)
+- Base new docs on the shared template: [storybook/template/template.mdx](../../../.storybook/template/template.mdx)
 
 **Testing**
 - Write Jest + RTL tests
