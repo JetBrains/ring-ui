@@ -1,3 +1,9 @@
+## [7.0.76]
+- Fixed the `jsx` files bundling in dist, which could cause imports resolving errors.
+
+## [7.0.73]
+- **Introduced [React Compiler](https://react.dev/learn/react-compiler/introduction). Update provides a `react-compiler-runtime` as a runtime dependency.**
+
 ## [7.0.61]
 - Renamed some global files to kebab-case (`global/composeRefs.ts -> global/compose-refs.ts`, `link/clickableLink.tsx -> link/clickable-link.tsx`), old names are deprecated.
 
