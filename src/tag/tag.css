@@ -6,6 +6,7 @@
 :root,
 :host {
   --ring-error-tag-text-color: var(--ring-main-error-hover-color);
+  --ring-tag-max-height: 20px;
 }
 
 :global(.ring-ui-theme-dark) {
@@ -13,8 +14,6 @@
 }
 
 .tag {
-  --ring-tag-max-height: 20px;
-
   composes: resetButton from '../global/global.css';
 
   position: relative;
@@ -24,7 +23,6 @@
 
   box-sizing: border-box;
   max-width: 100%;
-  height: var(--ring-tag-max-height);
 
   padding: 0 var(--ring-unit);
 
@@ -36,7 +34,7 @@
   border-radius: var(--ring-border-radius);
 
   font-size: 12px;
-  line-height: var(--ring-line-height);
+  font-weight: normal;
 }
 
 
@@ -50,6 +48,7 @@
   display: inline-block;
 
   max-width: calc(100% - var(--ring-unit) / 2);
+  height: var(--ring-tag-max-height);
 
   margin-right: calc(var(--ring-unit) / 2);
 
@@ -60,6 +59,8 @@
   border-radius: var(--ring-border-radius);
 
   background-color: var(--ring-tag-container-background-color);
+
+  line-height: var(--ring-line-height);
 }
 
 .interactive {
