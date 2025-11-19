@@ -1,6 +1,7 @@
 ## [8.0 Beta — work in progress]
 
 ### BREAKING CHANGES
+- Removed legacy form styles (ring-form*) and the old input sizing classes (ring-input-size_*). `Input` component sizing is now controlled via the size prop (Size enum).
 
 #### Removed deprecated type exports
 

@@ -8,24 +8,15 @@ import {sync} from 'glob';
 
 import cssPlugin from '@jetbrains/rollup-css-plugin';
 
-const files = sync(
-  [
-    'components/**/*.{js,jsx}',
-    // Style-only components
-    'components/form/form.css',
-    'components/input/input-legacy.css',
-    'components/input-size/input-size.css',
+const files = sync(['components/**/*.{js,jsx}'], {
+  ignore: [
+    '**/test-helpers/mocks/**',
+    'components/error-page/*', // TODO Error page does not work because of importing GIF file
+    'components/error-page-ng/*',
+    'components/**/*.test.js',
+    'components/**/*.stories.js',
   ],
-  {
-    ignore: [
-      '**/test-helpers/mocks/**',
-      'components/error-page/*', // TODO Error page does not work because of importing GIF file
-      'components/error-page-ng/*',
-      'components/**/*.test.js',
-      'components/**/*.stories.js',
-    ],
-  },
-);
+});
 
 const TARGET_DIR = 'dist';
 
