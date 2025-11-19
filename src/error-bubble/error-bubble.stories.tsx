@@ -3,8 +3,6 @@ import {Component} from 'react';
 import Select, {type SingleSelectAttrs} from '../select/select';
 import Dialog from '../dialog/dialog';
 import {Header, Content} from '../island/island';
-import '../form/form.css';
-import '../input-size/input-size.css';
 import ErrorBubble from './error-bubble';
 
 export default {
@@ -60,12 +58,12 @@ export const inDialogForm = () => {
         <Dialog label='Dialog' show>
           <Header>Dialog example</Header>
           <Content>
-            <form className='ring-form'>
-              <div className='ring-form__group'>
-                <label htmlFor='select' className='ring-form__label'>
+            <div style={{marginBottom: '16px'}}>
+              <div style={{display: 'grid', gridTemplateColumns: '144px 1fr', gap: '16px', alignItems: 'start'}}>
+                <label htmlFor='select' style={{paddingTop: '4px'}}>
                   Field name
                 </label>
-                <div className='ring-form__control ring-form__control_small'>
+                <div>
                   <ErrorBubble<SingleSelectAttrs>
                     error={value ? null : 'Value is required'}
                     onSelect={selected => this.setState({value: selected})}
@@ -83,7 +81,7 @@ export const inDialogForm = () => {
                   </ErrorBubble>
                 </div>
               </div>
-            </form>
+            </div>
           </Content>
         </Dialog>
       );
