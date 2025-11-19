@@ -11,11 +11,9 @@ jest.mock(
       destroy = jest.fn();
     },
 );
-jest.mock('../src/old-browsers-message/old-browsers-message');
 
 const options = {
   suite: 'Console errors',
-  storyKindRegex: /^((?!Style-only\/Old Browsers Message).)*$/,
   // storyNameRegex: /^with deprecated item\.type parameter$/,
 };
 
