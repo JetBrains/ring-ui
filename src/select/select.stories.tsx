@@ -12,7 +12,6 @@ import List from '../list/list';
 import Dropdown from '../dropdown/dropdown';
 import Auth from '../auth/auth';
 import Source from '../list/list-users-groups-source';
-import '../input-size/input-size.css';
 import Input, {type ContainerProps, type InputSpecificProps} from '../input/input';
 import {ControlsHeight} from '../global/configuration';
 import {LabelType} from '../control-label/control-label';
