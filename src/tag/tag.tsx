@@ -6,6 +6,7 @@ import closeIcon from '@jetbrains/icons/close-12px';
 import Icon, {type IconType} from '../icon/icon';
 import Button from '../button/button';
 import {ControlsHeight} from '../global/controls-height';
+import dataTests from '../global/data-tests';
 
 import styles from './tag.css';
 
@@ -44,6 +45,7 @@ export interface TagProps {
   outline?: boolean;
   tagType?: TagType;
   interactive?: boolean;
+  'data-test'?: string | null;
 }
 
 /**
@@ -159,7 +161,7 @@ export default class Tag extends PureComponent<TagProps> {
       this.props.className,
     );
 
-    const {backgroundColor, textColor, render} = this.props;
+    const {backgroundColor, textColor, render, 'data-test': dataTest} = this.props;
 
     return (
       <span
@@ -170,7 +172,7 @@ export default class Tag extends PureComponent<TagProps> {
       >
         {render(
           {
-            'data-test': 'ring-tag',
+            'data-test': dataTests('ring-tag', dataTest),
             className: classes,
             ref: this.tagRef,
             onClick: this.props.onClick,
