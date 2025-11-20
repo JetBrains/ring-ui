@@ -164,10 +164,21 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     const nextState = {prevActiveIndex: activeIndex, prevData: data};
 
     if (data !== prevData) {
-      Object.assign(nextState, {
-        activeIndex: null,
-        activeItem: null,
-      });
+      // Only clear activeIndex if it's out of bounds OR the item at that position changed
+      const currentActiveIndex = prevState.activeIndex;
+      const currentActiveItem = prevState.activeItem;
+
+      if (
+        currentActiveIndex !== null &&
+        (currentActiveIndex >= data.length ||
+          !data[currentActiveIndex] ||
+          (currentActiveItem && data[currentActiveIndex].key !== currentActiveItem.key))
+      ) {
+        Object.assign(nextState, {
+          activeIndex: null,
+          activeItem: null,
+        });
+      }
     }
 
     if (activeIndex !== null && activeIndex !== undefined && activeIndex !== prevActiveIndex && data[activeIndex]) {
