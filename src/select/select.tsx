@@ -614,7 +614,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     return getValueForFilter(selected, this.props.type, this.state.filterValue);
   }
 
-  private _getActiveIndex(items: SelectItem<T>[]): number {
+  private _getActiveIndex(items: SelectItem<T>[]): number | null {
     const {selected, lastInteractedKey} = this.state;
     const isNonOptionItem = (item: SelectItem<T>) =>
       item.isResetItem || List.isItemType(List.ListProps.Type.SEPARATOR, item);
@@ -637,7 +637,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       if (index >= 0) return index;
     }
 
-    return items.findIndex(item => !isNonOptionItem(item));
+    return null;
   }
 
   popupRef = (el: SelectPopup<SelectItemData<T>> | null) => {
