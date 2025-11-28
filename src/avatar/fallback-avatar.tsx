@@ -1,4 +1,4 @@
-import {type SVGTextElementAttributes, useMemo} from 'react';
+import {type SVGTextElementAttributes, useState} from 'react';
 
 import getUID from '../global/get-uid';
 import {Size} from './avatar-size';
@@ -185,15 +185,14 @@ function extractLetters(name: string) {
     .map(word => Array.from(word));
   if (names.length >= 2) {
     return names[0][0].toUpperCase() + names[1][0].toUpperCase();
-  } if (names.length === 1) {
+  }
+  if (names.length === 1) {
     if (names[0].length >= 2) {
       return names[0].slice(0, 2).join('').toUpperCase();
     }
-      return `${names[0][0].toUpperCase()}X`;
-
+    return `${names[0][0].toUpperCase()}X`;
   }
-    return 'XX';
-
+  return 'XX';
 }
 
 // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0#gistcomment-2775538
@@ -219,7 +218,7 @@ export default function FallbackAvatar({username, size, round}: FallbackAvatarPr
   const sizes = round ? SizesRound[size] : SizesSquare[size];
   const underscore = sizes.underscore;
   const radius = round ? '50%' : sizes.radius;
-  const gradientId = useMemo(() => getUID('gradient-'), []);
+  const [gradientId] = useState(() => getUID('gradient-'));
   return (
     <svg viewBox={`0 0 ${size} ${size}`} xmlns='http://www.w3.org/2000/svg'>
       <defs>

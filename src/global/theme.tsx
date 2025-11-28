@@ -1,6 +1,5 @@
 import {
   type HTMLAttributes,
-  useMemo,
   useState,
   useEffect,
   forwardRef,
@@ -108,8 +107,8 @@ function ThemeProviderInner({
 }: ThemeProviderInnerProps) {
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
-  const id = useMemo(() => getUID('popups-with-theme-'), []);
-  const themeValue = useMemo(() => ({theme: resolvedTheme}), [resolvedTheme]);
+  const [id] = useState(() => getUID('popups-with-theme-'));
+  const themeValue = {theme: resolvedTheme};
   useEffect(() => {
     if (target) {
       applyTheme(resolvedTheme, target);
