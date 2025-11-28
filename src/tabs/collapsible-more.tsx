@@ -1,4 +1,4 @@
-import {memo, useMemo, type ReactElement, type ReactNode} from 'react';
+import {memo, type ReactElement, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import {Directions} from '../popup/popup.consts';
@@ -59,78 +59,61 @@ export const MoreButton = memo(
     morePopupItemClassName,
     morePopupBeforeEnd,
   }: MoreButtonProps) => {
-    const onSelectHandler = useMemo(
-      () =>
-        (onSelect
-          ? (listItem: ListDataItem) => {
-              if (listItem.disabled === true || listItem.custom === true) {
-                return;
-              }
+    const onSelectHandler = onSelect
+      ? (listItem: ListDataItem) => {
+          if (listItem.disabled === true || listItem.custom === true) {
+            return;
+          }
 
-              const cb = onSelect(String(listItem.key));
-              cb();
-            }
-          : undefined),
-      [onSelect],
-    );
+          const cb = onSelect(String(listItem.key));
+          cb();
+        }
+      : undefined;
 
-    const hasActiveChild = useMemo(
-      () => items.some(item => item.props.alwaysHidden && item.props.id === selected),
-      [items, selected],
-    );
+    const hasActiveChild = items.some(item => item.props.alwaysHidden && item.props.id === selected);
 
-    const data = useMemo(() => {
-      const popupItems: ListDataItem[] = getTabTitles({
-        items,
-        selected,
-        collapsed: true,
-      }).map(tab => {
-        const disabled = tab.props.disabled === true;
-        const custom = tab.props.child.type === CustomItem;
+    const data: ListDataItem[] = getTabTitles({
+      items,
+      selected,
+      collapsed: true,
+    }).map(tab => {
+      const disabled = tab.props.disabled === true;
+      const custom = tab.props.child.type === CustomItem;
 
-        return {
-          template: tab,
-          key: tab.key,
-          rgItemType: ListProps.Type.CUSTOM,
-          className: morePopupItemClassName,
-          disabled,
-          custom,
-        };
+      return {
+        template: tab,
+        key: tab.key,
+        rgItemType: ListProps.Type.CUSTOM,
+        className: morePopupItemClassName,
+        disabled,
+        custom,
+      };
+    });
+
+    if (morePopupBeforeEnd) {
+      data.push({
+        template: morePopupBeforeEnd,
+        key: 'before-end-content',
+        className: styles.morePopupBeforeEnd,
+        rgItemType: ListProps.Type.CUSTOM,
       });
+    }
 
-      if (morePopupBeforeEnd) {
-        popupItems.push({
-          template: morePopupBeforeEnd,
-          key: 'before-end-content',
-          className: styles.morePopupBeforeEnd,
-          rgItemType: ListProps.Type.CUSTOM,
-        });
-      }
-
-      return popupItems;
-    }, [items, morePopupBeforeEnd, morePopupItemClassName, selected]);
-
-    const popupAnchor = useMemo(
-      () => (
-        <AnchorLink
-          moreClassName={moreClassName}
-          moreActiveClassName={moreActiveClassName}
-          hasActiveChildren={hasActiveChild}
-        />
-      ),
-      [hasActiveChild, moreActiveClassName, moreClassName],
+    const popupAnchor = (
+      <AnchorLink
+        moreClassName={moreClassName}
+        moreActiveClassName={moreActiveClassName}
+        hasActiveChildren={hasActiveChild}
+      />
     );
 
-    const popup = useMemo(
-      () => (
-        <PopupMenu
-          directions={morePopupDirections}
-          className={morePopupClassName}
-          onSelect={onSelectHandler}
-          data={data}
-        />
-      ),
-      [data, morePopupClassName, onSelectHandler],
+    const popup = (
+      <PopupMenu
+        directions={morePopupDirections}
+        className={morePopupClassName}
+        onSelect={onSelectHandler}
+        data={data}
+      />
     );
 
     if (items.length === 0) {

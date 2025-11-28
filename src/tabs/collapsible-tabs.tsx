@@ -1,4 +1,4 @@
-import {useState, useRef, useMemo, useCallback, useEffect, memo, type ReactElement, type ReactNode} from 'react';
+import {useState, useRef, useCallback, useEffect, memo, type ReactElement, type ReactNode} from 'react';
 import classNames from 'classnames';
 import fastdom from 'fastdom';
 
@@ -54,30 +54,26 @@ export const CollapsibleTabs = ({
 
   const measureRef = useRef<HTMLDivElement>(null);
 
-  const selectedIndex = useMemo(
-    () => children.filter(tab => tab.props.alwaysHidden !== true).findIndex(tab => tab.props.id === selected) ?? null,
-    [children, selected],
-  );
+  const selectedIndex =
+    children.filter(tab => tab.props.alwaysHidden !== true).findIndex(tab => tab.props.id === selected) ?? null;
 
-  const visibleElements = useMemo(() => {
-    let items;
+  let items;
 
-    if (preparedElements.ready) {
-      items = preparedElements.visible;
-    } else {
-      items = initialVisibleItems
-        ? children.filter(item => item.props.alwaysHidden !== true).slice(0, initialVisibleItems)
-        : [];
-    }
+  if (preparedElements.ready) {
+    items = preparedElements.visible;
+  } else {
+    items = initialVisibleItems
+      ? children.filter(item => item.props.alwaysHidden !== true).slice(0, initialVisibleItems)
+      : [];
+  }
 
-    return getTabTitles({
-      items,
-      selected,
-      onSelect,
-    });
-  }, [initialVisibleItems, children, preparedElements.ready, preparedElements.visible, onSelect, selected]);
+  const visibleElements = getTabTitles({
+    items,
+    selected,
+    onSelect,
+  });
 
-  const hiddenElements = useMemo(() => {
+  const hiddenElements = (() => {
     if (preparedElements.ready) {
       return preparedElements.hidden;
     }
@@ -85,7 +81,7 @@ export const CollapsibleTabs = ({
       return children.filter(item => !visibleElements.some(visibleItem => visibleItem.props.child === item));
     }
     return [];
-  }, [children, preparedElements.hidden, preparedElements.ready, visibleElements, initialVisibleItems]);
+  })();
 
   const adjustTabs = useCallback(
     (entry: ResizeObserverEntry) => {
@@ -183,10 +179,8 @@ export const CollapsibleTabs = ({
   }, [children, elements.lastVisibleIndex, preparedElements, selected, selectedIndex]);
 
   // Get list of all possibly visible elements to render in a measure container
-  const childrenToMeasure = useMemo(() => {
-    const items = children.filter(tab => tab.props.alwaysHidden !== true);
-    return getTabTitles({items, tabIndex: -1});
-  }, [children]);
+  const childItems = children.filter(tab => tab.props.alwaysHidden !== true);
+  const childrenToMeasure = getTabTitles({items: childItems, tabIndex: -1});
 
   // Initial measure for tabs and more button sizes
   useEffect(() => {

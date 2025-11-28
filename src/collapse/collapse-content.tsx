@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext, useMemo, type PropsWithChildren} from 'react';
+import React, {useState, useEffect, useRef, useContext, type PropsWithChildren} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -69,16 +69,14 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
     }
   }, []);
 
-  const style = useMemo(() => {
-    const calculatedDuration = duration + contentHeight * DURATION_FACTOR;
-    return {
-      '--duration': `${calculatedDuration}ms`,
-      height,
-      opacity: collapsed && !minHeight ? HIDDEN : VISIBLE,
-    };
-  }, [duration, contentHeight, height, collapsed, minHeight]);
+  const calculatedDuration = duration + contentHeight * DURATION_FACTOR;
+  const style = {
+    '--duration': `${calculatedDuration}ms`,
+    height,
+    opacity: collapsed && !minHeight ? HIDDEN : VISIBLE,
+  };
 
-  const fadeShouldBeVisible = useMemo(() => Boolean(minHeight && collapsed), [minHeight, collapsed]);
+  const fadeShouldBeVisible = Boolean(minHeight && collapsed);
 
   const shouldRenderContent = disableAnimation ? !collapsed : !shouldHideContent;
 

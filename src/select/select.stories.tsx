@@ -1,4 +1,4 @@
-import {type ReactNode, type SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {type ReactNode, type SyntheticEvent, useCallback, useEffect, useRef, useState} from 'react';
 import * as React from 'react';
 import warningIcon from '@jetbrains/icons/warning';
 import searchIcon from '@jetbrains/icons/search';
@@ -414,17 +414,17 @@ export const WithServerSideFiltering: StoryFn<SingleSelectAttrs> = args => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SelectItem[]>([]);
   const requestRef = useRef<Promise<SelectItem[]> | null>(null);
-  const auth = useMemo(() => new Auth(hubConfig), []);
-  const source = useMemo(() => new Source(auth, {searchMax: 8}), [auth]);
+  const auth = useRef<Auth>(null);
+  const source = useRef<Source>(null);
   const {onFilter} = args;
   const loadData = useCallback(
     async (query = '') => {
       onFilter?.(query);
-      const request = source.getForList(query);
+      const request = source.current?.getForList(query) ?? null;
       requestRef.current = request;
       setLoading(true);
 
-      const data = await request;
+      const data = (await request) ?? [];
 
       // only the latest request is relevant
       if (requestRef.current === request) {
@@ -437,7 +437,9 @@ export const WithServerSideFiltering: StoryFn<SingleSelectAttrs> = args => {
 
   useEffect(() => {
     (async () => {
-      await auth.init();
+      auth.current = new Auth(hubConfig);
+      source.current = new Source(auth.current, {searchMax: 8});
+      await auth.current.init();
       await loadData();
     })();
   }, [auth, loadData]);
@@ -976,28 +978,21 @@ fitsToScreen.parameters = {
 };
 
 export const WithFilteredFields = () => {
-  const data = useMemo(
-    () =>
-      [...Array(100)].map((item, idx) => {
-        const label = `Label ${idx}`;
-        return {
-          key: idx,
-          label,
-          template: <span className='label'>{label}</span>,
-          rgItemType: List.ListProps.Type.CUSTOM,
-        };
-      }),
-    [],
-  );
+  const data = [...Array(100)].map((item, idx) => {
+    const label = `Label ${idx}`;
+    return {
+      key: idx,
+      label,
+      template: <span className='label'>{label}</span>,
+      rgItemType: List.ListProps.Type.CUSTOM,
+    };
+  });
 
-  const filtersData = useMemo(
-    () => [
-      {label: 'Show odd', key: '1'},
-      {label: 'Show even', key: '2'},
-      {label: 'Show all', key: '3'},
-    ],
-    [],
-  );
+  const filtersData = [
+    {label: 'Show odd', key: '1'},
+    {label: 'Show even', key: '2'},
+    {label: 'Show all', key: '3'},
+  ];
 
   const [filteredData, setFilteredData] = useState(data.filter(item => item.key % 2));
 
