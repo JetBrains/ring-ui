@@ -176,7 +176,7 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.47.0",
     "vitest": "^4.0.10",
-    "vitest-teamcity-reporter": "^0.3.1",
+    "vitest-teamcity-reporter": "^0.4.1",
     "webpack": "^5.102.1",
     "webpack-cli": "^6.0.1"
   },
