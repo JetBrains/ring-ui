@@ -5,10 +5,11 @@ import HTTP, {type HTTPAuth, type RequestParams} from '../http/http';
 import promiseWithTimeout from '../global/promise-with-timeout';
 import {getTranslations, getTranslationsWithFallback, translate} from '../i18n/i18n';
 import AuthStorage, {type AuthState} from './storage';
-import AuthResponseParser, {type AuthError, type AuthResponse} from './response-parser';
+import AuthResponseParser, {type AuthError} from './response-parser';
 import AuthRequestBuilder from './request-builder';
 import BackgroundFlow from './background-flow';
 import TokenValidator, {type TokenValidationError, type TokenValidatorConfig} from './token-validator';
+import {type AuthResponse, type AuthUser} from './auth.interface';
 
 import type AuthDialogService from '../auth-dialog-service/auth-dialog-service';
 
@@ -26,23 +27,6 @@ export const LOGOUT_POSTPONED_EVENT = 'logoutPostponed';
 export const USER_CHANGE_POSTPONED_EVENT = 'changePostponed';
 
 function noop() {}
-
-export interface AuthUser {
-  guest?: boolean;
-  id: string;
-  name: string;
-  login: string;
-  banned?: boolean;
-  banReason?: string;
-  profile?: {
-    avatar?: {
-      url?: string;
-    };
-    email?: {
-      email?: string;
-    };
-  };
-}
 
 export interface AuthTranslations {
   login: string;
@@ -1096,3 +1080,4 @@ class Auth implements HTTPAuth {
 
 export default Auth;
 export {Auth};
+export type {AuthResponse, AuthUser};

@@ -30,14 +30,14 @@ import Caret from '../caret/caret';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import Text from '../text/text';
-import {ControlsHeight} from '../global/controls-height';
+import {ControlsHeight} from '../global/configuration';
 import {createComposedRef} from '../global/compose-refs';
 import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 import {type ListDataItem} from '../list/consts';
 import {type ShortcutsMap} from '../shortcuts/core';
 import {type TagAttrs} from '../tag/tag';
 import SelectFilter from './select-filter';
-import {type SelectItem} from './select';
+import {type SelectItem} from './select.interface';
 
 import styles from './select-popup.css';
 

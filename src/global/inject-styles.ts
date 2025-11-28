@@ -1,4 +1,4 @@
-import type {PropertiesHyphen} from 'csstype';
+import {type CSSProperties} from 'react';
 
 export const injectStyleSheet = (styles: string) => {
   const styleTag = document.createElement('style');
@@ -8,7 +8,7 @@ export const injectStyleSheet = (styles: string) => {
   return styleTag;
 };
 
-export const injectRuleSet = (selector: string, declarations: PropertiesHyphen) =>
+export const injectRuleSet = (selector: string, declarations: CSSProperties) =>
   injectStyleSheet(`
 ${selector} {
   ${Object.entries(declarations).map(([property, value]) => `${property}: ${value};`).join(`
