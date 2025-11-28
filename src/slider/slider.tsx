@@ -1,4 +1,4 @@
-import {Fragment, type ReactNode, useCallback, useEffect, useEffectEvent, useRef, useState} from 'react';
+import {Fragment, type ReactNode, useCallback, useEffect, useRef, useState} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -7,6 +7,7 @@ import Shortcuts from '../shortcuts/shortcuts';
 import getUID from '../global/get-uid';
 import {type ShortcutsMap} from '../shortcuts/core';
 import {adjustValues, calculateMarks, calculateValue, HUNDRED, toPercent, toRange, validateValue} from './slider.utils';
+import useEventCallback from '../global/use-event-callback';
 
 import styles from './slider.css';
 
@@ -137,7 +138,7 @@ export const Slider: React.FC<Props> = ({
     previouslyDragged.current = false;
   };
 
-  const handleMouseUp = useEffectEvent(({pageX}: MouseEvent) => {
+  const handleMouseUp = useEventCallback(({pageX}: MouseEvent) => {
     const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
     if (nextValues[0] > nextValues[1]) {
       nextValues.reverse();
@@ -148,7 +149,7 @@ export const Slider: React.FC<Props> = ({
     previouslyDragged.current = true;
   });
 
-  const handleMouseMove = useEffectEvent(({pageX}: MouseEvent) => {
+  const handleMouseMove = useEventCallback(({pageX}: MouseEvent) => {
     const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
     if (nextValues[0] > nextValues[1]) {
       nextValues.reverse();
