@@ -1,4 +1,4 @@
-import {Fragment, type ReactNode, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Fragment, type ReactNode, useCallback, useEffect, useEffectEvent, useRef, useState} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -47,14 +47,14 @@ export const Slider: React.FC<Props> = ({
   const ref = useRef<HTMLDivElement>(null);
   const previouslyDragged = useRef(false);
   const [values, setValues] = useState(defaultValue ?? min);
-  const validValues: number[] = useMemo(() => toRange(value ?? values, min, max), [max, min, value, values]);
+  const validValues: number[] = toRange(value ?? values, min, max);
   const validStep = step < 0 ? 0 : step;
   const isRange = isArray(defaultValue ?? value);
   const [isDragging, setIsDragging] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState(-1);
   const [shortcutsScope] = useState(getUID('ring-slider-'));
 
-  const markValues: Mark[] = useMemo(() => {
+  const markValues: Mark[] = (() => {
     if (isArray(marks)) {
       return marks.map(mark => ({...mark, value: validateValue(mark.value, min, max)}));
     }
@@ -62,23 +62,17 @@ export const Slider: React.FC<Props> = ({
       return calculateMarks(min, max, validStep);
     }
     return [];
-  }, [marks, max, min, validStep]);
+  })();
 
-  const tickMarks: Mark[] = useMemo(() => {
+  const tickMarks: Mark[] = (() => {
     if (showTicks) {
       return markValues.length ? markValues : calculateMarks(min, max, validStep);
     }
     return [];
-  }, [max, min, markValues, showTicks, validStep]);
+  })();
 
-  const trackStart = useMemo(
-    () => toPercent(isRange ? Math.min(...validValues) : min, min, max),
-    [isRange, max, min, validValues],
-  );
-  const trackLength = useMemo(
-    () => toPercent(Math.max(...validValues), min, max) - trackStart,
-    [max, min, trackStart, validValues],
-  );
+  const trackStart = toPercent(isRange ? Math.min(...validValues) : min, min, max);
+  const trackLength = toPercent(Math.max(...validValues), min, max) - trackStart;
 
   const handleValueChange = useCallback(
     (nextValues: number[]) => {
@@ -88,92 +82,80 @@ export const Slider: React.FC<Props> = ({
     [isRange, onChange],
   );
 
-  const shortcutsMap = useMemo(() => {
-    const setValueAndSwap = (nextValue: number, index: number) => {
-      const nextValues = [...validValues];
-      nextValues[index] = nextValue;
-      if (nextValues[0] > nextValues[1]) {
-        const previousValue = nextValues[index];
-        nextValues.reverse();
-        const thumb: HTMLButtonElement | null | undefined = ref.current?.querySelector(
-          `[role="slider"][data-index="${nextValues.indexOf(previousValue)}"]`,
-        );
-        thumb?.focus();
-      }
-      handleValueChange(nextValues);
-    };
-    const getIndex = (target: EventTarget | null) => Number((target as Element)?.getAttribute('data-index'));
-
-    const map: ShortcutsMap = {};
-
-    if (!disabled) {
-      map.left = map.down = ({target}: KeyboardEvent) => {
-        const index = getIndex(target);
-        setValueAndSwap(Math.max(min, validValues[index] - validStep), index);
-      };
-      map.right = map.up = ({target}: KeyboardEvent) => {
-        const index = getIndex(target);
-        setValueAndSwap(Math.min(max, validValues[index] + validStep), index);
-      };
-      map.home = ({target}: KeyboardEvent) => {
-        const index = getIndex(target);
-        setValueAndSwap(min, index);
-      };
-      map.end = ({target}: KeyboardEvent) => {
-        const index = getIndex(target);
-        setValueAndSwap(max, index);
-      };
+  const setValueAndSwap = (nextValue: number, index: number) => {
+    const nextValues = [...validValues];
+    nextValues[index] = nextValue;
+    if (nextValues[0] > nextValues[1]) {
+      const previousValue = nextValues[index];
+      nextValues.reverse();
+      const thumb: HTMLButtonElement | null | undefined = ref.current?.querySelector(
+        `[role="slider"][data-index="${nextValues.indexOf(previousValue)}"]`,
+      );
+      thumb?.focus();
     }
-    return map;
-  }, [disabled, handleValueChange, max, min, validStep, validValues]);
+    handleValueChange(nextValues);
+  };
+  const getIndex = (target: EventTarget | null) => Number((target as Element)?.getAttribute('data-index'));
 
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
+  const shortcutsMap: ShortcutsMap = {};
 
-      if (disabled) {
-        return;
-      }
+  if (!disabled) {
+    shortcutsMap.left = shortcutsMap.down = ({target}: KeyboardEvent) => {
+      const index = getIndex(target);
+      setValueAndSwap(Math.max(min, validValues[index] - validStep), index);
+    };
+    shortcutsMap.right = shortcutsMap.up = ({target}: KeyboardEvent) => {
+      const index = getIndex(target);
+      setValueAndSwap(Math.min(max, validValues[index] + validStep), index);
+    };
+    shortcutsMap.home = ({target}: KeyboardEvent) => {
+      const index = getIndex(target);
+      setValueAndSwap(min, index);
+    };
+    shortcutsMap.end = ({target}: KeyboardEvent) => {
+      const index = getIndex(target);
+      setValueAndSwap(max, index);
+    };
+  }
 
-      const index = e.currentTarget.getAttribute('data-index');
-      const nextValue = calculateValue(ref, e.pageX, min, max, validStep);
-      if (nextValue !== null && !isNaN(nextValue) && !index) {
-        const rangeIndex = Number(Math.abs(validValues[0] - nextValue) > Math.abs(validValues[1] - nextValue));
-        setDraggedIndex(isRange ? rangeIndex : 0);
-      } else {
-        setDraggedIndex(Number(index));
-      }
-      setIsDragging(true);
-      previouslyDragged.current = false;
-    },
-    [disabled, isRange, max, min, validStep, validValues],
-  );
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
 
-  const handleMouseUp = useCallback(
-    ({pageX}: MouseEvent) => {
-      const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
-      if (nextValues[0] > nextValues[1]) {
-        nextValues.reverse();
-      }
-      handleValueChange(nextValues);
-      setDraggedIndex(-1);
-      setIsDragging(false);
-      previouslyDragged.current = true;
-    },
-    [validValues, draggedIndex, handleValueChange, max, min, validStep],
-  );
+    if (disabled) {
+      return;
+    }
 
-  const handleMouseMove = useCallback(
-    ({pageX}: MouseEvent) => {
-      const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
-      if (nextValues[0] > nextValues[1]) {
-        nextValues.reverse();
-        setDraggedIndex(prevState => (prevState === 0 ? 1 : 0));
-      }
-      handleValueChange(nextValues);
-    },
-    [validValues, draggedIndex, max, min, validStep, handleValueChange],
-  );
+    const index = e.currentTarget.getAttribute('data-index');
+    const nextValue = calculateValue(ref, e.pageX, min, max, validStep);
+    if (nextValue !== null && !isNaN(nextValue) && !index) {
+      const rangeIndex = Number(Math.abs(validValues[0] - nextValue) > Math.abs(validValues[1] - nextValue));
+      setDraggedIndex(isRange ? rangeIndex : 0);
+    } else {
+      setDraggedIndex(Number(index));
+    }
+    setIsDragging(true);
+    previouslyDragged.current = false;
+  };
+
+  const handleMouseUp = useEffectEvent(({pageX}: MouseEvent) => {
+    const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
+    if (nextValues[0] > nextValues[1]) {
+      nextValues.reverse();
+    }
+    handleValueChange(nextValues);
+    setDraggedIndex(-1);
+    setIsDragging(false);
+    previouslyDragged.current = true;
+  });
+
+  const handleMouseMove = useEffectEvent(({pageX}: MouseEvent) => {
+    const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
+    if (nextValues[0] > nextValues[1]) {
+      nextValues.reverse();
+      setDraggedIndex(prevState => (prevState === 0 ? 1 : 0));
+    }
+    handleValueChange(nextValues);
+  });
 
   useEffect(() => {
     if (disabled) {
@@ -191,7 +173,7 @@ export const Slider: React.FC<Props> = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, handleMouseMove, handleMouseUp, disabled]);
+  }, [isDragging, disabled]);
 
   return (
     <div

@@ -1,4 +1,4 @@
-import {useMemo, useContext, cloneElement} from 'react';
+import {useContext, cloneElement} from 'react';
 import * as React from 'react';
 
 import dataTests from '../global/data-tests';
@@ -22,13 +22,7 @@ export const CollapseControl: React.FC<Props> = ({children, 'data-test': dataTes
   const {setCollapsed, collapsed, id} = useContext(CollapseContext);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const child: React.ReactElement<any> = useMemo(() => {
-    if (typeof children === 'function') {
-      return children(collapsed);
-    }
-
-    return children;
-  }, [children, collapsed]);
+  const child: React.ReactElement<any> = typeof children === 'function' ? children(collapsed) : children;
 
   return (
     <p data-test={dataTests(COLLAPSE_CONTROL_TEST_ID, dataTest)}>

@@ -1,12 +1,12 @@
 import {
   forwardRef,
-  useMemo,
   cloneElement,
   type ReactElement,
   type HTMLAttributes,
   type SyntheticEvent,
   type Ref,
   type ReactNode,
+  useState,
 } from 'react';
 
 import List, {ActiveItemContext, type SelectHandlerParams} from '../list/list';
@@ -51,21 +51,15 @@ function DropdownAnchorWrapper({
   listId,
   ...restProps
 }: DropdownAnchorWrapperProps) {
-  const anchorAriaProps = useMemo(
-    () => ({
-      ...(listId ? {'aria-haspopup': true} : {}),
-      ...(activeListItemId ? {'aria-activedescendant': activeListItemId, 'aria-owns': listId} : {}),
-      ...(active ? {'aria-expanded': true} : {}),
-    }),
-    [active, activeListItemId, listId],
-  );
+  const anchorAriaProps = {
+    ...(listId ? {'aria-haspopup': true} : {}),
+    ...(activeListItemId ? {'aria-activedescendant': activeListItemId, 'aria-owns': listId} : {}),
+    ...(active ? {'aria-expanded': true} : {}),
+  };
 
-  const anchorProps = useMemo(
-    () => ({active, pinned, ...restProps, ...anchorAriaProps}),
-    [pinned, active, restProps, anchorAriaProps],
-  );
+  const anchorProps = {active, pinned, ...restProps, ...anchorAriaProps};
 
-  const anchorComponentProps = useMemo(() => ({...anchorProps, pinned: `${anchorProps.pinned}`}), [anchorProps]);
+  const anchorComponentProps = {...anchorProps, pinned: `${anchorProps.pinned}`};
 
   if (typeof anchor === 'string') {
     return <Anchor {...anchorComponentProps}>{anchor}</Anchor>;
@@ -107,20 +101,18 @@ const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
   {id, anchor, ariaLabel, data, onSelect, menuProps, children, ...restDropdownProps}: DropdownMenuProps<T>,
   forwardedRef: Ref<PopupMenu<T>>,
 ) {
-  const listId = useMemo(() => id || getUID('dropdown-menu-list'), [id]);
-  const popupMenuProps: DropdownMenuChildren<T>['popupMenuProps'] = useMemo(
-    () => ({
-      ref: forwardedRef,
-      id: listId,
-      ariaLabel: ariaLabel || defaultAriaLabel,
-      closeOnSelect: true,
-      activateFirstItem: true,
-      data,
-      onSelect,
-      ...menuProps,
-    }),
-    [ariaLabel, data, forwardedRef, listId, menuProps, onSelect],
-  );
+  const [uid] = useState(() => getUID('dropdown-menu-list'));
+  const listId = id || uid;
+  const popupMenuProps: DropdownMenuChildren<T>['popupMenuProps'] = {
+    ref: forwardedRef,
+    id: listId,
+    ariaLabel: ariaLabel || defaultAriaLabel,
+    closeOnSelect: true,
+    activateFirstItem: true,
+    data,
+    onSelect,
+    ...menuProps,
+  };
 
   return (
     <ActiveItemContext.Provider>

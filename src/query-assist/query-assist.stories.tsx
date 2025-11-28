@@ -1,4 +1,4 @@
-import {useState, useEffect, createElement, useMemo} from 'react';
+import {useState, createElement, useRef} from 'react';
 import permissionIcon from '@jetbrains/icons/settings';
 import {type StoryFn} from '@storybook/react-webpack5';
 
@@ -29,25 +29,24 @@ export default {
 
 export const Basic: StoryFn<QueryAssistAttrs> = args => {
   const [authReady, setAuthReady] = useState(false);
-  const auth = useMemo(() => new Auth(hubConfig), []);
+  const http = useRef<HTTP>(null);
 
-  useEffect(() => {
-    auth.init().then(() => setAuthReady(true));
-  }, [auth]);
-  const dataSource = useMemo(() => {
-    const http = new HTTP(auth, auth.getAPIPath());
+  const dataSource = (props: QueryAssistRequestParams) => {
+    if (http.current == null) {
+      const auth = new Auth(hubConfig);
+      auth.init().then(() => setAuthReady(true));
+      http.current = new HTTP(auth, auth.getAPIPath());
+    }
 
-    return (props: QueryAssistRequestParams) => {
-      const params = {
-        query: {
-          ...props,
-          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
-        },
-      };
-
-      return http.get<QueryAssistResponse>('users/queryAssist', params);
+    const params = {
+      query: {
+        ...props,
+        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
+      },
     };
-  }, [auth]);
+
+    return http.current.get<QueryAssistResponse>('users/queryAssist', params);
+  };
 
   if (!authReady) {
     return <span>Loading...</span>;
@@ -180,26 +179,23 @@ withCustomRenderer.parameters = {screenshots: {skip: true}};
 
 export const WithCustomActions: StoryFn<QueryAssistAttrs> = args => {
   const [authReady, setAuthReady] = useState(false);
-  const auth = useMemo(() => new Auth(hubConfig), []);
+  const http = useRef<HTTP>(null);
 
-  useEffect(() => {
-    auth.init().then(() => setAuthReady(true));
-  }, [auth]);
-
-  const dataSource = useMemo(() => {
-    const http = new HTTP(auth, auth.getAPIPath());
-
-    return (props: QueryAssistRequestParams) => {
-      const params = {
-        query: {
-          ...props,
-          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
-        },
-      };
-
-      return http.get<QueryAssistResponse>('users/queryAssist', params);
+  const dataSource = (props: QueryAssistRequestParams) => {
+    if (http.current == null) {
+      const auth = new Auth(hubConfig);
+      auth.init().then(() => setAuthReady(true));
+      http.current = new HTTP(auth, auth.getAPIPath());
+    }
+    const params = {
+      query: {
+        ...props,
+        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
+      },
     };
-  }, [auth]);
+
+    return http.current.get<QueryAssistResponse>('users/queryAssist', params);
+  };
 
   if (!authReady) {
     return <span>Loading...</span>;
@@ -222,26 +218,23 @@ WithCustomActions.tags = ['skip-test'];
 
 export const HugeOne: StoryFn<QueryAssistAttrs> = args => {
   const [authReady, setAuthReady] = useState(false);
-  const auth = useMemo(() => new Auth(hubConfig), []);
+  const http = useRef<HTTP>(null);
 
-  useEffect(() => {
-    auth.init().then(() => setAuthReady(true));
-  }, [auth]);
-
-  const dataSource = useMemo(() => {
-    const http = new HTTP(auth, auth.getAPIPath());
-
-    return (props: QueryAssistRequestParams) => {
-      const params = {
-        query: {
-          ...props,
-          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
-        },
-      };
-
-      return http.get<QueryAssistResponse>('users/queryAssist', params);
+  const dataSource = (props: QueryAssistRequestParams) => {
+    if (http.current == null) {
+      const auth = new Auth(hubConfig);
+      auth.init().then(() => setAuthReady(true));
+      http.current = new HTTP(auth, auth.getAPIPath());
+    }
+    const params = {
+      query: {
+        ...props,
+        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`,
+      },
     };
-  }, [auth]);
+
+    return http.current.get<QueryAssistResponse>('users/queryAssist', params);
+  };
 
   if (!authReady) {
     return <span>Loading...</span>;

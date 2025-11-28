@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {addMonths} from 'date-fns/addMonths';
 import {getDay} from 'date-fns/getDay';
 import {getDaysInMonth} from 'date-fns/getDaysInMonth';
@@ -46,17 +46,13 @@ export default function Months(props: MonthsProps) {
   const monthDate = scrollDate instanceof Date ? scrollDate : new Date(scrollDate);
   const monthStart = startOfMonth(monthDate);
 
-  const months = useMemo(() => {
-    let month = subMonths(monthStart, MONTHSBACK);
+  let month = subMonths(monthStart, MONTHSBACK);
 
-    const result = [month];
-    for (let i = 0; i < MONTHSBACK * DOUBLE; i++) {
-      month = addMonths(month, 1);
-      result.push(month);
-    }
-
-    return result;
-  }, [monthStart]);
+  const months = [month];
+  for (let i = 0; i < MONTHSBACK * DOUBLE; i++) {
+    month = addMonths(month, 1);
+    months.push(month);
+  }
 
   const currentSpeed = scrollSpeed(scrollDate);
   const pxToDate = linearFunction(0, Number(scrollDate), currentSpeed);
