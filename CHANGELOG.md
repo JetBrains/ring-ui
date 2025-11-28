@@ -11,6 +11,9 @@
 
 ### Dev experience changes
 
+### Minor changes
+- Removed `global/compose`
+
 
 ## [7.0.76]
 - Fixed the `jsx` files bundling in dist, which could cause imports resolving errors.

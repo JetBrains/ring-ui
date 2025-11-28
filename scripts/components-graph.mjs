@@ -20,7 +20,7 @@ fs.mkdirSync(OUTPUT_DIR, {recursive: true});
 // Run dependency-cruiser
 console.log('Running dependency-cruiser...');
 try {
-  const output = execSync('depcruise src --config dependency-cruiser.config.js --output-type json', {
+  const output = execSync('depcruise src --output-type json', {
     encoding: 'utf8',
     maxBuffer: MAX_BUFFER_SIZE,
   });
