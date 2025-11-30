@@ -217,7 +217,7 @@
     "classnames": "^2.5.1",
     "combokeys": "^3.0.1",
     "css-loader": "^7.1.2",
-    "csstype": "^3.2.1",
+    "csstype": "^3.2.3",
     "date-fns": "^4.1.0",
     "dequal": "^2.0.3",
     "element-resize-detector": "^1.2.4",
