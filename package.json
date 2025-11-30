@@ -118,7 +118,7 @@
     "@types/chai-as-promised": "^8.0.2",
     "@types/chai-dom": "1.11.3",
     "@types/markdown-it": "^14.1.2",
-    "@types/react": "^19.2.5",
+    "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
     "@types/webpack-env": "^1.18.8",
     "@vitejs/plugin-react": "^5.1.1",
