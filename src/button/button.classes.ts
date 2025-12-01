@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import {type ButtonProps} from './button';
+import {type ButtonProps} from './button.interface';
 
 import styles from './button.css';
 

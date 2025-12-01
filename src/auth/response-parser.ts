@@ -1,16 +1,5 @@
 import {parseQueryString} from '../global/url';
-
-export interface AuthResponse {
-  accessToken?: string;
-  state?: string;
-  token_type?: string;
-  expiresIn?: string;
-  scope?: string;
-  error?: string | Error;
-  errorDescription?: string;
-  errorUri?: string;
-  restoreAuthState?: string;
-}
+import {type AuthResponse} from './auth.interface';
 
 export class AuthError extends Error {
   code: string | Error | AuthError | undefined;
