@@ -1,6 +1,5 @@
 import Storage, {type StorageClass, type StorageInterface} from '../storage/storage';
-import {type AuthUser} from './auth-core';
-import {type AuthResponse} from './response-parser';
+import {type AuthUser, type AuthResponse} from './auth.interface';
 
 /**
  * @typedef {Object} StoredToken

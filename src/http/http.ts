@@ -1,6 +1,6 @@
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
-
-import type Auth from '../auth/auth';
+import TokenValidator from '../auth/token-validator';
+import {CODE} from './http.constants';
 
 /**
  * @name HTTP
@@ -27,10 +27,6 @@ export class HTTPError extends Error {
     this.status = response.status;
   }
 }
-
-export const CODE = {
-  UNAUTHORIZED: 401,
-};
 
 type Method<T> = (url: string, params?: RequestParams) => Promise<T>;
 
@@ -84,7 +80,7 @@ export default class HTTP implements Partial<HTTPAuth> {
 
   setAuth = (auth: HTTPAuth) => {
     this.requestToken = () => auth.requestToken();
-    this.shouldRefreshToken = (auth.constructor as typeof Auth).shouldRefreshToken;
+    this.shouldRefreshToken = TokenValidator.shouldRefreshToken;
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
   };
 
@@ -250,3 +246,5 @@ export default class HTTP implements Partial<HTTPAuth> {
       };
     };
 }
+
+export {CODE};

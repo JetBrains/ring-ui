@@ -31,12 +31,12 @@ import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
 import memoize from '../global/memoize';
 import {I18nContext} from '../i18n/i18n-context';
-import {type ListDataItem} from '../list/consts';
 import {type Directions} from '../popup/popup.consts';
 import {createComposedRef} from '../global/compose-refs';
 import {isArray} from '../global/typescript-utils';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import SelectPopup, {type Filter, type FilterFn, type Multiple, type Tags} from './select-popup';
+import {type SelectItem, type SelectItemData, Type as SelectType} from './select.interface';
 
 import inputStyles from '../input/input.css';
 import styles from './select.css';
@@ -47,32 +47,13 @@ import styles from './select.css';
 
 function noop() {}
 
-/**
- * @enum {number}
- */
-export enum Type {
-  BUTTON = 'BUTTON',
-  INPUT = 'INPUT',
-  CUSTOM = 'CUSTOM',
-  INLINE = 'INLINE',
-  INPUT_WITHOUT_CONTROLS = 'INPUT_WITHOUT_CONTROLS',
-}
-
 const ICONS_OFFSET = 5;
 const ICON_WIDTH = 20;
 const getStyle = memoize((iconsLength: number) => ({
   paddingRight: ICONS_OFFSET + iconsLength * ICON_WIDTH,
 }));
 
-const isInputMode = (type: Type) => type === Type.INPUT || type === Type.INPUT_WITHOUT_CONTROLS;
-
-type SelectItemData<T> = T & {
-  key: string | number;
-  isResetItem?: boolean | null | undefined;
-  separator?: boolean | null | undefined;
-};
-
-export type SelectItem<T = unknown> = ListDataItem<SelectItemData<T>>;
+const isInputMode = (type: SelectType) => type === SelectType.INPUT || type === SelectType.INPUT_WITHOUT_CONTROLS;
 
 function getLowerCaseLabel<T>(item: SelectItem<T>) {
   if (
@@ -152,7 +133,7 @@ export interface BaseSelectProps<T = unknown> {
   disabled: boolean;
   loadingMessage?: string;
   notFoundMessage?: string;
-  type: Type;
+  type: SelectType;
   size: Size;
   hideSelected: boolean;
   allowAny: boolean;
@@ -342,7 +323,7 @@ const getItemLabel = <T,>({selectedLabel, label}: SelectItem<T>): string => {
 
 const getValueForFilter = <T,>(
   selected: SelectItem<T> | readonly SelectItem<T>[] | null | undefined,
-  type: Type,
+  type: SelectType,
   filterValue: string,
 ): string => (selected && !isArray(selected) && isInputMode(type) ? getItemLabel(selected) : filterValue);
 
@@ -364,7 +345,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     clear: false, // enable clear button that clears the "selected" state
     loading: false, // show a loading indicator while data is loading
     disabled: false, // disable select
-    type: Type.BUTTON,
+    type: SelectType.BUTTON,
     size: Size.M,
     targetElement: null, // element to bind the popup to (select BUTTON or INPUT by default)
     hideSelected: false, // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
@@ -502,7 +483,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
   static contextType = ControlsHeightContext;
   declare context: React.ContextType<typeof ControlsHeightContext>;
-  static Type = Type;
+  static Type = SelectType;
   static Size = Size;
 
   id = getUID('select-');
@@ -1244,7 +1225,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       this.props.className,
       styles[`height${this.getHeight()}`],
       {
-        [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
+        [styles[`size${this.props.size}`]]: this.props.type !== SelectType.INLINE,
         [styles.disabled]: this.props.disabled,
       },
     );
@@ -1252,7 +1233,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     let style: CSSProperties | undefined;
     let iconsNode;
 
-    if (this.props.type === Type.INPUT || this.props.type === Type.BUTTON) {
+    if (this.props.type === SelectType.INPUT || this.props.type === SelectType.BUTTON) {
       const icons = this._getIcons();
       style = getStyle(icons.length);
       iconsNode = <div className={styles.icons}>{icons}</div>;
@@ -1267,8 +1248,8 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     };
 
     switch (this.props.type) {
-      case Type.INPUT_WITHOUT_CONTROLS:
-      case Type.INPUT:
+      case SelectType.INPUT_WITHOUT_CONTROLS:
+      case SelectType.INPUT:
         return (
           <>
             <div
@@ -1289,7 +1270,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                 inputRef={this.composedFilterRef(this.filterRef, this.props.filterRef)}
                 disabled={this.props.disabled}
                 value={this.state.filterValue}
-                borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
+                borderless={this.props.type === SelectType.INPUT_WITHOUT_CONTROLS}
                 style={style}
                 size={Size.FULL}
                 onChange={this._filterChangeHandler}
@@ -1297,7 +1278,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                 onBlur={this._blurHandler}
                 // Input with error style without description
                 error={this.props.error ? '' : null}
-                label={this.props.type === Type.INPUT ? this._getLabel() : null}
+                label={this.props.type === SelectType.INPUT ? this._getLabel() : null}
                 placeholder={this.props.inputPlaceholder}
                 onKeyDown={this.props.onKeyDown}
                 data-test='ring-select__focus'
@@ -1321,7 +1302,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
             )}
           </>
         );
-      case Type.BUTTON:
+      case SelectType.BUTTON:
         return (
           <div
             ref={this.nodeRef}
@@ -1357,7 +1338,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
           </div>
         );
 
-      case Type.INLINE:
+      case SelectType.INLINE:
         return (
           <div className={classes} ref={this.nodeRef} data-test={dataTests('ring-select', dataTest)}>
             {shortcutsEnabled && <Shortcuts map={this.getShortcutsMap()} scope={this.shortcutsScope} />}
@@ -1426,3 +1407,4 @@ export type SelectAttrs<T = unknown> = React.JSX.LibraryManagedAttributes<typeof
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const RerenderableSelect = rerenderHOC<any, any>(Select);
+export type {SelectType as Type, SelectItem};

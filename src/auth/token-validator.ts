@@ -1,4 +1,4 @@
-import {CODE} from '../http/http';
+import {CODE} from '../http/http.constants';
 
 import type AuthStorage from './storage';
 import type {StoredToken} from './storage';

@@ -1,4 +1,4 @@
-import {PureComponent, type ReactNode} from 'react';
+import {PureComponent} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import exceptionIcon from '@jetbrains/icons/exception';
@@ -12,6 +12,7 @@ import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
 import Button from '../button/button';
 import Theme, {ThemeProvider} from '../global/theme';
+import {type AlertProps, AlertType} from './alert.interface';
 
 import styles from './alert.css';
 
@@ -20,18 +21,6 @@ export const ANIMATION_TIME = 500;
 /**
  * @name Alert
  */
-
-/**
- * List of available alert types.
- * @enum {string}
- */
-export enum AlertType {
-  ERROR = 'error',
-  MESSAGE = 'message',
-  SUCCESS = 'success',
-  WARNING = 'warning',
-  LOADING = 'loading',
-}
 
 /**
  * Lookup table of alert type to icon modifier.
@@ -52,31 +41,6 @@ const TypeToIconColor: Partial<Record<AlertType, Color>> = {
   [AlertType.SUCCESS]: Color.GREEN,
   [AlertType.WARNING]: Color.WHITE,
 };
-
-export interface AlertProps {
-  theme: Theme;
-  timeout: number;
-  /**
-   * Fires when alert starts closing if timeout is out or user clicks "Close" button
-   */
-  onCloseRequest: (event?: React.MouseEvent<HTMLElement>) => void;
-  onClose: () => void;
-  isShaking: boolean;
-  isClosing: boolean;
-  /**
-   * Whether an alert is rendered inside an **Alerts** container
-   * or standalone.
-   */
-  inline: boolean;
-  showWithAnimation: boolean;
-  closeable: boolean;
-  type: AlertType;
-  children?: ReactNode;
-  className?: string | null | undefined;
-  captionClassName?: string | null | undefined;
-  closeButtonClassName?: string | null | undefined;
-  'data-test'?: string | null | undefined;
-}
 
 interface State {
   height: number | null;
@@ -184,7 +148,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
 
     if (glyph) {
       return <Icon glyph={glyph} className={styles.icon} color={TypeToIconColor[this.props.type] || Color.DEFAULT} />;
-    } if (this.props.type === AlertType.LOADING) {
+    }
+    if (this.props.type === AlertType.LOADING) {
       return <Loader className={styles.loader} />;
     }
 
@@ -248,3 +213,4 @@ export default class Alert extends PureComponent<AlertProps, State> {
 }
 
 export {default as Container} from './container';
+export {AlertProps, AlertType};

@@ -1,6 +1,4 @@
-import {Component} from 'react';
-import {useState} from 'storybook/preview-api';
-
+import {Component, useState} from 'react';
 
 import {Header, Content} from '../island/island';
 import Button from '../button/button';
