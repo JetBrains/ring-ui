@@ -2,9 +2,7 @@
  * @name DOM
  */
 
-import {type SyntheticEvent} from 'react';
-
-import type {PropertiesHyphen} from 'csstype';
+import {type CSSProperties, type SyntheticEvent} from 'react';
 
 export const getStyles = window.getComputedStyle.bind(window);
 
@@ -74,7 +72,7 @@ export const removeClasses = applyMethodToClasses('remove');
 export const toggleClasses = (classList: DOMTokenList, classes: Record<string, boolean>) =>
   Object.entries(classes).forEach(([className, on]) => classList.toggle(className, on));
 
-export function setRootStyleProperties(properties: PropertiesHyphen = {}) {
+export function setRootStyleProperties(properties: CSSProperties = {}) {
   const rootStyle = document.documentElement.style;
 
   Object.entries(properties).forEach(([key, value]) => {
@@ -82,7 +80,7 @@ export function setRootStyleProperties(properties: PropertiesHyphen = {}) {
   });
 }
 
-export function resetRootStyleProperties(properties: Partial<Record<keyof PropertiesHyphen, unknown>> = {}) {
+export function resetRootStyleProperties(properties: Partial<Record<keyof CSSProperties, unknown>> = {}) {
   const rootStyle = document.documentElement.style;
 
   Object.keys(properties).forEach(key => rootStyle.removeProperty(key));

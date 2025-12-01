@@ -1,10 +1,11 @@
 import {forwardRef} from 'react';
 import classNames from 'classnames';
 
-import styles from './progress-bar.css';
 import {toPercent} from './progress-bar.utils';
 
 import type {ProgressBarProps} from './progress-bar.interface';
+
+import styles from './progress-bar.css';
 
 const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
   (

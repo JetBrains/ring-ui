@@ -106,6 +106,6 @@ export interface RingCSSProperties {
   '--ring-alert-z-index'?: Property.ZIndex;
 }
 
-declare module 'csstype' {
-  interface Properties extends RingCSSProperties {}
+declare module 'react' {
+  interface CSSProperties extends RingCSSProperties {}
 }
