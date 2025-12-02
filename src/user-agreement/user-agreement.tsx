@@ -1,7 +1,3 @@
-/**
- * @name User Agreement
- */
-
 import {PureComponent, type ReactNode} from 'react';
 import classNames from 'classnames';
 
@@ -15,6 +11,9 @@ import style from './user-agreement.css';
 
 function noop() {}
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface UserAgreementTranslations {
   userAgreement: string;
   accept: string;
@@ -24,6 +23,9 @@ export interface UserAgreementTranslations {
   remindLater: string;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface UserAgreementProps {
   translations?: UserAgreementTranslations | null | undefined;
   children: ReactNode;
@@ -36,6 +38,8 @@ export interface UserAgreementProps {
   className?: string | null | undefined;
 }
 /**
+ * @name User Agreement
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
  * A component that displays a user agreement dialog.
  */
 export default class UserAgreement extends PureComponent<UserAgreementProps> {

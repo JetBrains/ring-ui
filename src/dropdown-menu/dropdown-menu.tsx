@@ -20,6 +20,9 @@ import {type ListDataItem} from '../list/consts';
 
 const defaultAriaLabel = 'Dropdown menu';
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface DropdownAnchorWrapperProps extends AnchorProps {
   anchor:
     | ReactElement
@@ -84,6 +87,9 @@ type OnSelectHandler<T> =
   | ((item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) => void)
   | undefined;
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface DropdownMenuProps<T = unknown> extends Omit<DropdownAttrs, 'anchor' | 'onSelect' | 'children'> {
   anchor:
     | ReactElement
@@ -97,6 +103,9 @@ export interface DropdownMenuProps<T = unknown> extends Omit<DropdownAttrs, 'anc
   children?: DropdownChildrenFunction;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
   {id, anchor, ariaLabel, data, onSelect, menuProps, children, ...restDropdownProps}: DropdownMenuProps<T>,
   forwardedRef: Ref<PopupMenu<T>>,
