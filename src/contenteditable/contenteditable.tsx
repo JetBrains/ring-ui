@@ -1,12 +1,11 @@
 import {Component, type HTMLAttributes, type Ref, type ReactElement} from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 
-/**
- * @name ContentEditable
- */
-
 function noop() {}
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface ContentEditableBaseProps extends HTMLAttributes<HTMLElement> {
   disabled: boolean;
   onComponentUpdate: (prevProps: ContentEditableBaseProps) => void;
@@ -55,8 +54,15 @@ type ContentEditableBaseAttrs = React.JSX.LibraryManagedAttributes<
   ContentEditableBaseProps
 >;
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export type ContentEditableProps = Omit<ContentEditableBaseAttrs, '__html'>;
 
+/**
+ * @name ContentEditable
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 const ContentEditable = ({children, ...props}: ContentEditableProps) => (
   <ContentEditableBase {...props} __html={renderToStaticMarkup(children as ReactElement)} />
 );

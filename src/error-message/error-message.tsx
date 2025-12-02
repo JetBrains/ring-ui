@@ -7,6 +7,9 @@ import dataTests from '../global/data-tests';
 
 import styles from './error-message.css';
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface ErrorMessageProps {
   children?: ReactNode;
   icon?: string | IconType | null | undefined;
@@ -19,8 +22,8 @@ export interface ErrorMessageProps {
 
 /**
  * @name Error Message
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
  */
-
 export default class ErrorMessage extends Component<ErrorMessageProps> {
   render() {
     const {className, icon, code, message, description, children, 'data-test': dataTest} = this.props;

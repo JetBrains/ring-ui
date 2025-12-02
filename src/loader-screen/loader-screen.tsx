@@ -11,6 +11,7 @@ export interface LoaderScreenProps extends LoaderProps {
 
 /**
  * @name Loader Screen
+ * @deprecated Will be removed in Ring UI 9.0. Use Loader with your own layout implementation.
  */
 export default class LoaderScreen extends PureComponent<LoaderScreenProps> {
   render() {

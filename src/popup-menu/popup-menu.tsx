@@ -12,6 +12,7 @@ export interface PopupMenuProps<T = unknown>
 
 /**
  * @name Popup Menu
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
  */
 export default class PopupMenu<T = unknown> extends Popup<PopupMenuProps<T>> {
   static isItemType = List.isItemType;
@@ -55,6 +56,12 @@ export default class PopupMenu<T = unknown> extends Popup<PopupMenuProps<T>> {
   }
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export type PopupMenuAttrs<T = unknown> = React.JSX.LibraryManagedAttributes<typeof PopupMenu, PopupMenuProps<T>>;
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export const {ListProps} = List;
