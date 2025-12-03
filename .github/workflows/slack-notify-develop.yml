@@ -1,0 +1,24 @@
+name: Slack Notification — develop-8.0 Rebase
+
+# This workflow sends a Slack notification when the develop-8.0 branch is rebased via force-push.
+
+on:
+  push:
+    branches:
+      - develop-8.0
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: github.event.forced == true
+    steps:
+      - name: Send Slack notification
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST "$SLACK_WEBHOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -d "{\"text\": \"⚠️ Branch \`develop-8.0\` was rebased by ${{ github.event.pusher.name }}. Please update your local branch.\"}"
