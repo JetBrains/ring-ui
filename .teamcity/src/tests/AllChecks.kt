@@ -48,19 +48,18 @@ object AllChecks : BuildType({
       param("github_oauth_user", "Hypnosphi")
     }
     notifications {
-      id = "SlackNofiticationToRingAlerts"
       notifierSettings = slackNotifier {
-        connection = "PROJECT_EXT_486"
+        connection = "PROJECT_EXT_271"
         sendTo = "#ring-ui-alerts"
         messageFormat = simpleMessageFormat()
       }
-      enabled = true
-      branchFilter = "+:<default>"
+      branchFilter = """
+                    +:<default>
+                    +:release-*
+                """.trimIndent()
+      buildFailedToStart = true
       buildFailed = true
       firstFailureAfterSuccess = true
-      newBuildProblemOccurred = false
-      buildFinishedSuccessfully = true
-      firstSuccessAfterFailure = true
     }
   }
 

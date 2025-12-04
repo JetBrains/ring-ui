@@ -1,19 +1,14 @@
 import builds.Deploy
 import builds.UnitTestsAndBuild
+import jetbrains.buildServer.configs.kotlin.ParameterDisplay
+import jetbrains.buildServer.configs.kotlin.Project
+import jetbrains.buildServer.configs.kotlin.projectFeatures.buildReportTab
+import jetbrains.buildServer.configs.kotlin.projectFeatures.slackConnection
 import publish.Publish
 import publish.PublishHotfixRelease
 import publish.PublishNext
 import publish.UnpublishSpecificVersion
-import tests.A11yAudit
-import tests.AllChecks
-import tests.ConsoleErrors
-import tests.GeminiTests
-import tests.QodanaAnalysis
-import tests.SecurityAudit
-
-import jetbrains.buildServer.configs.kotlin.ParameterDisplay
-import jetbrains.buildServer.configs.kotlin.Project
-import jetbrains.buildServer.configs.kotlin.projectFeatures.buildReportTab
+import tests.*
 
 object Project : Project({
   description = "https://jetbrains.github.io/ring-ui/"
@@ -36,7 +31,6 @@ object Project : Project({
       "vcs.branch.spec", """
             +:refs/heads/*
             +:refs/(pull/*)/merge
-            -:refs/heads/gh-pages
         """.trimIndent()
     )
     text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
@@ -142,6 +136,13 @@ object Project : Project({
       )
       param("disabled", "false")
       param("multi", "true")
+    }
+    slackConnection {
+      id = "PROJECT_EXT_271"
+      displayName = "Slack Ring UI Notifier"
+      botToken = "credentialsJSON:c9217053-7225-4fcf-899e-58b897fe1aba"
+      clientId = "2280447103.10029068672503"
+      clientSecret = "credentialsJSON:9567123a-a39a-4f83-befa-8a28810d8819"
     }
   }
   buildTypesOrder = arrayListOf(

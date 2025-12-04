@@ -119,21 +119,6 @@ object GeminiTests : BuildType({
         }
       }
     }
-    notifications {
-      id = "SlackNofiticationToRingAlerts"
-      notifierSettings = slackNotifier {
-        connection = "PROJECT_EXT_486"
-        sendTo = "#ring-ui-alerts"
-        messageFormat = simpleMessageFormat()
-      }
-      enabled = true
-      branchFilter = "+:<default>"
-      buildFailed = true
-      firstFailureAfterSuccess = true
-      newBuildProblemOccurred = false
-      buildFinishedSuccessfully = true
-      firstSuccessAfterFailure = true
-    }
   }
 
   dependencies {
