@@ -28,7 +28,7 @@ changeBuildType(RelativeId("AllChecks")) {
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:ddffc5df-be8c-4bc3-b5cb-d6dd6a33af63"
+                    token = "credentialsJSON:5deec3f8-187e-4fa1-adf9-cc1e4c9f0928"
                 }
             }
             param("github_oauth_user", "")
