@@ -25,7 +25,7 @@ function ThemeDecorator(Story: PartialStoryFn, context: StoryContext) {
   }, [onForceDark]);
 
   return (
-    <ThemeProvider theme={forceDark || context.userGlobals.theme === 'dark' ? Theme.DARK : Theme.LIGHT}>
+    <ThemeProvider theme={forceDark || context.userGlobals?.theme === 'dark' ? Theme.DARK : Theme.LIGHT}>
       {withThemeByClassName({
         themes: {
           light: '',
