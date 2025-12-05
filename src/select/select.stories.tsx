@@ -100,13 +100,10 @@ type StatefulProps = SingleSelectAttrs & {
 export const WithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback(
-    (option: SelectItem | null) => {
-      setSelected(option);
-      onSelect?.(option);
-    },
-    [onSelect],
-  );
+  const handleSelect = (option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  };
 
   return (
     <div className='demo-container'>
@@ -166,13 +163,10 @@ WithAFilter.parameters = {
 export const ButtonModeWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback(
-    (option: SelectItem | null) => {
-      setSelected(option);
-      onSelect?.(option);
-    },
-    [onSelect],
-  );
+  const handleSelect = (option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  };
 
   return (
     <div className='demo-container'>
@@ -224,13 +218,10 @@ ButtonModeWithAFilter.parameters = {
 export const InlineWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback(
-    (option: SelectItem | null) => {
-      setSelected(option);
-      onSelect?.(option);
-    },
-    [onSelect],
-  );
+  const handleSelect = (option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  };
 
   return (
     <div className='demo-container'>
@@ -289,13 +280,10 @@ InlineWithAFilter.parameters = {
 export const InlineOpensToLeft: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback(
-    (option: SelectItem | null) => {
-      setSelected(option);
-      onSelect?.(option);
-    },
-    [onSelect],
-  );
+  const handleSelect = (option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  };
 
   return (
     <div className='demo-container'>
@@ -351,13 +339,10 @@ InlineOpensToLeft.parameters = {
 export const WithDisabledMoveOverflow: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback(
-    (option: SelectItem | null) => {
-      setSelected(option);
-      onSelect?.(option);
-    },
-    [onSelect],
-  );
+  const handleSelect = (option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  };
 
   return (
     <div className='demo-container'>
@@ -463,13 +448,10 @@ WithServerSideFiltering.tags = ['skip-test'];
 export const WithFuzzySearchFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 
-  const handleSelect = useCallback(
-    (option: SelectItem | null) => {
-      setSelected(option);
-      onSelect?.(option);
-    },
-    [onSelect],
-  );
+  const handleSelect = (option: SelectItem | null) => {
+    setSelected(option);
+    onSelect?.(option);
+  };
 
   return (
     <div className='demo-container'>
@@ -884,17 +866,14 @@ export const WithCustomInputAnchor: StoryFn<DemoComponentProps> = ({onChange, ..
   const [inputValue, setInputValue] = React.useState('');
   const selectRef = React.useRef<Select<DemoComponentItem>>(null);
 
-  const onInputChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange?.(e);
-      setInputValue(e.currentTarget.value);
-      if (selectRef.current) {
-        // eslint-disable-next-line no-underscore-dangle
-        selectRef.current._filterChangeHandler(e);
-      }
-    },
-    [onChange],
-  );
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange?.(e);
+    setInputValue(e.currentTarget.value);
+    if (selectRef.current) {
+      // eslint-disable-next-line no-underscore-dangle
+      selectRef.current._filterChangeHandler(e);
+    }
+  };
 
   return (
     <Select
@@ -1000,22 +979,19 @@ export const WithFilteredFields = () => {
 
   const [selectedFilterKey, setSelectedFilterKey] = useState<string | number | undefined>(filtersData[0].key);
 
-  const handleFilterSelect = useCallback(
-    (selected: SelectItem | null) => {
-      setFilteredData(
-        selected?.label === 'Show all'
-          ? [...data]
-          : data.filter(item => !!(Number(item.key) % 2) === (selected?.label === 'Show odd')),
-      );
-      setSelectedFilterKey(selected?.key);
-      setSelectedDataKey(null);
-    },
-    [data],
-  );
+  const handleFilterSelect = (selected: SelectItem | null) => {
+    setFilteredData(
+      selected?.label === 'Show all'
+        ? [...data]
+        : data.filter(item => !!(Number(item.key) % 2) === (selected?.label === 'Show odd')),
+    );
+    setSelectedFilterKey(selected?.key);
+    setSelectedDataKey(null);
+  };
 
-  const handleDataSelect = useCallback((selected: SelectItem | null) => {
+  const handleDataSelect = (selected: SelectItem | null) => {
     setSelectedDataKey(selected && selected.key);
-  }, []);
+  };
 
   return (
     <div className='filters-block'>

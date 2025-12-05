@@ -1,4 +1,4 @@
-import {useState, useCallback, useReducer} from 'react';
+import {useState, useReducer} from 'react';
 import {type StoryFn} from '@storybook/react-webpack5';
 
 import {Grid, Row, Col} from '../grid/grid';
@@ -103,13 +103,10 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
   const setSort = (payload: SortParams) => dispatch({type: 'setSort', payload});
   const setPage = (payload: number) => dispatch({type: 'setPage', payload});
 
-  const handleSort = useCallback(
-    (event: SortParams) => {
-      onSort?.(event);
-      setSort(event);
-    },
-    [onSort],
-  );
+  const handleSort = (event: SortParams) => {
+    onSort?.(event);
+    setSort(event);
+  };
 
   return (
     <div>

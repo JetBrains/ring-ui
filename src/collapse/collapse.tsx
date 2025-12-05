@@ -1,4 +1,4 @@
-import {type PropsWithChildren, useCallback, useId, useState} from 'react';
+import {type PropsWithChildren, useId, useState} from 'react';
 import * as React from 'react';
 
 import {CollapseContext} from './collapse-context';
@@ -31,10 +31,10 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
 
   const finalCollapsedValue = collapsed ?? innerCollapsed;
 
-  const setCollapsed = useCallback(() => {
+  const setCollapsed = () => {
     setInnerCollapsed(!finalCollapsedValue);
     onChange(!finalCollapsedValue);
-  }, [setInnerCollapsed, onChange, finalCollapsedValue]);
+  };
 
   return (
     <div className={className}>

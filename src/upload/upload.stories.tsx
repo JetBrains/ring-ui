@@ -51,10 +51,10 @@ export const basic: Story = args => {
     const isSmall = 'small' in args && args.small;
     const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
 
-    const filesSelected = React.useCallback((files: File[]) => {
+    const filesSelected = (files: File[]) => {
       setSelectedFiles(files);
       onFilesSelected(files);
-    }, []);
+    };
 
     return (
       <Upload onFilesSelected={filesSelected} {...rest} className={isSmall ? 'smallUpload' : ''}>
@@ -89,10 +89,10 @@ export const small: Story = args => {
   function UploadDemo() {
     const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
 
-    const filesSelected = React.useCallback((files: File[]) => {
+    const filesSelected = (files: File[]) => {
       setSelectedFiles(files);
       onFilesSelected(files);
-    }, []);
+    };
 
     return (
       <Upload onFilesSelected={filesSelected} {...rest} className='smallUpload'>
@@ -118,17 +118,17 @@ export const filePickerScenario: Story = () => {
     const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
     const [variant, setVariant] = React.useState<UploadVariant>('empty');
 
-    const filesSelected = React.useCallback((files: File[]) => {
+    const filesSelected = (files: File[]) => {
       setVariant('success');
       setSelectedFiles(files);
-    }, []);
+    };
 
-    const onFilesRejected = React.useCallback((files: File[]) => {
+    const onFilesRejected = (files: File[]) => {
       setVariant('error');
       setSelectedFiles(files);
-    }, []);
+    };
 
-    const validate = React.useCallback((file: File) => file.size < 100000, []);
+    const validate = (file: File) => file.size < 100000;
 
     return (
       <Upload
@@ -161,10 +161,10 @@ export const programmaticOpen: Story = args => {
     const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
     const uploadRef = React.useRef<UploadHandle>(null);
 
-    const filesSelected = React.useCallback((files: File[]) => {
+    const filesSelected = (files: File[]) => {
       setSelectedFiles(files);
       onFilesSelected(files);
-    }, []);
+    };
 
     return (
       <div>
