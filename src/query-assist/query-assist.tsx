@@ -37,15 +37,24 @@ function cleanText(text: string) {
   return text.replace(/([\n\r])+/g, ' ');
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface QueryAssistTranslations {
   searchTitle: string;
   clearTitle: string;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface FocusChange {
   focus: boolean;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface QueryAssistChange {
   query: string;
   prevCaret?: number | null;
@@ -56,6 +65,9 @@ export interface QueryAssistChange {
   suggestionsQuery?: string;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface QueryAssistResponse {
   query?: string | undefined;
   caret?: number | undefined;
@@ -63,12 +75,18 @@ export interface QueryAssistResponse {
   suggestions?: readonly QueryAssistSuggestion[] | undefined;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface QueryAssistRequestParams {
   query: string;
   caret: number;
   omitSuggestions?: boolean;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface QueryAssistProps {
   /**
    * Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument
@@ -162,6 +180,9 @@ export interface QueryAssistProps {
   size: Size;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface StyleRange {
   style: string;
   start: number;
@@ -192,8 +213,8 @@ interface HistoryEntry {
 
 /**
  * @name Query Assist
- */
-/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ *
  * ## Data source function
 
  Component class calls a data source function when user input happens and passes an object with fields \`caret\`, \`focus\` and \`query\` as the only argument.

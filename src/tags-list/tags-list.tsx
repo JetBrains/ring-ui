@@ -11,6 +11,9 @@ export interface TagType extends Omit<TagAttrs, 'onClick' | 'children'> {
   key?: string | number | null | undefined;
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface TagsListProps<T extends TagType> extends HTMLAttributes<HTMLElement> {
   tags: readonly T[];
   customTagComponent: ComponentType<TagAttrs>;
@@ -24,8 +27,8 @@ export interface TagsListProps<T extends TagType> extends HTMLAttributes<HTMLEle
 
 /**
  * @name Tags List
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
  */
-
 export default class TagsList<T extends TagType> extends Component<TagsListProps<T>> {
   static defaultProps = {
     customTagComponent: null,
@@ -83,6 +86,9 @@ export default class TagsList<T extends TagType> extends Component<TagsListProps
   }
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export type TagsListAttrs<T extends TagType = TagType> = React.JSX.LibraryManagedAttributes<
   typeof TagsList,
   TagsListProps<T>

@@ -6,6 +6,9 @@ import Button from '../button/button';
 import {Content, Header} from '../island/island';
 import Panel from '../panel/panel';
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface ConfirmProps {
   text: string;
   description: ReactNode;
@@ -23,8 +26,8 @@ export interface ConfirmProps {
 
 /**
  * @name Confirm
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
  */
-
 export default class Confirm extends PureComponent<ConfirmProps> {
   static defaultProps = {
     text: null,
@@ -91,4 +94,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
   }
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export type ConfirmAttributes = React.JSX.LibraryManagedAttributes<typeof Confirm, ConfirmProps>;
