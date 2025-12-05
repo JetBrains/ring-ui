@@ -4,17 +4,11 @@ import {
   useEffect,
   forwardRef,
   type Ref,
-  useContext,
   type ReactElement,
   createContext,
   type FunctionComponent,
 } from 'react';
 import classNames from 'classnames';
-import {createPortal} from 'react-dom';
-
-import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
-import {getPopupContainer} from '../popup/popup';
-import getUID from './get-uid';
 
 import defaultStyles from './variables.css';
 import styles from './variables_dark.css';
@@ -25,7 +19,9 @@ enum Theme {
   DARK = 'dark',
 }
 
-export const ThemeContext = createContext<{theme: Theme.LIGHT | Theme.DARK}>({theme: Theme.LIGHT});
+export const ThemeContext = createContext<{theme: Theme.LIGHT | Theme.DARK; passToPopups?: boolean}>({
+  theme: Theme.LIGHT,
+});
 
 export const GLOBAL_DARK_CLASS_NAME = 'ring-ui-theme-dark';
 
@@ -107,15 +103,13 @@ function ThemeProviderInner({
 }: ThemeProviderInnerProps) {
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
-  const [id] = useState(() => getUID('popups-with-theme-'));
-  const themeValue = {theme: resolvedTheme};
+  const themeValue = {theme: resolvedTheme, passToPopups};
   useEffect(() => {
     if (target) {
       applyTheme(resolvedTheme, target);
     }
   }, [resolvedTheme, target]);
   const themeClasses = useThemeClasses(theme);
-  const parentTarget = useContext(PopupTargetContext);
 
   return (
     <ThemeContext.Provider value={themeValue}>
@@ -124,21 +118,7 @@ function ThemeProviderInner({
         className={target ? undefined : classNames(className, themeClasses)}
         {...restProps}
       >
-        {passToPopups ? (
-          <PopupTarget id={id}>
-            {popupTarget => (
-              <>
-                {children}
-                {createPortal(
-                  <div className={themeClasses}>{popupTarget}</div>,
-                  (parentTarget && getPopupContainer(parentTarget)) || document.body,
-                )}
-              </>
-            )}
-          </PopupTarget>
-        ) : (
-          children
-        )}
+        {children}
       </WrapperComponent>
     </ThemeContext.Provider>
   );
