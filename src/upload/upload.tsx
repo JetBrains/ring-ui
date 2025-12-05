@@ -3,7 +3,6 @@ import {
   forwardRef,
   type ReactNode,
   type Ref,
-  useCallback,
   useImperativeHandle,
   useRef,
   useState,
@@ -59,35 +58,32 @@ function UploadInner({
 
   useImperativeHandle(forwardedRef, () => ({openFilePicker: () => fileInputRef.current?.click()}), []);
 
-  const handleSelectedFiles = useCallback(
-    (files: File[]) => {
-      if (!files.length) {
-        return;
-      }
-      const rejected = files.filter(file => !validate(file));
+  const handleSelectedFiles = (files: File[]) => {
+    if (!files.length) {
+      return;
+    }
+    const rejected = files.filter(file => !validate(file));
 
-      if (rejected.length > 0) {
-        onFilesRejected?.(files);
-        return;
-      }
+    if (rejected.length > 0) {
+      onFilesRejected?.(files);
+      return;
+    }
 
-      onFilesSelected(files);
-    },
-    [onFilesRejected, onFilesSelected, validate],
-  );
+    onFilesSelected(files);
+  };
 
-  const onDragEnter: DragEventHandler = useCallback(() => setDragOver(true), []);
+  const onDragEnter: DragEventHandler = () => setDragOver(true);
 
-  const onDragOver: DragEventHandler = useCallback(e => e.preventDefault(), []);
+  const onDragOver: DragEventHandler = e => e.preventDefault();
 
-  const onDragLeave: DragEventHandler = useCallback(() => setDragOver(false), []);
+  const onDragLeave: DragEventHandler = () => setDragOver(false);
 
-  const onInputChange = useCallback(() => {
+  const onInputChange = () => {
     setDragOver(false);
     if (fileInputRef.current?.files) {
       handleSelectedFiles(Array.from(fileInputRef.current.files));
     }
-  }, [handleSelectedFiles]);
+  };
 
   return (
     <div

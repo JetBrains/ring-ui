@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react';
+import {useState} from 'react';
 import {type StoryFn} from '@storybook/react-webpack5';
 
 import Link from '../link/link';
@@ -79,14 +79,11 @@ export const WithSorting: StoryFn<BasicDemoProps> = args => {
   const [sortOrder, setSortOrder] = useState<boolean>(true);
   const data = mock.toSorted((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
 
-  const handleSort = useCallback(
-    (event: SortParams) => {
-      onSort?.(event);
-      setSortKey(event.column.id as keyof Item);
-      setSortOrder(event.order);
-    },
-    [onSort],
-  );
+  const handleSort = (event: SortParams) => {
+    onSort?.(event);
+    setSortKey(event.column.id as keyof Item);
+    setSortOrder(event.order);
+  };
 
   return <SimpleTable {...restProps} data={data} onSort={handleSort} sortKey={sortKey} sortOrder={sortOrder} />;
 };

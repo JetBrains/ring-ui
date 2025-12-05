@@ -1,4 +1,4 @@
-import {type InputHTMLAttributes, useCallback, useEffect} from 'react';
+import {type InputHTMLAttributes, useEffect} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -7,6 +7,7 @@ import Button from '../button/button';
 import {Size} from '../input/input';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
+import useEventCallback from '../global/use-event-callback';
 
 import inputStyles from '../input/input.css';
 import styles from './editable-heading.css';
@@ -124,7 +125,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     inputClassName,
   );
 
-  const stretch = useCallback((el: HTMLElement | null | undefined) => {
+  const stretch = (el: HTMLElement | null | undefined) => {
     if (!el || !el.style) {
       return;
     }
@@ -132,84 +133,66 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     el.style.height = '0';
     const {paddingTop, paddingBottom} = window.getComputedStyle(el);
     el.style.height = `${el.scrollHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)}px`;
-  }, []);
+  };
 
-  const checkValue = useCallback(
-    (el: HTMLElement | null | undefined) => {
-      if (multiline && el && el.scrollHeight >= el.clientHeight) {
-        stretch(el);
-      }
-    },
-    [stretch, multiline],
-  );
+  const checkValue = (el: HTMLElement | null | undefined) => {
+    if (multiline && el && el.scrollHeight >= el.clientHeight) {
+      stretch(el);
+    }
+  };
 
-  const checkOverflow = useCallback(
-    (el: HTMLInputElement | HTMLTextAreaElement) => {
-      const scrollHeight = el.scrollHeight || 0;
-      const clientHeight = el.clientHeight || 0;
-      const scrollTop = el.scrollTop || 0;
+  const checkOverflow = (el: HTMLInputElement | HTMLTextAreaElement) => {
+    const scrollHeight = el.scrollHeight || 0;
+    const clientHeight = el.clientHeight || 0;
+    const scrollTop = el.scrollTop || 0;
 
-      setIsScrolledToBottom(scrollHeight - clientHeight <= scrollTop);
-      setIsOverflow(scrollHeight > clientHeight);
-    },
-    [setIsScrolledToBottom],
-  );
+    setIsScrolledToBottom(scrollHeight - clientHeight <= scrollTop);
+    setIsOverflow(scrollHeight > clientHeight);
+  };
 
-  const onHeadingMouseDown = React.useCallback(() => {
+  const onHeadingMouseDown = () => {
     setIsMouseDown(true);
-  }, []);
+  };
 
-  const onMouseMove = React.useCallback(() => {
+  const onMouseMove = useEventCallback(() => {
     if (!isMouseDown) {
       return;
     }
 
     setIsInSelectionMode(true);
-  }, [isMouseDown]);
+  });
 
-  const onMouseUp = React.useCallback(() => {
+  const onMouseUp = useEventCallback(() => {
     if (isMouseDown && !isInSelectionMode && !disabled) {
       onEdit();
     }
 
     setIsMouseDown(false);
     setIsInSelectionMode(false);
-  }, [isMouseDown, isInSelectionMode, disabled, onEdit]);
+  });
 
-  const onInputFocus = React.useCallback(
-    (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setIsInFocus(true);
-      checkValue(e.target);
-      checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
-      onFocus?.(e);
-    },
-    [onFocus, checkOverflow, checkValue],
-  );
+  const onInputFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setIsInFocus(true);
+    checkValue(e.target);
+    checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
+    onFocus?.(e);
+  };
 
-  const onInputChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      checkValue(e.target);
-      checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
-      onChange?.(e);
-    },
-    [onChange, checkOverflow, checkValue],
-  );
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    checkValue(e.target);
+    checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
+    onChange?.(e);
+  };
 
-  const onInputScroll = React.useCallback(
-    (e: React.UIEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
-      onScroll?.(e);
-    },
-    [onScroll, checkOverflow],
-  );
+  const onInputScroll = (e: React.UIEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    checkOverflow(e.target as HTMLInputElement | HTMLTextAreaElement);
+    onScroll?.(e);
+  };
 
-  const onInputBlur = React.useCallback(
-    (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setIsInFocus(false);
-      onBlur?.(e);
-    },
-    [onBlur],
-  );
+  const onInputBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setIsInFocus(false);
+    onBlur?.(e);
+  };
 
   useEffect(() => {
     window.addEventListener('mousemove', onMouseMove);

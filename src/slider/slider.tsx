@@ -1,4 +1,4 @@
-import {Fragment, type ReactNode, useCallback, useEffect, useRef, useState} from 'react';
+import {Fragment, type ReactNode, useEffect, useRef, useState} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -75,13 +75,10 @@ export const Slider: React.FC<Props> = ({
   const trackStart = toPercent(isRange ? Math.min(...validValues) : min, min, max);
   const trackLength = toPercent(Math.max(...validValues), min, max) - trackStart;
 
-  const handleValueChange = useCallback(
-    (nextValues: number[]) => {
-      setValues(nextValues);
-      onChange?.(isRange ? nextValues : nextValues[0]);
-    },
-    [isRange, onChange],
-  );
+  const handleValueChange = (nextValues: number[]) => {
+    setValues(nextValues);
+    onChange?.(isRange ? nextValues : nextValues[0]);
+  };
 
   const setValueAndSwap = (nextValue: number, index: number) => {
     const nextValues = [...validValues];
@@ -174,7 +171,7 @@ export const Slider: React.FC<Props> = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, disabled]);
+  }, [isDragging, disabled, handleMouseMove, handleMouseUp]);
 
   return (
     <div

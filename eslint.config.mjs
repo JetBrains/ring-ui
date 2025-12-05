@@ -228,6 +228,7 @@ export default defineConfig([
       'react/jsx-uses-react': 'off', // we support new JSX transform in React 17+
       'react/react-in-jsx-scope': 'off',
       'react/jsx-tag-spacing': 'off',
+      'react/jsx-wrap-multilines': 'off', // conflict with Prettier
       quotes: ['error', 'single', {avoidEscape: true, allowTemplateLiterals: true}],
       'use-isnan': 'error',
     },

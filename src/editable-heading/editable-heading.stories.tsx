@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react';
+import {useState} from 'react';
 import pencilIcon from '@jetbrains/icons/pencil';
 import moreOptionsIcon from '@jetbrains/icons/more-options';
 
@@ -29,18 +29,18 @@ export const basic = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [children, setChildren] = useState(initChildren);
 
-    const onSave = useCallback(() => {
+    const onSave = () => {
       setIsSaving(true);
       setTimeout(() => {
         setIsSaving(false);
         setIsEditing(false);
       }, 1000);
-    }, []);
+    };
 
-    const onCancel = useCallback(() => {
+    const onCancel = () => {
       setChildren(initChildren);
       setIsEditing(false);
-    }, [initChildren]);
+    };
 
     return (
       <EditableHeading

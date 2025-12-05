@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react';
+import {useState} from 'react';
 import searchIcon from '@jetbrains/icons/search';
 import warningIcon from '@jetbrains/icons/warning';
 import classNames from 'classnames';
@@ -148,7 +148,7 @@ export const AutoCollapseDemo = () => {
     }),
   );
 
-  const addTab = useCallback(() => {
+  const addTab = () => {
     setTabs(state => {
       const newTab = (
         <Tab
@@ -160,11 +160,11 @@ export const AutoCollapseDemo = () => {
 
       return [...state, newTab];
     });
-  }, []);
+  };
 
-  const selectHandler = useCallback((key: string) => {
+  const selectHandler = (key: string) => {
     setSelected(key);
-  }, []);
+  };
 
   return (
     <>
@@ -199,31 +199,31 @@ export const customTitles = () => (
   <SmartTabs>
     <Tab
       className='tab'
-      title={(
+      title={
         <>
           First tab<span className='info'>10</span>
         </>
-      )}
+      }
     >
       First tab content
     </Tab>
     <Tab
       className='tab'
-      title={(
+      title={
         <>
           Second tab<span className='info'>Help text</span>
         </>
-      )}
+      }
     >
       Second tab content
     </Tab>
     <Tab
       className='tab'
-      title={(
+      title={
         <>
           Third tab (Link)<span className='info'>10</span>
         </>
-      )}
+      }
       href='/'
     >
       Third tab content
