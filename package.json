@@ -122,7 +122,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/webpack-env": "^1.18.8",
     "@vitejs/plugin-react": "^5.1.1",
-    "@vitest/eslint-plugin": "^1.4.4",
+    "@vitest/eslint-plugin": "^1.5.1",
     "acorn": "^8.15.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "caniuse-lite": "^1.0.30001756",
@@ -175,7 +175,7 @@
     "terser-webpack-plugin": "^5.3.14",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.47.0",
-    "vitest": "^4.0.13",
+    "vitest": "^4.0.14",
     "vitest-teamcity-reporter": "^0.4.1",
     "webpack": "^5.103.0",
     "webpack-cli": "^6.0.1"
