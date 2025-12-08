@@ -1,3 +1,6 @@
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export type Serializable =
   | string
   | number
@@ -8,6 +11,9 @@ export type Serializable =
       [K in string | number]?: Serializable;
     };
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface AnalyticsPlugin {
   trackEvent(category: string, action: string, additionalData?: Record<string, Serializable>): void;
   trackPageView(path: string): void;
@@ -15,6 +21,7 @@ export interface AnalyticsPlugin {
 
 /**
  * @name Analytics
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
  */
 export class Analytics {
   private _plugins: readonly AnalyticsPlugin[];

@@ -5,9 +5,8 @@ import Confirm, {type ConfirmAttributes} from '../confirm/confirm';
 import {type ControlsHeight, ControlsHeightContext, getGlobalControlsHeight} from '../global/controls-height';
 
 /**
- * @name Confirm Service
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
  */
-
 export type Props = ConfirmAttributes & {
   buttonsHeight?: ControlsHeight;
 };
@@ -27,6 +26,9 @@ function renderConfirm(props: Props) {
   );
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export interface ConfirmServiceParams {
   text?: string | undefined;
   description?: ReactNode;
@@ -37,6 +39,10 @@ export interface ConfirmServiceParams {
   buttonsHeight?: ControlsHeight | undefined;
 }
 
+/**
+ * @name Confirm Service
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export default function confirm({
   text,
   description,
@@ -83,6 +89,9 @@ export default function confirm({
   });
 }
 
+/**
+ * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.
+ */
 export function hideConfirm() {
   renderConfirm({text: '', show: false});
 }
