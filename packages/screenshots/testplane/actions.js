@@ -44,5 +44,7 @@ module.exports = {
     browser.execute(() => {
       document.documentElement.classList.add('ring-ui-theme-dark');
       document.body.classList.add('ring-ui-theme-dark');
+      // To trigger force theme update, see `.storybook/theme-decorator.tsx`
+      window.dispatchEvent(new CustomEvent('FORCE_THEME_DARK_SET_EVENT'));
     }),
 };

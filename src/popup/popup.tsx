@@ -19,6 +19,7 @@ import position, {type PositionStyles} from './position';
 import {DEFAULT_DIRECTIONS, Dimension, Directions, Display, MaxHeight, MinWidth} from './popup.consts';
 import {PopupTargetContext, PopupTarget} from './popup.target';
 import {setCSSAnchorPositioning, supportsCSSAnchorPositioning} from './position-css';
+import {ThemeContext, WithThemeClasses} from '../global/theme';
 
 import styles from './popup.css';
 
@@ -435,63 +436,71 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
 
-    const classes = classNames(className, styles.popup, {
-      [styles.cssAnchoredPopup]: this.shouldUseCssPositioning(),
-      [styles.attached]: attached,
-      [styles.hidden]: hidden,
-      [styles.showing]: showing,
-      [styles.largeBorderRadius]: largeBorderRadius,
-    });
-
     const direction = (this.state.direction || '').toLowerCase().replace(/[_]/g, '-');
 
     return (
-      <PopupTargetContext.Consumer>
-        {value => {
-          this.ringPopupTarget = value;
-          return (
-            <span
-              // prevent bubbling through portal
-              onClick={stop}
-              // This handler only blocks bubbling through React portal
-              role='presentation'
-              ref={this.portalRef}
-            >
-              {this.shouldUseShortcuts() && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
+      <ThemeContext.Consumer>
+        {theme => (
+          <WithThemeClasses theme={theme.theme}>
+            {themeClasses => (
+              <PopupTargetContext.Consumer>
+                {value => {
+                  this.ringPopupTarget = value;
 
-              {client !== false &&
-                (keepMounted || !hidden) &&
-                createPortal(
-                  <PopupTarget
-                    id={this.uid}
-                    ref={this.containerRef}
-                    onMouseOver={onMouseOver}
-                    onFocus={onMouseOver}
-                    onMouseOut={onMouseOut}
-                    onBlur={onMouseOut}
-                    onContextMenu={onContextMenu}
-                  >
-                    <div
-                      data-test={dataTests('ring-popup', dataTest)}
-                      data-test-shown={!hidden && !showing}
-                      data-test-direction={direction}
-                      ref={this.popupRef}
-                      className={classes}
-                      style={style}
-                      onMouseDown={onMouseDown}
-                      onMouseUp={onMouseUp}
-                      // mouse handlers are used to track clicking on inner elements
+                  const classes = classNames(className, theme.passToPopups ? themeClasses : null, styles.popup, {
+                    [styles.cssAnchoredPopup]: this.shouldUseCssPositioning(),
+                    [styles.attached]: attached,
+                    [styles.hidden]: hidden,
+                    [styles.showing]: showing,
+                    [styles.largeBorderRadius]: largeBorderRadius,
+                  });
+                  return (
+                    <span
+                      // prevent bubbling through portal
+                      onClick={stop}
+                      // This handler only blocks bubbling through React portal
                       role='presentation'
+                      ref={this.portalRef}
                     >
-                      {this.getInternalContent()}
-                    </div>
-                  </PopupTarget>,
-                  this.getContainer() || document.body,
-                )}
-            </span>
-          );
-        }}
-      </PopupTargetContext.Consumer>
+                      {this.shouldUseShortcuts() && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
+
+                      {client !== false &&
+                        (keepMounted || !hidden) &&
+                        createPortal(
+                          <PopupTarget
+                            id={this.uid}
+                            ref={this.containerRef}
+                            onMouseOver={onMouseOver}
+                            onFocus={onMouseOver}
+                            onMouseOut={onMouseOut}
+                            onBlur={onMouseOut}
+                            onContextMenu={onContextMenu}
+                          >
+                            <div
+                              data-test={dataTests('ring-popup', dataTest)}
+                              data-test-shown={!hidden && !showing}
+                              data-test-direction={direction}
+                              ref={this.popupRef}
+                              className={classes}
+                              style={style}
+                              onMouseDown={onMouseDown}
+                              onMouseUp={onMouseUp}
+                              // mouse handlers are used to track clicking on inner elements
+                              role='presentation'
+                            >
+                              {this.getInternalContent()}
+                            </div>
+                          </PopupTarget>,
+                          this.getContainer() || document.body,
+                        )}
+                    </span>
+                  );
+                }}
+              </PopupTargetContext.Consumer>
+            )}
+          </WithThemeClasses>
+        )}
+      </ThemeContext.Consumer>
     );
   }
 }

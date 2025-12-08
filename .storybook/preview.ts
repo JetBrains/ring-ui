@@ -3,18 +3,13 @@ import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ic
 import {type Component} from 'storybook/internal/docs-tools';
 import {type Parameters} from '@storybook/react-webpack5';
 
-import Theme, {applyTheme, GLOBAL_DARK_CLASS_NAME} from '../src/global/theme';
 import strictModeDecorator from './strict-mode-decorator';
 import stylesDecorator from './styles-decorator';
 import themeDecorator from './theme-decorator';
-import {darkMatcher, theme} from './theme';
+import {theme} from './theme';
 
 import styles from './preview.css';
 import queryAssistStyles from '../src/query-assist/query-assist.css';
-
-const updateTheme = () => applyTheme(darkMatcher.matches ? Theme.DARK : Theme.LIGHT, document.documentElement);
-updateTheme();
-darkMatcher.addEventListener('change', updateTheme);
 
 const params = new URLSearchParams(location.search.slice(1));
 if (params.has('block-animations')) {
@@ -44,13 +39,6 @@ export const parameters = {
     },
   },
   backgrounds: {disable: true},
-  themes: {
-    default: 'Light',
-    list: [
-      {name: 'Light', color: '#FFF'},
-      {name: 'Dark', class: GLOBAL_DARK_CLASS_NAME, color: '#23272b'},
-    ],
-  },
 };
 
 export const decorators = [stylesDecorator(), strictModeDecorator(), themeDecorator()];
