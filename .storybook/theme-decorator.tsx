@@ -4,6 +4,7 @@ import {type PartialStoryFn} from 'storybook/internal/csf';
 import React from 'react';
 
 import Theme, {GLOBAL_DARK_CLASS_NAME, ThemeProvider} from '../src/global/theme';
+import {darkMatcher} from './theme';
 
 // To react on theme change in visual tests, see `packages/screenshots/testplane/actions.js`
 const FORCE_THEME_DARK_SET_EVENT = 'FORCE_THEME_DARK_SET_EVENT';
@@ -13,6 +14,8 @@ declare global {
     [FORCE_THEME_DARK_SET_EVENT]: CustomEvent;
   }
 }
+
+const defaultTheme = darkMatcher.matches ? Theme.DARK : Theme.LIGHT;
 
 function ThemeDecorator(Story: PartialStoryFn, context: StoryContext) {
   const [forceDark, setForceDark] = React.useState<boolean>(false);
@@ -25,13 +28,13 @@ function ThemeDecorator(Story: PartialStoryFn, context: StoryContext) {
   }, [onForceDark]);
 
   return (
-    <ThemeProvider theme={forceDark || context.userGlobals?.theme === 'dark' ? Theme.DARK : Theme.LIGHT}>
+    <ThemeProvider theme={forceDark || context.userGlobals?.theme === 'dark' ? Theme.DARK : defaultTheme}>
       {withThemeByClassName({
         themes: {
           light: '',
           dark: GLOBAL_DARK_CLASS_NAME,
         },
-        defaultTheme: 'light',
+        defaultTheme,
         parentSelector: 'body',
       })(Story, context)}
     </ThemeProvider>
