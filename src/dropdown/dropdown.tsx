@@ -214,14 +214,22 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
       <div
         data-test={dataTests('ring-dropdown', dataTest)}
         {...restProps}
-        onClick={clickMode ? this.onClick : undefined}
-        // anchorElement should be a `button` or an `a`
-        role='presentation'
         onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
         onMouseLeave={hoverMode ? this.onMouseLeave : undefined}
         className={classes}
       >
-        {anchorElement}
+        {clickMode ? (
+          <div
+            className={styles.clickInterceptor}
+            onClick={this.onClick}
+            // anchorElement should be a `button` or an `a`
+            role='presentation'
+          >
+            {anchorElement}
+          </div>
+        ) : (
+          anchorElement
+        )}
         {typeof children === 'function'
           ? children(childProps)
           : cloneElement(children as ReactElement<PopupAttrs>, childProps)}
