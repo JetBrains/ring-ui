@@ -169,7 +169,7 @@ describe('Dropdown', () => {
     });
 
     it('should not hide popup on mouse leave if wrapper was clicked', () => {
-      const dropdown = screen.getByTestId('ring-dropdown');
+      const dropdown = screen.getByTestId('ring-dropdown-anchor-click-interceptor');
       fireEvent.click(dropdown);
 
       fireEvent.mouseLeave(dropdown);

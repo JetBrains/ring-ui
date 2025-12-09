@@ -220,6 +220,7 @@ export default class Dropdown extends Component<DropdownProps, DropdownState> {
       >
         {clickMode ? (
           <div
+            data-test='ring-dropdown-anchor-click-interceptor'
             className={styles.clickInterceptor}
             onClick={this.onClick}
             // anchorElement should be a `button` or an `a`
