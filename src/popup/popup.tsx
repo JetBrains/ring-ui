@@ -444,7 +444,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
             {themeClasses => (
               <PopupTargetContext.Consumer>
                 {value => {
-                  if (typeof value === 'object' && 'complex' in value) {
+                  if (value && typeof value === 'object' && 'complex' in value) {
                     this.ringPopupTarget = value.target;
                     this.cssPositioningFromContext = value.cssPositioning;
                   } else {
