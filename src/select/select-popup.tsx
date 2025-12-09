@@ -18,7 +18,7 @@ import memoizeOne from 'memoize-one';
 import Icon, {type IconType} from '../icon/icon';
 import Popup, {getPopupContainer} from '../popup/popup';
 import {type Directions, maxHeightForDirection} from '../popup/position';
-import {PopupTargetContext} from '../popup/popup.target';
+import {normalizePopupTarget, PopupTargetContext} from '../popup/popup.target';
 import List, {type SelectHandlerParams} from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
@@ -590,7 +590,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           const filterWithTags = this.getFilterWithTags();
           const selectAll =
             multiple && typeof multiple === 'object' && !multiple.limit && multiple.selectAll && this.getSelectAll();
-          const list = this.getList(this.props.ringPopupTarget || ringPopupTarget);
+          const list = this.getList(this.props.ringPopupTarget || normalizePopupTarget(ringPopupTarget));
           const bottomLine = this.getBottomLine();
           const hasContent = filterWithTags || selectAll || list || bottomLine || toolbar || topbar;
           return (

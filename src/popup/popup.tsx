@@ -183,6 +183,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
   parent?: HTMLElement | null;
   container?: HTMLElement | null;
   ringPopupTarget?: string | Element;
+  private cssPositioningFromContext: boolean | undefined;
   clickStartedInsidePopup = false;
 
   shouldUseShortcuts() {
@@ -261,9 +262,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     if (!supportsCSSAnchorPositioning()) {
       return false;
     }
-    return this.props.cssPositioning !== undefined
-      ? this.props.cssPositioning
-      : getConfiguration().popupsCssPositioning;
+    return this.props.cssPositioning ?? this.cssPositioningFromContext ?? getConfiguration().popupsCssPositioning;
   }
 
   private _updatePosition = () => {
@@ -445,7 +444,12 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
             {themeClasses => (
               <PopupTargetContext.Consumer>
                 {value => {
-                  this.ringPopupTarget = value;
+                  if (typeof value === 'object' && 'complex' in value) {
+                    this.ringPopupTarget = value.target;
+                    this.cssPositioningFromContext = value.cssPositioning;
+                  } else {
+                    this.ringPopupTarget = value;
+                  }
 
                   const classes = classNames(className, theme.passToPopups ? themeClasses : null, styles.popup, {
                     [styles.cssAnchoredPopup]: this.shouldUseCssPositioning(),
