@@ -17,7 +17,7 @@ import TabTrap from '../tab-trap/tab-trap';
 import {getConfiguration} from '../global/configuration';
 import position, {type PositionStyles} from './position';
 import {DEFAULT_DIRECTIONS, Dimension, Directions, Display, MaxHeight, MinWidth} from './popup.consts';
-import {PopupTargetContext, PopupTarget} from './popup.target';
+import {PopupTargetContext, PopupTarget, normalizePopupTarget} from './popup.target';
 import {setCSSAnchorPositioning, supportsCSSAnchorPositioning} from './position-css';
 import {ThemeContext, WithThemeClasses} from '../global/theme';
 
@@ -444,11 +444,10 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
             {themeClasses => (
               <PopupTargetContext.Consumer>
                 {value => {
-                  if (value && typeof value === 'object' && 'complex' in value) {
-                    this.ringPopupTarget = value.target;
-                    this.cssPositioningFromContext = value.cssPositioning;
-                  } else {
-                    this.ringPopupTarget = value;
+                  this.ringPopupTarget = normalizePopupTarget(value);
+
+                  if (!(typeof value === 'string' || value instanceof Element)) {
+                    this.cssPositioningFromContext = value?.cssPositioning;
                   }
 
                   const classes = classNames(className, theme.passToPopups ? themeClasses : null, styles.popup, {

@@ -1,7 +1,6 @@
 import {createContext, forwardRef, type HTMLAttributes, type Ref, type ReactNode} from 'react';
 
 interface ComplexConfig {
-  complex: true; // for simple type narrowing
   target: string | Element | undefined;
   cssPositioning?: boolean;
 }
