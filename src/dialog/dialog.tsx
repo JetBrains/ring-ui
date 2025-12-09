@@ -10,14 +10,13 @@ import dataTests from '../global/data-tests';
 import Shortcuts from '../shortcuts/shortcuts';
 import TabTrap, {type TabTrapProps} from '../tab-trap/tab-trap';
 import Button from '../button/button';
-import {PopupTarget, PopupTargetContext} from '../popup/popup.target';
+import {normalizePopupTarget, PopupTarget, PopupTargetContext} from '../popup/popup.target';
 import {getPopupContainer} from '../popup/popup';
 import {preventerFactory as scrollPreventerFactory} from './dialog-body-scroll-preventer';
 
 import type {ShortcutsScopeOptions} from '../shortcuts/core';
 
 import styles from './dialog.css';
-
 
 export interface DialogProps extends Partial<TabTrapProps> {
   show: boolean;
@@ -245,11 +244,12 @@ export default class Dialog extends PureComponent<DialogProps> {
       show && (
         <PopupTargetContext.Consumer>
           {contextTarget => {
+            const normalizedContextTarget = normalizePopupTarget(contextTarget);
             let targetElement: Element = document.body;
             if (portalTarget instanceof HTMLElement) {
               targetElement = portalTarget;
-            } else if (contextTarget !== undefined) {
-              const container = getPopupContainer(contextTarget);
+            } else if (normalizedContextTarget !== undefined) {
+              const container = getPopupContainer(normalizedContextTarget);
               if (container) {
                 targetElement = container;
               }

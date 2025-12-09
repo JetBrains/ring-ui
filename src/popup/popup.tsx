@@ -17,7 +17,7 @@ import TabTrap from '../tab-trap/tab-trap';
 import {getConfiguration} from '../global/configuration';
 import position, {type PositionStyles} from './position';
 import {DEFAULT_DIRECTIONS, Dimension, Directions, Display, MaxHeight, MinWidth} from './popup.consts';
-import {PopupTargetContext, PopupTarget} from './popup.target';
+import {PopupTargetContext, PopupTarget, normalizePopupTarget} from './popup.target';
 import {setCSSAnchorPositioning, supportsCSSAnchorPositioning} from './position-css';
 import {ThemeContext, WithThemeClasses} from '../global/theme';
 
@@ -157,6 +157,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
   parent?: HTMLElement | null;
   container?: HTMLElement | null;
   ringPopupTarget?: string | Element;
+  private cssPositioningFromContext: boolean | undefined;
   clickStartedInsidePopup = false;
 
   shouldUseShortcuts() {
@@ -235,9 +236,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
     if (!supportsCSSAnchorPositioning()) {
       return false;
     }
-    return this.props.cssPositioning !== undefined
-      ? this.props.cssPositioning
-      : getConfiguration().popupsCssPositioning;
+    return this.props.cssPositioning ?? this.cssPositioningFromContext ?? getConfiguration().popupsCssPositioning;
   }
 
   private _updatePosition = () => {
@@ -419,7 +418,11 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
             {themeClasses => (
               <PopupTargetContext.Consumer>
                 {value => {
-                  this.ringPopupTarget = value;
+                  this.ringPopupTarget = normalizePopupTarget(value);
+
+                  if (!(typeof value === 'string' || value instanceof Element)) {
+                    this.cssPositioningFromContext = value?.cssPositioning;
+                  }
 
                   const classes = classNames(className, theme.passToPopups ? themeClasses : null, styles.popup, {
                     [styles.cssAnchoredPopup]: this.shouldUseCssPositioning(),
