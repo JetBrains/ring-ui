@@ -47,15 +47,6 @@ object A11yAudit : BuildType({
     }
   }
 
-  triggers {
-    vcs {
-      branchFilter = """
-                +:*
-                -:pull/*
-            """.trimIndent()
-    }
-  }
-
   dependencies {
     dependency(UnitTestsAndBuild) {
       snapshot {}

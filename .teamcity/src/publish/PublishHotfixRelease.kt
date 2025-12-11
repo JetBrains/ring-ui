@@ -170,7 +170,7 @@ object PublishHotfixRelease : BuildType({
     notifications {
       id = "SlackNofiticationToRingAlerts"
       notifierSettings = slackNotifier {
-        connection = "PROJECT_EXT_486"
+        connection = "PROJECT_EXT_271"
         sendTo = "#ring-ui-alerts"
         messageFormat = simpleMessageFormat()
       }

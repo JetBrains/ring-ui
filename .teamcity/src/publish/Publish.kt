@@ -35,7 +35,7 @@ object Publish : BuildType({
 
   vcs {
     root(DslContext.settingsRoot)
-    branchFilter = "+:refs/heads/(master)"
+    branchFilter = "+:<default>"
   }
 
   steps {
@@ -180,7 +180,7 @@ object Publish : BuildType({
     notifications {
       id = "SlackNofiticationToRingAlerts"
       notifierSettings = slackNotifier {
-        connection = "PROJECT_EXT_486"
+        connection = "PROJECT_EXT_271"
         sendTo = "#ring-ui-alerts"
         messageFormat = simpleMessageFormat()
       }

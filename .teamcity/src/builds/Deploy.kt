@@ -59,26 +59,8 @@ object Deploy : BuildType({
   }
 
   triggers {
-    vcs {
-      enabled = false
-      triggerRules = "-:user=npmjs-buildserver:**"
-      branchFilter = """
-                +:*
-                -:pull/*
-            """.trimIndent()
-    }
     retryBuild {
       delaySeconds = 60
-    }
-    finishBuildTrigger {
-      enabled = false
-      buildType = "JetBrainsUi_RingUi_Build"
-      successfulOnly = true
-    }
-    finishBuildTrigger {
-      enabled = false
-      buildType = "${Publish.id}"
-      successfulOnly = true
     }
   }
 

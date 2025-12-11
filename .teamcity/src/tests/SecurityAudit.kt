@@ -46,12 +46,6 @@ object SecurityAudit : BuildType({
   }
 
   triggers {
-    vcs {
-      branchFilter = """
-                +:*
-                -:pull/*
-            """.trimIndent()
-    }
     schedule {
       branchFilter = "+:<default>"
       triggerBuild = always()

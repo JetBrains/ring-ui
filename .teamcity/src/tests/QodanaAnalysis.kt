@@ -32,14 +32,6 @@ object QodanaAnalysis : BuildType({
       collectAnonymousStatistics = true
     }
   }
-  triggers {
-    vcs {
-      branchFilter = """
-        +:*
-        -:pull/*
-      """.trimIndent()
-    }
-  }
   failureConditions {
     executionTimeoutMin = 30
   }

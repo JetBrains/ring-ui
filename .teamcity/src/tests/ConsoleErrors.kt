@@ -46,15 +46,6 @@ object ConsoleErrors : BuildType({
     }
   }
 
-  triggers {
-    vcs {
-      branchFilter = """
-                +:*
-                -:pull/*
-            """.trimIndent()
-    }
-  }
-
   failureConditions {
     nonZeroExitCode = false
     failOnMetricChange {

@@ -74,18 +74,6 @@ object UnitTestsAndBuild : BuildType({
     }
   }
 
-  triggers {
-    vcs {
-      enabled = false
-      triggerRules = "-:user=npmjs-buildserver:**"
-      branchFilter = "+:refs/heads/*"
-    }
-    retryBuild {
-      enabled = false
-      delaySeconds = 60
-    }
-  }
-
   failureConditions {
     failOnText {
       conditionType = BuildFailureOnText.ConditionType.CONTAINS
@@ -142,13 +130,15 @@ object UnitTestsAndBuild : BuildType({
       paths = ".npmrc"
     }
     commitStatusPublisher {
+      vcsRootExtId = "${DslContext.settingsRoot.id}"
       publisher = github {
         githubUrl = "https://api.github.com"
-        authType = personalToken {
-          token = "credentialsJSON:5ffe2d7e-531e-4f6f-b1fc-a41bfea26eaa"
+        authType = storedToken {
+          tokenId = "tc_token_id:CID_7bac63521d33dff346806a0a72c1f875:-1:bf9e8acd-b8c2-4dbc-95fd-6ad054393aff"
         }
       }
-      param("github_oauth_user", "Hypnosphi")
+      param("secure:github_access_token", "")
+      param("github_oauth_user", "")
     }
     commitStatusPublisher {
       enabled = false
