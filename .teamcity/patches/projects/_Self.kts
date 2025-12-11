@@ -3,7 +3,6 @@ package patches.projects
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.Project
 import jetbrains.buildServer.configs.kotlin.projectFeatures.SlackConnection
-import jetbrains.buildServer.configs.kotlin.projectFeatures.githubAppConnection
 import jetbrains.buildServer.configs.kotlin.projectFeatures.slackConnection
 import jetbrains.buildServer.configs.kotlin.ui.*
 
@@ -24,19 +23,6 @@ changeProject(DslContext.projectId) {
             }
         }
         feature1.apply {
-        }
-        add {
-            githubAppConnection {
-                id = "PROJECT_EXT_725"
-                displayName = "GitHub App"
-                appId = "2434497"
-                clientId = "Iv23li86SeC5c7ehIWxm"
-                clientSecret = "credentialsJSON:5face38f-b61d-4626-b4c3-fc17fd13b858"
-                privateKey = "credentialsJSON:a8235fbe-6725-4e31-9eb3-16f0804f461f"
-                webhookSecret = "credentialsJSON:98342e99-4ee2-4f49-836b-36965c4d7131"
-                ownerUrl = "https://github.com/amanokh"
-                useUniqueCallback = true
-            }
         }
     }
 }
