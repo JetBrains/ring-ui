@@ -129,5 +129,5 @@
   display: flex;
   gap: calc(var(--ring-unit)*2);
 
-  margin: calc(var(--ring-unit)*2) 0 calc(var(--ring-unit)/2);
+  margin: calc(var(--ring-unit) * 2) 0 calc(var(--ring-unit) / 2);
 }
