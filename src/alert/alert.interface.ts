@@ -11,6 +11,7 @@ export enum AlertType {
   SUCCESS = 'success',
   WARNING = 'warning',
   LOADING = 'loading',
+  INFO = 'info',
 }
 
 export interface AlertProps {
@@ -36,4 +37,5 @@ export interface AlertProps {
   captionClassName?: string | null | undefined;
   closeButtonClassName?: string | null | undefined;
   'data-test'?: string | null | undefined;
+  afterMessage?: ReactNode;
 }
