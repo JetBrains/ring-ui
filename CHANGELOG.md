@@ -13,7 +13,7 @@
 
 ### Minor changes
 - Removed `global/compose`
-
+- Updated Alert styles to match Figma design
 
 ## [7.0.76]
 - Fixed the `jsx` files bundling in dist, which could cause imports resolving errors.

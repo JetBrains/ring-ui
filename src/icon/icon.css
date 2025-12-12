@@ -53,7 +53,7 @@
 }
 
 .green {
-  color: var(--ring-success-color);
+  color: var(--ring-icon-success-color);
 }
 
 .magenta {
@@ -61,7 +61,7 @@
 }
 
 .red {
-  color: var(--ring-error-color);
+  color: var(--ring-icon-error-color);
 }
 
 .blue {
@@ -70,6 +70,10 @@
 
 .white {
   color: var(--ring-white-text-color);
+}
+
+.orange {
+  color: var(--ring-icon-warning-color);
 }
 
 .loading {
