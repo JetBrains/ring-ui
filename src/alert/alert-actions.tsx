@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 import styles from './alert.css';
 
-export interface AlertActions extends HTMLAttributes<HTMLDivElement> {}
+export interface AlertActionsProps extends HTMLAttributes<HTMLDivElement> {}
 
-export default function AlertActions({className, ...restProps}: AlertActions) {
+export default function AlertActions({className, ...restProps}: AlertActionsProps) {
   return <div className={classNames(styles.actions, className)} {...restProps} />;
 }
