@@ -59,18 +59,40 @@ export const alertContainer = () => {
     state = {
       alerts: [
         {type: Alert.Type.ERROR, key: 0, message: 'Test error', isClosing: false},
-        {type: Alert.Type.WARNING, key: 1, message: 'Test warning', isClosing: false},
-        {type: Alert.Type.LOADING, key: 2, message: 'Test loading', isClosing: false},
-        {type: Alert.Type.MESSAGE, key: 3, message: 'Test message', isClosing: false},
+        {type: Alert.Type.INFO, key: 1, message: 'Test info', isClosing: false},
+        {type: Alert.Type.WARNING, key: 2, message: 'Test warning', isClosing: false},
+        {type: Alert.Type.LOADING, key: 3, message: 'Test loading', isClosing: false},
+        {type: Alert.Type.MESSAGE, key: 4, message: 'Test message', isClosing: false},
         {
           type: Alert.Type.MESSAGE,
-          key: 4,
-          message: (
-            <span>
-              Message <Link href='#'>with link</Link>
-            </span>
-          ),
+          key: 5,
+          message: 'Message',
+          afterMessage: <Link href='#'>with link</Link>,
           isClosing: false,
+        },
+        {
+          type: Alert.Type.INFO,
+          key: 6,
+          message: (
+            <>
+              <Alert.Heading>Alert heading</Alert.Heading>
+              Alert body
+            </>
+          ),
+        },
+        {
+          type: Alert.Type.INFO,
+          key: 7,
+          message: (
+            <>
+              <Alert.Heading>Alert heading</Alert.Heading>
+              Alert body
+              <Alert.Actions>
+                <Button primary>Got it</Button>
+                <Button inline>Dismiss</Button>
+              </Alert.Actions>
+            </>
+          ),
         },
       ],
     };

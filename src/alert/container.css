@@ -24,7 +24,5 @@
 
   overflow-y: auto;
 
-  min-width: calc(var(--ring-unit) * 30);
-  max-width: calc(var(--ring-unit) * 50);
   margin-top: 0;
 }
