@@ -4,7 +4,7 @@ import expandIcon from '@jetbrains/icons/expand';
 
 import Icon, {type IconAttrs} from './icon';
 
-import styles from './icon.css';
+import styles from './icon.module.css';
 
 describe('Icon', () => {
   const renderIcon = (props?: IconAttrs) => {

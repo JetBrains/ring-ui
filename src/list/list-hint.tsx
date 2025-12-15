@@ -1,7 +1,7 @@
 import {PureComponent, type ReactNode} from 'react';
 import classnames from 'classnames';
 
-import styles from './list.css';
+import styles from './list.module.css';
 
 export interface ListHintProps {
   label: ReactNode;

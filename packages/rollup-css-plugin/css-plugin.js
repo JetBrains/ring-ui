@@ -18,16 +18,15 @@ function removeDuplicatePaths(paths) {
     if (seenPaths.has(p)) {
       return false;
     }
-      seenPaths.add(p);
-      return true;
-
+    seenPaths.add(p);
+    return true;
   });
 }
 
 const postcssConfigPromise = loadPostcssConfig();
 
 module.exports = function cssPlugin(options = {}) {
-  const filter = createFilter(options.include || '**/*.css', options.exclude);
+  const filter = createFilter(options.include || '**/*.module.css', options.exclude);
   const extractPath = options.extract || 'bundle.css';
   const log = options.log || (() => {});
   const depGraph = new DependencyGraph();
@@ -84,7 +83,7 @@ module.exports = function cssPlugin(options = {}) {
         }),
         cssModules({
           generateScopedName(name, filename) {
-            return `ring-${path.basename(filename, '.css')}-${name}`;
+            return `ring-${path.basename(filename, '.module.css')}-${name}`;
           },
           getJSON: (filepath, json) => {
             cssModulesCache.set(filepath, json);

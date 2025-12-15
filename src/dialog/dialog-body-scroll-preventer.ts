@@ -1,6 +1,6 @@
 import scrollbarWidth from 'scrollbar-width';
 
-import styles from './dialog.css';
+import styles from './dialog.module.css';
 
 const isPrevented = new Set();
 let previousDocumentWidth: string | null = null;

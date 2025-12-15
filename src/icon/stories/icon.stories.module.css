@@ -1,0 +1,50 @@
+.ring-icon {
+  display: inline-block;
+
+  margin: 8px;
+  padding: 8px;
+}
+
+.icons {
+  position: relative;
+}
+
+.icons svg {
+  background-color: #eeea; /* stylelint-disable-line color-no-hex */
+}
+
+.underline {
+  position: absolute;
+  bottom: 0.3em;
+  left: 0;
+
+  width: 100%;
+
+  border-bottom: 0.1em solid rgba(0, 255, 0, 0.4);
+}
+
+.icon-example-container {
+  margin: 0 8px;
+}
+
+.ring-icon-example {
+  display: inline-block;
+
+  width: 280px;
+
+  line-height: 28px;
+}
+
+.icon-example-container .ring-icon {
+  margin-right: 4px;
+
+  color: var(--ring-secondary-color);
+}
+
+.secondary {
+  fill: var(--ring-disabled-color);
+}
+
+.tertiary {
+  fill: var(--ring-link-hover-color);
+}

@@ -1,0 +1,126 @@
+
+
+.inline {
+  &,
+  & p {
+    display: inline;
+  }
+}
+
+.markdown {
+  --ring-markdown-p-margin: 10px;
+
+  composes: font from '../global/global.module.css';
+
+  & ol,
+  & ul {
+    margin: 0;
+  }
+
+  & p,
+  & blockquote,
+  & pre {
+    margin: 0;
+
+    &:not(:first-child) {
+      margin-top: var(--ring-markdown-p-margin);
+    }
+  }
+
+  & li {
+    margin-top: var(--ring-markdown-p-margin);
+  }
+
+  & li {
+    & p,
+    & blockquote,
+    & pre {
+      &:not(:first-child) {
+        margin-top: 6px;
+      }
+    }
+  }
+
+  & hr {
+    margin: var(--ring-markdown-p-margin) 0;
+
+    border: 0;
+    border-bottom: 1px solid var(--ring-line-color);
+  }
+
+  & blockquote {
+    padding: 0 0 0 calc(2 * var(--ring-unit));
+
+    color: var(--ring-secondary-color);
+    box-shadow: inset 2px 0 0 var(--ring-line-color);
+
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  & ul {
+    padding: 0 0 0 calc(2 * var(--ring-unit));
+  }
+
+  & ol {
+    padding: 0;
+
+    list-style-position: inside;
+    font-variant-numeric: var(--ring-font-variant-numeric);
+  }
+
+  & ul {
+    list-style-type: none;
+  }
+
+  & pre {
+    position: relative;
+
+    padding: calc(var(--ring-unit) * 3) calc(var(--ring-unit) * 2);
+
+    white-space: pre;
+    tab-size: 2;
+
+    border-radius: var(--ring-border-radius);
+    background-color: rgba(var(--ring-tag-background-components), 0.5);
+
+    font-family: var(--ring-font-family-monospace);
+
+    &:first-child {
+      margin-top: calc(var(--ring-unit) * 4);
+    }
+
+    &:last-child {
+      margin-bottom: calc(var(--ring-unit) * 4);
+    }
+  }
+
+  & code {
+    padding: 2px 4px;
+
+    white-space: pre-wrap;
+
+    color: var(--ring-text-color);
+
+    border-radius: var(--ring-border-radius-small);
+
+    font-family: var(--ring-font-family-monospace);
+    font-size: var(--ring-font-size);
+  }
+
+  & :not(pre) > code {
+    background-color: var(--ring-disabled-background-color);
+  }
+
+  & pre > code {
+    display: block;
+
+    padding: 0;
+
+    white-space: inherit;
+
+    color: var(--ring-code-color);
+
+    font-size: var(--ring-font-size);
+  }
+}

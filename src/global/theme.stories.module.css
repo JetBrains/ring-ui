@@ -1,0 +1,8 @@
+.themed-wrapper {
+  margin: var(--ring-unit);
+  padding: var(--ring-unit);
+
+  border: solid 1px var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
+  background-color: var(--ring-content-background-color);
+}

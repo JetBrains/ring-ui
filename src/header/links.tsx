@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import ScrollableSection from '../scrollable-section/scrollable-section';
 
-import styles from './header.css';
+import styles from './header.module.css';
 
 // currently only supports vertical header
 export default function Links({className, ...restProps}: HTMLAttributes<HTMLDivElement>) {

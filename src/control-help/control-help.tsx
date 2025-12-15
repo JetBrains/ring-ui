@@ -1,7 +1,7 @@
 import {type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
-import styles from './control-help.css';
+import styles from './control-help.module.css';
 
 type ControlHelpProps = HTMLAttributes<HTMLDivElement>;
 

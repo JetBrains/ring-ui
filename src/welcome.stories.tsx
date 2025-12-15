@@ -5,9 +5,9 @@ import ReadMe from '../README.md';
 import Contributing from '../CONTRIBUTING.md';
 import Changelog from '../CHANGELOG.md';
 import Markdown from './markdown/markdown';
-import License from 'raw-loader!../LICENSE.txt';
+import License from '../LICENSE.txt?raw';
 
-import highlightStyles from './code/highlight.css';
+import highlightStyles from './code/highlight.module.css';
 
 const markdownIt = new MarkdownIt('commonmark', {
   html: false,

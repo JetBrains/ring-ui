@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import Loader, {type LoaderProps} from '../loader/loader';
 
-import styles from './loader-screen.css';
+import styles from './loader-screen.module.css';
 
 export interface LoaderScreenProps extends LoaderProps {
   containerClassName?: string | null | undefined;

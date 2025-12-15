@@ -6,7 +6,7 @@ import sortedIcon from '@jetbrains/icons/chevron-12px-down';
 import Icon from '../icon/icon';
 import dataTests from '../global/data-tests';
 
-import style from './table.css';
+import style from './table.module.css';
 
 export interface Column<T = never> {
   id: string;

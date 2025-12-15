@@ -2,7 +2,7 @@ import {render} from '@testing-library/react';
 
 import Toggle, {type ToggleAttrs} from './toggle';
 
-import styles from './toggle.css';
+import styles from './toggle.module.css';
 
 describe('Toggle', () => {
   const renderToggle = (props?: ToggleAttrs) => render(<Toggle {...props} />);

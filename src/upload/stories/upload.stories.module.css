@@ -1,0 +1,4 @@
+.smallUpload {
+  width: calc(var(--ring-unit) * 18);
+  height: calc(var(--ring-unit) * 12);
+}

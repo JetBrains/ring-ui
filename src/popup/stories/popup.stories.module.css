@@ -1,0 +1,134 @@
+.button {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+}
+
+.box {
+  position: absolute;
+
+  width: 10px;
+  height: 10px;
+}
+
+.anchor {
+  position: absolute;
+}
+
+.topLeft {
+  top: 0;
+  left: 0;
+
+  background-color: red; /* stylelint-disable-line color-named */
+}
+
+.topRight {
+  top: 0;
+  right: 0;
+
+  background-color: blue; /* stylelint-disable-line color-named */
+}
+
+.bottomLeft {
+  bottom: 0;
+  left: 0;
+
+  background-color: green; /* stylelint-disable-line color-named */
+}
+
+.bottomRight {
+  right: 0;
+  bottom: 0;
+
+  background-color: orange; /* stylelint-disable-line color-named */
+}
+
+.message {
+  position: absolute;
+
+  top: 50%;
+  left: 300px;
+}
+
+.vert {
+  top: 20%;
+
+  width: 150px;
+}
+
+.left {
+  top: 50px;
+  left: 0;
+}
+
+.right {
+  top: 50px;
+  right: 0;
+}
+
+.bottom {
+  bottom: 0;
+  left: 150px;
+}
+
+.top {
+  top: 0;
+  right: 150px;
+}
+
+.parent-popup {
+  width: 100px;
+  height: 100px;
+
+  text-align: center;
+}
+
+.child-popup {
+  margin: 8px;
+
+  text-align: center;
+
+  background-color: var(--ring-error-container-light-color);
+}
+
+.container {
+  overflow: auto;
+
+  height: 100vh;
+}
+
+.example {
+  display: inline-block;
+
+  height: 200vh;
+}
+
+.popupContentFlex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 1300px;
+  padding: 8px;
+}
+
+.anchorBottom {
+  position: absolute;
+  bottom: 20px;
+}
+
+.popup-content {
+  min-width: 200px;
+  padding: 16px;
+
+  text-align: left;
+
+  border-radius: 4px;
+}
+
+.draggable-anchor {
+  position: absolute;
+
+  user-select: none;
+  touch-action: none;
+}

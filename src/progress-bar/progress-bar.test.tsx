@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react';
 import ProgressBar from './progress-bar';
 import {type ProgressBarProps} from './progress-bar.interface';
 
-import styles from './progress-bar.css';
+import styles from './progress-bar.module.css';
 
 describe('Progress Bar', () => {
   const renderProgressBar = (props?: ProgressBarProps) => {

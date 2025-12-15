@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import {type ListDataItemProps} from './consts';
 
-import styles from './list.css';
+import styles from './list.module.css';
 
 export default class ListSeparator<T> extends PureComponent<ListDataItemProps<T>> {
   render() {

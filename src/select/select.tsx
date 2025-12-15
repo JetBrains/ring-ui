@@ -38,8 +38,8 @@ import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import SelectPopup, {type Filter, type FilterFn, type Multiple, type Tags} from './select-popup';
 import {type SelectItem, type SelectItemData, Type as SelectType} from './select.interface';
 
-import inputStyles from '../input/input.css';
-import styles from './select.css';
+import inputStyles from '../input/input.module.css';
+import styles from './select.module.css';
 
 /**
  * @name Select

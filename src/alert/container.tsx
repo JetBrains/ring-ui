@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import type {AlertProps} from './alert.interface';
 
-import styles from './container.css';
+import styles from './container.module.css';
 
 /**
  * @name Alert Container

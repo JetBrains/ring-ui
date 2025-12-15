@@ -1,7 +1,7 @@
 import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
-import styles from './group.css';
+import styles from './group.module.css';
 
 /**
  * @name Group

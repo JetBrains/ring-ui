@@ -9,7 +9,7 @@ import deprecate from 'util-deprecate';
 import {Color, Size} from './icon.constants';
 import IconSVG from './icon-svg';
 
-import styles from './icon.css';
+import styles from './icon.module.css';
 
 const warnSize = deprecate(
   () => {},

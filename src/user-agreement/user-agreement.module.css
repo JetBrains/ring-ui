@@ -1,0 +1,29 @@
+
+
+@value extra-small-screen-media from '../global/global.module.css';
+
+.agreementDialog {
+  padding-bottom: 80px;
+}
+
+.dialogContent {
+  width: 600px;
+
+  @media extra-small-screen-media {
+    & {
+      width: 90vw;
+    }
+  }
+}
+
+.suggestion {
+  padding-bottom: var(--ring-unit);
+
+  white-space: nowrap;
+
+  font-size: 12px;
+}
+
+.remindLaterButton {
+  float: right;
+}

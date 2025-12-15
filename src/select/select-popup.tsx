@@ -39,7 +39,7 @@ import {type TagAttrs} from '../tag/tag';
 import SelectFilter from './select-filter';
 import {type SelectItem} from './select.interface';
 
-import styles from './select-popup.css';
+import styles from './select-popup.module.css';
 
 const FILTER_HEIGHT = 35;
 const TOOLBAR_HEIGHT = 49;

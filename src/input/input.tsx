@@ -19,7 +19,7 @@ import {type ControlsHeight, ControlsHeightContext} from '../global/controls-hei
 import {ControlLabel, type LabelType} from '../control-label/control-label';
 import ControlHelp from '../control-help/control-help';
 
-import styles from './input.css';
+import styles from './input.module.css';
 
 function noop() {}
 

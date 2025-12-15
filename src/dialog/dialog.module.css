@@ -1,0 +1,148 @@
+
+
+@value header, scrollableWrapper from '../island/island.module.css';
+@value panel from '../panel/panel.module.css';
+
+.container {
+  position: fixed;
+  z-index: var(--ring-overlay-z-index);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  overflow: auto;
+  align-items: center;
+  justify-content: center;
+
+  padding: calc(var(--ring-unit) * 4) var(--ring-unit);
+}
+
+.nativeDialog {
+  overflow: visible;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+}
+
+.container,
+.nativeDialog::backdrop {
+  background-color: rgba(var(--ring-dialog-overlay-components), var(--ring-dialog-overlay-opacity));
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 100%;
+}
+
+.content {
+  position: relative;
+
+  width: calc(var(--ring-unit) * 58);
+  min-height: calc(var(--ring-unit) * 15);
+  margin: auto;
+
+  cursor: default;
+  overflow-wrap: break-word;
+
+  & .scrollableWrapper {
+    padding-bottom: var(--ring-unit);
+  }
+
+  & .panel {
+    margin-top: 0;
+    padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 4);
+
+    border-top: 0;
+
+    background-color: transparent;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .panel > button:not(:last-child) {
+    margin-right: var(--ring-unit);
+  }
+}
+
+.content.content {
+  box-shadow: var(--ring-dialog-shadow);
+}
+
+.clickableOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  cursor: pointer;
+}
+
+.closeIconOutside.closeIconOutside {
+  color: var(--ring-icon-hover-color);
+}
+
+.clickableOverlay:hover + * .closeIcon {
+  color: var(--ring-link-hover-color);
+}
+
+.closeButton:hover .closeIcon {
+  color: var(--ring-link-hover-color);
+}
+
+.closeButton.closeButton {
+  position: absolute;
+
+  line-height: calc(var(--ring-unit) * 2);
+}
+
+.closeButtonOutside {
+  top: var(--ring-unit);
+  right: calc(var(--ring-unit) * -3);
+}
+
+.closeButtonInside {
+  top: calc(var(--ring-unit) * 2);
+  right: calc(var(--ring-unit) * 2);
+}
+
+.documentWithoutScroll {
+  overflow: hidden;
+
+  height: 100%;
+}
+
+.popupTarget {
+  position: fixed;
+  z-index: var(--ring-overlay-z-index);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  pointer-events: none;
+
+  & > :not(.popupTarget) {
+    pointer-events: initial;
+  }
+}
+
+.innerContainer .header {
+  padding-top: calc(var(--ring-unit) * 4);
+
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.dense .header {
+  padding-top: calc(var(--ring-unit) * 2);
+}
+
+.dense .panel {
+  padding-bottom: calc(var(--ring-unit) * 2);
+}

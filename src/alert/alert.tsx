@@ -17,7 +17,7 @@ import {type AlertProps, AlertType} from './alert.interface';
 import AlertHeading from './alert-heading';
 import AlertActions from './alert-actions';
 
-import styles from './alert.css';
+import styles from './alert.module.css';
 
 export const ANIMATION_TIME = 500;
 

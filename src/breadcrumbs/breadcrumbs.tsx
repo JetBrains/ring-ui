@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import {Children, Fragment, type HTMLAttributes, type ReactNode} from 'react';
 
-import styles from './breadcrumbs.css';
+import styles from './breadcrumbs.module.css';
 
 export interface BreadcrumbsProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
   separatorClassName?: string | null | undefined;

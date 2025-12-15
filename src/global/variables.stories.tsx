@@ -2,6 +2,8 @@ import {useEffect, useRef, useState, useSyncExternalStore} from 'react';
 
 import {GLOBAL_DARK_CLASS_NAME} from './theme';
 
+import styles from './variables.stories.module.css';
+
 export default {
   title: 'Style-only/Theme palette',
 
@@ -57,11 +59,11 @@ function ColorItem({propName}: ColorItemProps) {
     }
   }, [propName, isDarkTheme]);
   return (
-    <div className='color-item'>
-      <div className='color-square' style={{backgroundColor: `var(${propName})`}} />
-      <div className='color-info'>
+    <div className={styles.colorItem}>
+      <div className={styles.colorSquare} style={{backgroundColor: `var(${propName})`}} />
+      <div className={styles.colorInfo}>
         <div>{propName}</div>
-        <div className='color-value' ref={ref}>
+        <div className={styles.colorValue} ref={ref}>
           {colorValue}
         </div>
       </div>
@@ -70,9 +72,9 @@ function ColorItem({propName}: ColorItemProps) {
 }
 
 const renderColors = () => (
-  <div className='container'>
+  <div className={styles.container}>
     <h3>Element colors:</h3>
-    <div className='colors-group'>
+    <div className={styles.colorsGroup}>
       <ColorItem propName='--ring-line-color' />
       <ColorItem propName='--ring-borders-color' />
       <ColorItem propName='--ring-icon-color' />
@@ -123,7 +125,7 @@ const renderColors = () => (
     </div>
 
     <h3>Text colors:</h3>
-    <div className='colors-group'>
+    <div className={styles.colorsGroup}>
       <ColorItem propName='--ring-search-color' />
       <ColorItem propName='--ring-hint-color' />
       <ColorItem propName='--ring-link-color' />
@@ -141,7 +143,7 @@ const renderColors = () => (
     </div>
 
     <h3>Background colors:</h3>
-    <div className='colors-group'>
+    <div className={styles.colorsGroup}>
       <ColorItem propName='--ring-content-background-color' />
       <ColorItem propName='--ring-popup-background-color' />
       <ColorItem propName='--ring-sidebar-background-color' />
@@ -188,44 +190,3 @@ export const basic = () => (
 );
 
 basic.storyName = 'Theme palette';
-
-basic.parameters = {
-  storyStyles: `
-<style>
-  .container {
-    background-color: var(--ring-content-background-color);
-    color: var(--ring-text-color);
-    font-family: var(--ring-font-family);
-  }
-
-  .colors-group {
-    display: flex;
-    flex-wrap: wrap;
-    font-family: var(--ring-font-family-monospace);
-  }
-
-  .color-square {
-    width: calc(var(--ring-unit) * 4);
-    height: calc(var(--ring-unit) * 4);
-    border-radius: var(--ring-border-radius);
-    border: 1px solid var(--ring-line-color);
-  }
-
-  .color-info {
-    margin-left: var(--ring-unit);
-  }
-
-  .color-value {
-    font-size: var(--ring-font-size-smaller);
-    color: var(--ring-secondary-color);
-  }
-
-  .color-item {
-    display: flex;
-    flex-basis: 30%;
-    padding: 4px var(--ring-unit);
-    align-items: center;
-  }
-</style>
-      `,
-};

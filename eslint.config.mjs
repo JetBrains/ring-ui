@@ -129,6 +129,7 @@ export default defineConfig([
             'scripts/**',
             'test-runner-jest.config.js',
             'test-helpers/**',
+            'vite.config.ts',
           ],
           peerDependencies: true,
         },

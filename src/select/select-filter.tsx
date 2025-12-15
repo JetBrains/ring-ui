@@ -6,7 +6,7 @@ import sniffr from '../global/sniffer';
 import {ActiveItemContext} from '../list/list';
 import {I18nContext} from '../i18n/i18n-context';
 
-import styles from './select-popup.css';
+import styles from './select-popup.module.css';
 
 function noop() {}
 

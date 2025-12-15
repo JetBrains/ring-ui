@@ -2,7 +2,7 @@ import {render, screen} from '@testing-library/react';
 
 import Confirm from './confirm';
 
-import islandStyles from '../island/island.css';
+import islandStyles from '../island/island.module.css';
 
 describe('Confirm', () => {
   const renderConfirm = () => {

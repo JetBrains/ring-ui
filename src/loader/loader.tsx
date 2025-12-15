@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import LoaderCore, {type LoaderCoreProps} from './loader-core';
 
-import styles from './loader.css';
+import styles from './loader.module.css';
 
 declare module 'csstype' {
   interface Properties {

@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {type Meta, type StoryObj} from '@storybook/react-webpack5';
+import {type Meta, type StoryObj} from '@storybook/react-vite';
 
 import ProgressBar from './progress-bar';
 import {type ProgressBarProps} from './progress-bar.interface';

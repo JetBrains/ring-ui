@@ -2,7 +2,7 @@ import {PureComponent} from 'react';
 
 import Link, {type LinkProps} from '../link/link';
 
-import styles from './services.css';
+import styles from './services.module.css';
 
 export interface Service {
   id: string;

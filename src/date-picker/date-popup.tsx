@@ -25,7 +25,7 @@ import {
   type CalendarProps,
 } from './consts';
 
-import styles from './date-picker.css';
+import styles from './date-picker.module.css';
 
 const scrollExpDelay = 10;
 
