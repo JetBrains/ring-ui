@@ -83,6 +83,7 @@ export default class Tooltip extends Component<TooltipProps> {
     }
 
     if (delay) {
+      clearTimeout(this.timeout);
       this.timeout = window.setTimeout(this.showPopup, delay);
     } else {
       this.showPopup();
