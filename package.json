@@ -177,7 +177,7 @@
     "typescript-eslint": "^8.50.0",
     "vitest": "^4.0.15",
     "vitest-teamcity-reporter": "^0.4.1",
-    "webpack": "^5.103.0",
+    "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1"
   },
   "peerDependencies": {
