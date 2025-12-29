@@ -1,0 +1,207 @@
+
+
+.toggle {
+  --ring-toggle-padding: 2px;
+  --ring-toggle-duration: 300ms;
+  --ring-toggle-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+
+  display: inline-flex;
+  align-items: baseline;
+
+  cursor: pointer;
+
+  &:hover .switch {
+    --ring-toggle-background-color: var(--ring-border-hover-color);
+
+    transition: none;
+  }
+
+  &.disabled {
+    pointer-events: none;
+  }
+}
+
+.label {
+  margin-left: var(--ring-unit);
+}
+
+.help {
+  margin-top: calc(var(--ring-unit) / 2);
+}
+
+.disabled .label,
+.disabled .help {
+  color: var(--ring-disabled-color);
+}
+
+.leftLabel {
+  margin-right: var(--ring-unit);
+}
+
+.switchWrapper {
+  position: relative;
+
+  flex-shrink: 0;
+}
+
+.input {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+
+  opacity: 0;
+}
+
+.switch {
+  --ring-toggle-item-color: var(--ring-white-text-color);
+  --ring-toggle-background-color: var(--ring-borders-color);
+  --ring-toggle-border-color: var(--ring-toggle-background-color);
+  --ring-switch-border-color: var(--ring-toggle-item-color);
+
+  position: relative;
+
+  display: inline-block;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+
+  transition: background-color var(--ring-toggle-timing-function) var(--ring-toggle-duration);
+
+  border: solid 1px var(--ring-toggle-border-color);
+
+  background-color: var(--ring-toggle-background-color);
+
+  .input:focus + & {
+    box-shadow:
+      inset 0 0 0 1px var(--ring-border-hover-color),
+      0 0 0 1px var(--ring-border-hover-color);
+  }
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: -1px;
+
+    box-sizing: border-box;
+
+    width: calc(var(--ring-unit) * 1.5);
+    height: calc(var(--ring-unit) * 1.5);
+
+    content: '';
+
+    transition: transform var(--ring-toggle-timing-function) var(--ring-toggle-duration);
+
+    transform: translateX(var(--ring-toggle-padding)) translateY(-50%);
+
+    border: solid 1px var(--ring-switch-border-color);
+
+    border-radius: calc(var(--ring-unit) * 0.75);
+    background-color: var(--ring-toggle-item-color);
+  }
+}
+
+.input:checked + .switch {
+  --ring-toggle-background-color: var(--ring-main-color);
+}
+
+:checked:hover + .switch {
+  --ring-toggle-background-color: var(--ring-main-hover-color);
+}
+
+.size16 {
+  & .switchWrapper {
+    width: calc(var(--ring-unit) * 3);
+    height: calc(var(--ring-unit) * 2);
+  }
+
+  & .switch {
+    vertical-align: -3px;
+
+    border-radius: var(--ring-unit);
+
+    &::before {
+      width: calc(var(--ring-unit) * 1.5);
+      height: calc(var(--ring-unit) * 1.5);
+
+      border-radius: calc(var(--ring-unit) * 0.75);
+    }
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .input:checked + ::before {
+    transform: translateX(calc(var(--ring-unit) * 1.5 - var(--ring-toggle-padding))) translateY(-50%);
+  }
+}
+
+.size14 {
+  & .switchWrapper {
+    width: calc(var(--ring-unit) * 3);
+    height: 14px;
+  }
+
+  & .switch {
+    vertical-align: -2px;
+
+    border-radius: 7px;
+
+    &::before {
+      width: 10px;
+      height: 10px;
+
+      border-radius: 5px;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .input:checked + ::before {
+    transform: translateX(12px) translateY(-50%);
+  }
+}
+
+.size20 {
+  & .switchWrapper {
+    width: calc(var(--ring-unit) * 4);
+    height: calc(var(--ring-unit) * 2.5);
+  }
+
+  & .switch {
+    vertical-align: -5px;
+
+    border-radius: calc(var(--ring-unit) * 1.25);
+
+    &::before {
+      width: calc(var(--ring-unit) * 2);
+      height: calc(var(--ring-unit) * 2);
+
+      border-radius: calc(var(--ring-unit));
+    }
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .input:checked + ::before {
+    transform: translateX(calc(var(--ring-unit) * 2 - var(--ring-toggle-padding))) translateY(-50%);
+  }
+}
+
+.input[disabled] + .switch {
+  --ring-toggle-item-color: var(--ring-content-background-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.input:checked[disabled] + .switch {
+  --ring-toggle-background-color: var(--ring-border-hover-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.input[disabled]:not(:checked) + .switch {
+  --ring-toggle-background-color: var(--ring-disabled-background-color);
+  --ring-toggle-border-color: var(--ring-border-disabled-color);
+  --ring-switch-border-color: var(--ring-border-disabled-color);
+}

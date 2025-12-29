@@ -1,7 +1,7 @@
 import {PureComponent, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
-import styles from './button-group.css';
+import styles from './button-group.module.css';
 
 export default class Caption extends PureComponent<HTMLAttributes<HTMLElement>> {
   render() {

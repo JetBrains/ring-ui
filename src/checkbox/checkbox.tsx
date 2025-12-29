@@ -7,7 +7,7 @@ import Icon from '../icon/icon';
 import {createComposedRef} from '../global/compose-refs';
 import ControlHelp from '../control-help/control-help';
 
-import styles from './checkbox.css';
+import styles from './checkbox.module.css';
 
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string | null | undefined;

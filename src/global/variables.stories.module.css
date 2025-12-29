@@ -1,0 +1,39 @@
+.container {
+  color: var(--ring-text-color);
+  background-color: var(--ring-content-background-color);
+
+  font-family: var(--ring-font-family);
+}
+
+.colors-group {
+  display: flex;
+  flex-wrap: wrap;
+
+  font-family: var(--ring-font-family-monospace);
+}
+
+.color-square {
+  width: calc(var(--ring-unit) * 4);
+  height: calc(var(--ring-unit) * 4);
+
+  border: 1px solid var(--ring-line-color);
+  border-radius: var(--ring-border-radius);
+}
+
+.color-info {
+  margin-left: var(--ring-unit);
+}
+
+.color-value {
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+}
+
+.color-item {
+  display: flex;
+  align-items: center;
+  flex-basis: 30%;
+
+  padding: 4px var(--ring-unit);
+}

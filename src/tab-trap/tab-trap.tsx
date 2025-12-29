@@ -11,7 +11,7 @@ import * as React from 'react';
 
 import {isNodeInVisiblePartOfPage} from '../global/dom';
 
-import styles from './tab-trap.css';
+import styles from './tab-trap.module.css';
 
 export const FOCUSABLE_ELEMENTS =
   'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';

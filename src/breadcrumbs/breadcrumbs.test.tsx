@@ -2,7 +2,7 @@ import {render, screen} from '@testing-library/react';
 
 import Breadcrumbs, {type BreadcrumbsProps} from './breadcrumbs';
 
-import styles from './breadcrumbs.css';
+import styles from './breadcrumbs.module.css';
 
 describe('Breadcrumbs', () => {
   const renderBreadcrumbs = (props?: Partial<BreadcrumbsProps>) => {

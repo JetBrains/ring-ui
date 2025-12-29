@@ -3,7 +3,7 @@ import {type ReactElement} from 'react';
 
 import confirm, {reactRoot} from './confirm-service';
 
-import islandStyles from '../island/island.css';
+import islandStyles from '../island/island.module.css';
 
 describe('Confirm Service', () => {
   const getContainer = () => document.querySelector('[data-test~="ring-dialog"]');

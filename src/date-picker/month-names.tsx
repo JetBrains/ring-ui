@@ -13,8 +13,7 @@ import {YEAR, MIDDLE_DAY, yearScrollSpeed, type MonthsProps} from './consts';
 
 import type {Locale} from 'date-fns';
 
-import styles from './date-picker.css';
-
+import styles from './date-picker.module.css';
 
 interface MonthNameProps {
   month: Date;

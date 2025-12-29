@@ -1,0 +1,104 @@
+
+
+.filterWithTags {
+  overflow: hidden;
+
+  margin: calc(var(--ring-unit) * 2) var(--ring-unit) 0;
+  padding: 3px;
+
+  text-align: left;
+
+  border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
+
+  & .filterWrapper {
+    padding-right: 0;
+    padding-left: 0;
+
+    border-bottom: 0;
+  }
+
+  &:hover {
+    border-color: var(--ring-border-hover-color);
+  }
+}
+
+.filterWithTagsFocused,
+.filterWithTagsFocused.filterWithTagsFocused:hover {
+  border-color: var(--ring-main-color);
+}
+
+.filterWithTagsInput {
+  padding: 0;
+
+  border: 0;
+}
+
+.filter {
+  flex-grow: 1;
+
+  width: 0;
+}
+
+.popup {
+  overscroll-behavior: contain;
+}
+
+.filterWrapper {
+  position: relative;
+
+  display: flex;
+
+  margin: 0;
+  padding-right: var(--ring-unit);
+  padding-left: calc(var(--ring-unit) * 5.5);
+
+  border-bottom: 1px solid var(--ring-borders-color);
+
+  [dir='rtl'] & {
+    padding-right: calc(var(--ring-unit) * 5.5);
+    padding-left: var(--ring-unit);
+  }
+}
+
+.filterIcon {
+  position: absolute;
+  top: 7px;
+  left: calc(var(--ring-unit) * 2);
+
+  color: var(--ring-secondary-color);
+
+  [dir='rtl'] & {
+    right: calc(var(--ring-unit) * 2);
+    left: auto;
+  }
+}
+
+.bottomLine {
+  text-align: center;
+
+  &.bottomLineOverItem {
+    position: relative;
+
+    z-index: var(--ring-fixed-z-index);
+
+    margin-top: -36px;
+
+    background-color: var(--ring-content-background-color);
+  }
+}
+
+.message {
+  display: inline-block;
+
+  margin: var(--ring-unit) 0;
+  padding: 0 calc(2 * var(--ring-unit));
+}
+
+.selectAll {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+
+  padding: 8px 16px 0;
+}

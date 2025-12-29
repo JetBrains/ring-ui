@@ -9,7 +9,7 @@ import {type ShortcutsMap} from '../shortcuts/core';
 import {adjustValues, calculateMarks, calculateValue, HUNDRED, toPercent, toRange, validateValue} from './slider.utils';
 import useEventCallback from '../global/use-event-callback';
 
-import styles from './slider.css';
+import styles from './slider.module.css';
 
 interface Mark {
   value: number;

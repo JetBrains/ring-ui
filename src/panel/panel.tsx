@@ -1,7 +1,7 @@
 import {type HTMLAttributes, PureComponent} from 'react';
 import classNames from 'classnames';
 
-import styles from './panel.css';
+import styles from './panel.module.css';
 
 // TODO after RG-2716 add a comment - Use Dialog.Footer instead (or something similar)
 /**

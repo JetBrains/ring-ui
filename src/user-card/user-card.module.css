@@ -1,0 +1,123 @@
+
+
+.userCardSpaced {
+  padding: calc(var(--ring-unit) * 2);
+}
+
+.userInformationContainer {
+  display: flex;
+  align-items: flex-start;
+}
+
+.userAvatar {
+  position: relative;
+
+  display: flex;
+}
+
+.userInformation {
+  padding-left: 12px;
+
+  text-align: left;
+
+  color: var(--ring-text-color);
+
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.userInformationGeneral {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 56px;
+  padding-top: 1px;
+}
+
+.userNameLine {
+  height: var(--ring-line-height-lowest);
+
+  white-space: nowrap;
+
+  line-height: var(--ring-line-height-lowest);
+}
+
+.userName {
+  display: inline-block;
+
+  margin-right: 4px;
+
+  font-size: 16px;
+  font-weight: var(--ring-font-weight-bold);
+}
+
+.userLogin {
+  margin-bottom: 7px;
+
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+}
+
+.userEmail {
+  margin-right: 4px;
+
+  font-size: var(--ring-font-size);
+}
+
+.userCopyIcon {
+  cursor: pointer;
+
+  opacity: 0;
+}
+
+.userCopyIcon svg {
+  margin-left: 4px;
+
+  color: var(--ring-secondary-color);
+}
+
+.userCopyIcon:hover svg {
+  color: var(--ring-link-hover-color);
+}
+
+.userEmailWrapper:hover .userCopyIcon {
+  transition: opacity 300ms ease-out;
+
+  opacity: 1;
+}
+
+:has(.userCopyIcon:hover) > .userEmail {
+  color: var(--ring-link-hover-color);
+}
+
+.unverifiedLabel {
+  margin: 0 4px;
+
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+}
+
+.userNameInfo {
+  display: inline-block;
+
+  margin-bottom: 3px;
+}
+
+.userActiveStatus {
+  display: inline-block;
+
+  width: var(--ring-unit);
+  height: var(--ring-unit);
+  margin-right: var(--ring-unit);
+  margin-left: 6px;
+
+  border-radius: 50%;
+  background-color: var(--ring-secondary-color);
+}
+
+.userActiveStatus.online {
+  background-color: var(--ring-success-color);
+}

@@ -13,7 +13,7 @@ import Month from './month';
 import MonthNames from './month-names';
 import units, {DOUBLE, HALF, type MonthsProps, WEEK, weekdays} from './consts';
 
-import styles from './date-picker.css';
+import styles from './date-picker.module.css';
 
 const {unit, cellSize, calHeight} = units;
 

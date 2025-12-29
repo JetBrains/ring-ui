@@ -1,0 +1,14 @@
+
+
+:global(.ring-line) {
+  display: block;
+
+  width: 100%;
+  height: 1px;
+
+  background-color: var(--ring-line-color);
+}
+
+:global(.ring-line_separated) {
+  margin: calc(var(--ring-unit) * 2) 0;
+}

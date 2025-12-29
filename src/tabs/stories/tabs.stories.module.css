@@ -1,0 +1,19 @@
+.info {
+  margin-left: calc(var(--ring-unit) / 2);
+
+  color: var(--ring-secondary-color);
+}
+
+.icon {
+  margin-right: calc(var(--ring-unit) / 2);
+
+  color: var(--ring-secondary-color);
+}
+
+.tab:hover .icon {
+  color: var(--ring-link-hover-color);
+}
+
+.selected .icon.icon {
+  color: var(--ring-text-color);
+}

@@ -3,7 +3,7 @@ import caretDownSVG from '@jetbrains/icons/caret-down-10px';
 
 import Button from './button';
 
-import styles from './button.css';
+import styles from './button.module.css';
 
 describe('Button', () => {
   it('should create component', () => {

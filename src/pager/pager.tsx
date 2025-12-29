@@ -16,7 +16,7 @@ import Link from '../link/link';
 import Icon from '../icon/icon';
 import {I18nContext} from '../i18n/i18n-context';
 
-import style from './pager.css';
+import style from './pager.module.css';
 
 export interface PagerTranslations {
   perPage: string;

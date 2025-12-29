@@ -12,7 +12,7 @@ import {startOfDay} from 'date-fns/startOfDay';
 
 import {type MonthsProps, weekdays, getDayNumInWeek} from './consts';
 
-import styles from './date-picker.css';
+import styles from './date-picker.module.css';
 
 export interface DayProps extends MonthsProps {
   day: Date;

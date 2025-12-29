@@ -6,7 +6,7 @@ import {FakeMoreButton, MoreButton} from './collapsible-more';
 import getTabTitles from './collapsible-tab';
 import {type TabProps} from './tab';
 
-import styles from './tabs.css';
+import styles from './tabs.module.css';
 
 const DEFAULT_DEBOUNCE_INTERVAL = 100;
 const MEASURE_TOLERANCE = 0.5;

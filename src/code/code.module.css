@@ -1,0 +1,29 @@
+
+
+.code {
+  margin: calc(var(--ring-unit) * 2) 0;
+}
+
+/* override hljs */
+.code code {
+  display: block;
+
+  padding: calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 2);
+
+  border-radius: var(--ring-border-radius);
+  background-color: var(--ring-sidebar-background-color);
+
+  font-family: var(--ring-font-family-monospace);
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
+}
+
+.inline code {
+  display: inline-block;
+
+  padding: 0 calc(var(--ring-unit) / 2);
+}
+
+.softWrap code {
+  white-space: pre-wrap;
+}

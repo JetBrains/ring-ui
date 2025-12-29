@@ -11,7 +11,7 @@ import QueryAssist, {
   type QueryAssistRequestParams,
 } from './query-assist';
 
-import styles from './query-assist.css';
+import styles from './query-assist.module.css';
 
 describe('Query Assist', () => {
   const testQuery = 'oooooooooooo';

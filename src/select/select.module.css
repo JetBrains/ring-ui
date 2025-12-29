@@ -1,0 +1,245 @@
+/* ensure styles order */
+@import '../button/button.module.css';
+
+.select {
+  position: relative;
+
+  display: inline-block;
+
+  white-space: nowrap;
+
+  color: var(--ring-text-color);
+}
+
+.toolbar {
+  border-top: 1px solid var(--ring-line-color);
+}
+
+.button {
+  width: 100%;
+  padding: 0;
+
+  text-align: left;
+
+  [dir='rtl'] & {
+    text-align: right;
+    direction: ltr;
+  }
+
+  .toolbar & {
+    height: calc(4 * var(--ring-unit));
+    margin: var(--ring-unit) 0;
+  }
+
+  &.buttonSpaced {
+    padding: 0 calc(2 * var(--ring-unit));
+  }
+}
+
+.icons {
+  position: absolute;
+  top: 0;
+  right: 6px;
+  bottom: 0;
+
+  padding: calc(var(--ring-unit) * 0.5) 0;
+
+  transition: color var(--ring-ease);
+
+  color: var(--ring-secondary-color);
+
+  line-height: var(--ring-line-height);
+
+  .inputMode & {
+    font-size: var(--ring-font-size);
+  }
+
+  .heightS & {
+    line-height: var(--ring-line-height-lowest);
+  }
+
+  .heightL & {
+    padding: calc(var(--ring-unit) * 0.75) 0;
+  }
+}
+
+.selectedIcon {
+  composes: resetButton from '../global/global.module.css';
+
+  position: relative;
+  top: 3px;
+
+  display: inline-block;
+
+  width: calc(2 * var(--ring-unit));
+  height: calc(2 * var(--ring-unit));
+  margin: 0 4px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-size: contain;
+}
+
+.clearIcon {
+  margin-top: -1px;
+  padding: 0 2px;
+}
+
+.sizeS {
+  width: calc(var(--ring-unit) * 12);
+}
+
+.sizeM {
+  width: calc(var(--ring-unit) * 30);
+}
+
+.sizeL {
+  width: calc(var(--ring-unit) * 50);
+}
+
+.sizeFULL {
+  width: 100%;
+}
+
+.sizeAUTO {
+  max-width: 100%;
+}
+
+.buttonMode {
+  position: relative;
+
+  cursor: pointer;
+}
+
+.value {
+  composes: ellipsis from '../global/global.module.css';
+  composes: font from '../global/global.module.css';
+
+  display: inline-block;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(var(--ring-unit) * 4 + 1px);
+  padding: 0 0 3px;
+
+  cursor: pointer;
+  transition:
+    color var(--ring-ease),
+    border-color var(--ring-ease);
+  text-align: left;
+  vertical-align: top;
+
+  color: var(--ring-text-color);
+
+  border: 0;
+  border-bottom: 1px solid var(--ring-borders-color);
+  outline: none;
+  background: transparent;
+
+  &:focus {
+    border-color: var(--ring-main-color);
+  }
+
+  &.open,
+  &:active {
+    border-color: transparent;
+  }
+
+  &::-moz-focus-inner {
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+  }
+}
+
+.buttonContainer {
+  position: relative;
+
+  font-size: var(--ring-font-size);
+}
+
+.buttonValue {
+  composes: ellipsis from '../global/global.module.css';
+
+  display: block;
+
+  width: 100%;
+  padding-left: var(--ring-unit);
+
+  text-align: left;
+  vertical-align: calc(var(--ring-unit) * -1);
+}
+
+.buttonValue:focus-visible {
+  box-shadow: var(--ring-button-shadow) var(--ring-main-color);
+}
+
+.buttonValueOpen.buttonValueOpen {
+  box-shadow: var(--ring-button-shadow) var(--ring-main-color);
+}
+
+.buttonValueEmpty.buttonValueEmpty {
+  color: var(--ring-secondary-color);
+}
+
+.heightS .buttonValue {
+  font-size: var(--ring-font-size);
+}
+
+.label {
+  position: relative;
+
+  color: var(--ring-secondary-color);
+}
+
+.select:hover .value,
+.select:hover .icons,
+:focus-visible + .icons,
+.value:focus,
+.value:focus + .icons,
+.open,
+.open + .icons,
+.buttonValueOpen + .icons {
+  transition: none;
+
+  color: var(--ring-main-color);
+}
+
+.disabled {
+  pointer-events: none;
+
+  color: var(--ring-disabled-color);
+
+  & .value,
+  & .buttonValueEmpty {
+    color: var(--ring-disabled-color);
+    border-bottom-style: dashed;
+  }
+}
+
+.avatar {
+  margin: -2px 4px 0 0;
+
+  vertical-align: -5px;
+}
+
+.popup {
+  min-width: calc(var(--ring-unit) * 30);
+  max-width: calc(var(--ring-unit) * 40);
+}
+
+.chevron.chevron {
+  padding: 0 2px;
+
+  transition: none;
+
+  color: inherit;
+}
+
+.chevronIcon.chevronIcon {
+  transition: none;
+
+  color: inherit;
+}

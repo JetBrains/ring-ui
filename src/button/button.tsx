@@ -11,7 +11,7 @@ import {ControlsHeightContext} from '../global/controls-height';
 import {getButtonClasses} from './button.classes';
 import {type ButtonBaseProps, type ButtonButtonProps, type ButtonLinkProps, type ButtonProps} from './button.interface';
 
-import styles from './button.css';
+import styles from './button.module.css';
 
 const warnText = deprecate(
   () => {},

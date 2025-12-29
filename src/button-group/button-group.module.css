@@ -1,0 +1,252 @@
+
+
+@value button, active, flat from '../button/button.module.css';
+
+:root,
+:host {
+  --ring-button-group-default-z-index: 1;
+  --ring-button-group-disabled-z-index: 0;
+  --ring-button-group-active-z-index: 2;
+  --ring-button-group-hover-z-index: 3;
+  --ring-button-group-focus-z-index: 4;
+}
+
+.common {
+  position: relative;
+  z-index: 0; /* this creates an isolated z-index context */
+
+  display: inline-block;
+
+  white-space: nowrap;
+}
+
+.buttonGroup {
+  --ring-button-group-button-border-color: var(--ring-borders-color);
+
+  composes: common;
+  composes: buttonGroup from '../button-toolbar/button-toolbar.module.css';
+
+  border-radius: var(--ring-border-radius);
+
+  box-shadow: var(--ring-button-shadow) var(--ring-button-group-button-border-color);
+
+  line-height: normal;
+}
+
+.disabled {
+  --ring-button-group-button-border-color: var(--ring-border-disabled-color);
+}
+
+.buttonGroup .button {
+  position: relative;
+
+  transition: none;
+
+  box-shadow:
+    0 1px var(--ring-button-group-button-border-color) inset,
+    0 -1px var(--ring-button-group-button-border-color) inset;
+}
+
+.buttonGroup .button[disabled] {
+  /* stylelint-disable selector-max-specificity */
+  &::before,
+  &::after {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+
+    width: var(--ring-border-radius);
+
+    content: '';
+
+    box-shadow:
+      0 1px var(--ring-button-group-button-border-color) inset,
+      0 -1px var(--ring-button-group-button-border-color) inset;
+  }
+
+  &::before {
+    left: calc(var(--ring-border-radius) * -1);
+  }
+
+  &::after {
+    right: calc(var(--ring-border-radius) * -1);
+  }
+  /* stylelint-enable */
+}
+
+.buttonGroup > .button:first-child,
+.buttonGroup > :first-child .button {
+  box-shadow:
+    0 1px var(--ring-button-group-button-border-color) inset,
+    0 -1px var(--ring-button-group-button-border-color) inset,
+    1px 0 var(--ring-button-group-button-border-color) inset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before {
+    display: none;
+  }
+}
+
+.buttonGroup > .button:last-child,
+.buttonGroup > :last-child .button {
+  box-shadow:
+    0 1px var(--ring-button-group-button-border-color) inset,
+    0 -1px var(--ring-button-group-button-border-color) inset,
+    -1px 0 var(--ring-button-group-button-border-color) inset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::after {
+    display: none;
+  }
+}
+
+.buttonGroup > .button:only-child,
+.buttonGroup > :only-child .button {
+  box-shadow:
+    0 1px var(--ring-button-group-button-border-color) inset,
+    0 -1px var(--ring-button-group-button-border-color) inset,
+    -1px 0 var(--ring-button-group-button-border-color) inset,
+    1px 0 var(--ring-button-group-button-border-color) inset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::before {
+    display: none;
+  }
+}
+
+/* stylelint-disable selector-max-specificity */
+.buttonGroup .button.button:hover:not(:disabled),
+.buttonGroup .button.button:active:not(:disabled) {
+  border-radius: var(--ring-border-radius);
+  box-shadow: var(--ring-button-shadow) var(--ring-border-hover-color);
+}
+
+.buttonGroup .button.button:focus-visible {
+  border-radius: var(--ring-border-radius);
+  box-shadow:
+    var(--ring-button-shadow) var(--ring-border-hover-color),
+    0 0 0 1px var(--ring-border-hover-color);
+}
+
+.buttonGroup .button.button.active {
+  border-radius: var(--ring-border-radius);
+  box-shadow: var(--ring-button-shadow) var(--ring-main-color);
+}
+
+.buttonGroup .button:focus-visible.active {
+  border-radius: var(--ring-border-radius);
+  box-shadow:
+    var(--ring-button-shadow) var(--ring-main-color),
+    0 0 0 1px var(--ring-border-hover-color);
+}
+
+.buttonGroup .button.active[disabled] {
+  box-shadow: var(--ring-button-shadow) var(--ring-border-hover-color);
+}
+/* stylelint-enable */
+
+.split {
+  composes: common;
+  composes: buttonGroup from '../button-toolbar/button-toolbar.module.css';
+}
+
+.common button,
+.common .button {
+  border-radius: 0;
+}
+
+.split button,
+.split .button {
+  margin: 0 0 0 -1px;
+}
+
+.caption {
+  composes: font from '../global/global.module.css';
+
+  margin-right: var(--ring-unit);
+
+  font-size: var(--ring-font-size);
+
+  &:empty {
+    margin-right: 0;
+  }
+}
+
+.common > button:first-child,
+.common > .button:first-child,
+.common > :first-child .button {
+  margin: 0;
+
+  border-top-left-radius: var(--ring-border-radius);
+  border-bottom-left-radius: var(--ring-border-radius);
+}
+
+/* stylelint-disable selector-max-specificity */
+.common > button:first-child > div:first-child,
+.common > .button:first-child > div:first-child,
+.common > :first-child .button > div:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+/* stylelint-enable */
+
+.common > .button:last-child,
+.common > button:last-child,
+.common > :last-child .button {
+  border-top-right-radius: var(--ring-border-radius);
+  border-bottom-right-radius: var(--ring-border-radius);
+}
+
+/* stylelint-disable selector-max-specificity */
+.common > .button:last-child > div:first-child,
+.common > button:last-child > div:first-child,
+.common > :last-child .button > div:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* stylelint-enable */
+
+.split .flat:not(:last-child) {
+  margin-right: 1px;
+}
+
+.split .flat:not(:first-child) {
+  margin-left: 1px;
+}
+
+.common {
+  & .button {
+    position: relative;
+    z-index: var(--ring-button-group-default-z-index);
+
+    &[disabled] {
+      z-index: var(--ring-button-group-disabled-z-index);
+    }
+
+    &:active {
+      z-index: var(--ring-button-group-active-z-index);
+    }
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    &:hover:not(:disabled) {
+      z-index: var(--ring-button-group-hover-z-index);
+    }
+
+    &:focus {
+      z-index: var(--ring-button-group-focus-z-index);
+    }
+  }
+
+  & .active {
+    z-index: var(--ring-button-group-active-z-index);
+
+    &[disabled] {
+      z-index: var(--ring-button-group-default-z-index);
+    }
+  }
+}
+
+.help {
+  margin-top: calc(var(--ring-unit) * 0.5);
+}

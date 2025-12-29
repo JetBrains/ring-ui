@@ -7,7 +7,7 @@ import Panel from '../panel/panel';
 import Button from '../button/button';
 import {I18nContext} from '../i18n/i18n-context';
 
-import style from './user-agreement.css';
+import style from './user-agreement.module.css';
 
 function noop() {}
 

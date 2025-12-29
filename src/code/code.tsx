@@ -6,8 +6,8 @@ import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
 import memoize from '../global/memoize';
 
-import styles from './code.css';
-import highlightStyles from './highlight.css';
+import styles from './code.module.css';
+import highlightStyles from './highlight.module.css';
 
 function noop() {}
 

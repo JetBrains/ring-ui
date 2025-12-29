@@ -8,8 +8,7 @@ import {getWeekStartsOn, shiftWeekArray, weekdays} from './consts';
 
 import type {Locale} from 'date-fns';
 
-import styles from './date-picker.css';
-
+import styles from './date-picker.module.css';
 
 interface WeekdaysProps {
   locale: Locale | undefined;

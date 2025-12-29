@@ -1,0 +1,260 @@
+
+
+.tableWrapper {
+  --ring-table-compensate: 2px;
+  --ring-table-compensated: calc(calc(4 * var(--ring-unit)) - var(--ring-table-compensate));
+  --ring-table-top: -3px;
+
+  position: relative;
+  font-variant-numeric: var(--ring-font-variant-numeric);
+}
+
+.table {
+  width: 100%;
+
+  border-spacing: 0;
+}
+
+.userSelectNone {
+  user-select: none;
+}
+
+.headerCell {
+  composes: font-smaller-lower from '../global/global.module.css';
+
+  box-sizing: border-box;
+  height: calc(var(--ring-unit) * 3);
+  padding-right: calc(var(--ring-unit) * 5);
+
+  text-align: left;
+  white-space: nowrap;
+
+  color: var(--ring-secondary-color);
+
+  font-weight: normal;
+}
+
+.headerCell:first-child {
+  padding-left: calc(var(--ring-unit) * 4);
+}
+
+.headerCell:last-child {
+  width: 100%;
+  padding-right: calc(var(--ring-unit) * 4);
+}
+
+.headerCell:first-child:only-child {
+  width: initial;
+  max-width: none;
+}
+
+.headerCell.headerCellSorted {
+  font-weight: var(--ring-font-weight-bold);
+}
+
+.headerCell.headerCellSortable {
+  cursor: pointer;
+}
+
+.headerCell .sorter {
+  position: absolute;
+  top: 5px;
+
+  display: none;
+
+  margin-left: 5px;
+
+  user-select: none;
+}
+
+.headerCell.headerCellSortable .sorter {
+  display: inline-block;
+}
+
+.sortedUp .icon {
+  transform: rotate(180deg);
+  transform-origin: center 44%;
+}
+
+.caption {
+  padding-top: var(--ring-unit);
+  padding-bottom: 6px;
+
+  color: var(--ring-text-color);
+  border-bottom: 0;
+
+  font-size: var(--ring-font-size);
+  font-weight: var(--ring-font-weight-bold);
+  line-height: var(--ring-line-height-lower);
+}
+
+.tableHead::after {
+  position: absolute;
+
+  width: 100%;
+
+  height: 1px;
+
+  content: '';
+
+  background-color: var(--ring-line-color);
+}
+
+.subHeaderSticky {
+  position: sticky;
+
+  z-index: var(--ring-fixed-z-index);
+  top: 0;
+
+  background-color: rgba(var(--ring-content-background-components), 0.9);
+}
+
+.row {
+  outline: none;
+
+  line-height: var(--ring-table-compensated);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.table:not(.disabledHover) .row:hover {
+  background-color: var(--ring-hover-background-color);
+}
+
+.rowSelected {
+  background-color: var(--ring-selected-background-color);
+}
+
+.rowFocused {
+  background-color: var(--ring-hover-background-color);
+}
+/* stylelint-disable-next-line selector-max-specificity */
+.rowFocused .cell:nth-child(1) {
+  box-shadow: inset 2px 0 var(--ring-main-color);
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--ring-table-loader-background-color);
+}
+
+.cell {
+  composes: ellipsis from '../global/global.module.css';
+
+  box-sizing: content-box;
+
+  min-width: 0;
+
+  height: calc(4 * var(--ring-unit));
+  padding: 0;
+  padding-right: calc(var(--ring-unit) * 5);
+
+  color: var(--ring-text-color);
+}
+
+.cell:first-child {
+  padding-left: calc(var(--ring-unit) * 4);
+}
+
+.cell:last-child {
+  width: 100%;
+
+  /* Markup hack, allows cell to have content which is wider than cell and collapses it */
+
+  max-width: 0;
+  padding-right: calc(var(--ring-unit) * 4);
+}
+
+.wideFirstColumn .cell:first-child {
+  min-width: calc(var(--ring-unit) * 37);
+  max-width: calc(var(--ring-unit) * 77);
+}
+
+.cell:first-child:only-child {
+  width: initial;
+  max-width: none;
+}
+
+.cellUnlimited {
+  width: 100%;
+}
+
+.cellRight {
+  text-align: right;
+}
+
+.metaColumn {
+  position: relative;
+
+  float: left;
+
+  height: 16px;
+  padding-right: var(--ring-table-compensate);
+}
+
+.metaColumn.headerMetaColumn {
+  padding-top: 1px;
+}
+
+.dragHandle {
+  top: var(--ring-table-top);
+  left: calc(-2 * var(--ring-unit));
+
+  cursor: grab;
+
+  opacity: 0;
+}
+
+/* override button */
+.dragHandle.dragHandle {
+  position: absolute;
+
+  height: calc(calc(4 * var(--ring-unit)) - var(--ring-table-top));
+  padding: 0;
+}
+
+.dragHandle.visibleDragHandle,
+.row:hover .dragHandle {
+  opacity: 1;
+}
+
+.rowCollapseExpandButton {
+  padding-right: calc(var(--ring-unit) / 2);
+  padding-left: 7px;
+}
+
+.draggingRow {
+  z-index: var(--ring-overlay-z-index);
+
+  background-color: var(--ring-hover-background-color);
+}
+
+.draggingRow .dragHandle {
+  cursor: grabbing;
+
+  opacity: 1;
+}
+
+.draggingRow .dragHandle svg {
+  color: var(--ring-main-color);
+}
+
+.draggingTable {
+  z-index: var(--ring-overlay-z-index);
+
+  border-spacing: 0;
+}
+
+.tableMessage {
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4);
+
+  color: var(--ring-secondary-color);
+}

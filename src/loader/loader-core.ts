@@ -1,6 +1,6 @@
 import {getPixelRatio} from '../global/dom';
 
-import styles from './loader.css';
+import styles from './loader.module.css';
 
 const INITIAL_TICKS = 100;
 
@@ -196,7 +196,8 @@ export default class LoaderCore {
 
     if (coord + radius * 2 + this.baseSpeed >= limit) {
       return -(this.baseSpeed + randomizedSpeedChange);
-    } if (coord <= this.baseSpeed) {
+    }
+    if (coord <= this.baseSpeed) {
       return this.baseSpeed + randomizedSpeedChange;
     }
     return speed;

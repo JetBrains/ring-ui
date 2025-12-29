@@ -2,7 +2,7 @@
 import {TextEncoder, TextDecoder} from 'util';
 import {MessageChannel} from 'worker_threads';
 import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
-import {setProjectAnnotations} from '@storybook/react-webpack5';
+import {setProjectAnnotations} from '@storybook/react-vite';
 
 import {config} from '../package.json';
 

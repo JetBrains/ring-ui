@@ -1,0 +1,127 @@
+
+
+.radio {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+
+  padding: 2px 0;
+
+  text-align: left;
+
+  color: var(--ring-text-color);
+  outline: none;
+
+  &:hover .circle {
+    transition: none;
+
+    border-color: var(--ring-border-hover-color);
+  }
+}
+
+.circle {
+  position: relative;
+  top: 2px;
+
+  flex-shrink: 0;
+
+  box-sizing: border-box;
+  width: calc(2 * var(--ring-unit));
+  height: calc(2 * var(--ring-unit));
+
+  user-select: none;
+  transition:
+    border-color var(--ring-ease),
+    box-shadow var(--ring-ease);
+  pointer-events: none;
+
+  border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-unit);
+  background-color: var(--ring-content-background-color);
+
+  &::after {
+    position: absolute;
+    top: 50%;
+    left: 3px;
+
+    width: var(--ring-unit);
+    height: var(--ring-unit);
+
+    content: '';
+
+    transition:
+      opacity var(--ring-fast-ease),
+      transform var(--ring-fast-ease);
+
+    transform: scale(0) translateY(-50%);
+
+    opacity: 0;
+
+    border-radius: calc(var(--ring-unit) / 2);
+    background-color: var(--ring-main-color);
+  }
+}
+
+.input {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  margin: 0;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  &[disabled] + .circle {
+    border-color: var(--ring-border-disabled-color);
+    background-color: var(--ring-disabled-background-color);
+  }
+
+  &:checked + .circle {
+    border-color: var(--ring-main-color);
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    &::after {
+      transition: none;
+
+      transform: scale(1) translateY(-50%);
+
+      opacity: 1;
+    }
+  }
+
+  &:focus + .circle,
+  &.focus + .circle {
+    border-color: var(--ring-border-hover-color);
+    box-shadow: 0 0 0 1px var(--ring-border-hover-color);
+  }
+
+  &[disabled] {
+    pointer-events: none;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &[disabled]:checked + .circle {
+    border-color: var(--ring-border-hover-color);
+    background-color: var(--ring-content-background-color);
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    &::after {
+      background-color: var(--ring-border-hover-color);
+    }
+  }
+
+  &[disabled] ~ .label {
+    color: var(--ring-disabled-color);
+  }
+}
+
+.label {
+  margin-left: var(--ring-unit);
+
+  line-height: var(--ring-line-height);
+}

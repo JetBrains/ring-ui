@@ -9,8 +9,8 @@ import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import useEventCallback from '../global/use-event-callback';
 
-import inputStyles from '../input/input.css';
-import styles from './editable-heading.css';
+import inputStyles from '../input/input.module.css';
+import styles from './editable-heading.module.css';
 
 export {Levels};
 export {Size};

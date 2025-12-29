@@ -1,4 +1,4 @@
-import {type StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-vite';
 import {type HTMLAttributes} from 'react';
 
 import ScrollableSection from './scrollable-section';

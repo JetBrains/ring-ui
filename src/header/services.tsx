@@ -8,8 +8,8 @@ import Theme from '../global/theme';
 import HeaderIcon from './header-icon';
 import ServicesLink, {type Service} from './services-link';
 
-import darkStyles from '../global/variables_dark.css';
-import styles from './services.css';
+import darkStyles from '../global/variables_dark.module.css';
+import styles from './services.module.css';
 
 const makeAnchor = (loading: boolean | null | undefined) => {
   const anchor = ({active}: AnchorProps) => (

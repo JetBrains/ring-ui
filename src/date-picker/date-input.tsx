@@ -6,7 +6,7 @@ import {ControlsHeight} from '../global/controls-height';
 import {I18nContext} from '../i18n/i18n-context';
 import {type DatePopupBaseProps, type Field} from './consts';
 
-import styles from './date-picker.css';
+import styles from './date-picker.module.css';
 
 export interface UpdateInputConfig {
   active: boolean;

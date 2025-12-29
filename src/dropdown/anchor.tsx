@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import Button, {type ButtonAttrs} from '../button/button';
 
-import styles from './dropdown.css';
+import styles from './dropdown.module.css';
 
 const Anchor = ({children, className, ...restProps}: ButtonAttrs) => (
   <Button

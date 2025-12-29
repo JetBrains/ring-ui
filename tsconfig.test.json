@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["**/*.test.ts", "**/*.test.tsx", "**/*.stories.tsx", "test-helpers/**/*", ".storybook/**/*", "types"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "types": ["vitest/globals", "vite/client", "jest", "node"]
+  }
+}

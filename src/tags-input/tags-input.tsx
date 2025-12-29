@@ -16,8 +16,8 @@ import getUID from '../global/get-uid';
 import {type TagAttrs} from '../tag/tag';
 import ControlLabel, {type LabelType} from '../control-label/control-label';
 
-import inputStyles from '../input/input.css';
-import styles from './tags-input.css';
+import inputStyles from '../input/input.module.css';
+import styles from './tags-input.module.css';
 
 function noop() {}
 

@@ -5,7 +5,7 @@ import Icon, {type IconType} from '../icon/icon';
 import {Size} from '../icon/icon.constants';
 import dataTests from '../global/data-tests';
 
-import styles from './error-message.css';
+import styles from './error-message.module.css';
 
 /**
  * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.

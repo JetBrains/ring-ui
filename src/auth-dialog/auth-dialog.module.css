@@ -1,0 +1,54 @@
+
+
+.dialog.dialog {
+  width: auto;
+  max-width: 400px;
+}
+
+.content {
+  composes: font from '../global/global.module.css';
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  margin: calc(var(--ring-unit) * 2) 0;
+}
+
+.button {
+  width: calc(var(--ring-unit) * 25);
+  margin-top: var(--ring-unit);
+}
+
+.firstButton {
+  composes: button;
+
+  margin-top: calc(var(--ring-unit) * 4);
+}
+
+.title.title {
+  margin-top: 0;
+  margin-bottom: var(--ring-unit);
+
+  text-align: center;
+
+  font-weight: 100;
+}
+
+.logo {
+  width: calc(var(--ring-unit) * 12);
+  height: calc(var(--ring-unit) * 12);
+  margin-bottom: 12px;
+  object-fit: contain;
+
+  @media (height <= 400px) {
+    width: calc(var(--ring-unit) * 4);
+    height: calc(var(--ring-unit) * 4);
+  }
+}
+
+.error {
+  text-align: center;
+
+  color: var(--ring-error-color);
+}

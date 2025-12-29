@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import {type ListDataItemProps} from './consts';
 
-import styles from './list.css';
+import styles from './list.module.css';
 
 export default class ListTitle<T> extends PureComponent<ListDataItemProps<T>> {
   render() {

@@ -10,7 +10,7 @@ import Link, {linkHOC} from '../link/link';
 import {type ListDataItemProps, Type} from './consts';
 import {getListClasses} from './list.classes';
 
-import styles from './list.css';
+import styles from './list.module.css';
 
 /**
  * @constructor
