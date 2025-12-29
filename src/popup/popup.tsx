@@ -21,7 +21,7 @@ import {PopupTargetContext, PopupTarget, normalizePopupTarget} from './popup.tar
 import {setCSSAnchorPositioning, supportsCSSAnchorPositioning} from './position-css';
 import {ThemeContext, WithThemeClasses} from '../global/theme';
 
-import styles from './popup.css';
+import styles from './popup.module.css';
 
 export {PopupTargetContext, PopupTarget};
 

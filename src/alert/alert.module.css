@@ -1,0 +1,133 @@
+
+
+.alert {
+  --ring-alert-animation-duration: 300ms;
+  --ring-alert-animation-easing: ease-out;
+
+  position: relative;
+
+  display: flex;
+  align-items: baseline;
+  gap: var(--ring-unit);
+
+  box-sizing: border-box;
+  width: calc(var(--ring-unit) * 45);
+  min-height: calc(var(--ring-unit) * 5.5);
+  margin: var(--ring-unit) auto;
+  padding: calc(var(--ring-unit) * 1.5);
+
+  transition:
+    transform var(--ring-alert-animation-duration) var(--ring-alert-animation-easing),
+    margin-bottom var(--ring-alert-animation-duration) var(--ring-alert-animation-easing),
+    opacity var(--ring-alert-animation-duration) var(--ring-alert-animation-easing);
+  white-space: nowrap;
+  pointer-events: auto;
+
+  border-radius: var(--ring-border-radius-large);
+  background-color: var(--ring-popup-background-color);
+  box-shadow: var(--ring-popup-shadow);
+
+  font-size: var(--ring-font-size);
+  line-height: 20px;
+}
+
+.alertInline {
+  margin: var(--ring-unit);
+}
+
+.error {
+  word-wrap: break-word;
+
+  color: var(--ring-error-color);
+}
+
+.caption {
+  overflow: hidden;
+
+  flex-grow: 1;
+
+  white-space: normal;
+
+  color: var(--ring-active-text-color);
+}
+
+.badge {
+  margin-left: var(--ring-unit);
+
+  vertical-align: baseline;
+}
+
+.loader {
+  top: 3px;
+
+  margin-top: -1px;
+}
+
+@keyframes show {
+  from {
+    transform: translateY(100%);
+
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+
+    opacity: 1;
+  }
+}
+
+@keyframes shaking {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
+}
+
+.animationOpen {
+  animation-name: show;
+  animation-duration: var(--ring-alert-animation-duration);
+}
+
+.animationClosing {
+  z-index: var(--ring-invisible-element-z-index);
+
+  opacity: 0;
+}
+
+.animationShaking {
+  animation-name: shaking;
+
+  animation-duration: 500ms;
+}
+
+.heading {
+  margin: 0 0 calc(var(--ring-unit) / 2);
+
+  font-size: var(--ring-font-size);
+  font-weight: var(--ring-font-weight-bold);
+  line-height: var(--ring-line-height);
+}
+
+.actions {
+  display: flex;
+  gap: calc(var(--ring-unit)*2);
+
+  margin: calc(var(--ring-unit) * 2) 0 calc(var(--ring-unit) / 2);
+}

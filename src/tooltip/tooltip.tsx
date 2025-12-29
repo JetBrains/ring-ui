@@ -8,7 +8,7 @@ import dataTests from '../global/data-tests';
 import scheduleRAF from '../global/schedule-raf';
 import Theme, {ThemeProvider} from '../global/theme';
 
-import styles from './tooltip.css';
+import styles from './tooltip.module.css';
 
 const scheduleScroll = scheduleRAF();
 

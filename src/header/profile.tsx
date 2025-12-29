@@ -12,7 +12,7 @@ import {type AuthUser} from '../auth/auth';
 import {isTruthy} from '../global/typescript-utils';
 import {type ClickableLinkProps} from '../link/clickable-link';
 
-import styles from './header.css';
+import styles from './header.module.css';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 

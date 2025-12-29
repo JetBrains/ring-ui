@@ -1,0 +1,27 @@
+.pager {
+  user-select: none;
+}
+
+.links {
+  display: flex;
+  gap: calc(var(--ring-unit) * 2);
+
+  margin-bottom: calc(var(--ring-unit) * 2);
+}
+
+.link {
+  display: inline-block;
+}
+
+.linkDisabled {
+  color: var(--ring-secondary-color);
+}
+
+.actions {
+  display: flex;
+  align-items: baseline;
+}
+
+.pageSize {
+  margin-left: auto;
+}

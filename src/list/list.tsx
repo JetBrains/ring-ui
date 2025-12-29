@@ -34,7 +34,7 @@ import ListSeparator from './list-separator';
 import ListHint from './list-hint';
 import {DEFAULT_ITEM_TYPE, Dimension, type ListDataItem, type ListDataItemProps, Type} from './consts';
 
-import styles from './list.css';
+import styles from './list.module.css';
 
 export type {ListDataItem};
 

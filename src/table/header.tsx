@@ -5,7 +5,7 @@ import Checkbox from '../checkbox/checkbox';
 import getUID from '../global/get-uid';
 import HeaderCell, {type Column, type SortParams} from './header-cell';
 
-import style from './table.css';
+import style from './table.module.css';
 
 export interface HeaderProps {
   columns: readonly Column[];

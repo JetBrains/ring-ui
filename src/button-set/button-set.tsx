@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 
-import styles from './button-set.css';
+import styles from './button-set.module.css';
 
 /**
  * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.

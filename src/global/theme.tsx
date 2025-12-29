@@ -10,8 +10,8 @@ import {
 } from 'react';
 import classNames from 'classnames';
 
-import defaultStyles from './variables.css';
-import styles from './variables_dark.css';
+import defaultStyles from './variables.module.css';
+import styles from './variables_dark.module.css';
 
 enum Theme {
   AUTO = 'auto',

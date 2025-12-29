@@ -1,6 +1,6 @@
 import path from 'path';
 import * as glob from 'glob';
-import {composeStories} from '@storybook/react-webpack5';
+import {composeStories} from '@storybook/react-vite';
 import {storyNameFromExport} from '@storybook/csf';
 
 export function getAllStoryFiles() {
@@ -24,7 +24,7 @@ export function getAllStoryFiles() {
 }
 
 const getStoryName = originalStory =>
-  (typeof originalStory === 'function' ? storyNameFromExport(originalStory.name) : originalStory.name);
+  typeof originalStory === 'function' ? storyNameFromExport(originalStory.name) : originalStory.name;
 
 export const getStories = storyFile =>
   Object.entries(composeStories(storyFile)).map(([name, story]) => {

@@ -24,8 +24,8 @@ import {type ShortcutsMap} from '../shortcuts/core';
 import {I18nContext} from '../i18n/i18n-context';
 import QueryAssistSuggestions, {type QueryAssistSuggestion, type SuggestionItem} from './query-assist-suggestions';
 
-import inputStyles from '../input/input.css';
-import styles from './query-assist.css';
+import inputStyles from '../input/input.module.css';
+import styles from './query-assist.module.css';
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING + PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 

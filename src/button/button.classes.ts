@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 import {type ButtonProps} from './button.interface';
 
-import styles from './button.css';
+import styles from './button.module.css';
 
 export function getButtonClasses({
   className,

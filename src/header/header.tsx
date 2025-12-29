@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import Theme, {ThemeProvider} from '../global/theme';
 
-import styles from './header.css';
+import styles from './header.module.css';
 
 interface HeaderProps extends HTMLAttributes<HTMLElement> {
   spaced: boolean; // only takes effect when vertical is false

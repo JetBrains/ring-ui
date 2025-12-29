@@ -6,7 +6,7 @@ import Dialog from '../dialog/dialog';
 import Button from '../button/button';
 import {H2} from '../heading/heading';
 
-import styles from './auth-dialog.css';
+import styles from './auth-dialog.module.css';
 
 /**
  * @name Auth Dialog

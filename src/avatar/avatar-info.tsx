@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import {Size} from './avatar-size';
 
-import styles from './avatar.css';
+import styles from './avatar.module.css';
 
 interface InfoAvatarProps {
   size: Size;

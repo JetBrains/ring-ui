@@ -1,7 +1,6 @@
 import {simulate} from 'combokeys/test/lib/key-event';
-import {OS} from 'sniffr';
+import {RecognizedBrowser, OS} from 'sniffr';
 
-import sniffr from '../global/sniffer';
 import shortcuts, {type ShortcutsMap} from './core';
 
 describe('Shortcuts', () => {
@@ -280,7 +279,7 @@ describe('Shortcuts', () => {
       vi.spyOn(shortcuts.combokeys, 'bind').mockImplementation((param1, param2, param3) => {
         eventType = param3;
       });
-      sniffr.os.name = OS.Windows;
+      RecognizedBrowser.os.name = OS.Windows;
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
@@ -293,7 +292,7 @@ describe('Shortcuts', () => {
       vi.spyOn(shortcuts.combokeys, 'bind').mockImplementation((param1, param2, param3) => {
         eventType = param3;
       });
-      sniffr.os.name = OS.MacOS;
+      RecognizedBrowser.os.name = OS.MacOS;
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 

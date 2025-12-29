@@ -4,7 +4,7 @@ import LoaderInline from '../loader-inline/loader-inline';
 import UserCardTooltip, {type UserCardTooltipAttrs} from './tooltip';
 import {type UserCardUser} from './card';
 
-import styles from './user-card.css';
+import styles from './user-card.module.css';
 
 export interface SmartUserCardTooltipProps extends UserCardTooltipAttrs {
   userDataSource: () => Promise<UserCardUser | null | undefined> | UserCardUser | null | undefined;
@@ -32,13 +32,13 @@ export default class SmartUserCardTooltip extends Component<SmartUserCardTooltip
   };
 
   renderNoUser = () =>
-    (this.state.loading ? (
+    this.state.loading ? (
       <div className={styles.userCardSpaced}>
         <LoaderInline />
       </div>
     ) : (
       ''
-    ));
+    );
 
   render() {
     const {user} = this.state;

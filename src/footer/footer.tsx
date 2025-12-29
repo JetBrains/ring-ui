@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import Link from '../link/link';
 
-import styles from './footer.css';
+import styles from './footer.module.css';
 
 type Position = 'left' | 'center' | 'right';
 

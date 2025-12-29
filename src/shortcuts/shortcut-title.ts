@@ -1,4 +1,4 @@
-import sniffer from '../global/sniffer';
+import {RecognizedBrowser} from 'sniffr';
 
 const macSymbolsMap: Record<string, string> = {
   enter: '⏎',
@@ -45,7 +45,7 @@ const winSymbolsMap: Record<string, string> = {
 };
 
 export function getShortcutTitle(shortcut: string) {
-  const MAC_OS = sniffer.os.name === 'macos';
+  const MAC_OS = RecognizedBrowser.os.name === 'macos';
   const KEY_SEPARATOR = MAC_OS ? '' : '+';
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 

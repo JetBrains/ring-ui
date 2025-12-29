@@ -1,0 +1,5 @@
+.shortcut {
+  margin-left: var(--ring-unit);
+
+  color: var(--ring-secondary-color);
+}

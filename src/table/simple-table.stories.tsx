@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {type StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-vite';
 
 import Link from '../link/link';
 import {type TableAttrs} from './table';
@@ -77,7 +77,8 @@ export const WithSorting: StoryFn<BasicDemoProps> = args => {
   const {onSort, onSelect, withCaption, onReorder, ...restProps} = args;
   const [sortKey, setSortKey] = useState<keyof Item>('country');
   const [sortOrder, setSortOrder] = useState<boolean>(true);
-  const data = mock.toSorted((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
+
+  const data = [...mock].sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
 
   const handleSort = (event: SortParams) => {
     onSort?.(event);

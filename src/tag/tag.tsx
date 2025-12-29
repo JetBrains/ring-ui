@@ -8,7 +8,7 @@ import Button from '../button/button';
 import {ControlsHeight} from '../global/controls-height';
 import dataTests from '../global/data-tests';
 
-import styles from './tag.css';
+import styles from './tag.module.css';
 
 export interface TagRenderProps extends HTMLAttributes<HTMLElement> {
   disabled: boolean;

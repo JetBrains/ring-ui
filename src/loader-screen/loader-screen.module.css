@@ -1,0 +1,29 @@
+
+
+.loaderScreen {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  text-align: center;
+  vertical-align: middle;
+
+  &::before {
+    display: inline-block;
+
+    height: 100%;
+
+    content: '';
+
+    vertical-align: middle;
+  }
+}
+
+.loader {
+  display: inline-block;
+}
+
+.loaderWithoutSpacing canvas {
+  margin: 0;
+}

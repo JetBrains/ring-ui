@@ -1,8 +1,0 @@
-@import '../global/variables.css';
-
-.help {
-  color: var(--ring-secondary-color);
-
-  font-size: var(--ring-font-size-smaller);
-  line-height: var(--ring-line-height-lowest);
-}

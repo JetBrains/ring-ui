@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import dataTests from '../global/data-tests';
 import adaptiveIslandHOC from './adaptive-island-hoc';
 
-import styles from './island.css';
+import styles from './island.module.css';
 
 export interface IslandProps extends HTMLAttributes<HTMLElement> {
   narrow?: boolean | null | undefined;

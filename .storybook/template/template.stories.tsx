@@ -1,6 +1,6 @@
 // This is a template Storybook configuration.
 
-import {type Meta, type StoryObj} from '@storybook/react-webpack5';
+import {type Meta, type StoryObj} from '@storybook/react-vite';
 
 // Replace with your component import
 import Button, {type ButtonProps} from '../../src/button/button';

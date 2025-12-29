@@ -1,7 +1,7 @@
 import {Children, Component, type HTMLAttributes, type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import styles from './header.css';
+import styles from './header.module.css';
 
 const wrapChild = (child: ReactNode) => child && <div className={styles.trayItem}>{child}</div>;
 

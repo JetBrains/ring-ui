@@ -6,7 +6,7 @@ import TabLink from './tab-link';
 import {CustomItem} from './custom-item';
 import {type TabProps} from './tab';
 
-import styles from './tabs.css';
+import styles from './tabs.module.css';
 
 export interface TabTitleProps {
   selected: boolean;

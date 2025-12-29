@@ -1,6 +1,6 @@
-const browserslist = require('browserslist');
+import browserslist from 'browserslist';
 
-module.exports = function config(api) {
+export default function config(api) {
   api.cache(true);
 
   return {
@@ -38,4 +38,4 @@ module.exports = function config(api) {
       },
     },
   };
-};
+}

@@ -105,7 +105,3 @@ export interface RingCSSProperties {
   /* Alerts should de displayed above overlays */
   '--ring-alert-z-index'?: Property.ZIndex;
 }
-
-declare module 'react' {
-  interface CSSProperties extends RingCSSProperties {}
-}

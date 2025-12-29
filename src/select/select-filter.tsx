@@ -1,12 +1,12 @@
 import {Component, type RefCallback} from 'react';
 import classNames from 'classnames';
+import {RecognizedBrowser} from 'sniffr';
 
 import Input, {type InputAttrs} from '../input/input';
-import sniffr from '../global/sniffer';
 import {ActiveItemContext} from '../list/list';
 import {I18nContext} from '../i18n/i18n-context';
 
-import styles from './select-popup.css';
+import styles from './select-popup.module.css';
 
 function noop() {}
 
@@ -23,7 +23,7 @@ export default class SelectFilter extends Component<SelectFilterProps> {
   focus() {
     const {input} = this;
     if (input && input !== document.activeElement) {
-      if (sniffr.browser.name === 'firefox') {
+      if (RecognizedBrowser.browser.name === 'firefox') {
         input.select();
       } else {
         input.focus();

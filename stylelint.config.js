@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   extends: ['stylelint-config-sass-guidelines', '@jetbrains/stylelint-config'],
   plugins: ['@csstools/stylelint-no-at-nest-rule'],
   rules: {

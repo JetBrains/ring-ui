@@ -1,9 +1,9 @@
 import {type ReactNode} from 'react';
 import classNames from 'classnames';
 
-import headingStyles from '../heading/heading.css';
-import linkStyles from '../link/link.css';
-import styles from './markdown.css';
+import headingStyles from '../heading/heading.module.css';
+import linkStyles from '../link/link.module.css';
+import styles from './markdown.module.css';
 
 export interface MarkdownProps {
   inline?: boolean | null | undefined;

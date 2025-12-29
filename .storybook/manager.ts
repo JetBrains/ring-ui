@@ -1,6 +1,6 @@
 import {addons} from 'storybook/manager-api';
 
-import '../src/global/variables.css';
+import '../src/global/variables.module.css';
 import Theme, {applyTheme} from '../src/global/theme';
 import {darkMatcher, theme} from './theme';
 

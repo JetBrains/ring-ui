@@ -16,7 +16,7 @@ import {preventerFactory as scrollPreventerFactory} from './dialog-body-scroll-p
 
 import type {ShortcutsScopeOptions} from '../shortcuts/core';
 
-import styles from './dialog.css';
+import styles from './dialog.module.css';
 
 export interface DialogProps extends Partial<TabTrapProps> {
   show: boolean;

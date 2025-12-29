@@ -1,0 +1,25 @@
+
+
+@value button from '../button/button.module.css';
+
+.buttonToolbar {
+  display: inline-block;
+
+  white-space: nowrap;
+
+  font-size: 0;
+  line-height: 0;
+}
+
+.buttonToolbar > button,
+.buttonToolbar > :global(.ring-button-group),
+.buttonToolbar > .button,
+.buttonToolbar > .buttonGroup,
+.buttonToolbar > .split,
+.buttonToolbar > .buttonToolbar {
+  margin-right: var(--ring-unit);
+}
+
+.buttonToolbar > :last-child {
+  margin-right: 0;
+}

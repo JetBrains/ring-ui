@@ -1,0 +1,7 @@
+
+
+.group {
+  & > *:not(:last-child) {
+    margin-right: var(--ring-unit);
+  }
+}

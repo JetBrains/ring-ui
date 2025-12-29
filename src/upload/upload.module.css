@@ -1,0 +1,87 @@
+
+
+.upload {
+  --ring-upload-text-color: var(--ring-secondary-color);
+  --ring-upload-border-color: var(--ring-borders-color);
+  --ring-upload-background-color: transparent;
+  --ring-upload-cursor: pointer;
+
+  position: relative;
+
+  display: flex;
+
+  overflow: hidden;
+  flex-direction: row;
+
+  box-sizing: border-box;
+
+  padding: calc(var(--ring-unit)* 1.5);
+
+  cursor: var(--ring-upload-cursor);
+
+  transition: background var(--ring-ease), color var(--ring-ease), border-color var(--ring-ease);
+
+  color: var(--ring-upload-text-color);
+  border: 1px dashed var(--ring-upload-border-color);
+
+  border-radius: var(--ring-border-radius);
+  background-color: var(--ring-upload-background-color);
+
+  &:hover {
+    --ring-upload-border-color: var(--ring-border-hover-color);
+  }
+
+  &:active,
+  &:focus-within,
+  &:focus {
+    border-color: var(--ring-borders-color);
+    outline: 2px solid var(--ring-border-hover-color);
+  }
+
+  &.success {
+    --ring-upload-border-color: var(--ring-added-background-color);
+    --ring-upload-background-color: var(--ring-added-subtle-background-color);
+
+    border-style: solid;
+  }
+
+  &.error {
+    --ring-upload-text-color: var(--ring-error-color);
+    --ring-upload-border-color: var(--ring-icon-error-color);
+    --ring-upload-background-color: var(--ring-removed-subtle-background-color);
+
+    border-style: solid;
+  }
+
+  &.dragOver {
+    --ring-upload-text-color: var(--ring-main-color);
+    --ring-upload-border-color: var(--ring-main-color);
+    --ring-upload-background-color: var(--ring-hover-background-color);
+  }
+
+  &.disabled,
+  &:active.disabled {
+    --ring-upload-text-color: var(--ring-disabled-color);
+    --ring-upload-border-color: var(--ring-border-disabled-color);
+    --ring-upload-background-color: transparent;
+    --ring-upload-cursor: default;
+
+    outline: 0;
+  }
+}
+
+.invisibleFileInput {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  cursor: var(--ring-upload-cursor);
+
+  opacity: 0;
+}
+
+.attachmentIcon {
+  margin-right: var(--ring-unit);
+}

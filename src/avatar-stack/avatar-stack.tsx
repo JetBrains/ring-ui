@@ -6,7 +6,7 @@ import DropdownMenu, {type DropdownMenuProps} from '../dropdown-menu/dropdown-me
 import Avatar, {Size} from '../avatar/avatar';
 import {fontSizes} from '../avatar/avatar-info';
 
-import styles from './avatar-stack.css';
+import styles from './avatar-stack.module.css';
 
 declare module 'csstype' {
   interface Properties {
@@ -56,11 +56,11 @@ export default function AvatarStack({
             '--ring-avatar-stack-index': Children.count(children),
             fontSize: fontSizes[size],
           }}
-          anchor={(
+          anchor={
             <button type='button' className={styles.extraButton}>
               <Avatar size={size} info={<span className={styles.extraText}>{`+${extraItems.length}`}</span>} />
             </button>
-          )}
+          }
           data={extraItems}
           menuProps={{offset: 4, ...dropdownMenuProps?.menuProps}}
           {...dropdownMenuProps}

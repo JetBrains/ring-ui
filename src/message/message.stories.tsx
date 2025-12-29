@@ -1,5 +1,5 @@
 import searchIcon from '@jetbrains/icons/search';
-import {type StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-vite';
 
 import Popup from '../popup/popup';
 import Icon from '../icon/icon';

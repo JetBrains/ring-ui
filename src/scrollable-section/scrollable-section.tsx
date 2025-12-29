@@ -1,7 +1,7 @@
 import {type HTMLAttributes, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 
-import styles from './scrollable-section.css';
+import styles from './scrollable-section.module.css';
 
 export default function ScrollableSection({className, ...restProps}: HTMLAttributes<HTMLDivElement>) {
   const [scrolledToTop, setScrolledToTop] = useState(false);

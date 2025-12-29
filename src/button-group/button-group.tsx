@@ -8,8 +8,7 @@ import Caption from './caption';
 
 import type {ButtonAttrs} from '../button/button';
 
-import styles from './button-group.css';
-
+import styles from './button-group.module.css';
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLElement> {
   split?: boolean | null | undefined;

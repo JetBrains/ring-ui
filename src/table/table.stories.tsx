@@ -1,5 +1,5 @@
 import {useState, useReducer} from 'react';
-import {type StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-vite';
 
 import Link from '../link/link';
 import Pager from '../pager/pager';

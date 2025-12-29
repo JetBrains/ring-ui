@@ -1,0 +1,14 @@
+
+
+.dropdown {
+  display: inline-block;
+}
+
+.clickInterceptor {
+  display: contents;
+}
+
+.anchor.anchor {
+  margin-inline: -3px;
+  padding-inline: 3px;
+}

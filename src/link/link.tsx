@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import dataTests from '../global/data-tests';
 import ClickableLink, {type ClickableLinkProps} from './clickable-link';
 
-import styles from './link.css';
+import styles from './link.module.css';
 
 /**
  * @name Link

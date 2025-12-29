@@ -2,7 +2,7 @@ import {memo, type HTMLAttributes, type ComponentType, useEffect} from 'react';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
 
-import styles from './heading.css';
+import styles from './heading.module.css';
 
 /**
  * @name Heading

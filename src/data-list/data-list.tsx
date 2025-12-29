@@ -19,8 +19,7 @@ import Item, {type FormattedItem, moreLessButtonStates} from './item';
 
 import type Selection from './selection';
 
-import styles from './data-list.css';
-
+import styles from './data-list.module.css';
 
 export interface DataListBaseProps<T extends SelectionItem> {
   data: readonly T[];

@@ -11,8 +11,7 @@ import Title from './title';
 
 import type Selection from './selection';
 
-import styles from './data-list.css';
-
+import styles from './data-list.module.css';
 
 export enum moreLessButtonStates {
   UNUSED,

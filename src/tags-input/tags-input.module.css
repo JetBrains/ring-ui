@@ -1,0 +1,100 @@
+
+
+@value outerContainer, container, input from '../input/input.module.css';
+
+.tagsInput {
+  --ring-input-icon-offset: calc(var(--ring-unit) * 2.5);
+  --ring-input-padding-inline: 3px;
+
+  box-sizing: border-box;
+
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
+
+  & * {
+    box-sizing: border-box;
+  }
+}
+
+.tagsInputDisabled {
+  pointer-events: none;
+
+  color: var(--ring-disabled-color);
+
+  & .input {
+    background-color: transparent;
+  }
+}
+
+.tagsInputFocused {
+  border-color: var(--ring-main-color);
+}
+
+.tagsList {
+  --ring-input-padding-start: var(--ring-input-padding-inline);
+  --ring-input-padding-end: var(--ring-input-padding-inline);
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  width: 100%;
+
+  margin: 0;
+  padding-top: var(--ring-input-padding-block);
+  padding-right: var(--ring-input-padding-end);
+  padding-bottom: var(--ring-input-padding-block);
+  padding-left: var(--ring-input-padding-start);
+
+  cursor: text;
+
+  transition: border-color var(--ring-ease);
+
+  color: var(--ring-text-color);
+  border: 1px solid var(--ring-borders-color);
+  border-radius: var(--ring-border-radius);
+  outline: none;
+  background: transparent;
+
+  font: inherit;
+
+  caret-color: var(--ring-main-color);
+
+  [dir='rtl'] & {
+    padding-right: var(--ring-input-padding-start);
+    padding-left: var(--ring-input-padding-end);
+  }
+
+  &:hover {
+    transition: none;
+
+    border-color: var(--ring-border-hover-color);
+  }
+
+  &:focus-within {
+    transition: none;
+
+    border-color: var(--ring-main-color);
+  }
+}
+
+.tagsSelect {
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  min-width: 160px;
+
+  & .input {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
+  & .outerContainer {
+    --ring-input-padding-block: 0;
+  }
+
+  & .container {
+    line-height: calc(var(--ring-line-height) - 2px);
+  }
+}
