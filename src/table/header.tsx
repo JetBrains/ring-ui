@@ -20,6 +20,7 @@ export interface HeaderProps {
   sortOrder: boolean;
   caption?: string | null | undefined;
   checkboxDisabled?: boolean | undefined;
+  className?: string | null | undefined;
 }
 
 export default class Header extends PureComponent<HeaderProps> {
@@ -83,10 +84,13 @@ export default class Header extends PureComponent<HeaderProps> {
         id={this.id}
         data-test='ring-table-header'
         style={{top: topStickOffset}}
-        className={classNames({
-          [style.tableHead]: true,
-          [style.subHeaderSticky]: sticky,
-        })}
+        className={classNames(
+          {
+            [style.tableHead]: true,
+            [style.subHeaderSticky]: sticky,
+          },
+          this.props.className,
+        )}
       >
         {caption && (
           <tr data-test='ring-table-header-row'>

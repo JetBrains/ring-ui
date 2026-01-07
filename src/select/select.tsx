@@ -134,7 +134,7 @@ export interface DataTestProps {
 
 export interface CustomAnchorProps {
   wrapperProps: HTMLAttributes<HTMLElement> & DataTestProps & {ref: RefCallback<HTMLElement>};
-  buttonProps: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'id' | 'disabled' | 'children'> & {
+  buttonProps: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'id' | 'disabled' | 'children' | 'className'> & {
     onClick: () => void;
   } & DataTestProps;
   popup: ReactNode;
@@ -186,6 +186,7 @@ export interface BaseSelectProps<T = unknown> {
   targetElement?: HTMLElement | null | undefined;
   className?: string | null | undefined;
   buttonClassName?: string | null | undefined;
+  toolbarClassName?: string | null | undefined;
   id?: string | undefined;
   getInitial?: (() => string) | null | undefined;
   minWidth?: number | undefined;
@@ -801,9 +802,12 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
     return (
       <div
-        className={classNames({
-          [styles.toolbar]: Boolean(this.state.addButton || renderBottomToolbar),
-        })}
+        className={classNames(
+          {
+            [styles.toolbar]: Boolean(this.state.addButton || renderBottomToolbar),
+          },
+          this.props.toolbarClassName,
+        )}
         data-test='ring-select-toolbar'
       >
         {renderBottomToolbar && renderBottomToolbar()}
@@ -1392,6 +1396,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
                   disabled: this.props.disabled,
                   children: this._getPlaceholder(),
                   'data-test': 'ring-select__focus',
+                  className: this.props.buttonClassName ?? undefined,
                 },
                 popup: this._renderPopup(),
               })}

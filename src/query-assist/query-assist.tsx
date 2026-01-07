@@ -116,6 +116,14 @@ export interface QueryAssistProps {
    */
   inputClassName?: string | null | undefined;
   /**
+   * Additional class for the search button/icon
+   */
+  searchButtonClassName?: string | null | undefined;
+  /**
+   * Additional class for the clear icon
+   */
+  clearIconClassName?: string | null | undefined;
+  /**
    * Data source function
    */
   dataSource: (params: QueryAssistRequestParams) => Promise<QueryAssistResponse> | QueryAssistResponse;
@@ -990,7 +998,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
           {({translate}) => (
             <Button
               icon={closeIcon}
-              className={styles.clear}
+              className={classNames(styles.clear, this.props.clearIconClassName)}
               title={this.props.translations?.clearTitle ?? translate('clearTitle')}
               ref={this.clearRef}
               onClick={this.clearQuery}
@@ -1047,7 +1055,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               {renderGlass && !huge && (
                 <Icon
                   glyph={searchIcon}
-                  className={styles.icon}
+                  className={classNames(styles.icon, this.props.searchButtonClassName)}
                   title={translations?.searchTitle ?? translate('searchTitle')}
                   ref={this.glassRef}
                   data-test='query-assist-search-icon'
@@ -1129,7 +1137,10 @@ export default class QueryAssist extends Component<QueryAssistProps> {
               />
 
               {glass && huge && (
-                <div className={styles.rightSearchButton} data-test='query-assist-search-button'>
+                <div
+                  className={classNames(styles.rightSearchButton, this.props.searchButtonClassName)}
+                  data-test='query-assist-search-button'
+                >
                   <Icon
                     glyph={searchIcon}
                     className={styles.rightSearchIcon}

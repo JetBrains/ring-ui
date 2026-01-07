@@ -84,6 +84,10 @@ export interface ListDataItemAddProps {
   onCheckboxChange: (e: React.ChangeEvent) => void;
   isFirst?: boolean;
   'data-test'?: string | null | undefined;
+  itemClassName?: string | null | undefined;
+  labelClassName?: string | null | undefined;
+  descriptionClassName?: string | null | undefined;
+  detailsClassName?: string | null | undefined;
 }
 
 export type ListDataItemProps<T = unknown> = Omit<ListDataItem<T>, keyof ListDataItemAddProps> & ListDataItemAddProps;
