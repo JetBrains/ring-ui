@@ -255,6 +255,11 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
           directions: this.props.directions,
           offset: this.props.offset,
         });
+
+        const {direction} = this.position();
+        if (direction) {
+          this._updateDirection(direction);
+        }
       } else {
         popup.style.position = 'absolute';
         if (this.isVisible()) {
