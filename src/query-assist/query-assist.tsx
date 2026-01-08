@@ -1138,12 +1138,12 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
               {glass && huge && (
                 <div
-                  className={classNames(styles.rightSearchButton, this.props.searchButtonClassName)}
+                  className={styles.rightSearchButton}
                   data-test='query-assist-search-button'
                 >
                   <Icon
                     glyph={searchIcon}
-                    className={styles.rightSearchIcon}
+                    className={classNames(styles.rightSearchIcon, this.props.searchButtonClassName)}
                     title={translations?.searchTitle ?? translate('searchTitle')}
                     onClick={this.handleApply}
                     ref={this.glassRef}
