@@ -12,7 +12,6 @@ import focusSensorHOC, {type FocusSensorAddProps, type FocusSensorProps} from '.
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
-import {type SelectionItem} from './selection';
 import Header, {type HeaderAttrs} from './header';
 import selectionShortcutsHOC, {
   type SelectionShortcutsAddProps,
@@ -30,7 +29,7 @@ export interface ReorderParams<T> {
   newIndex: number;
 }
 
-export interface TableProps<T extends SelectionItem>
+export interface TableProps<T>
   extends FocusSensorAddProps<HTMLTableRowElement>,
     SelectionShortcutsAddProps<T>,
     DisableHoverAddProps {
@@ -73,13 +72,20 @@ export interface TableProps<T extends SelectionItem>
 /**
  * Interactive table with selection and keyboard navigation support.
  */
-export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>> {
+export class Table<T> extends PureComponent<TableProps<T>> {
   static defaultProps = {
     isItemSelectable: () => true,
     loading: false,
     onSort: () => {},
     onReorder: () => {},
-    getItemKey: (item: SelectionItem) => item.id,
+    getItemKey: (item: unknown) => {
+      // Default behavior stays backward compatible: use item's "id" if present
+      if (item != null && typeof item === 'object' && 'id' in item) {
+        return (item as {id: string | number}).id;
+      }
+      // If there's no id provided on item and no getKey supplied, fail fast with a clear message
+      throw new Error('Table: getItemKey is required when items have no "id" property');
+    },
     sortKey: 'id',
     sortOrder: true,
     draggable: false,
@@ -338,19 +344,19 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
   }
 }
 
-const getContainer = <T extends SelectionItem>() =>
+const getContainer = <T,>() =>
   disableHoverHOC(
     selectionShortcutsHOC<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>(
       focusSensorHOC<HTMLTableRowElement, TableProps<T>, typeof Table>(Table),
     ),
   );
 
-export type TableAttrs<T extends SelectionItem> = DisableHoverProps<
+export type TableAttrs<T> = DisableHoverProps<
   SelectionShortcutsProps<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>
 >;
 
 // eslint-disable-next-line react/no-multi-comp
-export default class TableContainer<T extends SelectionItem> extends Component<TableAttrs<T>> {
+export default class TableContainer<T> extends Component<TableAttrs<T>> {
   // https://stackoverflow.com/a/53882322/6304152
   Table = getContainer<T>();
 

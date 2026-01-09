@@ -14,7 +14,6 @@ import {createComposedRef} from '../global/compose-refs';
 import {type FocusSensorAddProps} from '../global/focus-sensor-hoc';
 import Cell from './cell';
 import {type Column} from './header-cell';
-import {type SelectionItem} from './selection';
 
 import style from './table.css';
 
@@ -30,7 +29,7 @@ const DragHandle = ({alwaysShowDragHandle, dragHandleTitle = 'Drag to reorder'}:
   return <Button data-movable-handle title={dragHandleTitle} className={classes} icon={dragIcon} />;
 };
 
-export interface RowProps<T extends SelectionItem>
+export interface RowProps<T>
   extends Omit<HTMLAttributes<HTMLTableRowElement>, 'onClick' | 'onDoubleClick' | 'onSelect'>,
     FocusSensorAddProps<HTMLTableRowElement> {
   item: T;
@@ -57,7 +56,7 @@ export interface RowProps<T extends SelectionItem>
   'data-test'?: string | null | undefined;
   metaColumnClassName?: string | null | undefined;
 }
-export default class Row<T extends SelectionItem> extends PureComponent<RowProps<T>> {
+export default class Row<T> extends PureComponent<RowProps<T>> {
   static defaultProps = {
     selectable: true,
     showFocus: false,
@@ -240,4 +239,4 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
   }
 }
 
-export type RowAttrs<T extends SelectionItem> = React.JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;
+export type RowAttrs<T> = React.JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;

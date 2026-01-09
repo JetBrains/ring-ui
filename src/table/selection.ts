@@ -1,8 +1,12 @@
+/**
+ * @deprecated SelectionItem is deprecated. Use your own item type and provide a `getKey` function instead if there is no `id` identifier in your item type.
+ */
+
 export interface SelectionItem {
   id: string | number;
 }
 
-export interface TableSelectionConfig<T extends SelectionItem> {
+export interface TableSelectionConfig<T> {
   data?: readonly T[] | undefined;
   selected?: Set<T> | undefined;
   focused?: T | null | undefined;
@@ -17,7 +21,7 @@ export interface CloneWithConfig<T> {
   focused?: T | null | undefined;
 }
 
-export default class Selection<T extends SelectionItem> {
+export default class Selection<T> {
   protected _rawData: readonly T[];
   protected _getChildren: (item: T) => readonly T[];
   protected _data: Set<T>;
@@ -29,7 +33,14 @@ export default class Selection<T extends SelectionItem> {
     data = [],
     selected = new Set(),
     focused = null,
-    getKey = item => item.id,
+    getKey = (item: T) => {
+      // Default behavior stays backward compatible: use item's "id" if present
+      if (item != null && typeof item === 'object' && 'id' in item) {
+        return (item as {id: string | number}).id;
+      }
+      // If there's no id provided on item and no getKey supplied, fail fast with a clear message
+      throw new Error('Selection: getKey is required when items have no "id" property');
+    },
     getChildren = () => [],
     isItemSelectable = () => true,
   }: TableSelectionConfig<T> = {}) {

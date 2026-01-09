@@ -7,7 +7,7 @@ import Pager from '../pager/pager';
 import Button from '../button/button';
 import Table, {Table as BaseTable, type TableAttrs} from './table';
 import MultiTable from './multitable';
-import Selection, {type SelectionItem} from './selection';
+import Selection from './selection';
 import {type SortParams} from './header-cell';
 
 import mock from './table.stories.json';
@@ -29,7 +29,8 @@ export default {
 
 const PAGE_SIZE = 7;
 const TOTAL = mock.length;
-interface Item extends SelectionItem {
+interface Item {
+  id: number;
   country: string;
   city: string;
   url: string;
@@ -284,8 +285,8 @@ export const MultiTableStory = () => {
 };
 MultiTableStory.storyName = 'multi table';
 
-export const EmptyTable: StoryFn<TableAttrs<SelectionItem>> = ({onSelect, ...restProps}) => {
-  const [selection, setSelection] = useState(new Selection({}));
+export const EmptyTable: StoryFn<TableAttrs<Item>> = ({onSelect, ...restProps}) => {
+  const [selection, setSelection] = useState<Selection<Item>>(new Selection({}));
 
   return (
     <Table
@@ -412,3 +413,76 @@ WithCustomColumns.args = {
 };
 
 WithCustomColumns.storyName = 'Table with custom rows';
+
+export const CustomGetKey: StoryFn<TableAttrs<Omit<Item, 'id'>>> = ({onSelect, data, ...restProps}) => {
+  const [selection, setSelection] = useState<Selection<Omit<Item, 'id'>>>(
+    new Selection({
+      data,
+    }),
+  );
+
+  return (
+    <Table
+      {...restProps}
+      data={data}
+      selection={selection}
+      onSelect={newSelection => {
+        onSelect?.(newSelection);
+        setSelection(newSelection);
+      }}
+    />
+  );
+};
+
+CustomGetKey.args = {
+  data: [
+    {country: 'France', city: 'Paris', url: 'https://en.wikipedia.org/wiki/France'},
+    {country: 'Sweden', city: 'Stockholm', url: 'https://en.wikipedia.org/wiki/Sweden'},
+  ],
+  columns: [
+    {
+      id: 'country',
+      title: 'Country',
+      sortable: true,
+      className: 'country',
+      headerClassName: 'country',
+    },
+    {
+      id: 'city',
+      title: 'City',
+      getDataTest: item => item.city,
+      sortable: true,
+      className: 'city',
+      headerClassName: 'city',
+    },
+
+    {
+      id: 'url',
+      title: 'URL',
+      getValue({url}) {
+        return <Link href={url}>{url}</Link>;
+      },
+      className: 'url',
+      headerClassName: 'url',
+    },
+  ],
+  selectable: true,
+  getItemKey: item => item.country,
+};
+
+CustomGetKey.parameters = {
+  storyStyles: `
+    <style>
+      .country {
+        width: 20%;
+      }
+
+      .city {
+        width: 20%;
+      }
+
+      .url{
+        width: 35% !important;
+      }
+    </style>`,
+};
