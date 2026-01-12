@@ -64,6 +64,10 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       compact,
       hoverClassName,
       children,
+      itemClassName,
+      labelClassName,
+      descriptionClassName,
+      detailsClassName,
       ...restLinkProps // TODO use an allow list in 8.0
     } = this.props;
 
@@ -74,10 +78,13 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
 
     const classes = getListClasses(this.props);
 
-    const detailsClasses = classNames({
-      [styles.details]: details,
-      [styles.padded]: icon !== undefined || checkbox !== undefined || glyph !== undefined,
-    });
+    const detailsClasses = classNames(
+      {
+        [styles.details]: details,
+        [styles.padded]: icon !== undefined || checkbox !== undefined || glyph !== undefined,
+      },
+      detailsClassName,
+    );
 
     const style = {
       paddingLeft: `${(Number(level) || 0) * RING_UNIT + DEFAULT_PADDING + (showCheckbox ? CHECKBOX_WIDTH : 0)}px`,
@@ -105,7 +112,11 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     );
 
     const labelElement = (
-      <span className={styles.label} title={computedTitle} data-test='ring-list-item-label'>
+      <span
+        className={classNames(styles.label, labelClassName)}
+        title={computedTitle}
+        data-test='ring-list-item-label'
+      >
         {label ?? children}
       </span>
     );
@@ -150,7 +161,10 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
             {labelWrapper ? labelWrapper(labelElement) : labelElement}
 
             {description && (
-              <span className={styles.description} data-test='ring-list-item-description'>
+              <span
+                className={classNames(styles.description, descriptionClassName)}
+                data-test='ring-list-item-description'
+              >
                 {description}
               </span>
             )}
@@ -176,7 +190,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     const LinkComponentToUse = LinkComponent ? linkHOC(LinkComponent) : Link;
 
     return (
-      <div className={styles.itemContainer} data-test={combinedDataTest}>
+      <div className={classNames(styles.itemContainer, itemClassName)} data-test={combinedDataTest}>
         {showCheckbox && (
           <div className={styles.checkboxContainer}>
             <Checkbox

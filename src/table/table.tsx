@@ -63,6 +63,9 @@ export interface TableProps<T extends SelectionItem>
   isDisabledSelectionVisible: (item: T) => boolean;
   getCheckboxTooltip: (item: T) => string | undefined;
   className?: string | null | undefined;
+  wrapperClassName?: string | null | undefined;
+  headerClassName?: string | null | undefined;
+  cellClassName?: string | null | undefined;
   loaderClassName?: string | undefined;
   caption?: string | null | undefined;
   stickyHeaderOffset?: string | undefined;
@@ -228,6 +231,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
       sortOrder,
       sticky: stickyHeader,
       topStickOffset: stickyHeaderOffset,
+      className: this.props.headerClassName,
     };
 
     const selectedSize = selection.getSelected().size;
@@ -236,10 +240,13 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
     headerProps.onCheckboxChange = this.onCheckboxChange;
     headerProps.checkboxDisabled = this.props.data.length === 0;
 
-    const wrapperClasses = classNames({
-      [style.tableWrapper]: true,
-      [style.loading]: loading,
-    });
+    const wrapperClasses = classNames(
+      {
+        [style.tableWrapper]: true,
+        [style.loading]: loading,
+      },
+      this.props.wrapperClassName,
+    );
 
     const classes = classNames(this.props.className, {
       [style.table]: true,
@@ -301,6 +308,7 @@ export class Table<T extends SelectionItem> extends PureComponent<TableProps<T>>
           dragHandleTitle={dragHandleTitle}
           columns={columns}
           data-test={getItemDataTest(value)}
+          cellClassName={this.props.cellClassName}
           {...restProps}
           key={restProps.key ?? getItemKey(value)}
         />

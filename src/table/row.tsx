@@ -56,6 +56,7 @@ export interface RowProps<T extends SelectionItem>
   autofocus?: boolean | null | undefined;
   'data-test'?: string | null | undefined;
   metaColumnClassName?: string | null | undefined;
+  cellClassName?: string | null | undefined;
 }
 export default class Row<T extends SelectionItem> extends PureComponent<RowProps<T>> {
   static defaultProps = {
@@ -147,6 +148,7 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
       onHover,
       className,
       metaColumnClassName,
+      cellClassName,
       'data-test': dataTest,
       ...restProps
     } = this.props;
@@ -210,7 +212,11 @@ export default class Row<T extends SelectionItem> extends PureComponent<RowProps
       const getValue = column.getValue || (() => item[column.id as keyof T] as ReactNode);
       const getDataTest = column.getDataTest || (() => column.id);
       const value = getValue(item, column);
-      const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
+      const cellClasses = classNames(
+        {[style.cellRight]: column.rightAlign},
+        column.className,
+        cellClassName,
+      );
       const showMetaColumn = draggable || selectable || collapsible || showDisabledSelection || !!level;
 
       return (

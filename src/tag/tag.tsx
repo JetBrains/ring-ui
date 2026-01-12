@@ -36,6 +36,7 @@ export interface TagProps {
   children?: ReactNode;
   className?: string | null | undefined;
   containerClassName?: string | null | undefined;
+  removeButtonClassName?: string | null | undefined;
   rgTagIcon?: string | IconType | null | undefined;
   icon?: string | undefined;
   avatar?: string | null | undefined;
@@ -139,7 +140,7 @@ export default class Tag extends PureComponent<TagProps> {
           title='Remove'
           icon={closeIcon}
           data-test='ring-tag-remove'
-          className={styles.remove}
+          className={classNames(styles.remove, this.props.removeButtonClassName)}
           onClick={this.props.onRemove}
           style={{'--ring-secondary-color': this.props.textColor}}
           height={ControlsHeight.M}
