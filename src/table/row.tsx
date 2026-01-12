@@ -29,8 +29,9 @@ const DragHandle = ({alwaysShowDragHandle, dragHandleTitle = 'Drag to reorder'}:
   return <Button data-movable-handle title={dragHandleTitle} className={classes} icon={dragIcon} />;
 };
 
-export interface RowProps<T>
-  extends Omit<HTMLAttributes<HTMLTableRowElement>, 'onClick' | 'onDoubleClick' | 'onSelect'>,
+export interface RowProps<T extends object>
+  extends
+    Omit<HTMLAttributes<HTMLTableRowElement>, 'onClick' | 'onDoubleClick' | 'onSelect'>,
     FocusSensorAddProps<HTMLTableRowElement> {
   item: T;
   columns: readonly Column<T>[] | ((item: T) => readonly Column<T>[]);
@@ -56,7 +57,7 @@ export interface RowProps<T>
   'data-test'?: string | null | undefined;
   metaColumnClassName?: string | null | undefined;
 }
-export default class Row<T> extends PureComponent<RowProps<T>> {
+export default class Row<T extends object> extends PureComponent<RowProps<T>> {
   static defaultProps = {
     selectable: true,
     showFocus: false,
@@ -239,4 +240,4 @@ export default class Row<T> extends PureComponent<RowProps<T>> {
   }
 }
 
-export type RowAttrs<T> = React.JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;
+export type RowAttrs<T extends object> = React.JSX.LibraryManagedAttributes<typeof Row, RowProps<T>>;

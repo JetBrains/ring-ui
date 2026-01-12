@@ -29,10 +29,8 @@ export interface ReorderParams<T> {
   newIndex: number;
 }
 
-export interface TableProps<T>
-  extends FocusSensorAddProps<HTMLTableRowElement>,
-    SelectionShortcutsAddProps<T>,
-    DisableHoverAddProps {
+export interface TableProps<T extends object>
+  extends FocusSensorAddProps<HTMLTableRowElement>, SelectionShortcutsAddProps<T>, DisableHoverAddProps {
   data: readonly T[];
   columns: readonly Column<T>[] | ((item: T | null) => readonly Column<T>[]);
   isItemSelectable: (item: T) => boolean;
@@ -72,15 +70,15 @@ export interface TableProps<T>
 /**
  * Interactive table with selection and keyboard navigation support.
  */
-export class Table<T> extends PureComponent<TableProps<T>> {
+export class Table<T extends object> extends PureComponent<TableProps<T>> {
   static defaultProps = {
     isItemSelectable: () => true,
     loading: false,
     onSort: () => {},
     onReorder: () => {},
-    getItemKey: (item: unknown) => {
+    getItemKey: (item: object) => {
       // Default behavior stays backward compatible: use item's "id" if present
-      if (item != null && typeof item === 'object' && 'id' in item) {
+      if ('id' in item) {
         return (item as {id: string | number}).id;
       }
       // If there's no id provided on item and no getKey supplied, fail fast with a clear message
@@ -344,19 +342,19 @@ export class Table<T> extends PureComponent<TableProps<T>> {
   }
 }
 
-const getContainer = <T,>() =>
+const getContainer = <T extends object>() =>
   disableHoverHOC(
     selectionShortcutsHOC<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>(
       focusSensorHOC<HTMLTableRowElement, TableProps<T>, typeof Table>(Table),
     ),
   );
 
-export type TableAttrs<T> = DisableHoverProps<
+export type TableAttrs<T extends object> = DisableHoverProps<
   SelectionShortcutsProps<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>
 >;
 
 // eslint-disable-next-line react/no-multi-comp
-export default class TableContainer<T> extends Component<TableAttrs<T>> {
+export default class TableContainer<T extends object> extends Component<TableAttrs<T>> {
   // https://stackoverflow.com/a/53882322/6304152
   Table = getContainer<T>();
 

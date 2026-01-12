@@ -6,7 +6,7 @@ export interface SelectionItem {
   id: string | number;
 }
 
-export interface TableSelectionConfig<T> {
+export interface TableSelectionConfig<T extends object> {
   data?: readonly T[] | undefined;
   selected?: Set<T> | undefined;
   focused?: T | null | undefined;
@@ -21,7 +21,7 @@ export interface CloneWithConfig<T> {
   focused?: T | null | undefined;
 }
 
-export default class Selection<T> {
+export default class Selection<T extends object> {
   protected _rawData: readonly T[];
   protected _getChildren: (item: T) => readonly T[];
   protected _data: Set<T>;
@@ -35,7 +35,7 @@ export default class Selection<T> {
     focused = null,
     getKey = (item: T) => {
       // Default behavior stays backward compatible: use item's "id" if present
-      if (item != null && typeof item === 'object' && 'id' in item) {
+      if ('id' in item) {
         return (item as {id: string | number}).id;
       }
       // If there's no id provided on item and no getKey supplied, fail fast with a clear message
