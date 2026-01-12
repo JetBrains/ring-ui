@@ -113,8 +113,8 @@
     "autoprefixer": "^10.4.23",
     "babel-loader": "10.0.0",
     "babel-plugin-react-compiler": "^1.0.0",
-    "babel-plugin-transform-define": "^2.1.4",
     "babel-plugin-require-context-hook": "^1.0.0",
+    "babel-plugin-transform-define": "^2.1.4",
     "caniuse-lite": "^1.0.30001757",
     "chai-as-promised": "^8.0.2",
     "chai-dom": "^1.12.1",
@@ -151,7 +151,6 @@
     "merge-options": "^3.0.4",
     "pinst": "^3.0.0",
     "prettier": "^3.7.4",
-    "raw-loader": "^4.0.2",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "regenerator-runtime": "^0.14.1",
@@ -162,7 +161,6 @@
     "storybook": "10.1.4",
     "stylelint": "^16.26.1",
     "stylelint-config-sass-guidelines": "^12.1.0",
-    "svg-inline-loader": "^0.8.2",
     "teamcity-service-messages": "^0.1.14",
     "terser-webpack-plugin": "^5.3.15",
     "typescript": "~5.9.3",
@@ -170,17 +168,14 @@
     "unplugin-dts": "^1.0.0-beta.6",
     "vite": "^7.3.0",
     "vitest": "^4.0.15",
-    "vitest-teamcity-reporter": "^0.4.1",
-    "webpack": "^5.103.0",
-    "webpack-cli": "^6.0.1"
+    "vitest-teamcity-reporter": "^0.4.1"
   },
   "peerDependencies": {
     "@types/react": ">=18.0.0",
     "@types/react-dom": ">=18.0.0",
     "core-js": ">=3.0.0",
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "webpack": ">=5.0.0"
+    "react-dom": ">=18.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -206,12 +201,10 @@
     "change-case": "^4.1.1",
     "classnames": "^2.5.1",
     "combokeys": "^3.0.1",
-    "css-loader": "^7.1.2",
     "date-fns": "^4.1.0",
     "dequal": "^2.0.3",
     "element-resize-detector": "^1.2.4",
     "fastdom": "^1.0.12",
-    "file-loader": "^6.2.0",
     "focus-trap": "^7.6.6",
     "highlight.js": "^10.7.2",
     "just-debounce-it": "^3.2.0",
@@ -220,7 +213,6 @@
     "postcss-calc": "^10.1.1",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
-    "postcss-loader": "^8.2.0",
     "postcss-modules-values-replace": "^4.2.2",
     "postcss-preset-env": "^10.5.0",
     "react-compiler-runtime": "^1.0.0",
