@@ -87,6 +87,10 @@ export interface ListProps<T = unknown> {
   ariaLabel: string;
   id?: string | undefined;
   className?: string | null | undefined;
+  itemClassName?: string | null | undefined;
+  labelClassName?: string | null | undefined;
+  descriptionClassName?: string | null | undefined;
+  detailsClassName?: string | null | undefined;
   hint?: ReactNode;
   hintOnSelection?: string | null | undefined;
   maxHeight?: number | null | undefined;
@@ -534,6 +538,12 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       if (itemProps.compact === null || itemProps.compact === undefined) {
         itemProps.compact = this.props.compact;
       }
+
+      // Add global className props for sub-elements
+      itemProps.itemClassName = this.props.itemClassName;
+      itemProps.labelClassName = this.props.labelClassName;
+      itemProps.descriptionClassName = this.props.descriptionClassName;
+      itemProps.detailsClassName = this.props.detailsClassName;
 
       let ItemComponent: ComponentType<ListDataItemProps<T>>;
       const isFirst = index === 1;

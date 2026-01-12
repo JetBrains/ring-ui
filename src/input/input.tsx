@@ -44,6 +44,7 @@ export interface InputBaseProps {
   enableShortcuts?: boolean | string[];
   children?: string | undefined;
   inputClassName?: string | null | undefined;
+  clearButtonClassName?: string | null | undefined;
   label?: ReactNode;
   labelType?: LabelType;
   error?: ReactNode | null | undefined;
@@ -246,7 +247,7 @@ export class Input extends PureComponent<InputProps> {
                 <Button
                   title={translations?.clear ?? translate('clear')}
                   data-test='ring-input-clear'
-                  className={styles.clear}
+                  className={classNames(styles.clear, this.props.clearButtonClassName)}
                   icon={closeIcon}
                   onClick={this.clear}
                 />
