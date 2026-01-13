@@ -186,12 +186,5 @@ create(DslContext.projectId, BuildType({
             firstSuccessAfterFailure = true
         }
     }
-
-    dependencies {
-        snapshot(RelativeId("GeminiTests")) {
-            onDependencyFailure = FailureAction.CANCEL
-            onDependencyCancel = FailureAction.CANCEL
-        }
-    }
 }))
 
