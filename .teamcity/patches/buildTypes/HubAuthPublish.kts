@@ -173,6 +173,7 @@ create(DslContext.projectId, BuildType({
         }
         notifications {
             id = "SlackNofiticationToRingAlerts"
+            enabled = false
             notifierSettings = slackNotifier {
                 connection = "PROJECT_EXT_271"
                 sendTo = "#ring-ui-alerts"
