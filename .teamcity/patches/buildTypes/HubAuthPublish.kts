@@ -83,25 +83,12 @@ create(DslContext.projectId, BuildType({
                 npm whoami
                 
                 chown -R root:root . # See https://github.com/npm/cli/issues/4589
-                mkdir node_modules
-                npm install
+                npm ci
                 
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json
                 npm run build
                 npm run release-ci
-                cat package.json
-                
-                ########## Here goes publishing of pre-built version
-                if [ ! -d "./dist" ]
-                then
-                    echo "Directory ./dist does NOT exists. Build failed." >>/dev/stderr
-                    exit 333
-                fi
-                rm -rf components
-                mv dist components
-                npm run release-built-ci
-                ########## End of pre-built version publishing
                 cat package.json
                 
                 function publishBuildNumber {
@@ -115,6 +102,9 @@ create(DslContext.projectId, BuildType({
             """.trimIndent()
             dockerImage = "node:22"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+            param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
+            param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
+            param("org.jfrog.artifactory.selectedDeployableServer.uploadSpecSource", "Job configuration")
         }
         stepsOrder = arrayListOf("RUNNER_1461")
     }
