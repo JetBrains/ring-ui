@@ -116,7 +116,7 @@ create(DslContext.projectId, BuildType({
                 -:user=npmjs-buildserver:**
                 +:comment=(?i)\[publish\]:**
             """.trimIndent()
-            branchFilter = "+:master"
+            branchFilter = "+:main"
         }
         retryBuild {
             id = "retryBuildTrigger"
