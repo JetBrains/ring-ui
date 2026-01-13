@@ -38,7 +38,6 @@ create(DslContext.projectId, BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
-        root(RelativeId("JetBrainsHubAuth"))
 
         branchFilter = "+:<default>"
     }
