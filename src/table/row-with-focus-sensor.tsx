@@ -2,19 +2,20 @@ import {PureComponent} from 'react';
 
 import focusSensorHOC, {type FocusSensorProps} from '../global/focus-sensor-hoc';
 import Row, {type RowProps} from './row';
-import {type SelectionItem} from './selection';
 
-const getContainer = <T extends SelectionItem>() => focusSensorHOC<HTMLDivElement, RowProps<T>, typeof Row>(Row);
+const getContainer = <T extends object>() => focusSensorHOC<HTMLDivElement, RowProps<T>, typeof Row>(Row);
 
-export interface RowWithFocusSensorCallbacksProps<T extends SelectionItem>
-  extends Omit<FocusSensorProps<RowProps<T>, HTMLTableRowElement, typeof Row>, 'onFocus'> {
+export interface RowWithFocusSensorCallbacksProps<T extends object> extends Omit<
+  FocusSensorProps<RowProps<T>, HTMLTableRowElement, typeof Row>,
+  'onFocus'
+> {
   onFocus?: (item: T) => void;
   onSelect?: (item: T, selected: boolean) => void;
   onCollapse?: (item: T) => void;
   onExpand?: (item: T) => void;
 }
 
-export default class RowWithFocusSensorCallbacks<T extends SelectionItem> extends PureComponent<
+export default class RowWithFocusSensorCallbacks<T extends object> extends PureComponent<
   RowWithFocusSensorCallbacksProps<T>
 > {
   // https://stackoverflow.com/a/53882322/6304152

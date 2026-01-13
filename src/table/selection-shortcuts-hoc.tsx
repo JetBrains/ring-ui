@@ -3,26 +3,25 @@ import {PureComponent, type ComponentClass} from 'react';
 import {type ShortcutsMap} from '../shortcuts/core';
 
 import type Selection from './selection';
-import type {SelectionItem} from './selection';
 
-export interface SelectionShortcutsOuterProps<T extends SelectionItem> {
+export interface SelectionShortcutsOuterProps<T extends object> {
   selection: Selection<T>;
   selectable?: boolean | undefined;
   onSelect?: ((selection: Selection<T>) => void) | undefined;
   shortcuts?: ShortcutsMap | undefined;
 }
 
-export interface SelectionShortcutsAddProps<T extends SelectionItem> {
+export interface SelectionShortcutsAddProps<T extends object> {
   selection: Selection<T>;
   selectable: boolean;
   onSelect: (selection: Selection<T>) => void;
   shortcutsMap: ShortcutsMap;
 }
 
-export type SelectionShortcutsProps<T extends SelectionItem, P> = Omit<P, keyof SelectionShortcutsAddProps<T>> &
+export type SelectionShortcutsProps<T extends object, P> = Omit<P, keyof SelectionShortcutsAddProps<T>> &
   SelectionShortcutsOuterProps<T>;
 
-export default function selectionShortcutsHOC<T extends SelectionItem, P extends SelectionShortcutsAddProps<T>>(
+export default function selectionShortcutsHOC<T extends object, P extends SelectionShortcutsAddProps<T>>(
   ComposedComponent: ComponentClass<P>,
 ): ComponentClass<SelectionShortcutsProps<T, P>> {
   class SelectionShortcuts extends PureComponent<SelectionShortcutsProps<T, P>> {
