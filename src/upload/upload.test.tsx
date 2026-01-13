@@ -6,7 +6,7 @@ import {createRef} from 'react';
 
 import Upload, {type UploadHandle} from './upload';
 
-import styles from './upload.css';
+import styles from './upload.module.css';
 
 describe('<Upload />', () => {
   let onFilesSelectedMock: Mock;

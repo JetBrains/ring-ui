@@ -6,7 +6,7 @@ import Alert from '../alert/alert';
 import Link from '../link/link';
 import Group from '../group/group';
 
-import styles from './down-notification.css';
+import styles from './down-notification.module.css';
 
 let key: string | number | null = null;
 

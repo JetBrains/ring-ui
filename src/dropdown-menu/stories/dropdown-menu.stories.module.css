@@ -1,0 +1,25 @@
+.chevron-icon {
+  color: var(--ring-secondary-color);
+}
+
+.nested-menu-item {
+  display: flex;
+
+  width: 100%;
+}
+
+.nested-menu-title {
+  flex-grow: 1;
+}
+
+.nested-menu-button {
+  all: unset;
+
+  display: flex;
+
+  width: 100%;
+}
+
+.nested-menu-button > * {
+  width: 100%;
+}

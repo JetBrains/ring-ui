@@ -5,7 +5,7 @@ import {toPercent} from './progress-bar.utils';
 
 import type {ProgressBarProps} from './progress-bar.interface';
 
-import styles from './progress-bar.css';
+import styles from './progress-bar.module.css';
 
 const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
   (

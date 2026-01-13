@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import Alert from './alert';
 
-import styles from './alert.css';
+import styles from './alert.module.css';
 
 const TIMEOUT = 100;
 const TICK = 500;

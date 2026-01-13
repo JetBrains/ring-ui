@@ -7,7 +7,7 @@ import {subYears} from 'date-fns/subYears';
 import linearFunction, {type LinearFunction} from '../global/linear-function';
 import units, {type MonthsProps, yearScrollSpeed} from './consts';
 
-import styles from './date-picker.css';
+import styles from './date-picker.module.css';
 
 const COVERYEARS = 3;
 

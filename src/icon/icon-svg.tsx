@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import memoize from '../global/memoize';
 
-import styles from './icon.css';
+import styles from './icon.module.css';
 
 function convertReactSVGDOMProperty(str: string) {
   return str.replace(/[-|:]([a-z])/g, g => g[1].toUpperCase());

@@ -5,7 +5,7 @@ import Dropdown, {type DropdownAttrs, type DropdownProps} from '../dropdown/drop
 import Popup from '../popup/popup';
 import UserCard, {type UserCardAttrs, type UserCardUser} from './card';
 
-import styles from './user-card.css';
+import styles from './user-card.module.css';
 
 const DEFAULT_TIMEOUT = 300;
 

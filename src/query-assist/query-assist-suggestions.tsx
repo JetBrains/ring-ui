@@ -1,7 +1,7 @@
 import List from '../list/list';
 import {type ListDataItem} from '../list/consts';
 
-import styles from './query-assist.css';
+import styles from './query-assist.module.css';
 
 const ICON_ID_LENGTH = 44;
 

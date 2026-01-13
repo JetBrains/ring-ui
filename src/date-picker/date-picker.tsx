@@ -25,7 +25,7 @@ import formats from './formats';
 
 import type {Locale} from 'date-fns';
 
-import styles from './date-picker.css';
+import styles from './date-picker.module.css';
 
 interface PopupComponentProps extends Partial<PopupAttrs> {
   hidden?: boolean;

@@ -1,0 +1,10 @@
+.avatar-demo {
+  display: flex;
+  gap: calc(var(--ring-unit) * 2);
+
+  margin-bottom: 16px;
+}
+
+.avatar-demo > * {
+  width: 56px;
+}

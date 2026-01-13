@@ -1,0 +1,65 @@
+
+
+.link,
+.withLinks a {
+  cursor: pointer;
+  transition: color var(--ring-fast-ease);
+
+  color: var(--ring-link-color);
+  border-radius: var(--ring-border-radius);
+
+  outline: none;
+
+  text-decoration-line: none;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+
+  @media (resolution >= 2dppx) {
+    text-decoration-thickness: 0.5px;
+  }
+
+  &:hover,
+  &.hover {
+    text-decoration-line: underline;
+
+    transition: none;
+
+    color: var(--ring-link-hover-color);
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &.pseudo:hover {
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--ring-border-hover-color);
+  }
+}
+
+.link.active {
+  color: inherit;
+}
+
+.inherit:not(:hover) {
+  color: inherit;
+}
+
+.pseudo {
+  margin: 0;
+  padding: 0;
+
+  text-align: left;
+
+  border: 0;
+
+  background: transparent;
+
+  font: inherit;
+
+  &::-moz-focus-inner {
+    padding: 0;
+
+    border: 0;
+  }
+}

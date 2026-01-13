@@ -8,7 +8,7 @@ import {Collapse} from './collapse';
 import {CollapseContent} from './collapse-content';
 import {CollapseControl} from './collapse-control';
 
-import styles from './collapse.css';
+import styles from './collapse.module.css';
 
 const textMock = `This is very long text! This is very long text! This is very long text! This is very
             long text! This is very long text! This is very long text! This is very long text! This

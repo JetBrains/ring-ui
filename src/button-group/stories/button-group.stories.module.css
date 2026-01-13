@@ -1,0 +1,9 @@
+.container > div {
+  margin: 1em 0;
+}
+
+.info {
+  margin-left: calc(var(--ring-unit) / 2);
+
+  color: var(--ring-secondary-color);
+}

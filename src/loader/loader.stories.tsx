@@ -1,4 +1,4 @@
-import {type StoryFn, type StoryObj} from '@storybook/react-webpack5';
+import {type StoryFn, type StoryObj} from '@storybook/react-vite';
 
 import Loader, {type LoaderProps} from './loader';
 

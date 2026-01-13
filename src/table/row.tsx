@@ -16,7 +16,7 @@ import Cell from './cell';
 import {type Column} from './header-cell';
 import {type SelectionItem} from './selection';
 
-import style from './table.css';
+import style from './table.module.css';
 
 interface DragHandleProps {
   alwaysShowDragHandle: boolean;
@@ -31,7 +31,8 @@ const DragHandle = ({alwaysShowDragHandle, dragHandleTitle = 'Drag to reorder'}:
 };
 
 export interface RowProps<T extends SelectionItem>
-  extends Omit<HTMLAttributes<HTMLTableRowElement>, 'onClick' | 'onDoubleClick' | 'onSelect'>,
+  extends
+    Omit<HTMLAttributes<HTMLTableRowElement>, 'onClick' | 'onDoubleClick' | 'onSelect'>,
     FocusSensorAddProps<HTMLTableRowElement> {
   item: T;
   columns: readonly Column<T>[] | ((item: T) => readonly Column<T>[]);

@@ -1,0 +1,18 @@
+
+
+.panel {
+  position: relative;
+
+  margin-top: calc(var(--ring-unit) * 2);
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 4);
+
+  border-top: 1px solid var(--ring-popup-border-color);
+
+  &:empty {
+    display: none;
+  }
+
+  & > button:not(:last-child) {
+    margin-right: var(--ring-unit);
+  }
+}

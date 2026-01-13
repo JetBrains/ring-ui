@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import Icon, {type IconAttrs, Size} from '../icon/icon';
 
-import styles from './header.css';
+import styles from './header.module.css';
 
 export default class Logo extends PureComponent<IconAttrs> {
   static defaultProps = {

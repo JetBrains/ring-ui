@@ -5,7 +5,7 @@ import focusSensorHOC, {type FocusSensorAddProps} from '../global/focus-sensor-h
 import Checkbox from '../checkbox/checkbox';
 import getUID from '../global/get-uid';
 
-import styles from './data-list.css';
+import styles from './data-list.module.css';
 
 export interface TitleProps extends FocusSensorAddProps<HTMLDivElement> {
   onSelect: (selected: boolean) => void;

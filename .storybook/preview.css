@@ -1,4 +1,4 @@
-@import "../src/global/variables.css";
+@import '../src/global/variables.module.css';
 
 body {
   box-sizing: border-box;

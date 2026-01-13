@@ -1,0 +1,98 @@
+
+
+.dataListWrapper {
+  --ring-table-compensate: 2px;
+
+  position: relative;
+}
+
+.dataList {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.itemContent {
+  padding: 0;
+
+  list-style: none;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+
+  box-sizing: content-box;
+  height: calc(4 * var(--ring-unit));
+  padding: 0 calc(var(--ring-unit) * 5) var(--ring-table-compensate) 0;
+
+  outline: none;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  .dataList:not(.disabledHover) &:hover {
+    background-color: var(--ring-hover-background-color);
+  }
+
+  &.titleSelected {
+    background-color: var(--ring-selected-background-color);
+  }
+
+  &.titleFocused {
+    background-color: var(--ring-hover-background-color);
+    box-shadow: inset 2px 0 var(--ring-main-color);
+  }
+}
+
+.showMore {
+  padding: 4px 60px;
+
+  color: var(--ring-secondary-color);
+  outline: none;
+
+  font-size: 12px;
+}
+
+.boxes {
+  display: flex;
+
+  min-width: calc(var(--ring-unit) * 3);
+}
+
+.checkboxBox {
+  width: calc(var(--ring-unit) * 3);
+}
+
+.collapseButton {
+  position: relative;
+  top: 1px;
+  left: -5px;
+
+  height: auto;
+  padding: 0 5px;
+
+  line-height: inherit;
+}
+
+.collapseIcon.collapseIcon {
+  color: var(--ring-secondary-color);
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.showMoreLoader {
+  top: 1px;
+  left: 8px;
+}

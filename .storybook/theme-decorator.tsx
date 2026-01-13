@@ -1,5 +1,5 @@
 import {withThemeByClassName} from '@storybook/addon-themes';
-import {type StoryContext} from '@storybook/react-webpack5';
+import {type StoryContext} from '@storybook/react-vite';
 import {type PartialStoryFn} from 'storybook/internal/csf';
 import React from 'react';
 

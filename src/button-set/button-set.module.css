@@ -1,0 +1,21 @@
+
+
+@value button from '../button/button.module.css';
+
+.buttonSet {
+  position: relative;
+
+  display: inline-block;
+
+  white-space: nowrap;
+
+  font-size: 0;
+
+  & .button {
+    margin: 0 var(--ring-unit) 0 0;
+  }
+
+  & > .button:last-child {
+    margin-right: 0;
+  }
+}

@@ -2,7 +2,7 @@ import {type LabelHTMLAttributes} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
-import styles from './control-label.css';
+import styles from './control-label.module.css';
 
 /**
  * @deprecated Will be removed in Ring UI 9.0. No longer maintained; implement your own solution if needed.

@@ -2,7 +2,7 @@ import {render, screen} from '@testing-library/react';
 
 import Markdown, {type MarkdownProps} from './markdown';
 
-import styles from './markdown.css';
+import styles from './markdown.module.css';
 
 describe('Markdown', () => {
   const renderMarkdown = (props?: Partial<MarkdownProps>) => {

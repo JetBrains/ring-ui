@@ -7,7 +7,7 @@ import {toPx} from './utils';
 import CollapseContext from './collapse-context';
 import {COLLAPSE_CONTENT_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
 
-import styles from './collapse.css';
+import styles from './collapse.module.css';
 
 const DURATION_FACTOR = 0.5;
 const DEFAULT_HEIGHT = 0;

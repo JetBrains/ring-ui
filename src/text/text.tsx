@@ -1,7 +1,7 @@
 import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
-import styles from './text.css';
+import styles from './text.module.css';
 
 const TextSizes = {
   S: 's',

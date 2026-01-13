@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import dataTests from '../global/data-tests';
 import ControlHelp from '../control-help/control-help';
 
-import styles from './toggle.css';
+import styles from './toggle.module.css';
 
 export const Size = {
   Size14: styles.size14,

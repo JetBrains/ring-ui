@@ -1,0 +1,8 @@
+.example-editable-heading:not(:first-child) {
+  margin-top: var(--ring-line-height);
+}
+
+.example-editable-heading-menu-button {
+  margin-left: var(--ring-unit);
+  padding: 0;
+}

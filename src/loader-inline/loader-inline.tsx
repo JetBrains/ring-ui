@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 
-import styles from './loader-inline.css';
+import styles from './loader-inline.module.css';
 
 export interface LoaderInlineProps extends HTMLAttributes<HTMLDivElement> {
   'data-test'?: string | null | undefined;

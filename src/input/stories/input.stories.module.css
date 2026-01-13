@@ -1,0 +1,18 @@
+.inputs {
+  display: flex;
+  flex-flow: column wrap;
+
+  max-height: 100vh;
+  margin-top: 8px;
+
+  background: var(--ring-content-background-color);
+}
+
+.inputs > div {
+  margin: 0 16px 8px;
+}
+
+.dark.dark {
+  margin: 0 -16px;
+  padding: 8px 16px;
+}

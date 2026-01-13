@@ -1,10 +1,10 @@
 import MarkdownIt from 'markdown-it';
 import highlightJs from 'highlight.js';
-import {type Meta, type StoryObj} from '@storybook/react-webpack5';
+import {type Meta, type StoryObj} from '@storybook/react-vite';
 
 import Markdown from './markdown';
 
-import highlightStyles from '../code/highlight.css';
+import highlightStyles from '../code/highlight.module.css';
 
 const meta: Meta<typeof Markdown> = {
   title: 'Components/Markdown',

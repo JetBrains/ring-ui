@@ -3,7 +3,7 @@ import {render, fireEvent} from '@testing-library/react';
 
 import authDialog, {reactRoot} from './auth-dialog-service';
 
-import styles from '../auth-dialog/auth-dialog.css';
+import styles from '../auth-dialog/auth-dialog.module.css';
 
 describe('Auth Dialog Service', () => {
   const getContainer = () => document.querySelector('*[data-test~="ring-auth-dialog"]');

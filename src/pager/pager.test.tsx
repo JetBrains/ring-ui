@@ -3,7 +3,7 @@ import {getByTestId, queryByTestId, render, screen} from '@testing-library/react
 import {I18nContextHolder} from '../i18n/i18n-context';
 import Pager, {type PagerAttrs} from './pager';
 
-import styles from './pager.css';
+import styles from './pager.module.css';
 
 describe('Pager', () => {
   const props = {total: 100, currentPage: 1, onPageChange: () => {}};

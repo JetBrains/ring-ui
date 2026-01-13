@@ -22,7 +22,7 @@ import disableHoverHOC, {type DisableHoverAddProps, type DisableHoverProps} from
 import Row from './row-with-focus-sensor';
 import {type Column, type SortParams} from './header-cell';
 
-import style from './table.css';
+import style from './table.module.css';
 
 export interface ReorderParams<T> {
   data: T[];
@@ -31,9 +31,7 @@ export interface ReorderParams<T> {
 }
 
 export interface TableProps<T extends SelectionItem>
-  extends FocusSensorAddProps<HTMLTableRowElement>,
-    SelectionShortcutsAddProps<T>,
-    DisableHoverAddProps {
+  extends FocusSensorAddProps<HTMLTableRowElement>, SelectionShortcutsAddProps<T>, DisableHoverAddProps {
   data: readonly T[];
   columns: readonly Column<T>[] | ((item: T | null) => readonly Column<T>[]);
   isItemSelectable: (item: T) => boolean;

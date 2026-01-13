@@ -7,7 +7,7 @@ import {setDay} from 'date-fns/setDay';
 import Day from './day';
 import {type MonthsProps, WEEK, weekdays, shiftWeekArray, getWeekStartsOn, FIFTH_DAY} from './consts';
 
-import styles from './date-picker.css';
+import styles from './date-picker.module.css';
 
 export interface MonthProps extends MonthsProps {
   month: Date;

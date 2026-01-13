@@ -1,0 +1,15 @@
+@value icon from '../../button/button.module.css';
+
+.customAlert {
+  color: var(--ring-white-text-color);
+  background: var(--ring-main-color);
+}
+
+.closeButton .icon,
+.closeButton:hover .icon {
+  color: var(--ring-white-text-color);
+}
+
+.closeButton:hover {
+  opacity: 0.8;
+}

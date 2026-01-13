@@ -4,23 +4,14 @@ import Text from '../text/text';
 import Select from '../select/select';
 import Theme, {GLOBAL_DARK_CLASS_NAME, ThemeProvider} from './theme';
 
+import styles from './theme.stories.module.css';
+
 export default {
   title: 'Components/Theme Provider',
 };
 
-const storyStyles = `
-<style>
-  .themed-wrapper {
-    border: solid 1px var(--ring-borders-color);
-    border-radius: var(--ring-border-radius);
-    background-color: var(--ring-content-background-color);
-    margin: var(--ring-unit);
-    padding: var(--ring-unit);
-  }
-</style>`;
-
 const ThemedWrapper: React.FC<{children: React.ReactNode}> = ({children}) => (
-  <div className='themed-wrapper'>{children}</div>
+  <div className={styles.themedWrapper}>{children}</div>
 );
 
 export const basic = () => {
@@ -78,7 +69,6 @@ export const basic = () => {
 };
 
 basic.storyName = 'Theme Provider';
-basic.parameters = {storyStyles};
 
 const selectTestData = [
   {
@@ -119,5 +109,4 @@ export const withPopup = () => {
 withPopup.storyName = 'Theme Provider and Popup';
 withPopup.parameters = {
   screenshots: {skip: true},
-  storyStyles,
 };

@@ -9,7 +9,7 @@ import FallbackAvatar from './fallback-avatar';
 import {Size} from './avatar-size';
 import AvatarInfo from './avatar-info';
 
-import styles from './avatar.css';
+import styles from './avatar.module.css';
 
 export {Size};
 

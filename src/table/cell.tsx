@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 
-import style from './table.css';
+import style from './table.module.css';
 
 export interface CellProps extends TdHTMLAttributes<HTMLTableDataCellElement> {
   'data-test'?: string | null | undefined;

@@ -7,7 +7,7 @@ import {type PopupAttrs} from '../popup/popup';
 import {isArray} from '../global/typescript-utils';
 import Anchor from './anchor';
 
-import styles from './dropdown.css';
+import styles from './dropdown.module.css';
 
 export interface AnchorProps {
   active: boolean;

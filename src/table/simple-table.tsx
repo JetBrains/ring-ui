@@ -4,10 +4,12 @@ import classNames from 'classnames';
 import Table, {type TableAttrs} from './table';
 import Selection, {type SelectionItem} from './selection';
 
-import style from './table.css';
+import style from './table.module.css';
 
-export interface SimpleTableProps<T extends SelectionItem>
-  extends Omit<TableAttrs<T>, 'selection' | 'onSelect' | 'selectable'> {}
+export interface SimpleTableProps<T extends SelectionItem> extends Omit<
+  TableAttrs<T>,
+  'selection' | 'onSelect' | 'selectable'
+> {}
 class SimpleTable<T extends SelectionItem> extends PureComponent<SimpleTableProps<T>> {
   static defaultProps = {
     selectable: false,

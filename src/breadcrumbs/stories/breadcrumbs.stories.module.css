@@ -1,0 +1,5 @@
+.custom-sep {
+  margin: 0 12px;
+
+  color: var(--ring-border-accent-color);
+}

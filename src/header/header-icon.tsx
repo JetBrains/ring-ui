@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Button, {type ButtonAttrs} from '../button/button';
 import {type IconType} from '../icon';
 
-import styles from './header.css';
+import styles from './header.module.css';
 
 export interface HeaderIconSpecificProps {
   icon: string | IconType;

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import {interpolateLinear} from '../global/linear-function';
 import {PhaseContext} from './adaptive-island-hoc';
 
-import styles from './island.css';
+import styles from './island.module.css';
 
 const Start = {
   FONT_SIZE: 24,

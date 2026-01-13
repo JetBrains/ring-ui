@@ -8,7 +8,7 @@ import simulateCombo from '../../test-helpers/simulate-combo';
 import List, {type ListAttrs} from './list';
 import {Type} from './consts';
 
-import styles from './list.css';
+import styles from './list.module.css';
 
 describe('List', () => {
   const renderList = (props: ListAttrs) => render(<List renderOptimization={false} {...props} />);

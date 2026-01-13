@@ -1,5 +1,5 @@
 import {Component} from 'react';
-import {type StoryFn} from '@storybook/react-webpack5';
+import {type StoryFn} from '@storybook/react-vite';
 
 import alert from '../alert-service/alert-service';
 import UserAgreement, {type UserAgreementAttrs} from './user-agreement';

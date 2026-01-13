@@ -1,6 +1,5 @@
 import Combokeys from 'combokeys';
-
-import sniffr from '../global/sniffer';
+import {RecognizedBrowser} from 'sniffr';
 
 export interface ShortcutsScopeOptions {
   modal?: boolean | null | undefined;
@@ -234,7 +233,7 @@ class Shortcuts {
   };
 
   private _getKeyboardEventType(params: ShortcutsParams) {
-    if (!params.type && sniffr.os.name === 'windows') {
+    if (!params.type && RecognizedBrowser.os.name === 'windows') {
       const isSystemShortcut =
         typeof params.key === 'string' &&
         params.key.match(/ctrl/i) &&
