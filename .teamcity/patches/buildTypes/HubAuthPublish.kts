@@ -161,7 +161,6 @@ create(DslContext.projectId, BuildType({
     features {
         sshAgent {
             id = "ssh-agent-build-feature"
-            enabled = false
             teamcitySshKey = "GitHub hub-auth"
         }
         swabra {
