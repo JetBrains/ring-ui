@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
-const {exec, execSync} = require('child_process');
-const path = require('path');
-const browserStackLocal = require('browserstack-local');
+import {exec, execSync} from 'child_process';
+import path from 'path';
+import {fileURLToPath} from 'url';
+import browserStackLocal from 'browserstack-local';
+import 'dotenv/config';
 
-require('dotenv').config();
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const browserstack = new browserStackLocal.Local();
 
@@ -11,7 +13,7 @@ const browserstackPort = 45690;
 // eslint-disable-next-line no-magic-numbers
 const STDOUT_BUFFER_SIZE = 1024 * 1024 * 20; // 20 Mb
 
-module.exports = callback => {
+export default callback => {
   try {
     execSync(`npx port-claim ${browserstackPort}`);
   } catch (e) {
@@ -46,8 +48,8 @@ module.exports = callback => {
         cleanup();
       });
 
-      execSync("npx jest packages/screenshots/get-stories-tree.js '--testMatch=**' --forceExit", {
-        cwd: path.resolve(__dirname, '../..'),
+      execSync('npx vitest run packages/screenshots/get-stories-tree.test.js', {
+        cwd: path.resolve(dirname, '../..'),
         stdio: 'inherit',
       });
       const screenshotsProcess = exec(

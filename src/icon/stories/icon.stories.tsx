@@ -11,13 +11,13 @@ import Icon from '../icon';
 
 import styles from './icon.stories.module.css';
 
-const allIcons = import.meta.glob('../../node_modules/@jetbrains/icons/*.svg', {
+const allIcons = import.meta.glob('../../../node_modules/@jetbrains/icons/*.svg', {
   eager: true,
   query: '?raw',
   import: 'default',
 });
 
-const allLogos = import.meta.glob('../../node_modules/@jetbrains/logos/**/*.svg', {
+const allLogos = import.meta.glob('../../../node_modules/@jetbrains/logos/**/*.svg', {
   eager: true,
   query: '?raw',
   import: 'default',

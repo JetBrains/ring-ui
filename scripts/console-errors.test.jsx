@@ -3,22 +3,22 @@ import {render} from '@testing-library/react';
 
 import {getAllStoryFiles, getStories} from '../test-helpers/get-stories';
 
-jest.mock(
-  '../src/loader/loader-core',
-  () =>
-    class FakeLoader {
-      updateMessage = jest.fn();
-      destroy = jest.fn();
-    },
-);
+vi.mock('../src/loader/loader-core', () => ({
+  default: class FakeLoader {
+    updateMessage = vi.fn();
+    destroy = vi.fn();
+  },
+}));
 
 const options = {
   suite: 'Console errors',
   // storyNameRegex: /^with deprecated item\.type parameter$/,
 };
 
-describe(options.suite, () => {
-  getAllStoryFiles().forEach(({storyFile, title}) => {
+describe(options.suite, async () => {
+  const storyFiles = await getAllStoryFiles();
+
+  storyFiles.forEach(({storyFile, title}) => {
     const meta = storyFile.default;
 
     if ((options.storyKindRegex && !options.storyKindRegex.test(title)) || meta.parameters?.storyshots?.disable) {
@@ -33,7 +33,7 @@ describe(options.suite, () => {
 
       stories.forEach(({name, story}) => {
         test(name, async () => {
-          const consoleError = jest.spyOn(global.console, 'error');
+          const consoleError = vi.spyOn(global.console, 'error');
           const Component = story;
           render(<Component />);
           // eslint-disable-next-line max-nested-callbacks

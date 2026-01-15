@@ -1,6 +1,6 @@
 const TIMEOUT = 1000;
 
-module.exports = {
+export default {
   async capture(browser, {name, selector}) {
     const selectors = Array.isArray(selector) ? selector : [selector];
     await Promise.all(

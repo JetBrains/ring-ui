@@ -7,15 +7,16 @@
   "dependencies": {
     "@jetbrains/ring-ui-built": "../../",
     "core-js": "^3.20.3",
-    "react-scripts": "5.0.0",
-    "dequal": "2.0.3"
+    "dequal": "2.0.3",
+    "react-scripts": "5.0.0"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [">5%"]
+  "browserslist": [
+    ">5%"
+  ]
 }

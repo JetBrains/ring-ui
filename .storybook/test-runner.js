@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   async preVisit(page) {
     if (process.env.DARK) {
       await page.emulateMedia({colorScheme: 'dark'});

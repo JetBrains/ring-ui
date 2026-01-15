@@ -1,1 +1,0 @@
-global.ConicGradient = function ConicGradient() {};
