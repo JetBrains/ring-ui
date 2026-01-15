@@ -64,7 +64,7 @@ export default defineConfig(config => ({
   plugins: [
     react({
       babel: {
-        plugins: [['babel-plugin-react-compiler', {target: '17'}]],
+        plugins: [['babel-plugin-react-compiler', {target: '18'}]],
       },
     }),
     dts({

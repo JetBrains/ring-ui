@@ -1,6 +1,6 @@
-const {exec} = require('child_process');
+import {exec} from 'child_process';
 
-const screenshots = require('./screenshots');
+import screenshots from './screenshots.js';
 
 const server = exec('npm run serve');
 server.stderr.on('data', error => {

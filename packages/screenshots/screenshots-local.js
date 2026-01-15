@@ -1,2 +1,3 @@
+import screenshots from './screenshots.js';
 // eslint-disable-next-line no-console
-require('./screenshots')(() => console.log('Screenshot tests are done'));
+screenshots(() => console.log('Screenshot tests are done'));

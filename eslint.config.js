@@ -114,7 +114,6 @@ export default defineConfig([
         'error',
         {
           devDependencies: [
-            '*webpack.config.js',
             '**/*.figma.js',
             '**/*.test.{js,ts,tsx}',
             '**/*.stories.{js,ts,tsx}',
@@ -124,7 +123,6 @@ export default defineConfig([
             'packages/screenshots/**',
             'report-metadata.js',
             'scripts/**',
-            'test-runner-jest.config.js',
             'test-helpers/**',
             'vite.config.ts',
             'vitest.config.ts',
