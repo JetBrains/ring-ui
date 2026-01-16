@@ -10,6 +10,12 @@ vi.mock('../src/loader/loader-core', () => ({
   },
 }));
 
+beforeAll(() => {
+  HTMLDialogElement.prototype.show = vi.fn();
+  HTMLDialogElement.prototype.showModal = vi.fn();
+  HTMLDialogElement.prototype.close = vi.fn();
+});
+
 const options = {
   suite: 'Console errors',
   // storyNameRegex: /^with deprecated item\.type parameter$/,
