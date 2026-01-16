@@ -39,7 +39,10 @@
 
   position: relative;
 
-  display: inline-block;
+  /* Use inline-flex (not inline-block) to avoid Safari tab title alignment/layout bugs */
+
+  display: inline-flex;
+  align-items: center;
 
   padding: 0;
 
