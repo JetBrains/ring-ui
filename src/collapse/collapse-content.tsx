@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef, useContext, type PropsWithChildren} 
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
-import {getRect} from '../global/dom';
 import {toPx} from './utils';
 import CollapseContext from './collapse-context';
 import {COLLAPSE_CONTENT_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
@@ -60,13 +59,19 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   }
 
   useEffect(() => {
-    if (contentRef.current) {
-      const observer = new ResizeObserver(() => {
-        setContentHeight(getRect(contentRef.current).height);
-      });
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry.target.isConnected) {
+        setContentHeight(entry.contentRect.height);
+      }
+    });
 
+    if (contentRef.current) {
       observer.observe(contentRef.current);
     }
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   const calculatedDuration = duration + contentHeight * DURATION_FACTOR;
