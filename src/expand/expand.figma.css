@@ -1,0 +1,68 @@
+@import "../global/variables.css";
+
+.variants {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.row {
+  position: relative;
+
+  width: 1344px;
+  height: 100px;
+
+  border-bottom: 1px solid var(--ring-line-color);
+}
+
+.rowExpanded {
+  height: 228px;
+}
+
+.label {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+
+  width: 120px;
+
+  transform: translateY(-50%);
+
+  color: var(--ring-text-color);
+
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.labelExpanded {
+  top: 36px;
+}
+
+.card {
+  position: absolute;
+  top: 24px;
+  left: 399px;
+
+  width: 678px;
+}
+
+.cardCompact {
+  height: 52px;
+}
+
+.cardExpanded {
+  height: 180px;
+}
+
+.cardHover {
+  box-shadow:
+    0 2px 8px 0 rgba(0, 28, 54, 0.10),
+    0 1px 2px 0 rgba(0, 28, 54, 0.04);
+}
+
+.cardFocus {
+  box-shadow:
+    0 0 0 2px var(--ring-border-hover-color),
+    0 2px 8px 0 rgba(0, 28, 54, 0.10),
+    0 1px 2px 0 rgba(0, 28, 54, 0.04);
+}
