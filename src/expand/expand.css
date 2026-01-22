@@ -1,0 +1,134 @@
+@import '../global/variables.css';
+
+.expand {
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+  padding: 12px;
+
+  border: 1px solid var(--ring-line-color);
+  border-radius: 8px;
+  outline: none;
+  background: var(--ring-content-background-color);
+}
+
+.interactive {
+  cursor: pointer;
+}
+
+.hovered {
+  box-shadow:
+    0 2px 8px 0 rgba(0, 28, 54, 0.1),
+    0 1px 2px 0 rgba(0, 28, 54, 0.04);
+}
+
+.expanded {
+  box-shadow:
+    0 2px 8px 0 rgba(0, 28, 54, 0.1),
+    0 1px 2px 0 rgba(0, 28, 54, 0.04);
+}
+
+.focused {
+  box-shadow:
+    0 0 0 2px var(--ring-border-hover-color),
+    0 2px 8px 0 rgba(0, 28, 54, 0.1),
+    0 1px 2px 0 rgba(0, 28, 54, 0.04);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  height: 28px;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+.avatarGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+.title {
+  color: var(--ring-text-color);
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.subtitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  min-width: 0;
+}
+
+.subtitle {
+  color: var(--ring-secondary-color);
+
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.subtitleChevron {
+  color: var(--ring-secondary-color);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+
+  flex-shrink: 0;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 4px;
+  background: var(--ring-secondary-background-color);
+}
+
+.toggleIcon {
+  color: var(--ring-secondary-color);
+}
+
+.bodyContainer {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 0 4px;
+  will-change: height, opacity;
+}
+
+.bodyTransition {
+  transition:
+    height var(--duration) ease-in-out 0s,
+    opacity var(--duration) ease-in-out 0s;
+}
+
+.body {
+  padding: 12px 4px 0;
+
+  white-space: pre-wrap;
+
+  color: var(--ring-text-color);
+
+  font-size: 14px;
+  line-height: 20px;
+}
