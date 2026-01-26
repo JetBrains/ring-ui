@@ -1,12 +1,10 @@
 import {useRef, useState} from 'react';
-import classNames from 'classnames';
 import buildTypeIcon from '@jetbrains/icons/buildType-12px';
 
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Button from '../button/button';
 import Icon from '../icon/icon';
 import Input from '../input/input';
-
 import Expand from './expand';
 
 import styles from './expand.stories.css';
@@ -21,7 +19,7 @@ const bodyText =
 export const ExpandPreview = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(true);
-  const rowClassName = classNames(styles.row, isExpanded ? styles.rowExpanded : undefined);
+  const rowClassName = styles.row;
   const [stepName, setStepName] = useState('Build artifacts');
   const [stepDescription, setStepDescription] = useState(
     'Builds the application and produces the deployment artifacts.',
@@ -31,7 +29,7 @@ export const ExpandPreview = () => {
     <div className={rowClassName}>
       <Expand
         ref={ref}
-        className={classNames(styles.card, isExpanded ? styles.cardExpanded : styles.cardCompact)}
+        className={styles.card}
         title={'Deployments'}
         subtitle={'Additional context'}
         avatar={<Avatar size={AvatarSize.Size28} round info={<Icon glyph={buildTypeIcon} />} />}
@@ -42,17 +40,17 @@ export const ExpandPreview = () => {
         <div className={styles.bodyText}>{bodyText}</div>
         <form className={styles.form} onSubmit={event => event.preventDefault()}>
           <Input
-            label="Step name"
+            label='Step name'
             value={stepName}
             onChange={event => setStepName(event.currentTarget.value)}
-            placeholder="Add a step name"
+            placeholder='Add a step name'
           />
           <Input
             multiline
-            label="Description"
+            label='Description'
             value={stepDescription}
             onChange={event => setStepDescription(event.currentTarget.value)}
-            placeholder="Describe what this step does"
+            placeholder='Describe what this step does'
           />
           <div className={styles.formActions}>
             <Button primary>Save step</Button>

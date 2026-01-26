@@ -28,9 +28,7 @@ const useExpandAnimation = (collapsed: boolean) => {
     }
 
     const onTransitionEnd = () => {
-      if (DEFAULT_HEIGHT <= 0) {
-        setShouldHideContent(collapsed);
-      }
+      setShouldHideContent(collapsed);
     };
 
     container.addEventListener('transitionend', onTransitionEnd);
