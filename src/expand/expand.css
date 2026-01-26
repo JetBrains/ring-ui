@@ -125,8 +125,6 @@
 .body {
   padding: 12px 4px 0;
 
-  white-space: pre-wrap;
-
   color: var(--ring-text-color);
 
   font-size: 14px;
