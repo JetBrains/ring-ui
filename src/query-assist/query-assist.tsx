@@ -12,7 +12,7 @@ import dataTests from '../global/data-tests';
 import {getRect, preventDefault} from '../global/dom';
 import Caret, {type Position} from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
-import PopupMenu from '../popup-menu/popup-menu';
+import PopupMenu, {type PopupMenuAttrs} from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
@@ -168,6 +168,7 @@ export interface QueryAssistProps {
   'data-test'?: string | null | undefined;
   huge?: boolean | null | undefined;
   size: Size;
+  menuProps?: PopupMenuAttrs | null | undefined;
 }
 
 export interface StyleRange {
@@ -1123,7 +1124,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 keepMounted
                 attached
                 className={this.props.popupClassName}
-                directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
+                directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT, PopupMenu.PopupProps.Directions.BOTTOM_LEFT]}
                 data={useCustomItemRender ? this.state.suggestions : this.renderSuggestions()}
                 data-test='ring-query-assist-popup'
                 hint={this.props.hint}
@@ -1134,6 +1135,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 onMouseDown={this.trackPopupMouseState}
                 onMouseUp={this.trackPopupMouseState}
                 onSelect={item => this.handleComplete(item)}
+                {...this.props.menuProps}
               />
 
               {glass && huge && (

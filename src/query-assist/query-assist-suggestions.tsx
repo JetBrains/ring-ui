@@ -20,7 +20,7 @@ export interface QueryAssistSuggestion {
   completionEnd?: number;
 }
 
-export interface SuggestionItem {
+export interface SuggestionItem extends ListDataItem {
   data?: QueryAssistSuggestion;
 }
 
