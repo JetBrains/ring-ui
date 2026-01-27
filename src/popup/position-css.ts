@@ -1,6 +1,6 @@
 import {getRect} from '../global/dom';
-import {calculateMinWidth} from './position';
-import {Directions} from './popup.consts';
+import {calculateMinWidth, MaxHeight} from './position';
+import {Directions, Dimension} from './popup.consts';
 
 export const supportsCSSAnchorPositioning = (): boolean => CSS?.supports?.('anchor-name', 'none');
 
@@ -54,6 +54,7 @@ interface SetCSSAnchorPositioningParams {
   left?: number;
   directions: readonly Directions[];
   offset?: number;
+  maxHeight?: number | 'screen' | null;
 }
 
 export const setCSSAnchorPositioning = ({
@@ -65,6 +66,7 @@ export const setCSSAnchorPositioning = ({
   left,
   directions,
   offset,
+  maxHeight,
 }: SetCSSAnchorPositioningParams) => {
   const anchorName = anchor.style.getPropertyValue('anchor-name') || `--anchor-${uid}`;
   if (!anchor.style.getPropertyValue('anchor-name')) {
@@ -82,6 +84,16 @@ export const setCSSAnchorPositioning = ({
   }
   if (left) {
     popup.style.left = `${left}px`;
+  }
+
+  const SHOULD_AUTO_SHRINK = directions.length <= 1;
+  if (!SHOULD_AUTO_SHRINK) {
+    const screenWithMargin = `calc(100vh - ${Dimension.MARGIN * 2}px)`;
+    if (maxHeight === 'screen' || maxHeight === MaxHeight.SCREEN) {
+      popup.style.maxHeight = screenWithMargin;
+    } else if (typeof maxHeight === 'number' && maxHeight > 0) {
+      popup.style.maxHeight = `min(${screenWithMargin}, ${maxHeight}px)`;
+    }
   }
 
   const [initialPositionStyle, initialPositionName] = getPositionArea(directions[0]);
