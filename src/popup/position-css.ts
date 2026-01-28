@@ -86,6 +86,7 @@ export const setCSSAnchorPositioning = ({
     popup.style.left = `${left}px`;
   }
 
+  // When there is just 1 direction, the `max-height: 100%` from CSS should stay applied so popup doesn't overflow the anchor RG-2754
   const SHOULD_AUTO_SHRINK = directions.length <= 1;
   if (!SHOULD_AUTO_SHRINK) {
     const screenWithMargin = `calc(100vh - ${Dimension.MARGIN * 2}px)`;
@@ -94,6 +95,8 @@ export const setCSSAnchorPositioning = ({
     } else if (typeof maxHeight === 'number' && maxHeight > 0) {
       popup.style.maxHeight = `min(${screenWithMargin}, ${maxHeight}px)`;
     }
+  } else {
+    popup.style.maxHeight = '';
   }
 
   const [initialPositionStyle, initialPositionName] = getPositionArea(directions[0]);
