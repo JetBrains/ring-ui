@@ -5,7 +5,8 @@ import debounce from 'just-debounce-it';
 import classNames from 'classnames';
 import {dequal} from 'dequal';
 import searchIcon from '@jetbrains/icons/search';
-import closeIcon from '@jetbrains/icons/close-12px';
+import closeIcon from '@jetbrains/icons/close';
+import close12pxIcon from '@jetbrains/icons/close-12px';
 
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
@@ -998,7 +999,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         <I18nContext.Consumer key={'clearAction'}>
           {({translate}) => (
             <Button
-              icon={closeIcon}
+              icon={this.props.huge ? closeIcon : close12pxIcon}
               className={classNames(styles.clear, this.props.clearIconClassName)}
               title={this.props.translations?.clearTitle ?? translate('clearTitle')}
               ref={this.clearRef}
