@@ -254,6 +254,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
           left: this.props.left,
           directions: this.props.directions,
           offset: this.props.offset,
+          maxHeight: this.props.maxHeight,
         });
 
         const {direction} = this.position();

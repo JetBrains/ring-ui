@@ -29,6 +29,8 @@
   top: unset;
   left: unset;
 
+  max-height: 100%;
+
   margin: 0;
 }
 
