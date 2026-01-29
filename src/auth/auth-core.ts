@@ -174,6 +174,7 @@ class Auth implements HTTPAuth {
   static DEFAULT_CONFIG = DEFAULT_CONFIG;
   static API_PATH = 'api/rest/';
   static API_AUTH_PATH = 'oauth2/auth';
+  static API_LOGOUT_PATH = 'oauth2/logout';
   static API_PROFILE_PATH = 'users/me';
   static CLOSE_BACKEND_DOWN_MESSAGE = 'backend-check-succeeded';
   static CLOSE_WINDOW_MESSAGE = 'close-login-window';
@@ -197,6 +198,7 @@ class Auth implements HTTPAuth {
   user: AuthUser | null = null;
   _initDeferred?: Deferred<string | void>;
   private _isLoginWindowOpen?: boolean;
+  private _hubVersion: string | null = null;
 
   constructor(config: Partial<AuthConfig> & Pick<AuthConfig, 'serverUri'>) {
     if (!config) {
@@ -249,6 +251,7 @@ class Auth implements HTTPAuth {
     this._requestBuilder = new AuthRequestBuilder(
       {
         authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
+        logout: this.config.serverUri + Auth.API_PATH + Auth.API_LOGOUT_PATH,
         clientId,
         redirect,
         redirectUri,
@@ -863,24 +866,61 @@ class Auth implements HTTPAuth {
     });
   }
 
+  // The /oauth2/logout endpoint is available starting from Hub 2026.1
+  static MIN_LOGOUT_ENDPOINT_VERSION = [2026, 1] as const;
+
   /**
-   * Wipe accessToken and redirect to auth page with required authorization
+   * Wipe accessToken and redirect to logout endpoint.
+   * Uses RP-initiated logout flow (oauth2/logout) for Hub 2026.1+,
+   * falls back to oauth2/auth redirect for older versions.
+   * See: https://youtrack.jetbrains.com/projects/HUB/articles/HUB-A-43#rp-initiated-logout
    */
   async logout(extraParams?: Record<string, unknown>) {
-    const requestParams = {
-      request_credentials: 'required',
-      ...extraParams,
-    };
-
     await this._checkBackendsStatusesIfEnabled();
     await this.listeners.trigger('logout');
     this._updateDomainUser(null);
     await this._storage?.wipeToken();
 
-    const authRequest = await this._requestBuilder?.prepareAuthRequest(requestParams);
-    if (authRequest) {
-      this._redirectCurrentPage(authRequest.url);
+    const hubVersion = await this._fetchHubVersion();
+    const useLogoutEndpoint = hubVersion != null && Auth._isLogoutEndpointSupported(hubVersion);
+
+    const request = useLogoutEndpoint
+      ? this._requestBuilder?.prepareLogoutRequest(extraParams)
+      : await this._requestBuilder?.prepareAuthRequest({
+          request_credentials: 'required',
+          ...extraParams,
+        });
+
+    if (request) {
+      this._redirectCurrentPage(request.url);
     }
+  }
+
+  static _isLogoutEndpointSupported(version: string): boolean {
+    const parts = version.split('.');
+    const major = parseInt(parts[0], 10);
+    const minor = parseInt(parts[1], 10);
+    if (isNaN(major) || isNaN(minor)) {
+      return false;
+    }
+    const [minMajor, minMinor] = Auth.MIN_LOGOUT_ENDPOINT_VERSION;
+    return major > minMajor || (major === minMajor && minor >= minMinor);
+  }
+
+  private async _fetchHubVersion(): Promise<string | null> {
+    if (this._hubVersion) {
+      return this._hubVersion;
+    }
+    try {
+      const response = await this.http.get<{services: {version?: string}[]}>(
+        'services?fields=version&query=is:hostService',
+      );
+      this._hubVersion = response.services?.[0]?.version ?? null;
+    } catch {
+      // eslint-disable-next-line no-console
+      console.warn('RingUI Auth: failed to perform logout: cannot fetch Hub version');
+    }
+    return this._hubVersion;
   }
 
   private async _runEmbeddedLogin() {
