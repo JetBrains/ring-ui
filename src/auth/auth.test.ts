@@ -788,30 +788,25 @@ describe('Auth', () => {
     it('should clear access token and redirect to logout', async () => {
       await auth.logout();
       expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
-        'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+        'api/rest/oauth2/logout?' +
+          'post_logout_redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+          'client_id=1-1-1-1-1&' +
+          'state=unique',
       );
 
       const storedToken = await auth._storage?.getToken();
       expect(storedToken).to.not.exist;
-
-      const state = await auth._storage?.getState('unique');
-      expect(state).to.exist;
-      expect(state).to.contain.all.keys({
-        restoreLocation: window.location.href,
-        scopes: ['0-0-0-0-0', 'youtrack'],
-      });
     });
 
-    it('should pass error message to server', async () => {
+    it('should pass extra parameters to logout endpoint', async () => {
       await auth.logout({
         message: 'access denied',
       });
       expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
-        'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
+        'api/rest/oauth2/logout?' +
+          'post_logout_redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+          'client_id=1-1-1-1-1&' +
+          'state=unique&' +
           'message=access%20denied',
       );
     });

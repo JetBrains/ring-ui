@@ -61,5 +61,61 @@ describe('Auth', () => {
         });
       });
     });
+
+    describe('prepareLogoutRequest', () => {
+      const config = {
+        authorization: 'https://sso.jetbrains.com/auth',
+        logout: 'https://sso.jetbrains.com/logout',
+        redirectUri: 'http://localhost:8080',
+        clientId: '0-0-0-0-0',
+        scopes: ['youtrack', 'teamcity'],
+      };
+
+      beforeEach(() => {
+        vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
+      });
+
+      it('should return correct logout URL', () => {
+        const builder = new AuthRequestBuilder(config);
+        const expected =
+          'https://sso.jetbrains.com/logout?' +
+          'post_logout_redirect_uri=http%3A%2F%2Flocalhost%3A8080&' +
+          'client_id=0-0-0-0-0&' +
+          'state=unique';
+
+        const result = builder.prepareLogoutRequest();
+        expect(result).to.deep.equal({
+          url: expected,
+          state: 'unique',
+        });
+      });
+
+      it('should return correct logout URL with extra parameters', () => {
+        const builder = new AuthRequestBuilder(config);
+        const expected =
+          'https://sso.jetbrains.com/logout?' +
+          'post_logout_redirect_uri=http%3A%2F%2Flocalhost%3A8080&' +
+          'client_id=0-0-0-0-0&' +
+          'state=unique&' +
+          'message=access%20denied';
+
+        const result = builder.prepareLogoutRequest({message: 'access denied'});
+        expect(result).to.deep.equal({
+          url: expected,
+          state: 'unique',
+        });
+      });
+
+      it('should throw error when logout URL is not configured', () => {
+        const configWithoutLogout = {
+          authorization: 'https://sso.jetbrains.com/auth',
+          redirectUri: 'http://localhost:8080',
+          clientId: '0-0-0-0-0',
+          scopes: ['youtrack'],
+        };
+        const builder = new AuthRequestBuilder(configWithoutLogout);
+        expect(() => builder.prepareLogoutRequest()).to.throw('Logout URL is not configured');
+      });
+    });
   });
 });
