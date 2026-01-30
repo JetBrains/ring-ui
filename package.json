@@ -91,7 +91,7 @@
   "devDependencies": {
     "@babel/cli": "^7.28.3",
     "@babel/eslint-parser": "^7.28.6",
-    "@csstools/css-parser-algorithms": "^3.0.4",
+    "@csstools/css-parser-algorithms": "^4.0.0",
     "@csstools/stylelint-no-at-nest-rule": "^5.0.0",
     "@eslint/compat": "^2.0.1",
     "@eslint/eslintrc": "^3.3.3",
