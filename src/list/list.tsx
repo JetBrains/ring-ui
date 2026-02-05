@@ -436,7 +436,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   }
 
   getSelected() {
-    return this.state.activeIndex ? this.props.data[this.state.activeIndex] : null;
+    return this.state.activeIndex !== null ? this.props.data[this.state.activeIndex] : null;
   }
 
   defaultItemHeight() {
