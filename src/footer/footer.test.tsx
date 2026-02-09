@@ -1,5 +1,3 @@
-
-
 import {getAllByRole, render, screen} from '@testing-library/react';
 
 import Footer, {type FooterProps} from './footer';

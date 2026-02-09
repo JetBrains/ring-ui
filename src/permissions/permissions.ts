@@ -90,8 +90,7 @@ export default class Permissions {
       if (storedName.indexOf(prefix) !== 0) {
         return storedName;
       }
-        return storedName.substr(prefix.length);
-
+      return storedName.substr(prefix.length);
     };
   }
 

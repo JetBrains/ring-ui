@@ -24,7 +24,7 @@ export function getAllStoryFiles() {
 }
 
 const getStoryName = originalStory =>
-  (typeof originalStory === 'function' ? storyNameFromExport(originalStory.name) : originalStory.name);
+  typeof originalStory === 'function' ? storyNameFromExport(originalStory.name) : originalStory.name;
 
 export const getStories = storyFile =>
   Object.entries(composeStories(storyFile)).map(([name, story]) => {

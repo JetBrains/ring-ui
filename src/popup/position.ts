@@ -1,10 +1,4 @@
-import {
-  getDocumentScrollLeft,
-  getDocumentScrollTop,
-  getRect,
-  isMounted,
-  type Rect,
-} from '../global/dom';
+import {getDocumentScrollLeft, getDocumentScrollTop, getRect, isMounted, type Rect} from '../global/dom';
 import {Dimension, Directions, MaxHeight, MinWidth} from './popup.consts';
 
 export {Dimension, Directions, MaxHeight, MinWidth};

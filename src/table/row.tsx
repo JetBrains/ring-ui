@@ -212,11 +212,7 @@ export default class Row<T extends object> extends PureComponent<RowProps<T>> {
       const getValue = column.getValue || (() => item[column.id as keyof T] as ReactNode);
       const getDataTest = column.getDataTest || (() => column.id);
       const value = getValue(item, column);
-      const cellClasses = classNames(
-        {[style.cellRight]: column.rightAlign},
-        column.className,
-        cellClassName,
-      );
+      const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className, cellClassName);
       const showMetaColumn = draggable || selectable || collapsible || showDisabledSelection || !!level;
 
       return (

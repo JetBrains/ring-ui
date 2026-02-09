@@ -5,8 +5,7 @@ import List, {type ListProps as ListPropsType} from '../list/list';
 import {type ListDataItem} from '../list/consts';
 
 export interface PopupMenuProps<T = unknown>
-  extends Omit<ListPropsType<T>, 'maxHeight' | 'hidden'>,
-    Omit<BasePopupProps, 'onMouseOut'> {
+  extends Omit<ListPropsType<T>, 'maxHeight' | 'hidden'>, Omit<BasePopupProps, 'onMouseOut'> {
   closeOnSelect: boolean;
 }
 

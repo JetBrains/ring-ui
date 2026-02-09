@@ -13,7 +13,6 @@ import type Selection from './selection';
 
 import styles from './data-list.css';
 
-
 export enum moreLessButtonStates {
   UNUSED,
   MORE,

@@ -10,7 +10,6 @@ import type {ButtonAttrs} from '../button/button';
 
 import styles from './button-group.css';
 
-
 export interface ButtonGroupProps extends HTMLAttributes<HTMLElement> {
   split?: boolean | null | undefined;
   'data-test'?: string | null | undefined;

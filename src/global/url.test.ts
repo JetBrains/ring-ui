@@ -69,7 +69,6 @@ describe('Url', () => {
         token_type: 'example',
         expires_in: '3600',
       });
-
     });
 
     it('should accept empty string', () => {

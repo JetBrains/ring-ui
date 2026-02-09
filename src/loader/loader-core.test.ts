@@ -1,5 +1,3 @@
-
-
 import LoaderCore, {type LoaderCoreProps} from './loader-core';
 
 describe('Loader', () => {

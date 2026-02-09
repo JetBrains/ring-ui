@@ -112,11 +112,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     );
 
     const labelElement = (
-      <span
-        className={classNames(styles.label, labelClassName)}
-        title={computedTitle}
-        data-test='ring-list-item-label'
-      >
+      <span className={classNames(styles.label, labelClassName)} title={computedTitle} data-test='ring-list-item-label'>
         {label ?? children}
       </span>
     );

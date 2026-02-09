@@ -198,20 +198,20 @@ export const withCustomChildren = () => (
       <PopupMenu
         {...props}
         data={[
-            {
-              rgItemType: List.ListProps.Type.CUSTOM,
-              template: (
-                <DropdownMenu
-                  data={[{label: 'Sub-item 1'}, {label: 'Sub-item 2'}]}
-                  anchor={'Submenu'}
-                  onSelect={() => props.onCloseAttempt?.()}
-                />
-              ),
-            },
-          ]}
+          {
+            rgItemType: List.ListProps.Type.CUSTOM,
+            template: (
+              <DropdownMenu
+                data={[{label: 'Sub-item 1'}, {label: 'Sub-item 2'}]}
+                anchor={'Submenu'}
+                onSelect={() => props.onCloseAttempt?.()}
+              />
+            ),
+          },
+        ]}
       />
-      )}
+    )}
   </DropdownMenu>
-  );
+);
 
 withCustomChildren.storyName = 'DropdownMenu with custom children';

@@ -10,7 +10,6 @@ import type {Locale} from 'date-fns';
 
 import styles from './date-picker.css';
 
-
 interface WeekdaysProps {
   locale: Locale | undefined;
 }

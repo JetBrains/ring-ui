@@ -18,11 +18,13 @@ vi.mock('../popup/popup', () => {
     };
   };
 
-  const MockPopup = vi.fn().mockImplementation(({children, className, hidden, ...props}) => (hidden ? null : (
-    <div data-testid='mock-popup' className={className} {...props}>
-      {children}
-    </div>
-    ))) as MockPopupType;
+  const MockPopup = vi.fn().mockImplementation(({children, className, hidden, ...props}) =>
+    hidden ? null : (
+      <div data-testid='mock-popup' className={className} {...props}>
+        {children}
+      </div>
+    ),
+  ) as MockPopupType;
 
   // Add isVisible method to the mock
   MockPopup.isVisible = vi.fn().mockReturnValue(true);

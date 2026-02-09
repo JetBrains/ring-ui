@@ -1,7 +1,6 @@
 import {PureComponent} from 'react';
 import * as client from 'react-dom/client';
 
-
 import Auth from '../../src/auth/auth';
 import IFrameFlow from '../../src/auth/iframe-flow';
 import Header, {Tray, HeaderIcon, Logo, SmartProfile, Services} from '../../src/header/header';

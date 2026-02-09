@@ -1,7 +1,6 @@
 import {Component} from 'react';
 import classNames from 'classnames';
 
-
 import Icon from '../icon/icon';
 import Link, {linkHOC} from './link';
 import {type ClickableLinkProps} from './clickable-link';

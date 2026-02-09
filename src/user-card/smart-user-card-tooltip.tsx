@@ -32,13 +32,13 @@ export default class SmartUserCardTooltip extends Component<SmartUserCardTooltip
   };
 
   renderNoUser = () =>
-    (this.state.loading ? (
+    this.state.loading ? (
       <div className={styles.userCardSpaced}>
         <LoaderInline />
       </div>
     ) : (
       ''
-    ));
+    );
 
   render() {
     const {user} = this.state;

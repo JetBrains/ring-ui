@@ -97,7 +97,7 @@ nested.storyName = 'nested';
 export const complexMarkup = () => (
   <div>
     <Tooltip
-      title={(
+      title={
         <>
           Explanation <Link href='https://google.com'>with</Link>
           <div>
@@ -105,7 +105,7 @@ export const complexMarkup = () => (
           </div>{' '}
           markup
         </>
-      )}
+      }
     >
       <Button id='button-with-tooltip'>Button that requires a complex explanation</Button>
     </Tooltip>
@@ -119,12 +119,12 @@ complexMarkup.parameters = {
 export const shortcut = () => (
   <div style={{paddingBottom: '100px'}}>
     <Tooltip
-      title={(
+      title={
         <>
           Action name
           <span className='shortcut'>⌘C</span>
         </>
-      )}
+      }
     >
       <Button>Button that requires an explanation</Button>
     </Tooltip>

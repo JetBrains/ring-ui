@@ -8,7 +8,7 @@ import globals from 'globals';
 import babelParser from '@babel/eslint-parser';
 import importPlugin from 'eslint-plugin-import';
 import storybook from 'eslint-plugin-storybook';
-import prettierConfig from 'eslint-config-prettier/flat';
+import prettierConfig from 'eslint-plugin-prettier/recommended';
 import unicorn from 'eslint-plugin-unicorn';
 import {FlatCompat} from '@eslint/eslintrc';
 import eslint from '@eslint/js';
@@ -61,8 +61,8 @@ export default defineConfig([
 
   eslint.configs.recommended,
   importPlugin.flatConfigs.recommended,
-  prettierConfig,
   ...jetbrainsConfigRules,
+  prettierConfig,
   reactHooks.configs.flat['recommended-latest'],
 
   // Base configuration for all files

@@ -40,8 +40,9 @@ export interface FetchParams<T = unknown> extends Omit<RequestInit, 'body' | 'he
   headers?: HeadersInit | Record<string, null | undefined>;
 }
 
-export interface RequestParams<RawBody extends boolean = true | false>
-  extends FetchParams<RawBody extends true ? BodyInit | null : unknown> {
+export interface RequestParams<RawBody extends boolean = true | false> extends FetchParams<
+  RawBody extends true ? BodyInit | null : unknown
+> {
   sendRawBody?: RawBody;
 }
 

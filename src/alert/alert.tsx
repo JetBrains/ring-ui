@@ -184,7 +184,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
 
     if (glyph) {
       return <Icon glyph={glyph} className={styles.icon} color={TypeToIconColor[this.props.type] || Color.DEFAULT} />;
-    } if (this.props.type === AlertType.LOADING) {
+    }
+    if (this.props.type === AlertType.LOADING) {
       return <Loader className={styles.loader} />;
     }
 

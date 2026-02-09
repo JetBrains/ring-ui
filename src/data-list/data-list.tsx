@@ -21,7 +21,6 @@ import type Selection from './selection';
 
 import styles from './data-list.css';
 
-
 export interface DataListBaseProps<T extends SelectionItem> {
   data: readonly T[];
   itemFormatter: (item: T) => FormattedItem<T>;

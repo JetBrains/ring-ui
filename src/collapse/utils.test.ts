@@ -1,4 +1,3 @@
-
 import {toPx} from './utils';
 
 describe('toPx', () => {

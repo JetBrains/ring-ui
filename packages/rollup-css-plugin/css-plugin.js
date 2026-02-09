@@ -18,9 +18,8 @@ function removeDuplicatePaths(paths) {
     if (seenPaths.has(p)) {
       return false;
     }
-      seenPaths.add(p);
-      return true;
-
+    seenPaths.add(p);
+    return true;
   });
 }
 

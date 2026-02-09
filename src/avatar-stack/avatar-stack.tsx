@@ -56,11 +56,11 @@ export default function AvatarStack({
             '--ring-avatar-stack-index': Children.count(children),
             fontSize: fontSizes[size],
           }}
-          anchor={(
+          anchor={
             <button type='button' className={styles.extraButton}>
               <Avatar size={size} info={<span className={styles.extraText}>{`+${extraItems.length}`}</span>} />
             </button>
-          )}
+          }
           data={extraItems}
           menuProps={{offset: 4, ...dropdownMenuProps?.menuProps}}
           {...dropdownMenuProps}

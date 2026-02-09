@@ -14,4 +14,4 @@ export function getGlobalControlsHeight() {
   return getConfiguration().controlsHeight ?? ControlsHeight.M;
 }
 
-export const ControlsHeightContext = createContext<ControlsHeight |(() => ControlsHeight)>(getGlobalControlsHeight);
+export const ControlsHeightContext = createContext<ControlsHeight | (() => ControlsHeight)>(getGlobalControlsHeight);

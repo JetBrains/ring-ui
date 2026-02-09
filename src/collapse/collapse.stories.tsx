@@ -84,11 +84,11 @@ export const WithIcon = () => (
     <Collapse>
       <CollapseControl>
         {(collapsed: boolean) =>
-          (collapsed ? (
+          collapsed ? (
             <Button aria-label='Expand' icon={ChevronDownIcon} className={styles.check} />
           ) : (
             <Button aria-label='Collapse' icon={ChevronUpIcon} className={styles.check} />
-          ))
+          )
         }
       </CollapseControl>
       <CollapseContent>{text}</CollapseContent>

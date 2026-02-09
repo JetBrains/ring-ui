@@ -15,7 +15,6 @@ import type {Locale} from 'date-fns';
 
 import styles from './date-picker.css';
 
-
 interface MonthNameProps {
   month: Date;
   onScrollChange: (to: number) => void;

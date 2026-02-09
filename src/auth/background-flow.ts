@@ -50,9 +50,10 @@ export default class BackgroundFlow {
    * promise is rejected if no token was received after {@link BackgroundToken.BACKGROUND_TIMEOUT} ms.
    */
   private async _load() {
-    const authRequest = await this._requestBuilder
-
-      .prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
+    const authRequest = await this._requestBuilder.prepareAuthRequest(
+      {request_credentials: 'silent'},
+      {nonRedirect: true},
+    );
 
     return new Promise<string>((resolve, reject) => {
       function onMessage(e: MessageEvent) {

@@ -6,7 +6,6 @@ import type {AlertProps} from './alert';
 
 import styles from './container.css';
 
-
 /**
  * @name Alert Container
  * @description Displays a stack of alerts on top of the page.
