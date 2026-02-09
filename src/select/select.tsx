@@ -97,24 +97,26 @@ function doesLabelMatch<T>(itemToCheck: SelectItem<T>, fn: (label: string) => bo
 }
 
 function getFilterFn<T>(filter: Filter<T> | boolean): {
-  check: FilterFn<T>
-  preserveSeparators?: boolean | null | undefined
+  check: FilterFn<T>;
+  preserveSeparators?: boolean | null | undefined;
 } {
+  const preserveSeparators = typeof filter === 'object' && filter.preserveSeparators;
+
   if (typeof filter === 'object') {
     if (filter.fn) {
-      return {check: filter.fn, preserveSeparators: filter.preserveSeparators};
+      return {check: filter.fn, preserveSeparators};
     }
 
     if (filter.fuzzy) {
       const check: FilterFn<T> = (itemToCheck, checkString) =>
         doesLabelMatch(itemToCheck, lowerCaseLabel => fuzzyHighlight(checkString, lowerCaseLabel).matched);
-      return {check}
+      return {check, preserveSeparators}
     }
   }
 
   const check: FilterFn<T> = (itemToCheck, checkString) =>
     doesLabelMatch(itemToCheck, lowerCaseLabel => lowerCaseLabel.indexOf(checkString) >= 0);
-  return {check}
+  return {check, preserveSeparators}
 }
 
 function buildMultipleMap<T>(selected: SelectItem<T>[]) {
@@ -329,7 +331,7 @@ function getListItems<T = unknown>(
     filteredData.length &&
     List.isItemType(List.ListProps.Type.SEPARATOR, filteredData.at(-1)!)
   ) {
-      filteredData.pop();
+    filteredData.pop();
   }
 
   let addButton = null;

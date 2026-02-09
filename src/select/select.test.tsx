@@ -6,7 +6,7 @@ import {act} from 'react';
 import List from '../list/list';
 import simulateCombo from '../../test-helpers/simulate-combo';
 import Select, {type MultipleSelectAttrs, type SelectAttrs, type SelectItem, type SingleSelectAttrs} from './select';
-import {type Tags} from './select-popup';
+import {type Filter, type Tags} from './select-popup';
 
 import styles from './select.css';
 
@@ -1266,23 +1266,18 @@ describe('Select', () => {
       {key: 8, rgItemType: List.ListProps.Type.SEPARATOR},
     ];
 
-    const renderWithSeparators = (preserveSeparators: boolean = false) =>
+    const fnLikeDefault: Filter<typeof data[number]>['fn'] = (item, checkString) =>
+      List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+      !!item.label?.toLowerCase()?.includes(checkString.toLowerCase());
+
+    const renderWithSeparators = (filter: boolean | Filter<typeof data[number]> = true) =>
       render(
         <Select
           renderOptimization={false}
           data={data}
-          filter={
-            preserveSeparators
-              ? {
-                fn: (item, checkString) =>
-                  List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
-                  !!item.label?.toLowerCase()?.includes(checkString.toLowerCase()),
-                preserveSeparators,
-              }
-              : true
-          }
+          filter={filter}
         />
-    );
+      );
 
     const getItemTitles = () =>
       screen
@@ -1294,7 +1289,7 @@ describe('Select', () => {
       const button = screen.getByRole('combobox', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
-      const titles = getItemTitles()
+      const titles = getItemTitles();
       expect(titles).to.deep.equal(['One', 'Two', '', 'Three', 'Four']);
     });
 
@@ -1305,16 +1300,26 @@ describe('Select', () => {
       await user.click(button);
       const filter = screen.getByRole('textbox');
       await user.type(filter, 'o');
-      const titles = getItemTitles()
+      const titles = getItemTitles();
       expect(titles).to.deep.equal(['One', 'Two', '', 'Four']);
     });
 
-    it('should not collapse separators if preserveSeparators is true', async () => {
-      renderWithSeparators(true);
+    it('should not collapse separators if preserveSeparators is true -- user fn', async () => {
+      renderWithSeparators({fn: fnLikeDefault, preserveSeparators: true});
       const button = screen.getByRole('combobox', {name: 'Select an option'});
       const user = userEvent.setup();
       await user.click(button);
-      const titles = getItemTitles()
-      expect(titles).to.deep.equal(['', 'One', 'Two', '', '', 'Three', 'Four', '']);})
+      const titles = getItemTitles();
+      expect(titles).to.deep.equal(['', 'One', 'Two', '', '', 'Three', 'Four', '']);
+    });
+
+    it('should not collapse separators if preserveSeparators is true -- default fn', async () => {
+      renderWithSeparators({preserveSeparators: true});
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
+      const user = userEvent.setup();
+      await user.click(button);
+      const titles = getItemTitles();
+      expect(titles).to.deep.equal(['', 'One', 'Two', '', '', 'Three', 'Four', '']);
+    });
   })
 });
