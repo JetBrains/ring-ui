@@ -100,7 +100,7 @@ function getFilterFn<T>(filter: Filter<T> | boolean): {
   check: FilterFn<T>;
   preserveSeparators?: boolean | null | undefined;
 } {
-  const preserveSeparators = typeof filter === 'object' && filter.preserveSeparators;
+  const preserveSeparators = filter === false || typeof filter === 'object' && filter.preserveSeparators;
 
   if (typeof filter === 'object') {
     if (filter.fn) {
@@ -110,13 +110,13 @@ function getFilterFn<T>(filter: Filter<T> | boolean): {
     if (filter.fuzzy) {
       const check: FilterFn<T> = (itemToCheck, checkString) =>
         doesLabelMatch(itemToCheck, lowerCaseLabel => fuzzyHighlight(checkString, lowerCaseLabel).matched);
-      return {check, preserveSeparators}
+      return {check, preserveSeparators};
     }
   }
 
   const check: FilterFn<T> = (itemToCheck, checkString) =>
     doesLabelMatch(itemToCheck, lowerCaseLabel => lowerCaseLabel.indexOf(checkString) >= 0);
-  return {check, preserveSeparators}
+  return {check, preserveSeparators};
 }
 
 function buildMultipleMap<T>(selected: SelectItem<T>[]) {
@@ -289,7 +289,7 @@ function getListItems<T = unknown>(
         List.isItemType(List.ListProps.Type.SEPARATOR, item) &&
         (
           !filteredData.length ||
-          List.isItemType(List.ListProps.Type.SEPARATOR, filteredData.at(-1)!)
+          List.isItemType(List.ListProps.Type.SEPARATOR, filteredData[filteredData.length - 1])
         )
       ) {
         continue;
@@ -329,7 +329,7 @@ function getListItems<T = unknown>(
   if (
     !preserveSeparators &&
     filteredData.length &&
-    List.isItemType(List.ListProps.Type.SEPARATOR, filteredData.at(-1)!)
+    List.isItemType(List.ListProps.Type.SEPARATOR, filteredData[filteredData.length - 1])
   ) {
     filteredData.pop();
   }

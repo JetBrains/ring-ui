@@ -1284,6 +1284,15 @@ describe('Select', () => {
         .getAllByTestId(/ring-list-(separator|item-label)/)
         .map(item => item.title);
 
+    it('should not collapse separators with filter disabled', async () => {
+      renderWithSeparators(false);
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
+      const user = userEvent.setup();
+      await user.click(button);
+      const titles = getItemTitles();
+      expect(titles).to.deep.equal(['', 'One', 'Two', '', '', 'Three', 'Four', '']);
+    });
+
     it('should collapse separators before filtering', async () => {
       renderWithSeparators();
       const button = screen.getByRole('combobox', {name: 'Select an option'});
@@ -1321,5 +1330,5 @@ describe('Select', () => {
       const titles = getItemTitles();
       expect(titles).to.deep.equal(['', 'One', 'Two', '', '', 'Three', 'Four', '']);
     });
-  })
+  });
 });
