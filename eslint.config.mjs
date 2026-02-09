@@ -62,7 +62,6 @@ export default defineConfig([
   eslint.configs.recommended,
   importPlugin.flatConfigs.recommended,
   ...jetbrainsConfigRules,
-  prettierConfig,
   reactHooks.configs.flat['recommended-latest'],
 
   // Base configuration for all files
@@ -407,4 +406,7 @@ export default defineConfig([
       'storybook/prefer-pascal-case': 'off',
     },
   },
+
+  // Prettier config must be last to disable any conflicting formatting rules
+  prettierConfig,
 ]);
