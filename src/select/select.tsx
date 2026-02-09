@@ -96,20 +96,25 @@ function doesLabelMatch<T>(itemToCheck: SelectItem<T>, fn: (label: string) => bo
   return fn(lowerCaseLabel);
 }
 
-function getFilterFn<T>(filter: Filter<T> | boolean): FilterFn<T> {
+function getFilterFn<T>(filter: Filter<T> | boolean): {
+  check: FilterFn<T>
+  preserveSeparators?: boolean | null | undefined
+} {
   if (typeof filter === 'object') {
     if (filter.fn) {
-      return filter.fn;
+      return {check: filter.fn, preserveSeparators: filter.preserveSeparators};
     }
 
     if (filter.fuzzy) {
-      return (itemToCheck, checkString) =>
+      const check: FilterFn<T> = (itemToCheck, checkString) =>
         doesLabelMatch(itemToCheck, lowerCaseLabel => fuzzyHighlight(checkString, lowerCaseLabel).matched);
+      return {check}
     }
   }
 
-  return (itemToCheck, checkString) =>
+  const check: FilterFn<T> = (itemToCheck, checkString) =>
     doesLabelMatch(itemToCheck, lowerCaseLabel => lowerCaseLabel.indexOf(checkString) >= 0);
+  return {check}
 }
 
 function buildMultipleMap<T>(selected: SelectItem<T>[]) {
@@ -269,14 +274,25 @@ function getListItems<T = unknown>(
   }
   const lowerCaseString = filterString.toLowerCase();
 
-  const filteredData = [];
+  const filteredData: SelectItem<T>[] = [];
   let exactMatch = false;
 
-  const check = getFilterFn(props.filter);
+  const {check, preserveSeparators} = getFilterFn(props.filter);
 
   for (let i = 0; i < data.length; i++) {
     const item = {...data[i]};
     if (check(item, lowerCaseString, data)) {
+      if (
+        !preserveSeparators &&
+        List.isItemType(List.ListProps.Type.SEPARATOR, item) &&
+        (
+          !filteredData.length ||
+          List.isItemType(List.ListProps.Type.SEPARATOR, filteredData.at(-1)!)
+        )
+      ) {
+        continue;
+      }
+
       exactMatch = item.label === filterString;
 
       if (props.multiple && !(typeof props.multiple === 'object' && props.multiple.removeSelectedItems)) {
@@ -306,6 +322,14 @@ function getListItems<T = unknown>(
         filteredData.push(item);
       }
     }
+  }
+
+  if (
+    !preserveSeparators &&
+    filteredData.length &&
+    List.isItemType(List.ListProps.Type.SEPARATOR, filteredData.at(-1)!)
+  ) {
+      filteredData.pop();
   }
 
   let addButton = null;
@@ -833,10 +857,6 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
 
   getLowerCaseLabel = getLowerCaseLabel;
   doesLabelMatch = doesLabelMatch;
-
-  getFilterFn() {
-    return getFilterFn(this.props.filter);
-  }
 
   getListItems(rawFilterString: string, data?: SelectItem<T>[]) {
     const {filteredData, addButton} = getListItems(this.props, this.state, rawFilterString, data);

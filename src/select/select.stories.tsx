@@ -17,7 +17,11 @@ import Input, {type ContainerProps, type InputSpecificProps} from '../input/inpu
 import {ControlsHeight} from '../global/configuration';
 import {LabelType} from '../control-label/control-label';
 import Select, {type MultipleSelectAttrs, type SelectItem, type SelectProps, type SingleSelectAttrs} from './select';
-import {type Multiple} from './select-popup';
+import {type Filter, type Multiple} from './select-popup';
+import Checkbox from '../checkbox/checkbox';
+
+import styles from './select.stories.css';
+
 
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
@@ -1185,4 +1189,37 @@ export const showPopup: StoryObj<SingleSelectAttrs> = {
       options: {rules: {'aria-valid-attr-value': {enabled: false}}},
     },
   },
+};
+
+export const WithFilterAndSeparators = () => {
+  const data = [
+    {key: 1, label: 'One'},
+    {key: 2, label: 'Two'},
+    {key: 3, rgItemType: List.ListProps.Type.SEPARATOR},
+    {key: 4, label: 'Three'},
+    {key: 5, rgItemType: List.ListProps.Type.SEPARATOR},
+    {key: 6, label: 'Four'},
+    {key: 7, label: 'Five'},
+    {key: 8, rgItemType: List.ListProps.Type.SEPARATOR},
+    {key: 9, label: 'Six'},
+  ];
+  const [preserveSeparators, setPreserveSeparators] = useState(false);
+  const filter = preserveSeparators
+    ? {
+      fn: (item, checkString) =>
+        List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+        !!item.label?.toLowerCase()?.includes(checkString.toLowerCase()),
+      preserveSeparators: true,
+    } satisfies Filter<typeof data[number]>
+    : true;
+  return (
+    <div>
+      <div className={styles.userDefinedFilterFunction}>
+        <Checkbox checked={preserveSeparators} onChange={e => setPreserveSeparators(e.target.checked)}>
+          Preserve separators
+        </Checkbox>
+      </div>
+      <Select data={data} filter={filter} />
+    </div>
+  );
 };

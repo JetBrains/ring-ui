@@ -52,6 +52,7 @@ export type FilterFn<T> = (itemToCheck: SelectItem<T>, checkString: string, data
 
 export interface Filter<T = unknown> {
   fn?: FilterFn<T> | null | undefined;
+  preserveSeparators?: boolean | null | undefined;
   fuzzy?: boolean | null | undefined;
   value?: string | null | undefined;
   placeholder?: string | undefined;

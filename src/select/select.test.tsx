@@ -474,14 +474,22 @@ describe('Select', () => {
     });
 
     it('Should not filter separators', async () => {
-      const separators = [
+      const data = [
+        {
+          key: 0,
+          label: 'foo 0',
+        },
         {
           rgItemType: List.ListProps.Type.SEPARATOR,
           key: 1,
           description: 'test',
         },
+        {
+          key: 2,
+          label: 'foo 2',
+        },
       ];
-      renderSelect({type: Select.Type.INPUT, data: separators});
+      renderSelect({type: Select.Type.INPUT, data});
       const filter = screen.getByRole('combobox');
       const user = userEvent.setup();
       await user.clear(filter);
@@ -869,7 +877,11 @@ describe('Select', () => {
     });
 
     it('Should not react on selecting separator', async () => {
-      renderSelect({data: [...testData, {key: 5, label: 'test', rgItemType: List.ListProps.Type.SEPARATOR}]});
+      renderSelect({data: [
+        ...testData,
+        {key: 5, label: 'test', rgItemType: List.ListProps.Type.SEPARATOR},
+        {key: 6, label: 'after separator'},
+      ]});
       const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
@@ -1241,4 +1253,68 @@ describe('Select', () => {
       expect(separator).to.not.exist;
     });
   });
+
+  describe('collapsing separators', () => {
+    const data = [
+      {key: 1, rgItemType: List.ListProps.Type.SEPARATOR},
+      {key: 2, label: 'One'},
+      {key: 3, label: 'Two'},
+      {key: 4, rgItemType: List.ListProps.Type.SEPARATOR},
+      {key: 5, rgItemType: List.ListProps.Type.SEPARATOR},
+      {key: 6, label: 'Three'},
+      {key: 7, label: 'Four'},
+      {key: 8, rgItemType: List.ListProps.Type.SEPARATOR},
+    ];
+
+    const renderWithSeparators = (preserveSeparators: boolean = false) =>
+      render(
+        <Select
+          renderOptimization={false}
+          data={data}
+          filter={
+            preserveSeparators
+              ? {
+                fn: (item, checkString) =>
+                  List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+                  !!item.label?.toLowerCase()?.includes(checkString.toLowerCase()),
+                preserveSeparators,
+              }
+              : true
+          }
+        />
+    );
+
+    const getItemTitles = () =>
+      screen
+        .getAllByTestId(/ring-list-(separator|item-label)/)
+        .map(item => item.title);
+
+    it('should collapse separators before filtering', async () => {
+      renderWithSeparators();
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
+      const user = userEvent.setup();
+      await user.click(button);
+      const titles = getItemTitles()
+      expect(titles).to.deep.equal(['One', 'Two', '', 'Three', 'Four']);
+    });
+
+    it('should collapse separators after filtering', async () => {
+      renderWithSeparators();
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
+      const user = userEvent.setup();
+      await user.click(button);
+      const filter = screen.getByRole('textbox');
+      await user.type(filter, 'o');
+      const titles = getItemTitles()
+      expect(titles).to.deep.equal(['One', 'Two', '', 'Four']);
+    });
+
+    it('should not collapse separators if preserveSeparators is true', async () => {
+      renderWithSeparators(true);
+      const button = screen.getByRole('combobox', {name: 'Select an option'});
+      const user = userEvent.setup();
+      await user.click(button);
+      const titles = getItemTitles()
+      expect(titles).to.deep.equal(['', 'One', 'Two', '', '', 'Three', 'Four', '']);})
+  })
 });
