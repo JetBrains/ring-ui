@@ -22,7 +22,6 @@ import Checkbox from '../checkbox/checkbox';
 
 import styles from './select.stories.css';
 
-
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
 
@@ -1205,12 +1204,12 @@ export const WithFilterAndSeparators = () => {
   ];
   const [preserveSeparators, setPreserveSeparators] = useState(false);
   const filter = preserveSeparators
-    ? {
-      fn: (item, checkString) =>
-        List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
-        !!item.label?.toLowerCase()?.includes(checkString.toLowerCase()),
-      preserveSeparators: true,
-    } satisfies Filter<typeof data[number]>
+    ? ({
+        fn: (item, checkString) =>
+          List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+          !!item.label?.toLowerCase()?.includes(checkString.toLowerCase()),
+        preserveSeparators: true,
+      } satisfies Filter<(typeof data)[number]>)
     : true;
   return (
     <div>

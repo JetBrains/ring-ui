@@ -100,7 +100,7 @@ function getFilterFn<T>(filter: Filter<T> | boolean): {
   check: FilterFn<T>;
   preserveSeparators?: boolean | null | undefined;
 } {
-  const preserveSeparators = filter === false || typeof filter === 'object' && filter.preserveSeparators;
+  const preserveSeparators = filter === false || (typeof filter === 'object' && filter.preserveSeparators);
 
   if (typeof filter === 'object') {
     if (filter.fn) {
@@ -287,10 +287,7 @@ function getListItems<T = unknown>(
       if (
         !preserveSeparators &&
         List.isItemType(List.ListProps.Type.SEPARATOR, item) &&
-        (
-          !filteredData.length ||
-          List.isItemType(List.ListProps.Type.SEPARATOR, filteredData[filteredData.length - 1])
-        )
+        (!filteredData.length || List.isItemType(List.ListProps.Type.SEPARATOR, filteredData[filteredData.length - 1]))
       ) {
         continue;
       }

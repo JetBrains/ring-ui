@@ -877,11 +877,13 @@ describe('Select', () => {
     });
 
     it('Should not react on selecting separator', async () => {
-      renderSelect({data: [
-        ...testData,
-        {key: 5, label: 'test', rgItemType: List.ListProps.Type.SEPARATOR},
-        {key: 6, label: 'after separator'},
-      ]});
+      renderSelect({
+        data: [
+          ...testData,
+          {key: 5, label: 'test', rgItemType: List.ListProps.Type.SEPARATOR},
+          {key: 6, label: 'after separator'},
+        ],
+      });
       const button = screen.getByRole('combobox', {name: 'first1'});
       const user = userEvent.setup();
       await user.click(button);
@@ -1266,23 +1268,14 @@ describe('Select', () => {
       {key: 8, rgItemType: List.ListProps.Type.SEPARATOR},
     ];
 
-    const fnLikeDefault: Filter<typeof data[number]>['fn'] = (item, checkString) =>
+    const fnLikeDefault: Filter<(typeof data)[number]>['fn'] = (item, checkString) =>
       List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
       !!item.label?.toLowerCase()?.includes(checkString.toLowerCase());
 
-    const renderWithSeparators = (filter: boolean | Filter<typeof data[number]> = true) =>
-      render(
-        <Select
-          renderOptimization={false}
-          data={data}
-          filter={filter}
-        />
-      );
+    const renderWithSeparators = (filter: boolean | Filter<(typeof data)[number]> = true) =>
+      render(<Select renderOptimization={false} data={data} filter={filter} />);
 
-    const getItemTitles = () =>
-      screen
-        .getAllByTestId(/ring-list-(separator|item-label)/)
-        .map(item => item.title);
+    const getItemTitles = () => screen.getAllByTestId(/ring-list-(separator|item-label)/).map(item => item.title);
 
     it('should not collapse separators with filter disabled', async () => {
       renderWithSeparators(false);
