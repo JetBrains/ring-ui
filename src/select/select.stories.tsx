@@ -96,6 +96,27 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
 withAFilterAndTags.storyName = 'with a filter and tags';
 withAFilterAndTags.parameters = {screenshots: {skip: true}};
 
+export const WithAvatarAndLongName = () => {
+  const data: SelectItem[] = [
+    {
+      label: 'John Michael William Alexander Doe Richardson Jr',
+      key: 1,
+      avatar: `${hubConfig.serverUri}/api/rest/avatar/default?username=jr`,
+    },
+    {label: 'Registered Users', key: 2},
+    {label: 'Demo Project Team', key: 3},
+  ];
+
+  return (
+    <Select data={data} selected={data} multiple showPopup filter tags popupClassName={styles.withAvatarAndLongName} />
+  );
+};
+WithAvatarAndLongName.parameters = {
+  screenshots: {
+    captureSelector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+  },
+};
+
 type StatefulProps = SingleSelectAttrs & {
   text?: ReactNode;
 };

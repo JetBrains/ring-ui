@@ -196,6 +196,7 @@
 .avatarContainer {
   display: inline-block;
   overflow: hidden;
+  flex-shrink: 0;
 
   box-sizing: border-box;
   width: var(--ring-tag-max-height);

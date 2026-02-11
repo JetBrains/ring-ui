@@ -1,4 +1,4 @@
-const TIMEOUT = 1000;
+const TIMEOUT = 2000;
 
 module.exports = {
   async capture(browser, {name, selector}) {

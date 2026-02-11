@@ -1,3 +1,7 @@
 .userDefinedFilterFunction {
   padding-bottom: var(--ring-unit);
 }
+
+.withAvatarAndLongName {
+  max-width: 250px;
+}
