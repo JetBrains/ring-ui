@@ -43,3 +43,7 @@ updates:
         - "@types/chai-dom"
         - "html-reporter"
         - "testplane"
+    minor-and-patch:
+      update-types:
+        - "patch"
+        - "minor"
