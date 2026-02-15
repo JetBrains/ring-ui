@@ -145,7 +145,7 @@
     "eslint-plugin-storybook": "^10.2.3",
     "eslint-plugin-unicorn": "^62.0.0",
     "events": "^3.3.0",
-    "glob": "^13.0.0",
+    "glob": "^13.0.1",
     "globals": "^17.3.0",
     "html-webpack-plugin": "^5.6.6",
     "http-server": "^14.1.1",
