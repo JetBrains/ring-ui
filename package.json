@@ -130,7 +130,7 @@
     "chai-dom": "^1.12.1",
     "cheerio": "^1.2.0",
     "core-js": "^3.48.0",
-    "cpy-cli": "^6.0.0",
+    "cpy-cli": "^7.0.0",
     "dotenv-cli": "^11.0.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
