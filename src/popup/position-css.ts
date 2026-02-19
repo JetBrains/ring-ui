@@ -3,10 +3,12 @@ import {calculateMinWidth, MaxHeight} from './position';
 import {Directions, Dimension} from './popup.consts';
 import sniffr from '../global/sniffer';
 
-export const supportsCSSAnchorPositioning = (): boolean => {
+const doesSupportCSSAnchorPositioning = (): boolean => {
   const isSafari = sniffr.browser.name === 'safari';
   return !isSafari && CSS?.supports?.('anchor-name', 'none');
 };
+
+export const supportsCSSAnchorPositioning = doesSupportCSSAnchorPositioning();
 
 const getPositionArea = (direction: Directions): [style: string, name: string] => {
   switch (direction) {
