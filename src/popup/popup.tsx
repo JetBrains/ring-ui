@@ -233,7 +233,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
   };
 
   private shouldUseCssPositioning() {
-    if (!supportsCSSAnchorPositioning()) {
+    if (!supportsCSSAnchorPositioning) {
       return false;
     }
     return this.props.cssPositioning ?? this.cssPositioningFromContext ?? getConfiguration().popupsCssPositioning;
