@@ -1,0 +1,58 @@
+@import '../global/variables.css';
+
+.variants {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.row {
+  position: relative;
+
+  width: 100%;
+  height: 500px;
+
+  border-bottom: 1px solid var(--ring-line-color);
+}
+
+.label {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+
+  width: 120px;
+
+  transform: translateY(-50%);
+
+  color: var(--ring-text-color);
+
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.labelExpanded {
+  top: 36px;
+}
+
+.card {
+  position: absolute;
+  top: 24px;
+  left: 200px;
+
+  width: 520px;
+}
+
+.bodyText {
+  margin-bottom: calc(var(--ring-unit) * 2);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ring-unit) * 2);
+}
+
+.formActions {
+  display: flex;
+  gap: var(--ring-unit);
+}
