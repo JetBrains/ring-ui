@@ -36,7 +36,12 @@ export interface ColProps {
 function getClassNames(props: Omit<ColProps, 'children' | 'className' | 'reverse'>) {
   return Object.entries(props)
     .filter(([key]) => classMap[key])
-    .map(([key, value]) => styles[Number.isInteger(value) ? `${classMap[key]}-${value}` : classMap[key]]);
+    .map(
+      ([key, value]) =>
+        (styles as Record<string, string | undefined>)[
+          Number.isInteger(value) ? `${classMap[key]}-${value}` : classMap[key]
+        ],
+    );
 }
 
 export default class Col extends Component<ColProps> {

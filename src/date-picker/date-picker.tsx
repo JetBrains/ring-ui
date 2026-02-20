@@ -241,7 +241,7 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
 
     const {className, popupClassName, clear, inline, dropdownProps, translations, ...datePopupProps} = this.props;
 
-    const classes = classNames(styles.datePicker, className, styles[`size${this.props.size}`], {
+    const classes = classNames(styles.datePicker, className, this.props.size && styles[`size${this.props.size}`], {
       [styles.inline]: inline,
     });
 

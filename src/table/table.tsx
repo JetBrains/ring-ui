@@ -244,18 +244,11 @@ export class Table<T extends object> extends PureComponent<TableProps<T>> {
     headerProps.onCheckboxChange = this.onCheckboxChange;
     headerProps.checkboxDisabled = this.props.data.length === 0;
 
-    const wrapperClasses = classNames(
-      {
-        [style.tableWrapper]: true,
-        [style.loading]: loading,
-      },
-      this.props.wrapperClassName,
-    );
+    const wrapperClasses = classNames(style.tableWrapper, this.props.wrapperClassName);
 
     const classes = classNames(this.props.className, {
       [style.table]: true,
       [style.wideFirstColumn]: this.props.wideFirstColumn,
-      [style.multiSelection]: selection.getSelected().size > 0,
       [style.userSelectNone]: this.state.userSelectNone,
       [style.disabledHover]: this.props.disabledHover,
     });

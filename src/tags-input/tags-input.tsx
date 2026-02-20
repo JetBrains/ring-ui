@@ -342,7 +342,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
 
     const classes = classNames(
       styles.tagsInput,
-      [inputStyles[`size${size}`]],
+      size !== Size.AUTO && [inputStyles[`size${size}`]],
       [inputStyles[`height${height}`]],
       {
         [styles.tagsInputDisabled]: disabled,
@@ -373,7 +373,6 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
           canNotBeEmpty={canNotBeEmpty}
           handleRemove={this.handleRemove}
           className={styles.tagsList}
-          tagClassName={styles.tag}
           handleClick={this.handleClick}
           customTagComponent={this.props.customTagComponent}
         >

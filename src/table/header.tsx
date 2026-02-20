@@ -104,9 +104,7 @@ export default class Header extends PureComponent<HeaderProps> {
           </tr>
         )}
 
-        <tr className={style.subHeader} data-test='ring-table-header-row'>
-          {regularCells}
-        </tr>
+        <tr data-test='ring-table-header-row'>{regularCells}</tr>
       </thead>
     );
   }

@@ -141,13 +141,11 @@ export default class Profile extends PureComponent<ProfileProps> {
       showApplyChangedUser && {
         rgItemType,
         label: translations?.applyChangedUser ?? translate('applyChangedUser'),
-        className: styles.profileMenuItem,
         onClick: onRevertPostponement,
       },
       showLogIn && {
         rgItemType,
         label: translations?.login ?? translate('login'),
-        className: styles.profileMenuItem,
         onClick: onRevertPostponement,
       },
       {
@@ -161,7 +159,6 @@ export default class Profile extends PureComponent<ProfileProps> {
       showSwitchUser && {
         rgItemType,
         label: translations?.switchUser ?? translate('switchUser'),
-        className: styles.profileMenuItem,
         onClick: onSwitchUser,
       },
       showLogOut && {

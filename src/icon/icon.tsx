@@ -94,8 +94,8 @@ export default class Icon extends PureComponent<IconProps> {
 
     const classes = classNames(
       styles.icon,
+      color && styles[color],
       {
-        [styles[color]]: !!color,
         [styles.loading]: loading,
       },
       className,

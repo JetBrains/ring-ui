@@ -133,7 +133,7 @@ export const MoreButton = memo(
 MoreButton.displayName = 'MoreButton';
 
 export const FakeMoreButton = memo(({moreClassName, moreActiveClassName, hasActiveChildren}: FakeMoreButtonProps) => (
-  <div className={classNames(styles.moreButton, styles.title)}>
+  <div className={styles.title}>
     <AnchorLink
       moreClassName={moreClassName}
       moreActiveClassName={moreActiveClassName}

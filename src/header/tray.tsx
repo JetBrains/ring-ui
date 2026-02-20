@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import styles from './header.css';
 
-const wrapChild = (child: ReactNode) => child && <div className={styles.trayItem}>{child}</div>;
+const wrapChild = (child: ReactNode) => child && <div>{child}</div>;
 
 export default class Tray extends Component<HTMLAttributes<HTMLElement>> {
   render() {

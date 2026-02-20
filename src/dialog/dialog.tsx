@@ -209,7 +209,6 @@ export default class Dialog extends PureComponent<DialogProps> {
                 })}
                 iconClassName={classNames(styles.closeIcon, {
                   [styles.closeIconOutside]: !closeButtonInside,
-                  [styles.closeIconInside]: closeButtonInside,
                 })}
                 onClick={this.onCloseClick}
                 title={closeButtonTitle}

@@ -24,7 +24,7 @@ describe('Button', () => {
     expect(className).to.include(styles.danger);
     expect(className).to.include(styles.delayed);
     expect(className).to.include(styles.loader);
-    expect(className).to.include(styles.primary);
+    expect(className).to.include(styles.primaryBlock);
     expect(className).to.include(styles.short);
   });
 

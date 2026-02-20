@@ -30,9 +30,12 @@ export default function AvatarStack({
 }: AvatarProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const sizeClass =
+    size !== Size.Size16 && size !== Size.Size18 && size !== Size.Size48 ? styles[`size${size}`] : undefined;
+
   return (
     <div
-      className={classNames(styles.avatarStack, className, styles[`size${size}`], {
+      className={classNames(styles.avatarStack, className, sizeClass, {
         [styles.hovered]: dropdownOpen,
       })}
       {...restProps}
