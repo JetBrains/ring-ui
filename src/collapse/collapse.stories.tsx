@@ -7,6 +7,7 @@ import LoaderInline from '../loader-inline/loader-inline';
 import Collapse from './collapse';
 import CollapseContent from './collapse-content';
 import CollapseControl from './collapse-control';
+import {createShadowRootStyleSheet, ShadowRootWrap} from './shadow-root-test-helpers';
 
 import styles from './collapse.stories.css';
 
@@ -202,3 +203,15 @@ WithControlledCollapseState.storyName = 'With controlled collapse state';
 WithControlledCollapseState.parameters = {
   screenshots: {actions: [{type: 'click', selector: '[data-test~=trigger]'}]},
 };
+
+export const WrappedInShadowRoot = () => {
+  const styleSheet = createShadowRootStyleSheet(['.container', '.transition', '.summary', '.trigger', '.fade']);
+
+  return (
+    <ShadowRootWrap adoptedStyleSheets={[styleSheet]}>
+      <Basic />
+    </ShadowRootWrap>
+  );
+};
+
+WrappedInShadowRoot.storyName = 'Wrapped in shadow root';
