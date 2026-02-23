@@ -37,13 +37,12 @@ class Tabs extends PureComponent<TabsProps> {
     return {selectedItem, selectedKey: selectedItem?.props.id || String(actualSelectedIndex)};
   }
 
-  getTabTitle = (child: ReactElement<TabProps>, i: number) => {
+  getTabTitle = (selectedKey: string) => (child: ReactElement<TabProps>, i: number) => {
     if (child === null || typeof child !== 'object' || child.type === CustomItem) {
       return child;
     }
 
     const {onSelect} = this.props;
-    const {selectedKey} = this.getSelectedItem();
     const {title, titleProps, id, disabled, href, className, activeClassName} = child.props;
     const key = id || String(i);
     const isSelected = key === selectedKey;
@@ -88,7 +87,7 @@ class Tabs extends PureComponent<TabsProps> {
             {childrenArray}
           </CollapsibleTabs>
         ) : (
-          <div className={styles.titles}>{childrenArray.map(this.getTabTitle)}</div>
+          <div className={styles.titles}>{childrenArray.map(this.getTabTitle(selectedKey))}</div>
         )}
         <div className={classNames(tabContainerClassName)}>{selectedItem}</div>
       </div>
