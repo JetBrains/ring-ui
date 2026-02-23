@@ -94,15 +94,17 @@ export const setCSSAnchorPositioning = ({
 
   // When all directions are BOTTOM, the `max-height: 100%` from CSS should stay applied so popup doesn't overflow the anchor RG-2754
   const SHOULD_AUTO_SHRINK = directions.every(d => d.startsWith('BOTTOM'));
-  if (!SHOULD_AUTO_SHRINK) {
+  if (SHOULD_AUTO_SHRINK) {
+    popup.style.removeProperty('max-height'); // Reset to 100% from CSS to allow shrinking based on viewport height
+  } else {
     const screenWithMargin = `calc(100vh - ${Dimension.MARGIN * 2}px)`;
     if (maxHeight === 'screen' || maxHeight === MaxHeight.SCREEN) {
       popup.style.maxHeight = screenWithMargin;
     } else if (typeof maxHeight === 'number' && maxHeight > 0) {
       popup.style.maxHeight = `min(${screenWithMargin}, ${maxHeight}px)`;
+    } else {
+      popup.style.maxHeight = 'none';
     }
-  } else {
-    popup.style.maxHeight = '';
   }
 
   const [initialPositionStyle, initialPositionName] = getPositionArea(directions[0]);
