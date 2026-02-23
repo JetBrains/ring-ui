@@ -13,19 +13,13 @@ function TabLink({isSelected, title, collapsed, ...restProps}: TabLinkProps) {
   const renderedTitle = typeof title === 'function' ? title(isSelected, collapsed) : title;
 
   return (
-    <Link {...restProps} data-test-selected={isSelected}>
+    <Link {...restProps}>
       <div className={styles.container}>
         <span className={styles.visible}>{renderedTitle}</span>
         {/* hack for preserving constant tab width*/}
-        <span aria-hidden className={styles.hidden}>
-          {renderedTitle}
-        </span>
-        <span aria-hidden className={styles.hiddenBold}>
-          {renderedTitle}
-        </span>
-        <span aria-hidden className={styles.hiddenRegular}>
-          {renderedTitle}
-        </span>
+        <span className={styles.hidden}>{renderedTitle}</span>
+        <span className={styles.hiddenBold}>{renderedTitle}</span>
+        <span className={styles.hiddenRegular}>{renderedTitle}</span>
       </div>
     </Link>
   );
