@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import TabLink from './tab-link';
 import {CustomItem} from './custom-item';
 import {type TabProps} from './tab';
+import {getTabId} from './tabs.utils';
 
 import styles from './tabs.css';
 
@@ -64,7 +65,7 @@ export interface TabTitlesParams extends Omit<Partial<TabTitleProps>, 'selected'
 }
 const getTabTitles = ({items, selected = '0', collapsed, onSelect = () => undefined, ...props}: TabTitlesParams) =>
   items.map((tab, index) => {
-    const key = tab.props.id || String(index);
+    const key = getTabId(tab, index);
     const isSelected = selected === key;
 
     return (
