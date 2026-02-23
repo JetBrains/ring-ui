@@ -86,23 +86,28 @@ export default class AuthRequestBuilder {
    * @param {object=} extraParams additional query parameters for logout request
    * @return {string} logout URL with required parameters
    */
-  prepareLogoutRequest(extraParams?: Record<string, unknown> | null | undefined) {
+  async prepareLogoutRequest(extraParams?: Record<string, unknown> | null | undefined) {
     if (!this.config.logout) {
       throw new Error('Logout URL is not configured');
     }
 
     // eslint-disable-next-line no-underscore-dangle
-    const state = AuthRequestBuilder._uuid();
+    const stateId = AuthRequestBuilder._uuid();
 
     const logoutParams = {
       client_id: this.config.clientId,
-      state,
+      state: stateId,
       ...extraParams,
     };
 
+    await this._saveState(stateId, {
+      restoreLocation: window.location.href,
+      scopes: [...this.config.scopes],
+    });
+
     return {
       url: encodeURL(this.config.logout, logoutParams),
-      state,
+      stateId,
     };
   }
 

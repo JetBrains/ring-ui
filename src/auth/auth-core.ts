@@ -99,6 +99,7 @@ export interface AuthConfig extends TokenValidatorConfig {
   translations?: AuthTranslations | null | undefined;
   userParams?: RequestParams | undefined;
   waitForRedirectTimeout: number;
+  singleLogout: boolean;
 }
 
 const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
@@ -124,6 +125,7 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
 
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   waitForRedirectTimeout: DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT,
+  singleLogout: true,
   translations: null,
 };
 
@@ -198,7 +200,7 @@ class Auth implements HTTPAuth {
   user: AuthUser | null = null;
   _initDeferred?: Deferred<string | void>;
   private _isLoginWindowOpen?: boolean;
-  private _hubVersion: string | null = null;
+  _hubVersion: string | null = null;
 
   constructor(config: Partial<AuthConfig> & Pick<AuthConfig, 'serverUri'>) {
     if (!config) {
@@ -881,11 +883,11 @@ class Auth implements HTTPAuth {
     this._updateDomainUser(null);
     await this._storage?.wipeToken();
 
-    const hubVersion = await this._fetchHubVersion();
+    const hubVersion = this.config.singleLogout ? await this._fetchHubVersion() : null;
     const useLogoutEndpoint = hubVersion != null && Auth._isLogoutEndpointSupported(hubVersion);
 
     const request = useLogoutEndpoint
-      ? this._requestBuilder?.prepareLogoutRequest(extraParams)
+      ? await this._requestBuilder?.prepareLogoutRequest(extraParams)
       : await this._requestBuilder?.prepareAuthRequest({
           request_credentials: 'required',
           ...extraParams,

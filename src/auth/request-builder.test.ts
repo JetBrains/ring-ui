@@ -73,27 +73,38 @@ describe('Auth', () => {
 
       beforeEach(() => {
         vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
+        vi.spyOn(AuthRequestBuilder.prototype, '_saveState').mockImplementation(() => Promise.resolve());
       });
 
-      it('should return correct logout URL', () => {
+      it('should return correct logout URL', async () => {
         const builder = new AuthRequestBuilder(config);
         const expected = 'https://sso.jetbrains.com/logout?client_id=0-0-0-0-0&state=unique';
 
-        const result = builder.prepareLogoutRequest();
+        const result = await builder.prepareLogoutRequest();
         expect(result).to.deep.equal({
           url: expected,
-          state: 'unique',
+          stateId: 'unique',
         });
       });
 
-      it('should return correct logout URL with extra parameters', () => {
+      it('should save state', async () => {
+        const builder = new AuthRequestBuilder(config);
+        await builder.prepareLogoutRequest();
+        // eslint-disable-next-line no-underscore-dangle
+        expect(AuthRequestBuilder.prototype._saveState).toHaveBeenCalledWith('unique', {
+          restoreLocation: window.location.href,
+          scopes: ['youtrack', 'teamcity'],
+        });
+      });
+
+      it('should return correct logout URL with extra parameters', async () => {
         const builder = new AuthRequestBuilder(config);
         const expected = 'https://sso.jetbrains.com/logout?client_id=0-0-0-0-0&state=unique&message=access%20denied';
 
-        const result = builder.prepareLogoutRequest({message: 'access denied'});
+        const result = await builder.prepareLogoutRequest({message: 'access denied'});
         expect(result).to.deep.equal({
           url: expected,
-          state: 'unique',
+          stateId: 'unique',
         });
       });
 
@@ -105,7 +116,7 @@ describe('Auth', () => {
           scopes: ['youtrack'],
         };
         const builder = new AuthRequestBuilder(configWithoutLogout);
-        expect(() => builder.prepareLogoutRequest()).to.throw('Logout URL is not configured');
+        return expect(builder.prepareLogoutRequest()).to.be.rejectedWith('Logout URL is not configured');
       });
     });
   });

@@ -827,6 +827,24 @@ describe('Auth', () => {
       );
     });
 
+    it('should use legacy auth redirect when singleLogout is false', async () => {
+      const legacyAuth = new Auth({
+        serverUri: '',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        singleLogout: false,
+      });
+      const getSpy = vi.spyOn(legacyAuth.http, 'get').mockResolvedValue({services: [{version: '2026.1'}]});
+      await legacyAuth.logout();
+      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
+        'api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+      );
+      expect(getSpy).not.toHaveBeenCalled();
+    });
+
     it('should logout when no onLogout passed', () => expect(auth.logout()).to.be.fulfilled);
 
     it('should fail pass when onLogout mockReturnValue rejected promise', async () => {
