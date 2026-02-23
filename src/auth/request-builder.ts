@@ -84,7 +84,7 @@ export default class AuthRequestBuilder {
    * See: https://youtrack.jetbrains.com/projects/HUB/articles/HUB-A-43#rp-initiated-logout
    *
    * @param {object=} extraParams additional query parameters for logout request
-   * @return {string} logout URL with required parameters
+   * @return {Promise.<{url: string, stateId: string}>} logout URL with required parameters
    */
   async prepareLogoutRequest(extraParams?: Record<string, unknown> | null | undefined) {
     if (!this.config.logout) {

@@ -900,6 +900,9 @@ class Auth implements HTTPAuth {
 
   static _isLogoutEndpointSupported(version: string): boolean {
     const parts = version.split('.');
+    if (parts.length < 2) {
+      return false;
+    }
     const major = parseInt(parts[0], 10);
     const minor = parseInt(parts[1], 10);
     if (isNaN(major) || isNaN(minor)) {
