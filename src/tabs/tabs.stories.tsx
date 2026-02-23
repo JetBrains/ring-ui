@@ -60,6 +60,30 @@ export const Basic = () => {
   );
 };
 
+export const NonExistingTabSelected = () => {
+  const [selected, setSelected] = useState('non-existing-id');
+
+  return (
+    <Tabs selected={selected} onSelect={setSelected}>
+      <Tab id='first' title='First tab'>
+        First tab content
+      </Tab>
+      <Tab id='second' title='Second tab'>
+        Second tab content
+      </Tab>
+      <Tab id='third' title='Third tab'>
+        Third tab content
+      </Tab>
+      <Tab id='fourth' title='Fourth tab (Link)' href='/'>
+        Fourth tab content
+      </Tab>
+      <Tab disabled id='disabled' title='Disabled tab'>
+        Disabled tab content
+      </Tab>
+    </Tabs>
+  );
+};
+
 export const Links = () => {
   const {search} = window.location;
   const selected = new URLSearchParams(search).get('selected') ?? 'first';
