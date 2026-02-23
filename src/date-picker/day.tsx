@@ -64,7 +64,10 @@ export default class Day extends Component<DayProps> {
     const {day, from, currentRange, activeRange, empty, locale} = this.props;
 
     const reverse = activeRange && activeRange[1] === from;
-    const dayInWeek = getDayNumInWeek(locale, getDay(day)) + 1;
+    // eslint-disable-next-line no-magic-numbers
+    const dayInWeek = (getDayNumInWeek(locale, getDay(day)) + 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7;
+    // eslint-disable-next-line no-magic-numbers
+    const dayInWeekClass = dayInWeek !== 3 && dayInWeek !== 4 && styles[`Day${dayInWeek}`];
 
     function makeSpreadRange(range: [Date, Date] | null): [Date, Date] | null {
       return range && [range[0], addDays(range[1], 1)];
@@ -77,7 +80,7 @@ export default class Day extends Component<DayProps> {
       // TODO make keyboard navigation actually work
       <button
         type='button'
-        className={classNames(styles.day, styles[`Day${dayInWeek}`], {
+        className={classNames(styles.day, dayInWeekClass, {
           [styles.current]: (['date', 'from', 'to'] as const).some(this.is),
           [styles.active]: !disabled && this.is('activeDate'),
           [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day)),

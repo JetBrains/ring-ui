@@ -85,9 +85,9 @@ export const WithIcon = () => (
       <CollapseControl>
         {(collapsed: boolean) =>
           collapsed ? (
-            <Button aria-label='Expand' icon={ChevronDownIcon} className={styles.check} />
+            <Button aria-label='Expand' icon={ChevronDownIcon} />
           ) : (
-            <Button aria-label='Collapse' icon={ChevronUpIcon} className={styles.check} />
+            <Button aria-label='Collapse' icon={ChevronUpIcon} />
           )
         }
       </CollapseControl>

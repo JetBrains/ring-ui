@@ -71,7 +71,14 @@
     /* Advanced Options */
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true,        /* Disallow inconsistently-cased references to the same file. */
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+   "plugins": [{
+     "name": "@jetbrains/typescript-plugin-css-modules",
+     "options": {
+        "customMatcher": "\\.css$",
+        "goToDefinition": "default"
+     }
+   }]
   },
   "include": ["src", "test-helpers", ".storybook/**/*", "typings.d.ts"]
 }

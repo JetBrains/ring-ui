@@ -1261,11 +1261,12 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     const dataTest = this.props['data-test'];
     const {selectedLabel} = this.props;
     const {shortcutsEnabled} = this.state;
+    const height = this.getHeight();
     const classes = classNames(
       styles.select,
       'ring-js-shortcuts',
       this.props.className,
-      styles[`height${this.getHeight()}`],
+      height !== ControlsHeight.M && styles[`height${height}`],
       {
         [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
         [styles.disabled]: this.props.disabled,
@@ -1338,7 +1339,12 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               {this._renderPopup()}
             </div>
             {this.props.error && (
-              <div className={classNames(inputStyles.errorText, inputStyles[`size${this.props.size}`])}>
+              <div
+                className={classNames(
+                  inputStyles.errorText,
+                  this.props.size !== Size.AUTO && inputStyles[`size${this.props.size}`],
+                )}
+              >
                 {this.props.error}
               </div>
             )}

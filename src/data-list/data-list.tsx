@@ -103,7 +103,6 @@ class DataList<T extends SelectionItem> extends PureComponent<DataListProps<T>> 
     const classes = classNames(className, {
       [styles.dataList]: true,
       [styles.disabledHover]: disabledHover,
-      [styles.multiSelection]: selection.getSelected().size > 0,
     });
 
     return (

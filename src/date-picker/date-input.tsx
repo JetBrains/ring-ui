@@ -123,8 +123,8 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
 
     const classes = classNames(
       styles.filter,
-      styles[`${name}Input`],
-      divider && styles[`${name}InputWithDivider`],
+      name !== 'time' && styles[`${name}Input`],
+      divider && (name === 'from' || name === 'time') && styles[`${name}InputWithDivider`],
       'ring-js-shortcuts',
     );
 

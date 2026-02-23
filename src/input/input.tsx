@@ -28,7 +28,7 @@ function noop() {}
  */
 
 enum Size {
-  AUTO = 'Auto',
+  AUTO = 'AUTO',
   S = 'S',
   M = 'M',
   L = 'L',
@@ -193,14 +193,20 @@ export class Input extends PureComponent<InputProps> {
 
     const {empty} = this.state;
     const clearable = !!onClear;
-    const classes = classNames(className, styles.outerContainer, [styles[`size${size}`]], [styles[`height${height}`]], {
-      'ring-js-shortcuts': enableShortcuts === true,
-      [styles.error]: error !== null && error !== undefined,
-      [styles.empty]: empty,
-      [styles.withIcon]: icon,
-      [styles.clearable]: clearable,
-      [styles.borderless]: borderless,
-    });
+    const classes = classNames(
+      className,
+      styles.outerContainer,
+      size && size !== Size.AUTO && styles[`size${size}`],
+      styles[`height${height}`],
+      {
+        'ring-js-shortcuts': enableShortcuts === true,
+        [styles.error]: error !== null && error !== undefined,
+        [styles.empty]: empty,
+        [styles.withIcon]: icon,
+        [styles.clearable]: clearable,
+        [styles.borderless]: borderless,
+      },
+    );
 
     const inputClasses = classNames(styles.input, inputClassName);
 

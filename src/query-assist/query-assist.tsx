@@ -892,7 +892,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
         const styleName = `${LETTER_CLASS}-${item.style.replace('_', '-')}`;
 
         for (let i = item.start; i < item.start + item.length; i++) {
-          classes[i] = styles[styleName];
+          classes[i] = (styles as Record<string, string>)[styleName];
         }
       });
     }
@@ -1022,17 +1022,23 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const renderGlass = glass && !renderLoader;
     const actions = this.renderActions();
 
-    const containerClasses = classNames(className, inputStyles[`size${huge ? Size.FULL : size}`], {
+    let sizeClass;
+    if (huge) {
+      sizeClass = inputStyles[`size${Size.FULL}`];
+    } else if (size !== Size.AUTO) {
+      sizeClass = inputStyles[`size${size}`];
+    } else {
+      sizeClass = undefined;
+    }
+
+    const containerClasses = classNames(className, sizeClass, {
       [styles.queryAssist]: true,
-      [styles.withIcon]: (renderGlass && !huge) || renderLoader,
       [styles.huge]: huge,
       [styles.queryAssistDisabled]: this.props.disabled,
     });
 
     const inputClasses = classNames(this.props.inputClassName, {
       [`${styles.input} ring-js-shortcuts`]: true,
-      [styles.inputGap]: actions.length || (this.isRenderingGlassOrLoader() && !glass),
-      [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
       [styles.inputRevertOrder]: !glass || huge,
     });
 
@@ -1066,7 +1072,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
 
               {renderLoader && (
                 <div
-                  className={classNames(styles.icon, styles.loader, {
+                  className={classNames(styles.icon, {
                     [styles.loaderOnTheRight]: !glass && !huge,
                     [styles.loaderActive]: renderLoader,
                   })}
@@ -1143,7 +1149,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 <div className={styles.rightSearchButton} data-test='query-assist-search-button'>
                   <Icon
                     glyph={searchIcon}
-                    className={classNames(styles.rightSearchIcon, this.props.searchButtonClassName)}
+                    className={classNames(this.props.searchButtonClassName)}
                     title={translations?.searchTitle ?? translate('searchTitle')}
                     onClick={this.handleApply}
                     ref={this.glassRef}

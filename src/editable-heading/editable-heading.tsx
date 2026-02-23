@@ -113,15 +113,15 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     [styles.selectionMode]: isInSelectionMode,
   });
 
-  const headingClasses = classNames(styles.heading, headingClassName, styles[`size${size}`]);
+  const headingClasses = classNames(styles.heading, headingClassName, size !== Size.AUTO && styles[`size${size}`]);
 
   const inputClasses = classNames(
     'ring-js-shortcuts',
     styles.input,
     styles.textarea,
     {[styles.textareaNotOverflow]: !isOverflow},
-    inputStyles[`size${size}`],
-    styles[`level${level}`],
+    size !== Size.AUTO && inputStyles[`size${size}`],
+    level !== Levels.H4 && styles[`level${level}`],
     inputClassName,
   );
 
@@ -224,7 +224,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
                 onBlur={onInputBlur}
               />
             ) : (
-              <div className={classNames(styles.textareaWrapper, inputStyles[`size${size}`])}>
+              <div className={classNames(styles.textareaWrapper, size !== Size.AUTO && inputStyles[`size${size}`])}>
                 <textarea
                   ref={textAreaRef}
                   className={inputClasses}
@@ -266,7 +266,9 @@ export const EditableHeading = (props: EditableHeadingProps) => {
         )}
       </div>
 
-      {isEditing && error && <div className={classNames(styles.errorText, inputStyles[`size${size}`])}>{error}</div>}
+      {isEditing && error && (
+        <div className={classNames(styles.errorText, size !== Size.AUTO && inputStyles[`size${size}`])}>{error}</div>
+      )}
     </>
   );
 };
