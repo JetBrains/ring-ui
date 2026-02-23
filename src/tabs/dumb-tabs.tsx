@@ -8,6 +8,7 @@ import TabLink from './tab-link';
 import CollapsibleTabs, {type CollapsibleTabsProps} from './collapsible-tabs';
 import {CustomItem} from './custom-item';
 import {type TabProps} from './tab';
+import {getTabId} from './tabs.utils';
 
 import styles from './tabs.css';
 
@@ -31,20 +32,20 @@ class Tabs extends PureComponent<TabsProps> {
   getSelectedItem() {
     const {selected, children} = this.props;
     const childrenArray = React.Children.toArray(children).filter(Boolean) as ReactElement<TabProps>[];
-    const selectedIndex = childrenArray.findIndex(({props}, i) => (props.id || String(i)) === selected);
+    const selectedIndex = childrenArray.findIndex((tab, i) => getTabId(tab, i) === selected);
     const actualSelectedIndex = selectedIndex === -1 ? 0 : selectedIndex;
     const selectedItem = childrenArray[actualSelectedIndex];
-    return {selectedItem, selectedKey: selectedItem?.props.id || String(actualSelectedIndex)};
+    return {selectedItem, selectedKey: getTabId(selectedItem, actualSelectedIndex)};
   }
 
-  getTabTitle = (selectedKey: string) => (child: ReactElement<TabProps>, i: number) => {
+  getTabTitle(selectedKey: string, child: ReactElement<TabProps>, i: number) {
     if (child === null || typeof child !== 'object' || child.type === CustomItem) {
       return child;
     }
 
     const {onSelect} = this.props;
-    const {title, titleProps, id, disabled, href, className, activeClassName} = child.props;
-    const key = id || String(i);
+    const {title, titleProps, disabled, href, className, activeClassName} = child.props;
+    const key = getTabId(child, i);
     const isSelected = key === selectedKey;
     const titleClasses = classNames(styles.title, className, isSelected && activeClassName, {
       [styles.selected]: isSelected,
@@ -62,7 +63,7 @@ class Tabs extends PureComponent<TabsProps> {
         {...titleProps}
       />
     );
-  };
+  }
 
   render() {
     const {
@@ -87,7 +88,9 @@ class Tabs extends PureComponent<TabsProps> {
             {childrenArray}
           </CollapsibleTabs>
         ) : (
-          <div className={styles.titles}>{childrenArray.map(this.getTabTitle(selectedKey))}</div>
+          <div className={styles.titles}>
+            {childrenArray.map((tab, index) => this.getTabTitle(selectedKey, tab, index))}
+          </div>
         )}
         <div className={classNames(tabContainerClassName)}>{selectedItem}</div>
       </div>
