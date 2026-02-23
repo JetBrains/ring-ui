@@ -783,12 +783,9 @@ describe('Auth', () => {
       vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
       vi.spyOn(Auth.prototype, '_checkBackendsAreUp').mockResolvedValue([null, null]);
       vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
-      // Reset cached Hub version and mock version endpoint by default
-      auth._hubVersion = null;
-      vi.spyOn(auth.http, 'get').mockResolvedValue({services: [{version: '2026.1'}]});
     });
 
-    it('should redirect to logout endpoint when Hub >= 2026.1', async () => {
+    it('should redirect to logout endpoint', async () => {
       await auth.logout();
       expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
         'api/rest/oauth2/logout?client_id=1-1-1-1-1&state=unique',
@@ -807,26 +804,6 @@ describe('Auth', () => {
       );
     });
 
-    it('should fall back to auth redirect when Hub < 2026.1', async () => {
-      vi.spyOn(auth.http, 'get').mockResolvedValue({services: [{version: '2025.2'}]});
-      await auth.logout();
-      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
-        'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
-      );
-    });
-
-    it('should fall back to auth redirect when version fetch fails', async () => {
-      vi.spyOn(auth.http, 'get').mockRejectedValue(new Error('Network error'));
-      await auth.logout();
-      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
-        'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
-      );
-    });
-
     it('should use legacy auth redirect when singleLogout is false', async () => {
       const legacyAuth = new Auth({
         serverUri: '',
@@ -835,36 +812,7 @@ describe('Auth', () => {
         scope: ['0-0-0-0-0', 'youtrack'],
         singleLogout: false,
       });
-      const getSpy = vi.spyOn(legacyAuth.http, 'get').mockResolvedValue({services: [{version: '2026.1'}]});
       await legacyAuth.logout();
-      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
-        'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
-      );
-      expect(getSpy).not.toHaveBeenCalled();
-    });
-
-    it('should cache Hub version and not refetch on subsequent logout calls', async () => {
-      const getSpy = vi.spyOn(auth.http, 'get').mockResolvedValue({services: [{version: '2026.1'}]});
-      await auth.logout();
-      await auth.logout();
-      expect(getSpy).toHaveBeenCalledTimes(1);
-    });
-
-    it('should fall back to auth redirect when services array is empty', async () => {
-      vi.spyOn(auth.http, 'get').mockResolvedValue({services: []});
-      await auth.logout();
-      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
-        'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
-      );
-    });
-
-    it('should fall back to auth redirect when service has no version field', async () => {
-      vi.spyOn(auth.http, 'get').mockResolvedValue({services: [{}]});
-      await auth.logout();
       expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
         'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
@@ -880,7 +828,6 @@ describe('Auth', () => {
         serverUri: '',
         onLogout,
       });
-      vi.spyOn(logoutAuth.http, 'get').mockResolvedValue({services: [{version: '2026.1'}]});
 
       await logoutAuth.logout();
       expect(onLogout).toHaveBeenCalledOnce;
@@ -891,43 +838,8 @@ describe('Auth', () => {
         serverUri: '',
         onLogout: () => Promise.reject(),
       });
-      vi.spyOn(logoutAuth.http, 'get').mockResolvedValue({services: [{version: '2026.1'}]});
 
       return expect(logoutAuth.logout()).to.be.rejected;
-    });
-  });
-
-  describe('_isLogoutEndpointSupported', () => {
-    it('should return true for Hub 2026.1', () => {
-      expect(Auth._isLogoutEndpointSupported('2026.1')).to.be.true;
-    });
-
-    it('should return true for Hub 2026.2', () => {
-      expect(Auth._isLogoutEndpointSupported('2026.2')).to.be.true;
-    });
-
-    it('should return true for Hub 2027.1', () => {
-      expect(Auth._isLogoutEndpointSupported('2027.1')).to.be.true;
-    });
-
-    it('should return false for Hub 2025.2', () => {
-      expect(Auth._isLogoutEndpointSupported('2025.2')).to.be.false;
-    });
-
-    it('should return false for Hub 2026.0', () => {
-      expect(Auth._isLogoutEndpointSupported('2026.0')).to.be.false;
-    });
-
-    it('should return true for version with patch number', () => {
-      expect(Auth._isLogoutEndpointSupported('2026.1.23456')).to.be.true;
-    });
-
-    it('should return false for invalid version string', () => {
-      expect(Auth._isLogoutEndpointSupported('invalid')).to.be.false;
-    });
-
-    it('should return false for version with only major number', () => {
-      expect(Auth._isLogoutEndpointSupported('2026')).to.be.false;
     });
   });
 });

@@ -200,7 +200,6 @@ class Auth implements HTTPAuth {
   user: AuthUser | null = null;
   _initDeferred?: Deferred<string | void>;
   private _isLoginWindowOpen?: boolean;
-  _hubVersion: string | null = null;
 
   constructor(config: Partial<AuthConfig> & Pick<AuthConfig, 'serverUri'>) {
     if (!config) {
@@ -868,13 +867,10 @@ class Auth implements HTTPAuth {
     });
   }
 
-  // The /oauth2/logout endpoint is available starting from Hub 2026.1
-  static MIN_LOGOUT_ENDPOINT_VERSION = [2026, 1] as const;
-
   /**
    * Wipe accessToken and redirect to logout endpoint.
-   * Uses RP-initiated logout flow (oauth2/logout) for Hub 2026.1+,
-   * falls back to oauth2/auth redirect for older versions.
+   * Uses RP-initiated logout flow (oauth2/logout) when singleLogout is enabled,
+   * falls back to oauth2/auth redirect otherwise.
    * See: https://youtrack.jetbrains.com/projects/HUB/articles/HUB-A-43#rp-initiated-logout
    */
   async logout(extraParams?: Record<string, unknown>) {
@@ -883,10 +879,7 @@ class Auth implements HTTPAuth {
     this._updateDomainUser(null);
     await this._storage?.wipeToken();
 
-    const hubVersion = this.config.singleLogout ? await this._fetchHubVersion() : null;
-    const useLogoutEndpoint = hubVersion != null && Auth._isLogoutEndpointSupported(hubVersion);
-
-    const request = useLogoutEndpoint
+    const request = this.config.singleLogout
       ? await this._requestBuilder?.prepareLogoutRequest(extraParams)
       : await this._requestBuilder?.prepareAuthRequest({
           request_credentials: 'required',
@@ -896,36 +889,6 @@ class Auth implements HTTPAuth {
     if (request) {
       this._redirectCurrentPage(request.url);
     }
-  }
-
-  static _isLogoutEndpointSupported(version: string): boolean {
-    const parts = version.split('.');
-    if (parts.length < 2) {
-      return false;
-    }
-    const major = parseInt(parts[0], 10);
-    const minor = parseInt(parts[1], 10);
-    if (isNaN(major) || isNaN(minor)) {
-      return false;
-    }
-    const [minMajor, minMinor] = Auth.MIN_LOGOUT_ENDPOINT_VERSION;
-    return major > minMajor || (major === minMajor && minor >= minMinor);
-  }
-
-  private async _fetchHubVersion(): Promise<string | null> {
-    if (this._hubVersion) {
-      return this._hubVersion;
-    }
-    try {
-      const response = await this.http.get<{services: {version?: string}[]}>(
-        'services?fields=version&query=is:hostService',
-      );
-      this._hubVersion = response.services?.[0]?.version ?? null;
-    } catch {
-      // eslint-disable-next-line no-console
-      console.warn('RingUI Auth: failed to fetch Hub version, falling back to legacy logout flow');
-    }
-    return this._hubVersion;
   }
 
   private async _runEmbeddedLogin() {
