@@ -27,7 +27,7 @@ describe('Tabs', () => {
     expect(screen.getByTestId('ring-dumb-tabs')).to.have.class('test-class');
   });
 
-  it('should selected the tab referenced by id', () => {
+  it('should select the tab referenced by id', () => {
     render(
       <Tabs selected='second'>
         <Tab id='first' title='First'>
