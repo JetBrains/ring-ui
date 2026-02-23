@@ -923,7 +923,7 @@ class Auth implements HTTPAuth {
       this._hubVersion = response.services?.[0]?.version ?? null;
     } catch {
       // eslint-disable-next-line no-console
-      console.warn('RingUI Auth: failed to perform logout: cannot fetch Hub version');
+      console.warn('RingUI Auth: failed to fetch Hub version, falling back to legacy logout flow');
     }
     return this._hubVersion;
   }
