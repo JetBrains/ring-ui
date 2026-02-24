@@ -99,7 +99,7 @@ export interface AuthConfig extends TokenValidatorConfig {
   translations?: AuthTranslations | null | undefined;
   userParams?: RequestParams | undefined;
   waitForRedirectTimeout: number;
-  singleLogout: boolean;
+  rpInitiatedLogout: boolean;
 }
 
 const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
@@ -125,7 +125,7 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
 
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   waitForRedirectTimeout: DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT,
-  singleLogout: true,
+  rpInitiatedLogout: true,
   translations: null,
 };
 
@@ -869,7 +869,7 @@ class Auth implements HTTPAuth {
 
   /**
    * Wipe accessToken and redirect to logout endpoint.
-   * Uses RP-initiated logout flow (oauth2/logout) when singleLogout is enabled,
+   * Uses RP-initiated logout flow (oauth2/logout) when rpInitiatedLogout config is enabled,
    * falls back to oauth2/auth redirect otherwise.
    * See: https://youtrack.jetbrains.com/projects/HUB/articles/HUB-A-43#rp-initiated-logout
    */
@@ -879,7 +879,7 @@ class Auth implements HTTPAuth {
     this._updateDomainUser(null);
     await this._storage?.wipeToken();
 
-    const request = this.config.singleLogout
+    const request = this.config.rpInitiatedLogout
       ? await this._requestBuilder?.prepareLogoutRequest(extraParams)
       : await this._requestBuilder?.prepareAuthRequest({
           request_credentials: 'required',

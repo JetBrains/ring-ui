@@ -804,13 +804,13 @@ describe('Auth', () => {
       );
     });
 
-    it('should use legacy auth redirect when singleLogout is false', async () => {
+    it('should use legacy auth redirect when rpInitiatedLogout is disabled', async () => {
       const legacyAuth = new Auth({
         serverUri: '',
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        singleLogout: false,
+        rpInitiatedLogout: false,
       });
       await legacyAuth.logout();
       expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
