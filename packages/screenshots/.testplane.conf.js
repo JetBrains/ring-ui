@@ -49,7 +49,7 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Chrome',
         pageLoadStrategy: 'normal',
-        browser_version: '112.0',
+        browser_version: '145.0',
         chromeOptions: {
           excludeSwitches: ['enable-automation'],
         },
