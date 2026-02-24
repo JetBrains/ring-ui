@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import {Tabs, Tab} from './tabs';
+import {Tabs, Tab, CustomItem} from './tabs';
 import {type TabsAttrs} from './dumb-tabs';
 
 describe('Tabs', () => {
@@ -74,6 +74,27 @@ describe('Tabs', () => {
     );
     expect(screen.queryByTestId('tab-first-content')).to.exist;
     expect(screen.queryByTestId('tab-second-content')).to.not.exist;
+    expect(screen.getByRole('button', {name: 'First'})).to.have.attribute('data-test-selected', 'true');
+    expect(screen.getByRole('button', {name: 'Second'})).to.not.have.attribute('data-test-selected', 'true');
+  });
+
+  it('should skip CustomItem when selecting the fallback tab', () => {
+    render(
+      <Tabs selected='non-existing-id'>
+        <CustomItem>
+          <span data-test='custom-item-content' />
+        </CustomItem>
+        <Tab id='first' title='First'>
+          <span data-test='tab-first-content' />
+        </Tab>
+        <Tab id='second' title='Second'>
+          <span data-test='tab-second-content' />
+        </Tab>
+      </Tabs>,
+    );
+    expect(screen.queryByTestId('tab-first-content')).to.exist;
+    expect(screen.queryByTestId('tab-second-content')).to.not.exist;
+    expect(screen.queryAllByTestId('custom-item-content')).to.have.length(1);
     expect(screen.getByRole('button', {name: 'First'})).to.have.attribute('data-test-selected', 'true');
     expect(screen.getByRole('button', {name: 'Second'})).to.not.have.attribute('data-test-selected', 'true');
   });

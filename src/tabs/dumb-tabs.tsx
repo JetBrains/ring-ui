@@ -33,7 +33,8 @@ class Tabs extends PureComponent<TabsProps> {
     const {selected, children} = this.props;
     const childrenArray = React.Children.toArray(children).filter(Boolean) as ReactElement<TabProps>[];
     const selectedIndex = childrenArray.findIndex((tab, i) => getTabId(tab, i) === selected);
-    const actualSelectedIndex = selectedIndex === -1 ? 0 : selectedIndex;
+    const actualSelectedIndex =
+      selectedIndex === -1 ? childrenArray.findIndex(tab => tab.type !== CustomItem) : selectedIndex;
     const selectedItem = childrenArray[actualSelectedIndex];
     return {selectedItem, selectedKey: getTabId(selectedItem, actualSelectedIndex)};
   }
