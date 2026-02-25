@@ -7,6 +7,7 @@ import type AuthStorage from './storage';
 
 export interface AuthRequestBuilderConfig {
   authorization: string;
+  logout?: string | null | undefined;
   redirectUri?: string | null | undefined;
   requestCredentials?: string | null | undefined;
   clientId?: string | null | undefined;
@@ -74,6 +75,38 @@ export default class AuthRequestBuilder {
     await this._saveState(stateId, state);
     return {
       url: authURL,
+      stateId,
+    };
+  }
+
+  /**
+   * Build a logout URL for RP-initiated logout flow.
+   * See: https://youtrack.jetbrains.com/projects/HUB/articles/HUB-A-43#rp-initiated-logout
+   *
+   * @param {object=} extraParams additional query parameters for logout request
+   * @return {Promise.<{url: string, stateId: string}>} logout URL with required parameters
+   */
+  async prepareLogoutRequest(extraParams?: Record<string, unknown> | null | undefined) {
+    if (!this.config.logout) {
+      throw new Error('Logout URL is not configured');
+    }
+
+    // eslint-disable-next-line no-underscore-dangle
+    const stateId = AuthRequestBuilder._uuid();
+
+    const logoutParams = {
+      client_id: this.config.clientId,
+      state: stateId,
+      ...extraParams,
+    };
+
+    await this._saveState(stateId, {
+      restoreLocation: window.location.href,
+      scopes: [...this.config.scopes],
+    });
+
+    return {
+      url: encodeURL(this.config.logout, logoutParams),
       stateId,
     };
   }

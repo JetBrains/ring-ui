@@ -99,6 +99,7 @@ export interface AuthConfig extends TokenValidatorConfig {
   translations?: AuthTranslations | null | undefined;
   userParams?: RequestParams | undefined;
   waitForRedirectTimeout: number;
+  rpInitiatedLogout: boolean;
 }
 
 const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
@@ -124,6 +125,7 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
 
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   waitForRedirectTimeout: DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT,
+  rpInitiatedLogout: true,
   translations: null,
 };
 
@@ -174,6 +176,7 @@ class Auth implements HTTPAuth {
   static DEFAULT_CONFIG = DEFAULT_CONFIG;
   static API_PATH = 'api/rest/';
   static API_AUTH_PATH = 'oauth2/auth';
+  static API_LOGOUT_PATH = 'oauth2/logout';
   static API_PROFILE_PATH = 'users/me';
   static CLOSE_BACKEND_DOWN_MESSAGE = 'backend-check-succeeded';
   static CLOSE_WINDOW_MESSAGE = 'close-login-window';
@@ -249,6 +252,7 @@ class Auth implements HTTPAuth {
     this._requestBuilder = new AuthRequestBuilder(
       {
         authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
+        logout: this.config.serverUri + Auth.API_PATH + Auth.API_LOGOUT_PATH,
         clientId,
         redirect,
         redirectUri,
@@ -864,22 +868,26 @@ class Auth implements HTTPAuth {
   }
 
   /**
-   * Wipe accessToken and redirect to auth page with required authorization
+   * Wipe accessToken and redirect to logout endpoint.
+   * Uses RP-initiated logout flow (oauth2/logout) when rpInitiatedLogout config is enabled,
+   * falls back to oauth2/auth redirect otherwise.
+   * See: https://youtrack.jetbrains.com/projects/HUB/articles/HUB-A-43#rp-initiated-logout
    */
   async logout(extraParams?: Record<string, unknown>) {
-    const requestParams = {
-      request_credentials: 'required',
-      ...extraParams,
-    };
-
     await this._checkBackendsStatusesIfEnabled();
     await this.listeners.trigger('logout');
     this._updateDomainUser(null);
     await this._storage?.wipeToken();
 
-    const authRequest = await this._requestBuilder?.prepareAuthRequest(requestParams);
-    if (authRequest) {
-      this._redirectCurrentPage(authRequest.url);
+    const request = this.config.rpInitiatedLogout
+      ? await this._requestBuilder?.prepareLogoutRequest(extraParams)
+      : await this._requestBuilder?.prepareAuthRequest({
+          request_credentials: 'required',
+          ...extraParams,
+        });
+
+    if (request) {
+      this._redirectCurrentPage(request.url);
     }
   }
 

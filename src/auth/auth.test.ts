@@ -785,8 +785,15 @@ describe('Auth', () => {
       vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
     });
 
-    it('should clear access token and redirect to logout', async () => {
-      await auth.logout();
+    it('should clear access token and redirect to logout wgeb when rpInitiatedLogout is disabled', async () => {
+      const legacyAuth = new Auth({
+        serverUri: '',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        rpInitiatedLogout: false,
+      });
+      await legacyAuth.logout();
       expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
         'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
@@ -804,21 +811,44 @@ describe('Auth', () => {
       });
     });
 
-    it('should pass error message to server', async () => {
+    it('should redirect to logout endpoint', async () => {
+      await auth.logout();
+      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
+        'api/rest/oauth2/logout?client_id=1-1-1-1-1&state=unique',
+      );
+
+      const storedToken = await auth._storage?.getToken();
+      expect(storedToken).to.not.exist;
+    });
+
+    it('should pass extra parameters to logout endpoint', async () => {
       await auth.logout({
         message: 'access denied',
       });
       expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
+        'api/rest/oauth2/logout?client_id=1-1-1-1-1&state=unique&message=access%20denied',
+      );
+    });
+
+    it('should use legacy auth redirect when rpInitiatedLogout is disabled', async () => {
+      const legacyAuth = new Auth({
+        serverUri: '',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        rpInitiatedLogout: false,
+      });
+      await legacyAuth.logout();
+      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
         'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
-          'message=access%20denied',
+          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
       );
     });
 
     it('should logout when no onLogout passed', () => expect(auth.logout()).to.be.fulfilled);
 
-    it('should fail pass when onLogout mockReturnValue rejected promise', async () => {
+    it('should call onLogout callback', async () => {
       const onLogout = vi.fn();
       const logoutAuth = new Auth({
         serverUri: '',
@@ -829,29 +859,7 @@ describe('Auth', () => {
       expect(onLogout).toHaveBeenCalledOnce;
     });
 
-    it('should fail pass when onLogout mockReturnValue rejected promise', () => {
-      const logoutAuth = new Auth({
-        serverUri: '',
-        onLogout: () => Promise.reject(),
-      });
-
-      return expect(logoutAuth.logout()).to.be.rejected;
-    });
-
-    it('should logout when no onLogout passed', () => expect(auth.logout()).to.be.fulfilled);
-
-    it('should fail pass when onLogout mockReturnValue rejected promise', async () => {
-      const onLogout = vi.fn();
-      const logoutAuth = new Auth({
-        serverUri: '',
-        onLogout,
-      });
-
-      await logoutAuth.logout();
-      expect(onLogout).toHaveBeenCalledOnce;
-    });
-
-    it('should fail pass when onLogout mockReturnValue rejected promise', () => {
+    it('should reject when onLogout returns rejected promise', () => {
       const logoutAuth = new Auth({
         serverUri: '',
         onLogout: () => Promise.reject(),

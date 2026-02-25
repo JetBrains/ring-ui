@@ -61,5 +61,63 @@ describe('Auth', () => {
         });
       });
     });
+
+    describe('prepareLogoutRequest', () => {
+      const config = {
+        authorization: 'https://sso.jetbrains.com/auth',
+        logout: 'https://sso.jetbrains.com/logout',
+        redirectUri: 'http://localhost:8080',
+        clientId: '0-0-0-0-0',
+        scopes: ['youtrack', 'teamcity'],
+      };
+
+      beforeEach(() => {
+        vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
+        vi.spyOn(AuthRequestBuilder.prototype, '_saveState').mockImplementation(() => Promise.resolve());
+      });
+
+      it('should return correct logout URL', async () => {
+        const builder = new AuthRequestBuilder(config);
+        const expected = 'https://sso.jetbrains.com/logout?client_id=0-0-0-0-0&state=unique';
+
+        const result = await builder.prepareLogoutRequest();
+        expect(result).to.deep.equal({
+          url: expected,
+          stateId: 'unique',
+        });
+      });
+
+      it('should save state', async () => {
+        const builder = new AuthRequestBuilder(config);
+        await builder.prepareLogoutRequest();
+        // eslint-disable-next-line no-underscore-dangle
+        expect(AuthRequestBuilder.prototype._saveState).toHaveBeenCalledWith('unique', {
+          restoreLocation: window.location.href,
+          scopes: ['youtrack', 'teamcity'],
+        });
+      });
+
+      it('should return correct logout URL with extra parameters', async () => {
+        const builder = new AuthRequestBuilder(config);
+        const expected = 'https://sso.jetbrains.com/logout?client_id=0-0-0-0-0&state=unique&message=access%20denied';
+
+        const result = await builder.prepareLogoutRequest({message: 'access denied'});
+        expect(result).to.deep.equal({
+          url: expected,
+          stateId: 'unique',
+        });
+      });
+
+      it('should throw error when logout URL is not configured', () => {
+        const configWithoutLogout = {
+          authorization: 'https://sso.jetbrains.com/auth',
+          redirectUri: 'http://localhost:8080',
+          clientId: '0-0-0-0-0',
+          scopes: ['youtrack'],
+        };
+        const builder = new AuthRequestBuilder(configWithoutLogout);
+        return expect(builder.prepareLogoutRequest()).to.be.rejectedWith('Logout URL is not configured');
+      });
+    });
   });
 });
