@@ -17,6 +17,9 @@ module.exports = {
   },
   executeJS: (browser, {script}) => browser.execute(script),
   focus: (browser, {selector}) => browser.execute(`document.querySelector('${selector}').focus()`),
+  async keys(browser, {value}) {
+    await browser.keys(value);
+  },
   mouseMove: async (browser, {selector, x, y}) => {
     const element = await browser.$(selector);
     return element.moveTo({xOffset: x, yOffset: y});
@@ -34,7 +37,7 @@ module.exports = {
       ${x && `element.scrollLeft += ${x};`}`,
     ),
   setWindowSize: (browser, {width, height}) => browser.setWindowSize(width, height),
-  waitForElementToShow: async (browser, {timeout, selector, hidden}) => {
+  waitForElementToShow: async (browser, {timeout = TIMEOUT, selector, hidden}) => {
     const element = await browser.$(selector);
     return element.waitForDisplayed({timeout, reverse: hidden});
   },
