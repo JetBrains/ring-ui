@@ -23,7 +23,7 @@ for (const {kind, stories} of items) {
         actions = [{type: 'capture', name: '', selector: captureSelector}],
       } = parameters;
 
-      const storyCaptureSelector = actions.find(action => action.type === 'capture')?.selector ?? captureSelector;
+      const storyCaptureSelector = actions.findLast(action => action.type === 'capture')?.selector ?? captureSelector;
 
       const allActions = [
         ...actions,

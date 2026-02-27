@@ -227,10 +227,16 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     }
 
     const {activeIndex} = this.state;
-    if (!this.virtualizedList && activeIndex !== null && activeIndex !== prevState.activeIndex) {
+    if (
+      !this.virtualizedList &&
+      !this.props.disableScrollToActive &&
+      this.state.needScrollToActive &&
+      activeIndex != null &&
+      activeIndex !== prevState.activeIndex
+    ) {
       const itemId = this.getId(this.props.data[activeIndex]);
       if (itemId) {
-        document.getElementById(itemId)?.scrollIntoView({
+        document.getElementById(itemId)?.scrollIntoView?.({
           block: 'center',
         });
       }
