@@ -380,6 +380,8 @@ class Auth implements HTTPAuth {
             throw error;
           }
           if (this._canShowDialogs()) {
+            // eslint-disable-next-line no-console
+            console.error('RingUI Auth: Init failure', error);
             this._showAuthDialog({nonInteractive: true, error});
           }
         }
@@ -702,7 +704,10 @@ class Auth implements HTTPAuth {
 
   _beforeLogout(params?: AuthDialogParams) {
     if (this._canShowDialogs()) {
-      this._showAuthDialog(params);
+      const onTryAgain = async () => {
+        await this.forceTokenUpdate();
+      };
+      this._showAuthDialog({onTryAgain, ...params});
       return;
     }
 
@@ -951,6 +956,8 @@ class Auth implements HTTPAuth {
         this.listeners.trigger(USER_CHANGED_EVENT, user);
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('RingUI Auth: login failure', e);
       this._beforeLogout();
     }
   }
