@@ -539,7 +539,7 @@ class Auth implements HTTPAuth {
    * iframe-based auth attempt fails but a subsequent one succeeds once
    * the Hub session is re-established.
    *
-   * @return {Promise.<string>}
+   * @return {Promise.<string | null>}
    */
   forceTokenUpdate(): Promise<string | null> {
     if (this._forceTokenUpdatePromise) {

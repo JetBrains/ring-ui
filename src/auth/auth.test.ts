@@ -594,6 +594,7 @@ describe('Auth', () => {
       await vi.advanceTimersByTimeAsync(getTotalRetryTime());
       await requestPromise;
 
+      expect(auth._backgroundFlow?.authorize).toHaveBeenCalledTimes(auth.config.tokenRefreshRetryDelays.length);
       expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
         'api/rest/oauth2/auth' +
           '?response_type=token&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
@@ -613,6 +614,7 @@ describe('Auth', () => {
       // Advance through all retry delays
       await vi.advanceTimersByTimeAsync(getTotalRetryTime());
 
+      expect(auth._backgroundFlow?.authorize).toHaveBeenCalledTimes(auth.config.tokenRefreshRetryDelays.length);
       await act(() => {
         expect(Auth.prototype._showAuthDialog).toHaveBeenCalled();
       });
