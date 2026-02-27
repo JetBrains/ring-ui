@@ -119,7 +119,7 @@
 .buttonGroup .button.button:hover:not(:disabled),
 .buttonGroup .button.button:active:not(:disabled) {
   border-radius: var(--ring-border-radius);
-  box-shadow: var(--ring-button-shadow) var(--ring-border-hover-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-button-border-color);
 }
 
 .buttonGroup .button.button:focus-visible {
@@ -131,13 +131,13 @@
 
 .buttonGroup .button.button.active {
   border-radius: var(--ring-border-radius);
-  box-shadow: var(--ring-button-shadow) var(--ring-main-color);
+  box-shadow: var(--ring-button-shadow) var(--ring-button-border-color);
 }
 
 .buttonGroup .button:focus-visible.active {
   border-radius: var(--ring-border-radius);
   box-shadow:
-    var(--ring-button-shadow) var(--ring-main-color),
+    var(--ring-button-shadow) var(--ring-button-border-color),
     0 0 0 1px var(--ring-border-hover-color);
 }
 

@@ -46,8 +46,10 @@
   --ring-button-default-background-color: transparent;
   --ring-button-background-color: var(--ring-button-default-background-color);
   --ring-button-hover-background-color: var(--ring-content-background-color);
-  --ring-button-pressed-background-color: var(--ring-selected-background-color);
+  --ring-button-pressed-background-color: var(--ring-hover-background-color);
   --ring-button-active-background-color: var(--ring-main-container-light-color);
+  --ring-button-active-hover-background-color: var(--ring-hover-background-color);
+  --ring-button-active-pressed-background-color: var(--ring-selected-background-color);
   --ring-button-disabled-background-color: var(--ring-button-default-background-color);
 
   box-sizing: border-box;
@@ -89,8 +91,8 @@
   --ring-button-default-background-color: var(--ring-content-background-color);
   --ring-button-default-border-color: var(--ring-borders-color);
   --ring-button-border-color: var(--ring-button-default-border-color);
-  --ring-button-hover-border-color: var(--ring-border-hover-color);
-  --ring-button-pressed-border-color: var(--ring-border-hover-color);
+  --ring-button-hover-border-color: var(--ring-border-accent-color);
+  --ring-button-pressed-border-color: var(--ring-border-accent-color);
   --ring-button-active-border-color: var(--ring-main-color);
   --ring-button-disabled-border-color: var(--ring-border-disabled-color);
   --ring-button-text-color: var(--ring-text-color);
@@ -174,7 +176,7 @@
 }
 
 .active {
-  --ring-button-disabled-background-color: var(--ring-hover-background-color);
+  --ring-button-disabled-background-color: var(--ring-main-container-light-color);
   --ring-button-disabled-border-color: var(--ring-border-hover-color);
 
   transition: none;
@@ -183,6 +185,14 @@
 .active.block {
   --ring-button-background-color: var(--ring-button-active-background-color);
   --ring-button-border-color: var(--ring-button-active-border-color);
+}
+
+.active:hover {
+  --ring-button-active-background-color: var(--ring-button-active-hover-background-color);
+}
+
+.active:active {
+  --ring-button-active-background-color: var(--ring-button-active-pressed-background-color);
 }
 
 .disabled {
@@ -196,6 +206,8 @@
 .danger {
   --ring-button-pressed-background-color: var(--ring-button-danger-active-color);
   --ring-button-active-background-color: var(--ring-button-danger-active-color);
+  --ring-button-active-hover-background-color: var(--ring-button-danger-active-color);
+  --ring-button-active-pressed-background-color: var(--ring-button-danger-active-color);
   --ring-button-focus-border-color: var(--ring-removed-background-color);
   --ring-button-hover-border-color: var(--ring-button-danger-hover-color);
   --ring-button-pressed-border-color: var(--ring-button-danger-hover-color);
@@ -224,6 +236,8 @@
   --ring-button-hover-background-color: var(--ring-main-hover-color);
   --ring-button-pressed-background-color: var(--ring-button-primary-background-color);
   --ring-button-active-background-color: var(--ring-button-primary-background-color);
+  --ring-button-active-hover-background-color: var(--ring-main-hover-color);
+  --ring-button-active-pressed-background-color: var(--ring-button-primary-background-color);
   --ring-button-disabled-background-color: var(--ring-border-hover-color);
   --ring-button-pressed-border-color: var(--ring-button-primary-border-color);
   --ring-button-active-border-color: var(--ring-button-primary-border-color);
@@ -237,6 +251,8 @@
   --ring-button-hover-background-color: var(--ring-main-success-hover-color);
   --ring-button-pressed-background-color: var(--ring-main-success-hover-color);
   --ring-button-active-background-color: var(--ring-main-success-hover-color);
+  --ring-button-active-hover-background-color: var(--ring-main-success-hover-color);
+  --ring-button-active-pressed-background-color: var(--ring-main-success-hover-color);
   --ring-button-disabled-background-color: var(--ring-added-background-color);
   --ring-button-focus-border-color: var(--ring-border-hover-success-color);
   --ring-button-pressed-border-color: var(--ring-success-color);
@@ -252,6 +268,8 @@
   --ring-button-hover-background-color: var(--ring-main-error-hover-color);
   --ring-button-pressed-background-color: var(--ring-main-error-hover-color);
   --ring-button-active-background-color: var(--ring-main-error-hover-color);
+  --ring-button-active-hover-background-color: var(--ring-main-error-hover-color);
+  --ring-button-active-pressed-background-color: var(--ring-main-error-hover-color);
   --ring-button-disabled-background-color: var(--ring-removed-background-color);
   --ring-button-focus-border-color: var(--ring-border-hover-error-color);
   --ring-button-pressed-border-color: var(--ring-error-color);
