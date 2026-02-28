@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {useState} from 'react';
 import {type StoryFn} from '@storybook/react-webpack5';
 import {enUS} from 'date-fns/locale/en-US';
 
@@ -38,51 +38,29 @@ export default {
   },
 };
 
-export const singleDate: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {date: '01.01.18'};
+export const SingleDate: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} {...args} />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} {...args} />
+    </div>
+  );
 };
 
-singleDate.storyName = 'single date';
+SingleDate.storyName = 'single date';
 
-export const singleDateAndTime: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {
-      date: '8 January 2018, 9:45',
-    };
+export const SingleDateAndTime: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('8 January 2018, 9:45');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} withTime clear {...args} />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} withTime clear {...args} />
+    </div>
+  );
 };
 
-singleDateAndTime.parameters = {
+SingleDateAndTime.parameters = {
   screenshots: {
     actions: [
       {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
@@ -95,337 +73,226 @@ singleDateAndTime.parameters = {
   },
 };
 
-singleDateAndTime.storyName = 'single date and time';
+SingleDateAndTime.storyName = 'single date and time';
 
-export const range: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {
-      from: '1 January 2018',
-      to: '15 February 2018',
-    };
+export const Range: StoryFn<DatePickerAttrs> = args => {
+  const [{from, to}, setRange] = useState<{
+    from: Date | string | null | undefined;
+    to: Date | string | null | undefined;
+  }>({
+    from: '1 January 2018',
+    to: '15 February 2018',
+  });
 
-    setRange = ({from, to}: DatePickerChange) => {
-      this.setState({from, to});
-    };
+  const handleChange = (change: DatePickerChange) => setRange(prev => ({...prev, ...change}));
 
-    render() {
-      return (
-        <div>
-          <DatePicker from={this.state.from} to={this.state.to} onChange={this.setRange} range {...args} />
-        </div>
-      );
-    }
-  }
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker from={from} to={to} onChange={handleChange} range {...args} />
+    </div>
+  );
 };
 
-range.storyName = 'range';
+Range.storyName = 'range';
 
-export const clearable: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {date: '01.01.18'};
+export const Clearable: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} clear {...args} />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} clear {...args} />
+    </div>
+  );
 };
 
-clearable.storyName = 'clearable';
+Clearable.storyName = 'clearable';
 
-export const singleWithMinMax: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {date: '01.02.18'};
+export const SingleWithMinMax: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.02.18');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div>
-          <DatePicker
-            date={this.state.date}
-            onChange={this.setDate}
-            clear
-            minDate='25 January 2018'
-            maxDate='5 February 2018'
-            {...args}
-          />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} clear minDate='25 January 2018' maxDate='5 February 2018' {...args} />
+    </div>
+  );
 };
 
-singleWithMinMax.storyName = 'single with min-max dates';
+SingleWithMinMax.storyName = 'single with min-max dates';
 
-export const singleWithMin: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {date: '01.02.18'};
+export const SingleWithMin: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.02.18');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} clear minDate='25 January 2018' {...args} />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} clear minDate='25 January 2018' {...args} />
+    </div>
+  );
 };
 
-singleWithMin.storyName = 'single with min date';
+SingleWithMin.storyName = 'single with min date';
 
-export const singleWithMax: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {date: '01.02.18'};
+export const SingleWithMax: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.02.18');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} clear maxDate='5 February 2018' {...args} />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} clear maxDate='5 February 2018' {...args} />
+    </div>
+  );
 };
 
-singleWithMax.storyName = 'single with max date';
+SingleWithMax.storyName = 'single with max date';
 
-export const rangeWithMinMax: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {
-      from: '27 January 2018',
-      to: '4 February 2018',
-    };
+export const RangeWithMinMax: StoryFn<DatePickerAttrs> = args => {
+  const [{from, to}, setRange] = useState<{
+    from: Date | string | null | undefined;
+    to: Date | string | null | undefined;
+  }>({
+    from: '27 January 2018',
+    to: '4 February 2018',
+  });
 
-    setRange = ({from, to}: DatePickerChange) => {
-      this.setState({from, to});
-    };
+  const handleChange = (change: DatePickerChange) => setRange(prev => ({...prev, ...change}));
 
-    render() {
-      return (
-        <div>
-          <DatePicker
-            from={this.state.from}
-            to={this.state.to}
-            onChange={this.setRange}
-            clear
-            minDate='25 January 2018'
-            maxDate='5 February 2018'
-            range
-            {...args}
-          />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker
+        from={from}
+        to={to}
+        onChange={handleChange}
+        clear
+        minDate='25 January 2018'
+        maxDate='5 February 2018'
+        range
+        {...args}
+      />
+    </div>
+  );
 };
 
-rangeWithMinMax.storyName = 'range with min-max dates';
+RangeWithMinMax.storyName = 'range with min-max dates';
 
-export const rangeWithMin: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {
-      from: '27 January 2018',
-      to: '4 February 2018',
-    };
+export const RangeWithMin: StoryFn<DatePickerAttrs> = args => {
+  const [{from, to}, setRange] = useState<{
+    from: Date | string | null | undefined;
+    to: Date | string | null | undefined;
+  }>({
+    from: '27 January 2018',
+    to: '4 February 2018',
+  });
 
-    setRange = ({from, to}: DatePickerChange) => {
-      this.setState({from, to});
-    };
+  const handleChange = (change: DatePickerChange) => setRange(prev => ({...prev, ...change}));
 
-    render() {
-      return (
-        <div>
-          <DatePicker
-            from={this.state.from}
-            to={this.state.to}
-            onChange={this.setRange}
-            clear
-            minDate='25 January 2018'
-            range
-            {...args}
-          />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker from={from} to={to} onChange={handleChange} clear minDate='25 January 2018' range {...args} />
+    </div>
+  );
 };
 
-rangeWithMin.storyName = 'range with min date';
+RangeWithMin.storyName = 'range with min date';
 
-export const rangeWithMax: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {
-      from: '27 January 2018',
-      to: '4 February 2018',
-    };
+export const RangeWithMax: StoryFn<DatePickerAttrs> = args => {
+  const [{from, to}, setRange] = useState<{
+    from: Date | string | null | undefined;
+    to: Date | string | null | undefined;
+  }>({
+    from: '27 January 2018',
+    to: '4 February 2018',
+  });
 
-    setRange = ({from, to}: DatePickerChange) => {
-      this.setState({from, to});
-    };
+  const handleChange = (change: DatePickerChange) => setRange(prev => ({...prev, ...change}));
 
-    render() {
-      return (
-        <div>
-          <DatePicker
-            from={this.state.from}
-            to={this.state.to}
-            onChange={this.setRange}
-            clear
-            maxDate='5 February 2018'
-            range
-            {...args}
-          />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker from={from} to={to} onChange={handleChange} clear maxDate='5 February 2018' range {...args} />
+    </div>
+  );
 };
 
-rangeWithMax.storyName = 'range with max date';
+RangeWithMax.storyName = 'range with max date';
 
-export const rangeWithCustomPlaceholders: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {
-      from: undefined,
-      to: undefined,
-    };
+export const RangeWithCustomPlaceholders: StoryFn<DatePickerAttrs> = args => {
+  const [{from, to}, setRange] = useState<{
+    from: Date | string | null | undefined;
+    to: Date | string | null | undefined;
+  }>({
+    from: undefined,
+    to: undefined,
+  });
 
-    setRange = ({from, to}: DatePickerChange) => {
-      this.setState({from, to});
-    };
+  const handleChange = (change: DatePickerChange) => setRange(prev => ({...prev, ...change}));
 
-    render() {
-      return (
-        <div>
-          <DatePicker
-            from={this.state.from}
-            to={this.state.to}
-            onChange={this.setRange}
-            fromPlaceholder='From'
-            toPlaceholder='To'
-            rangePlaceholder='Set range'
-            clear
-            range
-            {...args}
-          />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker
+        from={from}
+        to={to}
+        onChange={handleChange}
+        fromPlaceholder='From'
+        toPlaceholder='To'
+        rangePlaceholder='Set range'
+        clear
+        range
+        {...args}
+      />
+    </div>
+  );
 };
 
-rangeWithCustomPlaceholders.storyName = 'range with customized placeholders';
+RangeWithCustomPlaceholders.storyName = 'range with customized placeholders';
 
-rangeWithCustomPlaceholders.parameters = {
+RangeWithCustomPlaceholders.parameters = {
   screenshots: {skip: true},
 };
 
-export const renderInline: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {
-      date: '8 January 2018, 9:45',
-    };
+export const RenderInline: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('8 January 2018, 9:45');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div>
-          <DatePicker date={this.state.date} onChange={this.setDate} withTime clear {...args} />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} withTime clear {...args} />
+    </div>
+  );
 };
 
-renderInline.args = {
+RenderInline.args = {
   inline: true,
 };
 
-renderInline.parameters = {
+RenderInline.parameters = {
   screenshots: {skip: true},
 };
 
-renderInline.storyName = 'inline';
+RenderInline.storyName = 'inline';
 
-export const allSizes = () => {
-  class DatePickerExample extends Component {
-    state = {
-      date: '8 January 2018, 9:45',
-    };
+export const AllSizes = () => {
+  const [date, setDate] = useState<Date | string | null | undefined>('8 January 2018, 9:45');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div style={{width: '100%'}} data-test='root'>
-          <div className='block'>
-            <span className='label'>M</span>
-            <DatePicker date={this.state.date} onChange={this.setDate} size={Size.M} />
-          </div>
-          <div className='block'>
-            <span className='label'>L</span>
-            <DatePicker date={this.state.date} onChange={this.setDate} size={Size.L} />
-          </div>
-          <div className='block'>
-            <span className='label'>FULL</span>
-            <DatePicker date={this.state.date} onChange={this.setDate} size={Size.FULL} />
-          </div>
-          <div className='block'>
-            <span className='label'>AUTO</span>
-            <DatePicker date={this.state.date} onChange={this.setDate} size={Size.AUTO} />
-          </div>
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div style={{width: '100%'}} data-test='root'>
+      <div className='block'>
+        <span className='label'>M</span>
+        <DatePicker date={date} onChange={setDate} size={Size.M} />
+      </div>
+      <div className='block'>
+        <span className='label'>L</span>
+        <DatePicker date={date} onChange={setDate} size={Size.L} />
+      </div>
+      <div className='block'>
+        <span className='label'>FULL</span>
+        <DatePicker date={date} onChange={setDate} size={Size.FULL} />
+      </div>
+      <div className='block'>
+        <span className='label'>AUTO</span>
+        <DatePicker date={date} onChange={setDate} size={Size.AUTO} />
+      </div>
+    </div>
+  );
 };
 
-allSizes.storyName = 'all sizes';
-allSizes.parameters = {
+AllSizes.storyName = 'all sizes';
+AllSizes.parameters = {
   storyStyles: `
 <style>
   .block {
@@ -441,24 +308,14 @@ allSizes.parameters = {
   },
 };
 
-export const startsFromSunday: StoryFn<DatePickerAttrs> = args => {
-  class DatePickerExample extends Component {
-    state = {date: '01.01.18'};
+export const StartsFromSunday: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
 
-    setDate = (date: Date | null | undefined) => {
-      this.setState({date});
-    };
-
-    render() {
-      return (
-        <div>
-          <DatePicker date={this.state.date} locale={enUS} onChange={this.setDate} {...args} />
-        </div>
-      );
-    }
-  }
-
-  return <DatePickerExample />;
+  return (
+    <div>
+      <DatePicker date={date} locale={enUS} onChange={setDate} {...args} />
+    </div>
+  );
 };
 
-startsFromSunday.storyName = 'starts on Sunday';
+StartsFromSunday.storyName = 'starts on Sunday';

@@ -240,6 +240,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
           block: 'center',
         });
       }
+      this.setState({needScrollToActive: false});
     }
 
     const isActiveItemRetainedPosition = activeIndex
