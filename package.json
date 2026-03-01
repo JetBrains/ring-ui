@@ -181,7 +181,7 @@
     "terser-webpack-plugin": "^5.3.16",
     "typed-css-modules": "^0.9.1",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.55.0",
+    "typescript-eslint": "^8.56.0",
     "vitest": "^4.0.18",
     "vitest-teamcity-reporter": "^0.4.1",
     "webpack": "^5.105.2",
