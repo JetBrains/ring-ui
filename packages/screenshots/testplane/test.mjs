@@ -23,10 +23,12 @@ for (const {kind, stories} of items) {
         actions = [{type: 'capture', name: '', selector: captureSelector}],
       } = parameters;
 
+      const storyCaptureSelector = actions.findLast(action => action.type === 'capture')?.selector ?? captureSelector;
+
       const allActions = [
         ...actions,
         {type: 'setDarkTheme'},
-        {type: 'capture', name: 'dark', selector: captureSelector},
+        {type: 'capture', name: 'dark', selector: storyCaptureSelector},
       ];
 
       if (skip === true) {

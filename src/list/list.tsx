@@ -221,12 +221,28 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     );
   }
 
-  componentDidUpdate(prevProps: ListProps<T>) {
+  componentDidUpdate(prevProps: ListProps<T>, prevState: ListState<T>) {
     if (this.virtualizedList && prevProps.data !== this.props.data) {
       this.virtualizedList.recomputeRowHeights();
     }
 
     const {activeIndex} = this.state;
+    if (
+      !this.virtualizedList &&
+      !this.props.disableScrollToActive &&
+      this.state.needScrollToActive &&
+      activeIndex != null &&
+      activeIndex !== prevState.activeIndex
+    ) {
+      const itemId = this.getId(this.props.data[activeIndex]);
+      if (itemId) {
+        document.getElementById(itemId)?.scrollIntoView?.({
+          block: 'center',
+        });
+      }
+      this.setState({needScrollToActive: false});
+    }
+
     const isActiveItemRetainedPosition = activeIndex
       ? prevProps.data[activeIndex]?.key === this.props.data[activeIndex]?.key
       : false;

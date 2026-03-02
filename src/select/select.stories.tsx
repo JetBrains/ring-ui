@@ -941,7 +941,35 @@ withRenderOptimization.args = {
 };
 
 withRenderOptimization.storyName = 'with render optimization';
-withRenderOptimization.parameters = {screenshots: {skip: true}};
+withRenderOptimization.parameters = {
+  screenshots: {
+    actions: [
+      {type: 'click', selector: '[data-test~=ring-select]'},
+      ...Array.from({length: 20}, () => ({
+        type: 'keys',
+        value: 'ArrowDown',
+      })),
+      {
+        type: 'waitForElementToShow',
+        selector: '[id$=":23"][aria-selected="true"]',
+      },
+      {
+        type: 'capture',
+        name: 'light',
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+      },
+    ],
+  },
+};
+
+export const withoutRenderOptimization: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
+withoutRenderOptimization.args = {
+  ...withRenderOptimization.args,
+  data: withRenderOptimization.args.data!.slice(0, 200),
+  renderOptimization: false,
+};
+withoutRenderOptimization.storyName = 'without render optimization';
+withoutRenderOptimization.parameters = withRenderOptimization.parameters;
 
 export const fitsToScreen: StoryFn<SingleSelectAttrs> = args => (
   <div className='demo'>

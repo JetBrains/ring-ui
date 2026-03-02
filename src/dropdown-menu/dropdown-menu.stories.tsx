@@ -50,55 +50,55 @@ export const basic = () => {
 
 basic.storyName = 'DropdownMenu';
 
-export const nested = () => {
-  interface NestedMenuProps {
-    title: string;
-    data?: ListDataItem[];
-    children?: React.ReactNode;
+interface NestedMenuProps {
+  title: string;
+  data?: ListDataItem[];
+  children?: React.ReactNode;
+}
+
+const NestedMenuItem = (props: NestedMenuProps) => {
+  const anchor: DropdownMenuProps['anchor'] = ({active}, ariaProps = {}) => (
+    <Group
+      role='menu'
+      className='nested-menu-item'
+      {...{'aria-expanded': active, 'aria-label': props.title}}
+      {...ariaProps}
+    >
+      <span className='nested-menu-title'>{props.title}</span>
+
+      <Icon glyph={chevronRight} className='chevron-icon' />
+    </Group>
+  );
+
+  const dropdownProps: DropdownMenuProps = {
+    hoverMode: true,
+    hoverShowTimeOut: 50,
+    hoverHideTimeOut: 100,
+    anchor,
+  };
+
+  const menuProps: DropdownMenuProps['menuProps'] = {
+    directions: [Directions.RIGHT_BOTTOM, Directions.LEFT_BOTTOM, Directions.RIGHT_TOP, Directions.LEFT_TOP],
+    left: 20,
+    top: -12,
+    minWidth: 150,
+    ['data-test']: 'nested-menu',
+    hidden: false,
+    activateFirstItem: false,
+  };
+
+  if (props.data) {
+    // dropdown menu has automatic support for aria-navigation
+    return <DropdownMenu {...dropdownProps} data={props.data} menuProps={menuProps} />;
   }
 
+  return <DropdownMenu {...dropdownProps} menuProps={menuProps} />;
+};
+
+export const nested = () => {
   interface MenuItem extends ListDataItem {
     submenu?: MenuItem[] | React.ReactNode;
   }
-
-  const NestedMenuItem = (props: NestedMenuProps) => {
-    const anchor: DropdownMenuProps['anchor'] = ({active}, ariaProps = {}) => (
-      <Group
-        role='menu'
-        className='nested-menu-item'
-        {...{'aria-expanded': active, 'aria-label': props.title}}
-        {...ariaProps}
-      >
-        <span className='nested-menu-title'>{props.title}</span>
-
-        <Icon glyph={chevronRight} className='chevron-icon' />
-      </Group>
-    );
-
-    const dropdownProps: DropdownMenuProps = {
-      hoverMode: true,
-      hoverShowTimeOut: 50,
-      hoverHideTimeOut: 100,
-      anchor,
-    };
-
-    const menuProps: DropdownMenuProps['menuProps'] = {
-      directions: [Directions.RIGHT_BOTTOM, Directions.LEFT_BOTTOM, Directions.RIGHT_TOP, Directions.LEFT_TOP],
-      left: 20,
-      top: -12,
-      minWidth: 150,
-      ['data-test']: 'nested-menu',
-      hidden: false,
-      activateFirstItem: false,
-    };
-
-    if (props.data) {
-      // dropdown menu has automatic support for aria-navigation
-      return <DropdownMenu {...dropdownProps} data={props.data} menuProps={menuProps} />;
-    }
-
-    return <DropdownMenu {...dropdownProps} menuProps={menuProps} />;
-  };
 
   const menu: MenuItem[] = [
     {label: 'Option 1', key: 'item1'},
