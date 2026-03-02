@@ -18,6 +18,7 @@ export const DEFAULT_BACKGROUND_TIMEOUT = 10 * 1000;
 const DEFAULT_BACKEND_CHECK_TIMEOUT = 10 * 1000;
 const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
 const DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT = 5 * 1000;
+export const TOKEN_REFRESH_RETRY_DELAYS = [0, 2000, 5000];
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const DOMAIN_USER_CHANGED_EVENT = 'domainUser';
@@ -99,6 +100,7 @@ export interface AuthConfig extends TokenValidatorConfig {
   translations?: AuthTranslations | null | undefined;
   userParams?: RequestParams | undefined;
   waitForRedirectTimeout: number;
+  tokenRefreshRetryDelays: readonly number[];
   rpInitiatedLogout: boolean;
 }
 
@@ -125,6 +127,7 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
 
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   waitForRedirectTimeout: DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT,
+  tokenRefreshRetryDelays: TOKEN_REFRESH_RETRY_DELAYS,
   rpInitiatedLogout: true,
   translations: null,
 };
@@ -195,6 +198,7 @@ class Auth implements HTTPAuth {
   _tokenValidator: TokenValidator | null = null;
   private _postponed = false;
   private _backendCheckPromise: Promise<void> | null = null;
+  private _forceTokenUpdatePromise: Promise<string | null> | null = null;
   private _authDialogService: typeof AuthDialogService | undefined = undefined;
   _domainStorage: AuthStorage<UserChange>;
   user: AuthUser | null = null;
@@ -376,6 +380,8 @@ class Auth implements HTTPAuth {
             throw error;
           }
           if (this._canShowDialogs()) {
+            // eslint-disable-next-line no-console
+            console.error('RingUI Auth: Init failure', error);
             this._showAuthDialog({nonInteractive: true, error});
           }
         }
@@ -390,7 +396,7 @@ class Auth implements HTTPAuth {
       if (this.user && userID === this.user.id) {
         return;
       }
-      this.forceTokenUpdate();
+      this.forceTokenUpdate().catch(noop);
     });
 
     let state: AuthState | undefined;
@@ -418,7 +424,7 @@ class Auth implements HTTPAuth {
       if (message) {
         const {userID, serviceID} = message;
         if (serviceID !== this.config.clientId && (!userID || this.user?.id !== userID)) {
-          this.forceTokenUpdate();
+          this.forceTokenUpdate().catch(noop);
         }
       }
 
@@ -527,9 +533,27 @@ class Auth implements HTTPAuth {
 
   /**
    * Get new token in the background or redirect to the login page.
-   * @return {Promise.<string>}
+   *
+   * Retries background token refresh with delays from {@link AuthConfig.tokenRefreshRetryDelays}
+   * with increasing delays before showing the auth dialog.
+   * This handles transient failures that commonly occur after network
+   * recovery (e.g. waking from sleep, switching networks) where the first
+   * iframe-based auth attempt fails but a subsequent one succeeds once
+   * the Hub session is re-established.
+   *
+   * @return {Promise.<string | null>}
    */
-  async forceTokenUpdate(): Promise<string | null> {
+  forceTokenUpdate(): Promise<string | null> {
+    if (this._forceTokenUpdatePromise) {
+      return this._forceTokenUpdatePromise;
+    }
+    this._forceTokenUpdatePromise = this._doForceTokenUpdate().finally(() => {
+      this._forceTokenUpdatePromise = null;
+    });
+    return this._forceTokenUpdatePromise;
+  }
+
+  private async _doForceTokenUpdate(): Promise<string | null> {
     try {
       if (!this._backendCheckPromise) {
         this._backendCheckPromise = this._checkBackendsStatusesIfEnabled();
@@ -541,43 +565,49 @@ class Auth implements HTTPAuth {
       this._backendCheckPromise = null;
     }
 
-    try {
-      return (await this._backgroundFlow?.authorize()) ?? null;
-    } catch (error) {
-      if (!(error instanceof Error)) {
-        return null;
-      }
-      if (this._canShowDialogs()) {
-        return new Promise(resolve => {
-          const onTryAgain = async () => {
-            try {
-              const result = await this._backgroundFlow?.authorize();
-              resolve(result ?? null);
-            } catch (retryError) {
-              if (retryError instanceof Error) {
-                this._showAuthDialog({
-                  nonInteractive: true,
-                  error: retryError,
-                  onTryAgain,
-                });
-              }
-              throw retryError;
-            }
-          };
-          this._showAuthDialog({
-            nonInteractive: true,
-            error: error as Error,
-            onTryAgain,
-          });
-        });
-      }
-      const authRequest = await this._requestBuilder?.prepareAuthRequest();
-      if (authRequest) {
-        this._redirectCurrentPage(authRequest.url);
-      }
+    let lastError: Error | null = null;
 
-      throw new TokenValidator.TokenValidationError(error.message);
+    for (const delay of this.config.tokenRefreshRetryDelays) {
+      if (delay > 0) {
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+      try {
+        return (await this._backgroundFlow?.authorize()) ?? null;
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+      }
     }
+
+    if (this._canShowDialogs()) {
+      return new Promise(resolve => {
+        const onTryAgain = async () => {
+          try {
+            const result = await this._backgroundFlow?.authorize();
+            resolve(result ?? null);
+          } catch (retryError) {
+            if (retryError instanceof Error) {
+              this._showAuthDialog({
+                nonInteractive: true,
+                error: retryError,
+                onTryAgain,
+              });
+            }
+            throw retryError;
+          }
+        };
+        this._showAuthDialog({
+          nonInteractive: true,
+          error: lastError as Error,
+          onTryAgain,
+        });
+      });
+    }
+    const authRequest = await this._requestBuilder?.prepareAuthRequest();
+    if (authRequest) {
+      this._redirectCurrentPage(authRequest.url);
+    }
+
+    throw new TokenValidator.TokenValidationError(lastError?.message ?? 'Failed to refresh token');
   }
 
   async loadCurrentService() {
@@ -674,7 +704,10 @@ class Auth implements HTTPAuth {
 
   _beforeLogout(params?: AuthDialogParams) {
     if (this._canShowDialogs()) {
-      this._showAuthDialog(params);
+      const onTryAgain = async () => {
+        await this.forceTokenUpdate();
+      };
+      this._showAuthDialog({onTryAgain, ...params});
       return;
     }
 
@@ -717,7 +750,7 @@ class Auth implements HTTPAuth {
       }
 
       if (this.user?.guest && nonInteractive) {
-        this.forceTokenUpdate();
+        this.forceTokenUpdate().catch(noop);
       } else {
         this._initDeferred?.resolve?.();
       }
@@ -923,6 +956,8 @@ class Auth implements HTTPAuth {
         this.listeners.trigger(USER_CHANGED_EVENT, user);
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('RingUI Auth: login failure', e);
       this._beforeLogout();
     }
   }

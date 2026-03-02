@@ -516,7 +516,10 @@ describe('Auth', () => {
       auth._initDeferred?.resolve?.();
     });
 
+    const getTotalRetryTime = () => auth.config.tokenRefreshRetryDelays.reduce((a, b) => a + b, 0);
+
     afterEach(async () => {
+      vi.useRealTimers();
       await Promise.all([auth._storage?.cleanStates(), auth._storage?.wipeToken()]);
     });
 
@@ -576,48 +579,44 @@ describe('Auth', () => {
 
     it('should redirect current page if get token in iframe fails', async () => {
       auth.config.embeddedLogin = false;
+      vi.useFakeTimers({toFake: ['setTimeout']});
       if (auth._backgroundFlow) {
-        auth._backgroundFlow._timeout = 100;
+        vi.spyOn(auth._backgroundFlow, 'authorize').mockRejectedValue(new Error('Failed to refresh authorization'));
       }
-      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockReturnValue();
 
-      try {
-        await auth.requestToken();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (reject: any) {
-        expect(BackgroundFlow.prototype._redirectFrame).toHaveBeenCalledWith(
-          expect.anything(),
-          'api/rest/oauth2/auth?response_type=token&state=unique' +
-            '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
-            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
-        );
-        expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
-          'api/rest/oauth2/auth' +
-            '?response_type=token&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
-            '&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
-        );
+      // Capture the rejection before advancing timers to prevent unhandled rejection
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let rejection: any;
+      const requestPromise = auth.requestToken().catch(e => {
+        rejection = e;
+      });
+      // Advance through all retry delays
+      await vi.advanceTimersByTimeAsync(getTotalRetryTime());
+      await requestPromise;
 
-        expect(reject.authRedirect).to.be.true;
-      }
+      expect(auth._backgroundFlow?.authorize).toHaveBeenCalledTimes(auth.config.tokenRefreshRetryDelays.length);
+      expect(Auth.prototype._redirectCurrentPage).toHaveBeenCalledWith(
+        'api/rest/oauth2/auth' +
+          '?response_type=token&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+          '&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack',
+      );
+      expect(rejection.authRedirect).to.be.true;
     });
 
     it('should show login overlay if token refresh fails and window login enabled', async () => {
-      const TIMEOUT = 100;
+      vi.useFakeTimers({toFake: ['setTimeout']});
       if (auth._backgroundFlow) {
-        auth._backgroundFlow._timeout = TIMEOUT;
+        vi.spyOn(auth._backgroundFlow, 'authorize').mockRejectedValue(new Error('Failed to refresh authorization'));
       }
-      vi.spyOn(BackgroundFlow.prototype, '_redirectFrame').mockReturnValue();
       vi.spyOn(Auth.prototype, '_showAuthDialog').mockReturnValue();
 
-      await act(() => {
-        auth.requestToken();
+      auth.requestToken();
+      // Advance through all retry delays
+      await vi.advanceTimersByTimeAsync(getTotalRetryTime());
 
-        return new Promise<void>(resolve =>
-          setTimeout(() => {
-            expect(Auth.prototype._showAuthDialog).toHaveBeenCalled();
-            resolve();
-          }, TIMEOUT * 2),
-        );
+      expect(auth._backgroundFlow?.authorize).toHaveBeenCalledTimes(auth.config.tokenRefreshRetryDelays.length);
+      await act(() => {
+        expect(Auth.prototype._showAuthDialog).toHaveBeenCalled();
       });
     });
   });
