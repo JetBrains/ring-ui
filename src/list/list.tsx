@@ -228,22 +228,25 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
 
     const {activeIndex} = this.state;
     if (
-      !this.virtualizedList &&
       !this.props.disableScrollToActive &&
       this.state.needScrollToActive &&
       activeIndex != null &&
       activeIndex !== prevState.activeIndex
     ) {
-      const itemId = this.getId(this.props.data[activeIndex]);
-      if (itemId) {
-        document.getElementById(itemId)?.scrollIntoView?.({
-          block: 'center',
-        });
+      if (this.virtualizedList) {
+        this.setState({needScrollToActive: false});
+      } else {
+        const itemId = this.getId(this.props.data[activeIndex]);
+        if (itemId) {
+          document.getElementById(itemId)?.scrollIntoView?.({
+            block: 'center',
+          });
+        }
+        this.setState({needScrollToActive: false});
       }
-      this.setState({needScrollToActive: false});
     }
 
-    const isActiveItemRetainedPosition = activeIndex
+    const isActiveItemRetainedPosition = activeIndex != null
       ? prevProps.data[activeIndex]?.key === this.props.data[activeIndex]?.key
       : false;
 

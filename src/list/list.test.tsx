@@ -296,4 +296,90 @@ describe('List', () => {
       expect(firstItem).to.not.have.class(styles.action);
     });
   });
+
+  describe('should preserve activeIndex 0 when data is appended', () => {
+    it('should not reset active item when data is appended and activeIndex is 0 (non-virtualized)', () => {
+      const data = [
+        {key: 0, label: 'Item 0'},
+        {key: 1, label: 'Item 1'},
+        {key: 2, label: 'Item 2'},
+      ];
+      const {rerender} = renderList({
+        data,
+        activateFirstItem: true,
+        restoreActiveIndex: true,
+      });
+
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 0');
+
+      const extendedData = [
+        ...data,
+        {key: 3, label: 'Item 3'},
+        {key: 4, label: 'Item 4'},
+      ];
+      rerender(<List renderOptimization={false} data={extendedData} activateFirstItem restoreActiveIndex />);
+
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 0');
+    });
+
+    it('should not reset active item when data is appended and activeIndex is 0 (virtualized)', () => {
+      const ref = {current: null as List | null};
+      const data = [
+        {key: 0, label: 'Item 0'},
+        {key: 1, label: 'Item 1'},
+        {key: 2, label: 'Item 2'},
+      ];
+      const {rerender} = render(
+        <List ref={ref} data={data} activateFirstItem restoreActiveIndex />,
+      );
+
+      expect(ref.current!.state.activeIndex).to.equal(0);
+      expect(ref.current!.state.activeItem).to.deep.include({key: 0, label: 'Item 0'});
+
+      const extendedData = [
+        ...data,
+        {key: 3, label: 'Item 3'},
+        {key: 4, label: 'Item 4'},
+      ];
+      rerender(<List ref={ref} data={extendedData} activateFirstItem restoreActiveIndex />);
+
+      expect(ref.current!.state.activeIndex).to.equal(0);
+      expect(ref.current!.state.activeItem).to.deep.include({key: 0, label: 'Item 0'});
+    });
+  });
+
+  describe('needScrollToActive', () => {
+    it('should clear needScrollToActive after initial activation in virtualized mode', () => {
+      const ref = {current: null as List | null};
+      const data = [
+        {key: 0, label: 'Item 0'},
+        {key: 1, label: 'Item 1'},
+        {key: 2, label: 'Item 2'},
+      ];
+      render(<List ref={ref} data={data} activateFirstItem />);
+
+      expect(ref.current!.state.needScrollToActive).to.equal(false);
+    });
+
+    it('should not re-enable needScrollToActive when data is appended in virtualized mode', () => {
+      const ref = {current: null as List | null};
+      const data = [
+        {key: 0, label: 'Item 0'},
+        {key: 1, label: 'Item 1'},
+        {key: 2, label: 'Item 2'},
+      ];
+      const {rerender} = render(<List ref={ref} data={data} activateFirstItem />);
+
+      expect(ref.current!.state.needScrollToActive).to.equal(false);
+
+      const extendedData = [
+        ...data,
+        {key: 3, label: 'Item 3'},
+        {key: 4, label: 'Item 4'},
+      ];
+      rerender(<List ref={ref} data={extendedData} activateFirstItem />);
+
+      expect(ref.current!.state.needScrollToActive).to.equal(false);
+    });
+  });
 });
