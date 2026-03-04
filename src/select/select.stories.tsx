@@ -1239,6 +1239,51 @@ export const showPopup: StoryObj<SingleSelectAttrs> = {
   },
 };
 
+export const WithLazyLoading = () => {
+  const pageSize = 20;
+
+  const [data, setData] = useState(() =>
+    [...Array(pageSize)].map((_, idx) => ({label: `Item ${idx}`, key: idx})),
+  );
+  const [loading, setLoading] = useState(false);
+  const loadingRef = useRef(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+  useEffect(
+    () => () => {
+      if (timerRef.current != null) {
+        clearTimeout(timerRef.current);
+      }
+    },
+    [],
+  );
+
+  const handleLoadMore = useCallback(() => {
+    if (loadingRef.current) {
+      return;
+    }
+    loadingRef.current = true;
+    setLoading(true);
+    timerRef.current = setTimeout(() => {
+      setData(prevData => {
+        const nextIndex = prevData.length;
+        const newItems = [...Array(pageSize)].map((_, idx) => ({
+          label: `Item ${nextIndex + idx}`,
+          key: nextIndex + idx,
+        }));
+        return [...prevData, ...newItems];
+      });
+      setLoading(false);
+      loadingRef.current = false;
+    }, 500);
+  }, []);
+
+  return <Select filter data={data} loading={loading} onLoadMore={handleLoadMore} />;
+};
+
+WithLazyLoading.storyName = 'With lazy loading';
+WithLazyLoading.parameters = {screenshots: {skip: true}};
+
 export const WithFilterAndSeparators = () => {
   const data = [
     {key: 1, label: 'One'},
