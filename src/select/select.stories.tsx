@@ -1239,6 +1239,33 @@ export const showPopup: StoryObj<SingleSelectAttrs> = {
   },
 };
 
+export const WithLazyLoading = () => {
+  const pageSize = 20;
+
+  const [data, setData] = useState([...Array(pageSize)].map((_, idx) => ({label: `Item ${idx}`, key: idx})));
+  const [loading, setLoading] = useState(false);
+
+  const handleLoadMore = useCallback(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setData(prevData => {
+        const nextIndex = prevData.length;
+        const newItems = [...Array(pageSize)].map((_, idx) => ({
+          label: `Item ${nextIndex + idx}`,
+          key: nextIndex + idx,
+        }));
+        return [...prevData, ...newItems];
+      });
+      setLoading(false);
+    }, 500);
+  }, []);
+
+  return <Select filter data={data} loading={loading} onLoadMore={handleLoadMore} />;
+};
+
+WithLazyLoading.storyName = 'With lazy loading';
+WithLazyLoading.parameters = {screenshots: {skip: true}};
+
 export const WithFilterAndSeparators = () => {
   const data = [
     {key: 1, label: 'One'},
