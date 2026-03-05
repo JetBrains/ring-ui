@@ -724,9 +724,9 @@ describe('Query Assist', () => {
   });
 
   describe('undo and redo test', () => {
-    function renderPlain() {
+    function renderPlain(initialQuery = '') {
       const queryAssist = renderQueryAssist({
-        query: '',
+        query: initialQuery,
         dataSource: ({query, caret}) => ({
           query,
           caret,
@@ -822,6 +822,20 @@ describe('Query Assist', () => {
       const user = userEvent.setup();
 
       await waitForSetStateCallbacks(() => user.type(input, 'ab'));
+      await waitForSetStateCallbacks(() => user.type(input, '{backspace}{backspace}'));
+
+      await repeat(2, undo);
+      expect(getCurrentText(queryAssist)).to.equal('ab');
+
+      await repeat(2, redo);
+      expect(getCurrentText(queryAssist)).to.equal('');
+    });
+
+    it('should undo and redo on initially nonempty', async () => {
+      const {queryAssist, input} = renderPlain('ab');
+
+      const user = userEvent.setup();
+
       await waitForSetStateCallbacks(() => user.type(input, '{backspace}{backspace}'));
 
       await repeat(2, undo);

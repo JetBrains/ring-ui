@@ -196,7 +196,7 @@ interface CaretPositionParams {
 }
 
 interface HistoryEntry {
-  query: string | null | undefined;
+  normalizedQuery: string;
   caret: Position | number;
 }
 
@@ -549,9 +549,10 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   };
 
   private _pushHistory(query: string | null | undefined) {
-    if (!this.undoHistoryStack.length || this.undoHistoryStack[0].query !== query) {
+    const normalizedQuery = query ?? '';
+    if (!this.undoHistoryStack.length || this.undoHistoryStack[0].normalizedQuery !== normalizedQuery) {
       this.undoHistoryStack.unshift({
-        query,
+        normalizedQuery,
         caret: this.caret?.getPosition({avoidFocus: true}) ?? -1,
       });
       this.redoHistoryStack = [];
@@ -579,7 +580,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     e.preventDefault?.();
 
     this.setState(
-      {query: stateToApply.query},
+      {query: stateToApply.normalizedQuery},
       () => {
         const oppositeStack = redo ? this.undoHistoryStack : this.redoHistoryStack;
         oppositeStack.unshift(current);
