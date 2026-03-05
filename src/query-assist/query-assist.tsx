@@ -298,7 +298,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     }
 
     this.setCaretPosition();
-    this._pushHistory(this.state);
+    this._pushHistory(this.state.query);
   }
 
   shouldComponentUpdate(props: QueryAssistProps, state: QueryAssistState) {
@@ -352,8 +352,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   immediateState: QueryAssistChange;
   requestData?: (afterCompletion?: boolean) => void;
   ngModelStateField = ngModelStateField;
-  // An array of {query: string; caret: number}[]
-  historyStack: HistoryEntry[] = [];
+  undoHistoryStack: HistoryEntry[] = [];
+  redoHistoryStack: HistoryEntry[] = [];
   mouseIsDownOnPopup?: boolean;
 
   handleFocusChange = (e: SyntheticEvent) => {
@@ -505,6 +505,8 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     this.props.onChange(props);
     if (this.props.autoOpen === 'force' || props.query.length > 0) {
       this.requestData?.();
+    } else {
+      this.handleResponse({caret: props.caret});
     }
   };
 
@@ -537,35 +539,55 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     return true;
   };
 
-  setState = (state: Partial<QueryAssistState>, resolve?: () => void) => {
+  setState = (state: Partial<QueryAssistState>, resolve?: () => void, undoOrRedo: boolean = false) => {
     super.setState(state, () => {
-      this._pushHistory(state);
+      if (!undoOrRedo && 'query' in state) {
+        this._pushHistory(state.query);
+      }
       resolve?.();
     });
   };
 
-  private _pushHistory(state: Partial<QueryAssistState>) {
-    const queryIsSet = 'query' in state;
-    const queryIsSame = this.historyStack[0]?.query === state.query;
-
-    if (queryIsSet && !queryIsSame) {
-      this.historyStack.unshift({
-        query: state.query,
+  private _pushHistory(query: string | null | undefined) {
+    if (!this.undoHistoryStack.length || this.undoHistoryStack[0].query !== query) {
+      this.undoHistoryStack.unshift({
+        query,
         caret: this.caret?.getPosition({avoidFocus: true}) ?? -1,
       });
+      this.redoHistoryStack = [];
     }
   }
 
   undo = (e: Event) => {
-    const previous = this.historyStack.splice(0, 2)[1];
-    if (!previous) {
+    this._undoOrRedo(e, false);
+  };
+
+  redo = (e: Event) => {
+    this._undoOrRedo(e, true);
+  };
+
+  private _undoOrRedo = (e: Event, redo: boolean) => {
+    const stack = redo ? this.redoHistoryStack : this.undoHistoryStack;
+    const [current, previous] = stack;
+    const stateToApply = redo ? current : previous;
+    if (!stateToApply) {
       return;
     }
 
-    this.setState({query: previous.query}, () => {
-      this.caret?.setPosition(previous.caret);
-      this.handleInput(e);
-    });
+    stack.shift();
+
+    e.preventDefault?.();
+
+    this.setState(
+      {query: stateToApply.query},
+      () => {
+        const oppositeStack = redo ? this.undoHistoryStack : this.redoHistoryStack;
+        oppositeStack.unshift(current);
+        this.caret?.setPosition(stateToApply.caret);
+        this.handleInput(e);
+      },
+      true,
+    );
   };
 
   handlePaste = (e: React.ClipboardEvent) => {
@@ -604,7 +626,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
   handleStyleRangesResponse = ({suggestions, ...restProps}: QueryAssistResponse) => this.handleResponse(restProps);
 
   handleResponse = (
-    {query = '', caret = 0, styleRanges, suggestions = []}: QueryAssistResponse,
+    {query = '', caret = 0, styleRanges = [], suggestions = []}: QueryAssistResponse,
     afterCompletion = false,
   ) =>
     new Promise<void>((resolve, reject) => {
@@ -978,6 +1000,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     'ctrl+space': this.handleCtrlSpace,
     tab: this.handleTab,
     'meta+z': this.undo,
+    'meta+shift+z': this.redo,
     right: noop,
     left: noop,
     space: noop,

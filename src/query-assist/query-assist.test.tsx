@@ -722,4 +722,113 @@ describe('Query Assist', () => {
       expect(queryAssist.querySelector('#B')!).to.exist;
     });
   });
+
+  describe('undo and redo test', () => {
+    function renderPlain() {
+      const queryAssist = renderQueryAssist({
+        query: '',
+        dataSource: ({query, caret}) => ({
+          query,
+          caret,
+          styleRanges: [{start: 0, length: query.length, style: 'text'}],
+          suggestions: [],
+        }),
+      });
+      const input = getByRole(queryAssist, 'textbox');
+      return {queryAssist, input};
+    }
+
+    function getCurrentText(queryAssist: HTMLElement) {
+      return [...queryAssist.querySelectorAll(`.${styles.letter}`)].map(letter => letter.textContent).join('');
+    }
+
+    async function repeat(times: number, action: () => Promise<unknown>) {
+      for (let i = 0; i < times; i++) {
+        await action();
+      }
+    }
+
+    async function undo() {
+      await waitForSetStateCallbacks(() => simulateCombo('meta+z'));
+    }
+
+    async function redo() {
+      await waitForSetStateCallbacks(() => simulateCombo('meta+shift+z'));
+    }
+
+    it('should undo type', async () => {
+      const {queryAssist, input} = renderPlain();
+
+      const user = userEvent.setup();
+
+      await waitForSetStateCallbacks(() => user.type(input, 'abc'));
+      expect(getCurrentText(queryAssist)).to.equal('abc');
+
+      await repeat(2, undo);
+      expect(getCurrentText(queryAssist)).to.equal('a');
+
+      await repeat(2, async () => {
+        await undo();
+        expect(getCurrentText(queryAssist)).to.equal('');
+      });
+    });
+
+    it('should redo type', async () => {
+      const {queryAssist, input} = renderPlain();
+
+      const user = userEvent.setup();
+
+      await waitForSetStateCallbacks(() => user.type(input, 'abc'));
+      await repeat(3, undo);
+
+      await redo();
+      expect(getCurrentText(queryAssist)).to.equal('a');
+
+      await repeat(2, async () => {
+        await repeat(2, redo);
+        expect(getCurrentText(queryAssist)).to.equal('abc');
+      });
+    });
+
+    it('should undo backspace', async () => {
+      const {queryAssist, input} = renderPlain();
+
+      const user = userEvent.setup();
+
+      await waitForSetStateCallbacks(() => user.type(input, 'abc'));
+      await waitForSetStateCallbacks(() => user.type(input, '{backspace}'));
+      expect(getCurrentText(queryAssist)).to.equal('ab');
+
+      await undo();
+      expect(getCurrentText(queryAssist)).to.equal('abc');
+    });
+
+    it('should undo backspace from empty string', async () => {
+      const {queryAssist, input} = renderPlain();
+
+      const user = userEvent.setup();
+
+      await waitForSetStateCallbacks(() => user.type(input, 'ab'));
+      await waitForSetStateCallbacks(() => user.type(input, '{backspace}{backspace}'));
+      expect(getCurrentText(queryAssist)).to.equal('');
+
+      await repeat(2, undo);
+      expect(getCurrentText(queryAssist)).to.equal('ab');
+    });
+
+    it('should redo backspace to empty string', async () => {
+      const {queryAssist, input} = renderPlain();
+
+      const user = userEvent.setup();
+
+      await waitForSetStateCallbacks(() => user.type(input, 'ab'));
+      await waitForSetStateCallbacks(() => user.type(input, '{backspace}{backspace}'));
+
+      await repeat(2, undo);
+      expect(getCurrentText(queryAssist)).to.equal('ab');
+
+      await repeat(2, redo);
+      expect(getCurrentText(queryAssist)).to.equal('');
+    });
+  });
 });
