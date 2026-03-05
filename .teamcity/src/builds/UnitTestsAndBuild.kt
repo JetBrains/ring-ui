@@ -60,8 +60,8 @@ object UnitTestsAndBuild : BuildType({
                 mkdir node_modules
                 npm install
 
-                npm run type-check
-                npm run lint || true
+                npm run type-check-ci
+                npm run lint-ci || true
                 npm run test || true
                 npm run build
                 npm run build-stories
