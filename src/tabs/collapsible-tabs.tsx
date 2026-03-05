@@ -89,7 +89,7 @@ export const CollapsibleTabs = ({
 
       const {tabs: tabsSizes, more = 0} = elements.sizes;
 
-      let renderMore = children.some(tab => tab.props.alwaysHidden);
+      const renderMore = children.some(tab => tab.props.alwaysHidden);
 
       const tabsToRender: number[] = [];
       let filledWidth = renderMore ? (more ?? 0) : 0;
@@ -107,7 +107,6 @@ export const CollapsibleTabs = ({
         for (let i = tabsToRender.length - 1; i >= 0; i--) {
           if (filledWidth + more < containerWidth + MEASURE_TOLERANCE) {
             filledWidth += more;
-            renderMore = true;
             break;
           } else {
             filledWidth -= tabsToRender[i];
@@ -120,7 +119,6 @@ export const CollapsibleTabs = ({
         const selectedWidth = tabsSizes[selectedIndex];
         for (let i = tabsToRender.length - 1; i >= 0; i--) {
           if (filledWidth + selectedWidth < containerWidth + MEASURE_TOLERANCE) {
-            filledWidth += selectedWidth;
             break;
           } else {
             filledWidth -= tabsToRender[i];

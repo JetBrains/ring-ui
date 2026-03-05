@@ -12,7 +12,6 @@ module.exports = {
     'color-hex-length': null,
     'selector-max-compound-selectors': null,
     'selector-no-qualifying-type': null,
-    'scss/at-import-no-partial-leading-underscore': null,
     'scss/at-mixin-pattern': null,
     'property-no-vendor-prefix': null,
     'length-zero-no-unit': null,

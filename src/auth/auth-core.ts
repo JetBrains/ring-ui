@@ -560,7 +560,7 @@ class Auth implements HTTPAuth {
       }
       await this._backendCheckPromise;
     } catch (e) {
-      throw new Error('Cannot refresh token: backend is not available. Postponed by user.');
+      throw new Error('Cannot refresh token: backend is not available. Postponed by user.', {cause: e});
     } finally {
       this._backendCheckPromise = null;
     }
@@ -975,7 +975,7 @@ class Auth implements HTTPAuth {
       throw new Error('No state in AuthResponse');
     }
     const {scope: defaultScope} = this.config;
-    let urlFromState: URL | null = null;
+    let urlFromState: URL | null;
     try {
       urlFromState = new URL(state); // checking if state contains valid URL on same origin, see HUB-11514
     } catch {

@@ -104,7 +104,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
 
       src = encodeURL(urlStart, queryParams);
     }
-    let subavatarSrc = null;
+    let subavatarSrc;
     if (subavatar && !isDataURI(subavatar)) {
       const [urlStart, query] = subavatar.split('?');
       const queryParams = {

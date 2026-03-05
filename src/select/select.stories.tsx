@@ -1242,9 +1242,7 @@ export const showPopup: StoryObj<SingleSelectAttrs> = {
 export const WithLazyLoading = () => {
   const pageSize = 20;
 
-  const [data, setData] = useState(() =>
-    [...Array(pageSize)].map((_, idx) => ({label: `Item ${idx}`, key: idx})),
-  );
+  const [data, setData] = useState(() => [...Array(pageSize)].map((_, idx) => ({label: `Item ${idx}`, key: idx})));
   const [loading, setLoading] = useState(false);
   const loadingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);

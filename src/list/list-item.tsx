@@ -90,7 +90,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       paddingLeft: `${(Number(level) || 0) * RING_UNIT + DEFAULT_PADDING + (showCheckbox ? CHECKBOX_WIDTH : 0)}px`,
     };
 
-    let computedTitle = null;
+    let computedTitle;
     if (this._isString(title)) {
       // if title is specified and is a string then use it
       computedTitle = title;
