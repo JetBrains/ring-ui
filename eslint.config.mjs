@@ -56,6 +56,7 @@ export default defineConfig([
       '**/build',
       '**/test_gen',
       '**/storybook-dist',
+      '**/*.css.d.ts',
     ],
   },
 
