@@ -88,6 +88,7 @@
     "type-check:main": "tsc --noEmit -p tsconfig.json",
     "type-check:build": "tsc --noEmit -p tsconfig-build.json",
     "type-check:cleanup-d-ts": "rimraf src/**/*.css.d.ts .storybook/*.css.d.ts .storybook/**/*.css.d.ts",
+    "pretype-check-ci": "npm run type-check:create-d-ts",
     "type-check-ci": "node scripts/tsc-teamcity",
     "update-styles": "node scripts/update-styles.mjs",
     "validate-tc-config": "mvn --file .teamcity/pom.xml org.jetbrains.teamcity:teamcity-configs-maven-plugin:generate -e"
