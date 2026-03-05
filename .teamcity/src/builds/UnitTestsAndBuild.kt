@@ -61,7 +61,7 @@ object UnitTestsAndBuild : BuildType({
                 npm install
 
                 npm run type-check-ci
-                npm run lint-ci || true
+                npm run lint-ci
                 npm run test || true
                 npm run build
                 npm run build-stories
