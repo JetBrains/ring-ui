@@ -5,7 +5,8 @@ tsm.autoFlowId = false;
 const errorFormat = /^(.+)\((\d+),\d+\): error (TS\d+): (.*)+$/m;
 const origWrite = process.stdout.write;
 const registeredErrorCodes = new Set();
-process.stdout.write = function write(error, ...args) {
+process.stdout.write = function write(...args) {
+  const [error] = args;
   const match = error.match(errorFormat);
   if (match) {
     const [_, file, line, errorCode, message] = match;
