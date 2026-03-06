@@ -224,11 +224,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     }
 
     const {activeIndex} = this.state;
-    if (
-      !this.props.disableScrollToActive &&
-      activeIndex != null &&
-      activeIndex !== prevState.activeIndex
-    ) {
+    if (!this.props.disableScrollToActive && activeIndex != null && activeIndex !== prevState.activeIndex) {
       if (this.virtualizedList) {
         this.virtualizedList.scrollToRow(activeIndex + 1);
       } else {
@@ -241,9 +237,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       }
     }
 
-    const isActiveItemRetainedPosition = activeIndex != null
-      ? prevProps.data[activeIndex]?.key === this.props.data[activeIndex]?.key
-      : false;
+    const isActiveItemRetainedPosition =
+      activeIndex != null ? prevProps.data[activeIndex]?.key === this.props.data[activeIndex]?.key : false;
 
     if (
       (this.props.activeIndex === null || this.props.activeIndex === undefined) &&
