@@ -312,11 +312,7 @@ describe('List', () => {
 
       expect(screen.getByRole('row', {selected: true})).to.have.text('Item 0');
 
-      const extendedData = [
-        ...data,
-        {key: 3, label: 'Item 3'},
-        {key: 4, label: 'Item 4'},
-      ];
+      const extendedData = [...data, {key: 3, label: 'Item 3'}, {key: 4, label: 'Item 4'}];
       rerender(<List renderOptimization={false} data={extendedData} activateFirstItem restoreActiveIndex />);
 
       expect(screen.getByRole('row', {selected: true})).to.have.text('Item 0');
@@ -329,23 +325,16 @@ describe('List', () => {
         {key: 1, label: 'Item 1'},
         {key: 2, label: 'Item 2'},
       ];
-      const {rerender} = render(
-        <List ref={ref} data={data} activateFirstItem restoreActiveIndex />,
-      );
+      const {rerender} = render(<List ref={ref} data={data} activateFirstItem restoreActiveIndex />);
 
       expect(ref.current!.state.activeIndex).to.equal(0);
       expect(ref.current!.state.activeItem).to.deep.include({key: 0, label: 'Item 0'});
 
-      const extendedData = [
-        ...data,
-        {key: 3, label: 'Item 3'},
-        {key: 4, label: 'Item 4'},
-      ];
+      const extendedData = [...data, {key: 3, label: 'Item 3'}, {key: 4, label: 'Item 4'}];
       rerender(<List ref={ref} data={extendedData} activateFirstItem restoreActiveIndex />);
 
       expect(ref.current!.state.activeIndex).to.equal(0);
       expect(ref.current!.state.activeItem).to.deep.include({key: 0, label: 'Item 0'});
     });
   });
-
 });
