@@ -114,7 +114,6 @@ export interface ListState<T = unknown> {
   prevActiveIndex: number | null;
   prevData: ListDataItem<T>[];
   activeItem: ListDataItem<T> | null;
-  needScrollToActive: boolean;
   scrolling: boolean;
   hasOverflow: boolean;
   scrolledToBottom: boolean;
@@ -156,7 +155,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     prevActiveIndex: null,
     prevData: [],
     activeItem: null,
-    needScrollToActive: false,
     scrolling: false,
     hasOverflow: false,
     scrolledToBottom: false,
@@ -189,7 +187,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       Object.assign(nextState, {
         activeIndex,
         activeItem: data[activeIndex],
-        needScrollToActive: true,
       });
     } else if (data !== prevData && restoreActiveIndex && activeItem && activeItem.key) {
       // Restore active index if there is an item with the same "key" property
@@ -229,12 +226,11 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     const {activeIndex} = this.state;
     if (
       !this.props.disableScrollToActive &&
-      this.state.needScrollToActive &&
       activeIndex != null &&
       activeIndex !== prevState.activeIndex
     ) {
       if (this.virtualizedList) {
-        this.setState({needScrollToActive: false});
+        this.virtualizedList.scrollToRow(activeIndex + 1);
       } else {
         const itemId = this.getId(this.props.data[activeIndex]);
         if (itemId) {
@@ -242,7 +238,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
             block: 'center',
           });
         }
-        this.setState({needScrollToActive: false});
       }
     }
 
@@ -326,7 +321,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       this.setState({
         activeIndex: firstActivatableIndex,
         activeItem: this.props.data[firstActivatableIndex],
-        needScrollToActive: true,
       });
     }
   };
@@ -408,7 +402,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       {
         activeIndex: correctedIndex,
         activeItem: item,
-        needScrollToActive: true,
       },
       function onSet() {
         if (!isActivatable(item)) {
@@ -670,14 +663,6 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
               overscanRowCount={this._bufferSize}
               // ensure rerendering
               noop={() => {}}
-              scrollToIndex={
-                !this.props.disableScrollToActive &&
-                this.state.needScrollToActive &&
-                this.state.activeIndex !== null &&
-                this.state.activeIndex !== undefined
-                  ? this.state.activeIndex + 1
-                  : undefined
-              }
               scrollToAlignment='center'
               deferredMeasurementCache={this._cache}
               onRowsRendered={this.checkOverflow}
