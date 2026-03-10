@@ -1,8 +1,11 @@
-import {type CSSProperties, Fragment} from 'react';
+import {type CSSProperties, Fragment, useState} from 'react';
 
 import Button from '../button/button';
 import Link from '../link/link';
 import Tooltip from './tooltip';
+import Checkbox from '../checkbox/checkbox';
+
+import styles from './tooltip.stories.css';
 
 export default {
   title: 'Components/Tooltip',
@@ -20,7 +23,7 @@ export default {
 };
 
 export const basic = () => (
-  <div style={{paddingBottom: '100px'}}>
+  <div className={styles.paddingBottomM}>
     <Tooltip title='Explanation'>
       <Button id='button-with-tooltip'>Button that requires an explanation</Button>
     </Tooltip>
@@ -47,12 +50,12 @@ export const displayedWhenNecessary = () => {
 
   return (
     <Fragment>
-      <div style={{paddingBottom: '200px'}}>
+      <div className={styles.paddingBottomL}>
         <Tooltip long title={loremIpsum} selfOverflowOnly className='lorem-ipsum__text'>
           <b>{"Tooltip won't be displayed:"}</b> {loremIpsum}
         </Tooltip>
       </div>
-      <div style={{paddingBottom: '200px'}}>
+      <div className={styles.paddingBottomL}>
         <Tooltip long title={loremIpsum} selfOverflowOnly style={overflowStyles} className='lorem-ipsum__text_overflow'>
           <b>Tooltip will be displayed:</b> {loremIpsum}
         </Tooltip>
@@ -75,7 +78,7 @@ displayedWhenNecessary.parameters = {
 };
 
 export const nested = () => (
-  <div style={{paddingBottom: '100px'}}>
+  <div className={styles.paddingBottomM}>
     <Tooltip title='Explanation'>
       Some text with an explanation.
       <Tooltip title='Nested Explanation'>
@@ -95,7 +98,7 @@ export const nested = () => (
 nested.storyName = 'nested';
 
 export const complexMarkup = () => (
-  <div>
+  <div className={styles.paddingBottomM}>
     <Tooltip
       title={
         <>
@@ -117,7 +120,7 @@ complexMarkup.parameters = {
 };
 
 export const shortcut = () => (
-  <div style={{paddingBottom: '100px'}}>
+  <div className={styles.paddingBottomM}>
     <Tooltip
       title={
         <>
@@ -142,9 +145,28 @@ shortcut.parameters = {
 };
 
 export const inheritedTheme = () => (
-  <div style={{paddingBottom: '100px'}}>
+  <div className={styles.paddingBottomM}>
     <Tooltip title='Explanation' theme='inherit'>
       <Button>Button that requires an explanation</Button>
     </Tooltip>
   </div>
 );
+
+const buttonClass = 'button-hover-target';
+
+export const WithHideControl = () => {
+  const [hide, setHide] = useState(true);
+
+  return (
+    <div className={styles.paddingBottomM}>
+      <div>
+        <Checkbox label='Hide tooltip' onChange={e => setHide(e.currentTarget.checked)} checked={hide} />
+      </div>
+      <div>
+        <Tooltip title='Explanation' hide={hide}>
+          <Button className={buttonClass}>Button that requires an explanation</Button>
+        </Tooltip>
+      </div>
+    </div>
+  );
+};

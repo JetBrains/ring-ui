@@ -24,6 +24,7 @@ export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, '
   selfOverflowOnly?: boolean | null | undefined;
   popupProps?: Partial<PopupAttrs> | null | undefined;
   title?: ReactNode | null | undefined;
+  hide?: boolean | null | undefined;
   theme?: Theme | 'inherit';
   'data-test'?: string | null | undefined;
   long?: boolean | null | undefined;
@@ -32,6 +33,10 @@ export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, '
  * @name Tooltip
  */
 export default class Tooltip extends Component<TooltipProps> {
+  static isShow({title, hide}: TooltipProps) {
+    return !!title && !hide;
+  }
+
   static defaultProps = {
     title: '',
     selfOverflowOnly: false,
@@ -45,15 +50,17 @@ export default class Tooltip extends Component<TooltipProps> {
   };
 
   componentDidMount() {
-    if (this.props.title) {
+    if (Tooltip.isShow(this.props)) {
       this.addListeners();
     }
   }
 
   componentDidUpdate(prevProps: TooltipProps) {
-    if (!prevProps.title && this.props.title) {
+    const prevShow = Tooltip.isShow(prevProps);
+    const currShow = Tooltip.isShow(this.props);
+    if (!prevShow && currShow) {
       this.addListeners();
-    } else if (prevProps.title && !this.props.title) {
+    } else if (prevShow && !currShow) {
       this.hidePopup();
       this.listeners.removeAll();
     }
@@ -76,11 +83,9 @@ export default class Tooltip extends Component<TooltipProps> {
   };
 
   tryToShowPopup = () => {
-    const {delay, title} = this.props;
+    if (!Tooltip.isShow(this.props)) return;
 
-    if (!title) {
-      return;
-    }
+    const {delay} = this.props;
 
     if (delay) {
       clearTimeout(this.timeout);
