@@ -209,6 +209,12 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     ) {
       this.activateFirst();
     }
+    if (!this.props.renderOptimization && !this.props.disableScrollToActive && this.state.activeIndex != null) {
+      const itemId = this.getId(this.props.data[this.state.activeIndex]);
+      if (itemId) {
+        document.getElementById(itemId)?.scrollIntoView?.({block: 'center'});
+      }
+    }
   }
 
   shouldComponentUpdate(nextProps: ListProps<T>, nextState: ListState<T>) {
@@ -606,7 +612,11 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   };
 
   virtualizedListRef = (el: VirtualizedList | null) => {
+    const isFirstAssignment = el != null && this.virtualizedList == null;
     this.virtualizedList = el;
+    if (isFirstAssignment && !this.props.disableScrollToActive && this.state.activeIndex != null) {
+      el.scrollToRow(this.state.activeIndex + 1);
+    }
   };
 
   containerRef = (el: HTMLElement | null) => {
