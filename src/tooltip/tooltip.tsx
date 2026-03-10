@@ -33,7 +33,7 @@ export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, '
  * @name Tooltip
  */
 export default class Tooltip extends Component<TooltipProps> {
-  static isShow({title, hide}: TooltipProps) {
+  private static isShow({title, hide}: TooltipProps) {
     return !!title && !hide;
   }
 
@@ -182,10 +182,12 @@ export default class Tooltip extends Component<TooltipProps> {
       selfOverflowOnly,
       popupProps,
       long,
+      hide,
       ...restProps
     } = this.props;
 
-    const ariaProps = typeof title === 'string' && !!title ? {'aria-label': title, role: 'tooltip'} : {};
+    const ariaProps =
+      typeof title === 'string' && Tooltip.isShow({title, hide}) ? {'aria-label': title, role: 'tooltip'} : {};
 
     const {onNestedTooltipShow, onNestedTooltipHide} = this;
 
