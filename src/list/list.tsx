@@ -209,11 +209,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     ) {
       this.activateFirst();
     }
-    if (!this.props.renderOptimization && !this.props.disableScrollToActive && this.state.activeIndex != null) {
-      const itemId = this.getId(this.props.data[this.state.activeIndex]);
-      if (itemId) {
-        document.getElementById(itemId)?.scrollIntoView?.({block: 'center'});
-      }
+    if (!this.props.renderOptimization) {
+      this.scrollToActive();
     }
   }
 
@@ -230,17 +227,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     }
 
     const {activeIndex} = this.state;
-    if (!this.props.disableScrollToActive && activeIndex != null && activeIndex !== prevState.activeIndex) {
-      if (this.virtualizedList) {
-        this.virtualizedList.scrollToRow(activeIndex + 1);
-      } else {
-        const itemId = this.getId(this.props.data[activeIndex]);
-        if (itemId) {
-          document.getElementById(itemId)?.scrollIntoView?.({
-            block: 'center',
-          });
-        }
-      }
+    if (activeIndex != null && activeIndex !== prevState.activeIndex) {
+      this.scrollToActive();
     }
 
     const isActiveItemRetainedPosition =
@@ -473,6 +461,21 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       }
     });
 
+  scrollToActive = () => {
+    const {activeIndex} = this.state;
+    if (this.props.disableScrollToActive || activeIndex == null) {
+      return;
+    }
+    if (this.virtualizedList) {
+      this.virtualizedList.scrollToRow(activeIndex + 1);
+    } else {
+      const itemId = this.getId(this.props.data[activeIndex]);
+      if (itemId) {
+        document.getElementById(itemId)?.scrollIntoView?.({block: 'center'});
+      }
+    }
+  };
+
   checkOverflow = () => {
     if (this.inner) {
       this.setState({
@@ -614,8 +617,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   virtualizedListRef = (el: VirtualizedList | null) => {
     const isFirstAssignment = el != null && this.virtualizedList == null;
     this.virtualizedList = el;
-    if (isFirstAssignment && !this.props.disableScrollToActive && this.state.activeIndex != null) {
-      el.scrollToRow(this.state.activeIndex + 1);
+    if (isFirstAssignment) {
+      this.scrollToActive();
     }
   };
 
