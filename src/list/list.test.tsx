@@ -2,6 +2,7 @@ import {act, createElement} from 'react';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import VirtualizedList from 'react-virtualized/dist/es/List';
 
 import getUID from '../global/get-uid';
 import simulateCombo from '../../test-helpers/simulate-combo';
@@ -294,6 +295,62 @@ describe('List', () => {
 
       const firstItem = screen.getByRole('button');
       expect(firstItem).to.not.have.class(styles.action);
+    });
+  });
+
+  describe('should scroll to active item on initial mount', () => {
+    // scrollIntoView is not implemented in jsdom, define a noop so vi.spyOn works
+    beforeAll(() => {
+      Element.prototype.scrollIntoView ??= () => {};
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('should scroll to active item on mount (non-virtualized)', () => {
+      const spy = vi.spyOn(Element.prototype, 'scrollIntoView');
+      const data = Array.from({length: 50}, (_, i) => ({key: i, label: `Item ${i}`}));
+
+      renderList({
+        data,
+        activeIndex: 40,
+        maxHeight: 200,
+      });
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should not scroll to active item on mount when disableScrollToActive is true', () => {
+      const spy = vi.spyOn(Element.prototype, 'scrollIntoView');
+      const data = Array.from({length: 50}, (_, i) => ({key: i, label: `Item ${i}`}));
+
+      renderList({
+        data,
+        activeIndex: 40,
+        maxHeight: 200,
+        disableScrollToActive: true,
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should scroll to active item on mount (virtualized)', () => {
+      const spy = vi.spyOn(VirtualizedList.prototype, 'scrollToRow');
+      const data = Array.from({length: 50}, (_, i) => ({key: i, label: `Item ${i}`}));
+
+      render(<List data={data} activeIndex={40} maxHeight={200} />);
+
+      expect(spy).toHaveBeenCalledWith(41);
+    });
+
+    it('should not scroll to active item on mount when disableScrollToActive is true (virtualized)', () => {
+      const spy = vi.spyOn(VirtualizedList.prototype, 'scrollToRow');
+      const data = Array.from({length: 50}, (_, i) => ({key: i, label: `Item ${i}`}));
+
+      render(<List data={data} activeIndex={40} maxHeight={200} disableScrollToActive />);
+
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 
