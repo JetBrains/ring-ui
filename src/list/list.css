@@ -74,6 +74,8 @@
 }
 
 .itemContainer {
+  --ring-list-item-icon-size: 20px;
+
   position: relative;
 }
 
@@ -150,7 +152,7 @@
 }
 
 .padded {
-  margin-left: 20px;
+  margin-left: calc(var(--ring-unit) + var(--ring-list-item-icon-size));
 }
 
 /* Override :last-child */
@@ -194,8 +196,8 @@
 .icon {
   display: inline-block;
 
-  width: 20px;
-  height: 20px;
+  width: var(--ring-list-item-icon-size);
+  height: var(--ring-list-item-icon-size);
   margin-left: calc(var(--ring-unit) * 2);
 
   background-repeat: no-repeat;
@@ -215,7 +217,7 @@
 .glyph {
   float: left;
 
-  width: 20px;
+  width: var(--ring-list-item-icon-size);
 
   margin-right: var(--ring-unit);
 
@@ -227,7 +229,7 @@
 
   top: 0;
 
-  height: 20px;
+  height: var(--ring-list-item-icon-size);
 
   object-fit: cover;
   object-position: center;
@@ -247,8 +249,8 @@
   top: 7px;
   left: 19px;
 
-  width: 20px;
-  height: 20px;
+  width: var(--ring-list-item-icon-size);
+  height: var(--ring-list-item-icon-size);
   margin-right: var(--ring-unit);
 }
 

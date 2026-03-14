@@ -613,6 +613,39 @@ multipleWithADescription.parameters = {
   },
 };
 
+export const MultipleWithDescriptionAndDetails: StoryFn<MultipleSelectAttrs> = args => <Select {...args} />;
+
+{
+  const data = Array.from({length: 5}, (_, idx) => ({
+    label: `Item ${idx}`,
+    key: idx,
+    description: `Description ${idx}`,
+    details: `Details ${idx}`,
+    ...(idx % 2 ? {showGeneratedAvatar: true, username: `E${idx}`} : {}),
+  }));
+
+  MultipleWithDescriptionAndDetails.args = {
+    data,
+    filter: true,
+    multiple: true,
+    selected: [data[2]],
+  };
+}
+
+MultipleWithDescriptionAndDetails.storyName = 'multiple with description and details';
+MultipleWithDescriptionAndDetails.parameters = {
+  screenshots: {
+    actions: [
+      {type: 'click', selector: '[data-test~=ring-select]'},
+      {
+        type: 'capture',
+        name: 'light',
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]'],
+      },
+    ],
+  },
+};
+
 export const disabled = () => (
   <div>
     <div className='demo-wrapper'>

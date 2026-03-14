@@ -17,10 +17,6 @@ import styles from './list.css';
  * @extends {ReactComponent}
  */
 
-const RING_UNIT = 8;
-const DEFAULT_PADDING = 8;
-const CHECKBOX_WIDTH = 28;
-
 export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
   id = getUID('list-item-');
 
@@ -81,13 +77,15 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
     const detailsClasses = classNames(
       {
         [styles.details]: details,
-        [styles.padded]: icon !== undefined || checkbox !== undefined || glyph !== undefined,
+        [styles.padded]: !showCheckbox && hasLeftNodes,
       },
       detailsClassName,
     );
 
+    const levelPadding = `var(--ring-unit) * ${1 + (Number(level) || 0)}`;
+    const checkboxPadding = showCheckbox ? ' + var(--ring-list-item-icon-size) + var(--ring-unit)' : '';
     const style = {
-      paddingLeft: `${(Number(level) || 0) * RING_UNIT + DEFAULT_PADDING + (showCheckbox ? CHECKBOX_WIDTH : 0)}px`,
+      paddingLeft: `calc(${levelPadding}${checkboxPadding})`,
     };
 
     let computedTitle;
