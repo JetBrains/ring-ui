@@ -82,7 +82,7 @@ export default class ListItem<T> extends PureComponent<ListDataItemProps<T>> {
       detailsClassName,
     );
 
-    const levelPadding = `calc(var(--ring-unit) * ${1 + (Number(level) || 0)}`;
+    const levelPadding = `var(--ring-unit) * ${1 + (Number(level) || 0)}`;
     const checkboxPadding = showCheckbox ? ' + var(--ring-list-item-icon-size) + var(--ring-unit)' : '';
     const style = {
       paddingLeft: `calc(${levelPadding}${checkboxPadding})`,
