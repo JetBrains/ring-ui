@@ -471,7 +471,13 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     } else {
       const itemId = this.getId(this.props.data[activeIndex]);
       if (itemId) {
-        document.getElementById(itemId)?.scrollIntoView?.({block: 'center'});
+        // scrollIntoView({container: 'nearest'}) is not yet supported in Firefox and Safari, emulating
+        const itemElement = document.getElementById(itemId);
+        const scrollerElement = this.inner;
+        if (itemElement && scrollerElement) {
+          scrollerElement.scrollTop =
+            itemElement.offsetTop + itemElement.clientHeight / 2 - scrollerElement.clientHeight / 2;
+        }
       }
     }
   };
