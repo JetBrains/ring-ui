@@ -179,7 +179,7 @@
     "rollup": "^4.59.0",
     "rollup-plugin-clear": "^2.0.7",
     "storage-mock": "^2.1.0",
-    "storybook": "10.2.14",
+    "storybook": "10.2.16",
     "stylelint": "^17.4.0",
     "stylelint-config-sass-guidelines": "^13.0.0",
     "svg-inline-loader": "^0.8.2",
