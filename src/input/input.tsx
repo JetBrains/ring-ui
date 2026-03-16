@@ -173,6 +173,7 @@ export class Input extends PureComponent<InputProps> {
       help,
       className,
       inputClassName,
+      clearButtonClassName,
       children,
       value,
       onClear,
@@ -253,7 +254,7 @@ export class Input extends PureComponent<InputProps> {
                 <Button
                   title={translations?.clear ?? translate('clear')}
                   data-test='ring-input-clear'
-                  className={classNames(styles.clear, this.props.clearButtonClassName)}
+                  className={classNames(styles.clear, clearButtonClassName)}
                   icon={closeIcon}
                   onClick={this.clear}
                 />
