@@ -53,8 +53,8 @@ function DropdownAnchorWrapper({
 }: DropdownAnchorWrapperProps) {
   const anchorAriaProps = {
     ...(listId ? {'aria-haspopup': true} : {}),
-    ...(activeListItemId ? {'aria-activedescendant': activeListItemId, 'aria-owns': listId} : {}),
-    ...(active ? {'aria-expanded': true} : {}),
+    ...(activeListItemId ? {'aria-activedescendant': activeListItemId} : {}),
+    ...(active ? {'aria-expanded': true, 'aria-owns': listId} : {}),
   };
 
   const anchorProps = {active, pinned, ...restProps, ...anchorAriaProps};
@@ -108,7 +108,7 @@ const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
     id: listId,
     ariaLabel: ariaLabel || defaultAriaLabel,
     closeOnSelect: true,
-    activateFirstItem: true,
+    activateFirstItem: false,
     data,
     onSelect,
     ...menuProps,

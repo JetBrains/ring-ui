@@ -66,7 +66,9 @@ describe('Dropdown Menu', () => {
     });
 
     const anchor = screen.getByRole('button', {name: /^Anchor text/});
-    expect(anchor.getAttribute('aria-owns')!).to.equal('test-list-id');
-    expect(anchor.getAttribute('aria-activedescendant')!).to.contain(':key1');
+    expect(anchor.getAttribute('aria-haspopup')).to.equal('true');
+    expect(anchor.getAttribute('aria-expanded')).to.equal('true');
+    expect(anchor.getAttribute('aria-owns')).to.equal('test-list-id');
+    expect(anchor.getAttribute('aria-activedescendant')).to.be.null;
   });
 });
