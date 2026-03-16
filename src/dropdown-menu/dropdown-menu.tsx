@@ -108,7 +108,7 @@ const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
     id: listId,
     ariaLabel: ariaLabel || defaultAriaLabel,
     closeOnSelect: true,
-    activateFirstItem: true,
+    activateFirstItem: false,
     data,
     onSelect,
     ...menuProps,
