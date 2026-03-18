@@ -9,7 +9,7 @@ import {Content} from '../island/island';
 import {ControlsHeight} from '../global/controls-height';
 import {Size} from '../input/input';
 import TagsInput from './tags-input';
-import {type TagType} from 'src/tags-list/tags-list';
+import {type TagType} from '../tags-list/tags-list';
 
 export default {
   title: 'Components/Tags Input',
@@ -216,8 +216,8 @@ export const WithError = () => {
     <TagsInput
       tags={tags}
       dataSource={dataSource}
-      onAddTag={({tag}) => setTags([...tags, tag])}
-      onRemoveTag={({tag: {key: removedKey}}) => setTags(tags.filter(({key}) => key !== removedKey))}
+      onAddTag={({tag}) => setTags(prevTags => [...prevTags, tag])}
+      onRemoveTag={({tag: {key: removedKey}}) => setTags(prevTags => prevTags.filter(({key}) => key !== removedKey))}
       error={
         error ? (
           <>
