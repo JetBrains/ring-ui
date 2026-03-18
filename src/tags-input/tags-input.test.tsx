@@ -3,6 +3,9 @@ import userEvent from '@testing-library/user-event';
 
 import TagsInput, {type TagsInputAttrs} from './tags-input';
 
+import styles from './tags-input.css';
+import inputStyles from '../input/input.css';
+
 describe('Tags Input', () => {
   const fakeTags = [{key: 1, label: 'test1'}];
 
@@ -119,6 +122,25 @@ describe('Tags Input', () => {
 
       // Check if onRemoveTag was not called
       expect(onRemoveTag).not.toHaveBeenCalled;
+    });
+  });
+
+  describe('with error', () => {
+    it('should add error class', () => {
+      const {tagsList} = renderTagsInput({
+        error: '',
+      });
+      expect(tagsList).to.have.class(styles.error);
+    });
+
+    it('should render error message', () => {
+      const error = 'This is a sample error message';
+      const {tagsList} = renderTagsInput({
+        error,
+      });
+      expect(tagsList).to.have.class(styles.error);
+      const errorElement = tagsList.querySelector(`.${inputStyles.errorText}`);
+      expect(errorElement).to.have.text(error);
     });
   });
 });

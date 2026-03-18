@@ -65,6 +65,7 @@ export interface TagsInputProps {
   label?: ReactNode;
   labelType?: LabelType;
   id?: string | undefined;
+  error?: ReactNode | null | undefined;
 }
 
 interface TagsInputState {
@@ -338,6 +339,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
       labelType,
       height = typeof this.context === 'function' ? this.context() : this.context,
       label,
+      error,
     } = this.props;
 
     const classes = classNames(
@@ -372,7 +374,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
           disabled={disabled}
           canNotBeEmpty={canNotBeEmpty}
           handleRemove={this.handleRemove}
-          className={styles.tagsList}
+          className={classNames(styles.tagsList, error != null && styles.error)}
           handleClick={this.handleClick}
           customTagComponent={this.props.customTagComponent}
         >
@@ -402,6 +404,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
             loadingMessage={this.props.loadingMessage}
             notFoundMessage={this.props.notFoundMessage}
             hint={this.props.hint}
+            error={error}
           />
         </TagsList>
       </div>
