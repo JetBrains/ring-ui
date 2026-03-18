@@ -1,6 +1,7 @@
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import exceptionIcon from '@jetbrains/icons/exception';
 import frownIcon from '@jetbrains/icons/frown';
+import {useState} from 'react';
 
 import Button from '../button/button';
 import Dialog from '../dialog/dialog';
@@ -8,6 +9,7 @@ import {Content} from '../island/island';
 import {ControlsHeight} from '../global/controls-height';
 import {Size} from '../input/input';
 import TagsInput from './tags-input';
+import {type TagType} from 'src/tags-list/tags-list';
 
 export default {
   title: 'Components/Tags Input',
@@ -194,4 +196,35 @@ autoOpenInADialog.parameters = {
     context: '#storybook-root,[data-test~=ring-dialog],[data-test~=ring-popup]',
     options: {rules: {'aria-valid-attr-value': {enabled: false}}},
   },
+};
+
+export const WithError = () => {
+  const tag1 = {key: 'test1', label: 'test1'};
+  const tag2 = {key: 'test2', label: 'test2'};
+  const tag3 = {key: 'test3', label: 'test3'};
+
+  const [tags, setTags] = useState<TagType[]>([tag1, tag2]);
+
+  function dataSource() {
+    return [tag1, tag2, tag3];
+  }
+
+  const keys = tags.map(({key}) => key);
+  const error = keys.includes(tag1.key) && keys.includes(tag2.key);
+
+  return (
+    <TagsInput
+      tags={tags}
+      dataSource={dataSource}
+      onAddTag={({tag}) => setTags([...tags, tag])}
+      onRemoveTag={({tag: {key: removedKey}}) => setTags(tags.filter(({key}) => key !== removedKey))}
+      error={
+        error ? (
+          <>
+            <b>{tag1.label}</b> and <b>{tag2.label}</b> are incompatible
+          </>
+        ) : undefined
+      }
+    />
+  );
 };
