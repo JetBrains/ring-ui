@@ -3,7 +3,11 @@ import * as React from 'react';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {COLLAPSE_CONTENT_CONTAINER_TEST_ID} from '../collapse/consts';
 import Expand from './expand';
+
+import collapseStyles from '../collapse/collapse.css';
+import styles from './expand.css';
 
 const bodyText = 'Body content';
 
@@ -16,7 +20,10 @@ const renderExpand = (props: Partial<React.ComponentProps<typeof Expand>> = {}) 
 
 describe('<Expand />', () => {
   it('should toggle on click and keyboard', async () => {
-    const onChangeMock = vi.fn();
+    const onChangeCalls: boolean[] = [];
+    const onChangeMock = (nextExpanded: boolean) => {
+      onChangeCalls.push(nextExpanded);
+    };
     renderExpand({onChange: onChangeMock});
 
     const header = screen.getByRole('button', {name: 'Title'});
@@ -26,14 +33,14 @@ describe('<Expand />', () => {
 
     await userEvent.click(header);
 
-    expect(onChangeMock).toHaveBeenCalledWith(true);
+    expect(onChangeCalls).to.deep.equal([true]);
     expect(header.getAttribute('aria-expanded')).to.equal('true');
     expect(screen.getByText(bodyText)).to.exist;
 
     header.focus();
     await userEvent.keyboard(' ');
 
-    expect(onChangeMock).toHaveBeenCalledWith(false);
+    expect(onChangeCalls).to.deep.equal([true, false]);
     expect(header.getAttribute('aria-expanded')).to.equal('false');
   });
 
@@ -66,13 +73,59 @@ describe('<Expand />', () => {
   });
 
   it('should ignore interactions when interactive is false', async () => {
-    const onChangeMock = vi.fn();
+    const onChangeCalls: boolean[] = [];
+    const onChangeMock = (nextExpanded: boolean) => {
+      onChangeCalls.push(nextExpanded);
+    };
     renderExpand({interactive: false, onChange: onChangeMock});
 
     expect(screen.queryByRole('button', {name: 'Title'})).to.equal(null);
 
     await userEvent.click(screen.getByText('Title'));
 
-    expect(onChangeMock).not.toHaveBeenCalled();
+    expect(onChangeCalls).to.have.lengthOf(0);
+  });
+
+  it('should keep hover and focus styles scoped to the interactive header', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Expand title={'Title'} defaultExpanded data-test='expand'>
+        <button type='button'>{'Action'}</button>
+      </Expand>,
+    );
+
+    const root = document.querySelector('[data-test="expand"]') as HTMLDivElement;
+    const header = screen.getByRole('button', {name: 'Title'});
+    const bodyButton = screen.getByRole('button', {name: 'Action'});
+
+    expect(root.className).not.to.contain(styles.hovered);
+    expect(root.className).not.to.contain(styles.focused);
+
+    await userEvent.hover(header);
+    expect(root.className).to.contain(styles.hovered);
+
+    await userEvent.unhover(header);
+    expect(root.className).not.to.contain(styles.hovered);
+
+    await user.tab();
+    expect(root.className).to.contain(styles.focused);
+
+    await user.tab();
+    expect(document.activeElement).to.equal(bodyButton);
+    expect(root.className).not.to.contain(styles.focused);
+  });
+
+  it('should support disabling animation', async () => {
+    renderExpand({disableAnimation: true});
+
+    const header = screen.getByRole('button', {name: 'Title'});
+    const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
+
+    expect(content.className).not.to.contain(collapseStyles.transition);
+
+    await userEvent.click(header);
+
+    expect(screen.getByText(bodyText)).to.exist;
   });
 });

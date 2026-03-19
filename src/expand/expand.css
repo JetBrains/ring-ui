@@ -1,20 +1,20 @@
 @import '../global/variables.css';
 
+.expand .collapseRoot {
+  display: flex;
+  flex-direction: column;
+}
+
 .expand {
   display: flex;
   flex-direction: column;
 
   box-sizing: border-box;
-  padding: 12px;
 
   border: 1px solid var(--ring-line-color);
   border-radius: 8px;
   outline: none;
   background: var(--ring-content-background-color);
-}
-
-.interactive {
-  cursor: pointer;
 }
 
 .hovered {
@@ -42,6 +42,30 @@
   gap: 12px;
 
   height: 28px;
+}
+
+.headerButton {
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+
+  cursor: pointer;
+  text-align: left;
+
+  color: inherit;
+
+  border: 0;
+  background: transparent;
+
+  font: inherit;
+}
+
+.headerStatic {
+  display: block;
+
+  padding: 12px;
 }
 
 .headerContent {
@@ -107,23 +131,8 @@
   color: var(--ring-secondary-color);
 }
 
-.bodyContainer {
-  position: relative;
-
-  overflow: hidden;
-
-  padding: 0 4px;
-  will-change: height, opacity;
-}
-
-.bodyTransition {
-  transition:
-    height var(--duration) ease-in-out 0s,
-    opacity var(--duration) ease-in-out 0s;
-}
-
 .body {
-  padding: 12px 4px 0;
+  padding: 0 16px 12px;
 
   color: var(--ring-text-color);
 
