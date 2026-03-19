@@ -5,18 +5,18 @@ import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Button from '../button/button';
 import Icon from '../icon/icon';
 import Input from '../input/input';
-import Expand from './expand';
+import CollapsibleGroup from './collapsible-group';
 
-import styles from './expand.stories.css';
+import styles from './collapsible-group.stories.css';
 
 export default {
-  title: 'Components/Expand',
+  title: 'Components/CollapsibleGroup',
 };
 
 const bodyText =
   "This is example of data that is showing in expand in body Here you can view all deployments, including their status, history, and associated resources. Filter by environment, region, or service to quickly find what you're looking for. Click on a deployment to view detailed logs and metrics.";
 
-export const ExpandPreview = () => {
+export const CollapsibleGroupPreview = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(true);
   const rowClassName = styles.row;
@@ -27,7 +27,7 @@ export const ExpandPreview = () => {
 
   return (
     <div className={rowClassName}>
-      <Expand
+      <CollapsibleGroup
         ref={ref}
         className={styles.card}
         title={'Deployments'}
@@ -57,7 +57,7 @@ export const ExpandPreview = () => {
             <Button>Cancel</Button>
           </div>
         </form>
-      </Expand>
+      </CollapsibleGroup>
     </div>
   );
 };

@@ -8,9 +8,9 @@ import Collapse from '../collapse/collapse';
 import CollapseContent from '../collapse/collapse-content';
 import {CollapseContext} from '../collapse/collapse-context';
 
-import styles from './expand.css';
+import styles from './collapsible-group.css';
 
-export interface ExpandProps {
+export interface CollapsibleGroupProps {
   avatar?: React.ReactNode;
   title: React.ReactNode;
   subtitle?: React.ReactNode;
@@ -24,15 +24,15 @@ export interface ExpandProps {
   'data-test'?: string | null | undefined;
 }
 
-interface ExpandHeaderContentProps {
+interface CollapsibleGroupHeaderContentProps {
   avatar?: React.ReactNode;
   titleContent: React.ReactNode;
   subtitle?: React.ReactNode;
 }
 
-type ExpandHeaderProps = ExpandHeaderContentProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
+type CollapsibleGroupHeaderProps = CollapsibleGroupHeaderContentProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-function ExpandHeaderContent({avatar, titleContent, subtitle}: ExpandHeaderContentProps) {
+function CollapsibleGroupHeaderContent({avatar, titleContent, subtitle}: CollapsibleGroupHeaderContentProps) {
   const {collapsed} = useContext(CollapseContext);
   const titleId = useId();
 
@@ -59,7 +59,7 @@ function ExpandHeaderContent({avatar, titleContent, subtitle}: ExpandHeaderConte
   );
 }
 
-function ExpandHeader({avatar, titleContent, subtitle, ...buttonProps}: ExpandHeaderProps) {
+function CollapsibleGroupHeader({avatar, titleContent, subtitle, ...buttonProps}: CollapsibleGroupHeaderProps) {
   const {setCollapsed, collapsed, id} = useContext(CollapseContext);
 
   return (
@@ -71,20 +71,20 @@ function ExpandHeader({avatar, titleContent, subtitle, ...buttonProps}: ExpandHe
       aria-controls={`collapse-content-${id}`}
       aria-expanded={!collapsed}
     >
-      <ExpandHeaderContent avatar={avatar} titleContent={titleContent} subtitle={subtitle} />
+      <CollapsibleGroupHeaderContent avatar={avatar} titleContent={titleContent} subtitle={subtitle} />
     </button>
   );
 }
 
-function ExpandHeaderStatic({avatar, titleContent, subtitle}: ExpandHeaderContentProps) {
+function CollapsibleGroupHeaderStatic({avatar, titleContent, subtitle}: CollapsibleGroupHeaderContentProps) {
   return (
     <span className={styles.headerStatic}>
-      <ExpandHeaderContent avatar={avatar} titleContent={titleContent} subtitle={subtitle} />
+      <CollapsibleGroupHeaderContent avatar={avatar} titleContent={titleContent} subtitle={subtitle} />
     </span>
   );
 }
 
-const Expand = forwardRef<HTMLDivElement, ExpandProps>(
+const CollapsibleGroup = forwardRef<HTMLDivElement, CollapsibleGroupProps>(
   (
     {
       avatar,
@@ -138,7 +138,7 @@ const Expand = forwardRef<HTMLDivElement, ExpandProps>(
           className={styles.collapseRoot}
         >
           {interactive ? (
-            <ExpandHeader
+            <CollapsibleGroupHeader
               avatar={avatar}
               titleContent={title}
               subtitle={subtitle}
@@ -148,7 +148,7 @@ const Expand = forwardRef<HTMLDivElement, ExpandProps>(
               onBlur={onBlur}
             />
           ) : (
-            <ExpandHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />
+            <CollapsibleGroupHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />
           )}
           <CollapseContent>
             <div className={styles.body}>{children}</div>
@@ -159,6 +159,6 @@ const Expand = forwardRef<HTMLDivElement, ExpandProps>(
   },
 );
 
-Expand.displayName = 'Expand';
+CollapsibleGroup.displayName = 'Collapsible Group';
 
-export default Expand;
+export default CollapsibleGroup;
