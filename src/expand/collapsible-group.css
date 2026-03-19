@@ -62,6 +62,10 @@
   font: inherit;
 }
 
+.headerButton:focus-visible {
+  outline: none;
+}
+
 .headerStatic {
   display: block;
 

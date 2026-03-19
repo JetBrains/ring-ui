@@ -119,6 +119,8 @@ export default defineConfig([
             'rollup.config.js',
             '*webpack.config.js',
             '**/*.figma.js',
+            '**/*.figma.ts',
+            '**/*.figma.tsx',
             '**/*.test.{js,ts,tsx}',
             '**/*.stories.{js,ts,tsx}',
             'eslint.config.mjs',

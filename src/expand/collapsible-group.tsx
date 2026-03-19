@@ -1,4 +1,4 @@
-import React, {forwardRef, useContext, useId, useState} from 'react';
+import React, {forwardRef, useContext, useState} from 'react';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-12px-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-12px-down';
@@ -34,20 +34,17 @@ type CollapsibleGroupHeaderProps = CollapsibleGroupHeaderContentProps & React.Bu
 
 function CollapsibleGroupHeaderContent({avatar, titleContent, subtitle}: CollapsibleGroupHeaderContentProps) {
   const {collapsed} = useContext(CollapseContext);
-  const titleId = useId();
 
   return (
     <span className={styles.header}>
       <span className={styles.headerContent}>
         <span className={styles.avatarGroup}>
           {avatar}
-          <span className={styles.title} id={titleId}>
-            {titleContent}
-          </span>
+          <span className={styles.title}>{titleContent}</span>
         </span>
         {subtitle ? (
           <span className={styles.subtitleGroup}>
-            <Icon className={styles.subtitleChevron} glyph={chevronRightIcon} />
+            <Icon className={styles.subtitleChevron} glyph={chevronRightIcon} aria-hidden />
             <span className={styles.subtitle}>{subtitle}</span>
           </span>
         ) : null}
@@ -159,6 +156,6 @@ const CollapsibleGroup = forwardRef<HTMLDivElement, CollapsibleGroupProps>(
   },
 );
 
-CollapsibleGroup.displayName = 'Collapsible Group';
+CollapsibleGroup.displayName = 'CollapsibleGroup';
 
 export default CollapsibleGroup;
