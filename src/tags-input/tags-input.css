@@ -65,7 +65,11 @@
     padding-left: var(--ring-input-padding-end);
   }
 
-  &:hover {
+  &.error {
+    border-color: var(--ring-error-color);
+  }
+
+  &:hover:not(.error) {
     transition: none;
 
     border-color: var(--ring-border-hover-color);
