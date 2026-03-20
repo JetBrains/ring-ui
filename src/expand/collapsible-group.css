@@ -32,7 +32,7 @@
 .header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: calc(var(--ring-unit) * 1.5);
 
   height: 28px;
 }
@@ -42,7 +42,7 @@
 
   box-sizing: border-box;
   width: 100%;
-  padding: 12px;
+  padding: calc(var(--ring-unit) * 1.5);
 
   cursor: pointer;
   text-align: left;
@@ -62,13 +62,13 @@
 .headerStatic {
   display: block;
 
-  padding: 12px;
+  padding: calc(var(--ring-unit) * 1.5);
 }
 
 .headerContent {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--ring-unit);
 
   flex: 1;
 
@@ -78,7 +78,7 @@
 .avatarGroup {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--ring-unit);
 
   flex-shrink: 0;
 }
@@ -86,15 +86,15 @@
 .title {
   color: var(--ring-text-color);
 
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
+  font-size: var(--ring-font-size);
+  font-weight: var(--ring-font-weight-bold);
+  line-height: var(--ring-line-height);
 }
 
 .subtitleGroup {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--ring-unit);
 
   min-width: 0;
 }
@@ -102,8 +102,8 @@
 .subtitle {
   color: var(--ring-secondary-color);
 
-  font-size: 14px;
-  line-height: 20px;
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
 }
 
 .subtitleChevron {
@@ -117,10 +117,10 @@
   flex-shrink: 0;
   justify-content: center;
 
-  width: 24px;
-  height: 24px;
+  width: calc(var(--ring-unit) * 3);
+  height: calc(var(--ring-unit) * 3);
 
-  border-radius: 4px;
+  border-radius: calc(var(--ring-unit) / 2);
   background: var(--ring-secondary-background-color);
 }
 
@@ -129,10 +129,10 @@
 }
 
 .body {
-  padding: 0 16px 12px;
+  padding: 0 calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 1.5);
 
   color: var(--ring-text-color);
 
-  font-size: 14px;
-  line-height: 20px;
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
 }
