@@ -12,28 +12,21 @@
   box-sizing: border-box;
 
   border: 1px solid var(--ring-line-color);
-  border-radius: 8px;
+  border-radius: var(--ring-border-radius-large);
   outline: none;
   background: var(--ring-content-background-color);
 }
 
 .hovered {
-  box-shadow:
-    0 2px 8px 0 rgba(0, 28, 54, 0.1),
-    0 1px 2px 0 rgba(0, 28, 54, 0.04);
+  box-shadow: var(--ring-popup-shadow);
 }
 
 .expanded {
-  box-shadow:
-    0 2px 8px 0 rgba(0, 28, 54, 0.1),
-    0 1px 2px 0 rgba(0, 28, 54, 0.04);
+  box-shadow: var(--ring-popup-shadow);
 }
 
 .focused {
-  box-shadow:
-    0 0 0 2px var(--ring-border-hover-color),
-    0 2px 8px 0 rgba(0, 28, 54, 0.1),
-    0 1px 2px 0 rgba(0, 28, 54, 0.04);
+  box-shadow: 0 0 0 2px var(--ring-border-hover-color), var(--ring-popup-shadow);
 }
 
 .header {
