@@ -87,7 +87,6 @@ const renderColors = () => (
       <ColorItem propName='--ring-border-accent-color' />
       <ColorItem propName='--ring-icon-hover-color' />
       <ColorItem propName='--ring-main-color' />
-      <ColorItem propName='--ring-action-link-color' />
       <ColorItem propName='--ring-main-hover-color' />
       <ColorItem propName='--ring-main-success-color' />
       <ColorItem propName='--ring-main-success-hover-color' />
