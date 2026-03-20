@@ -9,6 +9,9 @@ import CollapsibleGroup from './collapsible-group';
 
 import styles from './collapsible-group.stories.css';
 
+const screenshotTestId = 'collapsible-group-story';
+const captureSelector = `[data-test~="${screenshotTestId}"]`;
+
 export default {
   title: 'Components/CollapsibleGroup',
 };
@@ -29,6 +32,7 @@ export const CollapsibleGroupPreview = () => {
     <div className={rowClassName}>
       <CollapsibleGroup
         ref={ref}
+        data-test={screenshotTestId}
         className={styles.card}
         title={'Deployments'}
         subtitle={'Additional context'}
@@ -60,4 +64,33 @@ export const CollapsibleGroupPreview = () => {
       </CollapsibleGroup>
     </div>
   );
+};
+
+CollapsibleGroupPreview.parameters = {
+  screenshots: {
+    captureSelector,
+    actions: [{type: 'capture', name: '', selector: captureSelector}],
+  },
+};
+
+export const CollapsedByDefault = () => (
+  <div className={styles.row}>
+    <CollapsibleGroup
+      data-test={screenshotTestId}
+      className={styles.card}
+      title={'Deployments'}
+      subtitle={'Additional context'}
+      avatar={<Avatar size={AvatarSize.Size28} round info={<Icon glyph={buildTypeIcon} />} />}
+    >
+      <div className={styles.bodyText}>{bodyText}</div>
+    </CollapsibleGroup>
+  </div>
+);
+
+CollapsedByDefault.storyName = 'Collapsed by default';
+CollapsedByDefault.parameters = {
+  screenshots: {
+    captureSelector,
+    actions: [{type: 'capture', name: '', selector: captureSelector}],
+  },
 };
