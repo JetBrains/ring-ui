@@ -1204,7 +1204,9 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
 
     if (!hideArrow) {
-      icons.push(<ChevronButton disabled={this.props.disabled} height={height} onClick={this._clickHandler} />);
+      icons.push(
+        <ChevronButton key='chevron' disabled={this.props.disabled} height={height} onClick={this._clickHandler} />,
+      );
     }
 
     return icons;

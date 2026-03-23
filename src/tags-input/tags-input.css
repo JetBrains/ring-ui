@@ -64,8 +64,8 @@
   caret-color: var(--ring-main-color);
 
   [dir='rtl'] & {
-    padding-right: calc(var(--ring-input-padding-start) + var(--ring-line-height));
-    padding-left: var(--ring-input-padding-end);
+    padding-right: var(--ring-input-padding-start);
+    padding-left: calc(var(--ring-input-padding-end) + var(--ring-line-height));
   }
 
   &.error {
@@ -118,4 +118,9 @@
   height: var(--ring-line-height);
 
   color: var(--ring-secondary-color);
+
+  [dir='rtl'] & {
+    right: auto;
+    left: 0;
+  }
 }
