@@ -13,7 +13,6 @@ import {
 } from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
-import chevronDownIcon from '@jetbrains/icons/chevron-down';
 import closeIcon from '@jetbrains/icons/close-12px';
 import {dequal} from 'dequal';
 
@@ -37,6 +36,7 @@ import {createComposedRef} from '../global/compose-refs';
 import {isArray} from '../global/typescript-utils';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import SelectPopup, {type Filter, type FilterFn, type Multiple, type Tags} from './select-popup';
+import ChevronButton from './chevron-button';
 
 import inputStyles from '../input/input.css';
 import styles from './select.css';
@@ -1204,18 +1204,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
     }
 
     if (!hideArrow) {
-      icons.push(
-        <Button
-          title='Toggle options popup'
-          className={styles.chevron}
-          iconClassName={styles.chevronIcon}
-          icon={chevronDownIcon}
-          key='hide'
-          disabled={this.props.disabled}
-          height={height}
-          onClick={this._clickHandler}
-        />,
-      );
+      icons.push(<ChevronButton disabled={this.props.disabled} height={height} onClick={this._clickHandler} />);
     }
 
     return icons;

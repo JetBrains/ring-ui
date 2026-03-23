@@ -34,6 +34,8 @@
   --ring-input-padding-start: var(--ring-input-padding-inline);
   --ring-input-padding-end: var(--ring-input-padding-inline);
 
+  position: relative;
+
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -42,7 +44,7 @@
 
   margin: 0;
   padding-top: var(--ring-input-padding-block);
-  padding-right: var(--ring-input-padding-end);
+  padding-right: calc(var(--ring-input-padding-end) + var(--ring-line-height));
   padding-bottom: var(--ring-input-padding-block);
   padding-left: var(--ring-input-padding-start);
 
@@ -57,11 +59,12 @@
   background: transparent;
 
   font: inherit;
+  row-gap: calc(var(--ring-unit) / 2);
 
   caret-color: var(--ring-main-color);
 
   [dir='rtl'] & {
-    padding-right: var(--ring-input-padding-start);
+    padding-right: calc(var(--ring-input-padding-start) + var(--ring-line-height));
     padding-left: var(--ring-input-padding-end);
   }
 
@@ -73,6 +76,11 @@
     transition: none;
 
     border-color: var(--ring-border-hover-color);
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    .tagInputChevronButton {
+      color: var(--ring-main-color);
+    }
   }
 
   &:focus-within {
@@ -101,4 +109,13 @@
   & .container {
     line-height: calc(var(--ring-line-height) - 2px);
   }
+}
+
+.tagInputChevronButton {
+  position: absolute;
+  right: 0;
+
+  height: var(--ring-line-height);
+
+  color: var(--ring-secondary-color);
 }
