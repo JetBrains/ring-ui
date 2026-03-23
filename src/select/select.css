@@ -231,17 +231,3 @@
   min-width: calc(var(--ring-unit) * 30);
   max-width: calc(var(--ring-unit) * 40);
 }
-
-.chevron.chevron {
-  padding: 0 2px;
-
-  transition: none;
-
-  color: inherit;
-}
-
-.chevronIcon.chevronIcon {
-  transition: none;
-
-  color: inherit;
-}

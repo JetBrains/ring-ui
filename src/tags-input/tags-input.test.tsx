@@ -5,6 +5,7 @@ import TagsInput, {type TagsInputAttrs} from './tags-input';
 
 import styles from './tags-input.css';
 import inputStyles from '../input/input.css';
+import chevronStyles from '../select/chevron-button.css';
 
 describe('Tags Input', () => {
   const fakeTags = [{key: 1, label: 'test1'}];
@@ -141,6 +142,23 @@ describe('Tags Input', () => {
       expect(tagsList).to.have.class(styles.error);
       const errorElement = tagsList.querySelector(`.${inputStyles.errorText}`);
       expect(errorElement).to.have.text(error);
+    });
+  });
+
+  describe('opening and closing', () => {
+    it('should open and close popup on clicking on chevron', async () => {
+      const {tagsInput} = renderTagsInput();
+      const chevronButton = tagsInput?.querySelector(`.${chevronStyles.chevronButton}`);
+      if (!chevronButton) throw new Error('Chevron button not found');
+
+      expect(screen.queryByTestId('ring-popup')).not.to.exist;
+
+      const user = userEvent.setup();
+      await user.click(chevronButton);
+      expect(screen.queryByTestId('ring-popup')).to.exist;
+
+      await user.click(chevronButton);
+      expect(screen.queryByTestId('ring-popup')).not.to.exist;
     });
   });
 });

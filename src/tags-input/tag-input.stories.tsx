@@ -80,6 +80,20 @@ export const basic = () => {
         height={ControlsHeight.S}
         label='S Height'
       />
+
+      <TagsInput
+        tags={[
+          {key: 'test1', label: 'test1'},
+          {key: 'test2', label: 'test2'},
+        ]}
+        maxPopupHeight={250}
+        dataSource={dataSource}
+        allowAddNewTags
+        filter
+        size={Size.FULL}
+        height={ControlsHeight.L}
+        label='L Height'
+      />
     </form>
   );
 };
@@ -227,4 +241,14 @@ export const WithError = () => {
       }
     />
   );
+};
+
+export const Multiline = () => {
+  function dataSource() {
+    return Array.from({length: 20}).map((_, i) => ({key: `i${i}`, label: `item_${i}`}));
+  }
+
+  const tags = dataSource().slice(0, 12);
+
+  return <TagsInput tags={tags} dataSource={dataSource} />;
 };
