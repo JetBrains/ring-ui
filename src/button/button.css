@@ -130,7 +130,7 @@
 }
 
 .inline {
-  --ring-button-text-color: var(--ring-action-link-color);
+  --ring-button-text-color: var(--ring-link-color);
   --ring-button-background-color: transparent;
 
   display: inline;
