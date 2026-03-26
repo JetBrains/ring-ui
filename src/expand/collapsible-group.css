@@ -1,0 +1,138 @@
+@import '../global/variables.css';
+
+.expand .collapseRoot {
+  display: flex;
+  flex-direction: column;
+}
+
+.expand {
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--ring-line-color);
+  border-radius: var(--ring-border-radius-large);
+  outline: none;
+  background: var(--ring-content-background-color);
+}
+
+.hovered {
+  box-shadow: var(--ring-popup-shadow);
+}
+
+.expanded {
+  box-shadow: var(--ring-popup-shadow);
+}
+
+.focused {
+  box-shadow: 0 0 0 2px var(--ring-border-hover-color), var(--ring-popup-shadow);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ring-unit) * 1.5);
+
+  height: 28px;
+}
+
+.headerButton {
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: calc(var(--ring-unit) * 1.5);
+
+  cursor: pointer;
+  text-align: left;
+
+  color: inherit;
+
+  border: 0;
+  background: transparent;
+
+  font: inherit;
+}
+
+.headerButton:focus-visible {
+  outline: none;
+}
+
+.headerStatic {
+  display: block;
+
+  padding: calc(var(--ring-unit) * 1.5);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--ring-unit);
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+.avatarGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--ring-unit);
+
+  flex-shrink: 0;
+}
+
+.title {
+  color: var(--ring-text-color);
+
+  font-size: var(--ring-font-size);
+  font-weight: var(--ring-font-weight-bold);
+  line-height: var(--ring-line-height);
+}
+
+.subtitleGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--ring-unit);
+
+  min-width: 0;
+}
+
+.subtitle {
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
+}
+
+.subtitleChevron {
+  color: var(--ring-secondary-color);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+
+  flex-shrink: 0;
+  justify-content: center;
+
+  width: calc(var(--ring-unit) * 3);
+  height: calc(var(--ring-unit) * 3);
+
+  border-radius: calc(var(--ring-unit) / 2);
+  background: var(--ring-secondary-background-color);
+}
+
+.toggleIcon {
+  color: var(--ring-secondary-color);
+}
+
+.body {
+  padding: 0 calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 1.5);
+
+  color: var(--ring-text-color);
+
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
+}
