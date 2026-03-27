@@ -186,10 +186,10 @@
 }
 
 .common > button:first-child {
+  margin: 0;
+
   border-top-left-radius: var(--ring-border-radius);
   border-bottom-left-radius: var(--ring-border-radius);
-
-  margin: 0;
 }
 
 .common > .button:first-child,
