@@ -68,10 +68,8 @@
   color: var(--ring-button-text-color);
 
   border: 0;
-  border-top-left-radius: var(--ring-button-border-radius-left);
-  border-top-right-radius: var(--ring-button-border-radius-right);
-  border-bottom-right-radius: var(--ring-button-border-radius-right);
-  border-bottom-left-radius: var(--ring-button-border-radius-left);
+  border-radius: var(--ring-button-border-radius-left) var(--ring-button-border-radius-right)
+    var(--ring-button-border-radius-right) var(--ring-button-border-radius-left);
   outline: 0;
 
   background-color: var(--ring-button-background-color);
