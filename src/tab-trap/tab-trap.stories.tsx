@@ -5,6 +5,10 @@ import Button from '../button/button';
 import Link from '../link/link';
 import Group from '../group/group';
 import TabTrap from './tab-trap';
+import Popup from '../popup/popup';
+import Dropdown from '../dropdown/dropdown';
+
+import styles from './tab-trap.stories.css';
 
 export default {
   title: 'Components/TabTrap',
@@ -43,3 +47,21 @@ export const basic = () => {
 };
 
 basic.storyName = 'TabTrap';
+
+export const WithMultipleControls = () => {
+  return (
+    <div className={styles.withMultipleControls}>
+      <Button>button 1</Button>
+      <Dropdown anchor='Click me' className={styles.dropdownComponent}>
+        <Popup className={styles.popupComponent} trapFocus autoFocusFirst>
+          Hello from Ring UI!&#20;
+          <Button primary>Hello</Button>
+          <Button>Test</Button>
+        </Popup>
+      </Dropdown>
+      <Button>button 2</Button>
+      <Button>button 3</Button>
+      <Button>button 4</Button>
+    </div>
+  );
+};
