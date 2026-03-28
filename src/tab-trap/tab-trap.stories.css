@@ -1,16 +1,9 @@
 @import '../global/variables.css';
 
 .withMultipleControls {
-  /* padding: calc(2 * var(--ring-unit)); */
-
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-
-  /* font-family: var(--ring-font-family); */
-  /* font-size: var(--ring-font-size); */
-  /* background-color: var(--ring-content-background-color); */
-  /* color: var(--ring-text-color); */
 }
 
 .dropdownComponent {

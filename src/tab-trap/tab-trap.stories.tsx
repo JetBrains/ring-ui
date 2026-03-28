@@ -54,8 +54,7 @@ export const WithMultipleControls = () => {
       <Button>button 1</Button>
       <Dropdown anchor='Click me' className={styles.dropdownComponent}>
         <Popup className={styles.popupComponent} trapFocus autoFocusFirst>
-          Hello from Ring UI!&#20;
-          <Button primary>Hello</Button>
+          Hello from Ring UI! <Button primary>Hello</Button>
           <Button>Test</Button>
         </Popup>
       </Dropdown>

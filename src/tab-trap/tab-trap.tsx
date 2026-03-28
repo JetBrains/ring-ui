@@ -65,13 +65,12 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
     if (
       previousFocusedNode instanceof HTMLElement &&
       previousFocusedNode.focus &&
-      isNodeInVisiblePartOfPage(previousFocusedNode)
+      isNodeInVisiblePartOfPage(previousFocusedNode) &&
+      mountedRef.current === false
     ) {
-      if (mountedRef.current === false) {
-        previousFocusedNode.focus({preventScroll: true});
-      } else {
-        orElse?.();
-      }
+      previousFocusedNode.focus({preventScroll: true});
+    } else {
+      orElse?.();
     }
   }
 
