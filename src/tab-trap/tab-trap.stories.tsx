@@ -1,5 +1,3 @@
-import {Component} from 'react';
-
 import Input from '../input/input';
 import Button from '../button/button';
 import Link from '../link/link';
@@ -15,38 +13,46 @@ export default {
 
   parameters: {
     notes: 'Disallows tabbing out of a designated area.',
-    screenshots: {skip: true},
   },
 };
 
-export const basic = () => {
-  class TabTrapDemo extends Component {
-    render() {
-      return (
-        <div>
-          <Button>Outside of trap</Button>
+export const Basic = () => {
+  return (
+    <div>
+      <Button>Outside of trap</Button>
 
-          <h4>Trap start</h4>
-          <TabTrap>
-            <Input placeholder='inside trap' autoFocus />
-            <Group>
-              <Button>Test</Button>
-              <Link href='#'>Test link</Link>
-            </Group>
-          </TabTrap>
+      <h4>Trap start</h4>
+      <TabTrap>
+        <Input placeholder='inside trap' autoFocus />
+        <Group>
+          <Button>Test</Button>
+          <Link href='#'>Test link</Link>
+        </Group>
+      </TabTrap>
 
-          <h4>Trap end</h4>
+      <h4>Trap end</h4>
 
-          <Button>Outside of trap</Button>
-        </div>
-      );
-    }
-  }
-
-  return <TabTrapDemo />;
+      <Button>Outside of trap</Button>
+    </div>
+  );
 };
 
-basic.storyName = 'TabTrap';
+Basic.parameters = {
+  screenshots: {
+    actions: [
+      {type: 'click', selector: '[placeholder="inside trap"]'},
+      ...Array.from({length: 5}, () => ({
+        type: 'keys',
+        value: 'Tab',
+      })),
+      {
+        type: 'capture',
+        name: 'light',
+        selector: '[id=storybook-root]',
+      },
+    ],
+  },
+};
 
 export const WithMultipleControls = () => {
   return (
@@ -63,4 +69,21 @@ export const WithMultipleControls = () => {
       <Button>button 4</Button>
     </div>
   );
+};
+
+WithMultipleControls.parameters = {
+  screenshots: {
+    actions: [
+      {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
+      ...Array.from({length: 3}, () => ({
+        type: 'keys',
+        value: 'Tab',
+      })),
+      {
+        type: 'capture',
+        name: 'light',
+        selector: '[id=storybook-root]',
+      },
+    ],
+  },
 };
