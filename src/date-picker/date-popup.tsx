@@ -68,12 +68,6 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     }
   }
 
-  componentDidMount() {
-    if (this.componentRef.current) {
-      this.componentRef.current.addEventListener('wheel', this.handleWheel);
-    }
-  }
-
   componentDidUpdate(prevProps: DatePopupBaseProps, prevState: DatePopupState) {
     if (this.state.active !== prevState.active) {
       if (this.state.text && prevState.active) {
@@ -83,24 +77,12 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     }
   }
 
-  componentWillUnmount() {
-    if (this.componentRef.current) {
-      this.componentRef.current.removeEventListener('wheel', this.handleWheel);
-    }
-  }
-
   private _scrollDate?: number | null;
   private _scrollTS?: number | null;
 
   isInTimeMode = () => (!this.props.range && this.props.withTime) || false;
 
   componentRef = React.createRef<HTMLDivElement>();
-
-  handleWheel = (e: WheelEvent) => {
-    if (e.cancelable) {
-      e.preventDefault();
-    }
-  };
 
   parse(text: string | null | undefined, type: 'time'): string;
   parse(text: Date | number | string | null | undefined, type?: 'date' | 'from' | 'to'): Date;

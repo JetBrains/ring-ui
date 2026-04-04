@@ -1,75 +1,72 @@
-import {PureComponent} from 'react';
+import {useCallback, useMemo, useState, type PointerEvent} from 'react';
 import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';
-import {startOfDay} from 'date-fns/startOfDay';
-import {subYears} from 'date-fns/subYears';
+import {startOfYear} from 'date-fns';
 
-import linearFunction, {type LinearFunction} from '../global/linear-function';
-import units, {type MonthsProps, yearScrollSpeed} from './consts';
+import units from './consts';
+import scheduleRAF from '../global/schedule-raf';
 
 import styles from './date-picker.css';
 
-const COVERYEARS = 3;
+const scheduleScroll = scheduleRAF();
 
-export interface MonthSliderProps extends MonthsProps {
-  pxToDate: LinearFunction;
-}
+export default function MonthSlider({
+  scrollDate,
+  onScroll,
+}: {
+  scrollDate: number | Date;
+  onScroll: (to: number) => void;
+}) {
+  const [dragStart, setDragStart] = useState<[y: number, scrollDate: number] | null>(null);
 
-interface MonthSliderState {
-  dragging: boolean;
-}
+  const onPointerDown = useCallback(
+    (e: PointerEvent) => {
+      setDragStart([e.screenY, Number(scrollDate)]);
+    },
+    [scrollDate],
+  );
 
-export default class MonthSlider extends PureComponent<MonthSliderProps> {
-  state = {
-    dragging: false,
-  };
+  const onPointerUp = useCallback((_e: PointerEvent) => {
+    setDragStart(null);
+  }, []);
 
-  componentDidUpdate(prevProps: MonthSliderProps, prevState: MonthSliderState) {
-    if (this.state.dragging && !prevState.dragging) {
-      window.addEventListener('mousemove', this.onMouseMove);
-      window.addEventListener('mouseup', this.onMouseUp);
-    } else if (!this.state.dragging && prevState.dragging) {
-      window.removeEventListener('mousemove', this.onMouseMove);
-      window.removeEventListener('mouseup', this.onMouseUp);
-    }
-  }
+  const onPointerMove = useCallback(
+    (e: PointerEvent) => {
+      scheduleScroll(() => {
+        if (!dragStart) return;
+        const [startY, startDate] = dragStart;
 
-  onMouseDown = () => {
-    this.setState({dragging: true});
-  };
+        const yearFraction = (e.screenY - startY) / units.calHeight;
+        const startDatePlusOneYear = Number(addYears(new Date(startDate), 1));
+        const newScrollDate = startDate + yearFraction * (startDatePlusOneYear - startDate);
+        onScroll(newScrollDate);
+      });
+    },
+    [onScroll, dragStart],
+  );
 
-  onMouseUp = () => {
-    this.setState({dragging: false});
-  };
+  const offsets = useMemo(() => {
+    const yearStart = startOfYear(scrollDate);
+    const yearEnd = addYears(yearStart, 1);
+    const yearFraction = (Number(scrollDate) - Number(yearStart)) / (Number(yearEnd) - Number(yearStart));
+    return [yearFraction - 1, yearFraction, yearFraction + 1];
+  }, [scrollDate]);
 
-  onMouseMove = (e: MouseEvent) => {
-    this.props.onScroll(linearFunction(0, Number(this.props.scrollDate), yearScrollSpeed).y(e.movementY));
-  };
-
-  render() {
-    let year = subYears(startOfDay(this.props.scrollDate), 1);
-    const years = [year];
-    for (let i = 0; i <= COVERYEARS; i++) {
-      year = addYears(year, 1);
-      years.push(year);
-    }
-
-    const classes = classNames(styles.monthSlider, {[styles.dragging]: this.state.dragging});
-
-    return (
-      <div>
-        {years.map(date => (
-          <button
-            type='button'
-            key={+date}
-            className={classes}
-            style={{
-              top: Math.floor(this.props.pxToDate.x(Number(date)) - units.cellSize),
-            }}
-            onMouseDown={this.onMouseDown}
-          />
-        ))}
-      </div>
-    );
-  }
+  return (
+    <div>
+      {offsets.map(offset => (
+        <button
+          type='button'
+          key={Math.floor(offset)}
+          className={classNames(styles.monthSlider, dragStart && styles.dragging)}
+          style={{
+            top: offset * units.calHeight - units.cellSize,
+          }}
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+          onPointerMove={onPointerMove}
+        />
+      ))}
+    </div>
+  );
 }

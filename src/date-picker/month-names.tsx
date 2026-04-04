@@ -74,7 +74,7 @@ export default function MonthNames(props: MonthsProps) {
           }}
         />
       )}
-      <MonthSlider {...props} pxToDate={pxToDate} />
+      <MonthSlider {...props} />
     </div>
   );
 }
