@@ -26,7 +26,7 @@ export default function MonthSlider({
     [scrollDate],
   );
 
-  const onPointerUp = useCallback((_e: PointerEvent) => {
+  const onPointerUp = useCallback(() => {
     setDragStart(null);
   }, []);
 

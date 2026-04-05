@@ -3,16 +3,16 @@ import {addMonths} from 'date-fns/addMonths';
 import {getDay} from 'date-fns/getDay';
 import {getDaysInMonth} from 'date-fns/getDaysInMonth';
 import {startOfMonth} from 'date-fns/startOfMonth';
-import {subMonths} from 'date-fns/subMonths';
 
 import Month from './month';
 import MonthNames from './month-names';
-import units, {DOUBLE, HALF, type MonthsProps, WEEK, weekdays} from './consts';
+import units, {type MonthsProps, WEEK, weekdays} from './consts';
 import scheduleRAF from '../global/schedule-raf';
+import {ScrollHelper} from './scroll-helper';
 
 import styles from './date-picker.css';
 
-const {unit, cellSize, calHeight} = units;
+const {unit, cellSize} = units;
 
 const FridayToSunday = WEEK + weekdays.SU - weekdays.FR;
 const FIVELINES = 31;
@@ -33,64 +33,32 @@ function monthHeight(date: Date | number) {
   return monthLines * cellSize + unit * PADDING;
 }
 
-function getMonths(scrollDate: Date | number) {
-  const monthStart = startOfMonth(new Date(scrollDate));
-
-  let month = subMonths(monthStart, MONTHSBACK);
-
-  const months = [month];
-  for (let i = 0; i < MONTHSBACK * DOUBLE; i++) {
-    month = addMonths(month, 1);
-    months.push(month);
-  }
-  return months;
-}
-
-/**
- * Will put the scroll date in the middle of the calendar.
- */
-function getScrollTopFromDate(months: Date[], scrollDate: Date | number) {
-  const monthStart = Number(startOfMonth(new Date(scrollDate)));
-  const nextMonthStart = Number(addMonths(monthStart, 1));
-  const monthFraction = (Number(scrollDate) - monthStart) / (nextMonthStart - monthStart);
-  const scrollDateOffsetFromMonthStart = monthFraction * monthHeight(months[MONTHSBACK]);
-  return monthsBackHeight(months) + scrollDateOffsetFromMonthStart - calHeight * HALF;
-}
-
-/**
- * Returns date which is in the middle of the visible area.
- */
-function getDateFromScrollPosition(months: Date[], scrollTop: number) {
-  const scrollDateOffsetFromMonthStart = scrollTop - (monthsBackHeight(months) - calHeight * HALF);
-  const monthStart = Number(startOfMonth(months[MONTHSBACK]));
-  const nextMonthStart = Number(addMonths(monthStart, 1));
-  const monthFraction = scrollDateOffsetFromMonthStart / monthHeight(months[MONTHSBACK]);
-  return new Date(monthStart + monthFraction * (nextMonthStart - monthStart));
-}
-
-function monthsBackHeight(months: Date[]) {
-  return months.slice(0, MONTHSBACK).reduce((h, month) => h + monthHeight(month), 0);
-}
+const scrollHelper = new ScrollHelper({
+  itemsBack: MONTHSBACK,
+  getItem: startOfMonth,
+  addItems: addMonths,
+  getItemHeight: monthHeight,
+});
 
 const scheduleScroll = scheduleRAF();
 
 export default function Months(props: MonthsProps) {
   const {scrollDate, onScroll} = props;
 
-  const [months, setMonths] = useState(getMonths(scrollDate));
-  const [initialScrollTop, setInitialScrollTop] = useState(getScrollTopFromDate(months, scrollDate));
+  const [scrollerState, setScrollerState] = useState(() => scrollHelper.getState(scrollDate));
 
   const componentRef = useRef<HTMLDivElement>(null);
   const pauseScrollHandlingRef = useRef(false);
 
   useLayoutEffect(() => {
-    if (componentRef.current) {
-      componentRef.current.scrollTop = initialScrollTop;
-      setTimeout(() => {
-        pauseScrollHandlingRef.current = false;
-      }, SCROLL_HANDLE_RESUME_DELAY);
-    }
-  }, [initialScrollTop]);
+    if (!componentRef.current) return undefined;
+
+    componentRef.current.scrollTop = scrollerState.scrollTop;
+    const timeoutId = setTimeout(() => {
+      pauseScrollHandlingRef.current = false;
+    }, SCROLL_HANDLE_RESUME_DELAY);
+    return () => clearTimeout(timeoutId);
+  }, [scrollerState]);
 
   const handleScroll = useCallback(() => {
     scheduleScroll(() => {
@@ -99,32 +67,24 @@ export default function Months(props: MonthsProps) {
       const scrollTop = componentRef.current?.scrollTop;
       if (scrollTop == null) return;
 
-      const newScrollDate = getDateFromScrollPosition(months, scrollTop);
-      const newScrollDateNum = Number(newScrollDate);
+      const newScrollDate = scrollHelper.getScrollDate(scrollerState.items, scrollTop);
+      onScroll(Number(newScrollDate));
 
-      onScroll(newScrollDateNum);
-
-      const newScrollDateIndex = months.findLastIndex(month => newScrollDateNum >= Number(month));
-      if (newScrollDateIndex !== MONTHSBACK) {
-        const newMonths = getMonths(newScrollDate);
-        const newScrollTop = getScrollTopFromDate(newMonths, newScrollDate);
-
-        setMonths(newMonths);
-        setInitialScrollTop(newScrollTop);
-
+      if (!scrollHelper.isMidItem(scrollerState.items, newScrollDate)) {
+        setScrollerState(scrollHelper.getState(newScrollDate));
         pauseScrollHandlingRef.current = true;
       }
     });
-  }, [months, onScroll]);
+  }, [onScroll, scrollerState]);
 
   return (
     <div className={styles.months} ref={componentRef} onScroll={handleScroll}>
       <div>
-        {months.map((date, i) =>
-          i < EMPTY_MONTHSBACK || i >= months.length - EMPTY_MONTHSBACK ? (
-            <div style={{height: monthHeight(date)}} key={+date} />
+        {scrollerState.items.map((month, i) =>
+          i < EMPTY_MONTHSBACK || i >= scrollerState.items.length - EMPTY_MONTHSBACK ? (
+            <div style={{height: monthHeight(month)}} key={+month} />
           ) : (
-            <Month {...props} month={date} key={+date} />
+            <Month {...props} month={month} key={+month} />
           ),
         )}
       </div>
