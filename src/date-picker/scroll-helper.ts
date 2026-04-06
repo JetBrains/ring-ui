@@ -1,4 +1,7 @@
+import {useCallback, useLayoutEffect, useRef, useState} from 'react';
+
 import units, {HALF} from './consts';
+import scheduleRAF from '../global/schedule-raf';
 
 /**
  * A scrolling util for months or years lists.
@@ -71,4 +74,52 @@ export class ScrollHelper {
     const midItem = items[Math.floor(items.length / 2)];
     return Number(item) === Number(midItem);
   }
+}
+
+const SCROLL_HANDLE_RESUME_DELAY = 10;
+
+const scheduleScroll = scheduleRAF();
+
+export function useScrollBehavior({
+  scrollDate,
+  onScroll,
+  scrollHelper,
+}: {
+  scrollDate: number | Date;
+  onScroll: (to: number) => void;
+  scrollHelper: ScrollHelper;
+}) {
+  const [scrollerState, setScrollerState] = useState(() => scrollHelper.getState(scrollDate));
+
+  const componentRef = useRef<HTMLDivElement>(null);
+  const pauseScrollHandlingRef = useRef(false);
+
+  useLayoutEffect(() => {
+    if (!componentRef.current) return undefined;
+
+    componentRef.current.scrollTop = scrollerState.scrollTop;
+    const timeoutId = setTimeout(() => {
+      pauseScrollHandlingRef.current = false;
+    }, SCROLL_HANDLE_RESUME_DELAY);
+    return () => clearTimeout(timeoutId);
+  }, [scrollerState]);
+
+  const handleScroll = useCallback(() => {
+    scheduleScroll(() => {
+      if (pauseScrollHandlingRef.current) return;
+
+      const scrollTop = componentRef.current?.scrollTop;
+      if (scrollTop == null) return;
+
+      const newScrollDate = scrollHelper.getScrollDate(scrollerState.items, scrollTop);
+      onScroll(Number(newScrollDate));
+
+      if (!scrollHelper.isMidItem(scrollerState.items, newScrollDate)) {
+        setScrollerState(scrollHelper.getState(newScrollDate));
+        pauseScrollHandlingRef.current = true;
+      }
+    });
+  }, [onScroll, scrollerState, scrollHelper]);
+
+  return {componentRef, handleScroll, items: scrollerState.items};
 }
