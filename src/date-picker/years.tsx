@@ -1,4 +1,4 @@
-import {createRef, PureComponent} from 'react';
+import {useEffect} from 'react';
 import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';
 import {getYear} from 'date-fns/getYear';
@@ -7,110 +7,105 @@ import {isSameYear} from 'date-fns/isSameYear';
 import {isThisYear} from 'date-fns/isThisYear';
 import {setYear} from 'date-fns/setYear';
 import {startOfYear} from 'date-fns/startOfYear';
-import {subYears} from 'date-fns/subYears';
 
-import linearFunction from '../global/linear-function';
-import units, {type CalendarProps, DOUBLE, HALF, yearDuration} from './consts';
+import units, {type CalendarProps} from './consts';
+import {ScrollHelper, useScrollBehavior} from './scroll-helper';
 
 import styles from './date-picker.css';
 
-const {yearHeight, calHeight} = units;
+const {yearHeight} = units;
 
 let scrollTO: number | null;
 
-const YEARSBACK = 5;
-const scrollDelay = 100;
+const EMPTY_YEARSBACK = 10;
+const NONEMPTY_YEARSBACK = 7;
+const YEARSBACK = EMPTY_YEARSBACK + NONEMPTY_YEARSBACK;
+// const scrollDelay = 100;
 
-interface YearsState {
-  scrollDate: Date | null;
-}
+const scrollHelper = new ScrollHelper({
+  itemsBack: YEARSBACK,
+  getItem: startOfYear,
+  addItems: addYears,
+  getItemHeight: () => yearHeight,
+});
 
-export default class Years extends PureComponent<CalendarProps> {
-  state = {scrollDate: null};
+export default function Years({onScroll, onScrollChange, scrollDate}: CalendarProps) {
+  // const [localScrollDate, setLocalScrollDate] = useState<YearsState['scrollDate']>(null);
+  // const [stoppedScrolling, setStoppedScrolling] = useState(false);
+  const stoppedScrolling = false;
+  // const componentRef = useRef<HTMLDivElement>(null);
 
-  componentDidMount() {
-    if (this.componentRef.current) {
-      this.componentRef.current.addEventListener('wheel', this.handleWheel);
-    }
-  }
+  // const setYearValue = useCallback(
+  //   (date: number) => {
+  //     if (scrollTO) {
+  //       window.clearTimeout(scrollTO);
+  //       scrollTO = null;
+  //     }
 
-  componentDidUpdate(prevProps: CalendarProps, prevState: YearsState) {
-    this.stoppedScrolling = !!prevState.scrollDate && !this.state.scrollDate;
-  }
+  //     setStoppedScrolling(true);
+  //     setLocalScrollDate(null);
+  //     onScroll(Number(setYear(scrollDate, getYear(date))));
+  //   },
+  //   [onScroll, scrollDate],
+  // );
 
-  componentWillUnmount() {
-    if (this.componentRef.current) {
-      this.componentRef.current.removeEventListener('wheel', this.handleWheel);
-    }
-  }
+  // const handleWheel = useCallback(
+  //   (e: WheelEvent) => {
+  //     const date = localScrollDate || scrollDate;
 
-  stoppedScrolling?: boolean;
-  setYear(date: number) {
-    if (scrollTO) {
-      window.clearTimeout(scrollTO);
-      scrollTO = null;
-    }
+  //     e.preventDefault();
+  //     const newScrollDate = linearFunction(0, Number(date), yearDuration / yearHeight).y(e.deltaY);
+  //     setStoppedScrolling(false);
+  //     setLocalScrollDate(newScrollDate);
 
-    this.setState({scrollDate: null});
+  //     if (scrollTO) {
+  //       window.clearTimeout(scrollTO);
+  //     }
 
-    this.props.onScroll(Number(setYear(this.props.scrollDate, getYear(date))));
-  }
+  //     scrollTO = window.setTimeout(() => setYearValue(newScrollDate), scrollDelay);
+  //   },
+  //   [localScrollDate, scrollDate, setYearValue],
+  // );
 
-  componentRef = createRef<HTMLDivElement>();
+  useEffect(() => {
+    return () => {
+      if (scrollTO) {
+        window.clearTimeout(scrollTO);
+        scrollTO = null;
+      }
+    };
+  }, []);
 
-  handleWheel = (e: WheelEvent) => {
-    const {scrollDate} = this.props;
-    const date = this.state.scrollDate || scrollDate;
+  const {componentRef, handleScroll, items} = useScrollBehavior({scrollDate, onScroll, scrollHelper});
 
-    e.preventDefault();
-    const newScrollDate = linearFunction(0, Number(date), yearDuration / yearHeight).y(e.deltaY);
-    this.setState({
-      scrollDate: newScrollDate,
-    });
-    if (scrollTO) {
-      window.clearTimeout(scrollTO);
-    }
-    scrollTO = window.setTimeout(() => this.setYear(newScrollDate), scrollDelay);
-  };
-
-  render() {
-    const {onScrollChange, scrollDate} = this.props;
-    const date = this.state.scrollDate || scrollDate;
-    const yearStart = startOfYear(date);
-    let year = subYears(yearStart, YEARSBACK);
-    const years = [year];
-    for (let i = 0; i < YEARSBACK * DOUBLE; i++) {
-      year = addYears(year, 1);
-      years.push(year);
-    }
-
-    const pxToDate = linearFunction(0, Number(years[0]), yearDuration / yearHeight);
-
-    return (
-      <div
-        className={styles.years}
-        ref={this.componentRef}
-        style={{
-          transition: this.stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
-          top: Math.floor(calHeight * HALF - pxToDate.x(Number(date))),
-        }}
-      >
-        {years.map(item => (
+  return (
+    <div
+      className={styles.years}
+      ref={componentRef}
+      style={{
+        transition: stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
+      }}
+      onScroll={handleScroll}
+    >
+      {items.map((year, i) =>
+        i < EMPTY_YEARSBACK || i >= items.length - EMPTY_YEARSBACK ? (
+          <div style={{height: yearHeight}} key={year.getFullYear()} />
+        ) : (
           <button
             type='button'
-            key={+item}
+            key={year.getFullYear()}
             className={classNames(styles.year, {
-              [styles.currentYear]: isSameYear(item, date),
-              [styles.today]: isThisYear(item),
+              [styles.currentYear]: isSameYear(year, scrollDate), // TODO scrollDate or local scroll date
+              [styles.today]: isThisYear(year),
             })}
             onClick={function handleClick() {
-              onScrollChange(Number(setYear(scrollDate, getYear(item))));
+              onScrollChange(Number(setYear(scrollDate, getYear(year))));
             }}
           >
-            {format(item, 'yyyy')}
+            {format(year, 'yyyy')}
           </button>
-        ))}
-      </div>
-    );
-  }
+        ),
+      )}
+    </div>
+  );
 }

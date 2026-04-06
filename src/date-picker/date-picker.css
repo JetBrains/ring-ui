@@ -575,7 +575,10 @@
   top: 0;
   right: 0;
 
+  overflow-y: scroll;
+
   width: var(--ring-date-picker-year-width);
+  height: 100%;
 
   background-color: var(--ring-content-background-color);
   box-shadow: -1px 0 var(--ring-line-color);
