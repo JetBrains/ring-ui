@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';
 import {startOfYear} from 'date-fns';
 
-import units from './consts';
+import units, {type ScrollDate} from './consts';
 import scheduleRAF from '../global/schedule-raf';
 
 import styles from './date-picker.css';
@@ -12,16 +12,16 @@ const scheduleScroll = scheduleRAF();
 
 export default function MonthSlider({
   scrollDate,
-  onScroll,
+  setScrollDate,
 }: {
-  scrollDate: number | Date;
-  onScroll: (to: number) => void;
+  scrollDate: ScrollDate;
+  setScrollDate: (scrollDate: ScrollDate) => void;
 }) {
   const [dragStart, setDragStart] = useState<[y: number, scrollDate: number] | null>(null);
 
   const onPointerDown = useCallback(
     (e: PointerEvent) => {
-      setDragStart([e.screenY, Number(scrollDate)]);
+      setDragStart([e.screenY, Number(scrollDate.date)]);
     },
     [scrollDate],
   );
@@ -39,16 +39,16 @@ export default function MonthSlider({
         const yearFraction = (e.screenY - startY) / units.calHeight;
         const startDatePlusOneYear = Number(addYears(new Date(startDate), 1));
         const newScrollDate = startDate + yearFraction * (startDatePlusOneYear - startDate);
-        onScroll(newScrollDate);
+        setScrollDate({date: newScrollDate, source: 'other'});
       });
     },
-    [onScroll, dragStart],
+    [setScrollDate, dragStart],
   );
 
   const offsets = useMemo(() => {
-    const yearStart = startOfYear(scrollDate);
+    const yearStart = startOfYear(scrollDate.date);
     const yearEnd = addYears(yearStart, 1);
-    const yearFraction = (Number(scrollDate) - Number(yearStart)) / (Number(yearEnd) - Number(yearStart));
+    const yearFraction = (Number(scrollDate.date) - Number(yearStart)) / (Number(yearEnd) - Number(yearStart));
     return [yearFraction - 1, yearFraction, yearFraction + 1];
   }, [scrollDate]);
 

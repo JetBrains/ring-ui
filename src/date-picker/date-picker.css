@@ -584,6 +584,13 @@
   box-shadow: -1px 0 var(--ring-line-color);
 
   font-size: var(--ring-font-size-smaller);
+  overscroll-behavior-y: none;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .year {

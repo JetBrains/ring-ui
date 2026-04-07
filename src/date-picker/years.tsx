@@ -9,27 +9,34 @@ import {setYear} from 'date-fns/setYear';
 import {startOfYear} from 'date-fns/startOfYear';
 
 import units, {type CalendarProps} from './consts';
-import {ScrollHelper, useScrollBehavior} from './scroll-helper';
+import {ScrollArith} from './scroll-arith';
+import scheduleRAF from '../global/schedule-raf';
+import {useScrollBehavior} from './scroll-behavior';
 
 import styles from './date-picker.css';
 
 const {yearHeight} = units;
+// eslint-disable-next-line no-magic-numbers
+const emptyYearHeight = yearHeight * 30;
 
 let scrollTO: number | null;
 
-const EMPTY_YEARSBACK = 10;
-const NONEMPTY_YEARSBACK = 7;
+const EMPTY_YEARSBACK = 1;
+const NONEMPTY_YEARSBACK = 10;
 const YEARSBACK = EMPTY_YEARSBACK + NONEMPTY_YEARSBACK;
 // const scrollDelay = 100;
 
-const scrollHelper = new ScrollHelper({
-  itemsBack: YEARSBACK,
-  getItem: startOfYear,
-  addItems: addYears,
-  getItemHeight: () => yearHeight,
+const scrollArith = new ScrollArith({
+  itemsAround: YEARSBACK,
+  floorToItem: startOfYear,
+  shiftItems: addYears,
+  getItemHeight: (_y, index, items) =>
+    EMPTY_YEARSBACK <= index && index < items.length - EMPTY_YEARSBACK ? yearHeight : emptyYearHeight,
 });
 
-export default function Years({onScroll, onScrollChange, scrollDate}: CalendarProps) {
+const scheduleScroll = scheduleRAF();
+
+export default function Years({setScrollDate, onScrollChange, scrollDate}: CalendarProps) {
   // const [localScrollDate, setLocalScrollDate] = useState<YearsState['scrollDate']>(null);
   // const [stoppedScrolling, setStoppedScrolling] = useState(false);
   const stoppedScrolling = false;
@@ -76,34 +83,40 @@ export default function Years({onScroll, onScrollChange, scrollDate}: CalendarPr
     };
   }, []);
 
-  const {componentRef, handleScroll, items} = useScrollBehavior({scrollDate, onScroll, scrollHelper});
+  const {containerRef, handleScroll, items} = useScrollBehavior(
+    scrollDate,
+    setScrollDate,
+    'yearsScroll',
+    scrollArith,
+    scheduleScroll,
+  );
 
   return (
     <div
       className={styles.years}
-      ref={componentRef}
+      ref={containerRef}
       style={{
         transition: stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
       }}
       onScroll={handleScroll}
     >
       {items.map((year, i) =>
-        i < EMPTY_YEARSBACK || i >= items.length - EMPTY_YEARSBACK ? (
-          <div style={{height: yearHeight}} key={year.getFullYear()} />
-        ) : (
+        EMPTY_YEARSBACK <= i && i < items.length - EMPTY_YEARSBACK ? (
           <button
             type='button'
-            key={year.getFullYear()}
+            key={+year}
             className={classNames(styles.year, {
-              [styles.currentYear]: isSameYear(year, scrollDate), // TODO scrollDate or local scroll date
+              [styles.currentYear]: isSameYear(year, scrollDate.date), // TODO scrollDate or local scroll date
               [styles.today]: isThisYear(year),
             })}
             onClick={function handleClick() {
-              onScrollChange(Number(setYear(scrollDate, getYear(year))));
+              onScrollChange(Number(setYear(scrollDate.date, getYear(year))));
             }}
           >
             {format(year, 'yyyy')}
           </button>
+        ) : (
+          <div style={{height: emptyYearHeight}} key={+year} />
         ),
       )}
     </div>

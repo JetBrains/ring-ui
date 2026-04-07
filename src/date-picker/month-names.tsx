@@ -48,11 +48,11 @@ export default function MonthNames(props: MonthsProps) {
   const {scrollDate, locale} = props;
   const months = [];
   for (let i = 0; i < YEAR; i++) {
-    const middleDay = set(scrollDate, {month: i, date: MIDDLE_DAY});
+    const middleDay = set(scrollDate.date, {month: i, date: MIDDLE_DAY});
     months.push(startOfDay(middleDay));
   }
 
-  const pxToDate = linearFunction(0, Number(startOfYear(scrollDate)), yearScrollSpeed);
+  const pxToDate = linearFunction(0, Number(startOfYear(scrollDate.date)), yearScrollSpeed);
 
   let top = 0;
   let bottom = 0;

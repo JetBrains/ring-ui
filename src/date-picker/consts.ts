@@ -94,12 +94,18 @@ export interface RangeSpecificPopupProps {
   onChange: (change: DatePickerChange) => void;
 }
 
+export interface ScrollDate {
+  date: number | Date;
+  source: 'monthsScroll' | 'yearsScroll' | 'other';
+}
+
 export interface DatePopupState {
   active: Field;
   text: string | null;
   hoverDate: Date | null;
-  scrollDate: number | Date | null;
+  scrollDate: ScrollDate | null;
 }
+
 export interface DatePopupBaseProps {
   date?: Date | number | string | null | undefined;
   time?: string | null | undefined;
@@ -128,10 +134,10 @@ export interface Dates {
 
 export interface CalendarProps extends Omit<DatePopupBaseProps, 'date' | 'from' | 'to' | 'time'>, Dates {
   activeDate: Date | null;
-  scrollDate: number | Date;
+  scrollDate: ScrollDate;
   currentRange: [Date, Date] | null;
   activeRange: [Date, Date] | null;
-  onScroll: (to: number) => void;
+  setScrollDate: (scrollDate: ScrollDate) => void;
   onScrollChange: (date: number) => void;
 }
 

@@ -23,6 +23,7 @@ import {
   type TimeSpecificPopupProps,
   type Field,
   type CalendarProps,
+  type ScrollDate,
 } from './consts';
 
 import styles from './date-picker.css';
@@ -58,12 +59,12 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       const parsedDate = this.parse(props.date, 'date');
       const active = withTime && parsedDate && !props.time ? 'time' : 'date';
 
-      this.state = {...defaultState, active, scrollDate: parsedDate};
+      this.state = {...defaultState, active, scrollDate: {date: parsedDate, source: 'other'}};
     } else {
       this.state = {
         ...defaultState,
         active: props.from && !props.to ? 'to' : 'from',
-        scrollDate: this.parse(props.from, 'from'),
+        scrollDate: {date: this.parse(props.from, 'from'), source: 'other'},
       };
     }
   }
@@ -203,7 +204,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
   scheduleScroll = () => {
     const current =
-      (this.state.scrollDate && this.parse(this.state.scrollDate, 'date')) ||
+      (this.state.scrollDate && this.parse(this.state.scrollDate.date, 'date')) ||
       this.parse(this.props[this.state.active], 'date') ||
       new Date();
     const goal = this._scrollDate;
@@ -217,7 +218,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       const diff = goal - Number(current);
       const dt = Date.now() - this._scrollTS;
       const next = goal - diff * Math.E ** (-dt / scrollExpDelay);
-      this.setState({scrollDate: next});
+      this.setState({scrollDate: {date: next, source: 'other'}});
     }
 
     this._scrollTS = Date.now();
@@ -263,7 +264,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     }
   };
 
-  handleScroll = (scrollDate: number) => this.setState({scrollDate});
+  setScrollDate = (scrollDate: ScrollDate) => this.setState({scrollDate});
 
   onClear = (e: React.MouseEvent<HTMLButtonElement>) => {
     let changes;
@@ -331,7 +332,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       }
     }
 
-    const scrollDate = this.state.scrollDate || new Date();
+    const scrollDate = this.state.scrollDate || {date: new Date(), source: 'other'};
 
     const calendarProps: CalendarProps = {
       ...restProps,
@@ -340,7 +341,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       activeDate,
       currentRange,
       activeRange,
-      onScroll: this.handleScroll,
+      setScrollDate: this.setScrollDate,
       onScrollChange: this.scrollTo,
     };
 
