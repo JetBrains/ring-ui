@@ -226,6 +226,10 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       this.virtualizedList.recomputeRowHeights();
     }
 
+    if (this.virtualizedList && !prevProps.visible && this.props.visible) {
+      this.virtualizedList.recomputeRowHeights();
+    }
+
     const {activeIndex} = this.state;
     if (activeIndex != null && activeIndex !== prevState.activeIndex) {
       this.scrollToActive();
