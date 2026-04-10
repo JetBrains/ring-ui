@@ -23,6 +23,7 @@ class Observer {
 }
 
 global.window.ResizeObserver = Observer;
+global.window.IntersectionObserver = Observer;
 
 window.HTMLCanvasElement.prototype.getContext = () => null;
 

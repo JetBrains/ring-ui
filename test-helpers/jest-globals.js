@@ -31,6 +31,7 @@ class Observer {
 }
 
 global.window.ResizeObserver = Observer;
+global.window.IntersectionObserver = Observer;
 
 // https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 Object.defineProperty(window, 'matchMedia', {
