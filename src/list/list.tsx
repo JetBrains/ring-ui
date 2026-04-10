@@ -215,7 +215,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     if (!this.props.renderOptimization) {
       this.scrollToActive();
     }
-    if (this.container) {
+    if (this.props.renderOptimization && this.container && typeof IntersectionObserver !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver(entries => {
         for (const entry of entries) {
           if (entry.isIntersecting && !this.wasVisible && this.virtualizedList) {
