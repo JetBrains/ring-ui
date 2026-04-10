@@ -96,6 +96,9 @@ export interface ListProps<T = unknown> {
   maxHeight?: number | null | undefined;
   activeIndex?: number | null | undefined;
   useMouseUp?: boolean | null | undefined;
+  /**
+   * @deprecated No longer used. Visibility is detected automatically via IntersectionObserver. Will be removed in Ring UI 8.0.
+   */
   visible?: boolean | null | undefined;
   disableMoveOverflow?: boolean | null | undefined;
   compact?: boolean | null | undefined;
@@ -212,6 +215,17 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     if (!this.props.renderOptimization) {
       this.scrollToActive();
     }
+    if (this.container) {
+      this.intersectionObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && !this.wasVisible && this.virtualizedList) {
+            this.virtualizedList.recomputeRowHeights();
+          }
+          this.wasVisible = entry.isIntersecting;
+        }
+      });
+      this.intersectionObserver.observe(this.container);
+    }
   }
 
   shouldComponentUpdate(nextProps: ListProps<T>, nextState: ListState<T>) {
@@ -247,6 +261,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   }
 
   componentWillUnmount() {
+    this.intersectionObserver?.disconnect();
     this.unmounted = true;
   }
 
@@ -264,6 +279,8 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   virtualizedList?: VirtualizedList | null;
   unmounted?: boolean;
   container?: HTMLElement | null;
+  private intersectionObserver?: IntersectionObserver;
+  private wasVisible = false;
 
   // eslint-disable-next-line no-magic-numbers
   private _bufferSize = 10; // keep X items above and below of the visible area
