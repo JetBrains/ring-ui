@@ -6,8 +6,6 @@ import ControlLabel from '../control-label/control-label';
 import ControlHelp from '../control-help/control-help';
 import Caption from './caption';
 
-import type {ButtonAttrs} from '../button/button';
-
 import styles from './button-group.css';
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLElement> {
@@ -16,6 +14,20 @@ export interface ButtonGroupProps extends HTMLAttributes<HTMLElement> {
   label?: ReactNode;
   help?: ReactNode;
 }
+
+function allChildrenDisabled(children: ReactNode): boolean {
+  if (!children || typeof children !== 'object') return false;
+  if ('props' in children) {
+    const {props} = children as ReactElement<Record<string, unknown>>;
+    if ('disabled' in props) {
+      return !!props.disabled;
+    }
+    return allChildrenDisabled(props.children as ReactNode);
+  }
+  const real = Children.toArray(children);
+  return real.length > 0 && real.every(allChildrenDisabled);
+}
+
 /**
  * @name Button Group
  */
@@ -23,13 +35,7 @@ export default class ButtonGroup extends PureComponent<ButtonGroupProps> {
   render() {
     const {className, split, 'data-test': dataTest, label, help, ...restProps} = this.props;
     const classes = classNames(split ? styles.split : styles.buttonGroup, className, {
-      [styles.disabled]: Children.toArray(this.props.children).every(
-        child =>
-          !!child &&
-          typeof child === 'object' &&
-          'props' in child &&
-          (child as ReactElement<ButtonAttrs>).props.disabled,
-      ),
+      [styles.disabled]: allChildrenDisabled(this.props.children),
     });
 
     return (

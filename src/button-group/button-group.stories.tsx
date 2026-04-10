@@ -5,6 +5,7 @@ import helpIcon from '@jetbrains/icons/help';
 import userIcon from '@jetbrains/icons/user';
 
 import Button from '../button/button';
+import Tooltip from '../tooltip/tooltip';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
 import ButtonGroup, {Caption} from './button-group';
 
@@ -35,10 +36,14 @@ export const buttonGroup = () => (
     </div>
     <div>
       <ButtonGroup>
-        <Button disabled>1st disabled</Button>
-        <Button disabled active>
-          2nd disabled
-        </Button>
+        <Tooltip title='1st disabled'>
+          <Button disabled>1st disabled</Button>
+        </Tooltip>
+        <Tooltip title='2nd disabled'>
+          <Button disabled active>
+            2nd disabled
+          </Button>
+        </Tooltip>
         <Button disabled>3rd disabled</Button>
       </ButtonGroup>
     </div>
