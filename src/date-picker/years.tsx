@@ -22,7 +22,7 @@ const emptyYearHeight = yearHeight * 30;
 const EMPTY_YEARSBACK = 1;
 const NONEMPTY_YEARSBACK = 10;
 const YEARSBACK = EMPTY_YEARSBACK + NONEMPTY_YEARSBACK;
-const LOCAL_TO_CALENDAR_SYNC_DELAY = 100;
+const CALENDAR_SYNC_DELAY = 100;
 
 const scrollArith = new ScrollArith({
   itemsAround: YEARSBACK,
@@ -39,25 +39,36 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
 
   const timerIdRef = useRef<number | null>(null);
 
-  useEffect(
-    function syncLocalToCalendar() {
-      timerIdRef.current = window.setTimeout(() => {
-        setScrollDate(localScrollDate);
-      }, LOCAL_TO_CALENDAR_SYNC_DELAY);
+  const setLocalScrollDateAndSyncCalendar = useCallback(
+    (newLocalScrollDate: ScrollDate) => {
+      setLocalScrollDate(newLocalScrollDate);
 
-      return () => {
-        if (timerIdRef.current != null) {
-          window.clearTimeout(timerIdRef.current);
-          timerIdRef.current = null;
-        }
-      };
+      if (timerIdRef.current != null) {
+        window.clearTimeout(timerIdRef.current);
+      }
+
+      timerIdRef.current = window.setTimeout(() => {
+        setScrollDate(newLocalScrollDate);
+        timerIdRef.current = null;
+      }, CALENDAR_SYNC_DELAY);
     },
-    [localScrollDate, setScrollDate],
+    [setScrollDate],
   );
 
   useEffect(
-    function syncCalendarToLocal() {
+    () => () => {
+      if (timerIdRef.current != null) {
+        window.clearTimeout(timerIdRef.current);
+        timerIdRef.current = null;
+      }
+    },
+    [],
+  );
+
+  useEffect(
+    function syncLocal() {
       if (scrollDate.source === 'yearsScroll') return;
+
       scheduleScroll(() => {
         setLocalScrollDate(scrollDate);
       });
@@ -78,7 +89,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
 
   const {containerRef, handleScroll, items} = useScrollBehavior(
     localScrollDate,
-    setLocalScrollDate,
+    setLocalScrollDateAndSyncCalendar,
     'yearsScroll',
     scrollArith,
     scheduleScroll,

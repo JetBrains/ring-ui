@@ -3,7 +3,6 @@ import {Component} from 'react';
 import * as React from 'react';
 import {isAfter} from 'date-fns/isAfter';
 import {isBefore} from 'date-fns/isBefore';
-import {isSameDay} from 'date-fns/isSameDay';
 import {startOfDay} from 'date-fns/startOfDay';
 import {set} from 'date-fns';
 
@@ -29,19 +28,12 @@ import {
 import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
+const msInOneDay = 86400000;
 
 export type DatePopupProps = DatePopupBaseProps &
   (DateSpecificPopupProps | TimeSpecificPopupProps | RangeSpecificPopupProps);
 
 export default class DatePopup extends Component<DatePopupProps, DatePopupState> {
-  static sameDay(next: Date | number | null, prev: Date | number | null) {
-    if (next && prev) {
-      return isSameDay(next, prev);
-    }
-
-    return next === prev;
-  }
-
   static defaultProps = {
     onChange() {},
   };
@@ -204,7 +196,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
   #scrollDateGoal: number | null = null;
 
-  setScrollDateWithScrolling = (scrollDate: Date) => {
+  setScrollDateWithAnimation = (scrollDate: Date) => {
     const alreadyScrolling = this.#scrollDateGoal != null;
     this.#scrollDateGoal = Number(scrollDate);
 
@@ -212,7 +204,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
     let lastRenderTime = Date.now();
 
-    const scheduleScroll = () => {
+    const scheduleAnimation = () => {
       if (this.#scrollDateGoal == null) return;
 
       const current = this.state.scrollDate?.date || this.parse(this.props[this.state.active], 'date') || new Date();
@@ -220,18 +212,19 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       const dt = Date.now() - lastRenderTime;
       const next = this.#scrollDateGoal - diff * Math.E ** (-dt / scrollExpDelay);
 
-      if (DatePopup.sameDay(next, this.#scrollDateGoal)) {
-        this.setState({scrollDate: {date: new Date(this.#scrollDateGoal), source: 'other'}});
-        this.#scrollDateGoal = null;
-        return;
-      }
+      const finished = Math.abs(diff) < msInOneDay;
+      const nextToSet = finished ? this.#scrollDateGoal : next;
+      this.setState({scrollDate: {date: new Date(nextToSet), source: 'scrollAnimation'}});
 
-      this.setState({scrollDate: {date: new Date(next), source: 'other'}});
-      lastRenderTime = Date.now();
-      window.requestAnimationFrame(scheduleScroll);
+      if (finished) {
+        this.#scrollDateGoal = null;
+      } else {
+        lastRenderTime = Date.now();
+        window.requestAnimationFrame(scheduleAnimation);
+      }
     };
 
-    window.requestAnimationFrame(scheduleScroll);
+    window.requestAnimationFrame(scheduleAnimation);
   };
 
   hoverHandler = (hoverDate: Date) => this.setState({hoverDate});
@@ -242,7 +235,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     if (name !== 'time') {
       const parsed = this.parse(text, name);
       if (this.isValidDate(parsed)) {
-        this.setScrollDateWithScrolling(parsed);
+        this.setScrollDateWithAnimation(parsed);
       }
     }
     this.setState({
@@ -268,7 +261,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
   setScrollDate = (scrollDate: ScrollDate) => {
     if (scrollDate.source === 'other') {
-      this.setScrollDateWithScrolling(new Date(scrollDate.date));
+      this.setScrollDateWithAnimation(new Date(scrollDate.date));
     } else {
       this.setState({scrollDate});
     }
