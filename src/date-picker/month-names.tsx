@@ -9,7 +9,7 @@ import {startOfYear} from 'date-fns/startOfYear';
 
 import linearFunction from '../global/linear-function';
 import MonthSlider from './month-slider';
-import {YEAR, MIDDLE_DAY, yearScrollSpeed, type MonthsProps} from './consts';
+import {YEAR, MIDDLE_DAY, yearScrollSpeed, type MonthsProps, type ScrollDate} from './consts';
 
 import type {Locale} from 'date-fns';
 
@@ -17,14 +17,17 @@ import styles from './date-picker.css';
 
 interface MonthNameProps {
   month: Date;
-  onScrollChange: (to: number) => void;
   locale: Locale | undefined;
+  setScrollDate: (newScrollDate: ScrollDate) => void;
 }
 
 class MonthName extends PureComponent<MonthNameProps> {
   handleClick = () => {
     const end = endOfMonth(this.props.month);
-    this.props.onScrollChange(end.getTime());
+    this.props.setScrollDate({
+      date: end.getTime(),
+      source: 'other',
+    });
   };
 
   render() {
@@ -63,7 +66,7 @@ export default function MonthNames(props: MonthsProps) {
   return (
     <div className={styles.monthNames}>
       {months.map(month => (
-        <MonthName key={+month} month={month} onScrollChange={props.onScrollChange} locale={locale} />
+        <MonthName key={+month} month={month} setScrollDate={props.setScrollDate} locale={locale} />
       ))}
       {props.currentRange && (
         <div

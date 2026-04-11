@@ -138,7 +138,6 @@ export interface CalendarProps extends Omit<DatePopupBaseProps, 'date' | 'from' 
   currentRange: [Date, Date] | null;
   activeRange: [Date, Date] | null;
   setScrollDate: (scrollDate: ScrollDate) => void;
-  onScrollChange: (date: number) => void;
 }
 
 export interface MonthsProps extends CalendarProps {
