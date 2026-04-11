@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';
 import {getYear} from 'date-fns/getYear';
@@ -8,7 +8,7 @@ import {isThisYear} from 'date-fns/isThisYear';
 import {setYear} from 'date-fns/setYear';
 import {startOfYear} from 'date-fns/startOfYear';
 
-import units, {type CalendarProps} from './consts';
+import units, {type ScrollDate, type CalendarProps} from './consts';
 import {ScrollArith} from './scroll-arith';
 import scheduleRAF from '../global/schedule-raf';
 import {useScrollBehavior} from './scroll-behavior';
@@ -19,12 +19,10 @@ const {yearHeight} = units;
 // eslint-disable-next-line no-magic-numbers
 const emptyYearHeight = yearHeight * 30;
 
-let scrollTO: number | null;
-
 const EMPTY_YEARSBACK = 1;
 const NONEMPTY_YEARSBACK = 10;
 const YEARSBACK = EMPTY_YEARSBACK + NONEMPTY_YEARSBACK;
-// const scrollDelay = 100;
+const LOCAL_TO_CALENDAR_SYNC_DELAY = 100;
 
 const scrollArith = new ScrollArith({
   itemsAround: YEARSBACK,
@@ -36,82 +34,68 @@ const scrollArith = new ScrollArith({
 
 const scheduleScroll = scheduleRAF();
 
-export default function Years({setScrollDate, onScrollChange, scrollDate}: CalendarProps) {
-  // const [localScrollDate, setLocalScrollDate] = useState<YearsState['scrollDate']>(null);
-  // const [stoppedScrolling, setStoppedScrolling] = useState(false);
-  const stoppedScrolling = false;
-  // const componentRef = useRef<HTMLDivElement>(null);
+export default function Years({scrollDate, setScrollDate}: CalendarProps) {
+  const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
 
-  // const setYearValue = useCallback(
-  //   (date: number) => {
-  //     if (scrollTO) {
-  //       window.clearTimeout(scrollTO);
-  //       scrollTO = null;
-  //     }
+  const timerIdRef = useRef<number | null>(null);
 
-  //     setStoppedScrolling(true);
-  //     setLocalScrollDate(null);
-  //     onScroll(Number(setYear(scrollDate, getYear(date))));
-  //   },
-  //   [onScroll, scrollDate],
-  // );
+  useEffect(
+    function syncLocalToCalendar() {
+      timerIdRef.current = window.setTimeout(() => {
+        setScrollDate(localScrollDate);
+      }, LOCAL_TO_CALENDAR_SYNC_DELAY);
 
-  // const handleWheel = useCallback(
-  //   (e: WheelEvent) => {
-  //     const date = localScrollDate || scrollDate;
+      return () => {
+        if (timerIdRef.current != null) {
+          window.clearTimeout(timerIdRef.current);
+          timerIdRef.current = null;
+        }
+      };
+    },
+    [localScrollDate, setScrollDate],
+  );
 
-  //     e.preventDefault();
-  //     const newScrollDate = linearFunction(0, Number(date), yearDuration / yearHeight).y(e.deltaY);
-  //     setStoppedScrolling(false);
-  //     setLocalScrollDate(newScrollDate);
+  useEffect(
+    function syncCalendarToLocal() {
+      if (scrollDate.source === 'yearsScroll') return;
+      scheduleScroll(() => {
+        setLocalScrollDate(scrollDate);
+      });
+    },
+    [scrollDate, setLocalScrollDate],
+  );
 
-  //     if (scrollTO) {
-  //       window.clearTimeout(scrollTO);
-  //     }
-
-  //     scrollTO = window.setTimeout(() => setYearValue(newScrollDate), scrollDelay);
-  //   },
-  //   [localScrollDate, scrollDate, setYearValue],
-  // );
-
-  useEffect(() => {
-    return () => {
-      if (scrollTO) {
-        window.clearTimeout(scrollTO);
-        scrollTO = null;
-      }
-    };
-  }, []);
+  const handleYearClick = useCallback(
+    (year: Date) => {
+      const newScrollDate = setYear(localScrollDate.date, getYear(year));
+      setScrollDate({
+        date: newScrollDate,
+        source: 'other',
+      });
+    },
+    [localScrollDate, setScrollDate],
+  );
 
   const {containerRef, handleScroll, items} = useScrollBehavior(
-    scrollDate,
-    setScrollDate,
+    localScrollDate,
+    setLocalScrollDate,
     'yearsScroll',
     scrollArith,
     scheduleScroll,
   );
 
   return (
-    <div
-      className={styles.years}
-      ref={containerRef}
-      style={{
-        transition: stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
-      }}
-      onScroll={handleScroll}
-    >
+    <div className={styles.years} ref={containerRef} onScroll={handleScroll}>
       {items.map((year, i) =>
         EMPTY_YEARSBACK <= i && i < items.length - EMPTY_YEARSBACK ? (
           <button
             type='button'
             key={+year}
             className={classNames(styles.year, {
-              [styles.currentYear]: isSameYear(year, scrollDate.date), // TODO scrollDate or local scroll date
+              [styles.currentYear]: isSameYear(year, localScrollDate.date),
               [styles.today]: isThisYear(year),
             })}
-            onClick={function handleClick() {
-              onScrollChange(Number(setYear(scrollDate.date, getYear(year))));
-            }}
+            onClick={() => handleYearClick(year)}
           >
             {format(year, 'yyyy')}
           </button>
