@@ -44,10 +44,10 @@ const scrollArith = new ScrollArith({
 export default function Months(props: MonthsProps) {
   const {scrollDate, setScrollDate} = props;
 
-  const {containerRef, handleScroll, items} = useScrollBehavior(scrollDate, setScrollDate, 'monthsScroll', scrollArith);
+  const {containerRef, items} = useScrollBehavior(scrollDate, setScrollDate, 'monthsScroll', scrollArith);
 
   return (
-    <div className={styles.months} ref={containerRef} onScroll={handleScroll}>
+    <div className={styles.months} ref={containerRef}>
       <div>
         {items.map((month, i) =>
           EMPTY_MONTHSBACK <= i && i < items.length - EMPTY_MONTHSBACK ? (

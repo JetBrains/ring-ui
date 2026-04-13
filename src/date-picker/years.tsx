@@ -116,7 +116,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
     [localScrollDate.date, setScrollDate],
   );
 
-  const {containerRef, handleScroll, items} = useScrollBehavior(
+  const {containerRef, items} = useScrollBehavior(
     localScrollDate,
     setLocalScrollDateAndSyncCalendar,
     'yearsScroll',
@@ -124,7 +124,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   );
 
   return (
-    <div className={styles.years} ref={containerRef} onScroll={handleScroll}>
+    <div className={styles.years} ref={containerRef}>
       {items.map((year, i) =>
         EMPTY_YEARSBACK <= i && i < items.length - EMPTY_YEARSBACK ? (
           <button

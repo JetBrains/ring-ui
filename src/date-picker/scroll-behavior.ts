@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {useEffect, useEffectEvent, useLayoutEffect, useRef, useState} from 'react';
 
 import {type CalendarProps, type ScrollDate} from './consts';
 import {type ScrollArith} from './scroll-arith';
@@ -15,33 +15,30 @@ export function useScrollBehavior(
   const [items, setItems] = useState(() => arith.getItems(scrollDate.date));
   const [scrollTop, setScrollTop] = useState(() => arith.getScrollTop(items, scrollDate.date));
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const setState = useEffectEvent((newScrollDate: number | Date) => {
+    const newItems = arith.getItems(newScrollDate);
+    if (!areEqual(items, newItems)) setItems(newItems);
 
-  const setState = useCallback(
-    (newScrollDate: number | Date) => {
-      const newItems = arith.getItems(newScrollDate);
-      setItems(newItems);
-      setScrollTop(arith.getScrollTop(newItems, newScrollDate));
-    },
-    [arith],
-  );
+    setScrollTop(arith.getScrollTop(newItems, newScrollDate));
+  });
 
+  const mountedRef = useRef(false);
   useEffect(
     function onScrollDateChange() {
+      if (!mountedRef.current) {
+        mountedRef.current = true;
+        return;
+      }
+
       if (scrollDate.source === selfScrollDateSource) return;
 
-      const timeoutId = setTimeout(() => {
-        setState(scrollDate.date);
-      });
-      return () => clearTimeout(timeoutId);
+      setState(scrollDate.date);
     },
-    [scrollDate, selfScrollDateSource, setState],
+    [scrollDate, selfScrollDateSource],
   );
 
-  const lastScrollUpdateRef = useRef<{
-    items: typeof items;
-    containerScrollTop: number;
-  } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lastScrollTopRef = useRef<number | null>(null);
 
   useLayoutEffect(
     function setContainerScrollFromState() {
@@ -49,25 +46,17 @@ export function useScrollBehavior(
       if (!container) return;
 
       container.scrollTop = scrollTop;
-      lastScrollUpdateRef.current = {
-        items,
-        containerScrollTop: container.scrollTop, // Note: browser can round it, so we read it back from DOM
-      };
+      lastScrollTopRef.current = container.scrollTop; // Note: browser can round it, so we read it back from DOM
     },
     [items, scrollTop],
   );
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = useEffectEvent(() => {
     scheduleScroll(() => {
       const container = containerRef.current;
       if (!container) return;
 
-      if (
-        items === lastScrollUpdateRef.current?.items &&
-        container.scrollTop === lastScrollUpdateRef.current?.containerScrollTop
-      ) {
-        return;
-      }
+      if (container.scrollTop === lastScrollTopRef.current) return;
 
       const newScrollDate = arith.getScrollDate(items, container.scrollTop);
       onContainerScroll({date: newScrollDate, source: selfScrollDateSource});
@@ -76,7 +65,19 @@ export function useScrollBehavior(
         setState(newScrollDate);
       }
     });
-  }, [items, arith, onContainerScroll, selfScrollDateSource, setState]);
+  });
 
-  return {containerRef, handleScroll, items};
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return {containerRef, items};
+}
+
+function areEqual(a: Date[], b: Date[]) {
+  return a.length === b.length && a.every((d, i) => Number(d) === Number(b[i]));
 }
