@@ -10,7 +10,6 @@ import {startOfYear} from 'date-fns/startOfYear';
 
 import units, {type ScrollDate, type CalendarProps} from './consts';
 import {ScrollArith} from './scroll-arith';
-import scheduleRAF from '../global/schedule-raf';
 import {useScrollBehavior} from './scroll-behavior';
 import {animateDate} from './animate-date';
 
@@ -34,8 +33,6 @@ const scrollArith = new ScrollArith({
   getItemHeight: (_y, index, items) =>
     EMPTY_YEARSBACK <= index && index < items.length - EMPTY_YEARSBACK ? yearHeight : emptyYearHeight,
 });
-
-const scheduleScroll = scheduleRAF();
 
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
@@ -86,12 +83,13 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   );
 
   useEffect(
-    function syncLocal() {
+    function updateLocalFromCalendar() {
       if (scrollDate.source === 'yearsScroll') return;
 
-      scheduleScroll(() => {
+      const timerId = setTimeout(() => {
         setLocalScrollDate(scrollDate);
       });
+      return () => clearTimeout(timerId);
     },
     [scrollDate, setLocalScrollDate],
   );
@@ -123,7 +121,6 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
     setLocalScrollDateAndSyncCalendar,
     'yearsScroll',
     scrollArith,
-    scheduleScroll,
   );
 
   return (

@@ -2,13 +2,15 @@ import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 import {type CalendarProps, type ScrollDate} from './consts';
 import {type ScrollArith} from './scroll-arith';
+import scheduleRAF from '../global/schedule-raf';
+
+const scheduleScroll = scheduleRAF();
 
 export function useScrollBehavior(
   scrollDate: ScrollDate,
   onContainerScroll: CalendarProps['setScrollDate'],
   selfScrollDateSource: ScrollDate['source'],
   arith: ScrollArith,
-  scheduleScroll: (cb: () => void) => void,
 ) {
   const [items, setItems] = useState(() => arith.getItems(scrollDate.date));
   const [scrollTop, setScrollTop] = useState(() => arith.getScrollTop(items, scrollDate.date));
@@ -74,7 +76,7 @@ export function useScrollBehavior(
         setState(newScrollDate);
       }
     });
-  }, [scheduleScroll, items, arith, onContainerScroll, selfScrollDateSource, setState]);
+  }, [items, arith, onContainerScroll, selfScrollDateSource, setState]);
 
   return {containerRef, handleScroll, items};
 }

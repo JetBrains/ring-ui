@@ -7,7 +7,6 @@ import Month from './month';
 import MonthNames from './month-names';
 import units, {type MonthsProps, WEEK, weekdays} from './consts';
 import {ScrollArith} from './scroll-arith';
-import scheduleRAF from '../global/schedule-raf';
 import {useScrollBehavior} from './scroll-behavior';
 
 import styles from './date-picker.css';
@@ -42,18 +41,10 @@ const scrollArith = new ScrollArith({
     EMPTY_MONTHSBACK <= index && index < items.length - EMPTY_MONTHSBACK ? monthHeight(item) : EMPTY_MONTH_HEIGHT,
 });
 
-const scheduleScroll = scheduleRAF();
-
 export default function Months(props: MonthsProps) {
   const {scrollDate, setScrollDate} = props;
 
-  const {containerRef, handleScroll, items} = useScrollBehavior(
-    scrollDate,
-    setScrollDate,
-    'monthsScroll',
-    scrollArith,
-    scheduleScroll,
-  );
+  const {containerRef, handleScroll, items} = useScrollBehavior(scrollDate, setScrollDate, 'monthsScroll', scrollArith);
 
   return (
     <div className={styles.months} ref={containerRef} onScroll={handleScroll}>

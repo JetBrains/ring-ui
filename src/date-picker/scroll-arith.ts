@@ -7,6 +7,7 @@ import units, {HALF} from './consts';
  * (e.g. start of a month or start of a year).
  */
 export class ScrollArith {
+  // TODO => private (KaiOS 2.5 doesn't support #)
   #itemsAround: number;
   #floorToItem: (date: Date) => Date;
   #shiftItem: (date: Date, delta: number) => Date;

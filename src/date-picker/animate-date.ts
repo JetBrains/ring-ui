@@ -1,4 +1,4 @@
-// Animate via a fragment of an ascending sine wave
+// Animate via an ascending fragment of a sine wave
 
 // eslint-disable-next-line prettier/prettier, no-magic-numbers
 const xFrom = -0.5 * Math.PI / 2;
@@ -28,8 +28,8 @@ export function animateDate(
     const x = xFrom + (xTo - xFrom) * durationFraction;
     const y = Math.sin(x);
     const yFraction = (y - yFrom) / (yTo - yFrom);
-    const value = Number(initial) + (Number(target) - Number(initial)) * yFraction;
-    onUpdate(new Date(value));
+    const date = Number(initial) + (Number(target) - Number(initial)) * yFraction;
+    onUpdate(new Date(date));
 
     requestId = requestAnimationFrame(frame);
   }
