@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import {Component} from 'react';
 import * as React from 'react';
 import {isAfter} from 'date-fns/isAfter';
@@ -24,11 +23,9 @@ import {
   type CalendarProps,
   type ScrollDate,
 } from './consts';
+import {animateDate} from './animate-date';
 
 import styles from './date-picker.css';
-
-const scrollExpDelay = 10;
-const msInOneDay = 86400000;
 
 export type DatePopupProps = DatePopupBaseProps &
   (DateSpecificPopupProps | TimeSpecificPopupProps | RangeSpecificPopupProps);
@@ -194,39 +191,6 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     return false;
   };
 
-  #scrollDateGoal: number | null = null;
-
-  setScrollDateWithAnimation = (scrollDate: Date) => {
-    const alreadyScrolling = this.#scrollDateGoal != null;
-    this.#scrollDateGoal = Number(scrollDate);
-
-    if (alreadyScrolling) return;
-
-    let lastRenderTime = Date.now();
-
-    const scheduleAnimation = () => {
-      if (this.#scrollDateGoal == null) return;
-
-      const current = this.state.scrollDate?.date || this.parse(this.props[this.state.active], 'date') || new Date();
-      const diff = this.#scrollDateGoal - Number(current);
-      const dt = Date.now() - lastRenderTime;
-      const next = this.#scrollDateGoal - diff * Math.E ** (-dt / scrollExpDelay);
-
-      const finished = Math.abs(diff) < msInOneDay;
-      const nextToSet = finished ? this.#scrollDateGoal : next;
-      this.setState({scrollDate: {date: new Date(nextToSet), source: 'scrollAnimation'}});
-
-      if (finished) {
-        this.#scrollDateGoal = null;
-      } else {
-        lastRenderTime = Date.now();
-        window.requestAnimationFrame(scheduleAnimation);
-      }
-    };
-
-    window.requestAnimationFrame(scheduleAnimation);
-  };
-
   hoverHandler = (hoverDate: Date) => this.setState({hoverDate});
 
   handleActivate = memoize((name: Field) => () => this.setState({active: name}));
@@ -235,7 +199,19 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     if (name !== 'time') {
       const parsed = this.parse(text, name);
       if (this.isValidDate(parsed)) {
-        this.setScrollDateWithAnimation(parsed);
+        const currentScrollDate = this.state.scrollDate?.date;
+        if (currentScrollDate) {
+          animateDate(currentScrollDate, parsed, date => {
+            this.setState({
+              scrollDate: {
+                date,
+                source: 'other',
+              },
+            });
+          });
+        } else {
+          this.setScrollDate({date: parsed, source: 'other'});
+        }
       }
     }
     this.setState({
@@ -260,11 +236,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
   };
 
   setScrollDate = (scrollDate: ScrollDate) => {
-    if (scrollDate.source === 'other') {
-      this.setScrollDateWithAnimation(new Date(scrollDate.date));
-    } else {
-      this.setState({scrollDate});
-    }
+    this.setState({scrollDate});
   };
 
   onClear = (e: React.MouseEvent<HTMLButtonElement>) => {

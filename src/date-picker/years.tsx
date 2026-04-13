@@ -12,6 +12,7 @@ import units, {type ScrollDate, type CalendarProps} from './consts';
 import {ScrollArith} from './scroll-arith';
 import scheduleRAF from '../global/schedule-raf';
 import {useScrollBehavior} from './scroll-behavior';
+import {animateDate} from './animate-date';
 
 import styles from './date-picker.css';
 
@@ -23,6 +24,8 @@ const EMPTY_YEARSBACK = 1;
 const NONEMPTY_YEARSBACK = 10;
 const YEARSBACK = EMPTY_YEARSBACK + NONEMPTY_YEARSBACK;
 const CALENDAR_SYNC_DELAY = 100;
+
+const yearAnimationDurationMs = 180;
 
 const scrollArith = new ScrollArith({
   itemsAround: YEARSBACK,
@@ -47,21 +50,38 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
         window.clearTimeout(timerIdRef.current);
       }
 
-      timerIdRef.current = window.setTimeout(() => {
-        setScrollDate(newLocalScrollDate);
-        timerIdRef.current = null;
+      const timeoutId = window.setTimeout(() => {
+        const newScrollDateWithPreservedMonthAndDay = setYear(scrollDate.date, getYear(newLocalScrollDate.date));
+        setScrollDate({
+          date: newScrollDateWithPreservedMonthAndDay,
+          source: 'yearsScroll',
+        });
+        animateDate(
+          newLocalScrollDate.date,
+          newScrollDateWithPreservedMonthAndDay,
+          date => {
+            setLocalScrollDate({
+              date,
+              source: 'other',
+            });
+          },
+          yearAnimationDurationMs,
+        );
       }, CALENDAR_SYNC_DELAY);
+
+      timerIdRef.current = timeoutId;
     },
-    [setScrollDate],
+    [scrollDate, setScrollDate, setLocalScrollDate],
   );
 
   useEffect(
-    () => () => {
-      if (timerIdRef.current != null) {
-        window.clearTimeout(timerIdRef.current);
-        timerIdRef.current = null;
-      }
-    },
+    () =>
+      function cleanup() {
+        if (timerIdRef.current != null) {
+          window.clearTimeout(timerIdRef.current);
+          timerIdRef.current = null;
+        }
+      },
     [],
   );
 
@@ -81,10 +101,21 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
       const newScrollDate = setYear(localScrollDate.date, getYear(year));
       setScrollDate({
         date: newScrollDate,
-        source: 'other',
+        source: 'yearsScroll',
       });
+      animateDate(
+        localScrollDate.date,
+        newScrollDate,
+        date => {
+          setLocalScrollDate({
+            date,
+            source: 'other',
+          });
+        },
+        yearAnimationDurationMs,
+      );
     },
-    [localScrollDate, setScrollDate],
+    [localScrollDate.date, setScrollDate],
   );
 
   const {containerRef, handleScroll, items} = useScrollBehavior(

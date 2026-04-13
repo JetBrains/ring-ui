@@ -96,7 +96,7 @@ export interface RangeSpecificPopupProps {
 
 export interface ScrollDate {
   date: number | Date;
-  source: 'monthsScroll' | 'yearsScroll' | 'scrollAnimation' | 'other';
+  source: 'monthsScroll' | 'yearsScroll' | 'other';
 }
 
 export interface DatePopupState {

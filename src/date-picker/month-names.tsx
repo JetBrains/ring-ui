@@ -6,16 +6,17 @@ import {isThisMonth} from 'date-fns/isThisMonth';
 import {set} from 'date-fns/set';
 import {startOfDay} from 'date-fns/startOfDay';
 import {startOfYear} from 'date-fns/startOfYear';
+import {type Locale} from 'date-fns';
 
 import linearFunction from '../global/linear-function';
 import MonthSlider from './month-slider';
 import {YEAR, MIDDLE_DAY, yearScrollSpeed, type MonthsProps, type ScrollDate} from './consts';
-
-import type {Locale} from 'date-fns';
+import {animateDate} from './animate-date';
 
 import styles from './date-picker.css';
 
 interface MonthNameProps {
+  scrollDate: ScrollDate;
   month: Date;
   locale: Locale | undefined;
   setScrollDate: (newScrollDate: ScrollDate) => void;
@@ -24,9 +25,12 @@ interface MonthNameProps {
 class MonthName extends PureComponent<MonthNameProps> {
   handleClick = () => {
     const end = endOfMonth(this.props.month);
-    this.props.setScrollDate({
-      date: end.getTime(),
-      source: 'other',
+    const targetDate = (Number(this.props.month) + Number(end)) / 2;
+    animateDate(this.props.scrollDate.date, targetDate, date => {
+      this.props.setScrollDate({
+        date,
+        source: 'other',
+      });
     });
   };
 
@@ -66,7 +70,13 @@ export default function MonthNames(props: MonthsProps) {
   return (
     <div className={styles.monthNames}>
       {months.map(month => (
-        <MonthName key={+month} month={month} setScrollDate={props.setScrollDate} locale={locale} />
+        <MonthName
+          key={+month}
+          scrollDate={scrollDate}
+          month={month}
+          setScrollDate={props.setScrollDate}
+          locale={locale}
+        />
       ))}
       {props.currentRange && (
         <div
