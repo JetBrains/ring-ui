@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "7.0.100",
+  "version": "7.0.103",
   "description": "JetBrains UI library",
   "author": {
     "name": "JetBrains"
@@ -191,7 +191,7 @@
     "vitest": "^4.0.18",
     "vitest-teamcity-reporter": "^0.4.1",
     "webpack": "^5.105.4",
-    "webpack-cli": "^6.0.1",
+    "webpack-cli": "^7.0.0",
     "xmlappend": "^1.0.4"
   },
   "peerDependencies": {
@@ -243,7 +243,6 @@
     "memoize-one": "^6.0.0",
     "postcss": "^8.5.8",
     "postcss-calc": "^10.1.1",
-    "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
     "postcss-loader": "^8.2.1",
     "postcss-modules-values-replace": "^4.2.2",

@@ -15,6 +15,7 @@ import {type Filter} from '../select/select-popup';
 import getUID from '../global/get-uid';
 import {type TagAttrs} from '../tag/tag';
 import ControlLabel, {type LabelType} from '../control-label/control-label';
+import ChevronButton from '../select/chevron-button';
 
 import inputStyles from '../input/input.css';
 import styles from './tags-input.css';
@@ -25,7 +26,7 @@ function noop() {}
  * @name Tags Input
  */
 
-const POPUP_VERTICAL_SHIFT = 2;
+const POPUP_VERTICAL_SHIFT = -2;
 
 export interface ToggleTagParams {
   tag: TagType;
@@ -194,7 +195,11 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
   }
 
   clickHandler = (event: SyntheticEvent) => {
-    if (event.target !== this.node && (event.target as HTMLElement).parentElement !== this.node) {
+    if (
+      event.target !== this.node &&
+      (event.target as HTMLElement).parentElement !== this.node &&
+      !this.node?.querySelector(`.${styles.tagInputChevronButton}`)?.contains(event.target as HTMLElement)
+    ) {
       return;
     }
 
@@ -378,6 +383,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
           handleClick={this.handleClick}
           customTagComponent={this.props.customTagComponent}
         >
+          <ChevronButton className={styles.tagInputChevronButton} />
           <Select
             id={this.id}
             ref={this.selectRef}
@@ -405,6 +411,7 @@ export default class TagsInput extends PureComponent<TagsInputProps, TagsInputSt
             notFoundMessage={this.props.notFoundMessage}
             hint={this.props.hint}
             error={error}
+            targetElement={this.node}
           />
         </TagsList>
       </div>

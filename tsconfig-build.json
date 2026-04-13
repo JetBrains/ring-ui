@@ -7,5 +7,12 @@
     "rootDir": "./src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
   },
   "include": ["src", "typings.d.ts"],
-  "exclude": ["src/**/*.stories.ts", "src/**/*.stories.tsx", "src/**/*.test.ts", "src/**/*.test.tsx"]
+  "exclude": [
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.figma.ts",
+    "src/**/*.figma.tsx"
+  ]
 }

@@ -11,6 +11,8 @@
   --ring-button-loader-components: var(--ring-main-components);
   --ring-button-white-text-disabled-color: var(--ring-white-text-color);
   --ring-button-icon-line-height: calc(var(--ring-unit) * 2);
+  --ring-button-border-radius-left: var(--ring-border-radius);
+  --ring-button-border-radius-right: var(--ring-border-radius);
 }
 
 :global(.ring-ui-theme-dark) {
@@ -66,7 +68,8 @@
   color: var(--ring-button-text-color);
 
   border: 0;
-  border-radius: var(--ring-border-radius);
+  border-radius: var(--ring-button-border-radius-left) var(--ring-button-border-radius-right)
+    var(--ring-button-border-radius-right) var(--ring-button-border-radius-left);
   outline: 0;
 
   background-color: var(--ring-button-background-color);
@@ -130,7 +133,7 @@
 }
 
 .inline {
-  --ring-button-text-color: var(--ring-action-link-color);
+  --ring-button-text-color: var(--ring-link-color);
   --ring-button-background-color: transparent;
 
   display: inline;
@@ -386,7 +389,10 @@
 
   overflow: hidden;
 
-  border-radius: calc(var(--ring-border-radius) - 1px);
+  border-top-left-radius: max(0px, calc(var(--ring-button-border-radius-left) - 1px));
+  border-top-right-radius: max(0px, calc(var(--ring-button-border-radius-right) - 1px));
+  border-bottom-right-radius: max(0px, calc(var(--ring-button-border-radius-right) - 1px));
+  border-bottom-left-radius: max(0px, calc(var(--ring-button-border-radius-left) - 1px));
   background-color: var(--ring-button-default-background-color);
 
   &::before {
@@ -414,7 +420,10 @@
   bottom: 0;
   left: 0;
 
-  border-radius: var(--ring-border-radius);
+  border-top-left-radius: var(--ring-button-border-radius-left);
+  border-top-right-radius: var(--ring-button-border-radius-right);
+  border-bottom-right-radius: var(--ring-button-border-radius-right);
+  border-bottom-left-radius: var(--ring-button-border-radius-left);
 }
 
 .delayed::after {

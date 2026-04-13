@@ -26,7 +26,11 @@ export const buttonGroup = () => (
         <Button disabled active>
           4th button
         </Button>
-        <Button>5th button</Button>
+        <Button loader>5th button</Button>
+        <Button>6th button</Button>
+        <Button active loader>
+          7th button
+        </Button>
       </ButtonGroup>
     </div>
     <div>
@@ -109,6 +113,13 @@ export const buttonGroup = () => (
         <Button>Label 1</Button>
         <Button>Label 2</Button>
         <Button>Label 3</Button>
+      </ButtonGroup>
+    </div>
+    <div>
+      <ButtonGroup>
+        <Button primary loader>
+          Single Primary Loading
+        </Button>
       </ButtonGroup>
     </div>
   </div>
