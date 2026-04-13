@@ -151,8 +151,6 @@ export default class Profile extends PureComponent<ProfileProps> {
       {
         rgItemType: PopupMenu.ListProps.Type.LINK,
         label: translations?.profile ?? translate('profile'),
-
-        target: '_self', // Full page reload in Angular
         href: profileUrl,
         LinkComponent,
       },
