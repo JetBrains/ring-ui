@@ -25,6 +25,12 @@ import styles from './select.stories.css';
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
 
+const FLAG_RU_URL =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
+
+const AVATAR_URL =
+  'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZGVmcz4KICAgICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNCMzQ1RjEiIG9mZnNldD0iMCIvPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjNjY5REZGIiBvZmZzZXQ9IjEiLz4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPC9kZWZzPgogICAgPGc+CiAgICAgICAgPHJlY3QgZmlsbD0idXJsKCNncmFkaWVudCkiCiAgICAgICAgICAgICAgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IgogICAgICAgICAgICAgIHJ4PSIzIiByeT0iMyIvPgogICAgICAgIDx0ZXh0IHg9IjIiIHk9IjEzIgogICAgICAgICAgICAgIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIgogICAgICAgICAgICAgIGZvbnQtc2l6ZT0iMTFweCIKICAgICAgICAgICAgICBmaWxsPSIjRkZGRkZGIj4KICAgICAgICAgICAgPHRzcGFuPkJMPC90c3Bhbj4KICAgICAgICAgICAgPHRzcGFuIHg9IjMiIHk9IjE3Ij5fPC90c3Bhbj4KICAgICAgICA8L3RleHQ+CiAgICA8L2c+Cjwvc3ZnPg==';
+
 const {type, size, directions} = Select.defaultProps;
 export default {
   title: 'Components/Select',
@@ -41,8 +47,6 @@ export const withAFilterAndTags: StoryFn<MultipleSelectAttrs> = args => <Select 
 export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args} />;
 
 {
-  const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
-
   const tags = [
     {label: 'One', key: '1', type: 'user', readOnly: true},
     {label: 'Two', key: '2', type: 'user', readOnly: false},
@@ -60,7 +64,7 @@ export const withAvatars: StoryFn<SingleSelectAttrs> = args => <Select {...args}
     {
       label: 'With avatar',
       key: 6,
-      avatar: avatarUrl,
+      avatar: AVATAR_URL,
     },
     {
       label: 'With generated avatar',
@@ -101,7 +105,7 @@ export const WithAvatarAndLongName = () => {
     {
       label: 'John Michael William Alexander Doe Richardson Jr',
       key: 1,
-      avatar: `${hubConfig.serverUri}/api/rest/avatar/default?username=jr`,
+      avatar: AVATAR_URL,
     },
     {label: 'Registered Users', key: 2},
     {label: 'Demo Project Team', key: 3},
@@ -573,13 +577,7 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
 export const multipleWithADescription: StoryFn<MultipleSelectAttrs> = args => <Select {...args} />;
 
 {
-  const deFlag =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
-  const ruFlag =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
-  const avatarUrl =
-    'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZGVmcz4KICAgICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNCMzQ1RjEiIG9mZnNldD0iMCIvPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjNjY5REZGIiBvZmZzZXQ9IjEiLz4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPC9kZWZzPgogICAgPGc+CiAgICAgICAgPHJlY3QgZmlsbD0idXJsKCNncmFkaWVudCkiCiAgICAgICAgICAgICAgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IgogICAgICAgICAgICAgIHJ4PSIzIiByeT0iMyIvPgogICAgICAgIDx0ZXh0IHg9IjIiIHk9IjEzIgogICAgICAgICAgICAgIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIgogICAgICAgICAgICAgIGZvbnQtc2l6ZT0iMTFweCIKICAgICAgICAgICAgICBmaWxsPSIjRkZGRkZGIj4KICAgICAgICAgICAgPHRzcGFuPkJMPC90c3Bhbj4KICAgICAgICAgICAgPHRzcGFuIHg9IjMiIHk9IjE3Ij5fPC90c3Bhbj4KICAgICAgICA8L3RleHQ+CiAgICA8L2c+Cjwvc3ZnPg==';
-  const icons = [deFlag, ruFlag, undefined];
+  const icons = [FLAG_DE_URL, FLAG_RU_URL, undefined];
 
   const elementsNum = 5;
   const dataset = [...Array(elementsNum)].map((elem, idx) => ({
@@ -587,7 +585,7 @@ export const multipleWithADescription: StoryFn<MultipleSelectAttrs> = args => <S
     key: idx,
     description: `description ${idx}`,
     icon: icons[idx % 3],
-    avatar: idx % 2 ? avatarUrl : null,
+    avatar: idx % 2 ? AVATAR_URL : null,
   }));
 
   multipleWithADescription.args = {

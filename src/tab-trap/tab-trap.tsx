@@ -48,7 +48,7 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
   const trapButtonNodeRef = useRef<HTMLDivElement | null>(null);
   const previousFocusedNodeRef = useRef<Element | null>(null);
   const trapWithoutFocusRef = useRef<boolean>(false);
-  const mountedRef = useRef(false);
+  const mountedRef = useRef<boolean | undefined>(undefined);
 
   // It's the same approach as in focus-trap-react:
   // https://github.com/focus-trap/focus-trap-react/commit/3b22fca9eebeb883edc89548850fe5a5b9d6d50e
@@ -60,18 +60,17 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
 
   useImperativeHandle(ref, () => ({node: nodeRef.current}), []);
 
-  function restoreFocus() {
+  function restoreFocusIfUnmounted(orElse?: () => unknown) {
     const previousFocusedNode = previousFocusedNodeRef.current;
     if (
       previousFocusedNode instanceof HTMLElement &&
       previousFocusedNode.focus &&
-      isNodeInVisiblePartOfPage(previousFocusedNode)
+      isNodeInVisiblePartOfPage(previousFocusedNode) &&
+      mountedRef.current === false
     ) {
-      // This is to prevent the focus from being restored the first time
-      // componentWillUnmount is called in StrictMode.
-      if (!mountedRef.current) {
-        previousFocusedNode.focus({preventScroll: true});
-      }
+      previousFocusedNode.focus({preventScroll: true});
+    } else {
+      orElse?.();
     }
   }
 
@@ -120,7 +119,7 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
 
     return () => {
       if (focusBackOnClose) {
-        restoreFocus();
+        restoreFocusIfUnmounted();
       }
     };
   }, [autoFocusFirst, trapDisabled, focusBackOnClose, focusFirst]);
@@ -132,7 +131,7 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
     if (focusBackOnExit) {
       const prevFocused = event.nativeEvent.relatedTarget;
       if (prevFocused && nodeRef.current && prevFocused instanceof Element && nodeRef.current.contains(prevFocused)) {
-        restoreFocus();
+        restoreFocusIfUnmounted(focusLast);
       }
     } else {
       focusLast();
@@ -155,6 +154,14 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
     }
 
     focusLast();
+  }
+
+  function restoreFocusOrFocusFirst() {
+    if (focusBackOnExit) {
+      restoreFocusIfUnmounted(focusFirst);
+    } else {
+      focusFirst();
+    }
   }
 
   if (trapDisabled) {
@@ -182,7 +189,7 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
         // It never actually stays focused
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
-        onFocus={focusBackOnExit ? restoreFocus : focusFirst}
+        onFocus={restoreFocusOrFocusFirst}
         data-trap-button
       />
     </div>

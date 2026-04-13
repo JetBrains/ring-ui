@@ -29,8 +29,6 @@
   --ring-border-accent-color: rgb(var(--ring-border-accent-components)); /* #366ACF */
   --ring-main-components: 54, 106, 207;
   --ring-main-color: rgb(var(--ring-main-components)); /* #366ACF */
-  --ring-action-link-components: 153, 187, 255;
-  --ring-action-link-color: rgb(var(--ring-action-link-components)); /* #99BBFF */ /* TODO: remove in 8.0 in favor of --ring-link-color */
   --ring-main-hover-components: 55, 95, 173;
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #375FAD */
   --ring-main-success-components: 78, 128, 82;

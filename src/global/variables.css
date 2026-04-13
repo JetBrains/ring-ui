@@ -36,8 +36,8 @@
   --ring-icon-hover-color: rgb(var(--ring-icon-hover-components)); /* #5a5d6b */
   --ring-main-components: 51, 105, 214;
   --ring-main-color: rgb(var(--ring-main-components)); /* #3369D6 */
-  --ring-action-link-components: 46, 85, 163;
-  --ring-action-link-color: rgb(var(--ring-action-link-components)); /* #2E55A3 */ /* TODO: remove in 8.0 in favor of --ring-link-color */
+  --ring-action-link-components: var(--ring-link-components);
+  --ring-action-link-color: var(--ring-link-color); /* #315FBD */ /* TODO: remove in 8.0 in favor of --ring-link-color */
   --ring-main-hover-components: 49, 95, 189;
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #315FBD */
   --ring-main-success-components: 31, 128, 57;
