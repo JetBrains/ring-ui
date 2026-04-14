@@ -24,7 +24,7 @@ export default function MonthSlider({
   const onPointerDown = useCallback(
     (e: PointerEvent) => {
       const pointerId = e.pointerId;
-      setDragStart({y: e.screenY, scrollDate: Number(scrollDate.date), pointerId});
+      setDragStart({y: e.pageY, scrollDate: Number(scrollDate.date), pointerId});
       buttonRef.current?.setPointerCapture(pointerId);
     },
     [scrollDate],
@@ -36,7 +36,7 @@ export default function MonthSlider({
         if (!dragStart) return;
         const {y: startY, scrollDate: startDate} = dragStart;
 
-        const yearFraction = (e.screenY - startY) / units.calHeight;
+        const yearFraction = (e.pageY - startY) / units.calHeight;
         const startDatePlusOneYear = Number(addYears(new Date(startDate), 1));
         const newScrollDate = startDate + yearFraction * (startDatePlusOneYear - startDate);
         setScrollDate({date: newScrollDate, source: 'other'});
@@ -61,7 +61,7 @@ export default function MonthSlider({
   }, [scrollDate]);
 
   return (
-    <div>
+    <>
       {offsets.map(offset => (
         <button
           ref={buttonRef}
@@ -77,6 +77,6 @@ export default function MonthSlider({
           onPointerCancel={onPointerUp}
         />
       ))}
-    </div>
+    </>
   );
 }

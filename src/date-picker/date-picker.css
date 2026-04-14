@@ -224,6 +224,8 @@
 
 .months.months {
   position: absolute;
+
+  z-index: var(--ring-fixed-z-index);
   top: 0;
   right: var(--ring-date-picker-year-width);
   bottom: 0;
@@ -506,9 +508,10 @@
   top: 0;
 
   width: calc(var(--ring-unit) * 6);
+  margin-right: 1px;
 
   background-color: var(--ring-content-background-color);
-  box-shadow: -1px 0 var(--ring-line-color);
+  box-shadow: -1px 0 var(--ring-line-color), 1px 0 var(--ring-line-color);
 }
 
 .monthName {
@@ -517,8 +520,6 @@
 }
 
 .monthName.monthName {
-  position: relative;
-
   width: 100%;
 
   height: var(--ring-date-picker-cell-size);
@@ -539,7 +540,7 @@
   right: 0;
   left: -1px;
 
-  width: calc(100% + 1px);
+  width: calc(100% + 2px);
 
   height: calc(var(--ring-unit) * 6);
 
