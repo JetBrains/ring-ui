@@ -128,7 +128,7 @@ const DEFAULT_CONFIG: Omit<AuthConfig, 'serverUri'> = {
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   waitForRedirectTimeout: DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT,
   tokenRefreshRetryDelays: TOKEN_REFRESH_RETRY_DELAYS,
-  rpInitiatedLogout: true,
+  rpInitiatedLogout: false,
   translations: null,
 };
 
