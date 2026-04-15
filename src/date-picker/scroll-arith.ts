@@ -7,11 +7,10 @@ import units, {HALF} from './consts';
  * (e.g. start of a month or start of a year).
  */
 export class ScrollArith {
-  // TODO => private (KaiOS 2.5 doesn't support #)
-  #itemsAround: number;
-  #floorToItem: (date: Date) => Date;
-  #shiftItem: (date: Date, delta: number) => Date;
-  #getItemHeight: (item: Date, index: number, items: Date[]) => number;
+  private itemsAround: number;
+  private floorToItem: (date: Date) => Date;
+  private shiftItem: (date: Date, delta: number) => Date;
+  private getItemHeight: (item: Date, index: number, items: Date[]) => number;
 
   constructor(params: {
     itemsAround: number;
@@ -19,19 +18,19 @@ export class ScrollArith {
     shiftItems: (date: Date, delta: number) => Date;
     getItemHeight: (item: Date, index: number, items: Date[]) => number;
   }) {
-    this.#itemsAround = params.itemsAround;
-    this.#floorToItem = params.floorToItem;
-    this.#shiftItem = params.shiftItems;
-    this.#getItemHeight = params.getItemHeight;
+    this.itemsAround = params.itemsAround;
+    this.floorToItem = params.floorToItem;
+    this.shiftItem = params.shiftItems;
+    this.getItemHeight = params.getItemHeight;
   }
 
   /**
    * Builds a symmetric list of items centered around the given scrollDate.
    */
   getItems(scrollDate: Date | number) {
-    const centerItem = this.#floorToItem(new Date(scrollDate));
-    return Array.from({length: 1 + this.#itemsAround * 2}, (_, index) =>
-      this.#shiftItem(centerItem, index - this.#itemsAround),
+    const centerItem = this.floorToItem(new Date(scrollDate));
+    return Array.from({length: 1 + this.itemsAround * 2}, (_, index) =>
+      this.shiftItem(centerItem, index - this.itemsAround),
     );
   }
 
@@ -39,8 +38,8 @@ export class ScrollArith {
    * Computes the scroll offset which places the `scrollDate` at the vertical center.
    */
   getScrollTop(items: Date[], scrollDate: Date | number) {
-    const item = this.#floorToItem(new Date(scrollDate));
-    const nextItem = this.#shiftItem(item, 1);
+    const item = this.floorToItem(new Date(scrollDate));
+    const nextItem = this.shiftItem(item, 1);
 
     let index = items.findIndex(it => Number(it) === Number(item));
     if (index === -1) {
@@ -48,11 +47,11 @@ export class ScrollArith {
     }
 
     const itemFraction = (Number(scrollDate) - Number(item)) / (Number(nextItem) - Number(item));
-    const offsetWithinItem = itemFraction * this.#getItemHeight(item, index, items);
+    const offsetWithinItem = itemFraction * this.getItemHeight(item, index, items);
 
     const heightBeforeItem = items
       .slice(0, index)
-      .reduce((totalHeight, it, i) => totalHeight + this.#getItemHeight(it, i, items), 0);
+      .reduce((totalHeight, it, i) => totalHeight + this.getItemHeight(it, i, items), 0);
 
     return heightBeforeItem + offsetWithinItem - units.calHeight * HALF;
   }
@@ -64,11 +63,11 @@ export class ScrollArith {
     let heightBeforeItem = 0;
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      const itemHeight = this.#getItemHeight(item, i, items);
+      const itemHeight = this.getItemHeight(item, i, items);
       const offsetWithinItem = scrollTop - heightBeforeItem + units.calHeight * HALF;
       if (offsetWithinItem < itemHeight) {
         const itemFraction = offsetWithinItem / itemHeight;
-        const nextItem = this.#shiftItem(item, 1);
+        const nextItem = this.shiftItem(item, 1);
         return new Date(Number(item) + itemFraction * (Number(nextItem) - Number(item)));
       }
       heightBeforeItem += itemHeight;
@@ -77,7 +76,7 @@ export class ScrollArith {
   }
 
   isCenterItem(items: Date[], scrollDate: Date | number) {
-    const item = this.#floorToItem(new Date(scrollDate));
+    const item = this.floorToItem(new Date(scrollDate));
     const centerItem = items[Math.floor(items.length / 2)];
     return Number(item) === Number(centerItem);
   }
