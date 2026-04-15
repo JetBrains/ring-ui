@@ -773,6 +773,7 @@ describe('Auth', () => {
     const auth = new Auth({
       serverUri: '',
       redirectUri: 'http://localhost:8080/hub',
+      rpInitiatedLogout: true,
       clientId: '1-1-1-1-1',
       scope: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack'],

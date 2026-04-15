@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "7.0.103",
+  "version": "7.0.104",
   "description": "JetBrains UI library",
   "author": {
     "name": "JetBrains"
@@ -191,7 +191,7 @@
     "vitest": "^4.0.18",
     "vitest-teamcity-reporter": "^0.4.1",
     "webpack": "^5.105.4",
-    "webpack-cli": "^6.0.1",
+    "webpack-cli": "^7.0.0",
     "xmlappend": "^1.0.4"
   },
   "peerDependencies": {

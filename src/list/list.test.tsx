@@ -384,4 +384,77 @@ describe('List', () => {
       expect(ref.current!.state.activeItem).to.deep.include({key: 0, label: 'Item 0'});
     });
   });
+
+  describe('should recompute row heights on visibility change', () => {
+    const data = [{key: 0, label: 'Item 0'}];
+
+    it('should mount without IntersectionObserver present', () => {
+      const original = window.IntersectionObserver;
+      // @ts-expect-error testing missing API
+      delete window.IntersectionObserver;
+      try {
+        expect(() => {
+          render(<List data={data} maxHeight={200} />);
+        }).not.toThrow();
+      } finally {
+        window.IntersectionObserver = original;
+      }
+    });
+
+    it('should call recomputeRowHeights on invisible-to-visible transition', () => {
+      let observerCallback!: IntersectionObserverCallback;
+      const mockObserve = vi.fn();
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          constructor(cb: IntersectionObserverCallback) {
+            observerCallback = cb;
+          }
+
+          observe = mockObserve;
+          disconnect = vi.fn();
+        },
+      );
+
+      const spy = vi.spyOn(VirtualizedList.prototype, 'recomputeRowHeights');
+      render(<List data={data} maxHeight={200} />);
+
+      expect(mockObserve).toHaveBeenCalled();
+
+      act(() => {
+        observerCallback([{isIntersecting: true} as IntersectionObserverEntry], {} as IntersectionObserver);
+      });
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should not call recomputeRowHeights when already visible', () => {
+      let observerCallback!: IntersectionObserverCallback;
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          constructor(cb: IntersectionObserverCallback) {
+            observerCallback = cb;
+          }
+
+          observe = vi.fn();
+          disconnect = vi.fn();
+        },
+      );
+
+      const spy = vi.spyOn(VirtualizedList.prototype, 'recomputeRowHeights');
+      render(<List data={data} maxHeight={200} />);
+
+      act(() => {
+        observerCallback([{isIntersecting: true} as IntersectionObserverEntry], {} as IntersectionObserver);
+      });
+      spy.mockClear();
+
+      act(() => {
+        observerCallback([{isIntersecting: true} as IntersectionObserverEntry], {} as IntersectionObserver);
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
 });
