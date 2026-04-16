@@ -67,8 +67,11 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     }
   }
 
-  private _scrollDate?: number | null;
-  private _scrollTS?: number | null;
+  componentWillUnmount(): void {
+    this.animationCleanup?.();
+  }
+
+  private animationCleanup: (() => void) | null = null;
 
   isInTimeMode = () => (!this.props.range && this.props.withTime) || false;
 
@@ -199,9 +202,10 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
     if (name !== 'time') {
       const parsed = this.parse(text, name);
       if (this.isValidDate(parsed)) {
+        this.animationCleanup?.();
         const currentScrollDate = this.state.scrollDate?.date;
-        if (currentScrollDate) {
-          animateDate(currentScrollDate, parsed, date => {
+        if (currentScrollDate != null) {
+          this.animationCleanup = animateDate(currentScrollDate, parsed, date => {
             this.setState({
               scrollDate: {
                 date,

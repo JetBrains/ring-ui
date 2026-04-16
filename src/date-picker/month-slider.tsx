@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useRef, useState, type PointerEvent} from 'react';
+import {useCallback, useMemo, useState, type PointerEvent} from 'react';
 import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';
 import {startOfYear} from 'date-fns';
@@ -19,13 +19,11 @@ export default function MonthSlider({
 }) {
   const [dragStart, setDragStart] = useState<{y: number; scrollDate: number; pointerId: number} | null>(null);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
   const onPointerDown = useCallback(
     (e: PointerEvent) => {
       const pointerId = e.pointerId;
       setDragStart({y: e.pageY, scrollDate: Number(scrollDate.date), pointerId});
-      buttonRef.current?.setPointerCapture(pointerId);
+      e.currentTarget.setPointerCapture(pointerId);
     },
     [scrollDate],
   );
@@ -45,13 +43,16 @@ export default function MonthSlider({
     [setScrollDate, dragStart],
   );
 
-  const onPointerUp = useCallback(() => {
-    if (!dragStart) return;
+  const onPointerUp = useCallback(
+    (e: PointerEvent) => {
+      if (!dragStart) return;
 
-    const {pointerId} = dragStart;
-    setDragStart(null);
-    buttonRef.current?.releasePointerCapture?.(pointerId);
-  }, [dragStart]);
+      const {pointerId} = dragStart;
+      setDragStart(null);
+      e.currentTarget.releasePointerCapture?.(pointerId);
+    },
+    [dragStart],
+  );
 
   const offsets = useMemo(() => {
     const yearStart = startOfYear(scrollDate.date);
@@ -64,7 +65,6 @@ export default function MonthSlider({
     <>
       {offsets.map(offset => (
         <button
-          ref={buttonRef}
           type='button'
           key={Math.floor(offset)}
           className={classNames(styles.monthSlider, dragStart && styles.dragging)}

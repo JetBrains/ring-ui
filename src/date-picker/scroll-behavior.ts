@@ -1,8 +1,9 @@
-import {useEffect, useEffectEvent, useLayoutEffect, useRef, useState} from 'react';
+import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 import {type CalendarProps, type ScrollDate} from './consts';
 import {type ScrollArith} from './scroll-arith';
 import scheduleRAF from '../global/schedule-raf';
+import useEventCallback from '../global/use-event-callback';
 
 const scheduleScroll = scheduleRAF();
 
@@ -15,7 +16,7 @@ export function useScrollBehavior(
   const [items, setItems] = useState(() => arith.getItems(scrollDate.date));
   const [scrollTop, setScrollTop] = useState(() => arith.getScrollTop(items, scrollDate.date));
 
-  const setState = useEffectEvent((newScrollDate: number | Date) => {
+  const setState = useEventCallback((newScrollDate: number | Date) => {
     const newItems = arith.getItems(newScrollDate);
     if (!areEqual(items, newItems)) setItems(newItems);
 
@@ -34,7 +35,7 @@ export function useScrollBehavior(
 
       setState(scrollDate.date);
     },
-    [scrollDate, selfScrollDateSource],
+    [scrollDate, selfScrollDateSource, setState],
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,7 +52,7 @@ export function useScrollBehavior(
     [items, scrollTop],
   );
 
-  const handleScroll = useEffectEvent(() => {
+  const handleScroll = useEventCallback(() => {
     scheduleScroll(() => {
       const container = containerRef.current;
       if (!container) return;
@@ -73,7 +74,7 @@ export function useScrollBehavior(
 
     container.addEventListener('scroll', handleScroll);
     return () => container.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   return {containerRef, items};
 }

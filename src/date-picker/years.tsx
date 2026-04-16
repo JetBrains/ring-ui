@@ -37,23 +37,21 @@ const scrollArith = new ScrollArith({
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
 
-  const timerIdRef = useRef<number | null>(null);
+  const syncCleanupRef = useRef<() => void>(null);
+  const animationCleanupRef = useRef<() => void>(null);
 
-  const setLocalScrollDateAndSyncCalendar = useCallback(
+  const syncCalendarScrollDate = useCallback(
     (newLocalScrollDate: ScrollDate) => {
-      setLocalScrollDate(newLocalScrollDate);
+      syncCleanupRef.current?.();
+      animationCleanupRef.current?.();
 
-      if (timerIdRef.current != null) {
-        window.clearTimeout(timerIdRef.current);
-      }
-
-      const timeoutId = window.setTimeout(() => {
+      let timerId: number | null = window.setTimeout(() => {
         const newScrollDateWithPreservedMonthAndDay = setYear(scrollDate.date, getYear(newLocalScrollDate.date));
         setScrollDate({
           date: newScrollDateWithPreservedMonthAndDay,
           source: 'yearsScroll',
         });
-        animateDate(
+        animationCleanupRef.current = animateDate(
           newLocalScrollDate.date,
           newScrollDateWithPreservedMonthAndDay,
           date => {
@@ -66,7 +64,12 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
         );
       }, CALENDAR_SYNC_DELAY);
 
-      timerIdRef.current = timeoutId;
+      syncCleanupRef.current = () => {
+        if (timerId != null) {
+          window.clearTimeout(timerId);
+          timerId = null;
+        }
+      };
     },
     [scrollDate, setScrollDate, setLocalScrollDate],
   );
@@ -74,22 +77,26 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   useEffect(
     () =>
       function cleanup() {
-        if (timerIdRef.current != null) {
-          window.clearTimeout(timerIdRef.current);
-          timerIdRef.current = null;
-        }
+        syncCleanupRef.current?.();
+        animationCleanupRef.current?.();
       },
     [],
   );
 
   useEffect(
-    function updateLocalFromCalendar() {
+    function syncLocalScrollDate() {
       if (scrollDate.source === 'yearsScroll') return;
 
-      const timerId = setTimeout(() => {
+      let timerId: number | null = window.setTimeout(() => {
         setLocalScrollDate(scrollDate);
+        timerId = null;
       });
-      return () => clearTimeout(timerId);
+      return () => {
+        if (timerId != null) {
+          window.clearTimeout(timerId);
+          timerId = null;
+        }
+      };
     },
     [scrollDate, setLocalScrollDate],
   );
@@ -101,7 +108,11 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
         date: newScrollDate,
         source: 'yearsScroll',
       });
-      animateDate(
+
+      syncCleanupRef.current?.();
+      animationCleanupRef.current?.();
+
+      animationCleanupRef.current = animateDate(
         localScrollDate.date,
         newScrollDate,
         date => {
@@ -116,12 +127,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
     [localScrollDate.date, setScrollDate],
   );
 
-  const {containerRef, items} = useScrollBehavior(
-    localScrollDate,
-    setLocalScrollDateAndSyncCalendar,
-    'yearsScroll',
-    scrollArith,
-  );
+  const {containerRef, items} = useScrollBehavior(localScrollDate, syncCalendarScrollDate, 'yearsScroll', scrollArith);
 
   return (
     <div className={styles.years} ref={containerRef}>

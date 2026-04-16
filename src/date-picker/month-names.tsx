@@ -1,12 +1,9 @@
 import {PureComponent} from 'react';
 import classNames from 'classnames';
-import {endOfMonth} from 'date-fns/endOfMonth';
 import {format} from 'date-fns/format';
 import {isThisMonth} from 'date-fns/isThisMonth';
-import {set} from 'date-fns/set';
-import {startOfDay} from 'date-fns/startOfDay';
 import {startOfYear} from 'date-fns/startOfYear';
-import {type Locale} from 'date-fns';
+import {getYear, type Locale} from 'date-fns';
 
 import linearFunction from '../global/linear-function';
 import MonthSlider from './month-slider';
@@ -17,16 +14,22 @@ import styles from './date-picker.css';
 
 interface MonthNameProps {
   scrollDate: ScrollDate;
-  month: Date;
+  monthIndex: number;
   locale: Locale | undefined;
   setScrollDate: (newScrollDate: ScrollDate) => void;
 }
 
 class MonthName extends PureComponent<MonthNameProps> {
+  componentWillUnmount(): void {
+    this.animationCleanup?.();
+  }
+
+  private animationCleanup: (() => void) | null = null;
+
   handleClick = () => {
-    const end = endOfMonth(this.props.month);
-    const targetDate = (Number(this.props.month) + Number(end)) / 2;
-    animateDate(this.props.scrollDate.date, targetDate, date => {
+    const targetDate = new Date(getYear(this.props.scrollDate.date), this.props.monthIndex, MIDDLE_DAY);
+    this.animationCleanup?.();
+    this.animationCleanup = animateDate(this.props.scrollDate.date, targetDate, date => {
       this.props.setScrollDate({
         date,
         source: 'other',
@@ -35,7 +38,8 @@ class MonthName extends PureComponent<MonthNameProps> {
   };
 
   render() {
-    const {month, locale} = this.props;
+    const {monthIndex, locale} = this.props;
+    const month = new Date(getYear(this.props.scrollDate.date), monthIndex, MIDDLE_DAY);
 
     return (
       <button
@@ -51,13 +55,10 @@ class MonthName extends PureComponent<MonthNameProps> {
   }
 }
 
+const monthsIndices = Array.from({length: YEAR}, (_, i) => i);
+
 export default function MonthNames(props: MonthsProps) {
   const {scrollDate, locale} = props;
-  const months = [];
-  for (let i = 0; i < YEAR; i++) {
-    const middleDay = set(scrollDate.date, {month: i, date: MIDDLE_DAY});
-    months.push(startOfDay(middleDay));
-  }
 
   const pxToDate = linearFunction(0, Number(startOfYear(scrollDate.date)), yearScrollSpeed);
 
@@ -69,11 +70,11 @@ export default function MonthNames(props: MonthsProps) {
 
   return (
     <div className={styles.monthNames}>
-      {months.map(month => (
+      {monthsIndices.map(monthIndex => (
         <MonthName
-          key={+month}
+          key={monthIndex}
           scrollDate={scrollDate}
-          month={month}
+          monthIndex={monthIndex}
           setScrollDate={props.setScrollDate}
           locale={locale}
         />
