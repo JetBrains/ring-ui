@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import {format} from 'date-fns/format';
 import {isThisMonth} from 'date-fns/isThisMonth';
 import {startOfYear} from 'date-fns/startOfYear';
-import {getYear, type Locale} from 'date-fns';
+import {addMonths, getYear, startOfMonth, type Locale} from 'date-fns';
 
 import linearFunction from '../global/linear-function';
 import MonthSlider from './month-slider';
@@ -27,7 +27,11 @@ class MonthName extends PureComponent<MonthNameProps> {
   private animationCleanup: (() => void) | null = null;
 
   handleClick = () => {
-    const targetDate = new Date(getYear(this.props.scrollDate.date), this.props.monthIndex, MIDDLE_DAY);
+    const start = startOfMonth(this.getMiddleDay(this.props.monthIndex));
+    const nextStart = addMonths(start, 1);
+    // Because the space between months belongs to the next month, we position the target month a bit to the top
+    // eslint-disable-next-line no-magic-numbers
+    const targetDate = new Date(0.4 * Number(start) + 0.6 * Number(nextStart));
     this.animationCleanup?.();
     this.animationCleanup = animateDate(this.props.scrollDate.date, targetDate, date => {
       this.props.setScrollDate({
@@ -37,9 +41,13 @@ class MonthName extends PureComponent<MonthNameProps> {
     });
   };
 
+  private getMiddleDay(monthIndex: number) {
+    return new Date(getYear(this.props.scrollDate.date), monthIndex, MIDDLE_DAY);
+  }
+
   render() {
     const {monthIndex, locale} = this.props;
-    const month = new Date(getYear(this.props.scrollDate.date), monthIndex, MIDDLE_DAY);
+    const month = this.getMiddleDay(monthIndex);
 
     return (
       <button

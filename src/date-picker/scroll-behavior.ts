@@ -1,4 +1,5 @@
 import {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {type Locale} from 'date-fns';
 
 import {type CalendarProps, type ScrollDate} from './consts';
 import {type ScrollArith} from './scroll-arith';
@@ -12,15 +13,16 @@ export function useScrollBehavior(
   onContainerScroll: CalendarProps['setScrollDate'],
   selfScrollDateSource: ScrollDate['source'],
   arith: ScrollArith,
+  locale: Locale | undefined,
 ) {
   const [items, setItems] = useState(() => arith.getItems(scrollDate.date));
-  const [scrollTop, setScrollTop] = useState(() => arith.getScrollTop(items, scrollDate.date));
+  const [scrollTop, setScrollTop] = useState(() => arith.getScrollTop(items, scrollDate.date, locale));
 
   const setState = useEventCallback((newScrollDate: number | Date) => {
     const newItems = arith.getItems(newScrollDate);
     if (!areEqual(items, newItems)) setItems(newItems);
 
-    setScrollTop(arith.getScrollTop(newItems, newScrollDate));
+    setScrollTop(arith.getScrollTop(newItems, newScrollDate, locale));
   });
 
   const mountedRef = useRef(false);
@@ -59,7 +61,7 @@ export function useScrollBehavior(
 
       if (container.scrollTop === lastScrollTopRef.current) return;
 
-      const newScrollDate = arith.getScrollDate(items, container.scrollTop);
+      const newScrollDate = arith.getScrollDate(items, container.scrollTop, locale);
       onContainerScroll({date: newScrollDate, source: selfScrollDateSource});
 
       if (!arith.isCenterItem(items, newScrollDate)) {

@@ -127,7 +127,13 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
     [localScrollDate.date, setScrollDate],
   );
 
-  const {containerRef, items} = useScrollBehavior(localScrollDate, syncCalendarScrollDate, 'yearsScroll', scrollArith);
+  const {containerRef, items} = useScrollBehavior(
+    localScrollDate,
+    syncCalendarScrollDate,
+    'yearsScroll',
+    scrollArith,
+    undefined,
+  );
 
   return (
     <div className={styles.years} ref={containerRef}>
