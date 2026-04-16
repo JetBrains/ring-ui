@@ -120,7 +120,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
             {...restProps}
             onError={this.handleError}
             onLoad={this.handleSuccess}
-            className={classNames(classes, styles.avatarShadow)}
+            className={classes}
             style={styleObj}
             src={src}
             alt='User avatar'
@@ -144,7 +144,7 @@ export default class Avatar extends PureComponent<AvatarProps> {
         data-test='avatar'
         onError={this.handleError}
         onLoad={this.handleSuccess}
-        className={classNames(classes, styles.avatarShadow)}
+        className={classes}
         style={styleObj}
         src={src}
         alt='User avatar'
