@@ -109,6 +109,24 @@ describe('Col', () => {
     expect(screen.getByTestId('ring-grid-column')).to.have.class(styles['col-xs']);
   });
 
+  it('should only add classes for provided size props', () => {
+    renderCol({xs: 2});
+    const el = screen.getByTestId('ring-grid-column');
+    expect(el).to.have.class(styles['col-xs-2']);
+    expect(el).to.not.have.class(styles['col-sm']);
+    expect(el).to.not.have.class(styles['col-md']);
+    expect(el).to.not.have.class(styles['col-lg']);
+  });
+
+  it('should not add any size classes when no size props are provided', () => {
+    renderCol();
+    const el = screen.getByTestId('ring-grid-column');
+    expect(el).to.not.have.class(styles['col-xs']);
+    expect(el).to.not.have.class(styles['col-sm']);
+    expect(el).to.not.have.class(styles['col-md']);
+    expect(el).to.not.have.class(styles['col-lg']);
+  });
+
   it('should merge external data-test with default', () => {
     renderCol({'data-test': 'my-col'});
     expect(screen.getByTestId('ring-grid-column my-col')).to.exist;
