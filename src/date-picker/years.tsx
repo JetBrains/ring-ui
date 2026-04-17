@@ -12,6 +12,7 @@ import units, {type ScrollDate, type CalendarProps} from './consts';
 import {ScrollArith} from './scroll-arith';
 import {useScrollBehavior} from './scroll-behavior';
 import {animateDate} from './animate-date';
+import scheduleRAF from '../global/schedule-raf';
 
 import styles from './date-picker.css';
 
@@ -33,6 +34,8 @@ const scrollArith = new ScrollArith({
   getItemHeight: (_y, index, items) =>
     EMPTY_YEARSBACK <= index && index < items.length - EMPTY_YEARSBACK ? yearHeight : emptyYearHeight,
 });
+
+const scheduleScroll = scheduleRAF();
 
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
@@ -130,9 +133,10 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const {containerRef, items} = useScrollBehavior(
     localScrollDate,
     syncCalendarScrollDate,
+    undefined,
     'yearsScroll',
     scrollArith,
-    undefined,
+    scheduleScroll,
   );
 
   return (

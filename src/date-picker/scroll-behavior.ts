@@ -3,17 +3,17 @@ import {type Locale} from 'date-fns';
 
 import {type CalendarProps, type ScrollDate} from './consts';
 import {type ScrollArith} from './scroll-arith';
-import scheduleRAF from '../global/schedule-raf';
 import useEventCallback from '../global/use-event-callback';
 
-const scheduleScroll = scheduleRAF();
+import type scheduleRAF from '../global/schedule-raf';
 
 export function useScrollBehavior(
   scrollDate: ScrollDate,
   onContainerScroll: CalendarProps['setScrollDate'],
+  locale: Locale | undefined,
   selfScrollDateSource: ScrollDate['source'],
   arith: ScrollArith,
-  locale: Locale | undefined,
+  scheduleScroll: ReturnType<typeof scheduleRAF>,
 ) {
   const [items, setItems] = useState(() => arith.getItems(scrollDate.date));
   const [scrollTop, setScrollTop] = useState(() => arith.getScrollTop(items, scrollDate.date, locale));
