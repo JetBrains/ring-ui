@@ -36,7 +36,7 @@ export interface ColProps extends HTMLAttributes<HTMLDivElement> {
  */
 function getClassNames(props: Omit<ColProps, 'children' | 'className' | 'reverse'>) {
   return Object.entries(props)
-    .filter(([key]) => classMap[key])
+    .filter(([key, value]) => classMap[key] && value != null)
     .map(
       ([key, value]) =>
         (styles as Record<string, string | undefined>)[
