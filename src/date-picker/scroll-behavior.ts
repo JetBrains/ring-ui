@@ -41,15 +41,15 @@ export function useScrollBehavior(
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const lastScrollTopRef = useRef<number | null>(null);
+  const ignoreNextScrollEventRef = useRef<boolean>(true);
 
   useLayoutEffect(
     function setContainerScrollFromState() {
       const container = containerRef.current;
       if (!container) return;
 
+      ignoreNextScrollEventRef.current = true;
       container.scrollTop = scrollTop;
-      lastScrollTopRef.current = container.scrollTop; // Note: browser can round it, so we read it back from DOM
     },
     [items, scrollTop],
   );
@@ -59,7 +59,10 @@ export function useScrollBehavior(
       const container = containerRef.current;
       if (!container) return;
 
-      if (container.scrollTop === lastScrollTopRef.current) return;
+      if (ignoreNextScrollEventRef.current) {
+        ignoreNextScrollEventRef.current = false;
+        return;
+      }
 
       const newScrollDate = arith.getScrollDate(items, container.scrollTop, locale);
       onContainerScroll({date: newScrollDate, source: selfScrollDateSource});
