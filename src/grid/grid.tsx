@@ -1,20 +1,26 @@
 import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
+import dataTests from '../global/data-tests';
+
 import styles from './grid.css';
+
+export interface GridProps extends HTMLAttributes<HTMLDivElement> {
+  'data-test'?: string | null | undefined;
+}
 
 /**
  * @name Grid
  * @deprecated Will be removed in Ring UI 8.0. Use flexbox or another layout library instead.
  */
 
-export class Grid extends Component<HTMLAttributes<HTMLDivElement>> {
+export class Grid extends Component<GridProps> {
   render() {
-    const {children, className, ...restProps} = this.props;
+    const {children, className, 'data-test': dataTest, ...restProps} = this.props;
     const classes = classNames(styles['container-fluid'], className);
 
     return (
-      <div data-test='ring-grid' {...restProps} className={classes}>
+      <div data-test={dataTests('ring-grid', dataTest)} {...restProps} className={classes}>
         {children}
       </div>
     );
