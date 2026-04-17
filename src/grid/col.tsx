@@ -1,5 +1,7 @@
-import {Component, type ReactNode} from 'react';
+import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
+
+import dataTests from '../global/data-tests';
 
 import styles from './grid.css';
 
@@ -14,8 +16,8 @@ const classMap: Record<string, string> = {
   lgOffset: 'col-lg-offset',
 };
 
-export interface ColProps {
-  children?: ReactNode;
+export interface ColProps extends HTMLAttributes<HTMLDivElement> {
+  'data-test'?: string | null | undefined;
   xs?: boolean | number | null | undefined;
   sm?: boolean | number | null | undefined;
   md?: boolean | number | null | undefined;
@@ -25,7 +27,6 @@ export interface ColProps {
   mdOffset?: number | null | undefined;
   lgOffset?: number | null | undefined;
   reverse?: boolean | null | undefined;
-  className?: string | null | undefined;
 }
 
 /**
@@ -46,13 +47,32 @@ function getClassNames(props: Omit<ColProps, 'children' | 'className' | 'reverse
 
 export default class Col extends Component<ColProps> {
   render() {
-    const {children, className, reverse, ...restProps} = this.props;
-    const classes = classNames(styles.col, className, getClassNames(restProps), {
-      [styles.reverse]: reverse,
-    });
+    const {
+      children,
+      className,
+      'data-test': dataTest,
+      reverse,
+      xs,
+      sm,
+      md,
+      lg,
+      xsOffset,
+      smOffset,
+      mdOffset,
+      lgOffset,
+      ...restProps
+    } = this.props;
+    const classes = classNames(
+      styles.col,
+      className,
+      getClassNames({xs, sm, md, lg, xsOffset, smOffset, mdOffset, lgOffset}),
+      {
+        [styles.reverse]: reverse,
+      },
+    );
 
     return (
-      <div className={classes} data-test='ring-grid-column'>
+      <div {...restProps} className={classes} data-test={dataTests('ring-grid-column', dataTest)}>
         {children}
       </div>
     );

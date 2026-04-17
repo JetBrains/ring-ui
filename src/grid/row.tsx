@@ -1,5 +1,7 @@
-import {Component, type ReactNode} from 'react';
+import {Component, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
+
+import dataTests from '../global/data-tests';
 
 import styles from './grid.css';
 
@@ -19,8 +21,8 @@ const modifierKeys = [
 
 type ModifierType = 'xs' | 'sm' | 'md' | 'lg';
 
-export interface RowProps {
-  children?: ReactNode;
+export interface RowProps extends HTMLAttributes<HTMLDivElement> {
+  'data-test'?: string | null | undefined;
   reverse?: boolean | null | undefined;
   start?: ModifierType | null | undefined;
   center?: ModifierType | null | undefined;
@@ -33,7 +35,6 @@ export interface RowProps {
   between?: ModifierType | null | undefined;
   first?: ModifierType | null | undefined;
   last?: ModifierType | null | undefined;
-  className?: string | null | undefined;
 }
 
 /**
@@ -52,14 +53,36 @@ function getModifierClassNames(props: RowProps) {
 
 export default class Row extends Component<RowProps> {
   render() {
-    const {children, className, reverse, ...restProps} = this.props;
+    const {
+      children,
+      className,
+      'data-test': dataTest,
+      reverse,
+      start,
+      center,
+      end,
+      top,
+      middle,
+      baseline,
+      bottom,
+      around,
+      between,
+      first,
+      last,
+      ...restProps
+    } = this.props;
 
-    const classes = classNames(className, styles.row, getModifierClassNames(restProps), {
-      [styles.reverse]: reverse,
-    });
+    const classes = classNames(
+      className,
+      styles.row,
+      getModifierClassNames({start, center, end, top, middle, baseline, bottom, around, between, first, last}),
+      {
+        [styles.reverse]: reverse,
+      },
+    );
 
     return (
-      <div className={classes} data-test='ring-grid-row'>
+      <div {...restProps} className={classes} data-test={dataTests('ring-grid-row', dataTest)}>
         {children}
       </div>
     );
