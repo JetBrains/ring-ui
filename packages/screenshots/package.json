@@ -17,23 +17,23 @@
   },
   "devDependencies": {
     "@jetbrains/testplane-teamcity-reporter": "^1.2.2",
-    "axios": "^1.13.6",
-    "browserstack-local": "^1.5.10",
-    "dotenv": "^17.3.1",
+    "axios": "^1.15.0",
+    "browserstack-local": "^1.5.13",
+    "dotenv": "^17.4.1",
     "filenamify": "^7.0.1",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.3.4",
-    "html-reporter": "^11.8.7",
+    "html-reporter": "^11.9.3",
     "http-server": "^14.1.1",
-    "jest": "^30.2.0",
-    "jest-environment-jsdom": "^30.2.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
     "port-claim": "^3.0.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "testplane": "^8.40.10",
-    "yauzl": "^3.2.1"
+    "testplane": "^8.42.6",
+    "yauzl": "^3.3.0"
   }
 }
