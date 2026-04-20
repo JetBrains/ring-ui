@@ -4,40 +4,35 @@ import {type Locale} from 'date-fns';
 
 import Month, {getVisualMonthDays} from './month';
 import MonthNames from './month-names';
-import units, {type MonthsProps, WEEK} from './consts';
+import units, {FIFTH_DAY, type MonthsProps, WEEK} from './consts';
 import {ScrollArith} from './scroll-arith';
 import {useScrollBehavior} from './scroll-behavior';
 import scheduleRAF from '../global/schedule-raf';
+import {ScrollListShape} from './scroll-list-shape';
 
 import styles from './date-picker.css';
 
-const {unit, cellSize} = units;
-
-const PADDING = 2;
-
-const EMPTY_MONTHSBACK = 1;
-const NONEMPTY_MONTHSBACK = 2;
-const MONTHSBACK = EMPTY_MONTHSBACK + NONEMPTY_MONTHSBACK;
-
-const MONTH_NAME_CELLS = 4;
+const listShape = new ScrollListShape(1, 2);
 
 function monthHeight(date: Date | number, locale: Locale | undefined) {
-  const cellsTotal = MONTH_NAME_CELLS + getVisualMonthDays(new Date(date), locale).daysNumber;
+  const marginTop = units.unit * 2;
+
+  const monthNameCells = FIFTH_DAY;
+  const cellsTotal = monthNameCells + getVisualMonthDays(new Date(date), locale).daysNumber;
   const monthLines = Math.ceil(cellsTotal / WEEK);
-  return monthLines * cellSize + unit * PADDING;
+
+  return marginTop + monthLines * units.cellSize;
 }
 
 // eslint-disable-next-line no-magic-numbers
 const EMPTY_MONTH_HEIGHT = monthHeight(5e11, undefined) * 5;
 
 const scrollArith = new ScrollArith({
-  itemsAround: MONTHSBACK,
+  itemsAround: listShape.getItemsAround(),
   floorToItem: startOfMonth,
   shiftItems: addMonths,
-  getItemHeight: (item, index, items, locale) =>
-    EMPTY_MONTHSBACK <= index && index < items.length - EMPTY_MONTHSBACK
-      ? monthHeight(item, locale)
-      : EMPTY_MONTH_HEIGHT,
+  getItemHeight: (item, index, locale) =>
+    listShape.isNotEmpty(index) ? monthHeight(item, locale) : EMPTY_MONTH_HEIGHT,
 });
 
 const scheduleScroll = scheduleRAF();
@@ -58,10 +53,10 @@ export default function Months(props: MonthsProps) {
     <div className={styles.months} ref={containerRef}>
       <div>
         {items.map((month, i) =>
-          EMPTY_MONTHSBACK <= i && i < items.length - EMPTY_MONTHSBACK ? (
+          listShape.isNotEmpty(i) ? (
             <Month {...props} month={month} key={+month} />
           ) : (
-            <div style={{height: EMPTY_MONTH_HEIGHT}} key={+month} />
+            <div style={{height: EMPTY_MONTH_HEIGHT}} key={listShape.getEmptyKey(i)} />
           ),
         )}
       </div>

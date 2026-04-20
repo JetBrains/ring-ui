@@ -13,29 +13,30 @@ import {ScrollArith} from './scroll-arith';
 import {useScrollBehavior} from './scroll-behavior';
 import {animateDate} from './animate-date';
 import scheduleRAF from '../global/schedule-raf';
+import {ScrollListShape} from './scroll-list-shape';
 
 import styles from './date-picker.css';
 
-const {yearHeight} = units;
 // eslint-disable-next-line no-magic-numbers
-const emptyYearHeight = yearHeight * 30;
+const listShape = new ScrollListShape(1, 10);
 
-const EMPTY_YEARSBACK = 1;
-const NONEMPTY_YEARSBACK = 10;
-const YEARSBACK = EMPTY_YEARSBACK + NONEMPTY_YEARSBACK;
-const CALENDAR_SYNC_DELAY = 100;
+const {yearHeight} = units;
 
-const yearAnimationDurationMs = 180;
+// eslint-disable-next-line no-magic-numbers
+const EMPTY_YEAR_HEIGHT = yearHeight * 30;
 
 const scrollArith = new ScrollArith({
-  itemsAround: YEARSBACK,
+  itemsAround: listShape.getItemsAround(),
   floorToItem: startOfYear,
   shiftItems: addYears,
-  getItemHeight: (_y, index, items) =>
-    EMPTY_YEARSBACK <= index && index < items.length - EMPTY_YEARSBACK ? yearHeight : emptyYearHeight,
+  getItemHeight: (_y, index) => (listShape.isNotEmpty(index) ? yearHeight : EMPTY_YEAR_HEIGHT),
 });
 
 const scheduleScroll = scheduleRAF();
+
+const CALENDAR_SYNC_DELAY = 100;
+
+const YEAR_ANIMATION_DURATION = 180;
 
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
@@ -63,7 +64,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
               source: 'other',
             });
           },
-          yearAnimationDurationMs,
+          YEAR_ANIMATION_DURATION,
         );
       }, CALENDAR_SYNC_DELAY);
 
@@ -124,7 +125,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
             source: 'other',
           });
         },
-        yearAnimationDurationMs,
+        YEAR_ANIMATION_DURATION,
       );
     },
     [localScrollDate.date, setScrollDate],
@@ -142,7 +143,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   return (
     <div className={styles.years} ref={containerRef}>
       {items.map((year, i) =>
-        EMPTY_YEARSBACK <= i && i < items.length - EMPTY_YEARSBACK ? (
+        listShape.isNotEmpty(i) ? (
           <button
             type='button'
             key={+year}
@@ -155,7 +156,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
             {format(year, 'yyyy')}
           </button>
         ) : (
-          <div style={{height: emptyYearHeight}} key={+year} />
+          <div style={{height: EMPTY_YEAR_HEIGHT}} key={listShape.getEmptyKey(i)} />
         ),
       )}
     </div>

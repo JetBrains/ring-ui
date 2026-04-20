@@ -12,13 +12,13 @@ export class ScrollArith {
   private itemsAround: number;
   private floorToItem: (date: Date) => Date;
   private shiftItem: (date: Date, delta: number) => Date;
-  private getItemHeight: (item: Date, index: number, items: Date[], locale: Locale | undefined) => number;
+  private getItemHeight: (item: Date, index: number, locale: Locale | undefined) => number;
 
   constructor(params: {
     itemsAround: number;
     floorToItem: (date: Date) => Date;
     shiftItems: (date: Date, delta: number) => Date;
-    getItemHeight: (item: Date, index: number, items: Date[], locale: Locale | undefined) => number;
+    getItemHeight: (item: Date, index: number, locale: Locale | undefined) => number;
   }) {
     this.itemsAround = params.itemsAround;
     this.floorToItem = params.floorToItem;
@@ -49,11 +49,11 @@ export class ScrollArith {
     }
 
     const itemFraction = (Number(scrollDate) - Number(item)) / (Number(nextItem) - Number(item));
-    const offsetWithinItem = itemFraction * this.getItemHeight(item, index, items, locale);
+    const offsetWithinItem = itemFraction * this.getItemHeight(item, index, locale);
 
     const heightBeforeItem = items
       .slice(0, index)
-      .reduce((totalHeight, it, i) => totalHeight + this.getItemHeight(it, i, items, locale), 0);
+      .reduce((totalHeight, it, i) => totalHeight + this.getItemHeight(it, i, locale), 0);
 
     return heightBeforeItem + offsetWithinItem - units.calHeight * HALF;
   }
@@ -65,7 +65,7 @@ export class ScrollArith {
     let heightBeforeItem = 0;
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      const itemHeight = this.getItemHeight(item, i, items, locale);
+      const itemHeight = this.getItemHeight(item, i, locale);
       const offsetWithinItem = scrollTop - heightBeforeItem + units.calHeight * HALF;
       if (offsetWithinItem < itemHeight) {
         const itemFraction = offsetWithinItem / itemHeight;
