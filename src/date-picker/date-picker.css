@@ -224,15 +224,24 @@
 
 .months.months {
   position: absolute;
+
+  z-index: var(--ring-fixed-z-index);
   top: 0;
   right: var(--ring-date-picker-year-width);
   bottom: 0;
   left: 0;
-}
 
-.days {
-  position: relative;
-  left: 0;
+  display: flex;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+  overscroll-behavior-y: none;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .month.month {
@@ -495,15 +504,14 @@
 }
 
 .monthNames {
-  position: absolute;
+  position: sticky;
   top: 0;
-  right: 0;
-  bottom: 0;
 
   width: calc(var(--ring-unit) * 6);
+  margin-right: 1px;
 
   background-color: var(--ring-content-background-color);
-  box-shadow: -1px 0 var(--ring-line-color);
+  box-shadow: -1px 0 var(--ring-line-color), 1px 0 var(--ring-line-color);
 }
 
 .monthName {
@@ -512,8 +520,6 @@
 }
 
 .monthName.monthName {
-  position: relative;
-
   width: 100%;
 
   height: var(--ring-date-picker-cell-size);
@@ -534,7 +540,7 @@
   right: 0;
   left: -1px;
 
-  width: calc(100% + 1px);
+  width: calc(100% + 2px);
 
   height: calc(var(--ring-unit) * 6);
 
@@ -542,6 +548,8 @@
 
   opacity: 0.17;
   background-color: var(--ring-main-color);
+
+  touch-action: none;
 }
 
 .monthSlider:hover {
@@ -568,12 +576,22 @@
   top: 0;
   right: 0;
 
+  overflow-y: scroll;
+
   width: var(--ring-date-picker-year-width);
+  height: 100%;
 
   background-color: var(--ring-content-background-color);
   box-shadow: -1px 0 var(--ring-line-color);
 
   font-size: var(--ring-font-size-smaller);
+  overscroll-behavior-y: none;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .year {

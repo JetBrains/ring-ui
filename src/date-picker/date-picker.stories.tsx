@@ -319,3 +319,93 @@ export const StartsFromSunday: StoryFn<DatePickerAttrs> = args => {
 };
 
 StartsFromSunday.storyName = 'starts on Sunday';
+
+export const SingleDateScrollMonthsTest: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
+
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} {...args} />
+    </div>
+  );
+};
+
+SingleDateScrollMonthsTest.storyName = 'single date (scroll months test)';
+
+const monthsScrollerSelector = '[data-test="ring-date-popup"] [class^="months"]';
+
+SingleDateScrollMonthsTest.parameters = {
+  screenshots: {
+    actions: [
+      {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
+      {type: 'waitForElementToShow', selector: monthsScrollerSelector},
+      {type: 'scroll', selector: monthsScrollerSelector, x: 0, y: 1000},
+      {type: 'wait', delay: 100},
+      {
+        type: 'capture',
+        name: 'light',
+        selector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]'],
+      },
+    ],
+  },
+};
+
+export const SingleDateMonthClickTest: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
+
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} {...args} />
+    </div>
+  );
+};
+
+SingleDateMonthClickTest.storyName = 'single date (month click test)';
+
+const octoberSelector = '[data-test="ring-date-popup"] [class^="monthNames"] > [class^="monthName"]:nth-child(10)';
+
+SingleDateMonthClickTest.parameters = {
+  screenshots: {
+    actions: [
+      {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
+      {type: 'waitForElementToShow', selector: octoberSelector},
+      {type: 'click', selector: octoberSelector},
+      {type: 'wait', delay: 300},
+      {
+        type: 'capture',
+        name: 'light',
+        selector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]'],
+      },
+    ],
+  },
+};
+
+export const SingleDateScrollYearsTest: StoryFn<DatePickerAttrs> = args => {
+  const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
+
+  return (
+    <div>
+      <DatePicker date={date} onChange={setDate} {...args} />
+    </div>
+  );
+};
+
+SingleDateScrollYearsTest.storyName = 'single date (scroll years test)';
+
+const yearsScrollerSelector = '[data-test="ring-date-popup"] [class^="years"]';
+
+SingleDateScrollYearsTest.parameters = {
+  screenshots: {
+    actions: [
+      {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
+      {type: 'waitForElementToShow', selector: yearsScrollerSelector},
+      {type: 'scroll', selector: yearsScrollerSelector, x: 0, y: -80},
+      {type: 'wait', delay: 300},
+      {
+        type: 'capture',
+        name: 'light',
+        selector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]'],
+      },
+    ],
+  },
+};

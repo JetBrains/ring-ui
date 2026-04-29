@@ -1,4 +1,4 @@
-import {createRef, PureComponent} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {addYears} from 'date-fns/addYears';
 import {getYear} from 'date-fns/getYear';
@@ -7,110 +7,158 @@ import {isSameYear} from 'date-fns/isSameYear';
 import {isThisYear} from 'date-fns/isThisYear';
 import {setYear} from 'date-fns/setYear';
 import {startOfYear} from 'date-fns/startOfYear';
-import {subYears} from 'date-fns/subYears';
 
-import linearFunction from '../global/linear-function';
-import units, {type CalendarProps, DOUBLE, HALF, yearDuration} from './consts';
+import units, {type ScrollDate, type CalendarProps} from './consts';
+import {ScrollArith} from './scroll-arith';
+import {useScrollBehavior} from './scroll-behavior';
+import {animateDate} from './animate-date';
+import scheduleRAF from '../global/schedule-raf';
+import {ScrollListShape} from './scroll-list-shape';
 
 import styles from './date-picker.css';
 
-const {yearHeight, calHeight} = units;
+// eslint-disable-next-line no-magic-numbers
+const listShape = new ScrollListShape(1, 10);
 
-let scrollTO: number | null;
+const {yearHeight} = units;
 
-const YEARSBACK = 5;
-const scrollDelay = 100;
+// eslint-disable-next-line no-magic-numbers
+const EMPTY_YEAR_HEIGHT = yearHeight * 30;
 
-interface YearsState {
-  scrollDate: Date | null;
-}
+const scrollArith = new ScrollArith({
+  itemsAround: listShape.getItemsAround(),
+  floorToItem: startOfYear,
+  shiftItems: addYears,
+  getItemHeight: (_y, index) => (listShape.isNotEmpty(index) ? yearHeight : EMPTY_YEAR_HEIGHT),
+});
 
-export default class Years extends PureComponent<CalendarProps> {
-  state = {scrollDate: null};
+const scheduleScroll = scheduleRAF();
 
-  componentDidMount() {
-    if (this.componentRef.current) {
-      this.componentRef.current.addEventListener('wheel', this.handleWheel);
-    }
-  }
+const CALENDAR_SYNC_DELAY = 100;
 
-  componentDidUpdate(prevProps: CalendarProps, prevState: YearsState) {
-    this.stoppedScrolling = !!prevState.scrollDate && !this.state.scrollDate;
-  }
+const YEAR_ANIMATION_DURATION = 180;
 
-  componentWillUnmount() {
-    if (this.componentRef.current) {
-      this.componentRef.current.removeEventListener('wheel', this.handleWheel);
-    }
-  }
+export default function Years({scrollDate, setScrollDate}: CalendarProps) {
+  const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
 
-  stoppedScrolling?: boolean;
-  setYear(date: number) {
-    if (scrollTO) {
-      window.clearTimeout(scrollTO);
-      scrollTO = null;
-    }
+  const syncCleanupRef = useRef<() => void>(null);
+  const animationCleanupRef = useRef<() => void>(null);
 
-    this.setState({scrollDate: null});
+  const syncCalendarScrollDate = useCallback(
+    (newLocalScrollDate: ScrollDate) => {
+      syncCleanupRef.current?.();
+      animationCleanupRef.current?.();
 
-    this.props.onScroll(Number(setYear(this.props.scrollDate, getYear(date))));
-  }
+      let timerId: number | null = window.setTimeout(() => {
+        const newScrollDateWithPreservedMonthAndDay = setYear(scrollDate.date, getYear(newLocalScrollDate.date));
+        setScrollDate({
+          date: newScrollDateWithPreservedMonthAndDay,
+          source: 'yearsScroll',
+        });
+        animationCleanupRef.current = animateDate(
+          newLocalScrollDate.date,
+          newScrollDateWithPreservedMonthAndDay,
+          date => {
+            setLocalScrollDate({
+              date,
+              source: 'other',
+            });
+          },
+          YEAR_ANIMATION_DURATION,
+        );
+      }, CALENDAR_SYNC_DELAY);
 
-  componentRef = createRef<HTMLDivElement>();
+      syncCleanupRef.current = () => {
+        if (timerId != null) {
+          window.clearTimeout(timerId);
+          timerId = null;
+        }
+      };
+    },
+    [scrollDate, setScrollDate, setLocalScrollDate],
+  );
 
-  handleWheel = (e: WheelEvent) => {
-    const {scrollDate} = this.props;
-    const date = this.state.scrollDate || scrollDate;
+  useEffect(
+    () =>
+      function cleanup() {
+        syncCleanupRef.current?.();
+        animationCleanupRef.current?.();
+      },
+    [],
+  );
 
-    e.preventDefault();
-    const newScrollDate = linearFunction(0, Number(date), yearDuration / yearHeight).y(e.deltaY);
-    this.setState({
-      scrollDate: newScrollDate,
-    });
-    if (scrollTO) {
-      window.clearTimeout(scrollTO);
-    }
-    scrollTO = window.setTimeout(() => this.setYear(newScrollDate), scrollDelay);
-  };
+  useEffect(
+    function syncLocalScrollDate() {
+      if (scrollDate.source === 'yearsScroll') return;
 
-  render() {
-    const {onScrollChange, scrollDate} = this.props;
-    const date = this.state.scrollDate || scrollDate;
-    const yearStart = startOfYear(date);
-    let year = subYears(yearStart, YEARSBACK);
-    const years = [year];
-    for (let i = 0; i < YEARSBACK * DOUBLE; i++) {
-      year = addYears(year, 1);
-      years.push(year);
-    }
+      let timerId: number | null = window.setTimeout(() => {
+        setLocalScrollDate(scrollDate);
+        timerId = null;
+      });
+      return () => {
+        if (timerId != null) {
+          window.clearTimeout(timerId);
+          timerId = null;
+        }
+      };
+    },
+    [scrollDate, setLocalScrollDate],
+  );
 
-    const pxToDate = linearFunction(0, Number(years[0]), yearDuration / yearHeight);
+  const handleYearClick = useCallback(
+    (year: Date) => {
+      const newScrollDate = setYear(localScrollDate.date, getYear(year));
+      setScrollDate({
+        date: newScrollDate,
+        source: 'yearsScroll',
+      });
 
-    return (
-      <div
-        className={styles.years}
-        ref={this.componentRef}
-        style={{
-          transition: this.stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
-          top: Math.floor(calHeight * HALF - pxToDate.x(Number(date))),
-        }}
-      >
-        {years.map(item => (
+      syncCleanupRef.current?.();
+      animationCleanupRef.current?.();
+
+      animationCleanupRef.current = animateDate(
+        localScrollDate.date,
+        newScrollDate,
+        date => {
+          setLocalScrollDate({
+            date,
+            source: 'other',
+          });
+        },
+        YEAR_ANIMATION_DURATION,
+      );
+    },
+    [localScrollDate.date, setScrollDate],
+  );
+
+  const {containerRef, items} = useScrollBehavior(
+    localScrollDate,
+    syncCalendarScrollDate,
+    undefined,
+    'yearsScroll',
+    scrollArith,
+    scheduleScroll,
+  );
+
+  return (
+    <div className={styles.years} ref={containerRef}>
+      {items.map((year, i) =>
+        listShape.isNotEmpty(i) ? (
           <button
             type='button'
-            key={+item}
+            key={+year}
             className={classNames(styles.year, {
-              [styles.currentYear]: isSameYear(item, date),
-              [styles.today]: isThisYear(item),
+              [styles.currentYear]: isSameYear(year, localScrollDate.date),
+              [styles.today]: isThisYear(year),
             })}
-            onClick={function handleClick() {
-              onScrollChange(Number(setYear(scrollDate, getYear(item))));
-            }}
+            onClick={() => handleYearClick(year)}
           >
-            {format(item, 'yyyy')}
+            {format(year, 'yyyy')}
           </button>
-        ))}
-      </div>
-    );
-  }
+        ) : (
+          <div style={{height: EMPTY_YEAR_HEIGHT}} key={listShape.getEmptyKey(i)} />
+        ),
+      )}
+    </div>
+  );
 }
