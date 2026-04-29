@@ -22,6 +22,7 @@ export interface TabsProps extends Omit<CollapsibleTabsProps, 'onSelect' | 'chil
   onLastVisibleIndexChange?: ((index: number) => void) | null | undefined;
   className?: string | null | undefined;
   tabContainerClassName?: string | null | undefined;
+  titleContainerClassName?: string | null | undefined;
   autoCollapse?: boolean | null | undefined;
   'data-test'?: string | null | undefined;
 }
@@ -70,6 +71,7 @@ class Tabs extends PureComponent<TabsProps> {
     const {
       className,
       tabContainerClassName,
+      titleContainerClassName,
       children,
       selected,
       autoCollapse,
@@ -89,7 +91,7 @@ class Tabs extends PureComponent<TabsProps> {
             {childrenArray}
           </CollapsibleTabs>
         ) : (
-          <div className={styles.titles}>
+          <div className={classNames(styles.titles, titleContainerClassName)}>
             {childrenArray.map((tab, index) => this.getTabTitle(selectedKey, tab, index))}
           </div>
         )}
