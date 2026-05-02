@@ -24,6 +24,7 @@ import {
   type ScrollDate,
 } from './consts';
 import {animateDate} from './animate-date';
+import MonthNames from './month-names';
 
 import styles from './date-picker.css';
 
@@ -375,6 +376,7 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
         <Weekdays locale={locale} />
         <div className={styles.calendar}>
           <Months {...calendarProps} onHover={this.hoverHandler} onSelect={this.selectHandler} locale={locale} />
+          <MonthNames {...calendarProps} onHover={this.hoverHandler} onSelect={this.selectHandler} />
           <Years {...calendarProps} />
         </div>
 

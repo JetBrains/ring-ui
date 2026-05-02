@@ -225,13 +225,9 @@
 .months.months {
   position: absolute;
 
-  z-index: var(--ring-fixed-z-index);
   top: 0;
-  right: var(--ring-date-picker-year-width);
   bottom: 0;
   left: 0;
-
-  display: flex;
 
   overflow-x: hidden;
   overflow-y: scroll;
@@ -504,10 +500,11 @@
 }
 
 .monthNames {
-  position: sticky;
+  position: absolute;
   top: 0;
+  right: var(--ring-date-picker-year-width);
 
-  width: calc(var(--ring-unit) * 6);
+  width: calc(var(--ring-unit) * 6 - 1px);
   margin-right: 1px;
 
   background-color: var(--ring-content-background-color);

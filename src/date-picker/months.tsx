@@ -3,7 +3,6 @@ import {startOfMonth} from 'date-fns/startOfMonth';
 import {type Locale} from 'date-fns';
 
 import Month, {getVisualMonthDays} from './month';
-import MonthNames from './month-names';
 import units, {FIFTH_DAY, type MonthsProps, WEEK} from './consts';
 import {ScrollArith} from './scroll-arith';
 import {useScrollBehavior} from './scroll-behavior';
@@ -51,16 +50,13 @@ export default function Months(props: MonthsProps) {
 
   return (
     <div className={styles.months} ref={containerRef}>
-      <div>
-        {items.map((month, i) =>
-          listShape.isNotEmpty(i) ? (
-            <Month {...props} month={month} key={+month} />
-          ) : (
-            <div style={{height: EMPTY_MONTH_HEIGHT}} key={listShape.getEmptyKey(i)} />
-          ),
-        )}
-      </div>
-      <MonthNames {...props} />
+      {items.map((month, i) =>
+        listShape.isNotEmpty(i) ? (
+          <Month {...props} month={month} key={+month} />
+        ) : (
+          <div style={{height: EMPTY_MONTH_HEIGHT}} key={listShape.getEmptyKey(i)} />
+        ),
+      )}
     </div>
   );
 }
