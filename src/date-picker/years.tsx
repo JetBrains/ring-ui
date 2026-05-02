@@ -41,8 +41,8 @@ const YEAR_ANIMATION_DURATION = 180;
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
 
-  const syncCleanupRef = useRef<() => void>(null);
-  const animationCleanupRef = useRef<() => void>(null);
+  const syncCleanupRef = useRef<(() => void) | null>(null);
+  const animationCleanupRef = useRef<(() => void) | null>(null);
 
   const syncCalendarScrollDate = useCallback(
     (newLocalScrollDate: ScrollDate) => {

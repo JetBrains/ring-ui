@@ -40,7 +40,7 @@ export function useScrollBehavior(
     [scrollDate, selfScrollDateSource, setState],
   );
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const ignoreNextScrollEventRef = useRef<boolean>(true);
 
   useLayoutEffect(
