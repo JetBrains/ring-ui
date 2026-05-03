@@ -1,12 +1,9 @@
-import {addDays} from 'date-fns/addDays';
 import {format} from 'date-fns/format';
 import {getDay} from 'date-fns/getDay';
-import {setDay} from 'date-fns/setDay';
-import {addMonths, differenceInCalendarDays, type Locale, startOfMonth} from 'date-fns';
-import {useMemo} from 'react';
+import {getDaysInMonth, type Locale, setDate} from 'date-fns';
 
 import Day from './day';
-import {type MonthsProps, WEEK, weekdays, shiftWeekArray, getWeekStartsOn, FIFTH_DAY} from './consts';
+import units, {type MonthsProps, WEEK, getWeekStartsOn} from './consts';
 
 import styles from './date-picker.css';
 
@@ -15,39 +12,43 @@ export interface MonthProps extends MonthsProps {
 }
 
 export default function Month(props: MonthProps) {
-  const start = props.month;
-  const {locale} = props;
+  const {month, locale} = props;
 
-  const startAsNum = Number(start);
-  const days = useMemo(() => {
-    const {startDay, daysNumber} = getVisualMonthDays(startAsNum, locale);
-    const arr = [startDay];
-    while (arr.length < daysNumber) {
-      const prev = arr[arr.length - 1];
-      const next = addDays(prev, 1);
-      arr.push(next);
-    }
-    return arr;
-  }, [startAsNum, locale]);
+  const paddingCells = getPaddingCells(month, locale);
 
   return (
     <div className={styles.month}>
-      <span className={styles.monthTitle}>{format(props.month, 'LLLL', {locale})}</span>
-      {days.map(date => (
-        <Day {...props} day={date} empty={date < start} key={+date} />
+      <span className={styles.monthTitle}>{format(month, 'LLLL', {locale})}</span>
+      {Array.from({length: paddingCells}, (_, i) => (
+        <Day {...props} day={new Date(0)} empty key={`e_${i}`} />
+      ))}
+      {Array.from({length: getDaysInMonth(month)}, (_, i) => (
+        <Day {...props} day={setDate(month, i + 1)} empty={false} key={i} />
       ))}
     </div>
   );
 }
 
-export function getVisualMonthDays(date: Date | number, locale: Locale | undefined) {
-  const start = startOfMonth(date);
-  const nextStart = addMonths(start, 1);
-  // pad with empty cells starting from last 5th weekday
-  const weekday = getDay(start);
-  const weekDays = shiftWeekArray(Object.values(weekdays), getWeekStartsOn(locale));
-  const fifthDayOfWeek = weekDays[FIFTH_DAY];
-  const startDay = setDay(start, weekday >= fifthDayOfWeek ? fifthDayOfWeek : fifthDayOfWeek - WEEK);
-  const daysNumber = differenceInCalendarDays(nextStart, startDay);
-  return {startDay, daysNumber};
+const cellsPerMonthName = 4;
+
+/**
+ * Between the month name and the first month day
+ */
+function getPaddingCells(monthStart: Date | number, locale: Locale | undefined) {
+  const monthStartWeekdaySundayBased = getDay(monthStart);
+  const weekStartDay = getWeekStartsOn(locale);
+  const monthStartWeekday = (monthStartWeekdaySundayBased - weekStartDay + WEEK) % WEEK;
+
+  if (monthStartWeekday >= cellsPerMonthName) return monthStartWeekday - cellsPerMonthName;
+
+  const upperPadding = WEEK - cellsPerMonthName;
+  const lowerPadding = monthStartWeekday;
+  return upperPadding + lowerPadding;
+}
+
+export function getMonthHeight(monthStart: Date | number, locale: Locale | undefined) {
+  const totalCells = cellsPerMonthName + getPaddingCells(monthStart, locale) + getDaysInMonth(new Date(monthStart));
+  const monthLines = Math.ceil(totalCells / WEEK);
+
+  return monthLines * units.cellSize;
 }
