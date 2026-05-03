@@ -11,7 +11,8 @@ import {ScrollListShape} from './scroll-list-shape';
 
 import styles from './date-picker.css';
 
-const listShape = new ScrollListShape(1, 2);
+// eslint-disable-next-line no-magic-numbers
+const listShape = new ScrollListShape(1, 5);
 
 function monthHeight(date: Date | number, locale: Locale | undefined) {
   const marginTop = units.unit * 2;
@@ -23,8 +24,7 @@ function monthHeight(date: Date | number, locale: Locale | undefined) {
   return marginTop + monthLines * units.cellSize;
 }
 
-// eslint-disable-next-line no-magic-numbers
-const EMPTY_MONTH_HEIGHT = monthHeight(5e11, undefined) * 5;
+const EMPTY_MONTH_HEIGHT = units.calHeight;
 
 const scrollArith = new ScrollArith({
   itemsAround: listShape.getItemsAround(),

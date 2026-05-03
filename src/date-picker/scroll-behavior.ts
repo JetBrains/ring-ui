@@ -1,7 +1,7 @@
 import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {type Locale} from 'date-fns';
 
-import {type CalendarProps, type ScrollDate} from './consts';
+import units, {type CalendarProps, type ScrollDate} from './consts';
 import {type ScrollArith} from './scroll-arith';
 import useEventCallback from '../global/use-event-callback';
 
@@ -18,29 +18,37 @@ export function useScrollBehavior(
   const [items, setItems] = useState(() => arith.getItems(scrollDate.date));
   const [scrollTop, setScrollTop] = useState(() => arith.getScrollTop(items, scrollDate.date, locale));
 
-  const setState = useEventCallback((newScrollDate: number | Date) => {
-    const newItems = arith.getItems(newScrollDate);
-    if (!areEqual(items, newItems)) setItems(newItems);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-    setScrollTop(arith.getScrollTop(newItems, newScrollDate, locale));
+  const updateSelfState = useEventCallback((newScrollDate: ScrollDate['date']) => {
+    const newScrollTopOnExistingItems = arith.getScrollTop(items, newScrollDate, locale);
+    if (isNearEdge(newScrollTopOnExistingItems, containerRef.current!)) {
+      const {newItems, newScrollTop} = arith.getItemsAndScrollTop(newScrollDate, locale);
+      setItems(newItems);
+      setScrollTop(newScrollTop);
+    } else {
+      setScrollTop(newScrollTopOnExistingItems);
+    }
   });
 
-  const mountedRef = useRef(false);
+  const didMountRef = useRef(false);
   useEffect(
-    function onScrollDateChange() {
-      if (!mountedRef.current) {
-        mountedRef.current = true;
+    function onExternalScrollDateChange() {
+      if (!didMountRef.current) {
+        didMountRef.current = true;
         return;
       }
 
+      const container = containerRef.current;
+      if (!container) return;
+
       if (scrollDate.source === selfScrollDateSource) return;
 
-      setState(scrollDate.date);
+      updateSelfState(scrollDate.date);
     },
-    [scrollDate, selfScrollDateSource, setState],
+    [scrollDate, selfScrollDateSource, updateSelfState],
   );
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const ignoreNextScrollEventRef = useRef<boolean>(true);
 
   useLayoutEffect(
@@ -64,11 +72,14 @@ export function useScrollBehavior(
         return;
       }
 
-      const newScrollDate = arith.getScrollDate(items, container.scrollTop, locale);
+      const currentScrollTop = container.scrollTop;
+      const newScrollDate = arith.getScrollDate(items, currentScrollTop, locale);
       onContainerScroll({date: newScrollDate, source: selfScrollDateSource});
 
-      if (!arith.isCenterItem(items, newScrollDate)) {
-        setState(newScrollDate);
+      if (isNearEdge(currentScrollTop, container)) {
+        const {newItems, newScrollTop} = arith.getItemsAndScrollTop(newScrollDate, locale);
+        setItems(newItems);
+        setScrollTop(newScrollTop);
       }
     });
   });
@@ -84,6 +95,9 @@ export function useScrollBehavior(
   return {containerRef, items};
 }
 
-function areEqual(a: Date[], b: Date[]) {
-  return a.length === b.length && a.every((d, i) => Number(d) === Number(b[i]));
+function isNearEdge(scrollTop: number, container: Element) {
+  const scrollHeight = container.scrollHeight;
+  // eslint-disable-next-line no-magic-numbers
+  const scrollDistanceNearEdge = units.calHeight * 1.5;
+  return scrollTop <= scrollDistanceNearEdge || scrollHeight - units.calHeight - scrollTop <= scrollDistanceNearEdge;
 }

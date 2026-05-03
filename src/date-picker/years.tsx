@@ -18,12 +18,11 @@ import {ScrollListShape} from './scroll-list-shape';
 import styles from './date-picker.css';
 
 // eslint-disable-next-line no-magic-numbers
-const listShape = new ScrollListShape(1, 10);
+const listShape = new ScrollListShape(1, 20);
 
 const {yearHeight} = units;
 
-// eslint-disable-next-line no-magic-numbers
-const EMPTY_YEAR_HEIGHT = yearHeight * 30;
+const EMPTY_YEAR_HEIGHT = units.calHeight;
 
 const scrollArith = new ScrollArith({
   itemsAround: listShape.getItemsAround(),

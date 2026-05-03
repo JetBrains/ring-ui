@@ -78,14 +78,4 @@ describe('ScrollArith with months', () => {
       );
     });
   });
-
-  describe('isCenterItem', () => {
-    it('should return true for center month', () => {
-      expect(arith.isCenterItem(items, new Date(TEST_YEAR, 1, 3))).to.equal(true);
-    });
-
-    it('should return false for non-center month', () => {
-      expect(arith.isCenterItem(items, new Date(TEST_YEAR, 2, 1))).to.equal(false);
-    });
-  });
 });

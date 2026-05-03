@@ -58,6 +58,12 @@ export class ScrollArith {
     return heightBeforeItem + offsetWithinItem - units.calHeight * HALF;
   }
 
+  getItemsAndScrollTop(scrollDate: Date | number, locale: Locale | undefined) {
+    const newItems = this.getItems(scrollDate);
+    const newScrollTop = this.getScrollTop(newItems, scrollDate, locale);
+    return {newItems, newScrollTop};
+  }
+
   /**
    * Returns the date currently located in the vertical center of the calendar.
    */
@@ -75,11 +81,5 @@ export class ScrollArith {
       heightBeforeItem += itemHeight;
     }
     return items[items.length - 1];
-  }
-
-  isCenterItem(items: Date[], scrollDate: Date | number) {
-    const item = this.floorToItem(new Date(scrollDate));
-    const centerItem = items[Math.floor(items.length / 2)];
-    return Number(item) === Number(centerItem);
   }
 }
