@@ -10,25 +10,20 @@ import {startOfYear} from 'date-fns/startOfYear';
 
 import units, {type ScrollDate, type CalendarProps} from './consts';
 import {ScrollArith} from './scroll-arith';
-import {useScrollBehavior} from './scroll-behavior';
+import {useScrollBehavior} from './use-scroll-behavior';
 import {animateDate} from './animate-date';
 import scheduleRAF from '../global/schedule-raf';
-import {ScrollListShape} from './scroll-list-shape';
+import {type IntersectionObserverHandle, useIntersectionObserver, useVisibility} from './use-intersection-observer';
 
 import styles from './date-picker.css';
 
-// eslint-disable-next-line no-magic-numbers
-const listShape = new ScrollListShape(1, 20);
-
 const {yearHeight} = units;
 
-const EMPTY_YEAR_HEIGHT = units.calHeight;
-
 const scrollArith = new ScrollArith({
-  itemsAround: listShape.getItemsAround(),
+  itemsAround: 50,
   floorToItem: startOfYear,
   shiftItems: addYears,
-  getItemHeight: (_y, index) => (listShape.isNotEmpty(index) ? yearHeight : EMPTY_YEAR_HEIGHT),
+  getItemHeight: () => yearHeight,
 });
 
 const scheduleScroll = scheduleRAF();
@@ -139,25 +134,50 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
     scheduleScroll,
   );
 
+  const intersectionObserverHandle = useIntersectionObserver(containerRef, units.calHeight / 2);
+
   return (
     <div className={styles.years} ref={containerRef}>
-      {items.map((year, i) =>
-        listShape.isNotEmpty(i) ? (
-          <button
-            type='button'
-            key={+year}
-            className={classNames(styles.year, {
-              [styles.currentYear]: isSameYear(year, localScrollDate.date),
-              [styles.today]: isThisYear(year),
-            })}
-            onClick={() => handleYearClick(year)}
-          >
-            {format(year, 'yyyy')}
-          </button>
-        ) : (
-          <div style={{height: EMPTY_YEAR_HEIGHT}} key={listShape.getEmptyKey(i)} />
-        ),
-      )}
+      {items.map(year => (
+        <Year
+          year={year}
+          scrollDate={localScrollDate.date}
+          handleYearClick={handleYearClick}
+          key={+year}
+          intersectionObserverHandle={intersectionObserverHandle}
+        />
+      ))}
     </div>
+  );
+}
+
+function Year({
+  year,
+  scrollDate,
+  handleYearClick,
+  intersectionObserverHandle,
+}: {
+  year: Date;
+  scrollDate: Date | number;
+  handleYearClick: (year: Date) => void;
+  intersectionObserverHandle: IntersectionObserverHandle | null;
+}) {
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const visible = useVisibility(intersectionObserverHandle, buttonRef);
+
+  return (
+    <button
+      type='button'
+      ref={buttonRef}
+      key={+year}
+      className={classNames(
+        styles.year,
+        visible && isSameYear(year, scrollDate) && styles.currentYear,
+        visible && isThisYear(year) && styles.today,
+      )}
+      onClick={visible ? () => handleYearClick(year) : undefined}
+    >
+      {visible ? format(year, 'yyyy') : '\u00A0'}
+    </button>
   );
 }

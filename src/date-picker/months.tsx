@@ -5,27 +5,21 @@ import {type Locale} from 'date-fns';
 import Month, {getMonthHeight} from './month';
 import units, {type MonthsProps} from './consts';
 import {ScrollArith} from './scroll-arith';
-import {useScrollBehavior} from './scroll-behavior';
+import {useScrollBehavior} from './use-scroll-behavior';
 import scheduleRAF from '../global/schedule-raf';
-import {ScrollListShape} from './scroll-list-shape';
+import {useIntersectionObserver} from './use-intersection-observer';
 
 import styles from './date-picker.css';
-
-// eslint-disable-next-line no-magic-numbers
-const listShape = new ScrollListShape(1, 5);
 
 function getMonthHeightWithMargin(date: Date | number, locale: Locale | undefined) {
   return units.unit * 2 + getMonthHeight(date, locale);
 }
 
-const EMPTY_MONTH_HEIGHT = units.calHeight;
-
 const scrollArith = new ScrollArith({
-  itemsAround: listShape.getItemsAround(),
+  itemsAround: 60,
   floorToItem: startOfMonth,
   shiftItems: addMonths,
-  getItemHeight: (item, index, locale) =>
-    listShape.isNotEmpty(index) ? getMonthHeightWithMargin(item, locale) : EMPTY_MONTH_HEIGHT,
+  getItemHeight: (item, _i, locale) => getMonthHeightWithMargin(item, locale),
 });
 
 const scheduleScroll = scheduleRAF();
@@ -42,15 +36,13 @@ export default function Months(props: MonthsProps) {
     scheduleScroll,
   );
 
+  const intersectionObserverHandle = useIntersectionObserver(containerRef);
+
   return (
     <div className={styles.months} ref={containerRef}>
-      {items.map((month, i) =>
-        listShape.isNotEmpty(i) ? (
-          <Month {...props} month={month} key={+month} />
-        ) : (
-          <div style={{height: EMPTY_MONTH_HEIGHT}} key={listShape.getEmptyKey(i)} />
-        ),
-      )}
+      {items.map(month => (
+        <Month {...props} month={month} key={+month} intersectionObserverHandle={intersectionObserverHandle} />
+      ))}
     </div>
   );
 }
