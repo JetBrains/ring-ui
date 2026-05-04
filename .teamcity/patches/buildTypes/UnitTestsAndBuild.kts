@@ -1,7 +1,6 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.*
-import jetbrains.buildServer.configs.kotlin.buildFeatures.dockerRegistryConnections
 import jetbrains.buildServer.configs.kotlin.ui.*
 
 /*
@@ -10,10 +9,6 @@ To apply the patch, change the buildType with id = 'UnitTestsAndBuild'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("UnitTestsAndBuild")) {
-    features {
-        add {
-            dockerRegistryConnections {
-            }
-        }
-    }
+    expectDisabledSettings("BUILD_EXT_5")
+    updateDisabledSettings("BUILD_EXT_6")
 }
