@@ -177,6 +177,7 @@ function Year({
       type='button'
       ref={buttonRef}
       key={+year}
+      disabled={!visible}
       className={classNames(
         styles.year,
         visible && isSameYear(year, scrollDate) && styles.currentYear,
