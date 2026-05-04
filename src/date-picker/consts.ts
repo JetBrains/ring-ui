@@ -1,6 +1,8 @@
 import {type ReactNode} from 'react';
 import {add} from 'date-fns/add';
 
+import sniffer from '../global/sniffer';
+
 import type {Duration, Locale} from 'date-fns';
 
 const unit = 8; // px;
@@ -94,12 +96,18 @@ export interface RangeSpecificPopupProps {
   onChange: (change: DatePickerChange) => void;
 }
 
+export interface ScrollDate {
+  date: number | Date;
+  source: 'monthsScroll' | 'yearsScroll' | 'other';
+}
+
 export interface DatePopupState {
   active: Field;
   text: string | null;
   hoverDate: Date | null;
-  scrollDate: number | Date | null;
+  scrollDate: ScrollDate | null;
 }
+
 export interface DatePopupBaseProps {
   date?: Date | number | string | null | undefined;
   time?: string | null | undefined;
@@ -128,11 +136,10 @@ export interface Dates {
 
 export interface CalendarProps extends Omit<DatePopupBaseProps, 'date' | 'from' | 'to' | 'time'>, Dates {
   activeDate: Date | null;
-  scrollDate: number | Date;
+  scrollDate: ScrollDate;
   currentRange: [Date, Date] | null;
   activeRange: [Date, Date] | null;
-  onScroll: (to: number) => void;
-  onScrollChange: (date: number) => void;
+  setScrollDate: (scrollDate: ScrollDate) => void;
 }
 
 export interface MonthsProps extends CalendarProps {
@@ -141,3 +148,23 @@ export interface MonthsProps extends CalendarProps {
 }
 
 export type Field = 'date' | 'time' | 'from' | 'to';
+
+/**
+ * Safari on iPhone doesn't allow setting scrollTop while a scroll is in progress.
+ * If you do, the browser will overwrite it during the next scroll event.
+ * This behavior occurs both during inertia scrolling and when the user is actively scrolling with a finger.
+ *
+ * In this environment, we:
+ * 1) only re-render when the scroll position is within a few pixels of the edge, and
+ * 2) only act after scrolling has ended.
+ */
+export const isSafariOnIPhone = sniffer.browser.name === 'safari' && sniffer.device.name === 'iphone';
+
+export const scrollerReRenderDelayIPhone = 100;
+
+// eslint-disable-next-line no-magic-numbers
+export const calendarSyncOnYearScrollUpdateDelay = isSafariOnIPhone ? 130 : 100;
+
+export const dateAnimationDuration = 150;
+
+export const yearsAnimationDuration = 200;

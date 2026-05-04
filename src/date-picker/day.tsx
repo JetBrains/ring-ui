@@ -76,25 +76,32 @@ export default class Day extends Component<DayProps> {
     const spreadRange = makeSpreadRange(currentRange);
     const disabled = this.isDisabled(day);
     const activeSpreadRange = makeSpreadRange(activeRange);
+
+    const className = classNames(styles.day, dayInWeekClass, {
+      [styles.current]: (['date', 'from', 'to'] as const).some(this.is),
+      [styles.active]: !disabled && this.is('activeDate'),
+      [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day)),
+      [styles.empty]: empty,
+      [styles.from]:
+        (currentRange && this.isDay(currentRange[0]) && !reverse) || (activeRange && this.isDay(activeRange[0])),
+      [styles.to]: (currentRange && this.isDay(currentRange[1])) || (activeRange && this.isDay(activeRange[1])),
+      [styles.between]: this.inRange(currentRange),
+      [styles.activeBetween]: !disabled && this.inRange(activeRange),
+      [styles.first]: getDate(day) === 1,
+      [styles.spread]: this.inRange(spreadRange),
+      [styles.activeSpread]: !disabled && this.inRange(activeSpreadRange),
+      [styles.disabled]: disabled,
+    });
+
+    if (empty) {
+      return <div className={className} />;
+    }
+
     return (
       // TODO make keyboard navigation actually work
       <button
         type='button'
-        className={classNames(styles.day, dayInWeekClass, {
-          [styles.current]: (['date', 'from', 'to'] as const).some(this.is),
-          [styles.active]: !disabled && this.is('activeDate'),
-          [styles.weekend]: [weekdays.SA, weekdays.SU].includes(getDay(day)),
-          [styles.empty]: empty,
-          [styles.from]:
-            (currentRange && this.isDay(currentRange[0]) && !reverse) || (activeRange && this.isDay(activeRange[0])),
-          [styles.to]: (currentRange && this.isDay(currentRange[1])) || (activeRange && this.isDay(activeRange[1])),
-          [styles.between]: this.inRange(currentRange),
-          [styles.activeBetween]: !disabled && this.inRange(activeRange),
-          [styles.first]: getDate(day) === 1,
-          [styles.spread]: this.inRange(spreadRange),
-          [styles.activeSpread]: !disabled && this.inRange(activeSpreadRange),
-          [styles.disabled]: disabled,
-        })}
+        className={className}
         onClick={this.handleClick}
         onMouseOver={this.handleMouseOver}
         onFocus={this.handleMouseOver}
@@ -102,7 +109,7 @@ export default class Day extends Component<DayProps> {
         onBlur={this.handleMouseOut}
         disabled={disabled}
       >
-        {empty || <span className={classNames({[styles.today]: isToday(day)})}>{format(day, 'd')}</span>}
+        <span className={classNames({[styles.today]: isToday(day)})}>{format(day, 'd')}</span>
       </button>
     );
   }
