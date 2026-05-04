@@ -24,6 +24,16 @@ const scrollArith = new ScrollArith({
 
 const scheduleScroll = scheduleRAF();
 
+/**
+ * In range selection (start/end dates across different months), the gap between months
+ * is correctly background-filled only when both months are reported as visible.
+ *
+ * To avoid an unpainted gap at the viewport boundary, the next month must be reported
+ * as visible slightly before it actually enters the viewport. We achieve this by
+ * extending the IntersectionObserver scrollMargin.
+ */
+const intersectionObserverScrollMargin = units.cellSize * 2;
+
 export default function Months(props: MonthsProps) {
   const {scrollDate, setScrollDate, locale} = props;
 
@@ -36,7 +46,7 @@ export default function Months(props: MonthsProps) {
     scheduleScroll,
   );
 
-  const intersectionObserverHandle = useIntersectionObserver(containerRef);
+  const intersectionObserverHandle = useIntersectionObserver(containerRef, intersectionObserverScrollMargin);
 
   return (
     <div className={styles.months} ref={containerRef}>

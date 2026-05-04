@@ -33,6 +33,11 @@ const scrollArith = new ScrollArith({
 
 const scheduleScroll = scheduleRAF();
 
+/**
+ * Reduces "empty" years during fast scrolling.
+ */
+const intersectionObserverScrollMargin = units.calHeight / 2;
+
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
 
@@ -135,7 +140,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
     scheduleScroll,
   );
 
-  const intersectionObserverHandle = useIntersectionObserver(containerRef, units.calHeight / 2);
+  const intersectionObserverHandle = useIntersectionObserver(containerRef, intersectionObserverScrollMargin);
 
   return (
     <div className={styles.years} ref={containerRef}>
@@ -164,6 +169,7 @@ function Year({
   intersectionObserverHandle: IntersectionObserverHandle | null;
 }) {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+
   const visible = useVisibility(intersectionObserverHandle, buttonRef);
 
   return (
