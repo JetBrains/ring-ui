@@ -49,7 +49,7 @@ export default function Months(props: MonthsProps) {
   const intersectionObserverHandle = useIntersectionObserver(containerRef, intersectionObserverScrollMargin);
 
   return (
-    <div className={styles.months} ref={containerRef}>
+    <div className={styles.months} ref={containerRef} data-test='ring-date-popup--months'>
       {items.map(month => (
         <Month {...props} month={month} key={+month} intersectionObserverHandle={intersectionObserverHandle} />
       ))}

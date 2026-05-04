@@ -143,7 +143,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const intersectionObserverHandle = useIntersectionObserver(containerRef, intersectionObserverScrollMargin);
 
   return (
-    <div className={styles.years} ref={containerRef}>
+    <div className={styles.years} ref={containerRef} data-test='ring-date-popup--years'>
       {items.map(year => (
         <Year
           year={year}

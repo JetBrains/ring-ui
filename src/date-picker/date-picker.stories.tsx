@@ -332,7 +332,7 @@ export const SingleDateScrollMonthsTest: StoryFn<DatePickerAttrs> = args => {
 
 SingleDateScrollMonthsTest.storyName = 'single date (scroll months test)';
 
-const monthsScrollerSelector = '[data-test="ring-date-popup"] [class^="months"]';
+const monthsScrollerSelector = '[data-test="ring-date-popup--months"]';
 
 SingleDateScrollMonthsTest.parameters = {
   screenshots: {
@@ -362,7 +362,7 @@ export const SingleDateMonthClickTest: StoryFn<DatePickerAttrs> = args => {
 
 SingleDateMonthClickTest.storyName = 'single date (month click test)';
 
-const octoberSelector = '[data-test="ring-date-popup"] [class^="monthNames"] > [class^="monthName"]:nth-child(10)';
+const octoberSelector = '[data-test="ring-date-popup--month-names"] > button:nth-child(10)';
 
 SingleDateMonthClickTest.parameters = {
   screenshots: {
@@ -392,7 +392,7 @@ export const SingleDateScrollYearsTest: StoryFn<DatePickerAttrs> = args => {
 
 SingleDateScrollYearsTest.storyName = 'single date (scroll years test)';
 
-const yearsScrollerSelector = '[data-test="ring-date-popup"] [class^="years"]';
+const yearsScrollerSelector = '[data-test="ring-date-popup--years"]';
 
 SingleDateScrollYearsTest.parameters = {
   screenshots: {

@@ -77,7 +77,7 @@ export default function MonthNames(props: MonthsProps) {
   }
 
   return (
-    <div className={styles.monthNames}>
+    <div className={styles.monthNames} data-test='ring-date-popup--month-names'>
       {monthsIndices.map(monthIndex => (
         <MonthName
           key={monthIndex}
