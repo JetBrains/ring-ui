@@ -38,8 +38,11 @@ export function useIntersectionObserver(containerRef: RefObject<HTMLElement | nu
       },
     });
 
-    return () => observer.disconnect();
-  }, [containerRef]);
+    return () => {
+      observer.disconnect();
+      setHandle(null);
+    };
+  }, [containerRef, scrollMargin]);
 
   return handle;
 }

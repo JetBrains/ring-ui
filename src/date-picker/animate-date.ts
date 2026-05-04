@@ -1,3 +1,5 @@
+import {dateAnimationDuration} from './consts';
+
 // Animate via an ascending fragment of a sine wave
 
 // eslint-disable-next-line prettier/prettier, no-magic-numbers
@@ -10,8 +12,7 @@ export function animateDate(
   initial: number | Date,
   target: number | Date,
   onUpdate: (date: Date) => void,
-  // eslint-disable-next-line no-magic-numbers
-  durationMs = 120,
+  durationMs = dateAnimationDuration,
 ) {
   let requestId: number | null = null;
   const startTime = performance.now();

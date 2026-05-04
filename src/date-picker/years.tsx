@@ -8,7 +8,12 @@ import {isThisYear} from 'date-fns/isThisYear';
 import {setYear} from 'date-fns/setYear';
 import {startOfYear} from 'date-fns/startOfYear';
 
-import units, {type ScrollDate, type CalendarProps} from './consts';
+import units, {
+  type ScrollDate,
+  type CalendarProps,
+  calendarSyncOnYearScrollUpdateDelay,
+  yearsAnimationDuration,
+} from './consts';
 import {ScrollArith} from './scroll-arith';
 import {useScrollBehavior} from './use-scroll-behavior';
 import {animateDate} from './animate-date';
@@ -20,17 +25,13 @@ import styles from './date-picker.css';
 const {yearHeight} = units;
 
 const scrollArith = new ScrollArith({
-  itemsAround: 50,
+  itemsAround: 100,
   floorToItem: startOfYear,
   shiftItems: addYears,
   getItemHeight: () => yearHeight,
 });
 
 const scheduleScroll = scheduleRAF();
-
-const CALENDAR_SYNC_DELAY = 100;
-
-const YEAR_ANIMATION_DURATION = 180;
 
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
@@ -58,9 +59,9 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
               source: 'other',
             });
           },
-          YEAR_ANIMATION_DURATION,
+          yearsAnimationDuration,
         );
-      }, CALENDAR_SYNC_DELAY);
+      }, calendarSyncOnYearScrollUpdateDelay);
 
       syncCleanupRef.current = () => {
         if (timerId != null) {
@@ -119,7 +120,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
             source: 'other',
           });
         },
-        YEAR_ANIMATION_DURATION,
+        yearsAnimationDuration,
       );
     },
     [localScrollDate.date, setScrollDate],

@@ -19,7 +19,7 @@ const scrollArith = new ScrollArith({
   itemsAround: 60,
   floorToItem: startOfMonth,
   shiftItems: addMonths,
-  getItemHeight: (item, _i, locale) => getMonthHeightWithMargin(item, locale),
+  getItemHeight: (item, locale) => getMonthHeightWithMargin(item, locale),
 });
 
 const scheduleScroll = scheduleRAF();
