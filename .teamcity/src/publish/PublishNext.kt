@@ -117,7 +117,7 @@ object PublishNext : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-      dockerImage = "node:22"
+      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22"
       dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
       dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
     }

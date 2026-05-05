@@ -46,7 +46,7 @@ object UnpublishSpecificVersion : BuildType({
 
                 npm unpublish %env.PACKAGE_NAME%@%env.PACKAGE_VERSION%
             """.trimIndent()
-      dockerImage = "node:22"
+      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22"
     }
   }
 
