@@ -340,7 +340,7 @@ SingleDateScrollMonthsTest.parameters = {
       {type: 'click', selector: '[data-test-ring-dropdown-anchor]'},
       {type: 'waitForElementToShow', selector: monthsScrollerSelector},
       {type: 'scroll', selector: monthsScrollerSelector, x: 0, y: -8900},
-      {type: 'wait', delay: 100},
+      {type: 'wait', delay: 300},
       {
         type: 'capture',
         name: 'light',
