@@ -109,7 +109,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-      dockerImage = "node:22"
+      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22"
       dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
     }
     stepsOrder = arrayListOf("RUNNER_1461")

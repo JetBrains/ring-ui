@@ -41,6 +41,7 @@ object Project : Project({
     )
     param("github.com.builduser.name", "JetBrains Ring UI Automation")
     param("env.GIT_LFS_SKIP_SMUDGE", "true")
+    param("teamcity.internal.docker.busybox", "registry.jetbrains.team/p/ij/docker-hub/busybox")
   }
 
   features {
