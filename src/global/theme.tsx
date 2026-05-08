@@ -25,16 +25,16 @@ export const ThemeContext = createContext<{theme: Theme.LIGHT | Theme.DARK; pass
 
 export const GLOBAL_DARK_CLASS_NAME = 'ring-ui-theme-dark';
 
-const darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
+const darkMatcher = typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)') : undefined;
 
 export function useTheme() {
-  const [dark, setDark] = useState(darkMatcher.matches);
+  const [dark, setDark] = useState(darkMatcher?.matches ?? false);
 
   useEffect(() => {
     const onChange = (e: MediaQueryListEvent) => setDark(e.matches);
-    darkMatcher.addEventListener('change', onChange);
+    darkMatcher!.addEventListener('change', onChange);
 
-    return () => darkMatcher.removeEventListener('change', onChange);
+    return () => darkMatcher!.removeEventListener('change', onChange);
   }, []);
 
   return dark ? Theme.DARK : Theme.LIGHT;

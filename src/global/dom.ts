@@ -6,7 +6,7 @@ import {type SyntheticEvent} from 'react';
 
 import type {PropertiesHyphen} from 'csstype';
 
-export const getStyles = window.getComputedStyle.bind(window);
+export const getStyles: typeof window.getComputedStyle = (...args) => window.getComputedStyle(...args);
 
 export function isMounted(node: Node | Range | null | undefined) {
   if (node === document) {
