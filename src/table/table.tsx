@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import {arrayMove, List} from 'react-movable';
 import {type OnChangeMeta, type RenderItemParams, type RenderListParams} from 'react-movable/lib/types';
 
+import dataTests from '../global/data-tests';
 import focusSensorHOC, {type FocusSensorAddProps, type FocusSensorProps} from '../global/focus-sensor-hoc';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
@@ -69,6 +70,7 @@ export interface TableProps<T extends object>
   renderEmpty?: (() => ReactNode) | null | undefined;
   RowComponent: typeof Row;
   renderLoader?: ((loaderClassName?: string) => ReactNode) | null | undefined;
+  'data-test'?: string | null | undefined;
 }
 /**
  * Interactive table with selection and keyboard navigation support.
@@ -219,6 +221,7 @@ export class Table<T extends object> extends PureComponent<TableProps<T>> {
       renderEmpty,
       RowComponent,
       renderLoader,
+      'data-test': dataTest,
     } = this.props;
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
@@ -263,9 +266,9 @@ export class Table<T extends object> extends PureComponent<TableProps<T>> {
       );
       const tbody = Array.isArray(children) && children.length > 0 ? children : empty;
       return (
-        <table className={classes} data-test='ring-table'>
+        <table className={classes} data-test={dataTests('ring-table', dataTest)}>
           <Header {...headerProps} />
-          <tbody {...props} data-test='ring-table-body'>
+          <tbody {...props} data-test={dataTests('ring-table-body', dataTest)}>
             {tbody}
           </tbody>
         </table>
@@ -321,7 +324,7 @@ export class Table<T extends object> extends PureComponent<TableProps<T>> {
     };
 
     return (
-      <div className={wrapperClasses} data-test='ring-table-wrapper' ref={this.props.innerRef}>
+      <div className={wrapperClasses} data-test={dataTests('ring-table-wrapper', dataTest)} ref={this.props.innerRef}>
         {focused && <Shortcuts map={this.props.shortcutsMap} scope={this.state.shortcutsScope} />}
 
         {/* Handler detects that user holds Shift key */}
