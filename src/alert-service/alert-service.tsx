@@ -20,8 +20,8 @@ export class AlertService {
   defaultTimeout = DEFAULT_ALERT_TIMEOUT;
   // This alerts are stored in inverse order (last shown is first in array)
   showingAlerts: AlertItem[] = [];
-  containerElement = document.createElement('div');
-  reactRoot = createRoot(this.containerElement);
+  containerElement = typeof document !== 'undefined' ? document.createElement('div') : undefined;
+  reactRoot = this.containerElement && createRoot(this.containerElement);
 
   _getShowingAlerts() {
     return [...this.showingAlerts];
@@ -50,7 +50,7 @@ export class AlertService {
    * Renders alert container into virtual node to skip maintaining container
    */
   renderAlerts() {
-    this.reactRoot.render(this.renderAlertContainer(this.showingAlerts));
+    this.reactRoot!.render(this.renderAlertContainer(this.showingAlerts));
   }
 
   findSameAlert(message: ReactNode, type: AlertType | undefined) {
