@@ -155,7 +155,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-storybook": "^10.3.6",
-    "eslint-plugin-unicorn": "^63.0.0",
+    "eslint-plugin-unicorn": "^64.0.0",
     "events": "^3.3.0",
     "glob": "^13.0.6",
     "globals": "^17.6.0",
