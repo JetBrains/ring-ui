@@ -6,6 +6,7 @@ import Contributing from '../CONTRIBUTING.md';
 import Changelog from '../CHANGELOG.md';
 import Markdown from './markdown/markdown';
 import License from 'raw-loader!../LICENSE.txt';
+import {hideAddonsPanelParam} from './util-stories';
 
 import highlightStyles from './code/highlight.css';
 
@@ -25,7 +26,10 @@ export default {
 
   parameters: {
     screenshots: {skip: true},
+    [hideAddonsPanelParam]: true,
   },
+
+  tags: ['!autodocs'],
 };
 
 export const gettingStarted = () => {
