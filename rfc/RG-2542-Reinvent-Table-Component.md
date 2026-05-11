@@ -47,7 +47,7 @@ We currently have four table components in the `src/table` folder:
 - `Multitable` in `multitable.tsx`
 - `Smart Table` in `smart-table.tsx`
 
-The current `src/table` folder will be renamed to `src/legacy-table`. This is a breaking change. To keep using legacy tables, users will need to update imports to `... from '@jetbrains/ring-ui-built/legacy-table'`.
+The current `src/table` folder will be renamed to `src/legacy-table`. This is a breaking change. To keep using legacy tables, users will need to update imports to `... from '@jetbrains/ring-ui-built/components/legacy-table/...'`.
 
 Storybook stories will also be regrouped.
 
@@ -55,20 +55,24 @@ Current structure:
 
 - Components
   - Table
-    - Table
-    - Multitable
+    - basic (Table)
+    - multi table
+    - ...
   - Simple Table
-    - Simple Table
+    - basic
+    - ...
 
 New structure:
 
 - Components
   - Legacy Table
     - Table
-      - Table
-      - Multitable
+      - basic (Table)
+      - multi table
+      - ...
     - Simple Table
-      - Simple Table
+      - basic
+      - ...
 
 The new table will be placed in `src/table` and exposed in the `Table` section in Storybook. In other words, it will replace old tables in both import structure and Storybook presentation.
 
@@ -91,8 +95,8 @@ We may switch to an in-house implementation if these libraries require too much 
 
 ## Migration, Versioning, and Early Access
 
-Development will happen in a separate branch with version `2.0.0-beta.0`. Publishing will use the TeamCity `Publish@next` configuration, which automatically increments the last version segment (for example, `2.0.0-beta.0` -> `2.0.0-beta.1`).
+Development will happen in a separate branch with version `8.0.0-beta.0`. Publishing will use the TeamCity `Publish@next` configuration, which automatically increments the last version segment (for example, `8.0.0-beta.0` -> `8.0.0-beta.1`).
 
 The change is expected to be merged into `master` only when the full feature set is implemented and the component is production-ready. Partial implementations are not expected to be merged.
 
-Before the merge, the version will be manually set to `2.0.1`. Clients will need to update dependencies to `^2.0.1` and may need to update table usage sites.
+Before the merge, the version will be manually set to `8.0.1`. Clients will need to update dependencies to `^8.0.1` and may need to update table usage sites.
