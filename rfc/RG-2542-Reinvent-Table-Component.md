@@ -23,12 +23,16 @@ A new, powerful table component in Ring UI will reduce that burden and help prov
 
 The current design is available in [this Figma file](https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI?node-id=11508-8730&p=f&m=dev).
 
-### Discoverability
+### Column Controls Discoverability
 
-Table interactions must be discoverable on both desktop and mobile devices. For example, for column reordering:
+Column interactions, such as column reordering, must be discoverable on both desktop and mobile devices.
 
-- On desktop (where hover is available), show a drag-and-drop handle on hover and change the column header background.
-- On mobile (where hover is unavailable), show the drag-and-drop handle on tap.
+- On desktop (where hover is available), a drag-and-drop handle must be shown on hover.
+- On mobile (where hover is unavailable), there will be a gear button in the top-right corner, which will reveal the drag-and-drop handles for columns. However, column reordering must also be available without tapping the gear button. Showing the gear button must be configurable.
+
+### Row Expansion
+
+Nested rows are displayed by adding padding to the left of a column content. Which column receives the padding should be configurable, with a reasonable default such as the first semantic column, that is, the first column which is not a control or an icon.
 
 ### Breaking Changes
 
