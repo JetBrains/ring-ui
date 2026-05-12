@@ -48,8 +48,6 @@ export const SingleDate: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-SingleDate.storyName = 'single date';
-
 export const SingleDateAndTime: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('8 January 2018, 9:45');
 
@@ -73,7 +71,7 @@ SingleDateAndTime.parameters = {
   },
 };
 
-SingleDateAndTime.storyName = 'single date and time';
+SingleDateAndTime.storyName = 'Single Date and Time';
 
 export const Range: StoryFn<DatePickerAttrs> = args => {
   const [{from, to}, setRange] = useState<{
@@ -93,8 +91,6 @@ export const Range: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-Range.storyName = 'range';
-
 export const Clearable: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
 
@@ -104,8 +100,6 @@ export const Clearable: StoryFn<DatePickerAttrs> = args => {
     </div>
   );
 };
-
-Clearable.storyName = 'clearable';
 
 export const SingleWithMinMax: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('01.02.18');
@@ -117,7 +111,7 @@ export const SingleWithMinMax: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-SingleWithMinMax.storyName = 'single with min-max dates';
+SingleWithMinMax.storyName = 'Single With Min-Max Dates';
 
 export const SingleWithMin: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('01.02.18');
@@ -129,7 +123,9 @@ export const SingleWithMin: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-SingleWithMin.storyName = 'single with min date';
+SingleWithMin.storyName = 'Single With Min Date';
+
+SingleWithMin.tags = ['!autodocs'];
 
 export const SingleWithMax: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('01.02.18');
@@ -141,7 +137,9 @@ export const SingleWithMax: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-SingleWithMax.storyName = 'single with max date';
+SingleWithMax.storyName = 'Single With Max Date';
+
+SingleWithMax.tags = ['!autodocs'];
 
 export const RangeWithMinMax: StoryFn<DatePickerAttrs> = args => {
   const [{from, to}, setRange] = useState<{
@@ -170,7 +168,7 @@ export const RangeWithMinMax: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-RangeWithMinMax.storyName = 'range with min-max dates';
+RangeWithMinMax.storyName = 'Range With Min-Max Dates';
 
 export const RangeWithMin: StoryFn<DatePickerAttrs> = args => {
   const [{from, to}, setRange] = useState<{
@@ -190,7 +188,9 @@ export const RangeWithMin: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-RangeWithMin.storyName = 'range with min date';
+RangeWithMin.storyName = 'Range With Min Date';
+
+RangeWithMin.tags = ['!autodocs'];
 
 export const RangeWithMax: StoryFn<DatePickerAttrs> = args => {
   const [{from, to}, setRange] = useState<{
@@ -210,7 +210,9 @@ export const RangeWithMax: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-RangeWithMax.storyName = 'range with max date';
+RangeWithMax.storyName = 'Range With Max Date';
+
+RangeWithMax.tags = ['!autodocs'];
 
 export const RangeWithCustomPlaceholders: StoryFn<DatePickerAttrs> = args => {
   const [{from, to}, setRange] = useState<{
@@ -240,7 +242,7 @@ export const RangeWithCustomPlaceholders: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-RangeWithCustomPlaceholders.storyName = 'range with customized placeholders';
+RangeWithCustomPlaceholders.storyName = 'Range With Customized Placeholders';
 
 RangeWithCustomPlaceholders.parameters = {
   screenshots: {skip: true},
@@ -264,7 +266,7 @@ RenderInline.parameters = {
   screenshots: {skip: true},
 };
 
-RenderInline.storyName = 'inline';
+RenderInline.storyName = 'Inline';
 
 export const AllSizes = () => {
   const [date, setDate] = useState<Date | string | null | undefined>('8 January 2018, 9:45');
@@ -291,7 +293,6 @@ export const AllSizes = () => {
   );
 };
 
-AllSizes.storyName = 'all sizes';
 AllSizes.parameters = {
   storyStyles: `
 <style>
@@ -318,7 +319,7 @@ export const StartsFromSunday: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-StartsFromSunday.storyName = 'starts on Sunday';
+StartsFromSunday.storyName = 'Starts on Sunday';
 
 export const SingleDateScrollMonthsTest: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
@@ -330,7 +331,7 @@ export const SingleDateScrollMonthsTest: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-SingleDateScrollMonthsTest.storyName = 'single date (scroll months test)';
+SingleDateScrollMonthsTest.storyName = 'Single Date (scroll months test)';
 
 const monthsScrollerSelector = '[data-test="ring-date-popup--months"]';
 
@@ -350,6 +351,8 @@ SingleDateScrollMonthsTest.parameters = {
   },
 };
 
+SingleDateScrollMonthsTest.tags = ['!autodocs'];
+
 export const SingleDateMonthClickTest: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
 
@@ -360,7 +363,7 @@ export const SingleDateMonthClickTest: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-SingleDateMonthClickTest.storyName = 'single date (month click test)';
+SingleDateMonthClickTest.storyName = 'Single Date (month click test)';
 
 const octoberSelector = '[data-test="ring-date-popup--month-names"] > button:nth-child(10)';
 
@@ -380,6 +383,8 @@ SingleDateMonthClickTest.parameters = {
   },
 };
 
+SingleDateMonthClickTest.tags = ['!autodocs'];
+
 export const SingleDateScrollYearsTest: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
 
@@ -390,7 +395,7 @@ export const SingleDateScrollYearsTest: StoryFn<DatePickerAttrs> = args => {
   );
 };
 
-SingleDateScrollYearsTest.storyName = 'single date (scroll years test)';
+SingleDateScrollYearsTest.storyName = 'Single Date (scroll years test)';
 
 const yearsScrollerSelector = '[data-test="ring-date-popup--years"]';
 
@@ -409,3 +414,5 @@ SingleDateScrollYearsTest.parameters = {
     ],
   },
 };
+
+SingleDateScrollYearsTest.tags = ['!autodocs'];
