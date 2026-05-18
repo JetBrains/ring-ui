@@ -65,8 +65,244 @@ The table should handle thousands of rows without issues, so rows must be virtua
 
 ### API Design
 
+The table doesn't have any data-related state. It works like a React "controlled component":
+
+- The client owns and provides the state, including data, selection, sorting, and column order.
+- The client registers callbacks to react to user interactions, such as selecting rows or sorting columns. These callbacks are expected to update the `data`, e.g., by actually reordering or selecting rows.
+
 ```typescript
-// WIP
+type TableProps<T> = {
+  data: T[]
+  columns: Column<T>[]
+  getKey: (item: T, index: number) => React.Key
+
+  isItemSelected?: (item: T, index: number) => boolean
+  getItemLevel?: (item: T, index: number) => number
+
+  /**
+   * Called when a `pointerup` event is handled at row level,
+   * and the event target is not an active element, such as
+   * `button`, `a`, `input`, or `select` elements.
+   * The client may react by selecting or expanding the row.
+   */
+  onRowClick?: (e: PointerEvent, item: T, index: number) => void
+
+  /**
+   * The client is expected to update `items`
+   */
+  onRowMove?: (item: T, fromIndex: number, toIndex: number) => void
+
+  /**
+   * The client is expected to update `columns[i].sortDirection`
+   * and sort `items`
+   */
+  onSort?: (columnIndex: number, direction: SortDirection) => void
+
+  /**
+   * The client is expected to update `columns`
+   */
+  onColumnDelete?: (columnIndex: number) => void
+
+  /**
+   * The client is expected to update `columns`
+   */
+  onColumnMove?: (fromIndex: number, toIndex: number) => void
+
+  tableClassName?: string
+  theadClassName?: string
+  theadTrClassName?: string
+  tbodyClassName?: string
+  tbodyTrClassName?: string | (item: T, index: number) => string
+}
+
+type SortDirection = 'asc' | 'desc' | undefined
+
+type Column<T> = {
+  key: React.Key
+  /**
+   * If not set: String(key)
+   */
+  getHeaderValue?: string | (() => React.ReactNode)
+  /**
+   * If not set: String((item as unknown[])[columnIndex])
+   */
+  getValue?: (item: T, index: number) => string | React.ReactNode
+
+  /**
+   * If the column gets an indent when `TableProps.getItemLevel()` returns
+   * a positive number.
+   */
+  indent?: boolean
+
+  sortable?: boolean
+  sortDirection?: SortDirection
+
+  thClassName?: string
+  tdClassName?: string | (item: T, index: number) => string
+}
+```
+
+#### Example 1: Row Selection via Checkbox or Row Click
+
+This example allows selecting a row either by a checkbox or by clicking on the row.
+
+```tsx
+const [data, setData] = useState<[checked: boolean, city: string][]>(
+  [
+    [false, 'Amsterdam'],
+    [false, 'Berlin'],
+    [false, 'Limassol'],
+    [false, 'Prague'],
+  ]
+)
+
+return (
+  <Table
+    data={data}
+    isItemSelected={item => item[0]}
+    columns={[
+      {
+        key: 'Check',
+        getValue: (item, index) => (
+          <input
+            type="checkbox"
+            checked={item[0]}
+            onChange={
+              e => setData(data.with(index, [e.target.checked, item[1]]))
+            }
+          />
+        )
+      },
+      {
+        key: 'City',
+      }
+    ]}
+    onRowClick={(e, item, index) => {
+      setData(data.with(index, [!item[0], item[1]]))
+    }}
+  />
+)
+```
+
+#### Example 2: Row Expansion
+
+The data is provided as a flat list. The client is responsible for converting a tree or nested structure into a flat list.
+
+```tsx
+type Item = [level: number, place: string]
+
+const [data, setData] = useState<Item[]>(
+  [
+    [0, 'Germany'],
+    [0, 'Netherlands'],
+  ]
+)
+
+function isExpanded(items: Item[], index: number): boolean {
+  const currentLevel = items[index][0]
+  const nextItem = items[index + 1]
+  if (!nextItem) return false
+
+  return nextItem[0] > currentLevel
+}
+
+function insertNested(items: Item[], index: number, places: string[]): Item[] {
+  const currentLevel = items[index][0]
+  const nestedItems = places.map(place => [currentLevel + 1, place])
+
+  const beforeAndCurrent = items.slice(0, index + 1)
+  const after = items.slice(index + 1)
+
+  return [...beforeAndCurrent, ...nestedItems, ...after]
+}
+
+function removeNested(items: Item[], index: number): Item[] {
+  const currentLevel = items[index][0]
+  let firstNonNestedIndex = index + 1
+
+  while (
+    firstNonNestedIndex < items.length &&
+    items[firstNonNestedIndex][0] > currentLevel
+  ) {
+    firstNonNestedIndex++
+  }
+
+  const beforeAndCurrent = items.slice(0, index + 1)
+  const afterNested = items.slice(firstNonNestedIndex)
+
+  return [...beforeAndCurrent, ...afterNested]
+}
+
+return (
+  <Table
+    data={data}
+    getItemLevel={item => item[0]}
+    columns={[
+      {
+        key: 'Place',
+        getValue: item => item[1],
+        indent: true,
+      }
+    ]}
+    onRowClick={(e, item, index) => {
+      if (isExpanded(data, index)) {
+        setData(removeNested(data, index))
+      } else {
+        const place = item[1]
+        const nestedPlaces = place === 'Germany' ? ['Berlin', 'Munich']
+          : place === 'Netherlands' ? ['Amsterdam', 'Hague']
+          : place === 'Berlin' ? ['Mitte', 'Kreuzberg']
+          : place === 'Munich' ? ['Altstadt', 'Schwabing']
+          : place === 'Amsterdam' ? ['Centrum', 'Zuid']
+          : place === 'Hague' ? ['Centrum', 'Scheveningen']
+          : []
+        setData(insertNested(data, index, nestedPlaces))
+      }
+    }}
+  />
+)
+```
+
+#### Example 3: Sorting
+
+The Table component allows sorting by one or several columns. The "sorted" indicator is displayed based on `Column.sortDirection`, regardless of whether the `data` is actually sorted. When the user requests sorting by clicking a column header, the client decides whether the new sorting column is added to the sorting criteria or replaces the previous one.
+
+```tsx
+type Item = [issueId: string, votes: number]
+
+const [data, setData] = useState<Item[]>([])
+const [columns, setColumns] = useState<Column<Item>[]>([
+  {
+    key: 'Issue ID',
+    sortable: true,
+  },
+  {
+    key: 'Votes',
+    sortable: true,
+  }
+])
+
+useEffect(async () => {
+  setData(await fetchIssues({
+    orderBy: columns.map(column => ({
+      key: column.key,
+      direction: column.sortDirection
+    }))
+  }))
+}, [columns])
+
+return (
+  <Table
+    data={data}
+    columns={columns}
+    onSort={(columnIndex, direction) => {
+      setColumns(columns.with(columnIndex, {
+        ...columns[columnIndex],
+        sortDirection: direction
+      }))
+    }}
+  />
+)
 ```
 
 ### Legacy Table Migration
