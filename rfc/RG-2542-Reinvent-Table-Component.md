@@ -113,6 +113,12 @@ type TableProps<T> = {
   theadTrClassName?: string
   tbodyClassName?: string
   tbodyTrClassName?: string | (item: T, index: number) => string
+
+  /**
+   * Whether to show a small gear button at the top right corner.
+   * See the "Column Controls Discoverability" section above.
+   */
+  columnEditButton?: 'everywhere' | 'mobileOnly'
 }
 
 type SortDirection = 'asc' | 'desc' | undefined
