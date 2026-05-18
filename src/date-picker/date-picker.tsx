@@ -68,11 +68,29 @@ export interface DatePickerTranslations extends Partial<DateInputTranslations> {
 }
 
 export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateInput' | 'onComplete' | 'hidden'> & {
+  /**
+   * Class name added to the root element of the control that activates the popup.
+   */
   className: string;
+  /**
+   * Adds a "Clear" button to the popup, which resets `date` (or `from` and `to`) to `null` when clicked.
+   */
   clear: boolean;
+  /**
+   * Displays the popup trigger as text, similar to a link, instead of a button.
+   */
   inline: boolean;
+  /**
+   * Class name added to the root element of the popup.
+   */
   popupClassName?: string | null | undefined;
+  /**
+   * Additional props for the Dropdown component. See **Components/Dropdown**.
+   */
   dropdownProps?: Partial<DropdownAttrs>;
+  /**
+   * Object with custom popup text values.
+   */
   translations?: DatePickerTranslations | null | undefined;
   displayMonthFormat: (date: Date, locale: Locale | undefined) => string;
   displayDayFormat: (date: Date, locale: Locale | undefined) => string;
@@ -83,14 +101,42 @@ export type DatePickerProps = Omit<DatePopupProps, 'translations' | 'parseDateIn
   rangePlaceholder?: string;
   disabled?: boolean | null | undefined;
   parseDateInput: (input: string | null | undefined) => Date | null;
+  /**
+   * Horizontal size of the popup trigger control. Only applies when `inline` is `false`.
+   */
   size?: Size;
   buttonAttributes?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>;
 };
 
 /**
- * @name Date Picker
+ * Date Picker lets users select a date, a date and time, or a date range.
+ * In the simplest mode, with a single unbounded date, the component needs only two props:
+ *
+ * - `date` to set the current date, and
+ * - `onChange` to be invoked when the user selects the date.
+ *
+ * To limit the selected date, use one or both of the following props:
+ *
+ * - `minDate`
+ * - `maxDate`
+ *
+ * To enable time input, use the `withTime` prop.
+ *
+ * To enable range selection, use the `range` prop. In this mode, use the following props
+ * instead of `date`:
+ *
+ * - `from`
+ * - `to`
+ *
+ * By default, the control that activates the popup is rendered as a button. If you want
+ * text instead, similar to a link, use the `inline` prop.
+ *
+ * The component supports internationalization. For example, in the `en-US` locale,
+ * the calendar starts on Sunday.
+ *
+ * There are also multiple ways to provide custom text and placeholders. See the props
+ * interfaces for details.
  */
-
 export default class DatePicker extends PureComponent<DatePickerProps> {
   static defaultProps: DatePickerProps = {
     className: '',
