@@ -76,14 +76,30 @@ type TableProps<T> = {
   columns: Column<T>[]
   getKey: (item: T, index: number) => React.Key
 
-  isItemSelected?: (item: T, index: number) => boolean
   getItemLevel?: (item: T, index: number) => number
+
+  /**
+   * We reuse the existing `Selection` class. It is an isolated class,
+   * not coupled to table props, and it clones itself on change.
+   * It is intended to be stored on the client.
+   * So it nicely fits the design.
+   */
+  selection?: Selection
+
+  /**
+    * Called when the selection (including focus) changes.
+   */
+  onSelect?: (newSelection: Selection) => void
 
   /**
    * Called when a `pointerup` event is handled at row level,
    * and the event target is not an active element, such as
    * `button`, `a`, `input`, or `select` elements.
    * The client may react by selecting or expanding the row.
+   *
+   * Open question: should the table component decide instead
+   * whether a row should be selected or expanded and use,
+   * for example,`selection` and `onSelect`?
    */
   onRowClick?: (e: PointerEvent, item: T, index: number) => void
 
@@ -153,29 +169,33 @@ type Column<T> = {
 This example allows selecting a row either by a checkbox or by clicking on the row.
 
 ```tsx
-const [data, setData] = useState<[checked: boolean, city: string][]>(
+const [data, setData] = useState(
   [
-    [false, 'Amsterdam'],
-    [false, 'Berlin'],
-    [false, 'Limassol'],
-    [false, 'Prague'],
+    'Amsterdam',
+    'Berlin',
+    'Limassol',
+    'Prague',
   ]
 )
+
+const [selection, setSelection] = useState(() => new Selection({data}))
 
 return (
   <Table
     data={data}
-    isItemSelected={item => item[0]}
+    selection={selection}
     columns={[
       {
         key: 'Check',
-        getValue: (item, index) => (
+        getValue: item => (
           <input
             type="checkbox"
-            checked={item[0]}
-            onChange={
-              e => setData(data.with(index, [e.target.checked, item[1]]))
-            }
+            checked={selection.isSelected(item)}
+            onChange={e => setSelection(
+              e.target.checked
+                ? selection.select(item)
+                : selection.deselect(item)
+            )}
           />
         )
       },
@@ -183,8 +203,8 @@ return (
         key: 'City',
       }
     ]}
-    onRowClick={(e, item, index) => {
-      setData(data.with(index, [!item[0], item[1]]))
+    onRowClick={(e, item) => {
+      setSelection(selection.toggleSelection(item))
     }}
   />
 )
