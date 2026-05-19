@@ -79,14 +79,22 @@ type TableProps<T> = {
   getItemLevel?: (item: T, index: number) => number
 
   /**
-   * Custom row renderer which is expected to return a React fragment
-   * of `<td>` elements or a single `<td>`. The returned value will be
-   * wrapped in a `<tr>`.
+   * Custom renderer for a data item.
    *
-   * If provided, it completely overrides the column renderers.
-   * However, the client may use StandardRowRenderer to fall back to them.
+   * Expected to return one or more rows. If provided, completely
+   * overrides standard column-based rendering.
+   *
+   * Use `TableRow` and `TableCell` components to apply standard classnames.
+   * Beware that data-dependent classnames, namely `tbodyTrClassName` and `tdClassName`,
+   * will not be applied; the client is expected to add them explicitly.
+   *
+   * The implementation may use `StandardRowRenderer` to fall back to default behavior.
+   * It's also okay to render several rows, one of which uses `StandardRowRenderer`,
+   * other being custom.
+   *
+   * @see StandardRowRendererProps
    */
-  getRowValue?: (item: T, index: number) => React.ReactNode | null
+  renderItem?: (item: T, index: number) => React.ReactNode
 
   /**
    * We reuse the existing `Selection` class. It is an isolated class,
@@ -109,7 +117,7 @@ type TableProps<T> = {
    *
    * Open question: should the table component decide instead
    * whether a row should be selected or expanded and use,
-   * for example,`selection` and `onSelect`?
+   * for example, `selection` and `onSelect`?
    */
   onRowClick?: (e: PointerEvent, item: T, index: number) => void
 
@@ -138,7 +146,7 @@ type TableProps<T> = {
   theadClassName?: string
   theadTrClassName?: string
   tbodyClassName?: string
-  tbodyTrClassName?: string | (item: T, index: number) => string
+  tbodyTrClassName?: string | ((item: T, index: number) => string)
 
   /**
    * Whether to show a small gear button at the top right corner.
@@ -151,14 +159,17 @@ type SortDirection = 'asc' | 'desc' | undefined
 
 type Column<T> = {
   key: React.Key
+
   /**
-   * If not set: String(key)
+   * Default: String(key)
    */
-  getHeaderValue?: string | (() => React.ReactNode)
+  renderHeader?: () => React.ReactNode
+
   /**
-   * If not set: String((item as unknown[])[columnIndex])
+   * Renders a single cell value for a column.
+   * Default: String((item as unknown[])[columnIndex])
    */
-  getValue?: (item: T, index: number) => string | React.ReactNode
+  renderCell?: (item: T, index: number) => React.ReactNode
 
   /**
    * If the column gets an indent when `TableProps.getItemLevel()` returns
@@ -170,7 +181,20 @@ type Column<T> = {
   sortDirection?: SortDirection
 
   thClassName?: string
-  tdClassName?: string | (item: T, index: number) => string
+  tdClassName?: string | ((item: T, index: number) => string)
+}
+
+/**
+ * Use it as a fallback in `renderItem`. It renders a single row with cells based on
+ * `columns`, and applies all relevant classnames, including data-dependent ones,
+ * namely `tbodyTrClassName` and `tdClassName`.
+ *
+ * The component props are only item-scoped. Table-scoped props are passed via
+ * React context.
+ */
+type StandardRowRendererProps<T> = {
+  item: T
+  index: number
 }
 ```
 
@@ -197,7 +221,7 @@ return (
     columns={[
       {
         key: 'Check',
-        getValue: item => (
+        renderCell: item => (
           <input
             type="checkbox"
             checked={selection.isSelected(item)}
@@ -211,7 +235,7 @@ return (
       },
       {
         key: 'City',
-        getValue: item => item,
+        renderCell: item => item,
       }
     ]}
     onRowClick={(e, item) => {
@@ -277,7 +301,7 @@ return (
     columns={[
       {
         key: 'Place',
-        getValue: item => item[1],
+        renderCell: item => item[1],
         indent: true,
       }
     ]}
@@ -344,27 +368,28 @@ return (
 
 #### Example 4: Row Details Section
 
-This is the TeamCity case: when a row is clicked (or a chevron button is used), a details section is shown below that row. From the table's perspective, this is just an extra `item` with a custom row renderer that returns a full-width cell. The client is responsible for building a flat array from a nested structure and keeping related items adjacent when sorting.
+This is the TeamCity case: when a row is clicked (or a chevron button is used), a details section is shown below that row. From the table's perspective, it is the same `item` that renders two rows: one standard row and one extra row via the custom renderer.
 
 ```tsx
-type Item = Summary | Details
-type Summary = {kind: 'summary', id: number, status: string}
-type Details = {kind: 'details', id: number, detailsText: string}
-
-const [data, setData] = useState<Item[]>(
+const [data, setData] = useState(
   [
-    {kind: 'summary', id: 1624, status: 'Success'},
-    {kind: 'summary', id: 1625, status: 'Failed'},
+    {id: 1624, status: 'Success', details: undefined},
+    {id: 1625, status: 'Failed', details: undefined},
   ]
 )
 
-async function toggleDetails(id: number, index: number) {
-  const indexOfDetails = data.findIndex(item => item.kind === 'details' && item.id === id)
-  if (indexOfDetails >= 0) {
-    setData([...data.slice(0, indexOfDetails), ...data.slice(indexOfDetails + 1)])
+async function toggleDetails(index: number) {
+  if (data[index].details) {
+    setData(data.with(index, {
+      ...data[index],
+      details: undefined,
+    }))
   } else {
-    const details: Details = await fetchDetails(id)
-    setData([...data.slice(0, index + 1), details, ...data.slice(index + 1)])
+    const details: string = await fetchDetails(data[index].id)
+    setData(data.with(index, {
+      ...data[index],
+      details,
+    }))
   }
 }
 
@@ -374,28 +399,30 @@ return (
     columns={[
       {
         key: 'ID',
-        getValue: item => item.id,
+        renderCell: item => item.id,
       },
       {
         key: 'Result',
-        getValue: item => (item as Summary).status,
+        renderCell: item => item.status,
       },
     ]}
-    getRowValue={(item, index) => {
-      return item.kind === 'details'
-        ? <td colSpan={2}>{item.detailsText}</td>
-        : <StandardRowRenderer item={item} index={index} />
+    renderItem={(item, index) => {
+      const {details} = item
+      return (
+        <>
+          <StandardRowRenderer item={item} index={index} />
+          {details && (
+            <TableRow className='build-details'>
+              <TableCell colSpan={2}>{details}</TableCell>
+            </TableRow>
+          )}
+        </>
+      )
     }}
     onRowClick={(e, item, index) => {
-      toggleDetails(item.id, index)
+      toggleDetails(index)
     }}
-    tbodyTrClassName={(item, index) => {
-      if (item.kind === 'summary' && data[index + 1]?.kind === 'details') {
-        return 'expanded-summary-row'
-      } else if (item.kind === 'details') {
-        return 'details-row'
-      }
-    }}
+    tbodyTrClassName={item => item.details ? 'build-expanded' : undefined}
   />
 )
 ```
