@@ -79,6 +79,14 @@ type TableProps<T> = {
   getItemLevel?: (item: T, index: number) => number
 
   /**
+   * Custom row renderer which is expected to return a React fragment
+   * of `<td>` elements. The component will wrap them inside a `<tr>`.
+   * If provided, it completely overrides the column renderers.
+   * However, the client may use StandardRowRenderer to fall back to them.
+   */
+  getRowValue?: (item: T, index: number) => React.ReactNode | null
+
+  /**
    * We reuse the existing `Selection` class. It is an isolated class,
    * not coupled to table props, and it clones itself on change.
    * It is intended to be stored on the client.
@@ -326,6 +334,64 @@ return (
         ...columns[columnIndex],
         sortDirection: direction
       }))
+    }}
+  />
+)
+```
+
+#### Example 4: Row Details Section
+
+This is the TeamCity case: when a row is clicked (or a chevron button is used), a details section is shown below that row. From the table's perspective, this is just an extra `item` with a custom row renderer that returns a full-width cell. The client is responsible for building a flat array from a nested structure and keeping related items adjacent when sorting.
+
+```tsx
+type Item = Summary | Details
+type Summary = {kind: 'summary', id: number, status: string}
+type Details = {kind: 'details', id: number, detailsText: string}
+
+const [data, setData] = useState<Item[]>(
+  [
+    {kind: 'summary', id: 1624, status: 'Success'},
+    {kind: 'summary', id: 1625, status: 'Failed'},
+  ]
+)
+
+async function toggleDetails(id: number, index: number) {
+  const indexOfDetails = data.findIndex(item => item.kind === 'details' && item.id === id)
+  if (indexOfDetails >= 0) {
+    setData([...data.slice(0, indexOfDetails), ...data.slice(indexOfDetails + 1)])
+  } else {
+    const details: Details = await fetchDetails(id)
+    setData([...data.slice(0, index + 1), details, ...data.slice(index + 1)])
+  }
+}
+
+return (
+  <Table
+    data={data}
+    columns={[
+      {
+        key: 'ID',
+        getValue: item => item.id,
+      },
+      {
+        key: 'Result',
+        getValue: item => (item as Summary).status,
+      },
+    ]}
+    getRowValue={(item, index) => {
+      return item.kind === 'details'
+        ? <td colSpan={2}>{item.detailsText}</td>
+        : <StandardRowRenderer item={item} index={index} />
+    }}
+    onRowClick={(e, item, index) => {
+      toggleDetails(item.id, index)
+    }}
+    tbodyTrClassName={(item, index) => {
+      if (item.kind === 'summary' && data[index + 1]?.kind === 'details') {
+        return 'expanded-summary-row'
+      } else if (item.kind === 'details') {
+        return 'details-row'
+      }
     }}
   />
 )
