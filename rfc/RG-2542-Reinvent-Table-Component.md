@@ -80,7 +80,9 @@ type TableProps<T> = {
 
   /**
    * Custom row renderer which is expected to return a React fragment
-   * of `<td>` elements. The component will wrap them inside a `<tr>`.
+   * of `<td>` elements or a single `<td>`. The returned value will be
+   * wrapped in a `<tr>`.
+   *
    * If provided, it completely overrides the column renderers.
    * However, the client may use StandardRowRenderer to fall back to them.
    */
@@ -92,12 +94,12 @@ type TableProps<T> = {
    * It is intended to be stored on the client.
    * So it nicely fits the design.
    */
-  selection?: Selection
+  selection?: Selection<T>
 
   /**
-    * Called when the selection (including focus) changes.
+   * Called when the selection (including focus) changes.
    */
-  onSelect?: (newSelection: Selection) => void
+  onSelect?: (newSelection: Selection<T>) => void
 
   /**
    * Called when a `pointerup` event is handled at row level,
@@ -186,7 +188,7 @@ const [data, setData] = useState(
   ]
 )
 
-const [selection, setSelection] = useState(() => new Selection({data}))
+const [selection, setSelection] = useState(() => new Selection<string>({data}))
 
 return (
   <Table
@@ -209,6 +211,7 @@ return (
       },
       {
         key: 'City',
+        getValue: item => item,
       }
     ]}
     onRowClick={(e, item) => {
