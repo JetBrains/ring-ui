@@ -76,14 +76,48 @@ type TableProps<T> = {
   columns: Column<T>[]
   getKey: (item: T, index: number) => React.Key
 
-  isItemSelected?: (item: T, index: number) => boolean
   getItemLevel?: (item: T, index: number) => number
+
+  /**
+   * Custom renderer for a data item.
+   *
+   * Expected to return one or more rows. If provided, completely
+   * overrides standard column-based rendering.
+   *
+   * Use `TableRow` and `TableCell` components to apply standard classnames.
+   * Beware that data-dependent classnames, namely `tbodyTrClassName` and `tdClassName`,
+   * will not be applied; the client is expected to add them explicitly.
+   *
+   * The implementation may use `StandardRowRenderer` to fall back to default behavior.
+   * It's also okay to render several rows, one of which uses `StandardRowRenderer`,
+   * other being custom.
+   *
+   * @see StandardRowRendererProps
+   */
+  renderItem?: (item: T, index: number) => React.ReactNode
+
+  /**
+   * We reuse the existing `Selection` class. It is an isolated class,
+   * not coupled to table props, and it clones itself on change.
+   * It is intended to be stored on the client.
+   * So it nicely fits the design.
+   */
+  selection?: Selection<T>
+
+  /**
+   * Called when the selection (including focus) changes.
+   */
+  onSelect?: (newSelection: Selection<T>) => void
 
   /**
    * Called when a `pointerup` event is handled at row level,
    * and the event target is not an active element, such as
    * `button`, `a`, `input`, or `select` elements.
    * The client may react by selecting or expanding the row.
+   *
+   * Open question: should the table component decide instead
+   * whether a row should be selected or expanded and use,
+   * for example, `selection` and `onSelect`?
    */
   onRowClick?: (e: PointerEvent, item: T, index: number) => void
 
@@ -112,7 +146,7 @@ type TableProps<T> = {
   theadClassName?: string
   theadTrClassName?: string
   tbodyClassName?: string
-  tbodyTrClassName?: string | (item: T, index: number) => string
+  tbodyTrClassName?: string | ((item: T, index: number) => string)
 
   /**
    * Whether to show a small gear button at the top right corner.
@@ -125,14 +159,17 @@ type SortDirection = 'asc' | 'desc' | undefined
 
 type Column<T> = {
   key: React.Key
+
   /**
-   * If not set: String(key)
+   * Default: String(key)
    */
-  getHeaderValue?: string | (() => React.ReactNode)
+  renderHeader?: () => React.ReactNode
+
   /**
-   * If not set: String((item as unknown[])[columnIndex])
+   * Renders a single cell value for a column.
+   * Default: String((item as unknown[])[columnIndex])
    */
-  getValue?: (item: T, index: number) => string | React.ReactNode
+  renderCell?: (item: T, index: number) => React.ReactNode
 
   /**
    * If the column gets an indent when `TableProps.getItemLevel()` returns
@@ -144,7 +181,20 @@ type Column<T> = {
   sortDirection?: SortDirection
 
   thClassName?: string
-  tdClassName?: string | (item: T, index: number) => string
+  tdClassName?: string | ((item: T, index: number) => string)
+}
+
+/**
+ * Use it as a fallback in `renderItem`. It renders a single row with cells based on
+ * `columns`, and applies all relevant classnames, including data-dependent ones,
+ * namely `tbodyTrClassName` and `tdClassName`.
+ *
+ * The component props are only item-scoped. Table-scoped props are passed via
+ * React context.
+ */
+type StandardRowRendererProps<T> = {
+  item: T
+  index: number
 }
 ```
 
@@ -153,38 +203,43 @@ type Column<T> = {
 This example allows selecting a row either by a checkbox or by clicking on the row.
 
 ```tsx
-const [data, setData] = useState<[checked: boolean, city: string][]>(
+const [data, setData] = useState(
   [
-    [false, 'Amsterdam'],
-    [false, 'Berlin'],
-    [false, 'Limassol'],
-    [false, 'Prague'],
+    'Amsterdam',
+    'Berlin',
+    'Limassol',
+    'Prague',
   ]
 )
+
+const [selection, setSelection] = useState(() => new Selection<string>({data}))
 
 return (
   <Table
     data={data}
-    isItemSelected={item => item[0]}
+    selection={selection}
     columns={[
       {
         key: 'Check',
-        getValue: (item, index) => (
+        renderCell: item => (
           <input
             type="checkbox"
-            checked={item[0]}
-            onChange={
-              e => setData(data.with(index, [e.target.checked, item[1]]))
-            }
+            checked={selection.isSelected(item)}
+            onChange={e => setSelection(
+              e.target.checked
+                ? selection.select(item)
+                : selection.deselect(item)
+            )}
           />
         )
       },
       {
         key: 'City',
+        renderCell: item => item,
       }
     ]}
-    onRowClick={(e, item, index) => {
-      setData(data.with(index, [!item[0], item[1]]))
+    onRowClick={(e, item) => {
+      setSelection(selection.toggleSelection(item))
     }}
   />
 )
@@ -246,7 +301,7 @@ return (
     columns={[
       {
         key: 'Place',
-        getValue: item => item[1],
+        renderCell: item => item[1],
         indent: true,
       }
     ]}
@@ -307,6 +362,67 @@ return (
         sortDirection: direction
       }))
     }}
+  />
+)
+```
+
+#### Example 4: Row Details Section
+
+This is the TeamCity case: when a row is clicked (or a chevron button is used), a details section is shown below that row. From the table's perspective, it is the same `item` that renders two rows: one standard row and one extra row via the custom renderer.
+
+```tsx
+const [data, setData] = useState(
+  [
+    {id: 1624, status: 'Success', details: undefined},
+    {id: 1625, status: 'Failed', details: undefined},
+  ]
+)
+
+async function toggleDetails(index: number) {
+  if (data[index].details) {
+    setData(data.with(index, {
+      ...data[index],
+      details: undefined,
+    }))
+  } else {
+    const details: string = await fetchDetails(data[index].id)
+    setData(data.with(index, {
+      ...data[index],
+      details,
+    }))
+  }
+}
+
+return (
+  <Table
+    data={data}
+    columns={[
+      {
+        key: 'ID',
+        renderCell: item => item.id,
+      },
+      {
+        key: 'Result',
+        renderCell: item => item.status,
+      },
+    ]}
+    renderItem={(item, index) => {
+      const {details} = item
+      return (
+        <>
+          <StandardRowRenderer item={item} index={index} />
+          {details && (
+            <TableRow className='build-details'>
+              <TableCell colSpan={2}>{details}</TableCell>
+            </TableRow>
+          )}
+        </>
+      )
+    }}
+    onRowClick={(e, item, index) => {
+      toggleDetails(index)
+    }}
+    tbodyTrClassName={item => item.details ? 'build-expanded' : undefined}
   />
 )
 ```
