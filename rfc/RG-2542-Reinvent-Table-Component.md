@@ -55,7 +55,28 @@ We may support custom layouts (grid or flex) for rows, cells, headers, or the en
 
 ### Accessibility
 
-Clients are committed to full accessibility, which means the new table must comply with all relevant accessibility expectations from the very beginning. Additionally, for expandable rows, we should consider implementing the [TreeGrid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treegrid/).
+Clients are committed to full accessibility, which means the new table must comply with all relevant accessibility expectations from the very beginning.
+
+#### Treegrid Pattern
+
+For expandable rows, we should consider implementing the [Treegrid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treegrid/).
+
+#### Focus for Controls and Rows
+
+Currently, the table has two types of focus:
+
+- The real, native focus, which navigates by Tab between active elements, such as links and inputs.
+- The "row focus", where you navigate between rows using up/down arrow keys, which works in parallel with native focus. It is displayed similarly to hover. From the browser's perspective, it is not a real focus, just a visual state.
+
+At any moment, a user may have two "focuses" at the same time: a real (native) focus on some control and a row focus somewhere else.
+
+We are reimplementing this behavior in an accessible manner so there is only one focus at a time. We use the ["roving tabindex"](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets#technique_1_roving_tabindex) technique:
+
+- Initially, all rows are not focusable (`tabindex="-1"`), and the user navigates between controls by Tab.
+- When the user presses up/down arrow keys, the prev/next row becomes focusable (`tabindex="0"`), and focus is moved to it programmatically. The previously focused row, if any, becomes unfocusable (`tabindex="-1"`).
+- When a user moves focus from a row to a control (link, input) by pressing Tab, that row becomes unfocusable (`tabindex="-1"`), which also means that all rows are now unfocusable, and Tab navigation continues between controls.
+
+This behavior is demonstrated in [this example](https://codepen.io/editor/wvtyubnf-the-selector/pen/019e4efd-2b16-7c19-a58d-1b9eb08512d5).
 
 ### Performance
 
