@@ -43,7 +43,7 @@ object A11yAudit : BuildType({
 
                 npm run a11y-audit-ci
             """.trimIndent()
-      dockerImage = "mcr.microsoft.com/playwright:v1.52.0"
+      dockerImage = "mcr.microsoft.com/playwright:v1.60.0"
     }
   }
 
