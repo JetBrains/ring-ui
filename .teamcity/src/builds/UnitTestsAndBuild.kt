@@ -66,7 +66,7 @@ object UnitTestsAndBuild : BuildType({
                 npm run build
                 npm run build-stories
             """.trimIndent()
-      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22"
+      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22.22.3"
       dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
       dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
     }

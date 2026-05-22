@@ -66,7 +66,7 @@ object GeminiTests : BuildType({
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
-      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22"
+      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22.22.3"
       dockerRunParameters = "-p 4445:4445 -p 9999:9999 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
       param("org.jfrog.artifactory.selectedDeployableServer.downloadSpecSource", "Job configuration")
       param("org.jfrog.artifactory.selectedDeployableServer.useSpecs", "false")
