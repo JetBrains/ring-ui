@@ -1,17 +1,16 @@
-import {type InputHTMLAttributes} from 'react';
 import {screen, render, fireEvent} from '@testing-library/react';
 
-import {RadioItemInner} from './radio-item';
+import {RadioItemInner, type RadioItemInnerProps} from './radio-item';
 
 describe('Radio Item', () => {
   function noop() {}
 
-  const factory = (props?: InputHTMLAttributes<HTMLInputElement>) => (
+  const factory = (props?: RadioItemInnerProps) => (
     <RadioItemInner checked={false} onChange={noop} value='test' {...props}>
       {'test'}
     </RadioItemInner>
   );
-  const renderRadioItem = (props?: InputHTMLAttributes<HTMLInputElement>) => {
+  const renderRadioItem = (props?: RadioItemInnerProps) => {
     render(factory(props));
     return screen.getAllByRole<HTMLInputElement>('radio')[0];
   };
@@ -85,5 +84,19 @@ describe('Radio Item', () => {
     renderRadioItem();
 
     expect(screen.getByRole('radio', {name: 'test'})).to.exist;
+  });
+
+  it('should render default data-test on the label when no containerDataTest is passed', () => {
+    const radioItem = renderRadioItem();
+    const label = radioItem.closest('label');
+
+    expect(label).to.have.attribute('data-test', 'ring-radio-item');
+  });
+
+  it('should compose containerDataTest with the default data-test on the label', () => {
+    const radioItem = renderRadioItem({containerDataTest: 'my-radio'});
+    const label = radioItem.closest('label');
+
+    expect(label).to.have.attribute('data-test', 'ring-radio-item my-radio');
   });
 });
