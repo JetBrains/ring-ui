@@ -6,6 +6,7 @@ import minusIcon from '@jetbrains/icons/remove-12px';
 import Icon from '../icon/icon';
 import {createComposedRef} from '../global/compose-refs';
 import ControlHelp from '../control-help/control-help';
+import dataTests from '../global/data-tests';
 
 import styles from './checkbox.css';
 
@@ -18,6 +19,7 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   indeterminate: boolean;
   inputRef?: Ref<HTMLInputElement>;
   help?: ReactNode;
+  containerDataTest?: string | null | undefined;
 }
 
 /**
@@ -67,6 +69,7 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
       indeterminate,
       inputRef,
       help,
+      containerDataTest,
       ...restProps
     } = this.props;
 
@@ -76,7 +79,11 @@ export default class Checkbox extends PureComponent<CheckboxProps> {
     const labelClasses = classNames(styles.label, labelClassName);
 
     return (
-      <label className={containerClasses} style={containerStyle} data-test='ring-checkbox'>
+      <label
+        className={containerClasses}
+        style={containerStyle}
+        data-test={dataTests('ring-checkbox', containerDataTest)}
+      >
         <input
           {...restProps}
           data-checked={restProps.checked}
