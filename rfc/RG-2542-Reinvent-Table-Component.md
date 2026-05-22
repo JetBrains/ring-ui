@@ -59,7 +59,7 @@ Clients are committed to full accessibility, which means the new table must comp
 
 #### Treegrid Pattern
 
-For expandable rows, we should consider implementing the [TreeGrid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treegrid/).
+For expandable rows, we should consider implementing the [Treegrid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treegrid/).
 
 #### Focus for Controls and Rows
 
