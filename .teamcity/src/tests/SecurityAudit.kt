@@ -41,7 +41,7 @@ object SecurityAudit : BuildType({
                 npm install
                 node scripts/security-audit-ci.js
             """.trimIndent()
-      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22"
+      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22.22.3"
     }
   }
 

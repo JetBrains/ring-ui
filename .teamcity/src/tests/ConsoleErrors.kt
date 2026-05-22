@@ -42,7 +42,7 @@ object ConsoleErrors : BuildType({
                 npm install
                 npm run console-errors-ci
             """.trimIndent()
-      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22"
+      dockerImage = "registry.jetbrains.team/p/ij/docker-hub/node:22.22.3"
     }
   }
 
