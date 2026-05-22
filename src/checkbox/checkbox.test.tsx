@@ -78,4 +78,18 @@ describe('Checkbox', () => {
     fireEvent.change(checkbox, eventMock);
     expect(checkbox.value).to.equal('on');
   });
+
+  it('should render default data-test on the label when no containerDataTest is passed', () => {
+    const checkbox = renderCheckbox();
+    const label = checkbox.closest('label');
+
+    expect(label).to.have.attribute('data-test', 'ring-checkbox');
+  });
+
+  it('should compose containerDataTest with the default data-test on the label', () => {
+    const checkbox = renderCheckbox({containerDataTest: 'my-cb'});
+    const label = checkbox.closest('label');
+
+    expect(label).to.have.attribute('data-test', 'ring-checkbox my-cb');
+  });
 });
