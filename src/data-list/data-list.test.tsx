@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import {type SelectionItem} from '../table/selection';
+import {type SelectionItem} from '../legacy-table/selection';
 import DataList, {type DataListContainerProps} from './data-list';
 import Selection from './selection';
 

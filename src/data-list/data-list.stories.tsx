@@ -5,7 +5,7 @@ import Selection from './selection';
 import {type FormattedItem, moreLessButtonStates} from './item';
 import mock, {type Item, moreItems} from './data-list.mock';
 
-import type TableSelection from '../table/selection';
+import type TableSelection from '../legacy-table/selection';
 
 export default {
   title: 'Components/DataList',
