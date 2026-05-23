@@ -1,0 +1,59 @@
+@import '../global/variables.css';
+
+.table {
+  width: 100%;
+
+  border-collapse: collapse;
+  border-style: none;
+}
+
+.headerRow {
+  border-bottom: 1px solid var(--ring-line-color);
+}
+
+.headerCell {
+  position: relative;
+
+  padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
+
+  text-align: left;
+
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+  font-weight: normal;
+
+  &:hover {
+    background-color: var(--ring-grey-container-light-color);
+  }
+
+  &:hover::after {
+    position: absolute;
+    top: 0;
+    left: -1px;
+
+    box-sizing: border-box;
+    width: calc(100% + 1px);
+    height: 100%;
+
+    content: '';
+
+    border-right: 1px solid var(--ring-line-color);
+    border-left: 1px solid var(--ring-line-color);
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:first-child:hover::after {
+    left: 0;
+
+    width: 100%;
+  }
+}
+
+.row {
+  border-bottom: 1px solid var(--ring-line-color);
+}
+
+.cell {
+  padding: var(--ring-unit);
+}

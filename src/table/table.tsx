@@ -3,6 +3,8 @@ import classNames from 'classnames';
 
 import type Selection from '../legacy-table/selection';
 
+import styles from './table.css';
+
 export interface TableProps<T> {
   /**
    * The data items to render.
@@ -81,11 +83,6 @@ export interface TableProps<T> {
    * Called when the client moves a column.
    */
   onColumnMove?: (fromIndex: number, toIndex: number) => void;
-
-  /**
-   * Applied to the root `<table>` element.
-   */
-  tableClassName?: string;
 
   /**
    * Applied to the `<thead>` element.
@@ -193,17 +190,17 @@ const TableContext = createContext<TableProps<unknown> | null>(null);
  * The new Table component. Use it instead of tables in the `legacy-table` folder.
  */
 export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
-  const {data, columns, renderItem, tableClassName, theadClassName, theadTrClassName, tbodyClassName} = props;
+  const {data, columns, renderItem, className, theadClassName, theadTrClassName, tbodyClassName} = props;
 
   const TheTableContext = TableContext as Context<TableProps<T> | null>;
 
   return (
     <TheTableContext.Provider value={props}>
-      <table className={tableClassName}>
+      <table className={classNames(styles.table, className)}>
         <thead className={theadClassName}>
-          <tr className={theadTrClassName}>
+          <tr className={classNames(styles.headerRow, theadTrClassName)}>
             {columns.map(column => (
-              <th key={column.key} className={column.thClassName}>
+              <th key={column.key} className={classNames(styles.headerCell, column.thClassName)}>
                 {column.renderHeader?.() ?? String(column.key)}
               </th>
             ))}
@@ -286,7 +283,7 @@ function getDefaultCellValue<T>(item: T, columnIndex: number) {
  */
 export function TableRow(props: HTMLAttributes<HTMLTableRowElement>) {
   const {className, ...restProps} = props;
-  const classes = classNames('', className);
+  const classes = classNames(styles.row, className);
   return <tr className={classes} {...restProps} />;
 }
 
@@ -296,6 +293,6 @@ export function TableRow(props: HTMLAttributes<HTMLTableRowElement>) {
  */
 export function TableCell(props: HTMLAttributes<HTMLTableCellElement>) {
   const {className, ...restProps} = props;
-  const classes = classNames('', className);
+  const classes = classNames(styles.cell, className);
   return <td className={classes} {...restProps} />;
 }

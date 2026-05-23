@@ -1,4 +1,5 @@
 import Table from './table';
+import Link from '../link/link';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -21,7 +22,12 @@ type TableStory<T> = StoryObj<typeof Table<T>>;
 export const Basic: TableStory<(typeof data)[number]> = {
   args: {
     data,
-    columns: [{key: 'ID'}, {key: 'Country'}, {key: 'City'}, {key: 'URL'}],
+    columns: [
+      {key: 'ID'},
+      {key: 'Country'},
+      {key: 'City'},
+      {key: 'URL', renderCell: ({url}) => <Link href={url}>{url}</Link>},
+    ],
     getKey: item => item.id,
   },
 };
