@@ -54,6 +54,18 @@
   border-bottom: 1px solid var(--ring-line-color);
 }
 
+.clickableRow {
+  cursor: pointer;
+
+  &:not(.selectedRow):hover {
+    background-color: var(--ring-hover-background-color);
+  }
+}
+
+.selectedRow {
+  background-color: var(--ring-selected-background-color);
+}
+
 .cell {
   padding: var(--ring-unit);
 }

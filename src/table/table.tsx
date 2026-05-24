@@ -22,47 +22,44 @@ export interface TableProps<T> {
   getKey: (item: T, index: number) => React.Key;
 
   /**
-   * A level of a nested item. Results in an indent for columns with `indent: true`.
-   * 0, negative and not set mean no indent.
-   */
-  getItemLevel?: (item: T, index: number) => number;
-
-  /**
-   * Custom renderer for a data item.
-   *
-   * Expected to return one or more rows. If provided, completely
-   * overrides standard column-based rendering.
-   *
-   * Use `TableRow` and `TableCell` components to apply standard classnames.
-   * Beware that data-dependent classnames, namely `tbodyTrClassName` and `tdClassName`,
-   * will not be applied; the client is expected to add them explicitly.
-   *
-   * The implementation may use `StandardRowRenderer` to fall back to default behavior.
-   * It's also okay to render several rows, one of which uses `StandardRowRenderer`,
-   * other being custom.
-   *
-   * @see StandardRowRendererProps
-   */
-  renderItem?: (item: T, index: number) => ReactNode;
-
-  /**
    * Displays the selection state.
    */
   selection?: Selection<T>;
 
   /**
-   * Called when the selection (including focus) changes.
+   * Highlights an item on hover. Note that `onItemClick` works regardless
+   * of the value of this prop.
    */
-  onSelect?: (newSelection: Selection<T>) => void;
+  isClickable?: (item: T, index: number) => boolean;
 
   /**
    * Called when a `pointerup` event is handled at row level,
    * and the event target is not an active element, such as
    * `button`, `a`, `input`, or `select` elements.
-   * The client may react by selecting or expanding the row,
-   * that is, updating the `selection` or the `data` props.
    */
-  onRowClick?: (e: PointerEvent, item: T, index: number) => void;
+  onItemClick?: (e: PointerEvent, item: T, index: number) => void;
+
+  /**
+   * If true, the item can be focused by keyboard up/down arrows.
+   */
+  isFocusable?: (item: T, index: number) => boolean;
+
+  /**
+   * When the item should get focused by keyboard navigation.
+   * The client is expected to update `selection`.
+   */
+  onFocus?: (item: T, index: number) => void;
+
+  /**
+   * Called when a `keydown` event is handled at a focused row.
+   */
+  onItemKeyDown?: (e: React.KeyboardEvent, item: T, index: number) => void;
+
+  /**
+   * A level of a nested item. Results in an indent for columns with `indent: true`.
+   * 0, negative and not set mean no indent.
+   */
+  getItemLevel?: (item: T, index: number) => number;
 
   /**
    * Called when the client moves a row by dragging it.
@@ -83,6 +80,25 @@ export interface TableProps<T> {
    * Called when the client moves a column.
    */
   onColumnMove?: (fromIndex: number, toIndex: number) => void;
+
+  /**
+   * Custom renderer for a data item.
+   *
+   * Expected to return one or more rows. If provided, completely
+   * overrides standard column-based rendering.
+   *
+   * Use `TableRow` and `TableCell` components to apply standard classnames.
+   * Beware that data-dependent classnames, namely `tbodyTrClassName` and `tdClassName`,
+   * will not be applied; likewise `onItemClick` and `onItemKeyDown` won't be attached.
+   *
+   * The implementation may use `StandardRowRenderer` to fall back to default behavior,
+   * including data-dependent classnames and event handlers mentioned above.
+   * It's also okay to render several rows, one of which uses `StandardRowRenderer`,
+   * other being custom.
+   *
+   * @see StandardRowRendererProps
+   */
+  renderItem?: (item: T, index: number) => ReactNode;
 
   /**
    * Applied to the `<thead>` element.
@@ -188,6 +204,24 @@ const TableContext = createContext<TableProps<unknown> | null>(null);
 
 /**
  * The new Table component. Use it instead of tables in the `legacy-table` folder.
+ *
+ * Minimal usage requires the following props:
+ * - `data`
+ * - `getKey`
+ * - `columns`
+ *   - `key`
+ *   - `renderCell` (not required, but usually needed)
+ *
+ * ## Selection
+ *
+ * Following three props support the selection:
+ *
+ * - `selection`
+ * - `isClickable`
+ * - `onItemClick`
+ *
+ * Only `selection` is required: you can display and modify selection your way, e.g., via
+ * checkboxes in cells.
  */
 export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
   const {data, columns, renderItem, className, theadClassName, theadTrClassName, tbodyClassName} = props;
@@ -235,7 +269,9 @@ export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T
     return null;
   }
 
-  const {columns, getItemLevel, tbodyTrClassName} = tableProps;
+  const {columns, selection, isClickable, onItemClick, getItemLevel, tbodyTrClassName} = tableProps;
+  const clickable = isClickable?.(item, index);
+  const selected = selection?.isSelected(item);
   const level = getItemLevel?.(item, index) ?? 0;
 
   function getItemDependentClassName(className: undefined | string | ((item: T, index: number) => string)) {
@@ -246,8 +282,25 @@ export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T
     return typeof className === 'function' ? className(item, index) : className;
   }
 
+  function onPointerUp(e: React.PointerEvent<HTMLTableRowElement>) {
+    if (!onItemClick) return;
+
+    const {target} = e;
+    const isActiveElement = target instanceof Element && target.closest('a, button, input, select');
+    if (isActiveElement) return;
+
+    onItemClick(e.nativeEvent, item, index);
+  }
+
   return (
-    <TableRow className={getItemDependentClassName(tbodyTrClassName)}>
+    <TableRow
+      className={classNames(
+        getItemDependentClassName(tbodyTrClassName),
+        clickable && styles.clickableRow,
+        selected && styles.selectedRow,
+      )}
+      onPointerUp={onPointerUp}
+    >
       {columns.map((column, columnIndex) => (
         <TableCell
           key={column.key}
