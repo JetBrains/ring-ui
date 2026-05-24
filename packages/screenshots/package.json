@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@jetbrains/testplane-teamcity-reporter": "^1.2.2",
-    "axios": "^1.16.0",
+    "axios": "^1.16.1",
     "browserstack-local": "^1.5.13",
     "dotenv": "^17.4.2",
     "filenamify": "^7.0.1",
@@ -30,10 +30,10 @@
     "port-claim": "^3.0.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-redux": "^9.2.0",
+    "react-redux": "^9.3.0",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "testplane": "^8.44.0",
-    "yauzl": "^3.3.0"
+    "yauzl": "^3.2.1"
   }
 }
