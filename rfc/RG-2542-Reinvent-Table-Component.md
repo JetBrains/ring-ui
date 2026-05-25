@@ -94,13 +94,13 @@ We are reimplementing this behavior in an accessible manner so there is only one
 
 This behavior is demonstrated in [this example](https://codepen.io/editor/wvtyubnf-the-selector/pen/019e4efd-2b16-7c19-a58d-1b9eb08512d5).
 
-#### Discoverability of Rows Focusability, Selection, and Expansion
+#### Discoverability of Row Focusability, Selection, and Expansion
 
-Because we do not implement Grid/Treegrid patterns, the applicability of `aria` attributes is limited, so we need to fall back to workarounds.
+Because we do not implement Grid/Treegrid patterns, the applicability of ARIA attributes is limited, so we need to fall back to workarounds.
 
-- To suggest focusability on up/down arrows, we may provide brief instructions via a hidden `table/caption`, `aria-describedby`, or `aria-label`.
+- To suggest focusability on up/down arrows, we may provide brief instructions via a hidden `table/caption` and/or `aria-describedby` that points to instructional text.
 - Selection should be controlled by explicit UI elements (e.g. checkboxes) by the client.
-- Expansion should be controlled by an explicit button in the row. To indicate row state, we will use `aria-expanded` and `aria-owns` attributes, which are allowed outside Grid/Treegrid patterns. Whether this should be implemented in the table or left to the client is still to be clarified.
+- Expansion should be controlled by an explicit button in the row having the `aria-expanded` attribute set. Additionally, we will use `aria-controls` and/or `aria-owns` to indicate the nested rows relationships. Whether this should be implemented in the table or left to the client is still to be clarified. See also: `collapse/collapse-control.tsx`.
 
 ### Performance
 
