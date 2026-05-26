@@ -57,9 +57,25 @@ We may support custom layouts (grid or flex) for rows, cells, headers, or the en
 
 Clients are committed to full accessibility, which means the new table must comply with all relevant accessibility expectations from the very beginning.
 
-#### Treegrid Pattern
+#### Treegrid and Grid Patterns
 
-For expandable rows, we should consider implementing the [Treegrid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treegrid/).
+The current table behavior expected by clients is largely incompatible with both [Grid](https://www.w3.org/WAI/ARIA/apg/patterns/grid/) and [Treegrid](https://www.w3.org/WAI/ARIA/apg/patterns/treegrid/) patterns. The main differences are:
+
+- Tab navigation
+  - In our table, the Tab sequence remains native: Tab goes through all focusable controls in document order.
+  - In Grid, the whole widget is a single Tab stop: Tab enters it once, focus lands on the active cell, and the next Tab leaves the widget.
+  - In Treegrid, Tab navigation is possible between focusable elements in the current row, but once the focus reaches the last control in the row, the next Tab leaves the widget.
+- Which elements are focusable
+  - In our table, focus is on real controls inside cells; cells themselves are not focusable.
+    - Additionally, we have a custom "row focus" reachable with up/down arrow keys.
+  - In Grid, cells are arrow-focusable, and nested controls are initially not focusable. To reach them, the user needs to "enter" the cell with Enter/F2. Rows are not focusable.
+  - Treegrid is similar to Grid, yet rows may also be focusable, and controls in the current row are also Tab-focusable.
+- Arrow keys
+  - In our table, Up/Down arrow keys implement custom row-to-row navigation. Left/Right arrows are not used for navigation.
+  - In Grid, all arrow keys move between cells.
+  - Treegrid is similar to Grid, plus there are additional row focus and expansion actions achievable with Left/Right arrows from the leftmost and rightmost cells, respectively.
+
+While Treegrid behavior is closer to our current table, it is still not compatible, mainly because of the fundamentally different focus interpretation for cells and controls. This suggests we should keep the default table semantics.
 
 #### Focus for Controls and Rows
 
@@ -77,6 +93,14 @@ We are reimplementing this behavior in an accessible manner so there is only one
 - When a user moves focus from a row to a control (link, input) by pressing Tab, that row becomes unfocusable (`tabindex="-1"`), which also means that all rows are now unfocusable, and Tab navigation continues between controls.
 
 This behavior is demonstrated in [this example](https://codepen.io/editor/wvtyubnf-the-selector/pen/019e4efd-2b16-7c19-a58d-1b9eb08512d5).
+
+#### Discoverability of Row Focusability, Selection, and Expansion
+
+Because we do not implement Grid/Treegrid patterns, the applicability of ARIA attributes is limited, so we need to fall back to workarounds.
+
+- To suggest focusability on up/down arrows, we may provide brief instructions via a hidden `table/caption` and/or `aria-describedby` that points to instructional text.
+- Selection should be controlled by explicit UI elements (e.g. checkboxes) by the client.
+- Expansion should be controlled by an explicit button in the row having the `aria-expanded` attribute set. Additionally, we will use `aria-controls` and/or `aria-owns` to indicate the nested rows relationships. Whether this should be implemented in the table or left to the client is still to be clarified. See also: `collapse/collapse-control.tsx`.
 
 ### Performance
 

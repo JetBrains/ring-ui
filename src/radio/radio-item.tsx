@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import getUID from '../global/get-uid';
 import ControlHelp from '../control-help/control-help';
+import dataTests from '../global/data-tests';
 
 import styles from './radio.css';
 
@@ -15,6 +16,7 @@ export const RadioContext = createContext<RadioProps>({});
 
 export interface RadioItemInnerProps extends InputHTMLAttributes<HTMLInputElement> {
   help?: ReactNode;
+  containerDataTest?: string | null | undefined;
 }
 export class RadioItemInner extends Component<RadioItemInnerProps> {
   uid = getUID('ring-radio-item-');
@@ -30,12 +32,17 @@ export class RadioItemInner extends Component<RadioItemInnerProps> {
   };
 
   render() {
-    const {className, children, help, ...restProps} = this.props;
+    const {className, children, help, containerDataTest, ...restProps} = this.props;
 
     const classes = classNames(styles.radio, className);
 
     return (
-      <label ref={this.labelRef} className={classes} htmlFor={this.uid}>
+      <label
+        ref={this.labelRef}
+        className={classes}
+        htmlFor={this.uid}
+        data-test={dataTests('ring-radio-item', containerDataTest)}
+      >
         <input id={this.uid} {...restProps} ref={this.inputRef} className={styles.input} type='radio' />
         <span className={styles.circle} />
         <span className={styles.label}>
