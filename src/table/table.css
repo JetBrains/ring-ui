@@ -37,6 +37,7 @@
     height: 100%;
 
     content: '';
+    pointer-events: none;
 
     border-right: 1px solid var(--ring-line-color);
     border-left: 1px solid var(--ring-line-color);

@@ -8,7 +8,9 @@ import Checkbox from '../checkbox/checkbox';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
-import data from '../legacy-table/table.stories.json' with {type: 'json'};
+import countriesData from '../legacy-table/table.stories.json' with {type: 'json'};
+
+import style from './table.stories.css';
 
 const meta = {
   title: 'Components/Table',
@@ -24,33 +26,48 @@ export default meta;
 
 type TableStory<T> = StoryObj<typeof Table<T>>;
 
-export const BasicWithMultiselect: TableStory<(typeof data)[number]> = {
+const smallDataSlice = countriesData.slice(10, 16);
+
+export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
-    data: data.slice(10, 16),
+    data: smallDataSlice,
     columns: [
-      {key: 'Check', renderCell: () => null},
-      {key: 'ID', renderCell: ({id}) => id},
+      {key: 'ID'},
       {key: 'Country', renderCell: ({country}) => country},
       {key: 'City', renderCell: ({city}) => city},
       {key: 'URL', renderCell: ({url}) => <Link href={url}>{url}</Link>},
     ],
     getKey: item => item.id,
 
-    selection: new Selection(),
+    selection: new Selection({data: smallDataSlice}),
     isClickable: () => true,
   },
 
   render(args) {
     const [selection, setSelection] = useState(args.selection!);
+    const allSelected = args.data.every(item => selection.isSelected(item));
 
-    const [checkColumn, ...restColumns] = args.columns;
+    const [idColumn, ...restColumns] = args.columns;
     const columns = [
       {
-        ...checkColumn,
+        ...idColumn,
+
+        renderHeader: () => (
+          <Checkbox
+            indeterminate={selection.getSelected().size > 0 && !allSelected}
+            checked={allSelected}
+            onChange={e => setSelection(e.target.checked ? selection.selectAll() : selection.resetSelection())}
+            label='ID'
+          />
+        ),
+
+        thClassName: style.thWithCheckbox,
+
         renderCell: item => (
           <Checkbox
             checked={selection.isSelected(item)}
             onChange={e => setSelection(e.target.checked ? selection.select(item) : selection.deselect(item))}
+            label={String(item.id)}
           />
         ),
       },
