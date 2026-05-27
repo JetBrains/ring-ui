@@ -16,38 +16,31 @@
 
   padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
 
+  transition: background-color var(--ring-fast-ease), border-color var(--ring-fast-ease);
+
   text-align: left;
 
   color: var(--ring-secondary-color);
+  border-left: 1px solid transparent;
 
   font-size: var(--ring-font-size-smaller);
   font-weight: normal;
 
+  &:last-child {
+    border-right: 1px solid transparent;
+  }
+
   &:hover {
+    border-left-color: var(--ring-line-color);
     background-color: var(--ring-grey-container-light-color);
-  }
 
-  &:hover::after {
-    position: absolute;
-    top: 0;
-    left: -1px;
+    &:last-child {
+      border-right-color: var(--ring-line-color);
+    }
 
-    box-sizing: border-box;
-    width: calc(100% + 1px);
-    height: 100%;
-
-    content: '';
-    pointer-events: none;
-
-    border-right: 1px solid var(--ring-line-color);
-    border-left: 1px solid var(--ring-line-color);
-  }
-
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:first-child:hover::after {
-    left: 0;
-
-    width: 100%;
+    & + .headerCell {
+      border-left-color: var(--ring-line-color);
+    }
   }
 }
 
@@ -57,6 +50,8 @@
 
 .clickableRow {
   cursor: pointer;
+
+  transition: background-color var(--ring-fast-ease);
 
   &:not(.selectedRow):hover {
     background-color: var(--ring-hover-background-color);
@@ -71,11 +66,13 @@
   padding: var(--ring-unit);
 }
 
-.sortButton {
+.headerButton {
   margin: unset;
   padding: unset;
 
   cursor: pointer;
+
+  transition: color var(--ring-fast-ease);
   text-align: unset;
 
   color: unset;
@@ -83,4 +80,12 @@
   background: unset;
 
   font: unset;
+
+  &:hover {
+    color: var(--ring-main-hover-color);
+  }
+}
+
+.deleteColumnButton {
+  float: right;
 }

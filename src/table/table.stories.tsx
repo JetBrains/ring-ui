@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {useState} from 'react';
 
-import Table, {SortButton, type SortDirection} from './table';
+import Table, {DeleteColumnButton, SortButton, type SortOrder} from './table';
 import Link from '../link/link';
 import Selection from '../legacy-table/selection';
 import Checkbox from '../checkbox/checkbox';
@@ -87,14 +87,38 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
   },
 };
 
-export const WithSortButton: TableStory<(typeof smallDataSlice)[number]> = {
+export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
     columns: [
       {key: 'ID'},
-      {key: 'Country', renderHeader: () => <SortButton>Country</SortButton>},
-      {key: 'City', renderHeader: () => <SortButton>City</SortButton>},
-      {key: 'URL', renderCell: ({url}) => <Link href={url}>{url}</Link>},
+      {
+        key: 'Country',
+        sortOrder: 'none',
+        renderHeader: () => (
+          <>
+            <SortButton>Country</SortButton> <DeleteColumnButton />
+          </>
+        ),
+      },
+      {
+        key: 'City',
+        sortOrder: 'none',
+        renderHeader: () => (
+          <>
+            <SortButton>City</SortButton> <DeleteColumnButton />
+          </>
+        ),
+      },
+      {
+        key: 'URL',
+        renderHeader: () => (
+          <>
+            URL <DeleteColumnButton />
+          </>
+        ),
+        renderCell: ({url}) => <Link href={url}>{url}</Link>,
+      },
     ],
     getKey: item => item.id,
   },
@@ -103,15 +127,15 @@ export const WithSortButton: TableStory<(typeof smallDataSlice)[number]> = {
     const [data, setData] = useState(args.data);
     const [columns, setColumns] = useState(args.columns);
 
-    function handleSort(columnIndex: number, sortDirection: SortDirection) {
+    function handleSort(columnIndex: number, sortOrder: SortOrder) {
       setColumns(
-        columns.map((column, index) => ({
+        columns.map((column, i) => ({
           ...column,
-          sortDirection: index === columnIndex ? sortDirection : undefined,
+          sortOrder: i === columnIndex ? sortOrder : undefined,
         })),
       );
 
-      if (!sortDirection) {
+      if (sortOrder === 'none') {
         setData(args.data);
         return;
       }
@@ -120,13 +144,25 @@ export const WithSortButton: TableStory<(typeof smallDataSlice)[number]> = {
         const bVal = Object.values(a)[columnIndex];
         const aVal = Object.values(b)[columnIndex];
 
-        if (bVal < aVal) return sortDirection === 'ascending' ? -1 : 1;
-        if (bVal > aVal) return sortDirection === 'ascending' ? 1 : -1;
+        if (bVal < aVal) return sortOrder === 'ascending' ? -1 : 1;
+        if (bVal > aVal) return sortOrder === 'ascending' ? 1 : -1;
         return 0;
       });
       setData(sortedData);
     }
 
-    return <Table data={data} columns={columns} getKey={args.getKey} onSort={handleSort} />;
+    function handleColumnDelete(columnIndex: number) {
+      setColumns(columns.filter((_, i) => i !== columnIndex));
+    }
+
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        getKey={args.getKey}
+        onSort={handleSort}
+        onColumnDelete={handleColumnDelete}
+      />
+    );
   },
 };

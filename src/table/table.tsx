@@ -1,8 +1,10 @@
+/* eslint-disable max-lines */
 import React, {type Context, createContext, useContext, type HTMLAttributes, Fragment, type ReactNode} from 'react';
 import classNames from 'classnames';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
 import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
+import trashIcon from '@jetbrains/icons/trash-12px';
 
 import Icon from '../icon/icon';
 
@@ -74,7 +76,7 @@ export interface TableProps<T> {
   /**
    * Called when the client clicks on SortButton in a column header.
    */
-  onSort?: (columnIndex: number, direction: SortDirection) => void;
+  onSort?: (columnIndex: number, newOrder: SortOrder) => void;
 
   /**
    * Called when the client clicks on a column delete button in the header.
@@ -134,7 +136,7 @@ export interface TableProps<T> {
   columnEditButton?: 'everywhere' | 'mobileOnly';
 }
 
-export type SortDirection = 'ascending' | 'descending' | undefined;
+export type SortOrder = 'none' | 'ascending' | 'descending';
 
 /**
  * The column specification.
@@ -146,7 +148,13 @@ export interface Column<T> {
   key: React.Key;
 
   /**
-   * Default: String(key)
+   * Used in aria-labels of controls which do not the contain text,
+   * e.g. `DeleteColumnButton`. If not set, the `String(key)` is used.
+   */
+  name?: string;
+
+  /**
+   * Default: name ?? String(key)
    */
   renderHeader?: () => ReactNode;
 
@@ -168,9 +176,17 @@ export interface Column<T> {
   indent?: boolean;
 
   /**
-   * The current sort direction displayed by SortButton and indicated by `aria-sort` in `th`.
+   * The current sort order displayed by `SortButton` and indicated
+   * by `aria-sort` in `th`.
+   *
+   * - `undefined` or not set means that the column is not sortable,
+   * and it shouldn't have a `SortButton`.
+   * - `none` means that the column is sortable, but currently not sorted.
+   * It should include a `SortButton`.
+   * - `ascending` and `descending` mean that the column is sorted
+   * in the corresponding order, and it should include a `SortButton`.
    */
-  sortDirection?: SortDirection;
+  sortOrder?: SortOrder;
 
   /**
    * The classname to apply to the `th` element inside `table / thead`.
@@ -222,6 +238,25 @@ const ColumnIndexContext = createContext<number>(-1);
  *
  * Only `selection` is required: you can display and modify selection your way, e.g., via
  * checkboxes in cells.
+ *
+ * ## Sorting
+ * You need the following to support sorting:
+ *
+ * - Include `<SortButton />` in a column header
+ * - Set initial `Column.sortOrder` to `none`, `ascending`.
+ * Do not leave `undefined` for the accessibility reasons.
+ * - Handle `TableProps.onSort` callback in the client code. It is expected
+ * to update `columns`, by setting the new `sortOrder` value for
+ * the corresponding column, and updating the data accordingly.
+ *
+ * ## Deleting columns
+ * You need the following to support deleting columns:
+ *
+ * - Make sure the `column` has a proper `name` or `key` prop, which will be
+ * automatically included in the aria-label of `<DeleteColumnButton />`.
+ * - Include `<DeleteColumnButton />` in a column header
+ * - Handle `TableProps.onColumnDelete` callback in the client code. It is expected
+ * to update `columns` by removing the corresponding column.
  */
 export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
   const {data, columns, renderItem, className, theadClassName, theadTrClassName, tbodyClassName} = props;
@@ -235,10 +270,10 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
               <th
                 key={column.key}
                 className={classNames(styles.headerCell, column.thClassName)}
-                aria-sort={column.sortDirection}
+                aria-sort={column.sortOrder}
               >
                 <ColumnIndexContext.Provider value={columnIndex}>
-                  {column.renderHeader?.() ?? String(column.key)}
+                  {column.renderHeader?.() ?? column.name ?? String(column.key)}
                 </ColumnIndexContext.Provider>
               </th>
             ))}
@@ -356,6 +391,7 @@ export function TableCell(props: HTMLAttributes<HTMLTableCellElement>) {
 
 /**
  * Include it in a column header to make the column sortable.
+ * Handle clicks with `TableProps.onSort`.
  */
 export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
@@ -365,23 +401,55 @@ export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
     return null;
   }
 
-  const {sortDirection} = column;
+  const sortOrder = column.sortOrder ?? 'none';
   // eslint-disable-next-line no-nested-ternary, prettier/prettier
-  const glyph = sortDirection == null ? unsortedIcon
-    : sortDirection === 'ascending' ? arrowUpIcon
+  const glyph = sortOrder === 'none' ? unsortedIcon
+    : sortOrder === 'ascending' ? arrowUpIcon
     : arrowDownIcon;
 
   function handleClick() {
-    const order = [undefined, 'ascending', 'descending'] as const;
-    const nextDirection = order[(order.indexOf(sortDirection) + 1) % order.length];
-    tableProps.onSort?.(columnIndex, nextDirection);
+    const sequence = ['none', 'ascending', 'descending'] satisfies SortOrder[];
+    const nextOrder = sequence[(sequence.indexOf(sortOrder) + 1) % sequence.length];
+    tableProps.onSort?.(columnIndex, nextOrder);
   }
 
   const {className, children, ...restProps} = props;
 
   return (
-    <button type='button' className={classNames(styles.sortButton, className)} onClick={handleClick} {...restProps}>
-      {children} <Icon glyph={glyph} />
+    <button type='button' className={classNames(styles.headerButton, className)} onClick={handleClick} {...restProps}>
+      {children} <Icon glyph={glyph} aria-hidden />
+    </button>
+  );
+}
+
+/**
+ * Include it in a column header to make the column deletable.
+ * Beware that `column.name ?? String(column.key)` is used in the aria-label.
+ * Handle clicks with `TableProps.onColumnDelete`.
+ */
+export function DeleteColumnButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
+  const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
+  const columnIndex = useContext(ColumnIndexContext);
+  const column = tableProps.columns[columnIndex];
+  if (!tableProps || !column) {
+    return null;
+  }
+
+  function handleClick() {
+    tableProps.onColumnDelete?.(columnIndex);
+  }
+
+  const {className, ...restProps} = props;
+
+  return (
+    <button
+      type='button'
+      className={classNames(styles.headerButton, styles.deleteColumnButton, className)}
+      onClick={handleClick}
+      aria-label={`Delete column ${column.name ?? String(column.key)}`}
+      {...restProps}
+    >
+      <Icon glyph={trashIcon} />
     </button>
   );
 }
