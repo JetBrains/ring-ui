@@ -1,7 +1,8 @@
 import React, {type Context, createContext, useContext, type HTMLAttributes, Fragment, type ReactNode} from 'react';
 import classNames from 'classnames';
-import sortableIcon from '@jetbrains/icons/unsorted-12px';
-import sortedIcon from '@jetbrains/icons/chevron-12px-down';
+import unsortedIcon from '@jetbrains/icons/unsorted-12px';
+import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
+import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
 
 import Icon from '../icon/icon';
 
@@ -364,23 +365,23 @@ export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
     return null;
   }
 
-  const glyph = column.sortDirection ? sortedIcon : sortableIcon;
+  const {sortDirection} = column;
+  // eslint-disable-next-line no-nested-ternary, prettier/prettier
+  const glyph = sortDirection == null ? unsortedIcon
+    : sortDirection === 'ascending' ? arrowUpIcon
+    : arrowDownIcon;
 
   function handleClick() {
-    const {sortDirection} = column;
     const order = [undefined, 'ascending', 'descending'] as const;
     const nextDirection = order[(order.indexOf(sortDirection) + 1) % order.length];
     tableProps.onSort?.(columnIndex, nextDirection);
   }
 
-  const {children, ...restProps} = props;
-
-  const iconClass = column.sortDirection === 'descending' ? styles.sortButtonIconDesc : undefined;
+  const {className, children, ...restProps} = props;
 
   return (
-    <button type='button' onClick={handleClick} {...restProps}>
-      {children}
-      <Icon glyph={glyph} className={iconClass} />
+    <button type='button' className={classNames(styles.sortButton, className)} onClick={handleClick} {...restProps}>
+      {children} <Icon glyph={glyph} />
     </button>
   );
 }

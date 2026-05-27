@@ -71,7 +71,16 @@
   padding: var(--ring-unit);
 }
 
-.sortButtonIconDesc {
-  transform: rotate(180deg);
-  transform-origin: center 44%;
+.sortButton {
+  margin: unset;
+  padding: unset;
+
+  cursor: pointer;
+  text-align: unset;
+
+  color: unset;
+  border: unset;
+  background: unset;
+
+  font: unset;
 }
