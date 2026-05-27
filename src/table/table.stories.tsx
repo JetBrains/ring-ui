@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {useState} from 'react';
 
-import Table from './table';
+import Table, {SortButton, type SortDirection} from './table';
 import Link from '../link/link';
 import Selection from '../legacy-table/selection';
 import Checkbox from '../checkbox/checkbox';
@@ -84,5 +84,49 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
         onItemClick={(_e, item) => setSelection(selection.toggleSelection(item))}
       />
     );
+  },
+};
+
+export const WithSortButton: TableStory<(typeof smallDataSlice)[number]> = {
+  args: {
+    data: smallDataSlice,
+    columns: [
+      {key: 'ID'},
+      {key: 'Country', renderHeader: () => <SortButton>Country</SortButton>},
+      {key: 'City', renderHeader: () => <SortButton>City</SortButton>},
+      {key: 'URL', renderCell: ({url}) => <Link href={url}>{url}</Link>},
+    ],
+    getKey: item => item.id,
+  },
+
+  render(args) {
+    const [data, setData] = useState(args.data);
+    const [columns, setColumns] = useState(args.columns);
+
+    function handleSort(columnIndex: number, sortDirection: SortDirection) {
+      setColumns(
+        columns.map((column, index) => ({
+          ...column,
+          sortDirection: index === columnIndex ? sortDirection : undefined,
+        })),
+      );
+
+      if (!sortDirection) {
+        setData(args.data);
+        return;
+      }
+
+      const sortedData = [...data].sort((a, b) => {
+        const bVal = Object.values(a)[columnIndex];
+        const aVal = Object.values(b)[columnIndex];
+
+        if (bVal < aVal) return sortDirection === 'ascending' ? -1 : 1;
+        if (bVal > aVal) return sortDirection === 'ascending' ? 1 : -1;
+        return 0;
+      });
+      setData(sortedData);
+    }
+
+    return <Table data={data} columns={columns} getKey={args.getKey} onSort={handleSort} />;
   },
 };

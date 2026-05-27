@@ -1,5 +1,9 @@
 import React, {type Context, createContext, useContext, type HTMLAttributes, Fragment, type ReactNode} from 'react';
 import classNames from 'classnames';
+import sortableIcon from '@jetbrains/icons/unsorted-12px';
+import sortedIcon from '@jetbrains/icons/chevron-12px-down';
+
+import Icon from '../icon/icon';
 
 import type Selection from '../legacy-table/selection';
 
@@ -67,7 +71,7 @@ export interface TableProps<T> {
   onRowMove?: (item: T, fromIndex: number, toIndex: number) => void;
 
   /**
-   * Called when the client clicks on a sortable column header.
+   * Called when the client clicks on SortButton in a column header.
    */
   onSort?: (columnIndex: number, direction: SortDirection) => void;
 
@@ -129,7 +133,7 @@ export interface TableProps<T> {
   columnEditButton?: 'everywhere' | 'mobileOnly';
 }
 
-export type SortDirection = 'asc' | 'desc' | undefined;
+export type SortDirection = 'ascending' | 'descending' | undefined;
 
 /**
  * The column specification.
@@ -163,14 +167,7 @@ export interface Column<T> {
   indent?: boolean;
 
   /**
-   * When `true`, TableProps.onSort will be called when the client
-   * clicks on the column header.
-   */
-  sortable?: boolean;
-
-  /**
-   * The current sort direction to display in the column header, and to determine
-   * the next sort direction when the client clicks on the column header.
+   * The current sort direction displayed by SortButton and indicated by `aria-sort` in `th`.
    */
   sortDirection?: SortDirection;
 
@@ -200,7 +197,9 @@ export interface StandardRowRendererProps<T> {
   index: number;
 }
 
-const TableContext = createContext<TableProps<unknown> | null>(null);
+const TablePropsContext = createContext<TableProps<unknown> | null>(null);
+
+const ColumnIndexContext = createContext<number>(-1);
 
 /**
  * The new Table component. Use it instead of tables in the `legacy-table` folder.
@@ -226,16 +225,20 @@ const TableContext = createContext<TableProps<unknown> | null>(null);
 export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
   const {data, columns, renderItem, className, theadClassName, theadTrClassName, tbodyClassName} = props;
 
-  const TheTableContext = TableContext as Context<TableProps<T> | null>;
-
   return (
-    <TheTableContext.Provider value={props}>
+    <TablePropsContext.Provider value={props as TableProps<unknown>}>
       <table className={classNames(styles.table, className)}>
         <thead className={theadClassName}>
           <tr className={classNames(styles.headerRow, theadTrClassName)}>
-            {columns.map(column => (
-              <th key={column.key} className={classNames(styles.headerCell, column.thClassName)}>
-                {column.renderHeader?.() ?? String(column.key)}
+            {columns.map((column, columnIndex) => (
+              <th
+                key={column.key}
+                className={classNames(styles.headerCell, column.thClassName)}
+                aria-sort={column.sortDirection}
+              >
+                <ColumnIndexContext.Provider value={columnIndex}>
+                  {column.renderHeader?.() ?? String(column.key)}
+                </ColumnIndexContext.Provider>
               </th>
             ))}
           </tr>
@@ -252,7 +255,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
           })}
         </tbody>
       </table>
-    </TheTableContext.Provider>
+    </TablePropsContext.Provider>
   );
 }
 
@@ -263,7 +266,7 @@ const INDENT_SIZE = 16;
  * You can also use it as a fallback in a custom `renderItem` implementation.
  */
 export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T>) {
-  const tableProps = useContext(TableContext as Context<TableProps<T>>);
+  const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
 
   if (!tableProps) {
     return null;
@@ -348,4 +351,36 @@ export function TableCell(props: HTMLAttributes<HTMLTableCellElement>) {
   const {className, ...restProps} = props;
   const classes = classNames(styles.cell, className);
   return <td className={classes} {...restProps} />;
+}
+
+/**
+ * Include it in a column header to make the column sortable.
+ */
+export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
+  const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
+  const columnIndex = useContext(ColumnIndexContext);
+  const column = tableProps.columns[columnIndex];
+  if (!tableProps || !column) {
+    return null;
+  }
+
+  const glyph = column.sortDirection ? sortedIcon : sortableIcon;
+
+  function handleClick() {
+    const {sortDirection} = column;
+    const order = [undefined, 'ascending', 'descending'] as const;
+    const nextDirection = order[(order.indexOf(sortDirection) + 1) % order.length];
+    tableProps.onSort?.(columnIndex, nextDirection);
+  }
+
+  const {children, ...restProps} = props;
+
+  const iconClass = column.sortDirection === 'descending' ? styles.sortButtonIconDesc : undefined;
+
+  return (
+    <button type='button' onClick={handleClick} {...restProps}>
+      {children}
+      <Icon glyph={glyph} className={iconClass} />
+    </button>
+  );
 }

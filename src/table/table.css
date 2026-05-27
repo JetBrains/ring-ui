@@ -70,3 +70,8 @@
 .cell {
   padding: var(--ring-unit);
 }
+
+.sortButtonIconDesc {
+  transform: rotate(180deg);
+  transform-origin: center 44%;
+}
