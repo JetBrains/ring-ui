@@ -122,6 +122,27 @@ export interface TableProps<T> {
   renderItem?: (item: T, index: number) => ReactNode;
 
   /**
+   * Only renders visible rows, and replaces others with spacers.
+   */
+  virtualizeRows?: boolean;
+
+  /**
+   * Used with `virtualizeRows` to estimate the height of items which have not been rendered yet.
+   * The function should be fast and side-effect free. Don't measure DOM here.
+   * Once a row gets rendered, its actual height will be measured and used instead of this estimate.
+   *
+   * Default: 37px = 16px paddings + 20px line height + 1px border.
+   */
+  estimateHeight?: (index: number) => number;
+
+  /**
+   * When using `virtualizeRows`, the number of pixels to keep rendered above and below the visible area.
+   *
+   * Default: 400px.
+   */
+  overscrollPx?: number;
+
+  /**
    * Applied to the `<thead>` element.
    */
   theadClassName?: string;
@@ -234,11 +255,6 @@ export const ColumnIndexContext = createContext<number>(-1);
 
 export const CollapseItemIntoSpacerContext = createContext<(height: number) => void>(() => {});
 
-// eslint-disable-next-line no-magic-numbers
-const defaultEstimateHeight = 16 /* padding */ + 20 /* line height */ + 1; /* border */
-
-const defaultOverscrollPx = 500;
-
 /**
  * The new Table component. Use it instead of tables in the `legacy-table` folder.
  *
@@ -280,16 +296,33 @@ const defaultOverscrollPx = 500;
  * to update `columns` by removing the corresponding column.
  */
 export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
-  const {data, columns, renderItem, className, theadClassName, theadTrClassName, tbodyClassName} = props;
+  const {
+    data,
+    columns,
+    renderItem,
+    virtualizeRows,
+    estimateHeight: estimateHeightProp,
+    overscrollPx: overscrollPxProp,
+    className,
+    theadClassName,
+    theadTrClassName,
+    tbodyClassName,
+  } = props;
 
   const tableRef = useRef<HTMLTableElement | null>(null);
 
-  const {virtualItems, collapseItemIntoSpacer} = useTableVirtualize(
-    data.length,
+  // eslint-disable-next-line no-magic-numbers
+  const estimateHeight = estimateHeightProp ?? (() => 37);
+  // eslint-disable-next-line no-magic-numbers
+  const overscrollPx = overscrollPxProp ?? 400;
+
+  const {virtualItems, collapseItemIntoSpacer} = useTableVirtualize({
+    enabled: virtualizeRows ?? false,
+    length: data.length,
     tableRef,
-    _index => defaultEstimateHeight,
-    defaultOverscrollPx,
-  );
+    estimateHeight,
+    overscrollPx,
+  });
 
   return (
     <TablePropsContext.Provider value={props as TableProps<unknown>}>
@@ -311,7 +344,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
         </thead>
 
         <tbody className={tbodyClassName}>
-          <IntersectionObserverContext.Provider value={useIntersectionObserverHandle(undefined, defaultOverscrollPx)}>
+          <IntersectionObserverContext.Provider value={useIntersectionObserverHandle(undefined, overscrollPx)}>
             {virtualItems.map(virtualItem => {
               if (virtualItem.type === 'spacer') {
                 return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;

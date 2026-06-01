@@ -26,29 +26,40 @@ interface Spacer {
 }
 
 // TODO scroller ref
-export function useTableVirtualize(
-  dataLength: number,
-  tableRef: RefObject<HTMLTableElement | null>,
-  estimateHeight: (index: number) => number,
-  overscrollPx: number,
-) {
+export function useTableVirtualize({
+  enabled,
+  length,
+  tableRef,
+  estimateHeight,
+  overscrollPx,
+}: {
+  enabled: boolean;
+  length: number;
+  tableRef: RefObject<HTMLTableElement | null>;
+  estimateHeight: (index: number) => number;
+  overscrollPx: number;
+}) {
   const itemsMaterialization = useRef<ItemMaterialization[]>([]);
 
-  const [virtualItems, setVirtualItems] = useState<VirtualItem[]>([
-    {
-      type: 'spacer',
-      from: 0,
-      to: dataLength,
-      height: Array.from({length: dataLength}, (_, i) => estimateHeight(i)).reduce((a, b) => a + b),
-      key: `${styles.spacerRow}-0`,
-    },
-  ]);
+  const [virtualItems, setVirtualItems] = useState<VirtualItem[]>(() =>
+    enabled
+      ? [
+          {
+            type: 'spacer',
+            from: 0,
+            to: length,
+            height: Array.from({length}, (_, i) => estimateHeight(i)).reduce((a, b) => a + b),
+            key: `${styles.spacerRow}-0`,
+          },
+        ]
+      : Array.from({length}, (_, index) => ({type: 'rendered', index})),
+  );
 
   const recomputeVirtualItems = useEventCallback(() => {
     const newVirtualItems: VirtualItem[] = [];
     let spacerCounter = 0;
 
-    for (let i = 0; i < dataLength; i++) {
+    for (let i = 0; i < length; i++) {
       const itemMaterialization = itemsMaterialization.current[i];
 
       if (itemMaterialization === true) {
@@ -79,13 +90,15 @@ export function useTableVirtualize(
   const scrollListenerRaf = useMemo(() => scheduleRAF(), []);
 
   useEffect(() => {
+    if (!enabled) return;
+
     function scrollListener() {
       scrollListenerRaf(() => {
         if (!tableRef.current) return;
 
         for (const spacerRow of tableRef.current.querySelectorAll(`.${styles.spacerRow}`)) {
           const rect = spacerRow.getBoundingClientRect();
-          if (rect.top < window.innerHeight && rect.bottom > 0) {
+          if (rect.top - overscrollPx < window.innerHeight && rect.bottom + overscrollPx > 0) {
             const spacerVisibleOffsetStart = Math.max(0, -rect.top);
             const spacerInvisibleBottom = Math.max(0, rect.bottom - window.innerHeight);
             const spacerVisibleOffsetEnd = rect.height - spacerInvisibleBottom;
@@ -130,11 +143,13 @@ export function useTableVirtualize(
       resizeObserver.unobserve(document.body);
       resizeObserver.disconnect();
     };
-  }, [recomputeVirtualItems, scrollListenerRaf, estimateHeight, tableRef, dataLength, overscrollPx]);
+  }, [recomputeVirtualItems, scrollListenerRaf, estimateHeight, tableRef, length, overscrollPx, enabled]);
 
   const virtualizeItemRaf = useMemo(() => scheduleRAF(), []);
 
   const collapseItemIntoSpacer = useEventCallback<[index: number, height: number], void>((index, height) => {
+    if (!enabled) return;
+
     itemsMaterialization.current[index] = height;
     virtualizeItemRaf(() => {
       recomputeVirtualItems();

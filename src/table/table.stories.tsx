@@ -190,7 +190,7 @@ export const WithVirtualization: TableStory<[string, string, number]> = {
         return [issueId, priority, votes] as [string, string, number];
       }),
     );
-    return <Table data={data} columns={args.columns} getKey={args.getKey} />;
+    return <Table data={data} columns={args.columns} getKey={args.getKey} virtualizeRows />;
   },
 
   tags: ['!autodocs'],
