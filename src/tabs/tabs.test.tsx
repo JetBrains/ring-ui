@@ -78,6 +78,16 @@ describe('Tabs', () => {
     expect(screen.getByRole('button', {name: 'Second'})).to.not.have.attribute('data-test-selected', 'true');
   });
 
+  it('should render default data-test on the tab container when no tabContainerDataTest is passed', () => {
+    renderTabs();
+    expect(screen.getByTestId('ring-tabs-container')).to.exist;
+  });
+
+  it('should compose tabContainerDataTest with the default data-test on the tab container', () => {
+    renderTabs({tabContainerDataTest: 'my-tabs'});
+    expect(screen.getByTestId('ring-tabs-container my-tabs')).to.exist;
+  });
+
   it('should skip CustomItem when selecting the fallback tab', () => {
     render(
       <Tabs selected='non-existing-id'>
