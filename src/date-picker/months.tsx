@@ -7,7 +7,7 @@ import units, {type MonthsProps} from './consts';
 import {ScrollArith} from './scroll-arith';
 import {useScrollBehavior} from './use-scroll-behavior';
 import scheduleRAF from '../global/schedule-raf';
-import {useIntersectionObserver} from './use-intersection-observer';
+import {useIntersectionObserverHandle, IntersectionObserverContext} from '../global/intersection-observer-context';
 
 import styles from './date-picker.css';
 
@@ -46,13 +46,15 @@ export default function Months(props: MonthsProps) {
     scheduleScroll,
   );
 
-  const intersectionObserverHandle = useIntersectionObserver(containerRef, intersectionObserverScrollMargin);
-
   return (
-    <div className={styles.months} ref={containerRef} data-test='ring-date-popup--months'>
-      {items.map(month => (
-        <Month {...props} month={month} key={+month} intersectionObserverHandle={intersectionObserverHandle} />
-      ))}
-    </div>
+    <IntersectionObserverContext.Provider
+      value={useIntersectionObserverHandle(containerRef, intersectionObserverScrollMargin)}
+    >
+      <div className={styles.months} ref={containerRef} data-test='ring-date-popup--months'>
+        {items.map(month => (
+          <Month {...props} month={month} key={+month} />
+        ))}
+      </div>
+    </IntersectionObserverContext.Provider>
   );
 }

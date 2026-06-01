@@ -1,5 +1,13 @@
 /* eslint-disable max-lines */
-import React, {type Context, createContext, useContext, type HTMLAttributes, Fragment, type ReactNode} from 'react';
+import React, {
+  type Context,
+  createContext,
+  useContext,
+  type HTMLAttributes,
+  Fragment,
+  type ReactNode,
+  useRef,
+} from 'react';
 import classNames from 'classnames';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
@@ -7,6 +15,12 @@ import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
 import trashIcon from '@jetbrains/icons/trash-12px';
 
 import Icon from '../icon/icon';
+import {
+  IntersectionObserverContext,
+  useIntersectionObserverHandle,
+  useIsIntersectingListener,
+} from '../global/intersection-observer-context';
+import {SpacerRow, useTableVirtualize} from './table-virtualize';
 
 import type Selection from '../legacy-table/selection';
 
@@ -214,9 +228,14 @@ export interface StandardRowRendererProps<T> {
   index: number;
 }
 
-const TablePropsContext = createContext<TableProps<unknown> | null>(null);
+export const TablePropsContext = createContext<TableProps<unknown> | null>(null);
 
-const ColumnIndexContext = createContext<number>(-1);
+export const ColumnIndexContext = createContext<number>(-1);
+
+export const VirtualizeItemContext = createContext<(height: number) => void>(() => {});
+
+// eslint-disable-next-line no-magic-numbers
+const defaultEstimateHeight = 16 /* padding */ + 20 /* line height */ + 1; /* border */
 
 /**
  * The new Table component. Use it instead of tables in the `legacy-table` folder.
@@ -261,9 +280,13 @@ const ColumnIndexContext = createContext<number>(-1);
 export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
   const {data, columns, renderItem, className, theadClassName, theadTrClassName, tbodyClassName} = props;
 
+  const tableRef = useRef<HTMLTableElement | null>(null);
+
+  const {virtualItems, virtualizeItem} = useTableVirtualize(data.length, tableRef, _index => defaultEstimateHeight);
+
   return (
     <TablePropsContext.Provider value={props as TableProps<unknown>}>
-      <table className={classNames(styles.table, className)}>
+      <table className={classNames(styles.table, className)} ref={tableRef}>
         <thead className={theadClassName}>
           <tr className={classNames(styles.headerRow, theadTrClassName)}>
             {columns.map((column, columnIndex) => (
@@ -281,14 +304,26 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
         </thead>
 
         <tbody className={tbodyClassName}>
-          {data.map((item, index) => {
-            const key = props.getKey(item, index);
-            return renderItem ? (
-              <Fragment key={key}>{renderItem(item, index)}</Fragment>
-            ) : (
-              <StandardRowRenderer key={key} item={item} index={index} />
-            );
-          })}
+          <IntersectionObserverContext.Provider value={useIntersectionObserverHandle()}>
+            {virtualItems.map(virtualItem => {
+              if (virtualItem.type === 'spacer') {
+                return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+              }
+
+              const index = virtualItem.index;
+              const item = data[index];
+              const key = props.getKey(item, index);
+              return (
+                <VirtualizeItemContext.Provider value={height => virtualizeItem(index, height)} key={key}>
+                  {renderItem ? (
+                    <Fragment>{renderItem(item, index)}</Fragment>
+                  ) : (
+                    <StandardRowRenderer item={item} index={index} />
+                  )}
+                </VirtualizeItemContext.Provider>
+              );
+            })}
+          </IntersectionObserverContext.Provider>
         </tbody>
       </table>
     </TablePropsContext.Provider>
@@ -304,9 +339,14 @@ const INDENT_SIZE = 16;
 export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
 
-  if (!tableProps) {
-    return null;
-  }
+  const rowRef = useRef<HTMLTableRowElement | null>(null);
+
+  const virtualizeItem = useContext(VirtualizeItemContext);
+  useIsIntersectingListener(rowRef, isIntersecting => {
+    if (rowRef.current && !isIntersecting) {
+      virtualizeItem(rowRef.current!.getBoundingClientRect().height);
+    }
+  });
 
   const {columns, selection, isClickable, onItemClick, getItemLevel, tbodyTrClassName} = tableProps;
   const clickable = isClickable?.(item, index);
@@ -333,6 +373,7 @@ export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T
 
   return (
     <TableRow
+      ref={rowRef}
       className={classNames(
         getItemDependentClassName(tbodyTrClassName),
         clickable && styles.clickableRow,
@@ -373,10 +414,10 @@ function getDefaultCellValue<T>(item: T, columnIndex: number) {
  * A helper `<tr>` component for custom `renderItem` implementations.
  * Applies standard row classnames, but not data-dependent `tbodyTrClassName`.
  */
-export function TableRow(props: HTMLAttributes<HTMLTableRowElement>) {
-  const {className, ...restProps} = props;
+export function TableRow(props: {ref?: React.Ref<HTMLTableRowElement>} & HTMLAttributes<HTMLTableRowElement>) {
+  const {ref, className, ...restProps} = props;
   const classes = classNames(styles.row, className);
-  return <tr className={classes} {...restProps} />;
+  return <tr ref={ref} className={classes} {...restProps} />;
 }
 
 /**

@@ -166,3 +166,32 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
     );
   },
 };
+
+export const WithVirtualization: TableStory<[string, string, number]> = {
+  args: {
+    data: [],
+    columns: [{key: 'ID'}, {key: 'Priority'}, {key: 'Votes'}],
+    getKey: item => item[0],
+  },
+
+  render(args) {
+    // Otherwise the storybook hangs
+    const [data] = useState(() =>
+      Array.from({length: 100_000}, (_, i) => {
+        const hash = Math.imul(i + 1, 2654435761) >>> 0;
+
+        const aCode = 'A'.codePointAt(0)!;
+        const firstLetter = String.fromCharCode(aCode + (hash % 26));
+        const secondLetter = String.fromCharCode(aCode + ((hash >>> 5) % 26));
+        const issueId = `${firstLetter}${secondLetter}-${i}`;
+
+        const votes = (hash >>> 10) % 1000;
+        const priority = ['Minor', 'Normal', 'Major'][(hash >>> 20) % 3];
+        return [issueId, priority, votes] as [string, string, number];
+      }),
+    );
+    return <Table data={data} columns={args.columns} getKey={args.getKey} />;
+  },
+
+  tags: ['!autodocs'],
+};
