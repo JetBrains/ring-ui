@@ -124,6 +124,7 @@ export function useTableVirtualize(
     resizeObserver.observe(document.body);
 
     scrollListener();
+
     return () => {
       window.removeEventListener('scroll', scrollListener);
       resizeObserver.unobserve(document.body);
@@ -143,10 +144,10 @@ export function useTableVirtualize(
   return {virtualItems, collapseItemIntoSpacer};
 }
 
-export function SpacerRow({spacer, colSpan}: {spacer: Spacer; colSpan: number}) {
+export function SpacerRow({spacer: {from, to, height}, colSpan}: {spacer: Spacer; colSpan: number}) {
   return (
-    <tr className={styles.spacerRow} data-from={spacer.from} data-to={spacer.to}>
-      <td className={styles.spacerCell} colSpan={colSpan} style={{height: `${spacer.height}px`}} />
+    <tr className={styles.spacerRow} data-from={from} data-to={to}>
+      <td className={styles.spacerCell} colSpan={colSpan} style={{height}} />
     </tr>
   );
 }

@@ -162,7 +162,7 @@ export interface Column<T> {
   key: React.Key;
 
   /**
-   * Used in aria-labels of controls which do not the contain text,
+   * Used in aria-labels of controls which do not contain text,
    * e.g. `DeleteColumnButton`. If not set, the `String(key)` is used.
    */
   name?: string;
@@ -447,7 +447,7 @@ export function TableCell(props: HTMLAttributes<HTMLTableCellElement>) {
 export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
   const columnIndex = useContext(ColumnIndexContext);
-  const column = tableProps.columns[columnIndex];
+  const column = tableProps?.columns[columnIndex];
   if (!tableProps || !column) {
     return null;
   }
@@ -458,13 +458,15 @@ export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
     : sortOrder === 'ascending' ? arrowUpIcon
     : arrowDownIcon;
 
-  function handleClick() {
+  const {className, children, onClick, ...restProps} = props;
+
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     const sequence = ['none', 'ascending', 'descending'] satisfies SortOrder[];
     const nextOrder = sequence[(sequence.indexOf(sortOrder) + 1) % sequence.length];
     tableProps.onSort?.(columnIndex, nextOrder);
-  }
 
-  const {className, children, ...restProps} = props;
+    onClick?.(e);
+  }
 
   return (
     <button type='button' className={classNames(styles.headerButton, className)} onClick={handleClick} {...restProps}>
@@ -481,16 +483,18 @@ export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
 export function DeleteColumnButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
   const columnIndex = useContext(ColumnIndexContext);
-  const column = tableProps.columns[columnIndex];
+  const column = tableProps?.columns[columnIndex];
   if (!tableProps || !column) {
     return null;
   }
 
-  function handleClick() {
-    tableProps.onColumnDelete?.(columnIndex);
-  }
+  const {className, onClick, ...restProps} = props;
 
-  const {className, ...restProps} = props;
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    tableProps.onColumnDelete?.(columnIndex);
+
+    onClick?.(e);
+  }
 
   return (
     <button

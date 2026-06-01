@@ -141,11 +141,11 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
       }
 
       const sortedData = [...data].sort((a, b) => {
-        const bVal = Object.values(a)[columnIndex];
-        const aVal = Object.values(b)[columnIndex];
+        const aVal = Object.values(a)[columnIndex];
+        const bVal = Object.values(b)[columnIndex];
 
-        if (bVal < aVal) return sortOrder === 'ascending' ? -1 : 1;
-        if (bVal > aVal) return sortOrder === 'ascending' ? 1 : -1;
+        if (aVal < bVal) return sortOrder === 'ascending' ? -1 : 1;
+        if (aVal > bVal) return sortOrder === 'ascending' ? 1 : -1;
         return 0;
       });
       setData(sortedData);

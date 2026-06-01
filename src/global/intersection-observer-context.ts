@@ -68,7 +68,7 @@ export interface IntersectionObserverHandle {
 
 export function useIsIntersecting(elementRef: RefObject<Element | null>) {
   const handle = useContext(IntersectionObserverContext);
-  const [isIntersecting, setIsIntersecting] = useState(!handle);
+  const [isIntersecting, setIsIntersecting] = useState(false);
 
   useEffect(() => {
     const element = elementRef.current;
