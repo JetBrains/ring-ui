@@ -232,10 +232,12 @@ export const TablePropsContext = createContext<TableProps<unknown> | null>(null)
 
 export const ColumnIndexContext = createContext<number>(-1);
 
-export const VirtualizeItemContext = createContext<(height: number) => void>(() => {});
+export const CollapseItemIntoSpacerContext = createContext<(height: number) => void>(() => {});
 
 // eslint-disable-next-line no-magic-numbers
 const defaultEstimateHeight = 16 /* padding */ + 20 /* line height */ + 1; /* border */
+
+const defaultOverscrollPx = 500;
 
 /**
  * The new Table component. Use it instead of tables in the `legacy-table` folder.
@@ -282,7 +284,12 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
 
   const tableRef = useRef<HTMLTableElement | null>(null);
 
-  const {virtualItems, virtualizeItem} = useTableVirtualize(data.length, tableRef, _index => defaultEstimateHeight);
+  const {virtualItems, collapseItemIntoSpacer} = useTableVirtualize(
+    data.length,
+    tableRef,
+    _index => defaultEstimateHeight,
+    defaultOverscrollPx,
+  );
 
   return (
     <TablePropsContext.Provider value={props as TableProps<unknown>}>
@@ -304,7 +311,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
         </thead>
 
         <tbody className={tbodyClassName}>
-          <IntersectionObserverContext.Provider value={useIntersectionObserverHandle()}>
+          <IntersectionObserverContext.Provider value={useIntersectionObserverHandle(undefined, defaultOverscrollPx)}>
             {virtualItems.map(virtualItem => {
               if (virtualItem.type === 'spacer') {
                 return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
@@ -314,13 +321,16 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
               const item = data[index];
               const key = props.getKey(item, index);
               return (
-                <VirtualizeItemContext.Provider value={height => virtualizeItem(index, height)} key={key}>
+                <CollapseItemIntoSpacerContext.Provider
+                  value={height => collapseItemIntoSpacer(index, height)}
+                  key={key}
+                >
                   {renderItem ? (
                     <Fragment>{renderItem(item, index)}</Fragment>
                   ) : (
                     <StandardRowRenderer item={item} index={index} />
                   )}
-                </VirtualizeItemContext.Provider>
+                </CollapseItemIntoSpacerContext.Provider>
               );
             })}
           </IntersectionObserverContext.Provider>
@@ -341,10 +351,10 @@ export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T
 
   const rowRef = useRef<HTMLTableRowElement | null>(null);
 
-  const virtualizeItem = useContext(VirtualizeItemContext);
+  const collapseItemIntoSpacer = useContext(CollapseItemIntoSpacerContext);
   useIsIntersectingListener(rowRef, isIntersecting => {
     if (rowRef.current && !isIntersecting) {
-      virtualizeItem(rowRef.current!.getBoundingClientRect().height);
+      collapseItemIntoSpacer(rowRef.current!.getBoundingClientRect().height);
     }
   });
 

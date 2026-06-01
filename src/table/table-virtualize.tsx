@@ -6,9 +6,9 @@ import scheduleRAF from '../global/schedule-raf';
 import styles from './table.css';
 
 /**
- * true = visible
- * number = the height of the item when it is not visible
- * undefined = wasn't ever visible
+ * true = item is rendered
+ * number = item is not rendered; value is its last known height, which is included in spacer
+ * undefined = item has never been rendered; spacer includes the estimated height
  */
 type ItemMaterialization = true | number | undefined;
 
@@ -30,6 +30,7 @@ export function useTableVirtualize(
   dataLength: number,
   tableRef: RefObject<HTMLTableElement | null>,
   estimateHeight: (index: number) => number,
+  overscrollPx: number,
 ) {
   const itemsMaterialization = useRef<ItemMaterialization[]>([]);
 
@@ -100,9 +101,12 @@ export function useTableVirtualize(
               const itemVisibleFrom = accumulatedHeight;
               const itemVisibleTo = accumulatedHeight + itemHeight;
 
-              if (itemVisibleFrom < spacerVisibleOffsetEnd && itemVisibleTo > spacerVisibleOffsetStart) {
+              if (
+                itemVisibleFrom < spacerVisibleOffsetEnd + overscrollPx &&
+                itemVisibleTo > spacerVisibleOffsetStart - overscrollPx
+              ) {
                 itemsMaterialization.current[i] = true;
-              } else if (itemVisibleFrom > spacerVisibleOffsetEnd) {
+              } else if (itemVisibleFrom > spacerVisibleOffsetEnd + overscrollPx) {
                 break;
               }
 
@@ -116,23 +120,27 @@ export function useTableVirtualize(
     }
 
     window.addEventListener('scroll', scrollListener, {passive: true});
-    // TODO resize
+    const resizeObserver = new ResizeObserver(scrollListener);
+    resizeObserver.observe(document.body);
+
     scrollListener();
     return () => {
       window.removeEventListener('scroll', scrollListener);
+      resizeObserver.unobserve(document.body);
+      resizeObserver.disconnect();
     };
-  }, [recomputeVirtualItems, scrollListenerRaf, estimateHeight, tableRef, dataLength]);
+  }, [recomputeVirtualItems, scrollListenerRaf, estimateHeight, tableRef, dataLength, overscrollPx]);
 
   const virtualizeItemRaf = useMemo(() => scheduleRAF(), []);
 
-  const virtualizeItem = useEventCallback<[index: number, height: number], void>((index, height) => {
+  const collapseItemIntoSpacer = useEventCallback<[index: number, height: number], void>((index, height) => {
     itemsMaterialization.current[index] = height;
     virtualizeItemRaf(() => {
       recomputeVirtualItems();
     });
   });
 
-  return {virtualItems, virtualizeItem};
+  return {virtualItems, collapseItemIntoSpacer};
 }
 
 export function SpacerRow({spacer, colSpan}: {spacer: Spacer; colSpan: number}) {
