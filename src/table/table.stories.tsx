@@ -170,7 +170,18 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
 export const WithVirtualization: TableStory<[string, string, number]> = {
   args: {
     data: [],
-    columns: [{key: 'ID'}, {key: 'Priority'}, {key: 'Votes'}],
+    columns: [
+      {
+        key: 'ID',
+        renderCell: item => (
+          <Link href={`https://example.org/issue/${item[0]}/`} target='_blank'>
+            {item[0]}
+          </Link>
+        ),
+      },
+      {key: 'Priority'},
+      {key: 'Votes'},
+    ],
     getKey: item => item[0],
   },
 
@@ -191,7 +202,18 @@ export const WithVirtualization: TableStory<[string, string, number]> = {
 export const WithVirtualizationInScroller: TableStory<[string, string, number]> = {
   args: {
     data: [],
-    columns: [{key: 'ID'}, {key: 'Priority'}, {key: 'Votes'}],
+    columns: [
+      {
+        key: 'ID',
+        renderCell: item => (
+          <Link href={`https://example.org/issue/${item[0]}/`} target='_blank'>
+            {item[0]}
+          </Link>
+        ),
+      },
+      {key: 'Priority'},
+      {key: 'Votes'},
+    ],
     getKey: item => item[0],
   },
 
