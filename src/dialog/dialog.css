@@ -69,6 +69,14 @@
   }
 }
 
+.contentCloseButtonOutside {
+  max-width: calc(100dvw - var(--ring-unit) * 8);
+}
+
+.contentCloseButtonInside {
+  max-width: calc(100dvw - var(--ring-unit) * 4);
+}
+
 .content.content {
   box-shadow: var(--ring-dialog-shadow);
 }
