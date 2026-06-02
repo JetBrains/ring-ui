@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {useRef, useState} from 'react';
 
-import Table, {DeleteColumnButton, SortButton, type SortOrder} from './table';
+import Table, {type Column, DeleteColumnButton, SortButton, type SortOrder} from './table';
 import Link from '../link/link';
 import Selection from '../legacy-table/selection';
 import Checkbox from '../checkbox/checkbox';
+import Tag, {TagType} from '../tag/tag';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -127,30 +128,6 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
     const [data, setData] = useState(args.data);
     const [columns, setColumns] = useState(args.columns);
 
-    function handleSort(columnIndex: number, sortOrder: SortOrder) {
-      setColumns(
-        columns.map((column, i) => ({
-          ...column,
-          sortOrder: i === columnIndex ? sortOrder : undefined,
-        })),
-      );
-
-      if (sortOrder === 'none') {
-        setData(args.data);
-        return;
-      }
-
-      const sortedData = [...data].sort((a, b) => {
-        const aVal = Object.values(a)[columnIndex];
-        const bVal = Object.values(b)[columnIndex];
-
-        if (aVal < bVal) return sortOrder === 'ascending' ? -1 : 1;
-        if (aVal > bVal) return sortOrder === 'ascending' ? 1 : -1;
-        return 0;
-      });
-      setData(sortedData);
-    }
-
     function handleColumnDelete(columnIndex: number) {
       setColumns(columns.filter((_, i) => i !== columnIndex));
     }
@@ -160,37 +137,120 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
         data={data}
         columns={columns}
         getKey={args.getKey}
-        onSort={handleSort}
+        onSort={(columnIndex, sortOrder) =>
+          sortDataByColumn(data, columns, columnIndex, sortOrder, setData, setColumns)
+        }
         onColumnDelete={handleColumnDelete}
       />
     );
   },
 };
 
-export const WithVirtualization: TableStory<[string, string, number]> = {
+function sortDataByColumn<T extends Record<string, unknown> | [string, string, number]>(
+  data: T[],
+  columns: Column<T>[],
+  columnIndex: number,
+  sortOrder: SortOrder,
+  setData: (data: T[]) => void,
+  setColumns: (columns: Column<T>[]) => void,
+) {
+  setColumns(
+    columns.map((column, i) => ({
+      ...column,
+      sortOrder: i === columnIndex ? sortOrder : undefined,
+    })),
+  );
+
+  if (sortOrder === 'none') {
+    setData(data);
+    return;
+  }
+
+  const sortedData = [...data].sort((a, b) => {
+    const aVal = Object.values(a)[columnIndex];
+    const bVal = Object.values(b)[columnIndex];
+
+    if (
+      (typeof aVal === 'string' || typeof aVal === 'number') &&
+      (typeof bVal === 'string' || typeof bVal === 'number')
+    ) {
+      if (aVal < bVal) return sortOrder === 'ascending' ? -1 : 1;
+      if (aVal > bVal) return sortOrder === 'ascending' ? 1 : -1;
+    }
+    return 0;
+  });
+  setData(sortedData);
+}
+
+type Priority = 'Minor' | 'Normal' | 'Major';
+type Issue = [id: string, priority: Priority, votes: number];
+
+const issuesLongData: Issue[] = Array.from({length: 100_000}, (_, i) => {
+  const hash = Math.imul(i + 1, 2654435761) >>> 0;
+
+  const aCode = 'A'.codePointAt(0)!;
+  const firstLetter = String.fromCharCode(aCode + (hash % 26));
+  const secondLetter = String.fromCharCode(aCode + ((hash >>> 5) % 26));
+  const issueId = `${firstLetter}${secondLetter}-${i}`;
+
+  const votes = (hash >>> 10) % 1000;
+  const priority = (['Minor', 'Normal', 'Major'] as const)[(hash >>> 20) % 3];
+  return [issueId, priority, votes];
+});
+
+const issuesColumns = [
+  {
+    key: 'ID',
+    renderCell: item => (
+      <Link href={`https://example.org/issue/${item[0]}/`} target='_blank'>
+        {item[0]}
+      </Link>
+    ),
+    renderHeader: () => <SortButton>ID</SortButton>,
+  },
+  {
+    key: 'Priority',
+    renderHeader: () => <SortButton>Priority</SortButton>,
+    renderCell: ([, priority]) => (
+      // eslint-disable-next-line no-nested-ternary
+      <Tag tagType={priority === 'Minor' ? TagType.MAIN : priority === 'Major' ? TagType.WARNING : undefined}>
+        {priority}
+      </Tag>
+    ),
+  },
+  {
+    key: 'Votes',
+    renderHeader: () => <SortButton>Votes</SortButton>,
+  },
+] satisfies Column<Issue>[];
+
+export const WithVirtualization: TableStory<Issue> = {
   args: {
+    // Passing long data here would freeze the Storybook
     data: [],
-    columns: [
-      {
-        key: 'ID',
-        renderCell: item => (
-          <Link href={`https://example.org/issue/${item[0]}/`} target='_blank'>
-            {item[0]}
-          </Link>
-        ),
-      },
-      {key: 'Priority'},
-      {key: 'Votes'},
-    ],
+    columns: issuesColumns,
     getKey: item => item[0],
   },
 
   render(args) {
-    const [data] = useState(createLongData);
-    return <Table data={data} columns={args.columns} getKey={args.getKey} virtualizeRows />;
+    const [data, setData] = useState(issuesLongData);
+    const [columns, setColumns] = useState(args.columns);
+
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        getKey={args.getKey}
+        onSort={(columnIndex, newOrder) =>
+          sortDataByColumn(issuesLongData, columns, columnIndex, newOrder, setData, setColumns)
+        }
+        virtualizeRows
+      />
+    );
   },
 
   parameters: {
+    // Otherwise the Storybook freezes
     docs: {
       disable: true,
     },
@@ -199,30 +259,30 @@ export const WithVirtualization: TableStory<[string, string, number]> = {
   tags: ['!autodocs'],
 };
 
-export const WithVirtualizationInScroller: TableStory<[string, string, number]> = {
+export const WithVirtualizationInScroller: TableStory<Issue> = {
   args: {
     data: [],
-    columns: [
-      {
-        key: 'ID',
-        renderCell: item => (
-          <Link href={`https://example.org/issue/${item[0]}/`} target='_blank'>
-            {item[0]}
-          </Link>
-        ),
-      },
-      {key: 'Priority'},
-      {key: 'Votes'},
-    ],
+    columns: issuesColumns,
     getKey: item => item[0],
   },
 
   render(args) {
-    const [data] = useState(createLongData);
+    const [data, setData] = useState(issuesLongData);
+    const [columns, setColumns] = useState(args.columns);
     const scrollerRef = useRef<HTMLDivElement | null>(null);
+
     return (
       <div className={style.scroller} ref={scrollerRef}>
-        <Table data={data} columns={args.columns} getKey={args.getKey} virtualizeRows scrollerRef={scrollerRef} />
+        <Table
+          data={data}
+          columns={columns}
+          getKey={args.getKey}
+          onSort={(columnIndex, newOrder) =>
+            sortDataByColumn(issuesLongData, columns, columnIndex, newOrder, setData, setColumns)
+          }
+          virtualizeRows
+          scrollerRef={scrollerRef}
+        />
       </div>
     );
   },
@@ -235,21 +295,3 @@ export const WithVirtualizationInScroller: TableStory<[string, string, number]> 
 
   tags: ['!autodocs'],
 };
-
-/**
- * Use inside `render()`, otherwise the storybook hangs.
- */
-function createLongData() {
-  return Array.from({length: 100_000}, (_, i) => {
-    const hash = Math.imul(i + 1, 2654435761) >>> 0;
-
-    const aCode = 'A'.codePointAt(0)!;
-    const firstLetter = String.fromCharCode(aCode + (hash % 26));
-    const secondLetter = String.fromCharCode(aCode + ((hash >>> 5) % 26));
-    const issueId = `${firstLetter}${secondLetter}-${i}`;
-
-    const votes = (hash >>> 10) % 1000;
-    const priority = ['Minor', 'Normal', 'Major'][(hash >>> 20) % 3];
-    return [issueId, priority, votes] as [string, string, number];
-  });
-}

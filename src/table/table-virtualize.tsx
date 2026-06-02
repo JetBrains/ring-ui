@@ -75,9 +75,10 @@ export function useTableVirtualize({
 
     for (const spacerRow of tableRef.current.querySelectorAll(`.${styles.spacerRow}`)) {
       const rect = spacerRow.getBoundingClientRect();
-      if (rect.top - overscrollPx < window.innerHeight && rect.bottom + overscrollPx > 0) {
+      const containerHeight = scrollerRef?.current?.clientHeight ?? window.innerHeight;
+      if (rect.top - overscrollPx < containerHeight && rect.bottom + overscrollPx > 0) {
         const spacerVisibleOffsetStart = Math.max(0, -rect.top);
-        const spacerInvisibleBottom = Math.max(0, rect.bottom - window.innerHeight);
+        const spacerInvisibleBottom = Math.max(0, rect.bottom - containerHeight);
         const spacerVisibleOffsetEnd = rect.height - spacerInvisibleBottom;
 
         let accumulatedHeight = 0;
