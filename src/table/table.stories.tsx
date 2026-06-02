@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 
 import Table, {DeleteColumnButton, SortButton, type SortOrder} from './table';
 import Link from '../link/link';
@@ -175,23 +175,59 @@ export const WithVirtualization: TableStory<[string, string, number]> = {
   },
 
   render(args) {
-    // Otherwise the storybook hangs
-    const [data] = useState(() =>
-      Array.from({length: 100_000}, (_, i) => {
-        const hash = Math.imul(i + 1, 2654435761) >>> 0;
-
-        const aCode = 'A'.codePointAt(0)!;
-        const firstLetter = String.fromCharCode(aCode + (hash % 26));
-        const secondLetter = String.fromCharCode(aCode + ((hash >>> 5) % 26));
-        const issueId = `${firstLetter}${secondLetter}-${i}`;
-
-        const votes = (hash >>> 10) % 1000;
-        const priority = ['Minor', 'Normal', 'Major'][(hash >>> 20) % 3];
-        return [issueId, priority, votes] as [string, string, number];
-      }),
-    );
+    const [data] = useState(createLongData);
     return <Table data={data} columns={args.columns} getKey={args.getKey} virtualizeRows />;
+  },
+
+  parameters: {
+    docs: {
+      disable: true,
+    },
   },
 
   tags: ['!autodocs'],
 };
+
+export const WithVirtualizationInScroller: TableStory<[string, string, number]> = {
+  args: {
+    data: [],
+    columns: [{key: 'ID'}, {key: 'Priority'}, {key: 'Votes'}],
+    getKey: item => item[0],
+  },
+
+  render(args) {
+    const [data] = useState(createLongData);
+    const scrollerRef = useRef<HTMLDivElement | null>(null);
+    return (
+      <div className={style.scroller} ref={scrollerRef}>
+        <Table data={data} columns={args.columns} getKey={args.getKey} virtualizeRows scrollerRef={scrollerRef} />
+      </div>
+    );
+  },
+
+  parameters: {
+    docs: {
+      disable: true,
+    },
+  },
+
+  tags: ['!autodocs'],
+};
+
+/**
+ * Use inside `render()`, otherwise the storybook hangs.
+ */
+function createLongData() {
+  return Array.from({length: 100_000}, (_, i) => {
+    const hash = Math.imul(i + 1, 2654435761) >>> 0;
+
+    const aCode = 'A'.codePointAt(0)!;
+    const firstLetter = String.fromCharCode(aCode + (hash % 26));
+    const secondLetter = String.fromCharCode(aCode + ((hash >>> 5) % 26));
+    const issueId = `${firstLetter}${secondLetter}-${i}`;
+
+    const votes = (hash >>> 10) % 1000;
+    const priority = ['Minor', 'Normal', 'Major'][(hash >>> 20) % 3];
+    return [issueId, priority, votes] as [string, string, number];
+  });
+}

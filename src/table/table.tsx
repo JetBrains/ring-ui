@@ -127,16 +127,34 @@ export interface TableProps<T> {
   virtualizeRows?: boolean;
 
   /**
-   * Used with `virtualizeRows` to estimate the height of items which have not been rendered yet.
-   * The function should be fast and side-effect free. Don't measure DOM here.
-   * Once a row gets rendered, its actual height will be measured and used instead of this estimate.
+   * Used with `virtualizeRows` as a source of scroll events, as a target for ResizeObserver,
+   * and as the root for IntersectionObserver. Required when the scrollable container is not
+   * the whole document.
    *
-   * Default: 37px = 16px paddings + 20px line height + 1px border.
+   * If not set:
+   * - scroll listener is attached to `window`
+   * - ResizeObserver observes `document.body`
+   * - intersection observer has no root (i.e. viewport is used)
+   */
+  scrollerRef?: React.RefObject<HTMLElement | null>;
+
+  /**
+   * Used with `virtualizeRows` to estimate the height of items that have not been rendered yet.
+   * The function should be fast and side-effect free. Do not measure the DOM here.
+   * Once a row is rendered, its actual height will be measured and used instead of this estimate.
+   *
+   * Note that it is better to underestimate than overestimate the height:
+   * - When the height is overestimated, the table may materialize too few rows, resulting in blank space.
+   * - When the height is underestimated, the table may materialize more rows than needed, but the extra rows
+   *   will be hidden by IntersectionObserver, resulting only in a small performance overhead.
+   *
+   * Default: 37px = 16px padding + 20px line height + 1px border.
    */
   estimateHeight?: (index: number) => number;
 
   /**
    * When using `virtualizeRows`, the number of pixels to keep rendered above and below the visible area.
+   * Increase when you see too many blank space when scrolling fast.
    *
    * Default: 400px.
    */
@@ -294,6 +312,14 @@ export const CollapseItemIntoSpacerContext = createContext<(height: number) => v
  * - Include `<DeleteColumnButton />` in a column header
  * - Handle `TableProps.onColumnDelete` callback in the client code. It is expected
  * to update `columns` by removing the corresponding column.
+ *
+ * ## Row virtualization
+ * To render only visible rows and replace others with spacers, use the following props:
+ *
+ * - `virtualizeRows`
+ * - `scrollerRef` - required when the scrollable container is not the whole document
+ * - `estimateHeight` - recommended when the cells content is not simple one-line text
+ * - `overscrollPx` - increase if you see too many blank space when scrolling fast
  */
 export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
   const {
@@ -301,6 +327,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
     columns,
     renderItem,
     virtualizeRows,
+    scrollerRef,
     estimateHeight: estimateHeightProp,
     overscrollPx: overscrollPxProp,
     className,
@@ -319,6 +346,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
   const {virtualItems, collapseItemIntoSpacer} = useTableVirtualize({
     enabled: virtualizeRows ?? false,
     length: data.length,
+    scrollerRef,
     tableRef,
     estimateHeight,
     overscrollPx,
@@ -344,7 +372,13 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
         </thead>
 
         <tbody className={tbodyClassName}>
-          <IntersectionObserverContext.Provider value={useIntersectionObserverHandle(undefined, overscrollPx)}>
+          <IntersectionObserverContext.Provider
+            value={useIntersectionObserverHandle(
+              scrollerRef,
+              scrollerRef ? overscrollPx : undefined,
+              !scrollerRef ? overscrollPx : undefined,
+            )}
+          >
             {virtualItems.map(virtualItem => {
               if (virtualItem.type === 'spacer') {
                 return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;

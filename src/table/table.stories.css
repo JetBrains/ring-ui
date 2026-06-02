@@ -1,3 +1,9 @@
 .thWithCheckbox label {
   color: unset;
 }
+
+.scroller {
+  overflow-y: scroll;
+
+  height: 400px;
+}

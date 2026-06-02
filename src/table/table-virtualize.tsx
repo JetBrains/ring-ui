@@ -1,7 +1,6 @@
-import {type RefObject, useEffect, useMemo, useRef, useState} from 'react';
+import {type RefObject, useEffect, useRef, useState} from 'react';
 
 import useEventCallback from '../global/use-event-callback';
-import scheduleRAF from '../global/schedule-raf';
 
 import styles from './table.css';
 
@@ -25,16 +24,32 @@ interface Spacer {
   key: string;
 }
 
-// TODO scroller ref
+/**
+ * Measurement inaccuracies and rounding artifacts may slightly change the
+ * table height during virtualization, causing scroll anchoring to trigger
+ * scroll events. Small scroll deltas are therefore ignored to avoid oscillations
+ * at virtualization boundaries.
+ */
+const minMeaningfulScrollDelta = 50;
+
+/**
+ * RAF is somewhat too frequent. Most updates happen on virtualization boundaries
+ * within the invisible overscroll area, so they don't require such a high update rate.
+ * Therefore, we throttle with a custom delay.
+ */
+const virtualizationThrottleDelay = 50;
+
 export function useTableVirtualize({
   enabled,
   length,
+  scrollerRef,
   tableRef,
   estimateHeight,
   overscrollPx,
 }: {
   enabled: boolean;
-  length: number;
+  length: number; // TODO react on change
+  scrollerRef: RefObject<HTMLElement | null> | undefined;
   tableRef: RefObject<HTMLTableElement | null>;
   estimateHeight: (index: number) => number;
   overscrollPx: number;
@@ -48,12 +63,48 @@ export function useTableVirtualize({
             type: 'spacer',
             from: 0,
             to: length,
-            height: Array.from({length}, (_, i) => estimateHeight(i)).reduce((a, b) => a + b),
+            height: Array.from({length}, (_, i) => estimateHeight(i)).reduce((a, b) => a + b, 0),
             key: `${styles.spacerRow}-0`,
           },
         ]
       : Array.from({length}, (_, index) => ({type: 'rendered', index})),
   );
+
+  const materializeVisibleSpacerItems = useEventCallback(() => {
+    if (!tableRef.current) return;
+
+    for (const spacerRow of tableRef.current.querySelectorAll(`.${styles.spacerRow}`)) {
+      const rect = spacerRow.getBoundingClientRect();
+      if (rect.top - overscrollPx < window.innerHeight && rect.bottom + overscrollPx > 0) {
+        const spacerVisibleOffsetStart = Math.max(0, -rect.top);
+        const spacerInvisibleBottom = Math.max(0, rect.bottom - window.innerHeight);
+        const spacerVisibleOffsetEnd = rect.height - spacerInvisibleBottom;
+
+        let accumulatedHeight = 0;
+        for (
+          let i = Number((spacerRow as HTMLElement).dataset.from);
+          i < Number((spacerRow as HTMLElement).dataset.to);
+          i++
+        ) {
+          const itemMaterialization = itemsMaterialization.current[i];
+          const itemHeight = typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(i);
+          const itemVisibleFrom = accumulatedHeight;
+          const itemVisibleTo = accumulatedHeight + itemHeight;
+
+          if (
+            itemVisibleFrom < spacerVisibleOffsetEnd + overscrollPx &&
+            itemVisibleTo > spacerVisibleOffsetStart - overscrollPx
+          ) {
+            itemsMaterialization.current[i] = true;
+          } else if (itemVisibleFrom > spacerVisibleOffsetEnd + overscrollPx) {
+            break;
+          }
+
+          accumulatedHeight += itemHeight;
+        }
+      }
+    }
+  });
 
   const recomputeVirtualItems = useEventCallback(() => {
     const newVirtualItems: VirtualItem[] = [];
@@ -87,73 +138,65 @@ export function useTableVirtualize({
     setVirtualItems(newVirtualItems);
   });
 
-  const scrollListenerRaf = useMemo(() => scheduleRAF(), []);
+  const timerIdRef = useRef<number | null>(null);
+  const callbacksRef = useRef<Set<() => void> | null>(null);
+
+  const throttle = useEventCallback((...callbacks: (() => void)[]) => {
+    if (timerIdRef.current != null) {
+      callbacks.forEach(cb => {
+        callbacksRef.current!.delete(cb);
+        callbacksRef.current!.add(cb);
+      });
+      return;
+    }
+
+    callbacksRef.current = new Set(callbacks);
+    timerIdRef.current = window.setTimeout(() => {
+      callbacksRef.current!.forEach(cb => cb());
+
+      timerIdRef.current = null;
+      callbacksRef.current = null;
+    }, virtualizationThrottleDelay);
+  });
 
   useEffect(() => {
     if (!enabled) return;
 
+    const scrollContainer = scrollerRef?.current ?? window;
+    let lastHandledScrollTop: number | null = null;
+
     function scrollListener() {
-      scrollListenerRaf(() => {
-        if (!tableRef.current) return;
+      const scrollTop = scrollContainer instanceof Window ? scrollContainer.scrollY : scrollContainer.scrollTop;
+      if (lastHandledScrollTop != null && Math.abs(scrollTop - lastHandledScrollTop) < minMeaningfulScrollDelta) {
+        // TODO ResizeObserver should also track its minMeaningfulResizeDelta
+        return;
+      }
 
-        for (const spacerRow of tableRef.current.querySelectorAll(`.${styles.spacerRow}`)) {
-          const rect = spacerRow.getBoundingClientRect();
-          if (rect.top - overscrollPx < window.innerHeight && rect.bottom + overscrollPx > 0) {
-            const spacerVisibleOffsetStart = Math.max(0, -rect.top);
-            const spacerInvisibleBottom = Math.max(0, rect.bottom - window.innerHeight);
-            const spacerVisibleOffsetEnd = rect.height - spacerInvisibleBottom;
+      lastHandledScrollTop = scrollTop;
 
-            let accumulatedHeight = 0;
-            for (
-              let i = Number((spacerRow as HTMLElement).dataset.from);
-              i < Number((spacerRow as HTMLElement).dataset.to);
-              i++
-            ) {
-              const itemMaterialization = itemsMaterialization.current[i];
-              const itemHeight = typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(i);
-              const itemVisibleFrom = accumulatedHeight;
-              const itemVisibleTo = accumulatedHeight + itemHeight;
-
-              if (
-                itemVisibleFrom < spacerVisibleOffsetEnd + overscrollPx &&
-                itemVisibleTo > spacerVisibleOffsetStart - overscrollPx
-              ) {
-                itemsMaterialization.current[i] = true;
-              } else if (itemVisibleFrom > spacerVisibleOffsetEnd + overscrollPx) {
-                break;
-              }
-
-              accumulatedHeight += itemHeight;
-            }
-          }
-        }
-
-        recomputeVirtualItems();
-      });
+      throttle(materializeVisibleSpacerItems, recomputeVirtualItems);
     }
 
-    window.addEventListener('scroll', scrollListener, {passive: true});
+    scrollContainer.addEventListener('scroll', scrollListener, {passive: true});
+
+    const resizeTarget = scrollerRef?.current ?? document.body;
     const resizeObserver = new ResizeObserver(scrollListener);
-    resizeObserver.observe(document.body);
+    resizeObserver.observe(resizeTarget);
 
     scrollListener();
 
     return () => {
-      window.removeEventListener('scroll', scrollListener);
-      resizeObserver.unobserve(document.body);
+      scrollContainer.removeEventListener('scroll', scrollListener);
+      resizeObserver.unobserve(resizeTarget);
       resizeObserver.disconnect();
     };
-  }, [recomputeVirtualItems, scrollListenerRaf, estimateHeight, tableRef, length, overscrollPx, enabled]);
-
-  const virtualizeItemRaf = useMemo(() => scheduleRAF(), []);
+  }, [enabled, materializeVisibleSpacerItems, recomputeVirtualItems, scrollerRef, throttle]);
 
   const collapseItemIntoSpacer = useEventCallback<[index: number, height: number], void>((index, height) => {
     if (!enabled) return;
 
     itemsMaterialization.current[index] = height;
-    virtualizeItemRaf(() => {
-      recomputeVirtualItems();
-    });
+    throttle(recomputeVirtualItems);
   });
 
   return {virtualItems, collapseItemIntoSpacer};

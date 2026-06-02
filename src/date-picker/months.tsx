@@ -30,9 +30,9 @@ const scheduleScroll = scheduleRAF();
  *
  * To avoid an unpainted gap at the viewport boundary, the next month must be reported
  * as visible slightly before it actually enters the viewport. We achieve this by
- * extending the IntersectionObserver scrollMargin.
+ * extending the IntersectionObserver rootMargin.
  */
-const intersectionObserverScrollMargin = units.cellSize * 2;
+const intersectionObserverRootMargin = units.cellSize * 2;
 
 export default function Months(props: MonthsProps) {
   const {scrollDate, setScrollDate, locale} = props;
@@ -48,7 +48,7 @@ export default function Months(props: MonthsProps) {
 
   return (
     <IntersectionObserverContext.Provider
-      value={useIntersectionObserverHandle(containerRef, intersectionObserverScrollMargin)}
+      value={useIntersectionObserverHandle(containerRef, intersectionObserverRootMargin)}
     >
       <div className={styles.months} ref={containerRef} data-test='ring-date-popup--months'>
         {items.map(month => (

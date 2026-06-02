@@ -40,7 +40,7 @@ const scheduleScroll = scheduleRAF();
 /**
  * Reduces "empty" years during fast scrolling.
  */
-const intersectionObserverScrollMargin = units.calHeight / 2;
+const intersectionObserverRootMargin = units.calHeight / 2;
 
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
@@ -146,7 +146,7 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
 
   return (
     <IntersectionObserverContext.Provider
-      value={useIntersectionObserverHandle(containerRef, intersectionObserverScrollMargin)}
+      value={useIntersectionObserverHandle(containerRef, intersectionObserverRootMargin)}
     >
       <div className={styles.years} ref={containerRef} data-test='ring-date-popup--years'>
         {items.map(year => (

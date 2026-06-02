@@ -20,7 +20,11 @@ import {createContext, type RefObject, useContext, useEffect, useState} from 're
  */
 export const IntersectionObserverContext = createContext<IntersectionObserverHandle | null>(null);
 
-export function useIntersectionObserverHandle(rootRef?: RefObject<HTMLElement | null>, scrollMargin: number = 0) {
+export function useIntersectionObserverHandle(
+  rootRef?: RefObject<HTMLElement | null>,
+  rootMargin?: number,
+  scrollMargin?: number,
+) {
   const [handle, setHandle] = useState<IntersectionObserverHandle | null>(null);
 
   useEffect(() => {
@@ -37,7 +41,8 @@ export function useIntersectionObserverHandle(rootRef?: RefObject<HTMLElement | 
       },
       {
         root,
-        scrollMargin: scrollMargin ? `${scrollMargin}px` : undefined,
+        rootMargin: rootMargin != null ? `${rootMargin}px` : undefined,
+        scrollMargin: scrollMargin != null ? `${scrollMargin}px` : undefined,
       },
     );
 
@@ -57,7 +62,7 @@ export function useIntersectionObserverHandle(rootRef?: RefObject<HTMLElement | 
       observer.disconnect();
       setHandle(null);
     };
-  }, [rootRef, scrollMargin]);
+  }, [rootRef, rootMargin, scrollMargin]);
 
   return handle;
 }
