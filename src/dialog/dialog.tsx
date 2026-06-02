@@ -193,6 +193,8 @@ export default class Dialog extends PureComponent<DialogProps> {
           <AdaptiveIsland
             className={classNames(styles.content, contentClassName, {
               [styles.dense]: dense,
+              [styles.contentCloseButtonOutside]: !closeButtonInside,
+              [styles.contentCloseButtonInside]: closeButtonInside,
             })}
             data-test='ring-dialog'
             role='dialog'
