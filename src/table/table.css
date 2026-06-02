@@ -102,4 +102,26 @@
 
 .deleteColumnButton {
   float: right;
+
+  pointer-events: none;
+
+  color: transparent;
+
+}
+
+.headerCell:hover .deleteColumnButton {
+  pointer-events: all;
+
+  color: unset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:hover {
+    color: var(--ring-main-hover-color);
+  }
+}
+
+.deleteColumnButton:focus-within {
+  pointer-events: all;
+
+  color: var(--ring-main-hover-color);
 }
