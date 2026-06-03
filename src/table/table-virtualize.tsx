@@ -1,6 +1,7 @@
 import {type RefObject, useEffect, useRef, useState} from 'react';
 
 import useEventCallback from '../global/use-event-callback';
+import {useIntersectionObserverHandle} from '../global/intersection-observer-context';
 
 import styles from './table.css';
 
@@ -25,14 +26,6 @@ interface Spacer {
 }
 
 /**
- * Measurement inaccuracies and rounding artifacts may slightly change the
- * table height during virtualization, causing scroll anchoring to trigger
- * scroll events. Small scroll deltas are therefore ignored to avoid oscillations
- * at virtualization boundaries.
- */
-const minMeaningfulScrollDelta = 50;
-
-/**
  * RAF is somewhat too frequent. Most updates happen on virtualization boundaries
  * within the invisible overscroll area, so they don't require such a high update rate.
  * Therefore, we throttle with a custom delay.
@@ -45,14 +38,18 @@ export function useTableVirtualize({
   scrollerRef,
   tableRef,
   estimateHeight,
-  overscrollPx,
+  lookaheadPx,
+  retentionMarginPx,
+  minScrollAndResizeDeltaPx,
 }: {
   enabled: boolean;
   length: number; // TODO react on change
   scrollerRef: RefObject<HTMLElement | null> | undefined;
   tableRef: RefObject<HTMLTableElement | null>;
   estimateHeight: (index: number) => number;
-  overscrollPx: number;
+  lookaheadPx: number;
+  retentionMarginPx: number;
+  minScrollAndResizeDeltaPx: number;
 }) {
   const itemsMaterialization = useRef<ItemMaterialization[]>([]);
 
@@ -73,36 +70,41 @@ export function useTableVirtualize({
   const materializeVisibleSpacerItems = useEventCallback(() => {
     if (!tableRef.current) return;
 
+    const containerHeight = scrollerRef?.current?.clientHeight ?? window.innerHeight;
+
     for (const spacerRow of tableRef.current.querySelectorAll(`.${styles.spacerRow}`)) {
       const rect = spacerRow.getBoundingClientRect();
-      const containerHeight = scrollerRef?.current?.clientHeight ?? window.innerHeight;
-      if (rect.top - overscrollPx < containerHeight && rect.bottom + overscrollPx > 0) {
-        const spacerVisibleOffsetStart = Math.max(0, -rect.top);
-        const spacerInvisibleBottom = Math.max(0, rect.bottom - containerHeight);
-        const spacerVisibleOffsetEnd = rect.height - spacerInvisibleBottom;
 
-        let accumulatedHeight = 0;
-        for (
-          let i = Number((spacerRow as HTMLElement).dataset.from);
-          i < Number((spacerRow as HTMLElement).dataset.to);
-          i++
-        ) {
-          const itemMaterialization = itemsMaterialization.current[i];
-          const itemHeight = typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(i);
-          const itemVisibleFrom = accumulatedHeight;
-          const itemVisibleTo = accumulatedHeight + itemHeight;
+      const spacerIntersectsLookaheadArea = rect.top < containerHeight + lookaheadPx && rect.bottom > -lookaheadPx;
+      if (!spacerIntersectsLookaheadArea) {
+        continue;
+      }
 
-          if (
-            itemVisibleFrom < spacerVisibleOffsetEnd + overscrollPx &&
-            itemVisibleTo > spacerVisibleOffsetStart - overscrollPx
-          ) {
-            itemsMaterialization.current[i] = true;
-          } else if (itemVisibleFrom > spacerVisibleOffsetEnd + overscrollPx) {
-            break;
-          }
+      const visibleOffsetStart = Math.max(0, -rect.top);
+      const visibleOffsetEnd = Math.min(rect.height, containerHeight - rect.top);
 
-          accumulatedHeight += itemHeight;
+      const materializeOffsetStart = visibleOffsetStart - lookaheadPx;
+      const materializeOffsetEnd = visibleOffsetEnd + lookaheadPx;
+
+      let offsetInSpacer = 0;
+
+      const from = Number((spacerRow as HTMLElement).dataset.from);
+      const to = Number((spacerRow as HTMLElement).dataset.to);
+
+      for (let i = from; i < to; i++) {
+        const itemMaterialization = itemsMaterialization.current[i];
+        const itemHeight = typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(i);
+
+        const itemOffsetStart = offsetInSpacer;
+        const itemOffsetEnd = offsetInSpacer + itemHeight;
+
+        if (itemOffsetStart < materializeOffsetEnd && itemOffsetEnd > materializeOffsetStart) {
+          itemsMaterialization.current[i] = true;
+        } else if (itemOffsetStart > materializeOffsetEnd) {
+          break;
         }
+
+        offsetInSpacer += itemHeight;
       }
     }
   });
@@ -163,35 +165,50 @@ export function useTableVirtualize({
   useEffect(() => {
     if (!enabled) return;
 
-    const scrollContainer = scrollerRef?.current ?? window;
-    let lastHandledScrollTop: number | null = null;
+    const scroller = scrollerRef?.current;
+    let lastHandledScrollTop: number = -Infinity;
+    let lastHandledHeight: number = -Infinity;
+    let lastHandledWidth: number = -Infinity;
 
-    function scrollListener() {
-      const scrollTop = scrollContainer instanceof Window ? scrollContainer.scrollY : scrollContainer.scrollTop;
-      if (lastHandledScrollTop != null && Math.abs(scrollTop - lastHandledScrollTop) < minMeaningfulScrollDelta) {
-        // TODO ResizeObserver should also track its minMeaningfulResizeDelta
-        return;
+    function handleViewportChange() {
+      const scrollTop = scroller ? scroller.scrollTop : window.scrollY;
+      const height = scroller ? scroller.clientHeight : window.innerHeight;
+      const width = scroller ? scroller.clientWidth : window.innerWidth;
+
+      if (
+        Math.abs(scrollTop - lastHandledScrollTop) >= minScrollAndResizeDeltaPx ||
+        Math.abs(height - lastHandledHeight) >= minScrollAndResizeDeltaPx ||
+        Math.abs(width - lastHandledWidth) >= minScrollAndResizeDeltaPx
+      ) {
+        lastHandledScrollTop = scrollTop;
+        lastHandledHeight = height;
+        lastHandledWidth = width;
+
+        throttle(materializeVisibleSpacerItems, recomputeVirtualItems);
       }
-
-      lastHandledScrollTop = scrollTop;
-
-      throttle(materializeVisibleSpacerItems, recomputeVirtualItems);
     }
 
-    scrollContainer.addEventListener('scroll', scrollListener, {passive: true});
+    const scrollTarget = scroller ?? window;
+    scrollTarget.addEventListener('scroll', handleViewportChange, {passive: true});
 
-    const resizeTarget = scrollerRef?.current ?? document.body;
-    const resizeObserver = new ResizeObserver(scrollListener);
+    const resizeObserver = new ResizeObserver(handleViewportChange);
+    const resizeTarget = scroller ?? document.documentElement;
     resizeObserver.observe(resizeTarget);
 
-    scrollListener();
+    handleViewportChange();
 
     return () => {
-      scrollContainer.removeEventListener('scroll', scrollListener);
+      scrollTarget.removeEventListener('scroll', handleViewportChange);
       resizeObserver.unobserve(resizeTarget);
       resizeObserver.disconnect();
     };
-  }, [enabled, materializeVisibleSpacerItems, recomputeVirtualItems, scrollerRef, throttle]);
+  }, [enabled, materializeVisibleSpacerItems, minScrollAndResizeDeltaPx, recomputeVirtualItems, scrollerRef, throttle]);
+
+  const intersectionObserverHandle = useIntersectionObserverHandle(
+    scrollerRef,
+    scrollerRef ? retentionMarginPx : undefined,
+    !scrollerRef ? retentionMarginPx : undefined,
+  );
 
   const collapseItemIntoSpacer = useEventCallback<[index: number, height: number], void>((index, height) => {
     if (!enabled) return;
@@ -200,7 +217,7 @@ export function useTableVirtualize({
     throttle(recomputeVirtualItems);
   });
 
-  return {virtualItems, collapseItemIntoSpacer};
+  return {virtualItems, intersectionObserverHandle, collapseItemIntoSpacer};
 }
 
 export function SpacerRow({spacer: {from, to, height}, colSpan}: {spacer: Spacer; colSpan: number}) {

@@ -138,7 +138,7 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
         columns={columns}
         getKey={args.getKey}
         onSort={(columnIndex, sortOrder) =>
-          sortDataByColumn(data, columns, columnIndex, sortOrder, setData, setColumns)
+          sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
         onColumnDelete={handleColumnDelete}
       />
@@ -146,7 +146,10 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
   },
 };
 
-function sortDataByColumn<T extends Record<string, unknown> | [string, string, number]>(
+type Priority = 'Trivial' | 'Minor' | 'Normal' | 'Major' | 'Critical' | 'Blocker';
+const priorities = ['Trivial', 'Minor', 'Normal', 'Major', 'Critical', 'Blocker'] satisfies Priority[];
+
+function sortByColumn<T extends Record<string, unknown> | [string, string, number]>(
   data: T[],
   columns: Column<T>[],
   columnIndex: number,
@@ -167,8 +170,14 @@ function sortDataByColumn<T extends Record<string, unknown> | [string, string, n
   }
 
   const sortedData = [...data].sort((a, b) => {
-    const aVal = Object.values(a)[columnIndex];
-    const bVal = Object.values(b)[columnIndex];
+    const aVal = Array.isArray(a) ? a[columnIndex] : Object.values(a)[columnIndex];
+    const bVal = Array.isArray(b) ? b[columnIndex] : Object.values(b)[columnIndex];
+
+    if (priorities.includes(aVal as Priority) && priorities.includes(bVal as Priority)) {
+      const aI = priorities.indexOf(aVal as Priority);
+      const bI = priorities.indexOf(bVal as Priority);
+      return sortOrder === 'ascending' ? aI - bI : bI - aI;
+    }
 
     if (
       (typeof aVal === 'string' || typeof aVal === 'number') &&
@@ -177,12 +186,12 @@ function sortDataByColumn<T extends Record<string, unknown> | [string, string, n
       if (aVal < bVal) return sortOrder === 'ascending' ? -1 : 1;
       if (aVal > bVal) return sortOrder === 'ascending' ? 1 : -1;
     }
+
     return 0;
   });
   setData(sortedData);
 }
 
-type Priority = 'Minor' | 'Normal' | 'Major';
 type Issue = [id: string, priority: Priority, votes: number];
 
 const issuesLongData: Issue[] = Array.from({length: 100_000}, (_, i) => {
@@ -194,7 +203,7 @@ const issuesLongData: Issue[] = Array.from({length: 100_000}, (_, i) => {
   const issueId = `${firstLetter}${secondLetter}-${i}`;
 
   const votes = (hash >>> 10) % 1000;
-  const priority = (['Minor', 'Normal', 'Major'] as const)[(hash >>> 20) % 3];
+  const priority = priorities[(hash >>> 20) % priorities.length];
   return [issueId, priority, votes];
 });
 
@@ -211,18 +220,23 @@ const issuesColumns = [
   {
     key: 'Priority',
     renderHeader: () => <SortButton>Priority</SortButton>,
-    renderCell: ([, priority]) => (
-      // eslint-disable-next-line no-nested-ternary
-      <Tag tagType={priority === 'Minor' ? TagType.MAIN : priority === 'Major' ? TagType.WARNING : undefined}>
-        {priority}
-      </Tag>
-    ),
+    renderCell: ([, priority]) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
   },
   {
     key: 'Votes',
     renderHeader: () => <SortButton>Votes</SortButton>,
   },
 ] satisfies Column<Issue>[];
+
+function priorityToTagType(priority: Priority): TagType | undefined {
+  if (priority === 'Trivial') return TagType.SUCCESS;
+  if (priority === 'Minor') return TagType.MAIN;
+  if (priority === 'Normal') return TagType.DEFAULT;
+  if (priority === 'Major') return TagType.WARNING;
+  if (priority === 'Critical') return TagType.ERROR;
+  if (priority === 'Blocker') return TagType.PURPLE;
+  return undefined;
+}
 
 export const WithVirtualization: TableStory<Issue> = {
   args: {
@@ -242,7 +256,7 @@ export const WithVirtualization: TableStory<Issue> = {
         columns={columns}
         getKey={args.getKey}
         onSort={(columnIndex, newOrder) =>
-          sortDataByColumn(issuesLongData, columns, columnIndex, newOrder, setData, setColumns)
+          sortByColumn(issuesLongData, columns, columnIndex, newOrder, setData, setColumns)
         }
         virtualizeRows
       />
@@ -278,7 +292,7 @@ export const WithVirtualizationInScroller: TableStory<Issue> = {
           columns={columns}
           getKey={args.getKey}
           onSort={(columnIndex, newOrder) =>
-            sortDataByColumn(issuesLongData, columns, columnIndex, newOrder, setData, setColumns)
+            sortByColumn(issuesLongData, columns, columnIndex, newOrder, setData, setColumns)
           }
           virtualizeRows
           scrollerRef={scrollerRef}

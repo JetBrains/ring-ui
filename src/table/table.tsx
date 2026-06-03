@@ -15,11 +15,7 @@ import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
 import trashIcon from '@jetbrains/icons/trash-12px';
 
 import Icon from '../icon/icon';
-import {
-  IntersectionObserverContext,
-  useIntersectionObserverHandle,
-  useIsIntersectingListener,
-} from '../global/intersection-observer-context';
+import {IntersectionObserverContext, useIsIntersectingListener} from '../global/intersection-observer-context';
 import {SpacerRow, useTableVirtualize} from './table-virtualize';
 
 import type Selection from '../legacy-table/selection';
@@ -122,7 +118,13 @@ export interface TableProps<T> {
   renderItem?: (item: T, index: number) => ReactNode;
 
   /**
-   * Only renders visible rows, and replaces others with spacers.
+   * Only renders rows near the viewport.
+   *
+   * Rows may transition between two states:
+   * - materialized: rendered as actual table rows. This happens when the corresponding
+   *   spacer approaches the viewport, as specified by `lookaheadPx`.
+   * - virtualized: replaced with spacer rows of the same height. This happens when the row
+   *   moves sufficiently far from the viewport, as specified by `retentionMarginPx`.
    */
   virtualizeRows?: boolean;
 
@@ -134,7 +136,7 @@ export interface TableProps<T> {
    * If not set:
    * - scroll listener is attached to `window`
    * - ResizeObserver observes `document.body`
-   * - intersection observer has no root (i.e. viewport is used)
+   * - IntersectionObserver has no root (i.e. the viewport is used)
    */
   scrollerRef?: React.RefObject<HTMLElement | null>;
 
@@ -143,22 +145,60 @@ export interface TableProps<T> {
    * The function should be fast and side-effect free. Do not measure the DOM here.
    * Once a row is rendered, its actual height will be measured and used instead of this estimate.
    *
-   * Note that it is better to underestimate than overestimate the height:
-   * - When the height is overestimated, the table may materialize too few rows, resulting in blank space.
-   * - When the height is underestimated, the table may materialize more rows than needed, but the extra rows
-   *   will be hidden by IntersectionObserver, resulting only in a small performance overhead.
+   * Note the effects of imprecise estimates:
+   * - When the height is underestimated, the table may materialize more rows than specified by `lookaheadPx`.
+   *   If the resulting rows extend beyond `retentionMarginPx`, they will be virtualized again.
+   *   If this causes relayout flickering, increase `retentionMarginPx`.
+   * - When the height is overestimated, the table may materialize fewer rows than specified by `lookaheadPx`,
+   *   which may leave a spacer partially visible. To avoid this, increase `lookaheadPx` (and
+   *   `retentionMarginPx` accordingly, since it should be greater than `lookaheadPx`).
    *
    * Default: 37px = 16px padding + 20px line height + 1px border.
    */
   estimateHeight?: (index: number) => number;
 
   /**
-   * When using `virtualizeRows`, the number of pixels to keep rendered above and below the visible area.
-   * Increase when you see too many blank space when scrolling fast.
+   * When using `virtualizeRows`, the number of pixels above and below the viewport
+   * to materialize in advance.
+   *
+   * Increase this value if blank space becomes visible during fast scrolling.
    *
    * Default: 400px.
    */
-  overscrollPx?: number;
+  lookaheadPx?: number;
+
+  /**
+   * Additional margin around the viewport before materialized rows become eligible
+   * for virtualization.
+   *
+   * Increasing this value reduces row churn when heights are underestimated.
+   * In that case, the table may materialize more rows than needed and then immediately
+   * virtualize them again. A larger margin keeps such rows rendered for longer,
+   * at the cost of rendering more rows overall.
+   *
+   * This value should be greater than `lookaheadPx`.
+   * Increase it if you notice table relayouts during initial render or scrolling.
+   *
+   * Default: 450px.
+   */
+  retentionMarginPx?: number;
+
+  /**
+   * Ignore scroll and resize position changes smaller than this value.
+   *
+   * Measurement inaccuracies and rounding artifacts may slightly change the
+   * table layout during materialization and virtualization. With scroll
+   * anchoring enabled (the default browser behavior), the browser may then
+   * adjust the scroll position, triggering additional scroll or resize events.
+   * Small deltas are ignored to prevent such feedback loops from causing
+   * oscillations at virtualization boundaries.
+   *
+   * Increase if you expect high inaccuracy in height measurements, or if you
+   * notice oscillations at virtualization boundaries.
+   *
+   * Default: 50px.
+   */
+  minScrollAndResizeDeltaPx?: number;
 
   /**
    * Applied to the `<thead>` element.
@@ -273,6 +313,11 @@ export const ColumnIndexContext = createContext<number>(-1);
 
 export const CollapseItemIntoSpacerContext = createContext<(height: number) => void>(() => {});
 
+const defaultRowHeight = 37;
+const defaultLookaheadPx = 400;
+const defaultRetentionMarginPx = 450;
+const defaultMinScrollAndResizeDeltaPx = 50;
+
 /**
  * The new Table component. Use it instead of tables in the `legacy-table` folder.
  *
@@ -314,22 +359,26 @@ export const CollapseItemIntoSpacerContext = createContext<(height: number) => v
  * to update `columns` by removing the corresponding column.
  *
  * ## Row virtualization
- * To render only visible rows and replace others with spacers, use the following props:
+ *
+ * To render only rows near the viewport and replace others with spacers, use:
  *
  * - `virtualizeRows`
- * - `scrollerRef` - required when the scrollable container is not the whole document
- * - `estimateHeight` - recommended when the cells content is not simple one-line text
- * - `overscrollPx` - increase if you see too many blank space when scrolling fast
+ * - `scrollerRef` — required when the scrollable container is not the whole document
+ * - `estimateHeight` — recommended when rows are expected to be taller than
+ *   the default height (e.g. multiline or custom content)
+ * - Fine-tuning props: `lookaheadPx`, `retentionMarginPx`, `minScrollAndResizeDeltaPx`
  */
 export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
   const {
     data,
     columns,
     renderItem,
-    virtualizeRows,
+    virtualizeRows = false,
     scrollerRef,
-    estimateHeight: estimateHeightProp,
-    overscrollPx: overscrollPxProp,
+    estimateHeight = () => defaultRowHeight,
+    lookaheadPx = defaultLookaheadPx,
+    retentionMarginPx = defaultRetentionMarginPx,
+    minScrollAndResizeDeltaPx = defaultMinScrollAndResizeDeltaPx,
     className,
     theadClassName,
     theadTrClassName,
@@ -338,47 +387,38 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
 
   const tableRef = useRef<HTMLTableElement | null>(null);
 
-  // eslint-disable-next-line no-magic-numbers
-  const estimateHeight = estimateHeightProp ?? (() => 37);
-  // eslint-disable-next-line no-magic-numbers
-  const overscrollPx = overscrollPxProp ?? 400;
-
-  const {virtualItems, collapseItemIntoSpacer} = useTableVirtualize({
-    enabled: virtualizeRows ?? false,
+  const {virtualItems, intersectionObserverHandle, collapseItemIntoSpacer} = useTableVirtualize({
+    enabled: virtualizeRows,
     length: data.length,
     scrollerRef,
     tableRef,
     estimateHeight,
-    overscrollPx,
+    lookaheadPx,
+    retentionMarginPx,
+    minScrollAndResizeDeltaPx,
   });
 
   return (
     <TablePropsContext.Provider value={props as TableProps<unknown>}>
-      <table className={classNames(styles.table, className)} ref={tableRef}>
-        <thead className={theadClassName}>
-          <tr className={classNames(styles.headerRow, theadTrClassName)}>
-            {columns.map((column, columnIndex) => (
-              <th
-                key={column.key}
-                className={classNames(styles.headerCell, column.thClassName)}
-                aria-sort={column.sortOrder}
-              >
-                <ColumnIndexContext.Provider value={columnIndex}>
-                  {column.renderHeader?.() ?? column.name ?? String(column.key)}
-                </ColumnIndexContext.Provider>
-              </th>
-            ))}
-          </tr>
-        </thead>
+      <IntersectionObserverContext.Provider value={intersectionObserverHandle}>
+        <table className={classNames(styles.table, className)} ref={tableRef}>
+          <thead className={theadClassName}>
+            <tr className={classNames(styles.headerRow, theadTrClassName)}>
+              {columns.map((column, columnIndex) => (
+                <th
+                  key={column.key}
+                  className={classNames(styles.headerCell, column.thClassName)}
+                  aria-sort={column.sortOrder}
+                >
+                  <ColumnIndexContext.Provider value={columnIndex}>
+                    {column.renderHeader?.() ?? column.name ?? String(column.key)}
+                  </ColumnIndexContext.Provider>
+                </th>
+              ))}
+            </tr>
+          </thead>
 
-        <tbody className={tbodyClassName}>
-          <IntersectionObserverContext.Provider
-            value={useIntersectionObserverHandle(
-              scrollerRef,
-              scrollerRef ? overscrollPx : undefined,
-              !scrollerRef ? overscrollPx : undefined,
-            )}
-          >
+          <tbody className={tbodyClassName}>
             {virtualItems.map(virtualItem => {
               if (virtualItem.type === 'spacer') {
                 return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
@@ -400,9 +440,9 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
                 </CollapseItemIntoSpacerContext.Provider>
               );
             })}
-          </IntersectionObserverContext.Provider>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </IntersectionObserverContext.Provider>
     </TablePropsContext.Provider>
   );
 }
