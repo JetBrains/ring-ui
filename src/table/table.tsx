@@ -7,6 +7,7 @@ import React, {
   Fragment,
   type ReactNode,
   useRef,
+  useEffect,
 } from 'react';
 import classNames from 'classnames';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
@@ -24,7 +25,8 @@ import styles from './table.css';
 
 export interface TableProps<T> {
   /**
-   * The data items to render.
+   * The data items to render. `null` and `undefined` as an item is not supported.
+   * Referentially same items are not supported either.
    */
   data: T[];
 
@@ -59,13 +61,13 @@ export interface TableProps<T> {
   /**
    * If true, the item can be focused by keyboard up/down arrows.
    */
-  isFocusable?: (item: T, index: number) => boolean;
+  isItemFocusable?: (item: T, index: number) => boolean;
 
   /**
    * When the item should get focused by keyboard navigation.
    * The client is expected to update `selection`.
    */
-  onFocus?: (item: T, index: number) => void;
+  onItemFocus?: (item: T | null, index: number) => void;
 
   /**
    * Called when a `keydown` event is handled at a focused row.
@@ -108,12 +110,12 @@ export interface TableProps<T> {
    * Beware that data-dependent classnames, namely `tbodyTrClassName` and `tdClassName`,
    * will not be applied; likewise `onItemClick` and `onItemKeyDown` won't be attached.
    *
-   * The implementation may use `StandardRowRenderer` to fall back to default behavior,
+   * The implementation may use `DefaultRowRenderer` to fall back to default behavior,
    * including data-dependent classnames and event handlers mentioned above.
-   * It's also okay to render several rows, one of which uses `StandardRowRenderer`,
+   * It's also okay to render several rows, one of which uses `DefaultRowRenderer`,
    * other being custom.
    *
-   * @see StandardRowRendererProps
+   * @see DefaultRowRendererProps
    */
   renderItem?: (item: T, index: number) => ReactNode;
 
@@ -168,8 +170,8 @@ export interface TableProps<T> {
   lookaheadPx?: number;
 
   /**
-   * Additional margin around the viewport before materialized rows become eligible
-   * for virtualization.
+   * Used with `virtualizeRows`. Additional margin around the viewport before
+   * materialized rows become eligible for virtualization.
    *
    * Increasing this value reduces row churn when heights are underestimated.
    * In that case, the table may materialize more rows than needed and then immediately
@@ -184,7 +186,8 @@ export interface TableProps<T> {
   retentionMarginPx?: number;
 
   /**
-   * Ignore scroll and resize position changes smaller than this value.
+   * When using `virtualizeRows`, ignore scroll and resize position changes
+   * smaller than this value.
    *
    * Measurement inaccuracies and rounding artifacts may slightly change the
    * table layout during materialization and virtualization. With scroll
@@ -218,7 +221,7 @@ export interface TableProps<T> {
   /**
    * Applied to each `<tr>` element within the `<tbody>`.
    * If a custom `renderItem` is provided, this prop is not used,
-   * unless the custom renderer falls back to `StandardRowRenderer`.
+   * unless the custom renderer falls back to `DefaultRowRenderer`.
    */
   tbodyTrClassName?: string | ((item: T, index: number) => string);
 
@@ -289,7 +292,7 @@ export interface Column<T> {
   /**
    * The classname to apply to the `td` element inside `table / tbody`.
    * If a custom `TableProps.renderItem` is provided, this prop is not used,
-   * unless the custom renderer falls back to `StandardRowRenderer`.
+   * unless the custom renderer falls back to `DefaultRowRenderer`.
    */
   tdClassName?: string | ((item: T, index: number) => string);
 }
@@ -302,7 +305,7 @@ export interface Column<T> {
  * The component props are only item-scoped. Table-scoped props are passed via
  * React context.
  */
-export interface StandardRowRendererProps<T> {
+export interface DefaultRowRendererProps<T> {
   item: T;
   index: number;
 }
@@ -435,7 +438,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
                   {renderItem ? (
                     <Fragment>{renderItem(item, index)}</Fragment>
                   ) : (
-                    <StandardRowRenderer item={item} index={index} />
+                    <DefaultRowRenderer item={item} index={index} />
                   )}
                 </CollapseItemIntoSpacerContext.Provider>
               );
@@ -453,7 +456,7 @@ const INDENT_SIZE = 16;
  * The default row renderer used when `renderItem` is not provided.
  * You can also use it as a fallback in a custom `renderItem` implementation.
  */
-export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T>) {
+export function DefaultRowRenderer<T>({item, index}: DefaultRowRendererProps<T>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
 
   const rowRef = useRef<HTMLTableRowElement | null>(null);
@@ -488,6 +491,29 @@ export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T
     onItemClick(e.nativeEvent, item, index);
   }
 
+  function onKeyDown(e: React.KeyboardEvent<HTMLTableRowElement>) {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      const step = e.key === 'ArrowUp' ? -1 : 1;
+      // eslint-disable-next-line yoda
+      for (let i = index + step; 0 <= i && i < tableProps.data.length; i += step) {
+        if (tableProps.isItemFocusable?.(tableProps.data[i], i)) {
+          tableProps.onItemFocus?.(tableProps.data[i], i);
+          break;
+        }
+      }
+    }
+  }
+
+  const focused = selection?.isFocused(item);
+
+  useEffect(() => {
+    if (focused) rowRef.current?.focus();
+  }, [focused]);
+
+  function onBlur() {
+    if (focused) tableProps.onItemFocus?.(null, -1);
+  }
+
   return (
     <TableRow
       ref={rowRef}
@@ -497,6 +523,9 @@ export function StandardRowRenderer<T>({item, index}: StandardRowRendererProps<T
         selected && styles.selectedRow,
       )}
       onPointerUp={onPointerUp}
+      onKeyDown={onKeyDown}
+      tabIndex={focused ? 0 : undefined}
+      onBlur={focused ? onBlur : undefined}
     >
       {columns.map((column, columnIndex) => (
         <TableCell
@@ -568,11 +597,12 @@ export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
   const {className, children, onClick, ...restProps} = props;
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    const sequence = ['none', 'ascending', 'descending'] satisfies SortOrder[];
-    const nextOrder = sequence[(sequence.indexOf(sortOrder) + 1) % sequence.length];
-    tableProps.onSort?.(columnIndex, nextOrder);
-
     onClick?.(e);
+    if (!e.defaultPrevented) {
+      const sequence = ['none', 'ascending', 'descending'] satisfies SortOrder[];
+      const nextOrder = sequence[(sequence.indexOf(sortOrder) + 1) % sequence.length];
+      tableProps.onSort?.(columnIndex, nextOrder);
+    }
   }
 
   return (
@@ -598,9 +628,10 @@ export function DeleteColumnButton<T>(props: HTMLAttributes<HTMLButtonElement>) 
   const {className, onClick, ...restProps} = props;
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    tableProps.onColumnDelete?.(columnIndex);
-
     onClick?.(e);
+    if (!e.defaultPrevented) {
+      tableProps.onColumnDelete?.(columnIndex);
+    }
   }
 
   return (

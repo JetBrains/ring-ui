@@ -88,6 +88,36 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
   },
 };
 
+export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
+  args: {
+    data: smallDataSlice,
+    columns: [
+      {key: 'ID'},
+      {key: 'Country'},
+      {key: 'City'},
+      {key: 'URL', renderCell: ({url}) => <Link href={url}>{url}</Link>},
+    ],
+    getKey: item => item.id,
+    selection: new Selection({data: smallDataSlice}),
+    isItemFocusable: () => true,
+  },
+
+  render(args) {
+    const [selection, setSelection] = useState(args.selection!);
+
+    return (
+      <Table
+        data={args.data}
+        columns={args.columns}
+        getKey={args.getKey}
+        selection={selection}
+        isItemFocusable={args.isItemFocusable}
+        onItemFocus={item => setSelection(selection.focus(item))}
+      />
+    );
+  },
+};
+
 export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
