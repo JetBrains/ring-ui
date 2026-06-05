@@ -7,6 +7,7 @@ import Selection from '../legacy-table/selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
 import {DeleteColumnButton, SortButton} from './table-buttons';
+import {DefaultRowRenderer} from './default-row-renderer';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -37,12 +38,18 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
       {key: 'ID'},
       {key: 'Country', renderCell: ({country}) => country},
       {key: 'City', renderCell: ({city}) => city},
-      {key: 'URL', renderCell: ({url}) => <Link href={url}>{url}</Link>},
+      {
+        key: 'URL',
+        renderCell: ({url}) => (
+          <Link href={url} target='_blank'>
+            {url}
+          </Link>
+        ),
+      },
     ],
     getKey: item => item.id,
-
     selection: new Selection({data: smallDataSlice}),
-    isClickable: () => true,
+    isItemClickable: () => true,
   },
 
   render(args) {
@@ -82,8 +89,16 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
         columns={columns}
         getKey={args.getKey}
         selection={selection}
-        isClickable={args.isClickable}
-        onItemClick={(_e, item) => setSelection(selection.toggleSelection(item))}
+        isItemClickable={args.isItemClickable}
+        renderItem={(item, index) => (
+          <DefaultRowRenderer
+            index={index}
+            onClick={({target}) => {
+              if (target instanceof Element && ['a', 'input'].includes(target.tagName)) return;
+              setSelection(selection.toggleSelection(item));
+            }}
+          />
+        )}
       />
     );
   },
@@ -96,11 +111,19 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
       {key: 'ID'},
       {key: 'Country'},
       {key: 'City'},
-      {key: 'URL', renderCell: ({url}) => <Link href={url}>{url}</Link>},
+      {
+        key: 'URL',
+        renderCell: ({url}) => (
+          <Link href={url} target='_blank'>
+            {url}
+          </Link>
+        ),
+      },
     ],
     getKey: item => item.id,
     selection: new Selection({data: smallDataSlice}),
-    isItemFocusable: () => true,
+    isItemClickable: () => true,
+    isItemFocusableByArrowKeys: () => true,
   },
 
   render(args) {
@@ -112,8 +135,18 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
         columns={args.columns}
         getKey={args.getKey}
         selection={selection}
-        isItemFocusable={args.isItemFocusable}
+        isItemClickable={args.isItemClickable}
+        isItemFocusableByArrowKeys={args.isItemFocusableByArrowKeys}
         onItemFocus={item => setSelection(selection.focus(item))}
+        renderItem={(item, index) => (
+          <DefaultRowRenderer
+            index={index}
+            onClick={({target}) => {
+              if (target instanceof Element && target.tagName === 'a') return;
+              setSelection(selection.focus(item));
+            }}
+          />
+        )}
       />
     );
   },
@@ -149,7 +182,11 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
             URL <DeleteColumnButton />
           </>
         ),
-        renderCell: ({url}) => <Link href={url}>{url}</Link>,
+        renderCell: ({url}) => (
+          <Link href={url} target='_blank'>
+            {url}
+          </Link>
+        ),
       },
     ],
     getKey: item => item.id,

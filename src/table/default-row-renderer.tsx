@@ -12,50 +12,45 @@ const INDENT_SIZE = 16;
 
 /**
  * The default row renderer used when `renderItem` is not provided.
- * You can also use it as a fallback in a custom `renderItem` implementation.
+ * You can also use it to provide handlers like onClick, a custom className,
+ * or as a fallback in your `TableProps.renderItem` implementation.
  */
-export function DefaultRowRenderer<T>({item, index}: DefaultRowRendererProps<T>) {
-  const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
-
-  const rowRef = useRef<HTMLTableRowElement | null>(null);
+export function DefaultRowRenderer<T>({
+  index,
+  ref: userRef,
+  className,
+  onKeyDown,
+  onBlur,
+  ...restProps
+}: DefaultRowRendererProps & HTMLAttributes<HTMLTableRowElement>) {
+  const selfRef = useRef<HTMLTableRowElement | null>(null);
+  const ref = userRef ?? selfRef;
 
   const collapseItemIntoSpacer = useContext(CollapseItemIntoSpacerContext);
-  useIsIntersectingListener(rowRef, isIntersecting => {
-    if (rowRef.current && !isIntersecting) {
-      collapseItemIntoSpacer(rowRef.current!.getBoundingClientRect().height);
+  useIsIntersectingListener(ref, isIntersecting => {
+    if (ref.current && !isIntersecting) {
+      collapseItemIntoSpacer(ref.current!.getBoundingClientRect().height);
     }
   });
 
-  const {columns, selection, isClickable, onItemClick, getItemLevel, tbodyTrClassName} = tableProps;
-  const clickable = isClickable?.(item, index);
+  const {data, columns, selection, isItemClickable, isItemFocusableByArrowKeys, onItemFocus, getItemLevel} = useContext(
+    TablePropsContext as Context<TableProps<T>>,
+  );
+
+  const item = data[index];
+  const clickable = isItemClickable?.(item, index);
   const selected = selection?.isSelected(item);
   const level = getItemLevel?.(item, index) ?? 0;
 
-  function getItemDependentClassName(className: undefined | string | ((item: T, index: number) => string)) {
-    if (!className) {
-      return undefined;
-    }
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTableRowElement>) {
+    onKeyDown?.(e);
 
-    return typeof className === 'function' ? className(item, index) : className;
-  }
-
-  function onPointerUp(e: React.PointerEvent<HTMLTableRowElement>) {
-    if (!onItemClick) return;
-
-    const {target} = e;
-    const isActiveElement = target instanceof Element && target.closest('a, button, input, select');
-    if (isActiveElement) return;
-
-    onItemClick(e.nativeEvent, item, index);
-  }
-
-  function onKeyDown(e: React.KeyboardEvent<HTMLTableRowElement>) {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+    if (!e.defaultPrevented && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
       const step = e.key === 'ArrowUp' ? -1 : 1;
       // eslint-disable-next-line yoda
-      for (let i = index + step; 0 <= i && i < tableProps.data.length; i += step) {
-        if (tableProps.isItemFocusable?.(tableProps.data[i], i)) {
-          tableProps.onItemFocus?.(tableProps.data[i], i);
+      for (let i = index + step; 0 <= i && i < data.length; i += step) {
+        if (isItemFocusableByArrowKeys?.(data[i], i)) {
+          onItemFocus?.(data[i], i);
           break;
         }
       }
@@ -65,30 +60,29 @@ export function DefaultRowRenderer<T>({item, index}: DefaultRowRendererProps<T>)
   const focused = selection?.isFocused(item);
 
   useEffect(() => {
-    if (focused) rowRef.current?.focus();
-  }, [focused]);
+    if (focused) ref.current?.focus();
+  }, [focused, ref]);
 
-  function onBlur() {
-    if (focused) tableProps.onItemFocus?.(null, -1);
+  function handleBlur(e: React.FocusEvent<HTMLTableRowElement>) {
+    onBlur?.(e);
+    if (!e.defaultPrevented && focused) {
+      onItemFocus?.(null, -1);
+    }
   }
 
   return (
     <TableRow
-      ref={rowRef}
-      className={classNames(
-        getItemDependentClassName(tbodyTrClassName),
-        clickable && styles.clickableRow,
-        selected && styles.selectedRow,
-      )}
-      onPointerUp={onPointerUp}
-      onKeyDown={onKeyDown}
+      ref={ref}
+      className={classNames(className, clickable && styles.clickableRow, selected && styles.selectedRow)}
+      onKeyDown={handleKeyDown}
       tabIndex={focused ? 0 : undefined}
-      onBlur={focused ? onBlur : undefined}
+      onBlur={focused ? handleBlur : undefined}
+      {...restProps}
     >
       {columns.map((column, columnIndex) => (
         <TableCell
           key={column.key}
-          className={getItemDependentClassName(column.tdClassName)}
+          className={column.tdClassName?.(item, index)}
           style={column.indent && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined}
         >
           {column.renderCell?.(item, index) ?? getDefaultCellValue(item, columnIndex)}

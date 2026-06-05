@@ -23,27 +23,21 @@ export interface TableProps<T> {
   getKey: (item: T, index: number) => React.Key;
 
   /**
-   * Displays the selection state.
+   * Displays the selection and focus state.
    */
   selection?: Selection<T>;
 
   /**
-   * Highlights an item on hover. Note that `onItemClick` works regardless
-   * of the value of this prop.
+   * Renders an item as clickable (highlighted on hover).
+   * Note that `false` doesn't prevent from handling clicks.
    */
-  isClickable?: (item: T, index: number) => boolean;
-
-  /**
-   * Called when a `pointerup` event is handled at row level,
-   * and the event target is not an active element, such as
-   * `button`, `a`, `input`, or `select` elements.
-   */
-  onItemClick?: (e: PointerEvent, item: T, index: number) => void;
+  isItemClickable?: (item: T, index: number) => boolean;
 
   /**
    * If true, the item can be focused by keyboard up/down arrows.
+   * Note that `false` doesn't prevent from `selection.focus()`.
    */
-  isItemFocusable?: (item: T, index: number) => boolean;
+  isItemFocusableByArrowKeys?: (item: T, index: number) => boolean;
 
   /**
    * When the item should get focused by keyboard navigation.
@@ -65,7 +59,7 @@ export interface TableProps<T> {
   /**
    * Called when the client moves a row by dragging it.
    */
-  onRowMove?: (item: T, fromIndex: number, toIndex: number) => void;
+  onItemMove?: (item: T, fromIndex: number, toIndex: number) => void;
 
   /**
    * Called when the client clicks on SortButton in a column header.
@@ -83,21 +77,25 @@ export interface TableProps<T> {
   onColumnMove?: (fromIndex: number, toIndex: number) => void;
 
   /**
-   * Custom renderer for a data item.
+   * Implement to provide your custom row renderer, or to specify handlers like onClick,
+   * a custom className, a ref etc. for the `DefaultRowRenderer`:
    *
-   * Expected to return one or more rows. If provided, completely
-   * overrides standard column-based rendering.
+   * ```tsx
+   * <Table
+   *   renderItem={(item, index) => (
+   *     <DefaultRowRenderer
+   *       index={index}
+   *       className={'my-row'}
+   *       onClick={() => setSelection(selection.focus(item))}
+   *     />
+   *   )}
+   * />
+   * ```
    *
-   * Use `TableRow` and `TableCell` components to apply standard classnames.
-   * Beware that data-dependent classnames, namely `tbodyTrClassName` and `tdClassName`,
-   * will not be applied; likewise `onItemClick` and `onItemKeyDown` won't be attached.
+   * In your custom implementation, use `TableRow` and `TableCell` components to apply the
+   * standard classnames, but beware that `tdClassName` won't be applied.
    *
-   * The implementation may use `DefaultRowRenderer` to fall back to default behavior,
-   * including data-dependent classnames and event handlers mentioned above.
-   * It's also okay to render several rows, one of which uses `DefaultRowRenderer`,
-   * other being custom.
-   *
-   * @see DefaultRowRendererProps
+   * You can also use `DefaultRowRenderer` in combination with your custom rows.
    */
   renderItem?: (item: T, index: number) => ReactNode;
 
@@ -201,13 +199,6 @@ export interface TableProps<T> {
   tbodyClassName?: string;
 
   /**
-   * Applied to each `<tr>` element within the `<tbody>`.
-   * If a custom `renderItem` is provided, this prop is not used,
-   * unless the custom renderer falls back to `DefaultRowRenderer`.
-   */
-  tbodyTrClassName?: string | ((item: T, index: number) => string);
-
-  /**
    * Whether to show a small gear button at the top right corner.
    * See the "Column Controls Discoverability" section above.
    */
@@ -276,18 +267,10 @@ export interface Column<T> {
    * If a custom `TableProps.renderItem` is provided, this prop is not used,
    * unless the custom renderer falls back to `DefaultRowRenderer`.
    */
-  tdClassName?: string | ((item: T, index: number) => string);
+  tdClassName?: (item: T, index: number) => string;
 }
 
-/**
- * Use it as a fallback in `renderItem`. It renders a single row with cells based on
- * `columns`, and applies all relevant classnames, including data-dependent ones,
- * namely `tbodyTrClassName` and `tdClassName`.
- *
- * The component props are only item-scoped. Table-scoped props are passed via
- * React context.
- */
-export interface DefaultRowRendererProps<T> {
-  item: T;
+export interface DefaultRowRendererProps {
   index: number;
+  ref?: React.RefObject<HTMLTableRowElement | null>;
 }

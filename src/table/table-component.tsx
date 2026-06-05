@@ -1,4 +1,4 @@
-import React, {type HTMLAttributes, Fragment, useRef} from 'react';
+import React, {type HTMLAttributes, useRef} from 'react';
 import classNames from 'classnames';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
@@ -33,8 +33,8 @@ import styles from './table.css';
  * Following three props support the selection:
  *
  * - `selection`
- * - `isClickable`
- * - `onItemClick`
+ * - `isItemClickable`
+ * - `DefaultRowRenderer.onClick`
  *
  * Only `selection` is required: you can display and modify selection your way, e.g., via
  * checkboxes in cells.
@@ -72,6 +72,17 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
   const {
     data,
     columns,
+    getKey,
+    selection,
+    isItemClickable,
+    isItemFocusableByArrowKeys,
+    onItemFocus,
+    onItemKeyDown,
+    getItemLevel,
+    onItemMove,
+    onSort,
+    onColumnDelete,
+    onColumnMove,
     renderItem,
     virtualizeRows = false,
     scrollerRef,
@@ -83,6 +94,8 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
     theadClassName,
     theadTrClassName,
     tbodyClassName,
+    columnEditButton,
+    ...restProps
   } = props;
 
   const tableRef = useRef<HTMLTableElement | null>(null);
@@ -101,7 +114,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
   return (
     <TablePropsContext.Provider value={props as TableProps<unknown>}>
       <IntersectionObserverContext.Provider value={intersectionObserverHandle}>
-        <table className={classNames(styles.table, className)} ref={tableRef}>
+        <table className={classNames(styles.table, className)} ref={tableRef} {...restProps}>
           <thead className={theadClassName}>
             <tr className={classNames(styles.headerRow, theadTrClassName)}>
               {columns.map((column, columnIndex) => (
@@ -132,11 +145,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
                   value={height => collapseItemIntoSpacer(index, height)}
                   key={key}
                 >
-                  {renderItem ? (
-                    <Fragment>{renderItem(item, index)}</Fragment>
-                  ) : (
-                    <DefaultRowRenderer item={item} index={index} />
-                  )}
+                  {renderItem ? renderItem(item, index) : <DefaultRowRenderer index={index} />}
                 </CollapseItemIntoSpacerContext.Provider>
               );
             })}
