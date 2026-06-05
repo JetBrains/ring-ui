@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {useRef, useState} from 'react';
 
-import Table, {type Column, DeleteColumnButton, SortButton, type SortOrder} from './table';
+import Table, {type Column, type SortOrder} from './table';
 import Link from '../link/link';
 import Selection from '../legacy-table/selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
+import {DeleteColumnButton, SortButton} from './table-buttons';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
