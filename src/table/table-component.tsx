@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
 import {SpacerRow, useTableVirtualize} from './table-virtualize';
-import {DefaultRowRenderer} from './default-row-renderer';
+import {DefaultItemRenderer} from './default-item-renderer';
 import {
   CollapseItemIntoSpacerContext,
   ColumnIndexContext,
@@ -34,7 +34,7 @@ import styles from './table.css';
  *
  * - `selection`
  * - `isItemClickable`
- * - `DefaultRowRenderer.onClick`
+ * - `DefaultItemRenderer.onClick`
  *
  * Only `selection` is required: you can display and modify selection your way, e.g., via
  * checkboxes in cells.
@@ -77,7 +77,6 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
     isItemClickable,
     isItemFocusableByArrowKeys,
     onItemFocus,
-    onItemKeyDown,
     getItemLevel,
     onItemMove,
     onSort,
@@ -145,7 +144,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
                   value={height => collapseItemIntoSpacer(index, height)}
                   key={key}
                 >
-                  {renderItem ? renderItem(item, index) : <DefaultRowRenderer index={index} />}
+                  {renderItem ? renderItem(item, index) : <DefaultItemRenderer index={index} />}
                 </CollapseItemIntoSpacerContext.Provider>
               );
             })}

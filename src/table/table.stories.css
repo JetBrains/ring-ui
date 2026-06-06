@@ -7,3 +7,16 @@
 
   height: 300px;
 }
+
+.noChildrenChevronPadding {
+  padding-left: 16px;
+}
+
+.chevron {
+  transition: transform 0.2s;
+}
+
+.chevronExpanded {
+  transform: rotate(90deg);
+}
+

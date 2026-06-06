@@ -46,11 +46,6 @@ export interface TableProps<T> {
   onItemFocus?: (item: T | null, index: number) => void;
 
   /**
-   * Called when a `keydown` event is handled at a focused row.
-   */
-  onItemKeyDown?: (e: React.KeyboardEvent, item: T, index: number) => void;
-
-  /**
    * A level of a nested item. Results in an indent for columns with `indent: true`.
    * 0, negative and not set mean no indent.
    */
@@ -78,12 +73,12 @@ export interface TableProps<T> {
 
   /**
    * Implement to provide your custom row renderer, or to specify handlers like onClick,
-   * a custom className, a ref etc. for the `DefaultRowRenderer`:
+   * a custom className, a ref etc. for the `DefaultItemRenderer`:
    *
    * ```tsx
    * <Table
    *   renderItem={(item, index) => (
-   *     <DefaultRowRenderer
+   *     <DefaultItemRenderer
    *       index={index}
    *       className={'my-row'}
    *       onClick={() => setSelection(selection.focus(item))}
@@ -95,7 +90,7 @@ export interface TableProps<T> {
    * In your custom implementation, use `TableRow` and `TableCell` components to apply the
    * standard classnames, but beware that `tdClassName` won't be applied.
    *
-   * You can also use `DefaultRowRenderer` in combination with your custom rows.
+   * You can also use `DefaultItemRenderer` in combination with your custom rows.
    */
   renderItem?: (item: T, index: number) => ReactNode;
 
@@ -265,12 +260,12 @@ export interface Column<T> {
   /**
    * The classname to apply to the `td` element inside `table / tbody`.
    * If a custom `TableProps.renderItem` is provided, this prop is not used,
-   * unless the custom renderer falls back to `DefaultRowRenderer`.
+   * unless the custom renderer falls back to `DefaultItemRenderer`.
    */
-  tdClassName?: (item: T, index: number) => string;
+  tdClassName?: (item: T, index: number) => string | undefined;
 }
 
-export interface DefaultRowRendererProps {
+export interface DefaultItemRendererProps {
   index: number;
   ref?: React.RefObject<HTMLTableRowElement | null>;
 }

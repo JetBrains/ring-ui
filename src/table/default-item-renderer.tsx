@@ -4,25 +4,25 @@ import classNames from 'classnames';
 import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
 
-import type {TableProps, DefaultRowRendererProps} from './table';
+import type {TableProps, DefaultItemRendererProps} from './table';
 
 import styles from './table.css';
 
-const INDENT_SIZE = 16;
+const INDENT_SIZE = 24;
 
 /**
- * The default row renderer used when `renderItem` is not provided.
+ * The default item renderer used when `renderItem` is not provided.
  * You can also use it to provide handlers like onClick, a custom className,
  * or as a fallback in your `TableProps.renderItem` implementation.
  */
-export function DefaultRowRenderer<T>({
+export function DefaultItemRenderer<T>({
   index,
   ref: userRef,
   className,
   onKeyDown,
   onBlur,
   ...restProps
-}: DefaultRowRendererProps & HTMLAttributes<HTMLTableRowElement>) {
+}: DefaultItemRendererProps & HTMLAttributes<HTMLTableRowElement>) {
   const selfRef = useRef<HTMLTableRowElement | null>(null);
   const ref = userRef ?? selfRef;
 

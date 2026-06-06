@@ -1,4 +1,4 @@
-import {type RefObject, useEffect, useRef, useState} from 'react';
+import {type RefObject, useEffect, useMemo, useRef, useState} from 'react';
 
 import useEventCallback from '../global/use-event-callback';
 import {useIntersectionObserverHandle} from '../global/intersection-observer-context';
@@ -53,19 +53,15 @@ export function useTableVirtualize({
 }) {
   const itemsMaterialization = useRef<ItemMaterialization[]>([]);
 
-  const [virtualItems, setVirtualItems] = useState<VirtualItem[]>(() =>
-    enabled
-      ? [
-          {
-            type: 'spacer',
-            from: 0,
-            to: length,
-            height: Array.from({length}, (_, i) => estimateHeight(i)).reduce((a, b) => a + b, 0),
-            key: `${styles.spacerRow}-0`,
-          },
-        ]
-      : Array.from({length}, (_, index) => ({type: 'rendered', index})),
-  );
+  const [virtualItems, setVirtualItems] = useState<VirtualItem[]>(() => [
+    {
+      type: 'spacer',
+      from: 0,
+      to: length,
+      height: Array.from({length}, (_, i) => estimateHeight(i)).reduce((a, b) => a + b, 0),
+      key: `${styles.spacerRow}-0`,
+    },
+  ]);
 
   const materializeVisibleSpacerItems = useEventCallback(() => {
     if (!tableRef.current) return;
@@ -217,7 +213,16 @@ export function useTableVirtualize({
     throttle(recomputeVirtualItems);
   });
 
-  return {virtualItems, intersectionObserverHandle, collapseItemIntoSpacer};
+  const allVisibleVirtualItems = useMemo<VirtualItem[]>(
+    () => Array.from({length: enabled ? 0 : length}, (_, index) => ({type: 'rendered', index})),
+    [enabled, length],
+  );
+
+  return {
+    virtualItems: enabled ? virtualItems : allVisibleVirtualItems,
+    intersectionObserverHandle,
+    collapseItemIntoSpacer,
+  };
 }
 
 export function SpacerRow({spacer: {from, to, height}, colSpan}: {spacer: Spacer; colSpan: number}) {
