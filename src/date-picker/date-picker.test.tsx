@@ -2,6 +2,7 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import DatePicker from './date-picker';
+import {getDefaultScrollDate} from './consts';
 
 describe('Date Picker', () => {
   it('should create component', () => {
@@ -73,4 +74,63 @@ describe('Date Picker', () => {
     await userEvent.click(screen.getByRole('button'));
     expect(screen.getByTestId('btn-today')).to.have.text('Today');
   });
+
+  const parseDateInput = (text: Date | number | string | null | undefined) => (text ? new Date(text) : null);
+
+  test('defaultScrollDate unbounded', () => {
+    const scrollDate = getDefaultScrollDate({
+      parseDateInput,
+    });
+    expectNearNow(scrollDate);
+  });
+
+  test('defaultScrollDate -- minDate is in the past', () => {
+    const scrollDate = getDefaultScrollDate({
+      minDate: '01.01.2000',
+      parseDateInput,
+    });
+    expectNearNow(scrollDate);
+  });
+
+  test('defaultScrollDate -- minDate is in the future', () => {
+    const scrollDate = getDefaultScrollDate({
+      minDate: '01.01.3000',
+      parseDateInput,
+    });
+    expect(scrollDate.getTime()).toBe(Number(new Date('01.01.3000')));
+  });
+
+  test('defaultScrollDate -- maxDate is in the past', () => {
+    const scrollDate = getDefaultScrollDate({
+      maxDate: '01.01.2000',
+      parseDateInput,
+    });
+    expect(scrollDate.getTime()).toBe(Number(new Date('01.01.2000')));
+  });
+
+  test('defaultScrollDate -- maxDate is in the future', () => {
+    const scrollDate = getDefaultScrollDate({
+      maxDate: '01.01.3000',
+      parseDateInput,
+    });
+    expectNearNow(scrollDate);
+  });
+
+  test('defaultScrollDate -- minDate..maxDate contains now', () => {
+    const scrollDate = getDefaultScrollDate({
+      minDate: '01.01.2000',
+      maxDate: '01.01.3000',
+      parseDateInput,
+    });
+    expectNearNow(scrollDate);
+  });
+
+  function expectNearNow(scrollDate: Date) {
+    const now = new Date();
+    const msg = `scrollDate: ${scrollDate.toISOString()}, now: ${now.toISOString()}`;
+    expect(Number(scrollDate), msg).toBeCloseTo(
+      Number(now),
+      -3, // 3 significant digits, i.e. 1 second
+    );
+  }
 });
