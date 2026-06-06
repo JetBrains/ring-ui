@@ -75,7 +75,17 @@ describe('Date Picker', () => {
     expect(screen.getByTestId('btn-today')).to.have.text('Today');
   });
 
-  const parseDateInput = (text: Date | number | string | null | undefined) => (text ? new Date(text) : null);
+  const parseDateInput = (input: Date | number | string | null | undefined) => {
+    if (input == null) return null;
+    if (input instanceof Date) return input;
+    if (typeof input === 'number') return new Date(input);
+
+    const m = /^(\d\d)\.(\d\d)\.(\d\d\d\d)$/.exec(input);
+    if (!m) return null;
+
+    const [, dd, mm, yyyy] = m;
+    return new Date(Number(yyyy), Number(mm) - 1, Number(dd));
+  };
 
   test('defaultScrollDate unbounded', () => {
     const scrollDate = getDefaultScrollDate({
@@ -97,7 +107,7 @@ describe('Date Picker', () => {
       minDate: '01.01.3000',
       parseDateInput,
     });
-    expect(scrollDate.getTime()).toBe(Number(new Date('01.01.3000')));
+    expect(scrollDate.getTime()).toBe(Number(new Date(3000, 0, 1)));
   });
 
   test('defaultScrollDate -- maxDate is in the past', () => {
@@ -105,7 +115,7 @@ describe('Date Picker', () => {
       maxDate: '01.01.2000',
       parseDateInput,
     });
-    expect(scrollDate.getTime()).toBe(Number(new Date('01.01.2000')));
+    expect(scrollDate.getTime()).toBe(Number(new Date(2000, 0, 1)));
   });
 
   test('defaultScrollDate -- maxDate is in the future', () => {
