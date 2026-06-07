@@ -144,7 +144,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
                   value={height => collapseItemIntoSpacer(index, height)}
                   key={key}
                 >
-                  {renderItem ? renderItem(item, index) : <DefaultItemRenderer index={index} />}
+                  {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
                 </CollapseItemIntoSpacerContext.Provider>
               );
             })}

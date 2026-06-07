@@ -92,7 +92,7 @@ export interface TableProps<T> {
    *
    * You can also use `DefaultItemRenderer` in combination with your custom rows.
    */
-  renderItem?: (item: T, index: number) => ReactNode;
+  renderItem?: (item: T, index: number, items: T[]) => ReactNode;
 
   /**
    * Only renders rows near the viewport.
@@ -231,7 +231,7 @@ export interface Column<T> {
    *   - The first column renders `String(item)`
    *   - Other columns render empty value
    */
-  renderCell?: (item: T, index: number) => ReactNode;
+  renderCell?: (item: T, index: number, items: T[]) => ReactNode;
 
   /**
    * If the column gets an indent when `TableProps.getItemLevel()` returns

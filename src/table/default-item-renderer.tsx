@@ -85,7 +85,7 @@ export function DefaultItemRenderer<T>({
           className={column.tdClassName?.(item, index)}
           style={column.indent && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined}
         >
-          {column.renderCell?.(item, index) ?? getDefaultCellValue(item, columnIndex)}
+          {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex)}
         </TableCell>
       ))}
     </TableRow>

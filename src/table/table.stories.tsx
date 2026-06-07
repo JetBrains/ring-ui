@@ -11,6 +11,7 @@ import Tag, {TagType} from '../tag/tag';
 import {DeleteColumnButton, SortButton} from './table-buttons';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
+import useEventCallback from '../global/use-event-callback';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -180,19 +181,25 @@ function sortByColumn<T extends {}>(
   setData: (data: T[]) => void,
   setColumns: (columns: Column<T>[]) => void,
 ) {
-  setColumns(
-    columns.map((column, i) => ({
-      ...column,
-      sortOrder: i === columnIndex ? sortOrder : undefined,
-    })),
-  );
+  setColumns(getColumnsWithSortOrder(columns, columnIndex, sortOrder));
 
   if (sortOrder === 'none') {
     setData(data);
     return;
   }
 
-  const sortedData = [...data].sort((a, b) => {
+  setData(sortByColumnInPlace([...data], columnIndex, sortOrder));
+}
+
+function getColumnsWithSortOrder<T>(columns: Column<T>[], columnIndex: number, sortOrder: SortOrder) {
+  return columns.map((column, i) => ({
+    ...column,
+    sortOrder: i === columnIndex ? sortOrder : undefined,
+  }));
+}
+
+function sortByColumnInPlace<T extends {}>(data: T[], columnIndex: number, sortOrder: SortOrder) {
+  data.sort((a, b) => {
     const aVal = Object.values(a)[columnIndex];
     const bVal = Object.values(b)[columnIndex];
 
@@ -212,7 +219,7 @@ function sortByColumn<T extends {}>(
 
     return 0;
   });
-  setData(sortedData);
+  return data;
 }
 
 interface Issue {
@@ -390,50 +397,62 @@ interface IssueNode extends Issue {
   children?: IssueNode[];
 }
 
-const issueTree: IssueNode[] = [
-  {
-    ...issuesLongData[1000],
-    children: [
-      {
-        ...issuesLongData[1100],
-        children: [issuesLongData[1110], issuesLongData[1120]],
-      },
-      issuesLongData[1200],
-      {
-        ...issuesLongData[1300],
-        children: [issuesLongData[1310]],
-      },
-    ],
-  },
-  issuesLongData[2000],
-  {
-    ...issuesLongData[3000],
-    children: [issuesLongData[3100]],
-  },
-  issuesLongData[4000],
-  {
-    ...issuesLongData[5000],
-    children: [
-      issuesLongData[5100],
-      issuesLongData[5200],
-      issuesLongData[5300],
-      {
-        ...issuesLongData[5400],
-        children: [issuesLongData[5410]],
-      },
-    ],
-  },
-];
+const issueTreeRoot: IssueNode = {
+  id: '_root',
+  priority: 'Normal',
+  votes: -1,
+  children: [
+    {
+      ...issuesLongData[1000],
+      children: [
+        {
+          ...issuesLongData[1100],
+          children: [issuesLongData[1110], issuesLongData[1120]],
+        },
+        issuesLongData[1200],
+        {
+          ...issuesLongData[1300],
+          children: [issuesLongData[1310]],
+        },
+      ],
+    },
+    issuesLongData[2000],
+    {
+      ...issuesLongData[3000],
+      children: [issuesLongData[3100]],
+    },
+    issuesLongData[4000],
+    {
+      ...issuesLongData[5000],
+      children: [
+        issuesLongData[5100],
+        issuesLongData[5200],
+        issuesLongData[5300],
+        {
+          ...issuesLongData[5400],
+          children: [issuesLongData[5410]],
+        },
+      ],
+    },
+  ],
+};
 
-function getNodeByPath(current: IssueNode[] | undefined, path: number[]): IssueNode | undefined {
+function deepCopy({children, ...node}: IssueNode): IssueNode {
+  return {
+    ...node,
+    ...(children ? {children: children.map(deepCopy)} : {}),
+  };
+}
+
+function getNodeByPath(current: IssueNode | undefined, path: number[]): IssueNode | undefined {
   if (!current) return undefined;
   const [index, ...tail] = path;
 
-  const node = current[index];
+  const node = current.children?.[index];
   if (!node) return undefined;
   if (!tail.length) return node;
 
-  return getNodeByPath(node.children, tail);
+  return getNodeByPath(node, tail);
 }
 
 function isChildPath(parent: number[], child: number[]) {
@@ -441,71 +460,112 @@ function isChildPath(parent: number[], child: number[]) {
   return parent.every((num, i) => num === child[i]);
 }
 
-interface ClientIssueFlat extends Issue {
+interface IssueFlat extends Issue {
   hasChildren: boolean;
   path: number[];
 }
 
-function isExpanded(data: ClientIssueFlat[], index: number) {
+function isExpanded(data: IssueFlat[], index: number) {
   const item = data[index];
   const nextItem = data[index + 1];
   return item?.hasChildren && nextItem && isChildPath(item.path, nextItem.path);
 }
 
-export const WithExpandAndFocus: TableStory<ClientIssueFlat> = {
+export const WithExpandAndFocus: TableStory<IssueFlat> = {
   render() {
-    const [data, setData] = useState(() =>
-      issueTree.map(({children, ...item}, index) => ({...item, path: [index], hasChildren: !!children?.length})),
+    const [treeData, setTreeData] = useState(() => deepCopy(issueTreeRoot));
+
+    const [flatData, setFlatData] = useState<IssueFlat[]>(() =>
+      issueTreeRoot.children!.map((item, index) => ({
+        id: item.id,
+        priority: item.priority,
+        votes: item.votes,
+        hasChildren: !!item.children?.length,
+        path: [index],
+      })),
     );
 
-    const isItemClickable = ({hasChildren}: ClientIssueFlat) => hasChildren;
+    const [idColumn, ...restColumns] = issuesColumns;
+    const [columns, setColumns] = useState<Column<IssueFlat>[]>(() => [
+      {
+        ...idColumn,
+        renderCell: (item, index, items) => (
+          <>
+            {item.hasChildren && (
+              <Icon
+                glyph={chevronIcon}
+                className={classNames(style.chevron, isExpanded(items, index) && style.chevronExpanded)}
+              />
+            )}{' '}
+            <span className={item.hasChildren ? undefined : style.noChildrenChevronPadding}>
+              {idColumn.renderCell?.(item)}
+            </span>
+          </>
+        ),
+      },
+      ...restColumns,
+    ]);
 
-    const toggleExpand = (item: ClientIssueFlat, index: number) => {
-      if (isExpanded(data, index)) {
+    const handleExpand = useEventCallback((item: IssueFlat, index: number) => {
+      if (isExpanded(flatData, index)) {
         // Collapse
-        setData(data.filter(it => !isChildPath(item.path, it.path)));
+        setFlatData(flatData.filter(it => !isChildPath(item.path, it.path)));
       } else {
         // Expand
-        const itemChildren = getNodeByPath(issueTree, item.path)?.children?.map(({children, ...child}, i) => ({
+        const itemChildren = getNodeByPath(treeData, item.path)?.children?.map(({children, ...child}, i) => ({
           ...child,
           path: [...item.path, i],
           hasChildren: !!children?.length,
         }));
         if (itemChildren?.length) {
-          const newData = [...data];
+          const newData = [...flatData];
           newData.splice(index + 1, 0, ...itemChildren);
-          setData(newData);
+          setFlatData(newData);
         }
       }
-    };
+    });
 
-    const [idColumn, ...restColumns] = issuesColumns;
+    const handleSort = useEventCallback((columnIndex: number, sortOrder: SortOrder) => {
+      const newTreeData = deepCopy(issueTreeRoot);
+      if (sortOrder !== 'none') {
+        (function sortNodeInPlace(node: IssueNode) {
+          if (node.children?.length) {
+            sortByColumnInPlace(node.children, columnIndex, sortOrder);
+            node.children.forEach(sortNodeInPlace);
+          }
+        })(newTreeData);
+      }
+
+      const newFlatData: IssueFlat[] = [];
+      (function collectToFlatItems(node, currentPath: number[]) {
+        if (flatData.some(flatItem => flatItem.id === node.id)) {
+          newFlatData.push({
+            id: node.id,
+            priority: node.priority,
+            votes: node.votes,
+            hasChildren: !!node.children?.length,
+            path: currentPath,
+          });
+        }
+        if (node.children?.length) {
+          node.children.forEach((child, index) => collectToFlatItems(child, [...currentPath, index]));
+        }
+      })(newTreeData, []);
+
+      setColumns(getColumnsWithSortOrder(columns, columnIndex, sortOrder));
+      setTreeData(newTreeData);
+      setFlatData(newFlatData);
+    });
+
     return (
       <Table
-        data={data}
-        columns={[
-          {
-            ...idColumn,
-            renderCell: (item, index) => (
-              <>
-                {item.hasChildren && (
-                  <Icon
-                    glyph={chevronIcon}
-                    className={classNames(style.chevron, isExpanded(data, index) && style.chevronExpanded)}
-                  />
-                )}{' '}
-                <span className={item.hasChildren ? undefined : style.noChildrenChevronPadding}>
-                  {idColumn.renderCell?.(item)}
-                </span>
-              </>
-            ),
-          },
-          ...restColumns,
-        ]}
+        data={flatData}
+        columns={columns}
         getKey={({id}) => id}
-        isItemClickable={isItemClickable}
+        isItemClickable={({hasChildren}: IssueFlat) => hasChildren}
         getItemLevel={item => item.path.length - 1}
-        renderItem={(item, i) => <DefaultItemRenderer index={i} onClick={() => toggleExpand(item, i)} />}
+        onSort={handleSort}
+        renderItem={(item, i) => <DefaultItemRenderer index={i} onClick={() => handleExpand(item, i)} />}
       />
     );
   },
