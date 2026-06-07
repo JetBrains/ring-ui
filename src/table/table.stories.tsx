@@ -230,15 +230,19 @@ interface Issue {
 const issuesLongData: Issue[] = Array.from({length: 100_000}, (_, i) => {
   const hash = Math.imul(i + 1, 2654435761) >>> 0;
 
-  const aCode = 'A'.codePointAt(0)!;
-  const firstLetter = String.fromCharCode(aCode + (hash % 26));
-  const secondLetter = String.fromCharCode(aCode + ((hash >>> 5) % 26));
-  const id = `${firstLetter}${secondLetter}-${i}`;
-
+  const prefix = getTwoLetterPrefix(hash % 26, (hash >>> 5) % 26);
+  const id = `${prefix}-${i}`;
   const votes = (hash >>> 10) % 1000;
   const priority = priorities[(hash >>> 20) % priorities.length];
   return {id, priority, votes};
 });
+
+function getTwoLetterPrefix(firstCode: number /* 1..26 */, secondCode: number /* 1..26 */) {
+  const aCode = 'A'.codePointAt(0)!;
+  const firstLetter = String.fromCharCode(aCode + firstCode);
+  const secondLetter = String.fromCharCode(aCode + secondCode);
+  return `${firstLetter}${secondLetter}`;
+}
 
 const issuesColumns = [
   {
@@ -395,45 +399,23 @@ interface IssueNode extends Issue {
   children?: IssueNode[];
 }
 
-const issueTreeRoot: IssueNode = {
-  id: '_root',
-  priority: 'Normal',
-  votes: -1,
-  children: [
-    {
-      ...issuesLongData[1000],
-      children: [
-        {
-          ...issuesLongData[1100],
-          children: [issuesLongData[1110], issuesLongData[1120]],
-        },
-        issuesLongData[1200],
-        {
-          ...issuesLongData[1300],
-          children: [issuesLongData[1310]],
-        },
-      ],
-    },
-    issuesLongData[2000],
-    {
-      ...issuesLongData[3000],
-      children: [issuesLongData[3100]],
-    },
-    issuesLongData[4000],
-    {
-      ...issuesLongData[5000],
-      children: [
-        issuesLongData[5100],
-        issuesLongData[5200],
-        issuesLongData[5300],
-        {
-          ...issuesLongData[5400],
-          children: [issuesLongData[5410]],
-        },
-      ],
-    },
-  ],
-};
+const issueTreeRoot: IssueNode = (function genNode(level: number, counter: {value: number}): IssueNode {
+  const hash = Math.imul(9431 + counter.value, 2654435761) >>> 0;
+  const isRoot = level === 0;
+
+  const id = isRoot ? '_root' : `${getTwoLetterPrefix(hash % 26, (hash >>> 5) % 26)}-${counter.value++}`;
+  const priority = isRoot ? 'Normal' : priorities[(hash >>> 10) % priorities.length];
+  const votes = isRoot ? -1 : (hash >>> 12) % 1000;
+  // eslint-disable-next-line no-nested-ternary, prettier/prettier
+  const childrenLength = isRoot ? 10 : (level > 3 ? 0 : (hash >>> 23) % 4);
+
+  return {
+    id,
+    priority,
+    votes,
+    children: Array.from({length: childrenLength}, () => genNode(level + 1, counter)),
+  };
+})(0, {value: 0});
 
 function deepCopy({children, ...node}: IssueNode): IssueNode {
   return {
