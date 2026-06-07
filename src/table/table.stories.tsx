@@ -53,7 +53,6 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
     ],
     getKey: item => item.id,
     selection: new Selection({data: smallDataSlice}),
-    isItemClickable: () => true,
   },
 
   render(args) {
@@ -93,10 +92,10 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
         columns={columns}
         getKey={args.getKey}
         selection={selection}
-        isItemClickable={args.isItemClickable}
         renderItem={(item, index) => (
           <DefaultItemRenderer
             index={index}
+            clickable
             onClick={({target}) => {
               if (target instanceof Element && ['a', 'input'].includes(target.tagName)) return;
               setSelection(selection.toggleSelection(item));
@@ -363,8 +362,7 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
     ],
     getKey: item => item.id,
     selection: new Selection({data: smallDataSlice}),
-    isItemClickable: () => true,
-    isItemFocusableByArrowKeys: () => true,
+    isItemKeyboardFocusable: () => true,
   },
 
   render(args) {
@@ -376,12 +374,12 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
         columns={args.columns}
         getKey={args.getKey}
         selection={selection}
-        isItemClickable={args.isItemClickable}
-        isItemFocusableByArrowKeys={args.isItemFocusableByArrowKeys}
+        isItemKeyboardFocusable={args.isItemKeyboardFocusable}
         onItemFocus={item => setSelection(selection.focus(item))}
         renderItem={(item, index) => (
           <DefaultItemRenderer
             index={index}
+            clickable
             onClick={({target}) => {
               if (target instanceof Element && target.tagName === 'a') return;
               setSelection(selection.focus(item));
@@ -537,8 +535,9 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
       }
 
       const newFlatData: IssueFlat[] = [];
+      const visibleIssuesIds = new Set(flatData.map(item => item.id));
       (function collectToFlatItems(node, currentPath: number[]) {
-        if (flatData.some(flatItem => flatItem.id === node.id)) {
+        if (visibleIssuesIds.has(node.id)) {
           newFlatData.push({
             id: node.id,
             priority: node.priority,
@@ -547,9 +546,7 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
             path: currentPath,
           });
         }
-        if (node.children?.length) {
-          node.children.forEach((child, index) => collectToFlatItems(child, [...currentPath, index]));
-        }
+        node.children?.forEach((child, index) => collectToFlatItems(child, [...currentPath, index]));
       })(newTreeData, []);
 
       setColumns(getColumnsWithSortOrder(columns, columnIndex, sortOrder));
@@ -562,10 +559,15 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
         data={flatData}
         columns={columns}
         getKey={({id}) => id}
-        isItemClickable={({hasChildren}: IssueFlat) => hasChildren}
-        getItemLevel={item => item.path.length - 1}
         onSort={handleSort}
-        renderItem={(item, i) => <DefaultItemRenderer index={i} onClick={() => handleExpand(item, i)} />}
+        renderItem={(item, i) => (
+          <DefaultItemRenderer
+            index={i}
+            clickable={item.hasChildren}
+            level={item.path.length - 1}
+            onClick={() => handleExpand(item, i)}
+          />
+        )}
       />
     );
   },

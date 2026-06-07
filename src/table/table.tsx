@@ -28,33 +28,21 @@ export interface TableProps<T> {
   selection?: Selection<T>;
 
   /**
-   * Renders an item as clickable (highlighted on hover).
-   * Note that `false` doesn't prevent from handling clicks.
-   */
-  isItemClickable?: (item: T, index: number) => boolean;
-
-  /**
    * If true, the item can be focused by keyboard up/down arrows.
    * Note that `false` doesn't prevent from `selection.focus()`.
    */
-  isItemFocusableByArrowKeys?: (item: T, index: number) => boolean;
+  isItemKeyboardFocusable?: (item: T, index: number, items: T[]) => boolean;
 
   /**
    * When the item should get focused by keyboard navigation.
    * The client is expected to update `selection`.
    */
-  onItemFocus?: (item: T | null, index: number) => void;
-
-  /**
-   * A level of a nested item. Results in an indent for columns with `indent: true`.
-   * 0, negative and not set mean no indent.
-   */
-  getItemLevel?: (item: T, index: number) => number;
+  onItemFocus?: (item: T | null, index: number, items: T[]) => void;
 
   /**
    * Called when the client moves a row by dragging it.
    */
-  onItemMove?: (item: T, fromIndex: number, toIndex: number) => void;
+  onItemMove?: (item: T, fromIndex: number, toIndex: number, items: T[]) => void;
 
   /**
    * Called when the client clicks on SortButton in a column header.
@@ -72,8 +60,8 @@ export interface TableProps<T> {
   onColumnMove?: (fromIndex: number, toIndex: number) => void;
 
   /**
-   * Implement to provide your custom row renderer, or to specify handlers like onClick,
-   * a custom className, a ref etc. for the `DefaultItemRenderer`:
+   * Implement to specify props like `clickable`, handlers like onClick,
+   * a custom `className`, a `ref` etc., or to implement a custom renderer.
    *
    * ```tsx
    * <Table
@@ -262,10 +250,29 @@ export interface Column<T> {
    * If a custom `TableProps.renderItem` is provided, this prop is not used,
    * unless the custom renderer falls back to `DefaultItemRenderer`.
    */
-  tdClassName?: (item: T, index: number) => string | undefined;
+  tdClassName?: (item: T, index: number, items: T[]) => string | undefined;
 }
 
 export interface DefaultItemRendererProps {
-  index: number;
+  /**
+   * Installed on the `<tr>` element
+   */
   ref?: React.RefObject<HTMLTableRowElement | null>;
+
+  /**
+   * The index of the `data` item
+   */
+  index: number;
+
+  /**
+   * Changes the highlight on hover and applies the pointer cursor.
+   * Note that `false` doesn't mean it cannot handle `onClick`.
+   */
+  clickable?: boolean;
+
+  /**
+   * A level of a nested item. Results in an indent for columns with `indent: true`.
+   * 0, negative and not set mean no indent.
+   */
+  level?: number;
 }

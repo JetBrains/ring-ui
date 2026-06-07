@@ -16,8 +16,10 @@ const INDENT_SIZE = 24;
  * or as a fallback in your `TableProps.renderItem` implementation.
  */
 export function DefaultItemRenderer<T>({
-  index,
   ref: userRef,
+  index,
+  clickable,
+  level,
   className,
   onKeyDown,
   onBlur,
@@ -33,14 +35,12 @@ export function DefaultItemRenderer<T>({
     }
   });
 
-  const {data, columns, selection, isItemClickable, isItemFocusableByArrowKeys, onItemFocus, getItemLevel} = useContext(
+  const {data, columns, selection, isItemKeyboardFocusable, onItemFocus} = useContext(
     TablePropsContext as Context<TableProps<T>>,
   );
 
   const item = data[index];
-  const clickable = isItemClickable?.(item, index);
   const selected = selection?.isSelected(item);
-  const level = getItemLevel?.(item, index) ?? 0;
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTableRowElement>) {
     onKeyDown?.(e);
@@ -49,8 +49,8 @@ export function DefaultItemRenderer<T>({
       const step = e.key === 'ArrowUp' ? -1 : 1;
       // eslint-disable-next-line yoda
       for (let i = index + step; 0 <= i && i < data.length; i += step) {
-        if (isItemFocusableByArrowKeys?.(data[i], i)) {
-          onItemFocus?.(data[i], i);
+        if (isItemKeyboardFocusable?.(data[i], i, data)) {
+          onItemFocus?.(data[i], i, data);
           break;
         }
       }
@@ -66,7 +66,7 @@ export function DefaultItemRenderer<T>({
   function handleBlur(e: React.FocusEvent<HTMLTableRowElement>) {
     onBlur?.(e);
     if (!e.defaultPrevented && focused) {
-      onItemFocus?.(null, -1);
+      onItemFocus?.(null, -1, data);
     }
   }
 
@@ -82,8 +82,10 @@ export function DefaultItemRenderer<T>({
       {columns.map((column, columnIndex) => (
         <TableCell
           key={column.key}
-          className={column.tdClassName?.(item, index)}
-          style={column.indent && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined}
+          className={column.tdClassName?.(item, index, data)}
+          style={
+            column.indent && level != null && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined
+          }
         >
           {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex)}
         </TableCell>
