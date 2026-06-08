@@ -1,6 +1,6 @@
 import Table from './table-component';
 
-import type {ReactNode} from 'react';
+import type {ReactNode, RefObject} from 'react';
 import type Selection from '../legacy-table/selection';
 
 export default Table;
@@ -171,6 +171,11 @@ export interface TableProps<T> {
    * Whether to show a small gear button at the top right corner.
    */
   columnEditButton?: 'everywhere' | 'mobileOnly';
+
+  /**
+   * Optional ref to install on the table element.
+   */
+  ref?: RefObject<HTMLTableElement | null>;
 
   /**
    * Applied to the `<thead>` element.

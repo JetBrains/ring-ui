@@ -1,4 +1,4 @@
-import React, {type HTMLAttributes, useRef} from 'react';
+import {type ComponentPropsWithoutRef, useRef} from 'react';
 import classNames from 'classnames';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
@@ -68,7 +68,7 @@ import styles from './table.css';
  *   the default height (e.g. multiline or custom content)
  * - Fine-tuning props: `lookaheadPx`, `retentionMarginPx`, `minScrollAndResizeDeltaPx`
  */
-export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTableElement>) {
+export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef<'table'>) {
   const {
     data,
     columns,
@@ -88,6 +88,7 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
     retentionMarginPx = defaultRetentionMarginPx,
     minScrollAndResizeDeltaPx = defaultMinScrollAndResizeDeltaPx,
     columnEditButton,
+    ref: userRef,
     className,
     theadClassName,
     theadTrClassName,
@@ -95,7 +96,8 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
     ...restProps
   } = props;
 
-  const tableRef = useRef<HTMLTableElement | null>(null);
+  const selfRef = useRef<HTMLTableElement | null>(null);
+  const tableRef = userRef ?? selfRef;
 
   const {virtualItems, intersectionObserverHandle, collapseItemIntoSpacer} = useTableVirtualize({
     enabled: virtualizeRows,

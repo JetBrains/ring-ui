@@ -1,4 +1,4 @@
-import {type Context, type HTMLAttributes, useContext, useEffect, useRef} from 'react';
+import {type ComponentPropsWithoutRef, type Context, useContext, useEffect, useRef} from 'react';
 import classNames from 'classnames';
 
 import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
@@ -16,7 +16,7 @@ export interface DefaultItemRendererProps {
   ref?: React.RefObject<HTMLTableRowElement | null>;
 
   /**
-   * The index of the `data` item
+   * The index of the `data` item to render
    */
   index: number;
 
@@ -47,7 +47,7 @@ export function DefaultItemRenderer<T>({
   onKeyDown,
   onBlur,
   ...restProps
-}: DefaultItemRendererProps & HTMLAttributes<HTMLTableRowElement>) {
+}: DefaultItemRendererProps & ComponentPropsWithoutRef<'tr'>) {
   const selfRef = useRef<HTMLTableRowElement | null>(null);
   const ref = userRef ?? selfRef;
 

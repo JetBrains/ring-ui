@@ -1,4 +1,4 @@
-import {type Context, type HTMLAttributes, useContext} from 'react';
+import {type ComponentPropsWithoutRef, type Context, useContext} from 'react';
 import classNames from 'classnames';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
@@ -16,7 +16,7 @@ import styles from './table.css';
  * Include it in a column header to make the column sortable.
  * Handle clicks with {@link TableProps.onSort}.
  */
-export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
+export function SortButton<T>(props: ComponentPropsWithoutRef<'button'>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
   const columnIndex = useContext(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
@@ -53,7 +53,7 @@ export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
  * Beware that `column.name ?? String(column.key)` is used in the aria-label.
  * Handle clicks with {@link TableProps.onColumnDelete}.
  */
-export function DeleteColumnButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
+export function DeleteColumnButton<T>(props: ComponentPropsWithoutRef<'button'>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
   const columnIndex = useContext(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
@@ -87,7 +87,7 @@ export function DeleteColumnButton<T>(props: HTMLAttributes<HTMLButtonElement>) 
  * A helper `<tr>` component for a custom {@link TableProps.renderItem} implementations.
  * Applies the standard row classnames.
  */
-export function TableRow(props: {ref?: React.Ref<HTMLTableRowElement>} & HTMLAttributes<HTMLTableRowElement>) {
+export function TableRow(props: {ref?: React.Ref<HTMLTableRowElement>} & ComponentPropsWithoutRef<'tr'>) {
   const {ref, className, ...restProps} = props;
   const classes = classNames(styles.row, className);
   return <tr ref={ref} className={classes} {...restProps} />;
@@ -97,7 +97,7 @@ export function TableRow(props: {ref?: React.Ref<HTMLTableRowElement>} & HTMLAtt
  * A helper `<td>` component for a custom {@link TableProps.renderItem} implementations.
  * Applies the standard cell classnames, but not data-dependent `tdClassName`.
  */
-export function TableCell(props: HTMLAttributes<HTMLTableCellElement>) {
+export function TableCell(props: ComponentPropsWithoutRef<'td'>) {
   const {className, ...restProps} = props;
   const classes = classNames(styles.cell, className);
   return <td className={classes} {...restProps} />;
