@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {type StoryFn} from '@storybook/react-webpack5';
 import {enUS} from 'date-fns/locale/en-US';
+import {parse} from 'date-fns/parse';
 
 import {Size} from '../input/input';
 import DatePicker, {type DatePickerAttrs} from './date-picker';
@@ -90,13 +91,28 @@ export const Range: StoryFn<DatePickerAttrs> = args => {
     </div>
   );
 };
+export function parseDate(input: string | Date | null | undefined, dateFormat: string): Date | null {
+  if (!input) {
+    return null;
+  }
+  if (input instanceof Date) {
+    return input;
+  }
 
+  return parse(input, dateFormat, new Date());
+}
 export const Clearable: StoryFn<DatePickerAttrs> = args => {
   const [date, setDate] = useState<Date | string | null | undefined>('01.01.18');
 
   return (
     <div>
-      <DatePicker date={date} onChange={setDate} clear {...args} />
+      <DatePicker
+        // date={date}
+        onChange={setDate}
+        clear
+        {...args}
+        parseDateInput={dateInput => parseDate(dateInput, 'd MMM yyyy')}
+      />
     </div>
   );
 };
