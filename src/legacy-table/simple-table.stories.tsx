@@ -13,7 +13,7 @@ import tableData from './table.examples2.json';
  * Simple stateless table without hover effect
  */
 export default {
-  title: 'Components/Simple Table',
+  title: 'Components/Legacy Table/Simple Table',
 
   component: SimpleTable,
   parameters: {
