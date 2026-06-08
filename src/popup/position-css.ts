@@ -85,11 +85,8 @@ export const setCSSAnchorPositioning = ({
   if (calculatedMinWidth !== null) {
     popup.style.minWidth = `${calculatedMinWidth}px`;
   }
-  if (top) {
-    popup.style.transform = `translateY(${top}px)`;
-  }
-  if (left) {
-    popup.style.left = `${left}px`;
+  if (top || left) {
+    popup.style.transform = [top && `translateY(${top}px)`, left && `translateX(${left}px)`].filter(Boolean).join(' ');
   }
 
   // When all directions are BOTTOM, the `max-height: 100%` from CSS should stay applied so popup doesn't overflow the anchor RG-2754
