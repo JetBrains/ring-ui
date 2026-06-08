@@ -491,21 +491,25 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
     const [columns, setColumns] = useState<Column<IssueFlat>[]>(() => [
       {
         ...idColumn,
-        renderCell: (item, index, items) => (
-          <>
-            {item.hasChildren && (
-              <Button inline onClick={() => handleExpand(item, index, 'toggle')}>
-                <Icon
-                  glyph={chevronIcon}
-                  className={classNames(style.chevron, isExpanded(items, index) && style.chevronExpanded)}
-                />
-              </Button>
-            )}{' '}
-            <span className={item.hasChildren ? undefined : style.noChildrenChevronPadding}>
-              {idColumn.renderCell?.(item)}
-            </span>
-          </>
-        ),
+        renderCell: (item, index, items) => {
+          const expanded = isExpanded(items, index);
+          return (
+            <>
+              {item.hasChildren && (
+                <Button
+                  inline
+                  onClick={() => handleExpand(item, index, 'toggle')}
+                  aria-label={`${expanded ? 'Collapse' : 'Expand'} ${item.id}`}
+                >
+                  <Icon glyph={chevronIcon} className={classNames(style.chevron, expanded && style.chevronExpanded)} />
+                </Button>
+              )}{' '}
+              <span className={item.hasChildren ? undefined : style.noChildrenChevronPadding}>
+                {idColumn.renderCell?.(item)}
+              </span>
+            </>
+          );
+        },
         tdClassName: () => style.tdWithChevron,
       },
       ...restColumns,
