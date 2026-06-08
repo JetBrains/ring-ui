@@ -1,9 +1,8 @@
 import {type ReactNode} from 'react';
 import {add} from 'date-fns/add';
+import {endOfDay, type Duration, type Locale} from 'date-fns';
 
 import sniffer from '../global/sniffer';
-
-import type {Duration, Locale} from 'date-fns';
 
 const unit = 8; // px;
 const units = {
@@ -39,15 +38,18 @@ export const yearScrollSpeed = yearDuration / (YEAR * units.cellSize);
 export const DOUBLE = 2;
 export const HALF = 0.5;
 
-export function parseTime(time: string) {
-  let result = null;
+export function parseTime(time: string | null | undefined) {
+  if (!time) return null;
+
   if (/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
-    result = time;
-  } else if (/^([0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
-    result = `0${time}`;
+    return time;
   }
 
-  return result;
+  if (/^([0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
+    return `0${time}`;
+  }
+
+  return null;
 }
 
 export function shiftWeekArray<T>(arr: T[], startOfWeek: number) {
@@ -62,6 +64,31 @@ export function getWeekStartsOn(locale: Locale | undefined): number {
 export function getDayNumInWeek(locale: Locale | undefined, day: number): number {
   const weekDays = shiftWeekArray(Object.values(weekdays), getWeekStartsOn(locale));
   return weekDays.indexOf(day);
+}
+
+export function getDefaultScrollDate({
+  minDate,
+  maxDate,
+  parseDateInput,
+}: Pick<DatePopupBaseProps, 'minDate' | 'maxDate' | 'parseDateInput'>): Date {
+  const minDateParsed = parseDateInput(minDate);
+  const maxDateParsed = parseDateInput(maxDate);
+  const maxDateEndOfDayNum = maxDateParsed ? Number(endOfDay(maxDateParsed)) : null;
+  const now = Date.now();
+
+  if (minDateParsed != null && maxDateEndOfDayNum != null) {
+    if (minDateParsed.getTime() <= now && now <= maxDateEndOfDayNum) {
+      return new Date(now);
+    }
+    return minDateParsed;
+  }
+  if (minDateParsed != null && minDateParsed.getTime() > now) {
+    return minDateParsed;
+  }
+  if (maxDateParsed != null && maxDateEndOfDayNum != null && maxDateEndOfDayNum < now) {
+    return maxDateParsed;
+  }
+  return new Date(now);
 }
 
 export interface DateInputTranslations {

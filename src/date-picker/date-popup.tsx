@@ -22,6 +22,7 @@ import {
   type Field,
   type CalendarProps,
   type ScrollDate,
+  getDefaultScrollDate,
 } from './consts';
 import {animateDate} from './animate-date';
 import MonthNames from './month-names';
@@ -43,23 +44,27 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       hoverDate: null,
       scrollDate: null,
     };
-    const {range, withTime} = props;
+    const {range, withTime, parseDateInput} = props;
 
     if (!range) {
-      const parsedDate = this.parse(props.date, 'date');
+      const parsedDate = parseDateInput(props.date);
       const active = withTime && parsedDate && !props.time ? 'time' : 'date';
 
-      this.state = {...defaultState, active, scrollDate: {date: parsedDate, source: 'other'}};
+      this.state = {
+        ...defaultState,
+        active,
+        scrollDate: {date: parsedDate ?? getDefaultScrollDate(props), source: 'other'},
+      };
     } else {
       this.state = {
         ...defaultState,
         active: props.from && !props.to ? 'to' : 'from',
-        scrollDate: {date: this.parse(props.from, 'from'), source: 'other'},
+        scrollDate: {date: parseDateInput(props.from) ?? getDefaultScrollDate(props), source: 'other'},
       };
     }
   }
 
-  componentDidUpdate(prevProps: DatePopupBaseProps, prevState: DatePopupState) {
+  componentDidUpdate(_prevProps: DatePopupBaseProps, prevState: DatePopupState) {
     if (this.state.active !== prevState.active) {
       if (this.state.text && prevState.active) {
         this.confirm(prevState.active);
@@ -78,17 +83,8 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
   componentRef = React.createRef<HTMLDivElement>();
 
-  parse(text: string | null | undefined, type: 'time'): string;
-  parse(text: Date | number | string | null | undefined, type?: 'date' | 'from' | 'to'): Date;
-  parse(text: Date | number | string | null | undefined, type?: Field) {
-    if (type === 'time') {
-      return parseTime(String(text));
-    }
-    return this.props.parseDateInput(text);
-  }
-
   select(changes: DatePickerChange) {
-    const {range, withTime} = this.props;
+    const {range, withTime, parseDateInput} = this.props;
     const prevActive = this.state.active;
 
     if (!range && !withTime) {
@@ -106,8 +102,8 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
       this.props.onChange(adjustedDate);
       this.props.onComplete();
     } else if (!range && withTime) {
-      const date = this.parse(this.props.date, 'date');
-      const time = this.parse(this.props.time, 'time');
+      const date = parseDateInput(this.props.date);
+      const time = parseTime(this.props.time);
       const changeToSubmit = {
         date: changes.date || date,
         time: changes.time || time,
@@ -128,8 +124,8 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
         ...this.props,
         ...changes,
       };
-      from = this.parse(from, 'from');
-      to = this.parse(to, 'to');
+      from = parseDateInput(from);
+      to = parseDateInput(to);
 
       // proceed to setting the end by default
       let active: Field = 'to';
@@ -168,15 +164,16 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
     let result;
     if (name === 'time') {
-      result = this.parse(text, name);
-      const time = this.parse('time' in this.props ? this.props.time : '', 'time');
+      result = parseTime(text);
+      const time = parseTime('time' in this.props ? this.props.time : '');
 
       const emptyCase = this.state.active === 'time' ? '00:00' : null;
       result = result || time || emptyCase;
     } else {
-      result = this.parse(text, name);
-      if (!this.isValidDate(result)) {
-        result = this.parse(name in this.props ? this.props[name] : '', name);
+      const {parseDateInput} = this.props;
+      result = parseDateInput(text);
+      if (!result || !this.isValidDate(result)) {
+        result = parseDateInput(name in this.props ? this.props[name] : '');
       }
     }
 
@@ -186,11 +183,15 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
   }
 
   isValidDate = (parsedText: Date) => {
-    const minDate = this.parse(this.props.minDate, 'date');
-    const maxDate = this.parse(this.props.maxDate, 'date');
+    const {parseDateInput, minDate, maxDate} = this.props;
+    const parsedMinDate = parseDateInput(minDate);
+    const parsedMaxDate = parseDateInput(maxDate);
 
     if (parsedText) {
-      return !((minDate && isBefore(parsedText, minDate)) || (maxDate && isAfter(parsedText, maxDate)));
+      return !(
+        (parsedMinDate && isBefore(parsedText, parsedMinDate)) ||
+        (parsedMaxDate && isAfter(parsedText, parsedMaxDate))
+      );
     }
     return false;
   };
@@ -201,8 +202,8 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
   handleInput = (text: string, name: Field) => {
     if (name !== 'time') {
-      const parsed = this.parse(text, name);
-      if (this.isValidDate(parsed)) {
+      const parsed = this.props.parseDateInput(text);
+      if (parsed && this.isValidDate(parsed)) {
         this.animationCleanup?.();
         const currentScrollDate = this.state.scrollDate?.date;
         if (currentScrollDate != null) {
@@ -265,23 +266,23 @@ export default class DatePopup extends Component<DatePopupProps, DatePopupState>
 
   // eslint-disable-next-line complexity
   render() {
-    const {range, locale} = this.props;
+    const {range, locale, parseDateInput} = this.props;
     const {from, to, date, time, ...restProps} = this.props;
-    const parsedDate = this.parse(this.props.date, 'date');
-    const parsedTo = this.parse(this.props.to, 'to');
+    const parsedDate = parseDateInput(date);
+    const parsedTo = parseDateInput(to);
 
     const names: ('from' | 'to' | 'date')[] = range ? ['from', 'to'] : ['date'];
     const dates: Dates = names.reduce((obj, key) => {
       const value = this.props[key];
       return {
         ...obj,
-        [key]: this.parse(value, key),
+        [key]: parseDateInput(value),
       };
     }, {});
 
     const activeDate =
       this.state.active !== 'time'
-        ? this.state.hoverDate || (this.state.text ? this.parse(this.state.text, 'date') : null)
+        ? this.state.hoverDate || (this.state.text ? parseDateInput(this.state.text) : null)
         : this.state.hoverDate || null;
 
     const currentRange: [Date, Date] | null = (range && dates.from && dates.to && [dates.from, dates.to]) || null;
