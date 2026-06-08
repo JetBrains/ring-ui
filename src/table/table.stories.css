@@ -12,6 +12,11 @@
   padding-left: 16px;
 }
 
+.tdWithChevron {
+  box-sizing: border-box;
+  width: 190px;
+}
+
 .chevron {
   transition: transform 0.2s;
 }

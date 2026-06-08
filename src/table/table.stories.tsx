@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
 import {useRef, useState} from 'react';
 import chevronIcon from '@jetbrains/icons/chevron-12px-right';
 import classNames from 'classnames';
@@ -8,10 +8,11 @@ import Link from '../link/link';
 import Selection from '../legacy-table/selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
-import {DeleteColumnButton, SortButton} from './table-buttons';
+import {DeleteColumnButton, SortButton} from './table-base';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
 import useEventCallback from '../global/use-event-callback';
+import Button from '../button/button';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -97,7 +98,7 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
             index={index}
             clickable
             onClick={({target}) => {
-              if (target instanceof Element && ['a', 'input'].includes(target.tagName)) return;
+              if (isWithinControl(target)) return;
               setSelection(selection.toggleSelection(item));
             }}
           />
@@ -385,7 +386,7 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
             index={index}
             clickable
             onClick={({target}) => {
-              if (target instanceof Element && target.tagName === 'a') return;
+              if (isWithinControl(target)) return;
               setSelection(selection.focus(item));
             }}
           />
@@ -406,8 +407,7 @@ const issueTreeRoot: IssueNode = (function genNode(level: number, counter: {valu
   const id = isRoot ? '_root' : `${getTwoLetterPrefix(hash % 26, (hash >>> 5) % 26)}-${counter.value++}`;
   const priority = isRoot ? 'Normal' : priorities[(hash >>> 10) % priorities.length];
   const votes = isRoot ? -1 : (hash >>> 12) % 1000;
-  // eslint-disable-next-line no-nested-ternary, prettier/prettier
-  const childrenLength = isRoot ? 10 : (level > 3 ? 0 : (hash >>> 23) % 4);
+  const childrenLength = isRoot ? 10 : level > 3 ? 0 : (hash >>> 23) % 4;
 
   return {
     id,
@@ -465,6 +465,28 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
       })),
     );
 
+    const handleExpand = useEventCallback(
+      (item: IssueFlat, index: number, action: 'expand' | 'collapse' | 'toggle') => {
+        const isExpandedNow = isExpanded(flatData, index);
+        if (isExpandedNow && action !== 'expand') {
+          // Collapse
+          setFlatData(flatData.filter(it => !isChildPath(item.path, it.path)));
+        } else if (!isExpandedNow && action !== 'collapse') {
+          // Expand
+          const itemChildren = getNodeByPath(treeData, item.path)?.children?.map(({children, ...child}, i) => ({
+            ...child,
+            path: [...item.path, i],
+            hasChildren: !!children?.length,
+          }));
+          if (itemChildren?.length) {
+            const newData = [...flatData];
+            newData.splice(index + 1, 0, ...itemChildren);
+            setFlatData(newData);
+          }
+        }
+      },
+    );
+
     const [idColumn, ...restColumns] = issuesColumns;
     const [columns, setColumns] = useState<Column<IssueFlat>[]>(() => [
       {
@@ -472,38 +494,24 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
         renderCell: (item, index, items) => (
           <>
             {item.hasChildren && (
-              <Icon
-                glyph={chevronIcon}
-                className={classNames(style.chevron, isExpanded(items, index) && style.chevronExpanded)}
-              />
+              <Button inline onClick={() => handleExpand(item, index, 'toggle')}>
+                <Icon
+                  glyph={chevronIcon}
+                  className={classNames(style.chevron, isExpanded(items, index) && style.chevronExpanded)}
+                />
+              </Button>
             )}{' '}
             <span className={item.hasChildren ? undefined : style.noChildrenChevronPadding}>
               {idColumn.renderCell?.(item)}
             </span>
           </>
         ),
+        tdClassName: () => style.tdWithChevron,
       },
       ...restColumns,
     ]);
 
-    const handleExpand = useEventCallback((item: IssueFlat, index: number) => {
-      if (isExpanded(flatData, index)) {
-        // Collapse
-        setFlatData(flatData.filter(it => !isChildPath(item.path, it.path)));
-      } else {
-        // Expand
-        const itemChildren = getNodeByPath(treeData, item.path)?.children?.map(({children, ...child}, i) => ({
-          ...child,
-          path: [...item.path, i],
-          hasChildren: !!children?.length,
-        }));
-        if (itemChildren?.length) {
-          const newData = [...flatData];
-          newData.splice(index + 1, 0, ...itemChildren);
-          setFlatData(newData);
-        }
-      }
-    });
+    const [selection, setSelection] = useState(() => new Selection({data: flatData}));
 
     const handleSort = useEventCallback((columnIndex: number, sortOrder: SortOrder) => {
       const newTreeData = deepCopy(issueTreeRoot);
@@ -542,15 +550,44 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
         columns={columns}
         getKey={({id}) => id}
         onSort={handleSort}
+        selection={selection}
+        isItemKeyboardFocusable={() => true}
+        onItemFocus={item => setSelection(selection.focus(item))}
         renderItem={(item, i) => (
           <DefaultItemRenderer
             index={i}
             clickable={item.hasChildren}
             level={item.path.length - 1}
-            onClick={() => handleExpand(item, i)}
+            onClick={e => {
+              if (isWithinControl(e.target)) return;
+
+              handleExpand(item, i, 'toggle');
+              setSelection(selection.focus(item));
+            }}
+            onKeyDown={e => {
+              if (selection.isFocused(item)) {
+                const action =
+                  e.key === ' ' || e.key === 'Enter'
+                    ? 'toggle'
+                    : e.key === 'ArrowLeft'
+                      ? 'collapse'
+                      : e.key === 'ArrowRight'
+                        ? 'expand'
+                        : undefined;
+                if (action) handleExpand(item, i, action);
+              }
+            }}
           />
         )}
       />
     );
   },
 };
+
+function isWithinControl(element: EventTarget) {
+  if (!(element instanceof Element)) return false;
+  if (['A', 'BUTTON', 'INPUT'].includes(element.tagName)) return true;
+  const parent = element.parentElement;
+  if (!parent) return false;
+  return isWithinControl(parent);
+}

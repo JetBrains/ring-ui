@@ -87,11 +87,11 @@ export default function Table<T>(props: TableProps<T> & HTMLAttributes<HTMLTable
     lookaheadPx = defaultLookaheadPx,
     retentionMarginPx = defaultRetentionMarginPx,
     minScrollAndResizeDeltaPx = defaultMinScrollAndResizeDeltaPx,
+    columnEditButton,
     className,
     theadClassName,
     theadTrClassName,
     tbodyClassName,
-    columnEditButton,
     ...restProps
   } = props;
 

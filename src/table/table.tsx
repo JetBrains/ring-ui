@@ -60,22 +60,23 @@ export interface TableProps<T> {
   onColumnMove?: (fromIndex: number, toIndex: number) => void;
 
   /**
-   * Implement to specify props like `clickable`, handlers like onClick,
-   * a custom `className`, a `ref` etc., or to implement a custom renderer.
+   * Implement to specify props like `clickable`, handlers like `onClick`,
+   * a custom `className`, a `ref` etc., or to provide a custom renderer.
    *
    * ```tsx
    * <Table
    *   renderItem={(item, index) => (
    *     <DefaultItemRenderer
    *       index={index}
-   *       className={'my-row'}
+   *       className='my-row'
+   *       clickable
    *       onClick={() => setSelection(selection.focus(item))}
    *     />
    *   )}
    * />
    * ```
    *
-   * In your custom implementation, use `TableRow` and `TableCell` components to apply the
+   * In your custom implementation, use `TableRow` and `TableCell` base components to apply the
    * standard classnames, but beware that `tdClassName` won't be applied.
    *
    * You can also use `DefaultItemRenderer` in combination with your custom rows.
@@ -167,6 +168,11 @@ export interface TableProps<T> {
   minScrollAndResizeDeltaPx?: number;
 
   /**
+   * Whether to show a small gear button at the top right corner.
+   */
+  columnEditButton?: 'everywhere' | 'mobileOnly';
+
+  /**
    * Applied to the `<thead>` element.
    */
   theadClassName?: string;
@@ -180,12 +186,6 @@ export interface TableProps<T> {
    * Applied to the `<tbody>` element.
    */
   tbodyClassName?: string;
-
-  /**
-   * Whether to show a small gear button at the top right corner.
-   * See the "Column Controls Discoverability" section above.
-   */
-  columnEditButton?: 'everywhere' | 'mobileOnly';
 }
 
 export type SortOrder = 'none' | 'ascending' | 'descending';
@@ -251,28 +251,4 @@ export interface Column<T> {
    * unless the custom renderer falls back to `DefaultItemRenderer`.
    */
   tdClassName?: (item: T, index: number, items: T[]) => string | undefined;
-}
-
-export interface DefaultItemRendererProps {
-  /**
-   * Installed on the `<tr>` element
-   */
-  ref?: React.RefObject<HTMLTableRowElement | null>;
-
-  /**
-   * The index of the `data` item
-   */
-  index: number;
-
-  /**
-   * Changes the highlight on hover and applies the pointer cursor.
-   * Note that `false` doesn't mean it cannot handle `onClick`.
-   */
-  clickable?: boolean;
-
-  /**
-   * A level of a nested item. Results in an indent for columns with `indent: true`.
-   * 0, negative and not set mean no indent.
-   */
-  level?: number;
 }

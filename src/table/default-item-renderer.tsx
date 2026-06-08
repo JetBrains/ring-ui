@@ -3,17 +3,40 @@ import classNames from 'classnames';
 
 import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
+import {TableCell, TableRow} from './table-base';
 
-import type {TableProps, DefaultItemRendererProps} from './table';
+import type {TableProps} from './table';
 
 import styles from './table.css';
+
+export interface DefaultItemRendererProps {
+  /**
+   * Installed on the `<tr>` element
+   */
+  ref?: React.RefObject<HTMLTableRowElement | null>;
+
+  /**
+   * The index of the `data` item
+   */
+  index: number;
+
+  /**
+   * Changes the highlight on hover and applies the pointer cursor.
+   * Note that `false` doesn't mean it cannot handle `onClick`.
+   */
+  clickable?: boolean;
+
+  /**
+   * A level of a nested item. Results in an indent for columns with `indent: true`.
+   * 0, negative and not set mean no indent.
+   */
+  level?: number;
+}
 
 const INDENT_SIZE = 24;
 
 /**
- * The default item renderer used when `renderItem` is not provided.
- * You can also use it to provide handlers like onClick, a custom className,
- * or as a fallback in your `TableProps.renderItem` implementation.
+ * @see TableProps.renderItem
  */
 export function DefaultItemRenderer<T>({
   ref: userRef,
@@ -108,24 +131,4 @@ function getDefaultCellValue<T>(item: T, columnIndex: number) {
   }
 
   return '';
-}
-
-/**
- * A helper `<tr>` component for custom `renderItem` implementations.
- * Applies standard row classnames, but not data-dependent `tbodyTrClassName`.
- */
-export function TableRow(props: {ref?: React.Ref<HTMLTableRowElement>} & HTMLAttributes<HTMLTableRowElement>) {
-  const {ref, className, ...restProps} = props;
-  const classes = classNames(styles.row, className);
-  return <tr ref={ref} className={classes} {...restProps} />;
-}
-
-/**
- * A helper `<td>` component for custom `renderItem` implementations.
- * Applies standard cell classnames, but not data-dependent `tdClassName`.
- */
-export function TableCell(props: HTMLAttributes<HTMLTableCellElement>) {
-  const {className, ...restProps} = props;
-  const classes = classNames(styles.cell, className);
-  return <td className={classes} {...restProps} />;
 }

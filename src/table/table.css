@@ -60,6 +60,11 @@
 
 .row {
   border-bottom: 1px solid var(--ring-line-color);
+
+  &:focus {
+    border-radius: var(--ring-border-radius);
+    outline: 2px solid var(--ring-button-focus-border-color);
+  }
 }
 
 .clickableRow {
@@ -97,6 +102,11 @@
 
   &:hover {
     color: var(--ring-main-hover-color);
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid var(--ring-button-focus-border-color);
   }
 }
 

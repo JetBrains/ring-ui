@@ -14,7 +14,7 @@ import styles from './table.css';
 
 /**
  * Include it in a column header to make the column sortable.
- * Handle clicks with `TableProps.onSort`.
+ * Handle clicks with {@link TableProps.onSort}.
  */
 export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
@@ -51,7 +51,7 @@ export function SortButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
 /**
  * Include it in a column header to make the column deletable.
  * Beware that `column.name ?? String(column.key)` is used in the aria-label.
- * Handle clicks with `TableProps.onColumnDelete`.
+ * Handle clicks with {@link TableProps.onColumnDelete}.
  */
 export function DeleteColumnButton<T>(props: HTMLAttributes<HTMLButtonElement>) {
   const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
@@ -81,4 +81,24 @@ export function DeleteColumnButton<T>(props: HTMLAttributes<HTMLButtonElement>) 
       <Icon glyph={trashIcon} />
     </button>
   );
+}
+
+/**
+ * A helper `<tr>` component for a custom {@link TableProps.renderItem} implementations.
+ * Applies the standard row classnames.
+ */
+export function TableRow(props: {ref?: React.Ref<HTMLTableRowElement>} & HTMLAttributes<HTMLTableRowElement>) {
+  const {ref, className, ...restProps} = props;
+  const classes = classNames(styles.row, className);
+  return <tr ref={ref} className={classes} {...restProps} />;
+}
+
+/**
+ * A helper `<td>` component for a custom {@link TableProps.renderItem} implementations.
+ * Applies the standard cell classnames, but not data-dependent `tdClassName`.
+ */
+export function TableCell(props: HTMLAttributes<HTMLTableCellElement>) {
+  const {className, ...restProps} = props;
+  const classes = classNames(styles.cell, className);
+  return <td className={classes} {...restProps} />;
 }
