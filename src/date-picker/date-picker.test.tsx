@@ -135,6 +135,24 @@ describe('Date Picker', () => {
     expectNearNow(scrollDate);
   });
 
+  test('defaultScrollDate -- minDate..maxDate is in the past', () => {
+    const scrollDate = getDefaultScrollDate({
+      minDate: '01.01.2000',
+      maxDate: '01.01.2010',
+      parseDateInput,
+    });
+    expect(scrollDate.getTime()).toBe(Number(new Date(2000, 0, 1)));
+  });
+
+  test('defaultScrollDate -- minDate..maxDate is in the future', () => {
+    const scrollDate = getDefaultScrollDate({
+      minDate: '01.01.3000',
+      maxDate: '01.01.3010',
+      parseDateInput,
+    });
+    expect(scrollDate.getTime()).toBe(Number(new Date(3000, 0, 1)));
+  });
+
   function expectNearNow(scrollDate: Date) {
     const now = new Date();
     const msg = `scrollDate: ${scrollDate.toISOString()}, now: ${now.toISOString()}`;
