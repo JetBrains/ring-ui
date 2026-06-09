@@ -210,19 +210,18 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
   };
 
   parse = memoize((date: Date | number | string | null | undefined) => {
-    const {parseDateInput} = this.props;
+    let normalizedDate;
 
     if (date instanceof Date) {
-      return isValid(date) ? date : null;
+      normalizedDate = date;
+    } else if (typeof date === 'number') {
+      normalizedDate = new Date(date);
+    } else {
+      const {parseDateInput} = this.props;
+      normalizedDate = parseDateInput(date);
     }
 
-    if (typeof date === 'number') {
-      const dateFromNumber = new Date(date);
-      return isValid(dateFromNumber) ? dateFromNumber : null;
-    }
-
-    const parsedDate = parseDateInput(date);
-    return parsedDate && isValid(parsedDate) ? parsedDate : null;
+    return normalizedDate && isValid(normalizedDate) ? normalizedDate : null;
   });
 
   formatTime() {
