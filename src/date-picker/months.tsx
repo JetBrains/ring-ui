@@ -7,7 +7,7 @@ import units, {type MonthsProps} from './consts';
 import {ScrollArith} from './scroll-arith';
 import {useScrollBehavior} from './use-scroll-behavior';
 import scheduleRAF from '../global/schedule-raf';
-import {useIntersectionObserver} from './use-intersection-observer';
+import {useIntersectionObserverHandle, IntersectionObserverContext} from '../global/intersection-observer-context';
 
 import styles from './date-picker.css';
 
@@ -30,9 +30,9 @@ const scheduleScroll = scheduleRAF();
  *
  * To avoid an unpainted gap at the viewport boundary, the next month must be reported
  * as visible slightly before it actually enters the viewport. We achieve this by
- * extending the IntersectionObserver scrollMargin.
+ * extending the IntersectionObserver rootMargin.
  */
-const intersectionObserverScrollMargin = units.cellSize * 2;
+const intersectionObserverRootMargin = units.cellSize * 2;
 
 export default function Months(props: MonthsProps) {
   const {scrollDate, setScrollDate, locale} = props;
@@ -46,13 +46,15 @@ export default function Months(props: MonthsProps) {
     scheduleScroll,
   );
 
-  const intersectionObserverHandle = useIntersectionObserver(containerRef, intersectionObserverScrollMargin);
-
   return (
-    <div className={styles.months} ref={containerRef} data-test='ring-date-popup--months'>
-      {items.map(month => (
-        <Month {...props} month={month} key={+month} intersectionObserverHandle={intersectionObserverHandle} />
-      ))}
-    </div>
+    <IntersectionObserverContext.Provider
+      value={useIntersectionObserverHandle(containerRef, intersectionObserverRootMargin)}
+    >
+      <div className={styles.months} ref={containerRef} data-test='ring-date-popup--months'>
+        {items.map(month => (
+          <Month {...props} month={month} key={+month} />
+        ))}
+      </div>
+    </IntersectionObserverContext.Provider>
   );
 }

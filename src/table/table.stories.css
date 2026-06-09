@@ -1,0 +1,27 @@
+.thWithCheckbox label {
+  color: unset;
+}
+
+.scroller {
+  overflow-y: scroll;
+
+  height: 300px;
+}
+
+.noChildrenChevronPadding {
+  padding-left: 16px;
+}
+
+.tdWithChevron {
+  box-sizing: border-box;
+  width: 190px;
+}
+
+.chevron {
+  transition: transform 0.2s;
+}
+
+.chevronExpanded {
+  transform: rotate(90deg);
+}
+

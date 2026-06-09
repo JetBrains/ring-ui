@@ -1,0 +1,137 @@
+@import '../global/variables.css';
+
+.table {
+  width: 100%;
+
+  border-collapse: collapse;
+  border-style: none;
+}
+
+.headerRow {
+  border-bottom: 1px solid var(--ring-line-color);
+}
+
+.headerCell {
+  position: relative;
+
+  padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
+
+  transition: background-color var(--ring-fast-ease), border-color var(--ring-fast-ease);
+
+  text-align: left;
+
+  color: var(--ring-secondary-color);
+  border-left: 1px solid transparent;
+
+  font-size: var(--ring-font-size-smaller);
+  font-weight: normal;
+
+  &:last-child {
+    border-right: 1px solid transparent;
+  }
+
+  &:hover {
+    border-left-color: var(--ring-line-color);
+    background-color: var(--ring-grey-container-light-color);
+
+    &:last-child {
+      border-right-color: var(--ring-line-color);
+    }
+
+    & + .headerCell {
+      border-left-color: var(--ring-line-color);
+    }
+  }
+}
+
+.spacerRow {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.spacerCell {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.row {
+  border-bottom: 1px solid var(--ring-line-color);
+
+  &:focus {
+    border-radius: var(--ring-border-radius);
+    outline: 2px solid var(--ring-button-focus-border-color);
+  }
+}
+
+.clickableRow {
+  cursor: pointer;
+
+  transition: background-color var(--ring-fast-ease);
+
+  &:not(.selectedRow):hover {
+    background-color: var(--ring-hover-background-color);
+  }
+}
+
+.selectedRow {
+  background-color: var(--ring-selected-background-color);
+}
+
+.cell {
+  padding: var(--ring-unit);
+}
+
+.headerButton {
+  margin: unset;
+  padding: unset;
+
+  cursor: pointer;
+
+  transition: color var(--ring-fast-ease);
+  text-align: unset;
+
+  color: unset;
+  border: unset;
+  background: unset;
+
+  font: unset;
+
+  &:hover {
+    color: var(--ring-main-hover-color);
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid var(--ring-button-focus-border-color);
+  }
+}
+
+.deleteColumnButton {
+  float: right;
+
+  pointer-events: none;
+
+  color: transparent;
+
+}
+
+.headerCell:hover .deleteColumnButton {
+  pointer-events: all;
+
+  color: unset;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:hover {
+    color: var(--ring-main-hover-color);
+  }
+}
+
+.deleteColumnButton:focus-within {
+  pointer-events: all;
+
+  color: var(--ring-main-hover-color);
+}

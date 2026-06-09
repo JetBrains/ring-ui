@@ -18,7 +18,11 @@ import {ScrollArith} from './scroll-arith';
 import {useScrollBehavior} from './use-scroll-behavior';
 import {animateDate} from './animate-date';
 import scheduleRAF from '../global/schedule-raf';
-import {type IntersectionObserverHandle, useIntersectionObserver, useVisibility} from './use-intersection-observer';
+import {
+  IntersectionObserverContext,
+  useIntersectionObserverHandle,
+  useIsIntersecting,
+} from '../global/intersection-observer-context';
 
 import styles from './date-picker.css';
 
@@ -36,7 +40,7 @@ const scheduleScroll = scheduleRAF();
 /**
  * Reduces "empty" years during fast scrolling.
  */
-const intersectionObserverScrollMargin = units.calHeight / 2;
+const intersectionObserverRootMargin = units.calHeight / 2;
 
 export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   const [localScrollDate, setLocalScrollDate] = useState<ScrollDate>(scrollDate);
@@ -140,20 +144,16 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
     scheduleScroll,
   );
 
-  const intersectionObserverHandle = useIntersectionObserver(containerRef, intersectionObserverScrollMargin);
-
   return (
-    <div className={styles.years} ref={containerRef} data-test='ring-date-popup--years'>
-      {items.map(year => (
-        <Year
-          year={year}
-          scrollDate={localScrollDate.date}
-          handleYearClick={handleYearClick}
-          key={+year}
-          intersectionObserverHandle={intersectionObserverHandle}
-        />
-      ))}
-    </div>
+    <IntersectionObserverContext.Provider
+      value={useIntersectionObserverHandle(containerRef, intersectionObserverRootMargin)}
+    >
+      <div className={styles.years} ref={containerRef} data-test='ring-date-popup--years'>
+        {items.map(year => (
+          <Year year={year} scrollDate={localScrollDate.date} handleYearClick={handleYearClick} key={+year} />
+        ))}
+      </div>
+    </IntersectionObserverContext.Provider>
   );
 }
 
@@ -161,31 +161,29 @@ function Year({
   year,
   scrollDate,
   handleYearClick,
-  intersectionObserverHandle,
 }: {
   year: Date;
   scrollDate: Date | number;
   handleYearClick: (year: Date) => void;
-  intersectionObserverHandle: IntersectionObserverHandle | null;
 }) {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  const visible = useVisibility(intersectionObserverHandle, buttonRef);
+  const isIntersecting = useIsIntersecting(buttonRef);
 
   return (
     <button
       type='button'
       ref={buttonRef}
       key={+year}
-      disabled={!visible}
+      disabled={!isIntersecting}
       className={classNames(
         styles.year,
-        visible && isSameYear(year, scrollDate) && styles.currentYear,
-        visible && isThisYear(year) && styles.today,
+        isIntersecting && isSameYear(year, scrollDate) && styles.currentYear,
+        isIntersecting && isThisYear(year) && styles.today,
       )}
-      onClick={visible ? () => handleYearClick(year) : undefined}
+      onClick={isIntersecting ? () => handleYearClick(year) : undefined}
     >
-      {visible ? format(year, 'yyyy') : '\u00A0'}
+      {isIntersecting ? format(year, 'yyyy') : '\u00A0'}
     </button>
   );
 }
