@@ -17,6 +17,7 @@ on:
       - release-6.x
       - release-5.1
       - develop-8.0
+      - develop-8.0-table
 
 permissions:
   contents: read
