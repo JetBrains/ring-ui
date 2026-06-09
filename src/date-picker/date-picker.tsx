@@ -179,9 +179,15 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
 
   handleChange = (change: DatePickerChange | Date | null | undefined) => {
     const {onChange, withTime, applyTimeInput} = this.props;
-    const adjustedChange =
-      withTime && !(change instanceof Date) && change?.date ? applyTimeInput(change.date, change.time) : change;
-    onChange(adjustedChange as Date & DatePickerChange);
+    if (withTime && !(change instanceof Date) && change && 'date' in change && 'time' in change) {
+      const {date, time} = change;
+      if (date) {
+        const dateWithTime = applyTimeInput(date, time);
+        onChange(dateWithTime);
+      }
+    } else {
+      onChange(change as Date & DatePickerChange);
+    }
   };
 
   clear = () => {
@@ -213,7 +219,11 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
       return new Date(date);
     }
 
-    return parseDateInput(date);
+    const parsedDate = parseDateInput(date);
+    if (parsedDate && isValid(parsedDate)) {
+      return parsedDate;
+    }
+    return null;
   });
 
   formatTime() {
