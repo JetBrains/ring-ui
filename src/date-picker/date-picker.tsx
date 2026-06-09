@@ -213,17 +213,16 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     const {parseDateInput} = this.props;
 
     if (date instanceof Date) {
-      return date;
+      return isValid(date) ? date : null;
     }
+
     if (typeof date === 'number') {
-      return new Date(date);
+      const dateFromNumber = new Date(date);
+      return isValid(dateFromNumber) ? dateFromNumber : null;
     }
 
     const parsedDate = parseDateInput(date);
-    if (parsedDate && isValid(parsedDate)) {
-      return parsedDate;
-    }
-    return null;
+    return parsedDate && isValid(parsedDate) ? parsedDate : null;
   });
 
   formatTime() {

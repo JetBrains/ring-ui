@@ -163,8 +163,20 @@ describe('Date Picker', () => {
     );
   }
 
-  it('should not crash on invalid parsed date', () => {
+  it('should not crash on parsing to Date(NaN)', () => {
     render(<DatePicker parseDateInput={() => new Date(NaN)} />);
+  });
+
+  it('should not crash on Date(NaN) date', () => {
+    render(<DatePicker date={new Date(NaN)} />);
+  });
+
+  it('should not crash on Number.NaN date', () => {
+    render(<DatePicker date={NaN} />);
+  });
+
+  it('should not crash on Infinity date', () => {
+    render(<DatePicker date={Infinity} />);
   });
 
   it('should not crash on time without date but ignore it', async () => {
