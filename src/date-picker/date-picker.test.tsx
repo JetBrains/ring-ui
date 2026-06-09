@@ -1,5 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {useState} from 'react';
 
 import DatePicker from './date-picker';
 import {getDefaultScrollDate} from './consts';
@@ -161,4 +162,38 @@ describe('Date Picker', () => {
       -3, // 3 significant digits, i.e. 1 second
     );
   }
+
+  it('should not crash on parsing to Date(NaN)', () => {
+    render(<DatePicker parseDateInput={() => new Date(NaN)} />);
+  });
+
+  it('should not crash on Date(NaN) date', () => {
+    render(<DatePicker date={new Date(NaN)} />);
+  });
+
+  it('should not crash on Number.NaN date', () => {
+    render(<DatePicker date={NaN} />);
+  });
+
+  it('should not crash on Infinity date', () => {
+    render(<DatePicker date={Infinity} />);
+  });
+
+  it('should not crash on time without date but ignore it', async () => {
+    function WithTime() {
+      const [date, setDate] = useState<Date | null>(null);
+      function handleChange(newDate: Date | null | undefined) {
+        if (newDate) setDate(newDate ?? null);
+      }
+      return <DatePicker date={date} onChange={handleChange} withTime />;
+    }
+
+    render(<WithTime />);
+
+    const activatePopupButton = screen.getByRole('button');
+    await userEvent.click(activatePopupButton);
+    const [addTimeInput] = screen.getAllByLabelText('Add time');
+    await userEvent.type(addTimeInput, '10:20{Enter}');
+    expect(activatePopupButton.textContent).toBe('Set date and time');
+  });
 });
