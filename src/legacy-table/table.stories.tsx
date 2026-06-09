@@ -14,7 +14,7 @@ import mock from './table.stories.json';
 import tableData from './table.examples2.json';
 
 export default {
-  title: 'Components/Table',
+  title: 'Components/Legacy Table/Table',
 
   component: BaseTable,
   parameters: {
