@@ -41,7 +41,7 @@ export default function rerenderHOC<P extends {}, C extends Component<P, unknown
     }
   }
 
-  return function RerendererForwardRef({ref, ...props}: PropsWithoutRef<P> & {ref: React.Ref<C>}) {
-    return <Rerenderer props={props as unknown as P} forwardedRef={ref} />;
+  return function RerendererForwardRef({ref, ...props}: PropsWithoutRef<P> & {ref?: Ref<C>}) {
+    return <Rerenderer props={props as unknown as P} forwardedRef={ref ?? null} />;
   };
 }
