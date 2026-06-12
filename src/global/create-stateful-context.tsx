@@ -1,4 +1,4 @@
-import {createContext, memo, useContext, useEffect, useState, type ReactNode} from 'react';
+import {createContext, memo, use, useEffect, useState, type ReactNode} from 'react';
 
 type Update<T> = (value: T) => void;
 export interface ProviderProps {
@@ -24,7 +24,7 @@ export default function createStatefulContext<T>(initialValue: T, name = '') {
   Provider.displayName = `${name}Provider`;
 
   function useUpdate(value: T, skipUpdate?: boolean) {
-    const update = useContext(UpdateContext);
+    const update = use(UpdateContext);
     useEffect(() => {
       if (!skipUpdate) {
         update(value);

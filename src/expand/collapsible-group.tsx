@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {use, useState} from 'react';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-12px-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-12px-down';
@@ -34,7 +34,7 @@ interface CollapsibleGroupHeaderContentProps {
 type CollapsibleGroupHeaderProps = CollapsibleGroupHeaderContentProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 function CollapsibleGroupHeaderContent({avatar, titleContent, subtitle}: CollapsibleGroupHeaderContentProps) {
-  const {collapsed} = useContext(CollapseContext);
+  const {collapsed} = use(CollapseContext);
 
   return (
     <span className={styles.header}>
@@ -58,7 +58,7 @@ function CollapsibleGroupHeaderContent({avatar, titleContent, subtitle}: Collaps
 }
 
 function CollapsibleGroupHeader({avatar, titleContent, subtitle, ...buttonProps}: CollapsibleGroupHeaderProps) {
-  const {setCollapsed, collapsed, id} = useContext(CollapseContext);
+  const {setCollapsed, collapsed, id} = use(CollapseContext);
 
   return (
     <button
