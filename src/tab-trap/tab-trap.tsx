@@ -9,7 +9,7 @@ export const FOCUSABLE_ELEMENTS =
   'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';
 
 export interface TabTrapProps extends HTMLAttributes<HTMLElement> {
-  ref?: React.RefObject<TabTrap>;
+  ref?: React.Ref<TabTrapObject>;
   children: ReactNode;
   trapDisabled?: boolean;
   autoFocusFirst?: boolean;
@@ -21,7 +21,7 @@ export interface TabTrapProps extends HTMLAttributes<HTMLElement> {
  * @name TabTrap
  */
 
-interface TabTrap {
+export interface TabTrapObject {
   node: HTMLElement | null;
 }
 
