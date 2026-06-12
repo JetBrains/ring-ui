@@ -1,6 +1,8 @@
 import {useCallback, useLayoutEffect, useRef} from 'react';
 
-// TODO deprecate in favor of useEffectEvent after dropping support for React < 19.2
+/**
+ * @deprecated This hook will be removed in Ring UI 8.0. Use `useEffectEvent()` instead.
+ */
 export default function useEventCallback<I extends unknown[], O>(fn: (...args: I) => O): (...args: I) => O {
   const ref = useRef<(...args: I) => O>(null);
   useLayoutEffect(() => {
