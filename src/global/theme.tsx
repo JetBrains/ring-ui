@@ -2,7 +2,6 @@ import {
   type HTMLAttributes,
   useState,
   useEffect,
-  forwardRef,
   type Ref,
   type ReactElement,
   createContext,
@@ -73,14 +72,12 @@ export function applyTheme(theme: Theme.DARK | Theme.LIGHT, container: HTMLEleme
 
 type WrapperType = FunctionComponent<HTMLAttributes<HTMLElement> & React.RefAttributes<HTMLElement>>;
 
-const DefaultWrapper = forwardRef(function Wrapper(
-  props: HTMLAttributes<HTMLDivElement>,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) {
-  return <div {...props} ref={ref} />;
-}) as WrapperType;
+function DefaultWrapper(props: HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>) {
+  return <div {...props} />;
+}
 
-export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
+export interface ThemeProviderProps extends HTMLAttributes<HTMLElement> {
+  ref?: Ref<HTMLElement>;
   theme?: Theme;
   passToPopups?: boolean;
   WrapperComponent?: WrapperType;
@@ -88,7 +85,7 @@ export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 interface ThemeProviderInnerProps extends ThemeProviderProps {
-  wrapperRef: Ref<HTMLElement>;
+  wrapperRef?: Ref<HTMLElement>;
 }
 
 function ThemeProviderInner({
@@ -96,7 +93,7 @@ function ThemeProviderInner({
   className,
   passToPopups,
   children,
-  WrapperComponent = DefaultWrapper,
+  WrapperComponent = DefaultWrapper as WrapperType,
   target,
   wrapperRef,
   ...restProps
@@ -124,8 +121,8 @@ function ThemeProviderInner({
   );
 }
 
-export const ThemeProvider = forwardRef(function ThemeProvider(props: ThemeProviderProps, ref: Ref<HTMLElement>) {
+export function ThemeProvider({ref, ...props}: ThemeProviderProps) {
   return <ThemeProviderInner {...props} wrapperRef={ref} />;
-});
+}
 
 export default Theme;
