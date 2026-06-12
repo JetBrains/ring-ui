@@ -16,9 +16,9 @@ export default function createStatefulContext<T>(initialValue: T, name = '') {
   function Provider({children}: ProviderProps) {
     const [value, update] = useState(initialValue);
     return (
-      <ValueContext.Provider value={value}>
-        <UpdateContext.Provider value={update}>{children}</UpdateContext.Provider>
-      </ValueContext.Provider>
+      <ValueContext value={value}>
+        <UpdateContext value={update}>{children}</UpdateContext>
+      </ValueContext>
     );
   }
   Provider.displayName = `${name}Provider`;

@@ -25,8 +25,6 @@ export function PopupTarget({ref, id, children, ...restProps}: PopupTargetProps)
     </div>
   );
   return (
-    <PopupTargetContext.Provider value={id}>
-      {typeof children === 'function' ? children(target) : target}
-    </PopupTargetContext.Provider>
+    <PopupTargetContext value={id}>{typeof children === 'function' ? children(target) : target}</PopupTargetContext>
   );
 }

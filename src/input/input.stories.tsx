@@ -92,7 +92,7 @@ export const HeightS = () => {
   const [borderlessInputValue, setBorderlessInputValue] = useState('Borderless input');
 
   return (
-    <ControlsHeightContext.Provider value={ControlsHeight.S}>
+    <ControlsHeightContext value={ControlsHeight.S}>
       <form className='inputs'>
         <Input label='Labeled input' />
         <Input name='login' label='Label and hint' placeholder='Hint' />
@@ -134,7 +134,7 @@ export const HeightS = () => {
           defaultValue={'First line\nSecond line'}
         />
       </form>
-    </ControlsHeightContext.Provider>
+    </ControlsHeightContext>
   );
 };
 HeightS.parameters = Basic.parameters;

@@ -109,7 +109,7 @@ function ThemeProviderInner({
   const themeClasses = useThemeClasses(theme);
 
   return (
-    <ThemeContext.Provider value={themeValue}>
+    <ThemeContext value={themeValue}>
       <WrapperComponent
         ref={wrapperRef}
         className={target ? undefined : classNames(className, themeClasses)}
@@ -117,7 +117,7 @@ function ThemeProviderInner({
       >
         {children}
       </WrapperComponent>
-    </ThemeContext.Provider>
+    </ThemeContext>
   );
 }
 

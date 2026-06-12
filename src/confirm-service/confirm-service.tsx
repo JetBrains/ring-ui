@@ -21,9 +21,9 @@ export const reactRoot = createRoot(containerElement);
 function renderConfirm(props: Props) {
   const {buttonsHeight = getGlobalControlsHeight(), ...restProps} = props;
   reactRoot.render(
-    <ControlsHeightContext.Provider value={buttonsHeight}>
+    <ControlsHeightContext value={buttonsHeight}>
       <Confirm {...restProps} />
-    </ControlsHeightContext.Provider>,
+    </ControlsHeightContext>,
   );
 }
 
