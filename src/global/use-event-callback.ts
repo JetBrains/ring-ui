@@ -1,9 +1,17 @@
 import {useCallback, useLayoutEffect, useRef} from 'react';
+import deprecate from 'util-deprecate';
+
+const warnDeprecation = deprecate(
+  () => {},
+  '`useEventCallback()` is deprecated and will be removed in Ring UI 8.0. Use `useEffectEvent()` instead.',
+);
 
 /**
  * @deprecated This hook will be removed in Ring UI 8.0. Use `useEffectEvent()` instead.
  */
 export default function useEventCallback<I extends unknown[], O>(fn: (...args: I) => O): (...args: I) => O {
+  warnDeprecation();
+
   const ref = useRef<(...args: I) => O>(null);
   useLayoutEffect(() => {
     ref.current = fn;
