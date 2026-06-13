@@ -2,6 +2,8 @@
 
 ### BREAKING CHANGES
 - Introduced the new Table component in the existing `table` directory. The old tables and related files (such as `selection.ts`) were moved to the `legacy-table` directory. To continue using the old tables, update your imports (for example, `import SimpleTable from '@jetbrains/ring-ui/components/table/simple-table'` -> `import SimpleTable from '@jetbrains/ring-ui/components/legacy-table/simple-table'`).
+- Changed the minimum supported React version to 19.2.0.
+- Removed the `useEventCallback()` custom hook; use the `useEffectEvent()` React hook instead.
 
 ## [7.0.76]
 - Fixed the `jsx` files bundling in dist, which could cause imports resolving errors.
