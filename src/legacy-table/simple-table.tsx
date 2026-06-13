@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Table, {type TableAttrs} from './table';
 import Selection, {type SelectionItem} from './selection';
 
-import style from './table.css';
+import style from './legacy-table.css';
 
 export interface SimpleTableProps<T extends SelectionItem> extends Omit<
   TableAttrs<T>,
