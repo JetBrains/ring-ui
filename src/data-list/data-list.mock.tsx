@@ -3,7 +3,7 @@ import {type ReactNode} from 'react';
 
 import Link from '../link/link';
 import Tag from '../tag/tag';
-import {type SelectionItem} from '../legacy-table/selection';
+import {type SelectionItem} from '../global/table-selection';
 
 export interface Item extends SelectionItem {
   title: ReactNode;

@@ -7,7 +7,7 @@ import Pager from '../pager/pager';
 import Button from '../button/button';
 import Table, {Table as BaseTable, type TableAttrs} from './table';
 import MultiTable from './multitable';
-import Selection from './selection';
+import TableSelection from '../global/table-selection';
 import {type SortParams} from './header-cell';
 
 import mock from './table.stories.json';
@@ -46,7 +46,7 @@ type BasicAction =
     }
   | {
       type: 'setSelection';
-      payload: Selection<Item>;
+      payload: TableSelection<Item>;
     }
   | {
       type: 'setSort';
@@ -63,7 +63,7 @@ interface BasicStateInput {
 }
 interface BasicState extends BasicStateInput {
   data: Item[];
-  selection: Selection<Item>;
+  selection: TableSelection<Item>;
 }
 const isItemSelectable = (item: Item) => item.id !== 14;
 function processState(input: BasicStateInput): BasicState {
@@ -72,7 +72,7 @@ function processState(input: BasicStateInput): BasicState {
   data.sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])) * (sortOrder ? 1 : -1));
   data = data.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE);
 
-  const selection = new Selection({data, isItemSelectable});
+  const selection = new TableSelection({data, isItemSelectable});
   return {...input, data, selection};
 }
 
@@ -100,7 +100,7 @@ export const Basic: StoryFn<BasicDemoProps> = args => {
     }),
   );
   const setData = (payload: Item[]) => dispatch({type: 'setData', payload});
-  const setSelection = (payload: Selection<Item>) => dispatch({type: 'setSelection', payload});
+  const setSelection = (payload: TableSelection<Item>) => dispatch({type: 'setSelection', payload});
   const setSort = (payload: SortParams) => dispatch({type: 'setSort', payload});
   const setPage = (payload: number) => dispatch({type: 'setPage', payload});
 
@@ -239,8 +239,8 @@ const data1 = tableData.continents;
 const data2 = tableData.countries;
 
 export const MultiTableStory = () => {
-  const [selection1, setSelection1] = useState(new Selection({data: data1}));
-  const [selection2, setSelection2] = useState(new Selection({data: data2}));
+  const [selection1, setSelection1] = useState(new TableSelection({data: data1}));
+  const [selection2, setSelection2] = useState(new TableSelection({data: data2}));
 
   const columns1 = [
     {
@@ -286,7 +286,7 @@ export const MultiTableStory = () => {
 MultiTableStory.storyName = 'multi table';
 
 export const EmptyTable: StoryFn<TableAttrs<Item>> = ({onSelect, ...restProps}) => {
-  const [selection, setSelection] = useState<Selection<Item>>(new Selection({}));
+  const [selection, setSelection] = useState<TableSelection<Item>>(new TableSelection({}));
 
   return (
     <Table
@@ -325,7 +325,7 @@ type FlexItem =
   | {id: string; type: 'B'; valueB1: string; valueB2: string; valueB3: string};
 
 export const WithCustomColumns: StoryFn<TableAttrs<FlexItem>> = args => {
-  const [selection] = useState(new Selection<FlexItem>({}));
+  const [selection] = useState(new TableSelection<FlexItem>({}));
 
   return <Table {...args} selection={selection} />;
 };
@@ -415,8 +415,8 @@ WithCustomColumns.args = {
 WithCustomColumns.storyName = 'Table with custom rows';
 
 export const CustomGetKey: StoryFn<TableAttrs<Omit<Item, 'id'>>> = ({onSelect, data, ...restProps}) => {
-  const [selection, setSelection] = useState<Selection<Omit<Item, 'id'>>>(
-    new Selection({
+  const [selection, setSelection] = useState<TableSelection<Omit<Item, 'id'>>>(
+    new TableSelection({
       data,
     }),
   );

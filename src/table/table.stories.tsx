@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import Table, {type Column, type SortOrder} from './table';
 import Link from '../link/link';
-import Selection from '../legacy-table/selection';
+import TableSelection from '../global/table-selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
 import {DeleteColumnButton, SortButton} from './table-base';
@@ -52,7 +52,7 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
       },
     ],
     getKey: item => item.id,
-    selection: new Selection({data: smallDataSlice}),
+    selection: new TableSelection({data: smallDataSlice}),
   },
 
   render(args) {
@@ -365,7 +365,7 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
       },
     ],
     getKey: item => item.id,
-    selection: new Selection({data: smallDataSlice}),
+    selection: new TableSelection({data: smallDataSlice}),
     isItemKeyboardFocusable: () => true,
   },
 
@@ -512,7 +512,7 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
       ...restColumns,
     ]);
 
-    const [selection, setSelection] = useState(() => new Selection({data: flatData}));
+    const [selection, setSelection] = useState(() => new TableSelection({data: flatData}));
 
     const handleSort = useEffectEvent((columnIndex: number, sortOrder: SortOrder) => {
       const newTreeData = deepCopy(issueTreeRoot);

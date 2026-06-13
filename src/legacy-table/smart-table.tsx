@@ -1,11 +1,11 @@
 import {PureComponent} from 'react';
 
 import Table, {type TableAttrs} from './table';
-import Selection, {type SelectionItem} from './selection';
+import TableSelection, {type SelectionItem} from '../global/table-selection';
 
 export interface SmartTableProps<T extends SelectionItem> extends Omit<TableAttrs<T>, 'selection' | 'onSelect'> {
-  onSelectionChange: (selection: Selection<T>) => void;
-  selection?: Selection<T>;
+  onSelectionChange: (selection: TableSelection<T>) => void;
+  selection?: TableSelection<T>;
 }
 class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<T>> {
   static defaultProps = {
@@ -13,7 +13,7 @@ class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<
   };
 
   state = {
-    selection: new Selection({
+    selection: new TableSelection({
       data: this.props.data,
       isItemSelectable: this.props.isItemSelectable,
     }),
@@ -25,12 +25,12 @@ class SmartTable<T extends SelectionItem> extends PureComponent<SmartTableProps<
       this.setState({selection});
     } else if (this.props.data !== data || this.props.isItemSelectable !== isItemSelectable) {
       this.setState({
-        selection: new Selection({data, isItemSelectable}),
+        selection: new TableSelection({data, isItemSelectable}),
       });
     }
   }
 
-  onSelect = (selection: Selection<T>) => {
+  onSelect = (selection: TableSelection<T>) => {
     this.setState({selection});
     this.props.onSelectionChange(selection);
   };

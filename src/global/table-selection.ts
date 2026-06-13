@@ -21,7 +21,7 @@ export interface CloneWithConfig<T> {
   focused?: T | null | undefined;
 }
 
-export default class Selection<T> {
+export default class TableSelection<T> {
   protected _rawData: readonly T[];
   protected _getChildren: (item: T) => readonly T[];
   protected _data: Set<T>;
@@ -86,7 +86,7 @@ export default class Selection<T> {
 
     const newFocused = focused === undefined ? this._focused : focused;
 
-    return new (this.constructor as typeof Selection)({
+    return new (this.constructor as typeof TableSelection)({
       data: newData,
       selected: newSelected,
       focused: data && !focused ? cloneFocus() : newFocused,

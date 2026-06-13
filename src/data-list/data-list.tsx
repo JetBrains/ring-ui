@@ -14,7 +14,7 @@ import disableHoverHOC, {type DisableHoverAddProps} from '../legacy-table/disabl
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
-import {type SelectionItem} from '../legacy-table/selection';
+import {type SelectionItem} from '../global/table-selection';
 import Item, {type FormattedItem, moreLessButtonStates} from './item';
 
 import type Selection from './selection';

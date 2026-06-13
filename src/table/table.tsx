@@ -1,7 +1,7 @@
 import Table from './table-component';
 
 import type {ReactNode, RefObject} from 'react';
-import type Selection from '../legacy-table/selection';
+import type TableSelection from '../global/table-selection';
 
 export default Table;
 
@@ -30,7 +30,7 @@ export interface TableProps<T> {
   /**
    * Displays the selection and focus state.
    */
-  selection?: Selection<T>;
+  selection?: TableSelection<T>;
 
   /**
    * If true, the item can be focused by keyboard up/down arrows.

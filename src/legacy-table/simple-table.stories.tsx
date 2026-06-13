@@ -4,7 +4,7 @@ import {type StoryFn} from '@storybook/react-webpack5';
 import Link from '../link/link';
 import {type TableAttrs} from './table';
 import SimpleTable from './simple-table';
-import {type SelectionItem} from './selection';
+import {type SelectionItem} from '../global/table-selection';
 import {type SortParams} from './header-cell';
 
 import mock from './table.stories.json';
