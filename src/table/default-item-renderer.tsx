@@ -31,6 +31,16 @@ export interface DefaultItemRendererProps {
    * 0, negative and not set mean no indent.
    */
   level?: number;
+
+  /**
+   * If true, the row is highlighted as selected.
+   */
+  selected?: boolean;
+
+  /**
+   * If true, the row is focused.
+   */
+  focused?: boolean;
 }
 
 const INDENT_SIZE = 24;
@@ -43,6 +53,9 @@ export function DefaultItemRenderer<T>({
   index,
   clickable,
   level,
+  selected,
+  focused,
+
   className,
   onKeyDown,
   onBlur,
@@ -58,12 +71,9 @@ export function DefaultItemRenderer<T>({
     }
   });
 
-  const {data, columns, selection, isItemKeyboardFocusable, onItemFocus} = use(
-    TablePropsContext as Context<TableProps<T>>,
-  );
+  const {data, columns, isItemKeyboardFocusable, onItemFocus} = use(TablePropsContext as Context<TableProps<T>>);
 
   const item = data[index];
-  const selected = selection?.isSelected(item);
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTableRowElement>) {
     onKeyDown?.(e);
@@ -80,8 +90,6 @@ export function DefaultItemRenderer<T>({
       }
     }
   }
-
-  const focused = selection?.isFocused(item);
 
   useEffect(() => {
     if (focused) ref.current?.focus();

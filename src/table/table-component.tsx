@@ -30,16 +30,15 @@ import styles from './table.css';
  *
  * ## Selection
  *
- * Following three props support the selection:
+ * Selection is handled on item level by using `renderItem={<DefaultItemRenderer />}`,
+ * with the following props of `DefaultItemRenderer`:
  *
- * - `selection`
- * - `isItemClickable`
- * - `DefaultItemRenderer.onClick`
- *
- * Only `selection` is required: you can display and modify selection your way, e.g., via
- * checkboxes in cells.
+ * - `clickable`
+ * - `selected`
+ * - `onClick` or `onPointerUp` etc.
  *
  * ## Sorting
+ *
  * You need the following to support sorting:
  *
  * - Include `<SortButton />` in a column header
@@ -50,6 +49,7 @@ import styles from './table.css';
  * the corresponding column, and updating the data accordingly.
  *
  * ## Deleting columns
+ *
  * You need the following to support deleting columns:
  *
  * - Make sure the `column` has a proper `name` or `key` prop, which will be
@@ -74,7 +74,6 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
     columns,
     getKey,
     noHeader,
-    selection,
     isItemKeyboardFocusable,
     onItemFocus,
     onItemMove,

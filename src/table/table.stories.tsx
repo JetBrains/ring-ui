@@ -52,11 +52,10 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
       },
     ],
     getKey: item => item.id,
-    selection: new TableSelection({data: smallDataSlice}),
   },
 
   render(args) {
-    const [selection, setSelection] = useState(args.selection!);
+    const [selection, setSelection] = useState(() => new TableSelection({data: args.data}));
     const allSelected = args.data.every(item => selection.isSelected(item));
 
     const [idColumn, ...restColumns] = args.columns;
@@ -91,11 +90,11 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
         data={args.data}
         columns={columns}
         getKey={args.getKey}
-        selection={selection}
         renderItem={(item, index) => (
           <DefaultItemRenderer
             index={index}
             clickable
+            selected={selection.isSelected(item)}
             onClick={({target}) => {
               if (isWithinControl(target)) return;
               setSelection(selection.toggleSelection(item));
@@ -365,25 +364,24 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
       },
     ],
     getKey: item => item.id,
-    selection: new TableSelection({data: smallDataSlice}),
-    isItemKeyboardFocusable: () => true,
   },
 
   render(args) {
-    const [selection, setSelection] = useState(args.selection!);
+    const [selection, setSelection] = useState(() => new TableSelection({data: args.data}));
 
     return (
       <Table
         data={args.data}
         columns={args.columns}
         getKey={args.getKey}
-        selection={selection}
-        isItemKeyboardFocusable={args.isItemKeyboardFocusable}
+        isItemKeyboardFocusable={() => true}
         onItemFocus={item => setSelection(selection.focus(item))}
         renderItem={(item, index) => (
           <DefaultItemRenderer
             index={index}
             clickable
+            selected={selection.isSelected(item)}
+            focused={selection.isFocused(item)}
             onClick={({target}) => {
               if (isWithinControl(target)) return;
               setSelection(selection.focus(item));
@@ -551,7 +549,6 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
         columns={columns}
         getKey={({id}) => id}
         onSort={handleSort}
-        selection={selection}
         isItemKeyboardFocusable={() => true}
         onItemFocus={item => setSelection(selection.focus(item))}
         renderItem={(item, i) => (
@@ -559,6 +556,8 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
             index={i}
             clickable={item.hasChildren}
             level={item.path.length - 1}
+            selected={selection.isSelected(item)}
+            focused={selection.isFocused(item)}
             onClick={e => {
               if (isWithinControl(e.target)) return;
 
