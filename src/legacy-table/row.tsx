@@ -15,7 +15,7 @@ import {type FocusSensorAddProps} from '../global/focus-sensor-hoc';
 import Cell from './cell';
 import {type Column} from './header-cell';
 
-import style from './table.css';
+import style from './legacy-table.css';
 
 interface DragHandleProps {
   alwaysShowDragHandle: boolean;

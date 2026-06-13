@@ -38,7 +38,7 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
 
   return (
     <div className={className}>
-      <CollapseContext.Provider
+      <CollapseContext
         value={{
           collapsed: finalCollapsedValue,
           setCollapsed,
@@ -48,7 +48,7 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
         }}
       >
         {children}
-      </CollapseContext.Provider>
+      </CollapseContext>
     </div>
   );
 };

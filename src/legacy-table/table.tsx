@@ -21,7 +21,7 @@ import disableHoverHOC, {type DisableHoverAddProps, type DisableHoverProps} from
 import Row from './row-with-focus-sensor';
 import {type Column, type SortParams} from './header-cell';
 
-import style from './table.css';
+import style from './legacy-table.css';
 
 export interface ReorderParams<T> {
   data: T[];

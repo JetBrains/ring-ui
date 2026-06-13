@@ -28,11 +28,11 @@ export default function adaptiveIslandHOC<P>(ComposedComponent: ComponentType<P>
 
     render() {
       return (
-        <PhaseContext.Provider value={this.state.phase}>
-          <ScrollHandlerContext.Provider value={this.onContentScroll}>
+        <PhaseContext value={this.state.phase}>
+          <ScrollHandlerContext value={this.onContentScroll}>
             <ComposedComponent {...this.props} />
-          </ScrollHandlerContext.Provider>
-        </PhaseContext.Provider>
+          </ScrollHandlerContext>
+        </PhaseContext>
       );
     }
   };

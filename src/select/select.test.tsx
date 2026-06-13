@@ -1,12 +1,19 @@
 import {cleanup, fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {beforeEach, expect} from 'vitest';
-import {act} from 'react';
+import {act, useEffect, useRef} from 'react';
 
 import List from '../list/list';
 import simulateCombo from '../../test-helpers/simulate-combo';
-import Select, {type MultipleSelectAttrs, type SelectAttrs, type SelectItem, type SingleSelectAttrs} from './select';
+import Select, {
+  RerenderableSelect,
+  type MultipleSelectAttrs,
+  type SelectAttrs,
+  type SelectItem,
+  type SingleSelectAttrs,
+} from './select';
 import {type Filter, type Tags} from './select-popup';
+import {Size} from '../input/input';
 
 import styles from './select.css';
 
@@ -1323,5 +1330,28 @@ describe('Select', () => {
       const titles = getItemTitles();
       expect(titles).to.deep.equal(['', 'One', 'Two', '', '', 'Three', 'Four', '']);
     });
+  });
+
+  it('should rerender RerenderableSelect.rerender()', () => {
+    let refCurrent: null | {rerender: (props: {}) => void} = null;
+    function MyRenderableSelect() {
+      const ref = useRef<unknown>(null);
+      useEffect(() => {
+        refCurrent = ref.current as {rerender: (props: {}) => void};
+      }, []);
+      return <RerenderableSelect ref={ref} />;
+    }
+
+    render(<MyRenderableSelect />);
+
+    const select = screen.getByTestId('ring-select');
+    const initialClassName = select.className;
+
+    act(() => {
+      refCurrent?.rerender({size: Size.L});
+    });
+    const updatedClassName = select.className;
+
+    expect(initialClassName).to.not.equal(updatedClassName);
   });
 });
