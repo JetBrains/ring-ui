@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
-import {useRef, useState} from 'react';
+import {useEffectEvent, useRef, useState} from 'react';
 import chevronIcon from '@jetbrains/icons/chevron-12px-right';
 import classNames from 'classnames';
 
@@ -11,7 +11,6 @@ import Tag, {TagType} from '../tag/tag';
 import {DeleteColumnButton, SortButton} from './table-base';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
-import useEventCallback from '../global/use-event-callback';
 import Button from '../button/button';
 
 import type {Meta, StoryObj} from '@storybook/react';
@@ -465,27 +464,25 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
       })),
     );
 
-    const handleExpand = useEventCallback(
-      (item: IssueFlat, index: number, action: 'expand' | 'collapse' | 'toggle') => {
-        const isExpandedNow = isExpanded(flatData, index);
-        if (isExpandedNow && action !== 'expand') {
-          // Collapse
-          setFlatData(flatData.filter(it => !isChildPath(item.path, it.path)));
-        } else if (!isExpandedNow && action !== 'collapse') {
-          // Expand
-          const itemChildren = getNodeByPath(treeData, item.path)?.children?.map(({children, ...child}, i) => ({
-            ...child,
-            path: [...item.path, i],
-            hasChildren: !!children?.length,
-          }));
-          if (itemChildren?.length) {
-            const newData = [...flatData];
-            newData.splice(index + 1, 0, ...itemChildren);
-            setFlatData(newData);
-          }
+    const handleExpand = useEffectEvent((item: IssueFlat, index: number, action: 'expand' | 'collapse' | 'toggle') => {
+      const isExpandedNow = isExpanded(flatData, index);
+      if (isExpandedNow && action !== 'expand') {
+        // Collapse
+        setFlatData(flatData.filter(it => !isChildPath(item.path, it.path)));
+      } else if (!isExpandedNow && action !== 'collapse') {
+        // Expand
+        const itemChildren = getNodeByPath(treeData, item.path)?.children?.map(({children, ...child}, i) => ({
+          ...child,
+          path: [...item.path, i],
+          hasChildren: !!children?.length,
+        }));
+        if (itemChildren?.length) {
+          const newData = [...flatData];
+          newData.splice(index + 1, 0, ...itemChildren);
+          setFlatData(newData);
         }
-      },
-    );
+      }
+    });
 
     const [idColumn, ...restColumns] = issuesColumns;
     const [columns, setColumns] = useState<Column<IssueFlat>[]>(() => [
@@ -517,7 +514,7 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
 
     const [selection, setSelection] = useState(() => new Selection({data: flatData}));
 
-    const handleSort = useEventCallback((columnIndex: number, sortOrder: SortOrder) => {
+    const handleSort = useEffectEvent((columnIndex: number, sortOrder: SortOrder) => {
       const newTreeData = deepCopy(issueTreeRoot);
       if (sortOrder !== 'none') {
         (function sortNodeInPlace(node: IssueNode) {

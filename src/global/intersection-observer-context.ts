@@ -1,12 +1,12 @@
-import {createContext, type RefObject, useContext, useEffect, useState} from 'react';
+import {createContext, type RefObject, use, useEffect, useState} from 'react';
 
 /**
  * Usage:
  *
  * ```tsx
- * <IntersectionObserverContext.Provider value={useIntersectionObserverHandle()}>
+ * <IntersectionObserverContext value={useIntersectionObserverHandle()}>
  *   <YourComponent />
- * </IntersectionObserverContext.Provider>
+ * </IntersectionObserverContext>
  *
  * function YourComponent() {
  *   // Contains the current isIntersecting value
@@ -72,7 +72,7 @@ export interface IntersectionObserverHandle {
 }
 
 export function useIsIntersecting(elementRef: RefObject<Element | null>) {
-  const handle = useContext(IntersectionObserverContext);
+  const handle = use(IntersectionObserverContext);
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export function useIsIntersectingListener(
   elementRef: RefObject<Element | null>,
   onChange: (isIntersecting: boolean) => void,
 ) {
-  const handle = useContext(IntersectionObserverContext);
+  const handle = use(IntersectionObserverContext);
 
   useEffect(() => {
     const element = elementRef.current;

@@ -111,8 +111,8 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
   });
 
   return (
-    <TablePropsContext.Provider value={props as TableProps<unknown>}>
-      <IntersectionObserverContext.Provider value={intersectionObserverHandle}>
+    <TablePropsContext value={props as TableProps<unknown>}>
+      <IntersectionObserverContext value={intersectionObserverHandle}>
         <table className={classNames(styles.table, className)} ref={tableRef} {...restProps}>
           <thead className={theadClassName}>
             <tr className={classNames(styles.headerRow, theadTrClassName)}>
@@ -122,9 +122,9 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
                   className={classNames(styles.headerCell, column.thClassName)}
                   aria-sort={column.sortOrder}
                 >
-                  <ColumnIndexContext.Provider value={columnIndex}>
+                  <ColumnIndexContext value={columnIndex}>
                     {column.renderHeader?.() ?? column.name ?? String(column.key)}
-                  </ColumnIndexContext.Provider>
+                  </ColumnIndexContext>
                 </th>
               ))}
             </tr>
@@ -140,17 +140,14 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
               const item = data[index];
               const key = props.getKey(item, index);
               return (
-                <CollapseItemIntoSpacerContext.Provider
-                  value={height => collapseItemIntoSpacer(index, height)}
-                  key={key}
-                >
+                <CollapseItemIntoSpacerContext value={height => collapseItemIntoSpacer(index, height)} key={key}>
                   {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
-                </CollapseItemIntoSpacerContext.Provider>
+                </CollapseItemIntoSpacerContext>
               );
             })}
           </tbody>
         </table>
-      </IntersectionObserverContext.Provider>
-    </TablePropsContext.Provider>
+      </IntersectionObserverContext>
+    </TablePropsContext>
   );
 }

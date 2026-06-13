@@ -1,4 +1,4 @@
-import {type ComponentPropsWithoutRef, type Context, useContext} from 'react';
+import {type ComponentPropsWithoutRef, type Context, use} from 'react';
 import classNames from 'classnames';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
@@ -17,8 +17,8 @@ import styles from './table.css';
  * Handle clicks with {@link TableProps.onSort}.
  */
 export function SortButton<T>(props: ComponentPropsWithoutRef<'button'>) {
-  const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
-  const columnIndex = useContext(ColumnIndexContext);
+  const tableProps = use(TablePropsContext as Context<TableProps<T>>);
+  const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
   if (!tableProps || !column) {
     return null;
@@ -54,8 +54,8 @@ export function SortButton<T>(props: ComponentPropsWithoutRef<'button'>) {
  * Handle clicks with {@link TableProps.onColumnDelete}.
  */
 export function DeleteColumnButton<T>(props: ComponentPropsWithoutRef<'button'>) {
-  const tableProps = useContext(TablePropsContext as Context<TableProps<T>>);
-  const columnIndex = useContext(ColumnIndexContext);
+  const tableProps = use(TablePropsContext as Context<TableProps<T>>);
+  const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
   if (!tableProps || !column) {
     return null;

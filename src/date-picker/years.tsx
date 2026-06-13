@@ -145,15 +145,13 @@ export default function Years({scrollDate, setScrollDate}: CalendarProps) {
   );
 
   return (
-    <IntersectionObserverContext.Provider
-      value={useIntersectionObserverHandle(containerRef, intersectionObserverRootMargin)}
-    >
+    <IntersectionObserverContext value={useIntersectionObserverHandle(containerRef, intersectionObserverRootMargin)}>
       <div className={styles.years} ref={containerRef} data-test='ring-date-popup--years'>
         {items.map(year => (
           <Year year={year} scrollDate={localScrollDate.date} handleYearClick={handleYearClick} key={+year} />
         ))}
       </div>
-    </IntersectionObserverContext.Provider>
+    </IntersectionObserverContext>
   );
 }
 

@@ -1,6 +1,5 @@
-import {type RefObject, useEffect, useMemo, useRef, useState} from 'react';
+import {type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-import useEventCallback from '../global/use-event-callback';
 import {useIntersectionObserverHandle} from '../global/intersection-observer-context';
 
 import styles from './table.css';
@@ -63,7 +62,7 @@ export function useTableVirtualize({
     },
   ]);
 
-  const materializeVisibleSpacerItems = useEventCallback(() => {
+  const materializeVisibleSpacerItems = useCallback(() => {
     if (!tableRef.current) return;
 
     const containerHeight = scrollerRef?.current?.clientHeight ?? window.innerHeight;
@@ -103,9 +102,9 @@ export function useTableVirtualize({
         offsetInSpacer += itemHeight;
       }
     }
-  });
+  }, [estimateHeight, lookaheadPx, scrollerRef, tableRef]);
 
-  const recomputeVirtualItems = useEventCallback(() => {
+  const recomputeVirtualItems = useCallback(() => {
     const newVirtualItems: VirtualItem[] = [];
     let spacerCounter = 0;
 
@@ -135,12 +134,12 @@ export function useTableVirtualize({
     }
 
     setVirtualItems(newVirtualItems);
-  });
+  }, [estimateHeight, length]);
 
   const timerIdRef = useRef<number | null>(null);
   const callbacksRef = useRef<Set<() => void> | null>(null);
 
-  const throttle = useEventCallback((...callbacks: (() => void)[]) => {
+  const throttle = useCallback((...callbacks: (() => void)[]) => {
     if (timerIdRef.current != null) {
       callbacks.forEach(cb => {
         callbacksRef.current!.delete(cb);
@@ -156,7 +155,7 @@ export function useTableVirtualize({
       timerIdRef.current = null;
       callbacksRef.current = null;
     }, virtualizationThrottleDelay);
-  });
+  }, []);
 
   useEffect(() => {
     if (!enabled) return;
@@ -206,12 +205,15 @@ export function useTableVirtualize({
     !scrollerRef ? retentionMarginPx : undefined,
   );
 
-  const collapseItemIntoSpacer = useEventCallback<[index: number, height: number], void>((index, height) => {
-    if (!enabled) return;
+  const collapseItemIntoSpacer = useCallback(
+    (index: number, height: number) => {
+      if (!enabled) return;
 
-    itemsMaterialization.current[index] = height;
-    throttle(recomputeVirtualItems);
-  });
+      itemsMaterialization.current[index] = height;
+      throttle(recomputeVirtualItems);
+    },
+    [enabled, throttle, recomputeVirtualItems],
+  );
 
   const allVisibleVirtualItems = useMemo<VirtualItem[]>(
     () => Array.from({length: enabled ? 0 : length}, (_, index) => ({type: 'rendered', index})),

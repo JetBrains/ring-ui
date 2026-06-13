@@ -1,4 +1,4 @@
-import {type ComponentPropsWithoutRef, type Context, useContext, useEffect, useRef} from 'react';
+import {type ComponentPropsWithoutRef, type Context, use, useEffect, useRef} from 'react';
 import classNames from 'classnames';
 
 import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
@@ -51,14 +51,14 @@ export function DefaultItemRenderer<T>({
   const selfRef = useRef<HTMLTableRowElement | null>(null);
   const ref = userRef ?? selfRef;
 
-  const collapseItemIntoSpacer = useContext(CollapseItemIntoSpacerContext);
+  const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
   useIsIntersectingListener(ref, isIntersecting => {
     if (ref.current && !isIntersecting) {
       collapseItemIntoSpacer(ref.current!.getBoundingClientRect().height);
     }
   });
 
-  const {data, columns, selection, isItemKeyboardFocusable, onItemFocus} = useContext(
+  const {data, columns, selection, isItemKeyboardFocusable, onItemFocus} = use(
     TablePropsContext as Context<TableProps<T>>,
   );
 
