@@ -592,3 +592,19 @@ function isWithinControl(element: EventTarget) {
   if (!parent) return false;
   return isWithinControl(parent);
 }
+
+export const NoHeader: TableStory<(typeof smallDataSlice)[number]> = {
+  args: {
+    data: smallDataSlice,
+    columns: [
+      {key: 'ID'},
+      {key: 'Country', renderCell: ({country}) => country},
+      {key: 'City', renderCell: ({city}) => city},
+    ],
+    getKey: item => item.id,
+  },
+
+  render(args) {
+    return <Table data={args.data} columns={args.columns} getKey={args.getKey} noHeader />;
+  },
+};

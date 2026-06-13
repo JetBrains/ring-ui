@@ -74,6 +74,7 @@ export function DefaultItemRenderer<T>({
       for (let i = index + step; 0 <= i && i < data.length; i += step) {
         if (isItemKeyboardFocusable?.(data[i], i, data)) {
           onItemFocus?.(data[i], i, data);
+          e.preventDefault();
           break;
         }
       }

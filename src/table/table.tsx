@@ -20,7 +20,12 @@ export interface TableProps<T> {
   /**
    * Used to render a row key, e.g. `<tr key={getKey(item, index)}>`.
    */
-  getKey: (item: T, index: number) => React.Key;
+  getKey: (item: T, index: number, items: T[]) => React.Key;
+
+  /**
+   * If true, the table header will not be rendered.
+   */
+  noHeader?: boolean;
 
   /**
    * Displays the selection and focus state.
@@ -47,17 +52,17 @@ export interface TableProps<T> {
   /**
    * Called when the client clicks on SortButton in a column header.
    */
-  onSort?: (columnIndex: number, newOrder: SortOrder) => void;
+  onSort?: (columnIndex: number, newOrder: SortOrder, columns: Column<T>[]) => void;
 
   /**
    * Called when the client clicks on a column delete button in the header.
    */
-  onColumnDelete?: (columnIndex: number) => void;
+  onColumnDelete?: (columnIndex: number, columns: Column<T>[]) => void;
 
   /**
    * Called when the client moves a column.
    */
-  onColumnMove?: (fromIndex: number, toIndex: number) => void;
+  onColumnMove?: (fromIndex: number, toIndex: number, columns: Column<T>[]) => void;
 
   /**
    * Implement to specify props like `clickable`, handlers like `onClick`,
@@ -200,7 +205,7 @@ export type SortOrder = 'none' | 'ascending' | 'descending';
  */
 export interface Column<T> {
   /**
-   * Used to render a row key, e.g. `<thead><tr><td key={getKey(item, index)}...</td></tr></thead>`.
+   * Used to render a row key, e.g. `<thead><tr><td key={getKey(item, index, items)}...</td></tr></thead>`.
    */
   key: React.Key;
 

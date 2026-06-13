@@ -1,4 +1,4 @@
-import {type ComponentPropsWithoutRef, type Context, use} from 'react';
+import {type ComponentPropsWithoutRef, type Context, use, useCallback} from 'react';
 import classNames from 'classnames';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
@@ -20,9 +20,6 @@ export function SortButton<T>(props: ComponentPropsWithoutRef<'button'>) {
   const tableProps = use(TablePropsContext as Context<TableProps<T>>);
   const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
-  if (!tableProps || !column) {
-    return null;
-  }
 
   const sortOrder = column.sortOrder ?? 'none';
   // eslint-disable-next-line no-nested-ternary, prettier/prettier
@@ -32,13 +29,20 @@ export function SortButton<T>(props: ComponentPropsWithoutRef<'button'>) {
 
   const {className, children, onClick, ...restProps} = props;
 
-  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    onClick?.(e);
-    if (!e.defaultPrevented) {
-      const sequence = ['none', 'ascending', 'descending'] satisfies SortOrder[];
-      const nextOrder = sequence[(sequence.indexOf(sortOrder) + 1) % sequence.length];
-      tableProps.onSort?.(columnIndex, nextOrder);
-    }
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(e);
+      if (!e.defaultPrevented) {
+        const sequence = ['none', 'ascending', 'descending'] satisfies SortOrder[];
+        const nextOrder = sequence[(sequence.indexOf(sortOrder) + 1) % sequence.length];
+        tableProps.onSort?.(columnIndex, nextOrder, tableProps.columns);
+      }
+    },
+    [columnIndex, onClick, sortOrder, tableProps],
+  );
+
+  if (!tableProps || !column) {
+    return null;
   }
 
   return (
@@ -57,17 +61,21 @@ export function DeleteColumnButton<T>(props: ComponentPropsWithoutRef<'button'>)
   const tableProps = use(TablePropsContext as Context<TableProps<T>>);
   const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
-  if (!tableProps || !column) {
-    return null;
-  }
 
   const {className, onClick, ...restProps} = props;
 
-  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    onClick?.(e);
-    if (!e.defaultPrevented) {
-      tableProps.onColumnDelete?.(columnIndex);
-    }
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(e);
+      if (!e.defaultPrevented) {
+        tableProps.onColumnDelete?.(columnIndex, tableProps.columns);
+      }
+    },
+    [columnIndex, onClick, tableProps],
+  );
+
+  if (!tableProps || !column) {
+    return null;
   }
 
   return (

@@ -73,6 +73,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
     data,
     columns,
     getKey,
+    noHeader,
     selection,
     isItemKeyboardFocusable,
     onItemFocus,
@@ -114,21 +115,23 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
     <TablePropsContext value={props as TableProps<unknown>}>
       <IntersectionObserverContext value={intersectionObserverHandle}>
         <table className={classNames(styles.table, className)} ref={tableRef} {...restProps}>
-          <thead className={theadClassName}>
-            <tr className={classNames(styles.headerRow, theadTrClassName)}>
-              {columns.map((column, columnIndex) => (
-                <th
-                  key={column.key}
-                  className={classNames(styles.headerCell, column.thClassName)}
-                  aria-sort={column.sortOrder}
-                >
-                  <ColumnIndexContext value={columnIndex}>
-                    {column.renderHeader?.() ?? column.name ?? String(column.key)}
-                  </ColumnIndexContext>
-                </th>
-              ))}
-            </tr>
-          </thead>
+          {!noHeader && (
+            <thead className={theadClassName}>
+              <tr className={classNames(styles.headerRow, theadTrClassName)}>
+                {columns.map((column, columnIndex) => (
+                  <th
+                    key={column.key}
+                    className={classNames(styles.headerCell, column.thClassName)}
+                    aria-sort={column.sortOrder}
+                  >
+                    <ColumnIndexContext value={columnIndex}>
+                      {column.renderHeader?.() ?? column.name ?? String(column.key)}
+                    </ColumnIndexContext>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          )}
 
           <tbody className={tbodyClassName}>
             {virtualItems.map(virtualItem => {
@@ -138,7 +141,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
 
               const index = virtualItem.index;
               const item = data[index];
-              const key = props.getKey(item, index);
+              const key = getKey(item, index, data);
               return (
                 <CollapseItemIntoSpacerContext value={height => collapseItemIntoSpacer(index, height)} key={key}>
                   {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
