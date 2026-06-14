@@ -8,10 +8,11 @@ import Link from '../link/link';
 import TableSelection from '../global/table-selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
-import {DeleteColumnButton, SortButton} from './table-base';
+import {DeleteColumnButton, SortButton} from './table-primitives';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
 import Button from '../button/button';
+import {focusRow} from './table-row-focus';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -367,24 +368,21 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
   },
 
   render(args) {
-    const [selection, setSelection] = useState(() => new TableSelection({data: args.data}));
-
     return (
       <Table
         data={args.data}
         columns={args.columns}
         getKey={args.getKey}
-        isItemKeyboardFocusable={() => true}
-        onItemFocus={item => setSelection(selection.focus(item))}
-        renderItem={(item, index) => (
+        renderItem={(_item, index) => (
           <DefaultItemRenderer
             index={index}
+            keyboardFocusable
             clickable
-            selected={selection.isSelected(item)}
-            focused={selection.isFocused(item)}
-            onClick={({target}) => {
-              if (isWithinControl(target)) return;
-              setSelection(selection.focus(item));
+            onClick={e => {
+              if (!isWithinControl(e.target)) {
+                focusRow(e.currentTarget);
+                e.preventDefault();
+              }
             }}
           />
         )}
@@ -549,23 +547,25 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
         columns={columns}
         getKey={({id}) => id}
         onSort={handleSort}
-        isItemKeyboardFocusable={() => true}
-        onItemFocus={item => setSelection(selection.focus(item))}
         renderItem={(item, i) => (
           <DefaultItemRenderer
             index={i}
+            keyboardFocusable
             clickable={item.hasChildren}
-            level={item.path.length - 1}
             selected={selection.isSelected(item)}
-            focused={selection.isFocused(item)}
+            level={item.path.length - 1}
             onClick={e => {
               if (isWithinControl(e.target)) return;
 
+              focusRow(e.currentTarget);
+
               handleExpand(item, i, 'toggle');
               setSelection(selection.focus(item));
+
+              e.preventDefault();
             }}
             onKeyDown={e => {
-              if (selection.isFocused(item)) {
+              if (document.activeElement === e.currentTarget) {
                 const action =
                   e.key === ' ' || e.key === 'Enter'
                     ? 'toggle'
@@ -574,7 +574,10 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
                       : e.key === 'ArrowRight'
                         ? 'expand'
                         : undefined;
-                if (action) handleExpand(item, i, action);
+                if (action) {
+                  handleExpand(item, i, action);
+                  e.preventDefault();
+                }
               }
             }}
           />

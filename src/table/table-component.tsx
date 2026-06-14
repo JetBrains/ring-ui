@@ -13,6 +13,7 @@ import {
   defaultRowHeight,
   TablePropsContext,
 } from './table-const';
+import {onBlurCaptureTbody, onKeyDownTbody} from './table-row-focus';
 
 import type {TableProps} from './table';
 
@@ -70,12 +71,11 @@ import styles from './table.css';
  */
 export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef<'table'>) {
   const {
+    ref: userRef,
     data,
     columns,
     getKey,
     noHeader,
-    isItemKeyboardFocusable,
-    onItemFocus,
     onItemMove,
     onSort,
     onColumnDelete,
@@ -88,11 +88,11 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
     retentionMarginPx = defaultRetentionMarginPx,
     minScrollAndResizeDeltaPx = defaultMinScrollAndResizeDeltaPx,
     columnEditButton,
-    ref: userRef,
-    className,
     theadClassName,
     theadTrClassName,
     tbodyClassName,
+
+    className,
     ...restProps
   } = props;
 
@@ -132,7 +132,8 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
             </thead>
           )}
 
-          <tbody className={tbodyClassName}>
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+          <tbody className={tbodyClassName} onKeyDown={onKeyDownTbody} onBlurCapture={onBlurCaptureTbody}>
             {virtualItems.map(virtualItem => {
               if (virtualItem.type === 'spacer') {
                 return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;

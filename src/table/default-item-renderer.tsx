@@ -1,9 +1,9 @@
-import {type ComponentPropsWithoutRef, type Context, use, useEffect, useRef} from 'react';
+import {type ComponentPropsWithoutRef, type Context, use, useRef} from 'react';
 import classNames from 'classnames';
 
 import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
-import {TableCell, TableRow} from './table-base';
+import {TableCell, TableRow} from './table-primitives';
 
 import type {TableProps} from './table';
 
@@ -21,16 +21,21 @@ export interface DefaultItemRendererProps {
   index: number;
 
   /**
-   * Changes the highlight on hover and applies the pointer cursor.
+   * If true, the row will be focusable with up/down arrow keys.
+   * Focus is implemented using the
+   * ["roving tabindex"](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets#technique_1_roving_tabindex)
+   * technique, that is, only the focused row has `tabIndex={0}`.
+   *
+   * To focus row on click or other user interaction, add e.g. `onClick()`
+   * and invoke `focusRow(e.currentTarget)` imported from `table-row-focus.ts`.
+   */
+  keyboardFocusable?: boolean;
+
+  /**
+   * Changes the background on hover and applies the pointer cursor.
    * Note that `false` doesn't mean it cannot handle `onClick`.
    */
   clickable?: boolean;
-
-  /**
-   * A level of a nested item. Results in an indent for columns with `indent: true`.
-   * 0, negative and not set mean no indent.
-   */
-  level?: number;
 
   /**
    * If true, the row is highlighted as selected.
@@ -38,9 +43,10 @@ export interface DefaultItemRendererProps {
   selected?: boolean;
 
   /**
-   * If true, the row is focused.
+   * A level of a nested item. Results in an indent for columns with `indent: true`.
+   * 0, negative and not set mean no indent.
    */
-  focused?: boolean;
+  level?: number;
 }
 
 const INDENT_SIZE = 24;
@@ -51,14 +57,12 @@ const INDENT_SIZE = 24;
 export function DefaultItemRenderer<T>({
   ref: userRef,
   index,
+  keyboardFocusable,
   clickable,
-  level,
   selected,
-  focused,
+  level,
 
   className,
-  onKeyDown,
-  onBlur,
   ...restProps
 }: DefaultItemRendererProps & ComponentPropsWithoutRef<'tr'>) {
   const selfRef = useRef<HTMLTableRowElement | null>(null);
@@ -71,44 +75,15 @@ export function DefaultItemRenderer<T>({
     }
   });
 
-  const {data, columns, isItemKeyboardFocusable, onItemFocus} = use(TablePropsContext as Context<TableProps<T>>);
+  const {data, columns} = use(TablePropsContext as Context<TableProps<T>>);
 
   const item = data[index];
-
-  function handleKeyDown(e: React.KeyboardEvent<HTMLTableRowElement>) {
-    onKeyDown?.(e);
-
-    if (!e.defaultPrevented && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
-      const step = e.key === 'ArrowUp' ? -1 : 1;
-      // eslint-disable-next-line yoda
-      for (let i = index + step; 0 <= i && i < data.length; i += step) {
-        if (isItemKeyboardFocusable?.(data[i], i, data)) {
-          onItemFocus?.(data[i], i, data);
-          e.preventDefault();
-          break;
-        }
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (focused) ref.current?.focus();
-  }, [focused, ref]);
-
-  function handleBlur(e: React.FocusEvent<HTMLTableRowElement>) {
-    onBlur?.(e);
-    if (!e.defaultPrevented && focused) {
-      onItemFocus?.(null, -1, data);
-    }
-  }
 
   return (
     <TableRow
       ref={ref}
+      keyboardFocusable={keyboardFocusable}
       className={classNames(className, clickable && styles.clickableRow, selected && styles.selectedRow)}
-      onKeyDown={handleKeyDown}
-      tabIndex={focused ? 0 : undefined}
-      onBlur={focused ? handleBlur : undefined}
       {...restProps}
     >
       {columns.map((column, columnIndex) => (

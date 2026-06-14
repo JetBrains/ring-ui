@@ -6,6 +6,11 @@ export default Table;
 
 export interface TableProps<T> {
   /**
+   * Optional ref to install on the table element.
+   */
+  ref?: RefObject<HTMLTableElement | null>;
+
+  /**
    * The data items to render. `null` and `undefined` as an item is not supported.
    * Referentially same items are not supported either.
    */
@@ -25,18 +30,6 @@ export interface TableProps<T> {
    * If true, the table header will not be rendered.
    */
   noHeader?: boolean;
-
-  /**
-   * If true, the item can be focused by keyboard up/down arrows.
-   * Note that `false` doesn't prevent from `selection.focus()`.
-   */
-  isItemKeyboardFocusable?: (item: T, index: number, items: T[]) => boolean;
-
-  /**
-   * When the item should get focused by keyboard navigation.
-   * The client is expected to update `selection`.
-   */
-  onItemFocus?: (item: T | null, index: number, items: T[]) => void;
 
   /**
    * Called when the client moves a row by dragging it.
@@ -170,11 +163,6 @@ export interface TableProps<T> {
    * Whether to show a small gear button at the top right corner.
    */
   columnEditButton?: 'everywhere' | 'mobileOnly';
-
-  /**
-   * Optional ref to install on the table element.
-   */
-  ref?: RefObject<HTMLTableElement | null>;
 
   /**
    * Applied to the `<thead>` element.

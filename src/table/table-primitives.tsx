@@ -1,4 +1,4 @@
-import {type ComponentPropsWithoutRef, type Context, use, useCallback} from 'react';
+import {type ComponentPropsWithoutRef, type ComponentPropsWithRef, type Context, use, useCallback} from 'react';
 import classNames from 'classnames';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
@@ -7,6 +7,7 @@ import trashIcon from '@jetbrains/icons/trash-12px';
 
 import Icon from '../icon/icon';
 import {ColumnIndexContext, TablePropsContext} from './table-const';
+import {keyboardFocusableAttrName} from './table-row-focus';
 
 import type {SortOrder, TableProps} from './table';
 
@@ -91,21 +92,29 @@ export function DeleteColumnButton<T>(props: ComponentPropsWithoutRef<'button'>)
   );
 }
 
+export interface TableRowProps {
+  /**
+   * @see DefaultItemRendererProps.keyboardFocusable
+   */
+  keyboardFocusable?: boolean;
+}
+
 /**
  * A helper `<tr>` component for a custom {@link TableProps.renderItem} implementations.
  * Applies the standard row classnames.
  */
-export function TableRow(props: {ref?: React.Ref<HTMLTableRowElement>} & ComponentPropsWithoutRef<'tr'>) {
-  const {ref, className, ...restProps} = props;
+export function TableRow(props: TableRowProps & ComponentPropsWithRef<'tr'>) {
+  const {keyboardFocusable, className, ...restProps} = props;
   const classes = classNames(styles.row, className);
-  return <tr ref={ref} className={classes} {...restProps} />;
+  const trRestProps = keyboardFocusable ? {[keyboardFocusableAttrName]: '', ...restProps} : restProps;
+  return <tr className={classes} {...trRestProps} />;
 }
 
 /**
  * A helper `<td>` component for a custom {@link TableProps.renderItem} implementations.
  * Applies the standard cell classnames, but not data-dependent `tdClassName`.
  */
-export function TableCell(props: ComponentPropsWithoutRef<'td'>) {
+export function TableCell(props: ComponentPropsWithRef<'td'>) {
   const {className, ...restProps} = props;
   const classes = classNames(styles.cell, className);
   return <td className={classes} {...restProps} />;
