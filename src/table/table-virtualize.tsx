@@ -198,6 +198,11 @@ export function useTableVirtualize<T>({
       scrollTarget.removeEventListener('scroll', handleViewportChange);
       resizeObserver.unobserve(resizeTarget);
       resizeObserver.disconnect();
+      if (timerIdRef.current != null) {
+        window.clearTimeout(timerIdRef.current);
+        timerIdRef.current = null;
+        callbacksRef.current = null;
+      }
     };
   }, [enabled, materializeVisibleSpacerItems, minScrollAndResizeDeltaPx, recomputeVirtualItems, scrollerRef, throttle]);
 
