@@ -113,7 +113,7 @@ export interface TableProps<T> {
    *
    * Default: 37px = 16px padding + 20px line height + 1px border.
    */
-  estimateHeight?: (index: number) => number;
+  estimateHeight?: (item: T, index: number, items: T[]) => number;
 
   /**
    * When using `virtualizeRows`, the number of pixels above and below the viewport

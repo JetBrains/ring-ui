@@ -31,9 +31,10 @@ interface Spacer {
  */
 const virtualizationThrottleDelay = 50;
 
-export function useTableVirtualize({
+export function useTableVirtualize<T>({
   enabled,
-  length,
+  data,
+  data: {length},
   scrollerRef,
   tableRef,
   estimateHeight,
@@ -42,10 +43,10 @@ export function useTableVirtualize({
   minScrollAndResizeDeltaPx,
 }: {
   enabled: boolean;
-  length: number; // TODO react on change
+  data: T[];
   scrollerRef: RefObject<HTMLElement | null> | undefined;
   tableRef: RefObject<HTMLTableElement | null>;
-  estimateHeight: (index: number) => number;
+  estimateHeight: (item: T, index: number, items: T[]) => number;
   lookaheadPx: number;
   retentionMarginPx: number;
   minScrollAndResizeDeltaPx: number;
@@ -57,7 +58,7 @@ export function useTableVirtualize({
       type: 'spacer',
       from: 0,
       to: length,
-      height: Array.from({length}, (_, i) => estimateHeight(i)).reduce((a, b) => a + b, 0),
+      height: data.reduce((acc, item, index, items) => acc + estimateHeight(item, index, items), 0),
       key: `${styles.spacerRow}-0`,
     },
   ]);
@@ -88,7 +89,8 @@ export function useTableVirtualize({
 
       for (let i = from; i < to; i++) {
         const itemMaterialization = itemsMaterialization.current[i];
-        const itemHeight = typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(i);
+        const itemHeight =
+          typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(data[i], i, data);
 
         const itemOffsetStart = offsetInSpacer;
         const itemOffsetEnd = offsetInSpacer + itemHeight;
@@ -102,7 +104,7 @@ export function useTableVirtualize({
         offsetInSpacer += itemHeight;
       }
     }
-  }, [estimateHeight, lookaheadPx, scrollerRef, tableRef]);
+  }, [data, estimateHeight, lookaheadPx, scrollerRef, tableRef]);
 
   const recomputeVirtualItems = useCallback(() => {
     const newVirtualItems: VirtualItem[] = [];
@@ -116,7 +118,7 @@ export function useTableVirtualize({
       } else {
         const lastItemOrSpacer = newVirtualItems[newVirtualItems.length - 1];
         const lastSpacer = lastItemOrSpacer?.type === 'spacer' ? (lastItemOrSpacer as Spacer) : undefined;
-        const height = typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(i);
+        const height = typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(data[i], i, data);
 
         if (lastSpacer) {
           lastSpacer.to = i + 1;
@@ -134,7 +136,7 @@ export function useTableVirtualize({
     }
 
     setVirtualItems(newVirtualItems);
-  }, [estimateHeight, length]);
+  }, [data, estimateHeight, length]);
 
   const timerIdRef = useRef<number | null>(null);
   const callbacksRef = useRef<Set<() => void> | null>(null);

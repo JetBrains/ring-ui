@@ -128,7 +128,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
 
   const {virtualItems, intersectionObserverHandle, collapseItemIntoSpacer} = useTableVirtualize({
     enabled: virtualizeRows,
-    length: data.length,
+    data,
     scrollerRef,
     tableRef,
     estimateHeight,
