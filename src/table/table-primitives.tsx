@@ -1,4 +1,4 @@
-import {type ComponentPropsWithoutRef, type ComponentPropsWithRef, type Context, use, useCallback} from 'react';
+import {type ComponentPropsWithRef, type Context, use, useCallback} from 'react';
 import classNames from 'classnames';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
@@ -17,18 +17,16 @@ import styles from './table.css';
  * Include it in a column header to make the column sortable.
  * Handle clicks with {@link TableProps.onSort}.
  */
-export function SortButton<T>(props: ComponentPropsWithoutRef<'button'>) {
-  const tableProps = use(TablePropsContext as Context<TableProps<T>>);
+export function SortButton<T>({className, children, onClick, ...restProps}: ComponentPropsWithRef<'button'>) {
+  const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
   const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
 
-  const sortOrder = column.sortOrder ?? 'none';
+  const sortOrder = column?.sortOrder ?? 'none';
   // eslint-disable-next-line no-nested-ternary, prettier/prettier
   const glyph = sortOrder === 'none' ? unsortedIcon
     : sortOrder === 'ascending' ? arrowUpIcon
     : arrowDownIcon;
-
-  const {className, children, onClick, ...restProps} = props;
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,7 +34,7 @@ export function SortButton<T>(props: ComponentPropsWithoutRef<'button'>) {
       if (!e.defaultPrevented) {
         const sequence = ['none', 'ascending', 'descending'] satisfies SortOrder[];
         const nextOrder = sequence[(sequence.indexOf(sortOrder) + 1) % sequence.length];
-        tableProps.onSort?.(columnIndex, nextOrder, tableProps.columns);
+        tableProps!.onSort?.(columnIndex, nextOrder, tableProps!.columns);
       }
     },
     [columnIndex, onClick, sortOrder, tableProps],
@@ -58,18 +56,16 @@ export function SortButton<T>(props: ComponentPropsWithoutRef<'button'>) {
  * Beware that `column.name ?? String(column.key)` is used in the aria-label.
  * Handle clicks with {@link TableProps.onColumnDelete}.
  */
-export function DeleteColumnButton<T>(props: ComponentPropsWithoutRef<'button'>) {
-  const tableProps = use(TablePropsContext as Context<TableProps<T>>);
+export function DeleteColumnButton<T>({className, onClick, ...restProps}: ComponentPropsWithRef<'button'>) {
+  const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
   const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
-
-  const {className, onClick, ...restProps} = props;
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(e);
       if (!e.defaultPrevented) {
-        tableProps.onColumnDelete?.(columnIndex, tableProps.columns);
+        tableProps!.onColumnDelete?.(columnIndex, tableProps!.columns);
       }
     },
     [columnIndex, onClick, tableProps],

@@ -1,5 +1,6 @@
-import {type ComponentPropsWithoutRef, useRef} from 'react';
+import {type ComponentPropsWithRef, useRef} from 'react';
 import classNames from 'classnames';
+import {mergeRefs} from 'react-merge-refs';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
 import {SpacerRow, useTableVirtualize} from './table-virtualize';
@@ -96,9 +97,8 @@ import styles from './table.css';
  *   the default height (e.g. multiline or custom content)
  * - Fine-tuning props: `lookaheadPx`, `retentionMarginPx`, `minScrollAndResizeDeltaPx`
  */
-export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef<'table'>) {
+export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'table'>) {
   const {
-    ref: userRef,
     data,
     columns,
     getKey,
@@ -119,18 +119,18 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
     theadTrClassName,
     tbodyClassName,
 
+    ref: userRef,
     className,
     ...restProps
   } = props;
 
-  const selfRef = useRef<HTMLTableElement | null>(null);
-  const tableRef = userRef ?? selfRef;
+  const localRef = useRef<HTMLTableElement>(null);
 
   const {virtualItems, intersectionObserverHandle, collapseItemIntoSpacer} = useTableVirtualize({
     enabled: virtualizeRows,
     data,
     scrollerRef,
-    tableRef,
+    tableRef: localRef,
     estimateHeight,
     lookaheadPx,
     retentionMarginPx,
@@ -140,7 +140,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithoutRef
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
       <IntersectionObserverContext value={intersectionObserverHandle}>
-        <table className={classNames(styles.table, className)} ref={tableRef} {...restProps}>
+        <table className={classNames(styles.table, className)} ref={mergeRefs([userRef, localRef])} {...restProps}>
           {!noHeader && (
             <thead className={theadClassName}>
               <tr className={classNames(styles.headerRow, theadTrClassName)}>

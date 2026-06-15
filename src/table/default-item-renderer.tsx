@@ -1,5 +1,6 @@
-import {type ComponentPropsWithoutRef, type Context, use, useRef} from 'react';
+import {type ComponentPropsWithRef, type Context, use, useRef} from 'react';
 import classNames from 'classnames';
+import {mergeRefs} from 'react-merge-refs';
 
 import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
@@ -10,11 +11,6 @@ import type {TableProps} from './table';
 import styles from './table.css';
 
 export interface DefaultItemRendererProps {
-  /**
-   * Installed on the `<tr>` element.
-   */
-  ref?: React.RefObject<HTMLTableRowElement | null>;
-
   /**
    * The index of the `data` item to render.
    */
@@ -56,33 +52,37 @@ const INDENT_SIZE = 24;
  * @see TableProps.renderItem
  */
 export function DefaultItemRenderer<T>({
-  ref: userRef,
   index,
   keyboardFocusable,
   clickable,
   selected,
   level,
 
+  ref: userRef,
   className,
   ...restProps
-}: DefaultItemRendererProps & ComponentPropsWithoutRef<'tr'>) {
-  const selfRef = useRef<HTMLTableRowElement | null>(null);
-  const ref = userRef ?? selfRef;
+}: DefaultItemRendererProps & ComponentPropsWithRef<'tr'>) {
+  const localRef = useRef<HTMLTableRowElement>(null);
 
   const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
-  useIsIntersectingListener(ref, isIntersecting => {
-    if (ref.current && !isIntersecting) {
-      collapseItemIntoSpacer(ref.current!.getBoundingClientRect().height);
+  useIsIntersectingListener(localRef, isIntersecting => {
+    if (localRef.current && !isIntersecting) {
+      collapseItemIntoSpacer(localRef.current.getBoundingClientRect().height);
     }
   });
 
-  const {data, columns} = use(TablePropsContext as Context<TableProps<T>>);
+  const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
+  if (!tableProps) {
+    return null;
+  }
+
+  const {data, columns} = tableProps;
 
   const item = data[index];
 
   return (
     <TableRow
-      ref={ref}
+      ref={mergeRefs([userRef, localRef])}
       keyboardFocusable={keyboardFocusable}
       className={classNames(className, clickable && styles.clickableRow, selected && styles.selectedRow)}
       {...restProps}

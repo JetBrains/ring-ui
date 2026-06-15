@@ -6,11 +6,6 @@ export default Table;
 
 export interface TableProps<T> {
   /**
-   * Optional ref to install on the table element.
-   */
-  ref?: RefObject<HTMLTableElement | null>;
-
-  /**
    * The data items to render. `null` and `undefined` as an item is not supported.
    * Referentially same items are not supported either.
    */
@@ -96,7 +91,7 @@ export interface TableProps<T> {
    * - ResizeObserver observes `document.body`
    * - IntersectionObserver has no root (i.e. the viewport is used)
    */
-  scrollerRef?: React.RefObject<HTMLElement | null>;
+  scrollerRef?: RefObject<HTMLElement | null>;
 
   /**
    * Used with `virtualizeRows` to estimate the height of items that have not been rendered yet.
