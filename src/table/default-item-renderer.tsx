@@ -11,12 +11,12 @@ import styles from './table.css';
 
 export interface DefaultItemRendererProps {
   /**
-   * Installed on the `<tr>` element
+   * Installed on the `<tr>` element.
    */
   ref?: React.RefObject<HTMLTableRowElement | null>;
 
   /**
-   * The index of the `data` item to render
+   * The index of the `data` item to render.
    */
   index: number;
 
@@ -26,25 +26,26 @@ export interface DefaultItemRendererProps {
    * ["roving tabindex"](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets#technique_1_roving_tabindex)
    * technique, that is, only the focused row has `tabIndex={0}`.
    *
-   * To focus row on click or other user interaction, add e.g. `onClick()`
+   * To focus the row on click or other user interaction, add e.g. `onClick()`
    * and invoke `focusRow(e.currentTarget)` imported from `table-row-focus.ts`.
    */
   keyboardFocusable?: boolean;
 
   /**
    * Changes the background on hover and applies the pointer cursor.
-   * Note that `false` doesn't mean it cannot handle `onClick`.
+   * Note that `false` does not mean the row cannot handle `onClick`.
    */
   clickable?: boolean;
 
   /**
-   * If true, the row is highlighted as selected.
+   * If true, the row is highlighted as selected, that is, with the
+   * a different background color.
    */
   selected?: boolean;
 
   /**
    * A level of a nested item. Results in an indent for columns with `indent: true`.
-   * 0, negative and not set mean no indent.
+   * 0, negative values, and an unset value mean no indent.
    */
   level?: number;
 }
