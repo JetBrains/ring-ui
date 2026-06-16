@@ -143,7 +143,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
         <table className={classNames(styles.table, className)} ref={mergeRefs([userRef, localRef])} {...restProps}>
           {!noHeader && (
             <thead className={theadClassName}>
-              <tr className={classNames(styles.headerRow, theadTrClassName)}>
+              <tr className={theadTrClassName}>
                 {columns.map((column, columnIndex) => (
                   <th
                     key={column.key}

@@ -247,12 +247,12 @@ function getTwoLetterPrefix(firstCode: number /* 1..26 */, secondCode: number /*
 const issuesColumns = [
   {
     key: 'ID',
+    renderHeader: () => <SortButton>ID</SortButton>,
     renderCell: ({id}) => (
       <Link href={`https://example.org/issue/${id}/`} target='_blank'>
         {id}
       </Link>
     ),
-    renderHeader: () => <SortButton>ID</SortButton>,
     indent: true,
   },
   {
@@ -619,7 +619,8 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         key: 'ID',
         renderHeader: () => (
           <>
-            <ColumnReorderHandle /> ID
+            <ColumnReorderHandle />
+            ID
           </>
         ),
         renderCell: ({id}) => id,
@@ -629,7 +630,8 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         sortOrder: 'none',
         renderHeader: () => (
           <>
-            <ColumnReorderHandle /> Country
+            <ColumnReorderHandle />
+            Country
           </>
         ),
         renderCell: ({country}) => country,
@@ -639,7 +641,8 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         sortOrder: 'none',
         renderHeader: () => (
           <>
-            <ColumnReorderHandle /> City
+            <ColumnReorderHandle />
+            City
           </>
         ),
         renderCell: ({city}) => city,
@@ -648,7 +651,8 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         key: 'URL',
         renderHeader: () => (
           <>
-            <ColumnReorderHandle /> URL
+            <ColumnReorderHandle />
+            URL
           </>
         ),
         renderCell: ({url}) => (
@@ -668,13 +672,85 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         data={args.data}
         columns={columns}
         getKey={args.getKey}
-        onColumnReorder={(fromIndex, insertionIndex) => {
-          const [...newColumns] = columns;
-          const [moved] = newColumns.splice(fromIndex, 1);
-          newColumns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
-          setColumns(newColumns);
-        }}
+        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
       />
     );
   },
+};
+
+function reorderColumns<T>(
+  columns: Column<T>[],
+  fromIndex: number,
+  insertionIndex: number,
+  setColumns: (newColumns: Column<T>[]) => void,
+) {
+  const [...newColumns] = columns;
+  const [moved] = newColumns.splice(fromIndex, 1);
+  newColumns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
+  setColumns(newColumns);
+}
+
+export const WithColumnReorderLong: TableStory<Issue> = {
+  args: {
+    data: [],
+    columns: [
+      {
+        key: 'ID',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle />
+            ID
+          </>
+        ),
+        renderCell: ({id}) => (
+          <Link href={`https://example.org/issue/${id}/`} target='_blank'>
+            {id}
+          </Link>
+        ),
+        indent: true,
+      },
+      {
+        key: 'Priority',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle /> Priority
+          </>
+        ),
+        renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
+      },
+      {
+        key: 'Votes',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle />
+            Votes
+          </>
+        ),
+        renderCell: ({votes}) => votes,
+      },
+    ] satisfies Column<Issue>[],
+    getKey: ({id}) => id,
+  },
+
+  render(args) {
+    const [data] = useState(() => issuesLongData.slice(0, 200));
+    const [columns, setColumns] = useState(args.columns);
+
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        getKey={args.getKey}
+        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+      />
+    );
+  },
+
+  parameters: {
+    docs: {
+      disable: true,
+    },
+  },
+
+  tags: ['!autodocs'],
 };

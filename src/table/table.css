@@ -2,16 +2,11 @@
 
 .table {
   --ring-drag-frame-height: 100%;
-  --ring-drag-frame-render-height: min(95dvh, var(--ring-drag-frame-height));
 
   width: 100%;
 
   border-collapse: collapse;
   border-style: none;
-}
-
-.headerRow {
-  border-bottom: 1px solid var(--ring-line-color);
 }
 
 .headerCell {
@@ -26,6 +21,8 @@
   text-align: left;
 
   color: var(--ring-secondary-color);
+
+  border-bottom: 1px solid var(--ring-line-color);
   border-left: 1px solid transparent;
 
   font-size: var(--ring-font-size-smaller);
@@ -143,27 +140,31 @@
 
 .headerCell[data-ring-is-dragging]::before {
   position: absolute;
-  top: 0;
-  left: 0;
+
+  z-index: var(--ring-fixed-z-index);
+  top: -2px;
+  left: -2px;
 
   display: block;
 
   width: 100%;
-  height: var(--ring-drag-frame-render-height);
+  height: var(--ring-drag-frame-height);
 
   content: '';
   transform: translateX(var(--ring-drag-offset-x));
 
   border: 2px solid var(--ring-border-accent-color);
-  border-radius: var(--ring-border-radius);
+  border-radius: calc(2 * var(--ring-border-radius));
+
+  background-color: rgba(var(--ring-border-accent-components), 0.06);
 }
 
 .headerCell[data-ring-insert-before]::after,
- .headerCell[data-ring-insert-after]::after {
+.headerCell[data-ring-insert-after]::after {
   position: absolute;
   top: 0;
 
-  height: var(--ring-drag-frame-render-height);
+  height: var(--ring-drag-frame-height);
 
   content: '';
 }
@@ -185,6 +186,8 @@
 
   width: 0;
 
+  cursor: grab;
+
   transition: width var(--ring-fast-ease);
   transform: translateX(var(--ring-drag-offset-x));
 
@@ -192,6 +195,9 @@
 }
 
 .headerCell:hover .columnReorderHandle {
-  width: 12px;
+  width: 16px;
 }
 
+.headerCell[data-ring-is-dragging] .columnReorderHandle {
+  cursor: grabbing;
+}

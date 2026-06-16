@@ -91,7 +91,11 @@ export function DeleteColumnButton<T>({className, onClick, ...restProps}: Compon
 
 /**
  * Include it in a column header to allow users to reorder the column.
+ * Do not include the space between the handle and the text - the handle
+ * already includes the right padding.
+ *
  * Beware that `column.name ?? String(column.key)` is used in the aria-label.
+ *
  * Handle reorder requests with {@link TableProps.onColumnReorder}.
  */
 export function ColumnReorderHandle<T>({
@@ -130,20 +134,19 @@ export function ColumnReorderHandle<T>({
     }
   }, []);
 
-  const setDragFrameHeight = useCallback(({table}: HeaderElements, value: 'toTableHeight' | undefined) => {
-    if (value === 'toTableHeight') {
-      const tableHeight = table.clientHeight;
-      table.style.setProperty('--ring-drag-frame-height', `${tableHeight}px`);
-    } else {
-      table.style.removeProperty('--ring-drag-frame-height');
-    }
-  }, []);
-
   const setDragOffsetX = useCallback(({th}: HeaderElements, offsetX: number | undefined) => {
     if (offsetX != null) {
       th.style.setProperty('--ring-drag-offset-x', `${offsetX}px`);
     } else {
       th.style.removeProperty('--ring-drag-offset-x');
+    }
+  }, []);
+
+  const setDragFrameHeight = useCallback(({table}: HeaderElements, value: string | undefined) => {
+    if (value != null) {
+      table.style.setProperty('--ring-drag-frame-height', value);
+    } else {
+      table.style.removeProperty('--ring-drag-frame-height');
     }
   }, []);
 
@@ -164,8 +167,16 @@ export function ColumnReorderHandle<T>({
       e.currentTarget.setPointerCapture(pointerId);
 
       setIsDragging(headerElements, true);
-      setDragFrameHeight(headerElements, 'toTableHeight');
       setDragOffsetX(headerElements, 0);
+
+      const {top, height} = headerElements.table.getBoundingClientRect();
+      const tableVisibleBottomViewportY = Math.min(window.innerHeight, top + height);
+      const tableVisibleBottomOffsetFromTableTop = tableVisibleBottomViewportY - top;
+      const viewportBottomRelativeToTableTop = window.innerHeight - top;
+      setDragFrameHeight(
+        headerElements,
+        `min(${tableVisibleBottomOffsetFromTableTop}px, calc(${viewportBottomRelativeToTableTop}px - .5rem))`,
+      );
     },
     [getHeaderCellElements, onPointerDown, setDragFrameHeight, setDragOffsetX, setIsDragging],
   );
@@ -225,8 +236,8 @@ export function ColumnReorderHandle<T>({
       activeDragRef.current = null;
 
       setIsDragging(headerElements, false);
-      setDragFrameHeight(headerElements, undefined);
       setDragOffsetX(headerElements, undefined);
+      setDragFrameHeight(headerElements, undefined);
       indicateInsertionPoint(headerElements, undefined);
     },
     [indicateInsertionPoint, setDragFrameHeight, setDragOffsetX, setIsDragging],
