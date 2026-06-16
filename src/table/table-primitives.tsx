@@ -7,7 +7,7 @@ import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 
 import Icon from '../icon/icon';
-import {ColumnIndexContext, TablePropsContext} from './table-const';
+import {ColumnIndexContext, longAnimationTimeout, TablePropsContext} from './table-const';
 import {keyboardFocusableAttrName} from './table-row-focus';
 
 import type {SortOrder, TableProps} from './table';
@@ -110,9 +110,12 @@ export function ColumnReorderHandle<T>({
   const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
 
-  const activeDragRef = useRef<{startClientX: number; pointerId: number; columnsClientX: {l: number; r: number}[]}>(
-    null,
-  );
+  const activeDragRef = useRef<{
+    startClientX: number;
+    pointerId: number;
+    columnsClientX: {l: number; r: number}[];
+    keydownListener: (keyEvent: KeyboardEvent) => void;
+  }>(null);
 
   const getHeaderCellElements = useCallback((currentTarget: HTMLButtonElement) => {
     const th = currentTarget.closest('th');
@@ -126,13 +129,16 @@ export function ColumnReorderHandle<T>({
 
   type HeaderElements = NonNullable<ReturnType<typeof getHeaderCellElements>>;
 
-  const setIsDragging = useCallback(({th}: HeaderElements, isDragging: boolean) => {
-    if (isDragging) {
-      th.setAttribute('data-ring-is-dragging', '');
-    } else {
-      th.removeAttribute('data-ring-is-dragging');
-    }
-  }, []);
+  const setDragState = useCallback(
+    ({th}: HeaderElements, state: 'is-dragging' | 'ended-with-no-change' | undefined) => {
+      if (state != null) {
+        th.setAttribute('data-ring-drag-state', state);
+      } else {
+        th.removeAttribute('data-ring-drag-state');
+      }
+    },
+    [],
+  );
 
   const setDragOffsetX = useCallback(({th}: HeaderElements, offsetX: number | undefined) => {
     if (offsetX != null) {
@@ -149,37 +155,6 @@ export function ColumnReorderHandle<T>({
       table.style.removeProperty('--ring-drag-frame-height');
     }
   }, []);
-
-  const handlePointerDown = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      onPointerDown?.(e);
-      if (e.defaultPrevented) return;
-
-      const headerElements = getHeaderCellElements(e.currentTarget);
-      if (!headerElements) return;
-
-      const {clientX, pointerId} = e;
-      const columnsClientX = [...headerElements.thead.querySelectorAll('th')].map(th => {
-        const rect = th.getBoundingClientRect();
-        return {l: rect.x, r: rect.x + rect.width};
-      });
-      activeDragRef.current = {startClientX: clientX, pointerId, columnsClientX};
-      e.currentTarget.setPointerCapture(pointerId);
-
-      setIsDragging(headerElements, true);
-      setDragOffsetX(headerElements, 0);
-
-      const {top, height} = headerElements.table.getBoundingClientRect();
-      const tableVisibleBottomViewportY = Math.min(window.innerHeight, top + height);
-      const tableVisibleBottomOffsetFromTableTop = tableVisibleBottomViewportY - top;
-      const viewportBottomRelativeToTableTop = window.innerHeight - top;
-      setDragFrameHeight(
-        headerElements,
-        `min(${tableVisibleBottomOffsetFromTableTop}px, calc(${viewportBottomRelativeToTableTop}px - .5rem))`,
-      );
-    },
-    [getHeaderCellElements, onPointerDown, setDragFrameHeight, setDragOffsetX, setIsDragging],
-  );
 
   const getClosestInsertionPoint = useCallback((clientX: number) => {
     let bestDistance = Infinity;
@@ -210,6 +185,83 @@ export function ColumnReorderHandle<T>({
     [],
   );
 
+  const cleanupDrag = useCallback(
+    (headerElements: HeaderElements) => {
+      if (activeDragRef.current) {
+        headerElements.currentTarget.releasePointerCapture?.(activeDragRef.current.pointerId);
+        document.removeEventListener('keydown', activeDragRef.current.keydownListener);
+        activeDragRef.current = null;
+      }
+
+      setDragState(headerElements, undefined);
+      setDragOffsetX(headerElements, undefined);
+      setDragFrameHeight(headerElements, undefined);
+      indicateInsertionPoint(headerElements, undefined);
+    },
+    [indicateInsertionPoint, setDragFrameHeight, setDragOffsetX, setDragState],
+  );
+
+  const animateNoChangeThenCleanup = useCallback(
+    (headerElements: HeaderElements) => {
+      setDragState(headerElements, 'ended-with-no-change');
+      setDragOffsetX(headerElements, 0);
+      const currentDrag = activeDragRef.current;
+      setTimeout(() => {
+        if (activeDragRef.current === currentDrag) {
+          cleanupDrag(headerElements);
+        }
+      }, longAnimationTimeout);
+    },
+    [cleanupDrag, setDragOffsetX, setDragState],
+  );
+
+  const handlePointerDown = useCallback(
+    (e: PointerEvent<HTMLButtonElement>) => {
+      onPointerDown?.(e);
+      if (e.defaultPrevented) return;
+
+      const headerElements = getHeaderCellElements(e.currentTarget);
+      if (!headerElements) return;
+
+      const {clientX, pointerId} = e;
+      const columnsClientX = [...headerElements.thead.querySelectorAll('th')].map(th => {
+        const rect = th.getBoundingClientRect();
+        return {l: rect.x, r: rect.x + rect.width};
+      });
+      function keydownListener(keyEvent: KeyboardEvent) {
+        if (headerElements && keyEvent.key === 'Escape') {
+          animateNoChangeThenCleanup(headerElements);
+          keyEvent.stopPropagation();
+          keyEvent.preventDefault();
+        }
+      }
+      document.addEventListener('keydown', keydownListener); // In Safari, the button is not focused
+      activeDragRef.current = {startClientX: clientX, pointerId, columnsClientX, keydownListener};
+
+      e.currentTarget.setPointerCapture(pointerId);
+
+      setDragState(headerElements, 'is-dragging');
+      setDragOffsetX(headerElements, 0);
+
+      const {top, height} = headerElements.table.getBoundingClientRect();
+      const tableVisibleBottomViewportY = Math.min(window.innerHeight, top + height);
+      const tableVisibleBottomOffsetFromTableTop = tableVisibleBottomViewportY - top;
+      const viewportBottomRelativeToTableTop = window.innerHeight - top;
+      setDragFrameHeight(
+        headerElements,
+        `min(${tableVisibleBottomOffsetFromTableTop}px, calc(${viewportBottomRelativeToTableTop}px - .5rem))`,
+      );
+    },
+    [
+      animateNoChangeThenCleanup,
+      getHeaderCellElements,
+      onPointerDown,
+      setDragFrameHeight,
+      setDragOffsetX,
+      setDragState,
+    ],
+  );
+
   const handlePointerMove = useCallback(
     (e: PointerEvent<HTMLButtonElement>) => {
       onPointerMove?.(e);
@@ -228,44 +280,39 @@ export function ColumnReorderHandle<T>({
     [getClosestInsertionPoint, getHeaderCellElements, indicateInsertionPoint, onPointerMove, setDragOffsetX],
   );
 
-  const cleanupDrag = useCallback(
-    (headerElements: HeaderElements) => {
-      if (!activeDragRef.current) return;
-
-      headerElements.currentTarget.releasePointerCapture?.(activeDragRef.current.pointerId);
-      activeDragRef.current = null;
-
-      setIsDragging(headerElements, false);
-      setDragOffsetX(headerElements, undefined);
-      setDragFrameHeight(headerElements, undefined);
-      indicateInsertionPoint(headerElements, undefined);
-    },
-    [indicateInsertionPoint, setDragFrameHeight, setDragOffsetX, setIsDragging],
-  );
-
   const handlePointerUp = useCallback(
     (e: PointerEvent<HTMLButtonElement>) => {
       onPointerUp?.(e);
-      if (e.defaultPrevented) return;
+      if (e.defaultPrevented || !activeDragRef.current) return;
 
       const headerElements = getHeaderCellElements(e.currentTarget);
       if (!headerElements) return;
 
       const {index, after} = getClosestInsertionPoint(e.clientX);
-      cleanupDrag(headerElements);
-
       const insertionIndex = after ? index + 1 : index;
-      if (insertionIndex === columnIndex || insertionIndex === columnIndex + 1) return;
+      if (insertionIndex === columnIndex || insertionIndex === columnIndex + 1) {
+        animateNoChangeThenCleanup(headerElements);
+        return;
+      }
 
+      cleanupDrag(headerElements);
       tableProps!.onColumnReorder?.(columnIndex, insertionIndex, tableProps!.columns);
     },
-    [cleanupDrag, columnIndex, getClosestInsertionPoint, getHeaderCellElements, onPointerUp, tableProps],
+    [
+      animateNoChangeThenCleanup,
+      cleanupDrag,
+      columnIndex,
+      getClosestInsertionPoint,
+      getHeaderCellElements,
+      onPointerUp,
+      tableProps,
+    ],
   );
 
   const handlePointerCancel = useCallback(
     (e: PointerEvent<HTMLButtonElement>) => {
       onPointerCancel?.(e);
-      if (e.defaultPrevented) return;
+      if (e.defaultPrevented || !activeDragRef.current) return;
 
       const headerElements = getHeaderCellElements(e.currentTarget);
       if (!headerElements) return;

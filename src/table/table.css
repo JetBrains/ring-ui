@@ -138,7 +138,7 @@
   color: var(--ring-main-hover-color);
 }
 
-.headerCell[data-ring-is-dragging]::before {
+.headerCell[data-ring-drag-state]::before {
   position: absolute;
 
   z-index: var(--ring-fixed-z-index);
@@ -157,6 +157,12 @@
   border-radius: calc(2 * var(--ring-border-radius));
 
   background-color: rgba(var(--ring-border-accent-components), 0.06);
+}
+
+.headerCell[data-ring-drag-state='ended-with-no-change']::before {
+  transition: transform var(--ring-ease), opacity var(--ring-ease);
+
+  opacity: 0;
 }
 
 .headerCell[data-ring-insert-before]::after,
@@ -188,16 +194,22 @@
 
   cursor: grab;
 
-  transition: width var(--ring-fast-ease);
+  transition: width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
   transform: translateX(var(--ring-drag-offset-x));
 
   border-radius: var(--ring-border-radius);
 }
 
-.headerCell:hover .columnReorderHandle {
-  width: 16px;
+.headerCell:hover .columnReorderHandle,
+ .columnReorderHandle:focus-within {
+  width: 12px;
+  margin-right: 4px;
 }
 
-.headerCell[data-ring-is-dragging] .columnReorderHandle {
+.headerCell[data-ring-drag-state] .columnReorderHandle {
   cursor: grabbing;
+}
+
+.headerCell[data-ring-drag-state='ended-with-no-change'] .columnReorderHandle {
+  transition: width var(--ring-fast-ease), transform var(--ring-ease);
 }

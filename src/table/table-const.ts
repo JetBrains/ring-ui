@@ -10,3 +10,5 @@ export const defaultRowHeight = 37;
 export const defaultLookaheadPx = 400;
 export const defaultRetentionMarginPx = 450;
 export const defaultMinScrollAndResizeDeltaPx = 50;
+
+export const longAnimationTimeout = 300;
