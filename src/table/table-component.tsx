@@ -106,7 +106,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     onItemMove,
     onSort,
     onColumnDelete,
-    onColumnMove,
+    onColumnReorder,
     renderItem,
     virtualizeRows = false,
     scrollerRef,

@@ -1,9 +1,10 @@
-import {type ComponentPropsWithRef, type Context, use, useCallback} from 'react';
+import {type ComponentPropsWithRef, type Context, type PointerEvent, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
-import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
 import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
+import dragIcon from '@jetbrains/icons/drag-12px';
 import trashIcon from '@jetbrains/icons/trash-12px';
+import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 
 import Icon from '../icon/icon';
 import {ColumnIndexContext, TablePropsContext} from './table-const';
@@ -84,6 +85,193 @@ export function DeleteColumnButton<T>({className, onClick, ...restProps}: Compon
       {...restProps}
     >
       <Icon glyph={trashIcon} />
+    </button>
+  );
+}
+
+/**
+ * Include it in a column header to allow users to reorder the column.
+ * Beware that `column.name ?? String(column.key)` is used in the aria-label.
+ * Handle reorder requests with {@link TableProps.onColumnReorder}.
+ */
+export function ColumnReorderHandle<T>({
+  className,
+  onPointerDown,
+  onPointerMove,
+  onPointerUp,
+  onPointerCancel,
+  ...restProps
+}: ComponentPropsWithRef<'button'>) {
+  const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
+  const columnIndex = use(ColumnIndexContext);
+  const column = tableProps?.columns[columnIndex];
+
+  const activeDragRef = useRef<{startClientX: number; pointerId: number}>(null);
+
+  const setIsDragging = useCallback((currentTarget: HTMLButtonElement, isDragging: boolean) => {
+    const th = currentTarget.closest('th');
+    if (isDragging) {
+      th?.setAttribute('data-ring-is-dragging', '');
+    } else {
+      th?.removeAttribute('data-ring-is-dragging');
+    }
+  }, []);
+
+  const setDragFrameHeight = useCallback((currentTarget: HTMLButtonElement, value: 'toTableHeight' | undefined) => {
+    const table = currentTarget.closest('table');
+    if (value === 'toTableHeight') {
+      const tableHeight = table?.clientHeight;
+      table?.style.setProperty('--ring-drag-frame-height', `${tableHeight}px`);
+    } else {
+      table?.style.removeProperty('--ring-drag-frame-height');
+    }
+  }, []);
+
+  const setDragOffsetX = useCallback((currentTarget: HTMLButtonElement, offsetX: number | undefined) => {
+    const th = currentTarget.closest('th');
+    if (offsetX != null) {
+      th?.style.setProperty('--ring-drag-offset-x', `${offsetX}px`);
+    } else {
+      th?.style.removeProperty('--ring-drag-offset-x');
+    }
+  }, []);
+
+  const handlePointerDown = useCallback(
+    (e: PointerEvent<HTMLButtonElement>) => {
+      onPointerDown?.(e);
+      if (e.defaultPrevented) return;
+
+      const {clientX, pointerId} = e;
+      activeDragRef.current = {startClientX: clientX, pointerId};
+      e.currentTarget.setPointerCapture(pointerId);
+
+      setIsDragging(e.currentTarget, true);
+      setDragFrameHeight(e.currentTarget, 'toTableHeight');
+      setDragOffsetX(e.currentTarget, 0);
+    },
+    [onPointerDown, setDragFrameHeight, setDragOffsetX, setIsDragging],
+  );
+
+  const getClosestInsertionPoint = useCallback((thead: HTMLTableSectionElement, clientX: number) => {
+    let bestDistance = Infinity;
+    let index = -1;
+    let after = false;
+    const ths = thead.querySelectorAll('th');
+    ths.forEach((cell, i) => {
+      const rect = cell.getBoundingClientRect();
+      const distanceToLeft = Math.abs(rect.x - clientX);
+      if (distanceToLeft < bestDistance) {
+        bestDistance = distanceToLeft;
+        index = i;
+        after = false;
+      }
+      if (i === ths.length - 1) {
+        const distanceToRight = Math.abs(rect.x + rect.width - clientX);
+        if (distanceToRight < bestDistance) {
+          bestDistance = distanceToRight;
+          index = i;
+          after = true;
+        }
+      }
+    });
+    return {index, after};
+  }, []);
+
+  const indicateInsertionPoint = useCallback(
+    (thead: HTMLTableSectionElement, insertionPoint: ReturnType<typeof getClosestInsertionPoint> | undefined) => {
+      thead.querySelectorAll('th')?.forEach((th, index) => {
+        th.removeAttribute('data-ring-insert-before');
+        th.removeAttribute('data-ring-insert-after');
+        if (index === insertionPoint?.index) {
+          th.setAttribute(insertionPoint.after ? 'data-ring-insert-after' : 'data-ring-insert-before', '');
+        }
+      });
+    },
+    [],
+  );
+
+  const handlePointerMove = useCallback(
+    (e: PointerEvent<HTMLButtonElement>) => {
+      onPointerMove?.(e);
+      if (e.defaultPrevented || !activeDragRef.current) return;
+
+      const {startClientX} = activeDragRef.current;
+
+      const {clientX} = e;
+      setDragOffsetX(e.currentTarget, clientX - startClientX);
+
+      const thead = e.currentTarget.closest('thead');
+      if (!thead) return;
+
+      const insertionPoint = getClosestInsertionPoint(thead, clientX);
+      indicateInsertionPoint(thead, insertionPoint);
+    },
+    [getClosestInsertionPoint, indicateInsertionPoint, onPointerMove, setDragOffsetX],
+  );
+
+  const cleanupDrag = useCallback(
+    (currentTarget: HTMLButtonElement, thead: HTMLTableSectionElement) => {
+      if (!activeDragRef.current) return;
+
+      currentTarget.releasePointerCapture?.(activeDragRef.current.pointerId);
+      activeDragRef.current = null;
+
+      setIsDragging(currentTarget, false);
+      setDragFrameHeight(currentTarget, undefined);
+      setDragOffsetX(currentTarget, undefined);
+      indicateInsertionPoint(thead, undefined);
+    },
+    [indicateInsertionPoint, setDragFrameHeight, setDragOffsetX, setIsDragging],
+  );
+
+  const handlePointerUp = useCallback(
+    (e: PointerEvent<HTMLButtonElement>) => {
+      onPointerUp?.(e);
+      if (e.defaultPrevented) return;
+
+      const thead = e.currentTarget.closest('thead');
+      if (!thead) return;
+
+      cleanupDrag(e.currentTarget, thead);
+
+      const {index, after} = getClosestInsertionPoint(thead, e.clientX);
+      const targetIndex = after ? index + 1 : index;
+      if (targetIndex === columnIndex || targetIndex === columnIndex + 1) return;
+
+      tableProps!.onColumnReorder?.(columnIndex, targetIndex, tableProps!.columns);
+    },
+    [cleanupDrag, columnIndex, getClosestInsertionPoint, onPointerUp, tableProps],
+  );
+
+  const handlePointerCancel = useCallback(
+    (e: PointerEvent<HTMLButtonElement>) => {
+      onPointerCancel?.(e);
+      if (e.defaultPrevented) return;
+
+      const thead = e.currentTarget.closest('thead');
+      if (!thead) return;
+
+      cleanupDrag(e.currentTarget, thead);
+    },
+    [cleanupDrag, onPointerCancel],
+  );
+
+  if (!tableProps || !column) {
+    return null;
+  }
+
+  return (
+    <button
+      type='button'
+      className={classNames(styles.headerButton, styles.columnReorderHandle, className)}
+      aria-label={`Reorder column ${column.name ?? String(column.key)}`}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
+      {...restProps}
+    >
+      <Icon glyph={dragIcon} />
     </button>
   );
 }

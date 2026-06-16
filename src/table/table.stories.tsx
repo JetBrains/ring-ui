@@ -8,7 +8,7 @@ import Link from '../link/link';
 import TableSelection from '../global/table-selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
-import {DeleteColumnButton, SortButton} from './table-primitives';
+import {DeleteColumnButton, ColumnReorderHandle, SortButton} from './table-primitives';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
 import Button from '../button/button';
@@ -608,5 +608,73 @@ export const NoHeader: TableStory<(typeof smallDataSlice)[number]> = {
 
   render(args) {
     return <Table data={args.data} columns={args.columns} getKey={args.getKey} noHeader />;
+  },
+};
+
+export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
+  args: {
+    data: smallDataSlice,
+    columns: [
+      {
+        key: 'ID',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle /> ID
+          </>
+        ),
+        renderCell: ({id}) => id,
+      },
+      {
+        key: 'Country',
+        sortOrder: 'none',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle /> Country
+          </>
+        ),
+        renderCell: ({country}) => country,
+      },
+      {
+        key: 'City',
+        sortOrder: 'none',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle /> City
+          </>
+        ),
+        renderCell: ({city}) => city,
+      },
+      {
+        key: 'URL',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle /> URL
+          </>
+        ),
+        renderCell: ({url}) => (
+          <Link href={url} target='_blank'>
+            {url}
+          </Link>
+        ),
+      },
+    ],
+    getKey: item => item.id,
+  },
+
+  render(args) {
+    const [columns, setColumns] = useState(args.columns);
+    return (
+      <Table
+        data={args.data}
+        columns={columns}
+        getKey={args.getKey}
+        onColumnReorder={(fromIndex, insertionIndex) => {
+          const [...newColumns] = columns;
+          const [moved] = newColumns.splice(fromIndex, 1);
+          newColumns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
+          setColumns(newColumns);
+        }}
+      />
+    );
   },
 };

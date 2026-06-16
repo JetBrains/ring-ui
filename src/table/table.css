@@ -1,6 +1,9 @@
 @import '../global/variables.css';
 
 .table {
+  --ring-drag-frame-height: 100%;
+  --ring-drag-frame-render-height: min(95dvh, var(--ring-drag-frame-height));
+
   width: 100%;
 
   border-collapse: collapse;
@@ -12,6 +15,8 @@
 }
 
 .headerCell {
+  --ring-drag-offset-x: 0;
+
   position: relative;
 
   padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
@@ -135,3 +140,58 @@
 
   color: var(--ring-main-hover-color);
 }
+
+.headerCell[data-ring-is-dragging]::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: block;
+
+  width: 100%;
+  height: var(--ring-drag-frame-render-height);
+
+  content: '';
+  transform: translateX(var(--ring-drag-offset-x));
+
+  border: 2px solid var(--ring-border-accent-color);
+  border-radius: var(--ring-border-radius);
+}
+
+.headerCell[data-ring-insert-before]::after,
+ .headerCell[data-ring-insert-after]::after {
+  position: absolute;
+  top: 0;
+
+  height: var(--ring-drag-frame-render-height);
+
+  content: '';
+}
+
+.headerCell[data-ring-insert-before]::after {
+  left: -1px;
+
+  border-left: 2px solid var(--ring-main-color);
+}
+
+.headerCell[data-ring-insert-after]::after {
+  right: -1px;
+
+  border-right: 2px solid var(--ring-main-color);
+}
+
+.columnReorderHandle {
+  overflow: hidden;
+
+  width: 0;
+
+  transition: width var(--ring-fast-ease);
+  transform: translateX(var(--ring-drag-offset-x));
+
+  border-radius: var(--ring-border-radius);
+}
+
+.headerCell:hover .columnReorderHandle {
+  width: 12px;
+}
+

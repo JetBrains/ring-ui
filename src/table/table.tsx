@@ -42,9 +42,22 @@ export interface TableProps<T> {
   onColumnDelete?: (columnIndex: number, columns: Column<T>[]) => void;
 
   /**
-   * Called when the client moves a column.
+   * Called when the user reorders columns by dragging a column.
+   * The `insertionIndex` parameter represents an insertion position in the original,
+   * unchanged `columns` array before the column is removed.
+   *
+   * One possible implementation is:
+   *
+   * ```ts
+   * const [moved] = columns.splice(fromIndex, 1);
+   * columns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
+   * ```
+   *
+   * The callback is not called when the reorder operation would not change the
+   * column order, i.e. when
+   * `insertionIndex === fromIndex || insertionIndex === fromIndex + 1`.
    */
-  onColumnMove?: (fromIndex: number, toIndex: number, columns: Column<T>[]) => void;
+  onColumnReorder?: (fromIndex: number, insertionIndex: number, columns: Column<T>[]) => void;
 
   /**
    * Implement to specify props like `clickable`, handlers like `onClick`,
