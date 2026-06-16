@@ -106,33 +106,44 @@ export function ColumnReorderHandle<T>({
   const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
 
-  const activeDragRef = useRef<{startClientX: number; pointerId: number}>(null);
+  const activeDragRef = useRef<{startClientX: number; pointerId: number; columnsClientX: {l: number; r: number}[]}>(
+    null,
+  );
 
-  const setIsDragging = useCallback((currentTarget: HTMLButtonElement, isDragging: boolean) => {
+  const getHeaderCellElements = useCallback((currentTarget: HTMLButtonElement) => {
     const th = currentTarget.closest('th');
+    if (!th) return null;
+    const thead = th.closest('thead');
+    if (!thead) return null;
+    const table = thead.closest('table');
+    if (!table) return null;
+    return {currentTarget, th, thead, table};
+  }, []);
+
+  type HeaderElements = NonNullable<ReturnType<typeof getHeaderCellElements>>;
+
+  const setIsDragging = useCallback(({th}: HeaderElements, isDragging: boolean) => {
     if (isDragging) {
-      th?.setAttribute('data-ring-is-dragging', '');
+      th.setAttribute('data-ring-is-dragging', '');
     } else {
-      th?.removeAttribute('data-ring-is-dragging');
+      th.removeAttribute('data-ring-is-dragging');
     }
   }, []);
 
-  const setDragFrameHeight = useCallback((currentTarget: HTMLButtonElement, value: 'toTableHeight' | undefined) => {
-    const table = currentTarget.closest('table');
+  const setDragFrameHeight = useCallback(({table}: HeaderElements, value: 'toTableHeight' | undefined) => {
     if (value === 'toTableHeight') {
-      const tableHeight = table?.clientHeight;
-      table?.style.setProperty('--ring-drag-frame-height', `${tableHeight}px`);
+      const tableHeight = table.clientHeight;
+      table.style.setProperty('--ring-drag-frame-height', `${tableHeight}px`);
     } else {
-      table?.style.removeProperty('--ring-drag-frame-height');
+      table.style.removeProperty('--ring-drag-frame-height');
     }
   }, []);
 
-  const setDragOffsetX = useCallback((currentTarget: HTMLButtonElement, offsetX: number | undefined) => {
-    const th = currentTarget.closest('th');
+  const setDragOffsetX = useCallback(({th}: HeaderElements, offsetX: number | undefined) => {
     if (offsetX != null) {
-      th?.style.setProperty('--ring-drag-offset-x', `${offsetX}px`);
+      th.style.setProperty('--ring-drag-offset-x', `${offsetX}px`);
     } else {
-      th?.style.removeProperty('--ring-drag-offset-x');
+      th.style.removeProperty('--ring-drag-offset-x');
     }
   }, []);
 
@@ -141,44 +152,42 @@ export function ColumnReorderHandle<T>({
       onPointerDown?.(e);
       if (e.defaultPrevented) return;
 
+      const headerElements = getHeaderCellElements(e.currentTarget);
+      if (!headerElements) return;
+
       const {clientX, pointerId} = e;
-      activeDragRef.current = {startClientX: clientX, pointerId};
+      const columnsClientX = [...headerElements.thead.querySelectorAll('th')].map(th => {
+        const rect = th.getBoundingClientRect();
+        return {l: rect.x, r: rect.x + rect.width};
+      });
+      activeDragRef.current = {startClientX: clientX, pointerId, columnsClientX};
       e.currentTarget.setPointerCapture(pointerId);
 
-      setIsDragging(e.currentTarget, true);
-      setDragFrameHeight(e.currentTarget, 'toTableHeight');
-      setDragOffsetX(e.currentTarget, 0);
+      setIsDragging(headerElements, true);
+      setDragFrameHeight(headerElements, 'toTableHeight');
+      setDragOffsetX(headerElements, 0);
     },
-    [onPointerDown, setDragFrameHeight, setDragOffsetX, setIsDragging],
+    [getHeaderCellElements, onPointerDown, setDragFrameHeight, setDragOffsetX, setIsDragging],
   );
 
-  const getClosestInsertionPoint = useCallback((thead: HTMLTableSectionElement, clientX: number) => {
+  const getClosestInsertionPoint = useCallback((clientX: number) => {
     let bestDistance = Infinity;
     let index = -1;
     let after = false;
-    const ths = thead.querySelectorAll('th');
-    ths.forEach((cell, i) => {
-      const rect = cell.getBoundingClientRect();
-      const distanceToLeft = Math.abs(rect.x - clientX);
-      if (distanceToLeft < bestDistance) {
-        bestDistance = distanceToLeft;
+    activeDragRef.current?.columnsClientX.forEach(({l, r}, i) => {
+      const distanceToLeft = Math.abs(l - clientX);
+      const distanceToRight = Math.abs(r - clientX);
+      if (distanceToLeft < bestDistance || distanceToRight < bestDistance) {
+        bestDistance = Math.min(distanceToLeft, distanceToRight);
         index = i;
-        after = false;
-      }
-      if (i === ths.length - 1) {
-        const distanceToRight = Math.abs(rect.x + rect.width - clientX);
-        if (distanceToRight < bestDistance) {
-          bestDistance = distanceToRight;
-          index = i;
-          after = true;
-        }
+        after = distanceToRight < distanceToLeft;
       }
     });
     return {index, after};
   }, []);
 
   const indicateInsertionPoint = useCallback(
-    (thead: HTMLTableSectionElement, insertionPoint: ReturnType<typeof getClosestInsertionPoint> | undefined) => {
+    ({thead}: HeaderElements, insertionPoint: ReturnType<typeof getClosestInsertionPoint> | undefined) => {
       thead.querySelectorAll('th')?.forEach((th, index) => {
         th.removeAttribute('data-ring-insert-before');
         th.removeAttribute('data-ring-insert-after');
@@ -195,31 +204,30 @@ export function ColumnReorderHandle<T>({
       onPointerMove?.(e);
       if (e.defaultPrevented || !activeDragRef.current) return;
 
-      const {startClientX} = activeDragRef.current;
+      const headerElements = getHeaderCellElements(e.currentTarget);
+      if (!headerElements) return;
 
       const {clientX} = e;
-      setDragOffsetX(e.currentTarget, clientX - startClientX);
+      const {startClientX} = activeDragRef.current;
+      setDragOffsetX(headerElements, clientX - startClientX);
 
-      const thead = e.currentTarget.closest('thead');
-      if (!thead) return;
-
-      const insertionPoint = getClosestInsertionPoint(thead, clientX);
-      indicateInsertionPoint(thead, insertionPoint);
+      const insertionPoint = getClosestInsertionPoint(clientX);
+      indicateInsertionPoint(headerElements, insertionPoint);
     },
-    [getClosestInsertionPoint, indicateInsertionPoint, onPointerMove, setDragOffsetX],
+    [getClosestInsertionPoint, getHeaderCellElements, indicateInsertionPoint, onPointerMove, setDragOffsetX],
   );
 
   const cleanupDrag = useCallback(
-    (currentTarget: HTMLButtonElement, thead: HTMLTableSectionElement) => {
+    (headerElements: HeaderElements) => {
       if (!activeDragRef.current) return;
 
-      currentTarget.releasePointerCapture?.(activeDragRef.current.pointerId);
+      headerElements.currentTarget.releasePointerCapture?.(activeDragRef.current.pointerId);
       activeDragRef.current = null;
 
-      setIsDragging(currentTarget, false);
-      setDragFrameHeight(currentTarget, undefined);
-      setDragOffsetX(currentTarget, undefined);
-      indicateInsertionPoint(thead, undefined);
+      setIsDragging(headerElements, false);
+      setDragFrameHeight(headerElements, undefined);
+      setDragOffsetX(headerElements, undefined);
+      indicateInsertionPoint(headerElements, undefined);
     },
     [indicateInsertionPoint, setDragFrameHeight, setDragOffsetX, setIsDragging],
   );
@@ -229,18 +237,18 @@ export function ColumnReorderHandle<T>({
       onPointerUp?.(e);
       if (e.defaultPrevented) return;
 
-      const thead = e.currentTarget.closest('thead');
-      if (!thead) return;
+      const headerElements = getHeaderCellElements(e.currentTarget);
+      if (!headerElements) return;
 
-      cleanupDrag(e.currentTarget, thead);
+      const {index, after} = getClosestInsertionPoint(e.clientX);
+      cleanupDrag(headerElements);
 
-      const {index, after} = getClosestInsertionPoint(thead, e.clientX);
-      const targetIndex = after ? index + 1 : index;
-      if (targetIndex === columnIndex || targetIndex === columnIndex + 1) return;
+      const insertionIndex = after ? index + 1 : index;
+      if (insertionIndex === columnIndex || insertionIndex === columnIndex + 1) return;
 
-      tableProps!.onColumnReorder?.(columnIndex, targetIndex, tableProps!.columns);
+      tableProps!.onColumnReorder?.(columnIndex, insertionIndex, tableProps!.columns);
     },
-    [cleanupDrag, columnIndex, getClosestInsertionPoint, onPointerUp, tableProps],
+    [cleanupDrag, columnIndex, getClosestInsertionPoint, getHeaderCellElements, onPointerUp, tableProps],
   );
 
   const handlePointerCancel = useCallback(
@@ -248,12 +256,12 @@ export function ColumnReorderHandle<T>({
       onPointerCancel?.(e);
       if (e.defaultPrevented) return;
 
-      const thead = e.currentTarget.closest('thead');
-      if (!thead) return;
+      const headerElements = getHeaderCellElements(e.currentTarget);
+      if (!headerElements) return;
 
-      cleanupDrag(e.currentTarget, thead);
+      cleanupDrag(headerElements);
     },
-    [cleanupDrag, onPointerCancel],
+    [cleanupDrag, getHeaderCellElements, onPointerCancel],
   );
 
   if (!tableProps || !column) {
