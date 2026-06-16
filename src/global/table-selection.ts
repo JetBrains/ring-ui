@@ -39,7 +39,7 @@ export default class TableSelection<T> {
         return (item as {id: string | number}).id;
       }
       // If there's no id provided on item and no getKey supplied, fail fast with a clear message
-      throw new Error('Selection: getKey is required when items have no "id" property');
+      throw new Error('TableSelection: getKey is required when items have no "id" property');
     },
     getChildren = () => [],
     isItemSelectable = () => true,

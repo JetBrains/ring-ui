@@ -222,7 +222,7 @@ export interface Column<T> {
   renderCell?: (item: T, index: number, items: T[]) => ReactNode;
 
   /**
-   * If the column gets an indent when `TableProps.getItemLevel()` returns
+   * If the column gets an indent when `DefaultItemRendererProps.level` returns
    * a positive number.
    */
   indent?: boolean;

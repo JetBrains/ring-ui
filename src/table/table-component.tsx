@@ -167,6 +167,8 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
               }
 
               const index = virtualItem.index;
+              if (index < 0 || index >= data.length) return null;
+
               const item = data[index];
               const key = getKey(item, index, data);
               return (
