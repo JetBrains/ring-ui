@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {type ComponentPropsWithRef, type Context, type PointerEvent, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
@@ -105,6 +106,7 @@ export function ColumnReorderHandle<T>({
   onPointerMove,
   onPointerUp,
   onPointerCancel,
+  onLostPointerCapture,
   ...restProps
 }: ComponentPropsWithRef<'button'>) {
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
@@ -328,11 +330,20 @@ export function ColumnReorderHandle<T>({
       if (e.defaultPrevented || !activeDragRef.current) return;
 
       const headerElements = getHeaderCellElements(e.currentTarget);
-      if (!headerElements) return;
-
-      cleanupDrag(headerElements);
+      if (headerElements) animateNoChangeThenCleanup(headerElements);
     },
-    [cleanupDrag, getHeaderCellElements, onPointerCancel],
+    [animateNoChangeThenCleanup, getHeaderCellElements, onPointerCancel],
+  );
+
+  const handleLostPointerCapture = useCallback(
+    (e: PointerEvent<HTMLButtonElement>) => {
+      onLostPointerCapture?.(e);
+      if (e.defaultPrevented || !activeDragRef.current) return;
+
+      const headerElements = getHeaderCellElements(e.currentTarget);
+      if (headerElements) animateNoChangeThenCleanup(headerElements);
+    },
+    [animateNoChangeThenCleanup, getHeaderCellElements, onLostPointerCapture],
   );
 
   if (!tableProps || !column) {
@@ -348,6 +359,7 @@ export function ColumnReorderHandle<T>({
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerCancel}
+      onLostPointerCapture={handleLostPointerCapture}
       {...restProps}
     >
       <Icon glyph={dragIcon} />

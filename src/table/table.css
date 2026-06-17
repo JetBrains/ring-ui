@@ -169,6 +169,8 @@
   content: '';
   transform: translateX(var(--ring-drag-offset-x));
 
+  pointer-events: none;
+
   border: 2px solid var(--ring-border-accent-color);
   border-radius: calc(2 * var(--ring-border-radius));
 
