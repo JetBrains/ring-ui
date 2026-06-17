@@ -130,6 +130,12 @@ export function ColumnReorderHandle<T>({
 
   type HeaderElements = NonNullable<ReturnType<typeof getHeaderCellElements>>;
 
+  const getDragState = useCallback(
+    ({th}: HeaderElements) =>
+      th.getAttribute('data-ring-drag-state') as 'is-dragging' | 'ended-with-no-change' | undefined,
+    [],
+  );
+
   const setDragState = useCallback(
     ({th}: HeaderElements, state: 'is-dragging' | 'ended-with-no-change' | undefined) => {
       if (state != null) {
@@ -206,12 +212,7 @@ export function ColumnReorderHandle<T>({
     (headerElements: HeaderElements) => {
       setDragState(headerElements, 'ended-with-no-change');
       setDragOffsetX(headerElements, 0);
-      const currentDrag = activeDragRef.current;
-      setTimeout(() => {
-        if (activeDragRef.current === currentDrag) {
-          cleanupDrag(headerElements);
-        }
-      }, stdAnimationTimeout);
+      setTimeout(() => cleanupDrag(headerElements), stdAnimationTimeout);
     },
     [cleanupDrag, setDragOffsetX, setDragState],
   );
@@ -222,7 +223,7 @@ export function ColumnReorderHandle<T>({
       if (e.defaultPrevented) return;
 
       const headerElements = getHeaderCellElements(e.currentTarget);
-      if (!headerElements) return;
+      if (!headerElements || getDragState(headerElements)) return;
 
       const {clientX, pointerId} = e;
       const columnsClientX = [...headerElements.thead.querySelectorAll('th')].map(th => {
@@ -255,6 +256,7 @@ export function ColumnReorderHandle<T>({
     },
     [
       animateNoChangeThenCleanup,
+      getDragState,
       getHeaderCellElements,
       onPointerDown,
       setDragFrameHeight,
@@ -269,7 +271,7 @@ export function ColumnReorderHandle<T>({
       if (e.defaultPrevented || !activeDragRef.current) return;
 
       const headerElements = getHeaderCellElements(e.currentTarget);
-      if (!headerElements) return;
+      if (!headerElements || getDragState(headerElements) !== 'is-dragging') return;
 
       const {clientX} = e;
       const {startClientX} = activeDragRef.current;
@@ -278,7 +280,14 @@ export function ColumnReorderHandle<T>({
       const insertionPoint = getClosestInsertionPoint(clientX);
       indicateInsertionPoint(headerElements, insertionPoint);
     },
-    [getClosestInsertionPoint, getHeaderCellElements, indicateInsertionPoint, onPointerMove, setDragOffsetX],
+    [
+      getClosestInsertionPoint,
+      getDragState,
+      getHeaderCellElements,
+      indicateInsertionPoint,
+      onPointerMove,
+      setDragOffsetX,
+    ],
   );
 
   const handlePointerUp = useCallback(
@@ -287,7 +296,7 @@ export function ColumnReorderHandle<T>({
       if (e.defaultPrevented || !activeDragRef.current) return;
 
       const headerElements = getHeaderCellElements(e.currentTarget);
-      if (!headerElements) return;
+      if (!headerElements || getDragState(headerElements) !== 'is-dragging') return;
 
       const {index, after} = getClosestInsertionPoint(e.clientX);
       const insertionIndex = after ? index + 1 : index;
@@ -306,6 +315,7 @@ export function ColumnReorderHandle<T>({
       cleanupDrag,
       columnIndex,
       getClosestInsertionPoint,
+      getDragState,
       getHeaderCellElements,
       onPointerUp,
       tableProps,
