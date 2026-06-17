@@ -7,8 +7,9 @@ import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 
 import Icon from '../icon/icon';
-import {ColumnIndexContext, longAnimationTimeout, TablePropsContext} from './table-const';
+import {ColumnIndexContext, stdAnimationTimeout, TablePropsContext} from './table-const';
 import {keyboardFocusableAttrName} from './table-row-focus';
+import {setExpectedColumnReorder} from './table-animated-column';
 
 import type {SortOrder, TableProps} from './table';
 
@@ -92,7 +93,7 @@ export function DeleteColumnButton<T>({className, onClick, ...restProps}: Compon
 /**
  * Include it in a column header to allow users to reorder the column.
  * Do not include the space between the handle and the text - the handle
- * already includes the right padding.
+ * already includes the right margin.
  *
  * Beware that `column.name ?? String(column.key)` is used in the aria-label.
  *
@@ -210,7 +211,7 @@ export function ColumnReorderHandle<T>({
         if (activeDragRef.current === currentDrag) {
           cleanupDrag(headerElements);
         }
-      }, longAnimationTimeout);
+      }, stdAnimationTimeout);
     },
     [cleanupDrag, setDragOffsetX, setDragState],
   );
@@ -296,6 +297,8 @@ export function ColumnReorderHandle<T>({
       }
 
       cleanupDrag(headerElements);
+      setExpectedColumnReorder(headerElements.table, [columnIndex, insertionIndex]);
+
       tableProps!.onColumnReorder?.(columnIndex, insertionIndex, tableProps!.columns);
     },
     [
@@ -340,6 +343,15 @@ export function ColumnReorderHandle<T>({
       <Icon glyph={dragIcon} />
     </button>
   );
+}
+
+/**
+ * Insert to the right of the column header text to reserve the space for the reorder handle
+ * and prevent layout shift when the handle appears on hover.
+ * Do not add the space between the text and the component - it already includes the left margin.
+ */
+export function ColumnReorderHandleMirror() {
+  return <span className={styles.columnReorderHandleMirror} />;
 }
 
 export interface TableRowProps {

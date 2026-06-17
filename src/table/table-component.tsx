@@ -1,4 +1,4 @@
-import {type ComponentPropsWithRef, useRef} from 'react';
+import React, {type ComponentPropsWithRef, useRef} from 'react';
 import classNames from 'classnames';
 import {mergeRefs} from 'react-merge-refs';
 
@@ -15,6 +15,7 @@ import {
   TablePropsContext,
 } from './table-const';
 import {onBlurCaptureTbody, onKeyDownTbody} from './table-row-focus';
+import {AnimatedColumnContext, useAnimatedColumn} from './table-animated-column';
 
 import type {TableProps} from './table';
 
@@ -107,6 +108,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     onSort,
     onColumnDelete,
     onColumnReorder,
+    noColumnReorderAnimation,
     renderItem,
     virtualizeRows = false,
     scrollerRef,
@@ -137,6 +139,8 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     minScrollAndResizeDeltaPx,
   });
 
+  const animatedColumn = useAnimatedColumn({disabled: noColumnReorderAnimation, tableRef: localRef, columns});
+
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
       <IntersectionObserverContext value={intersectionObserverHandle}>
@@ -147,7 +151,11 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
                 {columns.map((column, columnIndex) => (
                   <th
                     key={column.key}
-                    className={classNames(styles.headerCell, column.thClassName)}
+                    className={classNames(
+                      styles.headerCell,
+                      column.thClassName,
+                      animatedColumn?.columnIndex === columnIndex && animatedColumn.cellClassName,
+                    )}
                     aria-sort={column.sortOrder}
                   >
                     <ColumnIndexContext value={columnIndex}>
@@ -173,7 +181,9 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
               const key = getKey(item, index, data);
               return (
                 <CollapseItemIntoSpacerContext value={height => collapseItemIntoSpacer(index, height)} key={key}>
-                  {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
+                  <AnimatedColumnContext value={animatedColumn}>
+                    {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
+                  </AnimatedColumnContext>
                 </CollapseItemIntoSpacerContext>
               );
             })}

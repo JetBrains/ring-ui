@@ -8,7 +8,7 @@ import Link from '../link/link';
 import TableSelection from '../global/table-selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
-import {DeleteColumnButton, ColumnReorderHandle, SortButton} from './table-primitives';
+import {DeleteColumnButton, ColumnReorderHandle, SortButton, ColumnReorderHandleMirror} from './table-primitives';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
 import Button from '../button/button';
@@ -621,6 +621,7 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
           <>
             <ColumnReorderHandle />
             ID
+            <ColumnReorderHandleMirror />
           </>
         ),
         renderCell: ({id}) => id,
@@ -724,6 +725,7 @@ export const WithColumnReorderLong: TableStory<Issue> = {
           <>
             <ColumnReorderHandle />
             Votes
+            <ColumnReorderHandleMirror />
           </>
         ),
         renderCell: ({votes}) => votes,

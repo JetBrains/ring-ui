@@ -5,6 +5,7 @@ import {mergeRefs} from 'react-merge-refs';
 import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
 import {TableCell, TableRow} from './table-primitives';
+import {AnimatedColumnContext} from './table-animated-column';
 
 import type {TableProps} from './table';
 
@@ -76,6 +77,8 @@ export function DefaultItemRenderer<T>({
     return null;
   }
 
+  const animatedColumn = use(AnimatedColumnContext);
+
   const {data, columns} = tableProps;
 
   const item = data[index];
@@ -90,7 +93,10 @@ export function DefaultItemRenderer<T>({
       {columns.map((column, columnIndex) => (
         <TableCell
           key={column.key}
-          className={column.tdClassName?.(item, index, data)}
+          className={classNames(
+            column.tdClassName?.(item, index, data),
+            columnIndex === animatedColumn?.columnIndex && animatedColumn.cellClassName,
+          )}
           style={
             column.indent && level != null && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined
           }

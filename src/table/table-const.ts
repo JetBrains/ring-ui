@@ -11,4 +11,5 @@ export const defaultLookaheadPx = 400;
 export const defaultRetentionMarginPx = 450;
 export const defaultMinScrollAndResizeDeltaPx = 50;
 
-export const longAnimationTimeout = 300;
+export const stdAnimationTimeout = 300;
+export const longAnimationTimeout = 600;

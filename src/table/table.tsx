@@ -60,6 +60,12 @@ export interface TableProps<T> {
   onColumnReorder?: (fromIndex: number, insertionIndex: number, columns: Column<T>[]) => void;
 
   /**
+   * By default, when a column is reordered, the moved column is highlighted
+   * with a temporary background color. Set `true` to disable this animation.
+   */
+  noColumnReorderAnimation?: boolean;
+
+  /**
    * Implement to specify props like `clickable`, handlers like `onClick`,
    * a custom `className`, a `ref` etc., or to provide a custom renderer.
    *

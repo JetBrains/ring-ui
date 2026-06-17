@@ -34,7 +34,11 @@
 
   &:hover {
     border-left-color: var(--ring-line-color);
-    background-color: var(--ring-grey-container-light-color);
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    &:not(.animatedColumnInitial, .animatedColumnFadeOut) {
+      background-color: var(--ring-grey-container-light-color);
+    }
 
     &:last-child {
       border-right-color: var(--ring-line-color);
@@ -44,6 +48,18 @@
       border-left-color: var(--ring-line-color);
     }
   }
+}
+
+.animatedColumnInitial {
+  transition: none;
+
+  background-color: rgba(var(--ring-border-accent-components), 0.12);
+}
+
+.animatedColumnFadeOut {
+  transition: background-color 600ms ease-out;
+
+  background-color: transparent;
 }
 
 .spacerRow {
@@ -201,9 +217,24 @@
 }
 
 .headerCell:hover .columnReorderHandle,
- .columnReorderHandle:focus-within {
+.columnReorderHandle:focus-visible {
   width: 12px;
   margin-right: 4px;
+}
+
+.columnReorderHandleMirror {
+  display: inline-block;
+
+  width: 12px;
+  margin-left: 4px;
+
+  transition: width var(--ring-fast-ease), margin-left var(--ring-fast-ease);
+}
+
+.headerCell:hover .columnReorderHandleMirror,
+.columnReorderHandle:focus-visible ~ .columnReorderHandleMirror {
+  width: 0;
+  margin-left: 0;
 }
 
 .headerCell[data-ring-drag-state] .columnReorderHandle {
