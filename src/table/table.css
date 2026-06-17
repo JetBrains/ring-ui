@@ -154,6 +154,7 @@
   color: var(--ring-main-hover-color);
 }
 
+/* Bluish dragging frame */
 .headerCell[data-ring-drag-state]::before {
   position: absolute;
 
@@ -177,12 +178,7 @@
   background-color: rgba(var(--ring-border-accent-components), 0.06);
 }
 
-.headerCell[data-ring-drag-state='ended-with-no-change']::before {
-  transition: transform var(--ring-ease), opacity var(--ring-ease);
-
-  opacity: 0;
-}
-
+/* Insertion indicator (between columns) */
 .headerCell[data-ring-insert-before]::after,
 .headerCell[data-ring-insert-after]::after {
   position: absolute;
@@ -239,10 +235,29 @@
   margin-left: 0;
 }
 
-.headerCell[data-ring-drag-state] .columnReorderHandle {
+.headerCell[data-ring-drag-state='is-dragging'] .columnReorderHandle {
   cursor: grabbing;
 }
 
-.headerCell[data-ring-drag-state='ended-with-no-change'] .columnReorderHandle {
-  transition: width var(--ring-fast-ease), transform var(--ring-ease);
+.headerCell[data-ring-drag-state='ended-with-no-change'] {
+  &::before {
+    transition: transform var(--ring-ease), opacity var(--ring-ease);
+
+    opacity: 0;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &::after,
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:has(~ &)::after,
+  /* stylelint-disable-next-line selector-max-specificity */
+  & ~ .headerCell::after {
+    transition: opacity var(--ring-ease);
+
+    opacity: 0;
+  }
+
+  & .columnReorderHandle {
+    transition: width var(--ring-fast-ease), transform var(--ring-ease);
+  }
 }
