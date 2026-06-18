@@ -76,13 +76,9 @@
   border: 0;
 }
 
-.row {
-  border-bottom: 1px solid var(--ring-line-color);
-
-  &:focus {
-    border-radius: var(--ring-border-radius);
-    outline: 2px solid var(--ring-button-focus-border-color);
-  }
+.row:focus {
+  border-radius: var(--ring-border-radius);
+  outline: 2px solid var(--ring-button-focus-border-color);
 }
 
 .clickableRow {
@@ -101,6 +97,8 @@
 
 .cell {
   padding: var(--ring-unit);
+
+  border-bottom: 1px solid var(--ring-line-color);
 }
 
 .headerButton {

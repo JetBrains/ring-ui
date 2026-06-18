@@ -954,14 +954,32 @@ function TeamCityBuild({
           }
         }}
         onKeyDown={e => {
-          if (e.key === ' ' || e.key === 'Enter') {
-            setData(builds.with(index, {...build, expanded: !build.expanded}));
+          if (
+            document.activeElement === e.currentTarget &&
+            (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowLeft' || e.key === 'ArrowRight')
+          ) {
+            const newExpanded = e.key === 'ArrowLeft' ? false : e.key === 'ArrowRight' ? true : !build.expanded;
+            setData(builds.with(index, {...build, expanded: newExpanded}));
             e.preventDefault();
           }
         }}
       />
       {build.expanded && (
-        <TableRow ref={detailsRef} className={style.buildDetails}>
+        <TableRow
+          ref={detailsRef}
+          className={style.buildDetails}
+          keyboardFocusable
+          onKeyDown={e => {
+            if (
+              document.activeElement === e.currentTarget &&
+              (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowLeft')
+            ) {
+              setData(builds.with(index, {...build, expanded: false}));
+              focusRow(e.currentTarget.previousElementSibling! as HTMLTableRowElement);
+              e.preventDefault();
+            }
+          }}
+        >
           <TableCell colSpan={columnsNumber}>
             <Table
               className={style.teamCityBuildDetails}

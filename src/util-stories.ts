@@ -83,14 +83,14 @@ export function createRandom(seed: bigint): {
       }
 
       if (Array.isArray(a) && typeof b === 'number') {
-        const indices = Array.from({length: a.length}, (_, i) => i);
-        const result: unknown[] = [];
-        for (let _ = 0; _ < b && indices.length; _++) {
-          const i = Math.floor(nextFractional() * indices.length);
-          result.push(a[indices[i]]);
-          indices.splice(i, 1);
+        const aIndices = Array.from({length: a.length}, (_, i) => i);
+        const sample: unknown[] = [];
+        for (let i = 0; i < b && aIndices.length; i++) {
+          const indexIndex = Math.floor(nextFractional() * aIndices.length);
+          const [aIndex] = aIndices.splice(indexIndex, 1);
+          sample.push(a[aIndex]);
         }
-        return result;
+        return sample;
       }
     }
 

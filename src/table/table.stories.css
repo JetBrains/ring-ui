@@ -38,29 +38,41 @@
   }
 
   td:first-child {
-    box-sizing: border-box;
+    position: relative;
 
-    border-left: 3px solid transparent;
+    overflow: visible;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0px;
+
+      width: 4px;
+      height: calc(100% + 1px);
+
+      content: '';
+    }
   }
 }
 
-.buildDetails,
- tr:has(+ .buildDetails) {
-  & > td:first-child {
-    border-left-color: var(--ring-main-color);
-  }
+tr.buildDetails > td:first-child::before {
+  border-bottom-left-radius: var(--ring-border-radius);
+  background-color: var(--ring-main-color);
+}
+
+tr:has(+ .buildDetails) > td:first-child::before {
+  border-top-left-radius: var(--ring-border-radius);
+  background-color: var(--ring-main-color);
 }
 
 .teamCityBuildDetails {
-  & tr {
-    border: 0;
-  }
-
   & td {
     padding-top: calc(var(--ring-unit) * 0.5);
     padding-bottom: calc(var(--ring-unit) * 0.25);
 
     vertical-align: top;
+
+    border: 0;
 
     &:first-child {
       font-weight: 600;
