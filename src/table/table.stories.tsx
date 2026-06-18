@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
-import {use, useEffectEvent, useRef, useState} from 'react';
+import {use, useEffect, useEffectEvent, useRef, useState} from 'react';
 import chevronIcon from '@jetbrains/icons/chevron-12px-right';
 import classNames from 'classnames';
 import {addHours, format, formatDuration, intervalToDuration} from 'date-fns';
@@ -24,6 +24,7 @@ import {focusRow, isWithinInteractiveElement} from './table-row-focus';
 import {createRandom} from '../util-stories';
 import {CollapseItemIntoSpacerContext, defaultRowHeight} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
+import {AnimatedColumnContext} from './table-animated-column';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -812,11 +813,18 @@ export const TeamCityBuilds: TableStory<Build> = {
     const [data, setData] = useState(() => [...teamCityBuilds]);
 
     const dateShortFmt = 'dd MMM yy HH:mm';
-    const [columns] = useState<Column<Build>[]>([
+    const [columns, setColumns] = useState<Column<Build>[]>(() => [
       {
         key: 'Id',
-        renderCell: (item, index, items) => (
+        renderHeader: () => (
           <>
+            <ColumnReorderHandle />
+            Id
+            <ColumnReorderHandleMirror />
+          </>
+        ),
+        renderCell: (item, index, items) => (
+          <div>
             <Button
               inline
               onClick={() => setData(items.with(index, {...item, expanded: !item.expanded}))}
@@ -831,30 +839,69 @@ export const TeamCityBuilds: TableStory<Build> = {
             <Link href={`https://example.org/build/${item.id}`} target='_blank'>
               #{item.id}
             </Link>
+          </div>
+        ),
+      },
+      {
+        key: 'Branch',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle />
+            Branch
+            <ColumnReorderHandleMirror />
           </>
         ),
+        renderCell: ({branch}) => <div>{branch}</div>,
       },
-      {key: 'Branch', renderCell: ({branch}) => branch},
       {
         key: 'Status',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle />
+            Status
+            <ColumnReorderHandleMirror />
+          </>
+        ),
         renderCell: ({status}) => (
-          <Tag
-            tagType={
-              status === 'success'
-                ? TagType.SUCCESS
-                : status === 'failed'
-                  ? TagType.ERROR
-                  : status === 'running'
-                    ? TagType.MAIN
-                    : undefined
-            }
-          >
-            {status}
-          </Tag>
+          <div>
+            <Tag
+              tagType={
+                status === 'success'
+                  ? TagType.SUCCESS
+                  : status === 'failed'
+                    ? TagType.ERROR
+                    : status === 'running'
+                      ? TagType.MAIN
+                      : undefined
+              }
+            >
+              {status}
+            </Tag>
+          </div>
         ),
       },
-      {key: 'Agent', renderCell: ({agent}) => agent},
-      {key: 'Started', renderCell: ({started}) => (started ? format(started, dateShortFmt) : '—')},
+      {
+        key: 'Agent',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle />
+            Agent
+            <ColumnReorderHandleMirror />
+          </>
+        ),
+        renderCell: ({agent}) => <div>{agent}</div>,
+      },
+      {
+        key: 'Started',
+        renderHeader: () => (
+          <>
+            <ColumnReorderHandle />
+            Started
+            <ColumnReorderHandleMirror />
+          </>
+        ),
+        renderCell: ({started}) => <div>{started ? format(started, dateShortFmt) : '—'}</div>,
+      },
     ]);
 
     return (
@@ -866,6 +913,7 @@ export const TeamCityBuilds: TableStory<Build> = {
         renderItem={(item, index, items) => (
           <TeamCityBuild build={item} index={index} builds={items} columnsNumber={columns.length} setData={setData} />
         )}
+        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
         virtualizeRows
         estimateHeight={item => {
           let h = defaultRowHeight;
@@ -936,6 +984,27 @@ function TeamCityBuild({
       collapseIfBothNotIntersecting();
     },
   });
+
+  const animatedColumn = use(AnimatedColumnContext);
+  const [animatedColumnLeft, setAnimatedColumnLeft] = useState<number | undefined>(undefined);
+  const [animatedColumnWidth, setAnimatedColumnWidth] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (animatedColumn?.phase === 'initial') {
+      const {columnIndex} = animatedColumn;
+      const table = mainRef.current?.closest('table');
+      const th = table?.querySelector(`th:nth-child(${columnIndex + 1})`);
+      if (table && th) {
+        const tableLeft = table.getBoundingClientRect().left;
+        const thRect = th.getBoundingClientRect();
+        setAnimatedColumnLeft(thRect.left - tableLeft);
+        setAnimatedColumnWidth(thRect.width);
+      } else {
+        setAnimatedColumnLeft(undefined);
+        setAnimatedColumnWidth(undefined);
+      }
+    }
+  }, [animatedColumn]);
 
   return (
     <>
@@ -1012,6 +1081,13 @@ function TeamCityBuild({
               ]}
               getKey={([property]) => property}
               noHeader
+            />
+            <div
+              className={classNames(style.columnAnimationEmulator, animatedColumn?.cellClassName)}
+              style={{
+                left: animatedColumnLeft,
+                width: animatedColumnWidth,
+              }}
             />
           </TableCell>
         </TableRow>

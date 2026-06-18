@@ -30,7 +30,7 @@
 
   table-layout: fixed;
 
-  & tbody td {
+  & td > div {
     overflow: hidden;
 
     white-space: nowrap;
@@ -39,8 +39,6 @@
 
   td:first-child {
     position: relative;
-
-    overflow: visible;
 
     &::before {
       position: absolute;
@@ -55,18 +53,29 @@
   }
 }
 
-tr.buildDetails > td:first-child::before {
-  border-bottom-left-radius: var(--ring-border-radius);
-  background-color: var(--ring-main-color);
-}
-
 tr:has(+ .buildDetails) > td:first-child::before {
   border-top-left-radius: var(--ring-border-radius);
   background-color: var(--ring-main-color);
 }
 
+tr.buildDetails > td:first-child::before {
+  border-bottom-left-radius: var(--ring-border-radius);
+  background-color: var(--ring-main-color);
+}
+
+.columnAnimationEmulator {
+  position: absolute;
+  top: 0;
+
+  height: 100%;
+
+  pointer-events: none;
+}
+
 .teamCityBuildDetails {
   & td {
+    position: relative;
+
     padding-top: calc(var(--ring-unit) * 0.5);
     padding-bottom: calc(var(--ring-unit) * 0.25);
 
