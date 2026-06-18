@@ -905,28 +905,26 @@ function TeamCityBuild({
   const mainRef = useRef<HTMLTableRowElement>(null);
   const detailsRef = useRef<HTMLTableRowElement>(null);
 
-  const mainHeightIfVirtualized = useRef<number | null>(null);
-  const detailsHeightIfVirtualized = useRef<number | null>(null);
+  const mainIsIntersecting = useRef<boolean>(null);
+  const detailsIsIntersecting = useRef<boolean>(null);
 
   const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
-  const collapseIfBothVirtualized = useEffectEvent(() => {
-    const mainHeight = mainHeightIfVirtualized.current;
-    const detailsHeight = detailsHeightIfVirtualized.current;
-
-    if (mainHeight == null) return;
-    if (expanded && detailsHeight == null) return;
-
-    collapseItemIntoSpacer(mainHeight + (detailsHeight ?? 0));
+  const collapseIfBothNotIntersecting = useEffectEvent(() => {
+    if (mainIsIntersecting.current === false && (!expanded || detailsIsIntersecting.current === false)) {
+      const mainHeight = mainRef.current?.getBoundingClientRect().height;
+      const detailsHeight = detailsRef.current?.getBoundingClientRect().height;
+      if (mainHeight != null) {
+        collapseItemIntoSpacer(mainHeight + (detailsHeight ?? 0));
+      }
+    }
   });
 
   useIsIntersectingListener({
     enabled: true,
     ref: mainRef,
     onChange: isIntersecting => {
-      if (mainRef.current) {
-        mainHeightIfVirtualized.current = isIntersecting ? null : mainRef.current.getBoundingClientRect().height;
-        collapseIfBothVirtualized();
-      }
+      mainIsIntersecting.current = isIntersecting;
+      collapseIfBothNotIntersecting();
     },
   });
 
@@ -934,10 +932,8 @@ function TeamCityBuild({
     enabled: expanded,
     ref: detailsRef,
     onChange: isIntersecting => {
-      if (detailsRef.current) {
-        detailsHeightIfVirtualized.current = isIntersecting ? null : detailsRef.current.getBoundingClientRect().height;
-        collapseIfBothVirtualized();
-      }
+      detailsIsIntersecting.current = isIntersecting;
+      collapseIfBothNotIntersecting();
     },
   });
 
