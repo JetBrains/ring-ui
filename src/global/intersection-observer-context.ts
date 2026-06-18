@@ -85,16 +85,23 @@ export function useIsIntersecting(elementRef: RefObject<Element | null>) {
   return isIntersecting;
 }
 
-export function useIsIntersectingListener(
-  elementRef: RefObject<Element | null>,
-  onChange: (isIntersecting: boolean) => void,
-) {
+export function useIsIntersectingListener({
+  enabled,
+  ref,
+  onChange,
+}: {
+  enabled?: boolean;
+  ref: RefObject<Element | null>;
+  onChange: (isIntersecting: boolean) => void;
+}) {
   const handle = use(IntersectionObserverContext);
 
   useEffect(() => {
-    const element = elementRef.current;
+    if (!enabled) return;
+
+    const element = ref.current;
     if (!element || !handle) return;
 
     return handle.observe(element, onChange);
-  }, [handle, elementRef, onChange]);
+  }, [handle, ref, onChange, enabled]);
 }

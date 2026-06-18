@@ -228,6 +228,8 @@ export function ColumnReorderHandle<T>({
       if (!headerElements || getDragState(headerElements)) return;
 
       const {clientX, pointerId} = e;
+      e.currentTarget.setPointerCapture(pointerId);
+
       const columnsClientX = [...headerElements.thead.querySelectorAll('th')].map(th => {
         const rect = th.getBoundingClientRect();
         return {l: rect.x, r: rect.x + rect.width};
@@ -241,8 +243,6 @@ export function ColumnReorderHandle<T>({
       }
       document.addEventListener('keydown', keydownListener); // In Safari, the button is not focused
       activeDragRef.current = {startClientX: clientX, pointerId, columnsClientX, keydownListener};
-
-      e.currentTarget.setPointerCapture(pointerId);
 
       setDragState(headerElements, 'is-dragging');
       setDragOffsetX(headerElements, 0);

@@ -1,18 +1,29 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
-import {useEffectEvent, useRef, useState} from 'react';
+import {use, useEffectEvent, useRef, useState} from 'react';
 import chevronIcon from '@jetbrains/icons/chevron-12px-right';
 import classNames from 'classnames';
+import {addHours, format, formatDuration, intervalToDuration} from 'date-fns';
 
 import Table, {type Column, type SortOrder} from './table';
 import Link from '../link/link';
 import TableSelection from '../global/table-selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
-import {DeleteColumnButton, ColumnReorderHandle, SortButton, ColumnReorderHandleMirror} from './table-primitives';
+import {
+  DeleteColumnButton,
+  ColumnReorderHandle,
+  SortButton,
+  ColumnReorderHandleMirror,
+  TableRow,
+  TableCell,
+} from './table-primitives';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
 import Button from '../button/button';
-import {focusRow} from './table-row-focus';
+import {focusRow, isWithinInteractiveElement} from './table-row-focus';
+import {createRandom} from '../util-stories';
+import {CollapseItemIntoSpacerContext, defaultRowHeight} from './table-const';
+import {useIsIntersectingListener} from '../global/intersection-observer-context';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -97,7 +108,7 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
             clickable
             selected={selection.isSelected(item)}
             onClick={({target}) => {
-              if (isWithinControl(target)) return;
+              if (isWithinInteractiveElement(target)) return;
               setSelection(selection.toggleSelection(item));
             }}
           />
@@ -227,20 +238,20 @@ interface Issue {
   votes: number;
 }
 
-const issuesLongData: Issue[] = Array.from({length: 100_000}, (_, i) => {
-  const hash = Math.imul(i + 1, 2654435761) >>> 0;
+const random = createRandom(2655435721n);
 
-  const prefix = getTwoLetterPrefix(hash % 26, (hash >>> 5) % 26);
+const issuesLongData: Issue[] = Array.from({length: 100_000}, (_, i) => {
+  const prefix = issuePrefix(random);
   const id = `${prefix}-${i}`;
-  const votes = (hash >>> 10) % 1000;
-  const priority = priorities[(hash >>> 20) % priorities.length];
+  const votes = random(1000);
+  const priority = random(priorities);
   return {id, priority, votes};
 });
 
-function getTwoLetterPrefix(firstCode: number /* 1..26 */, secondCode: number /* 1..26 */) {
+function issuePrefix(r: ReturnType<typeof createRandom>) {
   const aCode = 'A'.codePointAt(0)!;
-  const firstLetter = String.fromCharCode(aCode + firstCode);
-  const secondLetter = String.fromCharCode(aCode + secondCode);
+  const firstLetter = String.fromCharCode(aCode + r(26));
+  const secondLetter = String.fromCharCode(aCode + r(26));
   return `${firstLetter}${secondLetter}`;
 }
 
@@ -379,7 +390,7 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
             keyboardFocusable
             clickable
             onClick={e => {
-              if (!isWithinControl(e.target)) {
+              if (!isWithinInteractiveElement(e.target)) {
                 focusRow(e.currentTarget);
                 e.preventDefault();
               }
@@ -396,13 +407,12 @@ interface IssueNode extends Issue {
 }
 
 const issueTreeRoot: IssueNode = (function genNode(level: number, counter: {value: number}): IssueNode {
-  const hash = Math.imul(9431 + counter.value, 2654435761) >>> 0;
   const isRoot = level === 0;
 
-  const id = isRoot ? '_root' : `${getTwoLetterPrefix(hash % 26, (hash >>> 5) % 26)}-${counter.value++}`;
-  const priority = isRoot ? 'Normal' : priorities[(hash >>> 10) % priorities.length];
-  const votes = isRoot ? -1 : (hash >>> 12) % 1000;
-  const childrenLength = isRoot ? 10 : level > 3 ? 0 : (hash >>> 23) % 4;
+  const id = isRoot ? '_root' : `${issuePrefix(random)}-${counter.value++}`;
+  const priority = isRoot ? 'Normal' : random(priorities);
+  const votes = isRoot ? -1 : random(1000);
+  const childrenLength = isRoot ? 10 : level > 3 ? 0 : random(4);
 
   return {
     id,
@@ -555,7 +565,7 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
             selected={selection.isSelected(item)}
             level={item.path.length - 1}
             onClick={e => {
-              if (isWithinControl(e.target)) return;
+              if (isWithinInteractiveElement(e.target)) return;
 
               focusRow(e.currentTarget);
 
@@ -586,14 +596,6 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
     );
   },
 };
-
-function isWithinControl(element: EventTarget) {
-  if (!(element instanceof Element)) return false;
-  if (['A', 'BUTTON', 'INPUT'].includes(element.tagName)) return true;
-  const parent = element.parentElement;
-  if (!parent) return false;
-  return isWithinControl(parent);
-}
 
 export const NoHeader: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
@@ -756,3 +758,250 @@ export const WithColumnReorderLong: TableStory<Issue> = {
 
   tags: ['!autodocs'],
 };
+
+interface Build {
+  id: number;
+  branch: string;
+  status: 'success' | 'failed' | 'running' | 'pending';
+  agent: string;
+  triggeredBy: string;
+  triggered: Date;
+  started: Date | undefined;
+  finished: Date | undefined;
+  problems: string[];
+  selected?: boolean;
+  expanded?: boolean;
+}
+
+const teamCityBuilds = Array.from({length: 500}, (_, i): Build => {
+  const id = i;
+  const branch = random([
+    'main',
+    `develop-${random(2, 10)}.0`,
+    `release-${random(2, 10)}.0`,
+    `feature/${issuePrefix(random)}-${random(10000, 20000)}`,
+  ]);
+  const status = random(['success', 'failed', 'running', 'pending'] as const);
+  const agent = `${random(['linux', 'windows', 'macos'])}-${random([4, 8, 16])}gb-agent-${random(100_000_000_000)}`;
+  const triggeredBy = `${random(['Alice', 'Bob', 'Charlie', 'Dave', 'Eve', 'Frank', 'Grace', 'Hank', 'Ivy', 'Jack'])} ${random(['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Miller', 'Davis', 'Garcia', 'Rodriguez', 'Wilson'])}`;
+  const triggered = random(new Date(2025, 3, 20), new Date(2025, 4, 1));
+  const started = status !== 'pending' ? random(triggered, addHours(triggered, 10)) : undefined;
+  const finished = started && status !== 'running' ? random(started, addHours(started, 20)) : undefined;
+  const problems =
+    status === 'failed'
+      ? random(
+          [
+            `Build process exited with code ${random(1, 100)}`,
+            `Linter found ${random(1, 20)} errors`,
+            `${random(2, 50)} tests failed`,
+            `${random(2, 10)} dependency vulnerabilities found`,
+            `Timeout while waiting for response from service: ${random(1, 10)}000 ms`,
+            `Insufficient disk space on agent ${agent}`,
+            `Failed to download ${random(2, 10)} artifacts`,
+            `Error parsing configuration file at line ${random(1, 200)}`,
+          ],
+          random(1, 6),
+        )
+      : [];
+
+  return {id, branch, status, agent, triggeredBy, triggered, started, finished, problems};
+});
+
+export const TeamCityBuilds: TableStory<Build> = {
+  render() {
+    const [data, setData] = useState(() => [...teamCityBuilds]);
+
+    const dateShortFmt = 'dd MMM yy HH:mm';
+    const [columns] = useState<Column<Build>[]>([
+      {
+        key: 'Id',
+        renderCell: (item, index, items) => (
+          <>
+            <Button
+              inline
+              onClick={() => setData(items.with(index, {...item, expanded: !item.expanded}))}
+              aria-label={`${item.expanded ? 'Collapse' : 'Expand'} ${item.id}`}
+            >
+              <Icon glyph={chevronIcon} className={classNames(style.chevron, item.expanded && style.chevronExpanded)} />
+            </Button>{' '}
+            <Checkbox
+              checked={!!item.selected}
+              onChange={e => setData(items.with(index, {...item, selected: e.target.checked}))}
+            />
+            <Link href={`https://example.org/build/${item.id}`} target='_blank'>
+              #{item.id}
+            </Link>
+          </>
+        ),
+      },
+      {key: 'Branch', renderCell: ({branch}) => branch},
+      {
+        key: 'Status',
+        renderCell: ({status}) => (
+          <Tag
+            tagType={
+              status === 'success'
+                ? TagType.SUCCESS
+                : status === 'failed'
+                  ? TagType.ERROR
+                  : status === 'running'
+                    ? TagType.MAIN
+                    : undefined
+            }
+          >
+            {status}
+          </Tag>
+        ),
+      },
+      {key: 'Agent', renderCell: ({agent}) => agent},
+      {key: 'Started', renderCell: ({started}) => (started ? format(started, dateShortFmt) : '—')},
+    ]);
+
+    return (
+      <Table
+        className={style.teamCityBuilds}
+        data={data}
+        columns={columns}
+        getKey={({id}) => id}
+        renderItem={(item, index, items) => (
+          <TeamCityBuild build={item} index={index} builds={items} columnsNumber={columns.length} setData={setData} />
+        )}
+        virtualizeRows
+        estimateHeight={item => {
+          let h = defaultRowHeight;
+          if (item.expanded) h += 147;
+          if (item.problems.length) h += 6 + item.problems.length * 20;
+          return h;
+        }}
+      />
+    );
+  },
+
+  parameters: {
+    docs: {
+      disable: true,
+    },
+  },
+
+  tags: ['!autodocs'],
+};
+
+function TeamCityBuild({
+  build,
+  build: {triggeredBy, triggered, started, finished, problems, expanded},
+  index,
+  builds,
+  columnsNumber,
+  setData,
+}: {
+  build: Build;
+  index: number;
+  builds: Build[];
+  columnsNumber: number;
+  setData: (newData: Build[]) => void;
+}) {
+  const dateLongFmt = 'dd MMM yyyy HH:mm:ss';
+
+  const mainRef = useRef<HTMLTableRowElement>(null);
+  const detailsRef = useRef<HTMLTableRowElement>(null);
+
+  const mainHeightIfVirtualized = useRef<number | null>(null);
+  const detailsHeightIfVirtualized = useRef<number | null>(null);
+
+  const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
+  const collapseIfBothVirtualized = useEffectEvent(() => {
+    const mainHeight = mainHeightIfVirtualized.current;
+    const detailsHeight = detailsHeightIfVirtualized.current;
+
+    if (mainHeight == null) return;
+    if (expanded && detailsHeight == null) return;
+
+    collapseItemIntoSpacer(mainHeight + (detailsHeight ?? 0));
+  });
+
+  useIsIntersectingListener({
+    enabled: true,
+    ref: mainRef,
+    onChange: isIntersecting => {
+      if (mainRef.current) {
+        mainHeightIfVirtualized.current = isIntersecting ? null : mainRef.current.getBoundingClientRect().height;
+        collapseIfBothVirtualized();
+      }
+    },
+  });
+
+  useIsIntersectingListener({
+    enabled: expanded,
+    ref: detailsRef,
+    onChange: isIntersecting => {
+      if (detailsRef.current) {
+        detailsHeightIfVirtualized.current = isIntersecting ? null : detailsRef.current.getBoundingClientRect().height;
+        collapseIfBothVirtualized();
+      }
+    },
+  });
+
+  return (
+    <>
+      <DefaultItemRenderer
+        ref={mainRef}
+        index={index}
+        clickable
+        keyboardFocusable
+        selected={!!build.selected}
+        noVirtualization
+        onClick={e => {
+          if (!isWithinInteractiveElement(e.target)) {
+            focusRow(e.currentTarget);
+            setData(builds.with(index, {...build, expanded: !build.expanded}));
+            e.preventDefault();
+          }
+        }}
+        onKeyDown={e => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            setData(builds.with(index, {...build, expanded: !build.expanded}));
+            e.preventDefault();
+          }
+        }}
+      />
+      {build.expanded && (
+        <TableRow ref={detailsRef} className={style.buildDetails}>
+          <TableCell colSpan={columnsNumber}>
+            <Table
+              className={style.teamCityBuildDetails}
+              data={[
+                ['Triggered by', triggeredBy],
+                ['Triggered at', triggered ? format(triggered, dateLongFmt) : '—'],
+                ['Started', started ? format(started, dateLongFmt) : '—'],
+                ['Finished', finished ? format(finished, dateLongFmt) : '—'],
+                [
+                  'Duration',
+                  started && finished ? formatDuration(intervalToDuration({start: started, end: finished})) : '—',
+                ],
+                ...(problems.length ? [['Problems', problems] as [string, string[]]] : []),
+              ]}
+              columns={[
+                {key: 'Property'},
+                {
+                  key: 'Value',
+                  renderCell: ([, value]) =>
+                    Array.isArray(value) ? (
+                      <ul>
+                        {value.map(problem => (
+                          <li key={problem}>{problem}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      value
+                    ),
+                },
+              ]}
+              getKey={([property]) => property}
+              noHeader
+            />
+          </TableCell>
+        </TableRow>
+      )}
+    </>
+  );
+}

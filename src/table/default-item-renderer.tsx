@@ -22,9 +22,6 @@ export interface DefaultItemRendererProps {
    * Focus is implemented using the
    * ["roving tabindex"](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets#technique_1_roving_tabindex)
    * technique, that is, only the focused row has `tabIndex={0}`.
-   *
-   * To focus the row on click or other user interaction, add e.g. `onClick()`
-   * and invoke `focusRow(e.currentTarget)` imported from `table-row-focus.ts`.
    */
   keyboardFocusable?: boolean;
 
@@ -45,12 +42,36 @@ export interface DefaultItemRendererProps {
    * 0, negative values, and an unset value mean no indent.
    */
   level?: number;
+
+  /**
+   * When set to `true`, doesn't observe own visibility and doesn't call
+   * `collapseItemIntoSpacer()`. Useful when you include `DefaultItemRenderer`
+   * as a part of a custom row rendered, and track the visibility yourself.
+   */
+  noVirtualization?: boolean;
 }
 
 const INDENT_SIZE = 24;
 
 /**
- * @see TableProps.renderItem
+ * Use to render a row in a standard way, and to specify item-scoped props like this:
+ *
+ * ```tsx
+ * <DefaultItemRenderer
+ *   index={index}
+ *   keyboardFocusable
+ *   clickable
+ *   onClick={e => {
+ *     if (!isWithinInteractiveElement(e.target)) {
+ *       selection.toggle(item);
+ *       focusRow(e.currentTarget);
+ *       e.preventDefault();
+ *     }
+ *   }}
+ * />
+ *```
+ *
+ * `isWithinInteractiveElement()` and `focusRow()` utilities are available from `table-row-focus.ts`.
  */
 export function DefaultItemRenderer<T>({
   index,
@@ -58,6 +79,7 @@ export function DefaultItemRenderer<T>({
   clickable,
   selected,
   level,
+  noVirtualization,
 
   ref: userRef,
   className,
@@ -66,10 +88,14 @@ export function DefaultItemRenderer<T>({
   const localRef = useRef<HTMLTableRowElement>(null);
 
   const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
-  useIsIntersectingListener(localRef, isIntersecting => {
-    if (localRef.current && !isIntersecting) {
-      collapseItemIntoSpacer(localRef.current.getBoundingClientRect().height);
-    }
+  useIsIntersectingListener({
+    enabled: !noVirtualization,
+    ref: localRef,
+    onChange: isIntersecting => {
+      if (localRef.current && !isIntersecting) {
+        collapseItemIntoSpacer(localRef.current.getBoundingClientRect().height);
+      }
+    },
   });
 
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);

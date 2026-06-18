@@ -1,3 +1,26 @@
+const interactiveSelector = [
+  'a',
+  'button',
+  'details',
+  'input',
+  'label',
+  'option',
+  'select',
+  'summary',
+  'textarea',
+  '[contenteditable]',
+  '[role="button"]',
+  '[role="checkbox"]',
+  '[role="link"]',
+  '[role="radio"]',
+  '[role="switch"]',
+  '[role="tab"]',
+].join();
+
+export function isWithinInteractiveElement(target: EventTarget | null): boolean {
+  return target instanceof Element && target.closest(interactiveSelector) != null;
+}
+
 export const keyboardFocusableAttrName = 'data-keyboard-focusable';
 const temporaryTabIndexAttrName = 'data-temporary-tabindex';
 

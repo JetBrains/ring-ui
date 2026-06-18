@@ -25,3 +25,49 @@
   transform: rotate(90deg);
 }
 
+.teamCityBuilds {
+  max-width: 100%;
+
+  table-layout: fixed;
+
+  & tbody td {
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  td:first-child {
+    box-sizing: border-box;
+
+    border-left: 3px solid transparent;
+  }
+}
+
+.buildDetails,
+ tr:has(+ .buildDetails) {
+  & > td:first-child {
+    border-left-color: var(--ring-main-color);
+  }
+}
+
+.teamCityBuildDetails {
+  & tr {
+    border: 0;
+  }
+
+  & td {
+    padding-top: calc(var(--ring-unit) * 0.5);
+    padding-bottom: calc(var(--ring-unit) * 0.25);
+
+    vertical-align: top;
+
+    &:first-child {
+      font-weight: 600;
+    }
+  }
+
+  & ul {
+    margin: 0;
+  }
+}

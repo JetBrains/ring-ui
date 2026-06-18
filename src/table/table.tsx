@@ -66,8 +66,8 @@ export interface TableProps<T> {
   noColumnReorderAnimation?: boolean;
 
   /**
-   * Implement to specify props like `clickable`, handlers like `onClick`,
-   * a custom `className`, a `ref` etc., or to provide a custom renderer.
+   * Implement to specify item-scoped props like `clickable`, handlers like `onClick`,
+   * a custom `className`, a `ref` etc. like this:
    *
    * ```tsx
    * <Table
@@ -75,12 +75,14 @@ export interface TableProps<T> {
    *     <DefaultItemRenderer
    *       index={index}
    *       className='my-row'
-   *       clickable
-   *       onClick={() => setSelection(selection.focus(item))}
    *     />
    *   )}
    * />
    * ```
+   *
+   * More examples: see `DefaultItemRenderer` in `default-item-renderer.tsx`, and the stories.
+   *
+   * You can also use `renderItem` to render custom row(s) with your own structure and styles.
    *
    * In your custom implementation, use `TableRow` and `TableCell` base components to apply the
    * standard classnames, but beware that `tdClassName` won't be applied.
