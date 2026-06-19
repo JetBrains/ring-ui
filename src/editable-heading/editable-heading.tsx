@@ -125,23 +125,15 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     inputClassName,
   );
 
-  const stretch = React.useCallback((el: HTMLElement | null | undefined) => {
-    if (!el || !el.style) {
-      return;
-    }
-
-    el.style.height = '0';
-    const {paddingTop, paddingBottom} = window.getComputedStyle(el);
-    el.style.height = `${el.scrollHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)}px`;
-  }, []);
-
   const checkValue = React.useCallback(
     (el: HTMLElement | null | undefined) => {
       if (multiline && el && el.scrollHeight >= el.clientHeight) {
-        stretch(el);
+        el.style.height = '0';
+        const {paddingTop, paddingBottom} = window.getComputedStyle(el);
+        el.style.height = `${el.scrollHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)}px`;
       }
     },
-    [multiline, stretch],
+    [multiline],
   );
 
   const checkOverflow = React.useCallback((el: HTMLInputElement | HTMLTextAreaElement) => {
