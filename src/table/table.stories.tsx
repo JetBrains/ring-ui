@@ -108,9 +108,11 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
             index={index}
             clickable
             selected={selection.isSelected(item)}
-            onClick={({target}) => {
-              if (isWithinInteractiveElement(target)) return;
-              setSelection(selection.toggleSelection(item));
+            onClick={e => {
+              if (!isWithinInteractiveElement(e.target)) {
+                setSelection(selection.toggleSelection(item));
+                e.preventDefault();
+              }
             }}
           />
         )}

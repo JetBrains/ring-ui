@@ -1,8 +1,6 @@
 @import '../global/variables.css';
 
 .table {
-  --ring-drag-frame-height: 100%;
-
   width: 100%;
 
   border-collapse: collapse;
@@ -10,8 +8,6 @@
 }
 
 .headerCell {
-  --ring-drag-offset-x: 0;
-
   position: relative;
 
   padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
@@ -152,21 +148,8 @@
   color: var(--ring-main-hover-color);
 }
 
-/* Bluish dragging frame */
-.headerCell[data-ring-drag-state]::before {
-  position: absolute;
-
-  z-index: var(--ring-fixed-z-index);
-  top: -2px;
-  left: -2px;
-
-  display: block;
-
-  width: 100%;
-  height: var(--ring-drag-frame-height);
-
-  content: '';
-  transform: translateX(var(--ring-drag-offset-x));
+.columnDragFrame {
+  position: fixed;
 
   pointer-events: none;
 
@@ -176,27 +159,12 @@
   background-color: rgba(var(--ring-border-accent-components), 0.06);
 }
 
-/* Insertion indicator (between columns) */
-.headerCell[data-ring-insert-before]::after,
-.headerCell[data-ring-insert-after]::after {
-  position: absolute;
-  top: 0;
+.columnInsertionIndicator {
+  position: fixed;
 
-  height: var(--ring-drag-frame-height);
+  width: 2px;
 
-  content: '';
-}
-
-.headerCell[data-ring-insert-before]::after {
-  left: -1px;
-
-  border-left: 2px solid var(--ring-main-color);
-}
-
-.headerCell[data-ring-insert-after]::after {
-  right: -1px;
-
-  border-right: 2px solid var(--ring-main-color);
+  background-color: var(--ring-main-color);
 }
 
 .columnReorderHandle {
@@ -206,8 +174,7 @@
 
   cursor: grab;
 
-  transition: width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
-  transform: translateX(var(--ring-drag-offset-x));
+  transition: color var(--ring-fast-ease), width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
 
   border-radius: var(--ring-border-radius);
 }
@@ -231,31 +198,4 @@
 .columnReorderHandle:focus-visible ~ .columnReorderHandleMirror {
   width: 0;
   margin-left: 0;
-}
-
-.headerCell[data-ring-drag-state='is-dragging'] .columnReorderHandle {
-  cursor: grabbing;
-}
-
-.headerCell[data-ring-drag-state='ended-with-no-change'] {
-  &::before {
-    transition: transform var(--ring-ease), opacity var(--ring-ease);
-
-    opacity: 0;
-  }
-
-  /* stylelint-disable-next-line selector-max-specificity */
-  &::after,
-  /* stylelint-disable-next-line selector-max-specificity */
-  .headerCell:has(~ &)::after,
-  /* stylelint-disable-next-line selector-max-specificity */
-  & ~ .headerCell::after {
-    transition: opacity var(--ring-ease);
-
-    opacity: 0;
-  }
-
-  & .columnReorderHandle {
-    transition: width var(--ring-fast-ease), transform var(--ring-ease);
-  }
 }
