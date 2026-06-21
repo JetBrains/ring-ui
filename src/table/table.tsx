@@ -1,6 +1,6 @@
 import Table from './table-component';
 
-import type {ReactNode, RefObject} from 'react';
+import type {AriaAttributes, ReactNode, RefObject} from 'react';
 
 export default Table;
 
@@ -196,7 +196,7 @@ export interface TableProps<T> {
   tbodyClassName?: string;
 }
 
-export type SortOrder = 'none' | 'ascending' | 'descending';
+export type SortOrder = Extract<AriaAttributes['aria-sort'], 'none' | 'ascending' | 'descending'>;
 
 /**
  * The column specification.
@@ -236,17 +236,22 @@ export interface Column<T> {
   indent?: boolean;
 
   /**
-   * The current sort order displayed by `SortButton` and indicated
-   * by `aria-sort` in `th`.
-   *
-   * - `undefined` or not set means that the column is not sortable,
-   * and it shouldn't have a `SortButton`.
-   * - `none` means that the column is sortable, but currently not sorted.
-   * It should include a `SortButton`.
-   * - `ascending` and `descending` mean that the column is sorted
-   * in the corresponding order, and it should include a `SortButton`.
+   * If set, displays sort button and includes `aria-sort` in `th`.
+   * Handle clicks with {@link TableProps.onSort}.
    */
-  sortOrder?: SortOrder;
+  sortOrder?: AriaAttributes['aria-sort'];
+
+  /**
+   * Displays a delete button in the column header.
+   * Handle clicks with {@link TableProps.onColumnDelete}.
+   */
+  deletable?: boolean;
+
+  /**
+   * Displays a reorder handle in the column header.
+   * Handle clicks with {@link TableProps.onColumnReorder}.
+   */
+  movable?: boolean;
 
   /**
    * The classname to apply to the `th` element inside `table / thead`.

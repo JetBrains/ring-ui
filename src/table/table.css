@@ -15,6 +15,7 @@
   transition: background-color var(--ring-fast-ease), border-color var(--ring-fast-ease);
 
   text-align: left;
+  text-wrap: nowrap;
 
   color: var(--ring-secondary-color);
 

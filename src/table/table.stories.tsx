@@ -4,19 +4,12 @@ import chevronIcon from '@jetbrains/icons/chevron-12px-right';
 import classNames from 'classnames';
 import {addHours, format, formatDuration, intervalToDuration} from 'date-fns';
 
-import Table, {type Column, type SortOrder} from './table';
+import Table, {type SortOrder, type Column} from './table';
 import Link from '../link/link';
 import TableSelection from '../global/table-selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
-import {
-  DeleteColumnButton,
-  ColumnReorderHandle,
-  SortButton,
-  ColumnReorderHandleMirror,
-  TableRow,
-  TableCell,
-} from './table-primitives';
+import {TableRow, TableCell} from './table-primitives';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
 import Button from '../button/button';
@@ -129,28 +122,16 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
       {
         key: 'Country',
         sortOrder: 'none',
-        renderHeader: () => (
-          <>
-            <SortButton>Country</SortButton> <DeleteColumnButton />
-          </>
-        ),
+        deletable: true,
       },
       {
         key: 'City',
         sortOrder: 'none',
-        renderHeader: () => (
-          <>
-            <SortButton>City</SortButton> <DeleteColumnButton />
-          </>
-        ),
+        deletable: true,
       },
       {
         key: 'URL',
-        renderHeader: () => (
-          <>
-            URL <DeleteColumnButton />
-          </>
-        ),
+        deletable: true,
         renderCell: ({url}) => (
           <Link href={url} target='_blank'>
             {url}
@@ -207,7 +188,7 @@ function sortByColumn<T extends {}>(
 function getColumnsWithSortOrder<T>(columns: Column<T>[], columnIndex: number, sortOrder: SortOrder) {
   return columns.map((column, i) => ({
     ...column,
-    sortOrder: i === columnIndex ? sortOrder : undefined,
+    sortOrder: i === columnIndex ? sortOrder : column.sortOrder ? 'none' : undefined,
   }));
 }
 
@@ -261,7 +242,7 @@ function issuePrefix(r: ReturnType<typeof createRandom>) {
 const issuesColumns = [
   {
     key: 'ID',
-    renderHeader: () => <SortButton>ID</SortButton>,
+    sortOrder: 'none',
     renderCell: ({id}) => (
       <Link href={`https://example.org/issue/${id}/`} target='_blank'>
         {id}
@@ -271,12 +252,12 @@ const issuesColumns = [
   },
   {
     key: 'Priority',
-    renderHeader: () => <SortButton>Priority</SortButton>,
+    sortOrder: 'none',
     renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
   },
   {
     key: 'Votes',
-    renderHeader: () => <SortButton>Votes</SortButton>,
+    sortOrder: 'none',
   },
 ] satisfies Column<Issue>[];
 
@@ -329,7 +310,7 @@ export const WithVirtualizationInScroller: TableStory<Issue> = {
   args: {
     data: [],
     columns: issuesColumns,
-    getKey: item => item.id,
+    getKey: ({id}) => id,
   },
 
   render(args) {
@@ -622,45 +603,24 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
     columns: [
       {
         key: 'ID',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            ID
-            <ColumnReorderHandleMirror />
-          </>
-        ),
+        movable: true,
         renderCell: ({id}) => id,
       },
       {
         key: 'Country',
         sortOrder: 'none',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            Country
-          </>
-        ),
+        movable: true,
         renderCell: ({country}) => country,
       },
       {
         key: 'City',
         sortOrder: 'none',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            City
-          </>
-        ),
+        movable: true,
         renderCell: ({city}) => city,
       },
       {
         key: 'URL',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            URL
-          </>
-        ),
+        movable: true,
         renderCell: ({url}) => (
           <Link href={url} target='_blank'>
             {url}
@@ -672,12 +632,16 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
   },
 
   render(args) {
+    const [data, setData] = useState(args.data);
     const [columns, setColumns] = useState(args.columns);
     return (
       <Table
-        data={args.data}
+        data={data}
         columns={columns}
         getKey={args.getKey}
+        onSort={(columnIndex, sortOrder) =>
+          sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
+        }
         onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
       />
     );
@@ -702,12 +666,7 @@ export const WithColumnReorderLong: TableStory<Issue> = {
     columns: [
       {
         key: 'ID',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            ID
-          </>
-        ),
+        movable: true,
         renderCell: ({id}) => (
           <Link href={`https://example.org/issue/${id}/`} target='_blank'>
             {id}
@@ -717,22 +676,12 @@ export const WithColumnReorderLong: TableStory<Issue> = {
       },
       {
         key: 'Priority',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle /> Priority
-          </>
-        ),
+        movable: true,
         renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
       },
       {
         key: 'Votes',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            Votes
-            <ColumnReorderHandleMirror />
-          </>
-        ),
+        movable: true,
         renderCell: ({votes}) => votes,
       },
     ] satisfies Column<Issue>[],
@@ -811,6 +760,8 @@ const teamCityBuilds = Array.from({length: 500}, (_, i): Build => {
 });
 
 export const TeamCityBuilds: TableStory<Build> = {
+  name: 'TeamCity Builds',
+
   render() {
     const [data, setData] = useState(() => [...teamCityBuilds]);
 
@@ -818,13 +769,7 @@ export const TeamCityBuilds: TableStory<Build> = {
     const [columns, setColumns] = useState<Column<Build>[]>(() => [
       {
         key: 'Id',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            Id
-            <ColumnReorderHandleMirror />
-          </>
-        ),
+        movable: true,
         renderCell: (item, index, items) => (
           <div>
             <Button
@@ -846,24 +791,12 @@ export const TeamCityBuilds: TableStory<Build> = {
       },
       {
         key: 'Branch',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            Branch
-            <ColumnReorderHandleMirror />
-          </>
-        ),
+        movable: true,
         renderCell: ({branch}) => <div>{branch}</div>,
       },
       {
         key: 'Status',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            Status
-            <ColumnReorderHandleMirror />
-          </>
-        ),
+        movable: true,
         renderCell: ({status}) => (
           <div>
             <Tag
@@ -884,24 +817,12 @@ export const TeamCityBuilds: TableStory<Build> = {
       },
       {
         key: 'Agent',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            Agent
-            <ColumnReorderHandleMirror />
-          </>
-        ),
+        movable: true,
         renderCell: ({agent}) => <div>{agent}</div>,
       },
       {
         key: 'Started',
-        renderHeader: () => (
-          <>
-            <ColumnReorderHandle />
-            Started
-            <ColumnReorderHandleMirror />
-          </>
-        ),
+        movable: true,
         renderCell: ({started}) => <div>{started ? format(started, dateShortFmt) : '—'}</div>,
       },
     ]);

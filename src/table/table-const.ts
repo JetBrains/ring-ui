@@ -3,7 +3,6 @@ import {createContext} from 'react';
 import type {TableProps} from './table';
 
 export const TablePropsContext = createContext<TableProps<unknown> | null>(null);
-export const ColumnIndexContext = createContext<number>(-1);
 export const CollapseItemIntoSpacerContext = createContext<(height: number) => void>(() => {});
 
 export const defaultRowHeight = 37;

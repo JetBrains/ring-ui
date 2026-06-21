@@ -120,8 +120,8 @@ export function DefaultItemRenderer<T>({
         <TableCell
           key={column.key}
           className={classNames(
-            column.tdClassName?.(item, index, data),
             columnIndex === animatedColumn?.columnIndex && animatedColumn.cellClassName,
+            column.tdClassName?.(item, index, data),
           )}
           style={
             column.indent && level != null && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined

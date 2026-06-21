@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+/* eslint-disable no-nested-ternary, max-lines */
 import {type ComponentPropsWithRef, type Context, type PointerEvent, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
@@ -9,11 +9,11 @@ import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import {mergeRefs} from 'react-merge-refs';
 
 import Icon from '../icon/icon';
-import {ColumnIndexContext, stdAnimationTimeout, TablePropsContext} from './table-const';
+import {stdAnimationTimeout, TablePropsContext} from './table-const';
 import {keyboardFocusableAttrName} from './table-row-focus';
 import {setExpectedColumnReorder} from './table-animated-column';
 
-import type {SortOrder, TableProps} from './table';
+import type {TableProps} from './table';
 
 import styles from './table.css';
 
@@ -21,23 +21,31 @@ import styles from './table.css';
  * Include it in a column header to make the column sortable.
  * Handle clicks with {@link TableProps.onSort}.
  */
-export function SortButton<T>({className, children, onClick, ...restProps}: ComponentPropsWithRef<'button'>) {
+export function SortButton<T>({
+  columnIndex,
+  className,
+  children,
+  onClick,
+  ...restProps
+}: {columnIndex: number} & ComponentPropsWithRef<'button'>) {
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
-  const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
 
-  const sortOrder = column?.sortOrder ?? 'none';
-  // eslint-disable-next-line no-nested-ternary, prettier/prettier
-  const glyph = sortOrder === 'none' ? unsortedIcon
-    : sortOrder === 'ascending' ? arrowUpIcon
-    : arrowDownIcon;
+  const sortOrder = column?.sortOrder;
+  const glyph =
+    sortOrder === 'none'
+      ? unsortedIcon
+      : sortOrder === 'ascending'
+        ? arrowUpIcon
+        : sortOrder === 'descending'
+          ? arrowDownIcon
+          : undefined;
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(e);
       if (!e.defaultPrevented) {
-        const sequence = ['none', 'ascending', 'descending'] satisfies SortOrder[];
-        const nextOrder = sequence[(sequence.indexOf(sortOrder) + 1) % sequence.length];
+        const nextOrder = sortOrder === 'ascending' ? 'descending' : sortOrder === 'descending' ? 'none' : 'ascending';
         tableProps!.onSort?.(columnIndex, nextOrder, tableProps!.columns);
       }
     },
@@ -60,9 +68,13 @@ export function SortButton<T>({className, children, onClick, ...restProps}: Comp
  * Beware that `column.name ?? String(column.key)` is used in the aria-label.
  * Handle clicks with {@link TableProps.onColumnDelete}.
  */
-export function DeleteColumnButton<T>({className, onClick, ...restProps}: ComponentPropsWithRef<'button'>) {
+export function DeleteColumnButton<T>({
+  columnIndex,
+  className,
+  onClick,
+  ...restProps
+}: {columnIndex: number} & ComponentPropsWithRef<'button'>) {
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
-  const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
 
   const handleClick = useCallback(
@@ -102,6 +114,7 @@ export function DeleteColumnButton<T>({className, onClick, ...restProps}: Compon
  * Handle reorder requests with {@link TableProps.onColumnReorder}.
  */
 export function ColumnReorderHandle<T>({
+  columnIndex,
   ref: userRef,
   className,
   onPointerDown,
@@ -110,9 +123,8 @@ export function ColumnReorderHandle<T>({
   onPointerCancel,
   onLostPointerCapture,
   ...restProps
-}: ComponentPropsWithRef<'button'>) {
+}: {columnIndex: number} & ComponentPropsWithRef<'button'>) {
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
-  const columnIndex = use(ColumnIndexContext);
   const column = tableProps?.columns[columnIndex];
 
   const localRef = useRef<HTMLButtonElement>(null);
@@ -217,6 +229,8 @@ export function ColumnReorderHandle<T>({
   const animateNoChangeThenCleanup = useCallback(() => {
     if (activeDragRef.current?.state === 'is-dragging') {
       activeDragRef.current.state = 'ended-with-no-change';
+      activeDragRef.current.cleanup();
+      activeDragRef.current.cleanup = () => {};
 
       const dragFrame = getDragFrame();
       if (dragFrame) {

@@ -1,4 +1,4 @@
-import React, {type ComponentPropsWithRef, useRef} from 'react';
+import React, {type ComponentPropsWithRef, type Context, use, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {mergeRefs} from 'react-merge-refs';
 
@@ -7,7 +7,6 @@ import {SpacerRow, useTableVirtualize} from './table-virtualize';
 import {DefaultItemRenderer} from './default-item-renderer';
 import {
   CollapseItemIntoSpacerContext,
-  ColumnIndexContext,
   defaultLookaheadPx,
   defaultMinScrollAndResizeDeltaPx,
   defaultRetentionMarginPx,
@@ -15,7 +14,8 @@ import {
   TablePropsContext,
 } from './table-const';
 import {onBlurCaptureTbody, onKeyDownTbody} from './table-row-focus';
-import {AnimatedColumnContext, useAnimatedColumn} from './table-animated-column';
+import {type AnimatedColumn, AnimatedColumnContext, useAnimatedColumn} from './table-animated-column';
+import {ColumnReorderHandle, ColumnReorderHandleMirror, DeleteColumnButton, SortButton} from './table-primitives';
 
 import type {TableProps} from './table';
 
@@ -139,7 +139,14 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     minScrollAndResizeDeltaPx,
   });
 
-  const animatedColumn = useAnimatedColumn({disabled: noColumnReorderAnimation, tableRef: localRef, columns});
+  const [animatedColumn, setAnimatedColumn] = useState<AnimatedColumn | null>(null);
+  useAnimatedColumn({
+    animatedColumn,
+    setAnimatedColumn,
+    disabled: noColumnReorderAnimation,
+    tableRef: localRef,
+    columns,
+  });
 
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
@@ -149,19 +156,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
             <thead className={theadClassName}>
               <tr className={theadTrClassName}>
                 {columns.map((column, columnIndex) => (
-                  <th
-                    key={column.key}
-                    className={classNames(
-                      styles.headerCell,
-                      column.thClassName,
-                      animatedColumn?.columnIndex === columnIndex && animatedColumn.cellClassName,
-                    )}
-                    aria-sort={column.sortOrder}
-                  >
-                    <ColumnIndexContext value={columnIndex}>
-                      {column.renderHeader?.() ?? column.name ?? String(column.key)}
-                    </ColumnIndexContext>
-                  </th>
+                  <TableHeaderCell key={column.key} columnIndex={columnIndex} animatedColumn={animatedColumn} />
                 ))}
               </tr>
             </thead>
@@ -191,5 +186,34 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
         </table>
       </IntersectionObserverContext>
     </TablePropsContext>
+  );
+}
+
+function TableHeaderCell<T>({
+  columnIndex,
+  animatedColumn,
+}: {
+  columnIndex: number;
+  animatedColumn?: AnimatedColumn | null;
+}) {
+  const {columns} = use(TablePropsContext as Context<TableProps<T>>);
+  const {key, name, renderHeader, sortOrder, deletable, movable, thClassName} = columns[columnIndex];
+
+  const children = renderHeader ? renderHeader() : (name ?? String(key));
+
+  return (
+    <th
+      className={classNames(
+        styles.headerCell,
+        animatedColumn?.columnIndex === columnIndex && animatedColumn.cellClassName,
+        thClassName,
+      )}
+      aria-sort={sortOrder}
+    >
+      {movable && <ColumnReorderHandle columnIndex={columnIndex} />}
+      {sortOrder ? <SortButton columnIndex={columnIndex}>{children}</SortButton> : children}
+      {movable && <ColumnReorderHandleMirror />}
+      {deletable && <DeleteColumnButton columnIndex={columnIndex} />}
+    </th>
   );
 }

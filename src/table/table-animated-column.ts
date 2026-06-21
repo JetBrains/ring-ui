@@ -1,4 +1,4 @@
-import {createContext, type RefObject, useEffect, useState} from 'react';
+import {createContext, type RefObject, useEffect} from 'react';
 
 import {longAnimationTimeout} from './table-const';
 
@@ -28,23 +28,25 @@ function getExpectedColumnReorder(table: HTMLTableElement): [number, number] | n
   return attrVal ? JSON.parse(attrVal) : null;
 }
 
-interface AnimatedColumn {
+export interface AnimatedColumn {
   columnIndex: number;
   phase: 'initial' | 'fade-out';
   cellClassName: string;
 }
 
 export function useAnimatedColumn<T>({
+  animatedColumn,
+  setAnimatedColumn,
   disabled,
   tableRef,
   columns,
 }: {
+  animatedColumn: AnimatedColumn | null;
+  setAnimatedColumn: (animatedColumn: AnimatedColumn | null) => void;
   disabled: boolean | undefined;
   tableRef: RefObject<HTMLTableElement | null>;
   columns: Column<T>[];
 }) {
-  const [animatedColumn, setAnimatedColumn] = useState<AnimatedColumn | null>(null);
-
   useEffect(() => {
     if (disabled || !tableRef.current) return;
 
@@ -74,7 +76,7 @@ export function useAnimatedColumn<T>({
       if (rafId != null) cancelAnimationFrame(rafId);
       if (timeoutId != null) clearTimeout(timeoutId);
     };
-  }, [columns, disabled, tableRef]);
+  }, [columns, disabled, setAnimatedColumn, tableRef]);
 
   return animatedColumn;
 }
