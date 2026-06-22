@@ -116,20 +116,22 @@ export function DefaultItemRenderer<T>({
       className={classNames(className, clickable && styles.clickableRow, selected && styles.selectedRow)}
       {...restProps}
     >
-      {columns.map((column, columnIndex) => (
-        <TableCell
-          key={column.key}
-          className={classNames(
-            columnIndex === animatedColumn?.columnIndex && animatedColumn.cellClassName,
-            column.tdClassName?.(item, index, data),
-          )}
-          style={
-            column.indent && level != null && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined
-          }
-        >
-          {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex)}
-        </TableCell>
-      ))}
+      {columns.map((column, columnIndex) => {
+        const {key, tdClassName, indent} = column;
+
+        return (
+          <TableCell
+            key={key}
+            className={classNames(
+              columnIndex === animatedColumn?.columnIndex && animatedColumn.cellClassName,
+              typeof tdClassName === 'function' ? tdClassName(item, index, data) : tdClassName,
+            )}
+            style={indent && level != null && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined}
+          >
+            {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex)}
+          </TableCell>
+        );
+      })}
     </TableRow>
   );
 }

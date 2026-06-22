@@ -1,4 +1,4 @@
-import React, {type ComponentPropsWithRef, type Context, use, useRef, useState} from 'react';
+import React, {type ComponentPropsWithRef, type Context, use, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {mergeRefs} from 'react-merge-refs';
 
@@ -13,9 +13,15 @@ import {
   defaultRowHeight,
   TablePropsContext,
 } from './table-const';
-import {onBlurCaptureTbody, onKeyDownTbody} from './table-row-focus';
+import {isWithinInteractiveElement, onBlurCaptureTbody, onKeyDownTbody} from './table-row-focus';
 import {type AnimatedColumn, AnimatedColumnContext, useAnimatedColumn} from './table-animated-column';
-import {ColumnReorderHandle, ColumnReorderHandleMirror, DeleteColumnButton, SortButton} from './table-primitives';
+import {
+  ColumnReorderHandle,
+  ColumnReorderHandleMirror,
+  DeleteColumnButton,
+  EditColumnsButton,
+  SortButton,
+} from './table-primitives';
 
 import type {TableProps} from './table';
 
@@ -150,56 +156,84 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
 
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
-      <IntersectionObserverContext value={intersectionObserverHandle}>
+      <AnimatedColumnContext value={animatedColumn}>
         <table className={classNames(styles.table, className)} ref={mergeRefs([userRef, localRef])} {...restProps}>
-          {!noHeader && (
-            <thead className={theadClassName}>
-              <tr className={theadTrClassName}>
-                {columns.map((column, columnIndex) => (
-                  <TableHeaderCell key={column.key} columnIndex={columnIndex} animatedColumn={animatedColumn} />
-                ))}
-              </tr>
-            </thead>
-          )}
+          <TableHeader />
+          <IntersectionObserverContext value={intersectionObserverHandle}>
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+            <tbody className={tbodyClassName} onKeyDown={onKeyDownTbody} onBlurCapture={onBlurCaptureTbody}>
+              {virtualItems.map(virtualItem => {
+                if (virtualItem.type === 'spacer') {
+                  return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                }
 
-          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-          <tbody className={tbodyClassName} onKeyDown={onKeyDownTbody} onBlurCapture={onBlurCaptureTbody}>
-            {virtualItems.map(virtualItem => {
-              if (virtualItem.type === 'spacer') {
-                return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
-              }
+                const index = virtualItem.index;
+                if (index < 0 || index >= data.length) return null;
 
-              const index = virtualItem.index;
-              if (index < 0 || index >= data.length) return null;
-
-              const item = data[index];
-              const key = getKey(item, index, data);
-              return (
-                <CollapseItemIntoSpacerContext value={height => collapseItemIntoSpacer(index, height)} key={key}>
-                  <AnimatedColumnContext value={animatedColumn}>
+                const item = data[index];
+                const key = getKey(item, index, data);
+                return (
+                  <CollapseItemIntoSpacerContext value={height => collapseItemIntoSpacer(index, height)} key={key}>
                     {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
-                  </AnimatedColumnContext>
-                </CollapseItemIntoSpacerContext>
-              );
-            })}
-          </tbody>
+                  </CollapseItemIntoSpacerContext>
+                );
+              })}
+            </tbody>
+          </IntersectionObserverContext>
         </table>
-      </IntersectionObserverContext>
+      </AnimatedColumnContext>
     </TablePropsContext>
+  );
+}
+
+function TableHeader<T>() {
+  const {columns, noHeader, theadClassName, theadTrClassName} = use(TablePropsContext as Context<TableProps<T>>);
+  const [editColumns, setEditColumns] = useState(false);
+
+  const handleHeaderClick = useCallback(
+    (e: React.MouseEvent<HTMLTableSectionElement>) => {
+      if (!isWithinInteractiveElement(e.target)) {
+        setEditColumns(!editColumns);
+      }
+    },
+    [editColumns],
+  );
+
+  if (noHeader) return null;
+
+  return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
+    <thead className={classNames(theadClassName, editColumns && styles.editedThead)} onClick={handleHeaderClick}>
+      <tr className={theadTrClassName}>
+        {columns.map((column, columnIndex) => (
+          <TableHeaderCell
+            key={column.key}
+            columnIndex={columnIndex}
+            editColumns={editColumns}
+            setEditColumns={setEditColumns}
+          />
+        ))}
+      </tr>
+    </thead>
   );
 }
 
 function TableHeaderCell<T>({
   columnIndex,
-  animatedColumn,
+  editColumns,
+  setEditColumns,
 }: {
   columnIndex: number;
-  animatedColumn?: AnimatedColumn | null;
+  editColumns: boolean;
+  setEditColumns: (val: boolean) => void;
 }) {
-  const {columns} = use(TablePropsContext as Context<TableProps<T>>);
+  const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
   const {key, name, renderHeader, sortOrder, deletable, movable, thClassName} = columns[columnIndex];
 
+  const animatedColumn = use(AnimatedColumnContext);
   const children = renderHeader ? renderHeader() : (name ?? String(key));
+
+  const toggleEditColumns = useCallback(() => setEditColumns(!editColumns), [setEditColumns, editColumns]);
 
   return (
     <th
@@ -210,10 +244,23 @@ function TableHeaderCell<T>({
       )}
       aria-sort={sortOrder}
     >
-      {movable && <ColumnReorderHandle columnIndex={columnIndex} />}
-      {sortOrder ? <SortButton columnIndex={columnIndex}>{children}</SortButton> : children}
-      {movable && <ColumnReorderHandleMirror />}
-      {deletable && <DeleteColumnButton columnIndex={columnIndex} />}
+      <div className={styles.headerCellInnerWrapper}>
+        <div>
+          {movable && <ColumnReorderHandle columnIndex={columnIndex} />}
+          {sortOrder ? <SortButton columnIndex={columnIndex}>{children}</SortButton> : children}
+          {movable && <ColumnReorderHandleMirror />}
+        </div>
+
+        <div>
+          {deletable && <DeleteColumnButton columnIndex={columnIndex} />}
+          {columnIndex === columns.length - 1 && columnEditButton && (
+            <EditColumnsButton
+              className={columnEditButton === 'mobileOnly' ? styles.mobileOnly : undefined}
+              onClick={toggleEditColumns}
+            />
+          )}
+        </div>
+      </div>
     </th>
   );
 }

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
 import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
 import dragIcon from '@jetbrains/icons/drag-12px';
+import settingsIcon from '@jetbrains/icons/settings-12px';
 import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 import {mergeRefs} from 'react-merge-refs';
@@ -17,10 +18,6 @@ import type {TableProps} from './table';
 
 import styles from './table.css';
 
-/**
- * Include it in a column header to make the column sortable.
- * Handle clicks with {@link TableProps.onSort}.
- */
 export function SortButton<T>({
   columnIndex,
   className,
@@ -63,11 +60,6 @@ export function SortButton<T>({
   );
 }
 
-/**
- * Include it in a column header to make the column deletable.
- * Beware that `column.name ?? String(column.key)` is used in the aria-label.
- * Handle clicks with {@link TableProps.onColumnDelete}.
- */
 export function DeleteColumnButton<T>({
   columnIndex,
   className,
@@ -104,15 +96,20 @@ export function DeleteColumnButton<T>({
   );
 }
 
-/**
- * Include it in a column header to allow users to reorder the column.
- * Do not include the space between the handle and the text - the handle
- * already includes the right margin.
- *
- * Beware that `column.name ?? String(column.key)` is used in the aria-label.
- *
- * Handle reorder requests with {@link TableProps.onColumnReorder}.
- */
+export function EditColumnsButton(props: ComponentPropsWithRef<'button'>) {
+  const {className, ...restProps} = props;
+  return (
+    <button
+      type='button'
+      className={classNames(styles.headerButton, styles.editColumnsButton, className)}
+      aria-label={`Show columns controls`}
+      {...restProps}
+    >
+      <Icon glyph={settingsIcon} />
+    </button>
+  );
+}
+
 export function ColumnReorderHandle<T>({
   columnIndex,
   ref: userRef,
@@ -393,9 +390,7 @@ export function ColumnReorderHandle<T>({
 }
 
 /**
- * Insert to the right of the column header text to reserve the space for the reorder handle
- * and prevent layout shift when the handle appears on hover.
- * Do not add the space between the text and the component - it already includes the left margin.
+ * Reserves the space for the reorder handle and prevents layout shift when the handle appears on hover.
  */
 export function ColumnReorderHandleMirror() {
   return <span className={styles.columnReorderHandleMirror} />;

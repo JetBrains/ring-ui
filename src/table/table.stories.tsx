@@ -41,6 +41,14 @@ type TableStory<T> = StoryObj<typeof Table<T>>;
 
 const smallDataSlice = countriesData.slice(10, 16);
 
+function PlaceLink({href}: {href: string}) {
+  return (
+    <Link href={href} target='_blank'>
+      {href}
+    </Link>
+  );
+}
+
 export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
@@ -50,11 +58,8 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
       {key: 'City', renderCell: ({city}) => city},
       {
         key: 'URL',
-        renderCell: ({url}) => (
-          <Link href={url} target='_blank'>
-            {url}
-          </Link>
-        ),
+        renderCell: ({url}) => <PlaceLink href={url} />,
+        tdClassName: style.tdUrl,
       },
     ],
     getKey: item => item.id,
@@ -114,29 +119,32 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
   },
 };
 
-export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
+export const WithAllControls: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
     columns: [
-      {key: 'ID'},
+      {
+        key: 'ID',
+        movable: true,
+      },
       {
         key: 'Country',
         sortOrder: 'none',
         deletable: true,
+        movable: true,
       },
       {
         key: 'City',
         sortOrder: 'none',
         deletable: true,
+        movable: true,
       },
       {
         key: 'URL',
         deletable: true,
-        renderCell: ({url}) => (
-          <Link href={url} target='_blank'>
-            {url}
-          </Link>
-        ),
+        renderCell: ({url}) => <PlaceLink href={url} />,
+        movable: true,
+        tdClassName: style.tdUrl,
       },
     ],
     getKey: item => item.id,
@@ -159,6 +167,8 @@ export const WithSortAndDelete: TableStory<(typeof smallDataSlice)[number]> = {
           sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
         onColumnDelete={handleColumnDelete}
+        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        columnEditButton='everywhere'
       />
     );
   },
@@ -249,6 +259,7 @@ const issuesColumns = [
       </Link>
     ),
     indent: true,
+    tdClassName: style.tdWithChevron,
   },
   {
     key: 'Priority',
@@ -352,11 +363,8 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
       {key: 'City'},
       {
         key: 'URL',
-        renderCell: ({url}) => (
-          <Link href={url} target='_blank'>
-            {url}
-          </Link>
-        ),
+        renderCell: ({url}) => <PlaceLink href={url} />,
+        tdClassName: style.tdUrl,
       },
     ],
     getKey: item => item.id,
@@ -621,11 +629,8 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
       {
         key: 'URL',
         movable: true,
-        renderCell: ({url}) => (
-          <Link href={url} target='_blank'>
-            {url}
-          </Link>
-        ),
+        renderCell: ({url}) => <PlaceLink href={url} />,
+        tdClassName: style.tdUrl,
       },
     ],
     getKey: item => item.id,
@@ -844,6 +849,7 @@ export const TeamCityBuilds: TableStory<Build> = {
           if (item.problems.length) h += 6 + item.problems.length * 20;
           return h;
         }}
+        columnEditButton='everywhere'
       />
     );
   },

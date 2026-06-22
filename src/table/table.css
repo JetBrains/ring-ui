@@ -8,14 +8,9 @@
 }
 
 .headerCell {
-  position: relative;
-
   padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
 
   transition: background-color var(--ring-fast-ease), border-color var(--ring-fast-ease);
-
-  text-align: left;
-  text-wrap: nowrap;
 
   color: var(--ring-secondary-color);
 
@@ -45,6 +40,137 @@
       border-left-color: var(--ring-line-color);
     }
   }
+
+}
+
+.headerCellInnerWrapper {
+  display: flex;
+  justify-content: start;
+
+  & > div:first-child {
+    flex-grow: 1;
+
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  & > div:nth-child(2) > button {
+    margin-left: 4px;
+  }
+}
+
+.headerButton {
+  margin: unset;
+  padding: unset;
+
+  cursor: pointer;
+
+  transition: color var(--ring-fast-ease);
+  text-align: unset;
+
+  color: unset;
+  border: unset;
+  background: unset;
+
+  font: unset;
+
+  &:hover {
+    color: var(--ring-main-hover-color);
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid var(--ring-button-focus-border-color);
+  }
+
+  &:focus-within {
+    color: var(--ring-main-hover-color);
+  }
+}
+
+.deleteColumnButton {
+  pointer-events: none;
+
+  color: transparent;
+
+  .editedThead &,
+  .headerCell:hover &,
+  &:focus {
+    pointer-events: unset;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  .editedThead &:not(:focus),
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:hover &:not(:focus) {
+    color: unset;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:hover &:hover:not(:focus),
+  &:focus {
+    color: var(--ring-main-hover-color);
+  }
+}
+
+.columnReorderHandle {
+  overflow: hidden;
+
+  width: 0;
+
+  cursor: grab;
+
+  transition: color var(--ring-fast-ease), width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
+
+  border-radius: var(--ring-border-radius);
+}
+
+.editedThead .columnReorderHandle,
+.headerCell:hover .columnReorderHandle,
+.columnReorderHandle:focus-visible {
+  width: 12px;
+  margin-right: 4px;
+}
+
+.columnReorderHandleMirror {
+  display: inline-block;
+
+  width: 12px;
+  margin-left: 4px;
+
+  transition: width var(--ring-fast-ease), margin-left var(--ring-fast-ease);
+}
+
+.editedThead .columnReorderHandleMirror,
+.headerCell:hover .columnReorderHandleMirror,
+.columnReorderHandle:focus-visible ~ .columnReorderHandleMirror {
+  width: 0;
+  margin-left: 0;
+}
+
+.editColumnsButton.mobileOnly {
+  @media only screen and (hover: hover) and (pointer: fine) {
+    display: none;
+  }
+}
+
+.columnDragFrame {
+  position: fixed;
+
+  pointer-events: none;
+
+  border: 2px solid var(--ring-border-accent-color);
+  border-radius: calc(2 * var(--ring-border-radius));
+
+  background-color: rgba(var(--ring-border-accent-components), 0.06);
+}
+
+.columnInsertionIndicator {
+  position: fixed;
+
+  width: 2px;
+
+  background-color: var(--ring-main-color);
 }
 
 .animatedColumnInitial {
@@ -96,107 +222,4 @@
   padding: var(--ring-unit);
 
   border-bottom: 1px solid var(--ring-line-color);
-}
-
-.headerButton {
-  margin: unset;
-  padding: unset;
-
-  cursor: pointer;
-
-  transition: color var(--ring-fast-ease);
-  text-align: unset;
-
-  color: unset;
-  border: unset;
-  background: unset;
-
-  font: unset;
-
-  &:hover {
-    color: var(--ring-main-hover-color);
-  }
-
-  &:focus-visible {
-    border-radius: 2px;
-    outline: 2px solid var(--ring-button-focus-border-color);
-  }
-}
-
-.deleteColumnButton {
-  float: right;
-
-  pointer-events: none;
-
-  color: transparent;
-
-}
-
-.headerCell:hover .deleteColumnButton {
-  pointer-events: all;
-
-  color: unset;
-
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:hover {
-    color: var(--ring-main-hover-color);
-  }
-}
-
-.deleteColumnButton:focus-within {
-  pointer-events: all;
-
-  color: var(--ring-main-hover-color);
-}
-
-.columnDragFrame {
-  position: fixed;
-
-  pointer-events: none;
-
-  border: 2px solid var(--ring-border-accent-color);
-  border-radius: calc(2 * var(--ring-border-radius));
-
-  background-color: rgba(var(--ring-border-accent-components), 0.06);
-}
-
-.columnInsertionIndicator {
-  position: fixed;
-
-  width: 2px;
-
-  background-color: var(--ring-main-color);
-}
-
-.columnReorderHandle {
-  overflow: hidden;
-
-  width: 0;
-
-  cursor: grab;
-
-  transition: color var(--ring-fast-ease), width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
-
-  border-radius: var(--ring-border-radius);
-}
-
-.headerCell:hover .columnReorderHandle,
-.columnReorderHandle:focus-visible {
-  width: 12px;
-  margin-right: 4px;
-}
-
-.columnReorderHandleMirror {
-  display: inline-block;
-
-  width: 12px;
-  margin-left: 4px;
-
-  transition: width var(--ring-fast-ease), margin-left var(--ring-fast-ease);
-}
-
-.headerCell:hover .columnReorderHandleMirror,
-.columnReorderHandle:focus-visible ~ .columnReorderHandleMirror {
-  width: 0;
-  margin-left: 0;
 }

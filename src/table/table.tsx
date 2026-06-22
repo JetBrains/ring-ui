@@ -263,5 +263,5 @@ export interface Column<T> {
    * If a custom `TableProps.renderItem` is provided, this prop is not used,
    * unless the custom renderer falls back to `DefaultItemRenderer`.
    */
-  tdClassName?: (item: T, index: number, items: T[]) => string | undefined;
+  tdClassName?: string | ((item: T, index: number, items: T[]) => string | undefined);
 }
