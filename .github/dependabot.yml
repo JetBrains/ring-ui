@@ -57,3 +57,4 @@ updates:
         - "@storybook/*"
         - "storybook"
         - "eslint-plugin-storybook"
+        - "@jetbrains/icons"
