@@ -123,6 +123,7 @@
   transition: color var(--ring-fast-ease), width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
 
   border-radius: var(--ring-border-radius);
+  touch-action: none;
 }
 
 .editedThead .columnReorderHandle,
@@ -148,9 +149,19 @@
   margin-left: 0;
 }
 
-.editColumnsButton.mobileOnly {
-  @media only screen and (hover: hover) and (pointer: fine) {
-    display: none;
+.editColumnsButton {
+  &.mobileOnly {
+    @media only screen and (hover: hover) and (pointer: fine) {
+      display: none;
+    }
+  }
+
+  & svg {
+    transition: transform var(--ring-fast-ease);
+  }
+
+  .editedThead & svg {
+    transform: rotate(90deg);
   }
 }
 

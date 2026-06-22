@@ -83,12 +83,15 @@ export function DeleteColumnButton<T>({
     return null;
   }
 
+  const hint = `Delete column ${column.name ?? String(column.key)}`;
+
   return (
     <button
       type='button'
       className={classNames(styles.headerButton, styles.deleteColumnButton, className)}
       onClick={handleClick}
-      aria-label={`Delete column ${column.name ?? String(column.key)}`}
+      aria-label={hint}
+      title={hint}
       {...restProps}
     >
       <Icon glyph={trashIcon} />
@@ -98,11 +101,13 @@ export function DeleteColumnButton<T>({
 
 export function EditColumnsButton(props: ComponentPropsWithRef<'button'>) {
   const {className, ...restProps} = props;
+  const hint = 'Show columns controls';
   return (
     <button
       type='button'
       className={classNames(styles.headerButton, styles.editColumnsButton, className)}
-      aria-label={`Show columns controls`}
+      aria-label={hint}
+      title={hint}
       {...restProps}
     >
       <Icon glyph={settingsIcon} />
@@ -302,6 +307,8 @@ export function ColumnReorderHandle<T>({
       };
 
       renderDragFrame(startClientX);
+
+      e.preventDefault();
     },
     [animateNoChangeThenCleanup, columnIndex, onPointerDown, renderDragFrame],
   );
@@ -371,12 +378,15 @@ export function ColumnReorderHandle<T>({
     return null;
   }
 
+  const hint = `Reorder column ${column.name ?? String(column.key)}`;
+
   return (
     <button
       ref={mergeRefs([localRef, userRef])}
       type='button'
       className={classNames(styles.headerButton, styles.columnReorderHandle, className)}
-      aria-label={`Reorder column ${column.name ?? String(column.key)}`}
+      aria-label={hint}
+      title={hint}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}

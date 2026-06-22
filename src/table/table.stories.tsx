@@ -119,7 +119,7 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
   },
 };
 
-export const WithAllControls: TableStory<(typeof smallDataSlice)[number]> = {
+export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
     columns: [

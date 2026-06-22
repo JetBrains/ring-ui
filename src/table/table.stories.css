@@ -1,7 +1,7 @@
 .tdUrl {
   overflow: hidden;
 
-  max-width: 150px;
+  max-width: 100px;
 
   white-space: nowrap;
   text-overflow: ellipsis;
