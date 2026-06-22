@@ -15,6 +15,7 @@ updates:
       patterns:
       - "@storybook/*"
       - "storybook"
+      - "eslint-plugin-storybook"
     react:
       patterns:
       - "react"
@@ -30,6 +31,8 @@ updates:
         - "lint-staged"
         - "prettier"
         - "stylelint*"
+      exclude-patterns:
+        - "eslint-plugin-storybook"
     test-suites:
       patterns:
         - "jest*"
@@ -50,3 +53,7 @@ updates:
       update-types:
         - "patch"
         - "minor"
+      exclude-patterns:
+        - "@storybook/*"
+        - "storybook"
+        - "eslint-plugin-storybook"
