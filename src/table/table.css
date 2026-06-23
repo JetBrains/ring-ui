@@ -150,12 +150,6 @@
 }
 
 .editColumnsButton {
-  &.mobileOnly {
-    @media only screen and (hover: hover) and (pointer: fine) {
-      display: none;
-    }
-  }
-
   & svg {
     transition: transform var(--ring-fast-ease);
   }

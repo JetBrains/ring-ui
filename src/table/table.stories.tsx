@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
 import {use, useEffect, useEffectEvent, useRef, useState} from 'react';
 import chevronIcon from '@jetbrains/icons/chevron-12px-right';
+import starEmptyIcon from '@jetbrains/icons/star-empty-20px';
+import starFilledIcon from '@jetbrains/icons/star-filled-20px';
 import classNames from 'classnames';
 import {addHours, format, formatDuration, intervalToDuration} from 'date-fns';
 
@@ -125,25 +127,25 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
     columns: [
       {
         key: 'ID',
-        movable: true,
+        canReorder: true,
       },
       {
         key: 'Country',
         sortOrder: 'none',
         deletable: true,
-        movable: true,
+        canReorder: true,
       },
       {
         key: 'City',
         sortOrder: 'none',
         deletable: true,
-        movable: true,
+        canReorder: true,
       },
       {
         key: 'URL',
         deletable: true,
         renderCell: ({url}) => <PlaceLink href={url} />,
-        movable: true,
+        canReorder: true,
         tdClassName: style.tdUrl,
       },
     ],
@@ -153,6 +155,7 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
   render(args) {
     const [data, setData] = useState(args.data);
     const [columns, setColumns] = useState(args.columns);
+    const [columnEditing, setColumnEditing] = useState(false);
 
     function handleColumnDelete(columnIndex: number) {
       setColumns(columns.filter((_, i) => i !== columnIndex));
@@ -168,7 +171,9 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
         }
         onColumnDelete={handleColumnDelete}
         onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
-        columnEditButton='everywhere'
+        columnEditing={columnEditing}
+        onColumnEditingChange={setColumnEditing}
+        columnEditButton
       />
     );
   },
@@ -611,24 +616,24 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
     columns: [
       {
         key: 'ID',
-        movable: true,
+        canReorder: true,
         renderCell: ({id}) => id,
       },
       {
         key: 'Country',
         sortOrder: 'none',
-        movable: true,
+        canReorder: true,
         renderCell: ({country}) => country,
       },
       {
         key: 'City',
         sortOrder: 'none',
-        movable: true,
+        canReorder: true,
         renderCell: ({city}) => city,
       },
       {
         key: 'URL',
-        movable: true,
+        canReorder: true,
         renderCell: ({url}) => <PlaceLink href={url} />,
         tdClassName: style.tdUrl,
       },
@@ -671,7 +676,7 @@ export const WithColumnReorderLong: TableStory<Issue> = {
     columns: [
       {
         key: 'ID',
-        movable: true,
+        canReorder: true,
         renderCell: ({id}) => (
           <Link href={`https://example.org/issue/${id}/`} target='_blank'>
             {id}
@@ -681,12 +686,12 @@ export const WithColumnReorderLong: TableStory<Issue> = {
       },
       {
         key: 'Priority',
-        movable: true,
+        canReorder: true,
         renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
       },
       {
         key: 'Votes',
-        movable: true,
+        canReorder: true,
         renderCell: ({votes}) => votes,
       },
     ] satisfies Column<Issue>[],
@@ -728,6 +733,7 @@ interface Build {
   problems: string[];
   selected?: boolean;
   expanded?: boolean;
+  favorite?: boolean;
 }
 
 const teamCityBuilds = Array.from({length: 500}, (_, i): Build => {
@@ -769,12 +775,13 @@ export const TeamCityBuilds: TableStory<Build> = {
 
   render() {
     const [data, setData] = useState(() => [...teamCityBuilds]);
+    const [columnEditing, setColumnEditing] = useState(false);
 
     const dateShortFmt = 'dd MMM yy HH:mm';
     const [columns, setColumns] = useState<Column<Build>[]>(() => [
       {
-        key: 'Id',
-        movable: true,
+        key: 'Chevron',
+        renderHeader: () => <span role='presentation' />,
         renderCell: (item, index, items) => (
           <div>
             <Button
@@ -783,25 +790,55 @@ export const TeamCityBuilds: TableStory<Build> = {
               aria-label={`${item.expanded ? 'Collapse' : 'Expand'} ${item.id}`}
             >
               <Icon glyph={chevronIcon} className={classNames(style.chevron, item.expanded && style.chevronExpanded)} />
-            </Button>{' '}
+            </Button>
+          </div>
+        ),
+        thClassName: style.chevronTd,
+        tdClassName: style.chevronTd,
+      },
+      {
+        key: 'Checkbox',
+        renderHeader: () => <span role='presentation' />,
+        renderCell: (item, index, items) => (
+          <div>
             <Checkbox
               checked={!!item.selected}
               onChange={e => setData(items.with(index, {...item, selected: e.target.checked}))}
             />
-            <Link href={`https://example.org/build/${item.id}`} target='_blank'>
-              #{item.id}
+            <Button
+              inline
+              onClick={() => setData(items.with(index, {...item, favorite: !item.favorite}))}
+              aria-label={`${item.favorite ? 'Unmark as favorite' : 'Mark as favorite'} ${item.id}`}
+              className={style.starIcon}
+            >
+              <Icon glyph={item.favorite ? starFilledIcon : starEmptyIcon} />
+            </Button>
+          </div>
+        ),
+        thClassName: style.checkboxTd,
+        tdClassName: style.checkboxTd,
+      },
+      {
+        key: 'Id',
+        canReorder: i => i > 1,
+        renderCell: ({id}) => (
+          <div>
+            <Link href={`https://example.org/build/${id}`} target='_blank'>
+              #{id}
             </Link>
           </div>
         ),
       },
       {
         key: 'Branch',
-        movable: true,
+        canReorder: i => i > 1,
+        deletable: true,
         renderCell: ({branch}) => <div>{branch}</div>,
       },
       {
         key: 'Status',
-        movable: true,
+        canReorder: i => i > 1,
+        deletable: true,
         renderCell: ({status}) => (
           <div>
             <Tag
@@ -822,35 +859,50 @@ export const TeamCityBuilds: TableStory<Build> = {
       },
       {
         key: 'Agent',
-        movable: true,
+        canReorder: i => i > 1,
+        deletable: true,
         renderCell: ({agent}) => <div>{agent}</div>,
       },
       {
         key: 'Started',
-        movable: true,
+        canReorder: i => i > 1,
+        deletable: true,
         renderCell: ({started}) => <div>{started ? format(started, dateShortFmt) : '—'}</div>,
       },
     ]);
 
     return (
-      <Table
-        className={style.teamCityBuilds}
-        data={data}
-        columns={columns}
-        getKey={({id}) => id}
-        renderItem={(item, index, items) => (
-          <TeamCityBuild build={item} index={index} builds={items} columnsNumber={columns.length} setData={setData} />
-        )}
-        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
-        virtualizeRows
-        estimateHeight={item => {
-          let h = defaultRowHeight;
-          if (item.expanded) h += 147;
-          if (item.problems.length) h += 6 + item.problems.length * 20;
-          return h;
-        }}
-        columnEditButton='everywhere'
-      />
+      <>
+        <div className={style.tcColumnEditingCheckboxWr}>
+          <Checkbox
+            checked={columnEditing}
+            onChange={e => setColumnEditing(e.target.checked)}
+            label='Column editing mode'
+          />
+        </div>
+        <Table
+          className={style.teamCityBuilds}
+          data={data}
+          columns={columns}
+          getKey={({id}) => id}
+          renderItem={(item, index, items) => (
+            <TeamCityBuild build={item} index={index} builds={items} columnsNumber={columns.length} setData={setData} />
+          )}
+          onColumnReorder={(fromIndex, insertionIndex) =>
+            reorderColumns(columns, fromIndex, insertionIndex, setColumns)
+          }
+          onColumnDelete={columnIndex => setColumns(columns.filter((_, i) => i !== columnIndex))}
+          virtualizeRows
+          estimateHeight={item => {
+            let h = defaultRowHeight;
+            if (item.expanded) h += 147;
+            if (item.problems.length) h += 6 + item.problems.length * 20;
+            return h;
+          }}
+          columnEditing={columnEditing}
+          onColumnEditingChange={setColumnEditing}
+        />
+      </>
     );
   },
 
@@ -944,6 +996,7 @@ function TeamCityBuild({
         keyboardFocusable
         selected={!!build.selected}
         noVirtualization
+        className={style.teamCityBuild}
         onClick={e => {
           if (!isWithinInteractiveElement(e.target)) {
             focusRow(e.currentTarget);
@@ -978,7 +1031,8 @@ function TeamCityBuild({
             }
           }}
         >
-          <TableCell colSpan={columnsNumber}>
+          <TableCell className={style.chevronTd} />
+          <TableCell colSpan={columnsNumber - 1}>
             <Table
               className={style.teamCityBuildDetails}
               data={[
@@ -1014,7 +1068,7 @@ function TeamCityBuild({
             <div
               className={classNames(style.columnAnimationEmulator, animatedColumn?.cellClassName)}
               style={{
-                left: animatedColumnLeft,
+                left: animatedColumnLeft != null ? animatedColumnLeft - 30 : undefined,
                 width: animatedColumnWidth,
               }}
             />

@@ -128,6 +128,7 @@ export function ColumnReorderHandle<T>({
 }: {columnIndex: number} & ComponentPropsWithRef<'button'>) {
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
   const column = tableProps?.columns[columnIndex];
+  const canReorder = column?.canReorder;
 
   const localRef = useRef<HTMLButtonElement>(null);
 
@@ -172,21 +173,26 @@ export function ColumnReorderHandle<T>({
     localRef.current.style.setProperty('transform', `translateX(${clientX - startClientX}px)`);
   }, []);
 
-  const getClosestInsertionPoint = useCallback((clientX: number) => {
-    let bestDistance = Infinity;
-    let index = -1;
-    let after = false;
-    activeDragRef.current?.columnsClientX.forEach(({l, r}, i) => {
-      const distanceToLeft = Math.abs(l - clientX);
-      const distanceToRight = Math.abs(r - clientX);
-      if (distanceToLeft < bestDistance || distanceToRight < bestDistance) {
-        bestDistance = Math.min(distanceToLeft, distanceToRight);
-        index = i;
-        after = distanceToRight < distanceToLeft;
-      }
-    });
-    return {index, after};
-  }, []);
+  const getClosestInsertionPoint = useCallback(
+    (clientX: number) => {
+      let bestDistance = Infinity;
+      let index = -1;
+      let after = false;
+      activeDragRef.current?.columnsClientX.forEach(({l, r}, i) => {
+        if (typeof canReorder === 'function' && !canReorder(i, tableProps!.columns)) return;
+
+        const distanceToLeft = Math.abs(l - clientX);
+        const distanceToRight = Math.abs(r - clientX);
+        if (distanceToLeft < bestDistance || distanceToRight < bestDistance) {
+          bestDistance = Math.min(distanceToLeft, distanceToRight);
+          index = i;
+          after = distanceToRight < distanceToLeft;
+        }
+      });
+      return {index, after};
+    },
+    [canReorder, tableProps],
+  );
 
   const getInsertionIndicator = useCallback(() => {
     return document.body.querySelector(`.${styles.columnInsertionIndicator}`) as HTMLDivElement | null;

@@ -176,9 +176,25 @@ export interface TableProps<T> {
   minScrollAndResizeDeltaPx?: number;
 
   /**
-   * Whether to show a small gear button at the top right corner.
+   * Whether column editing mode is enabled.
+   *
+   * When enabled, controls that are normally hidden become visible,
+   * such as column reorder and delete buttons.
    */
-  columnEditButton?: 'everywhere' | 'mobileOnly';
+  columnEditing?: boolean;
+
+  /**
+   * Called when the user requests to enter or leave column editing mode,
+   * for example by tapping the table header on mobile or clicking the
+   * column edit button, if enabled.
+   */
+  onColumnEditingChange?: (editing: boolean) => void;
+
+  /**
+   * Whether to show a small gear button in the top-right corner that
+   * toggles column editing mode.
+   */
+  columnEditButton?: boolean;
 
   /**
    * Applied to the `<thead>` element.
@@ -242,16 +258,18 @@ export interface Column<T> {
   sortOrder?: AriaAttributes['aria-sort'];
 
   /**
-   * Displays a delete button in the column header.
-   * Handle clicks with {@link TableProps.onColumnDelete}.
+   * Whether to display a delete button in the column header.
+   * Handle delete requests with {@link TableProps.onColumnDelete}.
    */
   deletable?: boolean;
 
   /**
    * Displays a reorder handle in the column header.
-   * Handle clicks with {@link TableProps.onColumnReorder}.
+   * Handle reorder requests with {@link TableProps.onColumnReorder}.
+   * If a function is provided, it determines whether the column may be moved
+   * to the specified insertion position.
    */
-  movable?: boolean;
+  canReorder?: boolean | ((insertionIndex: number, columns: Column<T>[]) => boolean);
 
   /**
    * The classname to apply to the `th` element inside `table / thead`.

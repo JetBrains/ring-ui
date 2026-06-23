@@ -27,11 +27,15 @@
 }
 
 .chevron {
-  transition: transform 0.2s;
+  transition: transform var(--ring-fast-ease);
 }
 
 .chevronExpanded {
   transform: rotate(90deg);
+}
+
+.tcColumnEditingCheckboxWr {
+  padding-left: 45px;
 }
 
 .teamCityBuilds {
@@ -46,7 +50,7 @@
     text-overflow: ellipsis;
   }
 
-  td:first-child {
+  td:nth-child(2) {
     position: relative;
 
     &::before {
@@ -62,14 +66,84 @@
   }
 }
 
-tr:has(+ .buildDetails) > td:first-child::before {
-  border-top-left-radius: var(--ring-border-radius);
-  background-color: var(--ring-main-color);
+.chevronTd {
+  th& {
+    /* No on-hover bg+borders change */
+
+    pointer-events: none;
+  }
+
+  width: 12px;
+
+  transition: opacity var(--ring-fast-ease);
+
+  opacity: 0;
+
+  border-bottom-color: transparent;
+
+  .teamCityBuild:hover &,
+ .teamCityBuild:focus-within & {
+    opacity: 1;
+  }
 }
 
-tr.buildDetails > td:first-child::before {
-  border-bottom-left-radius: var(--ring-border-radius);
-  background-color: var(--ring-main-color);
+.checkboxTd {
+  th& {
+    pointer-events: none;
+  }
+
+  width: 48px;
+}
+
+.starIcon {
+  margin-left: 4px;
+
+  transform: translateY(1px);
+
+  color: var(--ring-icon-color);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.teamCityBuild:has(+ .buildDetails) > td:not(:first-child) {
+  border-bottom-color: rgba(var(--ring-line-components), 0.5);
+}
+
+.teamCityBuild,
+ .buildDetails {
+  /* stylelint-disable-next-line selector-max-specificity */
+  & > td:nth-child(2)::before {
+    border-top-left-radius: var(--ring-border-radius);
+    border-bottom-left-radius: var(--ring-border-radius);
+  }
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.teamCityBuild:focus + .buildDetails,
+ .teamCityBuild:has(+ .buildDetails:focus) {
+  /* stylelint-disable-next-line selector-max-specificity */
+  & > td:nth-child(2)::before {
+    background-color: rgba(var(--ring-main-components), 0.3);
+  }
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.teamCityBuild:has(+ .buildDetails) > td:nth-child(2)::before {
+  border-bottom-left-radius: 0;
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.teamCityBuild + .buildDetails > td:nth-child(2)::before {
+  border-top-left-radius: 0;
+}
+
+.teamCityBuild:focus,
+ .buildDetails:focus {
+  outline: none;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & > td:nth-child(2)::before {
+    background-color: var(--ring-main-color);
+  }
 }
 
 .columnAnimationEmulator {
