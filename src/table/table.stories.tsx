@@ -781,7 +781,7 @@ export const TeamCityBuilds: TableStory<Build> = {
     const [columns, setColumns] = useState<Column<Build>[]>(() => [
       {
         key: 'Chevron',
-        renderHeader: () => <span role='presentation' />,
+        renderHeader: () => <span className={style.srOnly}>Expand/Collapse</span>,
         renderCell: (item, index, items) => (
           <div>
             <Button
@@ -793,12 +793,12 @@ export const TeamCityBuilds: TableStory<Build> = {
             </Button>
           </div>
         ),
-        thClassName: style.chevronTd,
+        thClassName: style.chevronTh,
         tdClassName: style.chevronTd,
       },
       {
         key: 'Checkbox',
-        renderHeader: () => <span role='presentation' />,
+        renderHeader: () => <span className={style.srOnly}>Select</span>,
         renderCell: (item, index, items) => (
           <div>
             <Checkbox
@@ -815,8 +815,7 @@ export const TeamCityBuilds: TableStory<Build> = {
             </Button>
           </div>
         ),
-        thClassName: style.checkboxTd,
-        tdClassName: style.checkboxTd,
+        thClassName: style.checkboxTh,
       },
       {
         key: 'Id',
@@ -828,6 +827,7 @@ export const TeamCityBuilds: TableStory<Build> = {
             </Link>
           </div>
         ),
+        thClassName: style.idTh,
       },
       {
         key: 'Branch',
@@ -996,7 +996,7 @@ function TeamCityBuild({
         keyboardFocusable
         selected={!!build.selected}
         noVirtualization
-        className={style.teamCityBuild}
+        className={style.build}
         onClick={e => {
           if (!isWithinInteractiveElement(e.target)) {
             focusRow(e.currentTarget);
@@ -1018,7 +1018,7 @@ function TeamCityBuild({
       {build.expanded && (
         <TableRow
           ref={detailsRef}
-          className={style.buildDetails}
+          className={style.details}
           keyboardFocusable
           onKeyDown={e => {
             if (
@@ -1031,7 +1031,9 @@ function TeamCityBuild({
             }
           }}
         >
-          <TableCell className={style.chevronTd} />
+          <TableCell>
+            <div className={style.chevronPlaceholder} />
+          </TableCell>
           <TableCell colSpan={columnsNumber - 1}>
             <Table
               className={style.teamCityBuildDetails}
@@ -1068,7 +1070,7 @@ function TeamCityBuild({
             <div
               className={classNames(style.columnAnimationEmulator, animatedColumn?.cellClassName)}
               style={{
-                left: animatedColumnLeft != null ? animatedColumnLeft - 30 : undefined,
+                left: animatedColumnLeft != null ? animatedColumnLeft : undefined,
                 width: animatedColumnWidth,
               }}
             />
