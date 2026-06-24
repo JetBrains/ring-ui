@@ -1,10 +1,11 @@
-import {createContext, type RefObject, useEffect} from 'react';
+import {type RefObject, useEffect} from 'react';
 
-import {longAnimationTimeout} from './table-const';
+import {parseCssDuration} from '../../global/parse-css-duration';
 
-import type {Column} from './table';
+import type {Column} from '../table-props';
+import type {AnimatedColumn} from '../table-const';
 
-import styles from './table.css';
+import styles from '../table.css';
 
 const expectColumnReorderAttrName = 'data-ring-expect-column-reorder';
 const expectColumnReorderInterval = 1000;
@@ -26,12 +27,6 @@ export function setExpectedColumnReorder(
 function getExpectedColumnReorder(table: HTMLTableElement): [number, number] | null {
   const attrVal = table.getAttribute(expectColumnReorderAttrName);
   return attrVal ? JSON.parse(attrVal) : null;
-}
-
-export interface AnimatedColumn {
-  columnIndex: number;
-  phase: 'initial' | 'fade-out';
-  cellClassName: string;
 }
 
 export function useAnimatedColumn<T>({
@@ -65,10 +60,14 @@ export function useAnimatedColumn<T>({
       rafId = requestAnimationFrame(() => {
         setAnimatedColumn({columnIndex, phase: 'fade-out', cellClassName: styles.animatedColumnFadeOut});
         rafId = undefined;
+
+        const fadeOutMs = parseCssDuration(
+          window.getComputedStyle(tableRef.current!).getPropertyValue('--animated-column-fade-out-duration'),
+        );
         timeoutId = window.setTimeout(() => {
           setAnimatedColumn(null);
           timeoutId = undefined;
-        }, longAnimationTimeout);
+        }, fadeOutMs);
       });
     });
 
@@ -80,5 +79,3 @@ export function useAnimatedColumn<T>({
 
   return animatedColumn;
 }
-
-export const AnimatedColumnContext = createContext<AnimatedColumn | null>(null);

@@ -1,26 +1,26 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
-import {use, useEffect, useEffectEvent, useRef, useState} from 'react';
+import {use, useEffect, useEffectEvent, useMemo, useRef, useState} from 'react';
 import chevronIcon from '@jetbrains/icons/chevron-12px-right';
 import starEmptyIcon from '@jetbrains/icons/star-empty-20px';
 import starFilledIcon from '@jetbrains/icons/star-filled-20px';
 import classNames from 'classnames';
 import {addHours, format, formatDuration, intervalToDuration} from 'date-fns';
 
-import Table, {type SortOrder, type Column} from './table';
+import Table from './table';
 import Link from '../link/link';
 import TableSelection from '../global/table-selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
-import {TableRow, TableCell} from './table-primitives';
-import {DefaultItemRenderer} from './default-item-renderer';
+import {DefaultItemRenderer, TableRow, TableCell} from './default-item-renderer';
 import Icon from '../icon/icon';
 import Button from '../button/button';
-import {focusRow, isWithinInteractiveElement} from './table-row-focus';
+import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {createRandom} from '../util-stories';
-import {CollapseItemIntoSpacerContext, defaultRowHeight} from './table-const';
+import {AnimatedColumnContext, CollapseItemIntoSpacerContext, defaultRowHeight} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
-import {AnimatedColumnContext} from './table-animated-column';
+import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 
+import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import countriesData from '../legacy-table/table.stories.json' with {type: 'json'};
@@ -69,34 +69,36 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
 
   render(args) {
     const [selection, setSelection] = useState(() => new TableSelection({data: args.data}));
-    const allSelected = args.data.every(item => selection.isSelected(item));
 
-    const [idColumn, ...restColumns] = args.columns;
-    const columns = [
-      {
-        ...idColumn,
+    const columns = useMemo(() => {
+      const [idColumn, ...restColumns] = args.columns;
+      const allSelected = args.data.every(item => selection.isSelected(item));
+      return [
+        {
+          ...idColumn,
 
-        renderHeader: () => (
-          <Checkbox
-            indeterminate={selection.getSelected().size > 0 && !allSelected}
-            checked={allSelected}
-            onChange={e => setSelection(e.target.checked ? selection.selectAll() : selection.resetSelection())}
-            label='ID'
-          />
-        ),
+          renderHeader: () => (
+            <Checkbox
+              indeterminate={selection.getSelected().size > 0 && !allSelected}
+              checked={allSelected}
+              onChange={e => setSelection(e.target.checked ? selection.selectAll() : selection.resetSelection())}
+              label='ID'
+            />
+          ),
 
-        thClassName: style.thWithCheckbox,
+          thClassName: style.thWithCheckbox,
 
-        renderCell: item => (
-          <Checkbox
-            checked={selection.isSelected(item)}
-            onChange={e => setSelection(e.target.checked ? selection.select(item) : selection.deselect(item))}
-            label={String(item.id)}
-          />
-        ),
-      },
-      ...restColumns,
-    ] satisfies typeof args.columns;
+          renderCell: item => (
+            <Checkbox
+              checked={selection.isSelected(item)}
+              onChange={e => setSelection(e.target.checked ? selection.select(item) : selection.deselect(item))}
+              label={String(item.id)}
+            />
+          ),
+        },
+        ...restColumns,
+      ] satisfies typeof args.columns;
+    }, [args, selection]);
 
     return (
       <Table
@@ -385,7 +387,7 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
             clickable
             onClick={e => {
               if (!isWithinInteractiveElement(e.target)) {
-                focusRow(e.currentTarget);
+                focusWithTemporaryTabIndex(e.currentTarget);
                 e.preventDefault();
               }
             }}
@@ -561,7 +563,7 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
             onClick={e => {
               if (isWithinInteractiveElement(e.target)) return;
 
-              focusRow(e.currentTarget);
+              focusWithTemporaryTabIndex(e.currentTarget);
 
               handleExpand(item, i, 'toggle');
               setSelection(selection.focus(item));
@@ -996,7 +998,7 @@ function TeamCityBuild({
         className={style.build}
         onClick={e => {
           if (!isWithinInteractiveElement(e.target)) {
-            focusRow(e.currentTarget);
+            focusWithTemporaryTabIndex(e.currentTarget);
             setData(builds.with(index, {...build, expanded: !build.expanded}));
             e.preventDefault();
           }
@@ -1023,7 +1025,7 @@ function TeamCityBuild({
               (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowLeft')
             ) {
               setData(builds.with(index, {...build, expanded: false}));
-              focusRow(e.currentTarget.previousElementSibling! as HTMLTableRowElement);
+              focusWithTemporaryTabIndex(e.currentTarget.previousElementSibling! as HTMLTableRowElement);
               e.preventDefault();
             }
           }}

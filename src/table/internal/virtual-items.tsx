@@ -1,8 +1,8 @@
 import {type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-import {useIntersectionObserverHandle} from '../global/intersection-observer-context';
+import {useIntersectionObserverHandle} from '../../global/intersection-observer-context';
 
-import styles from './table.css';
+import styles from '../table.css';
 
 /**
  * true = item is rendered

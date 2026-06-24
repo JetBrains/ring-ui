@@ -1,6 +1,8 @@
 @import '../global/variables.css';
 
 .table {
+  --animated-column-fade-out-duration: 600ms;
+
   width: 100%;
 
   border-collapse: collapse;
@@ -185,7 +187,7 @@
 }
 
 .animatedColumnFadeOut {
-  transition: background-color 600ms ease-out;
+  transition: background-color var(--animated-column-fade-out-duration) ease-out;
 
   background-color: transparent;
 }

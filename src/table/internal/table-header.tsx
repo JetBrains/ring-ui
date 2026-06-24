@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary, max-lines */
-import {type ComponentPropsWithRef, type Context, type PointerEvent, use, useCallback, useRef} from 'react';
+import {type ComponentPropsWithRef, type Context, use, useCallback, useRef, useState, type PointerEvent} from 'react';
 import classNames from 'classnames';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
 import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
@@ -8,17 +8,114 @@ import settingsIcon from '@jetbrains/icons/settings-12px';
 import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 
-import Icon from '../icon/icon';
-import {stdAnimationTimeout, TablePropsContext} from './table-const';
-import {keyboardFocusableAttrName} from './table-row-focus';
-import {setExpectedColumnReorder} from './table-animated-column';
-import {useComposedRef} from '../global/compose-refs';
+import {type TableProps} from '../table-props';
+import {AnimatedColumnContext, TablePropsContext} from '../table-const';
+import {setExpectedColumnReorder} from './animated-column';
+import Icon from '../../icon';
+import {useComposedRef} from '../../global/compose-refs';
+import {isWithinInteractiveElement} from '../../global/is-within-interactive-element';
+import {parseCssDuration} from '../../global/parse-css-duration';
 
-import type {TableProps} from './table';
+import styles from '../table.css';
 
-import styles from './table.css';
+export function TableHeader<T>() {
+  const {columns, noHeader, columnEditing, onColumnEditingRequest, theadClassName, theadTrClassName} = use(
+    TablePropsContext as Context<TableProps<T>>,
+  );
 
-export function SortButton<T>({
+  const [localColumnEditing, setLocalColumnEditing] = useState(false);
+  const effectiveColumnEditing = columnEditing ?? localColumnEditing;
+
+  const toggleColumnEditing = useCallback(
+    (source: 'header' | 'edit-button') => {
+      let newColumnEditing: boolean;
+      if (columnEditing == null) {
+        newColumnEditing = !localColumnEditing;
+        setLocalColumnEditing(newColumnEditing);
+      } else {
+        newColumnEditing = !columnEditing;
+      }
+
+      onColumnEditingRequest?.(newColumnEditing, source);
+    },
+    [columnEditing, localColumnEditing, onColumnEditingRequest],
+  );
+
+  const handleTheadClick = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      if (window.matchMedia('(hover: none)').matches && !isWithinInteractiveElement(e.target)) {
+        toggleColumnEditing('header');
+      }
+    },
+    [toggleColumnEditing],
+  );
+
+  const handleEditColumnsButtonClick = useCallback(() => {
+    toggleColumnEditing('edit-button');
+  }, [toggleColumnEditing]);
+
+  if (noHeader) return null;
+
+  return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
+    <thead
+      className={classNames(theadClassName, effectiveColumnEditing && styles.theadColumnEditing)}
+      onClick={handleTheadClick}
+    >
+      <tr className={theadTrClassName}>
+        {columns.map((column, columnIndex) => (
+          <TableHeaderCell
+            key={column.key}
+            columnIndex={columnIndex}
+            handleEditColumnsButtonClick={handleEditColumnsButtonClick}
+          />
+        ))}
+      </tr>
+    </thead>
+  );
+}
+
+function TableHeaderCell<T>({
+  columnIndex,
+  handleEditColumnsButtonClick,
+}: {
+  columnIndex: number;
+  handleEditColumnsButtonClick: () => void;
+}) {
+  const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
+  const {key, name, renderHeader, sortOrder, deletable, canReorder, thClassName} = columns[columnIndex];
+
+  const animatedColumn = use(AnimatedColumnContext);
+  const children = renderHeader ? renderHeader() : (name ?? String(key));
+
+  return (
+    <th
+      className={classNames(
+        styles.headerCell,
+        animatedColumn?.columnIndex === columnIndex && animatedColumn.cellClassName,
+        thClassName,
+      )}
+      aria-sort={sortOrder}
+    >
+      <div className={styles.headerCellInnerWrapper}>
+        <div>
+          {canReorder && <ColumnReorderHandle columnIndex={columnIndex} />}
+          {sortOrder ? <SortButton columnIndex={columnIndex}>{children}</SortButton> : children}
+          {canReorder && <ColumnReorderHandleMirror />}
+        </div>
+
+        <div>
+          {deletable && <DeleteColumnButton columnIndex={columnIndex} />}
+          {columnIndex === columns.length - 1 && columnEditButton && (
+            <EditColumnsButton onClick={handleEditColumnsButtonClick} />
+          )}
+        </div>
+      </div>
+    </th>
+  );
+}
+
+function SortButton<T>({
   columnIndex,
   className,
   children,
@@ -60,7 +157,7 @@ export function SortButton<T>({
   );
 }
 
-export function DeleteColumnButton<T>({
+function DeleteColumnButton<T>({
   columnIndex,
   className,
   onClick,
@@ -99,7 +196,7 @@ export function DeleteColumnButton<T>({
   );
 }
 
-export function EditColumnsButton(props: ComponentPropsWithRef<'button'>) {
+function EditColumnsButton(props: ComponentPropsWithRef<'button'>) {
   const {className, ...restProps} = props;
   const hint = 'Show columns controls';
   return (
@@ -115,7 +212,7 @@ export function EditColumnsButton(props: ComponentPropsWithRef<'button'>) {
   );
 }
 
-export function ColumnReorderHandle<T>({
+function ColumnReorderHandle<T>({
   columnIndex,
   ref: userRef,
   className,
@@ -262,7 +359,10 @@ export function ColumnReorderHandle<T>({
       }
     }
 
-    setTimeout(cleanupDrag, stdAnimationTimeout);
+    const ringEaseMs = parseCssDuration(
+      window.getComputedStyle(document.documentElement).getPropertyValue('--ring-ease'),
+    );
+    setTimeout(cleanupDrag, ringEaseMs);
   }, [cleanupDrag, getDragFrame, getInsertionIndicator]);
 
   const handlePointerDown = useCallback(
@@ -409,34 +509,6 @@ export function ColumnReorderHandle<T>({
 /**
  * Reserves the space for the reorder handle and prevents layout shift when the handle appears on hover.
  */
-export function ColumnReorderHandleMirror() {
+function ColumnReorderHandleMirror() {
   return <span className={styles.columnReorderHandleMirror} />;
-}
-
-export interface TableRowProps {
-  /**
-   * @see DefaultItemRendererProps.keyboardFocusable
-   */
-  keyboardFocusable?: boolean;
-}
-
-/**
- * A helper `<tr>` component for a custom {@link TableProps.renderItem} implementations.
- * Applies the standard row classnames.
- */
-export function TableRow(props: TableRowProps & ComponentPropsWithRef<'tr'>) {
-  const {keyboardFocusable, className, ...restProps} = props;
-  const classes = classNames(styles.row, className);
-  const trRestProps = keyboardFocusable ? {[keyboardFocusableAttrName]: '', ...restProps} : restProps;
-  return <tr className={classes} {...trRestProps} />;
-}
-
-/**
- * A helper `<td>` component for a custom {@link TableProps.renderItem} implementations.
- * Applies the standard cell classnames, but not data-dependent `tdClassName`.
- */
-export function TableCell(props: ComponentPropsWithRef<'td'>) {
-  const {className, ...restProps} = props;
-  const classes = classNames(styles.cell, className);
-  return <td className={classes} {...restProps} />;
 }

@@ -1,13 +1,11 @@
 import {type ComponentPropsWithRef, type Context, use, useRef} from 'react';
 import classNames from 'classnames';
 
-import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
+import {AnimatedColumnContext, CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
-import {TableCell, TableRow} from './table-primitives';
-import {AnimatedColumnContext} from './table-animated-column';
 import {useComposedRef} from '../global/compose-refs';
 
-import type {TableProps} from './table';
+import type {TableProps} from './table-props';
 
 import styles from './table.css';
 
@@ -51,8 +49,6 @@ export interface DefaultItemRendererProps {
   noVirtualization?: boolean;
 }
 
-const INDENT_SIZE = 24;
-
 /**
  * Use to render a row in a standard way, and to specify item-scoped props like this:
  *
@@ -64,14 +60,14 @@ const INDENT_SIZE = 24;
  *   onClick={e => {
  *     if (!isWithinInteractiveElement(e.target)) {
  *       selection.toggle(item);
- *       focusRow(e.currentTarget);
+ *       focusWithTemporaryTabIndex(e.currentTarget);
  *       e.preventDefault();
  *     }
  *   }}
  * />
  *```
  *
- * `isWithinInteractiveElement()` and `focusRow()` utilities are available from `table-row-focus.ts`.
+ * `isWithinInteractiveElement()` and `focusWithTemporaryTabIndex()` are utils in the 'global' directory.
  */
 export function DefaultItemRenderer<T>({
   index,
@@ -107,8 +103,9 @@ export function DefaultItemRenderer<T>({
   const animatedColumn = use(AnimatedColumnContext);
 
   const {data, columns} = tableProps;
-
   const item = data[index];
+
+  const indentSize = 24;
 
   return (
     <TableRow
@@ -127,7 +124,7 @@ export function DefaultItemRenderer<T>({
               columnIndex === animatedColumn?.columnIndex && animatedColumn.cellClassName,
               typeof tdClassName === 'function' ? tdClassName(item, index, data) : tdClassName,
             )}
-            style={indent && level != null && level > 0 ? {paddingInlineStart: `${level * INDENT_SIZE}px`} : undefined}
+            style={indent && level != null && level > 0 ? {paddingInlineStart: `${level * indentSize}px`} : undefined}
           >
             {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex)}
           </TableCell>
@@ -151,4 +148,37 @@ function getDefaultCellValue<T>(item: T, columnIndex: number) {
   }
 
   return '';
+}
+
+export interface TableRowProps {
+  /**
+   * @see DefaultItemRendererProps.keyboardFocusable
+   */
+  keyboardFocusable?: boolean;
+}
+
+/**
+ * @internal
+ */
+export const keyboardFocusableAttrName = 'data-keyboard-focusable';
+
+/**
+ * A helper `<tr>` component for a custom {@link TableProps.renderItem} implementations.
+ * Applies the standard row classnames.
+ */
+export function TableRow(props: TableRowProps & ComponentPropsWithRef<'tr'>) {
+  const {keyboardFocusable, className, ...restProps} = props;
+  const classes = classNames(styles.row, className);
+  const trRestProps = keyboardFocusable ? {[keyboardFocusableAttrName]: '', ...restProps} : restProps;
+  return <tr className={classes} {...trRestProps} />;
+}
+
+/**
+ * A helper `<td>` component for a custom {@link TableProps.renderItem} implementations.
+ * Applies the standard cell classnames, but not data-dependent `tdClassName`.
+ */
+export function TableCell(props: ComponentPropsWithRef<'td'>) {
+  const {className, ...restProps} = props;
+  const classes = classNames(styles.cell, className);
+  return <td className={classes} {...restProps} />;
 }
