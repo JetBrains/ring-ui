@@ -176,19 +176,30 @@ export interface TableProps<T> {
   minScrollAndResizeDeltaPx?: number;
 
   /**
-   * Whether column editing mode is enabled.
+   * "Column editing mode" is a mode in which controls that are normally hidden
+   * become visible, such as column reorder and delete buttons.
    *
-   * When enabled, controls that are normally hidden become visible,
-   * such as column reorder and delete buttons.
+   * When this prop is undefined, the component manages the mode internally.
+   * Users can toggle it by tapping the table header on mobile or by clicking
+   * the column edit button, if enabled.
+   *
+   * Pass `true` or `false` to control the mode externally.
    */
   columnEditing?: boolean;
 
   /**
-   * Called when the user requests to enter or leave column editing mode,
-   * for example by tapping the table header on mobile or clicking the
-   * column edit button, if enabled.
+   * Called when the user requests to enter or leave column editing mode.
+   *
+   * The `source` parameter indicates what triggered the request.
+   *
+   * When `columnEditing` is not controlled, the component automatically
+   * applies the requested change internally.
+   *
+   * When `columnEditing` is controlled externally and you still want to
+   * respond to user requests, use this callback to decide whether to
+   * update the mode.
    */
-  onColumnEditingChange?: (editing: boolean) => void;
+  onColumnEditingRequest?: (editing: boolean, source: 'header' | 'edit-button') => void;
 
   /**
    * Whether to show a small gear button in the top-right corner that

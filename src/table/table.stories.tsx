@@ -155,7 +155,6 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
   render(args) {
     const [data, setData] = useState(args.data);
     const [columns, setColumns] = useState(args.columns);
-    const [columnEditing, setColumnEditing] = useState(false);
 
     function handleColumnDelete(columnIndex: number) {
       setColumns(columns.filter((_, i) => i !== columnIndex));
@@ -171,8 +170,6 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
         }
         onColumnDelete={handleColumnDelete}
         onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
-        columnEditing={columnEditing}
-        onColumnEditingChange={setColumnEditing}
         columnEditButton
       />
     );
@@ -900,7 +897,7 @@ export const TeamCityBuilds: TableStory<Build> = {
             return h;
           }}
           columnEditing={columnEditing}
-          onColumnEditingChange={setColumnEditing}
+          onColumnEditingRequest={setColumnEditing}
         />
       </>
     );

@@ -93,14 +93,14 @@
 
   color: transparent;
 
-  .editedThead &,
+  .theadColumnEditing &,
   .headerCell:hover &,
   &:focus {
     pointer-events: unset;
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
-  .editedThead &:not(:focus),
+  .theadColumnEditing &:not(:focus),
   /* stylelint-disable-next-line selector-max-specificity */
   .headerCell:hover &:not(:focus) {
     color: unset;
@@ -126,7 +126,7 @@
   touch-action: none;
 }
 
-.editedThead .columnReorderHandle,
+.theadColumnEditing .columnReorderHandle,
 .headerCell:hover .columnReorderHandle,
 .columnReorderHandle:focus-visible {
   width: 12px;
@@ -142,7 +142,7 @@
   transition: width var(--ring-fast-ease), margin-left var(--ring-fast-ease);
 }
 
-.editedThead .columnReorderHandleMirror,
+.theadColumnEditing .columnReorderHandleMirror,
 .headerCell:hover .columnReorderHandleMirror,
 .columnReorderHandle:focus-visible ~ .columnReorderHandleMirror {
   width: 0;
@@ -154,7 +154,7 @@
     transition: transform var(--ring-fast-ease);
   }
 
-  .editedThead & svg {
+  .theadColumnEditing & svg {
     transform: rotate(90deg);
   }
 }

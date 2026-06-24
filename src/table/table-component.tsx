@@ -1,4 +1,4 @@
-import React, {type ComponentPropsWithRef, type Context, use, useCallback, useMemo, useRef, useState} from 'react';
+import React, {type ComponentPropsWithRef, type Context, use, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {mergeRefs} from 'react-merge-refs';
 
@@ -123,7 +123,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     retentionMarginPx = defaultRetentionMarginPx,
     minScrollAndResizeDeltaPx = defaultMinScrollAndResizeDeltaPx,
     columnEditing,
-    onColumnEditingChange,
+    onColumnEditingRequest,
     columnEditButton,
     theadClassName,
     theadTrClassName,
@@ -189,48 +189,74 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
 }
 
 function TableHeader<T>() {
-  const {columns, noHeader, columnEditing, onColumnEditingChange, theadClassName, theadTrClassName} = use(
+  const {columns, noHeader, columnEditing, onColumnEditingRequest, theadClassName, theadTrClassName} = use(
     TablePropsContext as Context<TableProps<T>>,
   );
 
-  const isMobile = useMemo(() => window.matchMedia('(hover: none) and (pointer: coarse)').matches, []);
+  const [localColumnEditing, setLocalColumnEditing] = useState(false);
+  const effectiveColumnEditing = columnEditing ?? localColumnEditing;
 
-  const handleHeaderClick = useCallback(
-    (e: React.MouseEvent<HTMLTableSectionElement>) => {
-      if (isMobile && !isWithinInteractiveElement(e.target)) {
-        onColumnEditingChange?.(!columnEditing);
+  const toggleColumnEditing = useCallback(
+    (source: 'header' | 'edit-button') => {
+      let newColumnEditing: boolean;
+      if (columnEditing == null) {
+        newColumnEditing = !localColumnEditing;
+        setLocalColumnEditing(newColumnEditing);
+      } else {
+        newColumnEditing = !columnEditing;
+      }
+
+      onColumnEditingRequest?.(newColumnEditing, source);
+    },
+    [columnEditing, localColumnEditing, onColumnEditingRequest],
+  );
+
+  const handleTheadClick = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      if (window.matchMedia('(hover: none)').matches && !isWithinInteractiveElement(e.target)) {
+        toggleColumnEditing('header');
       }
     },
-    [columnEditing, onColumnEditingChange, isMobile],
+    [toggleColumnEditing],
   );
+
+  const handleEditColumnsButtonClick = useCallback(() => {
+    toggleColumnEditing('edit-button');
+  }, [toggleColumnEditing]);
 
   if (noHeader) return null;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
-    <thead className={classNames(theadClassName, columnEditing && styles.editedThead)} onClick={handleHeaderClick}>
+    <thead
+      className={classNames(theadClassName, effectiveColumnEditing && styles.theadColumnEditing)}
+      onClick={handleTheadClick}
+    >
       <tr className={theadTrClassName}>
         {columns.map((column, columnIndex) => (
-          <TableHeaderCell key={column.key} columnIndex={columnIndex} />
+          <TableHeaderCell
+            key={column.key}
+            columnIndex={columnIndex}
+            handleEditColumnsButtonClick={handleEditColumnsButtonClick}
+          />
         ))}
       </tr>
     </thead>
   );
 }
 
-function TableHeaderCell<T>({columnIndex}: {columnIndex: number}) {
-  const {columns, columnEditing, onColumnEditingChange, columnEditButton} = use(
-    TablePropsContext as Context<TableProps<T>>,
-  );
+function TableHeaderCell<T>({
+  columnIndex,
+  handleEditColumnsButtonClick,
+}: {
+  columnIndex: number;
+  handleEditColumnsButtonClick: () => void;
+}) {
+  const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
   const {key, name, renderHeader, sortOrder, deletable, canReorder, thClassName} = columns[columnIndex];
 
   const animatedColumn = use(AnimatedColumnContext);
   const children = renderHeader ? renderHeader() : (name ?? String(key));
-
-  const toggleEditColumns = useCallback(
-    () => onColumnEditingChange?.(!columnEditing),
-    [columnEditing, onColumnEditingChange],
-  );
 
   return (
     <th
@@ -250,7 +276,9 @@ function TableHeaderCell<T>({columnIndex}: {columnIndex: number}) {
 
         <div>
           {deletable && <DeleteColumnButton columnIndex={columnIndex} />}
-          {columnIndex === columns.length - 1 && columnEditButton && <EditColumnsButton onClick={toggleEditColumns} />}
+          {columnIndex === columns.length - 1 && columnEditButton && (
+            <EditColumnsButton onClick={handleEditColumnsButtonClick} />
+          )}
         </div>
       </div>
     </th>
