@@ -41,3 +41,6 @@ build-storybook.log
 
 # Secrets
 .env
+
+# Air agent
+.air/

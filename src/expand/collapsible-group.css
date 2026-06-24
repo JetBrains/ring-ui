@@ -1,138 +1,72 @@
-@import '../global/variables.css';
-
-.expand .collapseRoot {
-  display: flex;
-  flex-direction: column;
-}
+/* Deprecated alias of `../collapsible-group/collapsible-group.css` (removed in Ring UI 8.0).
+   Class names are forwarded via `composes` so the canonical stylesheet stays the single source of
+   the actual rules, while `import styles from '.../components/expand/collapsible-group.css'` keeps
+   returning the full token map. */
 
 .expand {
-  display: flex;
-  flex-direction: column;
+  composes: expand from '../collapsible-group/collapsible-group.css';
+}
 
-  box-sizing: border-box;
-
-  border: 1px solid var(--ring-line-color);
-  border-radius: var(--ring-border-radius-large);
-  outline: none;
-  background: var(--ring-content-background-color);
+.collapseRoot {
+  composes: collapseRoot from '../collapsible-group/collapsible-group.css';
 }
 
 .hovered {
-  box-shadow: var(--ring-popup-shadow);
+  composes: hovered from '../collapsible-group/collapsible-group.css';
 }
 
 .expanded {
-  box-shadow: var(--ring-popup-shadow);
+  composes: expanded from '../collapsible-group/collapsible-group.css';
 }
 
 .focused {
-  box-shadow: 0 0 0 2px var(--ring-border-hover-color), var(--ring-popup-shadow);
+  composes: focused from '../collapsible-group/collapsible-group.css';
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  gap: calc(var(--ring-unit) * 1.5);
-
-  height: 28px;
+  composes: header from '../collapsible-group/collapsible-group.css';
 }
 
 .headerButton {
-  display: block;
-
-  box-sizing: border-box;
-  width: 100%;
-  padding: calc(var(--ring-unit) * 1.5);
-
-  cursor: pointer;
-  text-align: left;
-
-  color: inherit;
-
-  border: 0;
-  background: transparent;
-
-  font: inherit;
-}
-
-.headerButton:focus-visible {
-  outline: none;
+  composes: headerButton from '../collapsible-group/collapsible-group.css';
 }
 
 .headerStatic {
-  display: block;
-
-  padding: calc(var(--ring-unit) * 1.5);
+  composes: headerStatic from '../collapsible-group/collapsible-group.css';
 }
 
 .headerContent {
-  display: flex;
-  align-items: center;
-  gap: var(--ring-unit);
-
-  flex: 1;
-
-  min-width: 0;
+  composes: headerContent from '../collapsible-group/collapsible-group.css';
 }
 
 .avatarGroup {
-  display: flex;
-  align-items: center;
-  gap: var(--ring-unit);
-
-  flex-shrink: 0;
+  composes: avatarGroup from '../collapsible-group/collapsible-group.css';
 }
 
 .title {
-  color: var(--ring-text-color);
-
-  font-size: var(--ring-font-size);
-  font-weight: var(--ring-font-weight-bold);
-  line-height: var(--ring-line-height);
+  composes: title from '../collapsible-group/collapsible-group.css';
 }
 
 .subtitleGroup {
-  display: flex;
-  align-items: center;
-  gap: var(--ring-unit);
-
-  min-width: 0;
+  composes: subtitleGroup from '../collapsible-group/collapsible-group.css';
 }
 
 .subtitle {
-  color: var(--ring-secondary-color);
-
-  font-size: var(--ring-font-size);
-  line-height: var(--ring-line-height);
+  composes: subtitle from '../collapsible-group/collapsible-group.css';
 }
 
 .subtitleChevron {
-  color: var(--ring-secondary-color);
+  composes: subtitleChevron from '../collapsible-group/collapsible-group.css';
 }
 
 .toggle {
-  display: flex;
-  align-items: center;
-
-  flex-shrink: 0;
-  justify-content: center;
-
-  width: calc(var(--ring-unit) * 3);
-  height: calc(var(--ring-unit) * 3);
-
-  border-radius: calc(var(--ring-unit) / 2);
-  background: var(--ring-secondary-background-color);
+  composes: toggle from '../collapsible-group/collapsible-group.css';
 }
 
 .toggleIcon {
-  color: var(--ring-secondary-color);
+  composes: toggleIcon from '../collapsible-group/collapsible-group.css';
 }
 
 .body {
-  padding: 0 calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 1.5);
-
-  color: var(--ring-text-color);
-
-  font-size: var(--ring-font-size);
-  line-height: var(--ring-line-height);
+  composes: body from '../collapsible-group/collapsible-group.css';
 }

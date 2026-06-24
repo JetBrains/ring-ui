@@ -1,4 +1,4 @@
-import {type InputHTMLAttributes, useEffect, useEffectEvent} from 'react';
+import {type InputHTMLAttributes, useEffect, useEffectEvent, useLayoutEffect} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -124,30 +124,25 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     inputClassName,
   );
 
-  const stretch = (el: HTMLElement | null | undefined) => {
-    if (!el || !el.style) {
-      return;
-    }
+  const checkValue = React.useCallback(
+    (el: HTMLElement | null | undefined) => {
+      if (multiline && el && el.scrollHeight >= el.clientHeight) {
+        el.style.height = '0';
+        const {paddingTop, paddingBottom} = window.getComputedStyle(el);
+        el.style.height = `${el.scrollHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)}px`;
+      }
+    },
+    [multiline],
+  );
 
-    el.style.height = '0';
-    const {paddingTop, paddingBottom} = window.getComputedStyle(el);
-    el.style.height = `${el.scrollHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)}px`;
-  };
-
-  const checkValue = (el: HTMLElement | null | undefined) => {
-    if (multiline && el && el.scrollHeight >= el.clientHeight) {
-      stretch(el);
-    }
-  };
-
-  const checkOverflow = (el: HTMLInputElement | HTMLTextAreaElement) => {
+  const checkOverflow = React.useCallback((el: HTMLInputElement | HTMLTextAreaElement) => {
     const scrollHeight = el.scrollHeight || 0;
     const clientHeight = el.clientHeight || 0;
     const scrollTop = el.scrollTop || 0;
 
     setIsScrolledToBottom(scrollHeight - clientHeight <= scrollTop);
     setIsOverflow(scrollHeight > clientHeight);
-  };
+  }, []);
 
   const onHeadingMouseDown = () => {
     setIsMouseDown(true);
@@ -192,6 +187,13 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     setIsInFocus(false);
     onBlur?.(e);
   };
+
+  useLayoutEffect(() => {
+    if (multiline && isEditing && textAreaRef.current) {
+      checkValue(textAreaRef.current);
+      checkOverflow(textAreaRef.current);
+    }
+  }, [checkOverflow, checkValue, isEditing, multiline]);
 
   useEffect(() => {
     window.addEventListener('mousemove', onMouseMove);
