@@ -7,12 +7,12 @@ import dragIcon from '@jetbrains/icons/drag-12px';
 import settingsIcon from '@jetbrains/icons/settings-12px';
 import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
-import {mergeRefs} from 'react-merge-refs';
 
 import Icon from '../icon/icon';
 import {stdAnimationTimeout, TablePropsContext} from './table-const';
 import {keyboardFocusableAttrName} from './table-row-focus';
 import {setExpectedColumnReorder} from './table-animated-column';
+import {useComposedRef} from '../global/compose-refs';
 
 import type {TableProps} from './table';
 
@@ -131,6 +131,7 @@ export function ColumnReorderHandle<T>({
   const canReorder = column?.canReorder;
 
   const localRef = useRef<HTMLButtonElement>(null);
+  const composedRef = useComposedRef(localRef, userRef);
 
   const activeDragRef = useRef<{
     state: 'is-dragging' | 'ended-with-no-change';
@@ -388,7 +389,7 @@ export function ColumnReorderHandle<T>({
 
   return (
     <button
-      ref={mergeRefs([localRef, userRef])}
+      ref={composedRef}
       type='button'
       className={classNames(styles.headerButton, styles.columnReorderHandle, className)}
       aria-label={hint}

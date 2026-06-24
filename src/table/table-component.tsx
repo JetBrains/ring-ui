@@ -1,6 +1,5 @@
 import React, {type ComponentPropsWithRef, type Context, use, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
-import {mergeRefs} from 'react-merge-refs';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
 import {SpacerRow, useTableVirtualize} from './table-virtualize';
@@ -22,6 +21,7 @@ import {
   EditColumnsButton,
   SortButton,
 } from './table-primitives';
+import {useComposedRef} from '../global/compose-refs';
 
 import type {TableProps} from './table';
 
@@ -159,7 +159,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
       <AnimatedColumnContext value={animatedColumn}>
-        <table className={classNames(styles.table, className)} ref={mergeRefs([userRef, localRef])} {...restProps}>
+        <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
           <TableHeader />
           <IntersectionObserverContext value={intersectionObserverHandle}>
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}

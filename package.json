@@ -249,7 +249,6 @@
     "postcss-modules-values-replace": "^4.2.2",
     "postcss-preset-env": "^11.3.0",
     "react-compiler-runtime": "^1.0.0",
-    "react-merge-refs": "^3.0.2",
     "react-movable": "^3.4.1",
     "react-virtualized": "^9.22.6",
     "react-waypoint": "^10.3.0",

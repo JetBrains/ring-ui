@@ -1,11 +1,11 @@
 import {type ComponentPropsWithRef, type Context, use, useRef} from 'react';
 import classNames from 'classnames';
-import {mergeRefs} from 'react-merge-refs';
 
 import {CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
 import {useIsIntersectingListener} from '../global/intersection-observer-context';
 import {TableCell, TableRow} from './table-primitives';
 import {AnimatedColumnContext} from './table-animated-column';
+import {useComposedRef} from '../global/compose-refs';
 
 import type {TableProps} from './table';
 
@@ -86,6 +86,7 @@ export function DefaultItemRenderer<T>({
   ...restProps
 }: DefaultItemRendererProps & ComponentPropsWithRef<'tr'>) {
   const localRef = useRef<HTMLTableRowElement>(null);
+  const composedRef = useComposedRef(userRef, localRef);
 
   const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
   useIsIntersectingListener({
@@ -111,7 +112,7 @@ export function DefaultItemRenderer<T>({
 
   return (
     <TableRow
-      ref={mergeRefs([userRef, localRef])}
+      ref={composedRef}
       keyboardFocusable={keyboardFocusable}
       className={classNames(className, clickable && styles.clickableRow, selected && styles.selectedRow)}
       {...restProps}
