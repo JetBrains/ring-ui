@@ -117,6 +117,11 @@ export const basic = () => {
       </ExampleEditableHeading>
       {lorem}
 
+      <ExampleEditableHeading multiline maxInputRows={5} autoFocus={false}>
+        Multiline Heading without autofocus
+      </ExampleEditableHeading>
+      {lorem}
+
       <ExampleEditableHeading error=''>Invalid Heading</ExampleEditableHeading>
       {lorem}
 

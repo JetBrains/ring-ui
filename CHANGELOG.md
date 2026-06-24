@@ -5,6 +5,9 @@
 - Changed the minimum supported React version to 19.2.0.
 - Removed the `useEventCallback()` custom hook; use the `useEffectEvent()` React hook instead.
 
+## [7.0.116]
+- Renamed the `expand` module to `collapsible-group`. Import `CollapsibleGroup` from `@jetbrains/ring-ui/components/collapsible-group/collapsible-group`. The old `@jetbrains/ring-ui/components/expand/collapsible-group` import path (component and CSS) is deprecated and will be removed in Ring UI 8.0.
+
 ## [7.0.76]
 - Fixed the `jsx` files bundling in dist, which could cause imports resolving errors.
 
