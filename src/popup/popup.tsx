@@ -71,6 +71,8 @@ export interface BasePopupProps {
   onMouseUp?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined;
   onMouseOver?: ((e: React.SyntheticEvent<HTMLElement>) => void) | undefined;
   onMouseOut?: ((e: React.SyntheticEvent<HTMLElement>) => void) | undefined;
+  onMouseEnter?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined;
+  onMouseLeave?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined;
   onContextMenu?: ((e: React.MouseEvent<HTMLElement>) => void) | undefined;
   onDirectionChange?: ((direction: Directions) => void) | null | undefined;
   onShow?: (() => void) | null | undefined;
@@ -409,6 +411,8 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
       onMouseUp,
       onMouseOver,
       onMouseOut,
+      onMouseEnter,
+      onMouseLeave,
       onContextMenu,
       'data-test': dataTest,
       largeBorderRadius,
@@ -451,6 +455,8 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
                             onFocus={onMouseOver}
                             onMouseOut={onMouseOut}
                             onBlur={onMouseOut}
+                            onMouseEnter={onMouseEnter}
+                            onMouseLeave={onMouseLeave}
                             onContextMenu={onContextMenu}
                           >
                             <div
