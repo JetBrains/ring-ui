@@ -16,7 +16,7 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {createRandom} from '../util-stories';
-import {AnimatedColumnContext} from './table-const';
+import {ColumnAnimationContext} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 import {useItemVirtualization} from './item-virtualization';
 
@@ -945,26 +945,29 @@ function TeamCityBuild({
     ),
   });
 
-  const animatedColumn = use(AnimatedColumnContext);
-  const [animatedColumnLeft, setAnimatedColumnLeft] = useState<number | undefined>(undefined);
-  const [animatedColumnWidth, setAnimatedColumnWidth] = useState<number | undefined>(undefined);
+  const columnAnimation = use(ColumnAnimationContext);
+  const columnAnimationEmulatorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (animatedColumn?.phase === 'initial') {
-      const {columnIndex} = animatedColumn;
-      const table = mainRef.current?.closest('table');
-      const th = table?.querySelector(`th:nth-child(${columnIndex + 1})`);
-      if (table && th) {
+    const columnAnimationEmulator = columnAnimationEmulatorRef.current;
+    const table = mainRef.current?.closest('table');
+
+    if (!columnAnimationEmulator || !table) return;
+
+    if (columnAnimation?.phase === 'initial') {
+      const {columnIndex} = columnAnimation;
+      const th = table.querySelector(`th:nth-child(${columnIndex + 1})`);
+      if (th) {
         const tableLeft = table.getBoundingClientRect().left;
         const thRect = th.getBoundingClientRect();
-        setAnimatedColumnLeft(thRect.left - tableLeft);
-        setAnimatedColumnWidth(thRect.width);
-      } else {
-        setAnimatedColumnLeft(undefined);
-        setAnimatedColumnWidth(undefined);
+        columnAnimationEmulator.style.left = `${thRect.left - tableLeft}px`;
+        columnAnimationEmulator.style.width = `${thRect.width}px`;
       }
+    } else if (!columnAnimation) {
+      columnAnimationEmulator.style.removeProperty('left');
+      columnAnimationEmulator.style.removeProperty('width');
     }
-  }, [animatedColumn]);
+  }, [columnAnimation]);
 
   return (
     <>
@@ -1047,11 +1050,8 @@ function TeamCityBuild({
               noHeader
             />
             <div
-              className={classNames(style.columnAnimationEmulator, animatedColumn?.cellClassName)}
-              style={{
-                left: animatedColumnLeft != null ? animatedColumnLeft : undefined,
-                width: animatedColumnWidth,
-              }}
+              ref={columnAnimationEmulatorRef}
+              className={classNames(style.columnAnimationEmulator, columnAnimation?.cellClassName)}
             />
           </TableCell>
         </TableRow>

@@ -1,12 +1,12 @@
-import React, {type ComponentPropsWithRef, Fragment, useCallback, useRef, useState} from 'react';
+import React, {type ComponentPropsWithRef, Fragment, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
 import {CollapseItemIntoSpacerContext, SpacerRow, useVirtualItems} from './internal/virtual-items';
 import {DefaultItemRenderer, keyboardFocusableAttrName} from './default-item-renderer';
-import {type AnimatedColumn, AnimatedColumnContext, defaultRowHeight, TablePropsContext} from './table-const';
+import {ColumnAnimationContext, defaultRowHeight, TablePropsContext} from './table-const';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
-import {useAnimatedColumn} from './internal/animated-column';
+import {useColumnAnimation} from './internal/column-animation';
 import {useComposedRef} from '../global/compose-refs';
 import {TableHeader} from './internal/table-header';
 
@@ -137,10 +137,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     minScrollAndResizeDeltaPx,
   });
 
-  const [animatedColumn, setAnimatedColumn] = useState<AnimatedColumn | null>(null);
-  useAnimatedColumn({
-    animatedColumn,
-    setAnimatedColumn,
+  const {columnAnimation, expectColumnReorder} = useColumnAnimation({
     disabled: noColumnReorderAnimation,
     tableRef: localRef,
     columns,
@@ -172,9 +169,9 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
 
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
-      <AnimatedColumnContext value={animatedColumn}>
+      <ColumnAnimationContext value={columnAnimation}>
         <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
-          <TableHeader />
+          <TableHeader expectColumnReorder={expectColumnReorder} />
           <IntersectionObserverContext value={intersectionObserverHandle}>
             <CollapseItemIntoSpacerContext value={collapseItemIntoSpacer}>
               {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
@@ -199,7 +196,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
             </CollapseItemIntoSpacerContext>
           </IntersectionObserverContext>
         </table>
-      </AnimatedColumnContext>
+      </ColumnAnimationContext>
     </TablePropsContext>
   );
 }

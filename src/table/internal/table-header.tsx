@@ -9,8 +9,8 @@ import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 
 import {type TableProps} from '../table-props';
-import {AnimatedColumnContext, TablePropsContext} from '../table-const';
-import {setExpectedColumnReorder} from './animated-column';
+import {ColumnAnimationContext, TablePropsContext} from '../table-const';
+import {type ExpectColumnReorder} from './column-animation';
 import Icon from '../../icon';
 import {useComposedRef} from '../../global/compose-refs';
 import {isWithinInteractiveElement} from '../../global/is-within-interactive-element';
@@ -18,7 +18,7 @@ import {parseCssDuration} from '../../global/parse-css-duration';
 
 import styles from '../table.css';
 
-export function TableHeader<T>() {
+export function TableHeader<T>({expectColumnReorder}: {expectColumnReorder: ExpectColumnReorder}) {
   const {columns, noHeader, columnEditing, onColumnEditingRequest, theadClassName, theadTrClassName} = use(
     TablePropsContext as Context<TableProps<T>>,
   );
@@ -68,6 +68,7 @@ export function TableHeader<T>() {
             key={column.key}
             columnIndex={columnIndex}
             handleEditColumnsButtonClick={handleEditColumnsButtonClick}
+            expectColumnReorder={expectColumnReorder}
           />
         ))}
       </tr>
@@ -78,14 +79,16 @@ export function TableHeader<T>() {
 function TableHeaderCell<T>({
   columnIndex,
   handleEditColumnsButtonClick,
+  expectColumnReorder,
 }: {
   columnIndex: number;
   handleEditColumnsButtonClick: () => void;
+  expectColumnReorder: ExpectColumnReorder;
 }) {
   const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
   const {key, name, renderHeader, sortOrder, deletable, canReorder, thClassName} = columns[columnIndex];
 
-  const animatedColumn = use(AnimatedColumnContext);
+  const animatedColumn = use(ColumnAnimationContext);
   const children = renderHeader ? renderHeader() : (name ?? String(key));
 
   return (
@@ -99,7 +102,7 @@ function TableHeaderCell<T>({
     >
       <div className={styles.headerCellInnerWrapper}>
         <div>
-          {canReorder && <ColumnReorderHandle columnIndex={columnIndex} />}
+          {canReorder && <ColumnReorderHandle columnIndex={columnIndex} expectColumnReorder={expectColumnReorder} />}
           {sortOrder ? <SortButton columnIndex={columnIndex}>{children}</SortButton> : children}
           {canReorder && <ColumnReorderHandleMirror />}
         </div>
@@ -214,6 +217,7 @@ function EditColumnsButton(props: ComponentPropsWithRef<'button'>) {
 
 function ColumnReorderHandle<T>({
   columnIndex,
+  expectColumnReorder,
   ref: userRef,
   className,
   onPointerDown,
@@ -222,7 +226,7 @@ function ColumnReorderHandle<T>({
   onPointerCancel,
   onLostPointerCapture,
   ...restProps
-}: {columnIndex: number} & ComponentPropsWithRef<'button'>) {
+}: {columnIndex: number; expectColumnReorder: ExpectColumnReorder} & ComponentPropsWithRef<'button'>) {
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
   const column = tableProps?.columns[columnIndex];
   const canReorder = column?.canReorder;
@@ -454,11 +458,19 @@ function ColumnReorderHandle<T>({
       }
 
       cleanupDrag();
-      setExpectedColumnReorder(table, [columnIndex, insertionIndex]);
+      expectColumnReorder({fromIndex: columnIndex, insertionIndex});
 
       tableProps!.onColumnReorder?.(columnIndex, insertionIndex, tableProps!.columns);
     },
-    [animateNoChangeThenCleanup, cleanupDrag, columnIndex, getClosestInsertionPoint, onPointerUp, tableProps],
+    [
+      animateNoChangeThenCleanup,
+      cleanupDrag,
+      columnIndex,
+      expectColumnReorder,
+      getClosestInsertionPoint,
+      onPointerUp,
+      tableProps,
+    ],
   );
 
   const handlePointerCancel = useCallback(

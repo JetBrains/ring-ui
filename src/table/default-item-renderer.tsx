@@ -1,7 +1,7 @@
 import {type ComponentPropsWithRef, type Context, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
-import {AnimatedColumnContext, TablePropsContext} from './table-const';
+import {ColumnAnimationContext, TablePropsContext} from './table-const';
 import {useComposedRef} from '../global/compose-refs';
 import {useItemVirtualization} from './item-virtualization';
 
@@ -101,7 +101,7 @@ export function DefaultItemRenderer<T>({
     return null;
   }
 
-  const animatedColumn = use(AnimatedColumnContext);
+  const animatedColumn = use(ColumnAnimationContext);
 
   const {data, columns} = tableProps;
   const item = data[index];
