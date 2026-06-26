@@ -7,16 +7,10 @@ import {CollapseItemIntoSpacerContext} from './internal/virtual-items';
  * Use in an item renderer to control item virtualization.
  */
 export function useItemVirtualization({
-  enabled,
   index,
   refs,
   onIntersectionChange,
 }: {
-  /**
-   * Use in a custom item renderer to control item virtualization.
-   */
-  enabled: boolean;
-
   /**
    * Index of the item.
    */
@@ -35,6 +29,8 @@ export function useItemVirtualization({
 
   /**
    * Invoked when the `isIntersecting` state of the observed elements changes.
+   * Consider wrapping a callback to `useCallback()` to avoid restarting observation on every render.
+   *
    * @param intersectionStates - Current intersection state of every observed element.
    * Entries are initially `undefined` until the corresponding element
    * has been reported by `IntersectionObserver`.
@@ -55,8 +51,6 @@ export function useItemVirtualization({
   const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
 
   useEffect(() => {
-    if (!enabled) return;
-
     const intersectionStates: (boolean | undefined)[] = Array.isArray(refs) ? refs.map(() => undefined) : [undefined];
     const elements = Array.isArray(refs) ? refs.map(r => r.current) : [refs.current];
 
@@ -76,5 +70,5 @@ export function useItemVirtualization({
     });
 
     return () => cleanups.forEach(cleanup => cleanup());
-  }, [collapseItemIntoSpacer, enabled, handle, index, onIntersectionChange, refs]);
+  }, [collapseItemIntoSpacer, handle, index, onIntersectionChange, refs]);
 }

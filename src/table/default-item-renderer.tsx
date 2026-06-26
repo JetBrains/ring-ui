@@ -1,4 +1,4 @@
-import {type ComponentPropsWithRef, type Context, use, useRef} from 'react';
+import {type ComponentPropsWithRef, type Context, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
 import {AnimatedColumnContext, TablePropsContext} from './table-const';
@@ -42,11 +42,11 @@ export interface DefaultItemRendererProps {
   level?: number;
 
   /**
-   * When set to `true`, doesn't observe own visibility and doesn't call
-   * `collapseItemIntoSpacer()`. Useful when you include `DefaultItemRenderer`
-   * as a part of a custom row rendered, and track the visibility yourself.
+   * When set to `true`, doesn't control the item virtualization.
+   * Useful when you include `DefaultItemRenderer` as a part of a custom row rendered,
+   * and track the visibility yourself.
    */
-  noVirtualization?: boolean;
+  noItemVirtualization?: boolean;
 }
 
 /**
@@ -75,7 +75,7 @@ export function DefaultItemRenderer<T>({
   clickable,
   selected,
   level,
-  noVirtualization,
+  noItemVirtualization,
 
   ref: userRef,
   className,
@@ -85,11 +85,15 @@ export function DefaultItemRenderer<T>({
   const composedRef = useComposedRef(userRef, localRef);
 
   useItemVirtualization({
-    enabled: !noVirtualization,
     index,
     refs: localRef,
-    onIntersectionChange: ([isIntersecting], _i, [element]) =>
-      element?.isConnected && isIntersecting === false ? element.getBoundingClientRect().height : undefined,
+    onIntersectionChange: useCallback(
+      ([isIntersecting], _i, [element]) =>
+        !noItemVirtualization && element?.isConnected && isIntersecting === false
+          ? element.getBoundingClientRect().height
+          : undefined,
+      [noItemVirtualization],
+    ),
   });
 
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);

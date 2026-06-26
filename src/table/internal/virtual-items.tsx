@@ -24,7 +24,9 @@ interface Spacer {
   key: string;
 }
 
-export const CollapseItemIntoSpacerContext = createContext<(index: number, height: number) => void>(() => {});
+type CollapseItemIntoSpacerCallback = (index: number, height: number) => void;
+
+export const CollapseItemIntoSpacerContext = createContext<CollapseItemIntoSpacerCallback>(() => {});
 
 /**
  * RAF is somewhat too frequent. Most updates happen on virtualization boundaries
@@ -214,7 +216,7 @@ export function useVirtualItems<T>({
     !scrollerRef ? retentionMarginPx : undefined,
   );
 
-  const collapseItemIntoSpacer = useCallback(
+  const collapseItemIntoSpacer = useCallback<CollapseItemIntoSpacerCallback>(
     (index: number, height: number) => {
       if (!enabled) return;
 

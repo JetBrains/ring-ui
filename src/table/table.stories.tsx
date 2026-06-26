@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
-import {use, useEffect, useEffectEvent, useMemo, useRef, useState} from 'react';
+import {use, useCallback, useEffect, useEffectEvent, useMemo, useRef, useState} from 'react';
 import chevronIcon from '@jetbrains/icons/chevron-12px-right';
 import starEmptyIcon from '@jetbrains/icons/star-empty-20px';
 import starFilledIcon from '@jetbrains/icons/star-filled-20px';
@@ -16,7 +16,7 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {createRandom} from '../util-stories';
-import {AnimatedColumnContext, defaultRowHeight} from './table-const';
+import {AnimatedColumnContext} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 import {useItemVirtualization} from './item-virtualization';
 
@@ -893,7 +893,7 @@ export const TeamCityBuilds: TableStory<Build> = {
           onColumnDelete={columnIndex => setColumns(columns.filter((_, i) => i !== columnIndex))}
           virtualizeRows
           estimateHeight={item => {
-            let h = defaultRowHeight;
+            let h = 40;
             if (item.expanded) h += 147;
             if (item.problems.length) h += 6 + item.problems.length * 20;
             return h;
@@ -934,13 +934,15 @@ function TeamCityBuild({
   const detailsRef = useRef<HTMLTableRowElement>(null);
 
   useItemVirtualization({
-    enabled: true,
     index,
     refs: useMemo(() => (expanded ? [mainRef, detailsRef] : mainRef), [expanded]),
-    onIntersectionChange: (isIntersecting, _i, elements) =>
-      isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
-        ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
-        : undefined,
+    onIntersectionChange: useCallback(
+      (isIntersecting, _i, elements) =>
+        isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
+          ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
+          : undefined,
+      [],
+    ),
   });
 
   const animatedColumn = use(AnimatedColumnContext);
@@ -972,7 +974,7 @@ function TeamCityBuild({
         clickable
         keyboardFocusable
         selected={!!build.selected}
-        noVirtualization
+        noItemVirtualization
         className={style.build}
         onClick={e => {
           if (!isWithinInteractiveElement(e.target)) {
