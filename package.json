@@ -218,7 +218,7 @@
     "@babel/core": "^7.29.7",
     "@babel/preset-typescript": "^7.29.7",
     "@jetbrains/babel-preset-jetbrains": "^2.4.0",
-    "@jetbrains/icons": "^5.22.0",
+    "@jetbrains/icons": "^5.23.0",
     "@jetbrains/postcss-require-hover": "^0.2.0",
     "@types/combokeys": "^2.4.9",
     "@types/element-resize-detector": "^1.1.6",
