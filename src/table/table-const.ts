@@ -8,13 +8,6 @@ import type {TableProps} from './table-props';
  */
 export const TablePropsContext = createContext<TableProps<unknown> | null>(null);
 
-/**
- * Use in a custom row renderer to make the row eligible for virtualization.
- * Use together with `useIsIntersectingListener()` to detect when the row is no longer visible.
- * When the row is no longer visible, call the function from this context with the height of the row.
- */
-export const CollapseItemIntoSpacerContext = createContext<(height: number) => void>(() => {});
-
 export interface AnimatedColumn {
   columnIndex: number;
   phase: 'initial' | 'fade-out';

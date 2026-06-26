@@ -1,16 +1,10 @@
-import React, {type ComponentPropsWithRef, useCallback, useRef, useState} from 'react';
+import React, {type ComponentPropsWithRef, Fragment, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
-import {SpacerRow, useTableVirtualize as useVirtualItems} from './internal/virtual-items';
+import {CollapseItemIntoSpacerContext, SpacerRow, useVirtualItems} from './internal/virtual-items';
 import {DefaultItemRenderer, keyboardFocusableAttrName} from './default-item-renderer';
-import {
-  type AnimatedColumn,
-  AnimatedColumnContext,
-  CollapseItemIntoSpacerContext,
-  defaultRowHeight,
-  TablePropsContext,
-} from './table-const';
+import {type AnimatedColumn, AnimatedColumnContext, defaultRowHeight, TablePropsContext} from './table-const';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {useAnimatedColumn} from './internal/animated-column';
 import {useComposedRef} from '../global/compose-refs';
@@ -182,25 +176,27 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
         <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
           <TableHeader />
           <IntersectionObserverContext value={intersectionObserverHandle}>
-            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-            <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
-              {virtualItems.map(virtualItem => {
-                if (virtualItem.type === 'spacer') {
-                  return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
-                }
+            <CollapseItemIntoSpacerContext value={collapseItemIntoSpacer}>
+              {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+              <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
+                {virtualItems.map(virtualItem => {
+                  if (virtualItem.type === 'spacer') {
+                    return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                  }
 
-                const index = virtualItem.index;
-                if (index < 0 || index >= data.length) return null;
+                  const index = virtualItem.index;
+                  if (index < 0 || index >= data.length) return null;
 
-                const item = data[index];
-                const key = getKey(item, index, data);
-                return (
-                  <CollapseItemIntoSpacerContext value={height => collapseItemIntoSpacer(index, height)} key={key}>
-                    {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
-                  </CollapseItemIntoSpacerContext>
-                );
-              })}
-            </tbody>
+                  const item = data[index];
+                  const key = getKey(item, index, data);
+                  return (
+                    <Fragment key={key}>
+                      {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
+                    </Fragment>
+                  );
+                })}
+              </tbody>
+            </CollapseItemIntoSpacerContext>
           </IntersectionObserverContext>
         </table>
       </AnimatedColumnContext>

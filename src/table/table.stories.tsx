@@ -16,9 +16,9 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {createRandom} from '../util-stories';
-import {AnimatedColumnContext, CollapseItemIntoSpacerContext, defaultRowHeight} from './table-const';
-import {useIsIntersectingListener} from '../global/intersection-observer-context';
+import {AnimatedColumnContext, defaultRowHeight} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
+import {useItemVirtualization} from './item-virtualization';
 
 import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -933,36 +933,14 @@ function TeamCityBuild({
   const mainRef = useRef<HTMLTableRowElement>(null);
   const detailsRef = useRef<HTMLTableRowElement>(null);
 
-  const mainIsIntersecting = useRef<boolean>(null);
-  const detailsIsIntersecting = useRef<boolean>(null);
-
-  const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
-  const collapseIfBothNotIntersecting = useEffectEvent(() => {
-    if (mainIsIntersecting.current === false && (!expanded || detailsIsIntersecting.current === false)) {
-      const mainHeight = mainRef.current?.getBoundingClientRect().height;
-      const detailsHeight = detailsRef.current?.getBoundingClientRect().height;
-      if (mainHeight != null) {
-        collapseItemIntoSpacer(mainHeight + (detailsHeight ?? 0));
-      }
-    }
-  });
-
-  useIsIntersectingListener({
+  useItemVirtualization({
     enabled: true,
-    ref: mainRef,
-    onChange: isIntersecting => {
-      mainIsIntersecting.current = isIntersecting;
-      collapseIfBothNotIntersecting();
-    },
-  });
-
-  useIsIntersectingListener({
-    enabled: expanded,
-    ref: detailsRef,
-    onChange: isIntersecting => {
-      detailsIsIntersecting.current = isIntersecting;
-      collapseIfBothNotIntersecting();
-    },
+    index,
+    refs: useMemo(() => (expanded ? [mainRef, detailsRef] : mainRef), [expanded]),
+    onIntersectionChange: (isIntersecting, _i, elements) =>
+      isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
+        ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
+        : undefined,
   });
 
   const animatedColumn = use(AnimatedColumnContext);

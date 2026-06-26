@@ -1,9 +1,9 @@
 import {type ComponentPropsWithRef, type Context, use, useRef} from 'react';
 import classNames from 'classnames';
 
-import {AnimatedColumnContext, CollapseItemIntoSpacerContext, TablePropsContext} from './table-const';
-import {useIsIntersectingListener} from '../global/intersection-observer-context';
+import {AnimatedColumnContext, TablePropsContext} from './table-const';
 import {useComposedRef} from '../global/compose-refs';
+import {useItemVirtualization} from './item-virtualization';
 
 import type {TableProps} from './table-props';
 
@@ -84,15 +84,12 @@ export function DefaultItemRenderer<T>({
   const localRef = useRef<HTMLTableRowElement>(null);
   const composedRef = useComposedRef(userRef, localRef);
 
-  const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
-  useIsIntersectingListener({
+  useItemVirtualization({
     enabled: !noVirtualization,
-    ref: localRef,
-    onChange: isIntersecting => {
-      if (localRef.current && !isIntersecting) {
-        collapseItemIntoSpacer(localRef.current.getBoundingClientRect().height);
-      }
-    },
+    index,
+    refs: localRef,
+    onIntersectionChange: ([isIntersecting], _i, [element]) =>
+      element?.isConnected && isIntersecting === false ? element.getBoundingClientRect().height : undefined,
   });
 
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);

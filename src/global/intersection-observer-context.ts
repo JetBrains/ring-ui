@@ -1,6 +1,30 @@
 import {createContext, type RefObject, use, useEffect, useState} from 'react';
 
 /**
+ * Provides access to a shared `IntersectionObserver` instance
+ * via the {@link IntersectionObserverContext} context.
+ *
+ * @see IntersectionObserverContext
+ */
+export interface IntersectionObserverHandle {
+  /**
+   * Starts observing an element.
+   *
+   * Returns a cleanup function that stops observing it.
+   */
+  observe(element: Element, isIntersecting: (isIntersecting: boolean) => void): () => void;
+}
+
+/**
+ * @internal
+ */
+const noopIntersectionObserverHandle: IntersectionObserverHandle = {
+  observe: () => () => {},
+};
+
+/**
+ * Multiple components can share a single `IntersectionObserver` instance through this context.
+ *
  * Usage:
  *
  * ```tsx
@@ -11,32 +35,37 @@ import {createContext, type RefObject, use, useEffect, useState} from 'react';
  * function YourComponent() {
  *   // Contains the current isIntersecting value
  *   const isIntersecting = useIsIntersecting(elementRef);
- *   // Or, to get updates instead:
- *   useIsIntersectingListener(elementRef, newIsIntersecting => {
- *     // ...
+ *
+ *   // Or, to manually work with the IntersectionObserverHandle:
+ *   const handle = use(IntersectionObserverContext);
+ *   useEffect(() => {
+ *     return handle.observe(elementRef.current, isIntersecting => { ... })
  *   })
  * }
  * ```
  */
-export const IntersectionObserverContext = createContext<IntersectionObserverHandle | null>(null);
+export const IntersectionObserverContext = createContext<IntersectionObserverHandle>(noopIntersectionObserverHandle);
 
+/**
+ * Creates an IntersectionObserverHandle suitable for {@link IntersectionObserverContext}.
+ */
 export function useIntersectionObserverHandle(
   rootRef?: RefObject<HTMLElement | null>,
   rootMargin?: number,
   scrollMargin?: number,
 ) {
-  const [handle, setHandle] = useState<IntersectionObserverHandle | null>(null);
+  const [handle, setHandle] = useState(noopIntersectionObserverHandle);
 
   useEffect(() => {
     const root = rootRef?.current;
 
-    const elementToOnChange = new Map<Element, (isIntersecting: boolean) => void>();
+    const callbacksByElement = new Map<Element, ((isIntersecting: boolean) => void)[]>();
 
     const observer = new IntersectionObserver(
       entries => {
         for (const entry of entries) {
-          const onChange = elementToOnChange.get(entry.target);
-          onChange?.(entry.isIntersecting);
+          const callbacks = callbacksByElement.get(entry.target);
+          callbacks?.forEach(cb => cb(entry.isIntersecting));
         }
       },
       {
@@ -48,60 +77,50 @@ export function useIntersectionObserverHandle(
 
     setHandle({
       observe(element, onChange) {
-        elementToOnChange.set(element, onChange);
-        observer.observe(element);
+        if (!callbacksByElement.has(element)) {
+          callbacksByElement.set(element, []);
+          observer.observe(element);
+        }
+        callbacksByElement.get(element)!.push(onChange);
 
         return () => {
-          elementToOnChange.delete(element);
-          observer.unobserve(element);
+          const callbacks = callbacksByElement.get(element);
+          if (!callbacks) return;
+
+          const index = callbacks.indexOf(onChange);
+          if (index !== -1) {
+            callbacks.splice(index, 1);
+          }
+          if (!callbacks.length) {
+            callbacksByElement.delete(element);
+            observer.unobserve(element);
+          }
         };
       },
     });
 
     return () => {
       observer.disconnect();
-      setHandle(null);
+      setHandle(noopIntersectionObserverHandle);
     };
   }, [rootRef, rootMargin, scrollMargin]);
 
   return handle;
 }
 
-export interface IntersectionObserverHandle {
-  observe(element: Element, setIsIntersecting: (isIntersecting: boolean) => void): () => void;
-}
-
+/**
+ * Returns whether the referenced element is currently intersecting.
+ */
 export function useIsIntersecting(elementRef: RefObject<Element | null>) {
   const handle = use(IntersectionObserverContext);
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   useEffect(() => {
     const element = elementRef.current;
-    if (!element || !handle) return;
+    if (!element) return;
 
     return handle.observe(element, setIsIntersecting);
-  }, [handle, elementRef, setIsIntersecting]);
+  }, [handle, elementRef]);
 
   return isIntersecting;
-}
-
-export function useIsIntersectingListener({
-  enabled,
-  ref,
-  onChange,
-}: {
-  enabled?: boolean;
-  ref: RefObject<Element | null>;
-  onChange: (isIntersecting: boolean) => void;
-}) {
-  const handle = use(IntersectionObserverContext);
-
-  useEffect(() => {
-    if (!enabled) return;
-
-    const element = ref.current;
-    if (!element || !handle) return;
-
-    return handle.observe(element, onChange);
-  }, [handle, ref, onChange, enabled]);
 }

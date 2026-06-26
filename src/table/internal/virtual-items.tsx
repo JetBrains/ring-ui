@@ -1,4 +1,4 @@
-import {type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {createContext, type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import {useIntersectionObserverHandle} from '../../global/intersection-observer-context';
 
@@ -24,6 +24,8 @@ interface Spacer {
   key: string;
 }
 
+export const CollapseItemIntoSpacerContext = createContext<(index: number, height: number) => void>(() => {});
+
 /**
  * RAF is somewhat too frequent. Most updates happen on virtualization boundaries
  * within the invisible overscroll area, so they don't require such a high update rate.
@@ -31,7 +33,7 @@ interface Spacer {
  */
 const virtualizationThrottleDelay = 50;
 
-export function useTableVirtualize<T>({
+export function useVirtualItems<T>({
   enabled,
   data,
   data: {length},
