@@ -16,7 +16,7 @@ export interface DefaultItemRendererProps {
   index: number;
 
   /**
-   * If true, the row will be focusable with up/down arrow keys.
+   * If `true`, the row will be focusable with up/down arrow keys.
    * Focus is implemented using the
    * ["roving tabindex"](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets#technique_1_roving_tabindex)
    * technique, that is, only the focused row has `tabIndex={0}`.
@@ -30,44 +30,31 @@ export interface DefaultItemRendererProps {
   clickable?: boolean;
 
   /**
-   * If true, the row is highlighted as selected, that is, with the
-   * a different background color.
+   * If `true`, the row is highlighted as selected with a different background color.
    */
   selected?: boolean;
 
   /**
-   * A level of a nested item. Results in an indent for columns with `indent: true`.
-   * 0, negative values, and an unset value mean no indent.
+   * The nesting level of an item. Applies an indent for columns with
+   * `Column.indent` set to `true`. `0`, negative values, and an unset value
+   * mean no indent.
    */
   level?: number;
 
   /**
-   * When set to `true`, doesn't control the item virtualization.
-   * Useful when you include `DefaultItemRenderer` as a part of a custom row rendered,
+   * When set to `true`, does not control item virtualization.
+   * Useful when you include `DefaultItemRenderer` as a part of a custom row renderer,
    * and track the visibility yourself.
    */
   noItemVirtualization?: boolean;
 }
 
 /**
- * Use to render a row in a standard way, and to specify item-scoped props like this:
+ * Standard component for rendering a table row.
  *
- * ```tsx
- * <DefaultItemRenderer
- *   index={index}
- *   keyboardFocusable
- *   clickable
- *   onClick={e => {
- *     if (!isWithinInteractiveElement(e.target)) {
- *       selection.toggle(item);
- *       focusWithTemporaryTabIndex(e.currentTarget);
- *       e.preventDefault();
- *     }
- *   }}
- * />
- *```
- *
- * `isWithinInteractiveElement()` and `focusWithTemporaryTabIndex()` are utils in the 'global' directory.
+ * Renders an item using the table's column definitions and lets you
+ * configure item-scoped behavior such as selection, keyboard navigation,
+ * event handlers, `className`, and `ref`.
  */
 export function DefaultItemRenderer<T>({
   index,
@@ -164,8 +151,8 @@ export interface TableRowProps {
 export const keyboardFocusableAttrName = 'data-keyboard-focusable';
 
 /**
- * A helper `<tr>` component for a custom {@link TableProps.renderItem} implementations.
- * Applies the standard row classnames.
+ * A helper `<tr>` component for custom {@link TableProps.renderItem} implementations.
+ * Applies the standard row class names.
  */
 export function TableRow(props: TableRowProps & ComponentPropsWithRef<'tr'>) {
   const {keyboardFocusable, className, ...restProps} = props;
@@ -175,8 +162,8 @@ export function TableRow(props: TableRowProps & ComponentPropsWithRef<'tr'>) {
 }
 
 /**
- * A helper `<td>` component for a custom {@link TableProps.renderItem} implementations.
- * Applies the standard cell classnames, but not data-dependent `tdClassName`.
+ * A helper `<td>` component for custom {@link TableProps.renderItem} implementations.
+ * Applies the standard cell class names, but not data-dependent `tdClassName`.
  */
 export function TableCell(props: ComponentPropsWithRef<'td'>) {
   const {className, ...restProps} = props;
