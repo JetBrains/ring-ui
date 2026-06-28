@@ -70,42 +70,41 @@ export function useVirtualItems<T>({
   const materializeVisibleSpacerItems = useCallback(() => {
     if (!tableRef.current) return;
 
-    const containerHeight = scrollerRef?.current?.clientHeight ?? window.innerHeight;
+    const scrollerRect = scrollerRef?.current?.getBoundingClientRect();
+
+    const visibleStart = scrollerRect?.top ?? 0;
+    const visibleEnd = scrollerRect ? Math.min(scrollerRect.bottom, window.innerHeight) : window.innerHeight;
+
+    const materializeStart = visibleStart - lookaheadPx;
+    const materializeEnd = visibleEnd + lookaheadPx;
 
     for (const spacerRow of tableRef.current.querySelectorAll(`.${styles.spacerRow}`)) {
-      const rect = spacerRow.getBoundingClientRect();
+      const spacerRect = spacerRow.getBoundingClientRect();
 
-      const spacerIntersectsLookaheadArea = rect.top < containerHeight + lookaheadPx && rect.bottom > -lookaheadPx;
-      if (!spacerIntersectsLookaheadArea) {
+      if (spacerRect.bottom < materializeStart || spacerRect.top > materializeEnd) {
         continue;
       }
 
-      const visibleOffsetStart = Math.max(0, -rect.top);
-      const visibleOffsetEnd = Math.min(rect.height, containerHeight - rect.top);
-
-      const materializeOffsetStart = visibleOffsetStart - lookaheadPx;
-      const materializeOffsetEnd = visibleOffsetEnd + lookaheadPx;
-
-      let offsetInSpacer = 0;
-
       const from = Number((spacerRow as HTMLElement).dataset.from);
       const to = Number((spacerRow as HTMLElement).dataset.to);
+
+      let currentTop = spacerRect.top;
 
       for (let i = from; i < to; i++) {
         const itemMaterialization = itemsMaterialization.current[i];
         const itemHeight =
           typeof itemMaterialization === 'number' ? itemMaterialization : estimateHeight(data[i], i, data);
 
-        const itemOffsetStart = offsetInSpacer;
-        const itemOffsetEnd = offsetInSpacer + itemHeight;
+        const itemTop = currentTop;
+        const itemBottom = currentTop + itemHeight;
 
-        if (itemOffsetStart < materializeOffsetEnd && itemOffsetEnd > materializeOffsetStart) {
+        if (materializeStart <= itemTop && itemBottom <= materializeEnd) {
           itemsMaterialization.current[i] = true;
-        } else if (itemOffsetStart > materializeOffsetEnd) {
+        } else if (itemTop > materializeEnd) {
           break;
         }
 
-        offsetInSpacer += itemHeight;
+        currentTop += itemHeight;
       }
     }
   }, [data, estimateHeight, lookaheadPx, scrollerRef, tableRef]);

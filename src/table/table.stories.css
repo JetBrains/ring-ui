@@ -18,6 +18,14 @@
   height: 300px;
 }
 
+.scrollerBottom {
+  overflow-y: scroll;
+
+  height: 300px;
+
+  margin-top: calc(100vh - 320px);
+}
+
 .noChildrenChevronPadding {
   padding-left: 16px;
 }

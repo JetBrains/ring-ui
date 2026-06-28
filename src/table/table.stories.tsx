@@ -326,7 +326,7 @@ export const WithVirtualization: TableStory<Issue> = {
   tags: ['!autodocs'],
 };
 
-export const WithVirtualizationInScroller: TableStory<Issue> = {
+export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
   args: {
     data: [],
     columns: issuesColumns,
@@ -347,6 +347,38 @@ export const WithVirtualizationInScroller: TableStory<Issue> = {
           onSort={(columnIndex, newOrder) =>
             sortByColumn(issuesLongData, columns, columnIndex, newOrder, setData, setColumns)
           }
+          virtualizeRows
+          scrollerRef={scrollerRef}
+        />
+      </div>
+    );
+  },
+
+  parameters: {
+    docs: {
+      disable: true,
+    },
+  },
+
+  tags: ['!autodocs'],
+};
+
+export const WithVirtualizationInScrollerBottom: TableStory<Issue> = {
+  args: {
+    data: [],
+    columns: issuesColumns,
+    getKey: ({id}) => id,
+  },
+
+  render(args) {
+    const scrollerRef = useRef<HTMLDivElement | null>(null);
+
+    return (
+      <div className={style.scrollerBottom} ref={scrollerRef}>
+        <Table
+          data={issuesLongData}
+          columns={args.columns}
+          getKey={args.getKey}
           virtualizeRows
           scrollerRef={scrollerRef}
         />
