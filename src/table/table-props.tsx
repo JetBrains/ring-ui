@@ -232,18 +232,21 @@ export interface Column<T> {
   name?: string;
 
   /**
-   * Default: name ?? String(key)
+   * Renders the content of the column header, excluding controls such as
+   * the sort and delete buttons. If not specified, the default behavior is
+   * `name ?? String(key)`.
    */
   renderHeader?: () => ReactNode;
 
   /**
-   * Renders a single cell value for a column.
-   * Default:
+   * Renders the value of a single cell. If not specified, the default
+   * behavior is:
+   *
    * - If `item` is an `Array`, renders `String(item[columnIndex])`
-   * - If `item` is an `Object`, renders `Object.values(item)[columnIndex]`
+   * - If `item` is an `Object`, renders `String(item[String(columnKey)])`
    * - Otherwise:
    *   - The first column renders `String(item)`
-   *   - Other columns render empty string
+   *   - Other columns render an empty string
    */
   renderCell?: (item: T, index: number, items: T[]) => ReactNode;
 

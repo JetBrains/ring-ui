@@ -128,23 +128,27 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
     data: smallDataSlice,
     columns: [
       {
-        key: 'ID',
+        key: 'id',
+        name: 'ID',
         canReorder: true,
       },
       {
-        key: 'Country',
+        key: 'country',
+        name: 'Country',
         sortOrder: 'none',
         deletable: true,
         canReorder: true,
       },
       {
-        key: 'City',
+        key: 'city',
+        name: 'City',
         sortOrder: 'none',
         deletable: true,
         canReorder: true,
       },
       {
-        key: 'URL',
+        key: 'url',
+        name: 'URL',
         deletable: true,
         renderCell: ({url}) => <PlaceLink href={url} />,
         canReorder: true,
@@ -271,7 +275,8 @@ const issuesColumns = [
     renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
   },
   {
-    key: 'Votes',
+    key: 'votes',
+    name: 'Votes',
     sortOrder: 'none',
   },
 ] satisfies Column<Issue>[];
@@ -362,9 +367,9 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
     columns: [
-      {key: 'ID'},
-      {key: 'Country'},
-      {key: 'City'},
+      {key: 'id', name: 'ID'},
+      {key: 'country', name: 'Country'},
+      {key: 'city', name: 'City'},
       {
         key: 'URL',
         renderCell: ({url}) => <PlaceLink href={url} />,
@@ -597,7 +602,7 @@ export const NoHeader: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
     columns: [
-      {key: 'ID'},
+      {key: 'id', name: 'ID'},
       {key: 'Country', renderCell: ({country}) => country},
       {key: 'City', renderCell: ({city}) => city},
     ],

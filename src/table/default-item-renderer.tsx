@@ -1,4 +1,4 @@
-import {type ComponentPropsWithRef, type Context, use, useCallback, useRef} from 'react';
+import {type ComponentPropsWithRef, type Context, type Key, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
 import {ColumnAnimationContext, TablePropsContext} from './table-const';
@@ -114,7 +114,7 @@ export function DefaultItemRenderer<T>({
             )}
             style={indent && level != null && level > 0 ? {paddingInlineStart: `${level * indentSize}px`} : undefined}
           >
-            {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex)}
+            {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex, key)}
           </TableCell>
         );
       })}
@@ -122,13 +122,13 @@ export function DefaultItemRenderer<T>({
   );
 }
 
-function getDefaultCellValue<T>(item: T, columnIndex: number) {
+function getDefaultCellValue<T>(item: T, columnIndex: number, columnKey: Key) {
   if (Array.isArray(item)) {
-    return String(item[columnIndex] ?? '');
+    return String(item[columnIndex]);
   }
 
   if (item !== null && typeof item === 'object') {
-    return String(Object.values(item)[columnIndex] ?? '');
+    return String((item as Record<string, unknown>)[String(columnKey)]);
   }
 
   if (columnIndex === 0) {
