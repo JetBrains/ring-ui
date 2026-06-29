@@ -261,7 +261,7 @@ function ColumnReorderHandle<T>({
       if (!dragFrame) {
         dragFrame = document.createElement('div');
         dragFrame.className = styles.columnDragFrame;
-        dragFrame.style.setProperty('top', `${headerTopClientY - 2}px`);
+        dragFrame.style.setProperty('top', `calc(max(0px, ${headerTopClientY - 2}px))`);
         dragFrame.style.setProperty('width', `${r - l}px`);
         dragFrame.style.setProperty('height', indicatorHeight);
         document.body.appendChild(dragFrame);

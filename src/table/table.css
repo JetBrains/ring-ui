@@ -16,7 +16,7 @@
 
   top: 0;
 
-  background-color: rgba(var(--ring-content-background-components), 0.8);
+  background-color: rgba(var(--ring-content-background-components), 0.85);
   backdrop-filter: blur(8px);
 }
 
