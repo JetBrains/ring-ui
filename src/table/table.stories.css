@@ -100,25 +100,21 @@
 }
 
 .chevronTd {
-  transition: opacity var(--ring-fast-ease);
-
-  opacity: 0;
-
-  .build:hover &,
-  .build:focus-within &,
-  .build:has(+ .details:focus-within) & {
-    opacity: 1;
-  }
-
   & svg {
-    transition: color var(--ring-fast-ease);
+    transition: color var(--ring-fast-ease), color var(--ring-fast-ease);
 
-    color: var(--ring-icon-color);
+    color: transparent;
+
+    .build:hover &,
+    .build:focus-within &,
+    .build:has(+ .details:focus-within) & {
+      color: var(--ring-icon-color);
+    }
   }
 
   &:hover svg,
   &:focus-within svg {
-    color: var(--ring-main-color);
+    color: var(--ring-main-color) !important;
   }
 }
 

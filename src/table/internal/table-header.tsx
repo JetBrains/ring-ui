@@ -19,9 +19,8 @@ import {parseCssDuration} from '../../global/parse-css-duration';
 import styles from '../table.css';
 
 export function TableHeader<T>({expectColumnReorder}: {expectColumnReorder: ExpectColumnReorder}) {
-  const {columns, noHeader, columnEditing, onColumnEditingRequest, theadClassName, theadTrClassName} = use(
-    TablePropsContext as Context<TableProps<T>>,
-  );
+  const {columns, noHeader, stickyHeader, columnEditing, onColumnEditingRequest, theadClassName, theadTrClassName} =
+    use(TablePropsContext as Context<TableProps<T>>);
 
   const [localColumnEditing, setLocalColumnEditing] = useState(false);
   const effectiveColumnEditing = columnEditing ?? localColumnEditing;
@@ -59,7 +58,11 @@ export function TableHeader<T>({expectColumnReorder}: {expectColumnReorder: Expe
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
     <thead
-      className={classNames(theadClassName, effectiveColumnEditing && styles.theadColumnEditing)}
+      className={classNames(
+        theadClassName,
+        effectiveColumnEditing && styles.theadColumnEditing,
+        stickyHeader && styles.stickyHeader,
+      )}
       onClick={handleTheadClick}
     >
       <tr className={theadTrClassName}>
@@ -101,13 +104,13 @@ function TableHeaderCell<T>({
       aria-sort={sortOrder}
     >
       <div className={styles.headerCellInnerWrapper}>
-        <div>
+        <div className={styles.sortAndHeader}>
           {canReorder && <ColumnReorderHandle columnIndex={columnIndex} expectColumnReorder={expectColumnReorder} />}
           {sortOrder ? <SortButton columnIndex={columnIndex}>{children}</SortButton> : children}
           {canReorder && <ColumnReorderHandleMirror />}
         </div>
 
-        <div>
+        <div className={styles.rightButtons}>
           {deletable && <DeleteColumnButton columnIndex={columnIndex} />}
           {columnIndex === columns.length - 1 && columnEditButton && (
             <EditColumnsButton onClick={handleEditColumnsButtonClick} />
@@ -238,7 +241,7 @@ function ColumnReorderHandle<T>({
     state: 'is-dragging' | 'ended-with-no-change';
     startColumnIndex: number;
     startClientX: number;
-    tableTopClientY: number;
+    headerTopClientY: number;
     columnsClientX: {l: number; r: number}[];
     indicatorHeight: string;
     cleanup: () => void;
@@ -250,15 +253,16 @@ function ColumnReorderHandle<T>({
 
   const renderDragFrame = useCallback(
     (clientX: number) => {
-      const {startColumnIndex, startClientX, tableTopClientY, columnsClientX, indicatorHeight} = activeDragRef.current!;
+      const {startColumnIndex, startClientX, headerTopClientY, columnsClientX, indicatorHeight} =
+        activeDragRef.current!;
       const {l, r} = columnsClientX[startColumnIndex];
 
       let dragFrame = getDragFrame();
       if (!dragFrame) {
         dragFrame = document.createElement('div');
         dragFrame.className = styles.columnDragFrame;
-        dragFrame.style.setProperty('top', `${tableTopClientY}px`);
-        dragFrame.style.setProperty('width', `${r - l - 1}px`);
+        dragFrame.style.setProperty('top', `${headerTopClientY - 2}px`);
+        dragFrame.style.setProperty('width', `${r - l}px`);
         dragFrame.style.setProperty('height', indicatorHeight);
         document.body.appendChild(dragFrame);
       }
@@ -303,14 +307,14 @@ function ColumnReorderHandle<T>({
   const renderInsertionIndicator = useCallback(
     (insertionPoint: ReturnType<typeof getClosestInsertionPoint>) => {
       const {index, after} = insertionPoint;
-      const {tableTopClientY, columnsClientX, indicatorHeight} = activeDragRef.current!;
+      const {headerTopClientY, columnsClientX, indicatorHeight} = activeDragRef.current!;
       const {l, r} = columnsClientX[index];
 
       let indicator = getInsertionIndicator();
       if (!indicator) {
         indicator = document.createElement('div');
         indicator.className = styles.columnInsertionIndicator;
-        indicator.style.setProperty('top', `${tableTopClientY}px`);
+        indicator.style.setProperty('top', `${headerTopClientY}px`);
         indicator.style.setProperty('height', indicatorHeight);
         document.body.appendChild(indicator);
       }
@@ -379,18 +383,17 @@ function ColumnReorderHandle<T>({
       const table = thead?.closest('table');
       if (!thead || !table) return;
 
-      const tableTopClientY = table.getBoundingClientRect().top;
+      const headerTopClientY = thead.getBoundingClientRect().top;
 
       const columnsClientX = [...thead.querySelectorAll('th')].map(th => {
         const rect = th.getBoundingClientRect();
         return {l: rect.x, r: rect.x + rect.width};
       });
 
-      const {top, height} = table.getBoundingClientRect();
-      const tableVisibleBottomViewportY = Math.min(window.innerHeight, top + height);
-      const tableVisibleBottomOffsetFromTableTop = tableVisibleBottomViewportY - top;
-      const viewportBottomRelativeToTableTop = window.innerHeight - top;
-      const indicatorHeight = `min(${tableVisibleBottomOffsetFromTableTop}px, calc(${viewportBottomRelativeToTableTop}px - .5rem))`;
+      const {bottom} = table.getBoundingClientRect();
+      const visibleTableHeight = bottom - headerTopClientY;
+      const viewportBottomRelativeToHeaderTop = window.innerHeight - headerTopClientY;
+      const indicatorHeight = `min(${visibleTableHeight}px, calc(${viewportBottomRelativeToHeaderTop}px - .5rem))`;
 
       currentTarget.setPointerCapture(pointerId);
       function keydownListener(keyEvent: KeyboardEvent) {
@@ -407,7 +410,7 @@ function ColumnReorderHandle<T>({
         state: 'is-dragging',
         startColumnIndex: columnIndex,
         startClientX,
-        tableTopClientY,
+        headerTopClientY,
         columnsClientX,
         indicatorHeight,
         cleanup: () => {

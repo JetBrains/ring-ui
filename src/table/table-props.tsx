@@ -23,6 +23,11 @@ export interface TableProps<T> {
   noHeader?: boolean;
 
   /**
+   * If true, renders a sticky header.
+   */
+  stickyHeader?: boolean;
+
+  /**
    * Not implemented yet.
    *
    * Called when the user moves a row by dragging it.

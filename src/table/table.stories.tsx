@@ -706,7 +706,7 @@ function reorderColumns<T>(
   setColumns(newColumns);
 }
 
-export const WithColumnReorderLong: TableStory<Issue> = {
+export const WithColumnReorderLongSticky: TableStory<Issue> = {
   args: {
     data: [],
     columns: [
@@ -743,6 +743,7 @@ export const WithColumnReorderLong: TableStory<Issue> = {
         data={data}
         columns={columns}
         getKey={args.getKey}
+        stickyHeader
         onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
       />
     );
@@ -807,7 +808,7 @@ const teamCityBuilds = Array.from({length: 500}, (_, i): Build => {
 });
 
 export const TeamCityBuilds: TableStory<Build> = {
-  name: 'TeamCity Builds',
+  name: 'TeamCity Builds Sticky',
 
   render() {
     const [data, setData] = useState(() => [...teamCityBuilds]);
@@ -921,6 +922,7 @@ export const TeamCityBuilds: TableStory<Build> = {
           data={data}
           columns={columns}
           getKey={({id}) => id}
+          stickyHeader
           renderItem={(item, index, items) => (
             <TeamCityBuild build={item} index={index} builds={items} columnsNumber={columns.length} setData={setData} />
           )}
