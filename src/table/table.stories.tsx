@@ -988,7 +988,15 @@ function TeamCityBuild({
     refs: useMemo(() => (expanded ? [mainRef, detailsRef] : mainRef), [expanded]),
     onIntersectionChange: useCallback(
       (isIntersecting, _i, elements) =>
-        isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
+        isIntersecting.every(it => it === false) &&
+        elements.every(el => el?.isConnected) &&
+        [
+          elements[0]?.previousElementSibling?.previousElementSibling,
+          elements[0]?.previousElementSibling,
+          ...elements,
+          elements.at(-1)?.nextElementSibling,
+          elements.at(-1)?.nextElementSibling?.nextElementSibling,
+        ].every(el => !el?.contains(document.activeElement))
           ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
           : undefined,
       [],

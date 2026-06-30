@@ -82,7 +82,12 @@ export function DefaultItemRenderer<T>({
     refs: localRef,
     onIntersectionChange: useCallback(
       ([isIntersecting], _i, [element]) =>
-        !noItemVirtualization && element?.isConnected && isIntersecting === false
+        isIntersecting === false &&
+        !noItemVirtualization &&
+        element?.isConnected &&
+        !element.contains(document.activeElement) &&
+        !element.previousElementSibling?.contains(document.activeElement) &&
+        !element.nextElementSibling?.contains(document.activeElement)
           ? element.getBoundingClientRect().height
           : undefined,
       [noItemVirtualization],
