@@ -1197,7 +1197,7 @@ export const MobXCase: TableStory<(typeof smallDataWithSelected)[number]> = {
                 checked={item.selected}
                 onChange={e => {
                   data[index] = {...item, selected: e.target.checked};
-                  e.preventDefault();
+                  e.stopPropagation();
                 }}
                 label={String(item.id)}
               />
