@@ -1,5 +1,15 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
-import {use, useCallback, useEffect, useEffectEvent, useMemo, useRef, useState} from 'react';
+import {
+  type ComponentType,
+  use,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import chevronIcon from '@jetbrains/icons/chevron-12px-right';
 import starEmptyIcon from '@jetbrains/icons/star-empty-20px';
 import starFilledIcon from '@jetbrains/icons/star-filled-20px';
@@ -1119,3 +1129,193 @@ function TeamCityBuild({
     </>
   );
 }
+
+const listenersMap = new WeakMap<object, Set<() => void>>();
+
+/**
+ * Only observes setting an item by index, e.g. array[i] = {...array[i], newProp: newValue}.
+ */
+function observable<T extends {}>(array: T[]): T[] {
+  array.forEach(item => {
+    listenersMap.set(item, new Set<() => void>());
+  });
+
+  return new Proxy(array, {
+    set(target, key, value, receiver) {
+      const prev = Reflect.get(target, key, receiver);
+      const success = Reflect.set(target, key, value, receiver);
+      const listeners = listenersMap.get(prev);
+      if (success && listeners) {
+        listeners.forEach(l => l());
+        listenersMap.set(value, listeners);
+      }
+      return success;
+    },
+  });
+}
+
+function observer<P extends {}>(Component: ComponentType<P>) {
+  return function Observer(props: P) {
+    const [, rerender] = useReducer(x => x + 1, 0);
+
+    for (const prop of Object.values(props)) {
+      if (prop && typeof prop === 'object' && listenersMap.has(prop)) {
+        listenersMap.get(prop)!.add(rerender);
+      }
+    }
+
+    return <Component {...props} />;
+  };
+}
+
+const smallDataWithSelected = smallDataSlice.map(item => ({...item, selected: false}));
+
+export const MobXCase: TableStory<(typeof smallDataWithSelected)[number]> = {
+  name: 'MobX case',
+
+  args: {
+    data: [...smallDataWithSelected],
+  },
+
+  render(args) {
+    const data = useMemo(() => observable(args.data), [args.data]);
+
+    const renderCounter = useMemo(
+      () => ({
+        val: 0,
+      }),
+      [],
+    );
+
+    const columns = useMemo(
+      () =>
+        [
+          {
+            key: 'ID',
+            renderCell: (item, index) => (
+              <Checkbox
+                checked={item.selected}
+                onChange={e => {
+                  data[index] = {...item, selected: e.target.checked};
+                  e.preventDefault();
+                }}
+                label={String(item.id)}
+              />
+            ),
+          },
+          {key: 'country', name: 'Country'},
+          {key: 'city', name: 'City'},
+          {
+            key: 'URL',
+            renderCell: ({url}) => <PlaceLink href={url} />,
+            tdClassName: style.tdUrl,
+          },
+          {key: 'Render counter', renderCell: () => renderCounter.val++},
+        ] satisfies Column<(typeof smallDataWithSelected)[number]>[],
+      [data, renderCounter],
+    );
+
+    const CountryItemObserver = useMemo(
+      () =>
+        observer(function CountryItemRenderer({
+          item: _initialItem,
+          index,
+        }: {
+          item: (typeof smallDataWithSelected)[number];
+          index: number;
+        }) {
+          const item = data[index];
+
+          return (
+            <DefaultItemRenderer
+              index={index}
+              clickable
+              selected={item.selected}
+              onClick={e => {
+                if (!isWithinInteractiveElement(e.target)) {
+                  data[index] = {...item, selected: !item.selected};
+                  e.preventDefault();
+                }
+              }}
+            />
+          );
+        }),
+      [data],
+    );
+
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        getKey={({id}) => id}
+        renderItem={(item, index) => <CountryItemObserver item={item} index={index} />}
+      />
+    );
+  },
+};
+
+export const SimpleRerenderTest: TableStory<(typeof smallDataWithSelected)[number]> = {
+  args: {
+    data: [...smallDataWithSelected],
+  },
+
+  render(args) {
+    const [data, setData] = useState(args.data);
+
+    const renderCounter = useMemo(
+      () => ({
+        val: 0,
+      }),
+      [],
+    );
+
+    const columns = useMemo(
+      () =>
+        [
+          {
+            key: 'ID',
+            renderCell: (item, index) => (
+              <Checkbox
+                checked={item.selected}
+                onChange={e => {
+                  setData(data.with(index, {...item, selected: e.target.checked}));
+                  e.preventDefault();
+                }}
+                label={String(item.id)}
+              />
+            ),
+          },
+          {key: 'country', name: 'Country'},
+          {key: 'city', name: 'City'},
+          {
+            key: 'URL',
+            renderCell: ({url}) => <PlaceLink href={url} />,
+            tdClassName: style.tdUrl,
+          },
+          {key: 'Render counter', renderCell: () => renderCounter.val++},
+        ] satisfies Column<(typeof smallDataWithSelected)[number]>[],
+      [data, renderCounter],
+    );
+
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        getKey={({id}) => id}
+        renderItem={(item, index) => (
+          <DefaultItemRenderer
+            index={index}
+            clickable
+            selected={item.selected}
+            onClick={e => {
+              if (!isWithinInteractiveElement(e.target)) {
+                setData(data.with(index, {...item, selected: !item.selected}));
+                e.preventDefault();
+              }
+            }}
+          />
+        )}
+      />
+    );
+  },
+};
