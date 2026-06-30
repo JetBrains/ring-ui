@@ -417,8 +417,9 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
         data={args.data}
         columns={args.columns}
         getKey={args.getKey}
-        renderItem={(_item, index) => (
+        renderItem={(item, index) => (
           <DefaultItemRenderer
+            aria-label={`Row: ${item.country}`}
             index={index}
             keyboardFocusable
             clickable
@@ -642,7 +643,15 @@ export const NoHeader: TableStory<(typeof smallDataSlice)[number]> = {
   },
 
   render(args) {
-    return <Table data={args.data} columns={args.columns} getKey={args.getKey} noHeader />;
+    return (
+      <Table
+        data={args.data}
+        columns={args.columns}
+        getKey={args.getKey}
+        noHeader
+        aria-label='Countries table without visible headers'
+      />
+    );
   },
 };
 
@@ -841,10 +850,12 @@ export const TeamCityBuilds: TableStory<Build> = {
             <Checkbox
               checked={!!item.selected}
               onChange={e => setData(items.with(index, {...item, selected: e.target.checked}))}
+              aria-label={`Select build ${item.id}`}
             />
             <Button
               inline
               onClick={() => setData(items.with(index, {...item, favorite: !item.favorite}))}
+              aria-pressed={!!item.favorite}
               aria-label={`${item.favorite ? 'Unmark as favorite' : 'Mark as favorite'} ${item.id}`}
               className={style.starIcon}
             >
@@ -1011,6 +1022,7 @@ function TeamCityBuild({
   return (
     <>
       <DefaultItemRenderer
+        aria-label={`Build ${build.id} row`}
         ref={mainRef}
         index={index}
         clickable
@@ -1087,6 +1099,7 @@ function TeamCityBuild({
               ]}
               getKey={([property]) => property}
               noHeader
+              aria-label='Build details'
             />
             <div
               ref={columnAnimationEmulatorRef}

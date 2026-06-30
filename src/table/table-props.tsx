@@ -18,7 +18,10 @@ export interface TableProps<T> {
   getKey: (item: T, index: number, items: T[]) => React.Key;
 
   /**
-   * If true, the table header will not be rendered.
+   * If `true`, the table header will not be rendered.
+   *
+   * Note that this may impact accessibility. If necessary, provide additional
+   * information via `aria-label` or `aria-description` on the `Table` element.
    */
   noHeader?: boolean;
 
@@ -175,11 +178,13 @@ export interface TableProps<T> {
    * "Column editing mode" is a mode in which controls that are normally hidden
    * become visible, such as column reorder and delete buttons.
    *
-   * When this prop is undefined, the component manages the mode internally.
+   * When this prop is `undefined`, the component manages the mode internally.
    * Users can toggle it by tapping the table header on mobile or by clicking
-   * the column edit button, if enabled.
+   * the column edit button, if enabled. Since tapping the table header is not
+   * discoverable by assistive technologies, it's recommended to enable
+   * `columnEditButton` when using the internal mode.
    *
-   * Pass `true` or `false` to control the mode externally.
+   * Alternatively, pass `true` or `false` to control the mode externally.
    */
   columnEditing?: boolean;
 
@@ -200,6 +205,9 @@ export interface TableProps<T> {
   /**
    * Whether to show a small gear button in the top-right corner that
    * toggles column editing mode.
+   *
+   * For accessibility, it's recommended to enable this button unless you
+   * provide an external control for toggling column editing mode.
    */
   columnEditButton?: boolean;
 

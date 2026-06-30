@@ -135,6 +135,11 @@ import styles from './table.css';
  * />
  * ```
  *
+ * Note that the table does not implement standard accessibility patterns such
+ * as `grid` or `treegrid`, so row focus is not announced by screen readers.
+ * Make sure all essential actions remain available without row focus, for
+ * example via standard Tab navigation.
+ *
  * ## Sorting
  *
  * You need the following to support sorting:

@@ -70,6 +70,7 @@ export function TableHeader<T>({expectColumnReorder}: {expectColumnReorder: Expe
           <TableHeaderCell
             key={column.key}
             columnIndex={columnIndex}
+            columnEditing={effectiveColumnEditing}
             handleEditColumnsButtonClick={handleEditColumnsButtonClick}
             expectColumnReorder={expectColumnReorder}
           />
@@ -81,10 +82,12 @@ export function TableHeader<T>({expectColumnReorder}: {expectColumnReorder: Expe
 
 function TableHeaderCell<T>({
   columnIndex,
+  columnEditing,
   handleEditColumnsButtonClick,
   expectColumnReorder,
 }: {
   columnIndex: number;
+  columnEditing: boolean;
   handleEditColumnsButtonClick: () => void;
   expectColumnReorder: ExpectColumnReorder;
 }) {
@@ -101,19 +104,26 @@ function TableHeaderCell<T>({
         animatedColumn?.columnIndex === columnIndex && animatedColumn.cellClassName,
         thClassName,
       )}
+      scope='col'
       aria-sort={sortOrder}
     >
       <div className={styles.headerCellInnerWrapper}>
         <div className={styles.sortAndHeader}>
           {canReorder && <ColumnReorderHandle columnIndex={columnIndex} expectColumnReorder={expectColumnReorder} />}
-          {sortOrder ? <SortButton columnIndex={columnIndex}>{children}</SortButton> : children}
+          {sortOrder ? (
+            <SortButton columnIndex={columnIndex} aria-description={`Sort order: ${sortOrder}`}>
+              {children}
+            </SortButton>
+          ) : (
+            children
+          )}
           {canReorder && <ColumnReorderHandleMirror />}
         </div>
 
         <div className={styles.rightButtons}>
           {deletable && <DeleteColumnButton columnIndex={columnIndex} />}
           {columnIndex === columns.length - 1 && columnEditButton && (
-            <EditColumnsButton onClick={handleEditColumnsButtonClick} />
+            <EditColumnsButton columnEditing={columnEditing} onClick={handleEditColumnsButtonClick} />
           )}
         </div>
       </div>
@@ -186,7 +196,7 @@ function DeleteColumnButton<T>({
     return null;
   }
 
-  const hint = `Delete column ${column.name ?? String(column.key)}`;
+  const hint = `Delete column ${column.name ?? String(column.key)}.`;
 
   return (
     <button
@@ -197,23 +207,24 @@ function DeleteColumnButton<T>({
       title={hint}
       {...restProps}
     >
-      <Icon glyph={trashIcon} />
+      <Icon glyph={trashIcon} aria-hidden='true' />
     </button>
   );
 }
 
-function EditColumnsButton(props: ComponentPropsWithRef<'button'>) {
+function EditColumnsButton({columnEditing, ...props}: {columnEditing: boolean} & ComponentPropsWithRef<'button'>) {
   const {className, ...restProps} = props;
-  const hint = 'Show columns controls';
+  const hint = columnEditing ? 'Hide column controls.' : 'Show column controls.';
   return (
     <button
       type='button'
       className={classNames(styles.headerButton, styles.editColumnsButton, className)}
+      aria-pressed={columnEditing}
       aria-label={hint}
       title={hint}
       {...restProps}
     >
-      <Icon glyph={settingsIcon} />
+      <Icon glyph={settingsIcon} aria-hidden='true' />
     </button>
   );
 }
@@ -228,6 +239,7 @@ function ColumnReorderHandle<T>({
   onPointerUp,
   onPointerCancel,
   onLostPointerCapture,
+  onKeyDown,
   ...restProps
 }: {columnIndex: number; expectColumnReorder: ExpectColumnReorder} & ComponentPropsWithRef<'button'>) {
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
@@ -496,19 +508,47 @@ function ColumnReorderHandle<T>({
     [animateNoChangeThenCleanup, onLostPointerCapture],
   );
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      onKeyDown?.(e);
+      if (e.defaultPrevented || !tableProps || !canReorder) return;
+
+      const left = e.key === 'ArrowLeft';
+      const right = e.key === 'ArrowRight';
+      if (!left && !right) return;
+
+      const initialInsertionIndex = left ? columnIndex - 1 : columnIndex + 2;
+      const step = left ? -1 : 1;
+      // eslint-disable-next-line yoda
+      for (let i = initialInsertionIndex; 0 <= i && i <= tableProps.columns.length; i += step) {
+        if (canReorder === true || (typeof canReorder === 'function' && canReorder(i, tableProps.columns))) {
+          expectColumnReorder({fromIndex: columnIndex, insertionIndex: i});
+          tableProps.onColumnReorder?.(columnIndex, i, tableProps.columns);
+          e.preventDefault();
+          return;
+        }
+      }
+    },
+    [canReorder, columnIndex, expectColumnReorder, onKeyDown, tableProps],
+  );
+
   if (!tableProps || !column) {
     return null;
   }
 
-  const hint = `Reorder column ${column.name ?? String(column.key)}`;
+  const hint = `Reorder column ${column.name ?? String(column.key)}.`;
+  const description = 'Use Left and Right arrow keys to move the column.';
 
   return (
+    // eslint-disable-next-line jsx-a11y/role-supports-aria-props
     <button
       ref={composedRef}
       type='button'
       className={classNames(styles.headerButton, styles.columnReorderHandle, className)}
       aria-label={hint}
-      title={hint}
+      aria-description={description}
+      aria-keyshortcuts='ArrowLeft ArrowRight'
+      onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -516,7 +556,7 @@ function ColumnReorderHandle<T>({
       onLostPointerCapture={handleLostPointerCapture}
       {...restProps}
     >
-      <Icon glyph={dragIcon} />
+      <Icon glyph={dragIcon} aria-hidden='true' />
     </button>
   );
 }
@@ -525,5 +565,5 @@ function ColumnReorderHandle<T>({
  * Reserves the space for the reorder handle and prevents layout shift when the handle appears on hover.
  */
 function ColumnReorderHandleMirror() {
-  return <span className={styles.columnReorderHandleMirror} />;
+  return <span className={styles.columnReorderHandleMirror} aria-hidden='true' />;
 }

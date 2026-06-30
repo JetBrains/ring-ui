@@ -55,6 +55,12 @@ export interface DefaultItemRendererProps {
  * Renders an item using the table's column definitions and lets you
  * configure item-scoped behavior such as selection, keyboard navigation,
  * event handlers, `className`, and `ref`.
+ *
+ * Note that row-level click and keyboard handlers are not discoverable
+ * by assistive technologies. Make sure that any functionality relying on
+ * them (such as selection or expand/collapse) is also available through
+ * accessible controls, such as checkboxes or buttons with accessible
+ * labels.
  */
 export function DefaultItemRenderer<T>({
   index,
