@@ -3,12 +3,13 @@ import classNames from 'classnames';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
 import {CollapseItemIntoSpacerContext, SpacerRow, useVirtualItems} from './internal/virtual-items';
-import {DefaultItemRenderer, keyboardFocusableAttrName} from './default-item-renderer';
+import {DefaultItemRenderer} from './default-item-renderer';
 import {ColumnAnimationContext, defaultRowHeight, TablePropsContext} from './table-const';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {useColumnAnimation} from './internal/column-animation';
 import {useComposedRef} from '../global/compose-refs';
 import {TableHeader} from './internal/table-header';
+import {keyboardFocusableAttrName} from './table-primitives';
 
 import type {TableProps} from './table-props';
 
@@ -188,7 +189,7 @@ import styles from './table.css';
  *
  * Use the `renderItem` prop to render an item in a completely custom way.
  * The prop is expected to return one or more table rows for the item.
- * Use `TableRow` and `TableCell` from `table/default-item-renderer` to apply
+ * Use `TableRow` and `TableCell` from `table/table-primitives` to apply
  * the default row and cell styles.
  *
  * ### Focus

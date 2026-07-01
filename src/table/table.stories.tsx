@@ -21,7 +21,7 @@ import Link from '../link/link';
 import TableSelection from '../global/table-selection';
 import Checkbox from '../checkbox/checkbox';
 import Tag, {TagType} from '../tag/tag';
-import {DefaultItemRenderer, TableRow, TableCell} from './default-item-renderer';
+import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
 import Button from '../button/button';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
@@ -29,6 +29,7 @@ import {createRandom} from '../util-stories';
 import {ColumnAnimationContext} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 import {useItemVirtualization} from './item-virtualization';
+import {TableCell, TableRow} from './table-primitives';
 
 import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import {ColumnAnimationContext, TablePropsContext} from './table-const';
 import {useComposedRef} from '../global/compose-refs';
 import {useItemVirtualization} from './item-virtualization';
+import {TableCell, TableRow} from './table-primitives';
 
 import type {TableProps} from './table-props';
 
@@ -147,37 +148,4 @@ function getDefaultCellValue<T>(item: T, columnIndex: number, columnKey: Key) {
   }
 
   return '';
-}
-
-export interface TableRowProps {
-  /**
-   * @see DefaultItemRendererProps.keyboardFocusable
-   */
-  keyboardFocusable?: boolean;
-}
-
-/**
- * @internal
- */
-export const keyboardFocusableAttrName = 'data-keyboard-focusable';
-
-/**
- * A helper `<tr>` component for custom {@link TableProps.renderItem} implementations.
- * Applies the standard row class names.
- */
-export function TableRow(props: TableRowProps & ComponentPropsWithRef<'tr'>) {
-  const {keyboardFocusable, className, ...restProps} = props;
-  const classes = classNames(styles.row, className);
-  const trRestProps = keyboardFocusable ? {[keyboardFocusableAttrName]: '', ...restProps} : restProps;
-  return <tr className={classes} {...trRestProps} />;
-}
-
-/**
- * A helper `<td>` component for custom {@link TableProps.renderItem} implementations.
- * Applies the standard cell class names, but not data-dependent `tdClassName`.
- */
-export function TableCell(props: ComponentPropsWithRef<'td'>) {
-  const {className, ...restProps} = props;
-  const classes = classNames(styles.cell, className);
-  return <td className={classes} {...restProps} />;
 }
