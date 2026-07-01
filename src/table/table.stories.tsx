@@ -53,6 +53,8 @@ type TableStory<T> = StoryObj<typeof Table<T>>;
 
 const smallDataSlice = countriesData.slice(10, 16);
 
+const getKey = ({id}: {id: number | string}) => id;
+
 function PlaceLink({href}: {href: string}) {
   return (
     <Link href={href} target='_blank'>
@@ -66,15 +68,15 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
     data: smallDataSlice,
     columns: [
       {key: 'ID'},
-      {key: 'Country', renderCell: ({country}) => country},
-      {key: 'City', renderCell: ({city}) => city},
+      {key: 'country', name: 'Country'},
+      {key: 'city', name: 'City'},
       {
         key: 'URL',
         renderCell: ({url}) => <PlaceLink href={url} />,
         tdClassName: style.tdUrl,
       },
     ],
-    getKey: item => item.id,
+    getKey,
   },
 
   render(args) {
@@ -165,7 +167,7 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
         tdClassName: style.tdUrl,
       },
     ],
-    getKey: item => item.id,
+    getKey,
   },
 
   render(args) {
@@ -301,12 +303,22 @@ function priorityToTagType(priority: Priority): TagType | undefined {
   return undefined;
 }
 
+/**
+ * Disables docs for stories with long data, because Storybook freezes
+ * when trying to render a long list of items in the docs tab.
+ */
+const noDocsParams = {
+  docs: {
+    disable: true,
+  },
+};
+
 export const WithVirtualization: TableStory<Issue> = {
   args: {
     // Passing long data here would freeze the Storybook
     data: [],
     columns: issuesColumns,
-    getKey: ({id}) => id,
+    getKey,
   },
 
   render(args) {
@@ -326,12 +338,7 @@ export const WithVirtualization: TableStory<Issue> = {
     );
   },
 
-  parameters: {
-    // Otherwise the Storybook freezes
-    docs: {
-      disable: true,
-    },
-  },
+  parameters: noDocsParams,
 
   tags: ['!autodocs'],
 };
@@ -340,7 +347,7 @@ export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
   args: {
     data: [],
     columns: issuesColumns,
-    getKey: ({id}) => id,
+    getKey,
   },
 
   render(args) {
@@ -364,11 +371,7 @@ export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
     );
   },
 
-  parameters: {
-    docs: {
-      disable: true,
-    },
-  },
+  parameters: noDocsParams,
 
   tags: ['!autodocs'],
 };
@@ -396,11 +399,7 @@ export const WithVirtualizationInScrollerBottom: TableStory<Issue> = {
     );
   },
 
-  parameters: {
-    docs: {
-      disable: true,
-    },
-  },
+  parameters: noDocsParams,
 
   tags: ['!autodocs'],
 };
@@ -418,7 +417,7 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
         tdClassName: style.tdUrl,
       },
     ],
-    getKey: item => item.id,
+    getKey,
   },
 
   render(args) {
@@ -649,7 +648,7 @@ export const NoHeader: TableStory<(typeof smallDataSlice)[number]> = {
       {key: 'Country', renderCell: ({country}) => country},
       {key: 'City', renderCell: ({city}) => city},
     ],
-    getKey: item => item.id,
+    getKey,
   },
 
   render(args) {
@@ -693,7 +692,7 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         tdClassName: style.tdUrl,
       },
     ],
-    getKey: item => item.id,
+    getKey,
   },
 
   render(args) {
@@ -711,6 +710,8 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
       />
     );
   },
+
+  tags: ['!autodocs'],
 };
 
 function reorderColumns<T>(
@@ -768,11 +769,7 @@ export const WithColumnReorderLongSticky: TableStory<Issue> = {
     );
   },
 
-  parameters: {
-    docs: {
-      disable: true,
-    },
-  },
+  parameters: noDocsParams,
 
   tags: ['!autodocs'],
 };
@@ -965,11 +962,7 @@ export const TeamCityBuilds: TableStory<Build> = {
     );
   },
 
-  parameters: {
-    docs: {
-      disable: true,
-    },
-  },
+  parameters: noDocsParams,
 
   tags: ['!autodocs'],
 };
@@ -1318,4 +1311,6 @@ export const SimpleRerenderTest: TableStory<(typeof smallDataWithSelected)[numbe
       />
     );
   },
+
+  tags: ['!autodocs'],
 };
