@@ -39,13 +39,13 @@ import style from './table.stories.css';
 
 const meta = {
   title: 'Components/Table',
-
   component: Table,
-
-  parameters: {
-    screenshots: {skip: true},
-  },
 } as Meta<typeof Table<unknown>>;
+
+const waitAndCapture = [
+  {type: 'wait', delay: 300},
+  {type: 'capture', name: 'light', selector: '[id=storybook-root] table'},
+];
 
 export default meta;
 
@@ -55,9 +55,9 @@ const smallDataSlice = countriesData.slice(10, 16);
 
 const getKey = ({id}: {id: number | string}) => id;
 
-function PlaceLink({href}: {href: string}) {
+function PlaceLink({href, dataTest}: {href: string; dataTest?: string}) {
   return (
-    <Link href={href} target='_blank'>
+    <Link href={href} target='_blank' data-test={dataTest}>
       {href}
     </Link>
   );
@@ -133,6 +133,16 @@ export const BasicWithMultiselect: TableStory<(typeof smallDataSlice)[number]> =
       />
     );
   },
+
+  parameters: {
+    screenshots: {
+      actions: [
+        {type: 'click', selector: 'tbody tr:nth-child(2) td:nth-child(1) input[type="checkbox"]'},
+        {type: 'click', selector: 'tbody tr:nth-child(4) td:nth-child(3)'},
+        ...waitAndCapture,
+      ],
+    },
+  },
 };
 
 export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> = {
@@ -191,6 +201,16 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
         columnEditButton
       />
     );
+  },
+
+  parameters: {
+    screenshots: {
+      actions: [
+        {type: 'click', selector: 'button[aria-label="Show column controls."]'},
+        {type: 'click', selector: 'button[aria-label="Delete column City."]'},
+        ...waitAndCapture,
+      ],
+    },
   },
 };
 
@@ -338,7 +358,10 @@ export const WithVirtualization: TableStory<Issue> = {
     );
   },
 
-  parameters: noDocsParams,
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
 
   tags: ['!autodocs'],
 };
@@ -371,7 +394,10 @@ export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
     );
   },
 
-  parameters: noDocsParams,
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
 
   tags: ['!autodocs'],
 };
@@ -399,7 +425,10 @@ export const WithVirtualizationInScrollerBottom: TableStory<Issue> = {
     );
   },
 
-  parameters: noDocsParams,
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
 
   tags: ['!autodocs'],
 };
@@ -413,7 +442,7 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
       {key: 'city', name: 'City'},
       {
         key: 'URL',
-        renderCell: ({url}) => <PlaceLink href={url} />,
+        renderCell: ({url}) => <PlaceLink href={url} dataTest='table-focus-link' />,
         tdClassName: style.tdUrl,
       },
     ],
@@ -442,6 +471,17 @@ export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
         )}
       />
     );
+  },
+
+  parameters: {
+    screenshots: {
+      actions: [
+        {type: 'waitForElementToShow', selector: 'a[data-test~="table-focus-link"]'},
+        {type: 'focus', selector: 'a[data-test~="table-focus-link"]'},
+        {type: 'keys', value: ['ArrowDown']},
+        ...waitAndCapture,
+      ],
+    },
   },
 };
 
@@ -638,6 +678,16 @@ export const WithExpandAndFocus: TableStory<IssueFlat> = {
       />
     );
   },
+
+  parameters: {
+    screenshots: {
+      actions: [
+        {type: 'click', selector: 'thead th:nth-child(2) button'},
+        {type: 'click', selector: 'thead th:nth-child(2) button'},
+        ...waitAndCapture,
+      ],
+    },
+  },
 };
 
 export const NoHeader: TableStory<(typeof smallDataSlice)[number]> = {
@@ -661,6 +711,10 @@ export const NoHeader: TableStory<(typeof smallDataSlice)[number]> = {
         aria-label='Countries table without visible headers'
       />
     );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
   },
 };
 
@@ -707,8 +761,13 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
           sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
         onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        columnEditButton
       />
     );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
   },
 
   tags: ['!autodocs'],
@@ -765,11 +824,15 @@ export const WithColumnReorderLongSticky: TableStory<Issue> = {
         getKey={args.getKey}
         stickyHeader
         onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        columnEditButton
       />
     );
   },
 
-  parameters: noDocsParams,
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
 
   tags: ['!autodocs'],
 };
@@ -823,7 +886,7 @@ const teamCityBuilds = Array.from({length: 500}, (_, i): Build => {
   return {id, branch, status, agent, triggeredBy, triggered, started, finished, problems};
 });
 
-export const TeamCityBuilds: TableStory<Build> = {
+export const TeamCityBuildsSticky: TableStory<Build> = {
   name: 'TeamCity Builds Sticky',
 
   render() {
@@ -962,7 +1025,10 @@ export const TeamCityBuilds: TableStory<Build> = {
     );
   },
 
-  parameters: noDocsParams,
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
 
   tags: ['!autodocs'],
 };
@@ -1245,6 +1311,16 @@ export const MobXCase: TableStory<(typeof smallDataWithSelected)[number]> = {
       />
     );
   },
+
+  parameters: {
+    screenshots: {
+      actions: [
+        {type: 'click', selector: 'tbody tr:nth-child(2) td:nth-child(1) input[type="checkbox"]'},
+        {type: 'click', selector: 'tbody tr:nth-child(4) td:nth-child(2)'},
+        ...waitAndCapture,
+      ],
+    },
+  },
 };
 
 export const SimpleRerenderTest: TableStory<(typeof smallDataWithSelected)[number]> = {
@@ -1310,6 +1386,10 @@ export const SimpleRerenderTest: TableStory<(typeof smallDataWithSelected)[numbe
         )}
       />
     );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
   },
 
   tags: ['!autodocs'],
