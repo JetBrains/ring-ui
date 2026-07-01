@@ -1,4 +1,4 @@
-import {createContext, type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {createContext, type RefObject, useCallback, useEffect, useRef, useState} from 'react';
 
 import {useIntersectionObserverHandle} from '../../global/intersection-observer-context';
 
@@ -11,9 +11,9 @@ import styles from '../table.css';
  */
 type ItemMaterialization = true | number | undefined;
 
-export type VirtualItem = RenderedItem | Spacer;
-interface RenderedItem {
-  type: 'rendered';
+export type VirtualItem = MaterializedItem | Spacer;
+interface MaterializedItem {
+  type: 'materialized';
   index: number;
 }
 interface Spacer {
@@ -57,15 +57,9 @@ export function useVirtualItems<T>({
 }) {
   const itemsMaterialization = useRef<ItemMaterialization[]>([]);
 
-  const [virtualItems, setVirtualItems] = useState<VirtualItem[]>(() => [
-    {
-      type: 'spacer',
-      from: 0,
-      to: length,
-      height: data.reduce((acc, item, index, items) => acc + estimateHeight(item, index, items), 0),
-      key: `${styles.spacerRow}-0`,
-    },
-  ]);
+  const [virtualItems, setVirtualItems] = useState<VirtualItem[]>(() =>
+    enabled ? getAllVirtualizedItems(data, estimateHeight) : getAllMaterializedItems(length),
+  );
 
   const materializeVisibleSpacerItems = useCallback(() => {
     if (!tableRef.current) return;
@@ -117,7 +111,7 @@ export function useVirtualItems<T>({
       const itemMaterialization = itemsMaterialization.current[i];
 
       if (itemMaterialization === true) {
-        newVirtualItems.push({type: 'rendered', index: i});
+        newVirtualItems.push({type: 'materialized', index: i});
       } else {
         const lastItemOrSpacer = newVirtualItems[newVirtualItems.length - 1];
         const lastSpacer = lastItemOrSpacer?.type === 'spacer' ? (lastItemOrSpacer as Spacer) : undefined;
@@ -132,7 +126,7 @@ export function useVirtualItems<T>({
             from: i,
             to: i + 1,
             height,
-            key: `${styles.spacerRow}-${spacerCounter++}`,
+            key: spacerKey(spacerCounter++),
           });
         }
       }
@@ -163,7 +157,21 @@ export function useVirtualItems<T>({
   }, []);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) {
+      let timerId: number | null = window.setTimeout(() => {
+        setVirtualItems(prev =>
+          prev.length === length && prev.every(item => item.type === 'materialized')
+            ? prev
+            : getAllMaterializedItems(length),
+        );
+      });
+      return () => {
+        if (timerId != null) {
+          window.clearTimeout(timerId);
+          timerId = null;
+        }
+      };
+    }
 
     const scroller = scrollerRef?.current;
     let lastHandledScrollTop: number = -Infinity;
@@ -207,7 +215,15 @@ export function useVirtualItems<T>({
         callbacksRef.current = null;
       }
     };
-  }, [enabled, materializeVisibleSpacerItems, minScrollAndResizeDeltaPx, recomputeVirtualItems, scrollerRef, throttle]);
+  }, [
+    enabled,
+    length,
+    materializeVisibleSpacerItems,
+    minScrollAndResizeDeltaPx,
+    recomputeVirtualItems,
+    scrollerRef,
+    throttle,
+  ]);
 
   const intersectionObserverHandle = useIntersectionObserverHandle(
     scrollerRef,
@@ -225,16 +241,34 @@ export function useVirtualItems<T>({
     [enabled, throttle, recomputeVirtualItems],
   );
 
-  const allVisibleVirtualItems = useMemo<VirtualItem[]>(
-    () => Array.from({length: enabled ? 0 : length}, (_, index) => ({type: 'rendered', index})),
-    [enabled, length],
-  );
-
   return {
-    virtualItems: enabled ? virtualItems : allVisibleVirtualItems,
+    virtualItems,
     intersectionObserverHandle,
     collapseItemIntoSpacer,
   };
+}
+
+function getAllVirtualizedItems<T>(
+  data: T[],
+  estimateHeight: (item: T, index: number, items: T[]) => number,
+): VirtualItem[] {
+  return [
+    {
+      type: 'spacer',
+      from: 0,
+      to: data.length,
+      height: data.reduce((acc, item, index, items) => acc + estimateHeight(item, index, items), 0),
+      key: spacerKey(0),
+    },
+  ];
+}
+
+function getAllMaterializedItems(length: number): VirtualItem[] {
+  return Array.from({length}, (_, index) => ({type: 'materialized', index}));
+}
+
+function spacerKey(index: number) {
+  return `__${styles.spacerRow}-${index}`;
 }
 
 export function SpacerRow({spacer: {from, to, height}, colSpan}: {spacer: Spacer; colSpan: number}) {
