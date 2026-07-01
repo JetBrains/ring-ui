@@ -128,6 +128,12 @@ describe('Table basic scenarios', () => {
     expect(brusselsClassName).not.to.equal(berlinClassName);
   });
 
+  it('renders a table without a header', () => {
+    const {container} = render(<Table data={countries} columns={baseColumns} getKey={getKey} noHeader />);
+    expect(container.querySelector('thead')).to.equal(null);
+    expect(container.querySelectorAll('tbody tr')).to.have.length(countries.length);
+  });
+
   it('moves focus to the previous row when ArrowUp is pressed on a link and keyboardFocusable is enabled', () => {
     render(
       <Table
