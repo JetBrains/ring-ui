@@ -5,17 +5,17 @@ export interface TableProps<T> {
    * The data items to render. `null` and `undefined` items are not supported.
    * Referentially identical items are not supported either.
    */
-  data: T[];
+  data: readonly T[];
 
   /**
    * Column definitions.
    */
-  columns: Column<T>[];
+  columns: readonly Column<T>[];
 
   /**
    * Used as a key in the items list.
    */
-  getKey: (item: T, index: number, items: T[]) => React.Key;
+  getKey: (item: T, index: number, items: readonly T[]) => React.Key;
 
   /**
    * If `true`, the table header will not be rendered.
@@ -31,24 +31,17 @@ export interface TableProps<T> {
   stickyHeader?: boolean;
 
   /**
-   * Not implemented yet.
-   *
-   * Called when the user moves a row by dragging it.
-   */
-  onItemMove?: (item: T, fromIndex: number, toIndex: number, items: T[]) => void;
-
-  /**
    * Called when the user clicks the sort button in a column header.
    * The client is expected to update the `columns` prop with the new
    * sort order for the corresponding column, and update the data accordingly.
    */
-  onSort?: (columnIndex: number, newOrder: SortOrder, columns: Column<T>[]) => void;
+  onSort?: (columnIndex: number, newOrder: SortOrder, columns: readonly Column<T>[]) => void;
 
   /**
    * Called when the user clicks on a column delete button in the header.
    * The client is expected to update the `columns` prop with the column removed.
    */
-  onColumnDelete?: (columnIndex: number, columns: Column<T>[]) => void;
+  onColumnDelete?: (columnIndex: number, columns: readonly Column<T>[]) => void;
 
   /**
    * Called when the user reorders columns by dragging a column.
@@ -66,7 +59,7 @@ export interface TableProps<T> {
    * column order, i.e. when
    * `insertionIndex === fromIndex || insertionIndex === fromIndex + 1`.
    */
-  onColumnReorder?: (fromIndex: number, insertionIndex: number, columns: Column<T>[]) => void;
+  onColumnReorder?: (fromIndex: number, insertionIndex: number, columns: readonly Column<T>[]) => void;
 
   /**
    * By default, when a column is reordered, the moved column is highlighted
@@ -83,7 +76,7 @@ export interface TableProps<T> {
    * You can also return custom row(s) instead. See the `Table` documentation
    * for details.
    */
-  renderItem?: (item: T, index: number, items: T[]) => ReactNode;
+  renderItem?: (item: T, index: number, items: readonly T[]) => ReactNode;
 
   /**
    * Only renders rows near the viewport.
@@ -128,7 +121,7 @@ export interface TableProps<T> {
    *
    * Default: 37px = 16px padding + 20px line height + 1px border.
    */
-  estimateHeight?: (item: T, index: number, items: T[]) => number;
+  estimateHeight?: (item: T, index: number, items: readonly T[]) => number;
 
   /**
    * When using `virtualizeRows`, the number of pixels above and below
@@ -261,7 +254,7 @@ export interface Column<T> {
    *   - The first column renders `String(item)`
    *   - Other columns render an empty string
    */
-  renderCell?: (item: T, index: number, items: T[]) => ReactNode;
+  renderCell?: (item: T, index: number, items: readonly T[]) => ReactNode;
 
   /**
    * If the column gets an indent when `DefaultItemRendererProps.level` returns
@@ -292,7 +285,7 @@ export interface Column<T> {
    * Make sure {@link Column.name} or {@link Column.key} is meaningful,
    * as it will be included in the `aria-label` of the reorder button.
    */
-  canReorder?: boolean | ((insertionIndex: number, columns: Column<T>[]) => boolean);
+  canReorder?: boolean | ((insertionIndex: number, columns: readonly Column<T>[]) => boolean);
 
   /**
    * The class name to apply to the `th` element inside `table > thead`.
@@ -304,5 +297,5 @@ export interface Column<T> {
    * If a custom `TableProps.renderItem` is provided, this prop is not used,
    * unless the custom renderer falls back to the `DefaultItemRenderer`.
    */
-  tdClassName?: string | ((item: T, index: number, items: T[]) => string | undefined);
+  tdClassName?: string | ((item: T, index: number, items: readonly T[]) => string | undefined);
 }

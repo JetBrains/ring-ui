@@ -219,12 +219,12 @@ type Priority = 'Trivial' | 'Minor' | 'Normal' | 'Major' | 'Critical' | 'Blocker
 const priorities = ['Trivial', 'Minor', 'Normal', 'Major', 'Critical', 'Blocker'] satisfies Priority[];
 
 function sortByColumn<T extends {}>(
-  data: T[],
-  columns: Column<T>[],
+  data: readonly T[],
+  columns: readonly Column<T>[],
   columnIndex: number,
   sortOrder: SortOrder,
-  setData: (data: T[]) => void,
-  setColumns: (columns: Column<T>[]) => void,
+  setData: (data: readonly T[]) => void,
+  setColumns: (columns: readonly Column<T>[]) => void,
 ) {
   setColumns(getColumnsWithSortOrder(columns, columnIndex, sortOrder));
 
@@ -236,7 +236,7 @@ function sortByColumn<T extends {}>(
   setData(sortByColumnInPlace([...data], columnIndex, sortOrder));
 }
 
-function getColumnsWithSortOrder<T>(columns: Column<T>[], columnIndex: number, sortOrder: SortOrder) {
+function getColumnsWithSortOrder<T>(columns: readonly Column<T>[], columnIndex: number, sortOrder: SortOrder) {
   return columns.map((column, i) => ({
     ...column,
     sortOrder: i === columnIndex ? sortOrder : column.sortOrder ? 'none' : undefined,
@@ -275,7 +275,7 @@ interface Issue {
 
 const random = createRandom(2655435721n);
 
-const issuesLongData: Issue[] = Array.from({length: 100_000}, (_, i) => {
+const issuesLongData: readonly Issue[] = Array.from({length: 100_000}, (_, i) => {
   const prefix = issuePrefix(random);
   const id = `${prefix}-${i}`;
   const votes = random(1000);
@@ -534,7 +534,7 @@ interface IssueFlat extends Issue {
   path: number[];
 }
 
-function isExpanded(data: IssueFlat[], index: number) {
+function isExpanded(data: readonly IssueFlat[], index: number) {
   const item = data[index];
   const nextItem = data[index + 1];
   return item?.hasChildren && nextItem && isChildPath(item.path, nextItem.path);
@@ -775,10 +775,10 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
 };
 
 function reorderColumns<T>(
-  columns: Column<T>[],
+  columns: readonly Column<T>[],
   fromIndex: number,
   insertionIndex: number,
-  setColumns: (newColumns: Column<T>[]) => void,
+  setColumns: (newColumns: readonly Column<T>[]) => void,
 ) {
   const [...newColumns] = columns;
   const [moved] = newColumns.splice(fromIndex, 1);
@@ -891,11 +891,11 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
   name: 'TeamCity Builds Sticky',
 
   render() {
-    const [data, setData] = useState(() => [...teamCityBuilds]);
+    const [data, setData] = useState(() => [...teamCityBuilds] as const);
     const [columnEditing, setColumnEditing] = useState(false);
 
     const dateShortFmt = 'dd MMM yy HH:mm';
-    const [columns, setColumns] = useState<Column<Build>[]>(() => [
+    const [columns, setColumns] = useState<readonly Column<Build>[]>(() => [
       {
         key: 'Chevron',
         renderHeader: () => <span className={style.srOnly}>Expand/Collapse</span>,
@@ -1044,9 +1044,9 @@ function TeamCityBuild({
 }: {
   build: Build;
   index: number;
-  builds: Build[];
+  builds: readonly Build[];
   columnsNumber: number;
-  setData: (newData: Build[]) => void;
+  setData: (newData: readonly Build[]) => void;
 }) {
   const dateLongFmt = 'dd MMM yyyy HH:mm:ss';
 
@@ -1234,11 +1234,11 @@ export const MobXCase: TableStory<(typeof smallDataWithSelected)[number]> = {
   name: 'MobX case',
 
   args: {
-    data: [...smallDataWithSelected],
+    data: smallDataWithSelected,
   },
 
   render(args) {
-    const data = useMemo(() => observable(args.data), [args.data]);
+    const data = useMemo(() => observable([...args.data]), [args.data]);
 
     const renderCounter = useMemo(
       () => ({

@@ -23,11 +23,11 @@ export function useColumnAnimation<T>({
 }: {
   disabled: boolean | undefined;
   tableRef: RefObject<HTMLTableElement | null>;
-  columns: Column<T>[];
+  columns: readonly Column<T>[];
 }) {
   const [columnAnimation, setColumnAnimation] = useState<ColumnAnimation | null>(null);
 
-  const pendingColumnReorder = useRef<ReorderSpec & {timerId: number; columns: Column<T>[]}>(null);
+  const pendingColumnReorder = useRef<ReorderSpec & {timerId: number; columns: readonly Column<T>[]}>(null);
 
   const expectColumnReorder = useCallback<ExpectColumnReorder>(
     (reorderSpec: ReorderSpec) => {

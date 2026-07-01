@@ -47,10 +47,10 @@ export function useVirtualItems<T>({
   minScrollAndResizeDeltaPx,
 }: {
   enabled: boolean;
-  data: T[];
+  data: readonly T[];
   scrollerRef: RefObject<HTMLElement | null> | undefined;
   tableRef: RefObject<HTMLTableElement | null>;
-  estimateHeight: (item: T, index: number, items: T[]) => number;
+  estimateHeight: (item: T, index: number, items: readonly T[]) => number;
   lookaheadPx: number;
   retentionMarginPx: number;
   minScrollAndResizeDeltaPx: number;
@@ -249,8 +249,8 @@ export function useVirtualItems<T>({
 }
 
 function getAllVirtualizedItems<T>(
-  data: T[],
-  estimateHeight: (item: T, index: number, items: T[]) => number,
+  data: readonly T[],
+  estimateHeight: (item: T, index: number, items: readonly T[]) => number,
 ): VirtualItem[] {
   return [
     {

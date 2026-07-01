@@ -226,7 +226,6 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     getKey,
     noHeader,
     stickyHeader,
-    onItemMove,
     onSort,
     onColumnDelete,
     onColumnReorder,
