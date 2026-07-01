@@ -92,7 +92,7 @@ export function useVirtualItems<T>({
         const itemTop = currentTop;
         const itemBottom = currentTop + itemHeight;
 
-        if (materializeStart <= itemTop && itemBottom <= materializeEnd) {
+        if (itemBottom >= materializeStart && itemTop <= materializeEnd) {
           itemsMaterialization.current[i] = true;
         } else if (itemTop > materializeEnd) {
           break;
