@@ -153,6 +153,28 @@ describe('Table basic scenarios', () => {
     expect(document.activeElement).to.equal(viennaRow);
   });
 
+  it('does not move focus to the previous row when Arrow is pressed on an editable element', () => {
+    const {container} = render(
+      <Table
+        data={countries}
+        columns={[
+          ...baseColumns,
+          {
+            key: 'input',
+            renderCell: () => <input />,
+          },
+        ]}
+        getKey={getKey}
+        renderItem={(_item, index) => <DefaultItemRenderer index={index} keyboardFocusable />}
+      />,
+    );
+    const someInput = container.querySelector('tr:nth-child(4) input');
+    expect(someInput).to.not.equal(null);
+    (someInput as HTMLElement).focus();
+    fireEvent.keyDown(someInput as HTMLElement, {key: 'ArrowUp'});
+    expect(document.activeElement).to.equal(someInput);
+  });
+
   it('sorts by one column in descending order and then by another column', () => {
     function SortableTable() {
       const [data, setData] = useState(countries);

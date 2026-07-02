@@ -10,6 +10,7 @@ import {useColumnAnimation} from './internal/column-animation';
 import {useComposedRef} from '../global/compose-refs';
 import {TableHeader} from './internal/table-header';
 import {keyboardFocusableAttrName} from './table-primitives';
+import {isWithinNavigableElement} from '../global/is-within-navigable-element';
 
 import type {TableProps} from './table-props';
 
@@ -272,6 +273,8 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
   });
 
   const handleRowNavigation = useCallback((e: React.KeyboardEvent<HTMLTableSectionElement>) => {
+    if (e.defaultPrevented || isWithinNavigableElement(e.target)) return;
+
     const arrowUp = e.key === 'ArrowUp';
     const arrowDown = e.key === 'ArrowDown';
     if (!arrowUp && !arrowDown) return;
