@@ -245,6 +245,11 @@ function ColumnReorderHandle<T>({
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
   const column = tableProps?.columns[columnIndex];
   const canReorder = column?.canReorder;
+  const canReorderCb = useCallback(
+    (index: number) =>
+      canReorder === true || (typeof canReorder === 'function' && canReorder(index, tableProps!.columns)),
+    [canReorder, tableProps],
+  );
 
   const localRef = useRef<HTMLButtonElement>(null);
   const composedRef = useComposedRef(localRef, userRef);
@@ -297,19 +302,22 @@ function ColumnReorderHandle<T>({
       let index = -1;
       let after = false;
       activeDragRef.current?.columnsClientX.forEach(({l, r}, i) => {
-        if (typeof canReorder === 'function' && !canReorder(i, tableProps!.columns)) return;
-
         const distanceToLeft = Math.abs(l - clientX);
         const distanceToRight = Math.abs(r - clientX);
-        if (distanceToLeft < bestDistance || distanceToRight < bestDistance) {
-          bestDistance = Math.min(distanceToLeft, distanceToRight);
+        if (distanceToLeft < bestDistance && canReorderCb(i)) {
+          bestDistance = distanceToLeft;
           index = i;
-          after = distanceToRight < distanceToLeft;
+          after = false;
+        }
+        if (distanceToRight < bestDistance && canReorderCb(i + 1)) {
+          bestDistance = distanceToRight;
+          index = i;
+          after = true;
         }
       });
       return {index, after};
     },
-    [canReorder, tableProps],
+    [canReorderCb],
   );
 
   const getInsertionIndicator = useCallback(() => {
@@ -511,7 +519,7 @@ function ColumnReorderHandle<T>({
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLButtonElement>) => {
       onKeyDown?.(e);
-      if (e.defaultPrevented || !tableProps || !canReorder) return;
+      if (e.defaultPrevented || !tableProps) return;
 
       const left = e.key === 'ArrowLeft';
       const right = e.key === 'ArrowRight';
@@ -521,7 +529,7 @@ function ColumnReorderHandle<T>({
       const step = left ? -1 : 1;
       // eslint-disable-next-line yoda
       for (let i = initialInsertionIndex; 0 <= i && i <= tableProps.columns.length; i += step) {
-        if (canReorder === true || (typeof canReorder === 'function' && canReorder(i, tableProps.columns))) {
+        if (canReorderCb(i)) {
           expectColumnReorder({fromIndex: columnIndex, insertionIndex: i});
           tableProps.onColumnReorder?.(columnIndex, i, tableProps.columns);
           e.preventDefault();
@@ -529,7 +537,7 @@ function ColumnReorderHandle<T>({
         }
       }
     },
-    [canReorder, columnIndex, expectColumnReorder, onKeyDown, tableProps],
+    [canReorderCb, columnIndex, expectColumnReorder, onKeyDown, tableProps],
   );
 
   if (!tableProps || !column) {
