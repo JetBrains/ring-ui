@@ -367,6 +367,43 @@ export const WithVirtualization: TableStory<Issue> = {
   tags: ['!autodocs'],
 };
 
+function virtualizedScrollerActions(scrollY: number) {
+  return [
+    {type: 'wait', delay: 300},
+    {type: 'scroll', selector: '[data-table-scroller]', x: 0, y: scrollY},
+    {type: 'wait', delay: 300},
+    {
+      type: 'executeJS',
+      script: `
+      const scroller = document.querySelector('[data-table-scroller]');
+      const {top: scrollerTop, bottom: scrollerBottom} = scroller.getBoundingClientRect();
+      const lookaheadWindowTop = scrollerTop - 400;
+      const lookaheadWindowBottom = scrollerBottom + 400;
+
+      const firstMaterialized = scroller.querySelector('tbody tr[data-from]:first-child + tr');
+      const {top: firstMaterializedTop, bottom: firstMaterializedBottom} = firstMaterialized.getBoundingClientRect();
+
+      const lastMaterialized = scroller.querySelector('tbody tr:has(+tr[data-from]:last-child)');
+      const {top: lastMaterializedTop, bottom: lastMaterializedBottom} = lastMaterialized.getBoundingClientRect();
+
+      if (!(firstMaterializedTop <= lookaheadWindowTop && lookaheadWindowTop <= firstMaterializedBottom)) {
+        throw new Error('First materialized row must intersect the lookahead window top, but: lookaheadWindowTop=' + lookaheadWindowTop + ', firstMaterializedTop=' + firstMaterializedTop + ', firstMaterializedBottom=' + firstMaterializedBottom);
+      }
+
+      if (!(lastMaterializedTop <= lookaheadWindowBottom && lookaheadWindowBottom <= lastMaterializedBottom)) {
+        throw new Error('Last materialized row must intersect the lookahead window bottom, but: lookaheadWindowBottom=' + lookaheadWindowBottom + ', lastMaterializedTop=' + lastMaterializedTop + ', lastMaterializedBottom=' + lastMaterializedBottom);
+      }
+    `,
+    },
+    {type: 'capture', name: 'light', selector: '[data-table-scroller]'},
+  ];
+}
+
+/**
+ * Screenshot tests are unstable on the full dataset
+ */
+const issuesLongDataSlice: readonly Issue[] = issuesLongData.slice(0, 1_000);
+
 export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
   args: {
     data: [],
@@ -375,18 +412,18 @@ export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
   },
 
   render(args) {
-    const [data, setData] = useState(issuesLongData);
+    const [data, setData] = useState(issuesLongDataSlice);
     const [columns, setColumns] = useState(args.columns);
     const scrollerRef = useRef<HTMLDivElement | null>(null);
 
     return (
-      <div className={style.scroller} ref={scrollerRef}>
+      <div className={style.scroller} ref={scrollerRef} data-table-scroller>
         <Table
           data={data}
           columns={columns}
           getKey={args.getKey}
           onSort={(columnIndex, newOrder) =>
-            sortByColumn(issuesLongData, columns, columnIndex, newOrder, setData, setColumns)
+            sortByColumn(issuesLongDataSlice, columns, columnIndex, newOrder, setData, setColumns)
           }
           virtualizeRows
           scrollerRef={scrollerRef}
@@ -397,7 +434,9 @@ export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
 
   parameters: {
     ...noDocsParams,
-    screenshots: {skip: true},
+    screenshots: {
+      actions: virtualizedScrollerActions(10_000),
+    },
   },
 
   tags: ['!autodocs'],
@@ -414,9 +453,9 @@ export const WithVirtualizationInScrollerBottom: TableStory<Issue> = {
     const scrollerRef = useRef<HTMLDivElement | null>(null);
 
     return (
-      <div className={style.scrollerBottom} ref={scrollerRef}>
+      <div className={style.scrollerBottom} ref={scrollerRef} data-table-scroller>
         <Table
-          data={issuesLongData}
+          data={issuesLongDataSlice}
           columns={args.columns}
           getKey={args.getKey}
           virtualizeRows
@@ -428,7 +467,9 @@ export const WithVirtualizationInScrollerBottom: TableStory<Issue> = {
 
   parameters: {
     ...noDocsParams,
-    screenshots: {skip: true},
+    screenshots: {
+      actions: virtualizedScrollerActions(20_000),
+    },
   },
 
   tags: ['!autodocs'],
