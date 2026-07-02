@@ -1,6 +1,7 @@
 import {createContext, type RefObject, useCallback, useEffect, useRef, useState} from 'react';
 
 import {useIntersectionObserverHandle} from '../../global/intersection-observer-context';
+import {setTimeoutWithCleanup} from '../../global/schedule-with-cleanup';
 
 import styles from '../table.css';
 
@@ -58,7 +59,7 @@ export function useVirtualItems<T>({
   const itemsMaterialization = useRef<ItemMaterialization[]>([]);
 
   const [virtualItems, setVirtualItems] = useState<VirtualItem[]>(() =>
-    enabled ? getAllVirtualizedItems(data, estimateHeight) : getAllMaterializedItems(length),
+    enabled ? getAllVirtualizedItems(data, estimateHeight) : [],
   );
 
   const materializeVisibleSpacerItems = useCallback(() => {
@@ -156,22 +157,13 @@ export function useVirtualItems<T>({
     }, virtualizationThrottleDelay);
   }, []);
 
+  const prevEnabledRef = useRef(enabled);
+
   useEffect(() => {
-    if (!enabled) {
-      let timerId: number | null = window.setTimeout(() => {
-        setVirtualItems(prev =>
-          prev.length === length && prev.every(item => item.type === 'materialized')
-            ? prev
-            : getAllMaterializedItems(length),
-        );
-      });
-      return () => {
-        if (timerId != null) {
-          window.clearTimeout(timerId);
-          timerId = null;
-        }
-      };
-    }
+    const prevEnabled = prevEnabledRef.current;
+    prevEnabledRef.current = enabled;
+
+    if (!enabled) return;
 
     const scroller = scrollerRef?.current;
     let lastHandledScrollTop: number = -Infinity;
@@ -203,9 +195,19 @@ export function useVirtualItems<T>({
     const resizeTarget = scroller ?? document.documentElement;
     resizeObserver.observe(resizeTarget);
 
-    handleViewportChange();
+    let timeoutCleanup: () => void | undefined;
+    if (!prevEnabled) {
+      timeoutCleanup = setTimeoutWithCleanup(() => {
+        itemsMaterialization.current = [];
+        setVirtualItems(getAllVirtualizedItems(data, estimateHeight));
+        handleViewportChange();
+      });
+    } else {
+      handleViewportChange();
+    }
 
     return () => {
+      timeoutCleanup?.();
       scrollTarget.removeEventListener('scroll', handleViewportChange);
       resizeObserver.unobserve(resizeTarget);
       resizeObserver.disconnect();
@@ -216,7 +218,9 @@ export function useVirtualItems<T>({
       }
     };
   }, [
+    data,
     enabled,
+    estimateHeight,
     length,
     materializeVisibleSpacerItems,
     minScrollAndResizeDeltaPx,
@@ -261,10 +265,6 @@ function getAllVirtualizedItems<T>(
       key: spacerKey(0),
     },
   ];
-}
-
-function getAllMaterializedItems(length: number): VirtualItem[] {
-  return Array.from({length}, (_, index) => ({type: 'materialized', index}));
 }
 
 function spacerKey(index: number) {

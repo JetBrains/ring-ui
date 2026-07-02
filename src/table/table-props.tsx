@@ -88,6 +88,12 @@ export interface TableProps<T> {
    * - virtualized: replaced with spacer rows of the same height. This happens
    *   when the row moves sufficiently far from the viewport, as specified by
    *   `retentionMarginPx`.
+   *
+   * Toggling this prop should normally work as expected, but a seamless
+   * transition is not guaranteed: the scroll position may reset to the top.
+   * However, if row height estimates are accurate and the data has not
+   * changed, the browser may apply scroll anchoring, resulting in a smoother
+   * transition, possibly with brief flickering but without scroll jumps.
    */
   virtualizeRows?: boolean;
 

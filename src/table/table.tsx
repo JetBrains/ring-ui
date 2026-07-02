@@ -2,7 +2,7 @@ import React, {type ComponentPropsWithRef, Fragment, useCallback, useRef} from '
 import classNames from 'classnames';
 
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
-import {CollapseItemIntoSpacerContext, SpacerRow, useVirtualItems} from './internal/virtual-items';
+import {CollapseItemIntoSpacerContext, SpacerRow, useVirtualItems, type VirtualItem} from './internal/virtual-items';
 import {DefaultItemRenderer} from './default-item-renderer';
 import {ColumnAnimationContext, defaultRowHeight, TablePropsContext} from './table-const';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
@@ -307,19 +307,31 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
             <CollapseItemIntoSpacerContext value={collapseItemIntoSpacer}>
               {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
               <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
-                {virtualItems.map(virtualItem => {
-                  if (virtualItem.type === 'spacer') {
-                    return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                {(virtualizeRows ? virtualItems : data).map((item, index) => {
+                  let dataItem: T;
+                  let dataItemIndex: number;
+
+                  if (virtualizeRows) {
+                    const virtualItem = item as VirtualItem;
+                    if (virtualItem.type === 'spacer') {
+                      return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                    }
+
+                    dataItemIndex = virtualItem.index;
+                    if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
+                    dataItem = data[dataItemIndex];
+                  } else {
+                    dataItem = item as T;
+                    dataItemIndex = index;
                   }
 
-                  const index = virtualItem.index;
-                  if (index < 0 || index >= data.length) return null;
-
-                  const item = data[index];
-                  const key = getKey(item, index, data);
                   return (
-                    <Fragment key={key}>
-                      {renderItem ? renderItem(item, index, data) : <DefaultItemRenderer index={index} />}
+                    <Fragment key={getKey(dataItem, dataItemIndex, data)}>
+                      {renderItem ? (
+                        renderItem(dataItem, dataItemIndex, data)
+                      ) : (
+                        <DefaultItemRenderer index={dataItemIndex} />
+                      )}
                     </Fragment>
                   );
                 })}

@@ -1,6 +1,7 @@
 import {type RefObject, useCallback, useEffect, useRef, useState} from 'react';
 
 import {parseCssDuration} from '../../global/parse-css-duration';
+import {requestAnimationFrameWithCleanup, setTimeoutWithCleanup} from '../../global/schedule-with-cleanup';
 
 import type {Column} from '../table-props';
 import type {ColumnAnimation} from '../table-const';
@@ -58,41 +59,30 @@ export function useColumnAnimation<T>({
     pendingColumnReorder.current = null;
 
     const columnIndex = fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex;
-    let rafId: number | null = requestAnimationFrame(() => {
+    return requestAnimationFrameWithCleanup(() =>
       setColumnAnimation(prev =>
         prev == null ? {columnIndex, phase: 'initial', cellClassName: styles.animatedColumnInitial} : prev,
-      );
-      rafId = null;
-    });
-    return () => {
-      if (rafId != null) cancelAnimationFrame(rafId);
-    };
+      ),
+    );
   }, [columns, tableRef]);
 
   useEffect(() => {
     if (columnAnimation?.phase === 'initial') {
-      let rafId: number | null = requestAnimationFrame(() => {
+      return requestAnimationFrameWithCleanup(() =>
         setColumnAnimation(prev =>
           prev === columnAnimation ? {...prev, phase: 'fade-out', cellClassName: styles.animatedColumnFadeOut} : prev,
-        );
-        rafId = null;
-      });
-      return () => {
-        if (rafId != null) cancelAnimationFrame(rafId);
-      };
+        ),
+      );
     }
 
     if (columnAnimation?.phase === 'fade-out') {
       const fadeOutMs = parseCssDuration(
         window.getComputedStyle(tableRef.current!).getPropertyValue('--animated-column-fade-out-duration'),
       );
-      let timeoutId: number | null = window.setTimeout(() => {
-        setColumnAnimation(prev => (prev === columnAnimation ? null : prev));
-        timeoutId = null;
-      }, fadeOutMs);
-      return () => {
-        if (timeoutId != null) window.clearTimeout(timeoutId);
-      };
+      return setTimeoutWithCleanup(
+        () => setColumnAnimation(prev => (prev === columnAnimation ? null : prev)),
+        fadeOutMs,
+      );
     }
 
     return undefined;

@@ -475,6 +475,50 @@ export const WithVirtualizationInScrollerBottom: TableStory<Issue> = {
   tags: ['!autodocs'],
 };
 
+/**
+ * Long non-virtualized table may get the Storybook unstable
+ */
+const issuesLongDataSmallSlice = issuesLongData.slice(0, 100);
+
+export const WithConditionalVirtualization: TableStory<Issue> = {
+  args: {
+    data: [],
+    columns: issuesColumns,
+    getKey: ({id}) => id,
+  },
+
+  render(args) {
+    const [virtualizeRows, setVirtualizeRows] = useState(true);
+    const scrollerRef = useRef<HTMLDivElement | null>(null);
+
+    return (
+      <>
+        <Checkbox
+          label='Virtualize rows'
+          checked={virtualizeRows}
+          onChange={e => setVirtualizeRows(e.target.checked)}
+        />
+        <div className={style.scroller} ref={scrollerRef} data-table-scroller>
+          <Table
+            data={issuesLongDataSmallSlice}
+            columns={args.columns}
+            getKey={args.getKey}
+            virtualizeRows={virtualizeRows}
+            scrollerRef={scrollerRef}
+          />
+        </div>
+      </>
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
+
 export const WithFocus: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
