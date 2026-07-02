@@ -98,14 +98,20 @@ export interface TableProps<T> {
   virtualizeRows?: boolean;
 
   /**
-   * Used with `virtualizeRows` as a source of scroll events, as a target for
-   * ResizeObserver, and as the root for IntersectionObserver. Required when
+   * Used with `virtualizeRows` as the source of scroll events, the target of
+   * `ResizeObserver`, and the root of `IntersectionObserver`. Required when
    * the scrollable container is not the whole document.
    *
    * If not set:
-   * - scroll listener is attached to `window`
-   * - ResizeObserver observes `document.body`
-   * - IntersectionObserver has no root (i.e. the viewport is used)
+   * - the scroll listener is attached to `window`
+   * - `ResizeObserver` observes `document.body`
+   * - `IntersectionObserver` has no root (i.e. the viewport is used)
+   *
+   * Note that if this scroller is nested inside another scrollable container,
+   * the outer container is not tracked. As a result, items may not
+   * materialize until the inner scroller is scrolled.
+   *
+   * Support for nested scroll containers may be added in the future.
    */
   scrollerRef?: RefObject<HTMLElement | null>;
 

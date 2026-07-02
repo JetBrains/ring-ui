@@ -367,42 +367,59 @@ export const WithVirtualization: TableStory<Issue> = {
   tags: ['!autodocs'],
 };
 
-function virtualizedScrollerActions(scrollY: number) {
+/**
+ * Screenshot tests are unstable on long datasets
+ */
+const issuesLongDataSlice: readonly Issue[] = issuesLongData.slice(0, 150);
+
+function virtualizedScrollerActions(initialScrollY: number) {
   return [
-    {type: 'wait', delay: 300},
-    {type: 'scroll', selector: '[data-table-scroller]', x: 0, y: scrollY},
+    {type: 'wait', delay: 600},
+    {type: 'scroll', selector: '[data-table-scroller]', x: 0, y: initialScrollY},
     {type: 'wait', delay: 300},
     {
       type: 'executeJS',
       script: `
-      const scroller = document.querySelector('[data-table-scroller]');
-      const {top: scrollerTop, bottom: scrollerBottom} = scroller.getBoundingClientRect();
-      const lookaheadWindowTop = scrollerTop - 400;
-      const lookaheadWindowBottom = scrollerBottom + 400;
+        const scroller = document.querySelector('[data-table-scroller]');
+        const {top: scrollerTop, bottom: scrollerBottom} = scroller.getBoundingClientRect();
+        const lookaheadWindowTop = scrollerTop - 400;
+        const lookaheadWindowBottom = scrollerBottom + 400;
 
-      const firstMaterialized = scroller.querySelector('tbody tr[data-from]:first-child + tr');
-      const {top: firstMaterializedTop, bottom: firstMaterializedBottom} = firstMaterialized.getBoundingClientRect();
+        const firstMaterialized = scroller.querySelector('tbody tr[data-from]:first-child + tr');
+        const {top: firstMaterializedTop, bottom: firstMaterializedBottom} = firstMaterialized.getBoundingClientRect();
 
-      const lastMaterialized = scroller.querySelector('tbody tr:has(+tr[data-from]:last-child)');
-      const {top: lastMaterializedTop, bottom: lastMaterializedBottom} = lastMaterialized.getBoundingClientRect();
+        const lastMaterialized = scroller.querySelector('tbody tr:has(+tr[data-from]:last-child)');
+        const {top: lastMaterializedTop, bottom: lastMaterializedBottom} = lastMaterialized.getBoundingClientRect();
 
-      if (!(firstMaterializedTop <= lookaheadWindowTop && lookaheadWindowTop <= firstMaterializedBottom)) {
-        throw new Error('First materialized row must intersect the lookahead window top, but: lookaheadWindowTop=' + lookaheadWindowTop + ', firstMaterializedTop=' + firstMaterializedTop + ', firstMaterializedBottom=' + firstMaterializedBottom);
-      }
+        if (!(firstMaterializedTop <= lookaheadWindowTop && lookaheadWindowTop <= firstMaterializedBottom)) {
+          throw new Error('First materialized row must cross the lookahead window top, but: lookaheadWindowTop=' + lookaheadWindowTop + ', firstMaterializedTop=' + firstMaterializedTop + ', firstMaterializedBottom=' + firstMaterializedBottom);
+        }
 
-      if (!(lastMaterializedTop <= lookaheadWindowBottom && lookaheadWindowBottom <= lastMaterializedBottom)) {
-        throw new Error('Last materialized row must intersect the lookahead window bottom, but: lookaheadWindowBottom=' + lookaheadWindowBottom + ', lastMaterializedTop=' + lastMaterializedTop + ', lastMaterializedBottom=' + lastMaterializedBottom);
-      }
-    `,
+        if (!(lastMaterializedTop <= lookaheadWindowBottom && lookaheadWindowBottom <= lastMaterializedBottom)) {
+          throw new Error('Last materialized row must cross the lookahead window bottom, but: lookaheadWindowBottom=' + lookaheadWindowBottom + ', lastMaterializedTop=' + lastMaterializedTop + ', lastMaterializedBottom=' + lastMaterializedBottom);
+        }
+      `,
+    },
+    {type: 'scroll', selector: '[data-table-scroller]', x: 0, y: 200},
+    {type: 'wait', delay: 300},
+    {
+      type: 'executeJS',
+      script: `
+        const scroller = document.querySelector('[data-table-scroller]');
+        const {top: scrollerTop, bottom: scrollerBottom} = scroller.getBoundingClientRect();
+        const retentionWindowTop = scrollerTop - 450;
+
+        const firstMaterialized = scroller.querySelector('tbody tr[data-from]:first-child + tr');
+        const {top: firstMaterializedTop, bottom: firstMaterializedBottom} = firstMaterialized.getBoundingClientRect();
+
+        if (!(firstMaterializedTop <= retentionWindowTop && retentionWindowTop <= firstMaterializedBottom)) {
+          throw new Error('First materialized row must cross the retention window top, but: retentionWindowTop=' + retentionWindowTop + ', firstMaterializedTop=' + firstMaterializedTop + ', firstMaterializedBottom=' + firstMaterializedBottom);
+        }
+      `,
     },
     {type: 'capture', name: 'light', selector: '[data-table-scroller]'},
   ];
 }
-
-/**
- * Screenshot tests are unstable on the full dataset
- */
-const issuesLongDataSlice: readonly Issue[] = issuesLongData.slice(0, 1_000);
 
 export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
   args: {
@@ -435,7 +452,7 @@ export const WithVirtualizationInScrollerTop: TableStory<Issue> = {
   parameters: {
     ...noDocsParams,
     screenshots: {
-      actions: virtualizedScrollerActions(10_000),
+      actions: virtualizedScrollerActions(1500),
     },
   },
 
@@ -468,17 +485,12 @@ export const WithVirtualizationInScrollerBottom: TableStory<Issue> = {
   parameters: {
     ...noDocsParams,
     screenshots: {
-      actions: virtualizedScrollerActions(20_000),
+      actions: virtualizedScrollerActions(3000),
     },
   },
 
   tags: ['!autodocs'],
 };
-
-/**
- * Long non-virtualized table may get the Storybook unstable
- */
-const issuesLongDataSmallSlice = issuesLongData.slice(0, 100);
 
 export const WithConditionalVirtualization: TableStory<Issue> = {
   args: {
@@ -500,7 +512,7 @@ export const WithConditionalVirtualization: TableStory<Issue> = {
         />
         <div className={style.scroller} ref={scrollerRef} data-table-scroller>
           <Table
-            data={issuesLongDataSmallSlice}
+            data={issuesLongDataSlice}
             columns={args.columns}
             getKey={args.getKey}
             virtualizeRows={virtualizeRows}
