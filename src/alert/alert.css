@@ -41,6 +41,22 @@
   color: var(--ring-error-color);
 }
 
+.error .icon {
+  color: var(--ring-icon-error-color);
+}
+
+.success .icon {
+  color: var(--ring-icon-success-color);
+}
+
+.warning .icon {
+  color: var(--ring-icon-warning-color);
+}
+
+.info .icon {
+  color: var(--ring-link-color);
+}
+
 .caption {
   overflow: hidden;
 

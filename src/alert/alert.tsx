@@ -7,7 +7,7 @@ import warningIcon from '@jetbrains/icons/warning';
 import infoIcon from '@jetbrains/icons/info-filled';
 import closeIcon from '@jetbrains/icons/close';
 
-import Icon, {Color} from '../icon/icon';
+import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
@@ -46,17 +46,6 @@ const TypeToIcon: Partial<Record<AlertType, string>> = {
   [AlertType.SUCCESS]: checkmarkIcon,
   [AlertType.WARNING]: warningIcon,
   [AlertType.INFO]: infoIcon,
-};
-
-/**
- * Lookup table of alert type to icon color.
- * @type {Object.<AlertType, Icon.Color>}
- */
-const TypeToIconColor: Partial<Record<AlertType, Color>> = {
-  [AlertType.ERROR]: Color.RED,
-  [AlertType.SUCCESS]: Color.GREEN,
-  [AlertType.WARNING]: Color.ORANGE,
-  [AlertType.INFO]: Color.BLUE,
 };
 
 export interface AlertProps {
@@ -190,7 +179,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
     const glyph = TypeToIcon[this.props.type];
 
     if (glyph) {
-      return <Icon glyph={glyph} color={TypeToIconColor[this.props.type] || Color.DEFAULT} />;
+      return <Icon glyph={glyph} className={styles.icon} />;
     }
     if (this.props.type === AlertType.LOADING) {
       return <Loader className={styles.loader} />;
@@ -221,6 +210,9 @@ export default class Alert extends PureComponent<AlertProps, State> {
       [styles.alert]: true,
       [styles.animationOpen]: showWithAnimation,
       [styles.error]: type === 'error',
+      [styles.success]: type === 'success',
+      [styles.warning]: type === 'warning',
+      [styles.info]: type === 'info',
       [styles.alertInline]: inline,
       [styles.animationClosing]: isClosing,
       [styles.animationShaking]: isShaking,

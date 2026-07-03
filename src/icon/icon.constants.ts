@@ -10,7 +10,6 @@ export enum Color {
   MAGENTA = 'magenta',
   RED = 'red',
   WHITE = 'white',
-  ORANGE = 'orange',
 }
 
 /**
