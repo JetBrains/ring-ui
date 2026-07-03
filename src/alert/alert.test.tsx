@@ -75,6 +75,11 @@ describe('Alert', () => {
     expect(closeSpy).toHaveBeenCalled();
   });
 
+  it('should not render an extra wrapper when afterMessage is boolean false', () => {
+    const {container} = render(<Alert afterMessage={false}>{'msg'}</Alert>);
+    expect(container.querySelectorAll('[role="presentation"]').length).to.equal(1);
+  });
+
   it('should call onCloseRequest on click by link in afterMessage', async () => {
     const closeSpy = vi.fn();
     render(

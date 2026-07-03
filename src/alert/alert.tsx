@@ -233,7 +233,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
       >
         {this._getIcon()}
         {this._getCaption()}
-        {afterMessage != null && (
+        {afterMessage != null && afterMessage !== false && afterMessage !== true && (
           <div
             onClick={this._handleCaptionsLinksClick}
             // We only process clicks on `a` elements, see above

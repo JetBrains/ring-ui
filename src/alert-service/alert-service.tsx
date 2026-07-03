@@ -53,8 +53,10 @@ export class AlertService {
     this.reactRoot!.render(this.renderAlertContainer(this.showingAlerts));
   }
 
-  findSameAlert(message: ReactNode, type: AlertType | undefined) {
-    return this.showingAlerts.filter(it => it.type === type && it.message === message)[0];
+  findSameAlert(message: ReactNode, type: AlertType | undefined, afterMessage?: ReactNode) {
+    return this.showingAlerts.filter(
+      it => it.type === type && it.message === message && it.afterMessage === afterMessage,
+    )[0];
   }
 
   startAlertClosing(alert: AlertItem) {
@@ -90,7 +92,7 @@ export class AlertService {
     options: Partial<AlertItem> = {},
   ) {
     const {onCloseRequest, onClose, ...restOptions} = options;
-    const sameAlert = this.findSameAlert(message, type);
+    const sameAlert = this.findSameAlert(message, type, options.afterMessage);
     if (sameAlert) {
       sameAlert.isShaking = true;
       this.renderAlerts();
