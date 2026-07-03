@@ -48,6 +48,16 @@ const TypeToIcon: Partial<Record<AlertType, string>> = {
   [AlertType.INFO]: infoIcon,
 };
 
+/**
+ * Maps the values React renders as nothing (except empty arrays/fragments,
+ * which are not worth chasing here) to undefined, so that they neither create
+ * the afterMessage wrapper nor distinguish alerts in the alert-service
+ * duplicate check
+ */
+export function normalizeAfterMessage(afterMessage: ReactNode): ReactNode {
+  return afterMessage == null || typeof afterMessage === 'boolean' || afterMessage === '' ? undefined : afterMessage;
+}
+
 export interface AlertProps {
   theme: Theme;
   timeout: number;
@@ -222,6 +232,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
     const height = this.state.height;
     const style = height ? {marginBottom: -height} : undefined;
 
+    const shownAfterMessage = normalizeAfterMessage(afterMessage);
+
     return (
       <ThemeProvider
         theme={theme}
@@ -233,13 +245,13 @@ export default class Alert extends PureComponent<AlertProps, State> {
       >
         {this._getIcon()}
         {this._getCaption()}
-        {afterMessage != null && afterMessage !== false && afterMessage !== true && (
+        {shownAfterMessage != null && (
           <div
             onClick={this._handleCaptionsLinksClick}
             // We only process clicks on `a` elements, see above
             role='presentation'
           >
-            {afterMessage}
+            {shownAfterMessage}
           </div>
         )}
         {this.props.closeable ? (

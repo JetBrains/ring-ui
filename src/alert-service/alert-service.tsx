@@ -2,7 +2,13 @@ import {type ReactNode, type Ref} from 'react';
 import {createRoot} from 'react-dom/client';
 
 import getUID from '../global/get-uid';
-import Alert, {type AlertProps, type AlertType, ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';
+import Alert, {
+  type AlertProps,
+  type AlertType,
+  ANIMATION_TIME,
+  Container as AlertContainer,
+  normalizeAfterMessage,
+} from '../alert/alert';
 
 export interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
   key: string | number;
@@ -54,8 +60,10 @@ export class AlertService {
   }
 
   findSameAlert(message: ReactNode, type: AlertType | undefined, afterMessage?: ReactNode) {
+    const normalizedAfterMessage = normalizeAfterMessage(afterMessage);
     return this.showingAlerts.filter(
-      it => it.type === type && it.message === message && it.afterMessage === afterMessage,
+      it =>
+        it.type === type && it.message === message && normalizeAfterMessage(it.afterMessage) === normalizedAfterMessage,
     )[0];
   }
 

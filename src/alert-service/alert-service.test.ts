@@ -63,6 +63,14 @@ describe('Alert Service', () => {
     expect(true).to.equal(alert._getShowingAlerts()[0].isShaking);
   });
 
+  it('Should join alerts whose afterMessage values all render as nothing', () => {
+    alertKey = alert.addAlert('foo', Alert.Type.MESSAGE, undefined, {afterMessage: null});
+    alertKey = alert.addAlert('foo', Alert.Type.MESSAGE);
+
+    expect(alert._getShowingAlerts().length).to.equal(1);
+    expect(true).to.equal(alert._getShowingAlerts()[0].isShaking);
+  });
+
   it('Should not join alerts with same message/type but different afterMessage', () => {
     const key1 = alert.addAlert('foo', Alert.Type.MESSAGE, undefined, {afterMessage: 'a'});
     const key2 = alert.addAlert('foo', Alert.Type.MESSAGE, undefined, {afterMessage: 'b'});

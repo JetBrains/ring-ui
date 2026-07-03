@@ -144,7 +144,9 @@
   animation-duration: 500ms;
 }
 
-.heading {
+/* Doubled to override the Heading component's level-based typography:
+   its :is(hN) selectors have higher specificity than a single class */
+.heading.heading {
   margin: 0 0 calc(var(--ring-unit) / 2);
 
   font-size: var(--ring-font-size);
