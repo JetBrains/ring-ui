@@ -23,6 +23,8 @@ const TabTitle = React.memo(function TabTitle({
   collapsed = false,
   tabIndex,
 }: TabTitleProps) {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   if (child === null || typeof child !== 'object' || child.type === CustomItem) {
     return child;
   }

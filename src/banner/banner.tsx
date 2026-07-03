@@ -30,6 +30,8 @@ export interface BannerProps {
 }
 
 export function Banner(props: BannerProps) {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const {
     title,
     children,

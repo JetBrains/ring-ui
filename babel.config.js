@@ -20,17 +20,49 @@ module.exports = function config(api) {
       ],
     ],
     presets: [
+      // Inlined @jetbrains/babel-preset-jetbrains, which is incompatible with Babel 8
       [
-        '@jetbrains/babel-preset-jetbrains',
+        '@babel/preset-env',
         {
-          typeScript: true,
-          useBuiltIns: 'usage',
-          corejs: '3',
-          react: {
-            runtime: 'automatic',
-          },
+          // The preset always enabled this transform regardless of targets
+          include: ['transform-nullish-coalescing-operator'],
         },
       ],
+      '@babel/preset-typescript',
+    ],
+    overrides: [
+      {
+        // Replaces `useBuiltIns: 'usage', corejs: '3'`, which was removed from
+        // @babel/preset-env in Babel 8. Unlike preset-env, the standalone plugin
+        // doesn't skip core-js own files, so injecting polyfill imports into them
+        // (under Jest, which transforms node_modules) creates require cycles
+        exclude: /node_modules[\\/]core-js[\\/]/,
+        plugins: [
+          [
+            'babel-plugin-polyfill-corejs3',
+            {
+              method: 'usage-global',
+              version: '3.49',
+            },
+          ],
+        ],
+      },
+      {
+        // In Babel 8, JSX parsing must not be enabled for .ts files,
+        // otherwise generics like `<T>(...) => ...` fail to parse
+        exclude: /\.ts$/,
+        presets: [
+          [
+            '@babel/preset-react',
+            {
+              runtime: 'automatic',
+              // In Babel 8 this defaults to true when NODE_ENV is unset, leaking
+              // jsx-dev-runtime into the dist build
+              development: false,
+            },
+          ],
+        ],
+      },
     ],
     env: {
       test: {

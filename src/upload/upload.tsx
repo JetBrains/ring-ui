@@ -53,6 +53,8 @@ function UploadInner({
   disabled,
   forwardedRef,
 }: InnerProps) {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
 

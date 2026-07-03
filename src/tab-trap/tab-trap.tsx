@@ -44,6 +44,8 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
   },
   ref,
 ) {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const trapButtonNodeRef = useRef<HTMLDivElement | null>(null);
   const previousFocusedNodeRef = useRef<Element | null>(null);

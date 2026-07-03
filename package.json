@@ -216,8 +216,9 @@
   },
   "dependencies": {
     "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.1",
+    "@babel/preset-react": "^8.0.1",
     "@babel/preset-typescript": "^8.0.1",
-    "@jetbrains/babel-preset-jetbrains": "^2.4.0",
     "@jetbrains/icons": "^5.23.0",
     "@jetbrains/postcss-require-hover": "^0.2.0",
     "@types/combokeys": "^2.4.9",
@@ -225,6 +226,7 @@
     "@types/react-virtualized": "9.22.3",
     "@types/util-deprecate": "^1.0.4",
     "babel-loader": "10.1.1",
+    "babel-plugin-polyfill-corejs3": "^1.0.0",
     "babel-plugin-react-compiler": "^1.0.0",
     "babel-plugin-transform-define": "^2.1.4",
     "browserslist": "^4.28.2",

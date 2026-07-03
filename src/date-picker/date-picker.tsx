@@ -43,23 +43,27 @@ const PopupComponent = ({
   datePopupProps,
   onComplete,
   ...restProps
-}: PopupComponentProps) => (
-  <Popup
-    hidden={hidden}
-    className={className}
-    ref={popupRef}
-    directions={[
-      Popup.PopupProps.Directions.BOTTOM_RIGHT,
-      Popup.PopupProps.Directions.BOTTOM_LEFT,
-      Popup.PopupProps.Directions.TOP_LEFT,
-      Popup.PopupProps.Directions.TOP_RIGHT,
-    ]}
-    {...restProps}
-    trapFocus
-  >
-    <DatePopup onClear={onClear} {...(datePopupProps as DatePopupProps)} onComplete={onComplete} />
-  </Popup>
-);
+}: PopupComponentProps) => {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
+  return (
+    <Popup
+      hidden={hidden}
+      className={className}
+      ref={popupRef}
+      directions={[
+        Popup.PopupProps.Directions.BOTTOM_RIGHT,
+        Popup.PopupProps.Directions.BOTTOM_LEFT,
+        Popup.PopupProps.Directions.TOP_LEFT,
+        Popup.PopupProps.Directions.TOP_RIGHT,
+      ]}
+      {...restProps}
+      trapFocus
+    >
+      <DatePopup onClear={onClear} {...(datePopupProps as DatePopupProps)} onComplete={onComplete} />
+    </Popup>
+  );
+};
 
 export interface DatePickerTranslations extends Partial<DateInputTranslations> {
   setDate: string;

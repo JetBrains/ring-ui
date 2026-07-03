@@ -29,6 +29,8 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   minHeight = DEFAULT_HEIGHT,
   'data-test': dataTest,
 }) => {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const {collapsed, duration, id, disableAnimation} = useContext(CollapseContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
