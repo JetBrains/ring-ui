@@ -247,6 +247,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
         {this._getCaption()}
         {shownAfterMessage != null && (
           <div
+            className={styles.afterMessage}
             onClick={this._handleCaptionsLinksClick}
             // We only process clicks on `a` elements, see above
             role='presentation'

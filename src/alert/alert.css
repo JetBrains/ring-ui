@@ -70,6 +70,14 @@
   color: var(--ring-active-text-color);
 }
 
+.afterMessage {
+  overflow: hidden;
+
+  min-width: 0;
+
+  white-space: normal;
+}
+
 .badge {
   margin-left: var(--ring-unit);
 
