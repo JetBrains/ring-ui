@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@rollup/pluginutils": "^5.4.0",
-    "cssnano": "^8.0.1",
+    "cssnano": "^8.0.2",
     "postcss": "^8.5.15",
     "postcss-url": "^10.1.4",
     "postcss-import": "^16.1.1",

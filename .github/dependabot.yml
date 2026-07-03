@@ -13,8 +13,9 @@ updates:
   groups:
     storybook:
       patterns:
-      - "@storybook/*"
-      - "storybook"
+        - "@storybook/*"
+        - "storybook"
+        - "eslint-plugin-storybook"
     react:
       patterns:
       - "react"
@@ -30,6 +31,8 @@ updates:
         - "lint-staged"
         - "prettier"
         - "stylelint*"
+      exclude-patterns:
+        - "eslint-plugin-storybook"
     test-suites:
       patterns:
         - "jest*"
@@ -50,3 +53,30 @@ updates:
       update-types:
         - "patch"
         - "minor"
+      exclude-patterns:
+        - "@storybook/*"
+        - "storybook"
+        - "eslint-plugin-storybook"
+        - "react"
+        - "react-dom"
+        - "@types/react"
+        - "@types/react-dom"
+        - "eslint*"
+        - "@eslint*"
+        - "@types/eslint*"
+        - "typescript-eslint"
+        - "lint-staged"
+        - "prettier"
+        - "stylelint*"
+        - "jest*"
+        - "vitest*"
+        - "@vitejs/*"
+        - "@vitest/*"
+        - "@testing-library/"
+        - "chai-as-promised"
+        - "chai-dom"
+        - "@types/chai-as-promised"
+        - "@types/chai-dom"
+        - "html-reporter"
+        - "testplane"
+        - "@jetbrains/icons"
