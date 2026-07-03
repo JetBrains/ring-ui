@@ -80,6 +80,14 @@
   margin-top: -1px;
 }
 
+/* Padding restores a comfortable hit target around the bare 16px glyph
+   of the inline icon-only Button; negative margin keeps the glyph where
+   the flex layout would put it without the padding */
+.close.close {
+  margin: calc(var(--ring-unit) * -1);
+  padding: var(--ring-unit);
+}
+
 @keyframes show {
   from {
     transform: translateY(100%);

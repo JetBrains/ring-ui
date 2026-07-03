@@ -2,6 +2,7 @@ import {act} from 'react';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {Levels} from '../heading/heading';
 import Alert from './alert';
 
 import styles from './alert.css';
@@ -54,6 +55,11 @@ describe('Alert', () => {
       await userEvent.click(closeElement);
     }
     expect(closeSpy).toHaveBeenCalled();
+  });
+
+  it('should render heading with the given level', () => {
+    render(<Alert.Heading level={Levels.H2}>{'Heading'}</Alert.Heading>);
+    expect(screen.getByRole('heading', {level: 2})).to.exist;
   });
 
   it('should call onCloseRequest on click by link in afterMessage', async () => {

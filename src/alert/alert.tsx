@@ -244,7 +244,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
         {this.props.closeable ? (
           <Button
             icon={closeIcon}
-            className={closeButtonClassName ?? undefined}
+            className={classNames(styles.close, closeButtonClassName)}
             data-test='alert-close'
             aria-label='close alert'
             onClick={this.closeRequest}
