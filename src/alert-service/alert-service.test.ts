@@ -55,6 +55,11 @@ describe('Alert Service', () => {
     expect(Alert.Type.WARNING).to.equal(alert._getShowingAlerts()[0].type);
   });
 
+  it('Should show info', () => {
+    alertKey = alert.infoMessage('foo');
+    expect(Alert.Type.INFO).to.equal(alert._getShowingAlerts()[0].type);
+  });
+
   it('Should join same alerts and shake', () => {
     alertKey = alert.message('foo');
     alertKey = alert.message('foo');

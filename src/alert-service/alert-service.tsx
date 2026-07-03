@@ -150,6 +150,10 @@ export class AlertService {
     return this.addAlert(message, Alert.Type.SUCCESS, timeout);
   }
 
+  infoMessage(message: ReactNode, timeout?: number) {
+    return this.addAlert(message, Alert.Type.INFO, timeout);
+  }
+
   loadingMessage(message: ReactNode, timeout?: number) {
     return this.addAlert(message, Alert.Type.LOADING, timeout);
   }
