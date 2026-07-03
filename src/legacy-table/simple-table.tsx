@@ -2,7 +2,7 @@ import {PureComponent} from 'react';
 import classNames from 'classnames';
 
 import Table, {type TableAttrs} from './table';
-import Selection, {type SelectionItem} from './selection';
+import TableSelection, {type SelectionItem} from '../global/table-selection';
 
 import style from './legacy-table.css';
 
@@ -17,7 +17,7 @@ class SimpleTable<T extends SelectionItem> extends PureComponent<SimpleTableProp
   };
 
   state = {
-    selection: new Selection({
+    selection: new TableSelection({
       data: this.props.data,
     }),
   };

@@ -1,7 +1,7 @@
 import {PureComponent, Children, cloneElement, type ReactElement} from 'react';
 
 import {type TableAttrs} from './table';
-import {type SelectionItem} from './selection';
+import {type SelectionItem} from '../global/table-selection';
 
 type TableComponent = ReactElement<TableAttrs<SelectionItem>>;
 

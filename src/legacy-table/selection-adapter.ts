@@ -1,7 +1,7 @@
-import type Selection from './selection';
-import type {SelectionItem} from './selection';
+import type TableSelection from '../global/table-selection';
+import type {SelectionItem} from '../global/table-selection';
 
-export default function selectionAdapter(getSelection: () => Selection<SelectionItem>) {
+export default function selectionAdapter(getSelection: () => TableSelection<SelectionItem>) {
   return {
     get size() {
       return getSelection().getActive().size;

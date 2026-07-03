@@ -2,19 +2,19 @@ import {PureComponent, type ComponentClass} from 'react';
 
 import {type ShortcutsMap} from '../shortcuts/core';
 
-import type Selection from './selection';
+import type TableSelection from '../global/table-selection';
 
 export interface SelectionShortcutsOuterProps<T extends object> {
-  selection: Selection<T>;
+  selection: TableSelection<T>;
   selectable?: boolean | undefined;
-  onSelect?: ((selection: Selection<T>) => void) | undefined;
+  onSelect?: ((selection: TableSelection<T>) => void) | undefined;
   shortcuts?: ShortcutsMap | undefined;
 }
 
 export interface SelectionShortcutsAddProps<T extends object> {
-  selection: Selection<T>;
+  selection: TableSelection<T>;
   selectable: boolean;
-  onSelect: (selection: Selection<T>) => void;
+  onSelect: (selection: TableSelection<T>) => void;
   shortcutsMap: ShortcutsMap;
 }
 
@@ -58,7 +58,7 @@ export default function selectionShortcutsHOC<T extends object, P extends Select
       }
     };
 
-    shiftSelect = (selection: Selection<T>) => {
+    shiftSelect = (selection: TableSelection<T>) => {
       if (this.shiftSelectionMode === 'addition') {
         return selection.select();
       }

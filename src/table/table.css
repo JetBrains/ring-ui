@@ -1,0 +1,242 @@
+@import '../global/variables.css';
+
+.table {
+  --animated-column-fade-out-duration: 600ms;
+
+  width: 100%;
+
+  border-spacing: 0;
+
+  border-style: none;
+}
+
+.stickyHeader {
+  position: sticky;
+  z-index: var(--ring-overlay-z-index);
+
+  top: 0;
+
+  background-color: rgba(var(--ring-content-background-components), 0.85);
+  backdrop-filter: blur(8px);
+}
+
+@property --header-cell-shadow-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+.headerCell {
+  margin: 0;
+
+  padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
+
+  transition: background-color var(--ring-fast-ease), --header-cell-shadow-color var(--ring-fast-ease);
+
+  border-bottom: 1px solid var(--ring-line-color);
+
+  box-shadow: inset 1px 0 0 var(--header-cell-shadow-color), 1px 0 0 var(--header-cell-shadow-color);
+
+  &:hover {
+    --header-cell-shadow-color: var(--ring-line-color);
+
+    &:not(.animatedColumnInitial, .animatedColumnFadeOut) {
+      background-color: var(--ring-grey-container-light-color);
+    }
+  }
+}
+
+.headerCellInnerWrapper {
+  display: flex;
+  justify-content: start;
+
+  color: var(--ring-secondary-color);
+
+  font-size: var(--ring-font-size-smaller);
+  font-weight: normal;
+
+  .sortAndHeader {
+    flex-grow: 1;
+
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .rightButtons {
+    margin-left: 4px;
+  }
+}
+
+.headerButton {
+  margin: unset;
+  padding: unset;
+
+  cursor: pointer;
+
+  transition: color var(--ring-fast-ease);
+  text-align: unset;
+
+  color: unset;
+  border: unset;
+  background: unset;
+
+  font: unset;
+
+  &:hover {
+    color: var(--ring-main-hover-color);
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid var(--ring-button-focus-border-color);
+  }
+
+  &:focus-within {
+    color: var(--ring-main-hover-color);
+  }
+}
+
+.deleteColumnButton {
+  pointer-events: none;
+
+  color: transparent;
+
+  .theadColumnEditing &,
+  .headerCell:hover &,
+  &:focus {
+    pointer-events: unset;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  .theadColumnEditing &:not(:focus),
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:hover &:not(:focus) {
+    color: unset;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:hover &:hover:not(:focus),
+  &:focus {
+    color: var(--ring-main-hover-color);
+  }
+}
+
+.columnReorderHandle {
+  overflow: hidden;
+
+  width: 0;
+
+  cursor: grab;
+
+  transition: color var(--ring-fast-ease), width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
+
+  border-radius: var(--ring-border-radius);
+  touch-action: none;
+}
+
+.theadColumnEditing .columnReorderHandle,
+.headerCell:hover .columnReorderHandle,
+.columnReorderHandle:focus-visible {
+  width: 12px;
+  margin-right: 4px;
+}
+
+.columnReorderHandleMirror {
+  display: inline-block;
+
+  width: 12px;
+  margin-left: 4px;
+
+  transition: width var(--ring-fast-ease), margin-left var(--ring-fast-ease);
+}
+
+.theadColumnEditing .columnReorderHandleMirror,
+.headerCell:hover .columnReorderHandleMirror,
+.columnReorderHandle:focus-visible ~ .columnReorderHandleMirror {
+  width: 0;
+  margin-left: 0;
+}
+
+.editColumnsButton {
+  & svg {
+    transition: transform var(--ring-fast-ease);
+  }
+
+  .theadColumnEditing & svg {
+    transform: rotate(90deg);
+  }
+}
+
+.columnDragFrame {
+  position: fixed;
+
+  z-index: var(--ring-overlay-z-index);
+
+  pointer-events: none;
+
+  border: 2px solid var(--ring-border-accent-color);
+  border-radius: calc(2 * var(--ring-border-radius));
+
+  background-color: rgba(var(--ring-border-accent-components), 0.06);
+}
+
+.columnInsertionIndicator {
+  position: fixed;
+
+  z-index: var(--ring-overlay-z-index);
+
+  width: 2px;
+
+  background-color: var(--ring-main-color);
+}
+
+.animatedColumnInitial {
+  transition: none;
+
+  background-color: rgba(var(--ring-border-accent-components), 0.12);
+}
+
+.animatedColumnFadeOut {
+  transition: background-color var(--animated-column-fade-out-duration) ease-out;
+
+  background-color: transparent;
+}
+
+.spacerRow {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.spacerCell {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.row:focus {
+  border-radius: var(--ring-border-radius);
+  outline: 2px solid var(--ring-button-focus-border-color);
+}
+
+.clickableRow {
+  cursor: pointer;
+
+  transition: background-color var(--ring-fast-ease);
+
+  &:not(.selectedRow):hover {
+    background-color: var(--ring-hover-background-color);
+  }
+}
+
+.selectedRow {
+  background-color: var(--ring-selected-background-color);
+}
+
+.cell {
+  padding: var(--ring-unit);
+
+  border-bottom: 1px solid var(--ring-line-color);
+}
