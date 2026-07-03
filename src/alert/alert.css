@@ -63,6 +63,8 @@
 
   flex-grow: 1;
 
+  min-width: 0;
+
   white-space: normal;
 
   color: var(--ring-active-text-color);
