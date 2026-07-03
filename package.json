@@ -100,7 +100,7 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "@babel/cli": "^8.0.1",
-    "@babel/eslint-parser": "^7.29.7",
+    "@babel/eslint-parser": "^8.0.1",
     "@csstools/css-parser-algorithms": "^4.0.0",
     "@csstools/stylelint-no-at-nest-rule": "^5.0.0",
     "@eslint/compat": "^2.1.0",
