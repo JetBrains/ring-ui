@@ -108,8 +108,8 @@ export interface TableProps<T> {
    * - `IntersectionObserver` has no root (i.e. the viewport is used)
    *
    * Note that if this scroller is nested inside another scrollable container,
-   * the outer container is not tracked. As a result, items may not
-   * materialize until the inner scroller is scrolled.
+   * the outer container is not tracked. As a result, items may not materialize
+   * until the inner scroller is scrolled.
    *
    * Support for nested scroll containers may be added in the future.
    */
