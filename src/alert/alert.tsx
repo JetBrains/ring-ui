@@ -150,7 +150,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
    * @private
    */
   private _handleCaptionsLinksClick = (evt: React.MouseEvent<HTMLElement>) => {
-    if (evt.target instanceof Element && evt.target.matches('a')) {
+    const link = evt.target instanceof Element ? evt.target.closest('a') : null;
+    if (link != null && evt.currentTarget.contains(link)) {
       this.closeRequest(evt);
     }
   };

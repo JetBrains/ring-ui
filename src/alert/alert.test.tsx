@@ -62,6 +62,19 @@ describe('Alert', () => {
     expect(screen.getByRole('heading', {level: 2})).to.exist;
   });
 
+  it('should call onCloseRequest on click by an element nested in a link', async () => {
+    const closeSpy = vi.fn();
+    render(
+      <Alert onCloseRequest={closeSpy}>
+        <a href='#link'>
+          <span>{'nested'}</span>
+        </a>
+      </Alert>,
+    );
+    await userEvent.click(screen.getByText('nested'));
+    expect(closeSpy).toHaveBeenCalled();
+  });
+
   it('should call onCloseRequest on click by link in afterMessage', async () => {
     const closeSpy = vi.fn();
     render(
