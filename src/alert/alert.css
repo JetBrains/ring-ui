@@ -144,10 +144,16 @@
   animation-duration: 500ms;
 }
 
-/* Doubled to override the Heading component's level-based typography:
-   its :is(hN) selectors have higher specificity than a single class */
+/* Doubled to override the Heading component's level-based styles, so the
+   level prop stays semantic and doesn't change the alert design: Heading's
+   :is(hN) selectors have higher specificity than a single class */
 .heading.heading {
   margin: 0 0 calc(var(--ring-unit) / 2);
+
+  letter-spacing: normal;
+  text-transform: none;
+
+  color: inherit;
 
   font-size: var(--ring-font-size);
   font-weight: var(--ring-font-weight-bold);
