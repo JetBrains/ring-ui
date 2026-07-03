@@ -149,7 +149,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
    * @param {SyntheticEvent} evt
    * @private
    */
-  private _handleCaptionsLinksClick = (evt: React.MouseEvent<HTMLSpanElement>) => {
+  private _handleCaptionsLinksClick = (evt: React.MouseEvent<HTMLElement>) => {
     if (evt.target instanceof Element && evt.target.matches('a')) {
       this.closeRequest(evt);
     }
@@ -160,14 +160,14 @@ export default class Alert extends PureComponent<AlertProps, State> {
    */
   private _getCaption() {
     return (
-      <span
+      <div
         className={classNames(styles.caption, this.props.captionClassName)}
         onClick={this._handleCaptionsLinksClick}
         // We only process clicks on `a` elements, see above
         role='presentation'
       >
         {this.props.children}
-      </span>
+      </div>
     );
   }
 
@@ -232,7 +232,15 @@ export default class Alert extends PureComponent<AlertProps, State> {
       >
         {this._getIcon()}
         {this._getCaption()}
-        {afterMessage}
+        {afterMessage != null && (
+          <div
+            onClick={this._handleCaptionsLinksClick}
+            // We only process clicks on `a` elements, see above
+            role='presentation'
+          >
+            {afterMessage}
+          </div>
+        )}
         {this.props.closeable ? (
           <Button
             icon={closeIcon}

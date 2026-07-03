@@ -11,6 +11,7 @@
   align-items: flex-end;
   flex-direction: column;
 
+  max-width: calc(100vw - var(--ring-unit) * 4);
   max-height: calc(100vh - 2 * var(--ring-unit));
 
   pointer-events: none;

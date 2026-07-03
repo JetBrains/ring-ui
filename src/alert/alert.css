@@ -12,6 +12,7 @@
 
   box-sizing: border-box;
   width: calc(var(--ring-unit) * 45);
+  max-width: 100%;
   min-height: calc(var(--ring-unit) * 5.5);
   margin: var(--ring-unit) auto;
   padding: calc(var(--ring-unit) * 1.5);

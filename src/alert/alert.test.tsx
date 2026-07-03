@@ -56,6 +56,17 @@ describe('Alert', () => {
     expect(closeSpy).toHaveBeenCalled();
   });
 
+  it('should call onCloseRequest on click by link in afterMessage', async () => {
+    const closeSpy = vi.fn();
+    render(
+      <Alert onCloseRequest={closeSpy} afterMessage={<a href='#link'>{'link'}</a>}>
+        {'Test element'}
+      </Alert>,
+    );
+    await userEvent.click(screen.getByRole('link', {name: 'link'}));
+    expect(closeSpy).toHaveBeenCalled();
+  });
+
   it('should call onCloseRequest on timeout', () => {
     vi.useFakeTimers({toFake: ['setTimeout']});
     const closeSpy = vi.fn();
