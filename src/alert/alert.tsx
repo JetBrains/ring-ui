@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import exceptionIcon from '@jetbrains/icons/exception';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import warningIcon from '@jetbrains/icons/warning';
+import infoIcon from '@jetbrains/icons/info-filled';
 import closeIcon from '@jetbrains/icons/close';
 
 import Icon, {Color} from '../icon/icon';
@@ -12,6 +13,8 @@ import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
 import Button from '../button/button';
 import Theme, {ThemeProvider} from '../global/theme';
+import AlertHeading from './alert-heading';
+import AlertActions from './alert-actions';
 
 import styles from './alert.css';
 
@@ -31,6 +34,7 @@ export enum AlertType {
   SUCCESS = 'success',
   WARNING = 'warning',
   LOADING = 'loading',
+  INFO = 'info',
 }
 
 /**
@@ -41,6 +45,7 @@ const TypeToIcon: Partial<Record<AlertType, string>> = {
   [AlertType.ERROR]: exceptionIcon,
   [AlertType.SUCCESS]: checkmarkIcon,
   [AlertType.WARNING]: warningIcon,
+  [AlertType.INFO]: infoIcon,
 };
 
 /**
@@ -50,7 +55,8 @@ const TypeToIcon: Partial<Record<AlertType, string>> = {
 const TypeToIconColor: Partial<Record<AlertType, Color>> = {
   [AlertType.ERROR]: Color.RED,
   [AlertType.SUCCESS]: Color.GREEN,
-  [AlertType.WARNING]: Color.WHITE,
+  [AlertType.WARNING]: Color.ORANGE,
+  [AlertType.INFO]: Color.BLUE,
 };
 
 export interface AlertProps {
@@ -76,6 +82,7 @@ export interface AlertProps {
   captionClassName?: string | null | undefined;
   closeButtonClassName?: string | null | undefined;
   'data-test'?: string | null | undefined;
+  afterMessage?: ReactNode;
 }
 
 interface State {
@@ -129,6 +136,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
   hideTimeout?: number;
 
   static Type = AlertType;
+  static Heading = AlertHeading;
+  static Actions = AlertActions;
 
   closeRequest = (event: React.MouseEvent<HTMLElement>) => {
     this.startCloseAnimation();
@@ -163,9 +172,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
   private _getCaption() {
     return (
       <span
-        className={classNames(styles.caption, this.props.captionClassName, {
-          [styles.withCloseButton]: this.props.closeable,
-        })}
+        className={classNames(styles.caption, this.props.captionClassName)}
         onClick={this._handleCaptionsLinksClick}
         // We only process clicks on `a` elements, see above
         role='presentation'
@@ -183,7 +190,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
     const glyph = TypeToIcon[this.props.type];
 
     if (glyph) {
-      return <Icon glyph={glyph} className={styles.icon} color={TypeToIconColor[this.props.type] || Color.DEFAULT} />;
+      return <Icon glyph={glyph} color={TypeToIconColor[this.props.type] || Color.DEFAULT} />;
     }
     if (this.props.type === AlertType.LOADING) {
       return <Loader className={styles.loader} />;
@@ -207,6 +214,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
       className,
       'data-test': dataTest,
       theme,
+      afterMessage,
     } = this.props;
 
     const classes = classNames(className, {
@@ -232,10 +240,11 @@ export default class Alert extends PureComponent<AlertProps, State> {
       >
         {this._getIcon()}
         {this._getCaption()}
+        {afterMessage}
         {this.props.closeable ? (
           <Button
             icon={closeIcon}
-            className={classNames(styles.close, closeButtonClassName)}
+            className={closeButtonClassName ?? undefined}
             data-test='alert-close'
             aria-label='close alert'
             onClick={this.closeRequest}

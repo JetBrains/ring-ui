@@ -1,3 +1,6 @@
+## [7.0.118]
+- Updated Alert styles to match Figma design
+
 ## [7.0.116]
 - Renamed the `expand` module to `collapsible-group`. Import `CollapsibleGroup` from `@jetbrains/ring-ui/components/collapsible-group/collapsible-group`. The old `@jetbrains/ring-ui/components/expand/collapsible-group` import path (component and CSS) is deprecated and will be removed in Ring UI 8.0.
 
