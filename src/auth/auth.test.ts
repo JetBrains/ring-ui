@@ -676,11 +676,17 @@ describe('Auth', () => {
       expect(authorizeSpy).not.toHaveBeenCalled();
     });
 
-    it('reuses the stored token when it differs from the explicitly rejected one', async () => {
-      // Models http.request(): a request 401s with an OAuth error while
-      // another tab has already written a fresh token to storage. The rejected
-      // token is passed as the baseline, so the fresh one must be reused
-      // without another refresh (JT-93843).
+    it('reuses the stored token when it differs from the last issued one', async () => {
+      // Models http.request(): a request made with an issued token 401s while
+      // another tab has already written a fresh token to storage. The last
+      // issued token is the baseline, so the fresh one must be reused without
+      // another refresh (JT-93843).
+      await auth._storage?.saveToken({
+        accessToken: 'rejected-token',
+        expires: TokenValidator._epoch() + HOUR,
+        scopes: ['0-0-0-0-0'],
+      });
+      await auth.requestToken(); // issues 'rejected-token', recording the baseline
       await auth._storage?.saveToken({
         accessToken: 'fresh-token',
         expires: TokenValidator._epoch() + HOUR,
@@ -688,7 +694,7 @@ describe('Auth', () => {
       });
       const authorizeSpy = auth._backgroundFlow ? vi.spyOn(auth._backgroundFlow, 'authorize') : null;
 
-      const token = await auth.forceTokenUpdate('rejected-token');
+      const token = await auth.forceTokenUpdate();
 
       expect(token).to.equal('fresh-token');
       expect(authorizeSpy).not.toHaveBeenCalled();

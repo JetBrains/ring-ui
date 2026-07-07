@@ -54,7 +54,7 @@ function isRawBody(params: RequestParams): params is RequestParams<true> {
 
 export interface HTTPAuth {
   requestToken(): Promise<string | null> | string | null;
-  forceTokenUpdate(failedToken?: string | null): Promise<string | null>;
+  forceTokenUpdate(): Promise<string | null>;
 }
 
 export default class HTTP implements Partial<HTTPAuth> {
@@ -63,7 +63,7 @@ export default class HTTP implements Partial<HTTPAuth> {
   fetchConfig: RequestInit;
   requestToken?: () => Promise<string | null> | string | null;
   shouldRefreshToken?: (error: string) => boolean;
-  forceTokenUpdate?: (failedToken?: string | null) => Promise<string | null>;
+  forceTokenUpdate?: () => Promise<string | null>;
 
   constructor(auth?: HTTPAuth, baseUrl?: string | null | undefined, fetchConfig: RequestInit = {}) {
     if (auth) {
@@ -86,7 +86,7 @@ export default class HTTP implements Partial<HTTPAuth> {
   setAuth = (auth: HTTPAuth) => {
     this.requestToken = () => auth.requestToken();
     this.shouldRefreshToken = (auth.constructor as typeof Auth).shouldRefreshToken;
-    this.forceTokenUpdate = failedToken => auth.forceTokenUpdate(failedToken);
+    this.forceTokenUpdate = () => auth.forceTokenUpdate();
   };
 
   setBaseUrl = (baseUrl: string | null | undefined) => {
@@ -196,9 +196,7 @@ export default class HTTP implements Partial<HTTPAuth> {
         typeof error.data.error === 'string' ? this.shouldRefreshToken?.(error.data.error) : false;
 
       if (shouldRefreshToken) {
-        // Pass the rejected token so a fresh one another tab already wrote is
-        // reused instead of forcing yet another refresh (JT-93843).
-        token = await this.forceTokenUpdate?.(token);
+        token = await this.forceTokenUpdate?.();
         response = await this._performRequest(url, token, params);
 
         return this._processResponse(response);

@@ -205,6 +205,10 @@ class Auth implements HTTPAuth {
   private _postponed = false;
   private _backendCheckPromise: Promise<void> | null = null;
   private _forceTokenUpdatePromise: Promise<string | null> | null = null;
+  // The last token this instance handed out. Used as the refresh baseline: if
+  // the stored token differs from it (e.g. another tab refreshed), the stored
+  // one is reused instead of minting yet another token (JT-93843).
+  private _lastIssuedToken: string | null = null;
   private _authDialogService: typeof AuthDialogService | undefined = undefined;
   _domainStorage: AuthStorage<UserChange>;
   user: AuthUser | null = null;
@@ -531,7 +535,9 @@ class Auth implements HTTPAuth {
       if (Auth.storageIsUnavailable) {
         return null; // Forever guest if storage is unavailable
       }
-      return (await this._tokenValidator?.validateTokenLocally()) ?? null;
+      const token = (await this._tokenValidator?.validateTokenLocally()) ?? null;
+      this._lastIssuedToken = token;
+      return token;
     } catch (e) {
       return this.forceTokenUpdate();
     }
@@ -547,29 +553,33 @@ class Auth implements HTTPAuth {
    * iframe-based auth attempt fails but a subsequent one succeeds once
    * the Hub session is re-established.
    *
-   * @param failedToken the token the caller knows was rejected by the server,
-   * if any. Used as the reuse baseline: a stored token that differs from it
+   * A stored token that differs from the last one this instance handed out
    * (e.g. written by another tab) is returned as is instead of minting yet
    * another one (JT-93843).
+   *
    * @return {Promise.<string | null>}
    */
-  forceTokenUpdate(failedToken?: string | null): Promise<string | null> {
+  forceTokenUpdate(): Promise<string | null> {
     if (this._forceTokenUpdatePromise) {
       return this._forceTokenUpdatePromise;
     }
-    this._forceTokenUpdatePromise = this._doForceTokenUpdate(failedToken).finally(() => {
-      this._forceTokenUpdatePromise = null;
-    });
+    this._forceTokenUpdatePromise = this._doForceTokenUpdate()
+      .then(token => {
+        this._lastIssuedToken = token;
+        return token;
+      })
+      .finally(() => {
+        this._forceTokenUpdatePromise = null;
+      });
     return this._forceTokenUpdatePromise;
   }
 
-  private async _doForceTokenUpdate(failedToken?: string | null): Promise<string | null> {
-    // Remember the token we came in with so the lock holder can tell whether
-    // another tab refreshed it while we were waiting. Captured before the
-    // backend check: a sibling tab may refresh during that network wait, and
-    // its fresh token must read as "changed", not become our baseline
-    // (JT-93843).
-    const previousToken = failedToken ?? (await this._storage?.getToken())?.accessToken ?? null;
+  private async _doForceTokenUpdate(): Promise<string | null> {
+    // The refresh baseline: the last token this instance handed out — the one
+    // the caller deems bad. When nothing was issued yet, fall back to the
+    // stored token, captured before the backend check so a sibling tab's
+    // refresh during that network wait reads as "changed" (JT-93843).
+    const previousToken = this._lastIssuedToken ?? (await this._storage?.getToken())?.accessToken ?? null;
 
     try {
       if (!this._backendCheckPromise) {

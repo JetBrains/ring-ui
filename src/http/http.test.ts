@@ -218,7 +218,7 @@ describe('HTTP', () => {
 
     const res = await http.request<typeof fetchResult>('testurl');
 
-    expect(fakeAuth.forceTokenUpdate).toHaveBeenCalledWith(FAKE_TOKEN);
+    expect(fakeAuth.forceTokenUpdate).toHaveBeenCalled();
 
     expect(res).to.equal(fetchResult);
   });
