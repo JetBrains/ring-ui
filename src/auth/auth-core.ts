@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle,max-lines */
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners, {type Handler} from '../global/listeners';
-import HTTP, {type HTTPAuth, type RequestParams} from '../http/http';
+import HTTP, {CODE, HTTPError, type HTTPAuth, type RequestParams} from '../http/http';
 import promiseWithTimeout from '../global/promise-with-timeout';
 import {getTranslations, getTranslationsWithFallback, translate} from '../i18n/i18n';
 import AuthStorage, {type AuthState} from './storage';
@@ -19,6 +19,12 @@ const DEFAULT_BACKEND_CHECK_TIMEOUT = 10 * 1000;
 const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
 const DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT = 5 * 1000;
 export const TOKEN_REFRESH_RETRY_DELAYS = [0, 2000, 5000];
+// Covers one healthy holder refresh (up to a 10s iframe timeout) with margin.
+// Beyond that, assume the holder is stuck or timer-throttled in a background
+// tab and refresh unsynchronized rather than stall this tab (JT-93843).
+const TOKEN_REFRESH_LOCK_TIMEOUT = 15 * 1000;
+
+type TokenRefreshAttempt = {token: string | null} | {error: Error};
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const DOMAIN_USER_CHANGED_EVENT = 'domainUser';
@@ -541,19 +547,30 @@ class Auth implements HTTPAuth {
    * iframe-based auth attempt fails but a subsequent one succeeds once
    * the Hub session is re-established.
    *
+   * @param failedToken the token the caller knows was rejected by the server,
+   * if any. Used as the reuse baseline: a stored token that differs from it
+   * (e.g. written by another tab) is returned as is instead of minting yet
+   * another one (JT-93843).
    * @return {Promise.<string | null>}
    */
-  forceTokenUpdate(): Promise<string | null> {
+  forceTokenUpdate(failedToken?: string | null): Promise<string | null> {
     if (this._forceTokenUpdatePromise) {
       return this._forceTokenUpdatePromise;
     }
-    this._forceTokenUpdatePromise = this._doForceTokenUpdate().finally(() => {
+    this._forceTokenUpdatePromise = this._doForceTokenUpdate(failedToken).finally(() => {
       this._forceTokenUpdatePromise = null;
     });
     return this._forceTokenUpdatePromise;
   }
 
-  private async _doForceTokenUpdate(): Promise<string | null> {
+  private async _doForceTokenUpdate(failedToken?: string | null): Promise<string | null> {
+    // Remember the token we came in with so the lock holder can tell whether
+    // another tab refreshed it while we were waiting. Captured before the
+    // backend check: a sibling tab may refresh during that network wait, and
+    // its fresh token must read as "changed", not become our baseline
+    // (JT-93843).
+    const previousToken = failedToken ?? (await this._storage?.getToken())?.accessToken ?? null;
+
     try {
       if (!this._backendCheckPromise) {
         this._backendCheckPromise = this._checkBackendsStatusesIfEnabled();
@@ -565,6 +582,61 @@ class Auth implements HTTPAuth {
       this._backendCheckPromise = null;
     }
 
+    const attempt = await this._tryRefreshTokenAcrossTabs(previousToken);
+    if ('token' in attempt) {
+      return attempt.token;
+    }
+    return this._handleTokenRefreshFailure(attempt.error);
+  }
+
+  /**
+   * Serialize the silent token refresh across all tabs of the same service
+   * using the Web Locks API. Without this, every open tab races Hub with its
+   * own iframe refresh when their tokens expire around the same time, and the
+   * resulting token churn makes some tabs receive an already-stale token and
+   * get logged out (JT-93843). Tabs that acquire the lock after the refresh
+   * reuse the token the holder just obtained instead of hitting Hub again.
+   *
+   * The lock callback never shows dialogs or redirects and never rejects — it
+   * resolves to `{token}` or `{error}` — so the lock is always released
+   * promptly and interactive failure handling runs outside the lock.
+   *
+   * Falls back to an unsynchronized refresh where the Web Locks API is
+   * unavailable (older browsers, insecure contexts, tests) or when the lock
+   * cannot be acquired within {@link TOKEN_REFRESH_LOCK_TIMEOUT} (e.g. held by
+   * a timer-throttled background tab).
+   */
+  private async _tryRefreshTokenAcrossTabs(previousToken: string | null): Promise<TokenRefreshAttempt> {
+    if (navigator.locks == null) {
+      return this._tryRefreshToken(previousToken);
+    }
+    const lockName = `ring-ui-token-refresh-${this.config.clientId}`;
+    try {
+      return await navigator.locks.request(lockName, {signal: AbortSignal.timeout(TOKEN_REFRESH_LOCK_TIMEOUT)}, () =>
+        this._tryRefreshToken(previousToken),
+      );
+    } catch {
+      // Lock acquisition failed or timed out — the callback itself never
+      // rejects. Refresh unsynchronized rather than stall this tab.
+      return this._tryRefreshToken(previousToken);
+    }
+  }
+
+  private async _tryRefreshToken(previousToken: string | null): Promise<TokenRefreshAttempt> {
+    // If another tab refreshed the token while we were waiting for the lock,
+    // reuse it instead of triggering a redundant refresh (JT-93843). Only skip
+    // the refresh when the stored token actually changed — otherwise the token
+    // we hold is still the (server-rejected) one and must be replaced.
+    let storedToken: string | null = null;
+    try {
+      storedToken = (await this._tokenValidator?.validateTokenLocally()) ?? null;
+    } catch {
+      // No valid local token — fall through to refresh.
+    }
+    if (storedToken != null && storedToken !== previousToken) {
+      return {token: storedToken};
+    }
+
     let lastError: Error | null = null;
 
     for (const delay of this.config.tokenRefreshRetryDelays) {
@@ -572,12 +644,16 @@ class Auth implements HTTPAuth {
         await new Promise(resolve => setTimeout(resolve, delay));
       }
       try {
-        return (await this._backgroundFlow?.authorize()) ?? null;
+        return {token: (await this._backgroundFlow?.authorize()) ?? null};
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
       }
     }
 
+    return {error: lastError ?? new Error('Failed to refresh token')};
+  }
+
+  private async _handleTokenRefreshFailure(lastError: Error): Promise<string | null> {
     if (this._canShowDialogs()) {
       return new Promise(resolve => {
         const onTryAgain = async () => {
@@ -597,7 +673,7 @@ class Auth implements HTTPAuth {
         };
         this._showAuthDialog({
           nonInteractive: true,
-          error: lastError as Error,
+          error: lastError,
           onTryAgain,
         });
       });
@@ -607,7 +683,7 @@ class Auth implements HTTPAuth {
       this._redirectCurrentPage(authRequest.url);
     }
 
-    throw new TokenValidator.TokenValidationError(lastError?.message ?? 'Failed to refresh token');
+    throw new TokenValidator.TokenValidationError(lastError.message);
   }
 
   async loadCurrentService() {
@@ -675,7 +751,7 @@ class Auth implements HTTPAuth {
   async _detectUserChange(accessToken: string) {
     const windowWasOpen = this._isLoginWindowOpen;
 
-    const user = await this.getUser(accessToken);
+    const user = await this._getUserWithTokenRefresh(accessToken);
     const onApply = () => {
       this.user = user;
       this.listeners.trigger(USER_CHANGED_EVENT, user);
@@ -699,6 +775,35 @@ class Auth implements HTTPAuth {
           this.config.onPostponeChangedUser(this.user, user);
         },
       });
+    }
+  }
+
+  /**
+   * Fetches the current user, refreshing the token once if the access token we
+   * were handed is already stale. This commonly happens when the token arrives
+   * via a cross-tab storage change: the writing tab's token may expire (or be
+   * superseded) before this tab calls the API, producing a 401. Refreshing and
+   * retrying once avoids a spurious logout / auth dialog (JT-93843).
+   */
+  private async _getUserWithTokenRefresh(accessToken: string) {
+    try {
+      return await this.getUser(accessToken);
+    } catch (error) {
+      if (!(error instanceof HTTPError) || error.status !== CODE.UNAUTHORIZED) {
+        throw error;
+      }
+      // Pass the rejected token as the comparison baseline: any different
+      // stored token (e.g. written by another tab) is worth retrying with,
+      // while an unchanged one forces a real refresh.
+      const attempt = await this._tryRefreshTokenAcrossTabs(accessToken);
+      if ('error' in attempt) {
+        // This runs on a passive cross-tab storage event, so it must not
+        // trigger forceTokenUpdate's interactive dialog/redirect fallback.
+        // Rethrow the original 401 and let the caller decide (init()'s
+        // onTokenChange handler shows a dialog only where allowed).
+        throw error;
+      }
+      return this.getUser(attempt.token);
     }
   }
 
