@@ -4,7 +4,7 @@ import mockedWindow from 'storage-mock';
 import {act} from 'react';
 import {type MockInstance} from 'vitest';
 
-import HTTP from '../http/http';
+import HTTP, {HTTPError} from '../http/http';
 import LocalStorage from '../storage/storage-local';
 import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT, type AuthUser} from './auth';
 import AuthRequestBuilder from './request-builder';
@@ -618,6 +618,191 @@ describe('Auth', () => {
       await act(() => {
         expect(Auth.prototype._showAuthDialog).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('token refresh coordination (JT-93843)', () => {
+    let auth: Auth;
+
+    beforeEach(() => {
+      vi.spyOn(Auth.prototype, '_checkBackendsAreUp').mockResolvedValue([null, null]);
+      vi.spyOn(AuthRequestBuilder, '_uuid').mockReturnValue('unique');
+
+      auth = new Auth({
+        serverUri: '',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack'],
+        embeddedLogin: true,
+      });
+
+      if (auth._storage) {
+        auth._storage._tokenStorage = new LocalStorage();
+      }
+      auth.setAuthDialogService(() => () => {});
+      auth._initDeferred?.resolve?.();
+    });
+
+    afterEach(async () => {
+      vi.unstubAllGlobals();
+      await Promise.all([auth._storage?.cleanStates(), auth._storage?.wipeToken()]);
+    });
+
+    it('serializes across tabs via the Web Locks API and reuses a token a sibling refreshed', async () => {
+      const authorizeSpy = auth._backgroundFlow ? vi.spyOn(auth._backgroundFlow, 'authorize') : null;
+      const request = vi.fn(async (_name: string, _options: unknown, callback: () => Promise<unknown>) => {
+        await auth._storage?.saveToken({
+          accessToken: 'token-from-other-tab',
+          expires: TokenValidator._epoch() + HOUR,
+          scopes: ['0-0-0-0-0'],
+        });
+        return callback();
+      });
+      vi.stubGlobal('navigator', {...navigator, locks: {request}});
+
+      const token = await auth.forceTokenUpdate();
+
+      expect(request).toHaveBeenCalledWith(
+        'ring-ui-token-refresh-1-1-1-1-1',
+        expect.objectContaining({signal: expect.any(AbortSignal)}),
+        expect.any(Function),
+      );
+      expect(token).to.equal('token-from-other-tab');
+      expect(authorizeSpy).not.toHaveBeenCalled();
+    });
+
+    it('reuses the stored token when it differs from the explicitly rejected one', async () => {
+      await auth._storage?.saveToken({
+        accessToken: 'fresh-token',
+        expires: TokenValidator._epoch() + HOUR,
+        scopes: ['0-0-0-0-0'],
+      });
+      const authorizeSpy = auth._backgroundFlow ? vi.spyOn(auth._backgroundFlow, 'authorize') : null;
+
+      const token = await auth.forceTokenUpdate('rejected-token');
+
+      expect(token).to.equal('fresh-token');
+      expect(authorizeSpy).not.toHaveBeenCalled();
+    });
+
+    it('reuses a token a sibling refreshed during the backend check instead of refreshing again', async () => {
+      await auth._storage?.saveToken({
+        accessToken: 'stale-token',
+        expires: TokenValidator._epoch() + HOUR,
+        scopes: ['0-0-0-0-0'],
+      });
+      vi.spyOn(Auth.prototype, '_checkBackendsAreUp').mockImplementation(async () => {
+        await auth._storage?.saveToken({
+          accessToken: 'token-from-other-tab',
+          expires: TokenValidator._epoch() + HOUR,
+          scopes: ['0-0-0-0-0'],
+        });
+        return [null, null];
+      });
+      const authorizeSpy = auth._backgroundFlow ? vi.spyOn(auth._backgroundFlow, 'authorize') : null;
+
+      const token = await auth.forceTokenUpdate();
+
+      expect(token).to.equal('token-from-other-tab');
+      expect(authorizeSpy).not.toHaveBeenCalled();
+    });
+
+    it('falls back to an unsynchronized refresh when the lock cannot be acquired in time', async () => {
+      const request = vi.fn().mockRejectedValue(new DOMException('Lock request timed out', 'AbortError'));
+      vi.stubGlobal('navigator', {...navigator, locks: {request}});
+      const authorizeSpy = auth._backgroundFlow
+        ? vi.spyOn(auth._backgroundFlow, 'authorize').mockResolvedValue('fresh-token')
+        : null;
+
+      const token = await auth.forceTokenUpdate();
+
+      expect(authorizeSpy).toHaveBeenCalled();
+      expect(token).to.equal('fresh-token');
+    });
+
+    it('forces a Hub refresh when the stored token is unchanged (server-rejected but locally valid)', async () => {
+      await auth._storage?.saveToken({
+        accessToken: 'stale-token',
+        expires: TokenValidator._epoch() + HOUR,
+        scopes: ['0-0-0-0-0'],
+      });
+      const authorizeSpy = auth._backgroundFlow
+        ? vi.spyOn(auth._backgroundFlow, 'authorize').mockResolvedValue('fresh-token')
+        : null;
+
+      const token = await auth.forceTokenUpdate();
+
+      expect(authorizeSpy).toHaveBeenCalled();
+      expect(token).to.equal('fresh-token');
+    });
+  });
+
+  describe('_detectUserChange (JT-93843)', () => {
+    let auth: Auth;
+
+    beforeEach(() => {
+      auth = new Auth({
+        serverUri: '',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack'],
+      });
+      if (auth._storage) {
+        auth._storage._tokenStorage = new LocalStorage();
+      }
+      auth._initDeferred?.resolve?.();
+    });
+
+    afterEach(async () => {
+      await auth._storage?.wipeToken();
+    });
+
+    it('retries getUser with the fresh token another tab wrote when the handed token is stale', async () => {
+      auth.user = {id: 'user'} as AuthUser;
+      await auth._storage?.saveToken({
+        accessToken: 'fresh-token',
+        expires: TokenValidator._epoch() + HOUR,
+        scopes: ['0-0-0-0-0'],
+      });
+      const getUser = vi
+        .spyOn(Auth.prototype, 'getUser')
+        .mockRejectedValueOnce(new HTTPError({status: 401, statusText: 'Unauthorized'}))
+        .mockResolvedValueOnce({id: 'user'});
+
+      await auth._detectUserChange('stale-token');
+
+      expect(getUser).toHaveBeenNthCalledWith(1, 'stale-token');
+      expect(getUser).toHaveBeenNthCalledWith(2, 'fresh-token');
+    });
+
+    it('rethrows the original 401 without dialogs or redirects when the refresh fails', async () => {
+      auth.user = {id: 'user'} as AuthUser;
+      auth.config.tokenRefreshRetryDelays = [0]; // keep the test synchronous
+      vi.spyOn(Auth.prototype, 'getUser').mockRejectedValue(new HTTPError({status: 401, statusText: 'Unauthorized'}));
+      if (auth._backgroundFlow) {
+        vi.spyOn(auth._backgroundFlow, 'authorize').mockRejectedValue(new Error('Failed to refresh authorization'));
+      }
+      vi.spyOn(Auth.prototype, '_redirectCurrentPage').mockReturnValue();
+      const showAuthDialog = vi.spyOn(Auth.prototype, '_showAuthDialog').mockReturnValue();
+
+      await expect(auth._detectUserChange('stale-token')).to.be.rejectedWith('401 Unauthorized');
+
+      expect(Auth.prototype._redirectCurrentPage).not.toHaveBeenCalled();
+      expect(showAuthDialog).not.toHaveBeenCalled();
+    });
+
+    it('does not refresh on non-401 errors', async () => {
+      auth.user = {id: 'user'} as AuthUser;
+      const getUser = vi
+        .spyOn(Auth.prototype, 'getUser')
+        .mockRejectedValue(new HTTPError({status: 500, statusText: 'Server Error'}));
+      const authorizeSpy = auth._backgroundFlow ? vi.spyOn(auth._backgroundFlow, 'authorize') : null;
+
+      await expect(auth._detectUserChange('token')).to.be.rejectedWith('500 Server Error');
+      expect(getUser).toHaveBeenCalledTimes(1);
+      expect(authorizeSpy).not.toHaveBeenCalled();
     });
   });
 
