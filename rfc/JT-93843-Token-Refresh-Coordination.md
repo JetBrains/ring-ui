@@ -25,7 +25,7 @@ Ring UI coordinates silent token refresh with the Web Locks API and reuses a fre
 
 When no rejected token is known, `forceTokenUpdate()` snapshots the stored token before the backend status check. This keeps a sibling refresh that happens during the backend check visible as a changed token.
 
-Silent refresh runs under a Web Lock named by `clientId`. The lock callback only returns `{token}` or `{error}`. Dialog and redirect fallback are handled after the lock is released.
+Silent refresh runs under a Web Lock named by `clientId`. The lock callback normalizes refresh results into either a token result or an error result. Dialog and redirect fallback are handled after the lock is released.
 
 Lock acquisition is bounded by `TOKEN_REFRESH_LOCK_TIMEOUT`. If the Web Locks API is unavailable, lock acquisition times out, or lock acquisition rejects, the tab falls back to the previous unsynchronized refresh behavior.
 
