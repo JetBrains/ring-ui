@@ -196,8 +196,6 @@ export default class HTTP implements Partial<HTTPAuth> {
         typeof error.data.error === 'string' ? this.shouldRefreshToken?.(error.data.error) : false;
 
       if (shouldRefreshToken) {
-        // Pass the rejected token so a fresh one another tab already wrote is
-        // reused instead of forcing yet another refresh (JT-93843).
         token = await this.forceTokenUpdate?.(token);
         response = await this._performRequest(url, token, params);
 

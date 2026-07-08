@@ -651,10 +651,6 @@ describe('Auth', () => {
 
     it('serializes across tabs via the Web Locks API and reuses a token a sibling refreshed', async () => {
       const authorizeSpy = auth._backgroundFlow ? vi.spyOn(auth._backgroundFlow, 'authorize') : null;
-      // The lock holder models another tab that refreshed the token (writing a
-      // new one to storage) while this tab was waiting for the lock. This tab
-      // must reuse it and skip the background iframe flow (the thundering-herd
-      // source in JT-93843).
       const request = vi.fn(async (_name: string, _options: unknown, callback: () => Promise<unknown>) => {
         await auth._storage?.saveToken({
           accessToken: 'token-from-other-tab',
@@ -677,10 +673,6 @@ describe('Auth', () => {
     });
 
     it('reuses the stored token when it differs from the explicitly rejected one', async () => {
-      // Models http.request(): a request 401s with an OAuth error while
-      // another tab has already written a fresh token to storage. The rejected
-      // token is passed as the baseline, so the fresh one must be reused
-      // without another refresh (JT-93843).
       await auth._storage?.saveToken({
         accessToken: 'fresh-token',
         expires: TokenValidator._epoch() + HOUR,
@@ -695,10 +687,6 @@ describe('Auth', () => {
     });
 
     it('reuses a token a sibling refreshed during the backend check instead of refreshing again', async () => {
-      // The baseline must be captured before the backend check: a tab whose
-      // check finishes later would otherwise adopt the sibling's fresh token
-      // as its baseline, see it as "unchanged" and mint yet another token
-      // (JT-93843).
       await auth._storage?.saveToken({
         accessToken: 'stale-token',
         expires: TokenValidator._epoch() + HOUR,
@@ -734,9 +722,6 @@ describe('Auth', () => {
     });
 
     it('forces a Hub refresh when the stored token is unchanged (server-rejected but locally valid)', async () => {
-      // No other tab refreshed: the token we hold was rejected server-side but
-      // is still locally valid, so we must obtain a new one rather than reuse
-      // it (JT-93843 — the reuse fast-path must not defeat the 401 retry).
       await auth._storage?.saveToken({
         accessToken: 'stale-token',
         expires: TokenValidator._epoch() + HOUR,
