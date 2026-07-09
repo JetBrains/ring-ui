@@ -116,130 +116,190 @@ The table doesn't have any data-related state. It works like a React "controlled
 - The client registers callbacks to react to user interactions, such as selecting rows or sorting columns. These callbacks are expected to update the `data`, e.g., by actually reordering or selecting rows.
 
 ```typescript
-type TableProps<T> = {
-  data: T[]
-  columns: Column<T>[]
-  getKey: (item: T, index: number) => React.Key
+interface TableProps<T> {
+  data: readonly T[]
+  columns: readonly Column<T>[]
+  getKey: (item: T, index: number, items: readonly T[]) => React.Key
 
-  getItemLevel?: (item: T, index: number) => number
+  noHeader?: boolean
+  stickyHeader?: boolean
 
   /**
-   * Custom renderer for a data item.
+   * Customizes how an item is rendered.
    *
-   * Expected to return one or more rows. If provided, completely
-   * overrides standard column-based rendering.
+   * Return `DefaultItemRenderer` to configure row-specific behavior such as
+   * `clickable`, `keyboardFocusable`, event handlers, `className`, or `ref`.
    *
-   * Use `TableRow` and `TableCell` components to apply standard classnames.
-   * Beware that data-dependent classnames, namely `tbodyTrClassName` and `tdClassName`,
-   * will not be applied; the client is expected to add them explicitly.
+   * You can also return custom row(s) instead. Use `TableRow` and `TableCell`
+   * components to apply standard classnames. Beware that `tdClassName`, if
+   * specified as a function, will not be applied; the client is expected to
+   * add it explicitly.
    *
-   * The implementation may use `StandardRowRenderer` to fall back to default behavior.
-   * It's also okay to render several rows, one of which uses `StandardRowRenderer`,
-   * other being custom.
+   * The implementation may use `DefaultItemRenderer` to fall back to default behavior.
+   * It's also okay to render several rows, one of which uses `DefaultItemRenderer`,
+   * others being custom.
    *
-   * @see StandardRowRendererProps
+   * @see DefaultItemRendererProps
    */
-  renderItem?: (item: T, index: number) => React.ReactNode
+  renderItem?: (item: T, index: number, items: readonly T[]) => React.ReactNode
 
   /**
-   * We reuse the existing `Selection` class. It is an isolated class,
-   * not coupled to table props, and it clones itself on change.
-   * It is intended to be stored on the client.
-   * So it nicely fits the design.
+   * Called when the user clicks the sort button in a column header.
+   * The client is expected to update `columns[i].sortOrder` and sort `data`.
    */
-  selection?: Selection<T>
+  onSort?: (columnIndex: number, newOrder: SortOrder, columns: readonly Column<T>[]) => void
 
   /**
-   * Called when the selection (including focus) changes.
+   * Called when the user clicks on a column delete button in the header.
+   * The client is expected to update `columns`.
    */
-  onSelect?: (newSelection: Selection<T>) => void
+  onColumnDelete?: (columnIndex: number, columns: readonly Column<T>[]) => void
 
   /**
-   * Called when a `pointerup` event is handled at row level,
-   * and the event target is not an active element, such as
-   * `button`, `a`, `input`, or `select` elements.
-   * The client may react by selecting or expanding the row.
+   * Called when the user reorders columns by dragging a column.
+   * The `insertionIndex` parameter represents an insertion position in the original,
+   * unchanged `columns` array before the column is removed.
    *
-   * Open question: should the table component decide instead
-   * whether a row should be selected or expanded and use,
-   * for example, `selection` and `onSelect`?
+   * One possible implementation is:
+   *
+   * const [moved] = columns.splice(fromIndex, 1);
+   * columns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
+   *
+   * The client is expected to update `columns`.
    */
-  onRowClick?: (e: PointerEvent, item: T, index: number) => void
+  onColumnReorder?: (fromIndex: number, insertionIndex: number, columns: readonly Column<T>[]) => void
 
   /**
-   * The client is expected to update `items`
+   * By default, when a column is reordered, the moved column is highlighted
+   * with a temporary background color. Set `true` to disable this animation.
    */
-  onRowMove?: (item: T, fromIndex: number, toIndex: number) => void
+  noColumnReorderAnimation?: boolean
 
   /**
-   * The client is expected to update `columns[i].sortDirection`
-   * and sort `items`
+   * Only renders rows near the viewport.
    */
-  onSort?: (columnIndex: number, direction: SortDirection) => void
+  virtualizeRows?: boolean
 
   /**
-   * The client is expected to update `columns`
+   * Used with `virtualizeRows` as the source of scroll events, the target of
+   * `ResizeObserver`, and the root of `IntersectionObserver`. Required when
+   * the scrollable container is not the whole document.
    */
-  onColumnDelete?: (columnIndex: number) => void
+  scrollerRef?: RefObject<HTMLElement | null>
 
   /**
-   * The client is expected to update `columns`
+   * Used with `virtualizeRows` to estimate the height of items that have not
+   * been rendered yet. Once a row is rendered, its actual height is used instead.
+   *
+   * Default: 37px.
    */
-  onColumnMove?: (fromIndex: number, toIndex: number) => void
+  estimateHeight?: (item: T, index: number, items: readonly T[]) => number
 
-  tableClassName?: string
+  lookaheadPx?: number
+  retentionMarginPx?: number
+  minScrollAndResizeDeltaPx?: number
+
+  /**
+   * "Column editing mode" reveals controls normally hidden, such as reorder and delete buttons.
+   * When `undefined`, the component manages the mode internally.
+   * Alternatively, pass `true` or `false` to control the mode externally.
+   */
+  columnEditing?: boolean
+
+  /**
+   * Called when the user requests to enter or leave column editing mode.
+   * The `source` parameter indicates what triggered the request.
+   */
+  onColumnEditingRequest?: (editing: boolean, source: 'header' | 'edit-button') => void
+
+  /**
+   * Whether to show a small gear button in the top-right corner that
+   * toggles column editing mode.
+   * See the "Column Controls Discoverability" section above.
+   */
+  columnEditButton?: boolean
+
   theadClassName?: string
   theadTrClassName?: string
   tbodyClassName?: string
-  tbodyTrClassName?: string | ((item: T, index: number) => string)
-
-  /**
-   * Whether to show a small gear button at the top right corner.
-   * See the "Column Controls Discoverability" section above.
-   */
-  columnEditButton?: 'everywhere' | 'mobileOnly'
 }
 
-type SortDirection = 'asc' | 'desc' | undefined
+type SortOrder = 'none' | 'ascending' | 'descending'
 
-type Column<T> = {
+interface Column<T> {
   key: React.Key
 
   /**
-   * Default: String(key)
+   * Used in `aria-label`s of column controls which do not contain text,
+   * such as the delete column button. Default: String(key).
+   */
+  name?: string
+
+  /**
+   * Default: name ?? String(key)
    */
   renderHeader?: () => React.ReactNode
 
   /**
    * Renders a single cell value for a column.
-   * Default: String((item as unknown[])[columnIndex])
+   * Default: String((item as unknown[])[columnIndex]) for arrays,
+   * String(item[String(key)]) for objects.
    */
-  renderCell?: (item: T, index: number) => React.ReactNode
+  renderCell?: (item: T, index: number, items: readonly T[]) => React.ReactNode
 
   /**
-   * If the column gets an indent when `TableProps.getItemLevel()` returns
-   * a positive number.
+   * If the column gets an indent when `DefaultItemRendererProps.level` is positive.
    */
   indent?: boolean
 
-  sortable?: boolean
-  sortDirection?: SortDirection
+  /**
+   * If set, displays sort button and includes `aria-sort` in the column header.
+   * Handle clicks with TableProps.onSort.
+   */
+  sortOrder?: SortOrder
+
+  /**
+   * Whether to display a delete button in the column header.
+   * Handle delete requests with TableProps.onColumnDelete.
+   */
+  deletable?: boolean
+
+  /**
+   * Displays a reorder handle in the column header.
+   * Handle reorder requests with TableProps.onColumnReorder.
+   * If a function is provided, it determines whether the column may be moved
+   * to the specified insertion position.
+   */
+  canReorder?: boolean | ((insertionIndex: number, columns: readonly Column<T>[]) => boolean)
 
   thClassName?: string
-  tdClassName?: string | ((item: T, index: number) => string)
+  tdClassName?: string | ((item: T, index: number, items: readonly T[]) => string | undefined)
 }
 
 /**
- * Use it as a fallback in `renderItem`. It renders a single row with cells based on
- * `columns`, and applies all relevant classnames, including data-dependent ones,
- * namely `tbodyTrClassName` and `tdClassName`.
+ * Standard component for rendering a table row.
  *
- * The component props are only item-scoped. Table-scoped props are passed via
- * React context.
+ * Renders an item using the table's column definitions and lets you
+ * configure item-scoped behavior such as selection, keyboard navigation,
+ * event handlers, `className`, and `ref`.
+ *
+ * The props are item-scoped. Table-scoped props are passed via React context.
+ * Additional `<tr>` props (e.g. `onClick`, `onKeyDown`, `className`, `ref`) can be provided.
+ *
+ * @see TableRow
+ * @see TableCell
  */
-type StandardRowRendererProps<T> = {
-  item: T
+interface DefaultItemRendererProps {
   index: number
+  keyboardFocusable?: boolean
+  clickable?: boolean
+  selected?: boolean
+  /**
+   * The nesting level. Applies an indent for columns with `Column.indent` set to `true`.
+   * `0`, negative values, and an unset value mean no indent.
+   */
+  level?: number
+  noItemVirtualization?: boolean
 }
 ```
 
@@ -247,22 +307,22 @@ type StandardRowRendererProps<T> = {
 
 This example allows selecting a row either by a checkbox or by clicking on the row.
 
-```tsx
-const [data, setData] = useState(
-  [
-    'Amsterdam',
-    'Berlin',
-    'Limassol',
-    'Prague',
-  ]
-)
+`TableSelection` is not required by `Table`. It is an independent utility class for tracking selection state on the client, importable from `@jetbrains/ring-ui/global/table-selection`. Any selection management approach works.
 
-const [selection, setSelection] = useState(() => new Selection<string>({data}))
+```tsx
+const [data] = useState([
+  'Amsterdam',
+  'Berlin',
+  'Limassol',
+  'Prague',
+])
+
+const [selection, setSelection] = useState(() => new TableSelection<string>({data}))
 
 return (
   <Table
     data={data}
-    selection={selection}
+    getKey={(_, i) => i}
     columns={[
       {
         key: 'Check',
@@ -283,16 +343,25 @@ return (
         renderCell: item => item,
       }
     ]}
-    onRowClick={(e, item) => {
-      setSelection(selection.toggleSelection(item))
-    }}
+    renderItem={(item, index) => (
+      <DefaultItemRenderer
+        index={index}
+        clickable
+        selected={selection.isSelected(item)}
+        onClick={e => {
+          if (!isWithinInteractiveElement(e.target)) {
+            setSelection(selection.toggleSelection(item))
+          }
+        }}
+      />
+    )}
   />
 )
 ```
 
 #### Example 2: Row Expansion
 
-The data is provided as a flat list. The client is responsible for converting a tree or nested structure into a flat list.
+The data is provided as a flat list. The client is responsible for converting a tree or nested structure into a flat list. The nesting level is passed to `DefaultItemRenderer` via the `level` prop.
 
 ```tsx
 type Item = [level: number, place: string]
@@ -342,7 +411,7 @@ function removeNested(items: Item[], index: number): Item[] {
 return (
   <Table
     data={data}
-    getItemLevel={item => item[0]}
+    getKey={(_, i) => i}
     columns={[
       {
         key: 'Place',
@@ -350,28 +419,35 @@ return (
         indent: true,
       }
     ]}
-    onRowClick={(e, item, index) => {
-      if (isExpanded(data, index)) {
-        setData(removeNested(data, index))
-      } else {
-        const place = item[1]
-        const nestedPlaces = place === 'Germany' ? ['Berlin', 'Munich']
-          : place === 'Netherlands' ? ['Amsterdam', 'Hague']
-          : place === 'Berlin' ? ['Mitte', 'Kreuzberg']
-          : place === 'Munich' ? ['Altstadt', 'Schwabing']
-          : place === 'Amsterdam' ? ['Centrum', 'Zuid']
-          : place === 'Hague' ? ['Centrum', 'Scheveningen']
-          : []
-        setData(insertNested(data, index, nestedPlaces))
-      }
-    }}
+    renderItem={(item, index) => (
+      <DefaultItemRenderer
+        index={index}
+        clickable={!!item[0] || !isExpanded(data, index)}
+        level={item[0]}
+        onClick={() => {
+          if (isExpanded(data, index)) {
+            setData(removeNested(data, index))
+          } else {
+            const place = item[1]
+            const nestedPlaces = place === 'Germany' ? ['Berlin', 'Munich']
+              : place === 'Netherlands' ? ['Amsterdam', 'Hague']
+              : place === 'Berlin' ? ['Mitte', 'Kreuzberg']
+              : place === 'Munich' ? ['Altstadt', 'Schwabing']
+              : place === 'Amsterdam' ? ['Centrum', 'Zuid']
+              : place === 'Hague' ? ['Centrum', 'Scheveningen']
+              : []
+            setData(insertNested(data, index, nestedPlaces))
+          }
+        }}
+      />
+    )}
   />
 )
 ```
 
 #### Example 3: Sorting
 
-The Table component allows sorting by one or several columns. The "sorted" indicator is displayed based on `Column.sortDirection`, regardless of whether the `data` is actually sorted. When the user requests sorting by clicking a column header, the client decides whether the new sorting column is added to the sorting criteria or replaces the previous one.
+The Table component allows sorting by one or several columns. The "sorted" indicator is displayed based on `Column.sortOrder`, regardless of whether the `data` is actually sorted. When the user requests sorting by clicking a column header, the client decides whether the new sorting column is added to the sorting criteria or replaces the previous one.
 
 ```tsx
 type Item = [issueId: string, votes: number]
@@ -380,11 +456,11 @@ const [data, setData] = useState<Item[]>([])
 const [columns, setColumns] = useState<Column<Item>[]>([
   {
     key: 'Issue ID',
-    sortable: true,
+    sortOrder: 'none',
   },
   {
     key: 'Votes',
-    sortable: true,
+    sortOrder: 'none',
   }
 ])
 
@@ -392,7 +468,7 @@ useEffect(async () => {
   setData(await fetchIssues({
     orderBy: columns.map(column => ({
       key: column.key,
-      direction: column.sortDirection
+      order: column.sortOrder
     }))
   }))
 }, [columns])
@@ -401,10 +477,10 @@ return (
   <Table
     data={data}
     columns={columns}
-    onSort={(columnIndex, direction) => {
+    onSort={(columnIndex, newOrder) => {
       setColumns(columns.with(columnIndex, {
         ...columns[columnIndex],
-        sortDirection: direction
+        sortOrder: newOrder
       }))
     }}
   />
@@ -418,25 +494,10 @@ This is the TeamCity case: when a row is clicked (or a chevron button is used), 
 ```tsx
 const [data, setData] = useState(
   [
-    {id: 1624, status: 'Success', details: undefined},
-    {id: 1625, status: 'Failed', details: undefined},
+    {id: 1624, status: 'Success', expanded: false},
+    {id: 1625, status: 'Failed', expanded: false},
   ]
 )
-
-async function toggleDetails(index: number) {
-  if (data[index].details) {
-    setData(data.with(index, {
-      ...data[index],
-      details: undefined,
-    }))
-  } else {
-    const details: string = await fetchDetails(data[index].id)
-    setData(data.with(index, {
-      ...data[index],
-      details,
-    }))
-  }
-}
 
 return (
   <Table
@@ -451,23 +512,27 @@ return (
         renderCell: item => item.status,
       },
     ]}
-    renderItem={(item, index) => {
-      const {details} = item
-      return (
-        <>
-          <StandardRowRenderer item={item} index={index} />
-          {details && (
-            <TableRow className='build-details'>
-              <TableCell colSpan={2}>{details}</TableCell>
-            </TableRow>
-          )}
-        </>
-      )
-    }}
-    onRowClick={(e, item, index) => {
-      toggleDetails(index)
-    }}
-    tbodyTrClassName={item => item.details ? 'build-expanded' : undefined}
+    renderItem={(item, index) => (
+      <>
+        <DefaultItemRenderer
+          index={index}
+          clickable
+          selected={item.expanded}
+          onClick={e => {
+            if (!isWithinInteractiveElement(e.target)) {
+              setData(data.with(index, {...item, expanded: !item.expanded}))
+            }
+          }}
+        />
+        {item.expanded && (
+          <TableRow className='build-details'>
+            <TableCell colSpan={2}>
+              {/* Fetch details asynchronously and display them */}
+            </TableCell>
+          </TableRow>
+        )}
+      </>
+    )}
   />
 )
 ```
@@ -510,6 +575,8 @@ New structure:
 
 The new table will be placed in `src/table` and exposed in the `Table` section in Storybook. In other words, it will replace old tables in both import structure and Storybook presentation.
 
+Additionally, `table/selection.ts` has been moved and renamed to `global/table-selection.ts`. See the `TableSelection` note in the API Design section above.
+
 ### Code Reuse Strategy
 
 During development, we should reuse existing logic where possible by extracting shared routines and hooks rather than copying code. This may require converting some legacy table code to functional components.
@@ -520,17 +587,16 @@ The new `Table` must not directly depend on legacy components (for example, by e
 
 ### Third-Party Libraries
 
-The proposed libraries are:
-
-- [TanStack Table (headless)](https://github.com/tanstack/table)
-- [@dnd-kit/core](https://dndkit.com/) for column reordering, as [suggested in TanStack documentation](https://tanstack.com/table/latest/docs/guide/column-ordering#drag-and-drop-column-reordering-suggestions-react)
-
-We may switch to an in-house implementation if these libraries require too much customization or have an unacceptable bundle-size impact.
+The proposed libraries (TanStack Table and @dnd-kit/core) were evaluated but ultimately not used. An in-house implementation was chosen to avoid the overhead of heavy customization and to keep full control over bundle size and behavior.
 
 ## Branch, Versioning, and Early Access
 
-Development will happen in a feature branch named `RG-2542-reinvent-table`, where the `version` in `package.json` will be set to `8.0.0-beta.0`. We will periodically publish work-in-progress versions from this branch using the TeamCity `Publish@next` configuration, which automatically increments the last version segment (for example, `8.0.0-beta.0` -> `8.0.0-beta.1`). As a result, early-access builds will be available on `npm` as `8.0.0-beta.x`. Clients are encouraged to try the new table and provide feedback during this phase.
+The existing branch `develop-8.0`, containing refactorings and Storybook updates, was renamed to `develop-9.0`.
 
-The change is expected to be merged into `master` only when the full feature set is implemented and the component is production-ready. Partial implementations are not expected to be merged.
+The new `develop-8.0` branch was created from the latest `master`.
 
-Before the merge, the version will be manually set to `8.0.0` so that the next `Publish@current` will publish the `8.0.1` version from `master`. Clients will need to update dependencies to `8.0.1` and may need to update table usage sites.
+Table development happens in the `develop-8.0` branch and in branches targeting it.
+
+The TeamCity `Publish@next` configuration periodically publishes `8.0.0-beta.x` versions from `develop-8.0` or branches created from it, allowing clients to try the new table and provide feedback during this phase.
+
+The `develop-8.0` branch will likely not be merged into `master`. Instead, `master` will be renamed to `release-7.0`, and `develop-8.0` will be renamed to `master`.
