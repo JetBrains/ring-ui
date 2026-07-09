@@ -108,6 +108,16 @@ The table should handle thousands of rows without issues, so rows must be virtua
 
 ## Proposed Design
 
+### New utils in `src/global`
+
+- `focus-with-temporary-tabindex.ts` — focuses an element by temporarily assigning it `tabIndex=0`, used for programmatic focus after row clicks.
+- `intersection-observer-context.ts` — provides a React context for sharing an `IntersectionObserver` instance among descendants. Previously an internal utility in Date Picker; now promoted to a shared utility.
+- `is-within-interactive-element.ts` — checks whether a DOM node is inside an interactive element (link, button, input, etc.), used to distinguish row-level clicks from control clicks.
+- `is-within-navigable-element.ts` — similar to the above, but targets navigable elements specifically.
+- `parse-css-duration.ts` — parses CSS duration strings (e.g. `'200ms'`) into milliseconds.
+- `schedule-with-cleanups.ts` — schedules callbacks together with their cleanup functions.
+- `table-selection.ts` — moved from `table/selection.ts` in the legacy table package and renamed. An optional utility class for tracking selection state on the client; the new `Table` component does not require it.
+
 ### API Design
 
 The table doesn't have any data-related state. It works like a React "controlled component":
@@ -115,7 +125,13 @@ The table doesn't have any data-related state. It works like a React "controlled
 - The client owns and provides the state, including data, selection, sorting, and column order.
 - The client registers callbacks to react to user interactions, such as selecting rows or sorting columns. These callbacks are expected to update the `data`, e.g., by actually reordering or selecting rows.
 
+The `TableProps` and `DefaultItemRendererProps` list only component-specific props; the actual components also accept native `table` and `tr` props (including `ref`) via intersection types:
+
 ```typescript
+declare function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'table'>);
+
+declare function DefaultItemRenderer<T>(props: DefaultItemRendererProps & ComponentPropsWithRef<'tr'>);
+
 interface TableProps<T> {
   data: readonly T[]
   columns: readonly Column<T>[]
@@ -303,11 +319,13 @@ interface DefaultItemRendererProps {
 }
 ```
 
+### Main use case examples
+
 #### Example 1: Row Selection via Checkbox or Row Click
 
 This example allows selecting a row either by a checkbox or by clicking on the row.
 
-`TableSelection` is not required by `Table`. It is an independent utility class for tracking selection state on the client, importable from `@jetbrains/ring-ui/global/table-selection`. Any selection management approach works.
+This example uses `TableSelection` (see the new utils section above) for selection state management, but any approach works — including, for example, storing an `isSelected` flag directly on data items.
 
 ```tsx
 const [data] = useState([
@@ -343,7 +361,7 @@ return (
         renderCell: item => item,
       }
     ]}
-    renderItem={(item, index) => (
+    renderItem={(item, index, items) => (
       <DefaultItemRenderer
         index={index}
         clickable
@@ -419,14 +437,14 @@ return (
         indent: true,
       }
     ]}
-    renderItem={(item, index) => (
+    renderItem={(item, index, items) => (
       <DefaultItemRenderer
         index={index}
-        clickable={!!item[0] || !isExpanded(data, index)}
+        clickable={!!item[0] || !isExpanded(items, index)}
         level={item[0]}
         onClick={() => {
-          if (isExpanded(data, index)) {
-            setData(removeNested(data, index))
+          if (isExpanded(items, index)) {
+            setData(removeNested(items, index))
           } else {
             const place = item[1]
             const nestedPlaces = place === 'Germany' ? ['Berlin', 'Munich']
@@ -436,7 +454,7 @@ return (
               : place === 'Amsterdam' ? ['Centrum', 'Zuid']
               : place === 'Hague' ? ['Centrum', 'Scheveningen']
               : []
-            setData(insertNested(data, index, nestedPlaces))
+            setData(insertNested(items, index, nestedPlaces))
           }
         }}
       />
@@ -512,7 +530,7 @@ return (
         renderCell: item => item.status,
       },
     ]}
-    renderItem={(item, index) => (
+    renderItem={(item, index, items) => (
       <>
         <DefaultItemRenderer
           index={index}
@@ -520,7 +538,7 @@ return (
           selected={item.expanded}
           onClick={e => {
             if (!isWithinInteractiveElement(e.target)) {
-              setData(data.with(index, {...item, expanded: !item.expanded}))
+              setData(items.with(index, {...item, expanded: !item.expanded}))
             }
           }}
         />
@@ -533,6 +551,64 @@ return (
         )}
       </>
     )}
+  />
+)
+```
+
+#### Example 5: Per-Row Reactivity with MobX
+
+In complex tables such as the YouTrack issues table, a single row may contain over 200 components. Re-rendering all visible rows on each state change can be costly. That is why the table is compatible with MobX-like row-level reactivity.
+
+To use this approach, wrap the data array in `observable()` and each row renderer in `observed()`. The client can then set items directly by index instead of calling `setState`, and only the affected row will re-render.
+
+All other table features (virtualization, column editing, etc.) work normally alongside this.
+
+```tsx
+type Issue = {id: string; priority: string; selected: boolean}
+
+const data = observable<Issue>([
+  {id: 'TW-2469', priority: 'Normal', selected: false},
+  {id: 'TW-2470', priority: 'Major', selected: false},
+])
+
+const IssueRow = observed(function IssueRow({index}: {index: number}) {
+  const item = data[index]
+
+  return (
+    <DefaultItemRenderer
+      index={index}
+      clickable
+      selected={item.selected}
+      onClick={e => {
+        if (!isWithinInteractiveElement(e.target)) {
+          data[index] = {...item, selected: !item.selected}  // no setState
+          e.preventDefault()
+        }
+      }}
+    />
+  )
+})
+
+return (
+  <Table
+    data={data}
+    getKey={({id}) => id}
+    columns={[
+      {
+        key: 'ID',
+        renderCell: (item, index) => (
+          <input
+            type="checkbox"
+            checked={item.selected}
+            onChange={e => {
+              data[index] = {...item, selected: e.target.checked}  // no setState
+            }}
+          />
+        ),
+      },
+      {key: 'priority', name: 'Priority'},
+    ]}
+    renderItem={(_, index) => <IssueRow index={index} />}
   />
 )
 ```
