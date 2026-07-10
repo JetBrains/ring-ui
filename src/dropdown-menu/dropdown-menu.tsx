@@ -81,8 +81,7 @@ function renderDropdownMenuChildren<T>({children, popupMenuProps}: DropdownMenuC
 }
 
 type OnSelectHandler<T> =
-  | ((item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) => void)
-  | undefined;
+  ((item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) => void) | undefined;
 
 export interface DropdownMenuProps<T = unknown> extends Omit<DropdownAttrs, 'anchor' | 'onSelect' | 'children'> {
   anchor:
