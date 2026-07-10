@@ -220,10 +220,10 @@ export default class Alert extends PureComponent<AlertProps, State> {
     const classes = classNames(className, {
       [styles.alert]: true,
       [styles.animationOpen]: showWithAnimation,
-      [styles.error]: type === 'error',
-      [styles.success]: type === 'success',
-      [styles.warning]: type === 'warning',
-      [styles.info]: type === 'info',
+      [styles.error]: type === AlertType.ERROR,
+      [styles.success]: type === AlertType.SUCCESS,
+      [styles.warning]: type === AlertType.WARNING,
+      [styles.info]: type === AlertType.INFO,
       [styles.alertInline]: inline,
       [styles.animationClosing]: isClosing,
       [styles.animationShaking]: isShaking,
@@ -263,9 +263,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
             aria-label='close alert'
             onClick={this.closeRequest}
           />
-        ) : (
-          ''
-        )}
+        ) : null}
       </ThemeProvider>
     );
   }

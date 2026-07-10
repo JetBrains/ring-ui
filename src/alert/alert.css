@@ -34,6 +34,8 @@
 
 .alertInline {
   margin: var(--ring-unit);
+  /* Keep the margin box within narrow parents despite the fixed width */
+  max-width: calc(100% - var(--ring-unit) * 2);
 }
 
 .error {
@@ -76,6 +78,8 @@
   min-width: 0;
 
   white-space: normal;
+
+  color: var(--ring-active-text-color);
 }
 
 .badge {
