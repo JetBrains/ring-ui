@@ -167,7 +167,7 @@
   }
 }
 
-.columnDragFrame {
+.dragFrame {
   position: fixed;
 
   z-index: var(--ring-overlay-z-index);
@@ -180,12 +180,10 @@
   background-color: rgba(var(--ring-border-accent-components), 0.06);
 }
 
-.columnInsertionIndicator {
+.insertionIndicator {
   position: fixed;
 
   z-index: var(--ring-overlay-z-index);
-
-  width: 2px;
 
   background-color: var(--ring-main-color);
 }

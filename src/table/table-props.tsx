@@ -68,6 +68,20 @@ export interface TableProps<T> {
   noColumnReorderAnimation?: boolean;
 
   /**
+   * Called when the user reorders rows by dragging a row.
+   * The `insertionIndex` parameter represents an insertion position in the original,
+   * unchanged `data` array before the row is removed. See {@link TableProps.onColumnReorder}
+   * for an example implementation.
+   *
+   * To make reorder possible, render `ReorderItemHandle` in a row.
+   *
+   * The callback is not called when the reorder operation would not change the
+   * column order, i.e. when
+   * `insertionIndex === fromIndex || insertionIndex === fromIndex + 1`.
+   */
+  onItemReorder?: (fromIndex: number, insertionIndex: number, items: readonly T[]) => void;
+
+  /**
    * Customizes how an item is rendered.
    *
    * Return `DefaultItemRenderer` to configure row-specific behavior such as
