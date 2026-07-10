@@ -63,9 +63,7 @@ export class AlertService {
     const normalizedAfterMessage = normalizeAfterMessage(afterMessage);
     return this.showingAlerts.find(
       it =>
-        it.type === type &&
-        it.message === message &&
-        normalizeAfterMessage(it.afterMessage) === normalizedAfterMessage,
+        it.type === type && it.message === message && normalizeAfterMessage(it.afterMessage) === normalizedAfterMessage,
     );
   }
 
