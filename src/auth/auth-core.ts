@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle,max-lines */
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners, {type Handler} from '../global/listeners';
-import HTTP, {type HTTPAuth, type RequestParams} from '../http/http';
+import HTTP, {CODE, HTTPError, type HTTPAuth, type RequestParams} from '../http/http';
 import promiseWithTimeout from '../global/promise-with-timeout';
 import {getTranslations, getTranslationsWithFallback, translate} from '../i18n/i18n';
 import AuthStorage, {type AuthState} from './storage';
@@ -19,6 +19,9 @@ const DEFAULT_BACKEND_CHECK_TIMEOUT = 10 * 1000;
 const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
 const DEFAULT_WAIT_FOR_REDIRECT_TIMEOUT = 5 * 1000;
 export const TOKEN_REFRESH_RETRY_DELAYS = [0, 2000, 5000];
+const TOKEN_REFRESH_LOCK_TIMEOUT = 15 * 1000;
+
+type TokenRefreshAttempt = {token: string | null} | {error: Error};
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const DOMAIN_USER_CHANGED_EVENT = 'domainUser';
@@ -533,27 +536,21 @@ class Auth implements HTTPAuth {
 
   /**
    * Get new token in the background or redirect to the login page.
-   *
-   * Retries background token refresh with delays from {@link AuthConfig.tokenRefreshRetryDelays}
-   * with increasing delays before showing the auth dialog.
-   * This handles transient failures that commonly occur after network
-   * recovery (e.g. waking from sleep, switching networks) where the first
-   * iframe-based auth attempt fails but a subsequent one succeeds once
-   * the Hub session is re-established.
-   *
    * @return {Promise.<string | null>}
    */
-  forceTokenUpdate(): Promise<string | null> {
+  forceTokenUpdate(failedToken?: string | null): Promise<string | null> {
     if (this._forceTokenUpdatePromise) {
       return this._forceTokenUpdatePromise;
     }
-    this._forceTokenUpdatePromise = this._doForceTokenUpdate().finally(() => {
+    this._forceTokenUpdatePromise = this._doForceTokenUpdate(failedToken).finally(() => {
       this._forceTokenUpdatePromise = null;
     });
     return this._forceTokenUpdatePromise;
   }
 
-  private async _doForceTokenUpdate(): Promise<string | null> {
+  private async _doForceTokenUpdate(failedToken?: string | null): Promise<string | null> {
+    const previousToken = failedToken ?? (await this._storage?.getToken())?.accessToken ?? null;
+
     try {
       if (!this._backendCheckPromise) {
         this._backendCheckPromise = this._checkBackendsStatusesIfEnabled();
@@ -565,6 +562,38 @@ class Auth implements HTTPAuth {
       this._backendCheckPromise = null;
     }
 
+    const attempt = await this._refreshTokenUnderWebLock(previousToken);
+    if ('token' in attempt) {
+      return attempt.token;
+    }
+    return this._handleTokenRefreshFailure(attempt.error);
+  }
+
+  private async _refreshTokenUnderWebLock(previousToken: string | null): Promise<TokenRefreshAttempt> {
+    if (navigator.locks == null) {
+      return this._refreshTokenOrReuseChanged(previousToken);
+    }
+    const lockName = `ring-ui-token-refresh-${this.config.clientId}`;
+    try {
+      return await navigator.locks.request(lockName, {signal: AbortSignal.timeout(TOKEN_REFRESH_LOCK_TIMEOUT)}, () =>
+        this._refreshTokenOrReuseChanged(previousToken),
+      );
+    } catch {
+      return this._refreshTokenOrReuseChanged(previousToken);
+    }
+  }
+
+  private async _refreshTokenOrReuseChanged(previousToken: string | null): Promise<TokenRefreshAttempt> {
+    let storedToken: string | null = null;
+    try {
+      storedToken = (await this._tokenValidator?.validateTokenLocally()) ?? null;
+    } catch {
+      // No valid local token — fall through to refresh.
+    }
+    if (storedToken != null && storedToken !== previousToken) {
+      return {token: storedToken};
+    }
+
     let lastError: Error | null = null;
 
     for (const delay of this.config.tokenRefreshRetryDelays) {
@@ -572,12 +601,16 @@ class Auth implements HTTPAuth {
         await new Promise(resolve => setTimeout(resolve, delay));
       }
       try {
-        return (await this._backgroundFlow?.authorize()) ?? null;
+        return {token: (await this._backgroundFlow?.authorize()) ?? null};
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
       }
     }
 
+    return {error: lastError ?? new Error('Failed to refresh token')};
+  }
+
+  private async _handleTokenRefreshFailure(lastError: Error): Promise<string | null> {
     if (this._canShowDialogs()) {
       return new Promise(resolve => {
         const onTryAgain = async () => {
@@ -597,7 +630,7 @@ class Auth implements HTTPAuth {
         };
         this._showAuthDialog({
           nonInteractive: true,
-          error: lastError as Error,
+          error: lastError,
           onTryAgain,
         });
       });
@@ -607,7 +640,7 @@ class Auth implements HTTPAuth {
       this._redirectCurrentPage(authRequest.url);
     }
 
-    throw new TokenValidator.TokenValidationError(lastError?.message ?? 'Failed to refresh token');
+    throw new TokenValidator.TokenValidationError(lastError.message);
   }
 
   async loadCurrentService() {
@@ -675,7 +708,7 @@ class Auth implements HTTPAuth {
   async _detectUserChange(accessToken: string) {
     const windowWasOpen = this._isLoginWindowOpen;
 
-    const user = await this.getUser(accessToken);
+    const user = await this._getUserWithTokenRefresh(accessToken);
     const onApply = () => {
       this.user = user;
       this.listeners.trigger(USER_CHANGED_EVENT, user);
@@ -699,6 +732,21 @@ class Auth implements HTTPAuth {
           this.config.onPostponeChangedUser(this.user, user);
         },
       });
+    }
+  }
+
+  private async _getUserWithTokenRefresh(accessToken: string) {
+    try {
+      return await this.getUser(accessToken);
+    } catch (error) {
+      if (!(error instanceof HTTPError) || error.status !== CODE.UNAUTHORIZED) {
+        throw error;
+      }
+      const attempt = await this._refreshTokenUnderWebLock(accessToken);
+      if ('error' in attempt) {
+        throw error;
+      }
+      return this.getUser(attempt.token);
     }
   }
 

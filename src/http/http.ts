@@ -54,7 +54,7 @@ function isRawBody(params: RequestParams): params is RequestParams<true> {
 
 export interface HTTPAuth {
   requestToken(): Promise<string | null> | string | null;
-  forceTokenUpdate(): Promise<string | null>;
+  forceTokenUpdate(failedToken?: string | null): Promise<string | null>;
 }
 
 export default class HTTP implements Partial<HTTPAuth> {
@@ -63,7 +63,7 @@ export default class HTTP implements Partial<HTTPAuth> {
   fetchConfig: RequestInit;
   requestToken?: () => Promise<string | null> | string | null;
   shouldRefreshToken?: (error: string) => boolean;
-  forceTokenUpdate?: () => Promise<string | null>;
+  forceTokenUpdate?: (failedToken?: string | null) => Promise<string | null>;
 
   constructor(auth?: HTTPAuth, baseUrl?: string | null | undefined, fetchConfig: RequestInit = {}) {
     if (auth) {
@@ -86,7 +86,7 @@ export default class HTTP implements Partial<HTTPAuth> {
   setAuth = (auth: HTTPAuth) => {
     this.requestToken = () => auth.requestToken();
     this.shouldRefreshToken = (auth.constructor as typeof Auth).shouldRefreshToken;
-    this.forceTokenUpdate = () => auth.forceTokenUpdate();
+    this.forceTokenUpdate = failedToken => auth.forceTokenUpdate(failedToken);
   };
 
   setBaseUrl = (baseUrl: string | null | undefined) => {
@@ -196,7 +196,7 @@ export default class HTTP implements Partial<HTTPAuth> {
         typeof error.data.error === 'string' ? this.shouldRefreshToken?.(error.data.error) : false;
 
       if (shouldRefreshToken) {
-        token = await this.forceTokenUpdate?.();
+        token = await this.forceTokenUpdate?.(token);
         response = await this._performRequest(url, token, params);
 
         return this._processResponse(response);
