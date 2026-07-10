@@ -61,6 +61,7 @@ export const alertContainer = () => {
         {type: Alert.Type.ERROR, key: 0, message: 'Test error', isClosing: false},
         {type: Alert.Type.INFO, key: 1, message: 'Test info', isClosing: false},
         {type: Alert.Type.WARNING, key: 2, message: 'Test warning', isClosing: false},
+        {type: Alert.Type.SUCCESS, key: 8, message: 'Test success', isClosing: false},
         {type: Alert.Type.LOADING, key: 3, message: 'Test loading', isClosing: false},
         {type: Alert.Type.MESSAGE, key: 4, message: 'Test message', isClosing: false},
         {

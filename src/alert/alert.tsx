@@ -2,7 +2,7 @@ import {PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import exceptionIcon from '@jetbrains/icons/exception';
-import checkmarkIcon from '@jetbrains/icons/checkmark';
+import successIcon from '@jetbrains/icons/success';
 import warningIcon from '@jetbrains/icons/warning';
 import infoIcon from '@jetbrains/icons/info-filled';
 import closeIcon from '@jetbrains/icons/close';
@@ -43,7 +43,7 @@ export enum AlertType {
  */
 const TypeToIcon: Partial<Record<AlertType, string>> = {
   [AlertType.ERROR]: exceptionIcon,
-  [AlertType.SUCCESS]: checkmarkIcon,
+  [AlertType.SUCCESS]: successIcon,
   [AlertType.WARNING]: warningIcon,
   [AlertType.INFO]: infoIcon,
 };
