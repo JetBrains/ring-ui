@@ -8,11 +8,14 @@
 
   display: flex;
   align-items: baseline;
+  gap: var(--ring-unit);
 
   box-sizing: border-box;
-  min-height: calc(var(--ring-unit) * 5);
+  width: calc(var(--ring-unit) * 45);
+  max-width: 100%;
+  min-height: calc(var(--ring-unit) * 5.5);
   margin: var(--ring-unit) auto;
-  padding: 0 calc(var(--ring-unit) * 2);
+  padding: calc(var(--ring-unit) * 1.5);
 
   transition:
     transform var(--ring-alert-animation-duration) var(--ring-alert-animation-easing),
@@ -21,16 +24,18 @@
   white-space: nowrap;
   pointer-events: auto;
 
-  border-radius: var(--ring-border-radius);
+  border-radius: var(--ring-border-radius-large);
   background-color: var(--ring-popup-background-color);
   box-shadow: var(--ring-popup-shadow);
 
   font-size: var(--ring-font-size);
-  line-height: calc(var(--ring-unit) * 5);
+  line-height: 20px;
 }
 
 .alertInline {
   margin: var(--ring-unit);
+  /* Keep the margin box within narrow parents despite the fixed width */
+  max-width: calc(100% - var(--ring-unit) * 2);
 }
 
 .error {
@@ -39,26 +44,42 @@
   color: var(--ring-error-color);
 }
 
-.icon {
-  margin-right: var(--ring-unit);
+.error .icon {
+  color: var(--ring-icon-error-color);
+}
+
+.success .icon {
+  color: var(--ring-icon-success-color);
+}
+
+.warning .icon {
+  color: var(--ring-icon-warning-color);
+}
+
+.info .icon {
+  color: var(--ring-link-color);
 }
 
 .caption {
   overflow: hidden;
 
-  max-width: calc(100% - calc(var(--ring-unit) * 5));
+  flex-grow: 1;
 
-  margin: 12px 0;
+  min-width: 0;
 
   white-space: normal;
 
   color: var(--ring-active-text-color);
+}
 
-  line-height: 20px;
+.afterMessage {
+  overflow: hidden;
 
-  &.withCloseButton {
-    margin-right: calc(var(--ring-unit) * 5);
-  }
+  min-width: 0;
+
+  white-space: normal;
+
+  color: var(--ring-active-text-color);
 }
 
 .badge {
@@ -68,21 +89,17 @@
 }
 
 .loader {
-  top: 2px;
+  top: 3px;
 
-  margin-right: var(--ring-unit);
+  margin-top: -1px;
 }
 
+/* Padding restores a comfortable hit target around the bare 16px glyph
+   of the inline icon-only Button; negative margin keeps the glyph where
+   the flex layout would put it without the padding */
 .close.close {
-  position: absolute;
-  top: 2px;
-  right: 0;
-
-  margin: calc(var(--ring-unit) / 2);
+  margin: calc(var(--ring-unit) * -1);
   padding: var(--ring-unit);
-
-  font-size: 0;
-  line-height: 0;
 }
 
 @keyframes show {
@@ -135,5 +152,29 @@
 
 .animationShaking {
   animation-name: shaking;
+
   animation-duration: 500ms;
+}
+
+/* Doubled to override the Heading component's level-based styles, so the
+   level prop stays semantic and doesn't change the alert design: Heading's
+   :is(hN) selectors have higher specificity than a single class */
+.heading.heading {
+  margin: 0 0 calc(var(--ring-unit) / 2);
+
+  letter-spacing: normal;
+  text-transform: none;
+
+  color: inherit;
+
+  font-size: var(--ring-font-size);
+  font-weight: var(--ring-font-weight-bold);
+  line-height: var(--ring-line-height);
+}
+
+.actions {
+  display: flex;
+  gap: calc(var(--ring-unit)*2);
+
+  margin: calc(var(--ring-unit) * 2) 0 calc(var(--ring-unit) / 2);
 }

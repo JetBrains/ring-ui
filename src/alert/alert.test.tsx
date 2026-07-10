@@ -2,6 +2,7 @@ import {act} from 'react';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {Levels} from '../heading/heading';
 import Alert from './alert';
 
 import styles from './alert.css';
@@ -53,6 +54,40 @@ describe('Alert', () => {
     if (closeElement) {
       await userEvent.click(closeElement);
     }
+    expect(closeSpy).toHaveBeenCalled();
+  });
+
+  it('should render heading with the given level', () => {
+    render(<Alert.Heading level={Levels.H2}>{'Heading'}</Alert.Heading>);
+    expect(screen.getByRole('heading', {level: 2})).to.exist;
+  });
+
+  it('should call onCloseRequest on click by an element nested in a link', async () => {
+    const closeSpy = vi.fn();
+    render(
+      <Alert onCloseRequest={closeSpy}>
+        <a href='#link'>
+          <span>{'nested'}</span>
+        </a>
+      </Alert>,
+    );
+    await userEvent.click(screen.getByText('nested'));
+    expect(closeSpy).toHaveBeenCalled();
+  });
+
+  it('should not render an extra wrapper when afterMessage is boolean false', () => {
+    const {container} = render(<Alert afterMessage={false}>{'msg'}</Alert>);
+    expect(container.querySelectorAll('[role="presentation"]').length).to.equal(1);
+  });
+
+  it('should call onCloseRequest on click by link in afterMessage', async () => {
+    const closeSpy = vi.fn();
+    render(
+      <Alert onCloseRequest={closeSpy} afterMessage={<a href='#link'>{'link'}</a>}>
+        {'Test element'}
+      </Alert>,
+    );
+    await userEvent.click(screen.getByRole('link', {name: 'link'}));
     expect(closeSpy).toHaveBeenCalled();
   });
 
