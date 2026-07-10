@@ -61,10 +61,12 @@ export class AlertService {
 
   findSameAlert(message: ReactNode, type: AlertType | undefined, afterMessage?: ReactNode) {
     const normalizedAfterMessage = normalizeAfterMessage(afterMessage);
-    return this.showingAlerts.filter(
+    return this.showingAlerts.find(
       it =>
-        it.type === type && it.message === message && normalizeAfterMessage(it.afterMessage) === normalizedAfterMessage,
-    )[0];
+        it.type === type &&
+        it.message === message &&
+        normalizeAfterMessage(it.afterMessage) === normalizedAfterMessage,
+    );
   }
 
   startAlertClosing(alert: AlertItem) {
