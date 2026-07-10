@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 
+import {ReorderHandle} from './internal/reorder-handle';
+
 import type {ComponentPropsWithRef} from 'react';
 
 import styles from './table.css';
@@ -35,4 +37,12 @@ export function TableCell(props: ComponentPropsWithRef<'td'>) {
   const {className, ...restProps} = props;
   const classes = classNames(styles.cell, className);
   return <td className={classes} {...restProps} />;
+}
+
+/**
+ * Render in any place inside a table row to make it possible to reorder.
+ * Use {@link TableProps.canReorderItem} and {@link TableProps.onItemReorder}.
+ */
+export function ItemReorderHandle({index, ...restProps}: {index: number} & ComponentPropsWithRef<'button'>) {
+  return <ReorderHandle direction='items' index={index} {...restProps} />;
 }

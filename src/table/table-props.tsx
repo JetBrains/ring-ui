@@ -68,6 +68,12 @@ export interface TableProps<T> {
   noColumnReorderAnimation?: boolean;
 
   /**
+   * If defined, determines whether an item may be reordered to a specific insertion position.
+   * If not defined, any item may be reordered to any position.
+   */
+  canReorderItem?: (fromIndex: number, insertionIndex: number, items: readonly T[]) => boolean;
+
+  /**
    * Called when the user reorders rows by dragging a row.
    * The `insertionIndex` parameter represents an insertion position in the original,
    * unchanged `data` array before the row is removed. See {@link TableProps.onColumnReorder}

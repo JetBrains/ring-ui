@@ -231,6 +231,8 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     onColumnDelete,
     onColumnReorder,
     noColumnReorderAnimation,
+    canReorderItem,
+    onItemReorder,
     renderItem,
     virtualizeRows = false,
     scrollerRef,

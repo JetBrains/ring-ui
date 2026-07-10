@@ -1,9 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import {type ComponentPropsWithRef, type Context, type PointerEvent, use, useCallback, useRef, useState} from 'react';
+import {type ComponentPropsWithRef, type Context, use, useCallback, useState} from 'react';
 import classNames from 'classnames';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
 import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
-import dragIcon from '@jetbrains/icons/drag-12px';
 import settingsIcon from '@jetbrains/icons/settings-12px';
 import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
@@ -12,9 +11,8 @@ import {type TableProps} from '../table-props';
 import {ColumnAnimationContext, TablePropsContext} from '../table-const';
 import {type ExpectColumnReorder} from './column-animation';
 import Icon from '../../icon';
-import {useComposedRef} from '../../global/compose-refs';
 import {isWithinInteractiveElement} from '../../global/is-within-interactive-element';
-import {useReorder} from './use-reorder';
+import {ReorderHandle} from './reorder-handle';
 
 import styles from '../table.css';
 
@@ -167,7 +165,7 @@ function SortButton<T>({
   }
 
   return (
-    <button type='button' className={classNames(styles.headerButton, className)} onClick={handleClick} {...restProps}>
+    <button type='button' className={classNames(styles.tableButton, className)} onClick={handleClick} {...restProps}>
       {children} <Icon glyph={glyph} aria-hidden />
     </button>
   );
@@ -201,7 +199,7 @@ function DeleteColumnButton<T>({
   return (
     <button
       type='button'
-      className={classNames(styles.headerButton, styles.deleteColumnButton, className)}
+      className={classNames(styles.tableButton, styles.deleteColumnButton, className)}
       onClick={handleClick}
       aria-label={hint}
       title={hint}
@@ -218,7 +216,7 @@ function EditColumnsButton({columnEditing, ...props}: {columnEditing: boolean} &
   return (
     <button
       type='button'
-      className={classNames(styles.headerButton, styles.editColumnsButton, className)}
+      className={classNames(styles.tableButton, styles.editColumnsButton, className)}
       aria-pressed={columnEditing}
       aria-label={hint}
       title={hint}
@@ -229,105 +227,12 @@ function EditColumnsButton({columnEditing, ...props}: {columnEditing: boolean} &
   );
 }
 
-function ColumnReorderHandle<T>({
+function ColumnReorderHandle({
   columnIndex,
   expectColumnReorder,
-  ref: userRef,
-  className,
-  onKeyDown: userOnKeyDown,
-  onPointerDown: userOnPointerDown,
-  onPointerMove: userOnPointerMove,
-  onPointerUp: userOnPointerUp,
-  onPointerCancel: userOnPointerCancel,
-  onLostPointerCapture: userOnLostPointerCapture,
   ...restProps
-}: {columnIndex: number; expectColumnReorder: ExpectColumnReorder} & ComponentPropsWithRef<'button'>) {
-  const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
-  const column = tableProps?.columns[columnIndex];
-
-  const localRef = useRef<HTMLButtonElement>(null);
-  const composedRef = useComposedRef(localRef, userRef);
-
-  const {onPointerDown, onPointerMove, onPointerUp, onPointerCancel, onLostPointerCapture, onKeyDown} = useReorder({
-    direction: 'columns',
-    ref: localRef,
-    index: columnIndex,
-    expectReorder: expectColumnReorder,
-  });
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLButtonElement>) => {
-      userOnKeyDown?.(e);
-      if (!e.defaultPrevented) onKeyDown(e);
-    },
-    [onKeyDown, userOnKeyDown],
-  );
-
-  const handlePointerDown = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      userOnPointerDown?.(e);
-      if (!e.defaultPrevented) onPointerDown(e);
-    },
-    [onPointerDown, userOnPointerDown],
-  );
-
-  const handlePointerMove = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      userOnPointerMove?.(e);
-      if (!e.defaultPrevented) onPointerMove(e);
-    },
-    [onPointerMove, userOnPointerMove],
-  );
-
-  const handlePointerUp = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      userOnPointerUp?.(e);
-      if (!e.defaultPrevented) onPointerUp(e);
-    },
-    [onPointerUp, userOnPointerUp],
-  );
-
-  const handlePointerCancel = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      userOnPointerCancel?.(e);
-      if (!e.defaultPrevented) onPointerCancel();
-    },
-    [onPointerCancel, userOnPointerCancel],
-  );
-
-  const handleLostPointerCapture = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      userOnLostPointerCapture?.(e);
-      if (!e.defaultPrevented) onLostPointerCapture();
-    },
-    [onLostPointerCapture, userOnLostPointerCapture],
-  );
-
-  if (!column) return null;
-
-  const hint = `Reorder column ${column.name ?? String(column.key)}.`;
-  const description = 'Use Left and Right arrow keys to move the column.';
-
-  return (
-    // eslint-disable-next-line jsx-a11y/role-supports-aria-props
-    <button
-      ref={composedRef}
-      type='button'
-      className={classNames(styles.headerButton, styles.columnReorderHandle, className)}
-      aria-label={hint}
-      aria-description={description}
-      aria-keyshortcuts='ArrowLeft ArrowRight'
-      onKeyDown={handleKeyDown}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerCancel}
-      onLostPointerCapture={handleLostPointerCapture}
-      {...restProps}
-    >
-      <Icon glyph={dragIcon} aria-hidden='true' />
-    </button>
-  );
+}: {columnIndex: number; expectColumnReorder?: ExpectColumnReorder} & ComponentPropsWithRef<'button'>) {
+  return <ReorderHandle direction='columns' index={columnIndex} expectReorder={expectColumnReorder} {...restProps} />;
 }
 
 /**

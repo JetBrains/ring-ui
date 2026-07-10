@@ -30,49 +30,43 @@ interface ActiveDrag {
   cleanup: () => void;
 }
 
-interface UseReorderColumnsProps {
-  direction: 'columns';
+interface UseReorderProps {
+  direction: 'columns' | 'items';
   ref: RefObject<HTMLButtonElement | null>;
   index: number;
-  expectReorder: ExpectColumnReorder;
+  expectReorder?: ExpectColumnReorder;
 }
 
-interface UseReorderItemsProps {
-  direction: 'items';
-  ref: RefObject<HTMLButtonElement | null>;
-  index: number;
-  canReorder?: (index: number) => boolean;
-}
+const columnDragFrameAdjustmentPx = -1;
+const itemDragFrameAdjustmentPx = -2;
 
-export type UseReorderProps = UseReorderColumnsProps | UseReorderItemsProps;
-
-export function useReorder<T>(props: UseReorderProps) {
-  const {direction, ref, index} = props;
+export function useReorder<T>({direction, ref, index, expectReorder}: UseReorderProps) {
   const isColumn = direction === 'columns';
 
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
   const data = tableProps?.data;
   const columns = tableProps?.columns;
+  const canReorderItem = tableProps?.canReorderItem;
   const onItemReorder = tableProps?.onItemReorder;
   const onColumnReorder = tableProps?.onColumnReorder;
 
   const canReorder = useCallback(
     (insertionIndex: number) => {
-      if (isColumn) {
-        if (!columns) return false;
-
+      if (isColumn && columns) {
         const canReorderColumn = columns?.[index]?.canReorder;
         if (canReorderColumn === true) return true;
         if (typeof canReorderColumn === 'function') return canReorderColumn(insertionIndex, columns);
         return false;
       }
 
-      return props.canReorder?.(insertionIndex) ?? true;
-    },
-    [isColumn, props, columns, index],
-  );
+      if (!isColumn && data) {
+        return canReorderItem ? canReorderItem(index, insertionIndex, data) : true;
+      }
 
-  const expectReorder = isColumn ? props.expectReorder : undefined;
+      return false;
+    },
+    [isColumn, columns, data, index, canReorderItem],
+  );
 
   const onReorder = useCallback(
     (insertionIndex: number) => {
@@ -80,6 +74,7 @@ export function useReorder<T>(props: UseReorderProps) {
         expectReorder?.({fromIndex: index, insertionIndex});
         onColumnReorder?.(index, insertionIndex, columns);
       } else if (!isColumn && data) {
+        expectReorder?.({fromIndex: index, insertionIndex});
         onItemReorder?.(index, insertionIndex, data);
       }
     },
@@ -122,9 +117,9 @@ export function useReorder<T>(props: UseReorderProps) {
       }
 
       if (isColumn) {
-        dragFrame.style.left = `${itemStart + clientX - startX}px`;
+        dragFrame.style.left = `${itemStart + clientX - startX + columnDragFrameAdjustmentPx}px`;
       } else {
-        dragFrame.style.top = `${itemStart + clientY - startY}px`;
+        dragFrame.style.top = `${itemStart + clientY - startY + itemDragFrameAdjustmentPx}px`;
       }
     },
     [getDragFrame, index, isColumn],
@@ -226,7 +221,11 @@ export function useReorder<T>(props: UseReorderProps) {
       const dragFrame = getDragFrame();
       if (dragFrame) {
         const {start: itemStart} = drag.itemBounds[index];
-        dragFrame.style[direction === 'columns' ? 'left' : 'top'] = `${itemStart}px`;
+        if (isColumn) {
+          dragFrame.style.left = `${itemStart + columnDragFrameAdjustmentPx}px`;
+        } else {
+          dragFrame.style.top = `${itemStart + itemDragFrameAdjustmentPx}px`;
+        }
         dragFrame.style.transition = 'left var(--ring-ease), top var(--ring-ease), opacity var(--ring-ease)';
         dragFrame.style.opacity = '0';
       }
@@ -248,7 +247,7 @@ export function useReorder<T>(props: UseReorderProps) {
       window.getComputedStyle(document.documentElement).getPropertyValue('--ring-ease'),
     );
     setTimeout(cleanupDrag, ringEaseMs);
-  }, [cleanupDrag, direction, getDragFrame, getInsertionIndicator, index, isColumn, ref]);
+  }, [cleanupDrag, getDragFrame, getInsertionIndicator, index, isColumn, ref]);
 
   const onPointerDown = useCallback(
     (e: PointerEvent<HTMLButtonElement>) => {

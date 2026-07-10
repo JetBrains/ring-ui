@@ -29,7 +29,7 @@ import {createRandom} from '../util-stories';
 import {ColumnAnimationContext} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 import {useItemVirtualization} from './item-virtualization';
-import {TableCell, TableRow} from './table-primitives';
+import {ItemReorderHandle, TableCell, TableRow} from './table-primitives';
 
 import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -198,7 +198,7 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
           sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
         onColumnDelete={handleColumnDelete}
-        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
         columnEditButton
       />
     );
@@ -858,7 +858,7 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         onSort={(columnIndex, sortOrder) =>
           sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
-        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
         columnEditButton
       />
     );
@@ -871,16 +871,16 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
   tags: ['!autodocs'],
 };
 
-function reorderColumns<T>(
-  columns: readonly Column<T>[],
+function reorderItems<T>(
+  items: readonly T[],
   fromIndex: number,
   insertionIndex: number,
-  setColumns: (newColumns: readonly Column<T>[]) => void,
+  setItems: (newColumns: readonly T[]) => void,
 ) {
-  const [...newColumns] = columns;
+  const [...newColumns] = items;
   const [moved] = newColumns.splice(fromIndex, 1);
   newColumns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
-  setColumns(newColumns);
+  setItems(newColumns);
 }
 
 export const WithColumnReorderLongSticky: TableStory<Issue> = {
@@ -921,7 +921,7 @@ export const WithColumnReorderLongSticky: TableStory<Issue> = {
         columns={columns}
         getKey={args.getKey}
         stickyHeader
-        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
         columnEditButton
       />
     );
@@ -1105,9 +1105,7 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
           renderItem={(item, index, items) => (
             <TeamCityBuild build={item} index={index} builds={items} columnsNumber={columns.length} setData={setData} />
           )}
-          onColumnReorder={(fromIndex, insertionIndex) =>
-            reorderColumns(columns, fromIndex, insertionIndex, setColumns)
-          }
+          onColumnReorder={(fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
           onColumnDelete={columnIndex => setColumns(columns.filter((_, i) => i !== columnIndex))}
           virtualizeRows
           estimateHeight={item => {
@@ -1491,4 +1489,53 @@ export const SimpleRerenderTest: TableStory<(typeof smallDataWithSelected)[numbe
   },
 
   tags: ['!autodocs'],
+};
+
+export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
+  args: {
+    data: smallDataSlice,
+    columns: [
+      {
+        key: 'id',
+        name: 'ID',
+        renderCell: ({id}, index) => (
+          <>
+            <ItemReorderHandle index={index} /> {id}
+          </>
+        ),
+      },
+      {
+        key: 'country',
+        name: 'Country',
+      },
+      {
+        key: 'city',
+        name: 'City',
+      },
+      {
+        key: 'url',
+        name: 'URL',
+        renderCell: ({url}) => <PlaceLink href={url} />,
+        tdClassName: style.tdUrl,
+      },
+    ],
+    getKey,
+  },
+
+  render(args) {
+    const [data, setData] = useState(args.data);
+
+    return (
+      <Table
+        data={data}
+        columns={args.columns}
+        getKey={args.getKey}
+        onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+      />
+    );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
+  },
 };
