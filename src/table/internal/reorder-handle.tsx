@@ -41,6 +41,10 @@ export function ReorderHandle<T>({
   direction,
   index,
   expectReorder,
+  noDragFrame,
+  noHandleTranslate,
+  onUserDrag,
+
   ref: userRef,
   className,
   onKeyDown,
@@ -53,6 +57,9 @@ export function ReorderHandle<T>({
 }: {
   direction: 'columns' | 'items';
   index: number;
+  noDragFrame?: boolean;
+  noHandleTranslate?: boolean;
+  onUserDrag?: (delta: number | 'cancelled' | undefined) => void;
   expectReorder?: ExpectColumnReorder;
 } & ComponentPropsWithRef<'button'>) {
   const localRef = useRef<HTMLButtonElement | null>(null);
@@ -113,7 +120,7 @@ export function ReorderHandle<T>({
   const renderDragFrame = useCallback(
     (clientX: number, clientY: number) => {
       const drag = activeDragRef.current;
-      if (!drag) return;
+      if (noDragFrame || !drag) return;
 
       const {startX, startY, indicatorStart, itemBounds, indicatorSize} = drag;
       const {start: itemStart, end: itemEnd} = itemBounds[index];
@@ -139,20 +146,20 @@ export function ReorderHandle<T>({
         dragFrame.style.top = `${itemStart + clientY - startY + itemDragFrameAdjustmentPx}px`;
       }
     },
-    [getDragFrame, index, isColumn],
+    [getDragFrame, index, isColumn, noDragFrame],
   );
 
   const translateButton = useCallback(
     (clientX: number, clientY: number) => {
       const btn = localRef.current;
-      if (!btn || !activeDragRef.current) return;
-
       const drag = activeDragRef.current;
+      if (noHandleTranslate || !btn || !drag) return;
+
       btn.style.transform = isColumn
         ? `translateX(${clientX - drag.startX}px)`
         : `translateY(${clientY - drag.startY}px)`;
     },
-    [isColumn],
+    [isColumn, noHandleTranslate],
   );
 
   const getClosestInsertionPoint = useCallback(
@@ -226,7 +233,9 @@ export function ReorderHandle<T>({
 
     getDragFrame()?.remove();
     getInsertionIndicator()?.remove();
-  }, [getDragFrame, getInsertionIndicator]);
+
+    onUserDrag?.(undefined);
+  }, [getDragFrame, getInsertionIndicator, onUserDrag]);
 
   const animateNoChangeThenCleanup = useCallback(() => {
     const drag = activeDragRef.current;
@@ -258,13 +267,15 @@ export function ReorderHandle<T>({
         btn.style.transform = isColumn ? 'translateX(0)' : 'translateY(0)';
         btn.style.transition = 'transform var(--ring-ease)';
       }
+
+      onUserDrag?.('cancelled');
     }
 
     const ringEaseMs = parseCssDuration(
       window.getComputedStyle(document.documentElement).getPropertyValue('--ring-ease'),
     );
     setTimeout(cleanupDrag, ringEaseMs);
-  }, [cleanupDrag, getDragFrame, getInsertionIndicator, index, isColumn]);
+  }, [cleanupDrag, getDragFrame, getInsertionIndicator, index, isColumn, onUserDrag]);
 
   const handlePointerDown = useCallback(
     (e: PointerEvent<HTMLButtonElement>) => {
@@ -352,7 +363,8 @@ export function ReorderHandle<T>({
       onPointerMove?.(e);
       if (e.defaultPrevented) return;
 
-      if (activeDragRef.current?.state !== 'is-dragging') return;
+      const drag = activeDragRef.current;
+      if (drag?.state !== 'is-dragging') return;
 
       const {clientX, clientY} = e;
       renderDragFrame(clientX, clientY);
@@ -360,8 +372,18 @@ export function ReorderHandle<T>({
 
       const insertionPoint = getClosestInsertionPoint(clientX, clientY);
       if (insertionPoint.insertionIndex !== -1) renderInsertionIndicator(insertionPoint);
+
+      onUserDrag?.(isColumn ? clientX - drag.startX : clientY - drag.startY);
     },
-    [onPointerMove, renderDragFrame, translateButton, getClosestInsertionPoint, renderInsertionIndicator],
+    [
+      onPointerMove,
+      renderDragFrame,
+      translateButton,
+      getClosestInsertionPoint,
+      renderInsertionIndicator,
+      onUserDrag,
+      isColumn,
+    ],
   );
 
   const handlePointerUp = useCallback(

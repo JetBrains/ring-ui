@@ -40,9 +40,44 @@ export function TableCell(props: ComponentPropsWithRef<'td'>) {
 }
 
 /**
+ * - `number` means the distance in pixels the user has dragged the handle along
+ *   the Y axis.
+ * - `'cancelled'` means the drag has been cancelled in any way, e.g. by pressing
+ *   the Escape, or dragging far outside the viewport, or by dragging to the
+ *   former position. The client may play cancel-animation in this case.
+ *   This phase will last 300 ms, after which the component will send `undefined`.
+ * - `undefined` means the drag has ended, either with the result of by cancellation.
+ */
+export type DragState = number | 'cancelled' | undefined;
+
+export interface ItemReorderHandleProps {
+  /**
+   * The index of the item in the table data array.
+   */
+  index: number;
+  /**
+   * When `true`, the drag frame, indicating the currently dragged item,
+   * will not be rendered.
+   */
+  noDragFrame?: boolean;
+  /**
+   * When `true`, the six-dot handle will not change its position while
+   * dragging, or, in other words, won't follow the user drag.
+   */
+  noHandleTranslate?: boolean;
+  /**
+   * Callback that is called when the user drags the handle.
+   * Use it for custom drag indication.
+   * The `Table.onItemReorder` will be called after this callback.
+   * @param state The current drag state.
+   */
+  onUserDrag?: (state: DragState) => void;
+}
+
+/**
  * Render in any place inside a table row to make it possible to reorder.
  * Use {@link TableProps.canReorderItem} and {@link TableProps.onItemReorder}.
  */
-export function ItemReorderHandle({index, ...restProps}: {index: number} & ComponentPropsWithRef<'button'>) {
+export function ItemReorderHandle({index, ...restProps}: ItemReorderHandleProps & ComponentPropsWithRef<'button'>) {
   return <ReorderHandle direction='items' index={index} {...restProps} />;
 }

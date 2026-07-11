@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
-import {
+import React, {
   type ComponentType,
   use,
   useCallback,
@@ -29,7 +29,9 @@ import {createRandom} from '../util-stories';
 import {ColumnAnimationContext} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 import {useItemVirtualization} from './item-virtualization';
-import {ItemReorderHandle, TableCell, TableRow} from './table-primitives';
+import {type DragState, ItemReorderHandle, TableCell, TableRow} from './table-primitives';
+import Radio from '../radio/radio';
+import ControlLabel, {LabelType} from '../control-label/control-label';
 
 import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -1494,44 +1496,95 @@ export const SimpleRerenderTest: TableStory<(typeof smallDataWithSelected)[numbe
 export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
-    columns: [
-      {
-        key: 'id',
-        name: 'ID',
-        renderCell: ({id}, index) => (
-          <>
-            <ItemReorderHandle index={index} /> {id}
-          </>
-        ),
-      },
-      {
-        key: 'country',
-        name: 'Country',
-      },
-      {
-        key: 'city',
-        name: 'City',
-      },
-      {
-        key: 'url',
-        name: 'URL',
-        renderCell: ({url}) => <PlaceLink href={url} />,
-        tdClassName: style.tdUrl,
-      },
-    ],
     getKey,
   },
 
   render(args) {
     const [data, setData] = useState(args.data);
+    const [dragStyle, setDragStyle] = useState<'drag-frame' | 'whole-item'>('whole-item');
+    const [dragState, setDragState] = useState<{index: number; state: DragState}>({index: -1, state: undefined});
+
+    const columns = useMemo(
+      () =>
+        [
+          {
+            key: 'ID',
+            renderCell: ({id}, index) => {
+              const wholeItem = dragStyle === 'whole-item';
+              return (
+                <span>
+                  <ItemReorderHandle
+                    index={index}
+                    noDragFrame={wholeItem}
+                    noHandleTranslate={wholeItem}
+                    onUserDrag={state => setDragState({index, state})}
+                  />{' '}
+                  {id}
+                </span>
+              );
+            },
+          },
+          {
+            key: 'Country',
+            renderCell: ({country}) => <span>{country}</span>,
+          },
+          {
+            key: 'City',
+            renderCell: ({city}) => <span>{city}</span>,
+          },
+          {
+            key: 'URL',
+            renderCell: ({url}) => <PlaceLink href={url} />,
+            tdClassName: style.tdUrl,
+          },
+        ] satisfies Column<(typeof smallDataSlice)[number]>[],
+      [dragStyle],
+    );
 
     return (
-      <Table
-        data={data}
-        columns={args.columns}
-        getKey={args.getKey}
-        onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
-      />
+      <>
+        <div className={style.dragStyle}>
+          <ControlLabel type={LabelType.FORM}>Drag style:</ControlLabel>
+          <Radio value={dragStyle} onChange={setDragStyle as (val: string) => void}>
+            <Radio.Item value='drag-frame'>Drag frame</Radio.Item>
+            <Radio.Item value='whole-item'>Whole item</Radio.Item>
+          </Radio>
+        </div>
+
+        <Table
+          data={data}
+          columns={columns}
+          getKey={args.getKey}
+          className={style.itemReorderTable}
+          onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+          renderItem={(_item, index) => {
+            const isDragging =
+              dragStyle === 'whole-item' && dragState.index === index && typeof dragState.state === 'number';
+            const isDraggingCancelled =
+              dragStyle === 'whole-item' && dragState.index === index && dragState.state === 'cancelled';
+            return (
+              <>
+                <DefaultItemRenderer
+                  index={index}
+                  className={isDragging || isDraggingCancelled ? style.draggedItem : undefined}
+                  style={{
+                    transform: isDragging
+                      ? `translateY(${dragState.state}px)`
+                      : isDraggingCancelled
+                        ? `translateY(0px)`
+                        : undefined,
+                    transition: isDraggingCancelled ? 'transform 300ms ease-out' : undefined,
+                  }}
+                />
+
+                {(isDragging || isDraggingCancelled) && (
+                  <DefaultItemRenderer index={index} className={style.dragStub} />
+                )}
+              </>
+            );
+          }}
+        />
+      </>
     );
   },
 
