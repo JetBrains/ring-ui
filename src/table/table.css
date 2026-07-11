@@ -1,7 +1,7 @@
 @import '../global/variables.css';
 
 .table {
-  --animated-column-fade-out-duration: 600ms;
+  --reorder-animation-fade-out-duration: 600ms;
 
   width: 100%;
 
@@ -40,7 +40,7 @@
   &:hover {
     --header-cell-shadow-color: var(--ring-line-color);
 
-    &:not(.animatedColumnInitial, .animatedColumnFadeOut) {
+    &:not(.reorderAnimationInitial, .reorderAnimationFadeOut) {
       background-color: var(--ring-grey-container-light-color);
     }
   }
@@ -199,14 +199,14 @@
   background-color: var(--ring-main-color);
 }
 
-.animatedColumnInitial {
+.reorderAnimationInitial {
   transition: none;
 
   background-color: rgba(var(--ring-border-accent-components), 0.12);
 }
 
-.animatedColumnFadeOut {
-  transition: background-color var(--animated-column-fade-out-duration) ease-out;
+.reorderAnimationFadeOut {
+  transition: background-color var(--reorder-animation-fade-out-duration) ease-out;
 
   background-color: transparent;
 }

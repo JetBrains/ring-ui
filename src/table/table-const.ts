@@ -9,17 +9,22 @@ import type {TableProps} from './table-props';
 export const TablePropsContext = createContext<TableProps<unknown> | null>(null);
 
 /**
- * Information about a column reorder animation.
+ * Information about a column or item reorder animation.
  *
- * Available through {@link ColumnAnimationContext} to allow custom cell
- * renderers to animate reordered columns consistently with the default
+ * Available through {@link ReorderAnimationContext} to allow custom cell
+ * renderers to animate reordered columns and items consistently with the default
  * table renderer.
  */
-export interface ColumnAnimation {
+export interface ReorderAnimation {
   /**
-   * Index of the column being animated.
+   * What is animated: columns or items (rows).
    */
-  columnIndex: number;
+  direction: 'columns' | 'items';
+
+  /**
+   * Index of the column or item being animated.
+   */
+  index: number;
 
   /**
    * Current animation phase.
@@ -27,22 +32,22 @@ export interface ColumnAnimation {
   phase: 'initial' | 'fade-out';
 
   /**
-   * CSS class to apply to the animated cell or another element used to
-   * render the animation.
+   * CSS class to apply to the animated row/cell or another element used to
+   * render the animation on this phase.
    *
    * The class only defines the `background-color` and `transition`
    * properties.
    */
-  cellClassName: string;
+  className: string;
 }
 
 /**
- * Provides information about the currently animated column.
+ * Provides information about the currently animated column or item reorder.
  *
- * Use in a custom cell renderer to animate reordered columns
+ * Use in a custom cell renderer to animate reordered columns and items
  * consistently with the default table renderer.
  */
-export const ColumnAnimationContext = createContext<ColumnAnimation | null>(null);
+export const ReorderAnimationContext = createContext<ReorderAnimation | null>(null);
 
 /**
  * When a row only contains unformatted single-line text, it will be exactly of this height.

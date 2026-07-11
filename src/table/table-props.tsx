@@ -88,6 +88,12 @@ export interface TableProps<T> {
   onItemReorder?: (fromIndex: number, insertionIndex: number, items: readonly T[]) => void;
 
   /**
+   * By default, when an item is reordered, the moved row is highlighted
+   * with a temporary background color. Set `true` to disable this animation.
+   */
+  noItemReorderAnimation?: boolean;
+
+  /**
    * Customizes how an item is rendered.
    *
    * Return `DefaultItemRenderer` to configure row-specific behavior such as

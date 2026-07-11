@@ -5,10 +5,10 @@ import dragIcon from '@jetbrains/icons/drag-12px';
 
 import {type TableProps} from '../table-props';
 import {TablePropsContext} from '../table-const';
-import {type ExpectColumnReorder} from './column-animation';
 import Icon from '../../icon';
 import {useComposedRef} from '../../global/compose-refs';
 import {parseCssDuration} from '../../global/parse-css-duration';
+import {ExpectReorderContext} from './reorder-animation';
 
 import styles from '../table.css';
 
@@ -40,7 +40,6 @@ const itemDragFrameAdjustmentPx = -2;
 export function ReorderHandle<T>({
   direction,
   index,
-  expectReorder,
   noDragFrame,
   noHandleTranslate,
   onUserDrag,
@@ -60,7 +59,6 @@ export function ReorderHandle<T>({
   noDragFrame?: boolean;
   noHandleTranslate?: boolean;
   onUserDrag?: (delta: number | 'cancelled' | undefined) => void;
-  expectReorder?: ExpectColumnReorder;
 } & ComponentPropsWithRef<'button'>) {
   const localRef = useRef<HTMLButtonElement | null>(null);
   const composedRef = useComposedRef(localRef, userRef);
@@ -92,17 +90,19 @@ export function ReorderHandle<T>({
     [isColumn, columns, data, index, canReorderItem],
   );
 
+  const expectReorder = use(ExpectReorderContext);
+
   const onReorder = useCallback(
     (insertionIndex: number) => {
       if (isColumn && columns) {
-        expectReorder?.({fromIndex: index, insertionIndex});
+        expectReorder({direction, fromIndex: index, insertionIndex});
         onColumnReorder?.(index, insertionIndex, columns);
       } else if (!isColumn && data) {
-        expectReorder?.({fromIndex: index, insertionIndex});
+        expectReorder({direction, fromIndex: index, insertionIndex});
         onItemReorder?.(index, insertionIndex, data);
       }
     },
-    [isColumn, columns, data, expectReorder, index, onColumnReorder, onItemReorder],
+    [isColumn, columns, data, expectReorder, direction, index, onColumnReorder, onItemReorder],
   );
 
   const activeDragRef = useRef<ActiveDrag>(null);
@@ -352,10 +352,11 @@ export function ReorderHandle<T>({
       };
 
       renderDragFrame(clientX, clientY);
+      onUserDrag?.(0);
 
       e.preventDefault();
     },
-    [animateNoChangeThenCleanup, isColumn, onPointerDown, renderDragFrame],
+    [animateNoChangeThenCleanup, isColumn, onPointerDown, onUserDrag, renderDragFrame],
   );
 
   const handlePointerMove = useCallback(

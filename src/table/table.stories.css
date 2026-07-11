@@ -252,7 +252,7 @@
   position: fixed;
   z-index: calc(var(--ring-overlay-z-index) + 1);
 
-  width: 100%;
+  width: calc(100% - 2 * var(--ring-unit));
 
   border-radius: var(--ring-border-radius);
   background-color: color-mix(

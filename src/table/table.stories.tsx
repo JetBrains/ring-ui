@@ -26,7 +26,7 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {createRandom} from '../util-stories';
-import {ColumnAnimationContext} from './table-const';
+import {ReorderAnimationContext} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 import {useItemVirtualization} from './item-virtualization';
 import {type DragState, ItemReorderHandle, TableCell, TableRow} from './table-primitives';
@@ -1170,7 +1170,7 @@ function TeamCityBuild({
     ),
   });
 
-  const columnAnimation = use(ColumnAnimationContext);
+  const reorderAnimation = use(ReorderAnimationContext);
   const columnAnimationEmulatorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -1179,8 +1179,8 @@ function TeamCityBuild({
 
     if (!columnAnimationEmulator || !table) return;
 
-    if (columnAnimation?.phase === 'initial') {
-      const {columnIndex} = columnAnimation;
+    if (reorderAnimation?.direction === 'columns' && reorderAnimation?.phase === 'initial') {
+      const {index: columnIndex} = reorderAnimation;
       const th = table.querySelector(`th:nth-child(${columnIndex + 1})`);
       if (th) {
         const tableLeft = table.getBoundingClientRect().left;
@@ -1188,11 +1188,11 @@ function TeamCityBuild({
         columnAnimationEmulator.style.left = `${thRect.left - tableLeft}px`;
         columnAnimationEmulator.style.width = `${thRect.width}px`;
       }
-    } else if (!columnAnimation) {
+    } else if (!reorderAnimation) {
       columnAnimationEmulator.style.removeProperty('left');
       columnAnimationEmulator.style.removeProperty('width');
     }
-  }, [columnAnimation]);
+  }, [reorderAnimation]);
 
   return (
     <>
@@ -1278,7 +1278,7 @@ function TeamCityBuild({
             />
             <div
               ref={columnAnimationEmulatorRef}
-              className={classNames(style.columnAnimationEmulator, columnAnimation?.cellClassName)}
+              className={classNames(style.columnAnimationEmulator, reorderAnimation?.className)}
             />
           </TableCell>
         </TableRow>
@@ -1571,9 +1571,10 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
                     transform: isDragging
                       ? `translateY(${dragState.state}px)`
                       : isDraggingCancelled
-                        ? `translateY(0px)`
+                        ? `translateY(0)`
                         : undefined,
-                    transition: isDraggingCancelled ? 'transform 300ms ease-out' : undefined,
+                    backgroundColor: isDraggingCancelled ? 'transparent' : undefined,
+                    transition: isDraggingCancelled ? 'all 300ms ease-out' : undefined,
                   }}
                 />
 
