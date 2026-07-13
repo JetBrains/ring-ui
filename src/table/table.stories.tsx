@@ -31,6 +31,8 @@ import {type DragState, ItemReorderHandle, TableCell, TableRow} from './table-pr
 import Radio from '../radio/radio';
 import ControlLabel, {LabelType} from '../control-label/control-label';
 import {useReorderAnimation} from './reorder-animation';
+import {useReorderItemLayout} from './reorder-item-layout';
+import {defaultRowHeight} from './table-const';
 
 import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -1243,7 +1245,7 @@ function TeamCityBuild({
           </TableCell>
           <TableCell colSpan={columnsNumber - 1}>
             <Table
-              className={style.teamCityBuildDetails}
+              className={style.noHeaderDetailsTable}
               data={[
                 ['Triggered by', triggeredBy],
                 ['Triggered at', triggered ? format(triggered, dateLongFmt) : '—'],
@@ -1604,3 +1606,148 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
     screenshots: {skip: true},
   },
 };
+
+const statuses = ['Open', 'In Progress', 'Fixed', 'Reopened', "Won't Fix", 'Duplicate'] as const;
+
+interface IssueWithStatus extends Issue {
+  status: (typeof statuses)[number];
+  reason?: string;
+}
+
+const issuesSliceWithStatus: readonly IssueWithStatus[] = issuesLongDataSlice.map(({id, priority, votes}) => {
+  const status = random(statuses);
+  const reason =
+    status === 'Reopened'
+      ? random(['Regression', 'New testcase found'])
+      : status === "Won't Fix"
+        ? random(['Not reproducible', 'Works as expected', 'Obsolete'])
+        : status === 'Duplicate'
+          ? random(issuesLongDataSlice).id
+          : undefined;
+  return {
+    id,
+    priority,
+    votes,
+    status,
+    reason,
+  };
+});
+
+export const WithVirtualizationReorderingAndCustom: TableStory<(typeof issuesSliceWithStatus)[number]> = {
+  args: {
+    data: [],
+    columns: [
+      {
+        key: 'ID',
+        renderCell: ({id}, index) => (
+          <>
+            <ItemReorderHandle index={index} />{' '}
+            <Link href={`https://example.org/issue/${id}/`} target='_blank'>
+              {id}
+            </Link>
+          </>
+        ),
+      },
+      {
+        key: 'Priority',
+        renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
+      },
+      {
+        key: 'Votes',
+        renderCell: ({votes}) => votes,
+      },
+    ] satisfies Column<(typeof issuesSliceWithStatus)[number]>[],
+    getKey,
+  },
+
+  render(args) {
+    const [data, setData] = useState(issuesSliceWithStatus);
+    const scrollerRef = useRef<HTMLDivElement>(null);
+
+    return (
+      <div className={style.scroller} ref={scrollerRef} data-table-scroller>
+        <Table
+          data={data}
+          columns={args.columns}
+          getKey={args.getKey}
+          className={style.customIssueTable}
+          renderItem={(item, index) => <CustomIssueItem issue={item} index={index} />}
+          onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+          virtualizeRows
+          scrollerRef={scrollerRef}
+          estimateHeight={item => {
+            let h = defaultRowHeight;
+            if (item.reason) {
+              h += 69;
+            } else {
+              h += 43;
+            }
+            return h;
+          }}
+          // retentionMarginPx={1200}
+        />
+      </div>
+    );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
+  },
+};
+
+function CustomIssueItem({issue, index}: {issue: IssueWithStatus; index: number}) {
+  const {status, reason} = issue;
+  const mainRef = useRef<HTMLTableRowElement>(null);
+  const detailsRef = useRef<HTMLTableRowElement>(null);
+
+  useItemVirtualization({
+    index,
+    refs: useMemo(() => [mainRef, detailsRef], [mainRef, detailsRef]),
+    onIntersectionChange: useCallback(
+      (isIntersecting, _i, elements) =>
+        isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
+          ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
+          : undefined,
+      [],
+    ),
+  });
+
+  useReorderItemLayout({
+    index,
+    getBounds: () => {
+      const start = mainRef.current?.getBoundingClientRect().top ?? 0;
+      const end = detailsRef.current?.getBoundingClientRect().bottom ?? start;
+      return {start, end};
+    },
+  });
+
+  const reorderAnimation = useReorderAnimation();
+  const animationClass =
+    reorderAnimation?.index === index && reorderAnimation.direction === 'items'
+      ? reorderAnimation.className
+      : undefined;
+
+  return (
+    <>
+      <DefaultItemRenderer
+        index={index}
+        className={style.customIssue}
+        ref={mainRef}
+        noItemVirtualization
+        noReorderLayout
+      />
+      <TableRow ref={detailsRef} className={animationClass}>
+        <TableCell colSpan={3}>
+          <Table
+            className={style.noHeaderDetailsTable}
+            data={[['Status', status], ...(reason ? [['Reason', reason]] : [])]}
+            columns={[{key: 'Property'}, {key: 'Value'}]}
+            getKey={([property]) => property}
+            noHeader
+            aria-label='Build details'
+          />
+        </TableCell>
+      </TableRow>
+    </>
+  );
+}

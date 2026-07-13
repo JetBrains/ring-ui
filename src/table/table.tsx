@@ -10,6 +10,7 @@ import {useComposedRef} from '../global/compose-refs';
 import {TableHeader} from './internal/table-header';
 import {keyboardFocusableAttrName} from './table-primitives';
 import {isWithinNavigableElement} from '../global/is-within-navigable-element';
+import {ReorderLayoutContext, useReorderLayoutContextValue} from './internal/reorder-layout-context';
 
 import type {TableProps} from './table-props';
 
@@ -257,17 +258,6 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
 
   const localRef = useRef<HTMLTableElement>(null);
 
-  const {virtualItems, virtualizationContextValue} = useVirtualItems({
-    enabled: virtualizeRows,
-    data,
-    scrollerRef,
-    tableRef: localRef,
-    estimateHeight,
-    lookaheadPx,
-    retentionMarginPx,
-    minScrollAndResizeDeltaPx,
-  });
-
   const reorderAnimationContextValue = useReorderAnimationContextValue({
     noColumnReorderAnimation,
     noItemReorderAnimation,
@@ -302,44 +292,59 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     }
   }, []);
 
+  const {virtualItems, virtualizationContextValue} = useVirtualItems({
+    enabled: virtualizeRows,
+    data,
+    scrollerRef,
+    tableRef: localRef,
+    estimateHeight,
+    lookaheadPx,
+    retentionMarginPx,
+    minScrollAndResizeDeltaPx,
+  });
+
+  const itemReorderLayoutContextValue = useReorderLayoutContextValue();
+
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
       <ReorderAnimationContext value={reorderAnimationContextValue}>
         <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
           <TableHeader />
-          <VirtualizationContext value={virtualizationContextValue}>
-            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-            <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
-              {(virtualizeRows ? virtualItems : data).map((item, index) => {
-                let dataItem: T;
-                let dataItemIndex: number;
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+          <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
+            <VirtualizationContext value={virtualizationContextValue}>
+              <ReorderLayoutContext value={itemReorderLayoutContextValue}>
+                {(virtualizeRows ? virtualItems : data).map((item, index) => {
+                  let dataItem: T;
+                  let dataItemIndex: number;
 
-                if (virtualizeRows) {
-                  const virtualItem = item as VirtualItem;
-                  if (virtualItem.type === 'spacer') {
-                    return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                  if (virtualizeRows) {
+                    const virtualItem = item as VirtualItem;
+                    if (virtualItem.type === 'spacer') {
+                      return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                    }
+
+                    dataItemIndex = virtualItem.index;
+                    if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
+                    dataItem = data[dataItemIndex];
+                  } else {
+                    dataItem = item as T;
+                    dataItemIndex = index;
                   }
 
-                  dataItemIndex = virtualItem.index;
-                  if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
-                  dataItem = data[dataItemIndex];
-                } else {
-                  dataItem = item as T;
-                  dataItemIndex = index;
-                }
-
-                return (
-                  <Fragment key={getKey(dataItem, dataItemIndex, data)}>
-                    {renderItem ? (
-                      renderItem(dataItem, dataItemIndex, data)
-                    ) : (
-                      <DefaultItemRenderer index={dataItemIndex} />
-                    )}
-                  </Fragment>
-                );
-              })}
-            </tbody>
-          </VirtualizationContext>
+                  return (
+                    <Fragment key={getKey(dataItem, dataItemIndex, data)}>
+                      {renderItem ? (
+                        renderItem(dataItem, dataItemIndex, data)
+                      ) : (
+                        <DefaultItemRenderer index={dataItemIndex} />
+                      )}
+                    </Fragment>
+                  );
+                })}
+              </ReorderLayoutContext>
+            </VirtualizationContext>
+          </tbody>
         </table>
       </ReorderAnimationContext>
     </TablePropsContext>

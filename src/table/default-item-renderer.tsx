@@ -6,6 +6,7 @@ import {useComposedRef} from '../global/compose-refs';
 import {useItemVirtualization} from './item-virtualization';
 import {TableCell, TableRow} from './table-primitives';
 import {ReorderAnimationContext} from './internal/reorder-animation-context';
+import {useReorderItemLayout} from './reorder-item-layout';
 
 import type {TableProps} from './table-props';
 
@@ -49,6 +50,13 @@ export interface DefaultItemRendererProps {
    * and track the visibility yourself.
    */
   noItemVirtualization?: boolean;
+
+  /**
+   * When set to `true`, doesn't report item's boundaries to the item reorder handler.
+   * Useful when you include `DefaultItemRenderer` as a part of a custom row renderer,
+   * which itself reports boundaries.
+   */
+  noReorderLayout?: boolean;
 }
 
 /**
@@ -71,6 +79,7 @@ export function DefaultItemRenderer<T>({
   selected,
   level,
   noItemVirtualization,
+  noReorderLayout,
 
   ref: userRef,
   className,
@@ -94,6 +103,15 @@ export function DefaultItemRenderer<T>({
           : undefined,
       [noItemVirtualization],
     ),
+  });
+
+  useReorderItemLayout({
+    disabled: noReorderLayout,
+    index,
+    getBounds: () => {
+      const r = localRef.current?.getBoundingClientRect();
+      return {start: r?.top ?? 0, end: r?.bottom ?? 0};
+    },
   });
 
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);

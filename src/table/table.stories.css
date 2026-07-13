@@ -189,7 +189,7 @@
   }
 }
 
-.teamCityBuildDetails {
+.noHeaderDetailsTable {
   width: calc(100% - 55px);
   margin-left: 55px;
 
@@ -202,6 +202,11 @@
     border: 0;
 
     &:first-child {
+      --w: 9em;
+
+      width: var(--w);
+      max-width: var(--w);
+
       font-weight: 600;
     }
   }
@@ -355,4 +360,12 @@
   transition: opacity 300ms ease-out;
 
   opacity: 1;
+}
+
+.customIssueTable {
+  table-layout: fixed;
+}
+
+.customIssue td {
+  border-color: transparent;
 }

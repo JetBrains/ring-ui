@@ -9,6 +9,7 @@ import Icon from '../../icon';
 import {useComposedRef} from '../../global/compose-refs';
 import {parseCssDuration} from '../../global/parse-css-duration';
 import {ReorderAnimationContext} from './reorder-animation-context';
+import {ReorderLayoutContext} from './reorder-layout-context';
 
 import styles from '../table.css';
 
@@ -27,10 +28,6 @@ interface ActiveDrag {
    * Height (columns) or width (items)
    */
   indicatorSize: string;
-  /**
-   * Left and right (columns) or top and bottom (items).
-   */
-  itemBounds: {start: number; end: number}[];
   cleanup: () => void;
 }
 
@@ -117,13 +114,19 @@ export function ReorderHandle<T>({
     [],
   );
 
+  const {getItemBounds, getClosestInsertionPoint} = use(ReorderLayoutContext);
+
   const renderDragFrame = useCallback(
     (clientX: number, clientY: number) => {
       const drag = activeDragRef.current;
       if (noDragFrame || !drag) return;
 
-      const {startX, startY, indicatorStart, itemBounds, indicatorSize} = drag;
-      const {start: itemStart, end: itemEnd} = itemBounds[index];
+      const {startX, startY, indicatorStart, indicatorSize} = drag;
+
+      const itemBounds = getItemBounds(index);
+      if (!itemBounds) return;
+
+      const {start: itemStart, end: itemEnd} = itemBounds;
 
       let dragFrame = getDragFrame();
       if (!dragFrame) {
@@ -146,7 +149,7 @@ export function ReorderHandle<T>({
         dragFrame.style.top = `${itemStart + clientY - startY + itemDragFrameAdjustmentPx}px`;
       }
     },
-    [getDragFrame, index, isColumn, noDragFrame],
+    [getDragFrame, getItemBounds, index, isColumn, noDragFrame],
   );
 
   const translateButton = useCallback(
@@ -162,35 +165,12 @@ export function ReorderHandle<T>({
     [isColumn, noHandleTranslate],
   );
 
-  const getClosestInsertionPoint = useCallback(
+  const getClosestInsertionPointLocal = useCallback(
     (clientX: number, clientY: number) => {
-      const drag = activeDragRef.current;
-      if (!drag) return {insertionIndex: -1, after: false};
-
-      const clientPos = isColumn ? clientX : clientY;
-
-      let bestDistance = Infinity;
-      let insertionIndex = -1;
-      let after = false;
-
-      drag.itemBounds.forEach(({start, end}, i) => {
-        const distanceToStart = Math.abs(start - clientPos);
-        const distanceToEnd = Math.abs(end - clientPos);
-        if (distanceToStart < bestDistance && canReorder?.(i)) {
-          bestDistance = distanceToStart;
-          insertionIndex = i;
-          after = false;
-        }
-        if (distanceToEnd < bestDistance && canReorder?.(i + 1)) {
-          bestDistance = distanceToEnd;
-          insertionIndex = i;
-          after = true;
-        }
-      });
-
-      return {insertionIndex, after};
+      const clientOffset = isColumn ? clientX : clientY;
+      return getClosestInsertionPoint(clientOffset, canReorder);
     },
-    [canReorder, isColumn],
+    [canReorder, getClosestInsertionPoint, isColumn],
   );
 
   const renderInsertionIndicator = useCallback(
@@ -198,8 +178,12 @@ export function ReorderHandle<T>({
       const drag = activeDragRef.current;
       if (!drag) return;
 
-      const {indicatorStart, indicatorSize, itemBounds} = drag;
-      const {start: itemStart, end: itemEnd} = itemBounds[insertionIndex];
+      const {indicatorStart, indicatorSize} = drag;
+
+      const itemBounds = getItemBounds(insertionIndex);
+      if (!itemBounds) return;
+
+      const {start: itemStart, end: itemEnd} = itemBounds;
 
       let indicator = getInsertionIndicator();
       if (!indicator) {
@@ -216,7 +200,7 @@ export function ReorderHandle<T>({
       const itemOffset = `${(after ? itemEnd : itemStart) - 1}px`;
       indicator.style[isColumn ? 'left' : 'top'] = itemOffset;
     },
-    [getInsertionIndicator, isColumn],
+    [getInsertionIndicator, getItemBounds, isColumn],
   );
 
   const cleanupDrag = useCallback(() => {
@@ -245,8 +229,9 @@ export function ReorderHandle<T>({
       drag.cleanup = () => {};
 
       const dragFrame = getDragFrame();
-      if (dragFrame) {
-        const {start: itemStart} = drag.itemBounds[index];
+      const itemBounds = getItemBounds(index);
+      if (dragFrame && itemBounds) {
+        const {start: itemStart} = itemBounds;
         if (isColumn) {
           dragFrame.style.left = `${itemStart + columnDragFrameAdjustmentPx}px`;
         } else {
@@ -275,7 +260,7 @@ export function ReorderHandle<T>({
       window.getComputedStyle(document.documentElement).getPropertyValue('--ring-ease'),
     );
     setTimeout(cleanupDrag, ringEaseMs);
-  }, [cleanupDrag, getDragFrame, getInsertionIndicator, index, isColumn, onUserDrag]);
+  }, [cleanupDrag, getDragFrame, getInsertionIndicator, getItemBounds, index, isColumn, onUserDrag]);
 
   const handlePointerDown = useCallback(
     (e: PointerEvent<HTMLButtonElement>) => {
@@ -286,7 +271,6 @@ export function ReorderHandle<T>({
 
       let indicatorStart: number;
       let indicatorSize: string;
-      let itemBounds: {start: number; end: number}[];
 
       if (isColumn) {
         const thead = currentTarget.closest('thead');
@@ -300,11 +284,6 @@ export function ReorderHandle<T>({
         const visibleTableHeight = tableBottom - headerTop;
         const viewportBottomRelativeToHeaderTop = window.innerHeight - headerTop;
         indicatorSize = `min(${visibleTableHeight}px, calc(${viewportBottomRelativeToHeaderTop}px - .5rem))`;
-
-        itemBounds = [...thead.querySelectorAll('th')].map(th => {
-          const rect = th.getBoundingClientRect();
-          return {start: rect.x, end: rect.x + rect.width};
-        });
       } else {
         const tr = currentTarget.closest('tr');
         const tbody = tr?.closest('tbody');
@@ -317,12 +296,6 @@ export function ReorderHandle<T>({
         const visibleItemWidth = itemRight - itemLeft;
         const viewportRightRelativeToTableLeft = window.innerWidth - itemLeft;
         indicatorSize = `min(${visibleItemWidth}px, calc(${viewportRightRelativeToTableLeft}px - .5rem))`;
-
-        // No virtualization or custom renderers supported so far
-        itemBounds = [...tbody.querySelectorAll('tr')].map(itemTr => {
-          const rect = itemTr.getBoundingClientRect();
-          return {start: rect.top, end: rect.bottom};
-        });
       }
 
       function keydownListener(keyEvent: KeyboardEvent) {
@@ -343,7 +316,6 @@ export function ReorderHandle<T>({
         startY: clientY,
         indicatorStart,
         indicatorSize,
-        itemBounds,
         cleanup: () => {
           currentTarget.releasePointerCapture(pointerId);
           document.removeEventListener('keydown', keydownListener);
@@ -371,7 +343,7 @@ export function ReorderHandle<T>({
       renderDragFrame(clientX, clientY);
       translateButton(clientX, clientY);
 
-      const insertionPoint = getClosestInsertionPoint(clientX, clientY);
+      const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
       if (insertionPoint.insertionIndex !== -1) renderInsertionIndicator(insertionPoint);
 
       onUserDrag?.(isColumn ? clientX - drag.startX : clientY - drag.startY);
@@ -380,7 +352,7 @@ export function ReorderHandle<T>({
       onPointerMove,
       renderDragFrame,
       translateButton,
-      getClosestInsertionPoint,
+      getClosestInsertionPointLocal,
       renderInsertionIndicator,
       onUserDrag,
       isColumn,
@@ -395,7 +367,7 @@ export function ReorderHandle<T>({
       if (activeDragRef.current?.state !== 'is-dragging') return;
 
       const {clientX, clientY} = e;
-      const insertionPoint = getClosestInsertionPoint(clientX, clientY);
+      const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
       const insertionIndex = insertionPoint.insertionIndex + (insertionPoint.after ? 1 : 0);
 
       if (insertionIndex === index || insertionIndex === index + 1) {
@@ -406,7 +378,7 @@ export function ReorderHandle<T>({
       cleanupDrag();
       onReorder(insertionIndex);
     },
-    [animateNoChangeThenCleanup, cleanupDrag, getClosestInsertionPoint, index, onPointerUp, onReorder],
+    [animateNoChangeThenCleanup, cleanupDrag, getClosestInsertionPointLocal, index, onPointerUp, onReorder],
   );
 
   const handleKeyDown = useCallback(

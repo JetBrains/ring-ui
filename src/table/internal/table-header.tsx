@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import {type ComponentPropsWithRef, type Context, use, useCallback, useState} from 'react';
+import {type ComponentPropsWithRef, type Context, use, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
 import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
@@ -13,6 +13,8 @@ import Icon from '../../icon';
 import {isWithinInteractiveElement} from '../../global/is-within-interactive-element';
 import {ReorderHandle} from './reorder-handle';
 import {ReorderAnimationContext} from './reorder-animation-context';
+import {ReorderLayoutContext, useReorderLayoutContextValue} from './reorder-layout-context';
+import {useReorderItemLayout} from '../reorder-item-layout';
 
 import styles from '../table.css';
 
@@ -51,6 +53,8 @@ export function TableHeader<T>() {
     toggleColumnEditing('edit-button');
   }, [toggleColumnEditing]);
 
+  const reorderContextValue = useReorderLayoutContextValue();
+
   if (noHeader) return null;
 
   return (
@@ -64,14 +68,16 @@ export function TableHeader<T>() {
       onClick={handleTheadClick}
     >
       <tr className={theadTrClassName}>
-        {columns.map((column, columnIndex) => (
-          <TableHeaderCell
-            key={column.key}
-            columnIndex={columnIndex}
-            columnEditing={effectiveColumnEditing}
-            handleEditColumnsButtonClick={handleEditColumnsButtonClick}
-          />
-        ))}
+        <ReorderLayoutContext value={reorderContextValue}>
+          {columns.map((column, columnIndex) => (
+            <TableHeaderCell
+              key={column.key}
+              columnIndex={columnIndex}
+              columnEditing={effectiveColumnEditing}
+              handleEditColumnsButtonClick={handleEditColumnsButtonClick}
+            />
+          ))}
+        </ReorderLayoutContext>
       </tr>
     </thead>
   );
@@ -86,19 +92,30 @@ function TableHeaderCell<T>({
   columnEditing: boolean;
   handleEditColumnsButtonClick: () => void;
 }) {
+  const ref = useRef<HTMLTableCellElement>(null);
+
   const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
   const {key, name, renderHeader, sortOrder, deletable, canReorder, thClassName} = columns[columnIndex];
 
-  const {reorderAnimation: currentReorderAnimation} = use(ReorderAnimationContext);
+  const {reorderAnimation} = use(ReorderAnimationContext);
   const children = renderHeader ? renderHeader() : (name ?? String(key));
+
+  useReorderItemLayout({
+    index: columnIndex,
+    getBounds: () => {
+      const r = ref.current?.getBoundingClientRect();
+      return {start: r?.left ?? 0, end: r?.right ?? 0};
+    },
+  });
 
   return (
     <th
+      ref={ref}
       className={classNames(
         styles.headerCell,
-        currentReorderAnimation?.direction === 'columns' &&
-          currentReorderAnimation.index === columnIndex &&
-          currentReorderAnimation.className,
+        reorderAnimation?.direction === 'columns' &&
+          reorderAnimation.index === columnIndex &&
+          reorderAnimation.className,
         thClassName,
       )}
       scope='col'
