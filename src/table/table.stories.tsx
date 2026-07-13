@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
 import React, {
   type ComponentType,
-  use,
   useCallback,
   useEffect,
   useEffectEvent,
@@ -26,12 +25,12 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {createRandom} from '../util-stories';
-import {ReorderAnimationContext} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 import {useItemVirtualization} from './item-virtualization';
 import {type DragState, ItemReorderHandle, TableCell, TableRow} from './table-primitives';
 import Radio from '../radio/radio';
 import ControlLabel, {LabelType} from '../control-label/control-label';
+import {useReorderAnimation} from './reorder-animation';
 
 import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -1170,7 +1169,7 @@ function TeamCityBuild({
     ),
   });
 
-  const reorderAnimation = use(ReorderAnimationContext);
+  const reorderAnimation = useReorderAnimation();
   const columnAnimationEmulatorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

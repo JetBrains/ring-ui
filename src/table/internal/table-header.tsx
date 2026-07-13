@@ -8,10 +8,11 @@ import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 
 import {type TableProps} from '../table-props';
-import {ReorderAnimationContext, TablePropsContext} from '../table-const';
+import {TablePropsContext} from '../table-const';
 import Icon from '../../icon';
 import {isWithinInteractiveElement} from '../../global/is-within-interactive-element';
 import {ReorderHandle} from './reorder-handle';
+import {ReorderAnimationContext} from './reorder-animation-context';
 
 import styles from '../table.css';
 
@@ -88,16 +89,16 @@ function TableHeaderCell<T>({
   const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
   const {key, name, renderHeader, sortOrder, deletable, canReorder, thClassName} = columns[columnIndex];
 
-  const reorderAnimation = use(ReorderAnimationContext);
+  const {reorderAnimation: currentReorderAnimation} = use(ReorderAnimationContext);
   const children = renderHeader ? renderHeader() : (name ?? String(key));
 
   return (
     <th
       className={classNames(
         styles.headerCell,
-        reorderAnimation?.direction === 'columns' &&
-          reorderAnimation.index === columnIndex &&
-          reorderAnimation.className,
+        currentReorderAnimation?.direction === 'columns' &&
+          currentReorderAnimation.index === columnIndex &&
+          currentReorderAnimation.className,
         thClassName,
       )}
       scope='col'

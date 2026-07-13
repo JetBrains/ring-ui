@@ -1,10 +1,10 @@
-import {createContext, type RefObject, useCallback, useEffect, useRef, useState} from 'react';
+import {createContext, type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import {parseCssDuration} from '../../global/parse-css-duration';
 import {requestAnimationFrameWithCleanup, setTimeoutWithCleanup} from '../../global/schedule-with-cleanup';
 
 import type {Column} from '../table-props';
-import type {ReorderAnimation} from '../table-const';
+import type {ReorderAnimation} from '../reorder-animation';
 
 import styles from '../table.css';
 
@@ -16,11 +16,19 @@ export interface ReorderSpec {
   insertionIndex: number;
 }
 
-export type ExpectReorder = (reorderSpec: ReorderSpec) => void;
+type ExpectReorder = (reorderSpec: ReorderSpec) => void;
 
-export const ExpectReorderContext = createContext<ExpectReorder>(() => {});
+interface ReorderAnimationContextValue {
+  reorderAnimation: ReorderAnimation | null;
+  expectReorder: ExpectReorder;
+}
 
-export function useReorderAnimation<T>({
+export const ReorderAnimationContext = createContext<ReorderAnimationContextValue>({
+  reorderAnimation: null,
+  expectReorder: () => {},
+});
+
+export function useReorderAnimationContextValue<T>({
   noColumnReorderAnimation,
   noItemReorderAnimation,
   tableRef,
@@ -32,7 +40,7 @@ export function useReorderAnimation<T>({
   tableRef: RefObject<HTMLTableElement | null>;
   data: readonly T[];
   columns: readonly Column<T>[];
-}) {
+}): ReorderAnimationContextValue {
   const [reorderAnimation, setReorderAnimation] = useState<ReorderAnimation | null>(null);
 
   interface PendingReorder extends ReorderSpec {
@@ -108,5 +116,5 @@ export function useReorderAnimation<T>({
     return undefined;
   }, [reorderAnimation, tableRef]);
 
-  return {reorderAnimation, expectReorder};
+  return useMemo(() => ({reorderAnimation, expectReorder}), [reorderAnimation, expectReorder]);
 }

@@ -1,10 +1,11 @@
 import {type ComponentPropsWithRef, type Context, type Key, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
-import {ReorderAnimationContext, TablePropsContext} from './table-const';
+import {TablePropsContext} from './table-const';
 import {useComposedRef} from '../global/compose-refs';
 import {useItemVirtualization} from './item-virtualization';
 import {TableCell, TableRow} from './table-primitives';
+import {ReorderAnimationContext} from './internal/reorder-animation-context';
 
 import type {TableProps} from './table-props';
 
@@ -100,9 +101,10 @@ export function DefaultItemRenderer<T>({
     return null;
   }
 
-  const reorderAnimation = use(ReorderAnimationContext);
+  const {reorderAnimation} = use(ReorderAnimationContext);
   const animateItem = reorderAnimation?.direction === 'items' && reorderAnimation.index === index;
   const animatedColumnIndex = reorderAnimation?.direction === 'columns' ? reorderAnimation.index : undefined;
+  const animateClassName = reorderAnimation?.className;
 
   const {data, columns} = tableProps;
   const item = data[index];
@@ -117,7 +119,7 @@ export function DefaultItemRenderer<T>({
         className,
         clickable && styles.clickableRow,
         selected && styles.selectedRow,
-        animateItem && reorderAnimation.className,
+        animateItem && animateClassName,
       )}
       {...restProps}
     >
@@ -128,7 +130,7 @@ export function DefaultItemRenderer<T>({
           <TableCell
             key={key}
             className={classNames(
-              columnIndex === animatedColumnIndex && reorderAnimation?.className,
+              columnIndex === animatedColumnIndex && animateClassName,
               typeof tdClassName === 'function' ? tdClassName(item, index, data) : tdClassName,
             )}
             style={indent && level != null && level > 0 ? {paddingInlineStart: `${level * indentSize}px`} : undefined}

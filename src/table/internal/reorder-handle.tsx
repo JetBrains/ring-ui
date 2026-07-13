@@ -8,7 +8,7 @@ import {TablePropsContext} from '../table-const';
 import Icon from '../../icon';
 import {useComposedRef} from '../../global/compose-refs';
 import {parseCssDuration} from '../../global/parse-css-duration';
-import {ExpectReorderContext} from './reorder-animation';
+import {ReorderAnimationContext} from './reorder-animation-context';
 
 import styles from '../table.css';
 
@@ -90,7 +90,7 @@ export function ReorderHandle<T>({
     [isColumn, columns, data, index, canReorderItem],
   );
 
-  const expectReorder = use(ExpectReorderContext);
+  const {expectReorder} = use(ReorderAnimationContext);
 
   const onReorder = useCallback(
     (insertionIndex: number) => {

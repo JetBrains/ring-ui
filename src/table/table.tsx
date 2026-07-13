@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import {IntersectionObserverContext} from '../global/intersection-observer-context';
 import {CollapseItemIntoSpacerContext, SpacerRow, useVirtualItems, type VirtualItem} from './internal/virtual-items';
 import {DefaultItemRenderer} from './default-item-renderer';
-import {ReorderAnimationContext, defaultRowHeight, TablePropsContext} from './table-const';
+import {defaultRowHeight, TablePropsContext} from './table-const';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
-import {ExpectReorderContext, useReorderAnimation} from './internal/reorder-animation';
+import {ReorderAnimationContext, useReorderAnimationContextValue} from './internal/reorder-animation-context';
 import {useComposedRef} from '../global/compose-refs';
 import {TableHeader} from './internal/table-header';
 import {keyboardFocusableAttrName} from './table-primitives';
@@ -269,7 +269,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     minScrollAndResizeDeltaPx,
   });
 
-  const {reorderAnimation, expectReorder} = useReorderAnimation({
+  const reorderAnimationContextValue = useReorderAnimationContextValue({
     noColumnReorderAnimation,
     noItemReorderAnimation,
     tableRef: localRef,
@@ -305,48 +305,46 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
 
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
-      <ExpectReorderContext value={expectReorder}>
-        <ReorderAnimationContext value={reorderAnimation}>
-          <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
-            <TableHeader />
-            <IntersectionObserverContext value={intersectionObserverHandle}>
-              <CollapseItemIntoSpacerContext value={collapseItemIntoSpacer}>
-                {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-                <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
-                  {(virtualizeRows ? virtualItems : data).map((item, index) => {
-                    let dataItem: T;
-                    let dataItemIndex: number;
+      <ReorderAnimationContext value={reorderAnimationContextValue}>
+        <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
+          <TableHeader />
+          <IntersectionObserverContext value={intersectionObserverHandle}>
+            <CollapseItemIntoSpacerContext value={collapseItemIntoSpacer}>
+              {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+              <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
+                {(virtualizeRows ? virtualItems : data).map((item, index) => {
+                  let dataItem: T;
+                  let dataItemIndex: number;
 
-                    if (virtualizeRows) {
-                      const virtualItem = item as VirtualItem;
-                      if (virtualItem.type === 'spacer') {
-                        return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
-                      }
-
-                      dataItemIndex = virtualItem.index;
-                      if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
-                      dataItem = data[dataItemIndex];
-                    } else {
-                      dataItem = item as T;
-                      dataItemIndex = index;
+                  if (virtualizeRows) {
+                    const virtualItem = item as VirtualItem;
+                    if (virtualItem.type === 'spacer') {
+                      return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
                     }
 
-                    return (
-                      <Fragment key={getKey(dataItem, dataItemIndex, data)}>
-                        {renderItem ? (
-                          renderItem(dataItem, dataItemIndex, data)
-                        ) : (
-                          <DefaultItemRenderer index={dataItemIndex} />
-                        )}
-                      </Fragment>
-                    );
-                  })}
-                </tbody>
-              </CollapseItemIntoSpacerContext>
-            </IntersectionObserverContext>
-          </table>
-        </ReorderAnimationContext>
-      </ExpectReorderContext>
+                    dataItemIndex = virtualItem.index;
+                    if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
+                    dataItem = data[dataItemIndex];
+                  } else {
+                    dataItem = item as T;
+                    dataItemIndex = index;
+                  }
+
+                  return (
+                    <Fragment key={getKey(dataItem, dataItemIndex, data)}>
+                      {renderItem ? (
+                        renderItem(dataItem, dataItemIndex, data)
+                      ) : (
+                        <DefaultItemRenderer index={dataItemIndex} />
+                      )}
+                    </Fragment>
+                  );
+                })}
+              </tbody>
+            </CollapseItemIntoSpacerContext>
+          </IntersectionObserverContext>
+        </table>
+      </ReorderAnimationContext>
     </TablePropsContext>
   );
 }
