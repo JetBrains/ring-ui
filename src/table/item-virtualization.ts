@@ -1,7 +1,6 @@
 import {type RefObject, use, useEffect} from 'react';
 
-import {IntersectionObserverContext} from '../global/intersection-observer-context';
-import {CollapseItemIntoSpacerContext} from './internal/virtual-items';
+import {VirtualizationContext} from './internal/virtual-items';
 
 /**
  * Use in an item renderer to control item virtualization.
@@ -47,8 +46,7 @@ export function useItemVirtualization({
     elements: (Element | null)[],
   ) => number | undefined;
 }) {
-  const handle = use(IntersectionObserverContext);
-  const collapseItemIntoSpacer = use(CollapseItemIntoSpacerContext);
+  const {intersectionObserverHandle, collapseItemIntoSpacer} = use(VirtualizationContext);
 
   useEffect(() => {
     const intersectionStates: (boolean | undefined)[] = Array.isArray(refs) ? refs.map(() => undefined) : [undefined];
@@ -58,7 +56,7 @@ export function useItemVirtualization({
     elements.forEach((element, elementIndex) => {
       if (!element) return;
 
-      const cleanup = handle.observe(element, isIntersecting => {
+      const cleanup = intersectionObserverHandle.observe(element, isIntersecting => {
         intersectionStates[elementIndex] = isIntersecting;
 
         const height = onIntersectionChange(intersectionStates, elementIndex, elements);
@@ -70,5 +68,5 @@ export function useItemVirtualization({
     });
 
     return () => cleanups.forEach(cleanup => cleanup());
-  }, [collapseItemIntoSpacer, handle, index, onIntersectionChange, refs]);
+  }, [collapseItemIntoSpacer, intersectionObserverHandle, index, onIntersectionChange, refs]);
 }

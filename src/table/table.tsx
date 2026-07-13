@@ -1,8 +1,7 @@
 import React, {type ComponentPropsWithRef, Fragment, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
-import {IntersectionObserverContext} from '../global/intersection-observer-context';
-import {CollapseItemIntoSpacerContext, SpacerRow, useVirtualItems, type VirtualItem} from './internal/virtual-items';
+import {SpacerRow, useVirtualItems, VirtualizationContext, type VirtualItem} from './internal/virtual-items';
 import {DefaultItemRenderer} from './default-item-renderer';
 import {defaultRowHeight, TablePropsContext} from './table-const';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
@@ -217,8 +216,8 @@ import styles from './table.css';
  * ### Column reorder animation
  *
  * Default-rendered rows highlight the column that was just reordered. To apply
- * the same animation to your custom-rendered rows, use `ColumnAnimationContext`
- * (from `table/table-const`) to get information about the currently animated column.
+ * the same animation to your custom-rendered rows, use `useReorderAnimation()`
+ * (from `table/reorder-animation`) to get information about the currently animated column.
  */
 export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'table'>) {
   const {
@@ -258,7 +257,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
 
   const localRef = useRef<HTMLTableElement>(null);
 
-  const {virtualItems, intersectionObserverHandle, collapseItemIntoSpacer} = useVirtualItems({
+  const {virtualItems, virtualizationContextValue} = useVirtualItems({
     enabled: virtualizeRows,
     data,
     scrollerRef,
@@ -308,41 +307,39 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
       <ReorderAnimationContext value={reorderAnimationContextValue}>
         <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
           <TableHeader />
-          <IntersectionObserverContext value={intersectionObserverHandle}>
-            <CollapseItemIntoSpacerContext value={collapseItemIntoSpacer}>
-              {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-              <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
-                {(virtualizeRows ? virtualItems : data).map((item, index) => {
-                  let dataItem: T;
-                  let dataItemIndex: number;
+          <VirtualizationContext value={virtualizationContextValue}>
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+            <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
+              {(virtualizeRows ? virtualItems : data).map((item, index) => {
+                let dataItem: T;
+                let dataItemIndex: number;
 
-                  if (virtualizeRows) {
-                    const virtualItem = item as VirtualItem;
-                    if (virtualItem.type === 'spacer') {
-                      return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
-                    }
-
-                    dataItemIndex = virtualItem.index;
-                    if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
-                    dataItem = data[dataItemIndex];
-                  } else {
-                    dataItem = item as T;
-                    dataItemIndex = index;
+                if (virtualizeRows) {
+                  const virtualItem = item as VirtualItem;
+                  if (virtualItem.type === 'spacer') {
+                    return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
                   }
 
-                  return (
-                    <Fragment key={getKey(dataItem, dataItemIndex, data)}>
-                      {renderItem ? (
-                        renderItem(dataItem, dataItemIndex, data)
-                      ) : (
-                        <DefaultItemRenderer index={dataItemIndex} />
-                      )}
-                    </Fragment>
-                  );
-                })}
-              </tbody>
-            </CollapseItemIntoSpacerContext>
-          </IntersectionObserverContext>
+                  dataItemIndex = virtualItem.index;
+                  if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
+                  dataItem = data[dataItemIndex];
+                } else {
+                  dataItem = item as T;
+                  dataItemIndex = index;
+                }
+
+                return (
+                  <Fragment key={getKey(dataItem, dataItemIndex, data)}>
+                    {renderItem ? (
+                      renderItem(dataItem, dataItemIndex, data)
+                    ) : (
+                      <DefaultItemRenderer index={dataItemIndex} />
+                    )}
+                  </Fragment>
+                );
+              })}
+            </tbody>
+          </VirtualizationContext>
         </table>
       </ReorderAnimationContext>
     </TablePropsContext>

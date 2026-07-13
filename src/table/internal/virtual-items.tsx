@@ -1,6 +1,9 @@
-import {createContext, type RefObject, useCallback, useEffect, useRef, useState} from 'react';
+import {createContext, type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-import {useIntersectionObserverHandle} from '../../global/intersection-observer-context';
+import {
+  type IntersectionObserverHandle,
+  useIntersectionObserverHandle,
+} from '../../global/intersection-observer-context';
 import {setTimeoutWithCleanup} from '../../global/schedule-with-cleanup';
 
 import styles from '../table.css';
@@ -27,7 +30,15 @@ interface Spacer {
 
 type CollapseItemIntoSpacerCallback = (index: number, height: number) => void;
 
-export const CollapseItemIntoSpacerContext = createContext<CollapseItemIntoSpacerCallback>(() => {});
+interface VirtualizationContextValue {
+  intersectionObserverHandle: IntersectionObserverHandle;
+  collapseItemIntoSpacer: CollapseItemIntoSpacerCallback;
+}
+
+export const VirtualizationContext = createContext<VirtualizationContextValue>({
+  intersectionObserverHandle: {observe: () => () => {}},
+  collapseItemIntoSpacer: () => {},
+});
 
 /**
  * RAF is somewhat too frequent. Most updates happen on virtualization boundaries
@@ -247,8 +258,13 @@ export function useVirtualItems<T>({
 
   return {
     virtualItems,
-    intersectionObserverHandle,
-    collapseItemIntoSpacer,
+    virtualizationContextValue: useMemo(
+      () => ({
+        intersectionObserverHandle,
+        collapseItemIntoSpacer,
+      }),
+      [intersectionObserverHandle, collapseItemIntoSpacer],
+    ),
   };
 }
 
