@@ -40,6 +40,7 @@ export function TableCell(props: ComponentPropsWithRef<'td'>) {
 }
 
 /**
+ * - `'pointerdown'` means the user has pressed the mouse button or touched the handle.
  * - `number` means the distance in pixels the user has dragged the handle along
  *   the Y axis.
  * - `'cancelled'` means the drag has been cancelled in any way, e.g. by pressing
@@ -48,7 +49,7 @@ export function TableCell(props: ComponentPropsWithRef<'td'>) {
  *   This phase will last 300 ms, after which the component will send `undefined`.
  * - `undefined` means the drag has ended, either with the result of by cancellation.
  */
-export type DragState = number | 'cancelled' | undefined;
+export type DragState = 'pointerdown' | number | 'cancelled' | undefined;
 
 export interface ItemReorderHandleProps {
   /**

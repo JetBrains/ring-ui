@@ -233,7 +233,7 @@
 }
 
 .itemReorderTable {
-  --id-width: 60px;
+  --id-width: 46px;
   --link-width: max(100px, 30vw);
 
   table-layout: fixed;
@@ -242,9 +242,18 @@
     width: var(--id-width);
   }
 
-  & th:nth-child(4) {
+  & th:last-child {
     width: var(--link-width);
     max-width: var(--link-width);
+  }
+
+  & td:last-child > div {
+    overflow: hidden;
+
+    width: 100%;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -252,7 +261,7 @@
   position: fixed;
   z-index: calc(var(--ring-overlay-z-index) + 1);
 
-  width: calc(100% - 2 * var(--ring-unit));
+  transition: all 200ms ease-out, transform 0ms, opacity 0ms;
 
   border-radius: var(--ring-border-radius);
   background-color: color-mix(
@@ -263,32 +272,87 @@
   backdrop-filter: blur(0.5px);
 
   & td {
+    transition: all 200ms ease-out;
+
     box-shadow: inset 0 1px 0 var(--ring-line-color);
+
+    &:first-child {
+      border-top-left-radius: var(--ring-border-radius);
+      border-bottom-left-radius: var(--ring-border-radius);
+      box-shadow: inset 0 1px 0 var(--ring-line-color), inset 1px 0 0 var(--ring-line-color);
+    }
+
+    &:last-child {
+      border-top-right-radius: var(--ring-border-radius);
+      border-bottom-right-radius: var(--ring-border-radius);
+      box-shadow: inset 0 1px 0 var(--ring-line-color), inset -1px 0 0 var(--ring-line-color);
+    }
   }
 
-  & td:nth-child(1) {
-    width: var(--id-width);
+  &.wide {
+    width: calc(100vw - 2 * var(--ring-unit));
 
-    border-top-left-radius: var(--ring-border-radius);
-    border-bottom-left-radius: var(--ring-border-radius);
-    box-shadow: inset 0 1px 0 var(--ring-line-color), inset 1px 0 0 var(--ring-line-color);
+    & td:first-child {
+      width: var(--id-width);
+    }
+
+    & td:nth-child(2),
+    & td:nth-child(3) {
+      width: calc(0.5 * (100vw - var(--id-width) - var(--link-width) - var(--ring-unit) * 10));
+      max-width: calc(0.5 * (100vw - var(--id-width) - var(--link-width) - var(--ring-unit) * 10));
+    }
+
+    & td:last-child {
+      width: var(--link-width);
+      max-width: var(--link-width);
+    }
   }
 
-  & td:nth-child(2),
-  & td:nth-child(3) {
-    width: calc(0.5 * (100vw - var(--id-width) - var(--link-width) - var(--ring-unit) * 10));
-  }
+  &:not(.wide) {
+    --narrow-width: min(200px, calc(100vw - 2 * var(--ring-unit)));
 
-  & td:nth-child(4) {
-    width: var(--link-width);
-    max-width: var(--link-width);
+    width: var(--narrow-width);
 
-    border-top-right-radius: var(--ring-border-radius);
-    border-bottom-right-radius: var(--ring-border-radius);
-    box-shadow: inset 0 1px 0 var(--ring-line-color), inset -1px 0 0 var(--ring-line-color);
+    & td:first-child {
+      width: var(--id-width);
+    }
+
+    & td:nth-child(2) {
+      --w: calc(var(--narrow-width) - var(--id-width) - var(--ring-unit) * 6);
+
+      overflow: hidden;
+
+      width: var(--w);
+      max-width: var(--w);
+    }
+
+    & td:nth-child(3) {
+      width: 0;
+      max-width: 0;
+      padding: 0;
+
+      & > * {
+        display: none;
+      }
+    }
+
+    & td:last-child {
+      width: 0;
+      max-width: 0;
+
+      & > * {
+        display: none;
+      }
+    }
   }
 }
 
 .dragStub > td > * {
   opacity: 0.2;
+}
+
+.dragStubCancelled > td > * {
+  transition: opacity 300ms ease-out;
+
+  opacity: 1;
 }

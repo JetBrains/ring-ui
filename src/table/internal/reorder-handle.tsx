@@ -58,7 +58,7 @@ export function ReorderHandle<T>({
   index: number;
   noDragFrame?: boolean;
   noHandleTranslate?: boolean;
-  onUserDrag?: (delta: number | 'cancelled' | undefined) => void;
+  onUserDrag?: (delta: 'pointerdown' | number | 'cancelled' | undefined) => void;
 } & ComponentPropsWithRef<'button'>) {
   const localRef = useRef<HTMLButtonElement | null>(null);
   const composedRef = useComposedRef(localRef, userRef);
@@ -352,7 +352,7 @@ export function ReorderHandle<T>({
       };
 
       renderDragFrame(clientX, clientY);
-      onUserDrag?.(0);
+      onUserDrag?.('pointerdown');
 
       e.preventDefault();
     },

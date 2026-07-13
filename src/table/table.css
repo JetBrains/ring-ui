@@ -137,8 +137,6 @@
 .itemReorderHandle {
   cursor: grab;
 
-  transition: color var(--ring-fast-ease);
-
   color: var(--ring-secondary-color);
 
   border-radius: var(--ring-border-radius);

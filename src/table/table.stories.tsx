@@ -1501,8 +1501,11 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
 
   render(args) {
     const [data, setData] = useState(args.data);
-    const [dragStyle, setDragStyle] = useState<'drag-frame' | 'whole-item'>('whole-item');
-    const [dragState, setDragState] = useState<{index: number; state: DragState}>({index: -1, state: undefined});
+    const [dragStyle, setDragStyle] = useState<'frame' | 'item-wide' | 'item-narrow'>('item-narrow');
+    const [itemDragState, setItemDragState] = useState<{index: number; state: DragState}>({
+      index: -1,
+      state: undefined,
+    });
 
     const columns = useMemo(
       () =>
@@ -1510,14 +1513,14 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
           {
             key: 'ID',
             renderCell: ({id}, index) => {
-              const wholeItem = dragStyle === 'whole-item';
+              const itemDrag = dragStyle !== 'frame';
               return (
                 <span>
                   <ItemReorderHandle
                     index={index}
-                    noDragFrame={wholeItem}
-                    noHandleTranslate={wholeItem}
-                    onUserDrag={state => setDragState({index, state})}
+                    noDragFrame={itemDrag}
+                    noHandleTranslate={itemDrag}
+                    onUserDrag={state => setItemDragState({index, state})}
                   />{' '}
                   {id}
                 </span>
@@ -1534,8 +1537,11 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
           },
           {
             key: 'URL',
-            renderCell: ({url}) => <PlaceLink href={url} />,
-            tdClassName: style.tdUrl,
+            renderCell: ({url}) => (
+              <div>
+                <PlaceLink href={url} />
+              </div>
+            ),
           },
         ] satisfies Column<(typeof smallDataSlice)[number]>[],
       [dragStyle],
@@ -1546,8 +1552,9 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
         <div className={style.dragStyle}>
           <ControlLabel type={LabelType.FORM}>Drag style:</ControlLabel>
           <Radio value={dragStyle} onChange={setDragStyle as (val: string) => void}>
-            <Radio.Item value='drag-frame'>Drag frame</Radio.Item>
-            <Radio.Item value='whole-item'>Whole item</Radio.Item>
+            <Radio.Item value='frame'>Frame</Radio.Item>
+            <Radio.Item value='item-wide'>Item wide</Radio.Item>
+            <Radio.Item value='item-narrow'>Item narrow</Radio.Item>
           </Radio>
         </div>
 
@@ -1558,29 +1565,34 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
           className={style.itemReorderTable}
           onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
           renderItem={(_item, index) => {
-            const isDragging =
-              dragStyle === 'whole-item' && dragState.index === index && typeof dragState.state === 'number';
-            const isDraggingCancelled =
-              dragStyle === 'whole-item' && dragState.index === index && dragState.state === 'cancelled';
+            const dragState = itemDragState.index === index ? itemDragState.state : undefined;
+            if (dragState == null || dragStyle === 'frame') {
+              return <DefaultItemRenderer index={index} />;
+            }
+
             return (
               <>
                 <DefaultItemRenderer
                   index={index}
-                  className={isDragging || isDraggingCancelled ? style.draggedItem : undefined}
+                  className={classNames(
+                    style.draggedItem,
+                    (dragStyle === 'item-wide' || dragState === 'pointerdown') && style.wide,
+                  )}
                   style={{
-                    transform: isDragging
-                      ? `translateY(${dragState.state}px)`
-                      : isDraggingCancelled
-                        ? `translateY(0)`
-                        : undefined,
-                    backgroundColor: isDraggingCancelled ? 'transparent' : undefined,
-                    transition: isDraggingCancelled ? 'all 300ms ease-out' : undefined,
+                    opacity: dragState === 'pointerdown' || dragState === 'cancelled' ? 0 : undefined,
+                    transform: `translateY(${typeof dragState === 'number' ? dragState : 0}px)`,
+                    backgroundColor: dragState === 'cancelled' ? 'transparent' : undefined,
+                    transition: dragState === 'cancelled' ? 'all 300ms ease-out' : undefined,
                   }}
                 />
 
-                {(isDragging || isDraggingCancelled) && (
-                  <DefaultItemRenderer index={index} className={style.dragStub} />
-                )}
+                <DefaultItemRenderer
+                  index={index}
+                  className={classNames(
+                    dragState !== 'pointerdown' && style.dragStub,
+                    dragState === 'cancelled' && style.dragStubCancelled,
+                  )}
+                />
               </>
             );
           }}
