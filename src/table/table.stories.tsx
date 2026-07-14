@@ -1503,7 +1503,7 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
 
   render(args) {
     const [data, setData] = useState(args.data);
-    const [dragStyle, setDragStyle] = useState<'frame' | 'item-wide' | 'item-narrow'>('item-narrow');
+    const [dragStyle, setDragStyle] = useState<'frame' | 'item-wide' | 'item-narrow'>('frame');
     const [itemDragState, setItemDragState] = useState<{index: number; state: DragState}>({
       index: -1,
       state: undefined,

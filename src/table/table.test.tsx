@@ -4,6 +4,7 @@ import {fireEvent, render, screen} from '@testing-library/react';
 
 import Table from './table';
 import {DefaultItemRenderer} from './default-item-renderer';
+import {ItemReorderHandle} from './table-primitives';
 
 import type {Column} from './table-props';
 
@@ -305,6 +306,64 @@ describe('Table basic scenarios', () => {
 
     const headers = [...container.querySelectorAll('thead th')].map(th => th.textContent?.trim());
     expect(headers).to.deep.equal(['Id', 'Capital', 'Country', 'Wikipedia']);
+  });
+
+  it('moves a row down when keyboard on reorder handle', () => {
+    function ReorderableRowsTable() {
+      const [data, setData] = useState(countries);
+      const [columns] = useState(
+        () =>
+          [
+            {
+              ...baseColumns[0],
+              renderCell: ({id, country}, index) => (
+                <>
+                  <ItemReorderHandle index={index} data-test={country} /> {id}
+                </>
+              ),
+            },
+            ...baseColumns.slice(1),
+          ] satisfies Column<CountryItem>[],
+      );
+
+      return (
+        <Table
+          data={data}
+          columns={columns}
+          getKey={getKey}
+          onItemReorder={(fromIndex, insertionIndex) => {
+            setData(previousData => {
+              const newData = [...previousData];
+              const [moved] = newData.splice(fromIndex, 1);
+              const nextIndex = fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex;
+              newData.splice(nextIndex, 0, moved);
+              return newData;
+            });
+          }}
+        />
+      );
+    }
+
+    const {container} = render(<ReorderableRowsTable />);
+
+    const initialFirst4CapitalCities = ['Oslo', 'Stockholm', 'Dublin', 'Amsterdam'];
+    function getActualFirst4CapitalCities() {
+      return [...container.querySelectorAll('tbody tr td:nth-child(3)')].map(td => td.textContent?.trim()).slice(0, 4);
+    }
+
+    expect(getActualFirst4CapitalCities()).to.deep.equal(initialFirst4CapitalCities);
+
+    const swedenReorderButton = screen.getByTestId('Sweden');
+    swedenReorderButton.focus();
+    fireEvent.keyDown(swedenReorderButton, {key: 'ArrowDown'});
+
+    const capitalCitiesAfterMove = [
+      initialFirst4CapitalCities[0],
+      initialFirst4CapitalCities[2],
+      initialFirst4CapitalCities[1],
+      initialFirst4CapitalCities[3],
+    ];
+    expect(getActualFirst4CapitalCities()).to.deep.equal(capitalCitiesAfterMove);
   });
 
   it('changes thead className when columnEditing is controlled externally', () => {

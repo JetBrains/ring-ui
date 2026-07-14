@@ -371,12 +371,14 @@
   box-sizing: border-box;
   width: calc(100% - 2 * var(--ring-unit) - 2px);
   height: 400px;
-  padding: 0 var(--ring-unit);
 
   border: 1px solid rgba(var(--ring-line-components), 0.5);
 }
 
 .customIssueTable {
+  width: calc(100% - 2 * var(--ring-unit));
+  margin: var(--ring-unit);
+
   table-layout: fixed;
 }
 
