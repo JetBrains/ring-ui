@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
 import React, {
   type ComponentType,
+  type RefObject,
   useCallback,
   useEffect,
   useEffectEvent,
@@ -1567,33 +1568,43 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
           onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
           renderItem={(_item, index) => {
             const dragState = itemDragState.index === index ? itemDragState.state : undefined;
-            if (dragState == null || dragStyle === 'frame') {
-              return <DefaultItemRenderer index={index} />;
-            }
+            const isDragging = dragState != null && dragStyle !== 'frame';
 
             return (
               <>
                 <DefaultItemRenderer
                   index={index}
-                  className={classNames(
-                    style.draggedItem,
-                    (dragStyle === 'item-wide' || dragState === 'pointerdown') && style.wide,
-                  )}
-                  style={{
-                    opacity: dragState === 'pointerdown' || dragState === 'cancelled' ? 0 : undefined,
-                    transform: `translateY(${typeof dragState === 'number' ? dragState : 0}px)`,
-                    backgroundColor: dragState === 'cancelled' ? 'transparent' : undefined,
-                    transition: dragState === 'cancelled' ? 'all 300ms ease-out' : undefined,
-                  }}
+                  className={
+                    isDragging
+                      ? classNames(
+                          style.draggedItem,
+                          (dragStyle === 'item-wide' || dragState === 'pointerdown') && style.wide,
+                        )
+                      : undefined
+                  }
+                  style={
+                    isDragging
+                      ? {
+                          opacity: dragState === 'pointerdown' || dragState === 'cancelled' ? 0 : undefined,
+                          transform: `translateY(${typeof dragState === 'number' ? dragState : 0}px)`,
+                          backgroundColor: dragState === 'cancelled' ? 'transparent' : undefined,
+                          transition: dragState === 'cancelled' ? 'all 300ms ease-out' : undefined,
+                        }
+                      : undefined
+                  }
+                  noReorderLayout={isDragging}
                 />
 
-                <DefaultItemRenderer
-                  index={index}
-                  className={classNames(
-                    dragState !== 'pointerdown' && style.dragStub,
-                    dragState === 'cancelled' && style.dragStubCancelled,
-                  )}
-                />
+                {isDragging && (
+                  <DefaultItemRenderer
+                    index={index}
+                    className={classNames(
+                      dragState !== 'pointerdown' && style.dragStub,
+                      dragState === 'cancelled' && style.dragStubCancelled,
+                    )}
+                    noReorderLayout
+                  />
+                )}
               </>
             );
           }}
@@ -1633,67 +1644,88 @@ const issuesSliceWithStatus: readonly IssueWithStatus[] = issuesLongDataSlice.ma
   };
 });
 
-export const WithVirtualizationReorderingAndCustom: TableStory<(typeof issuesSliceWithStatus)[number]> = {
-  args: {
-    data: [],
-    columns: [
-      {
-        key: 'ID',
-        renderCell: ({id}, index) => (
-          <>
-            <ItemReorderHandle index={index} />{' '}
-            <Link href={`https://example.org/issue/${id}/`} target='_blank'>
-              {id}
-            </Link>
-          </>
-        ),
-      },
-      {
-        key: 'Priority',
-        renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
-      },
-      {
-        key: 'Votes',
-        renderCell: ({votes}) => votes,
-      },
-    ] satisfies Column<(typeof issuesSliceWithStatus)[number]>[],
-    getKey,
+const issuesWithStatusColumns = [
+  {
+    key: 'ID',
+    renderCell: ({id}, index) => (
+      <>
+        <ItemReorderHandle index={index} />{' '}
+        <Link href={`https://example.org/issue/${id}/`} target='_blank'>
+          {id}
+        </Link>
+      </>
+    ),
+  },
+  {
+    key: 'Priority',
+    renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
+  },
+  {
+    key: 'Votes',
+    renderCell: ({votes}) => votes,
+    deletable: true, // To make story accessibility test happy
+  },
+] satisfies Column<(typeof issuesSliceWithStatus)[number]>[];
+
+export const WithVirtualizationReorderingAndCustom = {
+  args: {},
+
+  render() {
+    return <IssuesWithStatusTable />;
   },
 
-  render(args) {
-    const [data, setData] = useState(issuesSliceWithStatus);
+  parameters: {
+    screenshots: {skip: true},
+    ...noDocsParams,
+  },
+};
+
+export const WithVirtualizationReorderingScrollerAndCustom = {
+  args: {},
+
+  render() {
     const scrollerRef = useRef<HTMLDivElement>(null);
 
     return (
-      <div className={style.scroller} ref={scrollerRef} data-table-scroller>
-        <Table
-          data={data}
-          columns={args.columns}
-          getKey={args.getKey}
-          className={style.customIssueTable}
-          renderItem={(item, index) => <CustomIssueItem issue={item} index={index} />}
-          onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
-          virtualizeRows
-          scrollerRef={scrollerRef}
-          estimateHeight={item => {
-            let h = defaultRowHeight;
-            if (item.reason) {
-              h += 69;
-            } else {
-              h += 43;
-            }
-            return h;
-          }}
-          // retentionMarginPx={1200}
-        />
+      <div className={style.customIssueScroller} ref={scrollerRef} data-table-scroller>
+        <IssuesWithStatusTable scrollerRef={scrollerRef} />
       </div>
     );
   },
 
   parameters: {
     screenshots: {skip: true},
+    ...noDocsParams,
   },
 };
+
+function IssuesWithStatusTable({scrollerRef}: {scrollerRef?: RefObject<HTMLDivElement | null>}) {
+  const [data, setData] = useState(issuesSliceWithStatus);
+
+  return (
+    <Table
+      data={data}
+      columns={issuesWithStatusColumns}
+      getKey={getKey}
+      className={style.customIssueTable}
+      stickyHeader
+      renderItem={(item, index) => <CustomIssueItem issue={item} index={index} />}
+      onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+      virtualizeRows
+      scrollerRef={scrollerRef}
+      estimateHeight={item => {
+        let h = defaultRowHeight;
+        if (item.reason) {
+          h += 69;
+        } else {
+          h += 43;
+        }
+        return h;
+      }}
+      retentionMarginPx={2000}
+    />
+  );
+}
 
 function CustomIssueItem({issue, index}: {issue: IssueWithStatus; index: number}) {
   const {status, reason} = issue;

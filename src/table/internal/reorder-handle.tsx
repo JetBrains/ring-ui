@@ -1,5 +1,13 @@
 /* eslint-disable max-lines */
-import {type ComponentPropsWithRef, type Context, type PointerEvent, use, useRef} from 'react';
+import {
+  type ComponentPropsWithRef,
+  type Context,
+  type PointerEvent,
+  use,
+  useEffect,
+  useEffectEvent,
+  useRef,
+} from 'react';
 import classNames from 'classnames';
 import dragIcon from '@jetbrains/icons/drag-12px';
 
@@ -20,6 +28,8 @@ interface ActiveDrag {
   state: 'is-dragging' | 'ended-with-no-change';
   startX: number;
   startY: number;
+  initialItemStart: number;
+  initialItemEnd: number;
   /**
    * Top (columns) or left (items)
    */
@@ -33,6 +43,10 @@ interface ActiveDrag {
 
 const columnDragFrameAdjustmentPx = -1;
 const itemDragFrameAdjustmentPx = -2;
+
+const scrollAreaPx = 100;
+const scrollStepPx = 100;
+const scrollIntervalMs = 200;
 
 export function ReorderHandle<T>({
   direction,
@@ -112,12 +126,7 @@ export function ReorderHandle<T>({
     const drag = activeDragRef.current;
     if (noDragFrame || !drag) return;
 
-    const {startX, startY, indicatorStart, indicatorSize} = drag;
-
-    const itemBounds = getItemBounds(index);
-    if (!itemBounds) return;
-
-    const {start: itemStart, end: itemEnd} = itemBounds;
+    const {startX, startY, initialItemStart, initialItemEnd, indicatorStart, indicatorSize} = drag;
 
     let dragFrame = getDragFrame();
     if (!dragFrame) {
@@ -125,7 +134,7 @@ export function ReorderHandle<T>({
       dragFrame.className = styles.dragFrame;
 
       const frameStart = `calc(max(0px, ${indicatorStart - 2}px))`;
-      const frameAcrossSize = `${itemEnd - itemStart}px`;
+      const frameAcrossSize = `${initialItemEnd - initialItemStart}px`;
       const frameAlongSize = indicatorSize;
       dragFrame.style[isColumn ? 'top' : 'left'] = frameStart;
       dragFrame.style[isColumn ? 'width' : 'height'] = frameAcrossSize;
@@ -135,9 +144,9 @@ export function ReorderHandle<T>({
     }
 
     if (isColumn) {
-      dragFrame.style.left = `${itemStart + clientX - startX + columnDragFrameAdjustmentPx}px`;
+      dragFrame.style.left = `${initialItemStart + clientX - startX + columnDragFrameAdjustmentPx}px`;
     } else {
-      dragFrame.style.top = `${itemStart + clientY - startY + itemDragFrameAdjustmentPx}px`;
+      dragFrame.style.top = `${initialItemStart + clientY - startY + itemDragFrameAdjustmentPx}px`;
     }
   }
 
@@ -145,10 +154,14 @@ export function ReorderHandle<T>({
     const btn = localRef.current;
     const drag = activeDragRef.current;
     if (noHandleTranslate || !btn || !drag) return;
+    const {startX, startY, initialItemStart} = drag;
+    const offsetByPointerMove = isColumn ? clientX - startX : clientY - startY;
 
-    btn.style.transform = isColumn
-      ? `translateX(${clientX - drag.startX}px)`
-      : `translateY(${clientY - drag.startY}px)`;
+    const {start: itemStart} = getItemBounds(index) ?? {start: 0, end: 0};
+    const offsetByItemMove = itemStart - initialItemStart;
+
+    const offset = offsetByPointerMove - offsetByItemMove;
+    btn.style.transform = isColumn ? `translateX(${offset}px)` : `translateY(${offset}px)`;
   }
 
   function getClosestInsertionPointLocal(clientX: number, clientY: number) {
@@ -209,13 +222,12 @@ export function ReorderHandle<T>({
       drag.cleanup = () => {};
 
       const dragFrame = getDragFrame();
-      const itemBounds = getItemBounds(index);
-      if (dragFrame && itemBounds) {
-        const {start: itemStart} = itemBounds;
+      if (dragFrame) {
+        const {initialItemStart} = drag;
         if (isColumn) {
-          dragFrame.style.left = `${itemStart + columnDragFrameAdjustmentPx}px`;
+          dragFrame.style.left = `${initialItemStart + columnDragFrameAdjustmentPx}px`;
         } else {
-          dragFrame.style.top = `${itemStart + itemDragFrameAdjustmentPx}px`;
+          dragFrame.style.top = `${initialItemStart + itemDragFrameAdjustmentPx}px`;
         }
         dragFrame.style.transition = 'left var(--ring-ease), top var(--ring-ease), opacity var(--ring-ease)';
         dragFrame.style.opacity = '0';
@@ -247,6 +259,8 @@ export function ReorderHandle<T>({
     if (e.defaultPrevented) return;
 
     const {clientX, clientY, pointerId, currentTarget} = e;
+
+    const {start: initialItemStart, end: initialItemEnd} = getItemBounds(index) ?? {start: 0, end: 0};
 
     let indicatorStart: number;
     let indicatorSize: string;
@@ -293,6 +307,8 @@ export function ReorderHandle<T>({
       state: 'is-dragging',
       startX: clientX,
       startY: clientY,
+      initialItemStart,
+      initialItemEnd,
       indicatorStart,
       indicatorSize,
       cleanup: () => {
@@ -306,6 +322,20 @@ export function ReorderHandle<T>({
     onUserDrag?.('pointerdown');
 
     e.preventDefault();
+  }
+
+  const scrollerRef = tableProps?.scrollerRef;
+
+  const lastScrolledRef = useRef<number>(0);
+
+  function scrollThrottled(scrollDirection: 'up' | 'down') {
+    const now = performance.now();
+    if (now > lastScrolledRef.current + scrollIntervalMs) {
+      lastScrolledRef.current = now;
+      const top = scrollDirection === 'up' ? -scrollStepPx : scrollStepPx;
+      const scroller = scrollerRef?.current ?? window;
+      scroller?.scrollBy({top, behavior: 'smooth'});
+    }
   }
 
   function handlePointerMove(e: PointerEvent<HTMLButtonElement>) {
@@ -323,6 +353,17 @@ export function ReorderHandle<T>({
     if (insertionPoint.insertionIndex !== -1) renderInsertionIndicator(insertionPoint);
 
     onUserDrag?.(isColumn ? clientX - drag.startX : clientY - drag.startY);
+
+    if (!isColumn) {
+      const scrollerRect = scrollerRef?.current?.getBoundingClientRect();
+      const scrollerTop = scrollerRect?.top ?? 0;
+      const scrollerBottom = scrollerRect ? Math.min(scrollerRect.bottom, window.innerHeight) : window.innerHeight;
+      if (clientY < scrollerTop + scrollAreaPx) {
+        scrollThrottled('up');
+      } else if (clientY > scrollerBottom - scrollAreaPx) {
+        scrollThrottled('down');
+      }
+    }
   }
 
   function handlePointerUp(e: PointerEvent<HTMLButtonElement>) {
@@ -378,6 +419,16 @@ export function ReorderHandle<T>({
     onLostPointerCapture?.(e);
     if (!e.defaultPrevented) animateNoChangeThenCleanup();
   }
+
+  const cleanupComponent = useEffectEvent(() => {
+    if (activeDragRef.current) {
+      cleanupDrag();
+    }
+  });
+
+  useEffect(() => {
+    return cleanupComponent;
+  }, []);
 
   const hint = isColumn
     ? `Reorder column ${columns?.[index]?.name ?? String(columns?.[index]?.key)}.`

@@ -362,6 +362,20 @@
   opacity: 1;
 }
 
+.customIssueScroller {
+  position: absolute;
+  top: calc(50% - 0.5 * 400px - 2 * var(--ring-unit));
+
+  overflow-y: scroll;
+
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--ring-unit) - 2px);
+  height: 400px;
+  padding: 0 var(--ring-unit);
+
+  border: 1px solid rgba(var(--ring-line-components), 0.5);
+}
+
 .customIssueTable {
   table-layout: fixed;
 }
