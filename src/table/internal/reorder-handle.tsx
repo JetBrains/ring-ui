@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {type ComponentPropsWithRef, type Context, type PointerEvent, use, useCallback, useRef} from 'react';
+import {type ComponentPropsWithRef, type Context, type PointerEvent, use, useRef} from 'react';
 import classNames from 'classnames';
 import dragIcon from '@jetbrains/icons/drag-12px';
 
@@ -69,141 +69,121 @@ export function ReorderHandle<T>({
   const onItemReorder = tableProps?.onItemReorder;
   const onColumnReorder = tableProps?.onColumnReorder;
 
-  const canReorder = useCallback(
-    (insertionIndex: number) => {
-      if (isColumn && columns) {
-        const canReorderColumn = columns?.[index]?.canReorder;
-        if (canReorderColumn === true) return true;
-        if (typeof canReorderColumn === 'function') return canReorderColumn(insertionIndex, columns);
-        return false;
-      }
-
-      if (!isColumn && data) {
-        return canReorderItem ? canReorderItem(index, insertionIndex, data) : true;
-      }
-
+  function canReorder(insertionIndex: number) {
+    if (isColumn && columns) {
+      const canReorderColumn = columns?.[index]?.canReorder;
+      if (canReorderColumn === true) return true;
+      if (typeof canReorderColumn === 'function') return canReorderColumn(insertionIndex, columns);
       return false;
-    },
-    [isColumn, columns, data, index, canReorderItem],
-  );
+    }
+
+    if (!isColumn && data) {
+      return canReorderItem ? canReorderItem(index, insertionIndex, data) : true;
+    }
+
+    return false;
+  }
 
   const {expectReorder} = use(ReorderAnimationContext);
 
-  const onReorder = useCallback(
-    (insertionIndex: number) => {
-      if (isColumn && columns) {
-        expectReorder({direction, fromIndex: index, insertionIndex});
-        onColumnReorder?.(index, insertionIndex, columns);
-      } else if (!isColumn && data) {
-        expectReorder({direction, fromIndex: index, insertionIndex});
-        onItemReorder?.(index, insertionIndex, data);
-      }
-    },
-    [isColumn, columns, data, expectReorder, direction, index, onColumnReorder, onItemReorder],
-  );
+  function onReorder(insertionIndex: number) {
+    if (isColumn && columns) {
+      expectReorder({direction, fromIndex: index, insertionIndex});
+      onColumnReorder?.(index, insertionIndex, columns);
+    } else if (!isColumn && data) {
+      expectReorder({direction, fromIndex: index, insertionIndex});
+      onItemReorder?.(index, insertionIndex, data);
+    }
+  }
 
   const activeDragRef = useRef<ActiveDrag>(null);
 
-  const getDragFrame = useCallback(
-    () => document.body.querySelector(`.${styles.dragFrame}`) as HTMLDivElement | null,
-    [],
-  );
+  function getDragFrame() {
+    return document.body.querySelector(`.${styles.dragFrame}`) as HTMLDivElement | null;
+  }
 
-  const getInsertionIndicator = useCallback(
-    () => document.body.querySelector(`.${styles.insertionIndicator}`) as HTMLDivElement | null,
-    [],
-  );
+  function getInsertionIndicator() {
+    return document.body.querySelector(`.${styles.insertionIndicator}`) as HTMLDivElement | null;
+  }
 
   const {getItemBounds, getClosestInsertionPoint} = use(ReorderLayoutContext);
 
-  const renderDragFrame = useCallback(
-    (clientX: number, clientY: number) => {
-      const drag = activeDragRef.current;
-      if (noDragFrame || !drag) return;
+  function renderDragFrame(clientX: number, clientY: number) {
+    const drag = activeDragRef.current;
+    if (noDragFrame || !drag) return;
 
-      const {startX, startY, indicatorStart, indicatorSize} = drag;
+    const {startX, startY, indicatorStart, indicatorSize} = drag;
 
-      const itemBounds = getItemBounds(index);
-      if (!itemBounds) return;
+    const itemBounds = getItemBounds(index);
+    if (!itemBounds) return;
 
-      const {start: itemStart, end: itemEnd} = itemBounds;
+    const {start: itemStart, end: itemEnd} = itemBounds;
 
-      let dragFrame = getDragFrame();
-      if (!dragFrame) {
-        dragFrame = document.createElement('div');
-        dragFrame.className = styles.dragFrame;
+    let dragFrame = getDragFrame();
+    if (!dragFrame) {
+      dragFrame = document.createElement('div');
+      dragFrame.className = styles.dragFrame;
 
-        const frameStart = `calc(max(0px, ${indicatorStart - 2}px))`;
-        const frameAcrossSize = `${itemEnd - itemStart}px`;
-        const frameAlongSize = indicatorSize;
-        dragFrame.style[isColumn ? 'top' : 'left'] = frameStart;
-        dragFrame.style[isColumn ? 'width' : 'height'] = frameAcrossSize;
-        dragFrame.style[isColumn ? 'height' : 'width'] = frameAlongSize;
+      const frameStart = `calc(max(0px, ${indicatorStart - 2}px))`;
+      const frameAcrossSize = `${itemEnd - itemStart}px`;
+      const frameAlongSize = indicatorSize;
+      dragFrame.style[isColumn ? 'top' : 'left'] = frameStart;
+      dragFrame.style[isColumn ? 'width' : 'height'] = frameAcrossSize;
+      dragFrame.style[isColumn ? 'height' : 'width'] = frameAlongSize;
 
-        document.body.appendChild(dragFrame);
-      }
+      document.body.appendChild(dragFrame);
+    }
 
-      if (isColumn) {
-        dragFrame.style.left = `${itemStart + clientX - startX + columnDragFrameAdjustmentPx}px`;
-      } else {
-        dragFrame.style.top = `${itemStart + clientY - startY + itemDragFrameAdjustmentPx}px`;
-      }
-    },
-    [getDragFrame, getItemBounds, index, isColumn, noDragFrame],
-  );
+    if (isColumn) {
+      dragFrame.style.left = `${itemStart + clientX - startX + columnDragFrameAdjustmentPx}px`;
+    } else {
+      dragFrame.style.top = `${itemStart + clientY - startY + itemDragFrameAdjustmentPx}px`;
+    }
+  }
 
-  const translateButton = useCallback(
-    (clientX: number, clientY: number) => {
-      const btn = localRef.current;
-      const drag = activeDragRef.current;
-      if (noHandleTranslate || !btn || !drag) return;
+  function translateButton(clientX: number, clientY: number) {
+    const btn = localRef.current;
+    const drag = activeDragRef.current;
+    if (noHandleTranslate || !btn || !drag) return;
 
-      btn.style.transform = isColumn
-        ? `translateX(${clientX - drag.startX}px)`
-        : `translateY(${clientY - drag.startY}px)`;
-    },
-    [isColumn, noHandleTranslate],
-  );
+    btn.style.transform = isColumn
+      ? `translateX(${clientX - drag.startX}px)`
+      : `translateY(${clientY - drag.startY}px)`;
+  }
 
-  const getClosestInsertionPointLocal = useCallback(
-    (clientX: number, clientY: number) => {
-      const clientOffset = isColumn ? clientX : clientY;
-      return getClosestInsertionPoint(clientOffset, canReorder);
-    },
-    [canReorder, getClosestInsertionPoint, isColumn],
-  );
+  function getClosestInsertionPointLocal(clientX: number, clientY: number) {
+    const clientOffset = isColumn ? clientX : clientY;
+    return getClosestInsertionPoint(clientOffset, canReorder);
+  }
 
-  const renderInsertionIndicator = useCallback(
-    ({insertionIndex, after}: ReturnType<typeof getClosestInsertionPoint>) => {
-      const drag = activeDragRef.current;
-      if (!drag) return;
+  function renderInsertionIndicator({insertionIndex, after}: ReturnType<typeof getClosestInsertionPoint>) {
+    const drag = activeDragRef.current;
+    if (!drag) return;
 
-      const {indicatorStart, indicatorSize} = drag;
+    const {indicatorStart, indicatorSize} = drag;
 
-      const itemBounds = getItemBounds(insertionIndex);
-      if (!itemBounds) return;
+    const itemBounds = getItemBounds(insertionIndex);
+    if (!itemBounds) return;
 
-      const {start: itemStart, end: itemEnd} = itemBounds;
+    const {start: itemStart, end: itemEnd} = itemBounds;
 
-      let indicator = getInsertionIndicator();
-      if (!indicator) {
-        indicator = document.createElement('div');
-        indicator.className = styles.insertionIndicator;
+    let indicator = getInsertionIndicator();
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.className = styles.insertionIndicator;
 
-        indicator.style[isColumn ? 'top' : 'left'] = `${indicatorStart}px`;
-        indicator.style[isColumn ? 'height' : 'width'] = indicatorSize;
-        indicator.style[isColumn ? 'width' : 'height'] = '2px';
+      indicator.style[isColumn ? 'top' : 'left'] = `${indicatorStart}px`;
+      indicator.style[isColumn ? 'height' : 'width'] = indicatorSize;
+      indicator.style[isColumn ? 'width' : 'height'] = '2px';
 
-        document.body.appendChild(indicator);
-      }
+      document.body.appendChild(indicator);
+    }
 
-      const itemOffset = `${(after ? itemEnd : itemStart) - 1}px`;
-      indicator.style[isColumn ? 'left' : 'top'] = itemOffset;
-    },
-    [getInsertionIndicator, getItemBounds, isColumn],
-  );
+    const itemOffset = `${(after ? itemEnd : itemStart) - 1}px`;
+    indicator.style[isColumn ? 'left' : 'top'] = itemOffset;
+  }
 
-  const cleanupDrag = useCallback(() => {
+  function cleanupDrag() {
     if (activeDragRef.current) {
       activeDragRef.current.cleanup();
       activeDragRef.current = null;
@@ -219,9 +199,9 @@ export function ReorderHandle<T>({
     getInsertionIndicator()?.remove();
 
     onUserDrag?.(undefined);
-  }, [getDragFrame, getInsertionIndicator, onUserDrag]);
+  }
 
-  const animateNoChangeThenCleanup = useCallback(() => {
+  function animateNoChangeThenCleanup() {
     const drag = activeDragRef.current;
     if (drag?.state === 'is-dragging') {
       drag.state = 'ended-with-no-change';
@@ -260,170 +240,144 @@ export function ReorderHandle<T>({
       window.getComputedStyle(document.documentElement).getPropertyValue('--ring-ease'),
     );
     setTimeout(cleanupDrag, ringEaseMs);
-  }, [cleanupDrag, getDragFrame, getInsertionIndicator, getItemBounds, index, isColumn, onUserDrag]);
+  }
 
-  const handlePointerDown = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      onPointerDown?.(e);
-      if (e.defaultPrevented) return;
+  function handlePointerDown(e: PointerEvent<HTMLButtonElement>) {
+    onPointerDown?.(e);
+    if (e.defaultPrevented) return;
 
-      const {clientX, clientY, pointerId, currentTarget} = e;
+    const {clientX, clientY, pointerId, currentTarget} = e;
 
-      let indicatorStart: number;
-      let indicatorSize: string;
+    let indicatorStart: number;
+    let indicatorSize: string;
 
-      if (isColumn) {
-        const thead = currentTarget.closest('thead');
-        const table = thead?.closest('table');
-        if (!thead || !table) return;
+    if (isColumn) {
+      const thead = currentTarget.closest('thead');
+      const table = thead?.closest('table');
+      if (!thead || !table) return;
 
-        const {top: headerTop} = thead.getBoundingClientRect();
-        indicatorStart = headerTop;
+      const {top: headerTop} = thead.getBoundingClientRect();
+      indicatorStart = headerTop;
 
-        const {bottom: tableBottom} = table.getBoundingClientRect();
-        const visibleTableHeight = tableBottom - headerTop;
-        const viewportBottomRelativeToHeaderTop = window.innerHeight - headerTop;
-        indicatorSize = `min(${visibleTableHeight}px, calc(${viewportBottomRelativeToHeaderTop}px - .5rem))`;
-      } else {
-        const tr = currentTarget.closest('tr');
-        const tbody = tr?.closest('tbody');
-        if (!tr || !tbody) return;
+      const {bottom: tableBottom} = table.getBoundingClientRect();
+      const visibleTableHeight = tableBottom - headerTop;
+      const viewportBottomRelativeToHeaderTop = window.innerHeight - headerTop;
+      indicatorSize = `min(${visibleTableHeight}px, calc(${viewportBottomRelativeToHeaderTop}px - .5rem))`;
+    } else {
+      const tr = currentTarget.closest('tr');
+      const tbody = tr?.closest('tbody');
+      if (!tr || !tbody) return;
 
-        const {left: itemLeft} = tr.getBoundingClientRect();
-        indicatorStart = itemLeft;
+      const {left: itemLeft} = tr.getBoundingClientRect();
+      indicatorStart = itemLeft;
 
-        const {right: itemRight} = tr.getBoundingClientRect();
-        const visibleItemWidth = itemRight - itemLeft;
-        const viewportRightRelativeToTableLeft = window.innerWidth - itemLeft;
-        indicatorSize = `min(${visibleItemWidth}px, calc(${viewportRightRelativeToTableLeft}px - .5rem))`;
-      }
+      const {right: itemRight} = tr.getBoundingClientRect();
+      const visibleItemWidth = itemRight - itemLeft;
+      const viewportRightRelativeToTableLeft = window.innerWidth - itemLeft;
+      indicatorSize = `min(${visibleItemWidth}px, calc(${viewportRightRelativeToTableLeft}px - .5rem))`;
+    }
 
-      function keydownListener(keyEvent: KeyboardEvent) {
-        if (keyEvent.key === 'Escape') {
-          animateNoChangeThenCleanup();
-          keyEvent.stopPropagation();
-          keyEvent.preventDefault();
-        }
-      }
-
-      currentTarget.setPointerCapture(pointerId);
-      document.addEventListener('keydown', keydownListener);
-      currentTarget.style.cursor = 'grabbing';
-
-      activeDragRef.current = {
-        state: 'is-dragging',
-        startX: clientX,
-        startY: clientY,
-        indicatorStart,
-        indicatorSize,
-        cleanup: () => {
-          currentTarget.releasePointerCapture(pointerId);
-          document.removeEventListener('keydown', keydownListener);
-          currentTarget.style.removeProperty('cursor');
-        },
-      };
-
-      renderDragFrame(clientX, clientY);
-      onUserDrag?.('pointerdown');
-
-      e.preventDefault();
-    },
-    [animateNoChangeThenCleanup, isColumn, onPointerDown, onUserDrag, renderDragFrame],
-  );
-
-  const handlePointerMove = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      onPointerMove?.(e);
-      if (e.defaultPrevented) return;
-
-      const drag = activeDragRef.current;
-      if (drag?.state !== 'is-dragging') return;
-
-      const {clientX, clientY} = e;
-      renderDragFrame(clientX, clientY);
-      translateButton(clientX, clientY);
-
-      const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
-      if (insertionPoint.insertionIndex !== -1) renderInsertionIndicator(insertionPoint);
-
-      onUserDrag?.(isColumn ? clientX - drag.startX : clientY - drag.startY);
-    },
-    [
-      onPointerMove,
-      renderDragFrame,
-      translateButton,
-      getClosestInsertionPointLocal,
-      renderInsertionIndicator,
-      onUserDrag,
-      isColumn,
-    ],
-  );
-
-  const handlePointerUp = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      onPointerUp?.(e);
-      if (e.defaultPrevented) return;
-
-      if (activeDragRef.current?.state !== 'is-dragging') return;
-
-      const {clientX, clientY} = e;
-      const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
-      const insertionIndex = insertionPoint.insertionIndex + (insertionPoint.after ? 1 : 0);
-
-      if (insertionIndex === index || insertionIndex === index + 1) {
+    function keydownListener(keyEvent: KeyboardEvent) {
+      if (keyEvent.key === 'Escape') {
         animateNoChangeThenCleanup();
+        keyEvent.stopPropagation();
+        keyEvent.preventDefault();
+      }
+    }
+
+    currentTarget.setPointerCapture(pointerId);
+    document.addEventListener('keydown', keydownListener);
+    currentTarget.style.cursor = 'grabbing';
+
+    activeDragRef.current = {
+      state: 'is-dragging',
+      startX: clientX,
+      startY: clientY,
+      indicatorStart,
+      indicatorSize,
+      cleanup: () => {
+        currentTarget.releasePointerCapture(pointerId);
+        document.removeEventListener('keydown', keydownListener);
+        currentTarget.style.removeProperty('cursor');
+      },
+    };
+
+    renderDragFrame(clientX, clientY);
+    onUserDrag?.('pointerdown');
+
+    e.preventDefault();
+  }
+
+  function handlePointerMove(e: PointerEvent<HTMLButtonElement>) {
+    onPointerMove?.(e);
+    if (e.defaultPrevented) return;
+
+    const drag = activeDragRef.current;
+    if (drag?.state !== 'is-dragging') return;
+
+    const {clientX, clientY} = e;
+    renderDragFrame(clientX, clientY);
+    translateButton(clientX, clientY);
+
+    const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
+    if (insertionPoint.insertionIndex !== -1) renderInsertionIndicator(insertionPoint);
+
+    onUserDrag?.(isColumn ? clientX - drag.startX : clientY - drag.startY);
+  }
+
+  function handlePointerUp(e: PointerEvent<HTMLButtonElement>) {
+    onPointerUp?.(e);
+    if (e.defaultPrevented) return;
+
+    if (activeDragRef.current?.state !== 'is-dragging') return;
+
+    const {clientX, clientY} = e;
+    const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
+    const insertionIndex = insertionPoint.insertionIndex + (insertionPoint.after ? 1 : 0);
+
+    if (insertionIndex === index || insertionIndex === index + 1) {
+      animateNoChangeThenCleanup();
+      return;
+    }
+
+    cleanupDrag();
+    onReorder(insertionIndex);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
+    onKeyDown?.(e);
+    if (e.defaultPrevented) return;
+
+    const left = isColumn && e.key === 'ArrowLeft';
+    const right = isColumn && e.key === 'ArrowRight';
+    const up = !isColumn && e.key === 'ArrowUp';
+    const down = !isColumn && e.key === 'ArrowDown';
+    if ((!left && !right && !up && !down) || !columns || !data) return;
+
+    const backward = left || up;
+    const initialInsertionIndex = backward ? index - 1 : index + 2;
+    const maxInsertionIndex = isColumn ? columns.length : data.length;
+    const step = backward ? -1 : 1;
+
+    // eslint-disable-next-line yoda
+    for (let i = initialInsertionIndex; 0 <= i && i <= maxInsertionIndex; i += step) {
+      if (canReorder(i)) {
+        onReorder(i);
+        e.preventDefault();
         return;
       }
+    }
+  }
 
-      cleanupDrag();
-      onReorder(insertionIndex);
-    },
-    [animateNoChangeThenCleanup, cleanupDrag, getClosestInsertionPointLocal, index, onPointerUp, onReorder],
-  );
+  function handlePointerCancel(e: PointerEvent<HTMLButtonElement>) {
+    onPointerCancel?.(e);
+    if (!e.defaultPrevented) animateNoChangeThenCleanup();
+  }
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLButtonElement>) => {
-      onKeyDown?.(e);
-      if (e.defaultPrevented) return;
-
-      const left = isColumn && e.key === 'ArrowLeft';
-      const right = isColumn && e.key === 'ArrowRight';
-      const up = !isColumn && e.key === 'ArrowUp';
-      const down = !isColumn && e.key === 'ArrowDown';
-      if ((!left && !right && !up && !down) || !columns || !data) return;
-
-      const backward = left || up;
-      const initialInsertionIndex = backward ? index - 1 : index + 2;
-      const maxInsertionIndex = isColumn ? columns.length : data.length;
-      const step = backward ? -1 : 1;
-
-      // eslint-disable-next-line yoda
-      for (let i = initialInsertionIndex; 0 <= i && i <= maxInsertionIndex; i += step) {
-        if (canReorder(i)) {
-          onReorder(i);
-          e.preventDefault();
-          return;
-        }
-      }
-    },
-    [canReorder, columns, data, index, isColumn, onKeyDown, onReorder],
-  );
-
-  const handlePointerCancel = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      onPointerCancel?.(e);
-      if (!e.defaultPrevented) animateNoChangeThenCleanup();
-    },
-    [animateNoChangeThenCleanup, onPointerCancel],
-  );
-
-  const handleLostPointerCapture = useCallback(
-    (e: PointerEvent<HTMLButtonElement>) => {
-      onLostPointerCapture?.(e);
-      if (!e.defaultPrevented) animateNoChangeThenCleanup();
-    },
-    [animateNoChangeThenCleanup, onLostPointerCapture],
-  );
+  function handleLostPointerCapture(e: PointerEvent<HTMLButtonElement>) {
+    onLostPointerCapture?.(e);
+    if (!e.defaultPrevented) animateNoChangeThenCleanup();
+  }
 
   const hint = isColumn
     ? `Reorder column ${columns?.[index]?.name ?? String(columns?.[index]?.key)}.`
