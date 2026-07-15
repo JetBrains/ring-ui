@@ -879,12 +879,12 @@ function reorderItems<T>(
   items: readonly T[],
   fromIndex: number,
   insertionIndex: number,
-  setItems: (newColumns: readonly T[]) => void,
+  setItems: (newItems: readonly T[]) => void,
 ) {
-  const [...newColumns] = items;
-  const [moved] = newColumns.splice(fromIndex, 1);
-  newColumns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
-  setItems(newColumns);
+  const [...newItems] = items;
+  const [moved] = newItems.splice(fromIndex, 1);
+  newItems.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
+  setItems(newItems);
 }
 
 export const WithColumnReorderLongSticky: TableStory<Issue> = {
@@ -1667,7 +1667,7 @@ const issuesWithStatusColumns = [
   },
 ] satisfies Column<(typeof issuesSliceWithStatus)[number]>[];
 
-export const WithVirtualizationReorderingAndCustom = {
+export const WithVirtualizationItemReorderCustom = {
   args: {},
 
   render() {
@@ -1680,7 +1680,7 @@ export const WithVirtualizationReorderingAndCustom = {
   },
 };
 
-export const WithVirtualizationReorderingScrollerAndCustom = {
+export const WithVirtualizationItemReorderScrollerCustom = {
   args: {},
 
   render() {
@@ -1734,14 +1734,11 @@ function CustomIssueItem({issue, index}: {issue: IssueWithStatus; index: number}
 
   useItemVirtualization({
     index,
-    refs: useMemo(() => [mainRef, detailsRef], [mainRef, detailsRef]),
-    onIntersectionChange: useCallback(
-      (isIntersecting, _i, elements) =>
-        isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
-          ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
-          : undefined,
-      [],
-    ),
+    refs: [mainRef, detailsRef],
+    onIntersectionChange: (isIntersecting, _i, elements) =>
+      isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
+        ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
+        : undefined,
   });
 
   useReorderItemLayout({

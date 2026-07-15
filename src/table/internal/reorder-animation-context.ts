@@ -8,7 +8,8 @@ import type {ReorderAnimation} from '../reorder-animation';
 
 import styles from '../table.css';
 
-const reorderExpectationTimeout = 1000;
+/** How long to wait for the data to change after {@link expectReorder} is called. */
+const pendingReorderTimeoutMs = 1000;
 
 export interface ReorderSpec {
   direction: 'columns' | 'items';
@@ -16,11 +17,9 @@ export interface ReorderSpec {
   insertionIndex: number;
 }
 
-type ExpectReorder = (reorderSpec: ReorderSpec) => void;
-
 interface ReorderAnimationContextValue {
   reorderAnimation: ReorderAnimation | null;
-  expectReorder: ExpectReorder;
+  expectReorder: (reorderSpec: ReorderSpec) => void;
 }
 
 export const ReorderAnimationContext = createContext<ReorderAnimationContextValue>({
@@ -51,14 +50,14 @@ export function useReorderAnimationContextValue<T>({
 
   const pendingReorderRef = useRef<PendingReorder>(null);
 
-  const expectReorder = useCallback<ExpectReorder>(
+  const expectReorder = useCallback(
     (reorderSpec: ReorderSpec) => {
       const isColumn = reorderSpec.direction === 'columns';
       if ((isColumn && noColumnReorderAnimation) || (!isColumn && noItemReorderAnimation)) return;
 
       const timerId = window.setTimeout(() => {
         pendingReorderRef.current = null;
-      }, reorderExpectationTimeout);
+      }, pendingReorderTimeoutMs);
       pendingReorderRef.current = {...reorderSpec, timerId, columns, data};
     },
     [noColumnReorderAnimation, noItemReorderAnimation, columns, data],
@@ -86,6 +85,7 @@ export function useReorderAnimationContextValue<T>({
 
     const {fromIndex, insertionIndex} = pendingReorder;
 
+    // Moving forward shifts the array by one, hence -1
     const index = fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex;
     return requestAnimationFrameWithCleanup(() =>
       setReorderAnimation(prev =>
@@ -105,7 +105,7 @@ export function useReorderAnimationContextValue<T>({
 
     if (reorderAnimation?.phase === 'fade-out') {
       const fadeOutMs = parseCssDuration(
-        window.getComputedStyle(tableRef.current!).getPropertyValue('--animated-column-fade-out-duration'),
+        window.getComputedStyle(tableRef.current!).getPropertyValue('--reorder-animation-fade-out-duration'),
       );
       return setTimeoutWithCleanup(
         () => setReorderAnimation(prev => (prev === reorderAnimation ? null : prev)),

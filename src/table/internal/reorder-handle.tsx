@@ -19,6 +19,8 @@ import {parseCssDuration} from '../../global/parse-css-duration';
 import {ReorderAnimationContext} from './reorder-animation-context';
 import {ReorderLayoutContext} from './reorder-layout-context';
 
+import type {DragState} from '../table-primitives';
+
 import styles from '../table.css';
 
 /**
@@ -69,7 +71,7 @@ export function ReorderHandle<T>({
   index: number;
   noDragFrame?: boolean;
   noHandleTranslate?: boolean;
-  onUserDrag?: (delta: 'pointerdown' | number | 'cancelled' | undefined) => void;
+  onUserDrag?: (state: DragState) => void;
 } & ComponentPropsWithRef<'button'>) {
   const localRef = useRef<HTMLButtonElement | null>(null);
   const composedRef = useComposedRef(localRef, userRef);
@@ -169,13 +171,13 @@ export function ReorderHandle<T>({
     return getClosestInsertionPoint(clientOffset, canReorder);
   }
 
-  function renderInsertionIndicator({insertionIndex, after}: ReturnType<typeof getClosestInsertionPoint>) {
+  function renderInsertionIndicator({itemIndex, after}: ReturnType<typeof getClosestInsertionPoint>) {
     const drag = activeDragRef.current;
     if (!drag) return;
 
     const {indicatorStart, indicatorSize} = drag;
 
-    const itemBounds = getItemBounds(insertionIndex);
+    const itemBounds = getItemBounds(itemIndex);
     if (!itemBounds) return;
 
     const {start: itemStart, end: itemEnd} = itemBounds;
@@ -216,37 +218,37 @@ export function ReorderHandle<T>({
 
   function animateNoChangeThenCleanup() {
     const drag = activeDragRef.current;
-    if (drag?.state === 'is-dragging') {
-      drag.state = 'ended-with-no-change';
-      drag.cleanup();
-      drag.cleanup = () => {};
+    if (drag?.state !== 'is-dragging') return;
 
-      const dragFrame = getDragFrame();
-      if (dragFrame) {
-        const {initialItemStart} = drag;
-        if (isColumn) {
-          dragFrame.style.left = `${initialItemStart + columnDragFrameAdjustmentPx}px`;
-        } else {
-          dragFrame.style.top = `${initialItemStart + itemDragFrameAdjustmentPx}px`;
-        }
-        dragFrame.style.transition = 'left var(--ring-ease), top var(--ring-ease), opacity var(--ring-ease)';
-        dragFrame.style.opacity = '0';
+    drag.state = 'ended-with-no-change';
+    drag.cleanup();
+    drag.cleanup = () => {};
+
+    const dragFrame = getDragFrame();
+    if (dragFrame) {
+      const {initialItemStart} = drag;
+      if (isColumn) {
+        dragFrame.style.left = `${initialItemStart + columnDragFrameAdjustmentPx}px`;
+      } else {
+        dragFrame.style.top = `${initialItemStart + itemDragFrameAdjustmentPx}px`;
       }
-
-      const indicator = getInsertionIndicator();
-      if (indicator) {
-        indicator.style.opacity = '0';
-        indicator.style.transition = 'opacity var(--ring-ease)';
-      }
-
-      const btn = localRef.current;
-      if (btn) {
-        btn.style.transform = isColumn ? 'translateX(0)' : 'translateY(0)';
-        btn.style.transition = 'transform var(--ring-ease)';
-      }
-
-      onUserDrag?.('cancelled');
+      dragFrame.style.transition = 'left var(--ring-ease), top var(--ring-ease), opacity var(--ring-ease)';
+      dragFrame.style.opacity = '0';
     }
+
+    const indicator = getInsertionIndicator();
+    if (indicator) {
+      indicator.style.opacity = '0';
+      indicator.style.transition = 'opacity var(--ring-ease)';
+    }
+
+    const btn = localRef.current;
+    if (btn) {
+      btn.style.transform = isColumn ? 'translateX(0)' : 'translateY(0)';
+      btn.style.transition = 'transform var(--ring-ease)';
+    }
+
+    onUserDrag?.('cancelled');
 
     const ringEaseMs = parseCssDuration(
       window.getComputedStyle(document.documentElement).getPropertyValue('--ring-ease'),
@@ -282,10 +284,9 @@ export function ReorderHandle<T>({
       const tbody = tr?.closest('tbody');
       if (!tr || !tbody) return;
 
-      const {left: itemLeft} = tr.getBoundingClientRect();
+      const {left: itemLeft, right: itemRight} = tr.getBoundingClientRect();
       indicatorStart = itemLeft;
 
-      const {right: itemRight} = tr.getBoundingClientRect();
       const visibleItemWidth = itemRight - itemLeft;
       const viewportRightRelativeToTableLeft = window.innerWidth - itemLeft;
       indicatorSize = `min(${visibleItemWidth}px, calc(${viewportRightRelativeToTableLeft}px - .5rem))`;
@@ -350,7 +351,7 @@ export function ReorderHandle<T>({
     translateButton(clientX, clientY);
 
     const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
-    if (insertionPoint.insertionIndex !== -1) renderInsertionIndicator(insertionPoint);
+    if (insertionPoint.itemIndex !== -1) renderInsertionIndicator(insertionPoint);
 
     onUserDrag?.(isColumn ? clientX - drag.startX : clientY - drag.startY);
 
@@ -374,7 +375,7 @@ export function ReorderHandle<T>({
 
     const {clientX, clientY} = e;
     const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
-    const insertionIndex = insertionPoint.insertionIndex + (insertionPoint.after ? 1 : 0);
+    const insertionIndex = insertionPoint.itemIndex + (insertionPoint.after ? 1 : 0);
 
     if (insertionIndex === index || insertionIndex === index + 1) {
       animateNoChangeThenCleanup();
@@ -432,7 +433,7 @@ export function ReorderHandle<T>({
 
   const hint = isColumn
     ? `Reorder column ${columns?.[index]?.name ?? String(columns?.[index]?.key)}.`
-    : `Reorder item ${index}.`;
+    : `Reorder item ${index + 1}.`;
   const description = isColumn
     ? 'Use Left and Right arrow keys to move the column.'
     : 'Use Up and Down arrow keys to move the item.';

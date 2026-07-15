@@ -1,6 +1,6 @@
 import {type RefObject, use, useEffect} from 'react';
 
-import {VirtualizationContext} from './internal/virtual-items';
+import {VirtualizationContext} from './internal/virtualization';
 
 /**
  * Use in an item renderer to control item virtualization.
@@ -21,14 +21,16 @@ export function useItemVirtualization({
    * When multiple elements are provided, the virtualization callback receives
    * the intersection state of all of them.
    *
-   * If you pass multiple refs, memoize the array (for example with `useMemo()`)
-   * to avoid restarting observation on every render.
+   * If you pass multiple refs, pass a stable array reference to avoid restarting
+   * observation on every render — for example, memoize it with `useMemo()`,
+   * unless you use the React Compiler.
    */
   refs: RefObject<HTMLElement | null> | RefObject<HTMLElement | null>[];
 
   /**
    * Invoked when the `isIntersecting` state of the observed elements changes.
-   * Consider wrapping a callback to `useCallback()` to avoid restarting observation on every render.
+   * Pass a stable function reference to avoid restarting observation on every render —
+   * for example, wrap it with `useCallback()`, unless you use the React Compiler.
    *
    * @param intersectionStates - Current intersection state of every observed element.
    * Entries are initially `undefined` until the corresponding element

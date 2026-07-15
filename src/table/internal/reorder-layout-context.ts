@@ -12,7 +12,7 @@ interface ReorderLayoutContextValue {
     clientOffset: number,
     canReorder: (insertionIndex: number) => boolean,
   ): {
-    insertionIndex: number;
+    itemIndex: number;
     after: boolean;
   };
 }
@@ -20,98 +20,72 @@ interface ReorderLayoutContextValue {
 export const ReorderLayoutContext = createContext<ReorderLayoutContextValue>({
   registerReorderItem: () => () => {},
   getItemBounds: () => undefined,
-  getClosestInsertionPoint: () => ({insertionIndex: -1, after: false}),
+  getClosestInsertionPoint: () => ({itemIndex: -1, after: false}),
 });
 
 export function useReorderLayoutContextValue(): ReorderLayoutContextValue {
-  const getBoundsByInsertionIndex = useRef<(() => ItemBounds)[]>([]);
+  const getBoundsByItemIndex = useRef<(() => ItemBounds)[]>([]);
 
   const registerReorderItem = useCallback((index: number, getBounds: () => ItemBounds) => {
-    getBoundsByInsertionIndex.current[index] = getBounds;
+    getBoundsByItemIndex.current[index] = getBounds;
     return () => {
-      delete getBoundsByInsertionIndex.current[index];
+      delete getBoundsByItemIndex.current[index];
     };
   }, []);
 
   const getItemBounds = useCallback((index: number) => {
-    const getBounds = getBoundsByInsertionIndex.current[index];
+    const getBounds = getBoundsByItemIndex.current[index];
     return getBounds ? getBounds() : undefined;
   }, []);
 
   const getClosestInsertionPoint = useCallback(
     (clientOffset: number, canReorder: (insertionIndex: number) => boolean) => {
-      interface InsertionPointFull {
-        insertionIndex: number;
-        getBounds: () => ItemBounds;
-        beforeAllowed: boolean;
-        afterAllowed: boolean;
-        distance?: number;
-        after?: boolean;
-      }
-
-      const insertionPointsFull: InsertionPointFull[] = getBoundsByInsertionIndex.current
-        .map((getBounds, insertionIndex) => ({
-          insertionIndex,
+      const candidates = getBoundsByItemIndex.current
+        .map((getBounds, itemIndex) => ({
+          itemIndex,
           getBounds,
-          beforeAllowed: canReorder(insertionIndex),
-          afterAllowed: canReorder(insertionIndex + 1),
-          distance: undefined,
-          after: undefined,
+          beforeAllowed: canReorder(itemIndex),
+          afterAllowed: canReorder(itemIndex + 1),
         }))
         .filter(({beforeAllowed, afterAllowed}) => beforeAllowed || afterAllowed);
 
-      if (!insertionPointsFull.length) return {insertionIndex: -1, after: false};
+      if (!candidates.length) return {itemIndex: -1, after: false};
 
-      function calculateFullPoint(i: number): Required<InsertionPointFull> {
-        if (insertionPointsFull[i].distance == null) {
-          const {getBounds, beforeAllowed, afterAllowed} = insertionPointsFull[i];
+      // Lazily computed closest insertion side and distance for each candidate
+      const closest: ({distance: number; after: boolean} | undefined)[] = [];
+
+      function computeClosest(i: number) {
+        if (!closest[i]) {
+          const {getBounds, beforeAllowed, afterAllowed} = candidates[i];
           const {start, end} = getBounds();
-          const beforeDistance = Math.abs(clientOffset - start);
-          const afterDistance = Math.abs(clientOffset - end);
+          const beforeDist = Math.abs(clientOffset - start);
+          const afterDist = Math.abs(clientOffset - end);
           if (!afterAllowed) {
-            insertionPointsFull[i].distance = beforeDistance;
-            insertionPointsFull[i].after = false;
+            closest[i] = {distance: beforeDist, after: false};
           } else if (!beforeAllowed) {
-            insertionPointsFull[i].distance = afterDistance;
-            insertionPointsFull[i].after = true;
+            closest[i] = {distance: afterDist, after: true};
           } else {
-            const after = afterDistance < beforeDistance;
-            insertionPointsFull[i].distance = after ? afterDistance : beforeDistance;
-            insertionPointsFull[i].after = after;
+            const after = afterDist < beforeDist;
+            closest[i] = {distance: after ? afterDist : beforeDist, after};
           }
         }
-        return insertionPointsFull[i] as Required<InsertionPointFull>;
-      }
-
-      function toInsertionPoint(fullPoint: Required<InsertionPointFull>): {insertionIndex: number; after: boolean} {
-        return {insertionIndex: fullPoint.insertionIndex, after: fullPoint.after};
+        return closest[i]!;
       }
 
       let l = 0;
-      let r = insertionPointsFull.length - 1;
+      let r = candidates.length - 1;
       while (l < r) {
         const m = Math.floor((l + r) / 2);
-        const {distance: mDistance} = calculateFullPoint(m);
-        const stepLeft = m - 1;
-        if (stepLeft >= l) {
-          const {distance: stepLeftDistance} = calculateFullPoint(stepLeft);
-          if (stepLeftDistance < mDistance) {
-            r = stepLeft;
-            continue;
-          }
+        const {distance} = computeClosest(m);
+        if (l <= m - 1 && computeClosest(m - 1).distance < distance) {
+          r = m - 1;
+        } else if (m + 1 <= r && computeClosest(m + 1).distance < distance) {
+          l = m + 1;
+        } else {
+          return {itemIndex: candidates[m].itemIndex, after: computeClosest(m).after};
         }
-        const stepRight = m + 1;
-        if (stepRight <= r) {
-          const {distance: stepRightDistance} = calculateFullPoint(stepRight);
-          if (stepRightDistance < mDistance) {
-            l = stepRight;
-            continue;
-          }
-        }
-        return toInsertionPoint(calculateFullPoint(m));
       }
-
-      return toInsertionPoint(calculateFullPoint(l));
+      return {itemIndex: candidates[l].itemIndex, after: computeClosest(l).after};
     },
     [],
   );

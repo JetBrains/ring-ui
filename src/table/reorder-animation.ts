@@ -26,11 +26,12 @@ export interface ReorderAnimation {
   phase: 'initial' | 'fade-out';
 
   /**
-   * CSS class to apply to the animated row/cell or another element used to
+   * CSS class to apply to the animated row, cell, or another element used to
    * render the animation on this phase.
    *
-   * The class only defines the `background-color` and `transition`
-   * properties.
+   * The class sets `background-color` and `transition`. If your custom styles
+   * also define `transition` on the same element, they may conflict with the
+   * animation.
    */
   className: string;
 }

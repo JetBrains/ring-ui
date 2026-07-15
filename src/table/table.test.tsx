@@ -308,7 +308,7 @@ describe('Table basic scenarios', () => {
     expect(headers).to.deep.equal(['Id', 'Capital', 'Country', 'Wikipedia']);
   });
 
-  it('moves a row down when keyboard on reorder handle', () => {
+  it('moves a row down with keyboard on reorder handle', () => {
     function ReorderableRowsTable() {
       const [data, setData] = useState(countries);
       const [columns] = useState(

@@ -74,21 +74,22 @@ export interface TableProps<T> {
   canReorderItem?: (fromIndex: number, insertionIndex: number, items: readonly T[]) => boolean;
 
   /**
-   * Called when the user reorders rows by dragging a row.
+   * Called when the user reorders items by dragging a handle.
    * The `insertionIndex` parameter represents an insertion position in the original,
-   * unchanged `data` array before the row is removed. See {@link TableProps.onColumnReorder}
+   * unchanged `data` array before the item is removed. See {@link TableProps.onColumnReorder}
    * for an example implementation.
    *
-   * To make reorder possible, render `ReorderItemHandle` in a row.
+   * To make reorder possible, render `ItemReorderHandle` (from `table-primitives`)
+   * anywhere in a row.
    *
    * The callback is not called when the reorder operation would not change the
-   * column order, i.e. when
+   * item order, i.e. when
    * `insertionIndex === fromIndex || insertionIndex === fromIndex + 1`.
    */
   onItemReorder?: (fromIndex: number, insertionIndex: number, items: readonly T[]) => void;
 
   /**
-   * By default, when an item is reordered, the moved row is highlighted
+   * By default, when an item is reordered, the moved item is highlighted
    * with a temporary background color. Set `true` to disable this animation.
    */
   noItemReorderAnimation?: boolean;

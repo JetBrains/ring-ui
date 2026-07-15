@@ -52,9 +52,9 @@ export interface DefaultItemRendererProps {
   noItemVirtualization?: boolean;
 
   /**
-   * When set to `true`, doesn't report item's boundaries to the item reorder handler.
-   * Useful when you include `DefaultItemRenderer` as a part of a custom row renderer,
-   * which itself reports boundaries.
+   * When set to `true`, does not report the item's boundaries to the reorder system.
+   * Useful when you include `DefaultItemRenderer` as a part of a custom row renderer
+   * that registers boundaries itself.
    */
   noReorderLayout?: boolean;
 }
@@ -120,7 +120,7 @@ export function DefaultItemRenderer<T>({
   }
 
   const {reorderAnimation} = use(ReorderAnimationContext);
-  const animateItem = reorderAnimation?.direction === 'items' && reorderAnimation.index === index;
+  const isAnimatedItem = reorderAnimation?.direction === 'items' && reorderAnimation.index === index;
   const animatedColumnIndex = reorderAnimation?.direction === 'columns' ? reorderAnimation.index : undefined;
   const animateClassName = reorderAnimation?.className;
 
@@ -137,7 +137,7 @@ export function DefaultItemRenderer<T>({
         className,
         clickable && styles.clickableRow,
         selected && styles.selectedRow,
-        animateItem && animateClassName,
+        isAnimatedItem && animateClassName,
       )}
       {...restProps}
     >

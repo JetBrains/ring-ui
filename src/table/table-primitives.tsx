@@ -43,11 +43,14 @@ export function TableCell(props: ComponentPropsWithRef<'td'>) {
  * - `'pointerdown'` means the user has pressed the mouse button or touched the handle.
  * - `number` means the distance in pixels the user has dragged the handle along
  *   the Y axis.
- * - `'cancelled'` means the drag has been cancelled in any way, e.g. by pressing
- *   the Escape, or dragging far outside the viewport, or by dragging to the
- *   former position. The client may play cancel-animation in this case.
- *   This phase will last 300 ms, after which the component will send `undefined`.
- * - `undefined` means the drag has ended, either with the result of by cancellation.
+ * - `'cancelled'` means the reorder was aborted — e.g. the user pressed Escape,
+ *   released the pointer outside the browser, or dropped the item at its original
+ *   position. Use this phase to play a cancellation animation in your custom renderer.
+ *   This state lasts 600 ms (matching the built-in cancel animation), after which
+ *   `undefined` is sent.
+ * - `undefined` means the drag interaction is fully over. Sent after a successful
+ *   reorder as well as after the `'cancelled'` phase, so you can always do cleanup
+ *   here without managing your own timer.
  */
 export type DragState = 'pointerdown' | number | 'cancelled' | undefined;
 
@@ -62,8 +65,8 @@ export interface ItemReorderHandleProps {
    */
   noDragFrame?: boolean;
   /**
-   * When `true`, the six-dot handle will not change its position while
-   * dragging, or, in other words, won't follow the user drag.
+   * When `true`, the drag handle stays fixed in place instead of following
+   * the pointer during drag.
    */
   noHandleTranslate?: boolean;
   /**
@@ -76,7 +79,8 @@ export interface ItemReorderHandleProps {
 }
 
 /**
- * Render in any place inside a table row to make it possible to reorder.
+ * A drag handle that allows the user to reorder the row. Place it anywhere
+ * inside a row renderer.
  * Use {@link TableProps.canReorderItem} and {@link TableProps.onItemReorder}.
  */
 export function ItemReorderHandle({index, ...restProps}: ItemReorderHandleProps & ComponentPropsWithRef<'button'>) {

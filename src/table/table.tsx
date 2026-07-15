@@ -1,7 +1,7 @@
 import React, {type ComponentPropsWithRef, Fragment, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
-import {SpacerRow, useVirtualItems, VirtualizationContext, type VirtualItem} from './internal/virtual-items';
+import {SpacerRow, useVirtualItems, VirtualizationContext, type VirtualItem} from './internal/virtualization';
 import {DefaultItemRenderer} from './default-item-renderer';
 import {defaultRowHeight, TablePropsContext} from './table-const';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
@@ -105,7 +105,7 @@ import styles from './table.css';
  * Note that for accessibility reasons, you should have a cell with a checkbox
  * to display and toggle item selection.
  *
- * ## Rows focus
+ * ## Row focus
  *
  * The table implements the ["roving tabindex"](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets#technique_1_roving_tabindex)
  * technique to focus rows with the up/down arrow keys.
@@ -173,6 +173,23 @@ import styles from './table.css';
  *   expected to update `columns` by moving the corresponding column to the
  *   new position.
  *
+ * ## Item reorder
+ *
+ * To allow the user to reorder rows by dragging:
+ *
+ * - Place `ItemReorderHandle` (from `table/table-primitives`) anywhere inside
+ *   a cell. It renders a drag icon button the user can grab to reorder the row.
+ * - Handle `TableProps.onItemReorder`. It is expected to update `data` by
+ *   moving the item to the new position.
+ * - Optionally, set `TableProps.canReorderItem` to restrict which positions
+ *   an item may be dropped into.
+ *
+ * By default, dragging shows a drag frame (a border around the dragged row)
+ * and an insertion indicator (a line between rows showing where the item will
+ * land). To implement fully custom drag visuals, set `noDragFrame` and
+ * `noHandleTranslate` on `ItemReorderHandle` and use its `onUserDrag` callback
+ * to track the drag lifecycle.
+ *
  * ## Row virtualization
  *
  * To render only rows near the viewport while replacing off-screen rows with
@@ -214,11 +231,20 @@ import styles from './table.css';
  * set the `noItemVirtualization` prop to `true`, otherwise it will also try
  * to control the virtualization, possibly reporting incorrect item height.
  *
- * ### Column reorder animation
+ * ### Item reorder
  *
- * Default-rendered rows highlight the column that was just reordered. To apply
- * the same animation to your custom-rendered rows, use `useReorderAnimation()`
- * (from `table/reorder-animation`) to get information about the currently animated column.
+ * If `Table.onItemReorder` is set and your item spans multiple rows, call
+ * `useReorderItemLayout()` (from `table/reorder-item-layout`) to register the
+ * item's boundaries so the insertion indicator and insertion point calculation
+ * are correct. If `DefaultItemRenderer` is included inside your custom renderer,
+ * set its `noReorderLayout` prop to `true` to prevent double registration.
+ *
+ * ### Reorder animation
+ *
+ * After a column or item is reordered, the table briefly highlights the moved
+ * element. To apply the same animation in your custom-rendered rows, use
+ * `useReorderAnimation()` (from `table/reorder-animation`) to get information
+ * about the currently animated column or item.
  */
 export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'table'>) {
   const {
