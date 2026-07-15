@@ -1,4 +1,4 @@
-import React, {type ComponentPropsWithRef, Fragment, useCallback, useRef} from 'react';
+import React, {type ComponentPropsWithRef, Fragment, useRef} from 'react';
 import classNames from 'classnames';
 
 import {SpacerRow, useVirtualItems, VirtualizationContext, type VirtualItem} from './internal/virtualization';
@@ -292,7 +292,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     columns,
   });
 
-  const handleRowNavigation = useCallback((e: React.KeyboardEvent<HTMLTableSectionElement>) => {
+  function handleRowNavigation(e: React.KeyboardEvent<HTMLTableSectionElement>) {
     if (e.defaultPrevented || isWithinNavigableElement(e.target)) return;
 
     const arrowUp = e.key === 'ArrowUp';
@@ -316,7 +316,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
         return;
       }
     }
-  }, []);
+  }
 
   const {virtualItems, virtualizationContextValue} = useVirtualItems({
     enabled: virtualizeRows,

@@ -1,4 +1,4 @@
-import {createContext, type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {createContext, type RefObject, useEffect, useRef, useState} from 'react';
 
 import {parseCssDuration} from '../../global/parse-css-duration';
 import {requestAnimationFrameWithCleanup, setTimeoutWithCleanup} from '../../global/schedule-with-cleanup';
@@ -50,18 +50,15 @@ export function useReorderAnimationContextValue<T>({
 
   const pendingReorderRef = useRef<PendingReorder>(null);
 
-  const expectReorder = useCallback(
-    (reorderSpec: ReorderSpec) => {
-      const isColumn = reorderSpec.direction === 'columns';
-      if ((isColumn && noColumnReorderAnimation) || (!isColumn && noItemReorderAnimation)) return;
+  function expectReorder(reorderSpec: ReorderSpec) {
+    const isColumn = reorderSpec.direction === 'columns';
+    if ((isColumn && noColumnReorderAnimation) || (!isColumn && noItemReorderAnimation)) return;
 
-      const timerId = window.setTimeout(() => {
-        pendingReorderRef.current = null;
-      }, pendingReorderTimeoutMs);
-      pendingReorderRef.current = {...reorderSpec, timerId, columns, data};
-    },
-    [noColumnReorderAnimation, noItemReorderAnimation, columns, data],
-  );
+    const timerId = window.setTimeout(() => {
+      pendingReorderRef.current = null;
+    }, pendingReorderTimeoutMs);
+    pendingReorderRef.current = {...reorderSpec, timerId, columns, data};
+  }
 
   useEffect(() => {
     return () => {
@@ -116,5 +113,5 @@ export function useReorderAnimationContextValue<T>({
     return undefined;
   }, [reorderAnimation, tableRef]);
 
-  return useMemo(() => ({reorderAnimation, expectReorder}), [reorderAnimation, expectReorder]);
+  return {reorderAnimation, expectReorder};
 }

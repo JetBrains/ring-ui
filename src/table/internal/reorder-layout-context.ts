@@ -1,4 +1,4 @@
-import {createContext, useCallback, useMemo, useRef} from 'react';
+import {createContext, useRef} from 'react';
 
 interface ItemBounds {
   start: number;
@@ -26,72 +26,66 @@ export const ReorderLayoutContext = createContext<ReorderLayoutContextValue>({
 export function useReorderLayoutContextValue(): ReorderLayoutContextValue {
   const getBoundsByItemIndex = useRef<(() => ItemBounds)[]>([]);
 
-  const registerReorderItem = useCallback((index: number, getBounds: () => ItemBounds) => {
+  function registerReorderItem(index: number, getBounds: () => ItemBounds) {
     getBoundsByItemIndex.current[index] = getBounds;
     return () => {
       delete getBoundsByItemIndex.current[index];
     };
-  }, []);
+  }
 
-  const getItemBounds = useCallback((index: number) => {
+  function getItemBounds(index: number) {
     const getBounds = getBoundsByItemIndex.current[index];
     return getBounds ? getBounds() : undefined;
-  }, []);
+  }
 
-  const getClosestInsertionPoint = useCallback(
-    (clientOffset: number, canReorder: (insertionIndex: number) => boolean) => {
-      const candidates = getBoundsByItemIndex.current
-        .map((getBounds, itemIndex) => ({
-          itemIndex,
-          getBounds,
-          beforeAllowed: canReorder(itemIndex),
-          afterAllowed: canReorder(itemIndex + 1),
-        }))
-        .filter(({beforeAllowed, afterAllowed}) => beforeAllowed || afterAllowed);
+  function getClosestInsertionPoint(clientOffset: number, canReorder: (insertionIndex: number) => boolean) {
+    const candidates = getBoundsByItemIndex.current
+      .map((getBounds, itemIndex) => ({
+        itemIndex,
+        getBounds,
+        beforeAllowed: canReorder(itemIndex),
+        afterAllowed: canReorder(itemIndex + 1),
+      }))
+      .filter(({beforeAllowed, afterAllowed}) => beforeAllowed || afterAllowed);
 
-      if (!candidates.length) return {itemIndex: -1, after: false};
+    if (!candidates.length) return {itemIndex: -1, after: false};
 
-      // Lazily computed closest insertion side and distance for each candidate
-      const closest: ({distance: number; after: boolean} | undefined)[] = [];
+    // Lazily computed closest insertion side and distance for each candidate
+    const closest: ({distance: number; after: boolean} | undefined)[] = [];
 
-      function computeClosest(i: number) {
-        if (!closest[i]) {
-          const {getBounds, beforeAllowed, afterAllowed} = candidates[i];
-          const {start, end} = getBounds();
-          const beforeDist = Math.abs(clientOffset - start);
-          const afterDist = Math.abs(clientOffset - end);
-          if (!afterAllowed) {
-            closest[i] = {distance: beforeDist, after: false};
-          } else if (!beforeAllowed) {
-            closest[i] = {distance: afterDist, after: true};
-          } else {
-            const after = afterDist < beforeDist;
-            closest[i] = {distance: after ? afterDist : beforeDist, after};
-          }
-        }
-        return closest[i]!;
-      }
-
-      let l = 0;
-      let r = candidates.length - 1;
-      while (l < r) {
-        const m = Math.floor((l + r) / 2);
-        const {distance} = computeClosest(m);
-        if (l <= m - 1 && computeClosest(m - 1).distance < distance) {
-          r = m - 1;
-        } else if (m + 1 <= r && computeClosest(m + 1).distance < distance) {
-          l = m + 1;
+    function computeClosest(i: number) {
+      if (!closest[i]) {
+        const {getBounds, beforeAllowed, afterAllowed} = candidates[i];
+        const {start, end} = getBounds();
+        const beforeDist = Math.abs(clientOffset - start);
+        const afterDist = Math.abs(clientOffset - end);
+        if (!afterAllowed) {
+          closest[i] = {distance: beforeDist, after: false};
+        } else if (!beforeAllowed) {
+          closest[i] = {distance: afterDist, after: true};
         } else {
-          return {itemIndex: candidates[m].itemIndex, after: computeClosest(m).after};
+          const after = afterDist < beforeDist;
+          closest[i] = {distance: after ? afterDist : beforeDist, after};
         }
       }
-      return {itemIndex: candidates[l].itemIndex, after: computeClosest(l).after};
-    },
-    [],
-  );
+      return closest[i]!;
+    }
 
-  return useMemo(
-    () => ({registerReorderItem, getItemBounds, getClosestInsertionPoint}),
-    [registerReorderItem, getItemBounds, getClosestInsertionPoint],
-  );
+    let l = 0;
+    let r = candidates.length - 1;
+    while (l < r) {
+      const m = Math.floor((l + r) / 2);
+      const {distance} = computeClosest(m);
+      if (l <= m - 1 && computeClosest(m - 1).distance < distance) {
+        r = m - 1;
+      } else if (m + 1 <= r && computeClosest(m + 1).distance < distance) {
+        l = m + 1;
+      } else {
+        return {itemIndex: candidates[m].itemIndex, after: computeClosest(m).after};
+      }
+    }
+    return {itemIndex: candidates[l].itemIndex, after: computeClosest(l).after};
+  }
+
+  return {registerReorderItem, getItemBounds, getClosestInsertionPoint};
 }

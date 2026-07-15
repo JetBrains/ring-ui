@@ -1,4 +1,4 @@
-import {createContext, type RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {createContext, type RefObject, useCallback, useEffect, useRef, useState} from 'react';
 
 import {
   type IntersectionObserverHandle,
@@ -246,25 +246,16 @@ export function useVirtualItems<T>({
     !scrollerRef ? retentionMarginPx : undefined,
   );
 
-  const collapseItemIntoSpacer = useCallback<CollapseItemIntoSpacerCallback>(
-    (index: number, height: number) => {
-      if (!enabled) return;
+  function collapseItemIntoSpacer(index: number, height: number) {
+    if (!enabled) return;
 
-      itemsMaterialization.current[index] = height;
-      throttle(recomputeVirtualItems);
-    },
-    [enabled, throttle, recomputeVirtualItems],
-  );
+    itemsMaterialization.current[index] = height;
+    throttle(recomputeVirtualItems);
+  }
 
   return {
     virtualItems,
-    virtualizationContextValue: useMemo(
-      () => ({
-        intersectionObserverHandle,
-        collapseItemIntoSpacer,
-      }),
-      [intersectionObserverHandle, collapseItemIntoSpacer],
-    ),
+    virtualizationContextValue: {intersectionObserverHandle, collapseItemIntoSpacer},
   };
 }
 
