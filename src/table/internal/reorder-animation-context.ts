@@ -54,6 +54,10 @@ export function useReorderAnimationContextValue<T>({
     const isColumn = reorderSpec.direction === 'columns';
     if ((isColumn && noColumnReorderAnimation) || (!isColumn && noItemReorderAnimation)) return;
 
+    if (pendingReorderRef.current) {
+      window.clearTimeout(pendingReorderRef.current.timerId);
+    }
+
     const timerId = window.setTimeout(() => {
       pendingReorderRef.current = null;
     }, pendingReorderTimeoutMs);

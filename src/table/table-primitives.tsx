@@ -72,7 +72,7 @@ export interface ItemReorderHandleProps {
   /**
    * Callback that is called when the user drags the handle.
    * Use it for custom drag indication.
-   * The `Table.onItemReorder` will be called after this callback.
+   * The `TableProps.onItemReorder` will be called after this callback.
    * @param state The current drag state.
    */
   onUserDrag?: (state: DragState) => void;

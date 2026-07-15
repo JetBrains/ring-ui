@@ -233,7 +233,7 @@ import styles from './table.css';
  *
  * ### Item reorder
  *
- * If `Table.onItemReorder` is set and your item spans multiple rows, call
+ * If `TableProps.onItemReorder` is set and your item spans multiple rows, call
  * `useReorderItemLayout()` (from `table/reorder-item-layout`) to register the
  * item's boundaries so the insertion indicator and insertion point calculation
  * are correct. If `DefaultItemRenderer` is included inside your custom renderer,
