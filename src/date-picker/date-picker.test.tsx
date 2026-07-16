@@ -2,6 +2,7 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {useState} from 'react';
 
+import {I18nContext} from '../i18n/i18n-context';
 import DatePicker from './date-picker';
 import {getDefaultScrollDate} from './consts';
 
@@ -66,6 +67,16 @@ describe('Date Picker', () => {
     render(<DatePicker />);
     await userEvent.click(screen.getByRole('button'));
     expect(screen.getByPlaceholderText('Select a date')).to.exist;
+  });
+
+  it('should use the legacy global selectName translation when selectDate is missing', async () => {
+    render(
+      <I18nContext.Provider value={{messages: {selectName: 'Datum auswählen'}, translate: () => 'Select a date'}}>
+        <DatePicker />
+      </I18nContext.Provider>,
+    );
+    await userEvent.click(screen.getByRole('button'));
+    expect(screen.getByPlaceholderText('Datum auswählen')).to.exist;
   });
 
   it('should display in the popup the component passed through its render prop', async () => {
