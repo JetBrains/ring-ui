@@ -96,6 +96,7 @@ export interface DateInputTranslations {
   addSecondDate?: string;
   addTime?: string;
   selectName?: string;
+  selectDate?: string;
 }
 
 export interface DateSpecificPopupProps {

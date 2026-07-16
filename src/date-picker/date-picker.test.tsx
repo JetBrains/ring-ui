@@ -62,6 +62,12 @@ describe('Date Picker', () => {
     expect(screen.getByTestId('ring-date-popup')).to.exist;
   });
 
+  it('should use a fully translatable placeholder for a single date', async () => {
+    render(<DatePicker />);
+    await userEvent.click(screen.getByRole('button'));
+    expect(screen.getByPlaceholderText('Select a date')).to.exist;
+  });
+
   it('should display in the popup the component passed through its render prop', async () => {
     function customComponent() {
       return (
