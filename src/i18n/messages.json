@@ -19,6 +19,7 @@
   "addSecondDate": "Add second date",
   "addTime": "Add time",
   "selectName": "Select {{name}}",
+  "selectDate": "Select a date",
   "setDate": "Set a date",
   "setDateTime": "Set date and time",
   "setPeriod": "Set a period",
