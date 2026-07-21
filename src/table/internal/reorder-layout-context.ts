@@ -5,22 +5,24 @@ interface ItemBounds {
   end: number;
 }
 
+export interface InsertionPoint {
+  itemIndex: number;
+  after: boolean;
+}
+
 interface ReorderLayoutContextValue {
   registerReorderItem(index: number, getBounds: () => ItemBounds): () => void;
   getItemBounds(index: number): ItemBounds | undefined;
   getClosestInsertionPoint(
     clientOffset: number,
     canReorder: (insertionIndex: number) => boolean,
-  ): {
-    itemIndex: number;
-    after: boolean;
-  };
+  ): InsertionPoint | undefined;
 }
 
 export const ReorderLayoutContext = createContext<ReorderLayoutContextValue>({
   registerReorderItem: () => () => {},
   getItemBounds: () => undefined,
-  getClosestInsertionPoint: () => ({itemIndex: -1, after: false}),
+  getClosestInsertionPoint: () => undefined,
 });
 
 export function useReorderLayoutContextValue(): ReorderLayoutContextValue {
@@ -35,7 +37,7 @@ export function useReorderLayoutContextValue(): ReorderLayoutContextValue {
 
   function getItemBounds(index: number) {
     const getBounds = getBoundsByItemIndex.current[index];
-    return getBounds ? getBounds() : undefined;
+    return getBounds?.();
   }
 
   function getClosestInsertionPoint(clientOffset: number, canReorder: (insertionIndex: number) => boolean) {
@@ -48,7 +50,7 @@ export function useReorderLayoutContextValue(): ReorderLayoutContextValue {
       }))
       .filter(({beforeAllowed, afterAllowed}) => beforeAllowed || afterAllowed);
 
-    if (!candidates.length) return {itemIndex: -1, after: false};
+    if (!candidates.length) return undefined;
 
     // Lazily computed closest insertion side and distance for each candidate
     const closest: ({distance: number; after: boolean} | undefined)[] = [];

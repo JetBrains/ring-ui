@@ -17,7 +17,7 @@ import Icon from '../../icon';
 import {useComposedRef} from '../../global/compose-refs';
 import {parseCssDuration} from '../../global/parse-css-duration';
 import {ReorderAnimationContext} from './reorder-animation-context';
-import {ReorderLayoutContext} from './reorder-layout-context';
+import {type InsertionPoint, ReorderLayoutContext} from './reorder-layout-context';
 
 import type {DragState} from '../table-primitives';
 
@@ -86,15 +86,17 @@ export function ReorderHandle<T>({
   const onColumnReorder = tableProps?.onColumnReorder;
 
   function canReorder(insertionIndex: number) {
-    if (isColumn && columns) {
-      const canReorderColumn = columns?.[index]?.canReorder;
+    const columnBeingReordered = columns?.[index];
+    if (isColumn && columnBeingReordered) {
+      const canReorderColumn = columnBeingReordered.canReorder;
       if (canReorderColumn === true) return true;
-      if (typeof canReorderColumn === 'function') return canReorderColumn(insertionIndex, columns);
+      if (typeof canReorderColumn === 'function')
+        return canReorderColumn(columnBeingReordered, index, insertionIndex, columns);
       return false;
     }
 
     if (!isColumn && data) {
-      return canReorderItem ? canReorderItem(index, insertionIndex, data) : true;
+      return canReorderItem ? canReorderItem(data[index], index, insertionIndex, data) : true;
     }
 
     return false;
@@ -105,10 +107,10 @@ export function ReorderHandle<T>({
   function onReorder(insertionIndex: number) {
     if (isColumn && columns) {
       expectReorder({direction, fromIndex: index, insertionIndex});
-      onColumnReorder?.(index, insertionIndex, columns);
+      onColumnReorder?.(columns[index], index, insertionIndex, columns);
     } else if (!isColumn && data) {
       expectReorder({direction, fromIndex: index, insertionIndex});
-      onItemReorder?.(index, insertionIndex, data);
+      onItemReorder?.(data[index], index, insertionIndex, data);
     }
   }
 
@@ -171,7 +173,7 @@ export function ReorderHandle<T>({
     return getClosestInsertionPoint(clientOffset, canReorder);
   }
 
-  function renderInsertionIndicator({itemIndex, after}: ReturnType<typeof getClosestInsertionPoint>) {
+  function renderInsertionIndicator({itemIndex, after}: InsertionPoint) {
     const drag = activeDragRef.current;
     if (!drag) return;
 
@@ -351,7 +353,7 @@ export function ReorderHandle<T>({
     translateButton(clientX, clientY);
 
     const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
-    if (insertionPoint.itemIndex !== -1) renderInsertionIndicator(insertionPoint);
+    if (insertionPoint) renderInsertionIndicator(insertionPoint);
 
     onUserDrag?.(isColumn ? clientX - drag.startX : clientY - drag.startY);
 
@@ -375,9 +377,9 @@ export function ReorderHandle<T>({
 
     const {clientX, clientY} = e;
     const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
-    const insertionIndex = insertionPoint.itemIndex + (insertionPoint.after ? 1 : 0);
+    const insertionIndex = insertionPoint && insertionPoint.itemIndex + (insertionPoint.after ? 1 : 0);
 
-    if (insertionIndex === index || insertionIndex === index + 1) {
+    if (insertionIndex == null || insertionIndex === index || insertionIndex === index + 1) {
       animateNoChangeThenCleanup();
       return;
     }

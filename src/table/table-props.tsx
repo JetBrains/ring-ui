@@ -41,7 +41,7 @@ export interface TableProps<T> {
    * Called when the user clicks on a column delete button in the header.
    * The client is expected to update the `columns` prop with the column removed.
    */
-  onColumnDelete?: (columnIndex: number, columns: readonly Column<T>[]) => void;
+  onColumnDelete?: (column: Column<T>, columnIndex: number, columns: readonly Column<T>[]) => void;
 
   /**
    * Called when the user reorders columns by dragging a column.
@@ -51,15 +51,20 @@ export interface TableProps<T> {
    * One possible implementation is:
    *
    * ```ts
-   * const [moved] = columns.splice(fromIndex, 1);
-   * columns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
+   * columns.splice(fromIndex, 1);
+   * columns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, columnBeingReordered);
    * ```
    *
    * The callback is not called when the reorder operation would not change the
    * column order, i.e. when
    * `insertionIndex === fromIndex || insertionIndex === fromIndex + 1`.
    */
-  onColumnReorder?: (fromIndex: number, insertionIndex: number, columns: readonly Column<T>[]) => void;
+  onColumnReorder?: (
+    columnBeingReordered: Column<T>,
+    fromIndex: number,
+    insertionIndex: number,
+    columns: readonly Column<T>[],
+  ) => void;
 
   /**
    * By default, when a column is reordered, the moved column is highlighted
@@ -71,7 +76,7 @@ export interface TableProps<T> {
    * If defined, determines whether an item may be reordered to a specific insertion position.
    * If not defined, any item may be reordered to any position.
    */
-  canReorderItem?: (fromIndex: number, insertionIndex: number, items: readonly T[]) => boolean;
+  canReorderItem?: (itemBeingReordered: T, fromIndex: number, insertionIndex: number, items: readonly T[]) => boolean;
 
   /**
    * Called when the user reorders items by dragging a handle.
@@ -86,7 +91,7 @@ export interface TableProps<T> {
    * item order, i.e. when
    * `insertionIndex === fromIndex || insertionIndex === fromIndex + 1`.
    */
-  onItemReorder?: (fromIndex: number, insertionIndex: number, items: readonly T[]) => void;
+  onItemReorder?: (itemBeingReordered: T, fromIndex: number, insertionIndex: number, items: readonly T[]) => void;
 
   /**
    * By default, when an item is reordered, the moved item is highlighted
@@ -324,7 +329,14 @@ export interface Column<T> {
    * Make sure {@link Column.name} or {@link Column.key} is meaningful,
    * as it will be included in the `aria-label` of the reorder button.
    */
-  canReorder?: boolean | ((insertionIndex: number, columns: readonly Column<T>[]) => boolean);
+  canReorder?:
+    | boolean
+    | ((
+        columnBeingReordered: Column<T>,
+        fromIndex: number,
+        insertionIndex: number,
+        columns: readonly Column<T>[],
+      ) => boolean);
 
   /**
    * The class name to apply to the `th` element inside `table > thead`.

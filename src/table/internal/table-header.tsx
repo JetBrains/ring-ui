@@ -200,7 +200,8 @@ function DeleteColumnButton<T>({
     (e: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(e);
       if (!e.defaultPrevented) {
-        tableProps!.onColumnDelete?.(columnIndex, tableProps!.columns);
+        const columns = tableProps!.columns;
+        tableProps!.onColumnDelete?.(columns[columnIndex], columnIndex, columns);
       }
     },
     [columnIndex, onClick, tableProps],

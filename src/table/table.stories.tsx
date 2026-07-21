@@ -189,8 +189,8 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
     const [data, setData] = useState(args.data);
     const [columns, setColumns] = useState(args.columns);
 
-    function handleColumnDelete(columnIndex: number) {
-      setColumns(columns.filter((_, i) => i !== columnIndex));
+    function handleColumnDelete(column: (typeof args)['columns'][number]) {
+      setColumns(columns.filter(c => c !== column));
     }
 
     return (
@@ -202,7 +202,9 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
           sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
         onColumnDelete={handleColumnDelete}
-        onColumnReorder={(fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
         columnEditButton
       />
     );
@@ -862,7 +864,9 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         onSort={(columnIndex, sortOrder) =>
           sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
-        onColumnReorder={(fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
         columnEditButton
       />
     );
@@ -925,7 +929,9 @@ export const WithColumnReorderLongSticky: TableStory<Issue> = {
         columns={columns}
         getKey={args.getKey}
         stickyHeader
-        onColumnReorder={(fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
         columnEditButton
       />
     );
@@ -1039,7 +1045,7 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
       },
       {
         key: 'Id',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         renderCell: ({id}) => (
           <div>
             <Link href={`https://example.org/build/${id}`} target='_blank'>
@@ -1051,13 +1057,13 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
       },
       {
         key: 'Branch',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         deletable: true,
         renderCell: ({branch}) => <div>{branch}</div>,
       },
       {
         key: 'Status',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         deletable: true,
         renderCell: ({status}) => (
           <div>
@@ -1079,13 +1085,13 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
       },
       {
         key: 'Agent',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         deletable: true,
         renderCell: ({agent}) => <div>{agent}</div>,
       },
       {
         key: 'Started',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         deletable: true,
         renderCell: ({started}) => <div>{started ? format(started, dateShortFmt) : '—'}</div>,
       },
@@ -1109,8 +1115,10 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
           renderItem={(item, index, items) => (
             <TeamCityBuild build={item} index={index} builds={items} columnsNumber={columns.length} setData={setData} />
           )}
-          onColumnReorder={(fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
-          onColumnDelete={columnIndex => setColumns(columns.filter((_, i) => i !== columnIndex))}
+          onColumnReorder={(_c, fromIndex, insertionIndex) =>
+            reorderItems(columns, fromIndex, insertionIndex, setColumns)
+          }
+          onColumnDelete={column => setColumns(columns.filter(c => c !== column))}
           virtualizeRows
           estimateHeight={item => {
             let h = 40;
@@ -1565,8 +1573,8 @@ export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
           columns={columns}
           getKey={args.getKey}
           className={style.itemReorderTable}
-          onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
-          renderItem={(_item, index) => {
+          onItemReorder={(_it, fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+          renderItem={(_it, index) => {
             const dragState = itemDragState.index === index ? itemDragState.state : undefined;
             const isDragging = dragState != null && dragStyle !== 'frame';
 
@@ -1710,7 +1718,7 @@ function IssuesWithStatusTable({scrollerRef}: {scrollerRef?: RefObject<HTMLDivEl
       className={style.customIssueTable}
       stickyHeader
       renderItem={(item, index) => <CustomIssueItem issue={item} index={index} />}
-      onItemReorder={(fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+      onItemReorder={(_it, fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
       virtualizeRows
       scrollerRef={scrollerRef}
       estimateHeight={item => {

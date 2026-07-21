@@ -260,8 +260,8 @@ describe('Table basic scenarios', () => {
           columns={columns}
           getKey={getKey}
           columnEditing
-          onColumnDelete={columnIndex => {
-            setColumns(previousColumns => previousColumns.filter((_, i) => i !== columnIndex));
+          onColumnDelete={column => {
+            setColumns(previousColumns => previousColumns.filter(c => c !== column));
           }}
         />
       );
@@ -285,12 +285,12 @@ describe('Table basic scenarios', () => {
           columns={columns}
           getKey={getKey}
           columnEditing
-          onColumnReorder={(fromIndex, insertionIndex) => {
+          onColumnReorder={(column, fromIndex, insertionIndex) => {
             setColumns(previousColumns => {
               const newColumns = [...previousColumns];
-              const [moved] = newColumns.splice(fromIndex, 1);
+              newColumns.splice(fromIndex, 1);
               const nextIndex = fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex;
-              newColumns.splice(nextIndex, 0, moved);
+              newColumns.splice(nextIndex, 0, column);
               return newColumns;
             });
           }}
@@ -331,12 +331,12 @@ describe('Table basic scenarios', () => {
           data={data}
           columns={columns}
           getKey={getKey}
-          onItemReorder={(fromIndex, insertionIndex) => {
+          onItemReorder={(item, fromIndex, insertionIndex) => {
             setData(previousData => {
               const newData = [...previousData];
-              const [moved] = newData.splice(fromIndex, 1);
+              newData.splice(fromIndex, 1);
               const nextIndex = fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex;
-              newData.splice(nextIndex, 0, moved);
+              newData.splice(nextIndex, 0, item);
               return newData;
             });
           }}
