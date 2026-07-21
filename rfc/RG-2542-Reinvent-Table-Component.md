@@ -376,7 +376,7 @@ interface DefaultItemRendererProps {
 
   /**
    * If `true`, disables built-in item virtualization control. Useful when
-    * `DefaultItemRenderer` is part of a custom item renderer that controls
+   * `DefaultItemRenderer` is part of a custom item renderer that controls
    * the virtualization itself.
    */
   noItemVirtualization?: boolean
