@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary, react-hooks/rules-of-hooks */
-import {
+import React, {
   type ComponentType,
-  use,
+  type RefObject,
   useCallback,
   useEffect,
   useEffectEvent,
@@ -26,10 +26,14 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {createRandom} from '../util-stories';
-import {ColumnAnimationContext} from './table-const';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
 import {useItemVirtualization} from './item-virtualization';
-import {TableCell, TableRow} from './table-primitives';
+import {type DragState, ItemReorderHandle, TableCell, TableRow} from './table-primitives';
+import Radio from '../radio/radio';
+import ControlLabel, {LabelType} from '../control-label/control-label';
+import {useReorderAnimation} from './reorder-animation';
+import {useReorderItemLayout} from './reorder-item-layout';
+import {defaultRowHeight} from './table-const';
 
 import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -185,8 +189,8 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
     const [data, setData] = useState(args.data);
     const [columns, setColumns] = useState(args.columns);
 
-    function handleColumnDelete(columnIndex: number) {
-      setColumns(columns.filter((_, i) => i !== columnIndex));
+    function handleColumnDelete(column: (typeof args)['columns'][number]) {
+      setColumns(columns.filter(c => c !== column));
     }
 
     return (
@@ -198,7 +202,9 @@ export const WithAllColumnControls: TableStory<(typeof smallDataSlice)[number]> 
           sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
         onColumnDelete={handleColumnDelete}
-        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
         columnEditButton
       />
     );
@@ -858,7 +864,9 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
         onSort={(columnIndex, sortOrder) =>
           sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
         }
-        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
         columnEditButton
       />
     );
@@ -871,16 +879,16 @@ export const WithColumnReorder: TableStory<(typeof smallDataSlice)[number]> = {
   tags: ['!autodocs'],
 };
 
-function reorderColumns<T>(
-  columns: readonly Column<T>[],
+function reorderItems<T>(
+  items: readonly T[],
   fromIndex: number,
   insertionIndex: number,
-  setColumns: (newColumns: readonly Column<T>[]) => void,
+  setItems: (newItems: readonly T[]) => void,
 ) {
-  const [...newColumns] = columns;
-  const [moved] = newColumns.splice(fromIndex, 1);
-  newColumns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
-  setColumns(newColumns);
+  const [...newItems] = items;
+  const [moved] = newItems.splice(fromIndex, 1);
+  newItems.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
+  setItems(newItems);
 }
 
 export const WithColumnReorderLongSticky: TableStory<Issue> = {
@@ -921,7 +929,9 @@ export const WithColumnReorderLongSticky: TableStory<Issue> = {
         columns={columns}
         getKey={args.getKey}
         stickyHeader
-        onColumnReorder={(fromIndex, insertionIndex) => reorderColumns(columns, fromIndex, insertionIndex, setColumns)}
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
         columnEditButton
       />
     );
@@ -1035,7 +1045,7 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
       },
       {
         key: 'Id',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         renderCell: ({id}) => (
           <div>
             <Link href={`https://example.org/build/${id}`} target='_blank'>
@@ -1047,13 +1057,13 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
       },
       {
         key: 'Branch',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         deletable: true,
         renderCell: ({branch}) => <div>{branch}</div>,
       },
       {
         key: 'Status',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         deletable: true,
         renderCell: ({status}) => (
           <div>
@@ -1075,13 +1085,13 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
       },
       {
         key: 'Agent',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         deletable: true,
         renderCell: ({agent}) => <div>{agent}</div>,
       },
       {
         key: 'Started',
-        canReorder: i => i > 1,
+        canReorder: (_c, i) => i > 1,
         deletable: true,
         renderCell: ({started}) => <div>{started ? format(started, dateShortFmt) : '—'}</div>,
       },
@@ -1105,10 +1115,10 @@ export const TeamCityBuildsSticky: TableStory<Build> = {
           renderItem={(item, index, items) => (
             <TeamCityBuild build={item} index={index} builds={items} columnsNumber={columns.length} setData={setData} />
           )}
-          onColumnReorder={(fromIndex, insertionIndex) =>
-            reorderColumns(columns, fromIndex, insertionIndex, setColumns)
+          onColumnReorder={(_c, fromIndex, insertionIndex) =>
+            reorderItems(columns, fromIndex, insertionIndex, setColumns)
           }
-          onColumnDelete={columnIndex => setColumns(columns.filter((_, i) => i !== columnIndex))}
+          onColumnDelete={column => setColumns(columns.filter(c => c !== column))}
           virtualizeRows
           estimateHeight={item => {
             let h = 40;
@@ -1170,7 +1180,7 @@ function TeamCityBuild({
     ),
   });
 
-  const columnAnimation = use(ColumnAnimationContext);
+  const reorderAnimation = useReorderAnimation();
   const columnAnimationEmulatorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -1179,8 +1189,8 @@ function TeamCityBuild({
 
     if (!columnAnimationEmulator || !table) return;
 
-    if (columnAnimation?.phase === 'initial') {
-      const {columnIndex} = columnAnimation;
+    if (reorderAnimation?.direction === 'columns' && reorderAnimation?.phase === 'initial') {
+      const {index: columnIndex} = reorderAnimation;
       const th = table.querySelector(`th:nth-child(${columnIndex + 1})`);
       if (th) {
         const tableLeft = table.getBoundingClientRect().left;
@@ -1188,11 +1198,11 @@ function TeamCityBuild({
         columnAnimationEmulator.style.left = `${thRect.left - tableLeft}px`;
         columnAnimationEmulator.style.width = `${thRect.width}px`;
       }
-    } else if (!columnAnimation) {
+    } else if (!reorderAnimation) {
       columnAnimationEmulator.style.removeProperty('left');
       columnAnimationEmulator.style.removeProperty('width');
     }
-  }, [columnAnimation]);
+  }, [reorderAnimation]);
 
   return (
     <>
@@ -1244,7 +1254,7 @@ function TeamCityBuild({
           </TableCell>
           <TableCell colSpan={columnsNumber - 1}>
             <Table
-              className={style.teamCityBuildDetails}
+              className={style.noHeaderDetailsTable}
               data={[
                 ['Triggered by', triggeredBy],
                 ['Triggered at', triggered ? format(triggered, dateLongFmt) : '—'],
@@ -1278,7 +1288,7 @@ function TeamCityBuild({
             />
             <div
               ref={columnAnimationEmulatorRef}
-              className={classNames(style.columnAnimationEmulator, columnAnimation?.cellClassName)}
+              className={classNames(style.columnAnimationEmulator, reorderAnimation?.className)}
             />
           </TableCell>
         </TableRow>
@@ -1492,3 +1502,289 @@ export const SimpleRerenderTest: TableStory<(typeof smallDataWithSelected)[numbe
 
   tags: ['!autodocs'],
 };
+
+export const WithItemReorder: TableStory<(typeof smallDataSlice)[number]> = {
+  args: {
+    data: smallDataSlice,
+    getKey,
+  },
+
+  render(args) {
+    const [data, setData] = useState(args.data);
+    const [dragStyle, setDragStyle] = useState<'frame' | 'item-wide' | 'item-narrow'>('frame');
+    const [itemDragState, setItemDragState] = useState<{index: number; state: DragState}>({
+      index: -1,
+      state: undefined,
+    });
+
+    const columns = useMemo(
+      () =>
+        [
+          {
+            key: 'ID',
+            renderCell: ({id}, index) => {
+              const itemDrag = dragStyle !== 'frame';
+              return (
+                <span>
+                  <ItemReorderHandle
+                    index={index}
+                    noDragFrame={itemDrag}
+                    noHandleTranslate={itemDrag}
+                    onUserDrag={state => setItemDragState({index, state})}
+                  />{' '}
+                  {id}
+                </span>
+              );
+            },
+          },
+          {
+            key: 'Country',
+            renderCell: ({country}) => <span>{country}</span>,
+          },
+          {
+            key: 'City',
+            renderCell: ({city}) => <span>{city}</span>,
+          },
+          {
+            key: 'URL',
+            renderCell: ({url}) => (
+              <div>
+                <PlaceLink href={url} />
+              </div>
+            ),
+          },
+        ] satisfies Column<(typeof smallDataSlice)[number]>[],
+      [dragStyle],
+    );
+
+    return (
+      <>
+        <div className={style.dragStyle}>
+          <ControlLabel type={LabelType.FORM}>Drag style:</ControlLabel>
+          <Radio value={dragStyle} onChange={setDragStyle as (val: string) => void}>
+            <Radio.Item value='frame'>Frame</Radio.Item>
+            <Radio.Item value='item-wide'>Item wide</Radio.Item>
+            <Radio.Item value='item-narrow'>Item narrow</Radio.Item>
+          </Radio>
+        </div>
+
+        <Table
+          data={data}
+          columns={columns}
+          getKey={args.getKey}
+          className={style.itemReorderTable}
+          onItemReorder={(_it, fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+          renderItem={(_it, index) => {
+            const dragState = itemDragState.index === index ? itemDragState.state : undefined;
+            const isDragging = dragState != null && dragStyle !== 'frame';
+
+            return (
+              <>
+                <DefaultItemRenderer
+                  index={index}
+                  className={
+                    isDragging
+                      ? classNames(
+                          style.draggedItem,
+                          (dragStyle === 'item-wide' || dragState === 'pointerdown') && style.wide,
+                        )
+                      : undefined
+                  }
+                  style={
+                    isDragging
+                      ? {
+                          opacity: dragState === 'pointerdown' || dragState === 'cancelled' ? 0 : undefined,
+                          transform: `translateY(${typeof dragState === 'number' ? dragState : 0}px)`,
+                          backgroundColor: dragState === 'cancelled' ? 'transparent' : undefined,
+                          transition: dragState === 'cancelled' ? 'all 300ms ease-out' : undefined,
+                        }
+                      : undefined
+                  }
+                  noReorderLayout={isDragging}
+                />
+
+                {isDragging && (
+                  <DefaultItemRenderer
+                    index={index}
+                    className={classNames(
+                      dragState !== 'pointerdown' && style.dragStub,
+                      dragState === 'cancelled' && style.dragStubCancelled,
+                    )}
+                    noReorderLayout
+                  />
+                )}
+              </>
+            );
+          }}
+        />
+      </>
+    );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
+  },
+};
+
+const statuses = ['Open', 'In Progress', 'Fixed', 'Reopened', "Won't Fix", 'Duplicate'] as const;
+
+interface IssueWithStatus extends Issue {
+  status: (typeof statuses)[number];
+  reason?: string;
+}
+
+const issuesSliceWithStatus: readonly IssueWithStatus[] = issuesLongDataSlice.map(({id, priority, votes}) => {
+  const status = random(statuses);
+  const reason =
+    status === 'Reopened'
+      ? random(['Regression', 'New testcase found'])
+      : status === "Won't Fix"
+        ? random(['Not reproducible', 'Works as expected', 'Obsolete'])
+        : status === 'Duplicate'
+          ? random(issuesLongDataSlice).id
+          : undefined;
+  return {
+    id,
+    priority,
+    votes,
+    status,
+    reason,
+  };
+});
+
+const issuesWithStatusColumns = [
+  {
+    key: 'ID',
+    renderCell: ({id}, index) => (
+      <>
+        <ItemReorderHandle index={index} />{' '}
+        <Link href={`https://example.org/issue/${id}/`} target='_blank'>
+          {id}
+        </Link>
+      </>
+    ),
+  },
+  {
+    key: 'Priority',
+    renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
+  },
+  {
+    key: 'Votes',
+    renderCell: ({votes}) => votes,
+    deletable: true, // To make story accessibility test happy
+  },
+] satisfies Column<(typeof issuesSliceWithStatus)[number]>[];
+
+export const WithVirtualizationItemReorderCustom = {
+  args: {},
+
+  render() {
+    return <IssuesWithStatusTable />;
+  },
+
+  parameters: {
+    screenshots: {skip: true},
+    ...noDocsParams,
+  },
+};
+
+export const WithVirtualizationItemReorderScrollerCustom = {
+  args: {},
+
+  render() {
+    const scrollerRef = useRef<HTMLDivElement>(null);
+
+    return (
+      <div className={style.customIssueScroller} ref={scrollerRef} data-table-scroller>
+        <IssuesWithStatusTable scrollerRef={scrollerRef} />
+      </div>
+    );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
+    ...noDocsParams,
+  },
+};
+
+function IssuesWithStatusTable({scrollerRef}: {scrollerRef?: RefObject<HTMLDivElement | null>}) {
+  const [data, setData] = useState(issuesSliceWithStatus);
+
+  return (
+    <Table
+      data={data}
+      columns={issuesWithStatusColumns}
+      getKey={getKey}
+      className={style.customIssueTable}
+      stickyHeader
+      renderItem={(item, index) => <CustomIssueItem issue={item} index={index} />}
+      onItemReorder={(_it, fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+      virtualizeRows
+      scrollerRef={scrollerRef}
+      estimateHeight={item => {
+        let h = defaultRowHeight;
+        if (item.reason) {
+          h += 69;
+        } else {
+          h += 43;
+        }
+        return h;
+      }}
+      retentionMarginPx={2000}
+    />
+  );
+}
+
+function CustomIssueItem({issue, index}: {issue: IssueWithStatus; index: number}) {
+  const {status, reason} = issue;
+  const mainRef = useRef<HTMLTableRowElement>(null);
+  const detailsRef = useRef<HTMLTableRowElement>(null);
+
+  useItemVirtualization({
+    index,
+    refs: [mainRef, detailsRef],
+    onIntersectionChange: (isIntersecting, _i, elements) =>
+      isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
+        ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
+        : undefined,
+  });
+
+  useReorderItemLayout({
+    index,
+    getBounds: () => {
+      const start = mainRef.current?.getBoundingClientRect().top ?? 0;
+      const end = detailsRef.current?.getBoundingClientRect().bottom ?? start;
+      return {start, end};
+    },
+  });
+
+  const reorderAnimation = useReorderAnimation();
+  const animationClass =
+    reorderAnimation?.index === index && reorderAnimation.direction === 'items'
+      ? reorderAnimation.className
+      : undefined;
+
+  return (
+    <>
+      <DefaultItemRenderer
+        index={index}
+        className={style.customIssue}
+        ref={mainRef}
+        noItemVirtualization
+        noReorderLayout
+      />
+      <TableRow ref={detailsRef} className={animationClass}>
+        <TableCell colSpan={3}>
+          <Table
+            className={style.noHeaderDetailsTable}
+            data={[['Status', status], ...(reason ? [['Reason', reason]] : [])]}
+            columns={[{key: 'Property'}, {key: 'Value'}]}
+            getKey={([property]) => property}
+            noHeader
+            aria-label='Build details'
+          />
+        </TableCell>
+      </TableRow>
+    </>
+  );
+}

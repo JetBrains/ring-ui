@@ -1,7 +1,7 @@
 @import '../global/variables.css';
 
 .table {
-  --animated-column-fade-out-duration: 600ms;
+  --reorder-animation-fade-out-duration: 600ms;
 
   width: 100%;
 
@@ -40,7 +40,7 @@
   &:hover {
     --header-cell-shadow-color: var(--ring-line-color);
 
-    &:not(.animatedColumnInitial, .animatedColumnFadeOut) {
+    &:not(.reorderAnimationInitial, .reorderAnimationFadeOut) {
       background-color: var(--ring-grey-container-light-color);
     }
   }
@@ -67,7 +67,7 @@
   }
 }
 
-.headerButton {
+.tableButton {
   margin: unset;
   padding: unset;
 
@@ -134,6 +134,15 @@
   touch-action: none;
 }
 
+.itemReorderHandle {
+  cursor: grab;
+
+  color: var(--ring-secondary-color);
+
+  border-radius: var(--ring-border-radius);
+  touch-action: none;
+}
+
 .theadColumnEditing .columnReorderHandle,
 .headerCell:hover .columnReorderHandle,
 .columnReorderHandle:focus-visible {
@@ -167,7 +176,7 @@
   }
 }
 
-.columnDragFrame {
+.dragFrame {
   position: fixed;
 
   z-index: var(--ring-overlay-z-index);
@@ -180,24 +189,22 @@
   background-color: rgba(var(--ring-border-accent-components), 0.06);
 }
 
-.columnInsertionIndicator {
+.insertionIndicator {
   position: fixed;
 
   z-index: var(--ring-overlay-z-index);
 
-  width: 2px;
-
   background-color: var(--ring-main-color);
 }
 
-.animatedColumnInitial {
+.reorderAnimationInitial {
   transition: none;
 
   background-color: rgba(var(--ring-border-accent-components), 0.12);
 }
 
-.animatedColumnFadeOut {
-  transition: background-color var(--animated-column-fade-out-duration) ease-out;
+.reorderAnimationFadeOut {
+  transition: background-color var(--reorder-animation-fade-out-duration) ease-out;
 
   background-color: transparent;
 }

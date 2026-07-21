@@ -1,10 +1,12 @@
 import {type ComponentPropsWithRef, type Context, type Key, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
-import {ColumnAnimationContext, TablePropsContext} from './table-const';
+import {TablePropsContext} from './table-const';
 import {useComposedRef} from '../global/compose-refs';
 import {useItemVirtualization} from './item-virtualization';
 import {TableCell, TableRow} from './table-primitives';
+import {ReorderAnimationContext} from './internal/reorder-animation-context';
+import {useReorderItemLayout} from './reorder-item-layout';
 
 import type {TableProps} from './table-props';
 
@@ -48,6 +50,13 @@ export interface DefaultItemRendererProps {
    * and track the visibility yourself.
    */
   noItemVirtualization?: boolean;
+
+  /**
+   * When set to `true`, does not report the item's boundaries to the reorder system.
+   * Useful when you include `DefaultItemRenderer` as a part of a custom row renderer
+   * that registers boundaries itself.
+   */
+  noReorderLayout?: boolean;
 }
 
 /**
@@ -70,6 +79,7 @@ export function DefaultItemRenderer<T>({
   selected,
   level,
   noItemVirtualization,
+  noReorderLayout,
 
   ref: userRef,
   className,
@@ -95,12 +105,24 @@ export function DefaultItemRenderer<T>({
     ),
   });
 
+  useReorderItemLayout({
+    disabled: noReorderLayout,
+    index,
+    getBounds: () => {
+      const r = localRef.current?.getBoundingClientRect();
+      return {start: r?.top ?? 0, end: r?.bottom ?? 0};
+    },
+  });
+
   const tableProps = use(TablePropsContext as Context<TableProps<T> | null>);
   if (!tableProps) {
     return null;
   }
 
-  const animatedColumn = use(ColumnAnimationContext);
+  const {reorderAnimation} = use(ReorderAnimationContext);
+  const isAnimatedItem = reorderAnimation?.direction === 'items' && reorderAnimation.index === index;
+  const animatedColumnIndex = reorderAnimation?.direction === 'columns' ? reorderAnimation.index : undefined;
+  const animateClassName = reorderAnimation?.className;
 
   const {data, columns} = tableProps;
   const item = data[index];
@@ -111,7 +133,12 @@ export function DefaultItemRenderer<T>({
     <TableRow
       ref={composedRef}
       keyboardFocusable={keyboardFocusable}
-      className={classNames(className, clickable && styles.clickableRow, selected && styles.selectedRow)}
+      className={classNames(
+        className,
+        clickable && styles.clickableRow,
+        selected && styles.selectedRow,
+        isAnimatedItem && animateClassName,
+      )}
       {...restProps}
     >
       {columns.map((column, columnIndex) => {
@@ -121,7 +148,7 @@ export function DefaultItemRenderer<T>({
           <TableCell
             key={key}
             className={classNames(
-              columnIndex === animatedColumn?.columnIndex && animatedColumn.cellClassName,
+              columnIndex === animatedColumnIndex && animateClassName,
               typeof tdClassName === 'function' ? tdClassName(item, index, data) : tdClassName,
             )}
             style={indent && level != null && level > 0 ? {paddingInlineStart: `${level * indentSize}px`} : undefined}

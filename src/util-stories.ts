@@ -21,11 +21,11 @@ export function createRandom(seed: bigint): {
   /**
    * Up to random n items (in random order) from the array
    */
-  <T>(array: T[], n: number): T[];
+  <T>(array: readonly T[], n: number): T[];
   /**
    * Random item from the array
    */
-  <T>(array: T[]): T;
+  <T>(array: readonly T[]): T;
 } {
   const u64Mask = 2n ** 64n - 1n;
   const u64Range = 2n ** 64n;
