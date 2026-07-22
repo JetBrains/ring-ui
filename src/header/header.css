@@ -1,6 +1,6 @@
 @import '../global/variables.css';
 
-@value link, active from '../link/link.css';
+@value link, active as linkActive from '../link/link.css';
 
 :root,
 :host {
@@ -41,7 +41,7 @@
     color: var(--ring-header-link-color);
   }
 
-  & .active {
+  & .linkActive {
     color: var(--ring-active-text-color);
   }
 }
@@ -72,7 +72,7 @@
     color: var(--ring-header-link-color);
   }
 
-  & .active {
+  & .linkActive {
     color: var(--ring-active-text-color);
   }
 }

@@ -1,6 +1,6 @@
 @import '../global/variables.css';
 
-@value button, active, flat from '../button/button.css';
+@value button, active as buttonActive, flat from '../button/button.css';
 
 :root,
 :host {
@@ -133,14 +133,14 @@
     0 0 0 1px var(--ring-border-hover-color);
 }
 
-.buttonGroup .button.button.active {
+.buttonGroup .button.button.buttonActive {
   --ring-button-border-radius-left: var(--ring-border-radius);
   --ring-button-border-radius-right: var(--ring-border-radius);
 
   box-shadow: var(--ring-button-shadow) var(--ring-button-border-color);
 }
 
-.buttonGroup .button:focus-visible.active {
+.buttonGroup .button:focus-visible.buttonActive {
   --ring-button-border-radius-left: var(--ring-border-radius);
   --ring-button-border-radius-right: var(--ring-border-radius);
 
@@ -149,7 +149,7 @@
     0 0 0 1px var(--ring-border-hover-color);
 }
 
-.buttonGroup .button.active[disabled] {
+.buttonGroup .button.buttonActive[disabled] {
   box-shadow: var(--ring-button-shadow) var(--ring-border-hover-color);
 }
 /* stylelint-enable */
@@ -240,7 +240,7 @@
     }
   }
 
-  & .active {
+  & .buttonActive {
     z-index: var(--ring-button-group-active-z-index);
 
     &[disabled] {
