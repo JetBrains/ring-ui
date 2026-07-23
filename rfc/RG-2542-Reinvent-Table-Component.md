@@ -169,7 +169,7 @@ interface TableProps<T> {
    * Called when the user clicks on a column delete button in the header.
    * The client is expected to update `columns`.
    */
-  onColumnDelete?: (columnIndex: number, columns: readonly Column<T>[]) => void
+  onColumnDelete?: (column: Column<T>, columnIndex: number, columns: readonly Column<T>[]) => void
 
   /**
    * Called when the user reorders columns by dragging a column.
@@ -178,18 +178,52 @@ interface TableProps<T> {
    *
    * One possible implementation is:
    *
-   * const [moved] = columns.splice(fromIndex, 1);
-   * columns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, moved);
+   * columns.splice(fromIndex, 1);
+   * columns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, columnBeingReordered);
    *
    * The client is expected to update `columns`.
    */
-  onColumnReorder?: (fromIndex: number, insertionIndex: number, columns: readonly Column<T>[]) => void
+  onColumnReorder?: (
+    columnBeingReordered: Column<T>,
+    fromIndex: number,
+    insertionIndex: number,
+    columns: readonly Column<T>[]
+  ) => void
 
   /**
    * By default, when a column is reordered, the moved column is highlighted
    * with a temporary background color. Set `true` to disable this animation.
    */
   noColumnReorderAnimation?: boolean
+
+  /**
+   * If defined, determines whether an item may be reordered to a specific insertion position.
+   * If not defined, any item may be reordered to any position.
+   */
+  canReorderItem?: (
+    itemBeingReordered: T,
+    fromIndex: number,
+    insertionIndex: number,
+    items: readonly T[]
+  ) => boolean
+
+  /**
+   * Called when the user reorders items by dragging a handle.
+   * The `insertionIndex` parameter represents an insertion position in the original,
+   * unchanged `data` array before the item is removed.
+   */
+  onItemReorder?: (
+    itemBeingReordered: T,
+    fromIndex: number,
+    insertionIndex: number,
+    items: readonly T[]
+  ) => void
+
+  /**
+   * By default, when an item is reordered, the moved item is highlighted
+   * with a temporary background color. Set `true` to disable this animation.
+   */
+  noItemReorderAnimation?: boolean
 
   /**
    * Only renders rows near the viewport.
@@ -286,7 +320,14 @@ interface Column<T> {
    * If a function is provided, it determines whether the column may be moved
    * to the specified insertion position.
    */
-  canReorder?: boolean | ((insertionIndex: number, columns: readonly Column<T>[]) => boolean)
+  canReorder?:
+    | boolean
+    | ((
+        columnBeingReordered: Column<T>,
+        fromIndex: number,
+        insertionIndex: number,
+        columns: readonly Column<T>[]
+      ) => boolean)
 
   thClassName?: string
   tdClassName?: string | ((item: T, index: number, items: readonly T[]) => string | undefined)
@@ -306,16 +347,46 @@ interface Column<T> {
  * @see TableCell
  */
 interface DefaultItemRendererProps {
+  /**
+   * Index of the `data` item to render.
+   */
   index: number
+
+  /**
+   * If `true`, the row can be focused with up/down arrows
+   * using the roving `tabindex` pattern.
+   */
   keyboardFocusable?: boolean
+
+  /**
+   * Applies hover background and pointer cursor.
+   */
   clickable?: boolean
+
+  /**
+   * If `true`, the row is shown as selected.
+   */
   selected?: boolean
+
   /**
    * The nesting level. Applies an indent for columns with `Column.indent` set to `true`.
    * `0`, negative values, and an unset value mean no indent.
    */
   level?: number
+
+  /**
+   * If `true`, disables built-in item virtualization control. Useful when
+   * `DefaultItemRenderer` is part of a custom item renderer that controls
+   * the virtualization itself.
+   */
   noItemVirtualization?: boolean
+
+  /**
+   * If `true`, disables built-in reorder layout registration
+   * for this rendered item. Useful when `DefaultItemRenderer` is part
+   * of a custom item renderer that controls the layout itself.
+   */
+  noReorderLayout?: boolean
 }
 ```
 

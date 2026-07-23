@@ -93,7 +93,7 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
       timePlaceholder,
       locale,
     } = this.props;
-    const {translate} = this.context;
+    const {messages, translate} = this.context;
 
     let displayText = '';
     if (active && hoverDate) {
@@ -115,7 +115,13 @@ export default class DateInput extends React.PureComponent<DateInputProps> {
         case 'time':
           return timePlaceholder || (translations?.addTime ?? translate('addTime'));
         default:
-          return (translations?.selectName ?? translate('selectName'))
+          return (
+            translations?.selectDate ??
+            translations?.selectName ??
+            messages.selectDate ??
+            messages.selectName ??
+            translate('selectDate')
+          )
             .replace('%name%', name)
             .replace('{{name}}', name);
       }

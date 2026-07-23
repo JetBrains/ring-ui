@@ -55,12 +55,33 @@ describe('Alert Service', () => {
     expect(Alert.Type.WARNING).to.equal(alert._getShowingAlerts()[0].type);
   });
 
+  it('Should show info', () => {
+    alertKey = alert.infoMessage('foo');
+    expect(Alert.Type.INFO).to.equal(alert._getShowingAlerts()[0].type);
+  });
+
   it('Should join same alerts and shake', () => {
     alertKey = alert.message('foo');
     alertKey = alert.message('foo');
 
     expect(alert._getShowingAlerts().length).to.equal(1);
     expect(true).to.equal(alert._getShowingAlerts()[0].isShaking);
+  });
+
+  it('Should join alerts whose afterMessage values all render as nothing', () => {
+    alertKey = alert.addAlert('foo', Alert.Type.MESSAGE, undefined, {afterMessage: null});
+    alertKey = alert.addAlert('foo', Alert.Type.MESSAGE);
+
+    expect(alert._getShowingAlerts().length).to.equal(1);
+    expect(true).to.equal(alert._getShowingAlerts()[0].isShaking);
+  });
+
+  it('Should not join alerts with same message/type but different afterMessage', () => {
+    const key1 = alert.addAlert('foo', Alert.Type.MESSAGE, undefined, {afterMessage: 'a'});
+    const key2 = alert.addAlert('foo', Alert.Type.MESSAGE, undefined, {afterMessage: 'b'});
+    expect(alert._getShowingAlerts().length).to.equal(2);
+    alert.removeWithoutAnimation(key1);
+    alert.removeWithoutAnimation(key2);
   });
 
   it('Should remove alert after timeout', () => {

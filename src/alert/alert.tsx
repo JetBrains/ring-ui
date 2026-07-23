@@ -2,16 +2,19 @@ import {PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import exceptionIcon from '@jetbrains/icons/exception';
-import checkmarkIcon from '@jetbrains/icons/checkmark';
+import successIcon from '@jetbrains/icons/success';
 import warningIcon from '@jetbrains/icons/warning';
+import infoIcon from '@jetbrains/icons/info-filled';
 import closeIcon from '@jetbrains/icons/close';
 
-import Icon, {Color} from '../icon/icon';
+import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
 import Button from '../button/button';
 import Theme, {ThemeProvider} from '../global/theme';
+import AlertHeading from './alert-heading';
+import AlertActions from './alert-actions';
 
 import styles from './alert.css';
 
@@ -31,6 +34,7 @@ export enum AlertType {
   SUCCESS = 'success',
   WARNING = 'warning',
   LOADING = 'loading',
+  INFO = 'info',
 }
 
 /**
@@ -39,19 +43,20 @@ export enum AlertType {
  */
 const TypeToIcon: Partial<Record<AlertType, string>> = {
   [AlertType.ERROR]: exceptionIcon,
-  [AlertType.SUCCESS]: checkmarkIcon,
+  [AlertType.SUCCESS]: successIcon,
   [AlertType.WARNING]: warningIcon,
+  [AlertType.INFO]: infoIcon,
 };
 
 /**
- * Lookup table of alert type to icon color.
- * @type {Object.<AlertType, Icon.Color>}
+ * Maps the values React renders as nothing (except empty arrays/fragments,
+ * which are not worth chasing here) to undefined, so that they neither create
+ * the afterMessage wrapper nor distinguish alerts in the alert-service
+ * duplicate check
  */
-const TypeToIconColor: Partial<Record<AlertType, Color>> = {
-  [AlertType.ERROR]: Color.RED,
-  [AlertType.SUCCESS]: Color.GREEN,
-  [AlertType.WARNING]: Color.WHITE,
-};
+export function normalizeAfterMessage(afterMessage: ReactNode): ReactNode {
+  return afterMessage == null || typeof afterMessage === 'boolean' || afterMessage === '' ? undefined : afterMessage;
+}
 
 export interface AlertProps {
   theme: Theme;
@@ -76,6 +81,7 @@ export interface AlertProps {
   captionClassName?: string | null | undefined;
   closeButtonClassName?: string | null | undefined;
   'data-test'?: string | null | undefined;
+  afterMessage?: ReactNode;
 }
 
 interface State {
@@ -129,6 +135,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
   hideTimeout?: number;
 
   static Type = AlertType;
+  static Heading = AlertHeading;
+  static Actions = AlertActions;
 
   closeRequest = (event: React.MouseEvent<HTMLElement>) => {
     this.startCloseAnimation();
@@ -151,8 +159,9 @@ export default class Alert extends PureComponent<AlertProps, State> {
    * @param {SyntheticEvent} evt
    * @private
    */
-  private _handleCaptionsLinksClick = (evt: React.MouseEvent<HTMLSpanElement>) => {
-    if (evt.target instanceof Element && evt.target.matches('a')) {
+  private _handleCaptionsLinksClick = (evt: React.MouseEvent<HTMLElement>) => {
+    const link = evt.target instanceof Element ? evt.target.closest('a') : null;
+    if (link != null && evt.currentTarget.contains(link)) {
       this.closeRequest(evt);
     }
   };
@@ -162,16 +171,14 @@ export default class Alert extends PureComponent<AlertProps, State> {
    */
   private _getCaption() {
     return (
-      <span
-        className={classNames(styles.caption, this.props.captionClassName, {
-          [styles.withCloseButton]: this.props.closeable,
-        })}
+      <div
+        className={classNames(styles.caption, this.props.captionClassName)}
         onClick={this._handleCaptionsLinksClick}
         // We only process clicks on `a` elements, see above
         role='presentation'
       >
         {this.props.children}
-      </span>
+      </div>
     );
   }
 
@@ -183,7 +190,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
     const glyph = TypeToIcon[this.props.type];
 
     if (glyph) {
-      return <Icon glyph={glyph} className={styles.icon} color={TypeToIconColor[this.props.type] || Color.DEFAULT} />;
+      return <Icon glyph={glyph} className={styles.icon} />;
     }
     if (this.props.type === AlertType.LOADING) {
       return <Loader className={styles.loader} />;
@@ -207,12 +214,16 @@ export default class Alert extends PureComponent<AlertProps, State> {
       className,
       'data-test': dataTest,
       theme,
+      afterMessage,
     } = this.props;
 
     const classes = classNames(className, {
       [styles.alert]: true,
       [styles.animationOpen]: showWithAnimation,
-      [styles.error]: type === 'error',
+      [styles.error]: type === AlertType.ERROR,
+      [styles.success]: type === AlertType.SUCCESS,
+      [styles.warning]: type === AlertType.WARNING,
+      [styles.info]: type === AlertType.INFO,
       [styles.alertInline]: inline,
       [styles.animationClosing]: isClosing,
       [styles.animationShaking]: isShaking,
@@ -220,6 +231,8 @@ export default class Alert extends PureComponent<AlertProps, State> {
 
     const height = this.state.height;
     const style = height ? {marginBottom: -height} : undefined;
+
+    const shownAfterMessage = normalizeAfterMessage(afterMessage);
 
     return (
       <ThemeProvider
@@ -232,6 +245,16 @@ export default class Alert extends PureComponent<AlertProps, State> {
       >
         {this._getIcon()}
         {this._getCaption()}
+        {shownAfterMessage != null && (
+          <div
+            className={styles.afterMessage}
+            onClick={this._handleCaptionsLinksClick}
+            // We only process clicks on `a` elements, see above
+            role='presentation'
+          >
+            {shownAfterMessage}
+          </div>
+        )}
         {this.props.closeable ? (
           <Button
             icon={closeIcon}
@@ -240,9 +263,7 @@ export default class Alert extends PureComponent<AlertProps, State> {
             aria-label='close alert'
             onClick={this.closeRequest}
           />
-        ) : (
-          ''
-        )}
+        ) : null}
       </ThemeProvider>
     );
   }

@@ -6,6 +6,13 @@
 - Changed the minimum supported React version to 19.2.0.
 - Removed the `useEventCallback()` custom hook; use the `useEffectEvent()` React hook instead.
 
+## [7.0.118]
+- Updated Alert styles to match Figma design
+- Added `Alert.Type.INFO` alert type with an info-filled icon, and a matching `alertService.infoMessage()` helper
+- Added `afterMessage` prop for rendering content (e.g. a link) after the alert message, outside the caption
+- Added `Alert.Heading` subcomponent for an optional bold heading inside an alert; accepts a `level` prop (default `Levels.H3` from `@jetbrains/ring-ui/components/heading/heading`)
+- Added `Alert.Actions` subcomponent for an optional row of action buttons at the bottom of an alert
+
 ## [7.0.116]
 - Renamed the `expand` module to `collapsible-group`. Import `CollapsibleGroup` from `@jetbrains/ring-ui/components/collapsible-group/collapsible-group`. The old `@jetbrains/ring-ui/components/expand/collapsible-group` import path (component and CSS) is deprecated and will be removed in Ring UI 8.0.
 

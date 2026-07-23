@@ -2,7 +2,13 @@ import {type ReactNode, type Ref} from 'react';
 import {createRoot} from 'react-dom/client';
 
 import getUID from '../global/get-uid';
-import Alert, {type AlertProps, type AlertType, ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';
+import Alert, {
+  type AlertProps,
+  type AlertType,
+  ANIMATION_TIME,
+  Container as AlertContainer,
+  normalizeAfterMessage,
+} from '../alert/alert';
 
 export interface AlertItem extends Partial<Omit<AlertProps, 'children'>> {
   key: string | number;
@@ -53,8 +59,12 @@ export class AlertService {
     this.reactRoot!.render(this.renderAlertContainer(this.showingAlerts));
   }
 
-  findSameAlert(message: ReactNode, type: AlertType | undefined) {
-    return this.showingAlerts.filter(it => it.type === type && it.message === message)[0];
+  findSameAlert(message: ReactNode, type: AlertType | undefined, afterMessage?: ReactNode) {
+    const normalizedAfterMessage = normalizeAfterMessage(afterMessage);
+    return this.showingAlerts.find(
+      it =>
+        it.type === type && it.message === message && normalizeAfterMessage(it.afterMessage) === normalizedAfterMessage,
+    );
   }
 
   startAlertClosing(alert: AlertItem) {
@@ -90,7 +100,7 @@ export class AlertService {
     options: Partial<AlertItem> = {},
   ) {
     const {onCloseRequest, onClose, ...restOptions} = options;
-    const sameAlert = this.findSameAlert(message, type);
+    const sameAlert = this.findSameAlert(message, type, options.afterMessage);
     if (sameAlert) {
       sameAlert.isShaking = true;
       this.renderAlerts();
@@ -138,6 +148,10 @@ export class AlertService {
 
   successMessage(message: ReactNode, timeout?: number) {
     return this.addAlert(message, Alert.Type.SUCCESS, timeout);
+  }
+
+  infoMessage(message: ReactNode, timeout?: number) {
+    return this.addAlert(message, Alert.Type.INFO, timeout);
   }
 
   loadingMessage(message: ReactNode, timeout?: number) {
