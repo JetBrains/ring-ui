@@ -16,6 +16,6 @@
     "postcss-url": "^10.1.4",
     "postcss-import": "^16.1.1",
     "postcss-load-config": "^6.0.1",
-    "postcss-modules": "^6.0.1"
+    "postcss-modules": "^9.0.0"
   }
 }
