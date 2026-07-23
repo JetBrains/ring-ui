@@ -1,4 +1,8 @@
-import TableSelection, {type CloneWithConfig, type SelectionItem, type TableSelectionConfig} from '../table/selection';
+import TableSelection, {
+  type CloneWithConfig,
+  type SelectionItem,
+  type TableSelectionConfig,
+} from '../global/table-selection';
 
 interface DataListSelectionConfig<T extends SelectionItem> extends TableSelectionConfig<T> {
   partialSelected?: Set<T> | undefined;

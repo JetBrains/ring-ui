@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext, type PropsWithChildren} from 'react';
+import React, {useState, useEffect, useRef, use, type PropsWithChildren} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -29,7 +29,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   minHeight = DEFAULT_HEIGHT,
   'data-test': dataTest,
 }) => {
-  const {collapsed, duration, id, disableAnimation} = useContext(CollapseContext);
+  const {collapsed, duration, id, disableAnimation} = use(CollapseContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [initialContentHeight] = useState<number>(minHeight);

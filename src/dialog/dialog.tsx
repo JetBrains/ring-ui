@@ -8,7 +8,7 @@ import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
 import Shortcuts from '../shortcuts/shortcuts';
-import TabTrap, {type TabTrapProps} from '../tab-trap/tab-trap';
+import TabTrap, {type TabTrapObject, type TabTrapProps} from '../tab-trap/tab-trap';
 import Button from '../button/button';
 import {normalizePopupTarget, PopupTarget, PopupTargetContext} from '../popup/popup.target';
 import {getPopupContainer} from '../popup/popup';
@@ -145,8 +145,8 @@ export default class Dialog extends PureComponent<DialogProps> {
   };
 
   dialog?: HTMLElement | null;
-  dialogRef = (tabTrap: TabTrap | null) => {
-    this.dialog = tabTrap && tabTrap.node;
+  dialogRef = (tabTrapObj: TabTrapObject | null) => {
+    this.dialog = tabTrapObj && tabTrapObj.node;
   };
 
   nativeDialog = createRef<HTMLDialogElement>();

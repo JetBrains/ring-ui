@@ -1,5 +1,4 @@
 import {
-  forwardRef,
   cloneElement,
   type ReactElement,
   type HTMLAttributes,
@@ -33,7 +32,7 @@ export interface DropdownAnchorWrapperProps extends AnchorProps {
 interface DropdownMenuChildren<T> {
   children?: DropdownChildrenFunction;
   popupMenuProps: {
-    ref: Ref<PopupMenu<T>>;
+    ref?: Ref<PopupMenu<T>>;
     data: readonly ListDataItem<T>[] | undefined;
     id: string;
     ariaLabel: string;
@@ -84,6 +83,7 @@ type OnSelectHandler<T> =
   ((item: ListDataItem<T>, event: Event | SyntheticEvent, params?: SelectHandlerParams) => void) | undefined;
 
 export interface DropdownMenuProps<T = unknown> extends Omit<DropdownAttrs, 'anchor' | 'onSelect' | 'children'> {
+  ref?: React.Ref<PopupMenu<T> | null>;
   anchor:
     | ReactElement
     | ReactNode[]
@@ -96,14 +96,21 @@ export interface DropdownMenuProps<T = unknown> extends Omit<DropdownAttrs, 'anc
   children?: DropdownChildrenFunction;
 }
 
-const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
-  {id, anchor, ariaLabel, data, onSelect, menuProps, children, ...restDropdownProps}: DropdownMenuProps<T>,
-  forwardedRef: Ref<PopupMenu<T>>,
-) {
+function DropdownMenu<T = unknown>({
+  ref,
+  id,
+  anchor,
+  ariaLabel,
+  data,
+  onSelect,
+  menuProps,
+  children,
+  ...restDropdownProps
+}: DropdownMenuProps<T>) {
   const [uid] = useState(() => getUID('dropdown-menu-list'));
   const listId = id || uid;
   const popupMenuProps: DropdownMenuChildren<T>['popupMenuProps'] = {
-    ref: forwardedRef,
+    ref,
     id: listId,
     ariaLabel: ariaLabel || defaultAriaLabel,
     closeOnSelect: true,
@@ -136,6 +143,6 @@ const DropdownMenu = forwardRef(function DropdownMenu<T = unknown>(
       </Dropdown>
     </ActiveItemContext.Provider>
   );
-}) as <T = unknown>(props: DropdownMenuProps<T> & {ref?: Ref<PopupMenu>}) => ReactElement | null;
+}
 
 export default Object.assign(DropdownMenu, {ListProps: List.ListProps});

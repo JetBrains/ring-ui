@@ -1,0 +1,365 @@
+/**
+ * @name Table
+ */
+
+import {Component, PureComponent, type ReactNode, type SyntheticEvent} from 'react';
+import * as React from 'react';
+import classNames from 'classnames';
+import {arrayMove, List} from 'react-movable';
+import {type OnChangeMeta, type RenderItemParams, type RenderListParams} from 'react-movable/lib/types';
+
+import focusSensorHOC, {type FocusSensorAddProps, type FocusSensorProps} from '../global/focus-sensor-hoc';
+import getUID from '../global/get-uid';
+import Shortcuts from '../shortcuts/shortcuts';
+import Loader from '../loader/loader';
+import Header, {type HeaderAttrs} from './header';
+import selectionShortcutsHOC, {
+  type SelectionShortcutsAddProps,
+  type SelectionShortcutsProps,
+} from './selection-shortcuts-hoc';
+import disableHoverHOC, {type DisableHoverAddProps, type DisableHoverProps} from './disable-hover-hoc';
+import Row from './row-with-focus-sensor';
+import {type Column, type SortParams} from './header-cell';
+
+import style from './legacy-table.css';
+
+export interface ReorderParams<T> {
+  data: T[];
+  oldIndex: number;
+  newIndex: number;
+}
+
+export interface TableProps<T extends object>
+  extends FocusSensorAddProps<HTMLTableRowElement>, SelectionShortcutsAddProps<T>, DisableHoverAddProps {
+  data: readonly T[];
+  columns: readonly Column<T>[] | ((item: T | null) => readonly Column<T>[]);
+  isItemSelectable: (item: T) => boolean;
+  loading: boolean;
+  onSort: (params: SortParams) => void;
+  onReorder: (params: ReorderParams<T>) => void;
+  getItemKey: (item: T) => string | number;
+  sortKey: string;
+  sortOrder: boolean;
+  draggable: boolean;
+  alwaysShowDragHandle: boolean;
+  dragHandleTitle?: string;
+  stickyHeader: boolean;
+  wideFirstColumn: boolean;
+  getItemLevel: (item: T) => number;
+  getItemClassName: (item: T) => string | null | undefined;
+  getMetaColumnClassName: (item: T) => string | null | undefined;
+  getItemDataTest: (item: T) => string | null | undefined;
+  isItemCollapsible: (item: T) => boolean;
+  isParentCollapsible: (item: T) => boolean;
+  isItemCollapsed: (item: T) => boolean;
+  onItemCollapse: (item: T) => void;
+  onItemExpand: (item: T) => void;
+  onItemDoubleClick: (item: T) => void;
+  onItemClick: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void;
+  remoteSelection: boolean;
+  isDisabledSelectionVisible: (item: T) => boolean;
+  getCheckboxTooltip: (item: T) => string | undefined;
+  className?: string | null | undefined;
+  wrapperClassName?: string | null | undefined;
+  headerClassName?: string | null | undefined;
+  cellClassName?: string | null | undefined;
+  loaderClassName?: string | undefined;
+  caption?: string | null | undefined;
+  stickyHeaderOffset?: string | undefined;
+  renderEmpty?: (() => ReactNode) | null | undefined;
+  RowComponent: typeof Row;
+  renderLoader?: ((loaderClassName?: string) => ReactNode) | null | undefined;
+}
+/**
+ * Interactive table with selection and keyboard navigation support.
+ */
+export class Table<T extends object> extends PureComponent<TableProps<T>> {
+  static defaultProps = {
+    isItemSelectable: () => true,
+    loading: false,
+    onSort: () => {},
+    onReorder: () => {},
+    getItemKey: (item: object) => {
+      // Default behavior stays backward compatible: use item's "id" if present
+      if ('id' in item) {
+        return (item as {id: string | number}).id;
+      }
+      // If there's no id provided on item and no getKey supplied, fail fast with a clear message
+      throw new Error('Table: getItemKey is required when items have no "id" property');
+    },
+    sortKey: 'id',
+    sortOrder: true,
+    draggable: false,
+    alwaysShowDragHandle: false,
+    stickyHeader: true,
+    getItemLevel: () => 0,
+    getItemClassName: () => null,
+    getMetaColumnClassName: () => null,
+    getItemDataTest: () => null,
+    isItemCollapsible: () => false,
+    isParentCollapsible: () => false,
+    isItemCollapsed: () => false,
+    onItemCollapse: () => {},
+    onItemExpand: () => {},
+    onItemDoubleClick: () => {},
+    onItemClick: () => {},
+    remoteSelection: false,
+    isDisabledSelectionVisible: () => false,
+    getCheckboxTooltip: () => undefined,
+    RowComponent: Row,
+    wideFirstColumn: false,
+  };
+
+  state = {
+    shortcutsScope: getUID('ring-table-'),
+    userSelectNone: false,
+  };
+
+  componentDidMount() {
+    document.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  componentDidUpdate({data, selection, onSelect, selectable, remoteSelection}: TableProps<T>) {
+    if (data !== this.props.data && remoteSelection) {
+      onSelect(selection.cloneWith({data: this.props.data}));
+    }
+
+    if (!this.props.selectable && this.props.selectable !== selectable) {
+      onSelect(selection.resetSelection());
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  onMouseDown = (e: React.MouseEvent) => {
+    if (e.shiftKey) {
+      this.setState({userSelectNone: true});
+    }
+  };
+
+  onMouseUp = () => {
+    if (this.state.userSelectNone) {
+      this.setState({userSelectNone: false});
+    }
+  };
+
+  onRowFocus = (row: T) => {
+    const {selection, onSelect} = this.props;
+    onSelect(selection.focus(row));
+  };
+
+  onRowSelect = (row: T, selected: boolean) => {
+    const {selection, onSelect} = this.props;
+    if (selected) {
+      onSelect(selection.select(row));
+    } else {
+      onSelect(selection.deselect(row));
+    }
+  };
+
+  onSortEnd = ({oldIndex, newIndex}: OnChangeMeta) => {
+    const data = arrayMove(this.props.data as T[], oldIndex, newIndex);
+    this.props.onReorder({data, oldIndex, newIndex});
+  };
+
+  onCheckboxChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    const {checked} = e.currentTarget;
+    const {selection, onSelect} = this.props;
+
+    if (checked) {
+      onSelect(selection.selectAll());
+    } else {
+      onSelect(selection.reset());
+    }
+
+    this.restoreFocusWithoutScroll();
+  };
+
+  restoreFocusWithoutScroll = () => {
+    const {scrollX, scrollY} = window;
+    this.props.onFocusRestore();
+    window.scrollTo(scrollX, scrollY);
+  };
+
+  render() {
+    const {
+      data,
+      selection,
+      columns,
+      caption,
+      getItemKey,
+      selectable,
+      focused,
+      isItemSelectable,
+      getItemLevel,
+      getItemClassName,
+      getMetaColumnClassName,
+      getItemDataTest,
+      draggable,
+      alwaysShowDragHandle,
+      dragHandleTitle,
+      loading,
+      onSort,
+      sortKey,
+      sortOrder,
+      loaderClassName,
+      stickyHeader,
+      stickyHeaderOffset,
+      isItemCollapsible,
+      isParentCollapsible,
+      isItemCollapsed,
+      onItemCollapse,
+      onItemExpand,
+      isDisabledSelectionVisible,
+      getCheckboxTooltip,
+      onItemDoubleClick,
+      onItemClick,
+      renderEmpty,
+      RowComponent,
+      renderLoader,
+    } = this.props;
+
+    // NOTE: Do not construct new object per render because it causes all rows rerendering
+
+    const columnsArray = typeof columns === 'function' ? columns(null) : columns;
+
+    const headerProps: HeaderAttrs = {
+      caption,
+      selectable,
+      draggable,
+      columns: columnsArray,
+      onSort,
+      sortKey,
+      sortOrder,
+      sticky: stickyHeader,
+      topStickOffset: stickyHeaderOffset,
+      className: this.props.headerClassName,
+    };
+
+    const selectedSize = selection.getSelected().size;
+    const allSelectedSize = selection.selectAll().getSelected().size;
+    headerProps.checked = selectedSize > 0 && selectedSize === allSelectedSize;
+    headerProps.onCheckboxChange = this.onCheckboxChange;
+    headerProps.checkboxDisabled = this.props.data.length === 0;
+
+    const wrapperClasses = classNames(style.tableWrapper, this.props.wrapperClassName);
+
+    const classes = classNames(this.props.className, {
+      [style.table]: true,
+      [style.wideFirstColumn]: this.props.wideFirstColumn,
+      [style.userSelectNone]: this.state.userSelectNone,
+      [style.disabledHover]: this.props.disabledHover,
+    });
+
+    const renderList = ({children, props}: Partial<RenderListParams>) => {
+      const empty = (
+        <tr>
+          <td colSpan={columnsArray.length || 1} className={style.tableMessage}>
+            {renderEmpty ? renderEmpty() : null}
+          </td>
+        </tr>
+      );
+      const tbody = Array.isArray(children) && children.length > 0 ? children : empty;
+      return (
+        <table className={classes} data-test='ring-table'>
+          <Header {...headerProps} />
+          <tbody {...props} data-test='ring-table-body'>
+            {tbody}
+          </tbody>
+        </table>
+      );
+    };
+
+    const renderItem = ({value, props = {}, isDragged}: Partial<RenderItemParams<T>>) => {
+      if (value === null || value === undefined) {
+        return null;
+      }
+      const {ref, ...restProps} = props;
+      const row = (
+        <RowComponent<T>
+          innerRef={ref}
+          level={getItemLevel(value)}
+          item={value}
+          showFocus={selection.isFocused(value)}
+          autofocus={selection.isFocused(value)}
+          focused={focused && selection.isFocused(value)}
+          selectable={selectable && isItemSelectable(value)}
+          selected={selectable && selection.isSelected(value)}
+          onFocus={this.onRowFocus}
+          onSelect={this.onRowSelect}
+          onDoubleClick={onItemDoubleClick}
+          onClick={onItemClick}
+          collapsible={isItemCollapsible(value)}
+          parentCollapsible={isParentCollapsible(value)}
+          collapsed={isItemCollapsed(value)}
+          onCollapse={onItemCollapse}
+          onExpand={onItemExpand}
+          showDisabledSelection={isDisabledSelectionVisible(value)}
+          checkboxTooltip={getCheckboxTooltip(value)}
+          className={classNames(getItemClassName(value), {[style.draggingRow]: isDragged})}
+          metaColumnClassName={getMetaColumnClassName(value)}
+          draggable={draggable}
+          alwaysShowDragHandle={alwaysShowDragHandle}
+          dragHandleTitle={dragHandleTitle}
+          columns={columns}
+          data-test={getItemDataTest(value)}
+          cellClassName={this.props.cellClassName}
+          {...restProps}
+          key={restProps.key ?? getItemKey(value)}
+        />
+      );
+
+      return isDragged ? (
+        <table style={{...props.style}} className={style.draggingTable}>
+          <tbody>{row}</tbody>
+        </table>
+      ) : (
+        row
+      );
+    };
+
+    return (
+      <div className={wrapperClasses} data-test='ring-table-wrapper' ref={this.props.innerRef}>
+        {focused && <Shortcuts map={this.props.shortcutsMap} scope={this.state.shortcutsScope} />}
+
+        {/* Handler detects that user holds Shift key */}
+        <div role='presentation' onMouseDown={this.onMouseDown}>
+          {draggable ? (
+            <List values={data as T[]} renderList={renderList} renderItem={renderItem} onChange={this.onSortEnd} />
+          ) : (
+            renderList({children: data.map((value, index) => renderItem({value, index}))})
+          )}
+        </div>
+
+        {loading && (
+          <div className={style.loadingOverlay}>
+            {renderLoader ? renderLoader(loaderClassName) : <Loader className={loaderClassName} />}
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+
+const getContainer = <T extends object>() =>
+  disableHoverHOC(
+    selectionShortcutsHOC<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>(
+      focusSensorHOC<HTMLTableRowElement, TableProps<T>, typeof Table>(Table),
+    ),
+  );
+
+export type TableAttrs<T extends object> = DisableHoverProps<
+  SelectionShortcutsProps<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>
+>;
+
+// eslint-disable-next-line react/no-multi-comp
+export default class TableContainer<T extends object> extends Component<TableAttrs<T>> {
+  // https://stackoverflow.com/a/53882322/6304152
+  Table = getContainer<T>();
+
+  render() {
+    return <this.Table {...this.props} />;
+  }
+}

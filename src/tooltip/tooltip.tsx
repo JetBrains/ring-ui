@@ -215,7 +215,7 @@ export default class Tooltip extends Component<TooltipProps> {
     );
 
     return (
-      <TooltipContext.Provider value={{onNestedTooltipShow, onNestedTooltipHide}}>
+      <TooltipContext value={{onNestedTooltipShow, onNestedTooltipHide}}>
         <span
           {...ariaProps}
           {...restProps}
@@ -232,7 +232,7 @@ export default class Tooltip extends Component<TooltipProps> {
             </ThemeProvider>
           )}
         </span>
-      </TooltipContext.Provider>
+      </TooltipContext>
     );
   }
 }
