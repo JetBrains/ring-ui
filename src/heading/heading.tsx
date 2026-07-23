@@ -27,6 +27,8 @@ const HeadingMemo: ComponentType<HeadingProps> = memo(function Heading({
   level = Levels.H1,
   ...restProps
 }: HeadingProps) {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const classes = classNames(styles.heading, className);
 
   const isSupportedLevel = level <= Levels.H4;

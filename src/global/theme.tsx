@@ -101,6 +101,8 @@ function ThemeProviderInner({
   wrapperRef,
   ...restProps
 }: ThemeProviderInnerProps) {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
   const themeValue = {theme: resolvedTheme, passToPopups};

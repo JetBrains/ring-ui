@@ -22,6 +22,8 @@ interface DragHandleProps {
   dragHandleTitle?: string;
 }
 const DragHandle = ({alwaysShowDragHandle, dragHandleTitle = 'Drag to reorder'}: DragHandleProps) => {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const classes = classNames(style.dragHandle, {
     [style.visibleDragHandle]: alwaysShowDragHandle,
   });

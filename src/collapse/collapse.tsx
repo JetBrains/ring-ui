@@ -26,6 +26,8 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
   defaultCollapsed = true,
   collapsed = null,
 }) => {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const [innerCollapsed, setInnerCollapsed] = useState(defaultCollapsed);
   const id = useId();
 

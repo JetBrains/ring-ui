@@ -48,6 +48,8 @@ function noop() {}
 
 // eslint-disable-next-line complexity
 export const EditableHeading = (props: EditableHeadingProps) => {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const {
     level = Levels.H1,
     className,

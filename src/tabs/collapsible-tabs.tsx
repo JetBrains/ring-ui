@@ -44,6 +44,8 @@ export const CollapsibleTabs = ({
   morePopupItemClassName,
   initialVisibleItems,
 }: CollapsibleTabsProps) => {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const [sizes, setSizes] = useState<Sizes>({tabs: [], more: undefined});
   const [lastVisibleIndex, setLastVisibleIndex] = useState<number | null>(null);
   const elements = {sizes, lastVisibleIndex};

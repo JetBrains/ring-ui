@@ -45,6 +45,8 @@ export const Slider: React.FC<Props> = ({
   renderTag,
   onChange,
 }) => {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const ref = useRef<HTMLDivElement>(null);
   const previouslyDragged = useRef(false);
   const [values, setValues] = useState(defaultValue ?? min);

@@ -28,6 +28,8 @@ export default function AvatarStack({
   dropdownMenuProps,
   ...restProps
 }: AvatarProps) {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const sizeClass =

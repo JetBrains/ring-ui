@@ -24,15 +24,19 @@ export const ControlLabel: React.FC<ControlLabelProps> = ({
   type = LabelType.SECONDARY,
   disabled,
   ...rest
-}) => (
-  <label
-    className={classNames(styles.label, classNameByType[type], {
-      [styles.disabledLabel]: disabled,
-    })}
-    {...rest}
-  >
-    {children}
-  </label>
-);
+}) => {
+  // Remove when babel-plugin-react-compiler supports Babel 8
+  'use no memo';
+  return (
+    <label
+      className={classNames(styles.label, classNameByType[type], {
+        [styles.disabledLabel]: disabled,
+      })}
+      {...rest}
+    >
+      {children}
+    </label>
+  );
+};
 
 export default ControlLabel;
