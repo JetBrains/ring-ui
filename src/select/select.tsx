@@ -310,14 +310,12 @@ function getListItems<T = unknown>(
       }
 
       // Ignore item if it's multiple and is already selected
-      if (
-        !(
-          props.multiple &&
-          typeof props.multiple === 'object' &&
-          props.multiple.removeSelectedItems &&
-          state.multipleMap?.[item.key]
-        )
-      ) {
+      if (!(
+        props.multiple &&
+        typeof props.multiple === 'object' &&
+        props.multiple.removeSelectedItems &&
+        state.multipleMap?.[item.key]
+      )) {
         filteredData.push(item);
       }
     }
