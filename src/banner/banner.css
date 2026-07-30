@@ -32,7 +32,7 @@
     background-color: var(--ring-error-container-light-color);
 
     .icon {
-      color: var(--ring-main-error-color);
+      color: var(--ring-icon-error-color);
     }
   }
 
@@ -41,7 +41,7 @@
     background-color: var(--ring-success-container-light-color);
 
     .icon {
-      color: var(--ring-main-success-color);
+      color: var(--ring-icon-success-color);
     }
   }
 
@@ -50,7 +50,7 @@
     background-color: var(--ring-warning-container-light-color);
 
     .icon {
-      color: var(--ring-main-warning-color);
+      color: var(--ring-icon-warning-color);
     }
   }
 
