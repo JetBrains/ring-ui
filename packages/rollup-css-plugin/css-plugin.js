@@ -7,7 +7,10 @@ const postcss = require('postcss');
 const postcssImport = require('postcss-import');
 const postcssUrl = require('postcss-url');
 const cssModules = require('postcss-modules');
-const FileSystemLoader = require('postcss-modules/build/FileSystemLoader').default;
+// postcss-modules@9 doesn't expose ./build/FileSystemLoader in "exports", resolve it manually
+const FileSystemLoader = require(
+  path.join(path.dirname(require.resolve('postcss-modules/package.json')), 'build/FileSystemLoader.js'),
+).default;
 const {createFilter} = require('@rollup/pluginutils');
 
 const {DependencyGraph} = require('./css-plugin-dependencies');
