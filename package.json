@@ -82,7 +82,7 @@
     "storybook-debug": "node --inspect-brk node_modules/@storybook/react/bin -p 9999",
     "stylelint": "stylelint --ignore-path .stylelintignore '**/*.css'",
     "stylelint-ci": "stylelint --ignore-path .stylelintignore --custom-formatter 'scripts/jslint-xml.js' '**/*.css' | xmlappend eslint-report.xml",
-    "test": "vitest src",
+    "test": "vitest src && npm test --workspace @jetbrains/rollup-css-plugin",
     "type-check": "(npm run type-check:create-d-ts && npm run type-check:main && npm run type-check:build) ; npm run type-check:cleanup-d-ts",
     "type-check:create-d-ts": "npx tcm src && npx tcm .storybook",
     "type-check:main": "tsc --noEmit -p tsconfig.json",
