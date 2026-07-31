@@ -44,3 +44,4 @@ build-storybook.log
 
 # Air agent
 .air/
+/.codex-reviews/

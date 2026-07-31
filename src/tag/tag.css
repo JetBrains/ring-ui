@@ -93,7 +93,7 @@
   --ring-tag-container-background-color: var(--ring-added-subtle-background-color);
   --ring-tag-container-hover-background-color: var(--ring-added-background-color);
   --ring-tag-text-color: var(--ring-success-color);
-  --ring-tag-icon-color: var(--ring-icon-success-color);
+  --ring-tag-icon-color: var(--ring-success-color);
   --ring-tag-container-outline-background-color: var(--ring-success-container-light-color);
   --ring-tag-container-outline-hover-background-color: var(--ring-added-subtle-background-color);
   --ring-tag-outline-color: var(--ring-success-border-color);
@@ -104,7 +104,7 @@
   --ring-tag-container-background-color: var(--ring-warning-subtle-background-color);
   --ring-tag-container-hover-background-color: var(--ring-warning-background-color);
   --ring-tag-text-color: var(--ring-warning-color);
-  --ring-tag-icon-color: var(--ring-icon-warning-color);
+  --ring-tag-icon-color: var(--ring-warning-color);
   --ring-tag-container-outline-background-color: var(--ring-warning-container-light-color);
   --ring-tag-container-outline-hover-background-color: var(--ring-warning-subtle-background-color);
   --ring-tag-outline-color: var(--ring-warning-border-color);
@@ -115,7 +115,7 @@
   --ring-tag-container-background-color: var(--ring-removed-subtle-background-color);
   --ring-tag-container-hover-background-color: var(--ring-removed-background-color);
   --ring-tag-text-color: var(--ring-error-tag-text-color);
-  --ring-tag-icon-color: var(--ring-icon-error-color);
+  --ring-tag-icon-color: var(--ring-error-tag-text-color);
   --ring-tag-container-outline-background-color: var(--ring-error-container-light-color);
   --ring-tag-container-outline-hover-background-color: var(--ring-removed-subtle-background-color);
   --ring-tag-outline-color: var(--ring-error-border-color);
