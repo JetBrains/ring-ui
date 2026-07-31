@@ -59,7 +59,7 @@
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
     "lint-ci": "eslint --format jslint-xml . > eslint-report.xml && npm run stylelint-ci",
     "lint:js": "eslint",
-    "postbuild": "cpy './**/*.d.ts' ../dist --parents --cwd=components/",
+    "postbuild": "cpy './**/*.d.ts' ../dist --parents --cwd=components/ && node scripts/check-built-css.js",
     "postinstall": "husky && npm run postinstall:gitconfig",
     "postinstall:gitconfig": "git config blame.ignoreRevsFile .git-blame-ignore-revs",
     "postpublish": "pinst --enable",
