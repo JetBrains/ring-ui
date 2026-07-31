@@ -94,3 +94,21 @@ CollapsedByDefault.parameters = {
     actions: [{type: 'capture', name: '', selector: captureSelector}],
   },
 };
+
+export const KeepMountedWithHeading = () => (
+  <div className={styles.row}>
+    <CollapsibleGroup
+      className={styles.card}
+      title={'Deployments'}
+      subtitle={'Type below, collapse and expand — the draft survives'}
+      headingLevel={3}
+      keepMounted
+    >
+      <form className={styles.form} onSubmit={event => event.preventDefault()}>
+        <Input label='Step name' placeholder='Kept mounted while collapsed' />
+      </form>
+    </CollapsibleGroup>
+  </div>
+);
+
+KeepMountedWithHeading.storyName = 'Keep mounted, heading semantics';

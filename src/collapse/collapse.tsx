@@ -8,6 +8,15 @@ interface Props {
   onChange?: (collapsed: boolean) => void;
   duration?: number;
   disableAnimation?: boolean;
+  /**
+   * Keep children mounted while collapsed (hidden via CSS)
+   * instead of unmounting them, preserving their state.
+   * Note: hidden form controls still participate in form validation
+   * and submission — disable them while collapsed if needed.
+   * Content rendered through portals (e.g. Popup) escapes the hidden
+   * wrapper and is not hidden — close overlays on collapse.
+   */
+  keepMounted?: boolean;
   className?: string;
   defaultCollapsed?: boolean;
   collapsed?: boolean | null;
@@ -21,6 +30,7 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
   children,
   duration = BASE_ANIMATION_DURATION,
   disableAnimation = false,
+  keepMounted = false,
   className = '',
   onChange = () => {},
   defaultCollapsed = true,
@@ -44,6 +54,7 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
           setCollapsed,
           duration,
           disableAnimation,
+          keepMounted,
           id,
         }}
       >

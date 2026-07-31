@@ -27,6 +27,10 @@
   composes: header from '../collapsible-group/collapsible-group.css';
 }
 
+.heading {
+  composes: heading from '../collapsible-group/collapsible-group.css';
+}
+
 .headerButton {
   composes: headerButton from '../collapsible-group/collapsible-group.css';
 }
