@@ -81,5 +81,8 @@ object AllChecks : BuildType({
     snapshot(ConsoleErrors) {
       onDependencyCancel = FailureAction.ADD_PROBLEM
     }
+    snapshot(React18Compat) {
+      onDependencyCancel = FailureAction.ADD_PROBLEM
+    }
   }
 })
