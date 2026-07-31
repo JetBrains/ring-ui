@@ -1,6 +1,6 @@
 @import '../global/variables.css';
 
-@value button from '../button/button.css';
+@value button as buttonClass from '../button/button.css';
 
 .buttonToolbar {
   display: inline-block;
@@ -13,7 +13,7 @@
 
 .buttonToolbar > button,
 .buttonToolbar > :global(.ring-button-group),
-.buttonToolbar > .button,
+.buttonToolbar > .buttonClass,
 .buttonToolbar > .buttonGroup,
 .buttonToolbar > .split,
 .buttonToolbar > .buttonToolbar {

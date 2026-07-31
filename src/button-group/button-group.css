@@ -1,6 +1,6 @@
 @import '../global/variables.css';
 
-@value button, active as buttonActive, flat from '../button/button.css';
+@value button as buttonClass, active as buttonActive, flat from '../button/button.css';
 
 :root,
 :host {
@@ -37,7 +37,7 @@
   --ring-button-group-button-border-color: var(--ring-border-disabled-color);
 }
 
-.buttonGroup .button {
+.buttonGroup .buttonClass {
   position: relative;
 
   transition: none;
@@ -47,7 +47,7 @@
     0 -1px var(--ring-button-group-button-border-color) inset;
 }
 
-.buttonGroup .button[disabled] {
+.buttonGroup .buttonClass[disabled] {
   /* stylelint-disable selector-max-specificity */
   &::before,
   &::after {
@@ -75,8 +75,8 @@
   /* stylelint-enable */
 }
 
-.buttonGroup > .button:first-child,
-.buttonGroup > :first-child .button {
+.buttonGroup > .buttonClass:first-child,
+.buttonGroup > :first-child .buttonClass {
   box-shadow:
     0 1px var(--ring-button-group-button-border-color) inset,
     0 -1px var(--ring-button-group-button-border-color) inset,
@@ -88,8 +88,8 @@
   }
 }
 
-.buttonGroup > .button:last-child,
-.buttonGroup > :last-child .button {
+.buttonGroup > .buttonClass:last-child,
+.buttonGroup > :last-child .buttonClass {
   box-shadow:
     0 1px var(--ring-button-group-button-border-color) inset,
     0 -1px var(--ring-button-group-button-border-color) inset,
@@ -101,8 +101,8 @@
   }
 }
 
-.buttonGroup > .button:only-child,
-.buttonGroup > :only-child .button {
+.buttonGroup > .buttonClass:only-child,
+.buttonGroup > :only-child .buttonClass {
   box-shadow:
     0 1px var(--ring-button-group-button-border-color) inset,
     0 -1px var(--ring-button-group-button-border-color) inset,
@@ -116,15 +116,15 @@
 }
 
 /* stylelint-disable selector-max-specificity */
-.buttonGroup .button.button:hover:not(:disabled),
-.buttonGroup .button.button:active:not(:disabled) {
+.buttonGroup .buttonClass.buttonClass:hover:not(:disabled),
+.buttonGroup .buttonClass.buttonClass:active:not(:disabled) {
   --ring-button-border-radius-left: var(--ring-border-radius);
   --ring-button-border-radius-right: var(--ring-border-radius);
 
   box-shadow: var(--ring-button-shadow) var(--ring-button-border-color);
 }
 
-.buttonGroup .button.button:focus-visible {
+.buttonGroup .buttonClass.buttonClass:focus-visible {
   --ring-button-border-radius-left: var(--ring-border-radius);
   --ring-button-border-radius-right: var(--ring-border-radius);
 
@@ -133,14 +133,14 @@
     0 0 0 1px var(--ring-border-hover-color);
 }
 
-.buttonGroup .button.button.buttonActive {
+.buttonGroup .buttonClass.buttonClass.buttonActive {
   --ring-button-border-radius-left: var(--ring-border-radius);
   --ring-button-border-radius-right: var(--ring-border-radius);
 
   box-shadow: var(--ring-button-shadow) var(--ring-button-border-color);
 }
 
-.buttonGroup .button:focus-visible.buttonActive {
+.buttonGroup .buttonClass:focus-visible.buttonActive {
   --ring-button-border-radius-left: var(--ring-border-radius);
   --ring-button-border-radius-right: var(--ring-border-radius);
 
@@ -149,7 +149,7 @@
     0 0 0 1px var(--ring-border-hover-color);
 }
 
-.buttonGroup .button.buttonActive[disabled] {
+.buttonGroup .buttonClass.buttonActive[disabled] {
   box-shadow: var(--ring-button-shadow) var(--ring-border-hover-color);
 }
 /* stylelint-enable */
@@ -163,13 +163,13 @@
   border-radius: 0;
 }
 
-.common .button {
+.common .buttonClass {
   --ring-button-border-radius-left: 0;
   --ring-button-border-radius-right: 0;
 }
 
 .split button,
-.split .button {
+.split .buttonClass {
   margin: 0 0 0 -1px;
 }
 
@@ -192,8 +192,8 @@
   border-bottom-left-radius: var(--ring-border-radius);
 }
 
-.common > .button:first-child,
-.common > :first-child .button {
+.common > .buttonClass:first-child,
+.common > :first-child .buttonClass {
   --ring-button-border-radius-left: var(--ring-border-radius);
 
   margin: 0;
@@ -204,8 +204,8 @@
   border-bottom-right-radius: var(--ring-border-radius);
 }
 
-.common > .button:last-child,
-.common > :last-child .button {
+.common > .buttonClass:last-child,
+.common > :last-child .buttonClass {
   --ring-button-border-radius-right: var(--ring-border-radius);
 }
 
@@ -218,7 +218,7 @@
 }
 
 .common {
-  & .button {
+  & .buttonClass {
     position: relative;
     z-index: var(--ring-button-group-default-z-index);
 
