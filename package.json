@@ -228,7 +228,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "babel-plugin-transform-define": "^2.1.4",
     "browserslist": "^4.28.7",
-    "change-case": "^4.1.1",
+    "change-case": "^5.4.4",
     "classnames": "^2.5.1",
     "combokeys": "^3.0.1",
     "css-loader": "^7.1.4",
