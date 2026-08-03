@@ -1,7 +1,7 @@
 import {describe, expect, it} from 'vitest';
 
-// @ts-expect-error importing an untyped CommonJS script
-import {findCorruptedCss} from '../../scripts/check-built-css';
+// @ts-expect-error importing an untyped script
+import {findCorruptedCss} from '../../scripts/check-built-css.mjs';
 
 const OK = '.ring-button-group-common .ring-button-button:active{z-index:2}';
 
