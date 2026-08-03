@@ -159,7 +159,7 @@
   composes: buttonGroup from '../button-toolbar/button-toolbar.css';
 }
 
-.common button {
+.common button:not(:where(.buttonClass)) {
   border-radius: 0;
 }
 
