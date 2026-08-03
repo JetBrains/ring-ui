@@ -22,8 +22,8 @@ export interface CollapsibleGroupProps {
   disableAnimation?: boolean;
   interactive?: boolean;
   /**
-   * Keep children mounted while collapsed (hidden via CSS)
-   * instead of unmounting them, preserving their state.
+   * Keep children mounted while collapsed (hidden via `visibility: hidden`
+   * and the `inert` attribute) instead of unmounting them, preserving their state.
    * Note: hidden form controls still participate in form validation
    * and submission — disable them while collapsed if needed.
    * Content rendered through portals (e.g. Popup) escapes the hidden
