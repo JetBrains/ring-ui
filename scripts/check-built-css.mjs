@@ -7,9 +7,10 @@
  * drop those rules entirely. Guard the built stylesheet against that.
  */
 /* eslint-disable no-console */
-const fs = require('fs');
-const path = require('path');
-const postcss = require('postcss');
+import fs from 'fs';
+import path from 'path';
+import {fileURLToPath, pathToFileURL} from 'url';
+import postcss from 'postcss';
 
 // A scoped class name leaking outside class-selector position. In selectors a `ring-*` ident is
 // only legitimate right after `.` (class selector); in declaration values only inside a longer
@@ -17,8 +18,9 @@ const postcss = require('postcss');
 // scoped `@keyframes` in the same stylesheet. Everything else — `:ring-button-active` (was `:active`), bare
 // `> ring-button-button` (was `> button`), `:is(ring-x)`, `[ring-x]`, `[type=ring-x]`,
 // `12px/ring-x`, `content:'ring-x'` — is corruption left by the CSS-modules @value replacement.
-// ponytail: an intentional ring-prefixed attribute/string value (e.g. `[class~='ring-x']`) would
-// be a false positive — no such CSS exists; add an allowlist here if one ever appears
+// Potential false positive: an intentional ring-prefixed attribute/string value (e.g.
+// `[class~='ring-x']`) would trigger this check — no such CSS exists today; add an allowlist here
+// if one ever appears
 const LEAK = /(?<![\w.-])ring-[\w-]+/;
 // In declaration values a `.` proves nothing (a leaked `content: ".ring-button-button"` would
 // still be corruption), so there only longer idents like `var(--ring-*)` are exempt
@@ -31,7 +33,7 @@ const QUOTED = /'[^']*'|"[^"]*"/g;
 const hasSelectorLeak = text =>
   LEAK.test(text.replace(QUOTED, "''")) || (text.match(QUOTED) || []).some(quoted => VALUE_LEAK.test(quoted));
 
-function findCorruptedCss(css, from) {
+export function findCorruptedCss(css, from) {
   const root = postcss.parse(css, {from});
   const errors = [];
 
@@ -70,7 +72,9 @@ function findCorruptedCss(css, from) {
     }
   });
 
-  // Positive check: button-group :active rules survived the build intact
+  // Positive check: button-group :active rules survived the build intact. Tied to
+  // button-group.css's current markup — if that file is reworked, this check may start failing
+  // as an expected consequence; swap in a different positive check against the new markup.
   let hasButtonGroupActive = false;
   root.walkRules(rule => {
     if (rule.selector.includes('.ring-button-group-') && rule.selector.includes(':active')) {
@@ -84,10 +88,9 @@ function findCorruptedCss(css, from) {
   return errors;
 }
 
-module.exports = {findCorruptedCss};
-
-if (require.main === module) {
-  const stylePath = path.resolve(__dirname, '../dist/style.css');
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const dirname = path.dirname(fileURLToPath(import.meta.url));
+  const stylePath = path.resolve(dirname, '../dist/style.css');
   const errors = findCorruptedCss(fs.readFileSync(stylePath, 'utf-8'), stylePath);
 
   if (errors.length > 0) {
