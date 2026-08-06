@@ -66,7 +66,7 @@ function clearAndRenamePackage() {
   delete sourcePackageJSON.peerDependenciesMeta.webpack;
 
   // Remove build-time files from files to be published
-  sourcePackageJSON.files = ['components', 'typings.d.ts'];
+  sourcePackageJSON.files = ['components', 'skills', 'typings.d.ts'];
 
   // remove overrides
   delete sourcePackageJSON.overrides;

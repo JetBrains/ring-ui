@@ -13,6 +13,10 @@
 
 This collection of UI components aims to provide all the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 
+## Guidance for coding agents
+
+The npm packages include [`skills/ring-ui/SKILL.md`](./skills/ring-ui/SKILL.md), which teaches coding agents to consume Ring UI through `@jetbrains/ring-ui-built` when composing complete pages, responsive layouts, forms, themes, and feedback. The same Skill files are published in both npm artifacts.
+
 ## Try now
 * Try the [codesandbox](https://codesandbox.io/p/sandbox/ring-ui-7-0-demo-z6v6ym), based on `create-react-app` tooling, to see and try the UI components
 * Check out [list of examples](https://jetbrains.github.io/ring-ui/master/index.html) for each component
