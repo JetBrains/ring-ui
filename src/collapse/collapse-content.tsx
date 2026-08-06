@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
 import {getRect} from '../global/dom';
+import {parseCssDuration} from '../global/parse-css-duration';
 import {toPx} from './utils';
 import CollapseContext from './collapse-context';
 import {COLLAPSE_CONTENT_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './consts';
@@ -74,8 +75,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
     // Armed once per collapse toggle from the --duration committed to the DOM — the value
     // the running transition actually uses — so it can neither undercut a transition started
     // from a stale height nor be restarted by content resizes or duration changes mid-collapse
-    // TODO merge with global/parse-css-duration when this lands in develop-8.0
-    const cssDuration = parseFloat(container?.style.getPropertyValue('--duration') || '') || 0;
+    const cssDuration = parseCssDuration(container?.style.getPropertyValue('--duration') || '');
     const fallbackTimeout = window.setTimeout(finalizeCollapse, cssDuration + HIDE_FALLBACK_EXTRA_DELAY);
 
     return () => {
@@ -138,7 +138,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
         // tree, but descendants can override it with visibility: visible — inert cannot be escaped.
         // Both are rendered in JSX so server-rendered collapsed markup is protected before hydration.
         style={contentHidden ? {visibility: 'hidden'} : undefined}
-        inert={contentInert || undefined}
+        inert={contentInert}
       >
         {keepMounted || contentVisible ? children : null}
       </div>
