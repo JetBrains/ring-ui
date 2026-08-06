@@ -13,8 +13,20 @@ const DURATION_FACTOR = 0.5;
 const DEFAULT_HEIGHT = 0;
 const VISIBLE = 1;
 const HIDDEN = 0;
+// margin for the hide fallback timer, so it fires only if transitionend never did
+const HIDE_FALLBACK_EXTRA_DELAY = 100;
+
+const isFullyCollapsed = (collapsed: boolean, initialContentHeight: number) =>
+  collapsed && initialContentHeight <= DEFAULT_HEIGHT;
 
 interface Props {
+  /**
+   * Height of the always-visible preview of the collapsed content.
+   * The collapsed subtree is inert until expanded, matching `aria-expanded`.
+   * The preview is only a visual clip of that subtree, so it is inert too and
+   * assistive technology will not perceive it — if the preview carries essential
+   * information, expose an accessible summary outside the collapsed content.
+   */
   minHeight?: number;
   className?: string;
   'data-test'?: string | null | undefined;
@@ -29,7 +41,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   minHeight = DEFAULT_HEIGHT,
   'data-test': dataTest,
 }) => {
-  const {collapsed, duration, id, disableAnimation} = use(CollapseContext);
+  const {collapsed, duration, id, disableAnimation, keepMounted} = use(CollapseContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [initialContentHeight] = useState<number>(minHeight);
@@ -41,22 +53,47 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   const [shouldHideContent, setShouldHideContent] = useState<boolean>(collapsed && minHeight <= DEFAULT_HEIGHT);
 
   useEffect(() => {
-    function onTransitionEnd() {
+    const container = containerRef.current;
+
+    function finalizeCollapse() {
       if (initialContentHeight <= DEFAULT_HEIGHT) {
         setShouldHideContent(collapsed);
       }
     }
 
-    const container = containerRef.current;
+    function onTransitionEnd(event: TransitionEvent) {
+      // transitionend bubbles: only the container's own height transition finalizes the collapse
+      if (event.target === container && event.propertyName === 'height') {
+        finalizeCollapse();
+      }
+    }
+
     container?.addEventListener('transitionend', onTransitionEnd);
+    // fallback for suppressed or cancelled transitions (e.g. `transition: none` overrides),
+    // which emit no transitionend and would otherwise leave the content interactive forever.
+    // Armed once per collapse toggle from the --duration committed to the DOM — the value
+    // the running transition actually uses — so it can neither undercut a transition started
+    // from a stale height nor be restarted by content resizes or duration changes mid-collapse
+    // TODO merge with global/parse-css-duration when this lands in develop-8.0
+    const cssDuration = parseFloat(container?.style.getPropertyValue('--duration') || '') || 0;
+    const fallbackTimeout = window.setTimeout(finalizeCollapse, cssDuration + HIDE_FALLBACK_EXTRA_DELAY);
 
     return () => {
       container?.removeEventListener('transitionend', onTransitionEnd);
+      window.clearTimeout(fallbackTimeout);
     };
   }, [collapsed, initialContentHeight]);
 
+  // render-phase state adjustments (not effects): the React Compiler lint forbids
+  // setState-in-effect, and https://react.dev/learn/you-might-not-need-an-effect
+  // documents this pattern for resetting state when props change
   if (!collapsed && shouldHideContent) {
     setShouldHideContent(false);
+  }
+
+  // without a transition there is no transitionend to wait for, so hide immediately
+  if (disableAnimation && !shouldHideContent && isFullyCollapsed(collapsed, initialContentHeight)) {
+    setShouldHideContent(true);
   }
 
   useEffect(() => {
@@ -78,7 +115,13 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
 
   const fadeShouldBeVisible = Boolean(minHeight && collapsed);
 
-  const shouldRenderContent = disableAnimation ? !collapsed : !shouldHideContent;
+  const contentVisible = !shouldHideContent;
+  const contentHidden = Boolean(keepMounted) && !contentVisible;
+  // interaction is blocked as soon as the panel collapses (matching aria-expanded), while
+  // visibility waits for the animation to finish so the content stays painted meanwhile.
+  // This includes a minHeight preview: content clipped below it must not take focus,
+  // and inert cannot be applied any more granularly than to the whole subtree
+  const contentInert = collapsed;
 
   return (
     <div
@@ -88,8 +131,16 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
       className={classNames(styles.container, {[styles.transition]: !disableAnimation})}
       style={style}
     >
-      <div ref={contentRef} data-test={dataTests(COLLAPSE_CONTENT_TEST_ID, dataTest)}>
-        {shouldRenderContent ? children : null}
+      <div
+        ref={contentRef}
+        data-test={dataTests(COLLAPSE_CONTENT_TEST_ID, dataTest)}
+        // visibility: hidden removes the fully collapsed content from the tab order and accessibility
+        // tree, but descendants can override it with visibility: visible — inert cannot be escaped.
+        // Both are rendered in JSX so server-rendered collapsed markup is protected before hydration.
+        style={contentHidden ? {visibility: 'hidden'} : undefined}
+        inert={contentInert || undefined}
+      >
+        {keepMounted || contentVisible ? children : null}
       </div>
       {fadeShouldBeVisible && <div className={styles.fade} />}
     </div>

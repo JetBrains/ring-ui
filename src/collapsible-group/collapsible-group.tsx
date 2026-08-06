@@ -22,6 +22,20 @@ export interface CollapsibleGroupProps {
   onChange?: (expanded: boolean) => void;
   disableAnimation?: boolean;
   interactive?: boolean;
+  /**
+   * Keep children mounted while collapsed (hidden via `visibility: hidden`
+   * and the `inert` attribute) instead of unmounting them, preserving their state.
+   * Note: hidden form controls still participate in form validation
+   * and submission — disable them while collapsed if needed.
+   * Content rendered through portals (e.g. Popup) escapes the hidden
+   * wrapper and is not hidden — close overlays on collapse.
+   */
+  keepMounted?: boolean;
+  /**
+   * Wraps the header in an <h2>–<h6> to keep the document outline.
+   */
+  // eslint-disable-next-line no-magic-numbers
+  headingLevel?: 2 | 3 | 4 | 5 | 6;
   'data-test'?: string | null | undefined;
 }
 
@@ -94,6 +108,8 @@ const CollapsibleGroup = ({
   onChange = () => {},
   disableAnimation = false,
   interactive = true,
+  keepMounted = false,
+  headingLevel,
   'data-test': dataTest,
 }: CollapsibleGroupProps) => {
   const [innerExpanded, setInnerExpanded] = useState(defaultExpanded);
@@ -123,6 +139,20 @@ const CollapsibleGroup = ({
     [styles.focused]: focused,
   });
 
+  const header = interactive ? (
+    <CollapsibleGroupHeader
+      avatar={avatar}
+      titleContent={title}
+      subtitle={subtitle}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={onBlur}
+    />
+  ) : (
+    <CollapsibleGroupHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />
+  );
+
   return (
     <div ref={ref} className={classes} data-test={dataTest}>
       <Collapse
@@ -130,21 +160,10 @@ const CollapsibleGroup = ({
         collapsed={expanded == null ? null : !expanded}
         onChange={handleChange}
         disableAnimation={disableAnimation}
+        keepMounted={keepMounted}
         className={styles.collapseRoot}
       >
-        {interactive ? (
-          <CollapsibleGroupHeader
-            avatar={avatar}
-            titleContent={title}
-            subtitle={subtitle}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            onFocus={() => setFocused(true)}
-            onBlur={onBlur}
-          />
-        ) : (
-          <CollapsibleGroupHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />
-        )}
+        {headingLevel != null ? React.createElement(`h${headingLevel}`, {className: styles.heading}, header) : header}
         <CollapseContent>
           <div className={styles.body}>{children}</div>
         </CollapseContent>

@@ -37,6 +37,12 @@
   height: 28px;
 }
 
+.heading {
+  margin: 0;
+
+  font: inherit;
+}
+
 .headerButton {
   display: block;
 

@@ -116,6 +116,69 @@ describe('<CollapsibleGroup />', () => {
     expect(root.className).not.toContain(styles.focused);
   });
 
+  it('should preserve child state across a collapse cycle when keepMounted is set', async () => {
+    // disableAnimation makes the collapse settle synchronously, so the cycle
+    // crosses the state where non-kept-mounted children would be unmounted
+    render(
+      <CollapsibleGroup title={'Title'} keepMounted defaultExpanded disableAnimation>
+        <input aria-label='Draft' />
+      </CollapsibleGroup>,
+    );
+
+    const header = screen.getByRole('button', {name: 'Title'});
+    const input = screen.getByLabelText<HTMLInputElement>('Draft');
+
+    await userEvent.type(input, 'preserved');
+
+    await userEvent.click(header);
+
+    expect(header.getAttribute('aria-expanded')).toBe('false');
+    expect(screen.getByLabelText('Draft')).toBe(input);
+
+    await userEvent.click(header);
+
+    const inputAfterCycle = screen.getByLabelText<HTMLInputElement>('Draft');
+    expect(inputAfterCycle).toBe(input);
+    expect(inputAfterCycle.value).toBe('preserved');
+  });
+
+  it('should wrap the header in a heading when headingLevel is set', () => {
+    renderExpand({headingLevel: 3});
+
+    const heading = screen.getByRole('heading', {level: 3});
+    const header = screen.getByRole('button', {name: 'Title'});
+
+    expect(heading.contains(header)).toBe(true);
+  });
+
+  it('should forward every class to the deprecated expand stylesheet', async () => {
+    // CSS modules are proxied in tests, so compare class tokens in the source files
+    const {readFile} = await import('node:fs/promises');
+    const read = (file: string) => readFile(`${process.cwd()}/src/${file}`, 'utf8');
+    // strip comments and quoted strings (import/composes paths),
+    // then collect .className tokens anywhere in a selector
+    const classTokens = (css: string) =>
+      new Set(
+        [
+          ...css
+            .replace(/\/\*[\s\S]*?\*\//g, '')
+            .replace(/'[^']*'/g, '')
+            .matchAll(/\.([a-zA-Z_][\w-]*)/g),
+        ].map(match => match[1]),
+      );
+
+    const deprecatedCss = await read('expand/collapsible-group.css');
+    const canonical = classTokens(await read('collapsible-group/collapsible-group.css'));
+    const deprecated = classTokens(deprecatedCss);
+
+    expect([...deprecated].sort()).toEqual([...canonical].sort());
+
+    // duplicate selector names are not enough — every alias must actually forward the canonical rule
+    for (const token of canonical) {
+      expect(deprecatedCss).toContain(`composes: ${token} from`);
+    }
+  });
+
   it('should support disabling animation', async () => {
     renderExpand({disableAnimation: true});
 

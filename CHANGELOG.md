@@ -6,6 +6,12 @@
 - Changed the minimum supported React version to 19.2.0.
 - Removed the `useEventCallback()` custom hook; use the `useEffectEvent()` React hook instead.
 
+## [7.0.121]
+- Added `keepMounted` prop to `Collapse` and `CollapsibleGroup` that keeps collapsed content mounted (hidden via `visibility: hidden` and `inert`) instead of unmounting it, preserving local state, subscriptions and iframes. Limitations: content rendered through portals (e.g. `Popup`) is not hidden, and hidden form controls still participate in form validation — disable them while collapsed if needed.
+- Added `headingLevel` prop to `CollapsibleGroup` that wraps the header in an `<h2>`–`<h6>` element to preserve the document outline.
+- Fixed `Collapse` with `disableAnimation`: a positive `minHeight` preview now stays rendered while collapsed, and turning `disableAnimation` off while collapsed no longer re-renders hidden content into the tab order.
+- `CollapseContent` is now `inert` whenever the panel is collapsed, matching `aria-expanded`: a `minHeight` preview stays visible but is no longer interactive, and content clipped below it can no longer take keyboard focus.
+
 ## [7.0.118]
 - Updated Alert styles to match Figma design
 - Added `Alert.Type.INFO` alert type with an info-filled icon, and a matching `alertService.infoMessage()` helper

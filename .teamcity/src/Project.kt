@@ -18,6 +18,7 @@ object Project : Project({
   buildType(SecurityAudit)
   buildType(UnpublishSpecificVersion)
   buildType(GeminiTests)
+  buildType(React18Compat)
   buildType(QodanaAnalysis)
   buildType(UnitTestsAndBuild)
   buildType(Publish)
