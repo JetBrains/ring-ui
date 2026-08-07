@@ -1,4 +1,4 @@
-import React, {forwardRef, useContext, useState} from 'react';
+import React, {use, useState} from 'react';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-12px-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-12px-down';
@@ -11,6 +11,7 @@ import {CollapseContext} from '../collapse/collapse-context';
 import styles from './collapsible-group.css';
 
 export interface CollapsibleGroupProps {
+  ref?: React.Ref<HTMLDivElement>;
   avatar?: React.ReactNode;
   title: React.ReactNode;
   subtitle?: React.ReactNode;
@@ -47,7 +48,7 @@ interface CollapsibleGroupHeaderContentProps {
 type CollapsibleGroupHeaderProps = CollapsibleGroupHeaderContentProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 function CollapsibleGroupHeaderContent({avatar, titleContent, subtitle}: CollapsibleGroupHeaderContentProps) {
-  const {collapsed} = useContext(CollapseContext);
+  const {collapsed} = use(CollapseContext);
 
   return (
     <span className={styles.header}>
@@ -71,7 +72,7 @@ function CollapsibleGroupHeaderContent({avatar, titleContent, subtitle}: Collaps
 }
 
 function CollapsibleGroupHeader({avatar, titleContent, subtitle, ...buttonProps}: CollapsibleGroupHeaderProps) {
-  const {setCollapsed, collapsed, id} = useContext(CollapseContext);
+  const {setCollapsed, collapsed, id} = use(CollapseContext);
 
   return (
     <button
@@ -95,85 +96,81 @@ function CollapsibleGroupHeaderStatic({avatar, titleContent, subtitle}: Collapsi
   );
 }
 
-const CollapsibleGroup = forwardRef<HTMLDivElement, CollapsibleGroupProps>(
-  (
-    {
-      avatar,
-      title,
-      subtitle,
-      children,
-      className,
-      defaultExpanded = false,
-      expanded = null,
-      onChange = () => {},
-      disableAnimation = false,
-      interactive = true,
-      keepMounted = false,
-      headingLevel,
-      'data-test': dataTest,
-    },
-    ref,
-  ) => {
-    const [innerExpanded, setInnerExpanded] = useState(defaultExpanded);
-    const [hovered, setHovered] = useState(false);
-    const [focused, setFocused] = useState(false);
-    const isExpanded = expanded ?? innerExpanded;
+const CollapsibleGroup = ({
+  ref,
+  avatar,
+  title,
+  subtitle,
+  children,
+  className,
+  defaultExpanded = false,
+  expanded = null,
+  onChange = () => {},
+  disableAnimation = false,
+  interactive = true,
+  keepMounted = false,
+  headingLevel,
+  'data-test': dataTest,
+}: CollapsibleGroupProps) => {
+  const [innerExpanded, setInnerExpanded] = useState(defaultExpanded);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const isExpanded = expanded ?? innerExpanded;
 
-    const handleChange = (collapsed: boolean) => {
-      const nextExpanded = !collapsed;
-      if (expanded == null) {
-        setInnerExpanded(nextExpanded);
-      }
-      onChange(nextExpanded);
-    };
+  const handleChange = (collapsed: boolean) => {
+    const nextExpanded = !collapsed;
+    if (expanded == null) {
+      setInnerExpanded(nextExpanded);
+    }
+    onChange(nextExpanded);
+  };
 
-    const onBlur = (event: React.FocusEvent<HTMLElement>) => {
-      const nextTarget = event.relatedTarget;
-      if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
-        return;
-      }
-      setFocused(false);
-    };
+  const onBlur = (event: React.FocusEvent<HTMLElement>) => {
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
+      return;
+    }
+    setFocused(false);
+  };
 
-    const classes = classNames(styles.expand, className, {
-      [styles.hovered]: hovered,
-      [styles.expanded]: isExpanded,
-      [styles.focused]: focused,
-    });
+  const classes = classNames(styles.expand, className, {
+    [styles.hovered]: hovered,
+    [styles.expanded]: isExpanded,
+    [styles.focused]: focused,
+  });
 
-    const header = interactive ? (
-      <CollapsibleGroupHeader
-        avatar={avatar}
-        titleContent={title}
-        subtitle={subtitle}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onFocus={() => setFocused(true)}
-        onBlur={onBlur}
-      />
-    ) : (
-      <CollapsibleGroupHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />
-    );
+  const header = interactive ? (
+    <CollapsibleGroupHeader
+      avatar={avatar}
+      titleContent={title}
+      subtitle={subtitle}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={onBlur}
+    />
+  ) : (
+    <CollapsibleGroupHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />
+  );
 
-    return (
-      <div ref={ref} className={classes} data-test={dataTest}>
-        <Collapse
-          defaultCollapsed={!defaultExpanded}
-          collapsed={expanded == null ? null : !expanded}
-          onChange={handleChange}
-          disableAnimation={disableAnimation}
-          keepMounted={keepMounted}
-          className={styles.collapseRoot}
-        >
-          {headingLevel != null ? React.createElement(`h${headingLevel}`, {className: styles.heading}, header) : header}
-          <CollapseContent>
-            <div className={styles.body}>{children}</div>
-          </CollapseContent>
-        </Collapse>
-      </div>
-    );
-  },
-);
+  return (
+    <div ref={ref} className={classes} data-test={dataTest}>
+      <Collapse
+        defaultCollapsed={!defaultExpanded}
+        collapsed={expanded == null ? null : !expanded}
+        onChange={handleChange}
+        disableAnimation={disableAnimation}
+        keepMounted={keepMounted}
+        className={styles.collapseRoot}
+      >
+        {headingLevel != null ? React.createElement(`h${headingLevel}`, {className: styles.heading}, header) : header}
+        <CollapseContent>
+          <div className={styles.body}>{children}</div>
+        </CollapseContent>
+      </Collapse>
+    </div>
+  );
+};
 
 CollapsibleGroup.displayName = 'CollapsibleGroup';
 

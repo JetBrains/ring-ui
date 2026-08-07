@@ -1,365 +1,378 @@
-/**
- * @name Table
- */
-
-import {Component, PureComponent, type ReactNode, type SyntheticEvent} from 'react';
-import * as React from 'react';
+import React, {type ComponentPropsWithRef, Fragment, useRef} from 'react';
 import classNames from 'classnames';
-import {arrayMove, List} from 'react-movable';
-import {type OnChangeMeta, type RenderItemParams, type RenderListParams} from 'react-movable/lib/types';
 
-import focusSensorHOC, {type FocusSensorAddProps, type FocusSensorProps} from '../global/focus-sensor-hoc';
-import getUID from '../global/get-uid';
-import Shortcuts from '../shortcuts/shortcuts';
-import Loader from '../loader/loader';
-import Header, {type HeaderAttrs} from './header';
-import selectionShortcutsHOC, {
-  type SelectionShortcutsAddProps,
-  type SelectionShortcutsProps,
-} from './selection-shortcuts-hoc';
-import disableHoverHOC, {type DisableHoverAddProps, type DisableHoverProps} from './disable-hover-hoc';
-import Row from './row-with-focus-sensor';
-import {type Column, type SortParams} from './header-cell';
+import {SpacerRow, useVirtualItems, VirtualizationContext, type VirtualItem} from './internal/virtualization';
+import {DefaultItemRenderer} from './default-item-renderer';
+import {defaultRowHeight, TablePropsContext} from './table-const';
+import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
+import {ReorderAnimationContext, useReorderAnimationContextValue} from './internal/reorder-animation-context';
+import {useComposedRef} from '../global/compose-refs';
+import {TableHeader} from './internal/table-header';
+import {keyboardFocusableAttrName} from './table-primitives';
+import {isWithinNavigableElement} from '../global/is-within-navigable-element';
+import {ReorderLayoutContext, useReorderLayoutContextValue} from './internal/reorder-layout-context';
 
-import style from './table.css';
+import type {TableProps} from './table-props';
 
-export interface ReorderParams<T> {
-  data: T[];
-  oldIndex: number;
-  newIndex: number;
-}
+import styles from './table.css';
 
-export interface TableProps<T extends object>
-  extends FocusSensorAddProps<HTMLTableRowElement>, SelectionShortcutsAddProps<T>, DisableHoverAddProps {
-  data: readonly T[];
-  columns: readonly Column<T>[] | ((item: T | null) => readonly Column<T>[]);
-  isItemSelectable: (item: T) => boolean;
-  loading: boolean;
-  onSort: (params: SortParams) => void;
-  onReorder: (params: ReorderParams<T>) => void;
-  getItemKey: (item: T) => string | number;
-  sortKey: string;
-  sortOrder: boolean;
-  draggable: boolean;
-  alwaysShowDragHandle: boolean;
-  dragHandleTitle?: string;
-  stickyHeader: boolean;
-  wideFirstColumn: boolean;
-  getItemLevel: (item: T) => number;
-  getItemClassName: (item: T) => string | null | undefined;
-  getMetaColumnClassName: (item: T) => string | null | undefined;
-  getItemDataTest: (item: T) => string | null | undefined;
-  isItemCollapsible: (item: T) => boolean;
-  isParentCollapsible: (item: T) => boolean;
-  isItemCollapsed: (item: T) => boolean;
-  onItemCollapse: (item: T) => void;
-  onItemExpand: (item: T) => void;
-  onItemDoubleClick: (item: T) => void;
-  onItemClick: (item: T, e: React.MouseEvent<HTMLTableRowElement>) => void;
-  remoteSelection: boolean;
-  isDisabledSelectionVisible: (item: T) => boolean;
-  getCheckboxTooltip: (item: T) => string | undefined;
-  className?: string | null | undefined;
-  wrapperClassName?: string | null | undefined;
-  headerClassName?: string | null | undefined;
-  cellClassName?: string | null | undefined;
-  loaderClassName?: string | undefined;
-  caption?: string | null | undefined;
-  stickyHeaderOffset?: string | undefined;
-  renderEmpty?: (() => ReactNode) | null | undefined;
-  RowComponent: typeof Row;
-  renderLoader?: ((loaderClassName?: string) => ReactNode) | null | undefined;
-}
 /**
- * Interactive table with selection and keyboard navigation support.
+ * Table component replacing the tables in the `legacy-table` folder.
+ *
+ * This documentation provides an overview of the most common usage patterns.
+ * See individual props and exported components for detailed behavior.
+ *
+ * ## Minimal usage
+ *
+ * You need the following props:
+ * - `data`
+ * - `getKey`
+ * - `columns`
+ *   - `key`
+ *   - `name` (optional but needed in most cases)
+ *   - `renderCell` (optional but needed in most cases)
+ *
+ * ## Item rendering
+ *
+ * If `renderItem` is not specified, each item is rendered using
+ * `DefaultItemRenderer` (from `table/default-item-renderer`)
+ * as if the following code were used:
+ *
+ * ```tsx
+ * <Table
+ *   renderItem={(_item, index, _items) => (
+ *     <DefaultItemRenderer index={index} />
+ *   )}
+ * />
+ * ```
+ *
+ * `DefaultItemRenderer` renders a table row using the column definitions
+ * (`Column.renderCell`) and provides built-in support for features such as
+ * selection, keyboard navigation, and virtualization. It also accepts all
+ * standard `tr` attributes, including `ref`.
+ *
+ * Use `renderItem` to configure `DefaultItemRenderer` for each item:
+ *
+ * ```tsx
+ * <Table
+ *   renderItem={(item, index, items) => (
+ *     <DefaultItemRenderer
+ *       index={index}
+ *       keyboardFocusable
+ *       className='my-item'
+ *       onClick={e => handleClick(e, item, items)}
+ *     />
+ *   )}
+ * />
+ * ```
+ *
+ * If you need complete control over rendering, `renderItem` can instead
+ * return your own table rows. See "Custom item rendering" below.
+ *
+ * ## Selection
+ *
+ * Selection is typically implemented using the following props
+ * of the `DefaultItemRenderer`:
+ *
+ * - `clickable`
+ * - `selected`
+ * - `onClick` or `onPointerUp`, etc.
+ *
+ * The following utilities (from `global`) may come in handy:
+ *
+ * - `TableSelection` class to manage selection state
+ *   - An alternative approach is to keep a `selected` field on each item
+ * - `isWithinInteractiveElement()` to check if a click was made on a control
+ *   or on "empty space"
+ *
+ * ```tsx
+ * <Table
+ *   renderItem={(item, index) => (
+ *     <DefaultItemRenderer
+ *       index={index}
+ *       clickable
+ *       selected={selection.isSelected(item)}
+ *       onClick={e => {
+ *         if (!isWithinInteractiveElement(e)) {
+ *           setSelection(selection.toggleSelection(item));
+ *         }
+ *       }}
+ *     />
+ *   )}
+ * />
+ * ```
+ *
+ * Note that for accessibility reasons, you should have a cell with a checkbox
+ * to display and toggle item selection.
+ *
+ * ## Row focus
+ *
+ * The table implements the ["roving tabindex"](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets#technique_1_roving_tabindex)
+ * technique to focus rows with the up/down arrow keys.
+ * Rows can also be focused on click or other pointer events.
+ * To support it, use the following props of the `DefaultItemRenderer`:
+ *
+ * - `keyboardFocusable`
+ * - `clickable`, if you want to react to hover
+ * - `onClick`, if you want to focus on click
+ *
+ * Useful utils:
+ * - `focusWithTemporaryTabIndex()` from `global` to focus a row temporarily
+ *   patching its `tabindex`.
+ *
+ * ```tsx
+ * <Table
+ *   renderItem={(item, index) => (
+ *     <DefaultItemRenderer
+ *       index={index}
+ *       clickable
+ *       keyboardFocusable
+ *       onClick={e => {
+ *         if (!isWithinInteractiveElement(e)) {
+ *           focusWithTemporaryTabIndex(e.currentTarget);
+ *         }
+ *       }}
+ *     />
+ *   )}
+ * />
+ * ```
+ *
+ * Note that the table does not implement standard accessibility patterns such
+ * as `grid` or `treegrid`, so row focus is not announced by screen readers.
+ * Make sure all essential actions remain available without row focus, for
+ * example via standard Tab navigation.
+ *
+ * ## Sorting
+ *
+ * You need the following to support sorting:
+ *
+ * - Set `Column.sortOrder` to `'none'`, `'ascending'` or `'descending'`
+ *   to render the sort button, `aria-sort`, and indicate the current
+ *   sort order.
+ * - Handle `TableProps.onSort` callback in the client code.
+ *
+ * ## Deleting columns
+ *
+ * You need the following to support deleting columns:
+ *
+ * - Set `Column.deletable` to `true`. This will render a delete button in the
+ *   column header.
+ * - Make sure the `column` has a proper `name` or `key` prop, which will be
+ *   automatically included in the aria-label of the column delete button.
+ * - Handle `TableProps.onColumnDelete` callback in the client code. It is
+ *   expected to update `columns` by removing the corresponding column.
+ *
+ * ## Moving columns
+ *
+ * - Set `Column.canReorder` to `true` or to predicate specifying possible
+ *   insertion targets.
+ *   This will render a reorder button in the column header.
+ * - Make sure the `column` has a proper `name` or `key` prop, which will be
+ *   automatically included in the aria-label of the column reorder button.
+ * - Handle `TableProps.onColumnReorder` callback in the client code. It is
+ *   expected to update `columns` by moving the corresponding column to the
+ *   new position.
+ *
+ * ## Item reorder
+ *
+ * To allow the user to reorder rows by dragging:
+ *
+ * - Place `ItemReorderHandle` (from `table/table-primitives`) anywhere inside
+ *   a cell. It renders a drag icon button the user can grab to reorder the row.
+ * - Handle `TableProps.onItemReorder`. It is expected to update `data` by
+ *   moving the item to the new position.
+ * - Optionally, set `TableProps.canReorderItem` to restrict which positions
+ *   an item may be dropped into.
+ *
+ * By default, dragging shows a drag frame (a border around the dragged row)
+ * and an insertion indicator (a line between rows showing where the item will
+ * land). To implement fully custom drag visuals, set `noDragFrame` and
+ * `noHandleTranslate` on `ItemReorderHandle` and use its `onUserDrag` callback
+ * to track the drag lifecycle.
+ *
+ * ## Row virtualization
+ *
+ * To render only rows near the viewport while replacing off-screen rows with
+ * spacers, use:
+ *
+ * - `virtualizeRows` prop set to `true`
+ * - `scrollerRef` — required when the scrollable container is not the whole
+ *    document
+ * - `estimateHeight` — recommended when rows are expected to be taller than
+ *   the default height (e.g. multiline or custom content)
+ * - Fine-tuning props: `lookaheadPx`, `retentionMarginPx`,
+ *   `minScrollAndResizeDeltaPx`
+ *
+ * ## Custom item rendering
+ *
+ * Use the `renderItem` prop to render an item in a completely custom way.
+ * The prop is expected to return one or more table rows for the item.
+ * Use `TableRow` and `TableCell` from `table/table-primitives` to apply
+ * the default row and cell styles.
+ *
+ * ### Focus
+ *
+ * Just like `DefaultItemRenderer`, `TableRow` accepts the
+ * `keyboardFocusable` prop.
+ *
+ * Focusable rows rendered by either component form a single keyboard
+ * navigation sequence.
+ *
+ * ### Virtualization
+ *
+ * If `Table.virtualizeRows` is set to `true`, you need to handle visibility
+ * for your custom-rendered component yourself with the
+ * `useItemVirtualization()` hook (from `table/item-virtualization`). The hook
+ * allows observing the intersection of one or multiple elements rendered for
+ * the item, and, based on their intersection status, reporting the item as
+ * eligible for virtualization.
+ *
+ * If you use `DefaultItemRenderer` as part of your custom row renderer,
+ * set the `noItemVirtualization` prop to `true`, otherwise it will also try
+ * to control the virtualization, possibly reporting incorrect item height.
+ *
+ * ### Item reorder
+ *
+ * If `TableProps.onItemReorder` is set and your item spans multiple rows, call
+ * `useReorderItemLayout()` (from `table/reorder-item-layout`) to register the
+ * item's boundaries so the insertion indicator and insertion point calculation
+ * are correct. If `DefaultItemRenderer` is included inside your custom renderer,
+ * set its `noReorderLayout` prop to `true` to prevent double registration.
+ *
+ * ### Reorder animation
+ *
+ * After a column or item is reordered, the table briefly highlights the moved
+ * element. To apply the same animation in your custom-rendered rows, use
+ * `useReorderAnimation()` (from `table/reorder-animation`) to get information
+ * about the currently animated column or item.
  */
-export class Table<T extends object> extends PureComponent<TableProps<T>> {
-  static defaultProps = {
-    isItemSelectable: () => true,
-    loading: false,
-    onSort: () => {},
-    onReorder: () => {},
-    getItemKey: (item: object) => {
-      // Default behavior stays backward compatible: use item's "id" if present
-      if ('id' in item) {
-        return (item as {id: string | number}).id;
+export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'table'>) {
+  const {
+    data,
+    columns,
+    getKey,
+    noHeader,
+    stickyHeader,
+    onSort,
+    onColumnDelete,
+    onColumnReorder,
+    noColumnReorderAnimation,
+    canReorderItem,
+    onItemReorder,
+    noItemReorderAnimation,
+    renderItem,
+    virtualizeRows = false,
+    scrollerRef,
+    estimateHeight = () => defaultRowHeight,
+    // eslint-disable-next-line no-magic-numbers
+    lookaheadPx = 400,
+    // eslint-disable-next-line no-magic-numbers
+    retentionMarginPx = 450,
+    // eslint-disable-next-line no-magic-numbers
+    minScrollAndResizeDeltaPx = 50,
+    columnEditing,
+    onColumnEditingRequest,
+    columnEditButton,
+    theadClassName,
+    theadTrClassName,
+    tbodyClassName,
+
+    ref: userRef,
+    className,
+    ...restProps
+  } = props;
+
+  const localRef = useRef<HTMLTableElement>(null);
+
+  const reorderAnimationContextValue = useReorderAnimationContextValue({
+    noColumnReorderAnimation,
+    noItemReorderAnimation,
+    tableRef: localRef,
+    data,
+    columns,
+  });
+
+  function handleRowNavigation(e: React.KeyboardEvent<HTMLTableSectionElement>) {
+    if (e.defaultPrevented || isWithinNavigableElement(e.target)) return;
+
+    const arrowUp = e.key === 'ArrowUp';
+    const arrowDown = e.key === 'ArrowDown';
+    if (!arrowUp && !arrowDown) return;
+
+    const currentRow = (e.target as HTMLElement).closest('tr');
+    if (currentRow?.parentElement?.parentElement !== localRef.current) {
+      return;
+    }
+
+    let candidate: HTMLTableRowElement | null = currentRow;
+    while (candidate) {
+      candidate = (
+        arrowUp ? candidate.previousElementSibling : candidate.nextElementSibling
+      ) as HTMLTableRowElement | null;
+
+      if (candidate?.hasAttribute(keyboardFocusableAttrName)) {
+        focusWithTemporaryTabIndex(candidate);
+        e.preventDefault();
+        return;
       }
-      // If there's no id provided on item and no getKey supplied, fail fast with a clear message
-      throw new Error('Table: getItemKey is required when items have no "id" property');
-    },
-    sortKey: 'id',
-    sortOrder: true,
-    draggable: false,
-    alwaysShowDragHandle: false,
-    stickyHeader: true,
-    getItemLevel: () => 0,
-    getItemClassName: () => null,
-    getMetaColumnClassName: () => null,
-    getItemDataTest: () => null,
-    isItemCollapsible: () => false,
-    isParentCollapsible: () => false,
-    isItemCollapsed: () => false,
-    onItemCollapse: () => {},
-    onItemExpand: () => {},
-    onItemDoubleClick: () => {},
-    onItemClick: () => {},
-    remoteSelection: false,
-    isDisabledSelectionVisible: () => false,
-    getCheckboxTooltip: () => undefined,
-    RowComponent: Row,
-    wideFirstColumn: false,
-  };
-
-  state = {
-    shortcutsScope: getUID('ring-table-'),
-    userSelectNone: false,
-  };
-
-  componentDidMount() {
-    document.addEventListener('mouseup', this.onMouseUp);
-  }
-
-  componentDidUpdate({data, selection, onSelect, selectable, remoteSelection}: TableProps<T>) {
-    if (data !== this.props.data && remoteSelection) {
-      onSelect(selection.cloneWith({data: this.props.data}));
-    }
-
-    if (!this.props.selectable && this.props.selectable !== selectable) {
-      onSelect(selection.resetSelection());
     }
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('mouseup', this.onMouseUp);
-  }
+  const {virtualItems, virtualizationContextValue} = useVirtualItems({
+    enabled: virtualizeRows,
+    data,
+    scrollerRef,
+    tableRef: localRef,
+    estimateHeight,
+    lookaheadPx,
+    retentionMarginPx,
+    minScrollAndResizeDeltaPx,
+  });
 
-  onMouseDown = (e: React.MouseEvent) => {
-    if (e.shiftKey) {
-      this.setState({userSelectNone: true});
-    }
-  };
+  const itemReorderLayoutContextValue = useReorderLayoutContextValue();
 
-  onMouseUp = () => {
-    if (this.state.userSelectNone) {
-      this.setState({userSelectNone: false});
-    }
-  };
+  return (
+    <TablePropsContext value={props as TableProps<unknown>}>
+      <ReorderAnimationContext value={reorderAnimationContextValue}>
+        <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
+          <TableHeader />
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+          <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
+            <VirtualizationContext value={virtualizationContextValue}>
+              <ReorderLayoutContext value={itemReorderLayoutContextValue}>
+                {(virtualizeRows ? virtualItems : data).map((item, index) => {
+                  let dataItem: T;
+                  let dataItemIndex: number;
 
-  onRowFocus = (row: T) => {
-    const {selection, onSelect} = this.props;
-    onSelect(selection.focus(row));
-  };
+                  if (virtualizeRows) {
+                    const virtualItem = item as VirtualItem;
+                    if (virtualItem.type === 'spacer') {
+                      return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                    }
 
-  onRowSelect = (row: T, selected: boolean) => {
-    const {selection, onSelect} = this.props;
-    if (selected) {
-      onSelect(selection.select(row));
-    } else {
-      onSelect(selection.deselect(row));
-    }
-  };
+                    dataItemIndex = virtualItem.index;
+                    if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
+                    dataItem = data[dataItemIndex];
+                  } else {
+                    dataItem = item as T;
+                    dataItemIndex = index;
+                  }
 
-  onSortEnd = ({oldIndex, newIndex}: OnChangeMeta) => {
-    const data = arrayMove(this.props.data as T[], oldIndex, newIndex);
-    this.props.onReorder({data, oldIndex, newIndex});
-  };
-
-  onCheckboxChange = (e: SyntheticEvent<HTMLInputElement>) => {
-    const {checked} = e.currentTarget;
-    const {selection, onSelect} = this.props;
-
-    if (checked) {
-      onSelect(selection.selectAll());
-    } else {
-      onSelect(selection.reset());
-    }
-
-    this.restoreFocusWithoutScroll();
-  };
-
-  restoreFocusWithoutScroll = () => {
-    const {scrollX, scrollY} = window;
-    this.props.onFocusRestore();
-    window.scrollTo(scrollX, scrollY);
-  };
-
-  render() {
-    const {
-      data,
-      selection,
-      columns,
-      caption,
-      getItemKey,
-      selectable,
-      focused,
-      isItemSelectable,
-      getItemLevel,
-      getItemClassName,
-      getMetaColumnClassName,
-      getItemDataTest,
-      draggable,
-      alwaysShowDragHandle,
-      dragHandleTitle,
-      loading,
-      onSort,
-      sortKey,
-      sortOrder,
-      loaderClassName,
-      stickyHeader,
-      stickyHeaderOffset,
-      isItemCollapsible,
-      isParentCollapsible,
-      isItemCollapsed,
-      onItemCollapse,
-      onItemExpand,
-      isDisabledSelectionVisible,
-      getCheckboxTooltip,
-      onItemDoubleClick,
-      onItemClick,
-      renderEmpty,
-      RowComponent,
-      renderLoader,
-    } = this.props;
-
-    // NOTE: Do not construct new object per render because it causes all rows rerendering
-
-    const columnsArray = typeof columns === 'function' ? columns(null) : columns;
-
-    const headerProps: HeaderAttrs = {
-      caption,
-      selectable,
-      draggable,
-      columns: columnsArray,
-      onSort,
-      sortKey,
-      sortOrder,
-      sticky: stickyHeader,
-      topStickOffset: stickyHeaderOffset,
-      className: this.props.headerClassName,
-    };
-
-    const selectedSize = selection.getSelected().size;
-    const allSelectedSize = selection.selectAll().getSelected().size;
-    headerProps.checked = selectedSize > 0 && selectedSize === allSelectedSize;
-    headerProps.onCheckboxChange = this.onCheckboxChange;
-    headerProps.checkboxDisabled = this.props.data.length === 0;
-
-    const wrapperClasses = classNames(style.tableWrapper, this.props.wrapperClassName);
-
-    const classes = classNames(this.props.className, {
-      [style.table]: true,
-      [style.wideFirstColumn]: this.props.wideFirstColumn,
-      [style.userSelectNone]: this.state.userSelectNone,
-      [style.disabledHover]: this.props.disabledHover,
-    });
-
-    const renderList = ({children, props}: Partial<RenderListParams>) => {
-      const empty = (
-        <tr>
-          <td colSpan={columnsArray.length || 1} className={style.tableMessage}>
-            {renderEmpty ? renderEmpty() : null}
-          </td>
-        </tr>
-      );
-      const tbody = Array.isArray(children) && children.length > 0 ? children : empty;
-      return (
-        <table className={classes} data-test='ring-table'>
-          <Header {...headerProps} />
-          <tbody {...props} data-test='ring-table-body'>
-            {tbody}
+                  return (
+                    <Fragment key={getKey(dataItem, dataItemIndex, data)}>
+                      {renderItem ? (
+                        renderItem(dataItem, dataItemIndex, data)
+                      ) : (
+                        <DefaultItemRenderer index={dataItemIndex} />
+                      )}
+                    </Fragment>
+                  );
+                })}
+              </ReorderLayoutContext>
+            </VirtualizationContext>
           </tbody>
         </table>
-      );
-    };
-
-    const renderItem = ({value, props = {}, isDragged}: Partial<RenderItemParams<T>>) => {
-      if (value === null || value === undefined) {
-        return null;
-      }
-      const {ref, ...restProps} = props;
-      const row = (
-        <RowComponent<T>
-          innerRef={ref}
-          level={getItemLevel(value)}
-          item={value}
-          showFocus={selection.isFocused(value)}
-          autofocus={selection.isFocused(value)}
-          focused={focused && selection.isFocused(value)}
-          selectable={selectable && isItemSelectable(value)}
-          selected={selectable && selection.isSelected(value)}
-          onFocus={this.onRowFocus}
-          onSelect={this.onRowSelect}
-          onDoubleClick={onItemDoubleClick}
-          onClick={onItemClick}
-          collapsible={isItemCollapsible(value)}
-          parentCollapsible={isParentCollapsible(value)}
-          collapsed={isItemCollapsed(value)}
-          onCollapse={onItemCollapse}
-          onExpand={onItemExpand}
-          showDisabledSelection={isDisabledSelectionVisible(value)}
-          checkboxTooltip={getCheckboxTooltip(value)}
-          className={classNames(getItemClassName(value), {[style.draggingRow]: isDragged})}
-          metaColumnClassName={getMetaColumnClassName(value)}
-          draggable={draggable}
-          alwaysShowDragHandle={alwaysShowDragHandle}
-          dragHandleTitle={dragHandleTitle}
-          columns={columns}
-          data-test={getItemDataTest(value)}
-          cellClassName={this.props.cellClassName}
-          {...restProps}
-          key={restProps.key ?? getItemKey(value)}
-        />
-      );
-
-      return isDragged ? (
-        <table style={{...props.style}} className={style.draggingTable}>
-          <tbody>{row}</tbody>
-        </table>
-      ) : (
-        row
-      );
-    };
-
-    return (
-      <div className={wrapperClasses} data-test='ring-table-wrapper' ref={this.props.innerRef}>
-        {focused && <Shortcuts map={this.props.shortcutsMap} scope={this.state.shortcutsScope} />}
-
-        {/* Handler detects that user holds Shift key */}
-        <div role='presentation' onMouseDown={this.onMouseDown}>
-          {draggable ? (
-            <List values={data as T[]} renderList={renderList} renderItem={renderItem} onChange={this.onSortEnd} />
-          ) : (
-            renderList({children: data.map((value, index) => renderItem({value, index}))})
-          )}
-        </div>
-
-        {loading && (
-          <div className={style.loadingOverlay}>
-            {renderLoader ? renderLoader(loaderClassName) : <Loader className={loaderClassName} />}
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-const getContainer = <T extends object>() =>
-  disableHoverHOC(
-    selectionShortcutsHOC<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>(
-      focusSensorHOC<HTMLTableRowElement, TableProps<T>, typeof Table>(Table),
-    ),
+      </ReorderAnimationContext>
+    </TablePropsContext>
   );
-
-export type TableAttrs<T extends object> = DisableHoverProps<
-  SelectionShortcutsProps<T, FocusSensorProps<TableProps<T>, HTMLTableRowElement, typeof Table>>
->;
-
-// eslint-disable-next-line react/no-multi-comp
-export default class TableContainer<T extends object> extends Component<TableAttrs<T>> {
-  // https://stackoverflow.com/a/53882322/6304152
-  Table = getContainer<T>();
-
-  render() {
-    return <this.Table {...this.props} />;
-  }
 }

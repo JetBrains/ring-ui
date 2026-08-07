@@ -87,12 +87,12 @@ export const buttonGroup = () => (
       </ButtonGroup>
     </div>
     <div>
-      <ControlsHeightContext.Provider value={ControlsHeight.S}>
+      <ControlsHeightContext value={ControlsHeight.S}>
         <ButtonGroup split>
           <Button href='/'>Arrow height S</Button>
           <Button inline={false} icon={chevron12pxDownIcon} aria-label='Show options' />
         </ButtonGroup>
-      </ControlsHeightContext.Provider>
+      </ControlsHeightContext>
     </div>
     <div>
       <ButtonGroup split>

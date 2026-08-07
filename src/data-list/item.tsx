@@ -6,7 +6,7 @@ import Link from '../link/link';
 import Text from '../text/text';
 import LoaderInline from '../loader-inline/loader-inline';
 import Button from '../button/button';
-import {type SelectionItem} from '../table/selection';
+import {type SelectionItem} from '../global/table-selection';
 import Title from './title';
 
 import type Selection from './selection';

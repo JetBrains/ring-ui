@@ -9,12 +9,12 @@ import focusSensorHOC, {type FocusSensorAddProps, type FocusSensorOuterProps} fr
 import selectionShortcutsHOC, {
   type SelectionShortcutsAddProps,
   type SelectionShortcutsOuterProps,
-} from '../table/selection-shortcuts-hoc';
-import disableHoverHOC, {type DisableHoverAddProps} from '../table/disable-hover-hoc';
+} from '../legacy-table/selection-shortcuts-hoc';
+import disableHoverHOC, {type DisableHoverAddProps} from '../legacy-table/disable-hover-hoc';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
-import {type SelectionItem} from '../table/selection';
+import {type SelectionItem} from '../global/table-selection';
 import Item, {type FormattedItem, moreLessButtonStates} from './item';
 
 import type Selection from './selection';

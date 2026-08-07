@@ -1,12 +1,4 @@
-import {
-  forwardRef,
-  type HTMLAttributes,
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from 'react';
+import {type HTMLAttributes, type ReactNode, useCallback, useEffect, useImperativeHandle, useRef} from 'react';
 import * as React from 'react';
 
 import {isNodeInVisiblePartOfPage} from '../global/dom';
@@ -17,6 +9,7 @@ export const FOCUSABLE_ELEMENTS =
   'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';
 
 export interface TabTrapProps extends HTMLAttributes<HTMLElement> {
+  ref?: React.Ref<TabTrapObject>;
   children: ReactNode;
   trapDisabled?: boolean;
   autoFocusFirst?: boolean;
@@ -28,22 +21,19 @@ export interface TabTrapProps extends HTMLAttributes<HTMLElement> {
  * @name TabTrap
  */
 
-interface TabTrap {
+export interface TabTrapObject {
   node: HTMLElement | null;
 }
 
-// eslint-disable-next-line no-shadow
-const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
-  {
-    children,
-    trapDisabled = false,
-    autoFocusFirst = true,
-    focusBackOnClose = true,
-    focusBackOnExit = false,
-    ...restProps
-  },
+export default function TabTrap({
   ref,
-) {
+  children,
+  trapDisabled = false,
+  autoFocusFirst = true,
+  focusBackOnClose = true,
+  focusBackOnExit = false,
+  ...restProps
+}: TabTrapProps) {
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const trapButtonNodeRef = useRef<HTMLDivElement | null>(null);
   const previousFocusedNodeRef = useRef<Element | null>(null);
@@ -194,6 +184,4 @@ const TabTrap = forwardRef<TabTrap, TabTrapProps>(function TabTrap(
       />
     </div>
   );
-});
-
-export default TabTrap;
+}

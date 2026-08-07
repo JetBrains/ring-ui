@@ -28,7 +28,7 @@ single.parameters = {screenshots: {skip: true}};
 export const basic = () => (
   <Grid className='buttons'>
     {[ControlsHeight.S, ControlsHeight.M, ControlsHeight.L].map(height => (
-      <ControlsHeightContext.Provider value={height} key={height}>
+      <ControlsHeightContext value={height} key={height}>
         {[
           {inline: false},
           {primary: true, inline: false},
@@ -72,7 +72,7 @@ export const basic = () => (
             <br />
           </Fragment>
         ))}
-      </ControlsHeightContext.Provider>
+      </ControlsHeightContext>
     ))}
   </Grid>
 );

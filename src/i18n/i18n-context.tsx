@@ -23,5 +23,5 @@ export const I18nContextHolder: React.FC<I18nContextHolderProps> = ({children, m
     setTranslations(messages);
   }, [messages]);
 
-  return <I18nContext.Provider value={{messages, translate}}>{children}</I18nContext.Provider>;
+  return <I18nContext value={{messages, translate}}>{children}</I18nContext>;
 };

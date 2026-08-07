@@ -11,9 +11,9 @@ const reactRoot = createRoot(containerElement);
  */
 function renderLoginDialog(props: LoginDialogAttrs) {
   reactRoot.render(
-    <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
+    <ControlsHeightContext value={getGlobalControlsHeight()}>
       <LoginDialog {...props} />
-    </ControlsHeightContext.Provider>,
+    </ControlsHeightContext>,
   );
 }
 

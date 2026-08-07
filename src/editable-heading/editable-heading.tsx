@@ -1,4 +1,4 @@
-import {type InputHTMLAttributes, useEffect, useLayoutEffect} from 'react';
+import {type InputHTMLAttributes, useEffect, useEffectEvent, useLayoutEffect} from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -7,7 +7,6 @@ import Button from '../button/button';
 import {Size} from '../input/input';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
-import useEventCallback from '../global/use-event-callback';
 
 import inputStyles from '../input/input.css';
 import styles from './editable-heading.css';
@@ -149,7 +148,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     setIsMouseDown(true);
   };
 
-  const onMouseMove = useEventCallback(() => {
+  const onMouseMove = useEffectEvent(() => {
     if (!isMouseDown) {
       return;
     }
@@ -157,7 +156,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
     setIsInSelectionMode(true);
   });
 
-  const onMouseUp = useEventCallback(() => {
+  const onMouseUp = useEffectEvent(() => {
     if (isMouseDown && !isInSelectionMode && !disabled) {
       onEdit();
     }
@@ -204,7 +203,7 @@ export const EditableHeading = (props: EditableHeadingProps) => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
     };
-  }, [onMouseMove, onMouseUp]);
+  }, []);
 
   return (
     <>
@@ -275,4 +274,4 @@ export const EditableHeading = (props: EditableHeadingProps) => {
   );
 };
 
-export default React.memo(EditableHeading);
+export default EditableHeading;

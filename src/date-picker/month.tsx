@@ -5,25 +5,28 @@ import {useRef} from 'react';
 
 import Day from './day';
 import units, {type MonthsProps, WEEK, getWeekStartsOn} from './consts';
-import {type IntersectionObserverHandle, useVisibility} from './use-intersection-observer';
+import {useIsIntersecting} from '../global/intersection-observer-context';
 
 import styles from './date-picker.css';
 
 export interface MonthProps extends MonthsProps {
   month: Date;
-  intersectionObserverHandle: IntersectionObserverHandle | null;
 }
 
 export default function Month(props: MonthProps) {
-  const {month, locale, intersectionObserverHandle} = props;
+  const {month, locale} = props;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const visible = useVisibility(intersectionObserverHandle, containerRef);
+  const isIntersecting = useIsIntersecting(containerRef);
 
   return (
-    <div className={styles.month} ref={containerRef} style={visible ? {} : {height: getMonthHeight(month, locale)}}>
-      {visible && (
+    <div
+      className={styles.month}
+      ref={containerRef}
+      style={isIntersecting ? {} : {height: getMonthHeight(month, locale)}}
+    >
+      {isIntersecting && (
         <>
           <span className={styles.monthTitle}>{format(month, 'LLLL', {locale})}</span>
 

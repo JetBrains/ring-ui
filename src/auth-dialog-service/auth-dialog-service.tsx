@@ -17,9 +17,9 @@ type AuthDialogAttributes = React.JSX.LibraryManagedAttributes<typeof AuthDialog
  */
 function renderAuthDialog(props: AuthDialogAttributes) {
   reactRoot.render(
-    <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
+    <ControlsHeightContext value={getGlobalControlsHeight()}>
       <AuthDialog {...props} />
-    </ControlsHeightContext.Provider>,
+    </ControlsHeightContext>,
   );
 }
 

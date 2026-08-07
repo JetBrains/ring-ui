@@ -1,4 +1,4 @@
-import {useContext, cloneElement} from 'react';
+import {use, cloneElement} from 'react';
 import * as React from 'react';
 
 import dataTests from '../global/data-tests';
@@ -19,7 +19,7 @@ interface Props {
  */
 
 export const CollapseControl: React.FC<Props> = ({children, 'data-test': dataTest}) => {
-  const {setCollapsed, collapsed, id} = useContext(CollapseContext);
+  const {setCollapsed, collapsed, id} = use(CollapseContext);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const child: React.ReactElement<any> = typeof children === 'function' ? children(collapsed) : children;

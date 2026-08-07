@@ -1,4 +1,4 @@
-import {forwardRef, Component, type HTMLAttributes} from 'react';
+import {Component, type Ref, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
 import createResizeDetector from 'element-resize-detector';
 
@@ -12,12 +12,14 @@ const noop = () => {};
 const END_DISTANCE = 16;
 
 export interface IslandContentProps extends Omit<HTMLAttributes<HTMLElement>, 'onScroll'> {
+  ref?: Ref<Content>;
   fade?: boolean | null | undefined;
   onScrollToBottom?: (() => void) | null | undefined;
   scrollableWrapperClassName?: string | null | undefined;
 }
 
 export interface IslandContentInnerProps extends IslandContentProps {
+  ref?: Ref<Content>;
   onScroll: (node: HTMLElement) => void;
   bottomBorder: boolean;
 }
@@ -83,6 +85,7 @@ class Content extends Component<IslandContentInnerProps> {
 
   render() {
     const {
+      ref,
       children,
       className,
       bottomBorder,
@@ -121,14 +124,14 @@ class Content extends Component<IslandContentInnerProps> {
   }
 }
 
-const ContentWrapper = forwardRef<Content, IslandContentProps>((props, ref) => (
+const ContentWrapper = ({...props}: IslandContentProps) => (
   <ScrollHandlerContext.Consumer>
     {onScroll => {
       const addProps = onScroll ? {onScroll, bottomBorder: true} : {};
-      return <Content {...props} {...addProps} ref={ref} />;
+      return <Content {...props} {...addProps} />;
     }}
   </ScrollHandlerContext.Consumer>
-));
+);
 
 ContentWrapper.displayName = 'ContentWrapper';
 

@@ -1,9 +1,8 @@
-import {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {useEffect, useEffectEvent, useLayoutEffect, useRef, useState} from 'react';
 import {type Locale} from 'date-fns';
 
 import units, {isSafariOnIPhone, scrollerReRenderDelayIPhone, type CalendarProps, type ScrollDate} from './consts';
 import {type ScrollArith} from './scroll-arith';
-import useEventCallback from '../global/use-event-callback';
 
 import type scheduleRAF from '../global/schedule-raf';
 
@@ -20,7 +19,7 @@ export function useScrollBehavior(
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const syncSelfState = useEventCallback((newScrollDate: ScrollDate['date']) => {
+  const syncSelfState = useEffectEvent((newScrollDate: ScrollDate['date']) => {
     const newScrollTopOnExistingItems = arith.getScrollTop(items, newScrollDate, locale);
     if (isNearEdge(newScrollTopOnExistingItems, containerRef.current!)) {
       const {newItems, newScrollTop} = arith.getItemsAndScrollTop(newScrollDate, locale);
@@ -46,7 +45,7 @@ export function useScrollBehavior(
 
       syncSelfState(scrollDate.date);
     },
-    [scrollDate, selfScrollDateSource, syncSelfState],
+    [scrollDate, selfScrollDateSource],
   );
 
   const ignoreNextScrollEventRef = useRef<boolean>(true);
@@ -64,7 +63,7 @@ export function useScrollBehavior(
 
   const updateStateTimerRef = useRef<number | null>(null);
 
-  const handleScroll = useEventCallback(() => {
+  const handleScroll = useEffectEvent(() => {
     scheduleScroll(() => {
       if (updateStateTimerRef.current != null) {
         window.clearTimeout(updateStateTimerRef.current);
@@ -114,7 +113,7 @@ export function useScrollBehavior(
         updateStateTimerRef.current = null;
       }
     };
-  }, [handleScroll]);
+  }, []);
 
   return {containerRef, items};
 }

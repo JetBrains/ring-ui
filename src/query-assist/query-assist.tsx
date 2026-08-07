@@ -1073,7 +1073,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     });
 
     return (
-      <ControlsHeightContext.Provider value={ControlsHeight.M}>
+      <ControlsHeightContext value={ControlsHeight.M}>
         <I18nContext.Consumer>
           {({translate}) => (
             <div
@@ -1184,7 +1184,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
             </div>
           )}
         </I18nContext.Consumer>
-      </ControlsHeightContext.Provider>
+      </ControlsHeightContext>
     );
   }
 }

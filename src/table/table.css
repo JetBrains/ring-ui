@@ -1,260 +1,249 @@
 @import '../global/variables.css';
 
-.tableWrapper {
-  --ring-table-compensate: 2px;
-  --ring-table-compensated: calc(calc(4 * var(--ring-unit)) - var(--ring-table-compensate));
-  --ring-table-top: -3px;
-
-  position: relative;
-  font-variant-numeric: var(--ring-font-variant-numeric);
-}
-
 .table {
+  --reorder-animation-fade-out-duration: 600ms;
+
   width: 100%;
 
   border-spacing: 0;
+
+  border-style: none;
 }
 
-.userSelectNone {
-  user-select: none;
+.stickyHeader {
+  position: sticky;
+  z-index: var(--ring-overlay-z-index);
+
+  top: 0;
+
+  background-color: rgba(var(--ring-content-background-components), 0.85);
+  backdrop-filter: blur(8px);
+}
+
+@property --header-cell-shadow-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
 }
 
 .headerCell {
-  composes: font-smaller-lower from '../global/global.css';
+  margin: 0;
 
-  box-sizing: border-box;
-  height: calc(var(--ring-unit) * 3);
-  padding-right: calc(var(--ring-unit) * 5);
+  padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
 
-  text-align: left;
-  white-space: nowrap;
+  transition: background-color var(--ring-fast-ease), --header-cell-shadow-color var(--ring-fast-ease);
+
+  border-bottom: 1px solid var(--ring-line-color);
+
+  box-shadow: inset 1px 0 0 var(--header-cell-shadow-color), 1px 0 0 var(--header-cell-shadow-color);
+
+  &:hover {
+    --header-cell-shadow-color: var(--ring-line-color);
+
+    &:not(.reorderAnimationInitial, .reorderAnimationFadeOut) {
+      background-color: var(--ring-grey-container-light-color);
+    }
+  }
+}
+
+.headerCellInnerWrapper {
+  display: flex;
+  justify-content: start;
 
   color: var(--ring-secondary-color);
 
+  font-size: var(--ring-font-size-smaller);
   font-weight: normal;
+
+  .sortAndHeader {
+    flex-grow: 1;
+
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .rightButtons {
+    margin-left: 4px;
+  }
 }
 
-.headerCell:first-child {
-  padding-left: calc(var(--ring-unit) * 4);
-}
+.tableButton {
+  margin: unset;
+  padding: unset;
 
-.headerCell:last-child {
-  width: 100%;
-  padding-right: calc(var(--ring-unit) * 4);
-}
-
-.headerCell:first-child:only-child {
-  width: initial;
-  max-width: none;
-}
-
-.headerCell.headerCellSorted {
-  font-weight: var(--ring-font-weight-bold);
-}
-
-.headerCell.headerCellSortable {
   cursor: pointer;
+
+  transition: color var(--ring-fast-ease);
+  text-align: unset;
+
+  color: unset;
+  border: unset;
+  background: unset;
+
+  font: unset;
+
+  &:hover {
+    color: var(--ring-main-hover-color);
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid var(--ring-button-focus-border-color);
+  }
+
+  &:focus-within {
+    color: var(--ring-main-hover-color);
+  }
 }
 
-.headerCell .sorter {
-  position: absolute;
-  top: 5px;
+.deleteColumnButton {
+  pointer-events: none;
 
-  display: none;
+  color: transparent;
 
-  margin-left: 5px;
+  .theadColumnEditing &,
+  .headerCell:hover &,
+  &:focus {
+    pointer-events: unset;
+  }
 
-  user-select: none;
+  /* stylelint-disable-next-line selector-max-specificity */
+  .theadColumnEditing &:not(:focus),
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:hover &:not(:focus) {
+    color: unset;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:hover &:hover:not(:focus),
+  &:focus {
+    color: var(--ring-main-hover-color);
+  }
 }
 
-.headerCell.headerCellSortable .sorter {
-  display: inline-block;
-}
+.columnReorderHandle {
+  overflow: hidden;
 
-.sortedUp .icon {
-  transform: rotate(180deg);
-  transform-origin: center 44%;
-}
-
-.caption {
-  padding-top: var(--ring-unit);
-  padding-bottom: 6px;
-
-  color: var(--ring-text-color);
-  border-bottom: 0;
-
-  font-size: var(--ring-font-size);
-  font-weight: var(--ring-font-weight-bold);
-  line-height: var(--ring-line-height-lower);
-}
-
-.tableHead::after {
-  position: absolute;
-
-  width: 100%;
-
-  height: 1px;
-
-  content: '';
-
-  background-color: var(--ring-line-color);
-}
-
-.subHeaderSticky {
-  position: sticky;
-
-  z-index: var(--ring-fixed-z-index);
-  top: 0;
-
-  background-color: rgba(var(--ring-content-background-components), 0.9);
-}
-
-.row {
-  outline: none;
-
-  line-height: var(--ring-table-compensated);
-}
-
-/* stylelint-disable-next-line selector-max-specificity */
-.table:not(.disabledHover) .row:hover {
-  background-color: var(--ring-hover-background-color);
-}
-
-.rowSelected {
-  background-color: var(--ring-selected-background-color);
-}
-
-.rowFocused {
-  background-color: var(--ring-hover-background-color);
-}
-/* stylelint-disable-next-line selector-max-specificity */
-.rowFocused .cell:nth-child(1) {
-  box-shadow: inset 2px 0 var(--ring-main-color);
-}
-
-.loadingOverlay {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: var(--ring-table-loader-background-color);
-}
-
-.cell {
-  composes: ellipsis from '../global/global.css';
-
-  box-sizing: content-box;
-
-  min-width: 0;
-
-  height: calc(4 * var(--ring-unit));
-  padding: 0;
-  padding-right: calc(var(--ring-unit) * 5);
-
-  color: var(--ring-text-color);
-}
-
-.cell:first-child {
-  padding-left: calc(var(--ring-unit) * 4);
-}
-
-.cell:last-child {
-  width: 100%;
-
-  /* Markup hack, allows cell to have content which is wider than cell and collapses it */
-
-  max-width: 0;
-  padding-right: calc(var(--ring-unit) * 4);
-}
-
-.wideFirstColumn .cell:first-child {
-  min-width: calc(var(--ring-unit) * 37);
-  max-width: calc(var(--ring-unit) * 77);
-}
-
-.cell:first-child:only-child {
-  width: initial;
-  max-width: none;
-}
-
-.cellUnlimited {
-  width: 100%;
-}
-
-.cellRight {
-  text-align: right;
-}
-
-.metaColumn {
-  position: relative;
-
-  float: left;
-
-  height: 16px;
-  padding-right: var(--ring-table-compensate);
-}
-
-.metaColumn.headerMetaColumn {
-  padding-top: 1px;
-}
-
-.dragHandle {
-  top: var(--ring-table-top);
-  left: calc(-2 * var(--ring-unit));
+  width: 0;
 
   cursor: grab;
 
-  opacity: 0;
+  transition: color var(--ring-fast-ease), width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
+
+  border-radius: var(--ring-border-radius);
+  touch-action: none;
 }
 
-/* override button */
-.dragHandle.dragHandle {
-  position: absolute;
-
-  height: calc(calc(4 * var(--ring-unit)) - var(--ring-table-top));
-  padding: 0;
-}
-
-.dragHandle.visibleDragHandle,
-.row:hover .dragHandle {
-  opacity: 1;
-}
-
-.rowCollapseExpandButton {
-  padding-right: calc(var(--ring-unit) / 2);
-  padding-left: 7px;
-}
-
-.draggingRow {
-  z-index: var(--ring-overlay-z-index);
-
-  background-color: var(--ring-hover-background-color);
-}
-
-.draggingRow .dragHandle {
-  cursor: grabbing;
-
-  opacity: 1;
-}
-
-.draggingRow .dragHandle svg {
-  color: var(--ring-main-color);
-}
-
-.draggingTable {
-  z-index: var(--ring-overlay-z-index);
-
-  border-spacing: 0;
-}
-
-.tableMessage {
-  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4);
+.itemReorderHandle {
+  cursor: grab;
 
   color: var(--ring-secondary-color);
+
+  border-radius: var(--ring-border-radius);
+  touch-action: none;
+}
+
+.theadColumnEditing .columnReorderHandle,
+.headerCell:hover .columnReorderHandle,
+.columnReorderHandle:focus-visible {
+  width: 12px;
+  margin-right: 4px;
+}
+
+.columnReorderHandleMirror {
+  display: inline-block;
+
+  width: 12px;
+  margin-left: 4px;
+
+  transition: width var(--ring-fast-ease), margin-left var(--ring-fast-ease);
+}
+
+.theadColumnEditing .columnReorderHandleMirror,
+.headerCell:hover .columnReorderHandleMirror,
+.columnReorderHandle:focus-visible ~ .columnReorderHandleMirror {
+  width: 0;
+  margin-left: 0;
+}
+
+.editColumnsButton {
+  & svg {
+    transition: transform var(--ring-fast-ease);
+  }
+
+  .theadColumnEditing & svg {
+    transform: rotate(90deg);
+  }
+}
+
+.dragFrame {
+  position: fixed;
+
+  z-index: var(--ring-overlay-z-index);
+
+  pointer-events: none;
+
+  border: 2px solid var(--ring-border-accent-color);
+  border-radius: calc(2 * var(--ring-border-radius));
+
+  background-color: rgba(var(--ring-border-accent-components), 0.06);
+}
+
+.insertionIndicator {
+  position: fixed;
+
+  z-index: var(--ring-overlay-z-index);
+
+  background-color: var(--ring-main-color);
+}
+
+.reorderAnimationInitial {
+  transition: none;
+
+  background-color: rgba(var(--ring-border-accent-components), 0.12);
+}
+
+.reorderAnimationFadeOut {
+  transition: background-color var(--reorder-animation-fade-out-duration) ease-out;
+
+  background-color: transparent;
+}
+
+.spacerRow {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.spacerCell {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.row:focus {
+  border-radius: var(--ring-border-radius);
+  outline: 2px solid var(--ring-button-focus-border-color);
+}
+
+.clickableRow {
+  cursor: pointer;
+
+  transition: background-color var(--ring-fast-ease);
+
+  &:not(.selectedRow):hover {
+    background-color: var(--ring-hover-background-color);
+  }
+}
+
+.selectedRow {
+  background-color: var(--ring-selected-background-color);
+}
+
+.cell {
+  padding: var(--ring-unit);
+
+  border-bottom: 1px solid var(--ring-line-color);
 }

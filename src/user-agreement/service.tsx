@@ -271,9 +271,9 @@ export default class UserAgreementService {
         };
 
         this.reactRoot.render(
-          <ControlsHeightContext.Provider value={getGlobalControlsHeight()}>
+          <ControlsHeightContext value={getGlobalControlsHeight()}>
             <UserAgreement {...props} />
-          </ControlsHeightContext.Provider>,
+          </ControlsHeightContext>,
         );
 
         if (onDialogShow) {

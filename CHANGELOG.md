@@ -1,3 +1,11 @@
+## [8.0.0]
+
+### BREAKING CHANGES
+- Introduced the new Table component in the existing `table` directory. The old tables and related files (such as `selection.ts`) were moved to the `legacy-table` directory. To continue using the old tables, update your imports (for example, `import SimpleTable from '@jetbrains/ring-ui/components/table/simple-table'` -> `import SimpleTable from '@jetbrains/ring-ui/components/legacy-table/simple-table'`).
+- The file `table/selection.ts` was moved and renamed to `global/table-selection.ts`.
+- Changed the minimum supported React version to 19.2.0.
+- Removed the `useEventCallback()` custom hook; use the `useEffectEvent()` React hook instead.
+
 ## [7.0.121]
 - Added `keepMounted` prop to `Collapse` and `CollapsibleGroup` that keeps collapsed content mounted (hidden via `visibility: hidden` and `inert`) instead of unmounting it, preserving local state, subscriptions and iframes. Limitations: content rendered through portals (e.g. `Popup`) is not hidden, and hidden form controls still participate in form validation — disable them while collapsed if needed.
 - Added `headingLevel` prop to `CollapsibleGroup` that wraps the header in an `<h2>`–`<h6>` element to preserve the document outline.

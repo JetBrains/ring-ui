@@ -1,4 +1,4 @@
-import {Component, createContext, forwardRef, type InputHTMLAttributes, type ReactNode} from 'react';
+import {Component, createContext, type Ref, type InputHTMLAttributes, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import getUID from '../global/get-uid';
@@ -55,10 +55,11 @@ export class RadioItemInner extends Component<RadioItemInnerProps> {
 }
 
 export interface RadioItemProps extends RadioItemInnerProps {
+  ref?: Ref<RadioItemInner>;
   value: string;
 }
 
-const RadioItem = forwardRef<RadioItemInner, RadioItemProps>(function RadioItem(props, ref) {
+export default function RadioItem({ref, ...props}: RadioItemProps) {
   return (
     <RadioContext.Consumer>
       {({value, onChange, ...restContext}) => (
@@ -72,5 +73,4 @@ const RadioItem = forwardRef<RadioItemInner, RadioItemProps>(function RadioItem(
       )}
     </RadioContext.Consumer>
   );
-});
-export default RadioItem;
+}
