@@ -1,5 +1,3 @@
-const browserslist = require('browserslist');
-
 module.exports = function config(api) {
   api.cache(true);
 
@@ -10,12 +8,6 @@ module.exports = function config(api) {
         {
           target: '19', // should be the minimal supported version from peerDependencies
           panicThreshold: 'all_errors',
-        },
-      ],
-      [
-        'babel-plugin-transform-define',
-        {
-          SUPPORTED_BROWSERS: browserslist(),
         },
       ],
     ],
