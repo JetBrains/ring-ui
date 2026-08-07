@@ -8,7 +8,6 @@ import Loader from '../loader/loader';
 import Tooltip from '../tooltip/tooltip';
 import Auth from '../auth/auth';
 import Code from '../code/code';
-import ContentLayout, {Sidebar} from '../content-layout/content-layout';
 import Link from '../link/link';
 import List, {type ListAttrs} from './list';
 import Source from './list-users-groups-source';
@@ -252,19 +251,21 @@ export const WithUsers = () => {
   }, []);
 
   return listData ? (
-    <ContentLayout>
-      <Sidebar>
-        <List className='list' data={listData} shortcuts onSelect={setSelected} />
-      </Sidebar>
+    <>
+      <List className='list users-list' data={listData} shortcuts onSelect={setSelected} />
       {selected && <Code className='selected' language='json' code={JSON.stringify(selected, null, 2)} />}
-    </ContentLayout>
+    </>
   ) : (
     <Loader />
   );
 };
 
 WithUsers.storyName = 'with users';
-WithUsers.parameters = {screenshots: {skip: true}};
+WithUsers.parameters = {
+  screenshots: {skip: true},
+  storyStyles:
+    '<style>.users-list { box-sizing: border-box; max-inline-size: calc(var(--ring-unit) * 30); padding-inline: calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 2); }</style>',
+};
 WithUsers.tags = ['skip-test'];
 
 export const withCustomTooltip: StoryFn<ListAttrs> = args => <List {...args} />;

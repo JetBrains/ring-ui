@@ -96,10 +96,6 @@ export interface ListProps<T = unknown> {
   maxHeight?: number | null | undefined;
   activeIndex?: number | null | undefined;
   useMouseUp?: boolean | null | undefined;
-  /**
-   * @deprecated No longer used. Visibility is detected automatically via IntersectionObserver. Will be removed in Ring UI 8.0.
-   */
-  visible?: boolean | null | undefined;
   disableMoveOverflow?: boolean | null | undefined;
   compact?: boolean | null | undefined;
   disableScrollToActive?: boolean | null | undefined;

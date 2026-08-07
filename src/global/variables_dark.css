@@ -15,8 +15,6 @@
   --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #4E5157 */
   --ring-border-selected-disabled-components: 90, 93, 99;
   --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #5A5D63 */
-  --ring-border-disabled-active-components: var(--ring-border-hover-components);
-  --ring-border-disabled-active-color: var(--ring-border-hover-color); /* TODO: remove in 8.0 in favor of --ring-border-hover-color */
   --ring-icon-disabled-components: 111, 115, 122;
   --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #6F737A */
   --ring-border-hover-components: 55, 95, 173;
@@ -82,8 +80,6 @@
   --ring-popup-shadow-color: rgba(0, 0, 0, 0.31);
   --ring-popup-secondary-shadow-color: rgba(0, 0, 0, 0.37);
   --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);
-  --ring-pinned-shadow-components: 0, 0, 0;
-  --ring-pinned-shadow-color: rgb(var(--ring-pinned-shadow-components)); /* #000 */ /* TODO remove in 8.0 */
   --ring-button-danger-hover-color: var(--ring-error-color);
   --ring-button-primary-border-components: 153, 187, 255;
   --ring-button-primary-border-color: rgb(var(--ring-button-primary-border-components)); /* #99BBFF */
@@ -93,8 +89,6 @@
   --ring-dialog-shadow: 0 4px 16px var(--ring-popup-shadow-color), 0 2px 6px var(--ring-popup-secondary-shadow-color);
 
   /* Text */
-  --ring-hint-components: 134, 138, 145;
-  --ring-hint-color: rgb(var(--ring-hint-components)); /* #868A91 */ /* TODO: remove in 8.0 */
   --ring-link-components: 153, 187, 255;
   --ring-link-color: rgb(var(--ring-link-components)); /* #99BBFF */
   --ring-link-hover-components: 107, 155, 250;
@@ -153,7 +147,6 @@
   --ring-disabled-selected-background-components: 67, 69, 74;
   --ring-disabled-selected-background-color: rgb(var(--ring-disabled-selected-background-components)); /* #43454A */
   --ring-button-danger-active-color: var(--ring-error-container-light-color); /* #5E3838 */
-  --ring-button-primary-background-color: var(--ring-main-color); /* TODO remove in 8.0 */
   --ring-table-loader-background-color: rgba(var(--ring-content-background-components), 0.5); /* #2B2D3050 */
   --ring-removed-subtle-background-components: 64, 41, 41;
   --ring-removed-subtle-background-color: rgb(var(--ring-removed-subtle-background-components)); /* #402929 */

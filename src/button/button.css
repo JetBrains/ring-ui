@@ -235,12 +235,12 @@
 }
 
 .primaryBlock {
-  --ring-button-default-background-color: var(--ring-button-primary-background-color);
+  --ring-button-default-background-color: var(--ring-main-color);
   --ring-button-hover-background-color: var(--ring-main-hover-color);
-  --ring-button-pressed-background-color: var(--ring-button-primary-background-color);
-  --ring-button-active-background-color: var(--ring-button-primary-background-color);
+  --ring-button-pressed-background-color: var(--ring-main-color);
+  --ring-button-active-background-color: var(--ring-main-color);
   --ring-button-active-hover-background-color: var(--ring-main-hover-color);
-  --ring-button-active-pressed-background-color: var(--ring-button-primary-background-color);
+  --ring-button-active-pressed-background-color: var(--ring-main-color);
   --ring-button-disabled-background-color: var(--ring-border-hover-color);
   --ring-button-pressed-border-color: var(--ring-button-primary-border-color);
   --ring-button-active-border-color: var(--ring-button-primary-border-color);

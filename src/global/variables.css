@@ -20,8 +20,6 @@
   --ring-border-disabled-color: rgb(var(--ring-border-disabled-components)); /* #ebecf0 */
   --ring-border-selected-disabled-components: 201, 204, 214;
   --ring-border-selected-disabled-color: rgb(var(--ring-border-selected-disabled-components)); /* #c9ccd6 */
-  --ring-border-disabled-active-components: var(--ring-border-hover-components);
-  --ring-border-disabled-active-color: var(--ring-border-hover-color); /* TODO: remove in 8.0 in favor of --ring-border-hover-color */
   --ring-icon-disabled-components: 168, 173, 189;
   --ring-icon-disabled-color: rgb(var(--ring-icon-disabled-components)); /* #A8ADBD */
   --ring-border-hover-components: 160, 189, 248;
@@ -36,8 +34,6 @@
   --ring-icon-hover-color: rgb(var(--ring-icon-hover-components)); /* #5a5d6b */
   --ring-main-components: 51, 105, 214;
   --ring-main-color: rgb(var(--ring-main-components)); /* #3369D6 */
-  --ring-action-link-components: var(--ring-link-components);
-  --ring-action-link-color: var(--ring-link-color); /* #315FBD */ /* TODO: remove in 8.0 in favor of --ring-link-color */
   --ring-main-hover-components: 49, 95, 189;
   --ring-main-hover-color: rgb(var(--ring-main-hover-components)); /* #315FBD */
   --ring-main-success-components: 31, 128, 57;
@@ -94,8 +90,6 @@
   --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.1);
   --ring-popup-secondary-shadow-color: rgba(var(--ring-popup-border-components), 0.04);
   --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);
-  --ring-pinned-shadow-components: 108, 112, 126;
-  --ring-pinned-shadow-color: rgb(var(--ring-pinned-shadow-components)); /* #6C707E */ /* TODO remove in 8.0 */
   --ring-button-danger-hover-components: 219, 59, 75;
   --ring-button-danger-hover-color: rgb(var(--ring-button-danger-hover-components)); /* #DB3B4B */
   --ring-button-primary-border-components: 46, 85, 163;
@@ -108,8 +102,6 @@
   /* Text */
   --ring-search-components: 112, 156, 245;
   --ring-search-color: rgb(var(--ring-search-components)); /* #709CF5 */
-  --ring-hint-components: 46, 85, 163;
-  --ring-hint-color: rgb(var(--ring-hint-components)); /* #2E55A3 */ /* TODO: remove in 8.0 */
   --ring-link-components: 49, 95, 189;
   --ring-link-color: rgb(var(--ring-link-components)); /* #315FBD */
   --ring-link-hover-components: 46, 85, 163;
@@ -167,8 +159,6 @@
   --ring-disabled-selected-background-components: 235, 236, 240;
   --ring-disabled-selected-background-color: rgb(var(--ring-disabled-selected-background-components)); /* #EBECF0 */
   --ring-button-danger-active-color: var(--ring-error-container-light-color); /* #FAD4D8 */
-  --ring-button-loader-background: rgba(var(--ring-white-text-components), 0.4); /* TODO remove in 8.0 */
-  --ring-button-primary-background-color: var(--ring-main-color); /* TODO remove in 8.0 */
   --ring-table-loader-background-color: rgba(var(--ring-content-background-components), 0.5); /* #FFFFFF50 */
   --ring-removed-subtle-background-components: 255, 235, 236;
   --ring-removed-subtle-background-color: rgb(var(--ring-removed-subtle-background-components)); /* #FFEBEC */

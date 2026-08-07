@@ -68,13 +68,6 @@ function startOldBrowsersDetector(onOldBrowserDetected?: () => void) {
   };
 }
 
-/**
- * @deprecated Will be removed in Ring UI 8.0.
- */
-function stopOldBrowserDetector() {
-  window.onerror = previousWindowErrorHandler;
-}
-
 //Start javascript error detection
 startOldBrowsersDetector(() => {
   const oldBrowsersMessageContainer = document.getElementById('ring-old-browsers-message');
@@ -101,5 +94,3 @@ startOldBrowsersDetector(() => {
     attachSmileClickListener(smileNode);
   }
 });
-
-export {stopOldBrowserDetector as stop};

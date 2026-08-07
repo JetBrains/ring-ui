@@ -54,12 +54,6 @@ const SizesSquare: Record<Size, SizesEntry> = {
     fontSize: '8px',
     textAnchor: 'middle',
   },
-  [Size.Size18]: {
-    radius: 4,
-    text: {x: 9, y: 13},
-    fontSize: '11px',
-    textAnchor: 'middle',
-  },
   [Size.Size20]: {
     radius: 4,
     text: {x: 2, y: 10},
@@ -92,13 +86,6 @@ const SizesSquare: Record<Size, SizesEntry> = {
     letterSpacing: 1,
     underscore: {x: 5, y: 32, width: 15, height: 2.5},
   },
-  [Size.Size48]: {
-    radius: 4,
-    text: {x: 3, y: 21},
-    fontSize: '19px',
-    letterSpacing: 1,
-    underscore: {x: 5, y: 32, width: 15, height: 2.5},
-  },
   [Size.Size56]: {
     radius: 4,
     text: {x: 4, y: 28},
@@ -112,13 +99,6 @@ const SizesRound: Record<Size, SizesEntry> = {
   [Size.Size16]: {
     radius: 4,
     fontSize: '8px',
-    text: {x: '50%', y: '54%'},
-    textAnchor: 'middle',
-    dominantBaseline: 'middle',
-  },
-  [Size.Size18]: {
-    radius: 4,
-    fontSize: '11px',
     text: {x: '50%', y: '54%'},
     textAnchor: 'middle',
     dominantBaseline: 'middle',
@@ -153,14 +133,6 @@ const SizesRound: Record<Size, SizesEntry> = {
     letterSpacing: 1,
   },
   [Size.Size40]: {
-    radius: 4,
-    fontSize: '19px',
-    letterSpacing: 1,
-    text: {x: '50%', y: '54%'},
-    textAnchor: 'middle',
-    dominantBaseline: 'middle',
-  },
-  [Size.Size48]: {
     radius: 4,
     fontSize: '19px',
     letterSpacing: 1,

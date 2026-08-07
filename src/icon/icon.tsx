@@ -35,7 +35,6 @@ export interface IconProps extends HTMLAttributes<HTMLElement> {
    * @deprecated Use icons with appropriate intrinsic sizes instead
    */
   width?: number | undefined;
-  loading?: boolean | null | undefined; // TODO: remove in 8.0
   suppressSizeWarning?: boolean | null | undefined;
 }
 
@@ -76,30 +75,13 @@ export default class Icon extends PureComponent<IconProps> {
   }
 
   render() {
-    const {
-      className,
-      size,
-      color,
-      loading,
-      glyph: Glyph,
-      width,
-      height,
-      suppressSizeWarning,
-      ...restProps
-    } = this.props;
+    const {className, size, color, glyph: Glyph, width, height, suppressSizeWarning, ...restProps} = this.props;
 
     if (!Glyph) {
       return null;
     }
 
-    const classes = classNames(
-      styles.icon,
-      color && styles[color],
-      {
-        [styles.loading]: loading,
-      },
-      className,
-    );
+    const classes = classNames(styles.icon, color && styles[color], className);
 
     return (
       <span data-test='ring-icon' {...restProps} className={classes}>

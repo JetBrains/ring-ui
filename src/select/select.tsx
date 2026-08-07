@@ -75,11 +75,7 @@ type SelectItemData<T> = T & {
 export type SelectItem<T = unknown> = ListDataItem<SelectItemData<T>>;
 
 function getLowerCaseLabel<T>(item: SelectItem<T>) {
-  if (
-    List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
-    List.isItemType(List.ListProps.Type.HINT, item) ||
-    typeof item.label !== 'string'
-  ) {
+  if (List.isItemType(List.ListProps.Type.SEPARATOR, item) || typeof item.label !== 'string') {
     return null;
   }
 

@@ -22,13 +22,11 @@ export interface RingCSSProperties {
   '--ring-popup-border-color'?: Property.BorderColor;
   '--ring-popup-shadow-color'?: Property.Color;
   '--ring-message-shadow-color'?: Property.Color;
-  '--ring-pinned-shadow-color'?: Property.Color;
   '--ring-button-danger-hover-color'?: Property.Color;
   '--ring-button-primary-border-color'?: Property.Color;
 
   /* Text */
   '--ring-search-color'?: Property.Color;
-  '--ring-hint-color'?: Property.Color;
   '--ring-link-color'?: Property.Color;
   '--ring-link-hover-color'?: Property.Color;
   '--ring-error-color'?: Property.Color;
@@ -56,8 +54,6 @@ export interface RingCSSProperties {
   '--ring-disabled-background-color'?: Property.BackgroundColor;
   '--ring-disabled-selected-background-color'?: Property.BackgroundColor;
   '--ring-button-danger-active-color'?: Property.BackgroundColor;
-  '--ring-button-loader-background'?: Property.BackgroundColor;
-  '--ring-button-primary-background-color'?: Property.BackgroundColor;
 
   /* Code */
   '--ring-code-background-color'?: Property.BackgroundColor;

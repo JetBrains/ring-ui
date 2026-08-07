@@ -1,10 +1,8 @@
 import {PureComponent, type ImgHTMLAttributes, type ReactNode} from 'react';
 import classNames from 'classnames';
-import deprecate from 'util-deprecate';
 
 import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
-import memoize from '../global/memoize';
 import FallbackAvatar from './fallback-avatar';
 import {Size} from './avatar-size';
 import AvatarInfo from './avatar-info';
@@ -24,13 +22,6 @@ export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
   info?: ReactNode; // renders a avatar-like node with the provided content
   skipParams?: boolean | null | undefined;
 }
-
-const warnSize = memoize((size: Size) =>
-  deprecate(
-    () => {},
-    `Avatar: Size${size} is deprecated and will be removed in 8.0. The supported sizes are: Size20, Size24, Size28, Size32, Size40.`,
-  ),
-);
 
 export default class Avatar extends PureComponent<AvatarProps> {
   static defaultProps = {
@@ -55,9 +46,6 @@ export default class Avatar extends PureComponent<AvatarProps> {
   render() {
     const {size, url, dpr, style, round, subavatar, subavatarSize, username, info, skipParams, ...restProps} =
       this.props;
-    if ([Size.Size18, Size.Size48].includes(size)) {
-      warnSize(size)();
-    }
     const sizeString = `${size}px`;
     const subavatarSizeString = `${subavatarSize}px`;
     const styleObj = {
