@@ -1,4 +1,4 @@
-import {paramCase} from 'change-case';
+import {kebabCase} from 'change-case';
 import {create} from 'storybook/theming';
 
 export const darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
@@ -9,7 +9,7 @@ const variables: Record<string, string> = window.Proxy
       {
         get: (_, prop) =>
           getComputedStyle(document.documentElement)
-            .getPropertyValue(`--ring-${paramCase(prop as string)}`)
+            .getPropertyValue(`--ring-${kebabCase(prop as string)}`)
             .trim(),
       },
     )
