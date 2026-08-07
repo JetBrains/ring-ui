@@ -7,7 +7,7 @@
 - Removed the `useEventCallback()` custom hook; use the `useEffectEvent()` React hook instead.
 - Removed the deprecated `Grid`, `Row`, `Col`, `ContentLayout`, and `Sidebar` components; use CSS flexbox, CSS grid, or another layout library instead.
 - Removed the deprecated `Button` `text` prop; use `inline` instead.
-- Removed the deprecated `Icon` `loading` prop and `ListDataItemType.HINT`.
+- Removed the deprecated `Icon` `loading` prop and `List.ListProps.Type.HINT`.
 - Removed the deprecated `List` `visible` prop; visibility is detected automatically with `IntersectionObserver`.
 - Removed the deprecated `Avatar` sizes 18 and 48; use another supported size instead.
 - Removed the deprecated `old-browsers-message` `stop` export.
