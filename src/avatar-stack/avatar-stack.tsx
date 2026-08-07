@@ -30,8 +30,7 @@ export default function AvatarStack({
 }: AvatarProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const sizeClass =
-    size !== Size.Size16 && size !== Size.Size18 && size !== Size.Size48 ? styles[`size${size}`] : undefined;
+  const sizeClass = size !== Size.Size16 ? styles[`size${size}`] : undefined;
 
   return (
     <div

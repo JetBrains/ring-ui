@@ -1,7 +1,7 @@
 import './old-browsers-message.css';
 import {useEffect} from 'react';
 
-import {stop} from './old-browsers-message';
+import './old-browsers-message';
 
 export default {
   title: 'Style-only/Old Browsers Message',
@@ -11,7 +11,7 @@ export default {
 Displays a full-screen "Browser is unsupported" message if a JavaScript error occurs on page load in an old browser.
 
 Note: this script does not have any dependencies, you should include it directly.
-Once loaded, it attaches a global error handler. When your app finishes loading you should probably turn it off by calling oldBrowserMessage.stop();
+Once loaded, it attaches a global error handler.
     `,
   },
 };
@@ -19,7 +19,6 @@ Once loaded, it attaches a global error handler. When your app finishes loading 
 function triggerGlobalError() {
   // @ts-expect-error testing a runtime error
   Object.unknownMethodToTriggerOldBrowsersMessage();
-  setTimeout(stop);
 }
 
 export const Basic = () => {

@@ -5,6 +5,15 @@
 - The file `table/selection.ts` was moved and renamed to `global/table-selection.ts`.
 - Changed the minimum supported React version to 19.2.0.
 - Removed the `useEventCallback()` custom hook; use the `useEffectEvent()` React hook instead.
+- Removed the deprecated `Grid`, `Row`, `Col`, `ContentLayout`, and `Sidebar` components; use CSS flexbox, CSS grid, or another layout library instead.
+- Removed the deprecated `Button` `text` prop; use `inline` instead.
+- Removed the deprecated `Icon` `loading` prop and `ListDataItemType.HINT`.
+- Removed the deprecated `List` `visible` prop; visibility is detected automatically with `IntersectionObserver`.
+- Removed the deprecated `Avatar` sizes 18 and 48; use another supported size instead.
+- Removed the deprecated `old-browsers-message` `stop` export.
+- Removed the deprecated `expand/collapsible-group` component and CSS import aliases; import them from `collapsible-group/collapsible-group` instead.
+- Removed the deprecated `--ring-border-disabled-active-color`, `--ring-action-link-color`, and `--ring-button-primary-background-color` CSS variables; use `--ring-border-hover-color`, `--ring-link-color`, and `--ring-main-color`, respectively.
+- Removed the deprecated `--ring-pinned-shadow-color`, `--ring-hint-color`, and `--ring-button-loader-background` CSS variables.
 
 ## [7.0.121]
 - Added `keepMounted` prop to `Collapse` and `CollapsibleGroup` that keeps collapsed content mounted (hidden via `visibility: hidden` and `inert`) instead of unmounting it, preserving local state, subscriptions and iframes. Limitations: content rendered through portals (e.g. `Popup`) is not hidden, and hidden form controls still participate in form validation — disable them while collapsed if needed.

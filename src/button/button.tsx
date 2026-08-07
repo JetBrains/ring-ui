@@ -3,7 +3,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-down';
 import chevron12pxDown from '@jetbrains/icons/chevron-12px-down';
-import deprecate from 'util-deprecate';
 
 import Icon, {type IconProps, type IconType, Size} from '../icon/icon';
 import ClickableLink, {type ClickableLinkProps} from '../link/clickable-link';
@@ -24,10 +23,6 @@ export interface ButtonBaseProps {
   secondary?: boolean | null | undefined;
   ghost?: boolean | null | undefined;
   short?: boolean | null | undefined;
-  /**
-   * @deprecated Use inline instead
-   */
-  text?: boolean | null | undefined;
   inline?: boolean | null | undefined;
   dropdown?: boolean | null | undefined;
   disabled?: boolean | undefined;
@@ -52,11 +47,6 @@ export interface ButtonLinkProps extends ClickableLinkProps, ButtonBaseProps {
 }
 
 export type ButtonProps = ButtonButtonProps | ButtonLinkProps;
-
-const warnText = deprecate(
-  () => {},
-  'Button: "text" prop is deprecated and will be removed in 8.0. Use inline instead.',
-);
 
 function removeLinkProps(props: ButtonLinkProps) {
   const {
@@ -105,7 +95,6 @@ export class Button extends PureComponent<ButtonProps> {
       secondary,
       ghost,
       short,
-      text,
       dropdown,
       height,
 
@@ -122,11 +111,7 @@ export class Button extends PureComponent<ButtonProps> {
       disabled,
       ...props
     } = this.props;
-    const isInline = inline ?? text ?? !!icon;
-
-    if (text) {
-      warnText();
-    }
+    const isInline = inline ?? !!icon;
 
     const classes = getButtonClasses({
       ...this.props,

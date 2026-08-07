@@ -6,8 +6,6 @@ import hourglassIcon from '@jetbrains/icons/hourglass';
 import Loader from '../loader/loader';
 import LoaderInline from '../loader-inline/loader-inline';
 import {ControlsHeight, ControlsHeightContext} from '../global/controls-height';
-import {Col, Grid} from '../grid/grid';
-import Row from '../grid/row';
 import Button, {type ButtonProps} from './button';
 
 export default {
@@ -26,7 +24,7 @@ single.args = {children: 'Label'};
 single.parameters = {screenshots: {skip: true}};
 
 export const basic = () => (
-  <Grid className='buttons'>
+  <div className='buttons'>
     {[ControlsHeight.S, ControlsHeight.M, ControlsHeight.L].map(height => (
       <ControlsHeightContext value={height} key={height}>
         {[
@@ -42,11 +40,11 @@ export const basic = () => (
           {ghost: true, inline: true},
           {danger: true, inline: true},
         ].map(typeProps => (
-          <Fragment key={JSON.stringify(typeProps)}>
+          <div key={JSON.stringify(typeProps)} className='button-group'>
             {[{}, {active: true}, {disabled: true}, {loader: true}].map(stateProps => {
               const icon = height === ControlsHeight.S && !typeProps.inline ? pencil12pxIcon : pencilIcon;
               return (
-                <Row key={JSON.stringify(stateProps)} baseline='xs'>
+                <div key={JSON.stringify(stateProps)} className='button-row'>
                   {[
                     {children: 'Button'},
                     {children: '...', short: true},
@@ -57,24 +55,23 @@ export const basic = () => (
                     {children: 'Button dropdown', dropdown: true},
                     {title: 'Just icon button', icon},
                   ].map(contentProps => (
-                    <Col key={JSON.stringify(contentProps)}>
+                    <div key={JSON.stringify(contentProps)}>
                       <Button
                         data-test={stateProps.active ? 'button-active' : undefined}
                         {...typeProps}
                         {...stateProps}
                         {...contentProps}
                       />
-                    </Col>
+                    </div>
                   ))}
-                </Row>
+                </div>
               );
             })}
-            <br />
-          </Fragment>
+          </div>
         ))}
       </ControlsHeightContext>
     ))}
-  </Grid>
+  </div>
 );
 
 basic.storyName = 'basic';
@@ -100,11 +97,24 @@ basic.parameters = {
   storyStyles: `
 <style>
   .buttons {
+    display: flex;
+    flex-direction: column;
+
     background: var(--ring-content-background-color);
+    gap: 36px;
+    padding: 8px 16px;
   }
 
-  .buttons :is(button, a) {
-    margin: 0 8px;
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .button-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
   }
 </style>`,
 };
