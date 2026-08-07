@@ -11,11 +11,8 @@ jest.mock(
       destroy = jest.fn();
     },
 );
-jest.mock('../src/old-browsers-message/old-browsers-message');
-
 const options = {
   suite: 'Console errors',
-  storyKindRegex: /^((?!Style-only\/Old Browsers Message).)*$/,
   // storyNameRegex: /^with deprecated item\.type parameter$/,
 };
 
@@ -23,7 +20,7 @@ describe(options.suite, () => {
   getAllStoryFiles().forEach(({storyFile, title}) => {
     const meta = storyFile.default;
 
-    if ((options.storyKindRegex && !options.storyKindRegex.test(title)) || meta.parameters?.storyshots?.disable) {
+    if (meta.parameters?.storyshots?.disable) {
       return;
     }
 

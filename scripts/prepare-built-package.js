@@ -27,7 +27,6 @@ const WHITE_LIST = [
   'react-compiler-runtime',
   'react-movable',
   'react-virtualized',
-  'react-waypoint',
   'scrollbar-width',
   'simply-uuid',
   'sniffr',
