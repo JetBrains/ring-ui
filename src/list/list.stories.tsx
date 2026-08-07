@@ -251,10 +251,10 @@ export const WithUsers = () => {
   }, []);
 
   return listData ? (
-    <>
+    <div className='users-layout'>
       <List className='list users-list' data={listData} shortcuts onSelect={setSelected} />
       {selected && <Code className='selected' language='json' code={JSON.stringify(selected, null, 2)} />}
-    </>
+    </div>
   ) : (
     <Loader />
   );
@@ -264,7 +264,7 @@ WithUsers.storyName = 'with users';
 WithUsers.parameters = {
   screenshots: {skip: true},
   storyStyles:
-    '<style>.users-list { box-sizing: border-box; max-inline-size: calc(var(--ring-unit) * 30); padding-inline: calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 2); }</style>',
+    '<style>.users-layout { display: flex; align-items: baseline; gap: calc(var(--ring-unit) * 4); } .users-list { box-sizing: border-box; max-inline-size: calc(var(--ring-unit) * 30); padding-inline: calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 2); }</style>',
 };
 WithUsers.tags = ['skip-test'];
 
