@@ -132,7 +132,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@types/webpack-env": "^1.18.8",
-    "@vitejs/plugin-react": "^6.0.4",
+    "@vitejs/plugin-react": "^6.0.5",
     "@vitest/eslint-plugin": "^1.6.24",
     "acorn": "^8.17.0",
     "babel-plugin-require-context-hook": "^1.0.0",
