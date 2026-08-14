@@ -10,7 +10,7 @@
 import fs from 'fs';
 import path from 'path';
 import {fileURLToPath, pathToFileURL} from 'url';
-import postcss from 'postcss';
+import {parse} from 'postcss';
 
 // A scoped class name leaking outside class-selector position. In selectors a `ring-*` ident is
 // only legitimate right after `.` (class selector); in declaration values only inside a longer
@@ -34,7 +34,7 @@ const hasSelectorLeak = text =>
   LEAK.test(text.replace(QUOTED, "''")) || (text.match(QUOTED) || []).some(quoted => VALUE_LEAK.test(quoted));
 
 export function findCorruptedCss(css, from) {
-  const root = postcss.parse(css, {from});
+  const root = parse(css, {from});
   const errors = [];
 
   // Scoped @keyframes names are the one place a bare `ring-*` ident is legitimate — collect
