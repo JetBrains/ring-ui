@@ -47,8 +47,8 @@
 
   box-sizing: border-box;
   width: calc(var(--ring-unit) * 57.5);
-  min-width: calc(var(--ring-unit) * 32);
-  min-height: calc(var(--ring-unit) * 20);
+  min-width: var(--ring-dialog-min-width, calc(var(--ring-unit) * 32));
+  min-height: var(--ring-dialog-min-height, calc(var(--ring-unit) * 20));
   margin: auto;
   padding: var(--dialog-padding);
 
