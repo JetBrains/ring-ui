@@ -14,6 +14,10 @@
 - Removed the deprecated `expand/collapsible-group` component and CSS import aliases; import them from `collapsible-group/collapsible-group` instead.
 - Removed the deprecated `--ring-border-disabled-active-color`, `--ring-action-link-color`, and `--ring-button-primary-background-color` CSS variables; use `--ring-border-hover-color`, `--ring-link-color`, and `--ring-main-color`, respectively.
 - Removed the deprecated `--ring-pinned-shadow-color`, `--ring-hint-color`, and `--ring-button-loader-background` CSS variables. Use `--ring-popup-shadow-color` or a product-specific token for shadows and `--ring-secondary-color` for muted text, choosing a more specific semantic token where appropriate. Button loader colors are now derived per variant; override the component-scoped `--ring-button-loader-components` RGB components only for custom styling.
+- Removed the `Dialog` `closeButtonInside` prop; a visible close button is now always placed inside the dialog.
+- `Dialog` is now movable and resizable by default, and its geometry persists when it is closed and reopened while mounted. Set `movable={false}` or `resizable={false}` to preserve a fixed dialog. Override the `--ring-dialog-min-width` and `--ring-dialog-min-height` CSS custom properties to change its minimum resize dimensions.
+- `Dialog` now uses the native `<dialog>` implementation by default. Set `native={false}` to use the portal implementation.
+- Dialog action rows should place the primary action last, on the right. Consumers that currently supply the primary action before secondary actions need to swap their action order at each usage site. `Confirm` handles this automatically when `cancelIsDefault` changes which action is primary.
 
 ## [7.0.121]
 - Added `keepMounted` prop to `Collapse` and `CollapsibleGroup` that keeps collapsed content mounted (hidden via `visibility: hidden` and `inert`) instead of unmounting it, preserving local state, subscriptions and iframes. Limitations: content rendered through portals (e.g. `Popup`) is not hidden, and hidden form controls still participate in form validation — disable them while collapsed if needed.

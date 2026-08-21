@@ -3,7 +3,7 @@ import {useState} from 'storybook/preview-api';
 
 import {Header, Content} from '../island/island';
 import Button from '../button/button';
-import Input from '../input/input';
+import Input, {Size} from '../input/input';
 import Group from '../group/group';
 import Toggle from '../toggle/toggle';
 import Panel from '../panel/panel';
@@ -26,7 +26,7 @@ interface Args {
   onAction(action: string): void;
 }
 
-export const basic: StoryFn<Args> = ({onAction}) => {
+export const legacyNonNative: StoryFn<Args> = ({onAction}) => {
   class DialogDemo extends Component {
     state = {
       show: true,
@@ -59,6 +59,7 @@ export const basic: StoryFn<Args> = ({onAction}) => {
 
           <Dialog
             label='Dialog'
+            native={false}
             show={show}
             onCloseAttempt={this.cancelDialog}
             trapFocus
@@ -67,13 +68,18 @@ export const basic: StoryFn<Args> = ({onAction}) => {
           >
             <Header>Dialog title</Header>
             <Content>
-              <Input label='Enter action name' value={text} onChange={e => this.setState({text: e.target.value})} />
+              <Input
+                label='Enter action name'
+                size={Size.FULL}
+                value={text}
+                onChange={e => this.setState({text: e.target.value})}
+              />
             </Content>
             <Panel>
+              <Button onClick={this.cancelDialog}>Cancel</Button>
               <Button primary onClick={this.doAction}>
                 OK
               </Button>
-              <Button onClick={this.cancelDialog}>Cancel</Button>
             </Panel>
           </Dialog>
         </div>
@@ -83,67 +89,16 @@ export const basic: StoryFn<Args> = ({onAction}) => {
   return <DialogDemo />;
 };
 
-basic.storyName = 'basic';
-basic.argTypes = {onAction: {}};
+legacyNonNative.storyName = 'legacy non-native';
+legacyNonNative.argTypes = {onAction: {}};
 
-basic.parameters = {
+legacyNonNative.parameters = {
   storyStyles: `
 <style>
   .long-page {
     height: 200vh;
   }
 </style>`,
-};
-
-export const withCloseButtonInside: StoryFn<Args> = ({onAction}) => {
-  class DialogDemo extends Component {
-    state = {
-      show: true,
-      text: '',
-    };
-
-    doAction = () => {
-      onAction(`${this.state.text} performed`);
-      this.setState({show: false});
-    };
-
-    cancelDialog = () => {
-      this.setState({show: false});
-    };
-
-    render() {
-      const {show, text} = this.state;
-      return (
-        <Dialog
-          label='Dialog'
-          show={show}
-          onCloseAttempt={this.cancelDialog}
-          trapFocus
-          showCloseButton
-          closeButtonInside
-        >
-          <Header>Dialog title</Header>
-          <Content>
-            <Input label='Enter action name' value={text} onChange={e => this.setState({text: e.target.value})} />
-          </Content>
-          <Panel>
-            <Button primary onClick={this.doAction}>
-              OK
-            </Button>
-            <Button onClick={this.cancelDialog}>Cancel</Button>
-          </Panel>
-        </Dialog>
-      );
-    }
-  }
-  return <DialogDemo />;
-};
-
-withCloseButtonInside.storyName = 'with close button inside';
-withCloseButtonInside.argTypes = {onAction: {}};
-
-withCloseButtonInside.parameters = {
-  screenshots: {skip: true},
 };
 
 export const native: StoryFn<Args> = ({onAction}) => {
@@ -177,13 +132,18 @@ export const native: StoryFn<Args> = ({onAction}) => {
           <Dialog label='Dialog' show={show} onCloseAttempt={this.cancelDialog} native modal={modal} showCloseButton>
             <Header>Dialog title</Header>
             <Content>
-              <Input label='Enter action name' value={text} onChange={e => this.setState({text: e.target.value})} />
+              <Input
+                label='Enter action name'
+                size={Size.FULL}
+                value={text}
+                onChange={e => this.setState({text: e.target.value})}
+              />
             </Content>
             <Panel>
+              <Button onClick={this.cancelDialog}>Cancel</Button>
               <Button primary onClick={this.doAction}>
                 OK
               </Button>
-              <Button onClick={this.cancelDialog}>Cancel</Button>
             </Panel>
           </Dialog>
         </div>
@@ -209,11 +169,11 @@ export const dense: StoryFn = () => (
   <Dialog show dense>
     <Header>Dialog title</Header>
     <Content>
-      <Input label='Enter action name' />
+      <Input label='Enter action name' size={Size.FULL} />
     </Content>
     <Panel>
-      <Button primary>OK</Button>
       <Button>Cancel</Button>
+      <Button primary>OK</Button>
     </Panel>
   </Dialog>
 );
@@ -261,10 +221,10 @@ export const withScroll: StoryFn<Args> = ({onAction}) => {
               </div>
             </Content>
             <Panel>
+              <Button onClick={this.cancelDialog}>Cancel</Button>
               <Button primary onClick={this.doAction}>
                 OK
               </Button>
-              <Button onClick={this.cancelDialog}>Cancel</Button>
             </Panel>
           </Dialog>
         </div>
@@ -332,14 +292,14 @@ export const DialogInPopup: StoryFn = () => {
   return (
     <Popup hidden={!showPopup} onCloseAttempt={() => setShowPopup(false)}>
       <Button onClick={() => setShowDialog(true)}>Show dialog</Button>
-      <Dialog show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
+      <Dialog native={false} show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
         <Header>Dialog title</Header>
         <Content>
-          <Input label='Enter action name' />
+          <Input label='Enter action name' size={Size.FULL} />
         </Content>
         <Panel>
-          <Button primary>OK</Button>
           <Button>Cancel</Button>
+          <Button primary>OK</Button>
         </Panel>
       </Dialog>
     </Popup>
@@ -358,11 +318,11 @@ export const NativeDialogInPopup: StoryFn = () => {
       <Dialog native show={showDialog} onCloseAttempt={() => setShowDialog(false)}>
         <Header>Dialog title</Header>
         <Content>
-          <Input label='Enter action name' />
+          <Input label='Enter action name' size={Size.FULL} />
         </Content>
         <Panel>
-          <Button primary>OK</Button>
           <Button>Cancel</Button>
+          <Button primary>OK</Button>
         </Panel>
       </Dialog>
     </Popup>
