@@ -7,7 +7,7 @@
  */
 /* stylelint-disable-next-line selector-max-specificity */
 :global(#root) > div {
-  height: calc(100vh - 64px);
+  height: calc(100dvh - 64px);
 }
 
 .header {
