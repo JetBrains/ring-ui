@@ -78,23 +78,22 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
                 {onRemindLater && !scrolledDown && (
                   <div className={style.suggestion}>{translations?.scrollToAccept ?? translate('scrollToAccept')}</div>
                 )}
-                <Button primary disabled={!scrolledDown} onClick={onAccept} data-test='accept'>
-                  {translations?.accept ?? translate('accept')}
-                </Button>
-                <Button onClick={onDecline} autoFocus data-test='decline'>
-                  {translations?.decline ?? translate('decline')}
-                </Button>
-
                 {!onRemindLater && !scrolledDown && (
                   <span className={style.suggestion}>
                     {translations?.scrollToAccept ?? translate('scrollToAccept')}
                   </span>
                 )}
+                <Button onClick={onDecline} autoFocus data-test='decline'>
+                  {translations?.decline ?? translate('decline')}
+                </Button>
                 {onRemindLater && (
-                  <Button className={style.remindLaterButton} onClick={onRemindLater} data-test='later'>
+                  <Button onClick={onRemindLater} data-test='later'>
                     {translations?.remindLater ?? translate('remindLater')}
                   </Button>
                 )}
+                <Button primary disabled={!scrolledDown} onClick={onAccept} data-test='accept'>
+                  {translations?.accept ?? translate('accept')}
+                </Button>
               </Panel>
             )}
             {preview && (
