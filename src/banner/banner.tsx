@@ -73,7 +73,7 @@ export function Banner(props: BannerProps) {
     >
       {withIcon && <Icon glyph={icon} className={styles.icon} />}
 
-      <div>
+      <div className={styles.content}>
         {title && <div className={styles.title}>{title}</div>}
         <div className={styles.description}>{children}</div>
       </div>

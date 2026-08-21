@@ -79,6 +79,12 @@
   font-weight: var(--ring-font-weight-bold);
 }
 
+.content {
+  flex: 1;
+
+  min-width: 0;
+}
+
 .description {
   p {
     margin: var(--ring-unit) 0;
