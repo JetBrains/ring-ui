@@ -190,6 +190,24 @@ describe('Dialog', () => {
     expect(inner.style.top).to.equal('140px');
   });
 
+  it('should support overriding the minimum resize size with CSS', () => {
+    render(<Dialog show />);
+    const inner = prepareInteraction();
+    vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+      minWidth: '320px',
+      minHeight: '180px',
+    } as CSSStyleDeclaration);
+    const handle = screen.getByTestId('ring-dialog-resize-handle-nw');
+
+    firePointerEvent(handle, 'pointerdown', {clientX: 100, clientY: 100});
+    firePointerEvent(handle, 'pointermove', {clientX: 2000, clientY: 2000});
+
+    expect(inner.style.width).to.equal('320px');
+    expect(inner.style.height).to.equal('180px');
+    expect(inner.style.left).to.equal('180px');
+    expect(inner.style.top).to.equal('120px');
+  });
+
   it.each([true, false])('should preserve its geometry when reopened with native=%s', native => {
     const {rerender} = render(<Dialog show native={native} />);
     prepareInteraction();

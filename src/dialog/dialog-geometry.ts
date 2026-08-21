@@ -19,6 +19,8 @@ export interface Interaction {
   direction: InteractionDirection;
   startX: number;
   startY: number;
+  minWidth: number;
+  minHeight: number;
   geometry: Geometry;
 }
 
@@ -35,6 +37,16 @@ export const getViewportSize = () => ({
 export const getNativeTabIndex = (autoFocusFirst: boolean | undefined) => (autoFocusFirst ? undefined : -1);
 
 export const getTrapDisabled = (trapFocus: boolean, trapDisabled: boolean | undefined) => trapDisabled ?? !trapFocus;
+
+export const getResizeMinimum = (element: Element) => {
+  const {minWidth, minHeight} = getComputedStyle(element);
+  const parsedWidth = parseFloat(minWidth);
+  const parsedHeight = parseFloat(minHeight);
+  return {
+    minWidth: Number.isNaN(parsedWidth) ? MIN_WIDTH : parsedWidth,
+    minHeight: Number.isNaN(parsedHeight) ? MIN_HEIGHT : parsedHeight,
+  };
+};
 
 export const moveGeometry = (
   start: Geometry,
@@ -61,8 +73,7 @@ export const fitGeometry = (geometry: Geometry, viewportWidth: number, viewportH
 };
 
 export const resizeGeometry = (
-  start: Geometry,
-  direction: ResizeDirection,
+  {geometry: start, direction, minWidth, minHeight}: Interaction,
   dx: number,
   dy: number,
   viewportWidth: number,
@@ -74,14 +85,14 @@ export const resizeGeometry = (
   let bottom = start.top + start.height;
 
   if (direction.includes('w')) {
-    left = clamp(start.left + dx, 0, right - MIN_WIDTH);
+    left = clamp(start.left + dx, 0, right - minWidth);
   } else if (direction.includes('e')) {
-    right = clamp(right + dx, left + MIN_WIDTH, viewportWidth);
+    right = clamp(right + dx, left + minWidth, viewportWidth);
   }
   if (direction.includes('n')) {
-    top = clamp(start.top + dy, 0, bottom - MIN_HEIGHT);
+    top = clamp(start.top + dy, 0, bottom - minHeight);
   } else if (direction.includes('s')) {
-    bottom = clamp(bottom + dy, top + MIN_HEIGHT, viewportHeight);
+    bottom = clamp(bottom + dy, top + minHeight, viewportHeight);
   }
 
   return {left, top, width: right - left, height: bottom - top};

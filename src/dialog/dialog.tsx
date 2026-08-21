@@ -15,6 +15,7 @@ import DialogControls from './dialog-controls';
 import {
   fitGeometry,
   getNativeTabIndex,
+  getResizeMinimum,
   getTrapDisabled,
   getViewportSize,
   moveGeometry,
@@ -74,11 +75,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     preventBodyScroll: true,
   };
 
-  state: DialogState = {
-    shortcutsScope: getUID('ring-dialog-'),
-    geometry: null,
-    resized: false,
-  };
+  state: DialogState = {shortcutsScope: getUID('ring-dialog-'), geometry: null, resized: false};
 
   componentDidMount() {
     const {show, native} = this.props;
@@ -196,6 +193,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       direction,
       startX: event.clientX,
       startY: event.clientY,
+      ...getResizeMinimum(this.innerContainer.current.firstElementChild!),
       geometry: {left, top, width, height},
     };
     this.setState(({resized}) => ({geometry: {left, top, width, height}, resized: resized || direction !== 'move'}));
@@ -219,7 +217,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     }
 
     this.setState({
-      geometry: resizeGeometry(start, interaction.direction, dx, dy, viewportWidth, viewportHeight),
+      geometry: resizeGeometry(interaction, dx, dy, viewportWidth, viewportHeight),
       resized: true,
     });
   };

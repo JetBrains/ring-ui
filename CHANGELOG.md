@@ -16,7 +16,7 @@
 - Removed the deprecated `--ring-pinned-shadow-color`, `--ring-hint-color`, and `--ring-button-loader-background` CSS variables. Use `--ring-popup-shadow-color` or a product-specific token for shadows and `--ring-secondary-color` for muted text, choosing a more specific semantic token where appropriate. Button loader colors are now derived per variant; override the component-scoped `--ring-button-loader-components` RGB components only for custom styling.
 - `Tooltip` props now use `AllHTMLAttributes<HTMLElement>` instead of `AllHTMLAttributes<HTMLSpanElement>`. Use the new `TagName` prop to select a `span` or `div` wrapper; it defaults to `span`.
 - Removed the `Dialog` `closeButtonInside` prop; a visible close button is now always placed inside the dialog.
-- `Dialog` is now movable and resizable by default, and its geometry persists when it is closed and reopened while mounted. Set `movable={false}` or `resizable={false}` to preserve a fixed dialog.
+- `Dialog` is now movable and resizable by default, and its geometry persists when it is closed and reopened while mounted. Set `movable={false}` or `resizable={false}` to preserve a fixed dialog. Override the `--ring-dialog-min-width` and `--ring-dialog-min-height` CSS custom properties to change its minimum resize dimensions.
 - `Dialog` now uses the native `<dialog>` implementation by default. Set `native={false}` to use the portal implementation.
 - Dialog action rows should place the primary action last, on the right. Consumers that currently supply the primary action before secondary actions need to swap their action order at each usage site. `Confirm` handles this automatically when `cancelIsDefault` changes which action is primary.
 
