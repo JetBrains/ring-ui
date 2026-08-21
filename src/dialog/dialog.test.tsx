@@ -1,5 +1,7 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {createRoot} from 'react-dom/client';
+import {act} from 'react';
 
 import Dialog from './dialog';
 import Island, {Content, Header} from '../island/island';
@@ -51,6 +53,15 @@ describe('Dialog', () => {
   it('should support the portal dialog', () => {
     render(<Dialog show native={false} />);
     expect(screen.getByTestId('ring-dialog-container').tagName).not.to.equal('DIALOG');
+  });
+
+  it('should show a native dialog rendered from a detached root', () => {
+    const root = createRoot(document.createElement('div'));
+
+    act(() => root.render(<Dialog show />));
+
+    expect(screen.getByRole('dialog')).to.have.attribute('open');
+    act(() => root.unmount());
   });
 
   it('should use passed className', () => {
