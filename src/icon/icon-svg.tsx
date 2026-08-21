@@ -2,6 +2,7 @@
 import {memo, type SVGAttributes} from 'react';
 import classNames from 'classnames';
 
+import {getTrustedHTML} from '../global/configuration';
 import memoize from '../global/memoize';
 
 import styles from './icon.css';
@@ -33,7 +34,7 @@ function extractSVGProps(svgNode: Element) {
 
 const getSVGFromSource = memoize((src: string) => {
   const svgContainer = document.createElement('div');
-  svgContainer.innerHTML = src;
+  svgContainer.innerHTML = getTrustedHTML(src) as string;
   const svg = svgContainer.firstElementChild as Element;
   if (svg.remove) {
     svg.remove();
@@ -73,7 +74,7 @@ function IconSVG({src, className, ...rest}: IconSVGProps) {
       {...rest}
       className={glyphClasses}
       dangerouslySetInnerHTML={{
-        __html: html,
+        __html: getTrustedHTML(html),
       }}
     />
   );
