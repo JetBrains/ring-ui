@@ -3,7 +3,6 @@
  */
 
 import {PureComponent, type ReactNode} from 'react';
-import classNames from 'classnames';
 
 import Dialog from '../dialog/dialog';
 import {Content, Header} from '../island/island';
@@ -63,7 +62,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
           <Dialog
             label={translations?.userAgreement ?? translate('userAgreement')}
             show={show}
-            className={classNames(style.agreementDialog, className)}
+            className={className ?? undefined}
             contentClassName={style.dialogContent}
             trapFocus
             autoFocusFirst={false}
