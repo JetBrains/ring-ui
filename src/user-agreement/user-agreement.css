@@ -13,6 +13,8 @@
 }
 
 .suggestion {
+  margin-inline-end: var(--ring-unit);
+
   padding-bottom: var(--ring-unit);
 
   white-space: nowrap;
