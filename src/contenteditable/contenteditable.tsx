@@ -1,6 +1,8 @@
 import {Component, type HTMLAttributes, type Ref, type ReactElement} from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 
+import {getTrustedHTML} from '../global/configuration';
+
 /**
  * @name ContentEditable
  */
@@ -44,7 +46,7 @@ class ContentEditableBase extends Component<ContentEditableBaseProps> {
         role='textbox'
         tabIndex={disabled ? undefined : tabIndex}
         contentEditable={!this.props.disabled}
-        dangerouslySetInnerHTML={{__html}}
+        dangerouslySetInnerHTML={{__html: getTrustedHTML(__html)}}
       />
     );
   }

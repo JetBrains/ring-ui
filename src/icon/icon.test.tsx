@@ -2,6 +2,7 @@ import {render, screen} from '@testing-library/react';
 import defaultIcon from '@jetbrains/icons/umbrella';
 import expandIcon from '@jetbrains/icons/expand';
 
+import {configure} from '../global/configuration';
 import Icon, {type IconAttrs} from './icon';
 
 import styles from './icon.css';
@@ -35,6 +36,24 @@ describe('Icon', () => {
     const icon = renderIcon({glyph: expandIcon, className: CUSTOM_CSS_CLASS})!;
 
     expect(icon).to.have.class(CUSTOM_CSS_CLASS);
+  });
+
+  it('should apply configured Trusted Types policy to SVG strings', () => {
+    const glyph = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"><path d="M0 0"/></svg>';
+    const trustedTypePolicy = {
+      createHTML: vi.fn((html: string) => html),
+    };
+
+    configure({trustedTypePolicy});
+
+    try {
+      renderIcon({glyph});
+
+      expect(trustedTypePolicy.createHTML).toHaveBeenCalledWith(glyph);
+      expect(trustedTypePolicy.createHTML).toHaveBeenCalledWith('<path d="M0 0"></path>');
+    } finally {
+      configure({trustedTypePolicy: null});
+    }
   });
 
   describe('fault tolerance', () => {

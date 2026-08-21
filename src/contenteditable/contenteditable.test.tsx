@@ -1,5 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
+import {configure} from '../global/configuration';
 import ContentEditable from './contenteditable';
 
 describe('ContentEditable', () => {
@@ -24,6 +25,26 @@ describe('ContentEditable', () => {
       </ContentEditable>,
     );
     expect(screen.getByText('bold')).to.have.tagName('b');
+  });
+
+  it('should apply configured Trusted Types policy to html', () => {
+    const trustedTypePolicy = {
+      createHTML: vi.fn((html: string) => html),
+    };
+
+    configure({trustedTypePolicy});
+
+    try {
+      render(
+        <ContentEditable>
+          <b>{'bold'}</b>
+        </ContentEditable>,
+      );
+
+      expect(trustedTypePolicy.createHTML).toHaveBeenCalledWith('<b>bold</b>');
+    } finally {
+      configure({trustedTypePolicy: null});
+    }
   });
 
   it('should render only on html / disabled change', () => {
