@@ -331,7 +331,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     );
 
     if (native) {
-      return (
+      return createPortal(
         <dialog
           {...restProps}
           aria-label={label}
@@ -350,7 +350,8 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
               </>
             )}
           </PopupTarget>
-        </dialog>
+        </dialog>,
+        document.body,
       );
     }
 
