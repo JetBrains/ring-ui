@@ -86,6 +86,12 @@ describe('Tooltip', () => {
       expect(within(wrapper).getByText('test span').tagName.toLowerCase()).to.equal('span');
     });
 
+    it('should use the provided tag name', () => {
+      renderTooltip({TagName: 'div'});
+
+      expect(screen.getByRole('tooltip').tagName.toLowerCase()).to.equal('div');
+    });
+
     it('should pass props to children', () => {
       renderTooltip();
       // Using a more specific selector

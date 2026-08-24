@@ -19,7 +19,8 @@ interface Context {
 
 const TooltipContext = createContext<Context | undefined>(undefined);
 
-export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLSpanElement>, 'title'> {
+export interface TooltipProps extends Omit<AllHTMLAttributes<HTMLElement>, 'title'> {
+  TagName?: 'span' | 'div' | null | undefined;
   delay?: number | null | undefined;
   selfOverflowOnly?: boolean | null | undefined;
   popupProps?: Partial<PopupAttrs> | null | undefined;
@@ -175,6 +176,7 @@ export default class Tooltip extends Component<TooltipProps> {
   render() {
     const {
       children,
+      TagName,
       'data-test': dataTest,
       title,
       delay,
@@ -190,6 +192,7 @@ export default class Tooltip extends Component<TooltipProps> {
       typeof title === 'string' && Tooltip.isShow({title, hide}) ? {'aria-label': title, role: 'tooltip'} : {};
 
     const {onNestedTooltipShow, onNestedTooltipHide} = this;
+    const WrapperElement = TagName || 'span';
 
     const popup = (
       <Popup
@@ -216,7 +219,7 @@ export default class Tooltip extends Component<TooltipProps> {
 
     return (
       <TooltipContext value={{onNestedTooltipShow, onNestedTooltipHide}}>
-        <span
+        <WrapperElement
           {...ariaProps}
           {...restProps}
           ref={this.containerRef}
@@ -231,7 +234,7 @@ export default class Tooltip extends Component<TooltipProps> {
               {popup}
             </ThemeProvider>
           )}
-        </span>
+        </WrapperElement>
       </TooltipContext>
     );
   }
