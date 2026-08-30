@@ -23,7 +23,7 @@
     "filenamify": "^7.0.2",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.4.0",
-    "html-reporter": "^11.14.1",
+    "html-reporter": "^11.15.0",
     "http-server": "^14.1.1",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
@@ -33,7 +33,7 @@
     "react-redux": "^9.3.0",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "testplane": "^9.0.9",
+    "testplane": "^9.1.1",
     "yauzl": "^3.4.0"
   }
 }
