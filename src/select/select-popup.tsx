@@ -16,7 +16,7 @@ import searchIcon from '@jetbrains/icons/search';
 import memoizeOne from 'memoize-one';
 
 import Icon, {type IconType} from '../icon/icon';
-import Popup, {getPopupContainer} from '../popup/popup';
+import Popup, {getPopupContainer, type PopupAttrs} from '../popup/popup';
 import {type Directions, maxHeightForDirection} from '../popup/position';
 import {normalizePopupTarget, PopupTargetContext} from '../popup/popup.target';
 import List, {type SelectHandlerParams} from '../list/list';
@@ -101,6 +101,7 @@ export interface SelectPopupProps<T = unknown> {
   ringPopupTarget: string | null;
   onSelectAll: (isSelectAll: boolean) => void;
   onEmptyPopupEnter: (e: KeyboardEvent) => void;
+  popupProps?: Partial<PopupAttrs> | undefined;
   className?: string | null | undefined;
   compact?: boolean | null | undefined;
   dir?: 'ltr' | 'rtl' | undefined;
@@ -582,6 +583,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
       style,
       dir,
       filter,
+      popupProps,
     } = this.props;
     const classes = classNames(styles.popup, className);
 
@@ -615,6 +617,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               autoCorrectTopOverflow={false}
               style={style}
               largeBorderRadius
+              {...popupProps}
             >
               <div dir={dir}>
                 {!hidden && filter && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}

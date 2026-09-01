@@ -75,6 +75,14 @@ describe('Select', () => {
     expect(screen.getByTestId('ring-select')).to.have.class('foo-bar');
   });
 
+  it('Should pass popupProps to the popup', async () => {
+    const onMouseEnter = vi.fn();
+    renderSelect({popupProps: {'data-test': 'job-dependency-options-popup', onMouseEnter}});
+    await userEvent.click(screen.getByRole('combobox', {name: 'first1'}));
+    fireEvent.mouseEnter(screen.getByTestId(/job-dependency-options-popup/));
+    expect(onMouseEnter).toHaveBeenCalledOnce();
+  });
+
   it('Should highlight selected item', async () => {
     renderSelect({selected: testData[2]});
     const button = screen.getByRole('combobox', {name: 'test3'});
