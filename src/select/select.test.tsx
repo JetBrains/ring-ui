@@ -77,9 +77,9 @@ describe('Select', () => {
 
   it('Should pass popupProps to the popup', async () => {
     const onMouseEnter = vi.fn();
+    const user = userEvent.setup();
     renderSelect({popupProps: {'data-test': 'job-dependency-options-popup', onMouseEnter}});
-    await userEvent.click(screen.getByRole('combobox', {name: 'first1'}));
-    fireEvent.mouseEnter(screen.getByTestId(/job-dependency-options-popup/));
+    await user.click(screen.getByRole('combobox', {name: 'first1'}));
     expect(onMouseEnter).toHaveBeenCalledOnce();
   });
 
