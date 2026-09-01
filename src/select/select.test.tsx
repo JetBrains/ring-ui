@@ -86,7 +86,7 @@ describe('Select', () => {
         className: 'custom-popup',
         hidden: true,
         onMouseEnter,
-        style: {backgroundColor: 'blue'},
+        style: {color: 'blue', backgroundColor: 'blue'},
       },
     });
     await user.click(screen.getByRole('combobox', {name: 'first1'}));

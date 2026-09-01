@@ -616,7 +616,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               onMouseDown={this.mouseDownHandler}
               target={this.props.ringPopupTarget}
               autoCorrectTopOverflow={false}
-              style={{...style, ...popupProps?.style}}
+              style={{...popupProps?.style, ...style}}
               largeBorderRadius
             >
               <div dir={dir}>
