@@ -585,7 +585,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
       filter,
       popupProps,
     } = this.props;
-    const classes = classNames(styles.popup, className);
+    const classes = classNames(styles.popup, className, popupProps?.className);
 
     return (
       <PopupTargetContext.Consumer>
@@ -598,6 +598,7 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
           const hasContent = filterWithTags || selectAll || list || bottomLine || toolbar || topbar;
           return (
             <Popup
+              {...popupProps}
               trapFocus={false}
               ref={this.popupRef}
               hidden={hidden || !hasContent}
@@ -615,9 +616,8 @@ export default class SelectPopup<T = unknown> extends PureComponent<SelectPopupP
               onMouseDown={this.mouseDownHandler}
               target={this.props.ringPopupTarget}
               autoCorrectTopOverflow={false}
-              style={style}
+              style={{...style, ...popupProps?.style}}
               largeBorderRadius
-              {...popupProps}
             >
               <div dir={dir}>
                 {!hidden && filter && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
