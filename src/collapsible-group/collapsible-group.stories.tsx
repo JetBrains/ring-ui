@@ -91,7 +91,11 @@ CollapsedByDefault.storyName = 'Collapsed by default';
 CollapsedByDefault.parameters = {
   screenshots: {
     captureSelector,
-    actions: [{type: 'capture', name: '', selector: captureSelector}],
+    actions: [
+      {type: 'capture', name: '', selector: captureSelector},
+      {type: 'focus', selector: `${captureSelector} button`},
+      {type: 'capture', name: 'keyboard focus', selector: captureSelector},
+    ],
   },
 };
 

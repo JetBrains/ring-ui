@@ -10,7 +10,6 @@ import {COLLAPSE_CONTENT_TEST_ID, COLLAPSE_CONTENT_CONTAINER_TEST_ID} from './co
 
 import styles from './collapse.css';
 
-const DURATION_FACTOR = 0.5;
 const DEFAULT_HEIGHT = 0;
 const VISIBLE = 1;
 const HIDDEN = 0;
@@ -42,7 +41,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
   minHeight = DEFAULT_HEIGHT,
   'data-test': dataTest,
 }) => {
-  const {collapsed, duration, id, disableAnimation, keepMounted} = use(CollapseContext);
+  const {collapsed, duration, id, animate, disableAnimation, keepMounted} = use(CollapseContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [initialContentHeight] = useState<number>(minHeight);
@@ -106,9 +105,8 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
     }
   }, []);
 
-  const calculatedDuration = duration + contentHeight * DURATION_FACTOR;
   const style = {
-    '--duration': `${calculatedDuration}ms`,
+    '--duration': `${duration}ms`,
     height,
     opacity: collapsed && !minHeight ? HIDDEN : VISIBLE,
   };
@@ -128,7 +126,7 @@ export const CollapseContent: React.FC<PropsWithChildren<Props>> = ({
       ref={containerRef}
       id={`collapse-content-${id}`}
       data-test={dataTests(COLLAPSE_CONTENT_CONTAINER_TEST_ID)}
-      className={classNames(styles.container, {[styles.transition]: !disableAnimation})}
+      className={classNames(styles.container, {[styles.transition]: animate && !disableAnimation})}
       style={style}
     >
       <div

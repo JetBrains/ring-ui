@@ -7,8 +7,14 @@
 
 .transition {
   transition:
-    height var(--duration) ease-in-out 0s,
-    opacity var(--duration) ease-in-out 0s;
+    height var(--duration) cubic-bezier(0.2, 0, 0, 1) 0s,
+    opacity var(--duration) cubic-bezier(0.2, 0, 0, 1) 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transition {
+    transition: none;
+  }
 }
 
 .summary {
