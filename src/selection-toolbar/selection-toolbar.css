@@ -1,0 +1,86 @@
+@import '../global/variables.css';
+
+.toolbar {
+  display: inline-flex;
+  align-items: center;
+
+  box-sizing: border-box;
+  max-width: 100%;
+  height: calc(var(--ring-unit) * 5);
+  padding: 10px calc(var(--ring-unit) * 2);
+
+  pointer-events: auto;
+
+  color: var(--ring-white-text-color);
+  border-radius: var(--ring-border-radius-large);
+  background-color: var(--ring-sidebar-background-color);
+  box-shadow:
+    0 2px 8px rgb(0 28 54 / 10%),
+    0 1px 2px rgb(0 28 54 / 4%);
+
+  line-height: var(--ring-line-height);
+  gap: calc(var(--ring-unit) * 2);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ring-unit) * 3);
+}
+
+.selectAll {
+  flex: none;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ring-unit) * 2);
+
+  min-width: 0;
+}
+
+.closeAction {
+  flex: none;
+}
+
+.separator {
+  flex: none;
+
+  width: 1px;
+  height: calc(var(--ring-unit) * 2);
+  margin-inline: var(--ring-unit);
+
+  background-color: var(--ring-line-color);
+}
+
+.compact {
+  min-width: 0;
+  max-width: 100%;
+  padding-inline: 12px;
+}
+
+.compact .content {
+  min-width: 0;
+  gap: var(--ring-unit);
+}
+
+.compact .label {
+  overflow: hidden;
+
+  flex: 1 1 auto;
+
+  min-width: 0;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+.compact .actions {
+  flex-shrink: 1;
+}
+
+.compact .separator {
+  margin-inline: 2px;
+}
