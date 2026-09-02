@@ -3,6 +3,8 @@ import {render, screen} from '@testing-library/react';
 
 import SelectionToolbar, {SelectionToolbarSeparator} from './selection-toolbar';
 
+import styles from './selection-toolbar.css';
+
 describe('SelectionToolbar', () => {
   const closeAction = <button type='button'>{'Clear selection'}</button>;
 
@@ -54,7 +56,7 @@ describe('SelectionToolbar', () => {
 
     expect(ref.current).to.equal(screen.getByRole('group'));
     expect(ref.current).to.have.class('custom');
-    expect(ref.current?.className).to.contain('compact');
+    expect(ref.current).to.have.class(styles.compact);
     expect(ref.current).to.have.attribute('title', 'Selection actions');
     expect(ref.current).to.have.attribute('data-test', 'ring-selection-toolbar consumer-toolbar');
   });
