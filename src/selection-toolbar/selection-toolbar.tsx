@@ -1,4 +1,4 @@
-import {forwardRef, type HTMLAttributes, type ReactNode, type Ref, useId} from 'react';
+import {type ComponentPropsWithRef, type ReactNode, type Ref, useId} from 'react';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
@@ -6,7 +6,7 @@ import Theme, {ThemeProvider} from '../global/theme';
 
 import styles from './selection-toolbar.css';
 
-export interface SelectionToolbarProps extends HTMLAttributes<HTMLDivElement> {
+export interface SelectionToolbarProps extends ComponentPropsWithRef<'div'> {
   label: ReactNode;
   selectAll?: ReactNode;
   closeAction: ReactNode;
@@ -14,21 +14,19 @@ export interface SelectionToolbarProps extends HTMLAttributes<HTMLDivElement> {
   'data-test'?: string | null;
 }
 
-export const SelectionToolbar = forwardRef<HTMLDivElement, SelectionToolbarProps>(function SelectionToolbar(
-  {
-    label,
-    selectAll,
-    closeAction,
-    compact,
-    className,
-    children,
-    'data-test': dataTest,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    ...restProps
-  },
+export function SelectionToolbar({
   ref,
-) {
+  label,
+  selectAll,
+  closeAction,
+  compact,
+  className,
+  children,
+  'data-test': dataTest,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
+  ...restProps
+}: SelectionToolbarProps) {
   const labelId = useId();
   const hasSelectAll = selectAll != null;
 
@@ -53,7 +51,7 @@ export const SelectionToolbar = forwardRef<HTMLDivElement, SelectionToolbarProps
       <div className={styles.closeAction}>{closeAction}</div>
     </ThemeProvider>
   );
-});
+}
 
 export function SelectionToolbarSeparator() {
   return <span role='separator' aria-orientation='vertical' className={styles.separator} />;
