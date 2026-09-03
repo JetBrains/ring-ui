@@ -48,7 +48,7 @@ const CloseAction = ({onClick}: {onClick?: () => void}) => (
   </Tooltip>
 );
 
-const Action = ({icon, label}: {icon: string; label: string}) => (
+const Action = ({icon, label}: {icon: ComponentProps<typeof Button>['icon']; label: string}) => (
   <Tooltip title={label}>
     <Button icon={icon} aria-label={label} />
   </Tooltip>
