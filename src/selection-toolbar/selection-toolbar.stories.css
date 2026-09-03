@@ -1,0 +1,23 @@
+@import '../global/variables.css';
+
+.canvas {
+  position: relative;
+
+  box-sizing: border-box;
+  min-height: calc(100vh - var(--ring-unit) * 2);
+  padding: calc(var(--ring-unit) * 3);
+
+  background-color: var(--ring-content-background-color);
+}
+
+.toolbarPlacement {
+  position: absolute;
+  inset-inline: 0;
+
+  bottom: calc(var(--ring-unit) * 2);
+
+  display: flex;
+  justify-content: center;
+
+  pointer-events: none;
+}
