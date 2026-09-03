@@ -75,6 +75,30 @@ describe('Select', () => {
     expect(screen.getByTestId('ring-select')).to.have.class('foo-bar');
   });
 
+  it('Should pass popupProps to the popup', async () => {
+    const onMouseEnter = vi.fn();
+    const user = userEvent.setup();
+    renderSelect({
+      popupClassName: 'select-popup',
+      popupStyle: {color: 'red'},
+      popupProps: {
+        'data-test': 'job-dependency-options-popup',
+        className: 'custom-popup',
+        hidden: true,
+        onMouseEnter,
+        style: {color: 'blue', backgroundColor: 'blue'},
+      },
+    });
+    await user.click(screen.getByRole('combobox', {name: 'first1'}));
+    const popup = screen.getByTestId(/job-dependency-options-popup/);
+    expect(popup.classList.contains('select-popup')).to.be.true;
+    expect(popup.classList.contains('custom-popup')).to.be.true;
+    expect(popup.style.color).to.equal('red');
+    expect(popup.style.backgroundColor).to.equal('blue');
+    fireEvent.mouseEnter(popup);
+    expect(onMouseEnter).toHaveBeenCalledOnce();
+  });
+
   it('Should highlight selected item', async () => {
     renderSelect({selected: testData[2]});
     const button = screen.getByRole('combobox', {name: 'test3'});

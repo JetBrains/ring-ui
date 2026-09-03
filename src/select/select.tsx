@@ -18,7 +18,7 @@ import {dequal} from 'dequal';
 
 import {Anchor} from '../dropdown/dropdown';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
-import Popup from '../popup/popup';
+import Popup, {type PopupAttrs} from '../popup/popup';
 import List, {ActiveItemContext, type SelectHandlerParams} from '../list/list';
 import Input, {Size} from '../input/input';
 import ControlLabel, {type LabelType} from '../control-label/control-label';
@@ -194,6 +194,7 @@ export interface BaseSelectProps<T = unknown> {
   getInitial?: (() => string) | null | undefined;
   minWidth?: number | undefined;
   popupClassName?: string | null | undefined;
+  popupProps?: Partial<PopupAttrs> | undefined;
   popupStyle?: CSSProperties | undefined;
   top?: number | undefined;
   left?: number | undefined;
@@ -740,6 +741,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
               maxHeight={this.props.maxHeight}
               minWidth={this.props.minWidth}
               directions={this.props.directions}
+              popupProps={this.props.popupProps}
               className={this.props.popupClassName}
               style={this.props.popupStyle}
               top={this.props.top}
