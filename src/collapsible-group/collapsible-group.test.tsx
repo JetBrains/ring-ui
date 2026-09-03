@@ -86,9 +86,7 @@ describe('<CollapsibleGroup />', () => {
     expect(onChangeCalls).toHaveLength(0);
   });
 
-  it('should keep hover and focus styles scoped to the interactive header', async () => {
-    const user = userEvent.setup();
-
+  it('should keep hover styles scoped to the interactive header', async () => {
     render(
       <CollapsibleGroup title={'Title'} defaultExpanded data-test='expand'>
         <button type='button'>{'Action'}</button>
@@ -97,23 +95,13 @@ describe('<CollapsibleGroup />', () => {
 
     const root = document.querySelector('[data-test="expand"]') as HTMLDivElement;
     const header = screen.getByRole('button', {name: 'Title'});
-    const bodyButton = screen.getByRole('button', {name: 'Action'});
-
     expect(root.className).not.toContain(styles.hovered);
-    expect(root.className).not.toContain(styles.focused);
 
     await userEvent.hover(header);
     expect(root.className).toContain(styles.hovered);
 
     await userEvent.unhover(header);
     expect(root.className).not.toContain(styles.hovered);
-
-    await user.tab();
-    expect(root.className).toContain(styles.focused);
-
-    await user.tab();
-    expect(document.activeElement).toBe(bodyButton);
-    expect(root.className).not.toContain(styles.focused);
   });
 
   it('should preserve child state across a collapse cycle when keepMounted is set', async () => {

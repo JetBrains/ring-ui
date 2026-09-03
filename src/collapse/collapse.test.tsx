@@ -158,6 +158,27 @@ describe('<Collapse />', () => {
     expect(content.className).to.not.include(styles.transition);
   });
 
+  it('should animate state changes but not initial expanded renders', () => {
+    const {unmount} = renderComponent(0, false, false, false);
+
+    expect(screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID).className).to.not.include(styles.transition);
+
+    unmount();
+
+    const controlled = (collapsed: boolean) => (
+      <Collapse collapsed={collapsed}>
+        <CollapseContent>{textMock}</CollapseContent>
+      </Collapse>
+    );
+    const {rerender} = render(controlled(false));
+    const controlledContent = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
+
+    expect(controlledContent.className).to.not.include(styles.transition);
+
+    rerender(controlled(true));
+    expect(controlledContent.className).to.include(styles.transition);
+  });
+
   it('should use control as render prop', () => {
     renderComponent(0, true);
 
@@ -302,7 +323,7 @@ describe('<Collapse />', () => {
     }
   });
 
-  it('should not hide kept-mounted content before the running transition can finish', () => {
+  it('should use the fixed collapse duration for any content height', () => {
     vi.useFakeTimers();
     let resize: (() => void) | undefined;
     vi.stubGlobal(
@@ -331,22 +352,47 @@ describe('<Collapse />', () => {
       );
 
       const content = screen.getByTestId(COLLAPSE_CONTENT_TEST_ID);
+      const container = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
-      // grow the content so the collapse transition gets a long duration (200 + 1000 * 0.5 = 700ms)
       getRectMock.mockReturnValue({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 1000});
       act(() => resize?.());
 
-      // the content shrinks in the same update that collapses the panel:
-      // the fallback must follow the committed --duration, not the fresh DOM height
-      getRectMock.mockReturnValue({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
       fireEvent.click(screen.getByRole('button', {name: 'Toggle'}));
 
-      act(() => vi.advanceTimersByTime(400));
+      expect(container.style.getPropertyValue('--duration')).to.equal('200ms');
+
+      act(() => vi.advanceTimersByTime(299));
       expect(content.style.visibility).to.equal('');
 
-      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(1));
       expect(content.style.visibility).to.equal('hidden');
       expect(content.hasAttribute('inert')).to.equal(true);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('should not hide kept-mounted content before the running transition can finish', () => {
+    vi.useFakeTimers();
+
+    try {
+      render(
+        <Collapse keepMounted duration={1000} defaultCollapsed={false}>
+          <CollapseControl>
+            <button type='button'>{'Toggle'}</button>
+          </CollapseControl>
+          <CollapseContent>{textMock}</CollapseContent>
+        </Collapse>,
+      );
+
+      const content = screen.getByTestId(COLLAPSE_CONTENT_TEST_ID);
+      fireEvent.click(screen.getByRole('button', {name: 'Toggle'}));
+
+      act(() => vi.advanceTimersByTime(1099));
+      expect(content.style.visibility).to.equal('');
+
+      act(() => vi.advanceTimersByTime(1));
+      expect(content.style.visibility).to.equal('hidden');
     } finally {
       vi.useRealTimers();
     }

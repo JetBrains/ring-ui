@@ -40,8 +40,16 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
   const id = useId();
 
   const finalCollapsedValue = collapsed ?? innerCollapsed;
+  const [previousCollapsedValue, setPreviousCollapsedValue] = useState(finalCollapsedValue);
+  const [animate, setAnimate] = useState(false);
+
+  if (previousCollapsedValue !== finalCollapsedValue) {
+    setPreviousCollapsedValue(finalCollapsedValue);
+    setAnimate(true);
+  }
 
   const setCollapsed = () => {
+    setAnimate(true);
     setInnerCollapsed(!finalCollapsedValue);
     onChange(!finalCollapsedValue);
   };
@@ -53,6 +61,7 @@ export const Collapse: React.FC<PropsWithChildren<Props>> = ({
           collapsed: finalCollapsedValue,
           setCollapsed,
           duration,
+          animate,
           disableAnimation,
           keepMounted,
           id,

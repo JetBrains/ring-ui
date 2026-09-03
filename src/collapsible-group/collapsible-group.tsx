@@ -114,7 +114,6 @@ const CollapsibleGroup = ({
 }: CollapsibleGroupProps) => {
   const [innerExpanded, setInnerExpanded] = useState(defaultExpanded);
   const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
   const isExpanded = expanded ?? innerExpanded;
 
   const handleChange = (collapsed: boolean) => {
@@ -125,18 +124,9 @@ const CollapsibleGroup = ({
     onChange(nextExpanded);
   };
 
-  const onBlur = (event: React.FocusEvent<HTMLElement>) => {
-    const nextTarget = event.relatedTarget;
-    if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
-      return;
-    }
-    setFocused(false);
-  };
-
   const classes = classNames(styles.expand, className, {
     [styles.hovered]: hovered,
     [styles.expanded]: isExpanded,
-    [styles.focused]: focused,
   });
 
   const header = interactive ? (
@@ -146,8 +136,6 @@ const CollapsibleGroup = ({
       subtitle={subtitle}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={onBlur}
     />
   ) : (
     <CollapsibleGroupHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />

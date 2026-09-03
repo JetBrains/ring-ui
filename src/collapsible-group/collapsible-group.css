@@ -25,7 +25,7 @@
   box-shadow: var(--ring-popup-shadow);
 }
 
-.focused {
+.expand:has(.headerButton:focus-visible) {
   box-shadow: 0 0 0 2px var(--ring-border-hover-color), var(--ring-popup-shadow);
 }
 
