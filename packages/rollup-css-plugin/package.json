@@ -1,6 +1,7 @@
 {
   "name": "@jetbrains/rollup-css-plugin",
   "version": "1.0.0",
+  "private": true,
   "description": "Plugin with custom logic for Ring UI",
   "main": "css-plugin.js",
   "scripts": {
@@ -9,12 +10,15 @@
   "keywords": [],
   "author": "Andrey Skladchikov",
   "license": "Apache-2.0",
+  "engines": {
+    "node": "^22.11.0 || ^24.11.0 || >=26.0.0"
+  },
   "devDependencies": {
     "@rollup/pluginutils": "^5.4.0",
     "cssnano": "^8.0.8",
     "postcss": "^8.5.26",
     "postcss-url": "^10.1.4",
-    "postcss-import": "^16.1.1",
+    "postcss-import": "^17.0.0",
     "postcss-load-config": "^6.0.1",
     "postcss-modules": "^9.0.1"
   }
