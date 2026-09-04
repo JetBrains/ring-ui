@@ -181,12 +181,16 @@ export const dense: StoryFn = () => (
 export const rtl: StoryFn = () => (
   <div dir='rtl' lang='ar'>
     <Dialog show>
+      {/* Right-to-left dialog */}
       <Header>حوار من اليمين إلى اليسار</Header>
       <Content>
+        {/* Action name */}
         <Input label='اسم الإجراء' size={Size.FULL} />
       </Content>
       <Panel>
+        {/* Cancel */}
         <Button>إلغاء</Button>
+        {/* OK */}
         <Button primary>موافق</Button>
       </Panel>
     </Dialog>
