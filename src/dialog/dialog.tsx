@@ -230,7 +230,9 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       return;
     }
     this.interaction = null;
-    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+      event.currentTarget.releasePointerCapture?.(event.pointerId);
+    }
   };
 
   startMove = (event: React.PointerEvent<HTMLElement>) => {
