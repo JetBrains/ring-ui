@@ -10,6 +10,9 @@ const reactRoot = createRoot(containerElement);
  * Renders LoginDialog into virtual node to skip maintaining container
  */
 function renderLoginDialog(props: LoginDialogAttrs) {
+  if (!containerElement.isConnected) {
+    document.body.appendChild(containerElement);
+  }
   reactRoot.render(
     <ControlsHeightContext value={getGlobalControlsHeight()}>
       <LoginDialog {...props} />

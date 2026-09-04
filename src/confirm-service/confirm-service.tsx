@@ -19,6 +19,9 @@ export const reactRoot = createRoot(containerElement);
  * Renders Confirm into virtual node to skip maintaining container
  */
 function renderConfirm(props: Props) {
+  if (!containerElement.isConnected) {
+    document.body.appendChild(containerElement);
+  }
   const {buttonsHeight = getGlobalControlsHeight(), ...restProps} = props;
   reactRoot.render(
     <ControlsHeightContext value={buttonsHeight}>

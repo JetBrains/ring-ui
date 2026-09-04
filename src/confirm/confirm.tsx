@@ -60,6 +60,31 @@ export default class Confirm extends PureComponent<ConfirmProps> {
       native,
     } = this.props;
 
+    const actions = [
+      <Button
+        key='reject'
+        data-test='confirm-reject-button'
+        onClick={onReject}
+        disabled={inProgress}
+        primary={cancelIsDefault}
+      >
+        {rejectLabel}
+      </Button>,
+      <Button
+        key='confirm'
+        data-test='confirm-ok-button'
+        primary={!cancelIsDefault}
+        loader={inProgress}
+        disabled={inProgress}
+        onClick={onConfirm}
+      >
+        {confirmLabel}
+      </Button>,
+    ];
+    if (cancelIsDefault) {
+      actions.reverse();
+    }
+
     return (
       <Dialog
         label={text || (typeof description === 'string' ? description : undefined)}
@@ -72,20 +97,7 @@ export default class Confirm extends PureComponent<ConfirmProps> {
       >
         {text && <Header>{text}</Header>}
         {description && <Content>{description}</Content>}
-        <Panel>
-          <Button
-            data-test='confirm-ok-button'
-            primary={!cancelIsDefault}
-            loader={inProgress}
-            disabled={inProgress}
-            onClick={onConfirm}
-          >
-            {confirmLabel}
-          </Button>
-          <Button data-test='confirm-reject-button' onClick={onReject} disabled={inProgress} primary={cancelIsDefault}>
-            {rejectLabel}
-          </Button>
-        </Panel>
+        <Panel>{actions}</Panel>
       </Dialog>
     );
   }
