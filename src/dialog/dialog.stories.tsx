@@ -179,10 +179,10 @@ export const dense: StoryFn = () => (
 );
 
 export const rtl: StoryFn = () => (
-  <div dir='rtl'>
+  <div dir='rtl' lang='ar'>
     <Dialog show>
-      <Header>RTL dialog</Header>
-      <Content>The resize marker follows the inline end.</Content>
+      <Header>حوار من اليمين إلى اليسار</Header>
+      <Content>تظهر علامة تغيير الحجم عند نهاية السطر.</Content>
     </Dialog>
   </div>
 );
