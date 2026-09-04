@@ -52,6 +52,14 @@ function createConfig() {
       configFile: path.join(__dirname, 'babel.config.js'),
       cacheDirectory: true,
     },
+    resolve: {
+      alias: {
+        'highlight.js/lib/languages': path.join(
+          path.dirname(require.resolve('highlight.js/package.json')),
+          'lib/languages',
+        ),
+      },
+    },
   };
 
   const gifLoader = {

@@ -64,7 +64,8 @@ export default class Code extends PureComponent<CodeProps> {
       ) {
         await registerLanguage(language);
       }
-      // @ts-expect-error https://github.com/highlightjs/highlight.js/issues/2945
+      // highlight.js skips elements marked as already highlighted, so clear the marker after updates.
+      delete codeRef.dataset.highlighted;
       highlight.highlightElement(codeRef);
     }
     replacer(codeRef);
