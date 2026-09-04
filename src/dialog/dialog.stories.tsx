@@ -182,7 +182,13 @@ export const rtl: StoryFn = () => (
   <div dir='rtl' lang='ar'>
     <Dialog show>
       <Header>حوار من اليمين إلى اليسار</Header>
-      <Content>تظهر علامة تغيير الحجم عند نهاية السطر.</Content>
+      <Content>
+        <Input label='اسم الإجراء' size={Size.FULL} />
+      </Content>
+      <Panel>
+        <Button>إلغاء</Button>
+        <Button primary>موافق</Button>
+      </Panel>
     </Dialog>
   </div>
 );
