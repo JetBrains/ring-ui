@@ -178,24 +178,30 @@ export const dense: StoryFn = () => (
   </Dialog>
 );
 
-export const rtl: StoryFn = () => (
-  <div dir='rtl' lang='ar'>
-    <Dialog show>
-      {/* Right-to-left dialog */}
-      <Header>حوار من اليمين إلى اليسار</Header>
-      <Content>
-        {/* Action name */}
-        <Input label='اسم الإجراء' size={Size.FULL} />
-      </Content>
-      <Panel>
-        {/* Cancel */}
-        <Button>إلغاء</Button>
-        {/* OK */}
-        <Button primary>موافق</Button>
-      </Panel>
-    </Dialog>
-  </div>
-);
+export const RTL: StoryFn = () => {
+  const [show, setShow] = useState(true);
+
+  return (
+    <div dir='rtl' lang='ar'>
+      {/* Open dialog */}
+      <Button onClick={() => setShow(true)}>فتح الحوار</Button>
+      <Dialog show={show} showCloseButton onCloseAttempt={() => setShow(false)}>
+        {/* Right-to-left dialog */}
+        <Header>حوار من اليمين إلى اليسار</Header>
+        <Content>
+          {/* Action name */}
+          <Input label='اسم الإجراء' size={Size.FULL} />
+        </Content>
+        <Panel>
+          {/* Cancel */}
+          <Button>إلغاء</Button>
+          {/* OK */}
+          <Button primary>موافق</Button>
+        </Panel>
+      </Dialog>
+    </div>
+  );
+};
 
 const lorem = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 Ipsum has been the industry's standard dummy text ever since the 1500s, when an

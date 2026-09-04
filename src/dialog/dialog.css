@@ -120,8 +120,8 @@
 .closeButton.closeButton {
   position: absolute;
   z-index: var(--ring-fixed-z-index);
-  top: calc(var(--ring-unit) * 2);
-  right: calc(var(--ring-unit) * 2);
+  inset-block-start: calc(var(--ring-unit) * 2);
+  inset-inline-end: calc(var(--ring-unit) * 2);
 
   line-height: calc(var(--ring-unit) * 2);
 }
@@ -272,8 +272,9 @@
   width: calc(100% + var(--dialog-padding) * 2);
   margin-inline: calc(var(--dialog-padding) * -1);
 
-  padding: 0 calc(var(--dialog-padding) + var(--ring-unit) * 3) 0 var(--dialog-padding);
-  padding-top: 0 !important;
+  padding-block: 0;
+  padding-inline: var(--dialog-padding) calc(var(--dialog-padding) + var(--ring-unit) * 3);
+  padding-block-start: 0 !important;
 
   font-size: calc(var(--ring-unit) * 2.5);
   line-height: calc(var(--ring-unit) * 3);
