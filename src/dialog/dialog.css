@@ -228,8 +228,8 @@
 
 .resizeMarker {
   position: absolute;
-  right: var(--ring-unit);
-  bottom: var(--ring-unit);
+  bottom: calc(var(--ring-unit) * 0.5);
+  inset-inline-end: calc(var(--ring-unit) * 0.5);
 
   display: flex;
   align-items: center;
@@ -241,6 +241,10 @@
   pointer-events: none;
 
   color: var(--ring-secondary-color);
+
+  &:dir(rtl) {
+    transform: scaleX(-1);
+  }
 }
 
 .documentWithoutScroll {

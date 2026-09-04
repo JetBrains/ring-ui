@@ -85,9 +85,7 @@ describe('Dialog', () => {
 
     expect(screen.getByTestId('ring-dialog-move-handle')).to.exist;
     expect(screen.getAllByTestId(/^ring-dialog-resize-handle-/)).to.have.length(8);
-    expect(screen.getByTestId('ring-dialog-resize-marker').parentElement).to.equal(
-      screen.getByTestId('ring-dialog-resize-handle-se'),
-    );
+    expect(screen.getByTestId('ring-dialog-resize-marker')).to.exist;
   });
 
   it('should allow movement and resizing to be disabled', () => {

@@ -52,29 +52,29 @@ export default function DialogControls({
           aria-label={closeButtonTitle || 'close dialog'}
         />
       )}
-      {resizable &&
-        resizeDirections.map(direction => (
-          <div
+      {resizable && (
+        <>
+          {resizeDirections.map(direction => (
+            <div
+              aria-hidden='true'
+              className={styles.resizeHandle}
+              data-resize-direction={direction}
+              data-test={`ring-dialog-resize-handle-${direction}`}
+              key={direction}
+              onPointerDown={event => onStartInteraction(event, direction)}
+              onPointerUp={onStopInteraction}
+              onPointerCancel={onStopInteraction}
+              onLostPointerCapture={onStopInteraction}
+            />
+          ))}
+          <Icon
             aria-hidden='true'
-            className={styles.resizeHandle}
-            data-resize-direction={direction}
-            data-test={`ring-dialog-resize-handle-${direction}`}
-            key={direction}
-            onPointerDown={event => onStartInteraction(event, direction)}
-            onPointerUp={onStopInteraction}
-            onPointerCancel={onStopInteraction}
-            onLostPointerCapture={onStopInteraction}
-          >
-            {direction === 'se' && (
-              <Icon
-                aria-hidden='true'
-                className={styles.resizeMarker}
-                data-test='ring-dialog-resize-marker'
-                glyph={resizeIcon}
-              />
-            )}
-          </div>
-        ))}
+            className={styles.resizeMarker}
+            data-test='ring-dialog-resize-marker'
+            glyph={resizeIcon}
+          />
+        </>
+      )}
     </>
   );
 }
