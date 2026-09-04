@@ -158,9 +158,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       }
     };
 
-    return {
-      esc: onEscape,
-    };
+    return {esc: onEscape};
   };
 
   dialog?: HTMLElement | null;

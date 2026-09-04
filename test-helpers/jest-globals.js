@@ -1,4 +1,3 @@
-/* eslint-env jest */
 import {TextEncoder, TextDecoder} from 'util';
 import {MessageChannel} from 'worker_threads';
 import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
