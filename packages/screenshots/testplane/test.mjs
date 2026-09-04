@@ -4,7 +4,6 @@ import filenamify from 'filenamify';
 
 import Actions from './actions.js';
 
-// eslint-disable-next-line import/no-unresolved
 import items from './stories.json' with {type: 'json'};
 
 function addTestName(name, storyName) {
