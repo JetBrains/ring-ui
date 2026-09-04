@@ -38,6 +38,7 @@ export default function DialogControls({
           className={styles.moveHandle}
           data-ring-dialog-move-handle=''
           data-test='ring-dialog-move-handle'
+          onLostPointerCapture={onStopInteraction}
         />
       )}
       {showCloseButton && (
@@ -62,6 +63,7 @@ export default function DialogControls({
             onPointerDown={event => onStartInteraction(event, direction)}
             onPointerUp={onStopInteraction}
             onPointerCancel={onStopInteraction}
+            onLostPointerCapture={onStopInteraction}
           >
             {direction === 'se' && (
               <Icon

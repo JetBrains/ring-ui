@@ -1,10 +1,11 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {createRoot} from 'react-dom/client';
-import {act} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
 
 import Dialog from './dialog';
+import {resizeGeometry} from './dialog-geometry';
 import Island, {Content, Header} from '../island/island';
+import Shortcuts from '../shortcuts/shortcuts';
 
 const dialogRect = {
   left: 100,
@@ -26,7 +27,7 @@ const prepareInteraction = () => {
 
 const firePointerEvent = (
   element: Element,
-  type: 'pointerdown' | 'pointermove',
+  type: 'pointerdown' | 'pointermove' | 'lostpointercapture',
   {
     clientX,
     clientY,
@@ -55,13 +56,18 @@ describe('Dialog', () => {
     expect(screen.getByTestId('ring-dialog-container').tagName).not.to.equal('DIALOG');
   });
 
-  it('should show a native dialog rendered from a detached root', () => {
-    const root = createRoot(document.createElement('div'));
+  it('should render a native dialog in place', () => {
+    render(
+      <div data-test='dialog-owner'>
+        <Dialog show />
+      </div>,
+    );
 
-    act(() => root.render(<Dialog show />));
+    expect(screen.getByRole('dialog').parentElement).to.equal(screen.getByTestId('dialog-owner'));
+  });
 
-    expect(screen.getByRole('dialog')).to.have.attribute('open');
-    act(() => root.unmount());
+  it('should render a native dialog on the server', () => {
+    expect(renderToStaticMarkup(<Dialog show />)).to.contain('<dialog');
   });
 
   it('should use passed className', () => {
@@ -176,6 +182,19 @@ describe('Dialog', () => {
     expect(inner.style.height).to.equal(`${window.innerHeight - dialogRect.top}px`);
   });
 
+  it('should stop resizing when pointer capture is lost', () => {
+    render(<Dialog show />);
+    const inner = prepareInteraction();
+    const handle = screen.getByTestId('ring-dialog-resize-handle-se');
+
+    firePointerEvent(handle, 'pointerdown', {clientX: 100, clientY: 100});
+    firePointerEvent(handle, 'lostpointercapture', {clientX: 100, clientY: 100});
+    firePointerEvent(handle, 'pointermove', {clientX: 120, clientY: 110});
+
+    expect(inner.style.width).to.equal('400px');
+    expect(inner.style.height).to.equal('200px');
+  });
+
   it('should enforce the minimum size when resizing from the top-left', () => {
     render(<Dialog show />);
     const inner = prepareInteraction();
@@ -206,6 +225,30 @@ describe('Dialog', () => {
     expect(inner.style.height).to.equal('180px');
     expect(inner.style.left).to.equal('180px');
     expect(inner.style.top).to.equal('120px');
+  });
+
+  it('should constrain the minimum resize size to the available viewport', () => {
+    const interaction = {
+      pointerId: 1,
+      startX: 0,
+      startY: 0,
+      minWidth: 320,
+      minHeight: 180,
+      geometry: {left: 10, top: 10, width: 200, height: 140},
+    };
+
+    expect(resizeGeometry({...interaction, direction: 'nw'}, 1000, 1000, 210, 150)).to.deep.equal({
+      left: 0,
+      top: 0,
+      width: 210,
+      height: 150,
+    });
+    expect(resizeGeometry({...interaction, direction: 'se'}, -1000, -1000, 210, 150)).to.deep.equal({
+      left: 10,
+      top: 10,
+      width: 200,
+      height: 140,
+    });
   });
 
   it.each([true, false])('should preserve its geometry when reopened with native=%s', native => {
@@ -290,5 +333,18 @@ describe('Dialog', () => {
     fireEvent.keyDown(document.documentElement, {which: 27}); // Escape
 
     expect(escSpy).not.toHaveBeenCalled();
+  });
+
+  it('should not swallow Escape while hidden', () => {
+    const escSpy = vi.fn(() => true);
+    render(
+      <>
+        <Shortcuts map={{esc: escSpy}} scope='test' />
+        <Dialog show={false} />
+      </>,
+    );
+    fireEvent.keyDown(document.documentElement, {which: 27});
+
+    expect(escSpy).toHaveBeenCalled();
   });
 });

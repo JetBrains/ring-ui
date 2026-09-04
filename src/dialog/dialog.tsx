@@ -36,7 +36,6 @@ export interface DialogProps extends Partial<TabTrapProps> {
   onEscPress: (event: KeyboardEvent) => void;
   onCloseClick: (event: React.MouseEvent<HTMLElement>) => void;
   // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
-  // Use it if you don't need different behaviors for this cases.
   onCloseAttempt: (event: React.MouseEvent<HTMLElement> | KeyboardEvent) => void;
   showCloseButton: boolean;
   shortcutOptions: ShortcutsScopeOptions;
@@ -172,7 +171,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
   nativeDialog = createRef<HTMLDialogElement>();
   innerContainer = createRef<HTMLDivElement>();
   interaction: Interaction | null = null;
-
+  resizeMinimum: Pick<Interaction, 'minWidth' | 'minHeight'> | null = null;
   fitGeometryToViewport = () => {
     this.setState(({geometry}) => {
       if (!geometry) {
@@ -188,12 +187,16 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       return;
     }
     const {left, top, width, height} = this.innerContainer.current.getBoundingClientRect();
+    const resizeMinimum = this.resizeMinimum ?? getResizeMinimum(this.innerContainer.current.firstElementChild!);
+    if (direction !== 'move') {
+      this.resizeMinimum = resizeMinimum;
+    }
     this.interaction = {
       pointerId: event.pointerId,
       direction,
       startX: event.clientX,
       startY: event.clientY,
-      ...getResizeMinimum(this.innerContainer.current.firstElementChild!),
+      ...resizeMinimum,
       geometry: {left, top, width, height},
     };
     this.setState(({resized}) => ({geometry: {left, top, width, height}, resized: resized || direction !== 'move'}));
@@ -274,7 +277,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     const shortcutsMap = this.getShortcutsMap();
     const content = (
       <>
-        <Shortcuts map={shortcutsMap} scope={this.state.shortcutsScope} options={this.props.shortcutOptions} />
+        <Shortcuts disabled={!show} map={shortcutsMap} scope={this.state.shortcutsScope} options={shortcutOptions} />
         {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
           <div
             // click handler is duplicated in close button
@@ -312,6 +315,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
             onPointerMove={this.continueInteraction}
             onPointerUp={this.stopInteraction}
             onPointerCancel={this.stopInteraction}
+            onLostPointerCapture={this.stopInteraction}
           >
             {children}
             <DialogControls
@@ -327,9 +331,8 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         </div>
       </>
     );
-
     if (native) {
-      return createPortal(
+      return (
         <dialog
           {...restProps}
           aria-label={label}
@@ -348,8 +351,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
               </>
             )}
           </PopupTarget>
-        </dialog>,
-        document.body,
+        </dialog>
       );
     }
 

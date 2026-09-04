@@ -16,6 +16,9 @@ type AuthDialogAttributes = React.JSX.LibraryManagedAttributes<typeof AuthDialog
  * Renders AuthDialog into virtual node to skip maintaining container
  */
 function renderAuthDialog(props: AuthDialogAttributes) {
+  if (!containerElement.isConnected) {
+    document.body.appendChild(containerElement);
+  }
   reactRoot.render(
     <ControlsHeightContext value={getGlobalControlsHeight()}>
       <AuthDialog {...props} />
