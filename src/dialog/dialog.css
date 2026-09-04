@@ -1,6 +1,6 @@
 @import '../global/variables.css';
 
-@value content as islandContent, header, scrollableWrapper from '../island/island.css';
+@value content as islandContent, header, title as islandTitle, scrollableWrapper from '../island/island.css';
 @value panel from '../panel/panel.css';
 
 .container {
@@ -277,6 +277,12 @@
 
   font-size: calc(var(--ring-unit) * 2.5);
   line-height: calc(var(--ring-unit) * 3);
+}
+
+.innerContainer .islandTitle {
+  float: none;
+
+  text-align: start;
 }
 
 .dense {
