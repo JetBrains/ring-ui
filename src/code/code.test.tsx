@@ -43,8 +43,8 @@ describe('Code', () => {
       `,
     });
 
-    expect(code).to.contain('.javascript');
-    expect(code).to.contain('.xml');
+    expect(code).to.contain('.language-javascript');
+    expect(code).to.contain('.language-xml');
   });
 
   it('should detect CSS', () => {
@@ -56,7 +56,7 @@ describe('Code', () => {
         }
       `,
     });
-    expect(code).to.contain('.css');
+    expect(code).to.contain('.language-css');
   });
 
   it('should detect HTML', () => {
@@ -67,7 +67,7 @@ describe('Code', () => {
         </body>
       `,
     });
-    expect(code).to.contain('.xml');
+    expect(code).to.contain('.language-xml');
   });
 
   it('should parse and highlight the code', () => {
