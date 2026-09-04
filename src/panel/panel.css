@@ -13,6 +13,6 @@
   }
 
   & > button:not(:last-child) {
-    margin-right: var(--ring-unit);
+    margin-inline-end: var(--ring-unit);
   }
 }
