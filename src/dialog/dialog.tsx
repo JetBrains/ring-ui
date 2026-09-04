@@ -10,6 +10,7 @@ import Shortcuts from '../shortcuts/shortcuts';
 import TabTrap, {type TabTrapObject, type TabTrapProps} from '../tab-trap/tab-trap';
 import {normalizePopupTarget, PopupTarget, PopupTargetContext} from '../popup/popup.target';
 import {getPopupContainer} from '../popup/popup';
+import getViewportSize from '../global/get-viewport-size';
 import {preventerFactory as scrollPreventerFactory} from './dialog-body-scroll-preventer';
 import DialogControls from './dialog-controls';
 import {
@@ -17,7 +18,6 @@ import {
   getNativeTabIndex,
   getResizeMinimum,
   getTrapDisabled,
-  getViewportSize,
   moveGeometry,
   resizeGeometry,
   type DialogState,

@@ -1,5 +1,3 @@
-import clamp from '../global/clamp';
-
 export type ResizeDirection = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
 export type InteractionDirection = 'move' | ResizeDirection;
 
@@ -29,10 +27,7 @@ export interface Interaction {
 const MIN_WIDTH = 256;
 const MIN_HEIGHT = 160;
 
-export const getViewportSize = () => ({
-  width: document.documentElement.clientWidth || window.innerWidth,
-  height: document.documentElement.clientHeight || window.innerHeight,
-});
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
 export const getNativeTabIndex = (autoFocusFirst: boolean | undefined) => (autoFocusFirst ? undefined : -1);
 
