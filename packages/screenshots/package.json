@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@jetbrains/testplane-teamcity-reporter": "^1.2.2",
-    "axios": "^1.19.0",
+    "axios": "^1.20.0",
     "browserstack-local": "^1.5.13",
     "dotenv": "^17.4.2",
-    "filenamify": "^7.0.2",
+    "filenamify": "^7.0.3",
     "font-awesome": "^4.7.0",
     "fs-extra": "^11.4.0",
     "html-reporter": "^11.14.1",
