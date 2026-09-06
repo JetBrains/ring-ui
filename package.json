@@ -106,7 +106,7 @@
     "@eslint/compat": "^2.1.0",
     "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^10.0.1",
-    "@figma/code-connect": "^1.5.2",
+    "@figma/code-connect": "^2.0.0",
     "@jetbrains/eslint-config": "^6.0.5",
     "@jetbrains/logos": "3.0.0-canary.734b213.0",
     "@jetbrains/rollup-css-plugin": "./packages/rollup-css-plugin",
