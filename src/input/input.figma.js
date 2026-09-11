@@ -69,6 +69,7 @@ if (hasPlaceholder) {
 
 export default {
   id: 'input',
+  metadata: {nestable: true},
   example: figma.code`${imports.join('\n')}
 
 <Input ${props.map(prop => `${prop} `).join('')}/>`,

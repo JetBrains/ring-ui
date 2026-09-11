@@ -16,6 +16,7 @@ const children = instance
 
 export default {
   id: 'breadcrumbs',
+  metadata: {nestable: true},
   example: figma.code`${imports.join('\n')}
 
 <Breadcrumbs>

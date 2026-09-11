@@ -40,6 +40,7 @@ if (round) {
 
 export default {
   id: 'avatar',
+  metadata: {nestable: true},
   example: figma.code`${imports.join('\n')}
 
 <Avatar ${props.map(prop => `${prop} `).join('')}/>`,

@@ -83,6 +83,7 @@ const button = children ?
 
 export default {
   id: 'button',
+  metadata: {nestable: true},
   example: figma.code`${imports.join('\n')}
 
 ${

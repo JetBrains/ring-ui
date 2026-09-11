@@ -26,6 +26,7 @@ const renderedChildren = children.map(child => {
 
 export default {
   id: 'avatar-stack',
+  metadata: {nestable: true},
   example: figma.code`${imports.join('\n')}
 ${renderedChildren[0].imports}
 
