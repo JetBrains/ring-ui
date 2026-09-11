@@ -4,6 +4,7 @@ import figma from 'figma';
 
 export default {
   id: 'CollapsibleGroup',
+  metadata: {nestable: true},
   imports: [
     "import CollapsibleGroup from '@jetbrains/ring-ui/components/collapsible-group/collapsible-group'",
     "import Avatar, {Size as AvatarSize} from '@jetbrains/ring-ui/components/avatar/avatar'",

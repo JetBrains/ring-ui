@@ -33,6 +33,7 @@ if (state === 'Disabled') {
 
 export default {
   id: 'checkbox',
+  metadata: {nestable: true},
   example: figma.code`${imports.join('\n')}
 
 <Checkbox ${props.map(prop => `${prop} `).join('')}/>`,

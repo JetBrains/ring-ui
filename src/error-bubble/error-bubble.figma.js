@@ -10,6 +10,7 @@ const props = [`error={\`${error}\`}`];
 
 export default {
   id: 'error-bubble',
+  metadata: {nestable: true},
   example: figma.code`${imports.join('\n')}
 
 <ErrorBubble ${props.map(prop => `${prop} `).join('')}/>`,
