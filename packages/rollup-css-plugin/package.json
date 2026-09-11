@@ -11,7 +11,7 @@
   "author": "Andrey Skladchikov",
   "license": "Apache-2.0",
   "engines": {
-    "node": "^22.11.0 || ^24.11.0 || >=26.0.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "devDependencies": {
     "@rollup/pluginutils": "^5.4.0",
