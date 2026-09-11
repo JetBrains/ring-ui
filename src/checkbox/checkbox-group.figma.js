@@ -1,5 +1,6 @@
 // url=https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI-(Internal)?node-id=226-2666
-import figma from '@figma/code-connect';
+// component=CheckboxGroup
+import figma from 'figma';
 
 const instance = figma.selectedInstance;
 const labelType = instance.getString('Label');

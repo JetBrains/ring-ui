@@ -87,7 +87,7 @@ export default defineConfig([
     },
 
     settings: {
-      'import/core-modules': ['./metadata-messages.json'],
+      'import/core-modules': ['./metadata-messages.json', 'figma'],
       'import/resolver': {
         exports: {},
         webpack: true,

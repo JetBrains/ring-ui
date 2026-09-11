@@ -1,7 +1,7 @@
 {
   "codeConnect": {
-    "parser": "custom",
-    "parserCommand": "node scripts/figmaParser.mjs",
-    "include": ["src/**/*.figma.js"]
+    "include": ["src/**/*.figma.js"],
+    "label": "React",
+    "language": "tsx"
   }
 }

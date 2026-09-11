@@ -1,5 +1,6 @@
 // url=https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI?node-id=460%3A2730
-import figma from '@figma/code-connect';
+// component=Breadcrumbs
+import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
