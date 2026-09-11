@@ -10,6 +10,10 @@ updates:
     default-days: 7
   open-pull-requests-limit: 20
   versioning-strategy: increase
+  # Jest 30.5 breaks Storybook test-runner: https://github.com/storybookjs/storybook/pull/36140
+  ignore:
+    - dependency-name: "jest"
+    - dependency-name: "jest-environment-jsdom"
   groups:
     storybook:
       patterns:

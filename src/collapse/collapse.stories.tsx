@@ -56,7 +56,13 @@ export const ShowOnExtend = () => {
         </CollapseControl>
         <CollapseContent>
           <div className={styles.loaderWrapper}>
-            {showDelayedContent ? <div className={styles.content}>loaded content</div> : <LoaderInline />}
+            {showDelayedContent ? (
+              <div className={styles.content} data-test='loaded-content'>
+                loaded content
+              </div>
+            ) : (
+              <LoaderInline />
+            )}
           </div>
         </CollapseContent>
       </Collapse>
@@ -65,6 +71,14 @@ export const ShowOnExtend = () => {
 };
 
 ShowOnExtend.storyName = 'Show content on extending';
+ShowOnExtend.parameters = {
+  screenshots: {
+    actions: [
+      {type: 'click', selector: '[data-test~=ring-collapse-control] button'},
+      {type: 'waitForElementToShow', selector: '[data-test~=loaded-content]', timeout: 5000},
+    ],
+  },
+};
 
 export const TriggerUnderContent = () => (
   <div className={styles.container}>
