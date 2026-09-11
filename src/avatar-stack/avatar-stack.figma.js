@@ -14,6 +14,7 @@ const props = [];
 const DEFAULT_SIZE = 20;
 const isDefaultSize = size === DEFAULT_SIZE;
 if (!isDefaultSize) {
+  imports.push("import {Size} from '@jetbrains/ring-ui/components/avatar/avatar'");
   props.push(`size={Size.Size${size}}`);
 }
 

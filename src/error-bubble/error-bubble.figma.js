@@ -6,7 +6,7 @@ const instance = figma.selectedInstance;
 const error = instance.findLayers(() => true)[0].textContent;
 
 const imports = ["import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble'"];
-const props = [`error={\`${error}\``];
+const props = [`error={\`${error}\`}`];
 
 export default {
   id: 'error-bubble',
