@@ -1,5 +1,6 @@
 // url=https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI?node-id=5990-752
-import figma from '@figma/code-connect';
+// component=AvatarStack
+import figma from 'figma';
 
 const instance = figma.selectedInstance;
 const sizeString = instance.getString('Size');

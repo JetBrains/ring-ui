@@ -1,5 +1,6 @@
 // url=https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI-(Internal)?node-id=7538-7763
-import figma from '@figma/code-connect';
+// component=Input
+import figma from 'figma';
 
 const instance = figma.selectedInstance;
 const size = instance.getString('Size');

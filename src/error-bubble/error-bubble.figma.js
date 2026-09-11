@@ -1,5 +1,6 @@
 // url=https://www.figma.com/design/HY6d4uE1xxaQXCMG9fe6Y2/RingUI-(Internal)?node-id=1228-2869
-import figma from '@figma/code-connect';
+// component=ErrorBubble
+import figma from 'figma';
 
 const instance = figma.selectedInstance;
 const error = instance.findLayers(() => true)[0].textContent;
