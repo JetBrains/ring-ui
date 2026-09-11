@@ -8,6 +8,16 @@ configure({testIdAttribute: 'data-test'});
 
 window.PointerEvent = window.PointerEvent || window.Event;
 
+HTMLDialogElement.prototype.show ??= function show() {
+  this.open = true;
+};
+HTMLDialogElement.prototype.showModal ??= function showModal() {
+  this.open = true;
+};
+HTMLDialogElement.prototype.close ??= function close() {
+  this.open = false;
+};
+
 class Observer {
   observe() {
     // do nothing

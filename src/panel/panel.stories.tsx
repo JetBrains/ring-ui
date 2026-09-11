@@ -16,8 +16,8 @@ export const basic = () => {
     render() {
       return (
         <Panel>
-          <Button primary>{'Apply changes'}</Button>
           <Button>{'Cancel'}</Button>
+          <Button primary>{'Apply changes'}</Button>
         </Panel>
       );
     }

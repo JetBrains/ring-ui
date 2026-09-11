@@ -77,7 +77,13 @@ class Header extends Component<IslandHeaderProps> {
     const titleStyle = this.getTitleStyle(phase);
 
     return (
-      <div {...restProps} data-test='ring-island-header' className={classes} style={headerStyle}>
+      <div
+        {...restProps}
+        data-ring-island-header=''
+        data-test='ring-island-header'
+        className={classes}
+        style={headerStyle}
+      >
         {wrapWithTitle && (
           <h2 className={styles.title} style={titleStyle}>
             {children}
