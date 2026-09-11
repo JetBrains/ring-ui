@@ -240,8 +240,8 @@
     "highlight.js": "^10.7.2",
     "just-debounce-it": "^3.2.0",
     "memoize-one": "^6.0.0",
-    "postcss": "^8.5.15",
-    "postcss-calc": "^10.1.1",
+    "postcss": "^8.5.25",
+    "postcss-calc": "^11.0.1",
     "postcss-font-family-system-ui": "^5.0.0",
     "postcss-loader": "^8.2.1",
     "postcss-modules-values-replace": "^4.2.2",
@@ -258,7 +258,7 @@
     "util-deprecate": "^1.0.2"
   },
   "engines": {
-    "node": ">=14.0",
+    "node": "^22.22.3 || ^24.15 || >=26.0",
     "npm": ">=6.0.0"
   },
   "bugs": {

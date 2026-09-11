@@ -1,6 +1,7 @@
 ## [8.0.0]
 
 ### BREAKING CHANGES
+- Changed the supported Node.js versions to `^22.22.3 || ^24.15 || >=26.0`.
 - Introduced the new Table component in the existing `table` directory. The old tables and related files (such as `selection.ts`) were moved to the `legacy-table` directory. To continue using the old tables, update your imports (for example, `import SimpleTable from '@jetbrains/ring-ui/components/table/simple-table'` -> `import SimpleTable from '@jetbrains/ring-ui/components/legacy-table/simple-table'`).
 - The file `table/selection.ts` was moved and renamed to `global/table-selection.ts`.
 - Changed the minimum supported React version to 19.2.0.
