@@ -169,6 +169,36 @@ describe('HTTP', () => {
     expect(onError).toHaveBeenCalled();
   });
 
+  it('should not swallow an abort error from a successful response', async () => {
+    const abortError = new DOMException('The request was aborted', 'AbortError');
+    mockedFetch.mockResolvedValue({
+      status: OK,
+      ok: true,
+      headers: new Headers({'content-type': 'application/json'}),
+      json: () => Promise.reject(abortError),
+    } as Response);
+
+    const onError = vi.fn();
+    await http.fetch('testurl').catch(onError);
+
+    expect(onError).toHaveBeenCalledWith(abortError);
+  });
+
+  it('should not turn an abort error from an error response into an HTTPError', async () => {
+    const abortError = new DOMException('The request was aborted', 'AbortError');
+    mockedFetch.mockResolvedValue({
+      status: SERVER_ERROR,
+      ok: false,
+      headers: new Headers({'content-type': 'application/json'}),
+      json: () => Promise.reject(abortError),
+    } as Response);
+
+    const onError = vi.fn();
+    await http.fetch('testurl').catch(onError);
+
+    expect(onError).toHaveBeenCalledWith(abortError);
+  });
+
   it('should include error information', async () => {
     mockedFetch.mockResolvedValue({
       status: SERVER_ERROR,

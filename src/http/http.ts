@@ -52,6 +52,10 @@ function isRawBody(params: RequestParams): params is RequestParams<true> {
   return params.sendRawBody === true;
 }
 
+function isAbortError(error: unknown): error is DOMException {
+  return error instanceof DOMException && error.name === 'AbortError';
+}
+
 export interface HTTPAuth {
   requestToken(): Promise<string | null> | string | null;
   forceTokenUpdate(failedToken?: string | null): Promise<string | null>;
@@ -146,8 +150,10 @@ export default class HTTP implements Partial<HTTPAuth> {
       let resJson;
       try {
         resJson = await (isJson ? response.json() : response.text());
-      } catch (err) {
-        // noop
+      } catch (error) {
+        if (isAbortError(error)) {
+          throw error;
+        }
       }
 
       throw new HTTPError(response, resJson);
@@ -157,7 +163,11 @@ export default class HTTP implements Partial<HTTPAuth> {
       const parsedResponse = await (isJson ? response.json() : {data: await response.text()});
       this._storeRequestMeta(parsedResponse, response);
       return parsedResponse;
-    } catch (err) {
+    } catch (error) {
+      if (isAbortError(error)) {
+        throw error;
+      }
+
       return response;
     }
   }
