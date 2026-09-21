@@ -169,6 +169,36 @@ describe('HTTP', () => {
     expect(onError).toHaveBeenCalled();
   });
 
+  it('should not swallow a parsing error from a successful response', async () => {
+    const error = new Error('Failed to parse response');
+    mockedFetch.mockResolvedValue({
+      status: OK,
+      ok: true,
+      headers: new Headers({'content-type': 'application/json'}),
+      json: () => Promise.reject(error),
+    } as Response);
+
+    const onError = vi.fn();
+    await http.fetch('testurl').catch(onError);
+
+    expect(onError).toHaveBeenCalledWith(error);
+  });
+
+  it('should not turn a parsing error from an error response into an HTTPError', async () => {
+    const error = new Error('Failed to parse response');
+    mockedFetch.mockResolvedValue({
+      status: SERVER_ERROR,
+      ok: false,
+      headers: new Headers({'content-type': 'application/json'}),
+      json: () => Promise.reject(error),
+    } as Response);
+
+    const onError = vi.fn();
+    await http.fetch('testurl').catch(onError);
+
+    expect(onError).toHaveBeenCalledWith(error);
+  });
+
   it('should include error information', async () => {
     mockedFetch.mockResolvedValue({
       status: SERVER_ERROR,
