@@ -270,6 +270,9 @@ export default class UserAgreementService {
           ...restOptions,
         };
 
+        if (!this.container.isConnected) {
+          document.body.appendChild(this.container);
+        }
         this.reactRoot.render(
           <ControlsHeightContext value={getGlobalControlsHeight()}>
             <UserAgreement {...props} />

@@ -103,3 +103,16 @@ export const confirm = ({onConfirm, onCancel}: ConfirmArgs) => {
 };
 
 confirm.argTypes = {onConfirm: {}, onCancel: {}};
+
+export const cancelIsDefault = ({onConfirm, onCancel}: ConfirmArgs) => (
+  <Confirm
+    show
+    cancelIsDefault
+    text='Do you really wish to proceed?'
+    description='A description of an action that is about to take place.'
+    onConfirm={onConfirm}
+    onReject={onCancel}
+  />
+);
+
+cancelIsDefault.argTypes = confirm.argTypes;

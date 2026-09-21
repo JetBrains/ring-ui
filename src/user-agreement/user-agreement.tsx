@@ -3,7 +3,6 @@
  */
 
 import {PureComponent, type ReactNode} from 'react';
-import classNames from 'classnames';
 
 import Dialog from '../dialog/dialog';
 import {Content, Header} from '../island/island';
@@ -63,7 +62,7 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
           <Dialog
             label={translations?.userAgreement ?? translate('userAgreement')}
             show={show}
-            className={classNames(style.agreementDialog, className)}
+            className={className ?? undefined}
             contentClassName={style.dialogContent}
             trapFocus
             autoFocusFirst={false}
@@ -78,23 +77,22 @@ export default class UserAgreement extends PureComponent<UserAgreementProps> {
                 {onRemindLater && !scrolledDown && (
                   <div className={style.suggestion}>{translations?.scrollToAccept ?? translate('scrollToAccept')}</div>
                 )}
-                <Button primary disabled={!scrolledDown} onClick={onAccept} data-test='accept'>
-                  {translations?.accept ?? translate('accept')}
-                </Button>
-                <Button onClick={onDecline} autoFocus data-test='decline'>
-                  {translations?.decline ?? translate('decline')}
-                </Button>
-
                 {!onRemindLater && !scrolledDown && (
                   <span className={style.suggestion}>
                     {translations?.scrollToAccept ?? translate('scrollToAccept')}
                   </span>
                 )}
+                <Button onClick={onDecline} autoFocus data-test='decline'>
+                  {translations?.decline ?? translate('decline')}
+                </Button>
                 {onRemindLater && (
-                  <Button className={style.remindLaterButton} onClick={onRemindLater} data-test='later'>
+                  <Button onClick={onRemindLater} data-test='later'>
                     {translations?.remindLater ?? translate('remindLater')}
                   </Button>
                 )}
+                <Button primary disabled={!scrolledDown} onClick={onAccept} data-test='accept'>
+                  {translations?.accept ?? translate('accept')}
+                </Button>
               </Panel>
             )}
             {preview && (
