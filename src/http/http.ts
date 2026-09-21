@@ -143,23 +143,14 @@ export default class HTTP implements Partial<HTTPAuth> {
     const isJson = contentType && contentType.indexOf('application/json') !== -1;
 
     if (!response.ok) {
-      let resJson;
-      try {
-        resJson = await (isJson ? response.json() : response.text());
-      } catch (err) {
-        // noop
-      }
+      const resJson = await (isJson ? response.json() : response.text());
 
       throw new HTTPError(response, resJson);
     }
 
-    try {
-      const parsedResponse = await (isJson ? response.json() : {data: await response.text()});
-      this._storeRequestMeta(parsedResponse, response);
-      return parsedResponse;
-    } catch (err) {
-      return response;
-    }
+    const parsedResponse = await (isJson ? response.json() : {data: await response.text()});
+    this._storeRequestMeta(parsedResponse, response);
+    return parsedResponse;
   }
 
   fetch = async <T = unknown>(url: string, params: FetchParams = {}): Promise<T> => {
