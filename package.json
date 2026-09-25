@@ -189,7 +189,7 @@
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.68.0",
     "vite": "^8.3.0",
-    "vitest": "^4.1.11",
+    "vitest": "^5.0.1",
     "vitest-teamcity-reporter": "^0.6.1",
     "webpack": "^5.110.3",
     "webpack-cli": "^7.2.3",
