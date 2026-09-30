@@ -70,4 +70,16 @@ describe('Slider', () => {
 
     expect(onChange).toHaveBeenCalledWith([NEW_VALUE, LEFT]);
   });
+
+  it('should set min value when clicking the leftmost point with marks', () => {
+    const onChange = vi.fn();
+    const {container} = renderSlider({defaultValue: 50, step: 25, marks: true, onChange});
+    const slider = container.firstElementChild!;
+    vi.spyOn(slider, 'getBoundingClientRect').mockReturnValue({left: 0, width: 100} as DOMRect);
+
+    fireEvent.mouseDown(slider, {pageX: 0});
+    fireEvent.mouseUp(window, {pageX: 0});
+
+    expect(onChange).toHaveBeenLastCalledWith(0);
+  });
 });

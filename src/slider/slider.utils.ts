@@ -64,7 +64,7 @@ export function adjustValues(
 ) {
   const nextValue = calculateValue(ref, x, min, max, step);
   const nextValues = [...values];
-  if (nextValue && !isNaN(nextValue)) {
+  if (nextValue !== null && !isNaN(nextValue)) {
     nextValues[index] = validateValue(nextValue, min, max);
   }
   return nextValues;
