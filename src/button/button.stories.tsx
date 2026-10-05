@@ -41,6 +41,7 @@ export const basic = () => (
           {primary: true, inline: true},
           {ghost: true, inline: true},
           {danger: true, inline: true},
+          {transparent: true, inline: false},
         ].map(typeProps => (
           <Fragment key={JSON.stringify(typeProps)}>
             {[{}, {active: true}, {disabled: true}, {loader: true}].map(stateProps => {

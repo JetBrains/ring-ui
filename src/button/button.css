@@ -132,6 +132,20 @@
   }
 }
 
+.transparent {
+  --ring-button-default-background-color: transparent;
+
+  &.disabled {
+    --ring-button-disabled-border-color: var(--ring-button-default-border-color);
+  }
+
+  &:hover,
+  &:active,
+  &.active {
+    background-color: transparent;
+  }
+}
+
 .inline {
   --ring-button-text-color: var(--ring-link-color);
   --ring-button-background-color: transparent;

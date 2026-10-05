@@ -23,6 +23,7 @@ export interface ButtonBaseProps {
   error?: boolean | null | undefined;
   secondary?: boolean | null | undefined;
   ghost?: boolean | null | undefined;
+  transparent?: boolean | null | undefined;
   short?: boolean | null | undefined;
   /**
    * @deprecated Use inline instead
@@ -104,6 +105,7 @@ export class Button extends PureComponent<ButtonProps> {
       error,
       secondary,
       ghost,
+      transparent,
       short,
       text,
       dropdown,
