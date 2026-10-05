@@ -28,9 +28,10 @@
   background: transparent;
 }
 
+/* Older browsers do not inherit custom properties on ::backdrop. */
 .container,
 .nativeDialog::backdrop {
-  background-color: rgba(var(--ring-dialog-overlay-components), var(--ring-dialog-overlay-opacity));
+  background-color: rgba(var(--ring-dialog-overlay-components, 0, 0, 0), var(--ring-dialog-overlay-opacity, 0.4));
 }
 
 .innerContainer {
