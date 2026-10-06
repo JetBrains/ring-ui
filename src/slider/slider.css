@@ -1,7 +1,4 @@
 .slider {
-  --ring-slider-thumb-color: var(--ring-content-background-color);
-  --ring-slider-thumb-border: var(--ring-main-color);
-  --ring-slider-thumb-disabled-color: var(--ring-content-background-color);
   --ring-slider-tag-disabled-text-color: var(--ring-white-text-color);
 
   position: relative;
@@ -22,10 +19,6 @@
 
 :global(.ring-ui-theme-dark) {
   .slider {
-    --ring-slider-thumb-color: var(--ring-main-color);
-    --ring-slider-thumb-border: var(--ring-white-text-color);
-    --ring-slider-thumb-disabled-color: var(--ring-disabled-background-color);
-    --ring-slider-thumb-disabled-border: var(--ring-border-disabled-color);
     --ring-slider-tag-disabled-text-color: var(--ring-secondary-color);
   }
 }
@@ -67,6 +60,9 @@
 }
 
 .thumb {
+  --ring-slider-thumb-color: var(--ring-content-background-color);
+  --ring-slider-thumb-border: var(--ring-borders-color);
+
   composes: resetButton from '../global/global.css';
 
   position: absolute;
@@ -81,23 +77,31 @@
   cursor: pointer;
   transform: translateX(-50%);
 
+  border: 1px solid var(--ring-slider-thumb-border);
   border-radius: var(--ring-unit);
   background-color: var(--ring-slider-thumb-color);
   box-shadow:
     0 1px 2px 0 var(--ring-popup-secondary-shadow-color),
     0 2px 8px 0 var(--ring-popup-shadow-components);
 
-  &.disabled {
-    cursor: default;
+  &:hover {
+    --ring-slider-thumb-border: var(--ring-border-accent-color);
+  }
 
-    border: 1px solid var(--ring-slider-thumb-disabled-border);
-    background-color: var(--ring-slider-thumb-disabled-color);
+  &:active {
+    --ring-slider-thumb-border: var(--ring-border-accent-color);
+    --ring-slider-thumb-color: var(--ring-hover-background-color);
+  }
+
+  &.disabled {
+    --ring-slider-thumb-border: var(--ring-border-disabled-color);
+    --ring-slider-thumb-color: var(--ring-disabled-background-color);
+
+    cursor: default;
   }
 
   &.dragged {
     cursor: grabbing;
-
-    border: 1px solid var(--ring-slider-thumb-border);
   }
 }
 
