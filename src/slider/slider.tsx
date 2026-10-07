@@ -53,6 +53,7 @@ export const Slider: React.FC<Props> = ({
   const isRange = isArray(defaultValue ?? value);
   const [isDragging, setIsDragging] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState(-1);
+  const [focused, setFocused] = useState(false);
   const [shortcutsScope] = useState(getUID('ring-slider-'));
 
   const markValues: Mark[] = (() => {
@@ -183,8 +184,14 @@ export const Slider: React.FC<Props> = ({
       })}
       tabIndex={-1}
       onMouseDown={handleMouseDown}
+      onFocus={() => setFocused(true)}
+      onBlur={e => {
+        if (!(e.relatedTarget instanceof Node) || !e.currentTarget.contains(e.relatedTarget)) {
+          setFocused(false);
+        }
+      }}
     >
-      <Shortcuts map={shortcutsMap} scope={shortcutsScope} />
+      <Shortcuts map={shortcutsMap} scope={shortcutsScope} disabled={disabled || !focused} />
       <div
         className={classNames(styles.rail, {
           [styles.rounded]: !showTicks,
