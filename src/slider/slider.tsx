@@ -46,7 +46,7 @@ export const Slider: React.FC<Props> = ({
   onChange,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const previouslyDragged = useRef(false);
+  const activePointer = useRef<number | null>(null);
   const [values, setValues] = useState(defaultValue ?? min);
   const validValues: number[] = toRange(value ?? values, min, max);
   const validStep = step < 0 ? 0 : step;
@@ -117,62 +117,71 @@ export const Slider: React.FC<Props> = ({
     };
   }
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const stopDragging = useEventCallback(() => {
+    const pointerId = activePointer.current;
+    activePointer.current = null;
+    setDraggedIndex(-1);
+    setIsDragging(false);
+    if (pointerId !== null && ref.current?.hasPointerCapture(pointerId)) {
+      ref.current.releasePointerCapture(pointerId);
+    }
+  });
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
-    if (disabled) {
+    if (disabled || e.button !== 0 || !e.isPrimary || activePointer.current !== null) {
       return;
     }
 
     const index = e.currentTarget.getAttribute('data-index');
-    const nextValue = calculateValue(ref, e.pageX, min, max, validStep);
+    const nextValue = calculateValue(ref, e.clientX, min, max, validStep);
     if (nextValue !== null && !isNaN(nextValue) && !index) {
       const rangeIndex = Number(Math.abs(validValues[0] - nextValue) > Math.abs(validValues[1] - nextValue));
       setDraggedIndex(isRange ? rangeIndex : 0);
     } else {
       setDraggedIndex(Number(index));
     }
+    activePointer.current = e.pointerId;
+    ref.current?.setPointerCapture(e.pointerId);
     setIsDragging(true);
-    previouslyDragged.current = false;
   };
 
-  const handleMouseUp = useEventCallback(({pageX}: MouseEvent) => {
-    const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (disabled || activePointer.current !== e.pointerId) {
+      return;
+    }
+    const nextValues = adjustValues(validValues, ref, draggedIndex, e.clientX, max, min, validStep);
     if (nextValues[0] > nextValues[1]) {
       nextValues.reverse();
     }
     handleValueChange(nextValues);
-    setDraggedIndex(-1);
-    setIsDragging(false);
-    previouslyDragged.current = true;
-  });
+    stopDragging();
+  };
 
-  const handleMouseMove = useEventCallback(({pageX}: MouseEvent) => {
-    const nextValues = adjustValues(validValues, ref, draggedIndex, pageX, max, min, validStep);
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (disabled || activePointer.current !== e.pointerId) {
+      return;
+    }
+    const nextValues = adjustValues(validValues, ref, draggedIndex, e.clientX, max, min, validStep);
     if (nextValues[0] > nextValues[1]) {
       nextValues.reverse();
       setDraggedIndex(prevState => (prevState === 0 ? 1 : 0));
     }
     handleValueChange(nextValues);
-  });
+  };
+
+  const handlePointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (activePointer.current === e.pointerId) {
+      stopDragging();
+    }
+  };
 
   useEffect(() => {
     if (disabled) {
-      return undefined;
+      stopDragging();
     }
-
-    if (isDragging && !previouslyDragged.current) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-    } else if (!isDragging && previouslyDragged.current) {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    }
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, disabled, handleMouseMove, handleMouseUp]);
+  }, [disabled, stopDragging]);
 
   return (
     <div
@@ -183,7 +192,12 @@ export const Slider: React.FC<Props> = ({
         [styles.marked]: !!marks || showTag,
       })}
       tabIndex={-1}
-      onMouseDown={handleMouseDown}
+      onMouseDown={e => e.stopPropagation()}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
+      onLostPointerCapture={handlePointerCancel}
       onFocus={() => setFocused(true)}
       onBlur={e => {
         if (!(e.relatedTarget instanceof Node) || !e.currentTarget.contains(e.relatedTarget)) {
@@ -226,7 +240,7 @@ export const Slider: React.FC<Props> = ({
                 [styles.disabled]: disabled,
                 [styles.dragged]: isDragging && draggedIndex === index,
               })}
-              onMouseDown={handleMouseDown}
+              onPointerDown={handlePointerDown}
             />
             {showTag && (
               <div

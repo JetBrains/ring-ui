@@ -7,6 +7,7 @@
   padding: var(--ring-unit) 0;
 
   cursor: pointer;
+  touch-action: pan-y;
 
   &.disabled {
     cursor: default;
