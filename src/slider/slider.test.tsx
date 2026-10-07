@@ -1,4 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {type ComponentProps} from 'react';
 
 import {Slider} from './slider';
@@ -7,6 +8,19 @@ const DEFAULT_VALUE = 42;
 
 describe('Slider', () => {
   const renderSlider = (props?: ComponentProps<typeof Slider>) => render(<Slider {...props} />);
+  const pressKey = (key: string) => {
+    // Combokeys reads which, which userEvent.keyboard does not populate.
+    const keyCodes: Record<string, number> = {
+      ArrowLeft: 37,
+      ArrowDown: 40,
+      ArrowRight: 39,
+      ArrowUp: 38,
+      Home: 36,
+      End: 35,
+    };
+    fireEvent.keyDown(document.activeElement!, {key, keyCode: keyCodes[key], which: keyCodes[key]});
+    fireEvent.keyUp(document.activeElement!, {key, keyCode: keyCodes[key], which: keyCodes[key]});
+  };
 
   it('should create component', () => {
     const {container} = renderSlider();
@@ -39,6 +53,91 @@ describe('Slider', () => {
       renderTag: value => `%${value}%`,
     });
     expect(screen.getByRole('tooltip').textContent).to.equal(`%${DEFAULT_VALUE}%`);
+  });
+
+  it.each([
+    ['ArrowLeft', 41],
+    ['ArrowDown', 41],
+    ['ArrowRight', 43],
+    ['ArrowUp', 43],
+    ['Home', 0],
+    ['End', 100],
+  ])('should handle %s only while focused', async (key, expectedValue) => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <>
+        <button type='button'>{'Outside'}</button>
+        <Slider defaultValue={DEFAULT_VALUE} onChange={onChange} />
+      </>,
+    );
+
+    await user.tab();
+    pressKey(key);
+    expect(onChange).not.toHaveBeenCalled();
+
+    await user.tab();
+    pressKey(key);
+    expect(onChange).toHaveBeenCalledExactlyOnceWith(expectedValue);
+
+    await user.tab({shift: true});
+    pressKey(key);
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('should keep shortcuts active when focus moves between range thumbs', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    renderSlider({defaultValue: [20, 40], onChange});
+
+    await user.tab();
+    pressKey('Home');
+    expect(onChange).toHaveBeenLastCalledWith([0, 40]);
+
+    await user.tab();
+    pressKey('End');
+    expect(onChange).toHaveBeenLastCalledWith([0, 100]);
+
+    await user.tab({shift: true});
+    pressKey('ArrowRight');
+    expect(onChange).toHaveBeenLastCalledWith([1, 100]);
+  });
+
+  it('should handle shortcuts only in the focused slider', async () => {
+    const user = userEvent.setup();
+    const firstOnChange = vi.fn();
+    const secondOnChange = vi.fn();
+    render(
+      <>
+        <Slider defaultValue={DEFAULT_VALUE} onChange={firstOnChange} />
+        <Slider defaultValue={DEFAULT_VALUE} onChange={secondOnChange} />
+      </>,
+    );
+
+    await user.tab();
+    pressKey('End');
+    expect(firstOnChange).toHaveBeenCalledExactlyOnceWith(100);
+    expect(secondOnChange).not.toHaveBeenCalled();
+
+    await user.tab();
+    pressKey('Home');
+    expect(firstOnChange).toHaveBeenCalledTimes(1);
+    expect(secondOnChange).toHaveBeenCalledExactlyOnceWith(0);
+  });
+
+  it('should disable shortcuts when a focused slider becomes disabled', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    const {rerender} = renderSlider({defaultValue: DEFAULT_VALUE, onChange});
+
+    await user.tab();
+    rerender(<Slider defaultValue={DEFAULT_VALUE} onChange={onChange} disabled />);
+    pressKey('End');
+    expect(onChange).not.toHaveBeenCalled();
+
+    rerender(<Slider defaultValue={DEFAULT_VALUE} onChange={onChange} />);
+    pressKey('End');
+    expect(onChange).toHaveBeenCalledExactlyOnceWith(100);
   });
 
   it.skip('should handle only 2 values in range', () => {
