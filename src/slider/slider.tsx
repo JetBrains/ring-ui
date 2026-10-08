@@ -102,18 +102,22 @@ export const Slider: React.FC<Props> = ({
     shortcutsMap.left = shortcutsMap.down = ({target}: KeyboardEvent) => {
       const index = getIndex(target);
       setValueAndSwap(Math.max(min, validValues[index] - validStep), index);
+      return false;
     };
     shortcutsMap.right = shortcutsMap.up = ({target}: KeyboardEvent) => {
       const index = getIndex(target);
       setValueAndSwap(Math.min(max, validValues[index] + validStep), index);
+      return false;
     };
     shortcutsMap.home = ({target}: KeyboardEvent) => {
       const index = getIndex(target);
       setValueAndSwap(min, index);
+      return false;
     };
     shortcutsMap.end = ({target}: KeyboardEvent) => {
       const index = getIndex(target);
       setValueAndSwap(max, index);
+      return false;
     };
   }
 

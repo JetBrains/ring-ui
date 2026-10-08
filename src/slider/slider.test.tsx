@@ -1,4 +1,4 @@
-import {fireEvent, render, screen} from '@testing-library/react';
+import {createEvent, fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {type ComponentProps} from 'react';
 
@@ -54,8 +54,10 @@ describe('Slider', () => {
       Home: 36,
       End: 35,
     };
-    fireEvent.keyDown(document.activeElement!, {key, keyCode: keyCodes[key], which: keyCodes[key]});
+    const keyDown = createEvent.keyDown(document.activeElement!, {key, keyCode: keyCodes[key], which: keyCodes[key]});
+    fireEvent(document.activeElement!, keyDown);
     fireEvent.keyUp(document.activeElement!, {key, keyCode: keyCodes[key], which: keyCodes[key]});
+    return keyDown.defaultPrevented;
   };
 
   it('should create component', () => {
@@ -109,16 +111,33 @@ describe('Slider', () => {
     );
 
     await user.tab();
-    pressKey(key);
+    expect(pressKey(key)).to.be.false;
     expect(onChange).not.toHaveBeenCalled();
 
     await user.tab();
-    pressKey(key);
+    expect(pressKey(key)).to.be.true;
     expect(onChange).toHaveBeenCalledExactlyOnceWith(expectedValue);
 
     await user.tab({shift: true});
-    pressKey(key);
+    expect(pressKey(key)).to.be.false;
     expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    ['ArrowLeft', 0],
+    ['ArrowDown', 0],
+    ['Home', 0],
+    ['ArrowRight', 100],
+    ['ArrowUp', 100],
+    ['End', 100],
+  ])('should prevent the default action of %s at the range boundary', async (key, value) => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    renderSlider({defaultValue: value, onChange});
+
+    await user.tab();
+    expect(pressKey(key)).to.be.true;
+    expect(onChange).toHaveBeenCalledExactlyOnceWith(value);
   });
 
   it('should keep shortcuts active when focus moves between range thumbs', async () => {
@@ -168,7 +187,7 @@ describe('Slider', () => {
 
     await user.tab();
     rerender(<Slider defaultValue={DEFAULT_VALUE} onChange={onChange} disabled />);
-    pressKey('End');
+    expect(pressKey('End')).to.be.false;
     expect(onChange).not.toHaveBeenCalled();
 
     rerender(<Slider defaultValue={DEFAULT_VALUE} onChange={onChange} />);
