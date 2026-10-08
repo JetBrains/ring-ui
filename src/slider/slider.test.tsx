@@ -7,7 +7,43 @@ import {Slider} from './slider';
 const DEFAULT_VALUE = 42;
 
 describe('Slider', () => {
-  const renderSlider = (props?: ComponentProps<typeof Slider>) => render(<Slider {...props} />);
+  beforeEach(() => {
+    // jsdom does not implement PointerEvent or pointer capture.
+    vi.stubGlobal(
+      'PointerEvent',
+      class extends MouseEvent {
+        pointerId: number;
+        pointerType: string;
+        isPrimary: boolean;
+
+        constructor(type: string, options: PointerEventInit = {}) {
+          super(type, options);
+          this.pointerId = options.pointerId ?? 1;
+          this.pointerType = options.pointerType ?? 'mouse';
+          this.isPrimary = options.isPrimary ?? true;
+        }
+      },
+    );
+  });
+
+  const renderSlider = (props?: ComponentProps<typeof Slider>) => {
+    const result = render(<Slider {...props} />);
+    const slider = result.container.firstElementChild as HTMLDivElement;
+    let capturedPointer: number | null = null;
+    const setPointerCapture = vi.fn((pointerId: number) => {
+      capturedPointer = pointerId;
+    });
+    const releasePointerCapture = vi.fn(() => {
+      capturedPointer = null;
+    });
+    Object.assign(slider, {
+      setPointerCapture,
+      hasPointerCapture: (pointerId: number) => capturedPointer === pointerId,
+      releasePointerCapture,
+    });
+    vi.spyOn(slider, 'getBoundingClientRect').mockReturnValue({left: 0, width: 100} as DOMRect);
+    return {...result, slider, setPointerCapture, releasePointerCapture};
+  };
   const pressKey = (key: string) => {
     // Combokeys reads which, which userEvent.keyboard does not populate.
     const keyCodes: Record<string, number> = {
@@ -140,7 +176,7 @@ describe('Slider', () => {
     expect(onChange).toHaveBeenCalledExactlyOnceWith(100);
   });
 
-  it.skip('should handle only 2 values in range', () => {
+  it('should handle only 2 values in range', () => {
     const NEW_VALUE = 5;
     const onChange = vi.fn();
     const {container} = renderSlider({
@@ -149,25 +185,28 @@ describe('Slider', () => {
     });
 
     const slider = container.firstElementChild!;
-    fireEvent.mouseDown(slider, {clientX: 50});
-    fireEvent.mouseUp(slider, {clientX: 50});
+    fireEvent.pointerDown(slider, {clientX: NEW_VALUE});
+    fireEvent.pointerUp(slider, {clientX: NEW_VALUE});
 
     expect(onChange).toHaveBeenCalledWith([1, NEW_VALUE]);
   });
 
-  it.skip('should swap values when one is moved over another', () => {
+  it('should swap values when one is moved over another', () => {
     const LEFT = 20;
     const RIGHT = 40;
     const NEW_VALUE = 5;
     const onChange = vi.fn();
 
-    renderSlider({defaultValue: [LEFT, RIGHT], onChange});
+    const {slider} = renderSlider({defaultValue: [LEFT, RIGHT], onChange});
     const thumbs = screen.getAllByRole('slider');
 
-    fireEvent.mouseDown(thumbs[1]); // Second thumb
-    fireEvent.mouseUp(document.body, {clientX: 50});
+    fireEvent.pointerDown(thumbs[1], {clientX: RIGHT});
+    fireEvent.pointerMove(slider, {clientX: NEW_VALUE});
+    expect(onChange).toHaveBeenLastCalledWith([NEW_VALUE, LEFT]);
+    fireEvent.pointerMove(slider, {clientX: NEW_VALUE + 1});
+    fireEvent.pointerUp(slider, {clientX: NEW_VALUE + 1});
 
-    expect(onChange).toHaveBeenCalledWith([NEW_VALUE, LEFT]);
+    expect(onChange).toHaveBeenLastCalledWith([NEW_VALUE + 1, LEFT]);
   });
 
   it('should set min value when clicking the leftmost point with marks', () => {
@@ -176,9 +215,94 @@ describe('Slider', () => {
     const slider = container.firstElementChild!;
     vi.spyOn(slider, 'getBoundingClientRect').mockReturnValue({left: 0, width: 100} as DOMRect);
 
-    fireEvent.mouseDown(slider, {pageX: 0});
-    fireEvent.mouseUp(window, {pageX: 0});
+    fireEvent.pointerDown(slider, {clientX: 0});
+    fireEvent.pointerUp(slider, {clientX: 0});
 
     expect(onChange).toHaveBeenLastCalledWith(0);
+  });
+
+  it.each(['mouse', 'touch', 'pen'])('should drag with a %s pointer and clamp values outside the rail', pointerType => {
+    const onChange = vi.fn();
+    const {slider, setPointerCapture, releasePointerCapture} = renderSlider({defaultValue: DEFAULT_VALUE, onChange});
+    const pointer = {pointerId: 7, pointerType};
+
+    fireEvent.pointerDown(screen.getByRole('slider'), {...pointer, clientX: DEFAULT_VALUE});
+    expect(setPointerCapture).toHaveBeenCalledWith(pointer.pointerId);
+
+    fireEvent.pointerMove(slider, {...pointer, clientX: 75});
+    expect(onChange).toHaveBeenLastCalledWith(75);
+    fireEvent.pointerMove(slider, {...pointer, clientX: 120});
+    expect(onChange).toHaveBeenLastCalledWith(100);
+    fireEvent.pointerUp(slider, {...pointer, clientX: -20});
+    expect(onChange).toHaveBeenLastCalledWith(0);
+    expect(releasePointerCapture).toHaveBeenCalledWith(pointer.pointerId);
+
+    onChange.mockClear();
+    fireEvent.pointerMove(slider, {...pointer, clientX: 50});
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('should ignore other pointers during a drag', () => {
+    const onChange = vi.fn();
+    const {slider, setPointerCapture} = renderSlider({defaultValue: DEFAULT_VALUE, onChange});
+    fireEvent.pointerDown(screen.getByRole('slider'), {pointerId: 1});
+    fireEvent.pointerDown(slider, {pointerId: 2, clientX: 80});
+    fireEvent.pointerMove(slider, {pointerId: 2, clientX: 80});
+    fireEvent.pointerUp(slider, {pointerId: 2, clientX: 80});
+    fireEvent.pointerCancel(slider, {pointerId: 2});
+    expect(setPointerCapture).toHaveBeenCalledTimes(1);
+    expect(onChange).not.toHaveBeenCalled();
+
+    fireEvent.pointerMove(slider, {pointerId: 1, clientX: 60});
+    expect(onChange).toHaveBeenLastCalledWith(60);
+  });
+
+  it.each(['pointerCancel', 'lostPointerCapture'] as const)('should stop dragging after %s', event => {
+    const onChange = vi.fn();
+    const {slider} = renderSlider({defaultValue: DEFAULT_VALUE, onChange});
+    const thumb = screen.getByRole('slider');
+    fireEvent.pointerDown(thumb, {pointerId: 1});
+    fireEvent.pointerMove(slider, {pointerId: 1, clientX: 60});
+    onChange.mockClear();
+
+    fireEvent[event](slider, {pointerId: 1});
+    fireEvent.pointerMove(slider, {pointerId: 1, clientX: 70});
+    fireEvent.pointerUp(slider, {pointerId: 1, clientX: 70});
+    expect(onChange).not.toHaveBeenCalled();
+    expect(thumb).not.to.have.class('dragged');
+
+    fireEvent.pointerDown(thumb, {pointerId: 2});
+    fireEvent.pointerUp(slider, {pointerId: 2, clientX: 80});
+    expect(onChange).toHaveBeenLastCalledWith(80);
+  });
+
+  it('should ignore right clicks and non-primary pointers', () => {
+    const onChange = vi.fn();
+    const {slider, setPointerCapture} = renderSlider({onChange});
+    fireEvent.pointerDown(slider, {button: 2});
+    fireEvent.pointerMove(slider, {clientX: 50});
+    fireEvent.pointerUp(slider, {clientX: 50});
+    fireEvent.pointerDown(slider, {isPrimary: false, pointerType: 'touch'});
+    fireEvent.pointerUp(slider, {clientX: 50});
+    expect(setPointerCapture).not.toHaveBeenCalled();
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('should cancel dragging when disabled and allow another drag after enabling', () => {
+    const onChange = vi.fn();
+    const {slider, rerender, releasePointerCapture} = renderSlider({defaultValue: DEFAULT_VALUE, onChange});
+    fireEvent.pointerDown(screen.getByRole('slider'), {pointerId: 1});
+    rerender(<Slider defaultValue={DEFAULT_VALUE} onChange={onChange} disabled />);
+    expect(releasePointerCapture).toHaveBeenCalledWith(1);
+    fireEvent.pointerMove(slider, {pointerId: 1, clientX: 50});
+    fireEvent.pointerUp(slider, {pointerId: 1, clientX: 50});
+    fireEvent.pointerDown(slider, {pointerId: 2});
+    fireEvent.pointerUp(slider, {pointerId: 2, clientX: 80});
+    expect(onChange).not.toHaveBeenCalled();
+
+    rerender(<Slider defaultValue={DEFAULT_VALUE} onChange={onChange} />);
+    fireEvent.pointerDown(screen.getByRole('slider'), {pointerId: 3});
+    fireEvent.pointerUp(slider, {pointerId: 3, clientX: 80});
+    expect(onChange).toHaveBeenLastCalledWith(80);
   });
 });
