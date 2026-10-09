@@ -27,7 +27,9 @@
   }
 
   100% {
-    transform: scale(calc(17 / 12));
+    /* 17 / 12, precomputed for browsers without CSS division support. */
+
+    transform: scale(1.4167);
   }
 }
 
