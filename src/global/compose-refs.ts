@@ -1,4 +1,4 @@
-import {type Ref, type MutableRefObject} from 'react';
+import {type Ref} from 'react';
 import memoizeOne from 'memoize-one';
 
 function composeRefs<T>(...refs: (Ref<T> | undefined)[]) {
@@ -7,7 +7,7 @@ function composeRefs<T>(...refs: (Ref<T> | undefined)[]) {
       if (typeof ref === 'function') {
         ref(value);
       } else if (ref) {
-        (ref as MutableRefObject<T | null>).current = value;
+        ref.current = value;
       }
     });
 }
