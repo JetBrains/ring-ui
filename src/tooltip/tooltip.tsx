@@ -46,6 +46,7 @@ export default class Tooltip extends Component<TooltipProps> {
 
   state = {
     showPopup: false,
+    popupMounted: false,
     showNestedPopup: false,
   };
 
@@ -120,7 +121,7 @@ export default class Tooltip extends Component<TooltipProps> {
     }
 
     this.context?.onNestedTooltipShow();
-    this.setState({showPopup: true});
+    this.setState({showPopup: true, popupMounted: true});
   };
 
   hidePopup = () => {
@@ -191,7 +192,8 @@ export default class Tooltip extends Component<TooltipProps> {
 
     const {onNestedTooltipShow, onNestedTooltipHide} = this;
 
-    const popup = (
+    const shouldMountPopup = this.state.popupMounted || popupProps?.keepMounted || popupProps?.hidden === false;
+    const popup = shouldMountPopup ? (
       <Popup
         trapFocus={false}
         anchorElement={this.containerNode}
@@ -212,7 +214,7 @@ export default class Tooltip extends Component<TooltipProps> {
       >
         {title}
       </Popup>
-    );
+    ) : null;
 
     return (
       <TooltipContext.Provider value={{onNestedTooltipShow, onNestedTooltipHide}}>
@@ -224,13 +226,14 @@ export default class Tooltip extends Component<TooltipProps> {
           data-test-title={typeof title === 'string' ? title : undefined}
         >
           {children}
-          {theme === 'inherit' ? (
-            popup
-          ) : (
-            <ThemeProvider theme={theme} passToPopups WrapperComponent={props => <span {...props} />}>
-              {popup}
-            </ThemeProvider>
-          )}
+          {shouldMountPopup &&
+            (theme === 'inherit' ? (
+              popup
+            ) : (
+              <ThemeProvider theme={theme} passToPopups WrapperComponent={props => <span {...props} />}>
+                {popup}
+              </ThemeProvider>
+            ))}
         </span>
       </TooltipContext.Provider>
     );
