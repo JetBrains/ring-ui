@@ -99,8 +99,83 @@ describe('Tooltip', () => {
   });
 
   describe('Popup', () => {
+    it('should defer popup and theme wrapper until first opening', () => {
+      renderTooltip();
+      const anchor = screen.getByRole('tooltip');
+
+      expect(Popup).not.toHaveBeenCalled();
+      expect(anchor.children).to.have.length(0);
+
+      fireEvent.mouseEnter(anchor);
+
+      expect(Popup).toHaveBeenCalledWith(expect.objectContaining({hidden: false}), undefined);
+      expect(anchor.children).to.have.length(1);
+
+      fireEvent.mouseLeave(anchor);
+
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
+      expect(anchor.children).to.have.length(1);
+
+      fireEvent.mouseEnter(anchor);
+
+      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: false}), undefined);
+    });
+
+    it('should defer popup with inherited theme', () => {
+      renderTooltip({theme: 'inherit'});
+      const anchor = screen.getByRole('tooltip');
+
+      expect(Popup).not.toHaveBeenCalled();
+
+      fireEvent.focusIn(anchor);
+
+      expect(Popup).toHaveBeenCalledWith(expect.objectContaining({hidden: false}), undefined);
+    });
+
+    it('should mount popup immediately when keepMounted is requested', () => {
+      renderTooltip({popupProps: {keepMounted: true}});
+
+      expect(Popup).toHaveBeenCalledWith(expect.objectContaining({hidden: true, keepMounted: true}), undefined);
+    });
+
+    it('should mount popup immediately when explicitly visible', () => {
+      renderTooltip({popupProps: {hidden: false}});
+
+      expect(screen.getByText('test tooltip')).to.exist;
+    });
+
+    it('should not mount popup when the anchor does not overflow', () => {
+      renderTooltip({selfOverflowOnly: true});
+      const anchor = screen.getByRole('tooltip');
+      Object.defineProperties(anchor, {
+        clientWidth: {value: 100},
+        scrollWidth: {value: 100},
+        clientHeight: {value: 20},
+        scrollHeight: {value: 20},
+      });
+
+      fireEvent.mouseEnter(anchor);
+
+      expect(Popup).not.toHaveBeenCalled();
+    });
+
+    it('should cancel delayed opening when the pointer leaves', () => {
+      renderTooltip({delay: LONG_DELAY});
+      const anchor = screen.getByRole('tooltip');
+
+      fireEvent.mouseEnter(anchor);
+      fireEvent.mouseLeave(anchor);
+      act(() => vi.advanceTimersByTime(LONG_DELAY));
+
+      expect(Popup).not.toHaveBeenCalled();
+    });
+
     beforeEach(() => {
-      vi.useFakeTimers({toFake: ['setTimeout']});
+      vi.useFakeTimers({toFake: ['setTimeout', 'clearTimeout']});
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
     });
 
     it('should unbind listeners when empty title is provided', () => {
@@ -154,8 +229,7 @@ describe('Tooltip', () => {
 
       if (!tooltipElement) throw new Error('Tooltip element not found');
 
-      // Before mouseenter, Popup should be hidden
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
+      expect(Popup).not.toHaveBeenCalled();
 
       act(() => {
         fireEvent.mouseEnter(tooltipElement);
@@ -185,8 +259,7 @@ describe('Tooltip', () => {
         vi.advanceTimersByTime(SHORT_DELAY);
       });
 
-      // Popup should remain hidden
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
+      expect(Popup).not.toHaveBeenCalled();
     });
 
     it('should render with delay when provided', () => {
@@ -202,8 +275,7 @@ describe('Tooltip', () => {
         vi.advanceTimersByTime(MEDIUM_DELAY); // Not enough time for the popup to show
       });
 
-      // Popup should still be hidden
-      expect(Popup).toHaveBeenLastCalledWith(expect.objectContaining({hidden: true}), undefined);
+      expect(Popup).not.toHaveBeenCalled();
 
       act(() => {
         vi.advanceTimersByTime(LONG_DELAY); // Now the popup should be visible
