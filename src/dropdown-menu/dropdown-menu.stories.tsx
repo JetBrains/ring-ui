@@ -7,6 +7,8 @@ import Icon from '../icon';
 import Group from '../group/group';
 import {type ListDataItem} from '../list/consts';
 import PopupMenu from '../popup-menu/popup-menu';
+import Dropdown, {type DropdownProps} from '../dropdown/dropdown';
+import SelectPopup from '../select/select-popup';
 import DropdownMenu, {type DropdownMenuProps} from './dropdown-menu';
 
 export default {
@@ -190,6 +192,67 @@ nested.parameters = {
     width: 100%;
   }
 </style>`,
+};
+
+const TEAMS = ['My team', 'My other team', 'Design team', 'QA team'];
+
+const NestedMenuWithSearch = () => {
+  const [filterValue, setFilterValue] = React.useState('');
+  const [selected, setSelected] = React.useState<string | null>(null);
+
+  const teams = TEAMS.filter(team => team.toLowerCase().includes(filterValue.trim().toLowerCase())).map(team => ({
+    key: team,
+    label: team,
+  }));
+
+  const anchor: DropdownProps['anchor'] = ({active}) => (
+    <Group role='menu' className='nested-menu-item' {...{'aria-expanded': active, 'aria-label': 'Move to'}}>
+      <span className='nested-menu-title'>{'Move to...'}</span>
+      <Icon glyph={chevronRight} className='chevron-icon' />
+    </Group>
+  );
+
+  const data: ListDataItem[] = [
+    {label: 'Option 1', key: 'item1'},
+    {
+      rgItemType: DropdownMenu.ListProps.Type.CUSTOM,
+      key: 'move-to',
+      template: (
+        <Dropdown className='nested-menu-button' anchor={anchor} hoverMode hoverShowTimeOut={50} hoverHideTimeOut={100}>
+          <SelectPopup
+            data={teams}
+            filter
+            filterValue={filterValue}
+            onFilter={e => setFilterValue(e.target.value)}
+            onSelect={item => setSelected(String(item.label))}
+            directions={[Directions.RIGHT_BOTTOM, Directions.LEFT_BOTTOM]}
+            left={20}
+            top={-12}
+            minWidth={200}
+            data-test='nested-menu'
+          />
+        </Dropdown>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <p>{`Selected: ${selected ?? 'nothing'}`}</p>
+      <DropdownMenu anchor='Click me' data={data} menuProps={{minWidth: 200, activateFirstItem: false}} />
+    </div>
+  );
+};
+
+export const nestedWithSearch = () => <NestedMenuWithSearch />;
+
+nestedWithSearch.storyName = 'DropdownMenu nested with search';
+
+nestedWithSearch.parameters = {
+  notes:
+    'A searchable nested menu: hover "Move to...", type "My team" (with a space) into the filter, pick a team with Enter, or click a team. The outer menu should stay open.',
+  screenshots: {skip: true},
+  storyStyles: nested.parameters.storyStyles,
 };
 
 export const withCustomChildren = () => (
