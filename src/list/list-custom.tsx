@@ -8,6 +8,11 @@ import {getListClasses} from './list.classes';
 
 export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
   handleKeyPress = (event: React.KeyboardEvent) => {
+    // Ignore keys bubbling from interactive content of the template (e.g. a nested input)
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
     const key = getEventKey(event);
     if (key === 'Enter' || key === ' ') {
       this.props.onClick(event);
