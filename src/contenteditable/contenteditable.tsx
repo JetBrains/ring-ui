@@ -29,14 +29,17 @@ class ContentEditableBase extends Component<Omit<ContentEditableBaseProps, '__ht
   }
 
   componentDidUpdate(prevProps: ContentEditableBaseProps) {
+    const prevHtml = this.html ?? '';
     const contentChanged = this.syncContent();
     if (contentChanged || prevProps.disabled !== this.props.disabled) {
-      this.props.onComponentUpdate(prevProps);
+      this.props.onComponentUpdate({...prevProps, __html: prevHtml});
     }
   }
 
   // React renders children here (off-document), then the result is cloned into the editable node.
   // The editable node has no React-managed children, so user edits can't break reconciliation.
+  // Synced only when this component updates: children updating their own state aren't reflected
+  // (same as renderToStaticMarkup before), add a MutationObserver if such children are ever needed.
   // ponytail: document access at render time, not SSR-safe (portals aren't either)
   container = document.createElement('div');
   node: HTMLDivElement | null = null;

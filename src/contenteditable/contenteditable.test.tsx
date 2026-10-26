@@ -60,6 +60,21 @@ describe('ContentEditable', () => {
     expect(stub).toHaveBeenCalledTimes(2);
   });
 
+  it('should pass previous html to onComponentUpdate', () => {
+    const {rerender} = render(
+      <ContentEditable onComponentUpdate={stub}>
+        <b>{'old'}</b>
+      </ContentEditable>,
+    );
+    rerender(
+      <ContentEditable onComponentUpdate={stub}>
+        <b>{'new'}</b>
+      </ContentEditable>,
+    );
+
+    expect(stub).toHaveBeenCalledWith(expect.objectContaining({__html: '<b>old</b>'}));
+  });
+
   it('should not render on other props change', () => {
     const {rerender} = render(<ContentEditable onComponentUpdate={stub} />);
     rerender(<ContentEditable onComponentUpdate={stub} className='testtest' />);
