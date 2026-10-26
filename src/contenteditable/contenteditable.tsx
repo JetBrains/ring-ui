@@ -36,11 +36,7 @@ class ContentEditableBase extends Component<Omit<ContentEditableBaseProps, '__ht
     }
   }
 
-  // React renders children here (off-document), then the result is cloned into the editable node.
-  // The editable node has no React-managed children, so user edits can't break reconciliation.
-  // Synced only when this component updates: children updating their own state aren't reflected
-  // (same as renderToStaticMarkup before), add a MutationObserver if such children are ever needed.
-  // ponytail: document access at render time, not SSR-safe (portals aren't either)
+  // Children are rendered here and cloned into the editable node, so React never reconciles user-edited DOM
   container = document.createElement('div');
   node: HTMLDivElement | null = null;
   html: string | null = null;
