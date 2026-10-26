@@ -13,6 +13,10 @@ export interface ContentEditableBaseProps extends HTMLAttributes<HTMLElement> {
   disabled: boolean;
   onComponentUpdate: (prevProps: ContentEditableBaseProps) => void;
   inputRef?: Ref<HTMLDivElement> | null | undefined;
+  /**
+   * @deprecated Not used anymore, kept only for `onComponentUpdate` prevProps compatibility.
+   * TODO: Remove in 8.0
+   */
   __html: string;
 }
 
