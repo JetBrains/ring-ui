@@ -1,7 +1,7 @@
-import {Component, type HTMLAttributes, type Ref, type ReactElement} from 'react';
-import {renderToStaticMarkup} from 'react-dom/server';
+import {Component, type HTMLAttributes, type Ref} from 'react';
+import {createPortal} from 'react-dom';
 
-import {getTrustedHTML} from '../global/configuration';
+import {createComposedRef} from '../global/compose-refs';
 
 /**
  * @name ContentEditable
@@ -13,10 +13,14 @@ export interface ContentEditableBaseProps extends HTMLAttributes<HTMLElement> {
   disabled: boolean;
   onComponentUpdate: (prevProps: ContentEditableBaseProps) => void;
   inputRef?: Ref<HTMLDivElement> | null | undefined;
+  /**
+   * @deprecated Not used anymore, kept only for `onComponentUpdate` prevProps compatibility.
+   * TODO: Remove in 8.0
+   */
   __html: string;
 }
 
-class ContentEditableBase extends Component<ContentEditableBaseProps> {
+class ContentEditableBase extends Component<Omit<ContentEditableBaseProps, '__html'>> {
   static defaultProps = {
     disabled: false,
     tabIndex: 0,
@@ -24,30 +28,56 @@ class ContentEditableBase extends Component<ContentEditableBaseProps> {
     onComponentUpdate: noop,
   };
 
-  shouldComponentUpdate(nextProps: ContentEditableBaseProps) {
-    // eslint-disable-next-line no-underscore-dangle
-    return nextProps.disabled !== this.props.disabled || nextProps.__html !== this.props.__html;
+  componentDidMount() {
+    this.syncContent();
   }
 
   componentDidUpdate(prevProps: ContentEditableBaseProps) {
-    this.props.onComponentUpdate(prevProps);
+    const prevHtml = this.html ?? '';
+    const contentChanged = this.syncContent();
+    if (contentChanged || prevProps.disabled !== this.props.disabled) {
+      this.props.onComponentUpdate({...prevProps, __html: prevHtml});
+    }
+  }
+
+  // Children are rendered here and cloned into the editable node, so React never reconciles user-edited DOM
+  container = document.createElement('div');
+  node: HTMLDivElement | null = null;
+  html: string | null = null;
+
+  nodeRef = (node: HTMLDivElement | null) => {
+    this.node = node;
+  };
+
+  composedRef = createComposedRef<HTMLDivElement>();
+
+  syncContent() {
+    const html = this.container.innerHTML;
+    if (html === this.html) {
+      return false;
+    }
+    this.html = html;
+    this.node?.replaceChildren(...Array.from(this.container.childNodes, child => child.cloneNode(true)));
+    return true;
   }
 
   render() {
-    const {__html, onComponentUpdate, disabled, tabIndex, inputRef, ...props} = this.props;
+    const {children, onComponentUpdate, disabled, tabIndex, inputRef, ...props} = this.props;
 
     return (
-      <div
-        {...props}
-        ref={inputRef}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        disabled={disabled}
-        role='textbox'
-        tabIndex={disabled ? undefined : tabIndex}
-        contentEditable={!this.props.disabled}
-        dangerouslySetInnerHTML={{__html: getTrustedHTML(__html)}}
-      />
+      <>
+        <div
+          {...props}
+          ref={this.composedRef(this.nodeRef, inputRef ?? undefined)}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          disabled={disabled}
+          role='textbox'
+          tabIndex={disabled ? undefined : tabIndex}
+          contentEditable={!this.props.disabled}
+        />
+        {createPortal(children, this.container)}
+      </>
     );
   }
 }
@@ -59,8 +89,6 @@ type ContentEditableBaseAttrs = React.JSX.LibraryManagedAttributes<
 
 export type ContentEditableProps = Omit<ContentEditableBaseAttrs, '__html'>;
 
-const ContentEditable = ({children, ...props}: ContentEditableProps) => (
-  <ContentEditableBase {...props} __html={renderToStaticMarkup(children as ReactElement)} />
-);
+const ContentEditable = (props: ContentEditableProps) => <ContentEditableBase {...props} />;
 
 export default ContentEditable;
