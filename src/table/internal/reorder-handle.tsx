@@ -20,6 +20,7 @@ import {parseCssDuration} from '../../global/parse-css-duration';
 import {ReorderAnimationContext} from './reorder-animation-context';
 import {type InsertionPoint, ReorderLayoutContext} from './reorder-layout-context';
 import {type DragAutoScroll, startDragAutoScroll} from './drag-auto-scroll';
+import {getColumnIndicatorVerticalSpan} from './column-indicator-vertical-span';
 
 import type {DragState} from '../table-primitives';
 
@@ -285,16 +286,10 @@ export function ReorderHandle<T>({
     let itemRow: HTMLTableRowElement | undefined;
 
     if (isColumn) {
-      const thead = currentTarget.closest('thead');
-      if (!thead) return;
-
-      const {top: headerTop} = thead.getBoundingClientRect();
-      indicatorStart = headerTop;
-
-      const {bottom: tableBottom} = table.getBoundingClientRect();
-      const visibleTableHeight = tableBottom - headerTop;
-      const viewportBottomRelativeToHeaderTop = window.innerHeight - headerTop;
-      indicatorSize = `min(${visibleTableHeight}px, calc(${viewportBottomRelativeToHeaderTop}px - .5rem))`;
+      const span = getColumnIndicatorVerticalSpan(currentTarget);
+      if (!span) return;
+      indicatorStart = span.top;
+      indicatorSize = span.height;
     } else {
       const tr = currentTarget.closest('tr');
       const tbody = tr?.closest('tbody');
