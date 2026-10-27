@@ -15,6 +15,7 @@ import {ReorderHandle} from './reorder-handle';
 import {ReorderAnimationContext} from './reorder-animation-context';
 import {ReorderLayoutContext, useReorderLayoutContextValue} from './reorder-layout-context';
 import {useReorderItemLayout} from '../reorder-item-layout';
+import {ColumnResizeHandle} from './column-resize/column-resize-handle';
 
 import styles from '../table.css';
 
@@ -96,7 +97,8 @@ function TableHeaderCell<T>({
   const labelId = useId();
 
   const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
-  const {key, name, renderHeader, sortOrder, deletable, canReorder, thClassName} = columns[columnIndex];
+  const column = columns[columnIndex];
+  const {key, name, renderHeader, sortOrder, deletable, canReorder, resizable, thClassName} = column;
 
   const {reorderAnimation} = use(ReorderAnimationContext);
   const children = <span id={labelId}>{renderHeader ? renderHeader() : (name ?? String(key))}</span>;
@@ -114,6 +116,7 @@ function TableHeaderCell<T>({
       ref={ref}
       className={classNames(
         styles.headerCell,
+        resizable && styles.resizableHeaderCell,
         reorderAnimation?.direction === 'columns' &&
           reorderAnimation.index === columnIndex &&
           reorderAnimation.className,
@@ -144,6 +147,7 @@ function TableHeaderCell<T>({
           )}
         </div>
       </div>
+      {resizable && <ColumnResizeHandle column={column} columnIndex={columnIndex} />}
     </th>
   );
 }

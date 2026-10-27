@@ -67,6 +67,16 @@ export interface TableProps<T> {
   ) => void;
 
   /**
+   * Called when the user finishes resizing a column, on pointer release.
+   * While dragging, the table previews the width without calling this.
+   *
+   * If the column has `width` set, the client is expected to update `columns`
+   * with the new width, otherwise the column returns to its previous width.
+   * If `width` is not set, the table keeps the new width internally.
+   */
+  onColumnResize?: (column: Column<T>, columnIndex: number, newWidth: number, columns: readonly Column<T>[]) => void;
+
+  /**
    * By default, when a column is reordered, the moved column is highlighted
    * with a temporary background color. Set `true` to disable this animation.
    */
@@ -337,6 +347,35 @@ export interface Column<T> {
         insertionIndex: number,
         columns: readonly Column<T>[],
       ) => boolean);
+
+  /**
+   * Column width in pixels.
+   *
+   * The table switches to fixed layout once the widths of all columns are known:
+   * either every column has `width`, or the user has started resizing a column.
+   * At that moment, columns without `width` are measured and keep their width.
+   * In fixed layout, the table width is the sum of the column widths and
+   * overrides `style.width` of the table.
+   */
+  width?: number;
+
+  /**
+   * Displays a resize handle on the right edge of the column header.
+   * Handle resize with {@link TableProps.onColumnResize}.
+   */
+  resizable?: boolean;
+
+  /**
+   * Minimum width in pixels when the user resizes the column. Default: 40.
+   * A column that is already narrower can only be made wider.
+   */
+  minWidth?: number;
+
+  /**
+   * Maximum width in pixels when the user resizes the column. Default: no limit.
+   * A column that is already wider can only be made narrower.
+   */
+  maxWidth?: number;
 
   /**
    * The class name to apply to the `th` element inside `table > thead`.
