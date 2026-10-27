@@ -413,3 +413,164 @@ describe('Table basic scenarios', () => {
     expect(updatedClassName).to.not.equal(initialClassName);
   });
 });
+
+describe('Table column resize', () => {
+  const resizableColumns: Column<CountryItem>[] = [
+    {key: 'country', name: 'Country', width: 100, resizable: true, minWidth: 50, maxWidth: 200, sortOrder: 'none'},
+    {key: 'capital', name: 'Capital', width: 120},
+  ];
+
+  beforeEach(() => {
+    // jsdom has no layout. The drag derives the width from the header cell position,
+    // so every cell is 100px wide at x = 0, matching the "Country" column below.
+    vi.spyOn(HTMLTableCellElement.prototype, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, 0, 100, 20));
+  });
+
+  /**
+   * jsdom has no `PointerEvent`, so pointer events are built from `MouseEvent`
+   */
+  function firePointer(type: string, target: Element, clientX: number) {
+    const event = new MouseEvent(type, {bubbles: true, cancelable: true, button: 0, clientX});
+    Object.defineProperties(event, {pointerId: {value: 1}, isPrimary: {value: true}});
+    fireEvent(target, event);
+  }
+
+  function drag(handle: Element, fromX: number, toX: number) {
+    firePointer('pointerdown', handle, fromX);
+    firePointer('pointermove', handle, toX);
+    firePointer('pointerup', handle, toX);
+  }
+
+  function getColWidths(container: HTMLElement) {
+    return [...container.querySelectorAll('col')].map(col => col.style.width);
+  }
+
+  function ResizableTable({
+    columns: initialColumns,
+    onColumnResize,
+    updateColumns = true,
+  }: {
+    columns: Column<CountryItem>[];
+    onColumnResize?: () => void;
+    updateColumns?: boolean;
+  }) {
+    const [columns, setColumns] = useState(initialColumns);
+    return (
+      <Table
+        data={countries}
+        columns={columns}
+        getKey={getKey}
+        onSort={() => {
+          throw new Error('Resizing must not sort');
+        }}
+        onColumnResize={(column, columnIndex, width) => {
+          onColumnResize?.();
+          if (updateColumns) setColumns(columns.with(columnIndex, {...column, width}));
+        }}
+      />
+    );
+  }
+
+  const getHandle = () => document.querySelector('th:first-child [data-test="ring-table-column-resize-handle"]')!;
+
+  it('does not render a colgroup when no column is resizable or sized', () => {
+    const {container} = render(<Table data={countries} columns={baseColumns} getKey={getKey} />);
+    expect(container.querySelector('colgroup')).to.equal(null);
+  });
+
+  it('keeps the auto layout until the user resizes a column without width', () => {
+    const columns = baseColumns.map(column => ({...column, resizable: true}));
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} />);
+
+    expect(getColWidths(container)).to.deep.equal(['', '', '', '', '0px']);
+    expect(container.querySelector('table')!.style.width).to.equal('');
+  });
+
+  it('renders the column widths and their sum as the table width', () => {
+    const {container} = render(<ResizableTable columns={resizableColumns} />);
+
+    // The last `<col>` is the filler used while shrinking
+    expect(getColWidths(container)).to.deep.equal(['100px', '120px', '0px']);
+    expect(container.querySelector('table')!.style.width).to.equal('220px');
+  });
+
+  it('commits the width once on pointer release, without sorting', () => {
+    const onColumnResize = vi.fn();
+    const {container} = render(<ResizableTable columns={resizableColumns} onColumnResize={onColumnResize} />);
+
+    drag(getHandle(), 0, 30);
+    fireEvent.click(getHandle());
+
+    expect(onColumnResize).toHaveBeenCalledOnce();
+    expect(getColWidths(container)).to.deep.equal(['130px', '120px', '0px']);
+    expect(container.querySelector('table')!.style.width).to.equal('250px');
+  });
+
+  it('passes the column, its index, the new width and the columns to onColumnResize', () => {
+    const onColumnResize = vi.fn();
+    render(<Table data={countries} columns={resizableColumns} getKey={getKey} onColumnResize={onColumnResize} />);
+
+    drag(getHandle(), 0, 30);
+
+    expect(onColumnResize).toHaveBeenCalledWith(resizableColumns[0], 0, 130, resizableColumns);
+  });
+
+  it('clamps the width to minWidth and maxWidth', () => {
+    const {container} = render(<ResizableTable columns={resizableColumns} />);
+
+    drag(getHandle(), 0, 500);
+    expect(getColWidths(container)[0]).to.equal('200px');
+
+    drag(getHandle(), 0, -500);
+    expect(getColWidths(container)[0]).to.equal('50px');
+  });
+
+  it('cancels the drag on Escape', () => {
+    const onColumnResize = vi.fn();
+    const {container} = render(<ResizableTable columns={resizableColumns} onColumnResize={onColumnResize} />);
+
+    firePointer('pointerdown', getHandle(), 0);
+    firePointer('pointermove', getHandle(), 50);
+    expect(getColWidths(container)[0]).to.equal('150px');
+
+    fireEvent.keyDown(window, {key: 'Escape'});
+    firePointer('pointerup', getHandle(), 50);
+
+    expect(onColumnResize).not.toHaveBeenCalled();
+    expect(getColWidths(container)).to.deep.equal(['100px', '120px', '0px']);
+  });
+
+  it('keeps the table width while shrinking, using the filler column', () => {
+    const {container} = render(<ResizableTable columns={resizableColumns} />);
+
+    firePointer('pointerdown', getHandle(), 0);
+    firePointer('pointermove', getHandle(), -30);
+
+    expect(getColWidths(container)).to.deep.equal(['70px', '120px', '30px']);
+    expect(container.querySelector('table')!.style.width).to.equal('220px');
+
+    firePointer('pointerup', getHandle(), -30);
+    expect(getColWidths(container)).to.deep.equal(['70px', '120px', '0px']);
+  });
+
+  it('returns a controlled column to its width when the client ignores onColumnResize', () => {
+    const {container} = render(<ResizableTable columns={resizableColumns} updateColumns={false} />);
+
+    drag(getHandle(), 0, 30);
+
+    expect(getColWidths(container)[0]).to.equal('100px');
+  });
+
+  it('keeps the new width of a column without width', () => {
+    const columns: Column<CountryItem>[] = [
+      {key: 'country', name: 'Country', resizable: true},
+      {key: 'capital', name: 'Capital', width: 120},
+    ];
+    const {container} = render(<ResizableTable columns={columns} updateColumns={false} />);
+
+    // Measured as 100px, see `beforeEach`
+    drag(getHandle(), 0, 10);
+
+    expect(getColWidths(container)).to.deep.equal(['110px', '120px', '0px']);
+  });
+});
