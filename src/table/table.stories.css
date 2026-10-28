@@ -385,3 +385,26 @@
 .customIssue td {
   border-color: transparent;
 }
+
+.wideReorderWrapper {
+  overflow-x: auto;
+
+  max-width: 800px;
+}
+
+.wideReorderScroller {
+  overflow: auto;
+
+  max-width: 800px;
+  height: 400px;
+}
+
+.wideReorderTable {
+  & :is(th, td) {
+    white-space: nowrap;
+  }
+
+  & td {
+    min-width: 120px;
+  }
+}

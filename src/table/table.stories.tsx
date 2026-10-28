@@ -1788,3 +1788,94 @@ function CustomIssueItem({issue, index}: {issue: IssueWithStatus; index: number}
     </>
   );
 }
+
+interface WideRow {
+  id: number;
+  values: string[];
+}
+
+const wideColumnsCount = 15;
+
+const wideRows: readonly WideRow[] = Array.from({length: 200}, (_, i) => ({
+  id: i + 1,
+  values: Array.from({length: wideColumnsCount}, (__, j) => `Value ${i + 1}.${j + 1}`),
+}));
+
+const wideColumns = [
+  {
+    key: 'ID',
+    renderCell: ({id}, index) => (
+      <span>
+        <ItemReorderHandle index={index} /> {id}
+      </span>
+    ),
+  },
+  ...Array.from({length: wideColumnsCount}, (_, j): Column<WideRow> => ({
+    key: `field-${j + 1}`,
+    name: `Field ${j + 1}`,
+    canReorder: true,
+    renderCell: ({values}) => values[j],
+  })),
+] satisfies Column<WideRow>[];
+
+function WideReorderTable({scrollerRef}: {scrollerRef?: RefObject<HTMLDivElement | null>}) {
+  const [data, setData] = useState(wideRows);
+  const [columns, setColumns] = useState<readonly Column<WideRow>[]>(wideColumns);
+
+  return (
+    <Table
+      data={data}
+      columns={columns}
+      getKey={getKey}
+      className={style.wideReorderTable}
+      stickyHeader
+      virtualizeRows
+      scrollerRef={scrollerRef}
+      onColumnReorder={(_c, fromIndex, insertionIndex) => reorderItems(columns, fromIndex, insertionIndex, setColumns)}
+      onItemReorder={(_it, fromIndex, insertionIndex) => reorderItems(data, fromIndex, insertionIndex, setData)}
+    />
+  );
+}
+
+/**
+ * Drag a column or an item near an edge to auto scroll:
+ * the page scrolls vertically, and the wrapper scrolls horizontally.
+ */
+export const WithReorderAutoScroll = {
+  render() {
+    return (
+      <div className={style.wideReorderWrapper}>
+        <WideReorderTable />
+      </div>
+    );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
+    ...noDocsParams,
+  },
+
+  tags: ['!autodocs'],
+};
+
+/**
+ * Same, but in a scroller which scrolls in both directions.
+ */
+export const WithReorderAutoScrollInScroller = {
+  render() {
+    const scrollerRef = useRef<HTMLDivElement>(null);
+
+    return (
+      <div className={style.wideReorderScroller} ref={scrollerRef}>
+        <WideReorderTable scrollerRef={scrollerRef} />
+      </div>
+    );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
+    ...noDocsParams,
+  },
+
+  tags: ['!autodocs'],
+};
