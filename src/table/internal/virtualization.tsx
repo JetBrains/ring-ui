@@ -33,11 +33,17 @@ type CollapseItemIntoSpacerCallback = (index: number, height: number) => void;
 interface VirtualizationContextValue {
   intersectionObserverHandle: IntersectionObserverHandle;
   collapseItemIntoSpacer: CollapseItemIntoSpacerCallback;
+  /**
+   * Keeps the item rendered even when it scrolls out of view, e.g. while it's dragged.
+   * Returns a function that releases the item.
+   */
+  retainItem: (index: number) => () => void;
 }
 
 export const VirtualizationContext = createContext<VirtualizationContextValue>({
   intersectionObserverHandle: {observe: () => () => {}},
   collapseItemIntoSpacer: () => {},
+  retainItem: () => () => {},
 });
 
 /**
@@ -246,8 +252,17 @@ export function useVirtualItems<T>({
     !scrollerRef ? retentionMarginPx : undefined,
   );
 
+  const retainedItemsRef = useRef(new Set<number>());
+
+  function retainItem(index: number) {
+    retainedItemsRef.current.add(index);
+    return () => {
+      retainedItemsRef.current.delete(index);
+    };
+  }
+
   function collapseItemIntoSpacer(index: number, height: number) {
-    if (!enabled) return;
+    if (!enabled || retainedItemsRef.current.has(index)) return;
 
     itemsMaterialization.current[index] = height;
     throttle(recomputeVirtualItems);
@@ -255,7 +270,7 @@ export function useVirtualItems<T>({
 
   return {
     virtualItems,
-    virtualizationContextValue: {intersectionObserverHandle, collapseItemIntoSpacer},
+    virtualizationContextValue: {intersectionObserverHandle, collapseItemIntoSpacer, retainItem},
   };
 }
 
