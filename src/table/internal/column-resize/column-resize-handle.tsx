@@ -1,4 +1,5 @@
 import {type PointerEvent, use, useEffect, useRef} from 'react';
+import {flushSync} from 'react-dom';
 
 import {type Column} from '../../table-props';
 import {ColumnSizingContext} from './column-sizing-context';
@@ -14,7 +15,7 @@ export function ColumnResizeHandle<T>({column, columnIndex}: {column: Column<T>;
 
   function handlePointerDown(e: PointerEvent<HTMLDivElement>) {
     if (e.button !== 0 || !e.isPrimary || cancelDragRef.current) return;
-    const startWidths = freezeWidths();
+    const startWidths = flushSync(freezeWidths);
     if (!startWidths) return;
 
     e.preventDefault();

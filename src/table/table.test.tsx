@@ -573,4 +573,33 @@ describe('Table column resize', () => {
 
     expect(getColWidths(container)).to.deep.equal(['110px', '120px', '0px']);
   });
+
+  it('keeps the column edge under the pointer when the drag switches the table to fixed layout', () => {
+    const columns: Column<CountryItem>[] = [
+      {key: 'country', name: 'Country', width: 100},
+      {key: 'capital', name: 'Capital', resizable: true},
+    ];
+    const {container} = render(<ResizableTable columns={columns} />);
+    const table = container.querySelector('table')!;
+    const [countryHeader, capitalHeader] = container.querySelectorAll('th');
+
+    // "Country" asks for 100px, but the auto layout stretches it to 180px.
+    // Starting the drag switches to fixed layout, which applies the 100px
+    // and moves "Capital" 80px to the left.
+    const layouts = {
+      auto: {country: new DOMRect(0, 0, 180, 20), capital: new DOMRect(180, 0, 100, 20)},
+      fixed: {country: new DOMRect(0, 0, 100, 20), capital: new DOMRect(100, 0, 100, 20)},
+    };
+    // Only the fixed layout sets the table width
+    const currentLayout = () => (table.style.width === '' ? layouts.auto : layouts.fixed);
+    vi.spyOn(countryHeader, 'getBoundingClientRect').mockImplementation(() => currentLayout().country);
+    vi.spyOn(capitalHeader, 'getBoundingClientRect').mockImplementation(() => currentLayout().capital);
+
+    // Grab the "Capital" edge, at 280px in auto layout, and move 1px to the right
+    const handle = capitalHeader.querySelector('[data-test="ring-table-column-resize-handle"]')!;
+    drag(handle, 280, 281);
+
+    // Not 181px: the drag measures the columns after the switch, not before
+    expect(getColWidths(container)).to.deep.equal(['100px', '101px', '0px']);
+  });
 });
