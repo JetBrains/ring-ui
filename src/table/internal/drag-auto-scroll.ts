@@ -66,7 +66,7 @@ function getSpeed(distanceToEdge: number, edgeArea: number) {
  */
 export function startDragAutoScroll(
   axis: Axis,
-  table: Element,
+  table: HTMLTableElement,
   onScroll: (clientX: number, clientY: number) => void,
 ): DragAutoScroll {
   const isX = axis === 'x';
