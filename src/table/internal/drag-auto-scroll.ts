@@ -40,6 +40,19 @@ function getVisibleRange(scroller: HTMLElement | null, axis: Axis) {
   return {start: Math.max(start, 0), end: Math.min(end, isX ? window.innerWidth : window.innerHeight)};
 }
 
+function getRange(rect: DOMRect, axis: Axis) {
+  return axis === 'x' ? {start: rect.left, end: rect.right} : {start: rect.top, end: rect.bottom};
+}
+
+/**
+ * Grows from 1px at the inner boundary of the edge area to `maxStepPx` at the edge.
+ * A pointer beyond the edge (negative distance) scrolls at `maxStepPx`.
+ */
+function getSpeed(distanceToEdge: number, edgeArea: number) {
+  const closeness = Math.min(1 - distanceToEdge / edgeArea, 1);
+  return Math.ceil(maxStepPx * closeness);
+}
+
 /**
  * While the drag is active, scrolls the nearest scroller of `table` along `axis`
  * when the pointer is near the scroller edge, until the table edge becomes visible.
@@ -62,20 +75,21 @@ export function startDragAutoScroll(
   function getStep() {
     if (!pointer) return 0;
 
-    const {start, end} = getVisibleRange(scroller, axis);
-    const area = Math.min(edgeAreaPx, (end - start) * maxEdgeAreaFraction);
+    const visible = getVisibleRange(scroller, axis);
+    const edgeArea = Math.min(edgeAreaPx, (visible.end - visible.start) * maxEdgeAreaFraction);
     // The scroller is out of the viewport
-    if (area <= 0) return 0;
+    if (edgeArea <= 0) return 0;
 
-    const offset = isX ? pointer.clientX : pointer.clientY;
-    const tableRect = table.getBoundingClientRect();
-    const tableStart = isX ? tableRect.left : tableRect.top;
-    const tableEnd = isX ? tableRect.right : tableRect.bottom;
-    // A pointer outside the scroller scrolls at the max speed
-    const getSpeed = (distanceToEdge: number) => Math.ceil(maxStepPx * Math.min(1 - distanceToEdge / area, 1));
+    const pointerOffset = isX ? pointer.clientX : pointer.clientY;
+    const distanceToStart = pointerOffset - visible.start;
+    const distanceToEnd = visible.end - pointerOffset;
 
-    if (offset < start + area && tableStart < start) return -getSpeed(offset - start);
-    if (offset > end - area && tableEnd > end) return getSpeed(end - offset);
+    const tableRange = getRange(table.getBoundingClientRect(), axis);
+    const isTableHiddenAtStart = tableRange.start < visible.start;
+    const isTableHiddenAtEnd = tableRange.end > visible.end;
+
+    if (distanceToStart < edgeArea && isTableHiddenAtStart) return -getSpeed(distanceToStart, edgeArea);
+    if (distanceToEnd < edgeArea && isTableHiddenAtEnd) return getSpeed(distanceToEnd, edgeArea);
     return 0;
   }
 
