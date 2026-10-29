@@ -74,29 +74,31 @@ export function startDragAutoScroll(
 
   let pointer: {clientX: number; clientY: number} | null = null;
 
-  function getStep() {
-    if (!pointer) return 0;
-
-    const visible = getVisibleRange(scroller, axis);
-    const edgeArea = Math.min(edgeAreaPx, (visible.end - visible.start) * maxEdgeAreaFraction);
-    // The scroller is out of the viewport
-    if (edgeArea <= 0) return 0;
-
-    const pointerOffset = isX ? pointer.clientX : pointer.clientY;
-    const distanceToStart = pointerOffset - visible.start;
-    const distanceToEnd = visible.end - pointerOffset;
-
-    const tableRange = getRange(table.getBoundingClientRect(), axis);
-    const isTableHiddenAtStart = tableRange.start < visible.start;
-    const isTableHiddenAtEnd = tableRange.end > visible.end;
-
-    if (distanceToStart < edgeArea && isTableHiddenAtStart) return -getSpeed(distanceToStart, edgeArea);
-    if (distanceToEnd < edgeArea && isTableHiddenAtEnd) return getSpeed(distanceToEnd, edgeArea);
-    return 0;
-  }
-
   let rafId = requestAnimationFrame(function tick() {
-    const step = getStep();
+    let step = 0;
+
+    if (pointer) {
+      const visible = getVisibleRange(scroller, axis);
+      const edgeArea = Math.min(edgeAreaPx, (visible.end - visible.start) * maxEdgeAreaFraction);
+      // The scroller is out of the viewport
+      if (edgeArea > 0) {
+        const pointerOffset = isX ? pointer.clientX : pointer.clientY;
+        const distanceToStart = pointerOffset - visible.start;
+        const distanceToEnd = visible.end - pointerOffset;
+
+        const tableRange = getRange(table.getBoundingClientRect(), axis);
+        const isTableHiddenAtStart = tableRange.start < visible.start;
+        const isTableHiddenAtEnd = tableRange.end > visible.end;
+
+        if (distanceToStart < edgeArea && isTableHiddenAtStart) {
+          step = -getSpeed(distanceToStart, edgeArea);
+        }
+        if (distanceToEnd < edgeArea && isTableHiddenAtEnd) {
+          step = getSpeed(distanceToEnd, edgeArea);
+        }
+      }
+    }
+
     // Not `smooth` even if the page sets `scroll-behavior: smooth`: each frame would restart the animation
     if (step) (scroller ?? window).scrollBy({[isX ? 'left' : 'top']: step, behavior: 'instant'});
     rafId = requestAnimationFrame(tick);
