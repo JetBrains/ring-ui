@@ -28,7 +28,10 @@ interface Spacer {
   key: string;
 }
 
-type CollapseItemIntoSpacerCallback = (index: number, height: number) => void;
+/**
+ * `height` is `undefined` when the item is visible again
+ */
+type CollapseItemIntoSpacerCallback = (index: number, height: number | undefined) => void;
 
 interface VirtualizationContextValue {
   intersectionObserverHandle: IntersectionObserverHandle;
@@ -252,20 +255,27 @@ export function useVirtualItems<T>({
     !scrollerRef ? retentionMarginPx : undefined,
   );
 
-  const retainedItemsRef = useRef(new Set<number>());
+  const retainedItemsRef = useRef(new Map<number, number | undefined>());
 
-  function retainItem(index: number) {
-    retainedItemsRef.current.add(index);
-    return () => {
-      retainedItemsRef.current.delete(index);
-    };
-  }
-
-  function collapseItemIntoSpacer(index: number, height: number) {
-    if (!enabled || retainedItemsRef.current.has(index)) return;
+  function collapseItemIntoSpacer(index: number, height: number | undefined) {
+    if (retainedItemsRef.current.has(index)) {
+      retainedItemsRef.current.set(index, height);
+      return;
+    }
+    if (!enabled || height == null) return;
 
     itemsMaterialization.current[index] = height;
     throttle(recomputeVirtualItems);
+  }
+
+  function retainItem(index: number) {
+    retainedItemsRef.current.set(index, undefined);
+    return () => {
+      const deferredHeight = retainedItemsRef.current.get(index);
+      retainedItemsRef.current.delete(index);
+      // The observer doesn't report an unchanged state again, so the item would stay rendered
+      collapseItemIntoSpacer(index, deferredHeight);
+    };
   }
 
   return {

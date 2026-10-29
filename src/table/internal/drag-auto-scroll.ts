@@ -14,7 +14,9 @@ export interface DragAutoScroll {
  * The nearest ancestor which scrolls along `axis`, or `null` for the document
  */
 function getScroller(table: Element, axis: Axis): HTMLElement | null {
-  for (let el = table.parentElement; el && el !== document.body; el = el.parentElement) {
+  for (let el = table.parentElement; el && el !== document.scrollingElement; el = el.parentElement) {
+    // `overflow` of <body> propagates to the viewport unless <html> has its own
+    if (el === document.body && window.getComputedStyle(document.documentElement).overflow === 'visible') continue;
     const {overflowX, overflowY} = window.getComputedStyle(el);
     const isScrollable = /auto|scroll/.test(axis === 'x' ? overflowX : overflowY);
     // Ignores sub-pixel overflow

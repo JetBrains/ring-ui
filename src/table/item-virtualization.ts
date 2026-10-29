@@ -61,10 +61,7 @@ export function useItemVirtualization({
       const cleanup = intersectionObserverHandle.observe(element, isIntersecting => {
         intersectionStates[elementIndex] = isIntersecting;
 
-        const height = onIntersectionChange(intersectionStates, elementIndex, elements);
-        if (height != null) {
-          collapseItemIntoSpacer(index, height);
-        }
+        collapseItemIntoSpacer(index, onIntersectionChange(intersectionStates, elementIndex, elements));
       });
       cleanups.push(cleanup);
     });
