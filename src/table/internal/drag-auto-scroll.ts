@@ -60,17 +60,21 @@ function getSpeed(distanceToEdge: number, edgeArea: number) {
  * when the pointer is near the scroller edge, until the table edge becomes visible.
  * The closer the pointer is to the edge, the faster the scroll.
  *
- * `onScroll` is called with the last pointer position on any scroll during the drag,
- * including the user's wheel scroll, so that the caller can update anything
- * which depends on the scroll position.
+ * `preferredScroller` is used instead of the nearest scroller when set, e.g. `TableProps.scrollerRef`.
+ *
+ * `onScroll` is called with the last pointer position on every frame after the pointer has moved,
+ * so that the caller can update anything which depends on the scroll position,
+ * including after the user's wheel scroll.
  */
 export function startDragAutoScroll(
   axis: Axis,
   table: HTMLTableElement,
+  preferredScroller: HTMLElement | null | undefined,
   onScroll: (clientX: number, clientY: number) => void,
 ): DragAutoScroll {
   const isX = axis === 'x';
-  const scroller = getScroller(table, axis);
+
+  const scroller = preferredScroller ?? getScroller(table, axis);
 
   let pointer: {clientX: number; clientY: number} | null = null;
 
@@ -101,14 +105,9 @@ export function startDragAutoScroll(
 
     // Not `smooth` even if the page sets `scroll-behavior: smooth`: each frame would restart the animation
     if (step) (scroller ?? window).scrollBy({[isX ? 'left' : 'top']: step, behavior: 'instant'});
+    if (pointer) onScroll(pointer.clientX, pointer.clientY);
     rafId = requestAnimationFrame(tick);
   });
-
-  function handleScroll() {
-    if (pointer) onScroll(pointer.clientX, pointer.clientY);
-  }
-
-  document.addEventListener('scroll', handleScroll, {capture: true, passive: true});
 
   return {
     update(clientX, clientY) {
@@ -116,7 +115,6 @@ export function startDragAutoScroll(
     },
     stop() {
       cancelAnimationFrame(rafId);
-      document.removeEventListener('scroll', handleScroll, {capture: true});
       pointer = null;
     },
   };

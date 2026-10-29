@@ -321,7 +321,9 @@ export function ReorderHandle<T>({
     document.addEventListener('keydown', keydownListener);
     currentTarget.style.cursor = 'grabbing';
 
-    const autoScroll = startDragAutoScroll(isColumn ? 'x' : 'y', table, (x, y) => updateDragVisualsRef.current(x, y));
+    const autoScroll = startDragAutoScroll(isColumn ? 'x' : 'y', table, tableProps?.scrollerRef?.current, (x, y) =>
+      updateDragVisualsRef.current(x, y),
+    );
     // Otherwise, virtualization unmounts the item and ends the drag when auto scroll moves it out of view
     const releaseItem = isColumn ? undefined : retainItem(index);
 
