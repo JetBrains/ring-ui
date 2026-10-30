@@ -38,12 +38,12 @@
 
 .columnResizeHandle {
   position: absolute;
-  z-index: 1;
+  z-index: var(--ring-fixed-z-index);
   top: 0;
   right: 0;
   bottom: 0;
 
-  width: 8px;
+  width: var(--ring-unit);
 
   cursor: col-resize;
 
@@ -71,7 +71,7 @@
     &::before {
       position: absolute;
       top: 0;
-      right: -8px;
+      right: calc(var(--ring-unit) * -1);
       bottom: 0;
       left: 0;
 
