@@ -67,19 +67,22 @@ describe('Icon', () => {
       const {rerender} = render(
         <>
           <Icon glyph={glyph} />
-          <Icon glyph={glyph} style={{color: 'red'}} />
+          <Icon glyph={glyph} width={14} suppressSizeWarning />
         </>,
       );
+      // A new width reaches IconSVG through style, so it re-renders past memo
       rerender(
         <>
           <Icon glyph={glyph} />
-          <Icon glyph={glyph} style={{color: 'blue'}} />
+          <Icon glyph={glyph} width={16} suppressSizeWarning />
         </>,
       );
 
       expect(trustedTypePolicy.createHTML).toHaveBeenCalledTimes(1);
-      screen.getAllByTestId('ring-icon').forEach(icon => {
-        expect(icon.querySelector('svg')!.innerHTML).to.equal('<path d="M1 1"></path>');
+      const svgs = screen.getAllByTestId('ring-icon').map(icon => icon.querySelector('svg')!);
+      expect(svgs[1].style.width).to.equal('16px');
+      svgs.forEach(svg => {
+        expect(svg.innerHTML).to.equal('<path d="M1 1"></path>');
       });
     } finally {
       configure({trustedTypePolicy: null});
