@@ -43,7 +43,7 @@ const getSVGFromSource = memoize((src: string) => {
   }
   return {
     props: extractSVGProps(svg),
-    // Cloning the parsed nodes avoids a second Trusted Types policy call and HTML sink on each render
+    // The parsed nodes are shared across all instances, so clone them (moving them would empty the cache).
     injectSVGContent: (node: SVGSVGElement | null) => node?.replaceChildren(...svg.cloneNode(true).childNodes),
   };
 });
