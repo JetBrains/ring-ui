@@ -1744,7 +1744,8 @@ function CustomIssueItem({issue, index}: {issue: IssueWithStatus; index: number}
     index,
     refs: [mainRef, detailsRef],
     onIntersectionChange: (isIntersecting, _i, elements) =>
-      isIntersecting.every(it => it === false) && elements.every(el => el?.isConnected)
+      isIntersecting.every(it => it === false) &&
+      elements.every(el => el?.isConnected && !el.hasAttribute(itemBeingReorderedAttribute))
         ? elements.reduce((h, el) => h + el!.getBoundingClientRect().height, 0)
         : undefined,
   });
