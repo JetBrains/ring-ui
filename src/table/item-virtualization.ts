@@ -40,7 +40,8 @@ export function useItemVirtualization({
    * already be disconnected from the DOM when this callback is invoked.
    * Use additional checks like `element.isConnected`.
    * @returns Return the height of an item to collapse the item into spacer,
-   * or `undefined` to keep the item rendered.
+   * or `undefined` to keep the item rendered. Keep the item rendered while it's being reordered,
+   * that is, while any of its elements has the `itemBeingReorderedAttribute` attribute.
    */
   onIntersectionChange: (
     intersectionStates: (boolean | undefined)[],
