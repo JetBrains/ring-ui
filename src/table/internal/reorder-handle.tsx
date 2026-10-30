@@ -321,8 +321,12 @@ export function ReorderHandle<T>({
     document.addEventListener('keydown', keydownListener);
     currentTarget.style.cursor = 'grabbing';
 
-    const autoScroll = startDragAutoScroll(isColumn ? 'x' : 'y', table, tableProps?.scrollerRef?.current, (x, y) =>
-      updateDragVisualsRef.current(x, y),
+    const autoScroll = startDragAutoScroll(
+      isColumn ? 'x' : 'y',
+      table,
+      // `scrollerRef` is the vertical virtualization container, which may not scroll horizontally
+      isColumn ? undefined : tableProps?.scrollerRef?.current,
+      (x, y) => updateDragVisualsRef.current(x, y),
     );
     // Otherwise, virtualization unmounts the item and ends the drag when auto scroll moves it out of view
     itemRow?.setAttribute(itemBeingReorderedAttribute, '');

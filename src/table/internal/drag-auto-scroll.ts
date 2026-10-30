@@ -60,7 +60,7 @@ function getSpeed(distanceToEdge: number, edgeArea: number) {
  * when the pointer is near the scroller edge, until the table edge becomes visible.
  * The closer the pointer is to the edge, the faster the scroll.
  *
- * `preferredScroller` is used instead of the nearest scroller when set, e.g. `TableProps.scrollerRef`.
+ * `preferredScroller` is used instead of the nearest scroller when set, e.g. `TableProps.scrollerRef` for `y`.
  *
  * `onScroll` is called with the last pointer position on every frame after the pointer has moved,
  * so that the caller can update anything which depends on the scroll position,
