@@ -38,7 +38,9 @@ export function useColumnSizing<T>({
 
   const hasColgroup = columns.some(column => column.resizable || column.width != null);
   const widths = columns.map(column => column.width ?? internalWidths.get(column.key));
-  const fixedLayout = hasColgroup && widths.every(width => width != null);
+  const allWidthsKnown = widths.every(width => width != null);
+  // The widths are applied through the `<col>` elements
+  const fixedLayout = hasColgroup && allWidthsKnown;
   const totalWidth = fixedLayout ? widths.reduce((sum, width) => sum + width, 0) : undefined;
 
   function freezeWidths() {
