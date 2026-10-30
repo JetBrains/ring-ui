@@ -16,7 +16,7 @@ export function ColumnGroup<T>({
         <col key={column.key} style={{width: widths[index]}} />
       ))}
       {/* Filler, used while the user shrinks a column, see `startColumnResizeDrag` */}
-      <col style={{width: 0}} />
+      {columns.some(column => column.resizable) && <col style={{width: 0}} />}
     </colgroup>
   );
 }
