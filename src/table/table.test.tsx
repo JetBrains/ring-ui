@@ -574,6 +574,20 @@ describe('Table column resize', () => {
     expect(getColWidths(container)).to.deep.equal(['110px', '120px', '0px']);
   });
 
+  it('keeps fractional measured widths', () => {
+    vi.spyOn(HTMLTableCellElement.prototype, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, 0, 100.5, 20));
+    const columns: Column<CountryItem>[] = [
+      {key: 'country', name: 'Country', resizable: true},
+      {key: 'capital', name: 'Capital'},
+    ];
+    const {container} = render(<ResizableTable columns={columns} updateColumns={false} />);
+
+    drag(getHandle(), 0, 10);
+
+    // The dragged width is rounded, the other measured width is kept as is
+    expect(getColWidths(container)).to.deep.equal(['111px', '100.5px', '0px']);
+  });
+
   it('keeps the column edge under the pointer when the drag switches the table to fixed layout', () => {
     const columns: Column<CountryItem>[] = [
       {key: 'country', name: 'Country', width: 100},

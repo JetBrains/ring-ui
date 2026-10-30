@@ -47,9 +47,8 @@ export function useColumnSizing<T>({
     const headerCells = tableRef.current?.tHead?.rows[0]?.cells;
     if (!headerCells) return undefined;
 
-    // Floor, so that the sum doesn't exceed the container
     const frozenWidths = columns.map(
-      (_column, index) => widths[index] ?? Math.floor(headerCells[index]?.getBoundingClientRect().width ?? 0),
+      (_column, index) => widths[index] ?? headerCells[index]?.getBoundingClientRect().width ?? 0,
     );
     if (!fixedLayout) {
       setInternalWidths(new Map(columns.map((column, index) => [column.key, frozenWidths[index]])));
