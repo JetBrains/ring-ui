@@ -486,6 +486,16 @@ describe('Table column resize', () => {
     expect(container.querySelector('table')!.style.width).to.equal('');
   });
 
+  it('does not render the filler column when no column is resizable', () => {
+    const columns: Column<CountryItem>[] = [
+      {key: 'country', name: 'Country', width: 100},
+      {key: 'capital', name: 'Capital', width: 120},
+    ];
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} />);
+
+    expect(getColWidths(container)).to.deep.equal(['100px', '120px']);
+  });
+
   it('renders the column widths and their sum as the table width', () => {
     const {container} = render(<ResizableTable columns={resizableColumns} />);
 
