@@ -107,7 +107,7 @@ export function startColumnResizeDrag({
     document.body.style.userSelect = previousBodyUserSelect;
     setDomWidths(startWidth, 0);
 
-    if (commit && width !== startWidth) onCommit(width);
+    if (commit) onCommit(width);
     onEnd();
   }
 

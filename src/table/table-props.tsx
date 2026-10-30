@@ -67,7 +67,8 @@ export interface TableProps<T> {
   ) => void;
 
   /**
-   * Called when the user finishes resizing a column, on pointer release.
+   * Called when the user finishes resizing a column, on pointer release,
+   * even if the width didn't change.
    * While dragging, the table previews the width without calling this.
    *
    * If the column has `width` set, the client is expected to update `columns`
