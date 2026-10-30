@@ -945,15 +945,6 @@ export const WithColumnReorderLongSticky: TableStory<Issue> = {
   tags: ['!autodocs'],
 };
 
-function resizeColumn<T>(
-  columns: readonly Column<T>[],
-  columnIndex: number,
-  width: number,
-  setColumns: (newColumns: readonly Column<T>[]) => void,
-) {
-  setColumns(columns.map((column, index) => (index === columnIndex ? {...column, width} : column)));
-}
-
 export const WithColumnResize: TableStory<(typeof smallDataSlice)[number]> = {
   args: {
     data: smallDataSlice,
@@ -1003,7 +994,7 @@ export const WithColumnResize: TableStory<(typeof smallDataSlice)[number]> = {
         onColumnReorder={(_c, fromIndex, insertionIndex) =>
           reorderItems(columns, fromIndex, insertionIndex, setColumns)
         }
-        onColumnResize={(_c, columnIndex, width) => resizeColumn(columns, columnIndex, width, setColumns)}
+        onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
         columnEditButton
       />
     );
@@ -1061,7 +1052,7 @@ export const WithColumnResizeLongSticky: TableStory<Issue> = {
         onColumnReorder={(_c, fromIndex, insertionIndex) =>
           reorderItems(columns, fromIndex, insertionIndex, setColumns)
         }
-        onColumnResize={(_c, columnIndex, width) => resizeColumn(columns, columnIndex, width, setColumns)}
+        onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
         columnEditButton
       />
     );

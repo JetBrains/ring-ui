@@ -74,8 +74,12 @@ export interface TableProps<T> {
    * If the column has `width` set, the client is expected to update `columns`
    * with the new width, otherwise the column returns to its previous width.
    * If `width` is not set, the table keeps the new width internally.
+   *
+   * `newColumns` are the columns with the widths of all columns set, including
+   * the ones measured by the table. Store them to restore the layout later,
+   * or pass them as `columns`.
    */
-  onColumnResize?: (column: Column<T>, columnIndex: number, newWidth: number, columns: readonly Column<T>[]) => void;
+  onColumnResize?: (column: Column<T>, columnIndex: number, newWidth: number, newColumns: readonly Column<T>[]) => void;
 
   /**
    * By default, when a column is reordered, the moved column is highlighted

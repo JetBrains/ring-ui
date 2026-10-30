@@ -30,14 +30,15 @@ export function useColumnSizing<T>({
   // Widths measured or set by the user, used for columns without `width`
   const [internalWidths, setInternalWidths] = useState<ReadonlyMap<Key, number>>(() => new Map());
 
-  // A drag commits after several renders, so it must see the latest columns and callback
-  const latestPropsRef = useRef({columns, onColumnResize});
-  useLayoutEffect(() => {
-    latestPropsRef.current = {columns, onColumnResize};
-  });
-
   const hasColgroup = columns.some(column => column.resizable || column.width != null);
   const widths = columns.map(column => column.width ?? internalWidths.get(column.key));
+
+  // A drag commits after several renders, so it must see the latest columns, widths and callback
+  const latestRef = useRef({columns, widths, onColumnResize});
+  useLayoutEffect(() => {
+    latestRef.current = {columns, widths, onColumnResize};
+  });
+
   const allWidthsKnown = widths.every(width => width != null);
   // The widths are applied through the `<col>` elements
   const fixedLayout = hasColgroup && allWidthsKnown;
@@ -57,13 +58,19 @@ export function useColumnSizing<T>({
   }
 
   function commitWidth(columnKey: Key, width: number) {
-    const {columns: latestColumns, onColumnResize: latestOnColumnResize} = latestPropsRef.current;
+    const {columns: latestColumns, widths: latestWidths, onColumnResize: latestOnColumnResize} = latestRef.current;
     const columnIndex = latestColumns.findIndex(column => column.key === columnKey);
     if (columnIndex === -1) return;
 
     // Ignored for columns with `width`: the client decides by updating `columns`
     setInternalWidths(prev => new Map(prev).set(columnKey, width));
-    latestOnColumnResize?.(latestColumns[columnIndex], columnIndex, width, latestColumns);
+
+    // All widths, including the measured ones, so that the client can store and restore the layout
+    const newColumns = latestColumns.map((column, index) => {
+      const newWidth = index === columnIndex ? width : latestWidths[index];
+      return newWidth === column.width ? column : {...column, width: newWidth};
+    });
+    latestOnColumnResize?.(latestColumns[columnIndex], columnIndex, width, newColumns);
   }
 
   return {
