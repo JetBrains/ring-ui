@@ -33,7 +33,7 @@ import Radio from '../radio/radio';
 import ControlLabel, {LabelType} from '../control-label/control-label';
 import {useReorderAnimation} from './reorder-animation';
 import {useReorderItemLayout} from './reorder-item-layout';
-import {defaultRowHeight} from './table-const';
+import {defaultRowHeight, itemBeingReorderedAttribute} from './table-const';
 
 import type {SortOrder, Column} from './table-props';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -1166,7 +1166,7 @@ function TeamCityBuild({
     onIntersectionChange: useCallback(
       (isIntersecting, _i, elements) =>
         isIntersecting.every(it => it === false) &&
-        elements.every(el => el?.isConnected) &&
+        elements.every(el => el?.isConnected && !el.hasAttribute(itemBeingReorderedAttribute)) &&
         [
           elements[0]?.previousElementSibling?.previousElementSibling,
           elements[0]?.previousElementSibling,

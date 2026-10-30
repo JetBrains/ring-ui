@@ -13,14 +13,13 @@ import classNames from 'classnames';
 import dragIcon from '@jetbrains/icons/drag-12px';
 
 import {type TableProps} from '../table-props';
-import {TablePropsContext} from '../table-const';
+import {itemBeingReorderedAttribute, TablePropsContext} from '../table-const';
 import Icon from '../../icon';
 import {useComposedRef} from '../../global/compose-refs';
 import {parseCssDuration} from '../../global/parse-css-duration';
 import {ReorderAnimationContext} from './reorder-animation-context';
 import {type InsertionPoint, ReorderLayoutContext} from './reorder-layout-context';
 import {type DragAutoScroll, startDragAutoScroll} from './drag-auto-scroll';
-import {VirtualizationContext} from './virtualization';
 
 import type {DragState} from '../table-primitives';
 
@@ -125,7 +124,6 @@ export function ReorderHandle<T>({
   }
 
   const {getItemBounds, getClosestInsertionPoint} = use(ReorderLayoutContext);
-  const {retainItem} = use(VirtualizationContext);
 
   function renderDragFrame(clientX: number, clientY: number) {
     const drag = activeDragRef.current;
@@ -284,6 +282,7 @@ export function ReorderHandle<T>({
 
     let indicatorStart: number;
     let indicatorSize: string;
+    let itemRow: HTMLTableRowElement | undefined;
 
     if (isColumn) {
       const thead = currentTarget.closest('thead');
@@ -307,6 +306,7 @@ export function ReorderHandle<T>({
       const visibleItemWidth = itemRight - itemLeft;
       const viewportRightRelativeToTableLeft = window.innerWidth - itemLeft;
       indicatorSize = `min(${visibleItemWidth}px, calc(${viewportRightRelativeToTableLeft}px - .5rem))`;
+      itemRow = tr;
     }
 
     function keydownListener(keyEvent: KeyboardEvent) {
@@ -325,7 +325,7 @@ export function ReorderHandle<T>({
       updateDragVisualsRef.current(x, y),
     );
     // Otherwise, virtualization unmounts the item and ends the drag when auto scroll moves it out of view
-    const releaseItem = isColumn ? undefined : retainItem(index);
+    itemRow?.setAttribute(itemBeingReorderedAttribute, '');
 
     activeDragRef.current = {
       state: 'is-dragging',
@@ -338,7 +338,7 @@ export function ReorderHandle<T>({
       autoScroll,
       cleanup: () => {
         autoScroll.stop();
-        releaseItem?.();
+        itemRow?.removeAttribute(itemBeingReorderedAttribute);
         currentTarget.releasePointerCapture(pointerId);
         document.removeEventListener('keydown', keydownListener);
         currentTarget.style.removeProperty('cursor');
