@@ -11,6 +11,8 @@ import {TableHeader} from './internal/table-header';
 import {keyboardFocusableAttrName} from './table-primitives';
 import {isWithinNavigableElement} from '../global/is-within-navigable-element';
 import {ReorderLayoutContext, useReorderLayoutContextValue} from './internal/reorder-layout-context';
+import {ColumnSizingContext, useColumnSizing} from './internal/column-resize/column-sizing-context';
+import {ColumnGroup} from './internal/column-resize/column-group';
 
 import type {TableProps} from './table-props';
 
@@ -173,6 +175,14 @@ import styles from './table.css';
  *   expected to update `columns` by moving the corresponding column to the
  *   new position.
  *
+ * ## Resizing columns
+ *
+ * - Set `Column.resizable` to `true` to render a resize handle in the column header.
+ * - Optionally set `Column.width`, `minWidth` and `maxWidth`. See `Column.width` for layout details.
+ * - Handle `TableProps.onColumnResize`. If `width` is set, update `columns` with the new width.
+ *
+ * Users drag the handle to resize the column.
+ *
  * ## Item reorder
  *
  * To allow the user to reorder rows by dragging:
@@ -256,6 +266,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     onSort,
     onColumnDelete,
     onColumnReorder,
+    onColumnResize,
     noColumnReorderAnimation,
     canReorderItem,
     onItemReorder,
@@ -279,10 +290,12 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
 
     ref: userRef,
     className,
+    style,
     ...restProps
   } = props;
 
   const localRef = useRef<HTMLTableElement>(null);
+  const columnSizing = useColumnSizing({columns, onColumnResize, tableRef: localRef});
 
   const reorderAnimationContextValue = useReorderAnimationContextValue({
     noColumnReorderAnimation,
@@ -334,8 +347,16 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
   return (
     <TablePropsContext value={props as TableProps<unknown>}>
       <ReorderAnimationContext value={reorderAnimationContextValue}>
-        <table className={classNames(styles.table, className)} ref={useComposedRef(userRef, localRef)} {...restProps}>
-          <TableHeader />
+        <table
+          className={classNames(styles.table, columnSizing.fixedLayout && styles.fixedLayout, className)}
+          style={columnSizing.fixedLayout ? {...style, width: columnSizing.totalWidth} : style}
+          ref={useComposedRef(userRef, localRef)}
+          {...restProps}
+        >
+          {columnSizing.hasColgroup && <ColumnGroup columns={columns} widths={columnSizing.widths} />}
+          <ColumnSizingContext value={columnSizing.contextValue}>
+            <TableHeader />
+          </ColumnSizingContext>
           {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
             <VirtualizationContext value={virtualizationContextValue}>

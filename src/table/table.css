@@ -10,6 +10,100 @@
   border-style: none;
 }
 
+.fixedLayout {
+  table-layout: fixed;
+
+  /* Columns can't grow to fit content. Clip what doesn't fit instead of overlapping the next column. */
+  & .cell {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
+  /* margin + padding leave room for focus outlines of the sort button and reorder handle */
+  & .sortAndHeader {
+    overflow: hidden;
+
+    min-width: 0;
+    margin: -2px;
+    padding: 2px;
+
+    text-overflow: ellipsis;
+  }
+
+  & .rightButtons {
+    flex-shrink: 0;
+  }
+}
+
+.columnResizeHandle {
+  position: absolute;
+  z-index: var(--ring-fixed-z-index);
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  width: var(--ring-unit);
+
+  cursor: col-resize;
+
+  touch-action: none;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: -1px;
+    bottom: 0;
+
+    width: 2px;
+
+    content: '';
+
+    transition: background-color var(--ring-fast-ease);
+  }
+
+  &:hover::after {
+    background-color: var(--ring-main-color);
+  }
+
+  /* Larger touch target, extended into the next column to keep the header buttons tappable */
+  @media (hover: none) {
+    &::before {
+      position: absolute;
+      top: 0;
+      right: calc(var(--ring-unit) * -1);
+      bottom: 0;
+      left: 0;
+
+      content: '';
+    }
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    .headerCell:last-child &::before {
+      right: 0;
+    }
+  }
+}
+
+.theadColumnEditing .columnResizeHandle::after {
+  background-color: var(--ring-line-color);
+}
+
+.columnResizeIndicator {
+  position: fixed;
+  z-index: var(--ring-overlay-z-index);
+
+  width: 2px;
+
+  pointer-events: none;
+
+  background-color: var(--ring-main-color);
+}
+
+.resizableHeaderCell {
+  position: relative;
+}
+
 .stickyHeader {
   position: sticky;
   z-index: var(--ring-overlay-z-index);
