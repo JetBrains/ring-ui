@@ -454,7 +454,7 @@ describe('Table column resize', () => {
     onColumnResize?: () => void;
     updateColumns?: boolean;
   }) {
-    const [columns, setColumns] = useState(initialColumns);
+    const [columns, setColumns] = useState<readonly Column<CountryItem>[]>(initialColumns);
     return (
       <Table
         data={countries}
@@ -463,9 +463,9 @@ describe('Table column resize', () => {
         onSort={() => {
           throw new Error('Resizing must not sort');
         }}
-        onColumnResize={(column, columnIndex, width) => {
+        onColumnResize={(_column, _columnIndex, _width, newColumns) => {
           onColumnResize?.();
-          if (updateColumns) setColumns(columns.with(columnIndex, {...column, width}));
+          if (updateColumns) setColumns(newColumns);
         }}
       />
     );
@@ -516,13 +516,33 @@ describe('Table column resize', () => {
     expect(container.querySelector('table')!.style.width).to.equal('250px');
   });
 
-  it('passes the column, its index, the new width and the columns to onColumnResize', () => {
+  it('passes the column, its index, the new width and the new columns to onColumnResize', () => {
     const onColumnResize = vi.fn();
     render(<Table data={countries} columns={resizableColumns} getKey={getKey} onColumnResize={onColumnResize} />);
 
     drag(getHandle(), 0, 30);
 
-    expect(onColumnResize).toHaveBeenCalledWith(resizableColumns[0], 0, 130, resizableColumns);
+    expect(onColumnResize).toHaveBeenCalledWith(resizableColumns[0], 0, 130, [
+      {...resizableColumns[0], width: 130},
+      resizableColumns[1],
+    ]);
+  });
+
+  it('passes the measured widths of the other columns to onColumnResize', () => {
+    const onColumnResize = vi.fn();
+    const columns: Column<CountryItem>[] = [
+      {key: 'country', name: 'Country', resizable: true},
+      {key: 'capital', name: 'Capital'},
+    ];
+    render(<Table data={countries} columns={columns} getKey={getKey} onColumnResize={onColumnResize} />);
+
+    // Measured as 100px, see `beforeEach`
+    drag(getHandle(), 0, 10);
+
+    expect(onColumnResize.mock.lastCall?.[3]).to.deep.equal([
+      {...columns[0], width: 110},
+      {...columns[1], width: 100},
+    ]);
   });
 
   it('clamps the width to minWidth and maxWidth', () => {
