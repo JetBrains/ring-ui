@@ -14,11 +14,11 @@
     "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "devDependencies": {
-    "@rollup/pluginutils": "^5.4.0",
-    "cssnano": "^9.0.5",
-    "postcss": "^8.5.28",
+    "@rollup/pluginutils": "^5.5.1",
+    "cssnano": "^9.9.0",
+    "postcss": "^8.5.31",
     "postcss-url": "^10.1.4",
-    "postcss-import": "^17.0.0",
+    "postcss-import": "^17.0.1",
     "postcss-load-config": "^6.0.1",
     "postcss-modules": "^9.0.1"
   }
