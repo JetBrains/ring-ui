@@ -18,6 +18,10 @@ HTMLDialogElement.prototype.close ??= function close() {
   this.open = false;
 };
 
+HTMLElement.prototype.setPointerCapture ??= () => {};
+HTMLElement.prototype.releasePointerCapture ??= () => {};
+HTMLElement.prototype.hasPointerCapture ??= () => false;
+
 class Observer {
   observe() {
     // do nothing

@@ -945,6 +945,127 @@ export const WithColumnReorderLongSticky: TableStory<Issue> = {
   tags: ['!autodocs'],
 };
 
+export const WithColumnResize: TableStory<(typeof smallDataSlice)[number]> = {
+  args: {
+    data: smallDataSlice,
+    columns: [
+      {
+        key: 'ID',
+        width: 80,
+        resizable: true,
+        minWidth: 60,
+        renderCell: ({id}) => id,
+      },
+      {
+        key: 'Country',
+        sortOrder: 'none',
+        canReorder: true,
+        resizable: true,
+        renderCell: ({country}) => country,
+      },
+      {
+        key: 'City',
+        sortOrder: 'none',
+        canReorder: true,
+        resizable: true,
+        maxWidth: 400,
+        renderCell: ({city}) => city,
+      },
+      {
+        key: 'URL',
+        renderCell: ({url}) => <PlaceLink href={url} />,
+        tdClassName: style.tdUrl,
+      },
+    ],
+    getKey,
+  },
+
+  render(args) {
+    const [data, setData] = useState(args.data);
+    const [columns, setColumns] = useState(args.columns);
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        getKey={args.getKey}
+        onSort={(columnIndex, sortOrder) =>
+          sortByColumn(args.data, columns, columnIndex, sortOrder, setData, setColumns)
+        }
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
+        onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
+        columnEditButton
+      />
+    );
+  },
+
+  parameters: {
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
+
+export const WithColumnResizeLongSticky: TableStory<Issue> = {
+  args: {
+    data: [],
+    columns: [
+      {
+        key: 'ID',
+        canReorder: true,
+        resizable: true,
+        renderCell: ({id}) => (
+          <Link href={`https://example.org/issue/${id}/`} target='_blank'>
+            {id}
+          </Link>
+        ),
+        indent: true,
+      },
+      {
+        key: 'Priority',
+        canReorder: true,
+        resizable: true,
+        renderCell: ({priority}) => <Tag tagType={priorityToTagType(priority)}>{priority}</Tag>,
+      },
+      {
+        key: 'Votes',
+        canReorder: true,
+        resizable: true,
+        renderCell: ({votes}) => votes,
+      },
+    ] satisfies Column<Issue>[],
+    getKey: ({id}) => id,
+  },
+
+  render(args) {
+    const [data] = useState(() => issuesLongData.slice(0, 1000));
+    const [columns, setColumns] = useState(args.columns);
+
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        getKey={args.getKey}
+        stickyHeader
+        virtualizeRows
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
+        onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
+        columnEditButton
+      />
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
+
 interface Build {
   id: number;
   branch: string;

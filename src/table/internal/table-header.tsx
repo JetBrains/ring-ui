@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import {type ComponentPropsWithRef, type Context, use, useCallback, useRef, useState} from 'react';
+import {type ComponentPropsWithRef, type Context, use, useCallback, useId, useRef, useState} from 'react';
 import classNames from 'classnames';
 import arrowDownIcon from '@jetbrains/icons/arrow-12px-down';
 import arrowUpIcon from '@jetbrains/icons/arrow-12px-up';
@@ -15,6 +15,7 @@ import {ReorderHandle} from './reorder-handle';
 import {ReorderAnimationContext} from './reorder-animation-context';
 import {ReorderLayoutContext, useReorderLayoutContextValue} from './reorder-layout-context';
 import {useReorderItemLayout} from '../reorder-item-layout';
+import {ColumnResizeHandle} from './column-resize/column-resize-handle';
 
 import styles from '../table.css';
 
@@ -93,12 +94,14 @@ function TableHeaderCell<T>({
   handleEditColumnsButtonClick: () => void;
 }) {
   const ref = useRef<HTMLTableCellElement>(null);
+  const labelId = useId();
 
   const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
-  const {key, name, renderHeader, sortOrder, deletable, canReorder, thClassName} = columns[columnIndex];
+  const column = columns[columnIndex];
+  const {key, name, renderHeader, sortOrder, deletable, canReorder, resizable, thClassName} = column;
 
   const {reorderAnimation} = use(ReorderAnimationContext);
-  const children = renderHeader ? renderHeader() : (name ?? String(key));
+  const children = <span id={labelId}>{renderHeader ? renderHeader() : (name ?? String(key))}</span>;
 
   useReorderItemLayout({
     index: columnIndex,
@@ -113,6 +116,7 @@ function TableHeaderCell<T>({
       ref={ref}
       className={classNames(
         styles.headerCell,
+        resizable && styles.resizableHeaderCell,
         reorderAnimation?.direction === 'columns' &&
           reorderAnimation.index === columnIndex &&
           reorderAnimation.className,
@@ -120,6 +124,8 @@ function TableHeaderCell<T>({
       )}
       scope='col'
       aria-sort={sortOrder}
+      // Excludes the header controls from the column name, which is read in every cell of the column
+      aria-labelledby={labelId}
     >
       <div className={styles.headerCellInnerWrapper}>
         <div className={styles.sortAndHeader}>
@@ -141,6 +147,7 @@ function TableHeaderCell<T>({
           )}
         </div>
       </div>
+      {resizable && <ColumnResizeHandle column={column} columnIndex={columnIndex} />}
     </th>
   );
 }
