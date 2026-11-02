@@ -1,7 +1,7 @@
 import {type ComponentPropsWithRef, type Context, type Key, use, useCallback, useRef} from 'react';
 import classNames from 'classnames';
 
-import {TablePropsContext} from './table-const';
+import {itemBeingReorderedAttribute, TablePropsContext} from './table-const';
 import {useComposedRef} from '../global/compose-refs';
 import {useItemVirtualization} from './item-virtualization';
 import {TableCell, TableRow} from './table-primitives';
@@ -96,6 +96,7 @@ export function DefaultItemRenderer<T>({
         isIntersecting === false &&
         !noItemVirtualization &&
         element?.isConnected &&
+        !element.hasAttribute(itemBeingReorderedAttribute) &&
         !element.contains(document.activeElement) &&
         !element.previousElementSibling?.contains(document.activeElement) &&
         !element.nextElementSibling?.contains(document.activeElement)

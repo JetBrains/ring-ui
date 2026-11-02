@@ -413,3 +413,56 @@ describe('Table basic scenarios', () => {
     expect(updatedClassName).to.not.equal(initialClassName);
   });
 });
+
+describe('Table drag auto scroll', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({toFake: ['requestAnimationFrame', 'cancelAnimationFrame']});
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  // jsdom has no layout, so the scroller is mocked as 400px wide, and the table as `tableRect`
+  function dragColumnNearScrollerEdge(tableRect: DOMRect) {
+    render(
+      <div data-test='scroller' style={{overflowX: 'auto'}}>
+        <Table data={countries} columns={baseColumns} getKey={getKey} />
+      </div>,
+    );
+
+    const scroller = screen.getByTestId('scroller');
+    Object.defineProperties(scroller, {scrollWidth: {value: 1000}, clientWidth: {value: 400}});
+    vi.spyOn(scroller, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, 0, 400, 300));
+    vi.spyOn(screen.getByRole('table'), 'getBoundingClientRect').mockReturnValue(tableRect);
+    scroller.scrollBy = vi.fn();
+
+    const handle = screen.getByRole('button', {name: 'Reorder column Country.'});
+    handle.setPointerCapture = vi.fn();
+    handle.releasePointerCapture = vi.fn();
+    // jsdom has no `PointerEvent` with coordinates, and React only checks the event type
+    const firePointer = (type: string, clientX: number) =>
+      fireEvent(handle, new MouseEvent(type, {bubbles: true, cancelable: true, clientX}));
+
+    firePointer('pointerdown', 100);
+    firePointer('pointermove', 390);
+    vi.advanceTimersToNextFrame();
+
+    return {scroller, drop: () => firePointer('pointerup', 390)};
+  }
+
+  it('scrolls while a column is dragged near the scroller edge, until the drop', () => {
+    const {scroller, drop} = dragColumnNearScrollerEdge(new DOMRect(-200, 0, 1000, 300));
+    // 10px from the edge
+    expect(scroller.scrollBy).toHaveBeenCalledWith({left: 15, behavior: 'instant'});
+
+    drop();
+    vi.advanceTimersToNextFrame();
+    expect(scroller.scrollBy).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not scroll once the table edge is visible', () => {
+    const {scroller} = dragColumnNearScrollerEdge(new DOMRect(-200, 0, 590, 300));
+    expect(scroller.scrollBy).not.toHaveBeenCalled();
+  });
+});

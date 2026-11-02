@@ -6,18 +6,20 @@ import {
   use,
   useEffect,
   useEffectEvent,
+  useLayoutEffect,
   useRef,
 } from 'react';
 import classNames from 'classnames';
 import dragIcon from '@jetbrains/icons/drag-12px';
 
 import {type TableProps} from '../table-props';
-import {TablePropsContext} from '../table-const';
+import {itemBeingReorderedAttribute, TablePropsContext} from '../table-const';
 import Icon from '../../icon';
 import {useComposedRef} from '../../global/compose-refs';
 import {parseCssDuration} from '../../global/parse-css-duration';
 import {ReorderAnimationContext} from './reorder-animation-context';
 import {type InsertionPoint, ReorderLayoutContext} from './reorder-layout-context';
+import {type DragAutoScroll, startDragAutoScroll} from './drag-auto-scroll';
 
 import type {DragState} from '../table-primitives';
 
@@ -40,15 +42,12 @@ interface ActiveDrag {
    * Height (columns) or width (items)
    */
   indicatorSize: string;
+  autoScroll: DragAutoScroll;
   cleanup: () => void;
 }
 
 const columnDragFrameAdjustmentPx = -1;
 const itemDragFrameAdjustmentPx = -2;
-
-const scrollAreaPx = 100;
-const scrollStepPx = 100;
-const scrollIntervalMs = 200;
 
 export function ReorderHandle<T>({
   direction,
@@ -200,6 +199,18 @@ export function ReorderHandle<T>({
     indicator.style[isColumn ? 'left' : 'top'] = itemOffset;
   }
 
+  function updateDragVisuals(clientX: number, clientY: number) {
+    translateButton(clientX, clientY);
+    const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
+    if (insertionPoint) renderInsertionIndicator(insertionPoint);
+  }
+
+  // Auto scroll calls it outside of React events, so it needs the latest props
+  const updateDragVisualsRef = useRef(updateDragVisuals);
+  useLayoutEffect(() => {
+    updateDragVisualsRef.current = updateDragVisuals;
+  });
+
   function cleanupDrag() {
     if (activeDragRef.current) {
       activeDragRef.current.cleanup();
@@ -260,19 +271,22 @@ export function ReorderHandle<T>({
 
   function handlePointerDown(e: PointerEvent<HTMLButtonElement>) {
     onPointerDown?.(e);
-    if (e.defaultPrevented) return;
+    // Ignores another pointer while dragging or animating the cancel
+    if (e.defaultPrevented || activeDragRef.current) return;
 
     const {clientX, clientY, pointerId, currentTarget} = e;
+    const table = currentTarget.closest('table');
+    if (!table) return;
 
     const {start: initialItemStart, end: initialItemEnd} = getItemBounds(index) ?? {start: 0, end: 0};
 
     let indicatorStart: number;
     let indicatorSize: string;
+    let itemRow: HTMLTableRowElement | undefined;
 
     if (isColumn) {
       const thead = currentTarget.closest('thead');
-      const table = thead?.closest('table');
-      if (!thead || !table) return;
+      if (!thead) return;
 
       const {top: headerTop} = thead.getBoundingClientRect();
       indicatorStart = headerTop;
@@ -292,6 +306,7 @@ export function ReorderHandle<T>({
       const visibleItemWidth = itemRight - itemLeft;
       const viewportRightRelativeToTableLeft = window.innerWidth - itemLeft;
       indicatorSize = `min(${visibleItemWidth}px, calc(${viewportRightRelativeToTableLeft}px - .5rem))`;
+      itemRow = tr;
     }
 
     function keydownListener(keyEvent: KeyboardEvent) {
@@ -306,6 +321,16 @@ export function ReorderHandle<T>({
     document.addEventListener('keydown', keydownListener);
     currentTarget.style.cursor = 'grabbing';
 
+    const autoScroll = startDragAutoScroll(
+      isColumn ? 'x' : 'y',
+      table,
+      // `scrollerRef` is the vertical virtualization container, which may not scroll horizontally
+      isColumn ? undefined : tableProps?.scrollerRef?.current,
+      (x, y) => updateDragVisualsRef.current(x, y),
+    );
+    // Otherwise, virtualization unmounts the item and ends the drag when auto scroll moves it out of view
+    itemRow?.setAttribute(itemBeingReorderedAttribute, '');
+
     activeDragRef.current = {
       state: 'is-dragging',
       startX: clientX,
@@ -314,7 +339,10 @@ export function ReorderHandle<T>({
       initialItemEnd,
       indicatorStart,
       indicatorSize,
+      autoScroll,
       cleanup: () => {
+        autoScroll.stop();
+        itemRow?.removeAttribute(itemBeingReorderedAttribute);
         currentTarget.releasePointerCapture(pointerId);
         document.removeEventListener('keydown', keydownListener);
         currentTarget.style.removeProperty('cursor');
@@ -327,20 +355,6 @@ export function ReorderHandle<T>({
     e.preventDefault();
   }
 
-  const scrollerRef = tableProps?.scrollerRef;
-
-  const lastScrolledRef = useRef<number>(0);
-
-  function scrollThrottled(scrollDirection: 'up' | 'down') {
-    const now = performance.now();
-    if (now > lastScrolledRef.current + scrollIntervalMs) {
-      lastScrolledRef.current = now;
-      const top = scrollDirection === 'up' ? -scrollStepPx : scrollStepPx;
-      const scroller = scrollerRef?.current ?? window;
-      scroller?.scrollBy({top, behavior: 'smooth'});
-    }
-  }
-
   function handlePointerMove(e: PointerEvent<HTMLButtonElement>) {
     onPointerMove?.(e);
     if (e.defaultPrevented) return;
@@ -350,23 +364,11 @@ export function ReorderHandle<T>({
 
     const {clientX, clientY} = e;
     renderDragFrame(clientX, clientY);
-    translateButton(clientX, clientY);
-
-    const insertionPoint = getClosestInsertionPointLocal(clientX, clientY);
-    if (insertionPoint) renderInsertionIndicator(insertionPoint);
+    updateDragVisuals(clientX, clientY);
 
     onUserDrag?.(isColumn ? clientX - drag.startX : clientY - drag.startY);
 
-    if (!isColumn) {
-      const scrollerRect = scrollerRef?.current?.getBoundingClientRect();
-      const scrollerTop = scrollerRect?.top ?? 0;
-      const scrollerBottom = scrollerRect ? Math.min(scrollerRect.bottom, window.innerHeight) : window.innerHeight;
-      if (clientY < scrollerTop + scrollAreaPx) {
-        scrollThrottled('up');
-      } else if (clientY > scrollerBottom - scrollAreaPx) {
-        scrollThrottled('down');
-      }
-    }
+    drag.autoScroll.update(clientX, clientY);
   }
 
   function handlePointerUp(e: PointerEvent<HTMLButtonElement>) {
