@@ -50,7 +50,40 @@ describe('Icon', () => {
       renderIcon({glyph});
 
       expect(trustedTypePolicy.createHTML).toHaveBeenCalledWith(glyph);
-      expect(trustedTypePolicy.createHTML).toHaveBeenCalledWith('<path d="M0 0"></path>');
+    } finally {
+      configure({trustedTypePolicy: null});
+    }
+  });
+
+  it('should call Trusted Types policy once per glyph', () => {
+    const glyph = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"><path d="M1 1"/></svg>';
+    const trustedTypePolicy = {
+      createHTML: vi.fn((html: string) => html),
+    };
+
+    configure({trustedTypePolicy});
+
+    try {
+      const {rerender} = render(
+        <>
+          <Icon glyph={glyph} />
+          <Icon glyph={glyph} width={14} suppressSizeWarning />
+        </>,
+      );
+      // A new width reaches IconSVG through style, so it re-renders past memo
+      rerender(
+        <>
+          <Icon glyph={glyph} />
+          <Icon glyph={glyph} width={16} suppressSizeWarning />
+        </>,
+      );
+
+      expect(trustedTypePolicy.createHTML).toHaveBeenCalledTimes(1);
+      const svgs = screen.getAllByTestId('ring-icon').map(icon => icon.querySelector('svg')!);
+      expect(svgs[1].style.width).to.equal('16px');
+      svgs.forEach(svg => {
+        expect(svg.innerHTML).to.equal('<path d="M1 1"></path>');
+      });
     } finally {
       configure({trustedTypePolicy: null});
     }
