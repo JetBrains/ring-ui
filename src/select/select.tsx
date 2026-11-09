@@ -953,6 +953,10 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
   };
 
   _listSelectHandler = (selected: SelectItem<T>, event?: Event, opts: SelectHandlerParams = {}) => {
+    if (this.props.disabled) {
+      return;
+    }
+
     const isItem = (item: SelectItem<T>) => List.isItemType(List.ListProps.Type.ITEM, item);
     const isCustomItem = (item: SelectItem<T>) => List.isItemType(List.ListProps.Type.CUSTOM, item);
     const isSelectItemEvent = event && (event.type === 'select' || event.type === 'keydown');

@@ -76,6 +76,23 @@ describe('Select', () => {
     expect(screen.getByRole('row', {selected: true})).to.have.text('test3');
   });
 
+  it('ignores selection after the open Select becomes disabled', async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    const props = {...defaultProps(), onSelect};
+    const {rerender} = render(<Select {...props} />);
+    const button = screen.getByRole('combobox', {name: 'first1'});
+    await user.click(button);
+
+    rerender(<Select {...props} disabled />);
+    expect(button).to.have.attribute('disabled');
+    await user.click(screen.getByRole('button', {name: 'test2'}));
+
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(props.onChange).not.toHaveBeenCalled();
+    expect(screen.getByRole('combobox', {name: 'first1'})).to.exist;
+  });
+
   it('should update rendered data if props change', async () => {
     const {rerender} = renderSelect();
     rerender(<Select {...defaultProps()} data={[testData[0]]} />);
