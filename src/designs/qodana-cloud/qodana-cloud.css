@@ -1,0 +1,81 @@
+@import '../../global/variables.css';
+
+.qodanaPage {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: calc(var(--ring-unit) * 4);
+  background-color: var(--ring-content-background-color);
+}
+
+.qodanaPageHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--ring-unit) * 2);
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: calc(var(--ring-unit) * 3);
+}
+
+.qodanaPageHeaderMain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ring-unit);
+  min-width: 0;
+}
+
+.qodanaPageTitleRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ring-unit);
+  align-items: center;
+}
+
+.qodanaSearchRow {
+  margin-bottom: calc(var(--ring-unit) * 2);
+}
+
+.qodanaBannerRow {
+  margin-bottom: calc(var(--ring-unit) * 3);
+}
+
+.qodanaBannerActions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--ring-unit);
+  align-items: center;
+}
+
+.qodanaTeamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: calc(var(--ring-unit) * 2);
+}
+
+.qodanaTeamCard {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ring-unit) * 1.5);
+  padding: calc(var(--ring-unit) * 2);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.qodanaTeamCard:hover {
+  border-color: var(--ring-border-hover-color);
+}
+
+.qodanaTeamCardTitle {
+  margin: 0;
+}
+
+.qodanaWelcome {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ring-unit) * 2);
+  max-width: 720px;
+}
+
+.qodanaWelcomeList {
+  margin: 0;
+  padding-left: calc(var(--ring-unit) * 3);
+}
