@@ -8,6 +8,7 @@
   },
   "include": ["src", "typings.d.ts"],
   "exclude": [
+    "src/designs/**",
     "src/**/*.stories.ts",
     "src/**/*.stories.tsx",
     "src/**/*.test.ts",
