@@ -1,6 +1,5 @@
 import {Component, type Ref, type HTMLAttributes} from 'react';
 import classNames from 'classnames';
-import createResizeDetector from 'element-resize-detector';
 
 import scheduleRAF from '../global/schedule-raf';
 import {ScrollHandlerContext} from './adaptive-island-hoc';
@@ -9,7 +8,7 @@ import styles from './island.css';
 
 const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
-const END_DISTANCE = 16;
+const END_DISTANCE = 1;
 
 export interface IslandContentProps extends Omit<HTMLAttributes<HTMLElement>, 'onScroll'> {
   ref?: Ref<Content>;
@@ -39,21 +38,21 @@ class Content extends Component<IslandContentInnerProps> {
 
   componentWillUnmount() {
     this.scrollableNode = null;
-    if (!this.wrapperNode) {
-      return;
-    }
-    this.resizeDetector.removeAllListeners(this.wrapperNode);
+    this.wrapperResizeObserver?.disconnect();
   }
 
-  resizeDetector = createResizeDetector({strategy: 'scroll'});
-
-  wrapperNode?: HTMLElement | null;
+  // element-resize-detector never reports the hidden-to-visible transition of a native dialog
+  // in WebKit, so recalculation has to rely on ResizeObserver instead.
+  wrapperResizeObserver?: ResizeObserver;
   setWrapper = (node: HTMLElement | null) => {
     if (!node) {
       return;
     }
-    this.wrapperNode = node;
-    this.resizeDetector.listenTo(node, this.calculateScrollPosition);
+    this.wrapperResizeObserver?.disconnect();
+    this.wrapperResizeObserver = new ResizeObserver(() => {
+      this.calculateScrollPosition();
+    });
+    this.wrapperResizeObserver.observe(node);
   };
 
   calculateScrollPosition = () =>
