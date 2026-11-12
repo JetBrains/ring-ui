@@ -218,6 +218,25 @@ describe('Query Assist', () => {
       expect(props.dataSource).toHaveBeenCalledOnce;
     });
 
+    it.each([100, null, undefined])('should cancel pending requests on unmount with delay %s', async delay => {
+      const props = {...defaultProps(), delay: 100};
+      const {rerender, unmount} = render(<QueryAssist {...props} />);
+      await waitForSetStateCallbacks();
+      props.dataSource.mockClear();
+
+      vi.useFakeTimers();
+      try {
+        await act(() => simulateCombo('ctrl+space'));
+        rerender(<QueryAssist {...props} delay={delay} />);
+        unmount();
+        await act(() => vi.runAllTimersAsync());
+
+        expect(props.dataSource).not.toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
     it('should create popup when autoOpen', async () => {
       await new Promise<void>(resolve => {
         renderQueryAssist({
