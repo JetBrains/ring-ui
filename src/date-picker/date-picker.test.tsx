@@ -63,6 +63,25 @@ describe('Date Picker', () => {
     expect(screen.getByTestId('ring-date-popup')).to.exist;
   });
 
+  it('closes an open popup when disabled', async () => {
+    const onChange = vi.fn();
+    const date = new Date(2026, 10, 12);
+    const {rerender} = render(<DatePicker date={date} onChange={onChange} />);
+    const toggle = () => screen.getByRole('button', {name: '12 Nov 2026'});
+
+    await userEvent.click(toggle());
+    expect(screen.getByTestId('ring-date-popup')).to.exist;
+
+    rerender(<DatePicker date={date} onChange={onChange} disabled />);
+    expect(screen.queryByTestId('ring-date-popup')).to.equal(null);
+    expect(onChange).not.toHaveBeenCalled();
+
+    rerender(<DatePicker date={date} onChange={onChange} />);
+    expect(screen.queryByTestId('ring-date-popup')).to.equal(null);
+    await userEvent.click(toggle());
+    expect(screen.getByTestId('ring-date-popup')).to.exist;
+  });
+
   it('should use a fully translatable placeholder for a single date', async () => {
     render(<DatePicker />);
     await userEvent.click(screen.getByRole('button'));
