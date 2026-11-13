@@ -1,4 +1,4 @@
-import {fireEvent, render, screen} from '@testing-library/react';
+import {act, fireEvent, render, screen} from '@testing-library/react';
 
 import Island, {AdaptiveIsland, Content, Header, type IslandProps} from './island';
 
@@ -54,6 +54,61 @@ describe('Island', () => {
       });
       fireEvent.scroll(scrollableContainer);
       expect(headerNode.style.lineHeight).to.equal('24px');
+    });
+  });
+
+  describe('Content', () => {
+    it('recalculates the fade after hidden content becomes visible and keeps the callback tolerance', () => {
+      let onResize: () => void = () => {};
+      const observe = vi.fn();
+      const disconnect = vi.fn();
+      vi.stubGlobal(
+        'ResizeObserver',
+        class {
+          constructor(callback: () => void) {
+            onResize = callback;
+          }
+
+          observe = observe;
+          disconnect = disconnect;
+        },
+      );
+      const frames: FrameRequestCallback[] = [];
+      vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => frames.push(callback));
+      const flushFrame = () => {
+        const callback = frames.shift();
+        expect(callback).to.be.a('function');
+        act(() => callback!(0));
+      };
+      const onScrollToBottom = vi.fn();
+      const {unmount} = render(<Content onScrollToBottom={onScrollToBottom}>{'Content'}</Content>);
+      const content = screen.getByTestId('ring-island-content');
+      const scrollable = content.firstElementChild as HTMLElement;
+      expect(observe).toHaveBeenCalledWith(scrollable.firstElementChild);
+      flushFrame();
+      expect(content).not.to.have.class('contentWithBottomFade');
+      onScrollToBottom.mockClear();
+
+      Object.defineProperties(scrollable, {
+        offsetHeight: {value: 100},
+        scrollHeight: {value: 114},
+      });
+      onResize();
+      flushFrame();
+      expect(content).to.have.class('contentWithBottomFade');
+      expect(onScrollToBottom).toHaveBeenCalledOnce();
+
+      scrollable.scrollTop = 12.5;
+      fireEvent.scroll(scrollable);
+      flushFrame();
+      expect(content).to.have.class('contentWithBottomFade');
+
+      scrollable.scrollTop = 13;
+      fireEvent.scroll(scrollable);
+      flushFrame();
+      expect(content).not.to.have.class('contentWithBottomFade');
+      unmount();
+      expect(disconnect).toHaveBeenCalled();
     });
   });
 

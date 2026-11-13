@@ -8,7 +8,8 @@ import styles from './island.css';
 
 const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
-const END_DISTANCE = 1;
+const END_DISTANCE = 16;
+const FADE_END_DISTANCE = 1;
 
 export interface IslandContentProps extends Omit<HTMLAttributes<HTMLElement>, 'onScroll'> {
   ref?: Ref<Content>;
@@ -41,8 +42,6 @@ class Content extends Component<IslandContentInnerProps> {
     this.wrapperResizeObserver?.disconnect();
   }
 
-  // element-resize-detector never reports the hidden-to-visible transition of a native dialog
-  // in WebKit, so recalculation has to rely on ResizeObserver instead.
   wrapperResizeObserver?: ResizeObserver;
   setWrapper = (node: HTMLElement | null) => {
     if (!node) {
@@ -64,9 +63,9 @@ class Content extends Component<IslandContentInnerProps> {
       this.props.onScroll(scrollableNode);
       const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
       const scrolledToTop = scrollTop === 0;
-      const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - END_DISTANCE;
+      const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - FADE_END_DISTANCE;
 
-      if (scrolledToBottom) {
+      if (offsetHeight + scrollTop >= scrollHeight - END_DISTANCE) {
         this.props.onScrollToBottom?.();
       }
 
