@@ -65,7 +65,7 @@ class Content extends Component<IslandContentInnerProps> {
       const scrolledToTop = scrollTop === 0;
       const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - FADE_END_DISTANCE;
 
-      if (offsetHeight + scrollTop >= scrollHeight - END_DISTANCE) {
+      if (offsetHeight > 0 && offsetHeight + scrollTop >= scrollHeight - END_DISTANCE) {
         this.props.onScrollToBottom?.();
       }
 
