@@ -17,11 +17,7 @@
   background: var(--ring-content-background-color);
 }
 
-.hovered {
-  box-shadow: var(--ring-popup-shadow);
-}
-
-.expanded {
+.expand:hover {
   box-shadow: var(--ring-popup-shadow);
 }
 
