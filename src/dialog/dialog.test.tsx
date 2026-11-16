@@ -345,4 +345,37 @@ describe('Dialog', () => {
 
     expect(escSpy).toHaveBeenCalled();
   });
+
+  it('should mount the focus trap inside a native dialog that requests it', () => {
+    render(<Dialog show trapFocus />);
+    const dialog = screen.getByTestId('ring-dialog-container');
+
+    expect(dialog.querySelectorAll('[data-trap-button]')).toHaveLength(2);
+  });
+
+  it('should keep a native dialog without a requested trap free of trap buttons', () => {
+    render(<Dialog show />);
+    const dialog = screen.getByTestId('ring-dialog-container');
+
+    expect(dialog.querySelectorAll('[data-trap-button]')).toHaveLength(0);
+  });
+
+  it('should restore focus to the trigger when a trapped native dialog unmounts', () => {
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    document.body.append(trigger);
+    trigger.focus();
+
+    const {unmount} = render(
+      <Dialog show trapFocus>
+        <button type='button'>{'Inside'}</button>
+      </Dialog>,
+    );
+
+    expect(document.activeElement).to.have.text('Inside');
+    unmount();
+
+    expect(document.activeElement).toBe(trigger);
+    trigger.remove();
+  });
 });
