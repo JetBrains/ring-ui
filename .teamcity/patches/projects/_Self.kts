@@ -20,7 +20,7 @@ changeProject(DslContext.projectId) {
         update {
             param("vcs.branch.spec", """
                 +:refs/heads/*
-                +:refs/(pull/*)
+                +:refs/(pull/*)/head
             """.trimIndent())
         }
     }
