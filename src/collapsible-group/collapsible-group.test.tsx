@@ -7,6 +7,7 @@ import {COLLAPSE_CONTENT_CONTAINER_TEST_ID} from '../collapse/consts';
 import CollapsibleGroup from './collapsible-group';
 
 import collapseStyles from '../collapse/collapse.css';
+import styles from './collapsible-group.css';
 
 const bodyText = 'Body content';
 
@@ -83,6 +84,24 @@ describe('<CollapsibleGroup />', () => {
     await userEvent.click(screen.getByText('Title'));
 
     expect(onChangeCalls).toHaveLength(0);
+  });
+
+  it('should keep hover styles scoped to the interactive header', async () => {
+    render(
+      <CollapsibleGroup title={'Title'} defaultExpanded data-test='expand'>
+        <button type='button'>{'Action'}</button>
+      </CollapsibleGroup>,
+    );
+
+    const root = document.querySelector('[data-test="expand"]') as HTMLDivElement;
+    const header = screen.getByRole('button', {name: 'Title'});
+    expect(root.className).not.toContain(styles.hovered);
+
+    await userEvent.hover(header);
+    expect(root.className).toContain(styles.hovered);
+
+    await userEvent.unhover(header);
+    expect(root.className).not.toContain(styles.hovered);
   });
 
   it('should preserve child state across a collapse cycle when keepMounted is set', async () => {
