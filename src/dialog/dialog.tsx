@@ -350,7 +350,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
             {target =>
-trapEnabled && show ? (
+              trapEnabled && show ? (
                 <TabTrap
                   trapDisabled={false}
                   autoFocusFirst={autoFocusFirst}

@@ -360,6 +360,17 @@ describe('Dialog', () => {
     expect(dialog.querySelectorAll('[data-trap-button]')).toHaveLength(0);
   });
 
+  it('should not mount the focus trap while a native dialog is hidden', () => {
+    render(<Dialog show={false} trapFocus />);
+    const dialog = screen.getByTestId('ring-dialog-container');
+
+    expect(dialog.querySelectorAll('[data-trap-button]')).toHaveLength(0);
+  });
+
+  it('should server-render a hidden native dialog with a requested trap without the trap', () => {
+    expect(renderToStaticMarkup(<Dialog show={false} trapFocus />)).not.toContain('data-trap-button');
+  });
+
   it('should restore focus to the trigger when a trapped native dialog unmounts', () => {
     const trigger = document.createElement('button');
     trigger.type = 'button';
