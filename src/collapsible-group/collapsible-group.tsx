@@ -1,4 +1,4 @@
-import React, {use, useState} from 'react';
+import React, {use} from 'react';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-12px-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-12px-down';
@@ -112,31 +112,15 @@ const CollapsibleGroup = ({
   headingLevel,
   'data-test': dataTest,
 }: CollapsibleGroupProps) => {
-  const [innerExpanded, setInnerExpanded] = useState(defaultExpanded);
-  const [hovered, setHovered] = useState(false);
-  const isExpanded = expanded ?? innerExpanded;
-
   const handleChange = (collapsed: boolean) => {
     const nextExpanded = !collapsed;
-    if (expanded == null) {
-      setInnerExpanded(nextExpanded);
-    }
     onChange(nextExpanded);
   };
 
-  const classes = classNames(styles.expand, className, {
-    [styles.hovered]: hovered,
-    [styles.expanded]: isExpanded,
-  });
+  const classes = classNames(styles.expand, className);
 
   const header = interactive ? (
-    <CollapsibleGroupHeader
-      avatar={avatar}
-      titleContent={title}
-      subtitle={subtitle}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    />
+    <CollapsibleGroupHeader avatar={avatar} titleContent={title} subtitle={subtitle} />
   ) : (
     <CollapsibleGroupHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />
   );
