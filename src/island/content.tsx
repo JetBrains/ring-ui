@@ -8,7 +8,9 @@ import styles from './island.css';
 
 const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
-const END_DISTANCE = 16;
+// `onScrollToBottom` keeps the legacy 16px allowance so callbacks still fire when subpixel rounding or
+// zoom leaves a small gap, while the visual fade hides only at the exact bottom edge.
+const CALLBACK_END_DISTANCE = 16;
 const FADE_END_DISTANCE = 1;
 
 export interface IslandContentProps extends Omit<HTMLAttributes<HTMLElement>, 'onScroll'> {
@@ -64,8 +66,9 @@ class Content extends Component<IslandContentInnerProps> {
       const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
       const scrolledToTop = scrollTop === 0;
       const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - FADE_END_DISTANCE;
+      const isNearBottom = offsetHeight > 0 && offsetHeight + scrollTop >= scrollHeight - CALLBACK_END_DISTANCE;
 
-      if (offsetHeight > 0 && offsetHeight + scrollTop >= scrollHeight - END_DISTANCE) {
+      if (isNearBottom) {
         this.props.onScrollToBottom?.();
       }
 
