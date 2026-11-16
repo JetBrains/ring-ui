@@ -36,7 +36,7 @@ class Content extends Component<IslandContentInnerProps> {
 
   state = {
     scrolledToTop: true,
-    scrolledToBottom: false,
+    showBottomFade: false,
   };
 
   componentWillUnmount() {
@@ -65,14 +65,14 @@ class Content extends Component<IslandContentInnerProps> {
       this.props.onScroll(scrollableNode);
       const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
       const scrolledToTop = scrollTop === 0;
-      const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - FADE_END_DISTANCE;
+      const showBottomFade = offsetHeight + scrollTop >= scrollHeight - FADE_END_DISTANCE;
       const isNearBottom = offsetHeight > 0 && offsetHeight + scrollTop >= scrollHeight - CALLBACK_END_DISTANCE;
 
       if (isNearBottom) {
         this.props.onScrollToBottom?.();
       }
 
-      this.setState({scrolledToTop, scrolledToBottom});
+      this.setState({scrolledToTop, showBottomFade});
     });
 
   scrollableNode?: HTMLElement | null;
@@ -97,13 +97,13 @@ class Content extends Component<IslandContentInnerProps> {
       tabIndex,
       ...restProps
     } = this.props;
-    const {scrolledToTop, scrolledToBottom} = this.state;
+    const {scrolledToTop, showBottomFade} = this.state;
 
     const classes = classNames(styles.content, className, {
       [styles.contentWithTopFade]: fade && !scrolledToTop,
-      [styles.contentWithBottomFade]: fade && !scrolledToBottom,
+      [styles.contentWithBottomFade]: fade && !showBottomFade,
       [styles.withTransparentBottomBorder]: bottomBorder,
-      [styles.withBottomBorder]: bottomBorder && !scrolledToBottom,
+      [styles.withBottomBorder]: bottomBorder && !showBottomFade,
     });
 
     const scrollableWrapperClasses = classNames(styles.scrollableWrapper, scrollableWrapperClassName);
