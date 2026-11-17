@@ -43,7 +43,8 @@ const getSVGFromSource = memoize((src: string) => {
   }
   return {
     props: extractSVGProps(svg),
-    html: svg.innerHTML,
+    // The parsed nodes are shared across all instances, so clone them (moving them would empty the cache).
+    injectSVGContent: (node: SVGSVGElement | null) => node?.replaceChildren(...svg.cloneNode(true).childNodes),
   };
 });
 
@@ -66,18 +67,9 @@ function IconSVG({src, className, ...rest}: IconSVGProps) {
     className,
   );
 
-  const {props, html} = getSVGFromSource(src);
+  const {props, injectSVGContent} = getSVGFromSource(src);
 
-  return (
-    <svg
-      {...props}
-      {...rest}
-      className={glyphClasses}
-      dangerouslySetInnerHTML={{
-        __html: getTrustedHTML(html),
-      }}
-    />
-  );
+  return <svg {...props} {...rest} ref={injectSVGContent} className={glyphClasses} />;
 }
 
 export default memo(IconSVG);

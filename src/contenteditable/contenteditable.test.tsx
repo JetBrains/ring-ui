@@ -18,7 +18,7 @@ describe('ContentEditable', () => {
     expect(screen.getByRole('textbox')).to.have.class('test');
   });
 
-  it('should dangerously set html', () => {
+  it('should render children', () => {
     render(
       <ContentEditable>
         <b>{'bold'}</b>
@@ -27,7 +27,7 @@ describe('ContentEditable', () => {
     expect(screen.getByText('bold')).to.have.tagName('b');
   });
 
-  it('should apply configured Trusted Types policy to html', () => {
+  it('should not use Trusted Types policy', () => {
     const trustedTypePolicy = {
       createHTML: vi.fn((html: string) => html),
     };
@@ -41,7 +41,8 @@ describe('ContentEditable', () => {
         </ContentEditable>,
       );
 
-      expect(trustedTypePolicy.createHTML).toHaveBeenCalledWith('<b>bold</b>');
+      expect(screen.getByText('bold')).to.have.tagName('b');
+      expect(trustedTypePolicy.createHTML).not.toHaveBeenCalled();
     } finally {
       configure({trustedTypePolicy: null});
     }
@@ -57,6 +58,21 @@ describe('ContentEditable', () => {
     );
 
     expect(stub).toHaveBeenCalledTimes(2);
+  });
+
+  it('should pass previous html to onComponentUpdate', () => {
+    const {rerender} = render(
+      <ContentEditable onComponentUpdate={stub}>
+        <b>{'old'}</b>
+      </ContentEditable>,
+    );
+    rerender(
+      <ContentEditable onComponentUpdate={stub}>
+        <b>{'new'}</b>
+      </ContentEditable>,
+    );
+
+    expect(stub).toHaveBeenCalledWith(expect.objectContaining({__html: '<b>old</b>'}));
   });
 
   it('should not render on other props change', () => {
