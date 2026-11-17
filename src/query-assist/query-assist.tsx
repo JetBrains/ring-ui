@@ -347,10 +347,14 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     }
   }
 
+  componentWillUnmount() {
+    this.requestData?.cancel?.();
+  }
+
   static ngModelStateField = ngModelStateField;
 
   immediateState: QueryAssistChange;
-  requestData?: (afterCompletion?: boolean) => void;
+  requestData?: ((afterCompletion?: boolean) => void) & {cancel?: () => void};
   ngModelStateField = ngModelStateField;
   undoHistoryStack: HistoryEntry[] = [];
   redoHistoryStack: HistoryEntry[] = [];
@@ -868,6 +872,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
     const hasDelay = this.requestData !== this.requestHandler;
 
     if (!this.requestData || hasDelay !== needDelay) {
+      this.requestData?.cancel?.();
       if (needDelay) {
         this.requestData = debounce(this.requestHandler, delay);
       } else {
