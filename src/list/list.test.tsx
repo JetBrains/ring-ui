@@ -1,4 +1,5 @@
 import {act, createElement} from 'react';
+import {createPortal} from 'react-dom';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -279,6 +280,62 @@ describe('List', () => {
       const user = userEvent.setup();
       await user.click(firstItem);
       expect(onClick).toHaveBeenCalled();
+    });
+
+    describe('custom element with portaled content', () => {
+      const renderCustomItem = (useMouseUp = false) => {
+        const onClick = vi.fn();
+        const onMouseUp = vi.fn();
+        const onSelect = vi.fn();
+        renderList({
+          useMouseUp,
+          onSelect,
+          data: [
+            {
+              key: 1,
+              rgItemType: List.ListProps.Type.CUSTOM,
+              onClick,
+              onMouseUp,
+              template: (
+                <span>
+                  <span>{'inline text'}</span>
+                  <button type='button'>{'inline button'}</button>
+                  {createPortal(<button type='button'>{'portal button'}</button>, document.body)}
+                </span>
+              ),
+            },
+          ],
+        });
+        return {onClick, onMouseUp, onSelect};
+      };
+
+      it.each(['inline text', 'inline button'])('should select item on click on %s', async text => {
+        const {onClick, onSelect} = renderCustomItem();
+        await userEvent.setup().click(screen.getByText(text));
+        expect(onClick, 'item onClick').toHaveBeenCalled();
+        expect(onSelect, 'list onSelect').toHaveBeenCalled();
+      });
+
+      it('should not select item on click inside a portal rendered by the template', async () => {
+        const {onClick, onSelect} = renderCustomItem();
+        await userEvent.setup().click(screen.getByText('portal button'));
+        expect(onClick, 'item onClick').not.toHaveBeenCalled();
+        expect(onSelect, 'list onSelect').not.toHaveBeenCalled();
+      });
+
+      it('should select item on mouseup on inline content in useMouseUp mode', async () => {
+        const {onMouseUp, onSelect} = renderCustomItem(true);
+        await userEvent.setup().click(screen.getByText('inline text'));
+        expect(onMouseUp, 'item onMouseUp').toHaveBeenCalled();
+        expect(onSelect, 'list onSelect').toHaveBeenCalled();
+      });
+
+      it('should not select item on mouseup inside a portal in useMouseUp mode', async () => {
+        const {onMouseUp, onSelect} = renderCustomItem(true);
+        await userEvent.setup().click(screen.getByText('portal button'));
+        expect(onMouseUp, 'item onMouseUp').not.toHaveBeenCalled();
+        expect(onSelect, 'list onSelect').not.toHaveBeenCalled();
+      });
     });
 
     it('Should support disable property for custom elements', () => {

@@ -6,6 +6,12 @@ import getEventKey from '../global/get-event-key';
 import {type ListDataItemProps} from './consts';
 import {getListClasses} from './list.classes';
 
+// Events from portals rendered by the template (e.g. a nested Dropdown) bubble through the React tree
+// but originate outside the item's DOM, so they must not activate the item
+function isFromPortal(event: React.SyntheticEvent) {
+  return !event.currentTarget.contains(event.target as Node);
+}
+
 export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
   handleKeyPress = (event: React.KeyboardEvent) => {
     const key = getEventKey(event);
@@ -14,8 +20,25 @@ export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
     }
   };
 
+  handleClick = (event: React.MouseEvent) => {
+    if (isFromPortal(event)) {
+      return;
+    }
+
+    // In useMouseUp mode List doesn't pass onClick
+    this.props.onClick?.(event);
+  };
+
+  handleMouseUp = (event: React.MouseEvent) => {
+    if (isFromPortal(event)) {
+      return;
+    }
+
+    this.props.onMouseUp?.(event);
+  };
+
   render() {
-    const {disabled, template, tabIndex, onClick, onMouseOver, onMouseUp, role, tagName} = this.props;
+    const {disabled, template, tabIndex, onMouseOver, role, tagName} = this.props;
     const classes = getListClasses(this.props);
 
     const dataTest = dataTests(
@@ -34,11 +57,11 @@ export default class ListCustom<T> extends PureComponent<ListDataItemProps<T>> {
         role={role || 'button'}
         aria-disabled={disabled}
         tabIndex={tabIndex}
-        onClick={onClick}
+        onClick={this.handleClick}
         onKeyPress={this.handleKeyPress}
         onMouseOver={onMouseOver}
         onFocus={onMouseOver}
-        onMouseUp={onMouseUp}
+        onMouseUp={this.handleMouseUp}
         className={classes}
         data-test={dataTest}
       >
