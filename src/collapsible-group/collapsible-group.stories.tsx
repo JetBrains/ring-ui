@@ -116,3 +116,20 @@ export const KeepMountedWithHeading = () => (
 );
 
 KeepMountedWithHeading.storyName = 'Keep mounted, heading semantics';
+
+export const ExpandedShadow = () => (
+  <div className={styles.row}>
+    <CollapsibleGroup
+      className={styles.card}
+      title={'Deployments'}
+      subtitle={'Additional context'}
+      avatar={<Avatar size={AvatarSize.Size28} round info={<Icon glyph={buildTypeIcon} />} />}
+      defaultExpanded
+      expandedShadow
+    >
+      <div className={styles.bodyText}>{bodyText}</div>
+    </CollapsibleGroup>
+  </div>
+);
+
+ExpandedShadow.storyName = 'Expanded shadow';

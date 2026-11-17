@@ -1,4 +1,4 @@
-import React, {use} from 'react';
+import React, {use, useState} from 'react';
 import classNames from 'classnames';
 import chevronRightIcon from '@jetbrains/icons/chevron-12px-right';
 import chevronDownIcon from '@jetbrains/icons/chevron-12px-down';
@@ -37,6 +37,7 @@ export interface CollapsibleGroupProps {
   // eslint-disable-next-line no-magic-numbers
   headingLevel?: 2 | 3 | 4 | 5 | 6;
   'data-test'?: string | null | undefined;
+  expandedShadow?: boolean;
 }
 
 interface CollapsibleGroupHeaderContentProps {
@@ -111,13 +112,22 @@ const CollapsibleGroup = ({
   keepMounted = false,
   headingLevel,
   'data-test': dataTest,
+  expandedShadow,
 }: CollapsibleGroupProps) => {
+  const [innerExpanded, setInnerExpanded] = useState(defaultExpanded);
+  const isExpanded = expanded ?? innerExpanded;
+
   const handleChange = (collapsed: boolean) => {
     const nextExpanded = !collapsed;
+    if (expanded == null) {
+      setInnerExpanded(nextExpanded);
+    }
     onChange(nextExpanded);
   };
 
-  const classes = classNames(styles.expand, className);
+  const classes = classNames(styles.expand, className, {
+    [styles.expandedShadow]: expandedShadow && isExpanded,
+  });
 
   const header = interactive ? (
     <CollapsibleGroupHeader avatar={avatar} titleContent={title} subtitle={subtitle} />
