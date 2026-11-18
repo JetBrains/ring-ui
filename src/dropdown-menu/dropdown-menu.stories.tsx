@@ -218,7 +218,14 @@ const NestedMenuWithSearch = () => {
       rgItemType: DropdownMenu.ListProps.Type.CUSTOM,
       key: 'move-to',
       template: (
-        <Dropdown className='nested-menu-button' anchor={anchor} hoverMode hoverShowTimeOut={50} hoverHideTimeOut={100}>
+        <Dropdown
+          className='nested-menu-button'
+          anchor={anchor}
+          hoverMode
+          hoverShowTimeOut={50}
+          hoverHideTimeOut={100}
+          onClick={e => e.stopPropagation()}
+        >
           <SelectPopup
             data={teams}
             filter
@@ -250,7 +257,7 @@ nestedWithSearch.storyName = 'DropdownMenu nested with search';
 
 nestedWithSearch.parameters = {
   notes:
-    'A searchable nested menu: hover "Move to...", type "My team" (with a space) into the filter, pick a team with Enter, or click a team. The outer menu should stay open.',
+    'A searchable nested menu: hover "Move to...", type "My team" (with a space) into the filter, or pick a team with Enter. The outer menu should stay open while typing.',
   screenshots: {skip: true},
   storyStyles: nested.parameters.storyStyles,
 };

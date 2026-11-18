@@ -1,6 +1,6 @@
-import {act, createElement} from 'react';
-import {createPortal} from 'react-dom';
+import {act, createElement, type ReactNode} from 'react';
 import checkmarkIcon from '@jetbrains/icons/checkmark';
+import {createPortal} from 'react-dom';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import VirtualizedList from 'react-virtualized/dist/es/List';
@@ -280,6 +280,57 @@ describe('List', () => {
       const user = userEvent.setup();
       await user.click(firstItem);
       expect(onClick).toHaveBeenCalled();
+    });
+
+    describe('keyboard activation of custom elements', () => {
+      const renderCustomItem = (template: ReactNode) => {
+        const onClick = vi.fn();
+        const onSelect = vi.fn();
+        renderList({
+          data: [{template, key: 1, rgItemType: List.ListProps.Type.CUSTOM, onClick}],
+          onSelect,
+        });
+        return {onClick, onSelect};
+      };
+
+      it.each(['{Enter}', ' '])('should activate a focused custom element on %j keypress', async key => {
+        const {onClick, onSelect} = renderCustomItem(createElement('span', {}, 'custom item'));
+        act(() => screen.getByRole('button').focus());
+
+        await userEvent.setup().keyboard(key);
+
+        expect(onClick).toHaveBeenCalledTimes(1);
+        expect(onSelect).toHaveBeenCalledTimes(1);
+      });
+
+      it.each(['{Enter}', ' '])(
+        'should not activate a custom element on %j typed into an input inside its template',
+        async key => {
+          const {onClick, onSelect} = renderCustomItem(createElement('input', {'aria-label': 'nested'}));
+          const input = screen.getByRole('textbox', {name: 'nested'});
+
+          act(() => input.focus());
+          await userEvent.setup().type(input, `a${key}b`, {skipClick: true});
+
+          expect(onClick).not.toHaveBeenCalled();
+          expect(onSelect).not.toHaveBeenCalled();
+          expect(input).to.have.value(key === ' ' ? 'a b' : 'ab');
+        },
+      );
+
+      it('should not activate a custom element on space typed into an input portaled out of its template', async () => {
+        const {onClick, onSelect} = renderCustomItem(
+          createPortal(createElement('input', {'aria-label': 'portaled'}), document.body),
+        );
+        const input = screen.getByRole('textbox', {name: 'portaled'});
+
+        act(() => input.focus());
+        await userEvent.setup().type(input, 'a b', {skipClick: true});
+
+        expect(onClick).not.toHaveBeenCalled();
+        expect(onSelect).not.toHaveBeenCalled();
+        expect(input).to.have.value('a b');
+      });
     });
 
     describe('custom element with portaled content', () => {
