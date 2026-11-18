@@ -330,6 +330,9 @@ describe('List', () => {
         expect(onClick).not.toHaveBeenCalled();
         expect(onSelect).not.toHaveBeenCalled();
         expect(input).to.have.value('a b');
+      });
+    });
+
     describe('custom element with portaled content', () => {
       const renderCustomItem = (useMouseUp = false) => {
         const onClick = vi.fn();
