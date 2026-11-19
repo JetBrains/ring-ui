@@ -17,16 +17,21 @@
   background: var(--ring-content-background-color);
 }
 
-.hovered {
-  box-shadow: var(--ring-popup-shadow);
-}
-
-.expanded {
-  box-shadow: var(--ring-popup-shadow);
+.expand:hover {
+  border-color: var(--ring-border-hover-color);
 }
 
 .expand:has(.headerButton:focus-visible) {
-  box-shadow: 0 0 0 2px var(--ring-border-hover-color), var(--ring-popup-shadow);
+  border-color: var(--ring-border-hover-color);
+  box-shadow: 0 0 0 1px var(--ring-border-hover-color);
+}
+
+.expandedShadow {
+  box-shadow: var(--ring-popup-shadow);
+}
+
+.expandedShadow:has(.headerButton:focus-visible) {
+  box-shadow: 0 0 0 1px var(--ring-border-hover-color), var(--ring-popup-shadow);
 }
 
 .header {

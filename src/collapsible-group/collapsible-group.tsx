@@ -37,6 +37,7 @@ export interface CollapsibleGroupProps {
   // eslint-disable-next-line no-magic-numbers
   headingLevel?: 2 | 3 | 4 | 5 | 6;
   'data-test'?: string | null | undefined;
+  expandedShadow?: boolean;
 }
 
 interface CollapsibleGroupHeaderContentProps {
@@ -111,9 +112,9 @@ const CollapsibleGroup = ({
   keepMounted = false,
   headingLevel,
   'data-test': dataTest,
+  expandedShadow,
 }: CollapsibleGroupProps) => {
   const [innerExpanded, setInnerExpanded] = useState(defaultExpanded);
-  const [hovered, setHovered] = useState(false);
   const isExpanded = expanded ?? innerExpanded;
 
   const handleChange = (collapsed: boolean) => {
@@ -125,18 +126,11 @@ const CollapsibleGroup = ({
   };
 
   const classes = classNames(styles.expand, className, {
-    [styles.hovered]: hovered,
-    [styles.expanded]: isExpanded,
+    [styles.expandedShadow]: expandedShadow && isExpanded,
   });
 
   const header = interactive ? (
-    <CollapsibleGroupHeader
-      avatar={avatar}
-      titleContent={title}
-      subtitle={subtitle}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    />
+    <CollapsibleGroupHeader avatar={avatar} titleContent={title} subtitle={subtitle} />
   ) : (
     <CollapsibleGroupHeaderStatic avatar={avatar} titleContent={title} subtitle={subtitle} />
   );
