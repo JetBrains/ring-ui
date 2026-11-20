@@ -75,7 +75,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     preventBodyScroll: true,
   };
 
-  state: DialogState = {shortcutsScope: getUID('ring-dialog-'), geometry: null, resized: false, doShow: false};
+  state: DialogState = {shortcutsScope: getUID('ring-dialog-'), geometry: null, resized: false, isShown: false};
 
   componentDidMount() {
     const {show, native} = this.props;
@@ -113,31 +113,29 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
 
   toggleNativeDialog() {
     const {show, modal, autoFocusFirst} = this.props;
-    if (show) {
-      this.setState({doShow: true}, () => {
-        if (this.nativeDialog.current) {
-          const focusedElementBeforeOpen = document.activeElement;
-          this.nativeDialog.current.removeAttribute('open');
-          if (modal) {
-            this.nativeDialog.current.showModal();
+    if (this.nativeDialog.current) {
+      if (show) {
+        const focusedElementBeforeOpen = document.activeElement;
+        this.nativeDialog.current.removeAttribute('open');
+        if (modal) {
+          this.nativeDialog.current.showModal();
+        } else {
+          this.nativeDialog.current.show();
+        }
+        if (!autoFocusFirst && !this.nativeDialog.current.querySelector('[autofocus]')) {
+          if (
+            focusedElementBeforeOpen instanceof HTMLElement &&
+            this.nativeDialog.current.contains(focusedElementBeforeOpen)
+          ) {
+            focusedElementBeforeOpen.focus();
           } else {
-            this.nativeDialog.current.show();
-          }
-          if (!autoFocusFirst && !this.nativeDialog.current.querySelector('[autofocus]')) {
-            if (
-              focusedElementBeforeOpen instanceof HTMLElement &&
-              this.nativeDialog.current.contains(focusedElementBeforeOpen)
-            ) {
-              focusedElementBeforeOpen.focus();
-            } else {
-              this.nativeDialog.current.focus();
-            }
+            this.nativeDialog.current.focus();
           }
         }
-      });
-    } else {
-      this.nativeDialog.current?.close();
-      this.setState({doShow: false});
+      } else {
+        this.nativeDialog.current.close();
+      }
+      this.setState({isShown: show});
     }
   }
 
@@ -348,6 +346,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       // drops focus when the dialog unmounts while closing, so honor a requested trap here the same
       // way the non-native branch does.
       const trapEnabled = !getTrapDisabled(trapFocus, trapDisabled);
+      const doShow = this.state.isShown || show;
       return (
         <dialog
           {...restProps}
@@ -360,21 +359,17 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
           data-rg-modal-dialog-container={modal ? '' : undefined}
         >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
-            {target =>
-              this.state.doShow ? (
-                <TabTrap
-                  trapDisabled={!trapEnabled || !this.state.doShow}
-                  autoFocusFirst={trapEnabled && this.state.doShow && autoFocusFirst}
-                  focusBackOnClose={trapEnabled && focusBackOnClose}
-                  focusBackOnExit={focusBackOnExit}
-                >
-                  {content}
-                  {target}
-                </TabTrap>
-              ) : (
-                target
-              )
-            }
+            {target => (
+              <TabTrap
+                trapDisabled={!trapEnabled || doShow}
+                autoFocusFirst={trapEnabled && autoFocusFirst}
+                focusBackOnClose={trapEnabled && focusBackOnClose}
+                focusBackOnExit={focusBackOnExit}
+              >
+                {doShow && content}
+                {target}
+              </TabTrap>
+            )}
           </PopupTarget>
         </dialog>
       );
