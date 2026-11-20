@@ -348,9 +348,10 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
           onCancel={event => event.preventDefault()}
           data-rg-modal-dialog-container={modal ? '' : undefined}
         >
-          <PopupTarget id={this.uid} className={styles.popupTarget}>
-            {target =>
-              trapEnabled && show ? (
+          {show && (
+            <PopupTarget id={this.uid} className={styles.popupTarget}>
+              {target =>
+                trapEnabled && show ? (
                 <TabTrap
                   trapDisabled={false}
                   autoFocusFirst={autoFocusFirst}
@@ -360,14 +361,13 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                   {content}
                   {target}
                 </TabTrap>
-              ) : (
-                <>
+              ) : (<>
                   {content}
-                  {target}
-                </>
-              )
-            }
-          </PopupTarget>
+                  {target}</>
+                )
+              }
+            </PopupTarget>
+          )}
         </dialog>
       );
     }
@@ -376,15 +376,9 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         <PopupTargetContext.Consumer>
           {contextTarget => {
             const normalizedContextTarget = normalizePopupTarget(contextTarget);
-            let targetElement: Element = document.body;
-            if (portalTarget instanceof HTMLElement) {
-              targetElement = portalTarget;
-            } else if (normalizedContextTarget !== undefined) {
-              const container = getPopupContainer(normalizedContextTarget);
-              if (container) {
-                targetElement = container;
-              }
-            }
+            const popupContainer =
+              (normalizedContextTarget !== undefined && getPopupContainer(normalizedContextTarget)) || document.body;
+            const targetElement = portalTarget instanceof HTMLElement ? portalTarget : popupContainer;
             return createPortal(
               <PopupTarget id={this.uid} className={styles.popupTarget}>
                 {target => (
