@@ -359,17 +359,24 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
           data-rg-modal-dialog-container={modal ? '' : undefined}
         >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
-            {target => (
-              <TabTrap
-                trapDisabled={!trapEnabled || doShow}
-                autoFocusFirst={trapEnabled && autoFocusFirst}
-                focusBackOnClose={trapEnabled && focusBackOnClose}
-                focusBackOnExit={focusBackOnExit}
-              >
-                {doShow && content}
-                {target}
-              </TabTrap>
-            )}
+            {target =>
+              trapEnabled && doShow ? (
+                <TabTrap
+                  trapDisabled={false}
+                  autoFocusFirst={autoFocusFirst}
+                  focusBackOnClose={focusBackOnClose}
+                  focusBackOnExit={focusBackOnExit}
+                >
+                  {content}
+                  {target}
+                </TabTrap>
+              ) : (
+                <>
+                  {doShow && content}
+                  {target}
+                </>
+              )
+            }
           </PopupTarget>
         </dialog>
       );
