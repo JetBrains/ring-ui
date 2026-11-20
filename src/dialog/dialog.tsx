@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {createRef, PureComponent} from 'react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
@@ -332,6 +333,10 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       </>
     );
     if (native) {
+      // Chromium lets sequential focus escape a modal dialog backward from its first focusable and
+      // drops focus when the dialog unmounts while closing, so honor a requested trap here the same
+      // way the non-native branch does.
+      const trapEnabled = !getTrapDisabled(trapFocus, trapDisabled);
       return (
         <dialog
           {...restProps}
@@ -344,17 +349,28 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
           data-rg-modal-dialog-container={modal ? '' : undefined}
         >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
-            {target => (
-              <>
-                {content}
-                {target}
-              </>
-            )}
+            {target =>
+              trapEnabled && show ? (
+                <TabTrap
+                  trapDisabled={false}
+                  autoFocusFirst={autoFocusFirst}
+                  focusBackOnClose={focusBackOnClose}
+                  focusBackOnExit={focusBackOnExit}
+                >
+                  {content}
+                  {target}
+                </TabTrap>
+              ) : (
+                <>
+                  {content}
+                  {target}
+                </>
+              )
+            }
           </PopupTarget>
         </dialog>
       );
     }
-
     return (
       show && (
         <PopupTargetContext.Consumer>
