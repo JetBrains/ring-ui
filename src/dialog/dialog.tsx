@@ -357,21 +357,18 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
             {target =>
-              trapEnabled && this.state.doShow ? (
+              show || this.state.doShow ? (
                 <TabTrap
-                  trapDisabled={false}
-                  autoFocusFirst={autoFocusFirst}
+                  trapDisabled={!trapEnabled || !this.state.doShow}
+                  autoFocusFirst={this.state.doShow && autoFocusFirst}
                   focusBackOnClose={focusBackOnClose}
                   focusBackOnExit={focusBackOnExit}
                 >
-                  {content}
+                  {this.state.doShow && content}
                   {target}
                 </TabTrap>
               ) : (
-                <>
-                  {this.state.doShow && content}
-                  {target}
-                </>
+                target
               )
             }
           </PopupTarget>

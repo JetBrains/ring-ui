@@ -71,9 +71,13 @@ export default class LoginDialog extends Component<LoginDialogProps, State> {
     if (this.props.show && !prevProps.show) {
       this.startFallbackCountdown();
     }
+    if (!this.props.show && prevProps.show) {
+      clearTimeout(this.showFallbackTimout);
+    }
   }
 
   componentWillUnmount() {
+    clearTimeout(this.showFallbackTimout);
     window.removeEventListener('message', this.onMessage);
   }
 
