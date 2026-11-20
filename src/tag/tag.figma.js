@@ -39,7 +39,6 @@ export default {
   tagType={${tagType}}
   disabled={${disabled}}
   readOnly
-  interactive={false}
 >
   {${JSON.stringify(text.textContent)}}
 </Tag>`,
