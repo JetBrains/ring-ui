@@ -348,10 +348,9 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
           onCancel={event => event.preventDefault()}
           data-rg-modal-dialog-container={modal ? '' : undefined}
         >
-          {show && (
-            <PopupTarget id={this.uid} className={styles.popupTarget}>
-              {target =>
-                trapEnabled && show ? (
+          <PopupTarget id={this.uid} className={styles.popupTarget}>
+            {target =>
+              trapEnabled && show ? (
                 <TabTrap
                   trapDisabled={false}
                   autoFocusFirst={autoFocusFirst}
@@ -361,13 +360,14 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                   {content}
                   {target}
                 </TabTrap>
-              ) : (<>
-                  {content}
-                  {target}</>
-                )
-              }
-            </PopupTarget>
-          )}
+              ) : (
+                <>
+                  {show && content}
+                  {target}
+                </>
+              )
+            }
+          </PopupTarget>
         </dialog>
       );
     }
@@ -376,9 +376,11 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         <PopupTargetContext.Consumer>
           {contextTarget => {
             const normalizedContextTarget = normalizePopupTarget(contextTarget);
-            const popupContainer =
-              (normalizedContextTarget !== undefined && getPopupContainer(normalizedContextTarget)) || document.body;
-            const targetElement = portalTarget instanceof HTMLElement ? portalTarget : popupContainer;
+            const targetElement =
+              portalTarget instanceof HTMLElement
+                ? portalTarget
+                : (normalizedContextTarget !== undefined && getPopupContainer(normalizedContextTarget)) ||
+                  document.body;
             return createPortal(
               <PopupTarget id={this.uid} className={styles.popupTarget}>
                 {target => (
