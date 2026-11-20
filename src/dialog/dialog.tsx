@@ -360,11 +360,11 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
               show || this.state.doShow ? (
                 <TabTrap
                   trapDisabled={!trapEnabled || !this.state.doShow}
-                  autoFocusFirst={this.state.doShow && autoFocusFirst}
-                  focusBackOnClose={focusBackOnClose}
+                  autoFocusFirst={trapEnabled && this.state.doShow && autoFocusFirst}
+                  focusBackOnClose={trapEnabled && focusBackOnClose}
                   focusBackOnExit={focusBackOnExit}
                 >
-                  {this.state.doShow && content}
+                  {(show || this.state.doShow) && content}
                   {target}
                 </TabTrap>
               ) : (
