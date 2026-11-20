@@ -2,7 +2,7 @@
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
 2. Install GIT-LFS https://git-lfs.com/
-3. Install Node.js@16 (with NPM@8). We suggest using [nvm](https://github.com/nvm-sh/nvm) or [n](https://github.com/tj/n) for Node version management
+3. Install Node.js@22 (with NPM@10). We suggest using [nvm](https://github.com/nvm-sh/nvm) or [n](https://github.com/tj/n) for Node version management
 4. Run `npm install`
 
 ### Available commands
