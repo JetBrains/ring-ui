@@ -19,16 +19,12 @@
   --ring-button-white-text-disabled-color: var(--ring-secondary-color);
 }
 
-
 .heightS {
   --ring-button-height: calc(var(--ring-unit) * 3);
   --ring-button-padding-block: calc(var(--ring-unit) * 0.5);
   --ring-button-font-size: var(--ring-font-size-smaller);
   --ring-button-line-height: var(--ring-line-height-lowest);
 }
-
-
-
 
 .heightM {
   --ring-button-height: calc(var(--ring-unit) * 3.5);
@@ -260,7 +256,6 @@
   --ring-button-focus-border-color: var(--ring-border-hover-success-color);
   --ring-button-pressed-border-color: var(--ring-success-color);
   --ring-button-active-border-color: var(--ring-success-color);
-
 
   composes: flat;
   composes: whiteText;

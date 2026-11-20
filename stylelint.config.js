@@ -5,6 +5,7 @@ module.exports = {
     '@csstools/stylelint-no-at-nest-rule': true,
     'selector-class-pattern': null,
     'selector-max-id': null,
+    '@stylistic/max-empty-lines': 1,
     'max-nesting-depth': null,
     'scss/selector-no-redundant-nesting-selector': null,
     'scss/load-no-partial-leading-underscore': null,

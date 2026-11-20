@@ -94,7 +94,6 @@
   margin-inline-end: var(--ring-popup-offset);
 }
 
-
 .largeBorderRadius {
   border-radius: var(--ring-border-radius-large);
 }
