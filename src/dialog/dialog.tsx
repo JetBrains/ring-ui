@@ -116,18 +116,22 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     if (show) {
       this.setState({doShow: true}, () => {
         if (this.nativeDialog.current) {
+          const focusedElementBeforeOpen = document.activeElement;
           this.nativeDialog.current.removeAttribute('open');
           if (modal) {
             this.nativeDialog.current.showModal();
           } else {
             this.nativeDialog.current.show();
           }
-          if (
-            !autoFocusFirst &&
-            !this.nativeDialog.current.querySelector('[autofocus]') &&
-            !this.nativeDialog.current.contains(document.activeElement)
-          ) {
-            this.nativeDialog.current.focus();
+          if (!autoFocusFirst && !this.nativeDialog.current.querySelector('[autofocus]')) {
+            if (
+              focusedElementBeforeOpen instanceof HTMLElement &&
+              this.nativeDialog.current.contains(focusedElementBeforeOpen)
+            ) {
+              focusedElementBeforeOpen.focus();
+            } else {
+              this.nativeDialog.current.focus();
+            }
           }
         }
       });
