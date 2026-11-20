@@ -122,7 +122,11 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
           this.nativeDialog.current.show();
         }
         this.setState({doShow: true}, () => {
-          if (!autoFocusFirst && !this.nativeDialog.current?.querySelector('[autofocus]')) {
+          if (
+            !autoFocusFirst &&
+            !this.nativeDialog.current?.querySelector('[autofocus]') &&
+            !this.nativeDialog.current?.contains(document.activeElement)
+          ) {
             this.nativeDialog.current?.focus();
           }
         });
