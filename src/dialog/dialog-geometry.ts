@@ -9,6 +9,7 @@ export interface Geometry {
 }
 
 export interface DialogState {
+  doShow: boolean; // gets updated after the native dialog is toggled
   shortcutsScope: string;
   geometry: Geometry | null;
   resized: boolean;

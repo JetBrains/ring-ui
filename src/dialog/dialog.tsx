@@ -75,7 +75,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     preventBodyScroll: true,
   };
 
-  state: DialogState = {shortcutsScope: getUID('ring-dialog-'), geometry: null, resized: false};
+  state: DialogState = {shortcutsScope: getUID('ring-dialog-'), geometry: null, resized: false, doShow: false};
 
   componentDidMount() {
     const {show, native} = this.props;
@@ -121,11 +121,14 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         } else {
           this.nativeDialog.current.show();
         }
-        if (!autoFocusFirst && !this.nativeDialog.current.querySelector('[autofocus]')) {
-          this.nativeDialog.current.focus();
-        }
+        this.setState({doShow: true}, () => {
+          if (!autoFocusFirst && !this.nativeDialog.current?.querySelector('[autofocus]')) {
+            this.nativeDialog.current?.focus();
+          }
+        });
       } else {
         this.nativeDialog.current.close();
+        this.setState({doShow: false});
       }
     }
   }
@@ -350,7 +353,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
             {target =>
-              trapEnabled && show ? (
+              trapEnabled && this.state.doShow ? (
                 <TabTrap
                   trapDisabled={false}
                   autoFocusFirst={autoFocusFirst}
@@ -362,7 +365,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                 </TabTrap>
               ) : (
                 <>
-                  {show && content}
+                  {this.state.doShow && content}
                   {target}
                 </>
               )

@@ -25,11 +25,19 @@ export interface LoginDialogProps {
   loadingMessage?: string | null | undefined;
 }
 
+interface State {
+  loading: boolean;
+  loggingIn: boolean;
+  showFallbackLink: boolean;
+  height: number;
+  width: number;
+}
+
 /**
  * @name Login Dialog
  */
 
-export default class LoginDialog extends Component<LoginDialogProps> {
+export default class LoginDialog extends Component<LoginDialogProps, State> {
   static defaultProps = {
     show: false,
     url: 'about:blank',
@@ -45,9 +53,24 @@ export default class LoginDialog extends Component<LoginDialogProps> {
     width: DEFAULT_WIDTH,
   };
 
+  static getDerivedStateFromProps(nextProps: LoginDialogProps, prevState: State) {
+    if (nextProps.show && !prevState.loading) {
+      return {loading: true, loggingIn: false, showFallbackLink: false};
+    }
+    return null;
+  }
+
   componentDidMount() {
     window.addEventListener('message', this.onMessage);
-    this.startFallbackCountdown();
+    if (this.props.show) {
+      this.startFallbackCountdown();
+    }
+  }
+
+  componentDidUpdate(prevProps: LoginDialogProps) {
+    if (this.props.show && !prevProps.show) {
+      this.startFallbackCountdown();
+    }
   }
 
   componentWillUnmount() {
