@@ -113,27 +113,27 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
 
   toggleNativeDialog() {
     const {show, modal, autoFocusFirst} = this.props;
-    if (this.nativeDialog.current) {
-      if (show) {
-        this.nativeDialog.current.removeAttribute('open');
-        if (modal) {
-          this.nativeDialog.current.showModal();
-        } else {
-          this.nativeDialog.current.show();
-        }
-        this.setState({doShow: true}, () => {
+    if (show) {
+      this.setState({doShow: true}, () => {
+        if (this.nativeDialog.current) {
+          this.nativeDialog.current.removeAttribute('open');
+          if (modal) {
+            this.nativeDialog.current.showModal();
+          } else {
+            this.nativeDialog.current.show();
+          }
           if (
             !autoFocusFirst &&
-            !this.nativeDialog.current?.querySelector('[autofocus]') &&
-            !this.nativeDialog.current?.contains(document.activeElement)
+            !this.nativeDialog.current.querySelector('[autofocus]') &&
+            !this.nativeDialog.current.contains(document.activeElement)
           ) {
-            this.nativeDialog.current?.focus();
+            this.nativeDialog.current.focus();
           }
-        });
-      } else {
-        this.nativeDialog.current.close();
-        this.setState({doShow: false});
-      }
+        }
+      });
+    } else {
+      this.nativeDialog.current?.close();
+      this.setState({doShow: false});
     }
   }
 
@@ -357,14 +357,14 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
             {target =>
-              show || this.state.doShow ? (
+              this.state.doShow ? (
                 <TabTrap
                   trapDisabled={!trapEnabled || !this.state.doShow}
                   autoFocusFirst={trapEnabled && this.state.doShow && autoFocusFirst}
                   focusBackOnClose={trapEnabled && focusBackOnClose}
                   focusBackOnExit={focusBackOnExit}
                 >
-                  {(show || this.state.doShow) && content}
+                  {content}
                   {target}
                 </TabTrap>
               ) : (
