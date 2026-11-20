@@ -54,7 +54,7 @@ export default class LoginDialog extends Component<LoginDialogProps, State> {
   };
 
   static getDerivedStateFromProps(nextProps: LoginDialogProps, prevState: State) {
-    if (nextProps.show && !prevState.loading) {
+    if (!nextProps.show && (!prevState.loading || prevState.loggingIn || prevState.showFallbackLink)) {
       return {loading: true, loggingIn: false, showFallbackLink: false};
     }
     return null;
