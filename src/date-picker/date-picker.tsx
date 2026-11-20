@@ -174,14 +174,14 @@ export default class DatePicker extends PureComponent<DatePickerProps> {
     },
   };
 
-  static contextType = I18nContext;
-  declare context: React.ContextType<typeof DatePicker.contextType>;
-
   componentDidUpdate(prevProps: DatePickerProps) {
     if (!prevProps.disabled && this.props.disabled && this.popup?.isVisible()) {
       this.closePopup();
     }
   }
+
+  static contextType = I18nContext;
+  declare context: React.ContextType<typeof DatePicker.contextType>;
 
   handleChange = (change: DatePickerChange | Date | null | undefined) => {
     if (this.props.disabled) {
