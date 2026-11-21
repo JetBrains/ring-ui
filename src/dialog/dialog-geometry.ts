@@ -9,6 +9,7 @@ export interface Geometry {
 }
 
 export interface DialogState {
+  isShown: boolean;
   shortcutsScope: string;
   geometry: Geometry | null;
   resized: boolean;

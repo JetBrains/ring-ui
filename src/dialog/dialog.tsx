@@ -75,7 +75,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     preventBodyScroll: true,
   };
 
-  state: DialogState = {shortcutsScope: getUID('ring-dialog-'), geometry: null, resized: false};
+  state: DialogState = {shortcutsScope: getUID('ring-dialog-'), geometry: null, resized: false, isShown: false};
 
   componentDidMount() {
     const {show, native} = this.props;
@@ -115,6 +115,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     const {show, modal, autoFocusFirst} = this.props;
     if (this.nativeDialog.current) {
       if (show) {
+        const focusedElementBeforeOpen = document.activeElement;
         this.nativeDialog.current.removeAttribute('open');
         if (modal) {
           this.nativeDialog.current.showModal();
@@ -122,11 +123,19 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
           this.nativeDialog.current.show();
         }
         if (!autoFocusFirst && !this.nativeDialog.current.querySelector('[autofocus]')) {
-          this.nativeDialog.current.focus();
+          if (
+            focusedElementBeforeOpen instanceof HTMLElement &&
+            this.nativeDialog.current.contains(focusedElementBeforeOpen)
+          ) {
+            focusedElementBeforeOpen.focus();
+          } else {
+            this.nativeDialog.current.focus();
+          }
         }
       } else {
         this.nativeDialog.current.close();
       }
+      this.setState({isShown: show});
     }
   }
 
@@ -337,6 +346,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       // drops focus when the dialog unmounts while closing, so honor a requested trap here the same
       // way the non-native branch does.
       const trapEnabled = !getTrapDisabled(trapFocus, trapDisabled);
+      const doShow = this.state.isShown || show;
       return (
         <dialog
           {...restProps}
@@ -350,7 +360,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         >
           <PopupTarget id={this.uid} className={styles.popupTarget}>
             {target =>
-              trapEnabled && show ? (
+              trapEnabled && doShow ? (
                 <TabTrap
                   trapDisabled={false}
                   autoFocusFirst={autoFocusFirst}
@@ -362,7 +372,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                 </TabTrap>
               ) : (
                 <>
-                  {content}
+                  {doShow && content}
                   {target}
                 </>
               )
@@ -376,15 +386,11 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         <PopupTargetContext.Consumer>
           {contextTarget => {
             const normalizedContextTarget = normalizePopupTarget(contextTarget);
-            let targetElement: Element = document.body;
-            if (portalTarget instanceof HTMLElement) {
-              targetElement = portalTarget;
-            } else if (normalizedContextTarget !== undefined) {
-              const container = getPopupContainer(normalizedContextTarget);
-              if (container) {
-                targetElement = container;
-              }
-            }
+            const targetElement =
+              portalTarget instanceof HTMLElement
+                ? portalTarget
+                : (normalizedContextTarget !== undefined && getPopupContainer(normalizedContextTarget)) ||
+                  document.body;
             return createPortal(
               <PopupTarget id={this.uid} className={styles.popupTarget}>
                 {target => (
