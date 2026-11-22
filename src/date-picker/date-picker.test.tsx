@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {useState} from 'react';
+import {createRef, useState} from 'react';
 
 import {I18nContext} from '../i18n/i18n-context';
 import DatePicker from './date-picker';
@@ -80,6 +80,22 @@ describe('Date Picker', () => {
     expect(screen.queryByTestId('ring-date-popup')).to.equal(null);
     await userEvent.click(toggle());
     expect(screen.getByTestId('ring-date-popup')).to.exist;
+  });
+
+  it('ignores change requests while disabled and forwards them after re-enabling', () => {
+    const onChange = vi.fn();
+    const ref = createRef<DatePicker>();
+    const date = new Date(2026, 10, 12);
+    const nextDate = new Date(2026, 10, 13);
+    const {rerender} = render(<DatePicker ref={ref} date={date} onChange={onChange} disabled />);
+
+    ref.current!.handleChange(nextDate);
+    expect(onChange).not.toHaveBeenCalled();
+
+    rerender(<DatePicker ref={ref} date={date} onChange={onChange} />);
+    ref.current!.handleChange(nextDate);
+    expect(onChange).toHaveBeenCalledOnce();
+    expect(onChange).toHaveBeenCalledWith(nextDate);
   });
 
   it('should use a fully translatable placeholder for a single date', async () => {
