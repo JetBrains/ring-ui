@@ -16,7 +16,7 @@
   "devDependencies": {
     "@rollup/pluginutils": "^5.5.1",
     "cssnano": "^9.9.0",
-    "postcss": "^8.5.32",
+    "postcss": "^8.5.33",
     "postcss-url": "^10.1.4",
     "postcss-import": "^17.0.1",
     "postcss-load-config": "^6.0.1",
