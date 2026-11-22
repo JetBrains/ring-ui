@@ -250,7 +250,7 @@
     "postcss-preset-env": "^11.6.2",
     "react-compiler-runtime": "^1.0.0",
     "react-movable": "^3.4.1",
-    "react-virtualized": "^9.22.6",
+    "react-virtualized": "^10.0.1",
     "react-waypoint": "^10.3.0",
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
