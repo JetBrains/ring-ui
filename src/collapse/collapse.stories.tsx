@@ -229,3 +229,5 @@ export const WrappedInShadowRoot = () => {
 };
 
 WrappedInShadowRoot.storyName = 'Wrapped in shadow root';
+// reads real stylesheets from document.styleSheets, which jsdom-based console-errors check doesn't have
+WrappedInShadowRoot.parameters = {storyshots: {disable: true}};

@@ -25,7 +25,11 @@ export const ShadowRootWrap: FC<PropsWithChildren<{adoptedStyleSheets?: CSSStyle
   children,
   adoptedStyleSheets,
 }) => {
-  const refCb = (shadowRootParent: HTMLDivElement) => {
+  const refCb = (shadowRootParent: HTMLDivElement | null) => {
+    // React 18 ignores ref cleanups and calls the ref with null on unmount
+    if (!shadowRootParent) {
+      return undefined;
+    }
     let shadowRoot;
     if (shadowRootParent.shadowRoot) {
       shadowRoot = shadowRootParent.shadowRoot;
