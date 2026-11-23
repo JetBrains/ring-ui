@@ -341,48 +341,8 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         </div>
       </>
     );
-    if (native) {
-      // Chromium lets sequential focus escape a modal dialog backward from its first focusable and
-      // drops focus when the dialog unmounts while closing, so honor a requested trap here the same
-      // way the non-native branch does.
-      const trapEnabled = !getTrapDisabled(trapFocus, trapDisabled);
-      const doShow = this.state.isShown || show;
-      return (
-        <dialog
-          {...restProps}
-          aria-label={label}
-          className={classNames(styles.nativeDialog, className)}
-          data-test={dataTests('ring-dialog-container', dataTest)}
-          ref={this.nativeDialog}
-          tabIndex={getNativeTabIndex(autoFocusFirst)}
-          onCancel={event => event.preventDefault()}
-          data-rg-modal-dialog-container={modal ? '' : undefined}
-        >
-          <PopupTarget id={this.uid} className={styles.popupTarget}>
-            {target =>
-              trapEnabled && doShow ? (
-                <TabTrap
-                  trapDisabled={false}
-                  autoFocusFirst={autoFocusFirst}
-                  focusBackOnClose={focusBackOnClose}
-                  focusBackOnExit={focusBackOnExit}
-                >
-                  {content}
-                  {target}
-                </TabTrap>
-              ) : (
-                <>
-                  {doShow && content}
-                  {target}
-                </>
-              )
-            }
-          </PopupTarget>
-        </dialog>
-      );
-    }
     return (
-      show && (
+      (show || native) && (
         <PopupTargetContext.Consumer>
           {contextTarget => {
             const normalizedContextTarget = normalizePopupTarget(contextTarget);
@@ -393,23 +353,59 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                   document.body;
             return createPortal(
               <PopupTarget id={this.uid} className={styles.popupTarget}>
-                {target => (
-                  <TabTrap
-                    trapDisabled={getTrapDisabled(trapFocus, trapDisabled)}
-                    autoFocusFirst={autoFocusFirst}
-                    focusBackOnClose={focusBackOnClose}
-                    focusBackOnExit={focusBackOnExit}
-                    data-test={dataTests('ring-dialog-container', dataTest)}
-                    data-rg-modal-dialog-container=''
-                    ref={this.dialogRef}
-                    className={classes}
-                    role='presentation'
-                    {...restProps}
-                  >
-                    {content}
-                    {target}
-                  </TabTrap>
-                )}
+                {target => {
+                  const trapEnabled = !getTrapDisabled(trapFocus, trapDisabled);
+                  if (native) {
+                    const doShow = this.state.isShown || show;
+                    return (
+                      <dialog
+                        {...restProps}
+                        aria-label={label}
+                        className={classNames(styles.nativeDialog, className)}
+                        data-test={dataTests('ring-dialog-container', dataTest)}
+                        ref={this.nativeDialog}
+                        tabIndex={getNativeTabIndex(autoFocusFirst)}
+                        onCancel={event => event.preventDefault()}
+                        data-rg-modal-dialog-container={modal ? '' : undefined}
+                      >
+                        {trapEnabled && doShow ? (
+                          <TabTrap
+                            trapDisabled={false}
+                            autoFocusFirst={autoFocusFirst}
+                            focusBackOnClose={focusBackOnClose}
+                            focusBackOnExit={focusBackOnExit}
+                          >
+                            {content}
+                            {target}
+                          </TabTrap>
+                        ) : (
+                          <>
+                            {doShow && content}
+                            {target}
+                          </>
+                        )}
+                      </dialog>
+                    );
+                  }
+
+                  return (
+                    <TabTrap
+                      trapDisabled={!trapEnabled}
+                      autoFocusFirst={autoFocusFirst}
+                      focusBackOnClose={focusBackOnClose}
+                      focusBackOnExit={focusBackOnExit}
+                      data-test={dataTests('ring-dialog-container', dataTest)}
+                      data-rg-modal-dialog-container=''
+                      ref={this.dialogRef}
+                      className={classes}
+                      role='presentation'
+                      {...restProps}
+                    >
+                      {content}
+                      {target}
+                    </TabTrap>
+                  );
+                }}
               </PopupTarget>,
               targetElement,
             );
