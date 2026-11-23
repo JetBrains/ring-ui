@@ -9,7 +9,7 @@ export interface Geometry {
 }
 
 export interface DialogState {
-  isShown: boolean;
+  isShown: boolean; // prevents unmounting the content before the native dialog is closed
   shortcutsScope: string;
   geometry: Geometry | null;
   resized: boolean;
