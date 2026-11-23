@@ -363,7 +363,12 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                         aria-label={label}
                         className={classNames(styles.nativeDialog, className)}
                         data-test={dataTests('ring-dialog-container', dataTest)}
-                        ref={this.nativeDialog}
+                        ref={node => {
+                          this.nativeDialog.current = node;
+                          if (node && this.props.show && this.state.isShown && !node.open) {
+                            this.toggleNativeDialog();
+                          }
+                        }}
                         tabIndex={getNativeTabIndex(autoFocusFirst)}
                         onCancel={event => event.preventDefault()}
                         data-rg-modal-dialog-container={modal ? '' : undefined}
