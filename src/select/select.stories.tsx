@@ -243,6 +243,29 @@ ButtonModeWithAFilter.parameters = {
       `,
 };
 
+export const WithExternalLabel = () => {
+  const id = React.useId();
+  const labelId = `${id}-label`;
+
+  const data = [
+    {key: 'none', label: 'None'},
+    {key: 'RS', label: 'Serbia'},
+    {key: 'JP', label: 'Japan'},
+  ];
+
+  return (
+    <div style={{display: 'flex', alignItems: 'center', gap: 'var(--ring-unit)'}}>
+      <label id={labelId} htmlFor={id}>
+        Country
+      </label>
+      <Select type={Select.Type.BUTTON} id={id} aria-labelledby={labelId} data={data} />
+    </div>
+  );
+};
+
+WithExternalLabel.storyName = 'with an external label';
+WithExternalLabel.parameters = {screenshots: {skip: true}};
+
 export const InlineWithAFilter: StoryFn<StatefulProps> = ({text, onSelect, ...restArgs}) => {
   const [selected, setSelected] = useState<SelectItem | null | undefined>(restArgs.data?.[0]);
 

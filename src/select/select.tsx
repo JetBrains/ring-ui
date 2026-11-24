@@ -141,7 +141,10 @@ export interface DataTestProps {
 
 export interface CustomAnchorProps {
   wrapperProps: HTMLAttributes<HTMLElement> & DataTestProps & {ref: RefCallback<HTMLElement>};
-  buttonProps: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'id' | 'disabled' | 'children' | 'className'> & {
+  buttonProps: Pick<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    'id' | 'disabled' | 'children' | 'className' | 'aria-labelledby'
+  > & {
     onClick: () => void;
   } & DataTestProps;
   popup: ReactNode;
@@ -195,6 +198,7 @@ export interface BaseSelectProps<T = unknown> {
   buttonClassName?: string | null | undefined;
   toolbarClassName?: string | null | undefined;
   id?: string | undefined;
+  'aria-labelledby'?: string | undefined;
   getInitial?: (() => string) | null | undefined;
   minWidth?: number | undefined;
   popupClassName?: string | null | undefined;
@@ -1281,6 +1285,7 @@ export default class Select<T = unknown> extends Component<SelectProps<T>, Selec
       'aria-controls': this.listId,
       'aria-activedescendant': this.state.showPopup ? activeItemId : undefined,
       'aria-label': this.props.label ?? this._getPlaceholder() ?? undefined,
+      'aria-labelledby': this.props['aria-labelledby'],
     };
 
     switch (this.props.type) {
