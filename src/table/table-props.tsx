@@ -1,4 +1,5 @@
-import type {AriaAttributes, ReactNode, RefObject} from 'react';
+/* eslint-disable max-lines */
+import type {AriaAttributes, ComponentPropsWithoutRef, ReactNode, RefObject} from 'react';
 
 export interface TableProps<T> {
   /**
@@ -357,10 +358,10 @@ export interface Column<T> {
    * Column width in pixels.
    *
    * The table switches to fixed layout once the widths of all columns are known:
-   * either every column has `width`, or the user has started resizing a column.
+   * either every column except `fill` ones has `width`, or the user has started resizing a column.
    * At that moment, columns without `width` are measured and keep their width.
-   * In fixed layout, the table width is the sum of the column widths and
-   * overrides `style.width` of the table.
+   * In fixed layout, the table width is the sum of the column widths, or at least 100%
+   * with a `fill` column, and overrides `style.width` of the table.
    */
   width?: number;
 
@@ -383,9 +384,43 @@ export interface Column<T> {
   maxWidth?: number;
 
   /**
+   * Takes the width that is left after the other columns, for example
+   * to keep the spare width in an empty column instead of stretching the others.
+   * `width`, `resizable`, `minWidth` and `maxWidth` are ignored.
+   *
+   * Works in fixed layout, see `width`: the other columns need `width`, or the user
+   * has resized a column. With a fill column, the table is at least as wide as its container.
+   */
+  fill?: boolean;
+
+  /**
+   * Keeps the column visible at the start or end edge when the table scrolls horizontally.
+   *
+   * Pinned columns must be placed together at the start or at the end of `columns`,
+   * and need `width`: the sticky offsets are computed from it. A `fill` column may be pinned too.
+   * They can't be reordered, and other columns can't be moved past them.
+   *
+   * A divider is shown at the pinned area edge while content is scrolled under it.
+   * Pinned cells take the row background, which is opaque in tables with pinned columns.
+   * While a pinned column is resized, the other pinned columns and the full-width row masks
+   * follow on release, so it's best to make only the innermost pinned column resizable.
+   *
+   * In custom `TableProps.renderItem` rows, use `TableRow`, and `TableCell` with `columnIndex`.
+   * For rows with a single cell spanning all columns, use `TableCell` with `fullWidth`.
+   */
+  pinned?: 'start' | 'end';
+
+  /**
    * The class name to apply to the `th` element inside `table > thead`.
    */
   thClassName?: string;
+
+  /**
+   * Additional attributes of the `th` element inside `table > thead`,
+   * for example `aria-hidden` for an empty header.
+   * The attributes set by the table take precedence.
+   */
+  thProps?: ComponentPropsWithoutRef<'th'>;
 
   /**
    * The class name to apply to the `td` element inside `table > tbody`.

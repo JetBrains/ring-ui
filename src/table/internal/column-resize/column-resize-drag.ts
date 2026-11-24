@@ -1,6 +1,4 @@
-import {getColumnIndicatorVerticalSpan} from '../column-indicator-vertical-span';
-
-import styles from '../../table.css';
+import type {ColumnResizeIndicator} from './column-resize-indicator';
 
 const defaultMinColumnWidth = 40;
 
@@ -15,6 +13,10 @@ interface ColumnResizeDragParams {
   startWidths: readonly number[];
   minWidth?: number;
   maxWidth?: number;
+  /**
+   * Positioned while dragging. The caller owns it and removes it when appropriate.
+   */
+  indicator: ColumnResizeIndicator;
   onCommit: (width: number) => void;
   onEnd: () => void;
 }
@@ -38,10 +40,11 @@ export function startColumnResizeDrag({
   startWidths,
   minWidth: columnMinWidth = defaultMinColumnWidth,
   maxWidth: columnMaxWidth = Infinity,
+  indicator,
   onCommit,
   onEnd,
 }: ColumnResizeDragParams): () => void {
-  const elements = findDragElements(handle, columnIndex);
+  const elements = findDragElements(handle, columnIndex, startWidths.length);
   if (!elements) {
     onEnd();
     return () => {};
@@ -59,10 +62,6 @@ export function startColumnResizeDrag({
   let width = startWidth;
   let lastClientX = startClientX;
 
-  const indicator = document.createElement('div');
-  indicator.className = styles.columnResizeIndicator;
-  document.body.appendChild(indicator);
-
   const previousBodyCursor = document.body.style.cursor;
   const previousBodyUserSelect = document.body.style.userSelect;
   document.body.style.cursor = 'col-resize';
@@ -70,17 +69,8 @@ export function startColumnResizeDrag({
 
   function setDomWidths(columnWidth: number, fillerWidth: number) {
     column.style.width = `${columnWidth}px`;
-    filler.style.width = `${fillerWidth}px`;
+    if (filler) filler.style.width = `${fillerWidth}px`;
     table.style.width = `${startTotalWidth - startWidth + columnWidth + fillerWidth}px`;
-  }
-
-  function positionIndicator(columnRight: number) {
-    const span = getColumnIndicatorVerticalSpan(th);
-    if (span) {
-      indicator.style.top = `${span.top}px`;
-      indicator.style.height = span.height;
-    }
-    indicator.style.left = `${columnRight - 1}px`;
   }
 
   // Uses the column's current position rather than the pointer delta,
@@ -90,7 +80,7 @@ export function startColumnResizeDrag({
     const {left} = th.getBoundingClientRect();
     width = Math.round(Math.min(maxWidth, Math.max(minWidth, clientX - grabOffset - left)));
     setDomWidths(width, Math.max(0, startWidth - width));
-    positionIndicator(left + width);
+    indicator.position(th, left + width);
   }
 
   function end(commit: boolean) {
@@ -102,7 +92,6 @@ export function startColumnResizeDrag({
     document.removeEventListener('scroll', handleScroll, {capture: true});
     if (handle.hasPointerCapture(pointerId)) handle.releasePointerCapture(pointerId);
 
-    indicator.remove();
     document.body.style.cursor = previousBodyCursor;
     document.body.style.userSelect = previousBodyUserSelect;
     setDomWidths(startWidth, 0);
@@ -143,17 +132,18 @@ export function startColumnResizeDrag({
   window.addEventListener('keydown', handleKeyDown, {capture: true});
   document.addEventListener('scroll', handleScroll, {capture: true, passive: true});
 
-  positionIndicator(th.getBoundingClientRect().right);
+  indicator.position(th);
   return cancel;
 }
 
-function findDragElements(handle: HTMLElement, columnIndex: number) {
+function findDragElements(handle: HTMLElement, columnIndex: number, columnCount: number) {
   const th = handle.closest('th');
   const table = th?.closest('table');
   const cols = table?.querySelectorAll<HTMLTableColElement>(':scope > colgroup > col');
   const column = cols?.[columnIndex];
   // The last `<col>` keeps the table width while shrinking (see `ColumnGroup`). Otherwise,
   // a container scrolled to the end reduces its scroll position and the content shifts under the pointer.
-  const filler = cols?.[cols.length - 1];
-  return th && table && column && filler ? {th, table, column, filler} : undefined;
+  // Not rendered with a fill column, which takes the slack itself.
+  const filler = cols && cols.length > columnCount ? cols[cols.length - 1] : undefined;
+  return th && table && column ? {th, table, column, filler} : undefined;
 }

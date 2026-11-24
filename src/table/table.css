@@ -36,6 +36,11 @@
   }
 }
 
+/* Pinned cells inherit the row background, so it must be opaque. Lower specificity than row states. */
+:where(.hasPinnedColumns) .row {
+  background-color: var(--ring-content-background-color);
+}
+
 .columnResizeHandle {
   position: absolute;
   z-index: var(--ring-fixed-z-index);
@@ -60,10 +65,6 @@
     content: '';
 
     transition: background-color var(--ring-fast-ease);
-  }
-
-  &:hover::after {
-    background-color: var(--ring-main-color);
   }
 
   /* Larger touch target, extended into the next column to keep the header buttons tappable */
@@ -131,13 +132,116 @@
 
   box-shadow: inset 1px 0 0 var(--header-cell-shadow-color), 1px 0 0 var(--header-cell-shadow-color);
 
-  &:hover {
-    --header-cell-shadow-color: var(--ring-line-color);
+}
 
-    &:not(.reorderAnimationInitial, .reorderAnimationFadeOut) {
-      background-color: var(--ring-grey-container-light-color);
-    }
+.interactiveHeaderCell:hover {
+  --header-cell-shadow-color: var(--ring-line-color);
+
+  &:not(.reorderAnimationInitial, .reorderAnimationFadeOut) {
+    background-color: var(--ring-grey-container-light-color);
   }
+}
+
+.pinnedCell {
+  position: sticky;
+
+  /* Above the resize handles of the columns scrolled under it */
+
+  z-index: calc(var(--ring-fixed-z-index) + 1);
+
+  background-color: inherit;
+
+  &.headerCell {
+    background-color: var(--ring-content-background-color);
+  }
+}
+
+.pinnedStartEdge::after,
+.pinnedEndEdge::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  width: 1px;
+
+  content: '';
+  pointer-events: none;
+
+  opacity: 0;
+  background-color: var(--ring-line-color);
+}
+
+.pinnedStartEdge::after {
+  inset-inline-end: 0;
+}
+
+.pinnedEndEdge::after {
+  inset-inline-start: 0;
+}
+
+/* Overrides `.fixedLayout .cell`. Visible overflow lets the masks stick. */
+.table .fullWidthCell {
+  overflow: visible;
+
+  padding: 0;
+
+  background-color: inherit;
+}
+
+.fullWidthLayout {
+  display: grid;
+
+  background-color: inherit;
+
+  & > * {
+    grid-area: 1 / 1;
+  }
+}
+
+.fullWidthContent {
+  padding: var(--ring-unit);
+}
+
+/* Masks over the pinned areas */
+.hasPinnedColumns .fullWidthLayout::before,
+.hasPinnedColumns .fullWidthLayout::after {
+  position: sticky;
+  z-index: calc(var(--ring-fixed-z-index) + 1);
+
+  box-sizing: border-box;
+  grid-area: 1 / 1;
+
+  content: '';
+  pointer-events: none;
+
+  opacity: 0;
+  border: 0 solid var(--ring-line-color);
+  background-color: inherit;
+}
+
+.hasPinnedColumns .fullWidthLayout::before {
+  justify-self: start;
+  inset-inline-start: 0;
+
+  width: var(--ring-table-pinned-start-width);
+
+  border-inline-end-width: 1px;
+}
+
+.hasPinnedColumns .fullWidthLayout::after {
+  justify-self: end;
+  inset-inline-end: 0;
+
+  width: var(--ring-table-pinned-end-width);
+
+  border-inline-start-width: 1px;
+}
+
+[data-pinned-start-scrolled] .pinnedStartEdge::after,
+[data-pinned-start-scrolled] .fullWidthLayout::before,
+[data-pinned-end-scrolled] .pinnedEndEdge::after,
+[data-pinned-end-scrolled] .fullWidthLayout::after {
+  opacity: 1;
 }
 
 .headerCellInnerWrapper {
@@ -303,6 +407,19 @@
   background-color: transparent;
 }
 
+/* Pinned cells take the row background, which must stay opaque to hide the content scrolled under them */
+:where(.hasPinnedColumns) .row.reorderAnimationInitial {
+  background-color: color-mix(
+    in srgb,
+    rgb(var(--ring-border-accent-components)) 12%,
+    var(--ring-content-background-color)
+  );
+}
+
+:where(.hasPinnedColumns) .row.reorderAnimationFadeOut {
+  background-color: var(--ring-content-background-color);
+}
+
 .spacerRow {
   margin: 0;
   padding: 0;
@@ -315,6 +432,14 @@
   padding: 0;
 
   border: 0;
+}
+
+.hasPinnedColumns .row:focus {
+  position: relative;
+
+  /* Keeps the outline above the pinned cells */
+
+  z-index: calc(var(--ring-fixed-z-index) + 2);
 }
 
 .row:focus {

@@ -148,13 +148,14 @@ export function DefaultItemRenderer<T>({
         return (
           <TableCell
             key={key}
+            columnIndex={columnIndex}
             className={classNames(
               columnIndex === animatedColumnIndex && animateClassName,
               typeof tdClassName === 'function' ? tdClassName(item, index, data) : tdClassName,
             )}
             style={indent && level != null && level > 0 ? {paddingInlineStart: `${level * indentSize}px`} : undefined}
           >
-            {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex, key)}
+            {column.renderCell ? column.renderCell(item, index, data) : getDefaultCellValue(item, columnIndex, key)}
           </TableCell>
         );
       })}

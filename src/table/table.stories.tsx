@@ -2001,3 +2001,232 @@ export const WithReorderAutoScrollInScroller = {
 
   tags: ['!autodocs'],
 };
+
+const buildColumnsSlice = teamCityBuilds.slice(0, 30);
+
+const buildStatusCell = ({status}: Build) => (
+  <Tag
+    tagType={
+      status === 'success'
+        ? TagType.SUCCESS
+        : status === 'failed'
+          ? TagType.ERROR
+          : status === 'running'
+            ? TagType.MAIN
+            : undefined
+    }
+  >
+    {status}
+  </Tag>
+);
+
+const movableBuildColumns: Column<Build>[] = [
+  {key: 'Branch', width: 220, resizable: true, canReorder: true, renderCell: ({branch}) => branch},
+  {key: 'Agent', width: 320, resizable: true, canReorder: true, renderCell: ({agent}) => agent},
+  {key: 'Triggered by', width: 160, resizable: true, canReorder: true, renderCell: ({triggeredBy}) => triggeredBy},
+  {
+    key: 'Started',
+    width: 150,
+    resizable: true,
+    canReorder: true,
+    renderCell: ({started}) => (started ? format(started, 'dd MMM yy HH:mm') : '—'),
+  },
+];
+
+const fillColumn: Column<Build> = {
+  key: 'fill',
+  fill: true,
+  renderHeader: () => null,
+  renderCell: () => null,
+  thProps: {'aria-hidden': true},
+};
+
+/**
+ * Hovering a resize handle shows the column boundary across the visible part of the table.
+ */
+export const WithColumnResizeHoverInScroller: TableStory<Build> = {
+  render() {
+    const [columns, setColumns] = useState<readonly Column<Build>[]>(() => [
+      {key: 'Id', width: 80, resizable: true, renderCell: ({id}) => `#${id}`},
+      {key: 'Status', width: 120, resizable: true, renderCell: buildStatusCell},
+      ...movableBuildColumns,
+    ]);
+
+    return (
+      <div className={style.resizeScroller}>
+        <Table
+          className={style.nowrapTable}
+          data={buildColumnsSlice}
+          columns={columns}
+          getKey={({id}) => id}
+          stickyHeader
+          onColumnReorder={(_c, fromIndex, insertionIndex) =>
+            reorderItems(columns, fromIndex, insertionIndex, setColumns)
+          }
+          onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
+        />
+      </div>
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
+
+/**
+ * A `fill` column takes the spare width, so the other columns keep their widths.
+ */
+export const WithFillColumn: TableStory<Build> = {
+  render() {
+    const [resizableColumns, setResizableColumns] = useState<readonly Column<Build>[]>(() => [
+      {key: 'Id', width: 80, resizable: true, renderCell: ({id}) => `#${id}`},
+      {key: 'Status', width: 120, resizable: true, renderCell: buildStatusCell},
+      {key: 'Branch', width: 220, resizable: true, renderCell: ({branch}) => branch},
+      fillColumn,
+      {key: 'Actions', width: 90, resizable: true, renderCell: () => <Button inline>Run</Button>},
+    ]);
+
+    const staticColumns: Column<Build>[] = [
+      {key: 'Id', width: 80, renderCell: ({id}) => `#${id}`},
+      {key: 'Status', width: 120, renderCell: buildStatusCell},
+      {key: 'Branch', width: 220, renderCell: ({branch}) => branch},
+      fillColumn,
+      {key: 'Actions', width: 90, renderCell: () => <Button inline>Run</Button>},
+    ];
+
+    return (
+      <>
+        <h3>Resizable</h3>
+        <Table
+          className={style.nowrapTable}
+          data={buildColumnsSlice.slice(0, 5)}
+          columns={resizableColumns}
+          getKey={({id}) => id}
+          onColumnResize={(_column, _columnIndex, _width, newColumns) => setResizableColumns(newColumns)}
+        />
+        <h3>Not resizable</h3>
+        <Table
+          className={style.nowrapTable}
+          data={buildColumnsSlice.slice(0, 5)}
+          columns={staticColumns}
+          getKey={({id}) => id}
+        />
+      </>
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
+
+/**
+ * Pinned columns stay visible while the table scrolls horizontally, with a divider while
+ * content is under them. The first row spans all columns with `TableCell fullWidth`.
+ */
+export const WithPinnedColumns: TableStory<Build> = {
+  render() {
+    const [wide, setWide] = useState(false);
+    const [selected, setSelected] = useState<number | null>(null);
+    const [columns, setColumns] = useState<readonly Column<Build>[]>(() => [
+      {key: 'Id', pinned: 'start', width: 80, renderCell: ({id}) => `#${id}`},
+      {key: 'Status', pinned: 'start', width: 120, resizable: true, renderCell: buildStatusCell},
+      ...movableBuildColumns,
+      {...fillColumn, pinned: 'end'},
+      {
+        key: 'Actions',
+        pinned: 'end',
+        width: 90,
+        renderHeader: () => <span className={style.srOnly}>Actions</span>,
+        renderCell: () => <Button inline>Run</Button>,
+      },
+    ]);
+
+    return (
+      <>
+        <Checkbox checked={wide} onChange={e => setWide(e.target.checked)} label='Wide container' />
+        <div className={classNames(style.pinnedScroller, wide && style.pinnedScrollerWide)}>
+          <Table
+            className={style.nowrapTable}
+            data={buildColumnsSlice}
+            columns={columns}
+            getKey={({id}) => id}
+            renderItem={(item, index) => {
+              const row = (
+                <DefaultItemRenderer
+                  index={index}
+                  clickable
+                  selected={selected === item.id}
+                  onClick={() => setSelected(item.id)}
+                />
+              );
+              return index === 0 ? (
+                <>
+                  <TableRow>
+                    <TableCell fullWidth>
+                      <Button inline>Show 3 queued builds</Button>
+                    </TableCell>
+                  </TableRow>
+                  {row}
+                </>
+              ) : (
+                row
+              );
+            }}
+            onColumnReorder={(_c, fromIndex, insertionIndex) =>
+              reorderItems(columns, fromIndex, insertionIndex, setColumns)
+            }
+            onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
+          />
+        </div>
+      </>
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
+
+/**
+ * Only headers which can be sorted, reordered, resized or deleted react to hover.
+ */
+export const WithInteractiveHeaderHover: TableStory<(typeof smallDataSlice)[number]> = {
+  render() {
+    const [columns, setColumns] = useState<readonly Column<(typeof smallDataSlice)[number]>[]>(() => [
+      {key: 'ID (static)', renderCell: ({id}) => id},
+      {key: 'Country (sortable)', sortOrder: 'none', renderCell: ({country}) => country},
+      {key: 'City (reorderable)', canReorder: true, renderCell: ({city}) => city},
+      {key: 'URL (resizable)', resizable: true, renderCell: ({url}) => <PlaceLink href={url} />},
+    ]);
+
+    return (
+      <Table
+        data={smallDataSlice}
+        columns={columns}
+        getKey={getKey}
+        onColumnReorder={(_c, fromIndex, insertionIndex) =>
+          reorderItems(columns, fromIndex, insertionIndex, setColumns)
+        }
+        onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
+      />
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};

@@ -21,6 +21,7 @@ import {ReorderAnimationContext} from './reorder-animation-context';
 import {type InsertionPoint, ReorderLayoutContext} from './reorder-layout-context';
 import {type DragAutoScroll, startDragAutoScroll} from './drag-auto-scroll';
 import {getColumnIndicatorVerticalSpan} from './column-indicator-vertical-span';
+import {PinnedColumnsContext} from './pinned-columns';
 
 import type {DragState} from '../table-primitives';
 
@@ -85,9 +86,15 @@ export function ReorderHandle<T>({
   const onItemReorder = tableProps?.onItemReorder;
   const onColumnReorder = tableProps?.onColumnReorder;
 
+  const pinnedColumns = use(PinnedColumnsContext);
+
   function canReorder(insertionIndex: number) {
     const columnBeingReordered = columns?.[index];
     if (isColumn && columnBeingReordered) {
+      // Not past or between the pinned columns
+      if (insertionIndex < pinnedColumns.startCount || insertionIndex > columns.length - pinnedColumns.endCount) {
+        return false;
+      }
       const canReorderColumn = columnBeingReordered.canReorder;
       if (canReorderColumn === true) return true;
       if (typeof canReorderColumn === 'function')

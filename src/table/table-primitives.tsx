@@ -1,8 +1,9 @@
+import {type ComponentPropsWithRef, use} from 'react';
 import classNames from 'classnames';
 
 import {ReorderHandle} from './internal/reorder-handle';
-
-import type {ComponentPropsWithRef} from 'react';
+import {getPinnedCellProps, PinnedColumnsContext} from './internal/pinned-columns';
+import {TablePropsContext} from './table-const';
 
 import styles from './table.css';
 
@@ -29,14 +30,54 @@ export function TableRow(props: TableRowProps & ComponentPropsWithRef<'tr'>) {
   return <tr className={classes} {...trRestProps} />;
 }
 
+export interface TableCellProps {
+  /**
+   * The index of the column the cell belongs to. Applies the column layout, such as `Column.pinned`.
+   */
+  columnIndex?: number;
+
+  /**
+   * Spans all columns. Covers the content scrolled under the pinned columns
+   * and continues their dividers, see `Column.pinned`.
+   * The children are rendered in a wrapper that has the cell padding.
+   */
+  fullWidth?: boolean;
+}
+
 /**
  * A helper `<td>` component for custom {@link TableProps.renderItem} implementations.
  * Applies the standard cell class names, but not data-dependent `tdClassName`.
  */
-export function TableCell(props: ComponentPropsWithRef<'td'>) {
-  const {className, ...restProps} = props;
-  const classes = classNames(styles.cell, className);
-  return <td className={classes} {...restProps} />;
+export function TableCell(props: TableCellProps & ComponentPropsWithRef<'td'>) {
+  const {columnIndex, fullWidth, className, style, children, ...restProps} = props;
+  const tableProps = use(TablePropsContext);
+  const pinnedColumns = use(PinnedColumnsContext);
+
+  if (fullWidth) {
+    return (
+      <td
+        className={classNames(styles.cell, styles.fullWidthCell, className)}
+        colSpan={tableProps?.columns.length}
+        style={style}
+        {...restProps}
+      >
+        <div className={styles.fullWidthLayout}>
+          <div className={styles.fullWidthContent}>{children}</div>
+        </div>
+      </td>
+    );
+  }
+
+  const pinnedProps = columnIndex == null ? undefined : getPinnedCellProps(pinnedColumns, columnIndex);
+  return (
+    <td
+      className={classNames(styles.cell, pinnedProps?.className, className)}
+      style={pinnedProps ? {...style, ...pinnedProps.style} : style}
+      {...restProps}
+    >
+      {children}
+    </td>
+  );
 }
 
 /**

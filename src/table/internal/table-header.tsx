@@ -7,7 +7,7 @@ import settingsIcon from '@jetbrains/icons/settings-12px';
 import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 
-import {type TableProps} from '../table-props';
+import {type Column, type TableProps} from '../table-props';
 import {TablePropsContext} from '../table-const';
 import Icon from '../../icon';
 import {isWithinInteractiveElement} from '../../global/is-within-interactive-element';
@@ -16,6 +16,7 @@ import {ReorderAnimationContext} from './reorder-animation-context';
 import {ReorderLayoutContext, useReorderLayoutContextValue} from './reorder-layout-context';
 import {useReorderItemLayout} from '../reorder-item-layout';
 import {ColumnResizeHandle} from './column-resize/column-resize-handle';
+import {getPinnedCellProps, PinnedColumnsContext} from './pinned-columns';
 
 import styles from '../table.css';
 
@@ -98,7 +99,9 @@ function TableHeaderCell<T>({
 
   const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
   const column = columns[columnIndex];
-  const {key, name, renderHeader, sortOrder, deletable, canReorder, resizable, thClassName} = column;
+  const {key, name, renderHeader, sortOrder, deletable, thClassName, thProps} = column;
+  const pinnedProps = getPinnedCellProps(use(PinnedColumnsContext), columnIndex);
+  const {canReorder, resizable, interactive} = getHeaderControls(column, !!pinnedProps);
 
   const {reorderAnimation} = use(ReorderAnimationContext);
   const children = <span id={labelId}>{renderHeader ? renderHeader() : (name ?? String(key))}</span>;
@@ -113,10 +116,15 @@ function TableHeaderCell<T>({
 
   return (
     <th
+      {...thProps}
       ref={ref}
+      style={{...thProps?.style, ...pinnedProps?.style}}
       className={classNames(
+        thProps?.className,
         styles.headerCell,
+        interactive && styles.interactiveHeaderCell,
         resizable && styles.resizableHeaderCell,
+        pinnedProps?.className,
         reorderAnimation?.direction === 'columns' &&
           reorderAnimation.index === columnIndex &&
           reorderAnimation.className,
@@ -150,6 +158,12 @@ function TableHeaderCell<T>({
       {resizable && <ColumnResizeHandle column={column} columnIndex={columnIndex} />}
     </th>
   );
+}
+
+function getHeaderControls<T>(column: Column<T>, pinned: boolean) {
+  const canReorder = !pinned && column.canReorder;
+  const resizable = !column.fill && column.resizable;
+  return {canReorder, resizable, interactive: !!(canReorder || resizable || column.sortOrder || column.deletable)};
 }
 
 function SortButton<T>({

@@ -1,4 +1,5 @@
-import React, {type ComponentPropsWithRef, Fragment, useRef} from 'react';
+/* eslint-disable max-lines */
+import React, {type ComponentPropsWithRef, type CSSProperties, Fragment, useMemo, useRef} from 'react';
 import classNames from 'classnames';
 
 import {SpacerRow, useVirtualItems, VirtualizationContext, type VirtualItem} from './internal/virtualization';
@@ -13,6 +14,7 @@ import {isWithinNavigableElement} from '../global/is-within-navigable-element';
 import {ReorderLayoutContext, useReorderLayoutContextValue} from './internal/reorder-layout-context';
 import {ColumnSizingContext, useColumnSizing} from './internal/column-resize/column-sizing-context';
 import {ColumnGroup} from './internal/column-resize/column-group';
+import {getPinnedColumns, PinnedColumnsContext, usePinnedColumnsScrollState} from './internal/pinned-columns';
 
 import type {TableProps} from './table-props';
 
@@ -296,6 +298,22 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
 
   const localRef = useRef<HTMLTableElement>(null);
   const columnSizing = useColumnSizing({columns, onColumnResize, tableRef: localRef});
+  const {widths} = columnSizing;
+  const pinnedColumns = useMemo(() => getPinnedColumns(columns, widths), [columns, widths]);
+  usePinnedColumnsScrollState(localRef, pinnedColumns);
+  const hasPinnedColumns = pinnedColumns.startCount > 0 || pinnedColumns.endCount > 0;
+
+  const tableStyle = {
+    ...style,
+    ...(hasPinnedColumns && {
+      '--ring-table-pinned-start-width': `${pinnedColumns.startWidth}px`,
+      '--ring-table-pinned-end-width': `${pinnedColumns.endWidth}px`,
+    }),
+    ...(columnSizing.totalWidth != null && {
+      width: columnSizing.totalWidth,
+      minWidth: columnSizing.hasFill ? '100%' : undefined,
+    }),
+  } as CSSProperties;
 
   const reorderAnimationContextValue = useReorderAnimationContextValue({
     noColumnReorderAnimation,
@@ -348,50 +366,57 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
     <TablePropsContext value={props as TableProps<unknown>}>
       <ReorderAnimationContext value={reorderAnimationContextValue}>
         <table
-          className={classNames(styles.table, columnSizing.fixedLayout && styles.fixedLayout, className)}
-          style={columnSizing.fixedLayout ? {...style, width: columnSizing.totalWidth} : style}
+          className={classNames(
+            styles.table,
+            columnSizing.fixedLayout && styles.fixedLayout,
+            hasPinnedColumns && styles.hasPinnedColumns,
+            className,
+          )}
+          style={tableStyle}
           ref={useComposedRef(userRef, localRef)}
           {...restProps}
         >
-          {columnSizing.hasColgroup && <ColumnGroup columns={columns} widths={columnSizing.widths} />}
-          <ColumnSizingContext value={columnSizing.contextValue}>
-            <TableHeader />
-          </ColumnSizingContext>
-          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-          <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
-            <VirtualizationContext value={virtualizationContextValue}>
-              <ReorderLayoutContext value={itemReorderLayoutContextValue}>
-                {(virtualizeRows ? virtualItems : data).map((item, index) => {
-                  let dataItem: T;
-                  let dataItemIndex: number;
+          {columnSizing.hasColgroup && <ColumnGroup columns={columns} widths={widths} />}
+          <PinnedColumnsContext value={pinnedColumns}>
+            <ColumnSizingContext value={columnSizing.contextValue}>
+              <TableHeader />
+            </ColumnSizingContext>
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+            <tbody className={tbodyClassName} onKeyDown={handleRowNavigation}>
+              <VirtualizationContext value={virtualizationContextValue}>
+                <ReorderLayoutContext value={itemReorderLayoutContextValue}>
+                  {(virtualizeRows ? virtualItems : data).map((item, index) => {
+                    let dataItem: T;
+                    let dataItemIndex: number;
 
-                  if (virtualizeRows) {
-                    const virtualItem = item as VirtualItem;
-                    if (virtualItem.type === 'spacer') {
-                      return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                    if (virtualizeRows) {
+                      const virtualItem = item as VirtualItem;
+                      if (virtualItem.type === 'spacer') {
+                        return <SpacerRow key={virtualItem.key} spacer={virtualItem} colSpan={columns.length} />;
+                      }
+
+                      dataItemIndex = virtualItem.index;
+                      if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
+                      dataItem = data[dataItemIndex];
+                    } else {
+                      dataItem = item as T;
+                      dataItemIndex = index;
                     }
 
-                    dataItemIndex = virtualItem.index;
-                    if (dataItemIndex < 0 || dataItemIndex >= data.length) return null;
-                    dataItem = data[dataItemIndex];
-                  } else {
-                    dataItem = item as T;
-                    dataItemIndex = index;
-                  }
-
-                  return (
-                    <Fragment key={getKey(dataItem, dataItemIndex, data)}>
-                      {renderItem ? (
-                        renderItem(dataItem, dataItemIndex, data)
-                      ) : (
-                        <DefaultItemRenderer index={dataItemIndex} />
-                      )}
-                    </Fragment>
-                  );
-                })}
-              </ReorderLayoutContext>
-            </VirtualizationContext>
-          </tbody>
+                    return (
+                      <Fragment key={getKey(dataItem, dataItemIndex, data)}>
+                        {renderItem ? (
+                          renderItem(dataItem, dataItemIndex, data)
+                        ) : (
+                          <DefaultItemRenderer index={dataItemIndex} />
+                        )}
+                      </Fragment>
+                    );
+                  })}
+                </ReorderLayoutContext>
+              </VirtualizationContext>
+            </tbody>
+          </PinnedColumnsContext>
         </table>
       </ReorderAnimationContext>
     </TablePropsContext>

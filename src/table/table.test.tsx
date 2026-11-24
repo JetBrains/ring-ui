@@ -4,9 +4,11 @@ import {fireEvent, render, screen} from '@testing-library/react';
 
 import Table from './table';
 import {DefaultItemRenderer} from './default-item-renderer';
-import {ItemReorderHandle} from './table-primitives';
+import {ItemReorderHandle, TableCell, TableRow} from './table-primitives';
 
 import type {Column} from './table-props';
+
+import styles from './table.css';
 
 interface CountryItem {
   id: number;
@@ -698,5 +700,271 @@ describe('Table column resize', () => {
 
     // Not 181px: the drag measures the columns after the switch, not before
     expect(getColWidths(container)).to.deep.equal(['100px', '101px', '0px']);
+  });
+
+  describe('fill column', () => {
+    const fill: Column<CountryItem> = {key: 'fill', fill: true, renderCell: () => null};
+
+    it('leaves the fill column without width and makes the table at least as wide as its container', () => {
+      const {container} = render(<ResizableTable columns={[...resizableColumns, fill]} />);
+
+      // No trailing filler `<col>`: the fill column takes the slack
+      expect(getColWidths(container)).to.deep.equal(['100px', '120px', '']);
+      expect(container.querySelector('table')!.style.width).to.equal('220px');
+      expect(container.querySelector('table')!.style.minWidth).to.equal('100%');
+    });
+
+    it('renders nothing in cells whose renderCell returns null', () => {
+      const {container} = render(<Table data={countries} columns={[resizableColumns[0], fill]} getKey={getKey} />);
+
+      expect(container.querySelector('tbody td:last-child')!.textContent).to.equal('');
+    });
+
+    it('ignores resizable and width on the fill column', () => {
+      const {container} = render(
+        <ResizableTable columns={[resizableColumns[0], {...fill, resizable: true, width: 300}]} />,
+      );
+
+      expect(container.querySelectorAll('[data-test="ring-table-column-resize-handle"]')).to.have.length(1);
+      expect(getColWidths(container)).to.deep.equal(['100px', '']);
+    });
+
+    it('keeps the table width while shrinking, without writing the fill column width', () => {
+      const {container} = render(<ResizableTable columns={[...resizableColumns, fill]} />);
+
+      firePointer('pointerdown', getHandle(), 0);
+      firePointer('pointermove', getHandle(), -30);
+      expect(getColWidths(container)).to.deep.equal(['70px', '120px', '']);
+      expect(container.querySelector('table')!.style.width).to.equal('220px');
+
+      firePointer('pointerup', getHandle(), -30);
+      expect(container.querySelector('table')!.style.width).to.equal('190px');
+    });
+
+    it('does not add a width to the fill column in onColumnResize', () => {
+      const onColumnResize = vi.fn();
+      render(
+        <Table
+          data={countries}
+          columns={[...resizableColumns, fill]}
+          getKey={getKey}
+          onColumnResize={onColumnResize}
+        />,
+      );
+
+      drag(getHandle(), 0, 30);
+
+      const newColumns: Column<CountryItem>[] = onColumnResize.mock.calls[0][3];
+      expect(newColumns.map(column => column.width)).to.deep.equal([130, 120, undefined]);
+    });
+  });
+
+  describe('indicator', () => {
+    const getIndicators = () =>
+      document.querySelectorAll<HTMLElement>('[data-test="ring-table-column-resize-indicator"]');
+
+    // React derives `onPointerEnter` from `pointerover`. See `firePointer` about jsdom.
+    function hover(handle: Element, pointerType = 'mouse') {
+      const event = new MouseEvent('pointerover', {bubbles: true});
+      Object.defineProperty(event, 'pointerType', {value: pointerType});
+      fireEvent(handle, event);
+    }
+
+    it('shows the column boundary across the table while the handle is hovered', () => {
+      render(<ResizableTable columns={resizableColumns} />);
+
+      hover(getHandle());
+      expect(getIndicators()).to.have.length(1);
+      // At the right edge of the 100px wide column, see `beforeEach`
+      expect(getIndicators()[0].style.left).to.equal('99px');
+
+      fireEvent.pointerLeave(getHandle());
+      expect(getIndicators()).to.have.length(0);
+    });
+
+    it('does not show the boundary on touch hover', () => {
+      render(<ResizableTable columns={resizableColumns} />);
+
+      hover(getHandle(), 'touch');
+      expect(getIndicators()).to.have.length(0);
+    });
+
+    it('reuses the hover indicator while dragging', () => {
+      render(<ResizableTable columns={resizableColumns} />);
+
+      hover(getHandle());
+      firePointer('pointerdown', getHandle(), 0);
+      firePointer('pointermove', getHandle(), 50);
+
+      expect(getIndicators()).to.have.length(1);
+      expect(getIndicators()[0].style.left).to.equal('149px');
+    });
+
+    it('shows the indicator while dragging without hover, and removes it on release', () => {
+      render(<ResizableTable columns={resizableColumns} />);
+
+      firePointer('pointerdown', getHandle(), 0);
+      expect(getIndicators()).to.have.length(1);
+
+      firePointer('pointerup', getHandle(), 0);
+      expect(getIndicators()).to.have.length(0);
+    });
+
+    it('keeps the indicator after the drag while the handle is still hovered', () => {
+      render(<ResizableTable columns={resizableColumns} />);
+
+      hover(getHandle());
+      drag(getHandle(), 0, 50);
+      expect(getIndicators()).to.have.length(1);
+
+      fireEvent.pointerLeave(getHandle());
+      expect(getIndicators()).to.have.length(0);
+    });
+
+    it('removes the indicator on unmount', () => {
+      const {unmount} = render(<ResizableTable columns={resizableColumns} />);
+
+      hover(getHandle());
+      unmount();
+
+      expect(getIndicators()).to.have.length(0);
+    });
+  });
+});
+
+describe('Table header attributes and hover', () => {
+  it('applies thProps, keeping the attributes set by the table', () => {
+    const columns: Column<CountryItem>[] = [
+      {key: 'country', name: 'Country', sortOrder: 'none'},
+      {key: 'spacer', renderHeader: () => null, thProps: {'aria-hidden': true, className: 'custom', scope: 'row'}},
+    ];
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} />);
+
+    const spacer = container.querySelectorAll('th')[1];
+    expect(spacer.getAttribute('aria-hidden')).to.equal('true');
+    expect(spacer.classList.contains('custom')).to.equal(true);
+    expect(spacer.classList.contains(styles.headerCell)).to.equal(true);
+    expect(spacer.getAttribute('scope')).to.equal('col');
+  });
+
+  it('marks only sortable, reorderable, resizable or deletable headers as interactive', () => {
+    const columns: Column<CountryItem>[] = [
+      {key: 'static'},
+      {key: 'sortable', sortOrder: 'none'},
+      {key: 'reorderable', canReorder: true},
+      {key: 'resizable', resizable: true},
+      {key: 'deletable', deletable: true},
+    ];
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} />);
+
+    const interactive = [...container.querySelectorAll('th')].map(th =>
+      th.classList.contains(styles.interactiveHeaderCell),
+    );
+    expect(interactive).to.deep.equal([false, true, true, true, true]);
+  });
+});
+
+describe('Table pinned columns', () => {
+  const pinnedColumns: Column<CountryItem>[] = [
+    {key: 'id', name: 'Id', pinned: 'start', width: 60},
+    {key: 'country', name: 'Country', pinned: 'start', width: 100, canReorder: true},
+    {key: 'capital', name: 'Capital', width: 120, canReorder: true},
+    {key: 'wikipedia', name: 'Wikipedia', width: 200, canReorder: true},
+    {key: 'fill', fill: true, pinned: 'end', renderHeader: () => null, renderCell: () => null},
+    {key: 'actions', name: 'Actions', pinned: 'end', width: 80},
+  ];
+
+  const getInsets = (cells: NodeListOf<HTMLElement>) =>
+    [...cells].map(
+      cell => cell.style.insetInlineStart || (cell.style.insetInlineEnd && `end ${cell.style.insetInlineEnd}`),
+    );
+
+  it('offsets the pinned header and body cells by the widths of the pinned columns closer to the edge', () => {
+    const {container} = render(<Table data={countries} columns={pinnedColumns} getKey={getKey} />);
+
+    // jsdom normalizes `0px` to `0`
+    const expected = ['0', '60px', '', '', 'end 80px', 'end 0'];
+    expect(getInsets(container.querySelectorAll('thead th'))).to.deep.equal(expected);
+    expect(getInsets(container.querySelectorAll('tbody tr:first-child td'))).to.deep.equal(expected);
+    expect(container.querySelector('tbody td')!.classList.contains(styles.pinnedCell)).to.equal(true);
+  });
+
+  it('shows the dividers on the innermost pinned columns with a width', () => {
+    const {container} = render(<Table data={countries} columns={pinnedColumns} getKey={getKey} />);
+
+    const ths = container.querySelectorAll('th');
+    expect(ths[1].classList.contains(styles.pinnedStartEdge)).to.equal(true);
+    expect(ths[5].classList.contains(styles.pinnedEndEdge)).to.equal(true);
+    expect(ths[4].classList.contains(styles.pinnedEndEdge)).to.equal(false);
+  });
+
+  it('marks the table while content is scrolled under the pinned columns', () => {
+    const {container} = render(<Table data={countries} columns={pinnedColumns} getKey={getKey} />);
+    const table = container.querySelector('table')!;
+    const ths = container.querySelectorAll('th');
+    // Scrolled by 30px: the third column is partly under the pinned start columns, nothing is under the end ones
+    const lefts = [0, 60, 130, 250, 450, 450];
+    const widths = [60, 100, 120, 200, 0, 80];
+    ths.forEach((th, i) =>
+      vi.spyOn(th, 'getBoundingClientRect').mockReturnValue(new DOMRect(lefts[i], 0, widths[i], 20)),
+    );
+
+    fireEvent.scroll(document);
+    expect(table.hasAttribute('data-pinned-start-scrolled')).to.equal(true);
+    expect(table.hasAttribute('data-pinned-end-scrolled')).to.equal(false);
+  });
+
+  it('does not reorder pinned columns, nor move other columns past them', () => {
+    function PinnedTable() {
+      const [columns, setColumns] = useState(pinnedColumns);
+      return (
+        <Table
+          data={countries}
+          columns={columns}
+          getKey={getKey}
+          columnEditing
+          onColumnReorder={(column, fromIndex, insertionIndex) => {
+            const newColumns = [...columns];
+            newColumns.splice(fromIndex, 1);
+            newColumns.splice(fromIndex < insertionIndex ? insertionIndex - 1 : insertionIndex, 0, column);
+            setColumns(newColumns);
+          }}
+        />
+      );
+    }
+    const {container} = render(<PinnedTable />);
+    const getHeaders = () => [...container.querySelectorAll('thead th')].map(th => th.textContent?.trim());
+
+    expect(screen.queryByRole('button', {name: 'Reorder column Country.'})).to.equal(null);
+
+    const capital = screen.getByRole('button', {name: 'Reorder column Capital.'});
+    fireEvent.keyDown(capital, {key: 'ArrowLeft'});
+    expect(getHeaders()).to.deep.equal(['Id', 'Country', 'Capital', 'Wikipedia', '', 'Actions']);
+
+    fireEvent.keyDown(screen.getByRole('button', {name: 'Reorder column Wikipedia.'}), {key: 'ArrowRight'});
+    expect(getHeaders()).to.deep.equal(['Id', 'Country', 'Capital', 'Wikipedia', '', 'Actions']);
+  });
+
+  it('renders a full-width cell and the pinned area widths for its masks', () => {
+    const {container} = render(
+      <Table
+        data={countries.slice(0, 1)}
+        columns={pinnedColumns}
+        getKey={getKey}
+        renderItem={() => (
+          <TableRow>
+            <TableCell fullWidth>{'Show queued builds'}</TableCell>
+          </TableRow>
+        )}
+      />,
+    );
+
+    const cell = container.querySelector('tbody td')!;
+    expect(cell.getAttribute('colspan')).to.equal('6');
+    expect(cell.textContent).to.equal('Show queued builds');
+    expect(container.querySelector('table')!.getAttribute('style')).to.contain(
+      '--ring-table-pinned-start-width: 160px',
+    );
+    expect(container.querySelector('table')!.getAttribute('style')).to.contain('--ring-table-pinned-end-width: 80px');
   });
 });

@@ -1,4 +1,4 @@
-import {createContext, useLayoutEffect, useRef, useState, type Key, type RefObject} from 'react';
+import {createContext, useLayoutEffect, useMemo, useRef, useState, type Key, type RefObject} from 'react';
 
 import type {Column, TableProps} from '../../table-props';
 
@@ -30,8 +30,12 @@ export function useColumnSizing<T>({
   // Widths measured or set by the user, used for columns without `width`
   const [internalWidths, setInternalWidths] = useState<ReadonlyMap<Key, number>>(() => new Map());
 
+  const hasFill = columns.some(column => column.fill);
   const hasColgroup = columns.some(column => column.resizable || column.width != null);
-  const widths = columns.map(column => column.width ?? internalWidths.get(column.key));
+  const widths = useMemo(
+    () => columns.map(column => (column.fill ? 0 : (column.width ?? internalWidths.get(column.key)))),
+    [columns, internalWidths],
+  );
 
   // A drag commits after several renders, so it must see the latest columns, widths and callback
   const latestRef = useRef({columns, widths, onColumnResize});
@@ -67,6 +71,7 @@ export function useColumnSizing<T>({
 
     // All widths, including the measured ones, so that the client can store and restore the layout
     const newColumns = latestColumns.map((column, index) => {
+      if (column.fill) return column;
       const newWidth = index === columnIndex ? width : latestWidths[index];
       return newWidth === column.width ? column : {...column, width: newWidth};
     });
@@ -75,6 +80,7 @@ export function useColumnSizing<T>({
 
   return {
     hasColgroup,
+    hasFill,
     fixedLayout,
     totalWidth,
     widths,
