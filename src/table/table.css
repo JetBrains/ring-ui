@@ -92,6 +92,8 @@
 
   height: 100vh;
 
+  pointer-events: none;
+
   background-color: var(--ring-line-color);
 }
 
