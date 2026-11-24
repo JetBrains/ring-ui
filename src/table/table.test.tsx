@@ -524,7 +524,8 @@ describe('Table column resize', () => {
     );
   }
 
-  const getHandle = () => document.querySelector('th:first-child [data-test="ring-table-column-resize-handle"]')!;
+  const getHandle = () =>
+    document.querySelector<HTMLElement>('th:first-child [data-test="ring-table-column-resize-handle"]')!;
 
   it('does not render a colgroup when no column is resizable or sized', () => {
     const {container} = render(<Table data={countries} columns={baseColumns} getKey={getKey} />);
