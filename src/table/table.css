@@ -40,7 +40,7 @@
   position: absolute;
   z-index: var(--ring-fixed-z-index);
   top: 0;
-  right: 0;
+  right: calc(var(--ring-unit) / -2);
   bottom: 0;
 
   width: var(--ring-unit);
@@ -49,10 +49,14 @@
 
   touch-action: none;
 
+  .headerCell:last-child & {
+    right: 0;
+  }
+
   &::after {
     position: absolute;
     top: 0;
-    right: -1px;
+    right: calc(50% - 1px);
     bottom: 0;
 
     width: 2px;
@@ -60,6 +64,12 @@
     content: '';
 
     transition: background-color var(--ring-fast-ease);
+    pointer-events: none;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:last-child &::after {
+    right: 0;
   }
 
   /* Larger touch target, extended into the next column to keep the header buttons tappable */
@@ -67,7 +77,7 @@
     &::before {
       position: absolute;
       top: 0;
-      right: calc(var(--ring-unit) * -1);
+      right: calc(var(--ring-unit) / -2);
       bottom: 0;
       left: 0;
 
@@ -91,8 +101,6 @@
   bottom: auto;
 
   height: 100vh;
-
-  pointer-events: none;
 
   background-color: var(--ring-line-color);
 }
