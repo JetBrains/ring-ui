@@ -140,6 +140,48 @@ noAuth.parameters = {
   },
 };
 
+export const RecentSearchesOnClick: StoryFn<QueryAssistAttrs> = args => {
+  const [query, setQuery] = useState('');
+  const queryAssist = useRef<QueryAssist>(null);
+
+  return (
+    <QueryAssist
+      {...args}
+      ref={queryAssist}
+      query={query}
+      onChange={change => setQuery(change.query)}
+      onClick={() => {
+        if (!query) {
+          queryAssist.current?.requestData?.();
+        }
+      }}
+      dataSource={({query: requestedQuery, caret}) => ({
+        query: requestedQuery,
+        caret,
+        suggestions: requestedQuery
+          ? []
+          : ['#Unresolved', 'project: Ring UI'].map(option => ({
+              option,
+              description: '',
+              group: 'Recent searches',
+              caret: option.length,
+              completionStart: 0,
+              completionEnd: 0,
+            })),
+      })}
+    />
+  );
+};
+RecentSearchesOnClick.args = {focus: true, placeholder: 'Search issues'};
+RecentSearchesOnClick.parameters = {
+  docs: {
+    description: {
+      story: 'Autofocus leaves suggestions closed. Click the empty input, even while focused, to open recent searches.',
+    },
+  },
+  screenshots: {skip: true},
+};
+
 export const withCustomRenderer: StoryFn<QueryAssistAttrs> = args => <QueryAssist {...args} />;
 
 withCustomRenderer.args = {
