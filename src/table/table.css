@@ -40,7 +40,7 @@
   position: absolute;
   z-index: var(--ring-fixed-z-index);
   top: 0;
-  right: 0;
+  right: calc(var(--ring-unit) / -2);
   bottom: 0;
 
   width: var(--ring-unit);
@@ -49,10 +49,14 @@
 
   touch-action: none;
 
+  .headerCell:last-child & {
+    right: 0;
+  }
+
   &::after {
     position: absolute;
     top: 0;
-    right: -1px;
+    right: calc(50% - 1px);
     bottom: 0;
 
     width: 2px;
@@ -60,10 +64,12 @@
     content: '';
 
     transition: background-color var(--ring-fast-ease);
+    pointer-events: none;
   }
 
-  &:hover::after {
-    background-color: var(--ring-main-color);
+  /* stylelint-disable-next-line selector-max-specificity */
+  .headerCell:last-child &::after {
+    right: 0;
   }
 
   /* Larger touch target, extended into the next column to keep the header buttons tappable */
@@ -71,7 +77,7 @@
     &::before {
       position: absolute;
       top: 0;
-      right: calc(var(--ring-unit) * -1);
+      right: calc(var(--ring-unit) / -2);
       bottom: 0;
       left: 0;
 
@@ -89,15 +95,23 @@
   background-color: var(--ring-line-color);
 }
 
-.columnResizeIndicator {
-  position: fixed;
-  z-index: var(--ring-overlay-z-index);
+/* The column boundary across the visible part of the table, clipped by the table and its scroller.
+   While dragging, `column-resize-drag.ts` sets the height down to the viewport bottom. */
+.columnResizeHandle:hover::after,
+.columnResizeHandle[data-resizing]::after {
+  bottom: auto;
 
-  width: 2px;
+  height: var(--column-resize-line-height, 100vh);
 
-  pointer-events: none;
+  background-color: var(--ring-line-color);
+}
 
+.columnResizeHandle[data-resizing]::after {
   background-color: var(--ring-main-color);
+}
+
+.table:has(.columnResizeHandle:hover, .columnResizeHandle[data-resizing]) {
+  overflow: clip;
 }
 
 .resizableHeaderCell {
@@ -125,11 +139,15 @@
 
   padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
 
-  transition: background-color var(--ring-fast-ease), --header-cell-shadow-color var(--ring-fast-ease);
+  transition:
+    background-color var(--ring-fast-ease),
+    --header-cell-shadow-color var(--ring-fast-ease);
 
   border-bottom: 1px solid var(--ring-line-color);
 
-  box-shadow: inset 1px 0 0 var(--header-cell-shadow-color), 1px 0 0 var(--header-cell-shadow-color);
+  box-shadow:
+    inset 1px 0 0 var(--header-cell-shadow-color),
+    1px 0 0 var(--header-cell-shadow-color);
 
   &:hover {
     --header-cell-shadow-color: var(--ring-line-color);
@@ -222,7 +240,10 @@
 
   cursor: grab;
 
-  transition: color var(--ring-fast-ease), width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
+  transition:
+    color var(--ring-fast-ease),
+    width var(--ring-fast-ease),
+    margin-right var(--ring-fast-ease);
 
   border-radius: var(--ring-border-radius);
   touch-action: none;
@@ -250,7 +271,9 @@
   width: 12px;
   margin-left: 4px;
 
-  transition: width var(--ring-fast-ease), margin-left var(--ring-fast-ease);
+  transition:
+    width var(--ring-fast-ease),
+    margin-left var(--ring-fast-ease);
 }
 
 .theadColumnEditing .columnReorderHandleMirror,

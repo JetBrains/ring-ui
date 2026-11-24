@@ -1,8 +1,7 @@
-import {getColumnIndicatorVerticalSpan} from '../column-indicator-vertical-span';
-
-import styles from '../../table.css';
-
 const defaultMinColumnWidth = 40;
+
+const resizingAttr = 'data-resizing';
+const lineHeightProperty = '--column-resize-line-height';
 
 interface ColumnResizeDragParams {
   handle: HTMLElement;
@@ -59,14 +58,12 @@ export function startColumnResizeDrag({
   let width = startWidth;
   let lastClientX = startClientX;
 
-  const indicator = document.createElement('div');
-  indicator.className = styles.columnResizeIndicator;
-  document.body.appendChild(indicator);
-
   const previousBodyCursor = document.body.style.cursor;
   const previousBodyUserSelect = document.body.style.userSelect;
   document.body.style.cursor = 'col-resize';
   document.body.style.userSelect = 'none';
+  // Shows the column boundary across the table, see `.columnResizeHandle`
+  handle.setAttribute(resizingAttr, '');
 
   function setDomWidths(columnWidth: number, fillerWidth: number) {
     column.style.width = `${columnWidth}px`;
@@ -74,23 +71,15 @@ export function startColumnResizeDrag({
     table.style.width = `${startTotalWidth - startWidth + columnWidth + fillerWidth}px`;
   }
 
-  function positionIndicator(columnRight: number) {
-    const span = getColumnIndicatorVerticalSpan(th);
-    if (span) {
-      indicator.style.top = `${span.top}px`;
-      indicator.style.height = span.height;
-    }
-    indicator.style.left = `${columnRight - 1}px`;
-  }
-
   // Uses the column's current position rather than the pointer delta,
   // so the edge stays under the pointer when the table scrolls mid-drag.
   function update(clientX: number) {
     lastClientX = clientX;
-    const {left} = th.getBoundingClientRect();
+    const {left, top} = th.getBoundingClientRect();
+    // The header can scroll above the viewport mid-drag, so the boundary reaches down to the viewport bottom from there
+    handle.style.setProperty(lineHeightProperty, `${window.innerHeight - top}px`);
     width = Math.round(Math.min(maxWidth, Math.max(minWidth, clientX - grabOffset - left)));
     setDomWidths(width, Math.max(0, startWidth - width));
-    positionIndicator(left + width);
   }
 
   function end(commit: boolean) {
@@ -102,9 +91,10 @@ export function startColumnResizeDrag({
     document.removeEventListener('scroll', handleScroll, {capture: true});
     if (handle.hasPointerCapture(pointerId)) handle.releasePointerCapture(pointerId);
 
-    indicator.remove();
     document.body.style.cursor = previousBodyCursor;
     document.body.style.userSelect = previousBodyUserSelect;
+    handle.removeAttribute(resizingAttr);
+    handle.style.removeProperty(lineHeightProperty);
     setDomWidths(startWidth, 0);
 
     if (commit) onCommit(width);
@@ -143,7 +133,6 @@ export function startColumnResizeDrag({
   window.addEventListener('keydown', handleKeyDown, {capture: true});
   document.addEventListener('scroll', handleScroll, {capture: true, passive: true});
 
-  positionIndicator(th.getBoundingClientRect().right);
   return cancel;
 }
 

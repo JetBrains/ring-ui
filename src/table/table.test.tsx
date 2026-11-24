@@ -524,7 +524,8 @@ describe('Table column resize', () => {
     );
   }
 
-  const getHandle = () => document.querySelector('th:first-child [data-test="ring-table-column-resize-handle"]')!;
+  const getHandle = () =>
+    document.querySelector<HTMLElement>('th:first-child [data-test="ring-table-column-resize-handle"]')!;
 
   it('does not render a colgroup when no column is resizable or sized', () => {
     const {container} = render(<Table data={countries} columns={baseColumns} getKey={getKey} />);
@@ -698,5 +699,21 @@ describe('Table column resize', () => {
 
     // Not 181px: the drag measures the columns after the switch, not before
     expect(getColWidths(container)).to.deep.equal(['100px', '101px', '0px']);
+  });
+
+  it('marks the handle while dragging, which shows the column boundary across the table', () => {
+    render(<ResizableTable columns={resizableColumns} />);
+
+    firePointer('pointerdown', getHandle(), 0);
+    expect(getHandle().hasAttribute('data-resizing')).to.equal(true);
+
+    // The boundary reaches from the header, which may have scrolled away, to the viewport bottom
+    vi.spyOn(getHandle().closest('th')!, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, -120, 100, 20));
+    firePointer('pointermove', getHandle(), 10);
+    expect(getHandle().style.getPropertyValue('--column-resize-line-height')).to.equal(`${window.innerHeight + 120}px`);
+
+    firePointer('pointerup', getHandle(), 10);
+    expect(getHandle().hasAttribute('data-resizing')).to.equal(false);
+    expect(getHandle().style.getPropertyValue('--column-resize-line-height')).to.equal('');
   });
 });
