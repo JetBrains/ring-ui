@@ -91,6 +91,12 @@ export interface QueryAssistProps {
    * Called when the focus status is changed. An object with fields `focus` is passed as an argument
    */
   onFocusChange: (change: FocusChange) => void;
+  /**
+   * Called with the React mouse event when the input or placeholder is clicked, even if already focused.
+   * Runs after internal caret and popup handling, so consumers can request suggestions here.
+   * Not called when disabled or when action controls or suggestion items are clicked.
+   */
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   translations?: QueryAssistTranslations | null | undefined;
   /**
    * Open suggestions popup during the initial render
@@ -602,6 +608,13 @@ export default class QueryAssist extends Component<QueryAssistProps> {
       const text = cleanText(e.clipboardData.getData('text/plain'));
       document.execCommand(INSERT_COMMAND, false, text);
       this.handleInput(e);
+    }
+  };
+
+  handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    this.handleCaretMove(e);
+    if (!this.props.disabled) {
+      this.props.onClick?.(e);
     }
   };
 
@@ -1119,7 +1132,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                 disabled={this.props.disabled}
                 onComponentUpdate={() => this.setCaretPosition({fromContentEditable: true})}
                 onBlur={this.handleFocusChange}
-                onClick={this.handleCaretMove}
+                onClick={this.handleClick}
                 onCompositionStart={this.trackCompositionState}
                 onCompositionEnd={this.trackCompositionState}
                 onFocus={this.handleFocusChange}
@@ -1137,7 +1150,7 @@ export default class QueryAssist extends Component<QueryAssistProps> {
                   type='button'
                   className={placeholderStyles}
                   ref={this.placeholderRef}
-                  onClick={this.handleCaretMove}
+                  onClick={this.handleClick}
                   data-test='query-assist-placeholder'
                   disabled={this.props.disabled}
                   tabIndex={-1}

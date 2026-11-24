@@ -1,5 +1,5 @@
-import {getByRole, getByTestId, queryByTestId, render, screen} from '@testing-library/react';
-import {act} from 'react';
+import {createEvent, fireEvent, getByRole, getByTestId, queryByTestId, render, screen} from '@testing-library/react';
+import {act, createRef} from 'react';
 import userEvent from '@testing-library/user-event';
 import {beforeEach} from 'vitest';
 
@@ -707,6 +707,205 @@ describe('Query Assist', () => {
       const user = userEvent.setup();
       await user.click(clear);
       expect(onClear).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('input clicks', () => {
+    beforeEach(() =>
+      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+        cb(0);
+        return 0;
+      }),
+    );
+
+    it.each(['input', 'placeholder'])('should pass the React mouse event for %s clicks', async target => {
+      const onClick = vi.fn();
+      const queryAssist = renderQueryAssist({
+        query: target === 'input' ? testQuery : '',
+        placeholder: 'Search',
+        focus: false,
+        onClick,
+      });
+      await waitForSetStateCallbacks();
+
+      const input = getByRole(queryAssist, 'textbox');
+      const element =
+        target === 'input' ? input.querySelector('span')! : getByTestId(queryAssist, 'query-assist-placeholder');
+      const event = createEvent.click(element, {ctrlKey: true});
+      fireEvent(element, event);
+
+      expect(onClick).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({type: 'click', target: element, nativeEvent: event, ctrlKey: true}),
+      );
+      await waitForSetStateCallbacks();
+    });
+
+    it('should use the latest onClick callback when other props stay unchanged', async () => {
+      const onClick = vi.fn();
+      const nextOnClick = vi.fn();
+      const props = defaultProps();
+      const {rerender} = render(<QueryAssist {...props} onClick={onClick} />);
+      await waitForSetStateCallbacks();
+
+      rerender(<QueryAssist {...props} onClick={nextOnClick} />);
+      await userEvent.setup().click(screen.getByRole('textbox'));
+      await waitForSetStateCallbacks();
+
+      expect(onClick).not.toHaveBeenCalled();
+      expect(nextOnClick).toHaveBeenCalledOnce();
+    });
+
+    it('should let clicks reopen suggestions on an already focused empty input without opening on autofocus', async () => {
+      const ref = createRef<QueryAssist>();
+      const onClick = vi.fn(() => ref.current?.requestData?.());
+      render(<QueryAssist {...defaultProps()} ref={ref} query='' onClick={onClick} />);
+      await waitForSetStateCallbacks();
+      const input = screen.getByRole('textbox');
+      const popup = screen.getByTestId('ring-popup ring-query-assist-popup');
+      expect(document.activeElement).toBe(input);
+      expect(popup).to.have.attr('data-test-shown', 'false');
+      expect(onClick).not.toHaveBeenCalled();
+
+      const user = userEvent.setup();
+      await user.click(input);
+      await waitForSetStateCallbacks();
+      expect(popup).to.have.attr('data-test-shown', 'true');
+
+      await user.keyboard('{Escape}');
+      await waitForSetStateCallbacks();
+      expect(popup).to.have.attr('data-test-shown', 'false');
+      expect(document.activeElement).toBe(input);
+
+      await user.click(input);
+      await waitForSetStateCallbacks();
+      expect(popup).to.have.attr('data-test-shown', 'true');
+      expect(onClick).toHaveBeenCalledTimes(2);
+    });
+
+    it('should keep suggestions supplied synchronously by onClick open after internal click handling', async () => {
+      const ref = createRef<QueryAssist>();
+      render(
+        <QueryAssist
+          {...defaultProps()}
+          ref={ref}
+          query=''
+          onClick={() => ref.current?.handleResponse({suggestions})}
+        />,
+      );
+      await waitForSetStateCallbacks();
+
+      await userEvent.setup().click(screen.getByRole('textbox'));
+      await waitForSetStateCallbacks();
+
+      expect(screen.getByTestId('ring-popup ring-query-assist-popup')).to.have.attr('data-test-shown', 'true');
+    });
+
+    it('should update the caret before consumers request suggestions', async () => {
+      const ref = createRef<QueryAssist>();
+      const props = defaultProps();
+      render(<QueryAssist {...props} ref={ref} onClick={() => ref.current?.requestData?.()} />);
+      await waitForSetStateCallbacks();
+      props.dataSource.mockClear();
+
+      const input = screen.getByRole('textbox');
+      window.getSelection()!.collapse(input.querySelector('span')!, 0);
+      fireEvent.click(input);
+      await waitForSetStateCallbacks();
+
+      expect(props.dataSource).toHaveBeenNthCalledWith(1, {query: testQuery, caret: 0});
+      expect(props.dataSource).toHaveBeenLastCalledWith({query: testQuery, caret: 0});
+    });
+
+    it.each(['actions', 'clear', 'search icon', 'search button', 'suggestion', 'container'])(
+      'should not notify input clicks for %s clicks',
+      async target => {
+        const onClick = vi.fn();
+        const queryAssist = renderQueryAssist({
+          onClick,
+          glass: true,
+          huge: target === 'search button',
+          clear: true,
+          autoOpen: true,
+          actions: [
+            <button type='button' key='action'>
+              {'Custom action'}
+            </button>,
+          ],
+        });
+        await waitForSetStateCallbacks();
+
+        const elements: Record<string, Element> = {
+          actions: screen.getByRole('button', {name: 'Custom action'}),
+          clear: getByTestId(queryAssist, 'query-assist-clear-icon'),
+          'search icon': getByTestId(queryAssist, 'query-assist-search-icon'),
+          'search button': getByTestId(queryAssist, 'query-assist-search-icon'),
+          suggestion: screen
+            .getByTestId('ring-popup ring-query-assist-popup')
+            .querySelector('[data-test~=ring-list-item]')!,
+          container: queryAssist,
+        };
+        await userEvent.setup().click(elements[target]);
+        await waitForSetStateCallbacks();
+
+        expect(onClick).not.toHaveBeenCalled();
+      },
+    );
+
+    it.each(['input', 'placeholder'])('should not notify %s clicks when disabled', async target => {
+      const onClick = vi.fn();
+      const queryAssist = renderQueryAssist({query: '', placeholder: 'Search', disabled: true, onClick});
+      await waitForSetStateCallbacks();
+
+      const element =
+        target === 'input' ? getByRole(queryAssist, 'textbox') : getByTestId(queryAssist, 'query-assist-placeholder');
+      fireEvent.click(element);
+
+      expect(onClick).not.toHaveBeenCalled();
+    });
+
+    it('should not notify input clicks for keyboard input', async () => {
+      const onClick = vi.fn();
+      renderQueryAssist({onClick});
+      await waitForSetStateCallbacks();
+
+      await userEvent.setup().keyboard('{ArrowLeft}a{Enter}');
+      await waitForSetStateCallbacks();
+
+      expect(onClick).not.toHaveBeenCalled();
+    });
+
+    it('should notify clicks during composition without requesting caret suggestions', async () => {
+      const onClick = vi.fn();
+      const props = defaultProps();
+      render(<QueryAssist {...props} onClick={onClick} />);
+      await waitForSetStateCallbacks();
+      props.dataSource.mockClear();
+      const input = screen.getByRole('textbox');
+
+      fireEvent.compositionStart(input);
+      fireEvent.click(input);
+
+      expect(onClick).toHaveBeenCalledOnce();
+      expect(props.dataSource).not.toHaveBeenCalled();
+
+      fireEvent.compositionEnd(input);
+      fireEvent.click(input);
+      await waitForSetStateCallbacks();
+
+      expect(props.dataSource).toHaveBeenCalled();
+    });
+
+    it.each([
+      ['', 'false'],
+      [testQuery, 'true'],
+    ])('should preserve click popup behavior without onClick for query "%s"', async (query, shown) => {
+      const queryAssist = renderQueryAssist({query});
+      await waitForSetStateCallbacks();
+
+      await userEvent.setup().click(getByRole(queryAssist, 'textbox'));
+      await waitForSetStateCallbacks();
+
+      expect(screen.getByTestId('ring-popup ring-query-assist-popup')).to.have.attr('data-test-shown', shown);
     });
   });
 
