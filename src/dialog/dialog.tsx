@@ -25,6 +25,7 @@ import {
   type Interaction,
   type InteractionDirection,
 } from './dialog-geometry';
+import {ThemeContext, WithThemeClasses} from '../global/theme';
 
 import type {ShortcutsScopeOptions} from '../shortcuts/core';
 
@@ -75,9 +76,16 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     preventBodyScroll: true,
   };
 
-  state: DialogState = {shortcutsScope: getUID('ring-dialog-'), geometry: null, resized: false, isShown: false};
+  state: DialogState = {
+    shortcutsScope: getUID('ring-dialog-'),
+    geometry: null,
+    resized: false,
+    isShown: false,
+    isClient: false,
+  };
 
   componentDidMount() {
+    this.setState({isClient: true});
     const {show, native} = this.props;
     if (native && show) {
       this.toggleNativeDialog();
@@ -86,9 +94,9 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     this.toggleScrollPreventer();
   }
 
-  componentDidUpdate(prevProps: DialogProps) {
+  componentDidUpdate(prevProps: DialogProps, prevState: DialogState) {
     const {show, native} = this.props;
-    if (native && show !== prevProps.show) {
+    if (native && (show !== prevProps.show || this.state.isClient !== prevState.isClient)) {
       this.toggleNativeDialog();
     }
     if (prevProps.show !== this.props.show) {
@@ -117,6 +125,16 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       if (show) {
         const focusedElementBeforeOpen = document.activeElement;
         this.nativeDialog.current.removeAttribute('open');
+        if (this.rtlDetector.current) {
+          const dir = getComputedStyle(this.rtlDetector.current).direction;
+          const lang = this.rtlDetector.current.closest('[lang]')?.getAttribute('lang');
+          if (dir && !this.props.dir) {
+            this.nativeDialog.current.setAttribute('dir', dir);
+          }
+          if (lang && !this.props.lang) {
+            this.nativeDialog.current.setAttribute('lang', lang);
+          }
+        }
         if (modal) {
           this.nativeDialog.current.showModal();
         } else {
@@ -176,6 +194,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     this.dialog = tabTrapObj && tabTrapObj.node;
   };
 
+  rtlDetector = createRef<HTMLSpanElement>();
   nativeDialog = createRef<HTMLDialogElement>();
   innerContainer = createRef<HTMLDivElement>();
   interaction: Interaction | null = null;
@@ -342,80 +361,96 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
       </>
     );
     return (
-      (show || native) && (
-        <PopupTargetContext.Consumer>
-          {contextTarget => {
-            const normalizedContextTarget = normalizePopupTarget(contextTarget);
-            const targetElement =
-              portalTarget instanceof HTMLElement
-                ? portalTarget
-                : (normalizedContextTarget !== undefined && getPopupContainer(normalizedContextTarget)) ||
-                  document.body;
-            return createPortal(
-              <PopupTarget id={this.uid} className={styles.popupTarget}>
-                {target => {
-                  const trapEnabled = !getTrapDisabled(trapFocus, trapDisabled);
-                  if (native) {
-                    const doShow = this.state.isShown || show;
+      (show || native) &&
+      this.state.isClient && (
+        <ThemeContext.Consumer>
+          {theme => (
+            <WithThemeClasses theme={theme.theme}>
+              {themeClasses => (
+                <PopupTargetContext.Consumer>
+                  {contextTarget => {
+                    const normalizedContextTarget = normalizePopupTarget(contextTarget);
+                    const targetElement =
+                      portalTarget instanceof HTMLElement
+                        ? portalTarget
+                        : (normalizedContextTarget !== undefined && getPopupContainer(normalizedContextTarget)) ||
+                          document.body;
                     return (
-                      <dialog
-                        {...restProps}
-                        aria-label={label}
-                        className={classNames(styles.nativeDialog, className)}
-                        data-test={dataTests('ring-dialog-container', dataTest)}
-                        ref={node => {
-                          this.nativeDialog.current = node;
-                          if (node && this.props.show && this.state.isShown && !node.open) {
-                            this.toggleNativeDialog();
-                          }
-                        }}
-                        tabIndex={getNativeTabIndex(autoFocusFirst)}
-                        onCancel={event => event.preventDefault()}
-                        data-rg-modal-dialog-container={modal ? '' : undefined}
-                      >
-                        {trapEnabled && doShow ? (
-                          <TabTrap
-                            trapDisabled={false}
-                            autoFocusFirst={autoFocusFirst}
-                            focusBackOnClose={focusBackOnClose}
-                            focusBackOnExit={focusBackOnExit}
-                          >
-                            {content}
-                            {target}
-                          </TabTrap>
-                        ) : (
-                          <>
-                            {doShow && content}
-                            {target}
-                          </>
-                        )}
-                      </dialog>
-                    );
-                  }
+                      <>
+                        <span hidden ref={this.rtlDetector} />
+                        {createPortal(
+                          <PopupTarget id={this.uid} className={styles.popupTarget}>
+                            {target => {
+                              const trapEnabled = !getTrapDisabled(trapFocus, trapDisabled);
+                              if (native) {
+                                const doShow = this.state.isShown || show;
+                                return (
+                                  <dialog
+                                    {...restProps}
+                                    aria-label={label}
+                                    className={classNames(styles.nativeDialog, className, {
+                                      [themeClasses]: theme.passToPopups,
+                                    })}
+                                    data-test={dataTests('ring-dialog-container', dataTest)}
+                                    ref={node => {
+                                      this.nativeDialog.current = node;
+                                      if (node && this.props.show && this.state.isShown && !node.open) {
+                                        this.toggleNativeDialog();
+                                      }
+                                    }}
+                                    tabIndex={getNativeTabIndex(autoFocusFirst)}
+                                    onCancel={event => event.preventDefault()}
+                                    data-rg-modal-dialog-container={modal ? '' : undefined}
+                                  >
+                                    {trapEnabled && doShow ? (
+                                      <TabTrap
+                                        trapDisabled={false}
+                                        autoFocusFirst={autoFocusFirst}
+                                        focusBackOnClose={focusBackOnClose}
+                                        focusBackOnExit={focusBackOnExit}
+                                      >
+                                        {content}
+                                        {target}
+                                      </TabTrap>
+                                    ) : (
+                                      <>
+                                        {doShow && content}
+                                        {target}
+                                      </>
+                                    )}
+                                  </dialog>
+                                );
+                              }
 
-                  return (
-                    <TabTrap
-                      trapDisabled={!trapEnabled}
-                      autoFocusFirst={autoFocusFirst}
-                      focusBackOnClose={focusBackOnClose}
-                      focusBackOnExit={focusBackOnExit}
-                      data-test={dataTests('ring-dialog-container', dataTest)}
-                      data-rg-modal-dialog-container=''
-                      ref={this.dialogRef}
-                      className={classes}
-                      role='presentation'
-                      {...restProps}
-                    >
-                      {content}
-                      {target}
-                    </TabTrap>
-                  );
-                }}
-              </PopupTarget>,
-              targetElement,
-            );
-          }}
-        </PopupTargetContext.Consumer>
+                              return (
+                                <TabTrap
+                                  trapDisabled={!trapEnabled}
+                                  autoFocusFirst={autoFocusFirst}
+                                  focusBackOnClose={focusBackOnClose}
+                                  focusBackOnExit={focusBackOnExit}
+                                  data-test={dataTests('ring-dialog-container', dataTest)}
+                                  data-rg-modal-dialog-container=''
+                                  ref={this.dialogRef}
+                                  className={classes}
+                                  role='presentation'
+                                  {...restProps}
+                                >
+                                  {content}
+                                  {target}
+                                </TabTrap>
+                              );
+                            }}
+                          </PopupTarget>,
+                          targetElement,
+                        )}
+                      </>
+                    );
+                  }}
+                </PopupTargetContext.Consumer>
+              )}
+            </WithThemeClasses>
+          )}
+        </ThemeContext.Consumer>
       )
     );
   }

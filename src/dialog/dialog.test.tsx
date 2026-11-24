@@ -56,18 +56,18 @@ describe('Dialog', () => {
     expect(screen.getByTestId('ring-dialog-container').tagName).not.to.equal('DIALOG');
   });
 
-  it('should render a native dialog in place', () => {
+  it('should portal a native dialog to body', () => {
     render(
       <div data-test='dialog-owner'>
         <Dialog show />
       </div>,
     );
 
-    expect(screen.getByRole('dialog').parentElement).to.equal(screen.getByTestId('dialog-owner'));
+    expect(screen.getByRole('dialog').parentElement).to.equal(document.body);
   });
 
-  it('should render a native dialog on the server', () => {
-    expect(renderToStaticMarkup(<Dialog show />)).to.contain('<dialog');
+  it("shouldn't throw when rendering a native dialog on the server", () => {
+    expect(() => renderToStaticMarkup(<Dialog show />)).not.to.throw();
   });
 
   it('should use passed className', () => {

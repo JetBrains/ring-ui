@@ -13,6 +13,7 @@ export interface DialogState {
   shortcutsScope: string;
   geometry: Geometry | null;
   resized: boolean;
+  isClient: boolean; // set to true on client side in cDM
 }
 
 export interface Interaction {
