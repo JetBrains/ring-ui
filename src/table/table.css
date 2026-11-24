@@ -62,10 +62,6 @@
     transition: background-color var(--ring-fast-ease);
   }
 
-  &:hover::after {
-    background-color: var(--ring-main-color);
-  }
-
   /* Larger touch target, extended into the next column to keep the header buttons tappable */
   @media (hover: none) {
     &::before {
@@ -89,15 +85,22 @@
   background-color: var(--ring-line-color);
 }
 
-.columnResizeIndicator {
-  position: fixed;
-  z-index: var(--ring-overlay-z-index);
+/* The column boundary across the visible part of the table, clipped by the table and its scroller */
+.columnResizeHandle:hover::after,
+.columnResizeHandle[data-resizing]::after {
+  bottom: auto;
 
-  width: 2px;
+  height: 100vh;
 
-  pointer-events: none;
+  background-color: var(--ring-line-color);
+}
 
+.columnResizeHandle[data-resizing]::after {
   background-color: var(--ring-main-color);
+}
+
+.table:has(.columnResizeHandle:hover, .columnResizeHandle[data-resizing]) {
+  overflow: clip;
 }
 
 .resizableHeaderCell {
@@ -125,11 +128,15 @@
 
   padding: calc(var(--ring-unit) * 0.75) var(--ring-unit);
 
-  transition: background-color var(--ring-fast-ease), --header-cell-shadow-color var(--ring-fast-ease);
+  transition:
+    background-color var(--ring-fast-ease),
+    --header-cell-shadow-color var(--ring-fast-ease);
 
   border-bottom: 1px solid var(--ring-line-color);
 
-  box-shadow: inset 1px 0 0 var(--header-cell-shadow-color), 1px 0 0 var(--header-cell-shadow-color);
+  box-shadow:
+    inset 1px 0 0 var(--header-cell-shadow-color),
+    1px 0 0 var(--header-cell-shadow-color);
 
   &:hover {
     --header-cell-shadow-color: var(--ring-line-color);
@@ -222,7 +229,10 @@
 
   cursor: grab;
 
-  transition: color var(--ring-fast-ease), width var(--ring-fast-ease), margin-right var(--ring-fast-ease);
+  transition:
+    color var(--ring-fast-ease),
+    width var(--ring-fast-ease),
+    margin-right var(--ring-fast-ease);
 
   border-radius: var(--ring-border-radius);
   touch-action: none;
@@ -250,7 +260,9 @@
   width: 12px;
   margin-left: 4px;
 
-  transition: width var(--ring-fast-ease), margin-left var(--ring-fast-ease);
+  transition:
+    width var(--ring-fast-ease),
+    margin-left var(--ring-fast-ease);
 }
 
 .theadColumnEditing .columnReorderHandleMirror,

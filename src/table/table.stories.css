@@ -408,3 +408,14 @@
     min-width: 120px;
   }
 }
+
+.resizeScroller {
+  overflow: auto;
+
+  max-width: 600px;
+  height: 300px;
+}
+
+.nowrapTable :is(th, td) {
+  white-space: nowrap;
+}

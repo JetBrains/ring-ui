@@ -699,4 +699,14 @@ describe('Table column resize', () => {
     // Not 181px: the drag measures the columns after the switch, not before
     expect(getColWidths(container)).to.deep.equal(['100px', '101px', '0px']);
   });
+
+  it('marks the handle while dragging, which shows the column boundary across the table', () => {
+    render(<ResizableTable columns={resizableColumns} />);
+
+    firePointer('pointerdown', getHandle(), 0);
+    expect(getHandle().hasAttribute('data-resizing')).to.equal(true);
+
+    firePointer('pointerup', getHandle(), 0);
+    expect(getHandle().hasAttribute('data-resizing')).to.equal(false);
+  });
 });

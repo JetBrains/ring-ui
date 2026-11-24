@@ -2001,3 +2001,70 @@ export const WithReorderAutoScrollInScroller = {
 
   tags: ['!autodocs'],
 };
+
+const buildColumnsSlice = teamCityBuilds.slice(0, 30);
+
+const buildStatusCell = ({status}: Build) => (
+  <Tag
+    tagType={
+      status === 'success'
+        ? TagType.SUCCESS
+        : status === 'failed'
+          ? TagType.ERROR
+          : status === 'running'
+            ? TagType.MAIN
+            : undefined
+    }
+  >
+    {status}
+  </Tag>
+);
+
+const movableBuildColumns: Column<Build>[] = [
+  {key: 'Branch', width: 220, resizable: true, canReorder: true, renderCell: ({branch}) => branch},
+  {key: 'Agent', width: 320, resizable: true, canReorder: true, renderCell: ({agent}) => agent},
+  {key: 'Triggered by', width: 160, resizable: true, canReorder: true, renderCell: ({triggeredBy}) => triggeredBy},
+  {
+    key: 'Started',
+    width: 150,
+    resizable: true,
+    canReorder: true,
+    renderCell: ({started}) => (started ? format(started, 'dd MMM yy HH:mm') : '—'),
+  },
+];
+
+/**
+ * Hovering a resize handle shows the column boundary across the visible part of the table.
+ */
+export const WithColumnResizeHoverInScroller: TableStory<Build> = {
+  render() {
+    const [columns, setColumns] = useState<readonly Column<Build>[]>(() => [
+      {key: 'Id', width: 80, resizable: true, renderCell: ({id}) => `#${id}`},
+      {key: 'Status', width: 120, resizable: true, renderCell: buildStatusCell},
+      ...movableBuildColumns,
+    ]);
+
+    return (
+      <div className={style.resizeScroller}>
+        <Table
+          className={style.nowrapTable}
+          data={buildColumnsSlice}
+          columns={columns}
+          getKey={({id}) => id}
+          stickyHeader
+          onColumnReorder={(_c, fromIndex, insertionIndex) =>
+            reorderItems(columns, fromIndex, insertionIndex, setColumns)
+          }
+          onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
+        />
+      </div>
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
