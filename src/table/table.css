@@ -95,12 +95,13 @@
   background-color: var(--ring-line-color);
 }
 
-/* The column boundary across the visible part of the table, clipped by the table and its scroller */
+/* The column boundary across the visible part of the table, clipped by the table and its scroller.
+   While dragging, `column-resize-drag.ts` sets the height down to the viewport bottom. */
 .columnResizeHandle:hover::after,
 .columnResizeHandle[data-resizing]::after {
   bottom: auto;
 
-  height: 100vh;
+  height: var(--column-resize-line-height, 100vh);
 
   background-color: var(--ring-line-color);
 }

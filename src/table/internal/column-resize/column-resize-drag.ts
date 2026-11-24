@@ -1,6 +1,7 @@
 const defaultMinColumnWidth = 40;
 
 const resizingAttr = 'data-resizing';
+const lineHeightProperty = '--column-resize-line-height';
 
 interface ColumnResizeDragParams {
   handle: HTMLElement;
@@ -74,7 +75,9 @@ export function startColumnResizeDrag({
   // so the edge stays under the pointer when the table scrolls mid-drag.
   function update(clientX: number) {
     lastClientX = clientX;
-    const {left} = th.getBoundingClientRect();
+    const {left, top} = th.getBoundingClientRect();
+    // The header can scroll above the viewport mid-drag, so the boundary reaches down to the viewport bottom from there
+    handle.style.setProperty(lineHeightProperty, `${window.innerHeight - top}px`);
     width = Math.round(Math.min(maxWidth, Math.max(minWidth, clientX - grabOffset - left)));
     setDomWidths(width, Math.max(0, startWidth - width));
   }
@@ -91,6 +94,7 @@ export function startColumnResizeDrag({
     document.body.style.cursor = previousBodyCursor;
     document.body.style.userSelect = previousBodyUserSelect;
     handle.removeAttribute(resizingAttr);
+    handle.style.removeProperty(lineHeightProperty);
     setDomWidths(startWidth, 0);
 
     if (commit) onCommit(width);

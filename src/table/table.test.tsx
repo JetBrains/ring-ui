@@ -706,7 +706,13 @@ describe('Table column resize', () => {
     firePointer('pointerdown', getHandle(), 0);
     expect(getHandle().hasAttribute('data-resizing')).to.equal(true);
 
-    firePointer('pointerup', getHandle(), 0);
+    // The boundary reaches from the header, which may have scrolled away, to the viewport bottom
+    vi.spyOn(getHandle().closest('th')!, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, -120, 100, 20));
+    firePointer('pointermove', getHandle(), 10);
+    expect(getHandle().style.getPropertyValue('--column-resize-line-height')).to.equal(`${window.innerHeight + 120}px`);
+
+    firePointer('pointerup', getHandle(), 10);
     expect(getHandle().hasAttribute('data-resizing')).to.equal(false);
+    expect(getHandle().style.getPropertyValue('--column-resize-line-height')).to.equal('');
   });
 });
