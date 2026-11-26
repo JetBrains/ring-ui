@@ -54,6 +54,8 @@ export function startColumnResizeDrag({
   const maxWidth = Math.max(columnMaxWidth, startWidth);
   // Where the user grabbed the handle, relative to the column edge
   const grabOffset = startClientX - th.getBoundingClientRect().right;
+  // A fill column on the left moves the column while it is resized, so its position is taken relative to the table
+  const offsetInTable = th.getBoundingClientRect().left - table.getBoundingClientRect().left;
 
   let width = startWidth;
   let lastClientX = startClientX;
@@ -71,11 +73,12 @@ export function startColumnResizeDrag({
     table.style.width = `${startTotalWidth - startWidth + columnWidth + fillerWidth}px`;
   }
 
-  // Uses the column's current position rather than the pointer delta,
+  // Uses the table's current position rather than the pointer delta,
   // so the edge stays under the pointer when the table scrolls mid-drag.
   function update(clientX: number) {
     lastClientX = clientX;
-    const {left, top} = th.getBoundingClientRect();
+    const left = table.getBoundingClientRect().left + offsetInTable;
+    const {top} = th.getBoundingClientRect();
     // The header can scroll above the viewport mid-drag, so the boundary reaches down to the viewport bottom from there
     handle.style.setProperty(lineHeightProperty, `${window.innerHeight - top}px`);
     width = Math.round(Math.min(maxWidth, Math.max(minWidth, clientX - grabOffset - left)));

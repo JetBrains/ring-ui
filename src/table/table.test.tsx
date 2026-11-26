@@ -773,6 +773,26 @@ describe('Table column resize', () => {
       expect(container.querySelector('table')!.style.width).to.equal('190px');
     });
 
+    it('tracks the pointer on a column after the fill column, which moves while the fill column shrinks', () => {
+      const {container} = render(
+        <ResizableTable
+          columns={[{key: 'country', width: 100}, fill, {key: 'capital', width: 120, resizable: true}]}
+        />,
+      );
+      const th = container.querySelectorAll('th')[2];
+      const thRect = vi.spyOn(th, 'getBoundingClientRect').mockReturnValue(new DOMRect(300, 0, 120, 20));
+      const handle = th.querySelector('[data-test="ring-table-column-resize-handle"]')!;
+
+      firePointer('pointerdown', handle, 420);
+      thRect.mockReturnValue(new DOMRect(290, 0, 130, 20));
+      firePointer('pointermove', handle, 430);
+      thRect.mockReturnValue(new DOMRect(280, 0, 140, 20));
+      firePointer('pointermove', handle, 440);
+
+      expect(getColWidths(container)).to.deep.equal(['100px', '', '140px']);
+      firePointer('pointerup', handle, 440);
+    });
+
     it('keeps the fill column as is in onColumnResize', () => {
       const onColumnResize = vi.fn<NonNullable<TableProps<CountryItem>['onColumnResize']>>();
       render(
