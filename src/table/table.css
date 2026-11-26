@@ -148,13 +148,13 @@
   box-shadow:
     inset 1px 0 0 var(--header-cell-shadow-color),
     1px 0 0 var(--header-cell-shadow-color);
+}
 
-  &:hover {
-    --header-cell-shadow-color: var(--ring-line-color);
+.headerCellWithControls:hover {
+  --header-cell-shadow-color: var(--ring-line-color);
 
-    &:not(.reorderAnimationInitial, .reorderAnimationFadeOut) {
-      background-color: var(--ring-grey-container-light-color);
-    }
+  &:not(.reorderAnimationInitial, .reorderAnimationFadeOut) {
+    background-color: var(--ring-grey-container-light-color);
   }
 }
 

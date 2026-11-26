@@ -793,6 +793,32 @@ describe('Table column resize', () => {
 });
 
 describe('Table header attributes', () => {
+  it('shows the hover state only on headers with controls', () => {
+    const columns: Column<CountryItem>[] = [
+      {key: 'static'},
+      {key: 'sortable', sortOrder: 'none'},
+      {key: 'reorderable', canReorder: true},
+      {key: 'resizable', resizable: true},
+      {key: 'deletable', deletable: true},
+      {key: 'fill', width: 'fill', resizable: true},
+    ];
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} />);
+
+    const interactive = [...container.querySelectorAll('th')].map(th =>
+      th.classList.contains(styles.headerCellWithControls),
+    );
+    expect(interactive).to.deep.equal([false, true, true, true, true, false]);
+  });
+
+  it('shows the hover state on the header with the column edit button', () => {
+    const columns: Column<CountryItem>[] = [{key: 'static'}, {key: 'fill', width: 'fill'}];
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} columnEditButton />);
+
+    expect(
+      container.querySelector<HTMLTableCellElement>('th:last-child')!.classList.contains(styles.headerCellWithControls),
+    ).to.equal(true);
+  });
+
   it('applies thProps, keeping the attributes set by the table', () => {
     const columns: Column<CountryItem>[] = [
       {key: 'country', name: 'Country', sortOrder: 'none'},

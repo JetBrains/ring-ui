@@ -2229,3 +2229,43 @@ export const WithFillColumn: TableStory<Build> = {
 
   tags: ['!autodocs'],
 };
+
+/**
+ * Only headers which can be sorted, reordered, resized or deleted react to hover.
+ */
+export const WithInteractiveHeaderHover: TableStory<(typeof smallDataSlice)[number]> = {
+  render() {
+    const [columns, setColumns] = useState<readonly Column<(typeof smallDataSlice)[number]>[]>(() => [
+      {key: 'ID (static)', renderCell: ({id}) => id},
+      {key: 'Country (sortable)', sortOrder: 'none', renderCell: ({country}) => country},
+      {key: 'City (reorderable)', canReorder: true, renderCell: ({city}) => city},
+      {key: 'URL (resizable)', resizable: true, renderCell: ({url}) => <PlaceLink href={url} />},
+    ]);
+
+    return (
+      <>
+        <p>
+          Move the pointer over the headers. A header gets a grey background on hover only when it has controls: it can
+          be sorted, reordered, resized or deleted, or it holds the column edit button. &quot;ID&quot; has no controls,
+          so it doesn&apos;t change, which shows that there is nothing to click.
+        </p>
+        <Table
+          data={smallDataSlice}
+          columns={columns}
+          getKey={getKey}
+          onColumnReorder={(_c, fromIndex, insertionIndex) =>
+            reorderItems(columns, fromIndex, insertionIndex, setColumns)
+          }
+          onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
+        />
+      </>
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
