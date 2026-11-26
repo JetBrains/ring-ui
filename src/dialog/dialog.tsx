@@ -388,7 +388,9 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                                   <dialog
                                     {...restProps}
                                     aria-label={label}
-                                    className={classNames(styles.nativeDialog, className, themeClasses)}
+                                    className={classNames(styles.nativeDialog, className, {
+                                      [themeClasses]: theme.hasThemeProvider, // propagate theme from ThemeProvider only when it exists, otherwise use global theme
+                                    })}
                                     data-test={dataTests('ring-dialog-container', dataTest)}
                                     ref={node => {
                                       this.nativeDialog.current = node;
