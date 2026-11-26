@@ -1,9 +1,10 @@
+import {useEffect} from 'react';
 import {render, screen, fireEvent, getByTestId} from '@testing-library/react';
 import {expect} from 'vitest';
 
 import {getRect, getStyles} from '../global/dom';
 import simulateCombo from '../../test-helpers/simulate-combo';
-import Popup, {type PopupAttrs} from './popup';
+import Popup, {PopupTarget, type PopupAttrs} from './popup';
 import {MinWidth} from './popup.consts';
 
 describe('Popup', () => {
@@ -26,6 +27,44 @@ describe('Popup', () => {
     const targetNode = document.createElement('div');
     renderPopup({target: targetNode});
     expect(getByTestId(targetNode, 'ring-popup')).to.exist;
+  });
+
+  describe('string target', () => {
+    const MountCounter = ({onMount}: {onMount: () => void}) => {
+      useEffect(onMount, [onMount]);
+      return null;
+    };
+
+    const renderInTarget = (onMount: () => void) => (
+      <PopupTarget id='popup-test-target'>
+        {target => (
+          <>
+            <Popup>
+              <MountCounter onMount={onMount} />
+            </Popup>
+            {target}
+          </>
+        )}
+      </PopupTarget>
+    );
+
+    it('should render into a target that mounts in the same commit', () => {
+      const onMount = vi.fn();
+      const {container, rerender} = render(renderInTarget(onMount));
+      const target = container.querySelector('[data-portaltarget=popup-test-target]');
+
+      expect(target?.contains(screen.getByTestId('ring-popup'))).to.be.true;
+
+      rerender(renderInTarget(onMount));
+
+      expect(target?.contains(screen.getByTestId('ring-popup'))).to.be.true;
+      expect(onMount).toHaveBeenCalledTimes(1);
+    });
+
+    it('should fall back to body if the target is not in the DOM', () => {
+      renderPopup({target: 'missing-popup-test-target'});
+      expect(screen.getByTestId('ring-popup').closest('[data-portaltarget]')?.parentElement).to.equal(document.body);
+    });
   });
 
   it('should attempt to close by pressing esc', () => {
