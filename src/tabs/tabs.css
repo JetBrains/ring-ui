@@ -217,7 +217,3 @@
 .morePopupBeforeEnd.morePopupBeforeEnd.morePopupBeforeEnd {
   padding: 0;
 }
-
-.morePopupBeforeEnd ~ div {
-  display: none;
-}
