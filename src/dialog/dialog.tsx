@@ -388,9 +388,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                                   <dialog
                                     {...restProps}
                                     aria-label={label}
-                                    className={classNames(styles.nativeDialog, className, {
-                                      [themeClasses]: theme.passToPopups,
-                                    })}
+                                    className={classNames(styles.nativeDialog, className, themeClasses)}
                                     data-test={dataTests('ring-dialog-container', dataTest)}
                                     ref={node => {
                                       this.nativeDialog.current = node;
