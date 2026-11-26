@@ -40,7 +40,7 @@ export function startColumnResizeDrag({
   onCommit,
   onEnd,
 }: ColumnResizeDragParams): () => void {
-  const elements = findDragElements(handle, columnIndex);
+  const elements = findDragElements(handle, columnIndex, startWidths.length);
   if (!elements) {
     onEnd();
     return () => {};
@@ -67,7 +67,7 @@ export function startColumnResizeDrag({
 
   function setDomWidths(columnWidth: number, fillerWidth: number) {
     column.style.width = `${columnWidth}px`;
-    filler.style.width = `${fillerWidth}px`;
+    if (filler) filler.style.width = `${fillerWidth}px`;
     table.style.width = `${startTotalWidth - startWidth + columnWidth + fillerWidth}px`;
   }
 
@@ -136,13 +136,14 @@ export function startColumnResizeDrag({
   return cancel;
 }
 
-function findDragElements(handle: HTMLElement, columnIndex: number) {
+function findDragElements(handle: HTMLElement, columnIndex: number, columnCount: number) {
   const th = handle.closest('th');
   const table = th?.closest('table');
   const cols = table?.querySelectorAll<HTMLTableColElement>(':scope > colgroup > col');
   const column = cols?.[columnIndex];
-  // The last `<col>` keeps the table width while shrinking (see `ColumnGroup`). Otherwise,
+  // The filler `<col>` keeps the table width while shrinking (see `ColumnGroup`). Otherwise,
   // a container scrolled to the end reduces its scroll position and the content shifts under the pointer.
-  const filler = cols?.[cols.length - 1];
-  return th && table && column && filler ? {th, table, column, filler} : undefined;
+  // Without it, a fill column takes the freed width.
+  const filler = cols?.[columnCount];
+  return th && table && column ? {th, table, column, filler} : undefined;
 }

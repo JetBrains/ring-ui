@@ -419,3 +419,26 @@
 .nowrapTable :is(th, td) {
   white-space: nowrap;
 }
+
+.fillScroller {
+  overflow-x: auto;
+
+  max-width: 700px;
+}
+
+.fillScrollerWide {
+  max-width: none;
+}
+
+.fillControls {
+  position: sticky;
+  z-index: var(--ring-overlay-z-index);
+  top: 0;
+
+  display: flex;
+  gap: calc(var(--ring-unit) * 2);
+
+  padding-block: var(--ring-unit);
+
+  background-color: var(--ring-content-background-color);
+}

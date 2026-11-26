@@ -31,7 +31,10 @@ export function useColumnSizing<T>({
   const [internalWidths, setInternalWidths] = useState<ReadonlyMap<Key, number>>(() => new Map());
 
   const hasColgroup = columns.some(column => column.resizable || column.width != null);
-  const widths = columns.map(column => column.width ?? internalWidths.get(column.key));
+  // A fill column counts as 0: it takes what is left after the others
+  const widths = columns.map(column =>
+    column.width === 'fill' ? 0 : (column.width ?? internalWidths.get(column.key)),
+  );
 
   // A drag commits after several renders, so it must see the latest columns, widths and callback
   const latestRef = useRef({columns, widths, onColumnResize});
@@ -52,7 +55,11 @@ export function useColumnSizing<T>({
       (_column, index) => widths[index] ?? headerCells[index]?.getBoundingClientRect().width ?? 0,
     );
     if (!fixedLayout) {
-      setInternalWidths(new Map(columns.map((column, index) => [column.key, frozenWidths[index]])));
+      setInternalWidths(
+        new Map(
+          columns.flatMap((column, index) => (column.width === 'fill' ? [] : [[column.key, frozenWidths[index]]])),
+        ),
+      );
     }
     return frozenWidths;
   }
@@ -67,17 +74,28 @@ export function useColumnSizing<T>({
 
     // All widths, including the measured ones, so that the client can store and restore the layout
     const newColumns = latestColumns.map((column, index) => {
+      if (column.width === 'fill') return column;
       const newWidth = index === columnIndex ? width : latestWidths[index];
       return newWidth === column.width ? column : {...column, width: newWidth};
     });
     latestOnColumnResize?.(latestColumns[columnIndex], columnIndex, width, newColumns);
   }
 
+  // With a fill column, the table is at least as wide as its container
+  const tableStyle = fixedLayout
+    ? {width: totalWidth, ...(columns.some(column => column.width === 'fill') && {minWidth: '100%'})}
+    : undefined;
+
+  // In fixed layout, a `<col>` without width takes the spare width.
+  // In auto layout, a 100% wide one does, and the others fit their content.
+  const fillWidth = fixedLayout ? undefined : '100%';
+  const colWidths = columns.map((column, index) => (column.width === 'fill' ? fillWidth : widths[index]));
+
   return {
     hasColgroup,
     fixedLayout,
-    totalWidth,
-    widths,
+    tableStyle,
+    widths: colWidths,
     contextValue: {freezeWidths, commitWidth} satisfies ColumnSizingContextValue,
   };
 }
