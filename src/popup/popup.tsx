@@ -87,6 +87,8 @@ interface PopupState {
   display: Display;
   client?: boolean;
   direction?: Directions;
+  // Only for a string target. undefined: not looked up yet, null: not in the DOM
+  container?: Element | null;
 }
 
 /**
@@ -125,12 +127,14 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
   };
 
   componentDidMount() {
+    this._updateContainer();
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
   }
 
   componentDidUpdate(prevProps: BasePopupProps, prevState: PopupState) {
+    this._updateContainer();
     const {hidden} = this.props;
     if (this.props !== prevProps) {
       if (prevProps.hidden !== hidden) {
@@ -201,7 +205,22 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
 
   getContainer() {
     const target = this.props.target || this.ringPopupTarget;
-    return target && getPopupContainer(target);
+    // An element target needs no DOM lookup. A string target is looked up after the commit
+    // because the target may render in the same commit and is not in the DOM during render.
+    return target instanceof Element ? target : this.state.container;
+  }
+
+  private _updateContainer() {
+    const target = this.props.target || this.ringPopupTarget;
+    const container = typeof target === 'string' ? getPopupContainer(target) : undefined;
+    if (container !== this.state.container) {
+      this.setState({container});
+    }
+  }
+
+  private _isContainerPending() {
+    const target = this.props.target || this.ringPopupTarget;
+    return typeof target === 'string' && this.state.container === undefined;
   }
 
   position() {
@@ -446,6 +465,7 @@ export default class Popup<P extends BasePopupProps = PopupProps> extends PureCo
                       {this.shouldUseShortcuts() && <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} />}
 
                       {client !== false &&
+                        !this._isContainerPending() &&
                         (keepMounted || !hidden) &&
                         createPortal(
                           <PopupTarget
