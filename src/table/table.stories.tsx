@@ -24,6 +24,7 @@ import Tag, {TagType} from '../tag/tag';
 import {DefaultItemRenderer} from './default-item-renderer';
 import Icon from '../icon/icon';
 import Button from '../button/button';
+import Tooltip from '../tooltip/tooltip';
 import {focusWithTemporaryTabIndex} from '../global/focus-with-temporary-tabindex';
 import {createRandom} from '../util-stories';
 import {isWithinInteractiveElement} from '../global/is-within-interactive-element';
@@ -2058,6 +2059,206 @@ export const WithColumnResizeHoverInScroller: TableStory<Build> = {
           onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
         />
       </div>
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
+
+const fillColumn: Column<Build> = {
+  key: 'fill',
+  width: 'fill',
+  renderHeader: () => null,
+  renderCell: () => null,
+  thProps: {'aria-hidden': true},
+};
+
+const widthWithoutFill = 220;
+
+const runCell = () => <Button inline>Run</Button>;
+
+function FillColumnCase({
+  title,
+  description,
+  initialColumns,
+  fill,
+}: {
+  title: string;
+  description: string;
+  initialColumns: readonly Column<Build>[];
+  fill: boolean;
+}) {
+  const [columns, setColumns] = useState(initialColumns);
+  // Without fill, the empty column is removed, and a column with content gets a fixed width
+  const shownColumns = fill
+    ? columns
+    : columns.flatMap(column => {
+        if (column.width !== 'fill') return [column];
+        return column.key === fillColumn.key ? [] : [{...column, width: widthWithoutFill}];
+      });
+
+  return (
+    <>
+      <h3>{title}</h3>
+      <p>{description}</p>
+      <Table
+        className={style.nowrapTable}
+        data={buildColumnsSlice.slice(0, 4)}
+        columns={shownColumns}
+        getKey={({id}) => id}
+        onColumnResize={(_column, _columnIndex, _width, newColumns) =>
+          setColumns(previous =>
+            previous.map(column =>
+              column.width === 'fill'
+                ? column
+                : {...column, width: newColumns.find(c => c.key === column.key)?.width ?? column.width},
+            ),
+          )
+        }
+      />
+    </>
+  );
+}
+
+/**
+ * A `'fill'` column takes the spare width, so the other columns keep their widths.
+ * When the table is wider than its container, it is 0 wide and the table scrolls.
+ */
+export const WithFillColumn: TableStory<Build> = {
+  render() {
+    const [fill, setFill] = useState(true);
+    const [wide, setWide] = useState(false);
+
+    return (
+      <>
+        <p>A fill column takes up the extra space in the table.</p>
+        <div className={style.fillControls}>
+          <Tooltip title='Turn it off to see the same tables without a fill column'>
+            <Checkbox checked={fill} onChange={e => setFill(e.target.checked)} label='Fill column' />
+          </Tooltip>
+          <Tooltip title='Makes the tables full width instead of 700px'>
+            <Checkbox checked={wide} onChange={e => setWide(e.target.checked)} label='Wide container' />
+          </Tooltip>
+        </div>
+        <div className={classNames(style.fillScroller, wide && style.fillScrollerWide)}>
+          <FillColumnCase
+            title='Empty fill column before the last column, wider than the narrow container'
+            description='An empty spacer column between Agent and Actions takes the spare width, so Actions stays at the right edge. In the 700px container, the other columns are wider than it: the spacer is 0 wide and the table scrolls. Resize a column: the others stay in place.'
+            fill={fill}
+            initialColumns={[
+              {key: 'Id', width: 80, resizable: true, renderCell: ({id}) => `#${id}`},
+              {key: 'Status', width: 120, resizable: true, renderCell: buildStatusCell},
+              {key: 'Branch', width: 220, resizable: true, renderCell: ({branch}) => branch},
+              {key: 'Agent', width: 260, resizable: true, renderCell: ({agent}) => agent},
+              fillColumn,
+              {key: 'Actions', width: 90, renderCell: runCell},
+            ]}
+          />
+          <FillColumnCase
+            title='Not resizable'
+            description='Every column has a fixed width and no resize handle. The spacer still takes the spare width.'
+            fill={fill}
+            initialColumns={[
+              {key: 'Id', width: 80, renderCell: ({id}) => `#${id}`},
+              {key: 'Status', width: 120, renderCell: buildStatusCell},
+              {key: 'Branch', width: 220, renderCell: ({branch}) => branch},
+              fillColumn,
+              {key: 'Actions', width: 90, renderCell: runCell},
+            ]}
+          />
+          <FillColumnCase
+            title='Fill column with content'
+            description='Agent is the fill column: it shows its content and takes the spare width.'
+            fill={fill}
+            initialColumns={[
+              {key: 'Id', width: 80, resizable: true, renderCell: ({id}) => `#${id}`},
+              {key: 'Status', width: 120, resizable: true, renderCell: buildStatusCell},
+              {key: 'Agent', width: 'fill', renderCell: ({agent}) => agent},
+              {key: 'Actions', width: 90, renderCell: runCell},
+            ]}
+          />
+          <FillColumnCase
+            title='Fill column at the end'
+            description='The spacer is the last column, so the spare width goes after Branch.'
+            fill={fill}
+            initialColumns={[
+              {key: 'Id', width: 80, resizable: true, renderCell: ({id}) => `#${id}`},
+              {key: 'Status', width: 120, resizable: true, renderCell: buildStatusCell},
+              {key: 'Branch', width: 220, resizable: true, renderCell: ({branch}) => branch},
+              fillColumn,
+            ]}
+          />
+          <FillColumnCase
+            title='Two fill columns'
+            description='Branch and Agent are both fill columns, so they share the spare width equally.'
+            fill={fill}
+            initialColumns={[
+              {key: 'Id', width: 80, resizable: true, renderCell: ({id}) => `#${id}`},
+              {key: 'Status', width: 120, resizable: true, renderCell: buildStatusCell},
+              {key: 'Branch', width: 'fill', renderCell: ({branch}) => branch},
+              {key: 'Agent', width: 'fill', renderCell: ({agent}) => agent},
+              {key: 'Actions', width: 90, renderCell: runCell},
+            ]}
+          />
+          <FillColumnCase
+            title='Measured widths'
+            description='No column has a width, so the columns fit their content and the spacer takes the spare width. Resize a column: the widths are measured and the others stay in place.'
+            fill={fill}
+            initialColumns={[
+              {key: 'Id', resizable: true, renderCell: ({id}) => `#${id}`},
+              {key: 'Status', resizable: true, renderCell: buildStatusCell},
+              {key: 'Branch', resizable: true, renderCell: ({branch}) => branch},
+              fillColumn,
+              {key: 'Actions', renderCell: runCell},
+            ]}
+          />
+        </div>
+      </>
+    );
+  },
+
+  parameters: {
+    ...noDocsParams,
+    screenshots: {skip: true},
+  },
+
+  tags: ['!autodocs'],
+};
+
+/**
+ * Only headers which can be sorted, reordered, resized or deleted react to hover.
+ */
+export const WithInteractiveHeaderHover: TableStory<(typeof smallDataSlice)[number]> = {
+  render() {
+    const [columns, setColumns] = useState<readonly Column<(typeof smallDataSlice)[number]>[]>(() => [
+      {key: 'ID (static)', renderCell: ({id}) => id},
+      {key: 'Country (sortable)', sortOrder: 'none', renderCell: ({country}) => country},
+      {key: 'City (reorderable)', canReorder: true, renderCell: ({city}) => city},
+      {key: 'URL (resizable)', resizable: true, renderCell: ({url}) => <PlaceLink href={url} />},
+    ]);
+
+    return (
+      <>
+        <p>
+          Move the pointer over the headers. A header gets a grey background on hover only when it has controls: it can
+          be sorted, reordered, resized or deleted, or it holds the column edit button. &quot;ID&quot; has no controls,
+          so it doesn&apos;t change, which shows that there is nothing to click.
+        </p>
+        <Table
+          data={smallDataSlice}
+          columns={columns}
+          getKey={getKey}
+          onColumnReorder={(_c, fromIndex, insertionIndex) =>
+            reorderItems(columns, fromIndex, insertionIndex, setColumns)
+          }
+          onColumnResize={(_column, _columnIndex, _width, newColumns) => setColumns(newColumns)}
+        />
+      </>
     );
   },
 

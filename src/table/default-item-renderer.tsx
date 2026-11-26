@@ -154,7 +154,7 @@ export function DefaultItemRenderer<T>({
             )}
             style={indent && level != null && level > 0 ? {paddingInlineStart: `${level * indentSize}px`} : undefined}
           >
-            {column.renderCell?.(item, index, data) ?? getDefaultCellValue(item, columnIndex, key)}
+            {column.renderCell ? column.renderCell(item, index, data) : getDefaultCellValue(item, columnIndex, key)}
           </TableCell>
         );
       })}

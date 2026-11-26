@@ -40,7 +40,7 @@ export function startColumnResizeDrag({
   onCommit,
   onEnd,
 }: ColumnResizeDragParams): () => void {
-  const elements = findDragElements(handle, columnIndex);
+  const elements = findDragElements(handle, columnIndex, startWidths.length);
   if (!elements) {
     onEnd();
     return () => {};
@@ -54,6 +54,8 @@ export function startColumnResizeDrag({
   const maxWidth = Math.max(columnMaxWidth, startWidth);
   // Where the user grabbed the handle, relative to the column edge
   const grabOffset = startClientX - th.getBoundingClientRect().right;
+  // A fill column on the left moves the column while it is resized, so its position is taken relative to the table
+  const offsetInTable = th.getBoundingClientRect().left - table.getBoundingClientRect().left;
 
   let width = startWidth;
   let lastClientX = startClientX;
@@ -67,15 +69,16 @@ export function startColumnResizeDrag({
 
   function setDomWidths(columnWidth: number, fillerWidth: number) {
     column.style.width = `${columnWidth}px`;
-    filler.style.width = `${fillerWidth}px`;
+    if (filler) filler.style.width = `${fillerWidth}px`;
     table.style.width = `${startTotalWidth - startWidth + columnWidth + fillerWidth}px`;
   }
 
-  // Uses the column's current position rather than the pointer delta,
+  // Uses the table's current position rather than the pointer delta,
   // so the edge stays under the pointer when the table scrolls mid-drag.
   function update(clientX: number) {
     lastClientX = clientX;
-    const {left, top} = th.getBoundingClientRect();
+    const left = table.getBoundingClientRect().left + offsetInTable;
+    const {top} = th.getBoundingClientRect();
     // The header can scroll above the viewport mid-drag, so the boundary reaches down to the viewport bottom from there
     handle.style.setProperty(lineHeightProperty, `${window.innerHeight - top}px`);
     width = Math.round(Math.min(maxWidth, Math.max(minWidth, clientX - grabOffset - left)));
@@ -136,13 +139,14 @@ export function startColumnResizeDrag({
   return cancel;
 }
 
-function findDragElements(handle: HTMLElement, columnIndex: number) {
+function findDragElements(handle: HTMLElement, columnIndex: number, columnCount: number) {
   const th = handle.closest('th');
   const table = th?.closest('table');
   const cols = table?.querySelectorAll<HTMLTableColElement>(':scope > colgroup > col');
   const column = cols?.[columnIndex];
-  // The last `<col>` keeps the table width while shrinking (see `ColumnGroup`). Otherwise,
+  // The filler `<col>` keeps the table width while shrinking (see `ColumnGroup`). Otherwise,
   // a container scrolled to the end reduces its scroll position and the content shifts under the pointer.
-  const filler = cols?.[cols.length - 1];
-  return th && table && column && filler ? {th, table, column, filler} : undefined;
+  // Without it, a fill column takes the freed width.
+  const filler = cols?.[columnCount];
+  return th && table && column ? {th, table, column, filler} : undefined;
 }

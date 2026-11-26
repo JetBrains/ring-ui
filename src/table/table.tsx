@@ -349,7 +349,7 @@ export default function Table<T>(props: TableProps<T> & ComponentPropsWithRef<'t
       <ReorderAnimationContext value={reorderAnimationContextValue}>
         <table
           className={classNames(styles.table, columnSizing.fixedLayout && styles.fixedLayout, className)}
-          style={columnSizing.fixedLayout ? {...style, width: columnSizing.totalWidth} : style}
+          style={{...style, ...columnSizing.tableStyle}}
           ref={useComposedRef(userRef, localRef)}
           {...restProps}
         >

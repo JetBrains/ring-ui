@@ -7,7 +7,7 @@ import settingsIcon from '@jetbrains/icons/settings-12px';
 import trashIcon from '@jetbrains/icons/trash-12px';
 import unsortedIcon from '@jetbrains/icons/unsorted-12px';
 
-import {type TableProps} from '../table-props';
+import {type Column, type TableProps} from '../table-props';
 import {TablePropsContext} from '../table-const';
 import Icon from '../../icon';
 import {isWithinInteractiveElement} from '../../global/is-within-interactive-element';
@@ -16,6 +16,7 @@ import {ReorderAnimationContext} from './reorder-animation-context';
 import {ReorderLayoutContext, useReorderLayoutContextValue} from './reorder-layout-context';
 import {useReorderItemLayout} from '../reorder-item-layout';
 import {ColumnResizeHandle} from './column-resize/column-resize-handle';
+import {useComposedRef} from '../../global/compose-refs';
 
 import styles from '../table.css';
 
@@ -98,7 +99,10 @@ function TableHeaderCell<T>({
 
   const {columns, columnEditButton} = use(TablePropsContext as Context<TableProps<T>>);
   const column = columns[columnIndex];
-  const {key, name, renderHeader, sortOrder, deletable, canReorder, resizable, thClassName} = column;
+  const {key, name, renderHeader, sortOrder, deletable, canReorder, thClassName, thProps} = column;
+  const resizable = column.resizable && column.width !== 'fill';
+  const composedRef = useComposedRef(ref, thProps?.ref);
+  const hasEditButton = columnIndex === columns.length - 1 && columnEditButton;
 
   const {reorderAnimation} = use(ReorderAnimationContext);
   const children = <span id={labelId}>{renderHeader ? renderHeader() : (name ?? String(key))}</span>;
@@ -113,9 +117,12 @@ function TableHeaderCell<T>({
 
   return (
     <th
-      ref={ref}
+      {...thProps}
+      ref={composedRef}
       className={classNames(
+        thProps?.className,
         styles.headerCell,
+        hasControls(column, !!resizable, !!hasEditButton) && styles.headerCellWithControls,
         resizable && styles.resizableHeaderCell,
         reorderAnimation?.direction === 'columns' &&
           reorderAnimation.index === columnIndex &&
@@ -142,14 +149,19 @@ function TableHeaderCell<T>({
 
         <div className={styles.rightButtons}>
           {deletable && <DeleteColumnButton columnIndex={columnIndex} />}
-          {columnIndex === columns.length - 1 && columnEditButton && (
-            <EditColumnsButton columnEditing={columnEditing} onClick={handleEditColumnsButtonClick} />
-          )}
+          {hasEditButton && <EditColumnsButton columnEditing={columnEditing} onClick={handleEditColumnsButtonClick} />}
         </div>
       </div>
       {resizable && <ColumnResizeHandle column={column} columnIndex={columnIndex} />}
     </th>
   );
+}
+
+/**
+ * Only headers with controls react to hover
+ */
+function hasControls<T>({canReorder, sortOrder, deletable}: Column<T>, resizable: boolean, hasEditButton: boolean) {
+  return Boolean(canReorder || resizable || sortOrder || deletable || hasEditButton);
 }
 
 function SortButton<T>({

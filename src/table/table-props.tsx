@@ -1,4 +1,5 @@
-import type {AriaAttributes, ReactNode, RefObject} from 'react';
+/* eslint-disable max-lines */
+import type {AriaAttributes, ComponentPropsWithRef, ReactNode, RefObject} from 'react';
 
 export interface TableProps<T> {
   /**
@@ -354,15 +355,19 @@ export interface Column<T> {
       ) => boolean);
 
   /**
-   * Column width in pixels.
+   * Column width in pixels, or `'fill'`.
    *
    * The table switches to fixed layout once the widths of all columns are known:
    * either every column has `width`, or the user has started resizing a column.
    * At that moment, columns without `width` are measured and keep their width.
-   * In fixed layout, the table width is the sum of the column widths and
-   * overrides `style.width` of the table.
+   * In fixed layout, the table width is the sum of the column widths and overrides `style.width` of the table.
+   *
+   * A `'fill'` column takes the width left after the other columns, instead of stretching them.
+   * In fixed layout, the table is then at least as wide as its container, which overrides `style.minWidth`.
+   * Several `'fill'` columns share that width equally.
+   * `resizable`, `minWidth` and `maxWidth` are ignored on a `'fill'` column.
    */
-  width?: number;
+  width?: number | 'fill';
 
   /**
    * Displays a resize handle on the right edge of the column header.
@@ -386,6 +391,13 @@ export interface Column<T> {
    * The class name to apply to the `th` element inside `table > thead`.
    */
   thClassName?: string;
+
+  /**
+   * Attributes of the `th` element inside `table > thead`, e.g. `aria-hidden` for an empty header.
+   * The attributes set by the table take precedence.
+   * Don't use `aria-hidden` on the last column with `TableProps.columnEditButton`, because the button is in its header.
+   */
+  thProps?: ComponentPropsWithRef<'th'>;
 
   /**
    * The class name to apply to the `td` element inside `table > tbody`.

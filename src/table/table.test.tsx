@@ -1,12 +1,14 @@
 /* eslint-disable no-nested-ternary */
-import {useMemo, useState} from 'react';
+import {createRef, useMemo, useState} from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 
 import Table from './table';
 import {DefaultItemRenderer} from './default-item-renderer';
 import {ItemReorderHandle} from './table-primitives';
 
-import type {Column} from './table-props';
+import type {Column, TableProps} from './table-props';
+
+import styles from './table.css';
 
 interface CountryItem {
   id: number;
@@ -715,5 +717,146 @@ describe('Table column resize', () => {
     firePointer('pointerup', getHandle(), 10);
     expect(getHandle().hasAttribute('data-resizing')).to.equal(false);
     expect(getHandle().style.getPropertyValue('--column-resize-line-height')).to.equal('');
+  });
+
+  describe('fill column', () => {
+    const fill: Column<CountryItem> = {key: 'fill', width: 'fill', renderCell: () => null};
+
+    it('leaves the fill column without width and makes the table at least as wide as its container', () => {
+      const {container} = render(<ResizableTable columns={[...resizableColumns, fill]} />);
+
+      // The fill column has no width, and takes the role of the filler used while shrinking
+      expect(getColWidths(container)).to.deep.equal(['100px', '120px', '']);
+      expect(container.querySelector('table')!.style.width).to.equal('220px');
+      expect(container.querySelector('table')!.style.minWidth).to.equal('100%');
+    });
+
+    it('makes the fill column 100% wide in auto layout, so the other columns fit their content', () => {
+      const {container} = render(
+        <Table data={countries} columns={[{key: 'country', resizable: true}, fill]} getKey={getKey} />,
+      );
+
+      expect(getColWidths(container)).to.deep.equal(['', '100%']);
+      expect(container.querySelector('table')!.classList.contains(styles.fixedLayout)).to.equal(false);
+    });
+
+    it('keeps the min-width set by the client without a fill column', () => {
+      const {container} = render(
+        <Table data={countries} columns={resizableColumns} getKey={getKey} style={{minWidth: 600}} />,
+      );
+
+      expect(container.querySelector('table')!.style.minWidth).to.equal('600px');
+    });
+
+    it('renders nothing in cells whose renderCell returns null', () => {
+      const {container} = render(<Table data={countries} columns={[resizableColumns[0], fill]} getKey={getKey} />);
+
+      expect(container.querySelector<HTMLTableCellElement>('tbody td:last-child')!.textContent).to.equal('');
+    });
+
+    it('ignores resizable on the fill column', () => {
+      const {container} = render(<ResizableTable columns={[resizableColumns[0], {...fill, resizable: true}]} />);
+
+      expect(container.querySelectorAll('[data-test="ring-table-column-resize-handle"]')).to.have.length(1);
+      expect(getColWidths(container)).to.deep.equal(['100px', '']);
+    });
+
+    it('keeps the table width while shrinking, leaving the freed width to the fill column', () => {
+      const {container} = render(<ResizableTable columns={[...resizableColumns, fill]} />);
+
+      firePointer('pointerdown', getHandle(), 0);
+      firePointer('pointermove', getHandle(), -30);
+      expect(getColWidths(container)).to.deep.equal(['70px', '120px', '']);
+      expect(container.querySelector('table')!.style.width).to.equal('220px');
+
+      firePointer('pointerup', getHandle(), -30);
+      expect(container.querySelector('table')!.style.width).to.equal('190px');
+    });
+
+    it('tracks the pointer on a column after the fill column, which moves while the fill column shrinks', () => {
+      const {container} = render(
+        <ResizableTable
+          columns={[{key: 'country', width: 100}, fill, {key: 'capital', width: 120, resizable: true}]}
+        />,
+      );
+      const th = container.querySelectorAll('th')[2];
+      const thRect = vi.spyOn(th, 'getBoundingClientRect').mockReturnValue(new DOMRect(300, 0, 120, 20));
+      const handle = th.querySelector('[data-test="ring-table-column-resize-handle"]')!;
+
+      firePointer('pointerdown', handle, 420);
+      thRect.mockReturnValue(new DOMRect(290, 0, 130, 20));
+      firePointer('pointermove', handle, 430);
+      thRect.mockReturnValue(new DOMRect(280, 0, 140, 20));
+      firePointer('pointermove', handle, 440);
+
+      expect(getColWidths(container)).to.deep.equal(['100px', '', '140px']);
+      firePointer('pointerup', handle, 440);
+    });
+
+    it('keeps the fill column as is in onColumnResize', () => {
+      const onColumnResize = vi.fn<NonNullable<TableProps<CountryItem>['onColumnResize']>>();
+      render(
+        <Table
+          data={countries}
+          columns={[...resizableColumns, fill]}
+          getKey={getKey}
+          onColumnResize={onColumnResize}
+        />,
+      );
+
+      drag(getHandle(), 0, 30);
+
+      const newColumns = onColumnResize.mock.calls[0][3];
+      expect(newColumns.map(column => column.width)).to.deep.equal([130, 120, 'fill']);
+    });
+  });
+});
+
+describe('Table header attributes', () => {
+  it('shows the hover state only on headers with controls', () => {
+    const columns: Column<CountryItem>[] = [
+      {key: 'static'},
+      {key: 'sortable', sortOrder: 'none'},
+      {key: 'reorderable', canReorder: true},
+      {key: 'resizable', resizable: true},
+      {key: 'deletable', deletable: true},
+      {key: 'fill', width: 'fill', resizable: true},
+    ];
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} />);
+
+    const interactive = [...container.querySelectorAll('th')].map(th =>
+      th.classList.contains(styles.headerCellWithControls),
+    );
+    expect(interactive).to.deep.equal([false, true, true, true, true, false]);
+  });
+
+  it('shows the hover state on the header with the column edit button', () => {
+    const columns: Column<CountryItem>[] = [{key: 'static'}, {key: 'fill', width: 'fill'}];
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} columnEditButton />);
+
+    expect(
+      container.querySelector<HTMLTableCellElement>('th:last-child')!.classList.contains(styles.headerCellWithControls),
+    ).to.equal(true);
+  });
+
+  it('applies thProps, keeping the attributes set by the table', () => {
+    const columns: Column<CountryItem>[] = [
+      {key: 'country', name: 'Country', sortOrder: 'none'},
+      {key: 'spacer', renderHeader: () => null, thProps: {'aria-hidden': true, className: 'custom', scope: 'row'}},
+    ];
+    const {container} = render(<Table data={countries} columns={columns} getKey={getKey} />);
+
+    const spacer = container.querySelectorAll('th')[1];
+    expect(spacer.getAttribute('aria-hidden')).to.equal('true');
+    expect(spacer.classList.contains('custom')).to.equal(true);
+    expect(spacer.classList.contains(styles.headerCell)).to.equal(true);
+    expect(spacer.getAttribute('scope')).to.equal('col');
+  });
+
+  it('passes the th element to thProps.ref', () => {
+    const ref = createRef<HTMLTableCellElement>();
+    const {container} = render(<Table data={countries} columns={[{key: 'country', thProps: {ref}}]} getKey={getKey} />);
+
+    expect(ref.current).to.equal(container.querySelector('th'));
   });
 });
