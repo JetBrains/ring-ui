@@ -1,4 +1,4 @@
-import {Component, Fragment} from 'react';
+import {Component} from 'react';
 import pencilIcon from '@jetbrains/icons/pencil';
 import pencil12pxIcon from '@jetbrains/icons/pencil-12px';
 import hourglassIcon from '@jetbrains/icons/hourglass';
@@ -144,18 +144,20 @@ export const longAction = () => {
     render() {
       const {loading} = this.state;
       return (
-        <Fragment>
+        <div style={{display: 'flex', gap: 8, alignItems: 'baseline'}}>
           <Button loader={loading} onClick={this.load}>
             Sleep
           </Button>
-          <Button title='Sleep' loader={loading} icon={hourglassIcon} onClick={this.load} />
+          <Button loader={loading} icon={hourglassIcon} onClick={this.load}>
+            Sleep
+          </Button>
           {loading && (
             <>
               <LoaderInline />
-              <Loader squares />
+              <Loader squares style={{alignSelf: 'flex-start'}} />
             </>
           )}
-        </Fragment>
+        </div>
       );
     }
   }

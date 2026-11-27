@@ -141,6 +141,16 @@ export class Button extends PureComponent<ButtonProps> {
       children: (
         <>
           {loader && !isInline && <div className={styles.loaderBackground} />}
+          {loader && isInline && (
+            // two containers animated in opposite directions to animate mask by translate (keeps animating on busy JS thread)
+            <div aria-hidden className={styles.loaderSweep}>
+              <div className={styles.loaderSweepInner}>
+                <span className={classNames(styles.visibleButton, classes)} style={props.style}>
+                  {content}
+                </span>
+              </div>
+            </div>
+          )}
           {content}
         </>
       ),
