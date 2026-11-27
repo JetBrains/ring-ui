@@ -92,6 +92,19 @@ describe('List', () => {
 
       expect(screen.getByRole('row', {selected: true})).to.have.text('Item 1');
     });
+
+    it('should re-render the active row on keyboard navigation', () => {
+      const data = [
+        {key: 0, label: 'Item 0'},
+        {key: 1, label: 'Item 1'},
+      ];
+
+      render(<List data={data} activeIndex={0} shortcuts maxHeight={200} />);
+
+      act(() => simulateCombo('down'));
+
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 1');
+    });
   });
 
   it('should check type of item', () => {
