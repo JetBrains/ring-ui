@@ -3,7 +3,6 @@ import checkmarkIcon from '@jetbrains/icons/checkmark';
 import {createPortal} from 'react-dom';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import VirtualizedList from 'react-virtualized/dist/es/List';
 
 import getUID from '../global/get-uid';
 import simulateCombo from '../../test-helpers/simulate-combo';
@@ -12,7 +11,49 @@ import {Type} from './consts';
 
 import styles from './list.css';
 
+// Spies for the imperative methods List calls on its virtualized child.
+const virtualizedListCalls = vi.hoisted(() => ({
+  scrollToRow: vi.fn(),
+  recomputeRowHeights: vi.fn(),
+}));
+
+// Wrap the real List so tests can observe the imperative calls while the rows still render.
+vi.mock('react-virtualized', async () => {
+  const actual = (await vi.importActual('react-virtualized')) as Record<string, unknown>;
+  const {createElement, forwardRef, useImperativeHandle, useRef} = await import('react');
+
+  interface VirtualizedListHandle {
+    scrollToRow: (params: {index: number; align?: string}) => void;
+    recomputeRowHeights: (index?: number) => void;
+  }
+
+  const InstrumentedList = forwardRef(function InstrumentedList(props: Record<string, unknown>, ref) {
+    const innerRef = useRef<VirtualizedListHandle | null>(null);
+    const handle = useRef<VirtualizedListHandle>({
+      scrollToRow(params) {
+        virtualizedListCalls.scrollToRow(params);
+        innerRef.current?.scrollToRow(params);
+      },
+      recomputeRowHeights(index) {
+        virtualizedListCalls.recomputeRowHeights(index);
+        innerRef.current?.recomputeRowHeights(index);
+      },
+    });
+
+    useImperativeHandle(ref, () => handle.current, []);
+
+    return createElement(actual.List as never, {...props, ref: innerRef});
+  });
+
+  return {...actual, List: InstrumentedList};
+});
+
 describe('List', () => {
+  beforeEach(() => {
+    virtualizedListCalls.scrollToRow.mockClear();
+    virtualizedListCalls.recomputeRowHeights.mockClear();
+  });
+
   const renderList = (props: ListAttrs) => render(<List renderOptimization={false} {...props} />);
 
   describe('virtualized', () => {
@@ -30,6 +71,54 @@ describe('List', () => {
       expect(screen.getAllByRole('row')[0]).to.have.tagName('div');
 
       expect(screen.getAllByRole('row')[3]).to.have.tagName('div');
+    });
+
+    it('should render items through the virtualized List', () => {
+      const data = [createItemMock(List.ListProps.Type.ITEM), createItemMock(List.ListProps.Type.ITEM)];
+
+      render(<List data={data} maxHeight={200} />);
+
+      expect(screen.getAllByTestId('ring-list-item-action ring-list-item')).to.have.length(2);
+      expect(screen.getAllByRole('row')).to.have.length(4);
+    });
+
+    it('should mark the active item in the rendered rows', () => {
+      const data = [
+        {key: 0, label: 'Item 0'},
+        {key: 1, label: 'Item 1'},
+      ];
+
+      render(<List data={data} activeIndex={1} maxHeight={200} />);
+
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 1');
+    });
+
+    it('should repaint mutated item objects passed in a new array', () => {
+      const item0 = {key: 0, label: 'Old 0'};
+      const item1 = {key: 1, label: 'Old 1'};
+
+      const {rerender} = render(<List data={[item0, item1]} maxHeight={200} />);
+      expect(screen.getByText('Old 1')).to.exist;
+
+      item0.label = 'New 0';
+      item1.label = 'New 1';
+      rerender(<List data={[item0, item1]} maxHeight={200} />);
+
+      expect(screen.getByText('New 1')).to.exist;
+      expect(screen.queryByText('Old 1')).not.to.exist;
+    });
+
+    it('should re-render the active row on keyboard navigation', () => {
+      const data = [
+        {key: 0, label: 'Item 0'},
+        {key: 1, label: 'Item 1'},
+      ];
+
+      render(<List data={data} activeIndex={0} shortcuts maxHeight={200} />);
+
+      act(() => simulateCombo('down'));
+
+      expect(screen.getByRole('row', {selected: true})).to.have.text('Item 1');
     });
   });
 
@@ -436,19 +525,15 @@ describe('List', () => {
     }
 
     it('should scroll to active item on mount (virtualized)', () => {
-      const spy = vi.spyOn(VirtualizedList.prototype, 'scrollToRow');
-
       render(<List data={data} activeIndex={40} maxHeight={200} />);
 
-      expect(spy).toHaveBeenCalledWith(41);
+      expect(virtualizedListCalls.scrollToRow).toHaveBeenCalledWith({index: 41, align: 'center'});
     });
 
     it('should not scroll to active item on mount when disableScrollToActive is true (virtualized)', () => {
-      const spy = vi.spyOn(VirtualizedList.prototype, 'scrollToRow');
-
       render(<List data={data} activeIndex={40} maxHeight={200} disableScrollToActive />);
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(virtualizedListCalls.scrollToRow).not.toHaveBeenCalled();
     });
   });
 
@@ -524,7 +609,6 @@ describe('List', () => {
         },
       );
 
-      const spy = vi.spyOn(VirtualizedList.prototype, 'recomputeRowHeights');
       render(<List data={data} maxHeight={200} />);
 
       expect(mockObserve).toHaveBeenCalled();
@@ -533,7 +617,7 @@ describe('List', () => {
         observerCallback([{isIntersecting: true} as IntersectionObserverEntry], {} as IntersectionObserver);
       });
 
-      expect(spy).toHaveBeenCalled();
+      expect(virtualizedListCalls.recomputeRowHeights).toHaveBeenCalled();
     });
 
     it('should not call recomputeRowHeights when already visible', () => {
@@ -550,19 +634,18 @@ describe('List', () => {
         },
       );
 
-      const spy = vi.spyOn(VirtualizedList.prototype, 'recomputeRowHeights');
       render(<List data={data} maxHeight={200} />);
 
       act(() => {
         observerCallback([{isIntersecting: true} as IntersectionObserverEntry], {} as IntersectionObserver);
       });
-      spy.mockClear();
+      virtualizedListCalls.recomputeRowHeights.mockClear();
 
       act(() => {
         observerCallback([{isIntersecting: true} as IntersectionObserverEntry], {} as IntersectionObserver);
       });
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(virtualizedListCalls.recomputeRowHeights).not.toHaveBeenCalled();
     });
   });
 });
