@@ -369,11 +369,13 @@
 }
 
 .loader.inline:not(.visibleButton) {
+  overflow: hidden;
+
   color: rgba(0, 0, 0, 0);
 }
 
 .loader.inline:not(.visibleButton) > * {
-  visibility: hidden;
+  opacity: 0;
 }
 
 .loaderSweep {
@@ -392,7 +394,7 @@
 
 /* triple selector to override .loader.inline:not(.visibleButton) > * */
 .loaderSweep.loaderSweep.loaderSweep {
-  visibility: visible;
+  opacity: 1;
 }
 
 .loaderSweepInner {           /* same box, opposite transform: content stays put */
