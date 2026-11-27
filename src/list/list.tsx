@@ -12,10 +12,14 @@ import {
   type RefCallback,
 } from 'react';
 import classNames from 'classnames';
-import VirtualizedList, {type ListRowProps} from 'react-virtualized/dist/es/List';
-import AutoSizer, {type Size} from 'react-virtualized/dist/es/AutoSizer';
-import WindowScrollerComponent, {type WindowScrollerChildProps} from 'react-virtualized/dist/es/WindowScroller';
-import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/es/CellMeasurer';
+import {
+  CellMeasurer,
+  CellMeasurerCache,
+  type ListImperativeAPI,
+  List as VirtualizedList,
+  type RowRendererParams,
+} from 'react-virtualized';
+import {AutoSizer, type Size} from 'react-virtualized-auto-sizer';
 import deprecate from 'util-deprecate';
 import memoizeOne from 'memoize-one';
 
@@ -122,10 +126,11 @@ export interface ListState<T = unknown> {
   scrolledToBottom: boolean;
 }
 
-interface RenderVirtualizedInnerParams extends Partial<WindowScrollerChildProps> {
-  height: number;
+interface RenderVirtualizedInnerParams {
+  width: number;
+  height?: number;
   maxHeight?: number;
-  autoHeight?: boolean;
+  scrollElement?: 'window';
   rowCount: number;
 }
 
@@ -276,7 +281,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     Dimension,
   };
 
-  virtualizedList?: VirtualizedList | null;
+  virtualizedList?: ListImperativeAPI | null;
   unmounted?: boolean;
   container?: HTMLElement | null;
   private intersectionObserver?: IntersectionObserver;
@@ -484,7 +489,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
       return;
     }
     if (this.virtualizedList) {
-      this.virtualizedList.scrollToRow(activeIndex + 1);
+      this.virtualizedList.scrollToRow({index: activeIndex + 1, align: 'center'});
     } else {
       const itemId = this.getId(this.props.data[activeIndex]);
       if (itemId) {
@@ -528,7 +533,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
   }
 
   // eslint-disable-next-line complexity
-  renderItem = ({index = 1, style, isScrolling = false, parent, key}: Partial<ListRowProps>) => {
+  renderItem = ({index = 1, style, isScrolling = false, parent, key}: Partial<RowRendererParams>) => {
     let itemKey;
     let el: ReactElement;
 
@@ -637,7 +642,7 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     return props;
   };
 
-  virtualizedListRef = (el: VirtualizedList | null) => {
+  virtualizedListRef = (el: ListImperativeAPI | null) => {
     const isFirstAssignment = el != null && this.virtualizedList == null;
     this.virtualizedList = el;
     if (isFirstAssignment) {
@@ -657,63 +662,41 @@ export default class List<T = unknown> extends Component<ListProps<T>, ListState
     return this._inner;
   }
 
-  renderVirtualizedInner({
-    height,
-    maxHeight,
-    autoHeight = false,
-    rowCount,
-    isScrolling,
-    onChildScroll = noop,
-    scrollTop,
-    registerChild,
-  }: RenderVirtualizedInnerParams) {
+  renderVirtualizedInner({width, height, maxHeight, scrollElement, rowCount}: RenderVirtualizedInnerParams) {
     const dirOverride = {direction: 'inherit'} as const; // Virtualized sets "direction: ltr" by default https://github.com/bvaughn/react-virtualized/issues/457
     return (
-      <AutoSizer disableHeight onResize={this.props.onResize}>
-        {({width}) => (
-          <div ref={registerChild as never}>
-            <VirtualizedList
-              aria-label={this.props.ariaLabel}
-              ref={this.virtualizedListRef}
-              className={classNames('ring-list__i', {[styles.overscrollNone]: this.props.preventListOverscroll})}
-              autoHeight={autoHeight}
-              style={maxHeight ? {maxHeight, height: 'auto', ...dirOverride} : dirOverride}
-              autoContainerWidth
-              height={height}
-              width={width}
-              isScrolling={isScrolling}
-              onScroll={e => {
-                onChildScroll(e);
-                this.scrollEndHandler();
-              }}
-              scrollTop={scrollTop}
-              rowCount={rowCount}
-              estimatedRowSize={this.defaultItemHeight()}
-              rowHeight={this._cache.rowHeight}
-              rowRenderer={this.renderItem}
-              overscanRowCount={this._bufferSize}
-              // ensure rerendering
-              noop={() => {}}
-              scrollToAlignment='center'
-              deferredMeasurementCache={this._cache}
-              onRowsRendered={this.checkOverflow}
-              containerRole='none' // row role is set by rowRenderer
-            />
-          </div>
-        )}
-      </AutoSizer>
+      <VirtualizedList
+        aria-label={this.props.ariaLabel}
+        ref={this.virtualizedListRef}
+        className={classNames('ring-list__i', {[styles.overscrollNone]: this.props.preventListOverscroll})}
+        style={maxHeight ? {maxHeight, height: 'auto', ...dirOverride} : dirOverride}
+        height={height}
+        width={width}
+        scrollElement={scrollElement}
+        onScroll={this.scrollEndHandler}
+        rowCount={rowCount}
+        estimatedRowSize={this.defaultItemHeight()}
+        rowHeight={this._cache.rowHeight}
+        rowRenderer={this.renderItem}
+        overscanRowCount={this._bufferSize}
+        role='grid' // keep the v9 ARIA roles: a grid with row cells
+        deferredMeasurementCache={this._cache}
+        onRowsRendered={this.checkOverflow}
+        containerRole='none' // row role is set by rowRenderer
+      />
     );
   }
 
   renderVirtualized(maxHeight: number | null | undefined, rowCount: number) {
-    if (maxHeight) {
-      return this.renderVirtualizedInner({height: maxHeight, maxHeight, rowCount});
-    }
-
     return (
-      <WindowScrollerComponent>
-        {props => this.renderVirtualizedInner({...props, rowCount, autoHeight: true})}
-      </WindowScrollerComponent>
+      <AutoSizer
+        onResize={this.props.onResize}
+        renderProp={({width = 0}) =>
+          this.renderVirtualizedInner(
+            maxHeight ? {width, height: maxHeight, maxHeight, rowCount} : {width, scrollElement: 'window', rowCount},
+          )
+        }
+      />
     );
   }
 
