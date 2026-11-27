@@ -18,7 +18,11 @@ enum Theme {
   DARK = 'dark',
 }
 
-export const ThemeContext = createContext<{theme: Theme.LIGHT | Theme.DARK; passToPopups?: boolean}>({
+export const ThemeContext = createContext<{
+  theme: Theme.LIGHT | Theme.DARK;
+  passToPopups?: boolean;
+  hasThemeProvider?: boolean;
+}>({
   theme: Theme.LIGHT,
 });
 
@@ -100,7 +104,7 @@ function ThemeProviderInner({
 }: ThemeProviderInnerProps) {
   const systemTheme = useTheme();
   const resolvedTheme = theme === Theme.AUTO ? systemTheme : theme;
-  const themeValue = {theme: resolvedTheme, passToPopups};
+  const themeValue = {theme: resolvedTheme, passToPopups, hasThemeProvider: true};
   useEffect(() => {
     if (target) {
       applyTheme(resolvedTheme, target);
