@@ -3,11 +3,14 @@ import * as React from 'react';
 import {act, fireEvent, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {renderToStaticMarkup} from 'react-dom/server';
+import {afterAll, describe, expect} from 'vitest';
+import {screen as shadowScreen} from 'shadow-dom-testing-library';
 
 import {COLLAPSE_CONTENT_CONTAINER_TEST_ID, COLLAPSE_CONTENT_TEST_ID} from './consts';
 import {Collapse} from './collapse';
 import {CollapseContent} from './collapse-content';
 import {CollapseControl} from './collapse-control';
+import {ShadowRootWrap} from './shadow-root-test-helpers';
 
 import type * as globalDom from '../global/dom';
 
@@ -253,7 +256,11 @@ describe('<Collapse />', () => {
       'ResizeObserver',
       class {
         constructor(callback: ResizeObserverCallback) {
-          resize = () => callback([], this as unknown as ResizeObserver);
+          resize = () =>
+            callback(
+              [{target: {isConnected: true}, contentRect: getRectMock()} as unknown as ResizeObserverEntry],
+              this as unknown as ResizeObserver,
+            );
         }
 
         observe() {}
@@ -309,7 +316,11 @@ describe('<Collapse />', () => {
       'ResizeObserver',
       class {
         constructor(callback: ResizeObserverCallback) {
-          resize = () => callback([], this as unknown as ResizeObserver);
+          resize = () =>
+            callback(
+              [{target: {isConnected: true}, contentRect: getRectMock()} as unknown as ResizeObserverEntry],
+              this as unknown as ResizeObserver,
+            );
         }
 
         observe() {}
@@ -481,5 +492,107 @@ describe('<Collapse />', () => {
     const content = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
 
     expect(content).to.contain.text(textMock);
+  });
+
+  type PartialObserverEntry = Partial<{
+    [K in keyof ResizeObserverEntry]: Partial<ResizeObserverEntry[K]>;
+  }>;
+
+  describe('with ResizeObserver', () => {
+    let observerCallback: (entries: PartialObserverEntry[]) => void;
+    const observeMock = vi.fn();
+    const disconnectMock = vi.fn();
+    const unobserveMock = vi.fn();
+
+    const originalObserver = global.ResizeObserver;
+
+    beforeEach(() => {
+      global.ResizeObserver = vi.fn(
+        class {
+          constructor(cb: ResizeObserverCallback) {
+            observerCallback = cb as typeof observerCallback;
+          }
+
+          observe = observeMock;
+          disconnect = disconnectMock;
+          unobserve = unobserveMock;
+        },
+      );
+    });
+
+    afterEach(() => {
+      vi.clearAllMocks();
+    });
+
+    afterAll(() => {
+      global.ResizeObserver = originalObserver;
+    });
+
+    it('should track height via ResizeObserver and cleanup on unmount', async () => {
+      const {unmount} = renderComponent();
+      const button = screen.getByRole('button', {name: 'Show text'});
+      const contentContainer = screen.getByTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
+      const contentInner = screen.getByTestId(COLLAPSE_CONTENT_TEST_ID);
+
+      expect(observeMock).toHaveBeenCalledWith(contentInner);
+
+      // simulate resize observer firing on element mounting
+      observerCallback([
+        {
+          target: contentInner,
+          contentRect: {height: 150},
+        },
+      ]);
+
+      expect(contentContainer.style.height).to.equal('0px');
+
+      await userEvent.click(button);
+
+      expect(contentContainer.style.height).to.equal('150px');
+
+      await userEvent.click(button);
+
+      expect(contentContainer.style.height).to.equal('0px');
+
+      unmount();
+
+      expect(disconnectMock).to.toHaveBeenCalledTimes(1);
+    });
+
+    it('expect to work from inside shadowroot', async () => {
+      const {unmount} = render(
+        <ShadowRootWrap>
+          <Dummy minHeight={0} disableAnimation={false} controlAsFunc={false} defaultCollapsed collapsed={null} />
+        </ShadowRootWrap>,
+      );
+
+      const button = shadowScreen.getByShadowRole('button', {name: 'Show text'});
+      const contentContainer = shadowScreen.getByShadowTestId(COLLAPSE_CONTENT_CONTAINER_TEST_ID);
+      const contentInner = shadowScreen.getByShadowTestId(COLLAPSE_CONTENT_TEST_ID);
+
+      expect(observeMock).toHaveBeenCalledWith(contentInner);
+
+      // simulate resize observer firing on element mounting
+      observerCallback([
+        {
+          target: contentInner,
+          contentRect: {height: 150},
+        },
+      ]);
+
+      expect(contentContainer.style.height).to.equal('0px');
+
+      await userEvent.click(button);
+
+      expect(contentContainer.style.height).to.equal('150px');
+
+      await userEvent.click(button);
+
+      expect(contentContainer.style.height).to.equal('0px');
+
+      unmount();
+
+      expect(disconnectMock).to.toHaveBeenCalledTimes(1);
+    });
   });
 });
