@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {createRef, PureComponent} from 'react';
+import {createRef, PureComponent, type ReactNode} from 'react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
 import classNames from 'classnames';
@@ -81,11 +81,11 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     geometry: null,
     resized: false,
     isShown: false,
-    isClient: false,
+    isClientRender: false,
   };
 
   componentDidMount() {
-    this.setState({isClient: true});
+    this.setState({isClientRender: true});
     const {show, native} = this.props;
     if (native && show) {
       this.toggleNativeDialog();
@@ -96,7 +96,7 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
 
   componentDidUpdate(prevProps: DialogProps, prevState: DialogState) {
     const {show, native} = this.props;
-    if (native && (show !== prevProps.show || this.state.isClient !== prevState.isClient)) {
+    if (native && (show !== prevProps.show || this.state.isClientRender !== prevState.isClientRender)) {
       this.toggleNativeDialog();
     }
     if (prevProps.show !== this.props.show) {
@@ -273,38 +273,25 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
     }
   };
 
-  render() {
+  renderContent() {
     const {
       show,
       showCloseButton,
       onOverlayClick,
       onCloseAttempt,
-      onEscPress,
-      onCloseClick,
       children,
-      className,
       contentClassName,
-      trapFocus,
-      'data-test': dataTest,
-      portalTarget,
       label,
       closeButtonTitle,
       dense,
       shortcutOptions,
       native,
-      modal,
-      preventBodyScroll,
       movable,
       resizable,
-      autoFocusFirst,
-      focusBackOnClose,
-      focusBackOnExit,
-      trapDisabled,
-      ...restProps
     } = this.props;
-    const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
-    const content = (
+
+    return (
       <>
         <Shortcuts disabled={!show} map={shortcutsMap} scope={this.state.shortcutsScope} options={shortcutOptions} />
         {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
@@ -360,9 +347,150 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
         </div>
       </>
     );
+  }
+
+  renderNativeDialog(popupTarget: ReactNode, themeClassName: string) {
+    const {
+      show,
+      showCloseButton,
+      onOverlayClick,
+      onCloseAttempt,
+      onEscPress,
+      onCloseClick,
+      children,
+      className,
+      contentClassName,
+      trapFocus,
+      'data-test': dataTest,
+      portalTarget,
+      label,
+      closeButtonTitle,
+      dense,
+      shortcutOptions,
+      native,
+      modal,
+      preventBodyScroll,
+      movable,
+      resizable,
+      autoFocusFirst,
+      focusBackOnClose,
+      focusBackOnExit,
+      trapDisabled,
+      ...restProps
+    } = this.props;
+
+    const doShow = this.state.isShown || show;
+    const content = this.renderContent();
+    return (
+      <dialog
+        {...restProps}
+        aria-label={label}
+        className={classNames(styles.nativeDialog, className, themeClassName)}
+        data-test={dataTests('ring-dialog-container', dataTest)}
+        ref={node => {
+          this.nativeDialog.current = node;
+          if (node && this.props.show && this.state.isShown && !node.open) {
+            this.toggleNativeDialog();
+          }
+        }}
+        tabIndex={getNativeTabIndex(autoFocusFirst)}
+        onCancel={event => event.preventDefault()}
+        data-rg-modal-dialog-container={modal ? '' : undefined}
+      >
+        {!getTrapDisabled(trapFocus, trapDisabled) && doShow ? (
+          <TabTrap
+            trapDisabled={false}
+            autoFocusFirst={autoFocusFirst}
+            focusBackOnClose={focusBackOnClose}
+            focusBackOnExit={focusBackOnExit}
+          >
+            {content}
+            {popupTarget}
+          </TabTrap>
+        ) : (
+          <>
+            {doShow && content}
+            {popupTarget}
+          </>
+        )}
+      </dialog>
+    );
+  }
+
+  renderNonNativeDialog(popupTarget: ReactNode, themeClassName: string) {
+    const {
+      show,
+      showCloseButton,
+      onOverlayClick,
+      onCloseAttempt,
+      onEscPress,
+      onCloseClick,
+      children,
+      className,
+      contentClassName,
+      trapFocus,
+      'data-test': dataTest,
+      portalTarget,
+      label,
+      closeButtonTitle,
+      dense,
+      shortcutOptions,
+      native,
+      modal,
+      preventBodyScroll,
+      movable,
+      resizable,
+      autoFocusFirst,
+      focusBackOnClose,
+      focusBackOnExit,
+      trapDisabled,
+      ...restProps
+    } = this.props;
+
+    return (
+      <TabTrap
+        trapDisabled={getTrapDisabled(trapFocus, trapDisabled)}
+        autoFocusFirst={autoFocusFirst}
+        focusBackOnClose={focusBackOnClose}
+        focusBackOnExit={focusBackOnExit}
+        data-test={dataTests('ring-dialog-container', dataTest)}
+        data-rg-modal-dialog-container=''
+        ref={this.dialogRef}
+        className={classNames(styles.container, className, themeClassName)}
+        role='presentation'
+        {...restProps}
+      >
+        {this.renderContent()}
+        {popupTarget}
+      </TabTrap>
+    );
+  }
+
+  renderPortal(targetElement: Element, themeClassName: string) {
+    return (
+      <>
+        <span hidden ref={this.rtlDetector} />
+        {createPortal(
+          <PopupTarget id={this.uid} className={styles.popupTarget}>
+            {target =>
+              this.props.native
+                ? this.renderNativeDialog(target, themeClassName)
+                : this.renderNonNativeDialog(target, themeClassName)
+            }
+          </PopupTarget>,
+          targetElement,
+        )}
+      </>
+    );
+  }
+
+  render() {
+    const {show, portalTarget, native} = this.props;
+    this.getShortcutsMap();
+
     return (
       (show || native) &&
-      this.state.isClient && (
+      this.state.isClientRender && (
         <ThemeContext.Consumer>
           {theme => (
             <WithThemeClasses theme={theme.theme}>
@@ -375,76 +503,10 @@ export default class Dialog extends PureComponent<DialogProps, DialogState> {
                         ? portalTarget
                         : (normalizedContextTarget !== undefined && getPopupContainer(normalizedContextTarget)) ||
                           document.body;
-                    return (
-                      <>
-                        <span hidden ref={this.rtlDetector} />
-                        {createPortal(
-                          <PopupTarget id={this.uid} className={styles.popupTarget}>
-                            {target => {
-                              const trapEnabled = !getTrapDisabled(trapFocus, trapDisabled);
-                              if (native) {
-                                const doShow = this.state.isShown || show;
-                                return (
-                                  <dialog
-                                    {...restProps}
-                                    aria-label={label}
-                                    className={classNames(styles.nativeDialog, className, {
-                                      [themeClasses]: theme.hasThemeProvider, // propagate theme from ThemeProvider only when it exists, otherwise use global theme
-                                    })}
-                                    data-test={dataTests('ring-dialog-container', dataTest)}
-                                    ref={node => {
-                                      this.nativeDialog.current = node;
-                                      if (node && this.props.show && this.state.isShown && !node.open) {
-                                        this.toggleNativeDialog();
-                                      }
-                                    }}
-                                    tabIndex={getNativeTabIndex(autoFocusFirst)}
-                                    onCancel={event => event.preventDefault()}
-                                    data-rg-modal-dialog-container={modal ? '' : undefined}
-                                  >
-                                    {trapEnabled && doShow ? (
-                                      <TabTrap
-                                        trapDisabled={false}
-                                        autoFocusFirst={autoFocusFirst}
-                                        focusBackOnClose={focusBackOnClose}
-                                        focusBackOnExit={focusBackOnExit}
-                                      >
-                                        {content}
-                                        {target}
-                                      </TabTrap>
-                                    ) : (
-                                      <>
-                                        {doShow && content}
-                                        {target}
-                                      </>
-                                    )}
-                                  </dialog>
-                                );
-                              }
-
-                              return (
-                                <TabTrap
-                                  trapDisabled={!trapEnabled}
-                                  autoFocusFirst={autoFocusFirst}
-                                  focusBackOnClose={focusBackOnClose}
-                                  focusBackOnExit={focusBackOnExit}
-                                  data-test={dataTests('ring-dialog-container', dataTest)}
-                                  data-rg-modal-dialog-container=''
-                                  ref={this.dialogRef}
-                                  className={classes}
-                                  role='presentation'
-                                  {...restProps}
-                                >
-                                  {content}
-                                  {target}
-                                </TabTrap>
-                              );
-                            }}
-                          </PopupTarget>,
-                          targetElement,
-                        )}
-                      </>
-                    );
+                    const themeClassName = classNames({
+                      [themeClasses]: theme.hasThemeProvider, // propagate theme from ThemeProvider only when it exists, otherwise use global theme
+                    });
+                    return this.renderPortal(targetElement, themeClassName);
                   }}
                 </PopupTargetContext.Consumer>
               )}

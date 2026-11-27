@@ -13,7 +13,7 @@ export interface DialogState {
   shortcutsScope: string;
   geometry: Geometry | null;
   resized: boolean;
-  isClient: boolean; // set to true on client side in cDM
+  isClientRender: boolean; // set to true on client side in componentDidMount. This is used to prevent usage of portals and DOM APIs during server side rendering.
 }
 
 export interface Interaction {
