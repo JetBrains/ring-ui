@@ -368,11 +368,40 @@
   box-shadow: var(--ring-button-shadow) var(--ring-button-default-border-color);
 }
 
-.loader.inline {
-  animation-name: text-loading;
-  animation-duration: 1200ms;
-  animation-iteration-count: infinite;
+.loader.inline:not(.visibleButton) {
+  color: rgba(0, 0, 0, 0);
 }
+
+.loader.inline:not(.visibleButton) > * {
+  visibility: hidden;
+}
+
+.loaderSweep {
+  position: absolute;
+  top: 0;
+  right: -100%;
+  bottom: 0;
+  left: -100%;
+
+  padding: 0 100%;
+
+  animation: sweep 1.26s linear infinite;
+
+  mask-image: linear-gradient(90deg, #000 0%, #000 40%, rgba(0, 0, 0, 0.35) 50%, #000 60%, #000 100%);  /* stylelint-disable-line color-no-hex */
+}
+
+/* triple selector to override .loader.inline:not(.visibleButton) > * */
+.loaderSweep.loaderSweep.loaderSweep {
+  visibility: visible;
+}
+
+.loaderSweepInner {           /* same box, opposite transform: content stays put */
+  animation: sweep-back 1.26s linear infinite;
+}
+
+@keyframes sweep { from { transform: translateX(-33.3333%); } to { transform: translateX(33.3333%); } }
+
+@keyframes sweep-back { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
 .loaderBackground {
   position: absolute;
@@ -452,11 +481,5 @@
 
   to {
     transform: translateX(0);
-  }
-}
-
-@keyframes text-loading {
-  50% {
-    opacity: 0.5;
   }
 }
