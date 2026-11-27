@@ -93,6 +93,21 @@ describe('List', () => {
       expect(screen.getByRole('row', {selected: true})).to.have.text('Item 1');
     });
 
+    it('should repaint mutated item objects passed in a new array', () => {
+      const item0 = {key: 0, label: 'Old 0'};
+      const item1 = {key: 1, label: 'Old 1'};
+
+      const {rerender} = render(<List data={[item0, item1]} maxHeight={200} />);
+      expect(screen.getByText('Old 1')).to.exist;
+
+      item0.label = 'New 0';
+      item1.label = 'New 1';
+      rerender(<List data={[item0, item1]} maxHeight={200} />);
+
+      expect(screen.getByText('New 1')).to.exist;
+      expect(screen.queryByText('Old 1')).not.to.exist;
+    });
+
     it('should re-render the active row on keyboard navigation', () => {
       const data = [
         {key: 0, label: 'Item 0'},
